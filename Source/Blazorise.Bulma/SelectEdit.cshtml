@@ -1,0 +1,6 @@
+﻿@inherits Base.BaseSelect
+<div class="@ClassMapper.Class">
+    <select disabled="@IsDisabled" readonly="@IsReadonly" onchange="@SelectionChangedHandler">
+        @ChildContent
+    </select>
+</div>

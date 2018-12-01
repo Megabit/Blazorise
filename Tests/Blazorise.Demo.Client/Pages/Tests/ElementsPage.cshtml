@@ -1,0 +1,205 @@
+﻿@page "/tests/elements";
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is6.OnMedium.Is12.OnExtraSmall">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>BADGE</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Badge Color="Color.Primary">Primary</Badge>
+                <Badge Color="Color.Secondary">Secondary</Badge>
+                <Badge Color="Color.Success">Success</Badge>
+                <Badge Color="Color.Info">Info</Badge>
+                <Badge Color="Color.Warning">Warning</Badge>
+                <Badge Color="Color.Danger">Danger</Badge>
+                <Badge Color="Color.Info">Info</Badge>
+                <Badge Color="Color.Light">Light</Badge>
+                <Badge Color="Color.Dark">Dark</Badge>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6.OnMedium.Is12.OnExtraSmall">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>PILL BADGE</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Badge Color="Color.Primary" IsPill="true">Primary</Badge>
+                <Badge Color="Color.Secondary" IsPill="true">Secondary</Badge>
+                <Badge Color="Color.Success" IsPill="true">Success</Badge>
+                <Badge Color="Color.Info" IsPill="true">Info</Badge>
+                <Badge Color="Color.Warning" IsPill="true">Warning</Badge>
+                <Badge Color="Color.Danger" IsPill="true">Danger</Badge>
+                <Badge Color="Color.Info" IsPill="true">Info</Badge>
+                <Badge Color="Color.Light" IsPill="true">Light</Badge>
+                <Badge Color="Color.Dark" IsPill="true">Dark</Badge>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is6.OnMedium.Is12.OnExtraSmall">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>PAGINATION</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Pagination>
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">«</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            1
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            2
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            3
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            4
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            5
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">»</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                </Pagination>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6.OnMedium.Is12.OnExtraSmall">
+        <Card>
+            <CardHeader>
+                <CardTitle>PAGINATION SIZING</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Pagination Size="Size.Large">
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">«</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            1
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            2
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            3
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            4
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            5
+                        </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">»</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                </Pagination>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is6.OnMedium.Is12.OnExtraSmall">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>ALERT</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Alert Color="Color.Success" IsShow="true">
+                    <strong>Well done!</strong> You successfully read this important alert message.
+                </Alert>
+                <Alert Color="Color.Info" IsShow="true">
+                    <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+                </Alert>
+                <Alert Color="Color.Warning" IsShow="true">
+                    <strong> Warning!</strong> Better check yourself, you're not looking too good.
+                </Alert>
+                <Alert Color="Color.Danger" IsShow="true">
+                    <strong>Oh snap!</strong> Change a few things up and try submitting again.
+                </Alert>
+                <Alert Color="Color.Success" IsShow="true">
+                    <h4 class="text-success">Big one!</h4>
+                    <p>
+                        <strong>Well done!</strong> You successfully read this important alert message.
+                    </p>
+                    <p>
+                        <SimpleButton Color="Color.Success">Wanna do this</SimpleButton>
+                        <SimpleButton Color="Color.Light">Or do this</SimpleButton>
+                    </p>
+                </Alert>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6.OnMedium.Is12.OnExtraSmall">
+        <Card>
+            <CardHeader>
+                <CardTitle>DISMISABLE ALERT</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Alert Color="Color.Success" IsShow="true">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Alert Link.</strong>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Info" IsShow="true">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Alert Link.</strong>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Warning" IsShow="true">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Alert Link.</strong>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Danger" IsShow="true">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Alert Link.</strong>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Info" IsShow="true">
+                    <h4 class="text-success">
+                        Big one!
+                        <CloseButton />
+                    </h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.
+                    </p>
+                    <p>
+                        <SimpleButton Color="Color.Info">Wanna do this</SimpleButton>
+                        <SimpleButton Color="Color.Light">Or do this</SimpleButton>
+                    </p>
+                </Alert>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

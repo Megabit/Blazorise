@@ -1,0 +1,403 @@
+﻿#region Using directives
+using System;
+using System.Linq;
+using System.Collections.Generic;
+#endregion
+
+namespace Blazorise
+{
+    public interface IFluentSpacing
+    {
+        string Class( IClassProvider classProvider );
+    }
+
+    public interface IFluentSpacingOnBreakpointWithSide : IFluentSpacing, IFluentSpacingFromSide, IFluentSpacingOnBreakpoint
+    {
+    }
+
+    public interface IFluentSpacingOnBreakpointWithSideAndSize : IFluentSpacing, IFluentSpacingFromSide, IFluentSpacingOnBreakpoint, IFluentSpacingWithSize
+    {
+    }
+
+    public interface IFluentSpacingFromSide : IFluentColumn
+    {
+        /// <summary>
+        /// For classes that set margin-top or padding-top.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize FromTop { get; }
+
+        /// <summary>
+        /// For classes that set margin-bottom or padding-bottom.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize FromBottom { get; }
+
+        /// <summary>
+        /// For classes that set margin-left or padding-left.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize FromLeft { get; }
+
+        /// <summary>
+        /// For classes that set margin-right or padding-right.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize FromRight { get; }
+
+        /// <summary>
+        /// For classes that set both *-left and *-right.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize OnX { get; }
+
+        /// <summary>
+        /// For classes that set both *-top and *-bottom.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize OnY { get; }
+
+        /// <summary>
+        /// For classes that set a margin or padding on all 4 sides of the element.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize OnAll { get; }
+    }
+
+    public interface IFluentSpacingOnBreakpoint : IFluentColumn, IFluentSpacingFromSide
+    {
+        /// <summary>
+        /// Valid on all devices.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize OnExtraSmall { get; }
+
+        /// <summary>
+        /// Breakpoint on small devices (landscape phones).
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize OnSmall { get; }
+
+        /// <summary>
+        ///  Breakpoint on medium devices (tablets).
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize OnMedium { get; }
+
+        /// <summary>
+        /// Breakpoint on large devices.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize OnLarge { get; }
+
+        /// <summary>
+        /// Breakpoint on extra large devices (large desktops).
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize OnExtraLarge { get; }
+    }
+
+    public interface IFluentSpacingWithSize : IFluentColumn
+    {
+        /// <summary>
+        /// For classes that eliminate the margin or padding by setting it to 0.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize Is0 { get; }
+
+        /// <summary>
+        /// (by default) for classes that set the margin or padding to $spacer * .25
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize Is1 { get; }
+
+        /// <summary>
+        /// (by default) for classes that set the margin or padding to $spacer * .5
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize Is2 { get; }
+
+        /// <summary>
+        /// (by default) for classes that set the margin or padding to $spacer
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize Is3 { get; }
+
+        /// <summary>
+        /// (by default) for classes that set the margin or padding to $spacer * 1.5
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize Is4 { get; }
+
+        /// <summary>
+        /// (by default) for classes that set the margin or padding to $spacer * 3
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize Is5 { get; }
+
+        /// <summary>
+        /// For classes that set the margin to auto.
+        /// </summary>
+        IFluentSpacingOnBreakpointWithSideAndSize IsAuto { get; }
+    }
+
+    public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IFluentSpacingOnBreakpoint, IFluentSpacingFromSide, IFluentSpacingOnBreakpointWithSide, IFluentSpacingOnBreakpointWithSideAndSize
+    {
+        #region Members
+
+        private class SpacingDefinition
+        {
+            public Side Side { get; set; }
+
+            public Breakpoint Breakpoint { get; set; }
+        }
+
+        /// <summary>
+        /// Spacing type.
+        /// </summary>
+        protected readonly Spacing spacing;
+
+        private SpacingDefinition currentSpacing;
+
+        private Dictionary<SpacingSize, List<SpacingDefinition>> rules = new Dictionary<SpacingSize, List<SpacingDefinition>>();
+
+        private bool built = false;
+
+        #endregion
+
+        #region Constructors
+
+        public FluentSpacing( Spacing spacing )
+        {
+            this.spacing = spacing;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public string Class( IClassProvider classProvider )
+        {
+            if ( !built )
+            {
+                ClassMapper
+                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is0, rules[SpacingSize.Is0].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is0 ) )
+                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is1, rules[SpacingSize.Is1].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is1 ) )
+                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is2, rules[SpacingSize.Is2].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is2 ) )
+                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is3, rules[SpacingSize.Is3].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is3 ) )
+                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is4, rules[SpacingSize.Is4].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is4 ) )
+                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is5, rules[SpacingSize.Is5].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is5 ) )
+                    .If( () => classProvider.Spacing( spacing, SpacingSize.IsAuto, rules[SpacingSize.IsAuto].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.IsAuto ) );
+
+                built = true;
+            }
+
+            return ClassMapper.Class;
+        }
+
+        private IFluentSpacingOnBreakpointWithSideAndSize WithSize( SpacingSize spacingSize )
+        {
+            var spacingDefinition = new SpacingDefinition { Breakpoint = Breakpoint.None, Side = Side.All };
+
+            if ( !rules.ContainsKey( spacingSize ) )
+                rules.Add( spacingSize, new List<SpacingDefinition>() { spacingDefinition } );
+            else
+                rules[spacingSize].Add( spacingDefinition );
+
+            currentSpacing = spacingDefinition;
+            ClassMapper.Dirty();
+            return this;
+        }
+
+        private IFluentSpacingOnBreakpointWithSideAndSize WithSide( Side side )
+        {
+            currentSpacing.Side = side;
+            ClassMapper.Dirty();
+            return this;
+        }
+
+        private IFluentSpacingOnBreakpointWithSideAndSize WithBreakpoint( Breakpoint breakpoint )
+        {
+            currentSpacing.Breakpoint = breakpoint;
+            ClassMapper.Dirty();
+            return this;
+        }
+
+        #endregion
+
+        #region Properties
+
+        internal ClassMapper ClassMapper { get; } = new ClassMapper();
+
+        /// <summary>
+        /// For classes that eliminate the margin or padding by setting it to 0.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize Is0 => WithSize( SpacingSize.Is0 );
+
+        /// <summary>
+        /// (by default) for classes that set the margin or padding to $spacer * .25
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize Is1 => WithSize( SpacingSize.Is1 );
+
+        /// <summary>
+        /// (by default) for classes that set the margin or padding to $spacer * .5
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize Is2 => WithSize( SpacingSize.Is2 );
+
+        /// <summary>
+        /// (by default) for classes that set the margin or padding to $spacer
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize Is3 => WithSize( SpacingSize.Is3 );
+
+        /// <summary>
+        /// (by default) for classes that set the margin or padding to $spacer * 1.5
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize Is4 => WithSize( SpacingSize.Is4 );
+
+        /// <summary>
+        /// (by default) for classes that set the margin or padding to $spacer * 3
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize Is5 => WithSize( SpacingSize.Is5 );
+
+        /// <summary>
+        /// For classes that set the margin to auto.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize IsAuto => WithSize( SpacingSize.IsAuto );
+
+        /// <summary>
+        /// For classes that set margin-top or padding-top.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize FromTop => WithSide( Side.Top );
+
+        /// <summary>
+        /// For classes that set margin-bottom or padding-bottom.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize FromBottom => WithSide( Side.Bottom );
+
+        /// <summary>
+        /// For classes that set margin-left or padding-left.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize FromLeft => WithSide( Side.Left );
+
+        /// <summary>
+        /// For classes that set margin-right or padding-right.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize FromRight => WithSide( Side.Right );
+
+        /// <summary>
+        /// For classes that set both *-left and *-right.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize OnX => WithSide( Side.X );
+
+        /// <summary>
+        /// For classes that set both *-top and *-bottom.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize OnY => WithSide( Side.Y );
+
+        /// <summary>
+        /// For classes that set a margin or padding on all 4 sides of the element.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize OnAll => WithSide( Side.All );
+
+        /// <summary>
+        /// Valid on all devices.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize OnExtraSmall => WithBreakpoint( Breakpoint.ExtraSmall );
+
+        /// <summary>
+        /// Breakpoint on small devices (landscape phones).
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize OnSmall => WithBreakpoint( Breakpoint.Small );
+
+        /// <summary>
+        ///  Breakpoint on medium devices (tablets).
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize OnMedium => WithBreakpoint( Breakpoint.Medium );
+
+        /// <summary>
+        /// Breakpoint on large devices.
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize OnLarge => WithBreakpoint( Breakpoint.Large );
+
+        /// <summary>
+        /// Breakpoint on extra large devices (large desktops).
+        /// </summary>
+        public IFluentSpacingOnBreakpointWithSideAndSize OnExtraLarge => WithBreakpoint( Breakpoint.ExtraLarge );
+
+        #endregion
+    }
+
+    public sealed class FluentMargin : FluentSpacing
+    {
+        public FluentMargin() : base( Spacing.Margin ) { }
+    }
+
+    public sealed class FluentPadding : FluentSpacing
+    {
+        public FluentPadding() : base( Spacing.Padding ) { }
+    }
+
+    /// <summary>
+    /// Margin builder.
+    /// </summary>
+    public static class Margin
+    {
+        /// <summary>
+        /// for classes that eliminate the margin by setting it to 0
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is0 => new FluentMargin().Is1;
+
+        /// <summary>
+        /// (by default) for classes that set the margin to $spacer * .25
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is1 => new FluentMargin().Is1;
+
+        /// <summary>
+        /// (by default) for classes that set the margin to $spacer * .5
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is2 => new FluentMargin().Is2;
+
+        /// <summary>
+        /// (by default) for classes that set the margin to $spacer
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is3 => new FluentMargin().Is3;
+
+        /// <summary>
+        /// (by default) for classes that set the margin to $spacer * 1.5
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is4 => new FluentMargin().Is4;
+
+        /// <summary>
+        /// (by default) for classes that set the margin to $spacer * 3
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is5 => new FluentMargin().Is5;
+
+        /// <summary>
+        /// For classes that set the margin to auto.
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize IsAuto => new FluentMargin().IsAuto;
+    }
+
+    /// <summary>
+    /// Padding builder.
+    /// </summary>
+    public static class Padding
+    {
+        /// <summary>
+        /// for classes that eliminate the padding by setting it to 0
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is0 => new FluentPadding().Is1;
+
+        /// <summary>
+        /// (by default) for classes that set the padding to $spacer * .25
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is1 => new FluentPadding().Is1;
+
+        /// <summary>
+        /// (by default) for classes that set the padding to $spacer * .5
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is2 => new FluentPadding().Is2;
+
+        /// <summary>
+        /// (by default) for classes that set the padding to $spacer
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is3 => new FluentPadding().Is3;
+
+        /// <summary>
+        /// (by default) for classes that set the padding to $spacer * 1.5
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is4 => new FluentPadding().Is4;
+
+        /// <summary>
+        /// (by default) for classes that set the padding to $spacer * 3
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is5 => new FluentPadding().Is5;
+
+        /// <summary>
+        /// For classes that set the margin to auto.
+        /// </summary>
+        public static IFluentSpacingOnBreakpointWithSideAndSize IsAuto => new FluentPadding().IsAuto;
+    }
+}

@@ -1,0 +1,235 @@
+﻿@page "/tests/buttons"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>DEFAULT BUTTONS</CardTitle>
+                <CardSubtitle>Use the color enums like <code>Color.Primary</code></CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <SimpleButton Color="Color.Active">ACTIVE</SimpleButton>
+                <SimpleButton Color="Color.Primary">PRIMARY</SimpleButton>
+                <SimpleButton Color="Color.Secondary">SECONDARY</SimpleButton>
+                <SimpleButton Color="Color.Success">SUCCESS</SimpleButton>
+                <SimpleButton Color="Color.Danger">DANGER</SimpleButton>
+                <SimpleButton Color="Color.Warning">WARNING</SimpleButton>
+                <SimpleButton Color="Color.Info">INFO</SimpleButton>
+                <SimpleButton Color="Color.Light">LIGHT</SimpleButton>
+                <SimpleButton Color="Color.Dark">DARK</SimpleButton>
+                <SimpleButton Color="Color.Link">LINK</SimpleButton>
+                <SimpleButton>NONE</SimpleButton>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>OUTLINE BUTTONS</CardTitle>
+                <CardSubtitle>In need of a button, but not the hefty background colors they bring? Replace the default modifier classes with the <code>IsOutline</code> ones to remove all background images and colors on any button.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <SimpleButton Color="Color.Active" IsOutline="true">ACTIVE</SimpleButton>
+                <SimpleButton Color="Color.Primary" IsOutline="true">PRIMARY</SimpleButton>
+                <SimpleButton Color="Color.Secondary" IsOutline="true">SECONDARY</SimpleButton>
+                <SimpleButton Color="Color.Success" IsOutline="true">SUCCESS</SimpleButton>
+                <SimpleButton Color="Color.Danger" IsOutline="true">DANGER</SimpleButton>
+                <SimpleButton Color="Color.Warning" IsOutline="true">WARNING</SimpleButton>
+                <SimpleButton Color="Color.Info" IsOutline="true">INFO</SimpleButton>
+                <SimpleButton Color="Color.Light" IsOutline="true">LIGHT</SimpleButton>
+                <SimpleButton Color="Color.Dark" IsOutline="true">DARK</SimpleButton>
+                <SimpleButton Color="Color.Link" IsOutline="true">LINK</SimpleButton>
+                <SimpleButton IsOutline="true">NONE</SimpleButton>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SIZES</CardTitle>
+                <CardSubtitle>Add <code>Size.Small, Size.Large</code> for additional sizes.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <SimpleButton Color="Color.Primary" Size="Size.Small">SMALL PRIMARY</SimpleButton>
+                <SimpleButton Color="Color.Secondary" Size="Size.Small">SMALL SECONDARY</SimpleButton>
+                <SimpleButton Color="Color.Primary" Size="Size.Large">LARGE PRIMARY</SimpleButton>
+                <SimpleButton Color="Color.Secondary" Size="Size.Large">LARGE SECONDARY</SimpleButton>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Block</CardTitle>
+                <CardSubtitle>Create block level buttons by adding <code>IsBlock="true"</code></CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <SimpleButton Color="Color.Primary" IsBlock="true">BLOCK PRIMARY</SimpleButton>
+                <SimpleButton Color="Color.Secondary" IsBlock="true">BLOCK SECONDARY</SimpleButton>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Active</CardTitle>
+                <CardSubtitle>Add the <code>IsActive</code> attribute to buttons.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <SimpleButton Color="Color.Primary" IsActive="true">PRIMARY</SimpleButton>
+                <SimpleButton Color="Color.Link" IsActive="true">LINK</SimpleButton>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Disabled</CardTitle>
+                <CardSubtitle>Add the <code>IsDisabled</code> attribute to buttons.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <SimpleButton Color="Color.Primary" IsDisabled="true">PRIMARY</SimpleButton>
+                <SimpleButton Color="Color.Link" IsDisabled="true">LINK</SimpleButton>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Button Addons</CardTitle>
+                <CardSubtitle>Wrap a series of buttons with <code>Buttons</code> component.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Buttons>
+                    <SimpleButton Color="Color.Secondary">LEFT</SimpleButton>
+                    <SimpleButton Color="Color.Secondary">CENTER</SimpleButton>
+                    <SimpleButton Color="Color.Secondary">RIGHT</SimpleButton>
+                </Buttons>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Nesting</CardTitle>
+                <CardSubtitle>You can also combine them with dropdown..</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Buttons>
+                    <SimpleButton Color="Color.Secondary">LEFT</SimpleButton>
+                    <SimpleButton Color="Color.Secondary">CENTER</SimpleButton>
+                    <Dropdown>
+                        <DropdownToggle Color="Color.Secondary">Dropdown</DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem>Item 1</DropdownItem>
+                            <DropdownItem>Item 2</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </Buttons>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Buttons toolbar</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Buttons Role="ButtonsRole.Toolbar">
+                    <Buttons Margin="Margin.Is2.FromRight">
+                        <SimpleButton Color="Color.Primary">Primary</SimpleButton>
+                        <SimpleButton Color="Color.Secondary">Secondary</SimpleButton>
+                        <SimpleButton Color="Color.Info">Info</SimpleButton>
+                    </Buttons>
+                    <Buttons>
+                        <SimpleButton Color="Color.Danger">Danger</SimpleButton>
+                        <SimpleButton Color="Color.Warning">Warning</SimpleButton>
+                    </Buttons>
+                    <Buttons Margin="Margin.Is2.OnX">
+                        <SimpleButton Color="Color.Light">Light</SimpleButton>
+                    </Buttons>
+                </Buttons>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Dropdown</CardTitle>
+                <CardSubtitle>Turn a button into a dropdown.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">
+                        DROPDOWN
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Action</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem>Another Action</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown>
+                    <SimpleButton>SPLIT DROPDOWN</SimpleButton>
+                    <DropdownToggle></DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Action</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem>Another Action</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Dropdown direction</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Dropdown>
+                    <DropdownToggle>Down</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown Direction="DropdownDirection.Up">
+                    <DropdownToggle>Up</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown Direction="DropdownDirection.Left">
+                    <DropdownToggle>Left</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown Direction="DropdownDirection.Right">
+                    <DropdownToggle>Right</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

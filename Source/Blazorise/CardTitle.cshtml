@@ -1,0 +1,13 @@
+﻿@inherits Base.BaseCardTitle
+@if ( Size != null )
+{
+    <Dynamic TagName="@($"h{Size}")" class="@ClassMapper.Class">
+        @ChildContent
+    </Dynamic>
+}
+else
+{
+    <div class="@ClassMapper.Class">
+        @ChildContent
+    </div>
+}

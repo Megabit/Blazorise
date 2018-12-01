@@ -1,0 +1,15 @@
+﻿@inherits Base.BaseModalContent
+@if ( TagProvider.ModalContentInsideContainer )
+{
+    <div class="@DialogClassMapper.Class" role="document">
+        <div class="@ClassMapper.Class">
+            @ChildContent
+        </div>
+    </div>
+}
+else
+{
+    <div class="@ClassMapper.Class">
+        @ChildContent
+    </div>
+}

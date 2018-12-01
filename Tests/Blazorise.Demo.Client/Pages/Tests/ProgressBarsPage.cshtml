@@ -1,0 +1,115 @@
+﻿@page "/tests/progressbars"
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>BASIC EXAMPLE</CardTitle>
+                <CardSubtitle>Default progress bar.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Value="50" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Value="50" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Value="75" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Value="100" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Value="25">25%</ProgressBar>
+                </ProgressGroup>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>CONTEXTUAL ALTERNATIVES</CardTitle>
+                <CardSubtitle>Progress bars use some of the same button and alert classes for consistent styles.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Success" Value="25" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Info" Value="50" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Warning" Value="75" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Danger" Value="100" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Value="15" />
+                    <ProgressBar Background="Background.Success" Value="30" />
+                    <ProgressBar Background="Background.Info" Value="20" />
+                </ProgressGroup>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>STRIPED EXAMPLE</CardTitle>
+                <CardSubtitle>Uses a gradient to create a striped effect.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <CardBody>
+                    <ProgressGroup Margin="Margin.Is3.FromBottom">
+                        <ProgressBar IsStriped="true" Value="10" />
+                    </ProgressGroup>
+                    <ProgressGroup Margin="Margin.Is3.FromBottom">
+                        <ProgressBar Background="Background.Success" IsStriped="true" Value="25" />
+                    </ProgressGroup>
+                    <ProgressGroup Margin="Margin.Is3.FromBottom">
+                        <ProgressBar Background="Background.Info" IsStriped="true" Value="50" />
+                    </ProgressGroup>
+                    <ProgressGroup Margin="Margin.Is3.FromBottom">
+                        <ProgressBar Background="Background.Warning" IsStriped="true" Value="75" />
+                    </ProgressGroup>
+                    <ProgressGroup Margin="Margin.Is3.FromBottom">
+                        <ProgressBar Background="Background.Danger" IsStriped="true" Value="100" />
+                    </ProgressGroup>
+                    <ProgressGroup Margin="Margin.Is3.FromBottom">
+                        <ProgressBar IsStriped="true" IsAnimated="true" Value="75" />
+                    </ProgressGroup>
+                </CardBody>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SIZE EXAMPLE</CardTitle>
+                <CardSubtitle>Your awesome text goes here.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <ProgressGroup Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Success" Value="25" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom" Size="Size.Small">
+                    <ProgressBar Background="Background.Info" Value="50" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom" Size="Size.Large">
+                    <ProgressBar Background="Background.Warning" Value="75" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom" Size="Size.Medium">
+                    <ProgressBar Background="Background.Info" Value="15" />
+                </ProgressGroup>
+                <ProgressGroup Margin="Margin.Is3.FromBottom" Size="Size.ExtraLarge">
+                    <ProgressBar Background="Background.Danger" Value="100" />
+                </ProgressGroup>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

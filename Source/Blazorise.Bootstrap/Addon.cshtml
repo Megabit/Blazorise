@@ -1,0 +1,11 @@
+﻿@inherits Base.BaseAddon
+@if ( AddonType != AddonType.Body )
+{
+    <div class="@ClassMapper.Class">
+        @ChildContent
+    </div>
+}
+else
+{
+    @ChildContent
+}

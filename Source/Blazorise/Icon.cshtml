@@ -1,0 +1,14 @@
+﻿@inherits Base.BaseIcon
+<i class="@ClassMapper.Class">
+    @if ( IconProvider.IconNameAsContent && Name != null )
+    {
+        if ( Name is IconName )
+        {
+            @IconProvider.Get( (IconName)Name );
+        }
+        else if ( Name is string )
+        {
+            @IconProvider.Get( (string)Name );
+        }
+    }
+</i>

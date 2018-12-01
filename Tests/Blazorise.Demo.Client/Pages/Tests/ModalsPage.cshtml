@@ -1,0 +1,77 @@
+﻿@page "/tests/modals";
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Modal</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Default ))">
+                    Show Modal
+                </SimpleButton>
+                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Small ))">
+                    Show Small Modal
+                </SimpleButton>
+                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Large ))">
+                    Show Large Modal
+                </SimpleButton>
+                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Default, 50 ))">
+                    Show Modal (Body Height 50%)
+                </SimpleButton>
+                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Default, 20 ))">
+                    Show Modal (Body Height 20%)
+                </SimpleButton>
+                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Default, null, true ))">
+                    Show Modal Centered
+                </SimpleButton>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Modal ref="modalRef">
+    <ModalBackdrop />
+    <ModalContent Size="@modalSize" IsCentered="@isCentered">
+        <ModalHeader Title="Employee edit">
+            <CloseButton Clicked="@HideModal" />
+        </ModalHeader>
+        <ModalBody MaxHeight="@maxHeight">
+            <Field>
+                <FieldLabel>Name</FieldLabel>
+                <TextEdit Placeholder="Enter name..." />
+            </Field>
+            <Field>
+                <FieldLabel>Surname</FieldLabel>
+                <TextEdit Placeholder="Enter surname..." />
+            </Field>
+            <Field>
+                <FieldLabel>Date of birth</FieldLabel>
+                <DateEdit Placeholder="Pick a date" />
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <SimpleButton Color="Color.Secondary" Clicked="@HideModal">Close</SimpleButton>
+            <SimpleButton Color="Color.Primary" Clicked="@HideModal">Save Changes</SimpleButton>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+@functions{
+    private Modal modalRef;
+    private bool isCentered = false;
+    private ModalSize modalSize = ModalSize.Default;
+    private int? maxHeight = null;
+
+    private void ShowModal( ModalSize modalSize, int? maxHeight = null, bool isCentered = false )
+    {
+        this.isCentered = isCentered;
+        this.modalSize = modalSize;
+        this.maxHeight = maxHeight;
+
+        modalRef.Show();
+    }
+
+    private void HideModal()
+    {
+        modalRef.Hide();
+    }
+}

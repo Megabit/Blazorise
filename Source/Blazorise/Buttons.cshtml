@@ -1,0 +1,6 @@
+﻿@inherits Base.BaseButtons
+<CascadingValue Value="this">
+    <div class="@ClassMapper.Class" role="@(Role== ButtonsRole.Toolbar? "toolbar" : "group")">
+        @ChildContent
+    </div>
+</CascadingValue>

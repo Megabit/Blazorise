@@ -1,0 +1,63 @@
+﻿@layout RootLayout
+@inherits BlazorLayoutComponent
+
+<Sidebar>
+    <SidebarContent>
+        <SidebarBrand>
+            <a href="">Blazorise</a>
+        </SidebarBrand>
+        <ul class="sidebar-nav">
+            <SidebarLabel>Main</SidebarLabel>
+            <SidebarItem>
+                <SidebarLink To="">
+                    Dashboard
+                    <Badge Class="sidebar-badge" Color="Color.Primary">6</Badge>
+                </SidebarLink>
+            </SidebarItem>
+            <SidebarItem>
+                <SidebarLink Toggled="(t)=> sidebarDropdownTests.Toggle(t)" IsShow="true">
+                    Test Pages
+                </SidebarLink>
+                <SidebarDropdown ref="sidebarDropdownTests" IsShow="true">
+                    <SidebarItem>
+                        <SidebarLink To="tests/buttons">Buttons</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/forms">Forms</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/modals">Modals</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/tables">Tables</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/cards">Cards</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/tabs">Tabs</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/progressbars">Progress bars</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/elements">Elements</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/charts">Charts</SidebarLink>
+                    </SidebarItem>
+                </SidebarDropdown>
+            </SidebarItem>
+        </ul>
+    </SidebarContent>
+</Sidebar>
+
+<div class="main">
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
+
+@functions{
+    SidebarDropdown sidebarDropdownTests;
+}

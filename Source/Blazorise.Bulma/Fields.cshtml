@@ -1,0 +1,16 @@
+﻿@inherits Base.BaseFields
+<div class="@ClassMapper.Class">
+    @if ( Label != null )
+    {
+        <FormLabel>@Label</FormLabel>
+    }
+    <CascadingValue Value=this>
+        <div class="field-body">
+            @ChildContent
+        </div>
+    </CascadingValue>
+</div>
+@if ( Help != null )
+{
+    <Help>@Help</Help>
+}

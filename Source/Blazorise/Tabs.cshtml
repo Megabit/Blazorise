@@ -1,0 +1,26 @@
+﻿@inherits Base.BaseTabs
+@if ( TagProvider.TabsListInsideContainer )
+{
+    @if ( TagProvider.TabsClassOnContainer )
+    {
+        <div class="@ClassMapper.Class">
+            <ul>
+                @ChildContent
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div>
+            <ul class="@ClassMapper.Class">
+                @ChildContent
+            </ul>
+        </div>
+    }
+}
+else
+{
+    <ul class="@ClassMapper.Class">
+        @ChildContent
+    </ul>
+}

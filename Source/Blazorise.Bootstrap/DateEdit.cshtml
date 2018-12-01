@@ -1,0 +1,14 @@
+﻿@inherits Base.BaseDateEdit
+@if ( NeedSizableBlock )
+{
+    <div class="@SizableClassMapper.Class">
+        <input type="text" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" value="@internalDate" onchange="@InternalDateHandler" onclick="@ClickHandler" id="@elementId" ref="elementRef" placeholder="@Placeholder" />
+        @ChildContent
+    </div>
+}
+else
+{
+    <input type="text" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" value="@internalDate" onchange="@InternalDateHandler" onclick="@ClickHandler" id="@elementId" ref="elementRef" placeholder="@Placeholder" />
+    @ChildContent
+}
+

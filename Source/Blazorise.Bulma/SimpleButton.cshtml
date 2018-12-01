@@ -1,0 +1,15 @@
+﻿@inherits Base.BaseButton
+@if ( IsAddons )
+{
+    <div class="@AddonContainerClassMapper.Class">
+        <button type="@Type.ToButtonTypeString()" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" aria-pressed="@IsActive" onclick="@ClickHandler">
+            @ChildContent
+        </button>
+    </div>
+}
+else
+{
+    <button type="@Type.ToButtonTypeString()" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" aria-pressed="@IsActive" onclick="@ClickHandler">
+        @ChildContent
+    </button>
+}

@@ -1,0 +1,11 @@
+﻿@inherits Base.BaseAddon
+@if ( TagProvider.AddonInsideContainer( AddonType ) )
+{
+    <div class="@ClassMapper.Class">
+        @ChildContent
+    </div>
+}
+else
+{
+    @ChildContent
+}

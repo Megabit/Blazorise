@@ -1,0 +1,17 @@
+﻿@inherits Base.BaseAddons
+<CascadingValue Value=this>
+    @if ( NeedSizableBlock )
+    {
+        <div class="@SizableClassMapper.Class">
+            <div class="@ClassMapper.Class">
+                @ChildContent
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="@ClassMapper.Class">
+            @ChildContent
+        </div>
+    }
+</CascadingValue>

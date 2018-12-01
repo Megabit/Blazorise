@@ -1,0 +1,13 @@
+﻿@inherits Base.BaseSidebarLink
+@if ( To != null )
+{
+    <LinkBase TagName="a" class="@ClassMapper.Class" href="@To" Match="@Match">
+        @ChildContent
+    </LinkBase>
+}
+else
+{
+    <a class="@ClassMapper.Class" onclick="@ClickHandler" data-toggle="sidebar-collapse" aria-expanded="@IsShow">
+        @ChildContent
+    </a>
+}
