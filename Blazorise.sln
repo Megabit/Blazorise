@@ -17,11 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Sidebar", "Source
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D04C5874-4D6A-493E-8CF4-6C7922198563}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Demo.Server", "Tests\Blazorise.Demo.Server\Blazorise.Demo.Server.csproj", "{DFDED955-6128-42AD-B226-765CB0BB94EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Server", "Tests\Blazorise.Demo.Server\Blazorise.Demo.Server.csproj", "{DFDED955-6128-42AD-B226-765CB0BB94EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Demo.Client", "Tests\Blazorise.Demo.Client\Blazorise.Demo.Client.csproj", "{23BB94D3-A036-4348-ADAA-52296FED97F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Client", "Tests\Blazorise.Demo.Client\Blazorise.Demo.Client.csproj", "{23BB94D3-A036-4348-ADAA-52296FED97F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Demo.Shared", "Tests\Blazorise.Demo.Shared\Blazorise.Demo.Shared.csproj", "{37D552DE-E224-4746-B45A-2F5E55587963}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Shared", "Tests\Blazorise.Demo.Shared\Blazorise.Demo.Shared.csproj", "{37D552DE-E224-4746-B45A-2F5E55587963}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts", "Source\Blazorise.Charts\Blazorise.Charts.csproj", "{068A6FE3-9557-42B7-A661-A3944FC62893}"
 EndProject

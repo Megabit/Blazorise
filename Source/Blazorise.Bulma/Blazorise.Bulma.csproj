@@ -6,6 +6,14 @@
     <IsPackable>true</IsPackable>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
     <LangVersion>7.3</LangVersion>
+    <Version>0.1.0</Version>
+    <Authors>Mladen Macanovic</Authors>
+    <Description>Blazorise is a component library built on top of Blazor and Bulma CSS.</Description>
+    <PackageLicenseUrl>https://github.com/stsrki/Blazorise/blob/master/LICENSE.md</PackageLicenseUrl>
+    <Copyright>Copyright 2018</Copyright>
+    <PackageProjectUrl>https://github.com/stsrki/Blazorise</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
+    <PackageTags>blazorise blazor components bootstrap material bulma</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
