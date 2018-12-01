@@ -2,6 +2,8 @@
 
 Blazorise is a component library for an experimental web framework Blazor and CSS frameworks like Bootstrap, Bulma and Material.
 
+Please look at [Live Demo](https://blazorisedemo.azurewebsites.net/) to see Blazorise in action.
+
 ## Installation
 
 Each of the supported css framework is defined by a diferent nuget package. To install them you must run one of the following commands:
