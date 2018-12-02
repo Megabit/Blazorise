@@ -15,7 +15,9 @@ namespace Blazorise.Demo.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices( IServiceCollection services )
         {
-            services.AddMvc();
+            //services.AddMvc();
+            // Adds the Server-Side Blazor services, and those registered by the app project's startup.
+            services.AddServerSideBlazor<Client.Startup>();
 
             services.AddResponseCompression( options =>
              {
@@ -37,12 +39,12 @@ namespace Blazorise.Demo.Server
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc( routes =>
-             {
-                 routes.MapRoute( name: "default", template: "{controller}/{action}/{id?}" );
-             } );
+            //app.UseMvc( routes =>
+            // {
+            //     routes.MapRoute( name: "default", template: "{controller}/{action}/{id?}" );
+            // } );
 
-            app.UseBlazor<Client.Startup>();
+            app.UseServerSideBlazor<Client.Startup>();
         }
     }
 }
