@@ -30,6 +30,9 @@ namespace Blazorise.Providers
             { IconName.MoreVertical, "more_vert" },
             { IconName.ExpandMore, "expand_more" },
             { IconName.ExpandLess, "expand_less" },
+            { IconName.SliderHorizontal, null },
+            { IconName.SliderVertical, null},
+            { IconName.Dashboard, "dashboard" },
         };
 
         #endregion

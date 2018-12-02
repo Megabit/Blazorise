@@ -352,7 +352,10 @@ namespace Blazorise
         MoreHorizontal,
         MoreVertical,
         ExpandMore,
-        ExpandLess
+        ExpandLess,
+        SliderHorizontal,
+        SliderVertical,
+        Dashboard,
     }
 
     public enum JustifyContent

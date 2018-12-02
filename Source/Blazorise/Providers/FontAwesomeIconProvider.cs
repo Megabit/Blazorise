@@ -30,6 +30,9 @@ namespace Blazorise.Providers
             { IconName.MoreVertical, "fa-ellipsis-v" },
             { IconName.ExpandMore, "fa-chevron-down" },
             { IconName.ExpandLess, "fa-chevron-up" },
+            { IconName.SliderHorizontal, "fa-sliders-h" },
+            { IconName.SliderVertical, "fa-sliders-v" },
+            { IconName.Dashboard, "fa-columns" }, // find better
         };
 
         #endregion
