@@ -1,7 +1,7 @@
 ﻿@layout RootLayout
 @inherits BlazorLayoutComponent
 
-<Sidebar>
+<Sidebar ref="sidebar">
     <SidebarContent>
         <SidebarBrand>
             <a href="">Blazorise</a>
@@ -52,12 +52,29 @@
     </SidebarContent>
 </Sidebar>
 
-<div class="main">
-    <div class="content px-4">
+<div class="app-main">
+    <Bar Class="app-bar" Breakpoint="Breakpoint.Medium" Background="Background.Light" Theme="Theme.Light">
+        <BarBrand>
+            <BarItem>
+                <BarLink To="">Blazorise</BarLink>
+            </BarItem>
+        </BarBrand>
+        <BarToggler Clicked="@ToggleSidebar">
+        </BarToggler>
+    </Bar>
+    <div class="app-content">
         @Body
     </div>
 </div>
 
 @functions{
+    Sidebar sidebar;
     SidebarDropdown sidebarDropdownTests;
+
+    bool collapseNavMenu = true;
+
+    void ToggleSidebar()
+    {
+        sidebar.Toggle();
+    }
 }
