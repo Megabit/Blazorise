@@ -61,19 +61,19 @@
         cursor: pointer;
     }
 
-.sidebar-dropdown {
+.sidebar-subitem {
     padding-left: 0;
     list-style: none;
 }
 
-    .sidebar-dropdown .sidebar-link {
+    .sidebar-subitem .sidebar-link {
         padding-left: 2.5rem;
         color: #adb5bd;
         background: var(--dark-dark);
     }
 
-        .sidebar-dropdown .sidebar-item.active .sidebar-link,
-        .sidebar-dropdown .sidebar-link:hover {
+        .sidebar-subitem .sidebar-item.active .sidebar-link,
+        .sidebar-subitem .sidebar-link:hover {
             color: #e9ecef;
             background: var(--dark-light);
         }
@@ -171,6 +171,10 @@ html[data-useragent*="MSIE 10.0"] .show.sidebar-collapsed {
 }
 
 .sidebar-collapse:not(.show) {
+    display: none;
+}
+
+.sidebar-subitem:not(.show) {
     display: none;
 }
 

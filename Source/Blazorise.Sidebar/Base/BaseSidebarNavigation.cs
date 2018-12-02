@@ -10,11 +10,9 @@ using Microsoft.AspNetCore.Blazor.Components;
 
 namespace Blazorise.Sidebar.Base
 {
-    public abstract class BaseSidebarDropdown : BaseComponent
+    public abstract class BaseSidebarNavigation : BaseComponent
     {
         #region Members
-
-        private bool isShow;
 
         #endregion
 
@@ -23,35 +21,14 @@ namespace Blazorise.Sidebar.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( "sidebar-dropdown" )
-                .Add( "sidebar-collapse" )
-                .If( () => "show", () => IsShow );
+                .Add( "sidebar-nav" );
 
             base.RegisterClasses();
-        }
-
-        public void Toggle( bool? isShow = null )
-        {
-            IsShow = isShow ?? !IsShow;
-
-            StateHasChanged();
         }
 
         #endregion
 
         #region Properties
-
-        [Parameter]
-        protected bool IsShow
-        {
-            get => isShow;
-            set
-            {
-                isShow = value;
-
-                ClassMapper.Dirty();
-            }
-        }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
