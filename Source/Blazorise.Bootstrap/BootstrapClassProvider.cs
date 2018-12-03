@@ -1087,6 +1087,6 @@ namespace Blazorise.Bootstrap
 
         public bool Custom { get; set; } = true;
 
-        public virtual FrameworkProvider Provider { get { return FrameworkProvider.Bootstrap; } }
+        public string Provider => "Bootstrap";
     }
 }

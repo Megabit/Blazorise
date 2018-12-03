@@ -1115,6 +1115,6 @@ namespace Blazorise.Bulma
 
         public bool Custom { get; set; } = false;
 
-        public FrameworkProvider Provider { get { return FrameworkProvider.Bulma; } }
+        public string Provider => "Bulma";
     }
 }

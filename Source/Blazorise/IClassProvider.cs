@@ -661,6 +661,9 @@ namespace Blazorise
         /// </summary>
         bool Custom { get; set; }
 
-        FrameworkProvider Provider { get; }
+        /// <summary>
+        /// Gets the provider implementation name.
+        /// </summary>
+        string Provider { get; }
     }
 }

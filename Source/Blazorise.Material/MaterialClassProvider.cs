@@ -1087,6 +1087,6 @@ namespace Blazorise.Material
 
         public bool Custom { get; set; } = true;
 
-        public virtual FrameworkProvider Provider { get { return FrameworkProvider.Material; } }
+        public string Provider => "Material";
     }
 }

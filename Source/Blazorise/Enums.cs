@@ -7,24 +7,6 @@ using System.Threading.Tasks;
 
 namespace Blazorise
 {
-    public enum FrameworkProvider
-    {
-        /// <summary>
-        /// Boostrap CSS framework.
-        /// </summary>
-        Bootstrap,
-
-        /// <summary>
-        /// Material UI based on the bootstrap.
-        /// </summary>
-        Material,
-
-        /// <summary>
-        /// Bulma CSS framework.
-        /// </summary>
-        Bulma,
-    }
-
     public enum IconProvider
     {
         /// <summary>
