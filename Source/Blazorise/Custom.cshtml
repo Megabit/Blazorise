@@ -1,0 +1,10 @@
+﻿@inherits Base.BaseCustom
+@if ( Type == null )
+{
+    <input type="text" value="@Text" onchange="@HandleTextChange" />
+    @ChildContent
+}
+else
+{
+    @CreateDynamicComponent()
+}
