@@ -1,4 +1,19 @@
 ﻿@inherits Base.BaseAddons
-<div class="@ClassMapper.Class">
-    @ChildContent
-</div>
+<CascadingValue Value=this>
+    @if ( ParentIsHorizontal )
+    {
+        <div class="field-body">
+            <div class="field is-expanded">
+                <div class="@ClassMapper.Class">
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="@ClassMapper.Class">
+            @ChildContent
+        </div>
+    }
+</CascadingValue>
