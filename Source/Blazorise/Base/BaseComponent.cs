@@ -111,6 +111,35 @@ namespace Blazorise.Base
         {
         }
 
+        ParameterCollection parameters;
+
+        public override void SetParameters( ParameterCollection parameters )
+        {
+            if ( ComponentMapper.IsRegistered( this ) )
+            {
+                this.parameters = parameters;
+            }
+
+            base.SetParameters( parameters );
+        }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+        }
+
+        protected RenderFragment CreateDynamicComponent() => builder =>
+        {
+            builder.OpenComponent( 0, ComponentMapper.Get( this ) );
+
+            foreach ( var parameter in parameters )
+            {
+                builder.AddAttribute( 1, parameter.Name, parameter.Value );
+            }
+
+            builder.CloseComponent();
+        };
+
         #endregion
 
         #region Properties
@@ -134,6 +163,8 @@ namespace Blazorise.Base
         /// Gets the style mapper.
         /// </summary>
         protected StyleMapper StyleMapper { get; private set; } = new StyleMapper();
+
+        protected IComponentMapper ComponentMapper { get; set; }
 
         [Inject]
         protected IJSRunner JSRunner { get; set; }

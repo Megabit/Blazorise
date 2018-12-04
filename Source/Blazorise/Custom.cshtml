@@ -1,5 +1,5 @@
 ﻿@inherits Base.BaseCustom
-@if ( Type == null )
+@if ( !ComponentMapper.IsRegistered( this ) )
 {
     <input type="text" value="@Text" onchange="@HandleTextChange" />
     @ChildContent

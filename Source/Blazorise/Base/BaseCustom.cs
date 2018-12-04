@@ -31,15 +31,6 @@ namespace Blazorise.Base
             TextChanged?.Invoke( Text );
         }
 
-        protected RenderFragment CreateDynamicComponent() => builder =>
-        {
-            builder.OpenComponent( 0, Type );
-            builder.AddAttribute( 1, nameof( Text ), Text );
-            builder.AddAttribute( 2, nameof( TextChanged ), TextChanged );
-            builder.AddAttribute( 3, nameof( ChildContent ), ChildContent );
-            builder.CloseComponent();
-        };
-
         #endregion
 
         #region Properties

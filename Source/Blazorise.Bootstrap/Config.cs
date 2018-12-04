@@ -10,6 +10,22 @@ namespace Blazorise.Bootstrap
 {
     public static class Config
     {
+        public static IServiceCollection AddBootstrap( this IServiceCollection serviceCollection )
+        {
+            serviceCollection.AddSingleton<IClassProvider, BootstrapClassProvider>();
+            serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
+            serviceCollection.AddSingleton<IJSRunner, JSRunner>();
+
+            var mapper = new ComponentMapper();
+
+            mapper.Register<Blazorise.Custom, CustomBS>();
+
+            serviceCollection.AddSingleton<IComponentMapper>( ( p ) => mapper );
+
+            return serviceCollection;
+        }
+
+        [Obsolete( "AddBootstrapClassProvider is deprecated, please use AddBootstrap instead." )]
         public static IServiceCollection AddBootstrapClassProvider( this IServiceCollection serviceCollection )
         {
             serviceCollection.AddSingleton<IClassProvider, BootstrapClassProvider>();
@@ -18,6 +34,7 @@ namespace Blazorise.Bootstrap
             return serviceCollection;
         }
 
+        [Obsolete( "AddBootstrapStyleProvider is deprecated, please use AddBootstrap instead." )]
         public static IServiceCollection AddBootstrapStyleProvider( this IServiceCollection serviceCollection )
         {
             serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();

@@ -12,6 +12,18 @@ namespace Blazorise
     public static class Config
     {
         /// <summary>
+        /// Register internal services.
+        /// </summary>
+        /// <param name="serviceCollection"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddBlazorise( this IServiceCollection serviceCollection )
+        {
+            
+
+            return serviceCollection;
+        }
+
+        /// <summary>
         /// Registers a custom predefined class provider.
         /// </summary>
         /// <param name="serviceCollection"></param>
