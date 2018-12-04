@@ -27,60 +27,38 @@ namespace Blazorise
 
         #region Methods
 
-        public Type Get<TComponent>()
+        public Type GetImplementation<TComponent>()
             where TComponent : IComponent
         {
-            throw new NotImplementedException();
+            components.TryGetValue( typeof( TComponent ), out var implementationType );
+
+            return implementationType;
         }
 
-        public Type Get( IComponent baseComponent )
+        public Type GetImplementation( IComponent component )
         {
-            throw new NotImplementedException();
+            components.TryGetValue( component.GetType(), out var implementationType );
+
+            return implementationType;
         }
 
         public void Register<TComponent, TImplementation>()
             where TComponent : IComponent
             where TImplementation : IComponent
         {
-            throw new NotImplementedException();
+            components.Add( typeof( TComponent ), typeof( TImplementation ) );
         }
 
-        public bool IsRegistered<TComponent>()
+        public bool HasRegistration<TComponent>()
             where TComponent : IComponent
         {
-            throw new NotImplementedException();
+            return components.ContainsKey( typeof( TComponent ) );
         }
 
-        public bool IsRegistered( IComponent component )
+        public bool HasRegistration( IComponent component )
         {
-            throw new NotImplementedException();
+            return components.ContainsKey( component.GetType() );
         }
-
-        //public Type Get( IComponent baseComponent )
-        //{
-        //    var baseType = baseComponent.GetType();
-
-        //    components.TryGetValue( baseType, out var implementationType );
-
-        //    return implementationType;
-        //}
-
-        //public void Register( IComponent baseComponent, IComponent implementationComponent )
-        //{
-        //    var baseType = baseComponent.GetType();
-        //    var implementationType = implementationComponent.GetType();
-
-        //    components.Add( baseType, implementationType );
-        //}
-
-        //public bool IsRegistered( IComponent component )
-        //{
-        //    return components.ContainsKey( component.GetType() );
-        //}
-
-        #endregion
-
-        #region Properties
 
         #endregion
     }

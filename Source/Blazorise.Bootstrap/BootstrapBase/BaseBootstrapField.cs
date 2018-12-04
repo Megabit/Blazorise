@@ -15,10 +15,6 @@ namespace Blazorise.Bootstrap.BootstrapBase
 
         #endregion
 
-        #region Constructors
-
-        #endregion
-
         #region Methods
 
         protected override void RegisterClasses()

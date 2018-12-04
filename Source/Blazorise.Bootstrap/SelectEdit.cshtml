@@ -1,16 +1,11 @@
 ﻿@inherits Base.BaseSelect
-@if ( NeedSizableBlock )
-{
-    <div class="@SizableClassMapper.Class">
-        <select class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" onchange="@SelectionChangedHandler">
-            @ChildContent
-        </select>
-    </div>
-}
-else
+@if ( !ComponentMapper.HasRegistration( this ) )
 {
     <select class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" onchange="@SelectionChangedHandler">
         @ChildContent
     </select>
 }
-
+else
+{
+    @RenderCustomComponent()
+}

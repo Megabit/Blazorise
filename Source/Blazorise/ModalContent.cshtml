@@ -1,0 +1,11 @@
+﻿@inherits Base.BaseModalContent
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <div class="@ClassMapper.Class">
+        @ChildContent
+    </div>
+}
+else
+{
+    @RenderCustomComponent()
+}

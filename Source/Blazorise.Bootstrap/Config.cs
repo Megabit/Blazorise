@@ -18,7 +18,20 @@ namespace Blazorise.Bootstrap
 
             var mapper = new ComponentMapper();
 
-            mapper.Register<Blazorise.Custom, CustomBS>();
+            mapper.Register<Blazorise.Addon, Addon>();
+            mapper.Register<Blazorise.Addons, Addons>();
+            mapper.Register<Blazorise.BarToggler, BarToggler>();
+            mapper.Register<Blazorise.CardSubtitle, CardSubtitle>();
+            mapper.Register<Blazorise.CloseButton, CloseButton>();
+            mapper.Register<Blazorise.CheckEdit, CheckEdit>();
+            mapper.Register<Blazorise.DateEdit, DateEdit>();
+            mapper.Register<Blazorise.Field, Field>();
+            mapper.Register<Blazorise.FileEdit, FileEdit>();
+            mapper.Register<Blazorise.ModalContent, ModalContent>();
+            mapper.Register<Blazorise.MemoEdit, MemoEdit>();
+            mapper.Register<Blazorise.SelectEdit, SelectEdit>();
+            mapper.Register<Blazorise.SimpleButton, SimpleButton>();
+            mapper.Register<Blazorise.TextEdit, TextEdit>();
 
             serviceCollection.AddSingleton<IComponentMapper>( ( p ) => mapper );
 

@@ -41,11 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Addon.cshtml" />
-    <Content Remove="BarToggler.cshtml" />
-    <Content Remove="CardSubtitle.cshtml" />
-    <Content Remove="CheckEdit.cshtml" />
-    <Content Remove="CloseButton.cshtml" />
     <Content Remove="Drawer.cshtml" />
     <Content Remove="DrawerBrand.cshtml" />
     <Content Remove="DrawerContent.cshtml" />
@@ -56,15 +51,6 @@
     <Content Remove="DrawerMenuItem.cshtml" />
     <Content Remove="DrawerMenuLink.cshtml" />
     <Content Remove="DrawerToggler.cshtml" />
-    <Content Remove="DropdownDivider.cshtml" />
-    <Content Remove="DropdownMenu.cshtml" />
-    <Content Remove="Field.cshtml" />
-    <Content Remove="Fields.cshtml" />
-    <Content Remove="FileEdit.cshtml" />
-    <Content Remove="ModalContent.cshtml" />
-    <Content Remove="SelectEdit.cshtml" />
-    <Content Remove="SimpleButton.cshtml" />
-    <Content Remove="Tabs.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,7 +64,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Addon.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="AddonLabel.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Addons.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Alert.cshtml">
@@ -114,6 +106,9 @@
     <Content Update="BarStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="BarToggler.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Buttons.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -132,10 +127,22 @@
     <Content Update="CardHeader.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="CardImage.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="CardSubtitle.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="CardText.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="CardTitle.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="CheckEdit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="CloseButton.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Collapse.cshtml">
@@ -150,10 +157,31 @@
     <Content Update="Control.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="DateEdit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Dropdown.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="DropdownDivider.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="DropdownItem.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="DropdownMenu.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="DropdownToggle.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Field.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Fields.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="FileEdit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="FormLabel.cshtml">
@@ -168,6 +196,9 @@
     <Content Update="Inline.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="MemoEdit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Modal.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -175,6 +206,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="ModalBody.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="ModalContent.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="ModalFooter.cshtml">
@@ -202,6 +236,12 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Row.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="SelectEdit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="SimpleButton.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Snackbar.cshtml">
@@ -241,6 +281,12 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="TabPanel.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Tabs.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="TextEdit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Title.cshtml">

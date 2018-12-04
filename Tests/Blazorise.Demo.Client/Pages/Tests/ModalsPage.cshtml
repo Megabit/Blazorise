@@ -2,23 +2,6 @@
 
 <Row>
     <Column>
-        @*<Custom Text="@myText1" TextChanged="@OnTextChange1">
-            BB
-        </Custom>
-        <Custom Text="@myText2" TextChanged="@OnTextChange2" Type="@(typeof(Blazorise.Bootstrap.CustomBS))">
-            DD
-        </Custom>*@
-        <Custom bind-Text="@myText1">
-            BB
-        </Custom>
-        <Custom bind-Text="@myText2" Type="@(typeof(Blazorise.Bootstrap.CustomBS))">
-            DD
-        </Custom>
-        <SimpleButton Clicked="@ClickTest">TEST</SimpleButton>
-    </Column>
-</Row>
-<Row>
-    <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Modal</CardTitle>
@@ -90,24 +73,5 @@
     private void HideModal()
     {
         modalRef.Hide();
-    }
-
-    private string myText1;
-    private string myText2;
-
-    private void OnTextChange1( string s )
-    {
-        Console.WriteLine( s );
-    }
-
-    private void OnTextChange2( string s )
-    {
-        Console.WriteLine( s );
-    }
-
-    private void ClickTest()
-    {
-        Console.WriteLine( myText1 );
-        Console.WriteLine( myText2 );
     }
 }

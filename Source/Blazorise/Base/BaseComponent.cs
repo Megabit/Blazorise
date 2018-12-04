@@ -35,6 +35,8 @@ namespace Blazorise.Base
 
         private Visibility visibility = Visibility.Default;
 
+        private ParameterCollection parameters;
+
         #endregion
 
         #region Constructors
@@ -111,12 +113,11 @@ namespace Blazorise.Base
         {
         }
 
-        ParameterCollection parameters;
-
         public override void SetParameters( ParameterCollection parameters )
         {
-            if ( ComponentMapper.IsRegistered( this ) )
+            if ( ComponentMapper.HasRegistration( this ) )
             {
+                // the component has a custom implementation so we need to copy the parameters for manual rendering
                 this.parameters = parameters;
             }
 
@@ -128,9 +129,13 @@ namespace Blazorise.Base
             base.OnParametersSet();
         }
 
-        protected RenderFragment CreateDynamicComponent() => builder =>
+        /// <summary>
+        /// Main method to render custom component implementation.
+        /// </summary>
+        /// <returns></returns>
+        protected RenderFragment RenderCustomComponent() => builder =>
         {
-            builder.OpenComponent( 0, ComponentMapper.Get( this ) );
+            builder.OpenComponent( 0, ComponentMapper.GetImplementation( this ) );
 
             foreach ( var parameter in parameters )
             {
@@ -164,11 +169,21 @@ namespace Blazorise.Base
         /// </summary>
         protected StyleMapper StyleMapper { get; private set; } = new StyleMapper();
 
+        /// <summary>
+        /// Gets or sets the custom components mapper.
+        /// </summary>
+        [Inject]
         protected IComponentMapper ComponentMapper { get; set; }
 
+        /// <summary>
+        /// Gets or set the javascript runner.
+        /// </summary>
         [Inject]
         protected IJSRunner JSRunner { get; set; }
 
+        /// <summary>
+        /// Gets or sets the classname provider.
+        /// </summary>
         [Inject]
         protected IClassProvider ClassProvider
         {
@@ -181,6 +196,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Gets or sets the style provider.
+        /// </summary>
         [Inject]
         protected IStyleProvider StyleProvider
         {

@@ -12,19 +12,20 @@ namespace Blazorise
     public static class Config
     {
         /// <summary>
-        /// Register internal services.
+        /// Registers a custom class provider.
         /// </summary>
         /// <param name="serviceCollection"></param>
+        /// <param name="classProviderFactory"></param>
         /// <returns></returns>
-        public static IServiceCollection AddBlazorise( this IServiceCollection serviceCollection )
+        public static IServiceCollection AddClassProvider( this IServiceCollection serviceCollection, Func<IStyleProvider> classProviderFactory )
         {
-            
+            serviceCollection.AddSingleton( ( p ) => classProviderFactory() );
 
             return serviceCollection;
         }
 
         /// <summary>
-        /// Registers a custom predefined class provider.
+        /// Registers a custom style provider.
         /// </summary>
         /// <param name="serviceCollection"></param>
         /// <param name="styleProviderFactory"></param>

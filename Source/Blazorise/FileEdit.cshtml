@@ -1,0 +1,10 @@
+﻿@inherits Base.BaseFileEdit
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <input id="@elementId" type="file" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" onchange="@PathChangedHandler" />
+    @ChildContent
+}
+else
+{
+    @RenderCustomComponent()
+}
