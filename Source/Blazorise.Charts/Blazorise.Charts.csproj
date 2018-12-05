@@ -1,19 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <Import Project="..\..\Build\Blazorise.Default.props" />
+	
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
-    <LangVersion>latest</LangVersion>
-    <Version>0.2.0</Version>
-    <Authors>Mladen Macanovic</Authors>
-    <Description>Chart components for Blazor.</Description>
-    <Copyright>Copyright 2018</Copyright>
     <PackageLicenseUrl>https://github.com/stsrki/Blazorise/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/stsrki/Blazorise</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components chart</PackageTags>
+	<PackageId>Blazorise.Charts</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,11 +23,6 @@
 
   <ItemGroup>
     <None Remove="content\charts.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.7.0" />
   </ItemGroup>
 
   <ItemGroup>
