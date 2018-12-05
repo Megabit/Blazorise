@@ -9,7 +9,7 @@ namespace Blazorise.Demo.Client
         public void ConfigureServices( IServiceCollection services )
         {
             services
-                .AddBootstrap()
+                .AddBootstrapProviders()
                 .AddIconProvider( IconProvider.FontAwesome );
         }
 

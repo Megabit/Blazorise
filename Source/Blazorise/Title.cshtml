@@ -1,4 +1,11 @@
 ﻿@inherits Base.BaseTitle
-<p class="@ClassMapper.Class">
-    @ChildContent
-</p>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <p class="@ClassMapper.Class">
+        @ChildContent
+    </p>
+}
+else
+{
+    @RenderCustomComponent()
+}

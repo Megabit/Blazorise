@@ -1,4 +1,11 @@
 ﻿@inherits Base.BaseModalBackdrop
-<div class="@ClassMapper.Class">
-    @ChildContent
-</div>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <div class="@ClassMapper.Class">
+        @ChildContent
+    </div>
+}
+else
+{
+    @RenderCustomComponent()
+}

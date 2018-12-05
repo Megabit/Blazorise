@@ -10,30 +10,35 @@ namespace Blazorise.Bootstrap
 {
     public static class Config
     {
-        public static IServiceCollection AddBootstrap( this IServiceCollection serviceCollection )
+        /// <summary>
+        /// Adds a bootstrap providers and component mappings.
+        /// </summary>
+        /// <param name="serviceCollection"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddBootstrapProviders( this IServiceCollection serviceCollection )
         {
             serviceCollection.AddSingleton<IClassProvider, BootstrapClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
             serviceCollection.AddSingleton<IJSRunner, JSRunner>();
 
-            var mapper = new ComponentMapper();
+            var componentMapper = new ComponentMapper();
 
-            mapper.Register<Blazorise.Addon, Addon>();
-            mapper.Register<Blazorise.Addons, Addons>();
-            mapper.Register<Blazorise.BarToggler, BarToggler>();
-            mapper.Register<Blazorise.CardSubtitle, CardSubtitle>();
-            mapper.Register<Blazorise.CloseButton, CloseButton>();
-            mapper.Register<Blazorise.CheckEdit, CheckEdit>();
-            mapper.Register<Blazorise.DateEdit, DateEdit>();
-            mapper.Register<Blazorise.Field, Field>();
-            mapper.Register<Blazorise.FileEdit, FileEdit>();
-            mapper.Register<Blazorise.ModalContent, ModalContent>();
-            mapper.Register<Blazorise.MemoEdit, MemoEdit>();
-            mapper.Register<Blazorise.SelectEdit, SelectEdit>();
-            mapper.Register<Blazorise.SimpleButton, SimpleButton>();
-            mapper.Register<Blazorise.TextEdit, TextEdit>();
+            componentMapper.Register<Blazorise.Addon, Addon>();
+            componentMapper.Register<Blazorise.Addons, Addons>();
+            componentMapper.Register<Blazorise.BarToggler, BarToggler>();
+            componentMapper.Register<Blazorise.CardSubtitle, CardSubtitle>();
+            componentMapper.Register<Blazorise.CloseButton, CloseButton>();
+            componentMapper.Register<Blazorise.CheckEdit, CheckEdit>();
+            componentMapper.Register<Blazorise.DateEdit, DateEdit>();
+            componentMapper.Register<Blazorise.Field, Field>();
+            componentMapper.Register<Blazorise.FileEdit, FileEdit>();
+            componentMapper.Register<Blazorise.ModalContent, ModalContent>();
+            componentMapper.Register<Blazorise.MemoEdit, MemoEdit>();
+            componentMapper.Register<Blazorise.SelectEdit, SelectEdit>();
+            componentMapper.Register<Blazorise.SimpleButton, SimpleButton>();
+            componentMapper.Register<Blazorise.TextEdit, TextEdit>();
 
-            serviceCollection.AddSingleton<IComponentMapper>( ( p ) => mapper );
+            serviceCollection.AddSingleton<IComponentMapper>( ( p ) => componentMapper );
 
             return serviceCollection;
         }

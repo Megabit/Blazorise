@@ -1,13 +1,20 @@
 ﻿@inherits Base.BaseBarLink
-@if ( To != null )
+@if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <a class="@ClassMapper.Class" href="@To" Match="@Match">
-        @ChildContent
-    </a>
+    @if ( To != null )
+    {
+        <a class="@ClassMapper.Class" href="@To" Match="@Match">
+            @ChildContent
+        </a>
+    }
+    else
+    {
+        <a class="@ClassMapper.Class" onclick="@ClickHandler">
+            @ChildContent
+        </a>
+    }
 }
 else
 {
-    <a class="@ClassMapper.Class" onclick="@ClickHandler">
-        @ChildContent
-    </a>
+    @RenderCustomComponent()
 }

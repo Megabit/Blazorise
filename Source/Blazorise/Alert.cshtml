@@ -1,7 +1,14 @@
 ﻿@inherits Base.BaseAlert
-@if ( ( IsDismisable == false && IsShow ) || IsDismisable )
+@if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <div class="@ClassMapper.Class" role="alert">
-        @ChildContent
-    </div>
+    @if ( ( IsDismisable == false && IsShow ) || IsDismisable )
+    {
+        <div class="@ClassMapper.Class" role="alert">
+            @ChildContent
+        </div>
+    }
+}
+else
+{
+    @RenderCustomComponent()
 }

@@ -1,4 +1,11 @@
 ﻿@inherits Base.BaseDropdownToggle
-<SimpleButton Class="@ClassMapper.Class" Size="@Size" Color="@Color" IsOutline="@IsOutline" Clicked="@ClickHandler">
-    @ChildContent
-</SimpleButton>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <SimpleButton Class="@ClassMapper.Class" Size="@Size" Color="@Color" IsOutline="@IsOutline" Clicked="@ClickHandler">
+        @ChildContent
+    </SimpleButton>
+}
+else
+{
+    @RenderCustomComponent()
+}

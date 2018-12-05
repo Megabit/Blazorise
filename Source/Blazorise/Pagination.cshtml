@@ -1,4 +1,11 @@
 ﻿@inherits Base.BasePagination
-<ul class="@ClassMapper.Class">
-    @ChildContent
-</ul>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <ul class="@ClassMapper.Class">
+        @ChildContent
+    </ul>
+}
+else
+{
+    @RenderCustomComponent()
+}

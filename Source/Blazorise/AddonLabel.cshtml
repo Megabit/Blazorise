@@ -1,4 +1,11 @@
 ﻿@inherits Base.BaseAddonLabel
-<span class="@ClassMapper.Class">
-    @ChildContent
-</span>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <span class="@ClassMapper.Class">
+        @ChildContent
+    </span>
+}
+else
+{
+    @RenderCustomComponent()
+}

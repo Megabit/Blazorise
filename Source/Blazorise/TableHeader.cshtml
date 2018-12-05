@@ -1,4 +1,11 @@
 ﻿@inherits Base.BaseTableHeader
-<thead class="@ClassMapper.Class">
-    @ChildContent
-</thead>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <thead class="@ClassMapper.Class">
+        @ChildContent
+    </thead>
+}
+else
+{
+    @RenderCustomComponent()
+}

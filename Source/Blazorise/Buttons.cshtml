@@ -1,6 +1,13 @@
 ﻿@inherits Base.BaseButtons
-<CascadingValue Value="this">
-    <div class="@ClassMapper.Class" role="@(Role== ButtonsRole.Toolbar? "toolbar" : "group")">
-        @ChildContent
-    </div>
-</CascadingValue>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <CascadingValue Value="this">
+        <div class="@ClassMapper.Class" role="@(Role== ButtonsRole.Toolbar? "toolbar" : "group")">
+            @ChildContent
+        </div>
+    </CascadingValue>
+}
+else
+{
+    @RenderCustomComponent()
+}

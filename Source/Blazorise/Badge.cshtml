@@ -1,13 +1,20 @@
 ﻿@inherits Base.BaseBadge
-@if ( Link != null )
+@if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <a href="@Link" class="@ClassMapper.Class">
-        @ChildContent
-    </a>
+    @if ( Link != null )
+    {
+        <a href="@Link" class="@ClassMapper.Class">
+            @ChildContent
+        </a>
+    }
+    else
+    {
+        <span class="@ClassMapper.Class">
+            @ChildContent
+        </span>
+    }
 }
 else
 {
-    <span class="@ClassMapper.Class">
-        @ChildContent
-    </span>
+    @RenderCustomComponent()
 }

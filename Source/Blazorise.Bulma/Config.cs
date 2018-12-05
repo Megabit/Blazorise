@@ -10,7 +10,7 @@ namespace Blazorise.Bulma
 {
     public static class Config
     {
-        public static IServiceCollection AddBulma( this IServiceCollection serviceCollection )
+        public static IServiceCollection AddBulmaProviders( this IServiceCollection serviceCollection )
         {
             serviceCollection.AddSingleton<IClassProvider, BulmaClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();

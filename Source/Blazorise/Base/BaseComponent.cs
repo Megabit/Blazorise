@@ -119,14 +119,11 @@ namespace Blazorise.Base
             {
                 // the component has a custom implementation so we need to copy the parameters for manual rendering
                 this.parameters = parameters;
+
+                base.SetParameters( ParameterCollection.Empty );
             }
-
-            base.SetParameters( parameters );
-        }
-
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
+            else
+                base.SetParameters( parameters );
         }
 
         /// <summary>
