@@ -76,7 +76,7 @@ namespace Blazorise.Charts.Base
         /// <returns></returns>
         public async Task Update()
         {
-            await JS.SetChartData( elementId, ChartType.Bar, Data, Options );
+            await JS.SetChartData( ElementId, ChartType.Bar, Data, Options );
         }
 
         #endregion

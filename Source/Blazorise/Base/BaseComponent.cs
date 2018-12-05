@@ -17,9 +17,7 @@ namespace Blazorise.Base
 
         //private bool rendered = false;
 
-        protected ElementRef elementRef;
-
-        protected string elementId = Utils.IDGenerator.Instance.Generate;
+        private ElementRef elementRef;
 
         private string customClass;
 
@@ -43,6 +41,7 @@ namespace Blazorise.Base
 
         public BaseComponent()
         {
+            ElementId = Utils.IDGenerator.Instance.Generate;
         }
 
         #endregion
@@ -149,12 +148,12 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets the reference to the rendered element.
         /// </summary>
-        public ElementRef ElementRef => elementRef;
+        public ElementRef ElementRef { get => elementRef; protected set => elementRef = value; }
 
         /// <summary>
         /// Gets the unique id of the element.
         /// </summary>
-        protected string ElementId => elementId;
+        protected string ElementId { get; }
 
         /// <summary>
         /// Gets the class mapper.

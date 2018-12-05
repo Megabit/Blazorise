@@ -16,28 +16,28 @@ namespace Blazorise.Bulma
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
             serviceCollection.AddSingleton<IJSRunner, JSRunner>();
 
-            var mapper = new ComponentMapper();
+            var componentMapper = new ComponentMapper();
 
-            mapper.Register<Blazorise.Addons, Addons>();
-            mapper.Register<Blazorise.BarToggler, BarToggler>();
-            mapper.Register<Blazorise.CardImage, CardImage>();
-            mapper.Register<Blazorise.CardSubtitle, CardSubtitle>();
-            mapper.Register<Blazorise.CheckEdit, CheckEdit>();
-            mapper.Register<Blazorise.DropdownDivider, DropdownDivider>();
-            mapper.Register<Blazorise.DropdownMenu, DropdownMenu>();
-            mapper.Register<Blazorise.Field, Field>();
-            mapper.Register<Blazorise.Fields, Fields>();
-            mapper.Register<Blazorise.FileEdit, FileEdit>();
-            mapper.Register<Blazorise.SelectEdit, SelectEdit>();
-            mapper.Register<Blazorise.SimpleButton, SimpleButton>();
-            mapper.Register<Blazorise.Tabs, Tabs>();
+            componentMapper.Register<Blazorise.Addons, Bulma.Addons>();
+            componentMapper.Register<Blazorise.BarToggler, Bulma.BarToggler>();
+            componentMapper.Register<Blazorise.CardImage, Bulma.CardImage>();
+            componentMapper.Register<Blazorise.CardSubtitle, Bulma.CardSubtitle>();
+            componentMapper.Register<Blazorise.CheckEdit, Bulma.CheckEdit>();
+            componentMapper.Register<Blazorise.DropdownDivider, Bulma.DropdownDivider>();
+            componentMapper.Register<Blazorise.DropdownMenu, Bulma.DropdownMenu>();
+            componentMapper.Register<Blazorise.Field, Bulma.Field>();
+            componentMapper.Register<Blazorise.Fields, Bulma.Fields>();
+            componentMapper.Register<Blazorise.FileEdit, Bulma.FileEdit>();
+            componentMapper.Register<Blazorise.SelectEdit, Bulma.SelectEdit>();
+            componentMapper.Register<Blazorise.SimpleButton, Bulma.SimpleButton>();
+            componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();
 
-            serviceCollection.AddSingleton<IComponentMapper>( ( p ) => mapper );
+            serviceCollection.AddSingleton<IComponentMapper>( componentMapper );
 
             return serviceCollection;
         }
 
-        [Obsolete( "AddBulmaClassProvider is deprecated, please use AddBulma instead." )]
+        [Obsolete( "AddBulmaClassProvider is deprecated, please use AddBulmaProviders instead." )]
         public static IServiceCollection AddBulmaClassProvider( this IServiceCollection serviceCollection )
         {
             serviceCollection.AddSingleton<IClassProvider, BulmaClassProvider>();
@@ -46,7 +46,7 @@ namespace Blazorise.Bulma
             return serviceCollection;
         }
 
-        [Obsolete( "AddBulmaStyleProvider is deprecated, please use AddBulma instead." )]
+        [Obsolete( "AddBulmaStyleProvider is deprecated, please use AddBulmaProviders instead." )]
         public static IServiceCollection AddBulmaStyleProvider( this IServiceCollection serviceCollection )
         {
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();

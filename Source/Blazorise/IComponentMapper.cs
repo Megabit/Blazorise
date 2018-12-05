@@ -46,7 +46,7 @@ namespace Blazorise
             where TComponent : IComponent;
 
         /// <summary>
-        /// Checks if a component has a custom registration.
+        /// Checks if a component has a custom implementation.
         /// </summary>
         /// <param name="component">Component to check.</param>
         /// <returns>Returns true if the registration exists.</returns>

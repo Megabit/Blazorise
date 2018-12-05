@@ -23,27 +23,27 @@ namespace Blazorise.Bootstrap
 
             var componentMapper = new ComponentMapper();
 
-            componentMapper.Register<Blazorise.Addon, Addon>();
-            componentMapper.Register<Blazorise.Addons, Addons>();
-            componentMapper.Register<Blazorise.BarToggler, BarToggler>();
-            componentMapper.Register<Blazorise.CardSubtitle, CardSubtitle>();
-            componentMapper.Register<Blazorise.CloseButton, CloseButton>();
-            componentMapper.Register<Blazorise.CheckEdit, CheckEdit>();
-            componentMapper.Register<Blazorise.DateEdit, DateEdit>();
-            componentMapper.Register<Blazorise.Field, Field>();
-            componentMapper.Register<Blazorise.FileEdit, FileEdit>();
-            componentMapper.Register<Blazorise.ModalContent, ModalContent>();
-            componentMapper.Register<Blazorise.MemoEdit, MemoEdit>();
-            componentMapper.Register<Blazorise.SelectEdit, SelectEdit>();
-            componentMapper.Register<Blazorise.SimpleButton, SimpleButton>();
-            componentMapper.Register<Blazorise.TextEdit, TextEdit>();
+            componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
+            componentMapper.Register<Blazorise.Addons, Bootstrap.Addons>();
+            componentMapper.Register<Blazorise.BarToggler, Bootstrap.BarToggler>();
+            componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
+            componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
+            componentMapper.Register<Blazorise.CheckEdit, Bootstrap.CheckEdit>();
+            componentMapper.Register<Blazorise.DateEdit, Bootstrap.DateEdit>();
+            componentMapper.Register<Blazorise.Field, Bootstrap.Field>();
+            componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
+            componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
+            componentMapper.Register<Blazorise.MemoEdit, Bootstrap.MemoEdit>();
+            componentMapper.Register<Blazorise.SelectEdit, Bootstrap.SelectEdit>();
+            componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
+            componentMapper.Register<Blazorise.TextEdit, Bootstrap.TextEdit>();
 
-            serviceCollection.AddSingleton<IComponentMapper>( ( p ) => componentMapper );
+            serviceCollection.AddSingleton<IComponentMapper>( componentMapper );
 
             return serviceCollection;
         }
 
-        [Obsolete( "AddBootstrapClassProvider is deprecated, please use AddBootstrap instead." )]
+        [Obsolete( "AddBootstrapClassProvider is deprecated, please use AddBootstrapProviders instead." )]
         public static IServiceCollection AddBootstrapClassProvider( this IServiceCollection serviceCollection )
         {
             serviceCollection.AddSingleton<IClassProvider, BootstrapClassProvider>();
@@ -52,7 +52,7 @@ namespace Blazorise.Bootstrap
             return serviceCollection;
         }
 
-        [Obsolete( "AddBootstrapStyleProvider is deprecated, please use AddBootstrap instead." )]
+        [Obsolete( "AddBootstrapStyleProvider is deprecated, please use AddBootstrapProviders instead." )]
         public static IServiceCollection AddBootstrapStyleProvider( this IServiceCollection serviceCollection )
         {
             serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
