@@ -37,7 +37,6 @@ Now, for a bootstrap framework you must do:
 
 ```
 @addTagHelper *, Blazorise
-@addTagHelper *, Blazorise.Bootstrap
 
 @using Blazorise
 @using Blazorise.Bootstrap
@@ -47,8 +46,7 @@ Now, for a bootstrap framework you must do:
 
 ```
 services
-    .AddBootstrapClassProvider()
-    .AddBootstrapStyleProvider()
+    .AddBootstrapProviders()
     .AddIconProvider( IconProvider.FontAwesome );
 ```
 
