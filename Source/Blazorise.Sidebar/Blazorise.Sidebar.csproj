@@ -6,7 +6,7 @@
     <IsPackable>true</IsPackable>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
     <LangVersion>latest</LangVersion>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Mladen Macanovic</Authors>
     <Description>Sidebar components for Blazor.</Description>
     <Copyright>Copyright 2018</Copyright>

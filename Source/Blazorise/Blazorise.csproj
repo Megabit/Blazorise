@@ -8,7 +8,7 @@
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <UserSecretsId>6cab4bb2-591d-4af9-b35b-df37c7181a49</UserSecretsId>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <PackageId>Blazorise</PackageId>
     <Authors>Mladen Macanovic</Authors>
     <Company></Company>

@@ -6,7 +6,7 @@
     <IsPackable>true</IsPackable>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
     <LangVersion>7.3</LangVersion>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Mladen Macanovic</Authors>
     <Company />
     <Description>Blazorise is a component library built on top of Blazor and Bootstrap CSS.</Description>
