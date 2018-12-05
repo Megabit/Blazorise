@@ -1,0 +1,11 @@
+﻿@* This has to be name TextEdit because Razor(not Blazor) still doesn't support case sensitive components. *@
+@inherits Base.BaseText
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <input type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" onchange="@HandleTextChange" />
+    @ChildContent
+}
+else
+{
+    @RenderCustomComponent()
+}

@@ -1,2 +1,9 @@
 ﻿@inherits Base.BasePaginationLink
-<a class="@ClassMapper.Class" onclick="@ClickHandler">@ChildContent</a>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <a class="@ClassMapper.Class" onclick="@ClickHandler">@ChildContent</a>
+}
+else
+{
+    @RenderCustomComponent()
+}

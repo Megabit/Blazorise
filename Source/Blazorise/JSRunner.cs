@@ -56,8 +56,13 @@ namespace Blazorise
             return JSRuntime.Current.InvokeAsync<string[]>( "blazorise.getFilePaths", element );
         }
 
+        /// <summary>
+        /// Activates the date picker for a given element id.
+        /// </summary>
+        /// <param name="elementId">Input element id.</param>
         public virtual Task<bool> ActivateDatePicker( string elementId )
         {
+            // must be implemented by a framework provider!
             return Task.FromResult( true );
         }
     }

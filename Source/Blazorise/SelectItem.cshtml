@@ -1,2 +1,9 @@
 ﻿@inherits Base.BaseSelectItem
-<option class="@ClassMapper.Class" value="@Value" selected="@IsSelected">@ChildContent</option>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <option class="@ClassMapper.Class" value="@Value" selected="@IsSelected">@ChildContent</option>
+}
+else
+{
+    @RenderCustomComponent()
+}

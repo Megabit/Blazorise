@@ -1,4 +1,11 @@
 ﻿@inherits Base.BaseLabel
-<label class="@ClassMapper.Class" for="@For">
-    @ChildContent
-</label>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <label class="@ClassMapper.Class" for="@For">
+        @ChildContent
+    </label>
+}
+else
+{
+    @RenderCustomComponent()
+}

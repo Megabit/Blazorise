@@ -1,0 +1,13 @@
+﻿@inherits Base.BaseTabs
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <CascadingValue Value=this>
+        <ul class="@ClassMapper.Class">
+            @ChildContent
+        </ul>
+    </CascadingValue>
+}
+else
+{
+    @RenderCustomComponent()
+}

@@ -1,4 +1,11 @@
 ﻿@inherits Base.BaseTab
-<li class="@ClassMapper.Class">
-    <a class="@LinkClassMapper.Class" onclick="@ClickHandler">@ChildContent</a>
-</li>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <li class="@ClassMapper.Class">
+        <a class="@LinkClassMapper.Class" onclick="@ClickHandler">@ChildContent</a>
+    </li>
+}
+else
+{
+    @RenderCustomComponent()
+}

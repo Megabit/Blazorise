@@ -1,6 +1,13 @@
 ﻿@inherits Base.BaseCardHeader
-<CascadingValue Value=this>
-    <div class="@ClassMapper.Class">
-        @ChildContent
-    </div>
-</CascadingValue>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <CascadingValue Value=this>
+        <div class="@ClassMapper.Class">
+            @ChildContent
+        </div>
+    </CascadingValue>
+}
+else
+{
+    @RenderCustomComponent()
+}

@@ -3,8 +3,8 @@
 {
     <div class="@SizableClassMapper.Class">
         <Control Role="ControlRole.File">
-            <input id="@elementId" ref="@elementRef" type="file" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" onchange="@PathChangedHandler" />
-            <FormLabel IsFile="true" For="@elementId">@ChildContent</FormLabel>
+            <input id="@ElementId" ref="@ElementRef" type="file" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" onchange="@PathChangedHandler" />
+            <FormLabel IsFile="true" For="@ElementId">@ChildContent</FormLabel>
         </Control>
         @ChildContent
     </div>
@@ -12,8 +12,8 @@
 else
 {
     <Control Role="ControlRole.File">
-        <input id="@elementId" ref="@elementRef" type="file" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" onchange="@PathChangedHandler" />
-        <FormLabel IsFile="true" For="@elementId">@ChildContent</FormLabel>
+        <input id="@ElementId" ref="@ElementRef" type="file" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" onchange="@PathChangedHandler" />
+        <FormLabel IsFile="true" For="@ElementId">@ChildContent</FormLabel>
     </Control>
     @ChildContent
 }

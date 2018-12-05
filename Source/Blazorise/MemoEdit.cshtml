@@ -1,0 +1,10 @@
+﻿@inherits Base.BaseMemo
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <textarea class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" rows="@Rows" onchange="@HandleTextChange" />
+    @ChildContent
+}
+else
+{
+    @RenderCustomComponent()
+}

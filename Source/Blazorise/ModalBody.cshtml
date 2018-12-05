@@ -1,4 +1,11 @@
 ﻿@inherits Base.BaseModalBody
-<div class="@ClassMapper.Class" style="@StyleMapper.Style">
-    @ChildContent
-</div>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <div class="@ClassMapper.Class" style="@StyleMapper.Style">
+        @ChildContent
+    </div>
+}
+else
+{
+    @RenderCustomComponent()
+}

@@ -30,7 +30,7 @@ namespace Blazorise.Base
 
         protected void ClickHandler( UIMouseEventArgs e )
         {
-            JSRunner.ActivateDatePicker( elementId );
+            JSRunner.ActivateDatePicker( ElementId );
         }
 
         protected void InternalDateHandler( UIChangeEventArgs e )

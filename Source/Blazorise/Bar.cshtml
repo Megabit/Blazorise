@@ -1,4 +1,11 @@
 ﻿@inherits Base.BaseBar
-<nav class="@ClassMapper.Class">
-    @ChildContent
-</nav>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <nav class="@ClassMapper.Class">
+        @ChildContent
+    </nav>
+}
+else
+{
+    @RenderCustomComponent()
+}

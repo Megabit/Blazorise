@@ -1,13 +1,20 @@
 ﻿@inherits Base.BaseCardTitle
-@if ( Size != null )
+@if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <Dynamic TagName="@($"h{Size}")" class="@ClassMapper.Class">
-        @ChildContent
-    </Dynamic>
+    @if ( Size != null )
+    {
+        <Dynamic TagName="@($"h{Size}")" class="@ClassMapper.Class">
+            @ChildContent
+        </Dynamic>
+    }
+    else
+    {
+        <div class="@ClassMapper.Class">
+            @ChildContent
+        </div>
+    }
 }
 else
 {
-    <div class="@ClassMapper.Class">
-        @ChildContent
-    </div>
+    @RenderCustomComponent()
 }

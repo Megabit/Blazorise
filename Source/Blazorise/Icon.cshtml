@@ -1,14 +1,21 @@
 ﻿@inherits Base.BaseIcon
-<i class="@ClassMapper.Class">
-    @if ( IconProvider.IconNameAsContent && Name != null )
-    {
-        if ( Name is IconName )
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <i class="@ClassMapper.Class">
+        @if ( IconProvider.IconNameAsContent && Name != null )
         {
-            @IconProvider.Get( (IconName)Name );
+            if ( Name is IconName )
+            {
+                @IconProvider.Get( (IconName)Name );
+            }
+            else if ( Name is string )
+            {
+                @IconProvider.Get( (string)Name );
+            }
         }
-        else if ( Name is string )
-        {
-            @IconProvider.Get( (string)Name );
-        }
-    }
-</i>
+    </i>
+}
+else
+{
+    @RenderCustomComponent()
+}

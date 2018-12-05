@@ -31,7 +31,7 @@ namespace Blazorise.Base
         {
             if ( IsMultiple )
             {
-                var files = await JSRunner.GetFilePaths( elementRef );
+                var files = await JSRunner.GetFilePaths( ElementRef );
 
                 PathChanged?.Invoke( files );
             }

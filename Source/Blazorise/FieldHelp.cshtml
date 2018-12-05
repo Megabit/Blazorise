@@ -1,4 +1,11 @@
 ﻿@inherits Base.BaseFieldHelp
-<small class="@ClassMapper.Class">
-    @ChildContent
-</small>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <small class="@ClassMapper.Class">
+        @ChildContent
+    </small>
+}
+else
+{
+    @RenderCustomComponent()
+}

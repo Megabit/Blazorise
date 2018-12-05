@@ -17,9 +17,7 @@ namespace Blazorise.Base
 
         //private bool rendered = false;
 
-        protected ElementRef elementRef;
-
-        protected string elementId = Utils.IDGenerator.Instance.Generate;
+        private ElementRef elementRef;
 
         private string customClass;
 
@@ -35,12 +33,15 @@ namespace Blazorise.Base
 
         private Visibility visibility = Visibility.Default;
 
+        private ParameterCollection parameters;
+
         #endregion
 
         #region Constructors
 
         public BaseComponent()
         {
+            ElementId = Utils.IDGenerator.Instance.Generate;
         }
 
         #endregion
@@ -111,6 +112,35 @@ namespace Blazorise.Base
         {
         }
 
+        public override void SetParameters( ParameterCollection parameters )
+        {
+            if ( ComponentMapper.HasRegistration( this ) )
+            {
+                // the component has a custom implementation so we need to copy the parameters for manual rendering
+                this.parameters = parameters;
+
+                base.SetParameters( ParameterCollection.Empty );
+            }
+            else
+                base.SetParameters( parameters );
+        }
+
+        /// <summary>
+        /// Main method to render custom component implementation.
+        /// </summary>
+        /// <returns></returns>
+        protected RenderFragment RenderCustomComponent() => builder =>
+        {
+            builder.OpenComponent( 0, ComponentMapper.GetImplementation( this ) );
+
+            foreach ( var parameter in parameters )
+            {
+                builder.AddAttribute( 1, parameter.Name, parameter.Value );
+            }
+
+            builder.CloseComponent();
+        };
+
         #endregion
 
         #region Properties
@@ -118,12 +148,12 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets the reference to the rendered element.
         /// </summary>
-        public ElementRef ElementRef => elementRef;
+        public ElementRef ElementRef { get => elementRef; protected set => elementRef = value; }
 
         /// <summary>
         /// Gets the unique id of the element.
         /// </summary>
-        protected string ElementId => elementId;
+        protected string ElementId { get; }
 
         /// <summary>
         /// Gets the class mapper.
@@ -135,9 +165,21 @@ namespace Blazorise.Base
         /// </summary>
         protected StyleMapper StyleMapper { get; private set; } = new StyleMapper();
 
+        /// <summary>
+        /// Gets or sets the custom components mapper.
+        /// </summary>
+        [Inject]
+        protected IComponentMapper ComponentMapper { get; set; }
+
+        /// <summary>
+        /// Gets or set the javascript runner.
+        /// </summary>
         [Inject]
         protected IJSRunner JSRunner { get; set; }
 
+        /// <summary>
+        /// Gets or sets the classname provider.
+        /// </summary>
         [Inject]
         protected IClassProvider ClassProvider
         {
@@ -150,6 +192,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Gets or sets the style provider.
+        /// </summary>
         [Inject]
         protected IStyleProvider StyleProvider
         {
