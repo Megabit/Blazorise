@@ -17,7 +17,7 @@
 [Rr]eleases/
 [Xx]64/
 [Xx]86/
-[Bb]uild/
+#[Bb]uild/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -155,7 +155,7 @@ publish/
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
 # NuGet v3's project.json files produces more ignoreable files
-*g.nuget.props
+*.nuget.props
 *.nuget.targets
 
 # Microsoft Azure Build Output
