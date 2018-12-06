@@ -51,5 +51,5 @@ services
     .AddIconProvider( IconProvider.FontAwesome );
 ```
 
-
+To setup Blazorise for other frameworks please refer the [Usage](https://github.com/stsrki/Blazorise/wiki/Usage) page in the wiki.
 
