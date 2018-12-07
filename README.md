@@ -1,6 +1,6 @@
 # Blazorise components for Blazor
 
-Blazorise is a component library for an experimental web framework Blazor and CSS frameworks like Bootstrap, Bulma and Material.
+Blazorise is a component library built on top of [Blazor](https://github.com/aspnet/AspNetCore/tree/master/src/Components) (Razor Components) and CSS frameworks like Bootstrap, Bulma and Material.
 
 Please look at [Live Demo](https://blazorisedemo.azurewebsites.net/) to see Blazorise in action.
 
