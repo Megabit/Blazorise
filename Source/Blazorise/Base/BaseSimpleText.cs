@@ -15,7 +15,7 @@ namespace Blazorise.Base
 
         private TextColor color = TextColor.None;
 
-        private TextAlignment alignment = TextAlignment.Near;
+        private TextAlignment alignment = TextAlignment.Left;
 
         private TextTransform textTransform = TextTransform.None;
 

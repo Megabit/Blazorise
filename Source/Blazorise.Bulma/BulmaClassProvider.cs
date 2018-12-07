@@ -220,6 +220,23 @@ namespace Blazorise.Bulma
 
         public virtual string DropdownToggleSplit() => null;
 
+        public virtual string DropdownDirection( Direction direction )
+        {
+            switch ( direction )
+            {
+                case Direction.Up:
+                    return "is-up";
+                case Direction.Right:
+                    return "is-right";
+                case Direction.Left:
+                    return "is-left";
+                case Direction.Down:
+                case Direction.None:
+                default:
+                    return null;
+            }
+        }
+
         #endregion
 
         #region Tab
@@ -393,54 +410,6 @@ namespace Blazorise.Bulma
         public virtual string Collapse() => "collapse";
 
         public virtual string CollapseShow() => Show();
-
-        #endregion
-
-        #region Drawer
-
-        public virtual string Drawer() => "navdrawer";
-
-        public virtual string Drawer( DrawerType drawerType, Size breakpoint ) => breakpoint != Blazorise.Size.None ? $"{Drawer()}-{DrawerType( drawerType )}-{Size( breakpoint )}" : $"{Drawer()}-{DrawerType( drawerType )}";
-
-        public virtual string DrawerContent() => "navdrawer-content";
-
-        public virtual string DrawerHeader() => "navdrawer-header";
-
-        public virtual string DrawerBrand() => "navbar-brand";
-
-        public virtual string DrawerToggler() => "navbar-burger";
-
-        public virtual string DrawerLabel() => "navdrawer-subheader";
-
-        public virtual string DrawerDivider() => "navdrawer-divider";
-
-        public virtual string DrawerMenu() => "navdrawer-nav";
-
-        public virtual string DrawerMenuItem() => "nav-item";
-
-        public virtual string DrawerMenuLink() => "nav-link";
-
-        //public virtual string Drawer() => "navdrawer";
-
-        //public virtual string Drawer( DrawerType drawerType, Size breakpoint ) => breakpoint != Blazorise.Size.None ? $"{Drawer()}-{DrawerType( drawerType )}-{Size( breakpoint )}" : $"{Drawer()}-{DrawerType( drawerType )}";
-
-        //public virtual string DrawerContent() => "menu";
-
-        //public virtual string DrawerHeader() => "navdrawer-header";
-
-        //public virtual string DrawerBrand() => "navbar-brand";
-
-        //public virtual string DrawerToggler() => "navbar-toggler";
-
-        //public virtual string DrawerLabel() => "menu-label";
-
-        //public virtual string DrawerDivider() => "is-divider";
-
-        //public virtual string DrawerMenu() => "menu-list";
-
-        //public virtual string DrawerMenuItem() => null;
-
-        //public virtual string DrawerMenuLink() => null;
 
         #endregion
 
@@ -831,22 +800,6 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string DropdownDirection( DropdownDirection dropdownDirection )
-        {
-            switch ( dropdownDirection )
-            {
-                case Blazorise.DropdownDirection.Up:
-                    return "is-up";
-                case Blazorise.DropdownDirection.Right:
-                    return "is-right";
-                case Blazorise.DropdownDirection.Left:
-                    return "is-left";
-                case Blazorise.DropdownDirection.Down:
-                default:
-                    return null;
-            }
-        }
-
         public virtual string Float( Float @float )
         {
             switch ( @float )
@@ -898,11 +851,11 @@ namespace Blazorise.Bulma
         {
             switch ( alignment )
             {
-                case Blazorise.Alignment.Near:
+                case Blazorise.Alignment.Start:
                     return "start";
                 case Blazorise.Alignment.Center:
                     return "center";
-                case Blazorise.Alignment.Far:
+                case Blazorise.Alignment.End:
                     return "end";
                 default:
                     return null;
@@ -913,11 +866,11 @@ namespace Blazorise.Bulma
         {
             switch ( textAlignment )
             {
-                case Blazorise.TextAlignment.Near:
+                case Blazorise.TextAlignment.Left:
                     return "left";
                 case Blazorise.TextAlignment.Center:
                     return "centered";
-                case Blazorise.TextAlignment.Far:
+                case Blazorise.TextAlignment.Right:
                     return "right";
                 case Blazorise.TextAlignment.Justified:
                     return "justified";
@@ -953,21 +906,6 @@ namespace Blazorise.Bulma
                     return "light";
                 default:
                     return null;
-            }
-        }
-
-        public virtual string DrawerType( DrawerType drawerType )
-        {
-            switch ( drawerType )
-            {
-                case Blazorise.DrawerType.Permanent:
-                    return "permanent";
-                case Blazorise.DrawerType.Persistent:
-                    return "persistent";
-                case Blazorise.DrawerType.Temporary:
-                    return "temporary";
-                default:
-                    return "default";
             }
         }
 

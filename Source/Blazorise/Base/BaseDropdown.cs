@@ -17,7 +17,7 @@ namespace Blazorise.Base
 
         private bool isRightAligned;
 
-        private DropdownDirection direction = DropdownDirection.Down;
+        private Direction direction = Blazorise.Direction.Down;
 
         private BaseDropdownMenu dropdownMenu;
 
@@ -50,7 +50,7 @@ namespace Blazorise.Base
                 .If( () => ClassProvider.DropdownGroup(), () => IsGroup )
                 .If( () => ClassProvider.DropdownShow(), () => IsOpen )
                 .If( () => ClassProvider.DropdownRight(), () => IsRightAligned )
-                .If( () => ClassProvider.DropdownDirection( Direction ), () => Direction != DropdownDirection.Down );
+                .If( () => ClassProvider.DropdownDirection( Direction ), () => Direction != Direction.Down );
 
             base.RegisterClasses();
         }
@@ -155,7 +155,7 @@ namespace Blazorise.Base
         /// Dropdown-menu slide direction.
         /// </summary>
         [Parameter]
-        protected DropdownDirection Direction
+        protected Direction Direction
         {
             get => direction;
             set

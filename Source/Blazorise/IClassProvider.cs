@@ -205,6 +205,8 @@ namespace Blazorise
 
         string DropdownToggleSplit();
 
+        string DropdownDirection( Direction direction );
+
         #endregion
 
         #region Tab
@@ -373,32 +375,6 @@ namespace Blazorise
         string Collapse();
 
         string CollapseShow();
-
-        #endregion
-
-        #region Drawer
-
-        string Drawer();
-
-        string Drawer( DrawerType drawerType, Size breakpoint );
-
-        string DrawerContent();
-
-        string DrawerHeader();
-
-        string DrawerBrand();
-
-        string DrawerToggler();
-
-        string DrawerLabel();
-
-        string DrawerDivider();
-
-        string DrawerMenu();
-
-        string DrawerMenuItem();
-
-        string DrawerMenuLink();
 
         #endregion
 
@@ -616,8 +592,6 @@ namespace Blazorise
 
         string Breakpoint( Breakpoint breakpoint );
 
-        //string Span( Span span );
-
         string Color( Color color );
 
         string Color( Background color );
@@ -625,10 +599,6 @@ namespace Blazorise
         string TextColor( TextColor textColor );
 
         string Theme( Theme theme );
-
-        //string Visibility( Visibility visibility );
-
-        string DropdownDirection( DropdownDirection dropdownDirection );
 
         string Float( Float @float );
 
@@ -643,8 +613,6 @@ namespace Blazorise
         string TextTransform( TextTransform textTransform );
 
         string TextWeight( TextWeight textWeight );
-
-        string DrawerType( DrawerType drawerType );
 
         string ColumnWidth( ColumnWidth columnWidth );
 

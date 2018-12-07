@@ -227,6 +227,23 @@ namespace Blazorise.Material
 
         public virtual string DropdownToggleSplit() => "dropdown-toggle-split";
 
+        public virtual string DropdownDirection( Direction direction )
+        {
+            switch ( direction )
+            {
+                case Direction.Up:
+                    return "dropup";
+                case Direction.Right:
+                    return "dropright";
+                case Direction.Left:
+                    return "dropleft";
+                case Direction.Down:
+                case Direction.None:
+                default:
+                    return null;
+            }
+        }
+
         #endregion
 
         #region Tab
@@ -394,32 +411,6 @@ namespace Blazorise.Material
         public virtual string Collapse() => "collapse";
 
         public virtual string CollapseShow() => Show();
-
-        #endregion
-
-        #region Drawer
-
-        public virtual string Drawer() => "navdrawer";
-
-        public virtual string Drawer( DrawerType drawerType, Size breakpoint ) => breakpoint != Blazorise.Size.None ? $"{Drawer()}-{DrawerType( drawerType )}-{Size( breakpoint )}" : $"{Drawer()}-{DrawerType( drawerType )}";
-
-        public virtual string DrawerContent() => "navdrawer-content";
-
-        public virtual string DrawerHeader() => "navdrawer-header";
-
-        public virtual string DrawerBrand() => "navbar-brand";
-
-        public virtual string DrawerToggler() => "navbar-toggler";
-
-        public virtual string DrawerLabel() => "navdrawer-subheader";
-
-        public virtual string DrawerDivider() => "navdrawer-divider";
-
-        public virtual string DrawerMenu() => "navdrawer-nav";
-
-        public virtual string DrawerMenuItem() => "nav-item";
-
-        public virtual string DrawerMenuLink() => "nav-link";
 
         #endregion
 
@@ -802,22 +793,6 @@ namespace Blazorise.Material
             }
         }
 
-        public virtual string DropdownDirection( DropdownDirection dropdownDirection )
-        {
-            switch ( dropdownDirection )
-            {
-                case Blazorise.DropdownDirection.Up:
-                    return "dropup";
-                case Blazorise.DropdownDirection.Right:
-                    return "dropright";
-                case Blazorise.DropdownDirection.Left:
-                    return "dropleft";
-                case Blazorise.DropdownDirection.Down:
-                default:
-                    return null;
-            }
-        }
-
         public virtual string Float( Float @float )
         {
             switch ( @float )
@@ -869,11 +844,11 @@ namespace Blazorise.Material
         {
             switch ( alignment )
             {
-                case Blazorise.Alignment.Near:
+                case Blazorise.Alignment.Start:
                     return "start";
                 case Blazorise.Alignment.Center:
                     return "center";
-                case Blazorise.Alignment.Far:
+                case Blazorise.Alignment.End:
                     return "end";
                 default:
                     return null;
@@ -884,11 +859,11 @@ namespace Blazorise.Material
         {
             switch ( textAlignment )
             {
-                case Blazorise.TextAlignment.Near:
+                case Blazorise.TextAlignment.Left:
                     return "left";
                 case Blazorise.TextAlignment.Center:
                     return "center";
-                case Blazorise.TextAlignment.Far:
+                case Blazorise.TextAlignment.Right:
                     return "right";
                 case Blazorise.TextAlignment.Justified:
                     return "justify";
@@ -924,21 +899,6 @@ namespace Blazorise.Material
                     return "light";
                 default:
                     return null;
-            }
-        }
-
-        public virtual string DrawerType( DrawerType drawerType )
-        {
-            switch ( drawerType )
-            {
-                case Blazorise.DrawerType.Permanent:
-                    return "permanent";
-                case Blazorise.DrawerType.Persistent:
-                    return "persistent";
-                case Blazorise.DrawerType.Temporary:
-                    return "temporary";
-                default:
-                    return "default";
             }
         }
 
