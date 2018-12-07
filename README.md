@@ -4,6 +4,10 @@ Blazorise is a component library built on top of [Blazor](https://github.com/asp
 
 Please look at [Live Demo](https://blazorisedemo.azurewebsites.net/) to see Blazorise in action.
 
+```
+Note: This project is still experimental so it's possible that some components will be removed or refactored.
+```
+
 ## Installation
 
 Each of the supported css framework is defined by a diferent nuget package. To install them you must run one of the following commands:
