@@ -129,6 +129,23 @@
                     </Addons>
                 </Field>
                 <Field IsHorizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Multiple addons</FieldLabel>
+                    <Addons ColumnSize="ColumnSize.Is10">
+                        <Addon AddonType="AddonType.Start">
+                            <AddonLabel>Start</AddonLabel>
+                        </Addon>
+                        <Addon AddonType="AddonType.Body">
+                            <TextEdit Placeholder="Placeholder" />
+                        </Addon>
+                        <Addon AddonType="AddonType.Body">
+                            <TextEdit Placeholder="Placeholder 2" />
+                        </Addon>
+                        <Addon AddonType="AddonType.End">
+                            <AddonLabel>End</AddonLabel>
+                        </Addon>
+                    </Addons>
+                </Field>
+                <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Dropdowns</FieldLabel>
                     <Addons ColumnSize="ColumnSize.Is10">
                         <Addon AddonType="AddonType.Start">
@@ -219,6 +236,56 @@
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
+                <CardTitle>INLINE FORM</CardTitle>
+                <CardSubtitle>Add <code>&lt;Inline&gt;</code> tag to your form (which doesn't have to be a <code>&lt;form&gt;</code>) for left-aligned and inline-block controls. This only applies to forms within viewports that are at least 768px wide.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile">
+                        <Inline>
+                            <Field>
+                                <FieldLabel>email@example.com</FieldLabel>
+                                <TextEdit Role="TextRole.Password" Placeholder="Password" Margin="Margin.Is3.OnTablet" />
+                                <SimpleButton Color="Color.Primary">Confirm identity</SimpleButton>
+                            </Field>
+                        </Inline>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile">
+                        <Fields Label="Auto-sizing">
+                            <Column ColumnSize="ColumnSize.IsAuto">
+                                <FieldLabel Screenreader="Screenreader.Only">Name</FieldLabel>
+                                <TextEdit Placeholder="Jane Doe" />
+                            </Column>
+                            <Column ColumnSize="ColumnSize.IsAuto">
+                                <FieldLabel Screenreader="Screenreader.Only">Username</FieldLabel>
+                                <Addons>
+                                    <Addon AddonType="AddonType.Start">
+                                        <AddonLabel>@@</AddonLabel>
+                                    </Addon>
+                                    <Addon AddonType="AddonType.Body">
+                                        <TextEdit Placeholder="Username" />
+                                    </Addon>
+                                </Addons>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.IsAuto">
+                                <CheckEdit>Remember me</CheckEdit>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.IsAuto">
+                                <SimpleButton Color="Color.Primary">Submit</SimpleButton>
+                            </Column>
+                        </Fields>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
                 <CardTitle>FORM ROW</CardTitle>
             </CardHeader>
             <CardBody>
@@ -255,6 +322,12 @@
                         <TextEdit />
                     </Field>
                 </Fields>
+                <Field>
+                    <CheckEdit>Remember me</CheckEdit>
+                </Field>
+                <Field>
+                    <SimpleButton Color="Color.Primary">Sign in</SimpleButton>
+                </Field>
             </CardBody>
         </Card>
     </Column>
