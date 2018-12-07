@@ -7,6 +7,7 @@ Please look at [Live Demo](https://blazorisedemo.azurewebsites.net/) to see Blaz
 ```
 Note: This project is still experimental so it's possible that some components will be removed or refactored.
 ```
+[Releases](https://github.com/stsrki/Blazorise/wiki/Releases) and [Roadmap](https://github.com/stsrki/Blazorise/wiki/Roadmap)
 
 ## Installation
 
