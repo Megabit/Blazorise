@@ -63,6 +63,8 @@ namespace Blazorise.Sidebar.Base
 
         [Parameter] protected Match Match { get; set; } = Match.All;
 
+        [Parameter] protected string Title { get; set; }
+
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>

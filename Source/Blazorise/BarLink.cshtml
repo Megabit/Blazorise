@@ -3,13 +3,13 @@
 {
     @if ( To != null )
     {
-        <a class="@ClassMapper.Class" href="@To" Match="@Match">
+        <LinkBase class="@ClassMapper.Class" href="@To" title="@Title" Match="@Match">
             @ChildContent
-        </a>
+        </LinkBase>
     }
     else
     {
-        <a class="@ClassMapper.Class" onclick="@ClickHandler">
+        <a class="@ClassMapper.Class" title="@Title" onclick="@ClickHandler">
             @ChildContent
         </a>
     }

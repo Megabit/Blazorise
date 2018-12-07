@@ -15,6 +15,9 @@ namespace Blazorise
     /// A component that renders an anchor tag, automatically toggling its 'active'
     /// class based on whether its 'href' matches the current URI.
     /// </summary>
+    /// <remarks>
+    /// This is a copy of Blazor implementation(<see cref="Microsoft.AspNetCore.Blazor.Routing.NavLink"/>) but without adding a fixed class for bootstrap.
+    /// </remarks>
     public class LinkBase : IComponent, IDisposable
     {
         #region Members
