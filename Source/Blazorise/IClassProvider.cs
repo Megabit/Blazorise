@@ -622,6 +622,8 @@ namespace Blazorise
 
         string JustifyContent( JustifyContent justifyContent );
 
+        string Screenreader( Screenreader screenreader );
+
         #endregion
 
         /// <summary>

@@ -995,6 +995,19 @@ namespace Blazorise.Material
             }
         }
 
+        public string Screenreader( Screenreader screenreader )
+        {
+            switch ( screenreader )
+            {
+                case Blazorise.Screenreader.Only:
+                    return "sr-only";
+                case Blazorise.Screenreader.OnlyFocusable:
+                    return "sr-only-focusable";
+                default:
+                    return null;
+            }
+        }
+
         #endregion
 
         public bool Custom { get; set; } = true;

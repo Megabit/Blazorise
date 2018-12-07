@@ -20,7 +20,7 @@ namespace Blazorise.Base
 
         private bool isFile;
 
-        private IFluentColumn columnSize;
+        private Screenreader screenreader = Screenreader.Always;
 
         #endregion
 
@@ -31,6 +31,7 @@ namespace Blazorise.Base
             ClassMapper
                 .Add( () => ClassProvider.FieldLabel() )
                 .If( () => ClassProvider.FieldLabelHorizontal(), () => ParentIsHorizontal )
+                .If( () => ClassProvider.Screenreader( Screenreader ), () => Screenreader != Screenreader.Always )
                 .If( () => ColumnSize.Class( ClassProvider ), () => ColumnSize != null );
 
             base.RegisterClasses();
@@ -63,6 +64,18 @@ namespace Blazorise.Base
             set
             {
                 isFile = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        [Parameter]
+        protected Screenreader Screenreader
+        {
+            get => screenreader;
+            set
+            {
+                screenreader = value;
 
                 ClassMapper.Dirty();
             }

@@ -1002,6 +1002,19 @@ namespace Blazorise.Bulma
             }
         }
 
+        public string Screenreader( Screenreader screenreader )
+        {
+            switch ( screenreader )
+            {
+                case Blazorise.Screenreader.Only:
+                    return "is-sr-only";
+                case Blazorise.Screenreader.OnlyFocusable:
+                    return "is-sr-only-focusable";
+                default:
+                    return null;
+            }
+        }
+
         #endregion
 
         public bool Custom { get; set; } = false;

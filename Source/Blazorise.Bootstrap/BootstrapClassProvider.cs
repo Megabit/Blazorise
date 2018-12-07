@@ -433,14 +433,14 @@ namespace Blazorise.Bootstrap
 
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
-                if ( columnWidth == Blazorise.ColumnWidth.Auto )
+                if ( columnWidth == Blazorise.ColumnWidth.None )
                     return $"{baseClass}-{Breakpoint( breakpoint )}";
 
                 return $"{baseClass}-{Breakpoint( breakpoint )}-{ColumnWidth( columnWidth )}";
             }
 
-            if ( columnWidth == Blazorise.ColumnWidth.Auto )
-                return $"{baseClass}";
+            //if ( columnWidth == Blazorise.ColumnWidth.Auto )
+            //    return $"{baseClass}";
 
             return $"{baseClass}-{ColumnWidth( columnWidth )}";
         }
@@ -934,6 +934,8 @@ namespace Blazorise.Bootstrap
                 case Blazorise.ColumnWidth.Is12:
                 case Blazorise.ColumnWidth.Full:
                     return "12";
+                case Blazorise.ColumnWidth.Auto:
+                    return "auto";
                 default:
                     return null;
             }
@@ -990,6 +992,19 @@ namespace Blazorise.Bootstrap
                     return "justify-content-between";
                 case Blazorise.JustifyContent.Around:
                     return "justify-content-around";
+                default:
+                    return null;
+            }
+        }
+
+        public string Screenreader( Screenreader screenreader )
+        {
+            switch ( screenreader )
+            {
+                case Blazorise.Screenreader.Only:
+                    return "sr-only";
+                case Blazorise.Screenreader.OnlyFocusable:
+                    return "sr-only-focusable";
                 default:
                     return null;
             }
