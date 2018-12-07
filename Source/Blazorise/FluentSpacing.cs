@@ -60,29 +60,29 @@ namespace Blazorise
     public interface IFluentSpacingOnBreakpoint : IFluentColumn, IFluentSpacingFromSide
     {
         /// <summary>
-        /// Valid on all devices.
+        /// Valid on all devices. (extra small)
         /// </summary>
-        IFluentSpacingOnBreakpointWithSideAndSize OnExtraSmall { get; }
+        IFluentSpacingOnBreakpointWithSideAndSize OnMobile { get; }
 
         /// <summary>
-        /// Breakpoint on small devices (landscape phones).
+        /// Breakpoint on tablets (small).
         /// </summary>
-        IFluentSpacingOnBreakpointWithSideAndSize OnSmall { get; }
+        IFluentSpacingOnBreakpointWithSideAndSize OnTablet { get; }
 
         /// <summary>
-        ///  Breakpoint on medium devices (tablets).
+        ///  Breakpoint on desktop (medium).
         /// </summary>
-        IFluentSpacingOnBreakpointWithSideAndSize OnMedium { get; }
+        IFluentSpacingOnBreakpointWithSideAndSize OnDesktop { get; }
 
         /// <summary>
-        /// Breakpoint on large devices.
+        /// Breakpoint on widescreen (large).
         /// </summary>
-        IFluentSpacingOnBreakpointWithSideAndSize OnLarge { get; }
+        IFluentSpacingOnBreakpointWithSideAndSize OnWidescreen { get; }
 
         /// <summary>
-        /// Breakpoint on extra large devices (large desktops).
+        /// Breakpoint on large desktops (extra large).
         /// </summary>
-        IFluentSpacingOnBreakpointWithSideAndSize OnExtraLarge { get; }
+        IFluentSpacingOnBreakpointWithSideAndSize OnFullHD { get; }
     }
 
     public interface IFluentSpacingWithSize : IFluentColumn
@@ -282,29 +282,29 @@ namespace Blazorise
         public IFluentSpacingOnBreakpointWithSideAndSize OnAll => WithSide( Side.All );
 
         /// <summary>
-        /// Valid on all devices.
+        /// Valid on all devices. (extra small)
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize OnExtraSmall => WithBreakpoint( Breakpoint.Mobile );
+        public IFluentSpacingOnBreakpointWithSideAndSize OnMobile => WithBreakpoint( Breakpoint.Mobile );
 
         /// <summary>
-        /// Breakpoint on small devices (landscape phones).
+        /// Breakpoint on tablets (small).
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize OnSmall => WithBreakpoint( Breakpoint.Tablet );
+        public IFluentSpacingOnBreakpointWithSideAndSize OnTablet => WithBreakpoint( Breakpoint.Tablet );
 
         /// <summary>
-        ///  Breakpoint on medium devices (tablets).
+        ///  Breakpoint on desktop (medium).
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize OnMedium => WithBreakpoint( Breakpoint.Desktop );
+        public IFluentSpacingOnBreakpointWithSideAndSize OnDesktop => WithBreakpoint( Breakpoint.Desktop );
 
         /// <summary>
-        /// Breakpoint on large devices.
+        /// Breakpoint on widescreen (large).
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize OnLarge => WithBreakpoint( Breakpoint.Widescreen );
+        public IFluentSpacingOnBreakpointWithSideAndSize OnWidescreen => WithBreakpoint( Breakpoint.Widescreen );
 
         /// <summary>
-        /// Breakpoint on extra large devices (large desktops).
+        /// Breakpoint on large desktops (extra large).
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize OnExtraLarge => WithBreakpoint( Breakpoint.FullHD );
+        public IFluentSpacingOnBreakpointWithSideAndSize OnFullHD => WithBreakpoint( Breakpoint.FullHD );
 
         #endregion
     }
