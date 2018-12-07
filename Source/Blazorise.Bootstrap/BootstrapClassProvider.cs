@@ -681,55 +681,20 @@ namespace Blazorise.Bootstrap
         {
             switch ( breakpoint )
             {
-                case Blazorise.Breakpoint.ExtraSmall:
+                case Blazorise.Breakpoint.Mobile:
                     return "xs";
-                case Blazorise.Breakpoint.Small:
+                case Blazorise.Breakpoint.Tablet:
                     return "sm";
-                case Blazorise.Breakpoint.Medium:
+                case Blazorise.Breakpoint.Desktop:
                     return "md";
-                case Blazorise.Breakpoint.Large:
+                case Blazorise.Breakpoint.Widescreen:
                     return "lg";
-                case Blazorise.Breakpoint.ExtraLarge:
+                case Blazorise.Breakpoint.FullHD:
                     return "xl";
                 default:
                     return null;
             }
         }
-
-        //public string Span( Span span )
-        //{
-        //    switch ( span )
-        //    {
-        //        case Blazorise.Span.Auto:
-        //            return "auto";
-        //        case Blazorise.Span._1:
-        //            return "1";
-        //        case Blazorise.Span._2:
-        //            return "2";
-        //        case Blazorise.Span._3:
-        //            return "3";
-        //        case Blazorise.Span._4:
-        //            return "4";
-        //        case Blazorise.Span._5:
-        //            return "5";
-        //        case Blazorise.Span._6:
-        //            return "6";
-        //        case Blazorise.Span._7:
-        //            return "7";
-        //        case Blazorise.Span._8:
-        //            return "8";
-        //        case Blazorise.Span._9:
-        //            return "9";
-        //        case Blazorise.Span._10:
-        //            return "10";
-        //        case Blazorise.Span._11:
-        //            return "11";
-        //        case Blazorise.Span._12:
-        //            return "12";
-        //        default:
-        //            return null;
-        //    }
-        //}
 
         public string Color( Color color )
         {
@@ -836,19 +801,6 @@ namespace Blazorise.Bootstrap
                     return null;
             }
         }
-
-        //public virtual string Visibility( Visibility visibility )
-        //{
-        //    switch ( visibility )
-        //    {
-        //        case Blazorise.Visibility.Always:
-        //            return "d-block";
-        //        case Blazorise.Visibility.Never:
-        //            return "d-none";
-        //        default:
-        //            return null;
-        //    }
-        //}
 
         public virtual string DropdownDirection( DropdownDirection dropdownDirection )
         {

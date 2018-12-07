@@ -284,27 +284,27 @@ namespace Blazorise
         /// <summary>
         /// Valid on all devices.
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize OnExtraSmall => WithBreakpoint( Breakpoint.ExtraSmall );
+        public IFluentSpacingOnBreakpointWithSideAndSize OnExtraSmall => WithBreakpoint( Breakpoint.Mobile );
 
         /// <summary>
         /// Breakpoint on small devices (landscape phones).
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize OnSmall => WithBreakpoint( Breakpoint.Small );
+        public IFluentSpacingOnBreakpointWithSideAndSize OnSmall => WithBreakpoint( Breakpoint.Tablet );
 
         /// <summary>
         ///  Breakpoint on medium devices (tablets).
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize OnMedium => WithBreakpoint( Breakpoint.Medium );
+        public IFluentSpacingOnBreakpointWithSideAndSize OnMedium => WithBreakpoint( Breakpoint.Desktop );
 
         /// <summary>
         /// Breakpoint on large devices.
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize OnLarge => WithBreakpoint( Breakpoint.Large );
+        public IFluentSpacingOnBreakpointWithSideAndSize OnLarge => WithBreakpoint( Breakpoint.Widescreen );
 
         /// <summary>
         /// Breakpoint on extra large devices (large desktops).
         /// </summary>
-        public IFluentSpacingOnBreakpointWithSideAndSize OnExtraLarge => WithBreakpoint( Breakpoint.ExtraLarge );
+        public IFluentSpacingOnBreakpointWithSideAndSize OnExtraLarge => WithBreakpoint( Breakpoint.FullHD );
 
         #endregion
     }

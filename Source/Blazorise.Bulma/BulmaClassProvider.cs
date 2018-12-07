@@ -716,14 +716,15 @@ namespace Blazorise.Bulma
         {
             switch ( breakpoint )
             {
-                case Blazorise.Breakpoint.ExtraSmall:
-                case Blazorise.Breakpoint.Small:
+                case Blazorise.Breakpoint.Mobile:
                     return "mobile";
-                case Blazorise.Breakpoint.Medium:
+                case Blazorise.Breakpoint.Tablet:
+                    return "tablet";
+                case Blazorise.Breakpoint.Desktop:
                     return "desktop";
-                case Blazorise.Breakpoint.Large:
+                case Blazorise.Breakpoint.Widescreen:
                     return "widescreen";
-                case Blazorise.Breakpoint.ExtraLarge:
+                case Blazorise.Breakpoint.FullHD:
                     return "fullhd";
                 default:
                     return null;
@@ -817,41 +818,6 @@ namespace Blazorise.Bulma
             }
         }
 
-        //public string Span( Span span )
-        //{
-        //    switch ( span )
-        //    {
-        //        case Blazorise.Span.Auto:
-        //            return "auto";
-        //        case Blazorise.Span._1:
-        //            return "1";
-        //        case Blazorise.Span._2:
-        //            return "2";
-        //        case Blazorise.Span._3:
-        //            return "3";
-        //        case Blazorise.Span._4:
-        //            return "4";
-        //        case Blazorise.Span._5:
-        //            return "5";
-        //        case Blazorise.Span._6:
-        //            return "6";
-        //        case Blazorise.Span._7:
-        //            return "7";
-        //        case Blazorise.Span._8:
-        //            return "8";
-        //        case Blazorise.Span._9:
-        //            return "9";
-        //        case Blazorise.Span._10:
-        //            return "10";
-        //        case Blazorise.Span._11:
-        //            return "11";
-        //        case Blazorise.Span._12:
-        //            return "12";
-        //        default:
-        //            return null;
-        //    }
-        //}
-
         public string Theme( Theme theme )
         {
             switch ( theme )
@@ -864,19 +830,6 @@ namespace Blazorise.Bulma
                     return null;
             }
         }
-
-        //public virtual string Visibility( Visibility visibility )
-        //{
-        //    switch ( visibility )
-        //    {
-        //        case Blazorise.Visibility.Always:
-        //            return null;
-        //        case Blazorise.Visibility.Never:
-        //            return "is-clipped";
-        //        default:
-        //            return null;
-        //    }
-        //}
 
         public virtual string DropdownDirection( DropdownDirection dropdownDirection )
         {

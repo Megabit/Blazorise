@@ -103,31 +103,34 @@ namespace Blazorise
         None,
 
         /// <summary>
-        /// Valid on all devices.
+        /// Valid on all devices. (extra small)
         /// </summary>
-        ExtraSmall,
+        Mobile,
 
         /// <summary>
-        /// Breakpoint on small devices (landscape phones).
+        /// Breakpoint on tablets (small).
         /// </summary>
-        Small,
+        Tablet,
 
         /// <summary>
-        ///  Breakpoint on medium devices (tablets).
+        ///  Breakpoint on desktop (medium).
         /// </summary>
-        Medium,
+        Desktop,
 
         /// <summary>
-        /// Breakpoint on large devices.
+        /// Breakpoint on widescreen (large).
         /// </summary>
-        Large,
+        Widescreen,
 
         /// <summary>
-        /// Breakpoint on extra large devices (large desktops).
+        /// Breakpoint on large desktops (extra large).
         /// </summary>
-        ExtraLarge,
+        FullHD,
     }
 
+    /// <summary>
+    /// Defines number of columns to occupy in the grid.
+    /// </summary>
     public enum ColumnWidth
     {
         None,

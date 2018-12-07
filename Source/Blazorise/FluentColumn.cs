@@ -18,33 +18,36 @@ namespace Blazorise
     public interface IFluentColumnOnBreakpoint : IFluentColumn
     {
         /// <summary>
-        /// Valid on all devices.
+        /// Valid on all devices. (extra small)
         /// </summary>
-        IFluentColumnWithSize OnExtraSmall { get; }
+        IFluentColumnWithSize OnMobile { get; }
 
         /// <summary>
-        /// Breakpoint on small devices (landscape phones).
+        /// Breakpoint on tablets (small).
         /// </summary>
-        IFluentColumnWithSize OnSmall { get; }
+        IFluentColumnWithSize OnTablet { get; }
 
         /// <summary>
-        ///  Breakpoint on medium devices (tablets).
+        ///  Breakpoint on desktop (medium).
         /// </summary>
-        IFluentColumnWithSize OnMedium { get; }
+        IFluentColumnWithSize OnDesktop { get; }
 
         /// <summary>
-        /// Breakpoint on large devices.
+        /// Breakpoint on widescreen (large).
         /// </summary>
-        IFluentColumnWithSize OnLarge { get; }
+        IFluentColumnWithSize OnWidescreen { get; }
 
         /// <summary>
-        /// Breakpoint on extra large devices (large desktops).
+        /// Breakpoint on large desktops (extra large).
         /// </summary>
-        IFluentColumnWithSize OnExtraLarge { get; }
+        IFluentColumnWithSize OnFullHD { get; }
     }
 
     public interface IFluentColumnWithOffset : IFluentColumn
     {
+        /// <summary>
+        /// Move columns to the right.
+        /// </summary>
         IFluentColumnOnBreakpoint WithOffset { get; }
     }
 
@@ -210,29 +213,29 @@ namespace Blazorise
         internal ClassMapper ClassMapper { get; } = new ClassMapper();
 
         /// <summary>
-        /// Valid on all devices.
+        /// Valid on all devices. (extra small)
         /// </summary>
-        public IFluentColumnWithSize OnExtraSmall => WithBreakpoint( Breakpoint.ExtraSmall );
+        public IFluentColumnWithSize OnMobile => WithBreakpoint( Breakpoint.Mobile );
 
         /// <summary>
-        /// Breakpoint on small devices (landscape phones).
+        /// Breakpoint on tablets (small).
         /// </summary>
-        public IFluentColumnWithSize OnSmall => WithBreakpoint( Breakpoint.Small );
+        public IFluentColumnWithSize OnTablet => WithBreakpoint( Breakpoint.Tablet );
 
         /// <summary>
-        ///  Breakpoint on medium devices (tablets).
+        ///  Breakpoint on desktop (medium).
         /// </summary>
-        public IFluentColumnWithSize OnMedium => WithBreakpoint( Breakpoint.Medium );
+        public IFluentColumnWithSize OnDesktop => WithBreakpoint( Breakpoint.Desktop );
 
         /// <summary>
-        /// Breakpoint on large devices.
+        /// Breakpoint on widescreen (large).
         /// </summary>
-        public IFluentColumnWithSize OnLarge => WithBreakpoint( Breakpoint.Large );
+        public IFluentColumnWithSize OnWidescreen => WithBreakpoint( Breakpoint.Widescreen );
 
         /// <summary>
-        /// Breakpoint on extra large devices (large desktops).
+        /// Breakpoint on large desktops (extra large).
         /// </summary>
-        public IFluentColumnWithSize OnExtraLarge => WithBreakpoint( Breakpoint.ExtraLarge );
+        public IFluentColumnWithSize OnFullHD => WithBreakpoint( Breakpoint.FullHD );
 
         /// <summary>
         /// Move columns to the right.
