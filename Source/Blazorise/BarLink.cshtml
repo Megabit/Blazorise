@@ -3,7 +3,7 @@
 {
     @if ( To != null )
     {
-        <LinkBase class="@ClassMapper.Class" href="@To" title="@Title" Match="@Match">
+        <LinkBase TagName="a" class="@ClassMapper.Class" href="@To" title="@Title" Match="@Match">
             @ChildContent
         </LinkBase>
     }
