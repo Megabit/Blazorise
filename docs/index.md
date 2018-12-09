@@ -61,8 +61,4 @@ services
     .AddIconProvider( IconProvider.FontAwesome );
 ```
 
----
-
 To setup Blazorise for other frameworks please refer the [Usage page]({{ site.baseurl }}{% link docs/usage.md %})
-
-
