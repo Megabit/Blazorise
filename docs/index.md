@@ -16,7 +16,7 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 ---
 ## Getting started
 
-Blazorise is designed to work with different css frameworks. Each of the supported css framework is defined by a diferent nuget package. To install them you must run one of the following commands:
+Blazorise is designed to work with different css frameworks. Each of the supported css framework is defined by a different nuget package. To install them you must run one of the following commands:
 
 ```
 Install-Package Blazorise.Bootstrap
