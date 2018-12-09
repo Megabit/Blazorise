@@ -16,7 +16,7 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 ---
 ## Getting started
 
-Each of the supported css framework is defined by a diferent nuget package. To install them you must run one of the following commands:
+Blazorise is designed to work with different css frameworks. Each of the supported css framework is defined by a diferent nuget package. To install them you must run one of the following commands:
 
 ```
 Install-Package Blazorise.Bootstrap
@@ -35,7 +35,7 @@ Now, for a bootstrap framework you must do:
 
 1. in index.html add:
 
-```
+```html
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
@@ -46,7 +46,7 @@ Now, for a bootstrap framework you must do:
 
 2. In your main _ViewImports.cshtml add:
 
-```
+```cs
 @addTagHelper *, Blazorise
 
 @using Blazorise
@@ -55,7 +55,7 @@ Now, for a bootstrap framework you must do:
 
 3. In Startup.cs add:
 
-```
+```cs
 services
     .AddBootstrapProviders()
     .AddIconProvider( IconProvider.FontAwesome );
