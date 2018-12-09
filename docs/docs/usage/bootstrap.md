@@ -8,12 +8,14 @@ nav_order: 2
 ### Bootstrap
 1. Install Bootstrap provider from nuget.
 
-```Install-Package Blazorise.Bootstrap
+```
+Install-Package Blazorise.Bootstrap
 ```
 
 2. in index.html add:
 
-```<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+```
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -23,7 +25,8 @@ nav_order: 2
 
 3. In your main _ViewImports.cshtml add:
 
-```@addTagHelper *, Blazorise
+```
+@addTagHelper *, Blazorise
 
 @using Blazorise
 @using Blazorise.Bootstrap
@@ -31,7 +34,8 @@ nav_order: 2
 
 4. In Startup.cs add:
 
-```services
+```
+services
     .AddBootstrapProviders()
     .AddIconProvider( IconProvider.FontAwesome );
 ```
