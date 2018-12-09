@@ -7,7 +7,7 @@ nav_order: 2
 
 ### Bootstrap
 1. Install Bootstrap provider from nuget.
-```markdown
+```cs
 Install-Package Blazorise.Bootstrap
 ```
 
@@ -22,7 +22,7 @@ Install-Package Blazorise.Bootstrap
 ```
 
 3. In your main _ViewImports.cshtml_ add:
-```markdown
+```cs
 @addTagHelper *, Blazorise
 
 @using Blazorise
@@ -30,7 +30,7 @@ Install-Package Blazorise.Bootstrap
 ```
 
 4. In Startup.cs add:
-```markdown
+```cs
 services
     .AddBootstrapProviders()
     .AddIconProvider( IconProvider.FontAwesome );
