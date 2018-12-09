@@ -11,8 +11,7 @@ permalink: /
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 {: .fs-6 .fw-300 }
 
-[Get started now](#installation){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } 
-[View it on GitHub](https://github.com/stsrki/Blazorise){: .btn .fs-5 }
+[Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/stsrki/Blazorise){: .btn .fs-5 }
 
 ---
 ## Getting started
