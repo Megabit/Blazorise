@@ -6,6 +6,9 @@ nav_order: 2
 ---
 
 ### Bootstrap
+
+---
+
 1. Install Bootstrap provider from nuget.
 
 ```cs
