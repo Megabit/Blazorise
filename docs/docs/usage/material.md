@@ -6,14 +6,19 @@ nav_order: 2
 ---
 
 ### Material
+
+---
+
 Since Material CSS is based on a Bootstrap you only need to change the css and js sources. The code in __ViewImports.cshtml_ will stay the same.
 
 1. Install Material provider from nuget.
-```markdown
+
+```
 Install-Package Blazorise.Material
 ```
 
 2. In your index.html just add 
+
 ```html
 <!-- CSS -->
 <!-- Add Material font (Roboto) and Material icon as needed -->
@@ -26,8 +31,10 @@ Install-Package Blazorise.Material
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 ```
+
 3. In Startup.cs add:
-```markdown
+
+```cs
 services
     .AddMaterialProviders()
     .AddIconProvider( IconProvider.FontAwesome );
