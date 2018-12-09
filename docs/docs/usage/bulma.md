@@ -11,7 +11,7 @@ nav_order: 2
 
 1. Install Bulma provider from nuget.
 
-```cs
+```
 Install-Package Blazorise.Bulma
 ```
 
