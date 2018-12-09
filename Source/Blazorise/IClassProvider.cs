@@ -552,6 +552,18 @@ namespace Blazorise
 
         #endregion
 
+        #region Heading
+
+        string Heading( HeadingSize headingSize );
+
+        #endregion
+
+        #region Paragraph
+
+        string Paragraph();
+
+        #endregion
+
         #region Figure
 
         string Figure();
@@ -623,6 +635,8 @@ namespace Blazorise
         string JustifyContent( JustifyContent justifyContent );
 
         string Screenreader( Screenreader screenreader );
+
+        string HeadingSize( HeadingSize headingSize );
 
         #endregion
 

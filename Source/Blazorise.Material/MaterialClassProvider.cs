@@ -607,6 +607,18 @@ namespace Blazorise.Material
 
         #endregion
 
+        #region Heading
+
+        public virtual string Heading( HeadingSize headingSize ) => $"h{HeadingSize( headingSize )}";
+
+        #endregion
+
+        #region Paragraph
+
+        public virtual string Paragraph() => null;
+
+        #endregion
+
         #region Figure
 
         public virtual string Figure() => "figure";
@@ -1003,6 +1015,27 @@ namespace Blazorise.Material
                     return "sr-only";
                 case Blazorise.Screenreader.OnlyFocusable:
                     return "sr-only-focusable";
+                default:
+                    return null;
+            }
+        }
+
+        public string HeadingSize( HeadingSize headingSize )
+        {
+            switch ( headingSize )
+            {
+                case Blazorise.HeadingSize.Is1:
+                    return "1";
+                case Blazorise.HeadingSize.Is2:
+                    return "2";
+                case Blazorise.HeadingSize.Is3:
+                    return "3";
+                case Blazorise.HeadingSize.Is4:
+                    return "4";
+                case Blazorise.HeadingSize.Is5:
+                    return "5";
+                case Blazorise.HeadingSize.Is6:
+                    return "6";
                 default:
                     return null;
             }
