@@ -8,12 +8,14 @@ nav_order: 2
 # Buttons
 
 ## Single button
-```
+
+```cshtml
 <SimpleButton Color="Color.Primary">PRIMARY</SimpleButton>
 ```
 
 ## Button group
-```
+
+```cshtml
 <Buttons>
     <SimpleButton Color="Color.Secondary">LEFT</SimpleButton>
     <SimpleButton Color="Color.Secondary">CENTER</SimpleButton>
