@@ -1,2 +1,14 @@
 remote_theme: pmarsceill/just-the-docs
 color_scheme: nil
+
+title: Blazorise
+description: Blazorise components
+permalink: pretty
+
+# Enable or disable the site search
+search_enabled: true
+
+# Aux links for the upper right navigation
+aux_links:
+  "GitHub":
+    - "https://github.com/stsrki/Blazorise"
