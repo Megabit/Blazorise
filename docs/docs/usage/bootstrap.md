@@ -7,13 +7,11 @@ nav_order: 2
 
 ### Bootstrap
 1. Install Bootstrap provider from nuget.
-
 ```markdown
 Install-Package Blazorise.Bootstrap
 ```
 
 2. in index.html add:
-
 ```html
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
@@ -23,8 +21,7 @@ Install-Package Blazorise.Bootstrap
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 ```
 
-3. In your main _ViewImports.cshtml add:
-
+3. In your main _ViewImports.cshtml_ add:
 ```markdown
 @addTagHelper *, Blazorise
 
@@ -33,7 +30,6 @@ Install-Package Blazorise.Bootstrap
 ```
 
 4. In Startup.cs add:
-
 ```markdown
 services
     .AddBootstrapProviders()
