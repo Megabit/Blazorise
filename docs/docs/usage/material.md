@@ -9,7 +9,7 @@ nav_order: 2
 
 ---
 
-Since Material CSS is based on a Bootstrap you only need to change the css and js sources. The code in __ViewImports.cshtml_ will stay the same.
+Since Material CSS is based on a Bootstrap you only need to change the css and js sources. The code in _ViewImports.cshtml_ will stay the same as in the [Bootstrap]({{ site.baseurl }}{% link docs/usage/bootstrap.md %}).
 
 1. Install Material provider from nuget.
 
