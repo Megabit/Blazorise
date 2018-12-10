@@ -1,0 +1,28 @@
+# main links
+main:
+  - title: "Docs"
+    url: /docs/
+  # - title: "Sample Posts"
+  #   url: /year-archive/
+
+# documentation links
+docs:
+  - title: Quick-Start Guide
+    url: /docs/
+  - title: Usage
+    children:
+      - title: "Bootstrap"
+        url: /docs/usage/bootstrap/
+      - title: "Bulma"
+        url: /docs/usage/bulma/
+      - title: "Material"
+        url: /docs/usage/material/
+  - title: Components
+    url: /components/
+    children:
+      - title: "Buttons"
+        url: /docs/components/buttons/
+      - title: "Forms"
+        url: /docs/components/forms/
+      - title: "Cards"
+        url: /docs/components/cards/

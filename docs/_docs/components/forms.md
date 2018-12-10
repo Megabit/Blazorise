@@ -1,16 +1,15 @@
 ---
-layout: default
-title: Text
-parent: Components
-nav_order: 2
+title: "Forms"
+permalink: /docs/components/forms/
+excerpt: "Forms."
+toc: true
 ---
 
-# Text
+### Text
 
-## Basic text
 To have a basic input text you only need to write this
 
-```cshtml
+```html
 <TextEdit />
 ```
 
@@ -18,13 +17,13 @@ But Text by itself is not really usable. To get the value from text field you ha
 
 
 ### With placeholder
-```cshtml
-<TextEdit  />
+```html
+<TextEdit Placeholder="Name" />
 ```
 
 
-## Memo field
+### Memo field
 
-```cshtml
+```html
 <MemoEdit Rows="5" />
 ```

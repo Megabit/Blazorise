@@ -243,3 +243,4 @@ ModelManifest.xml
 
 # jekyll
 _site
+Gemfile.lock

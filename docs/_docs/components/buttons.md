@@ -1,21 +1,19 @@
 ---
-layout: default
-title: Buttons
-parent: Components
-nav_order: 2
+title: "Buttons"
+permalink: /docs/components/buttons/
+excerpt: "Buttons."
+toc: true
 ---
-
-# Buttons
 
 ## Single button
 
-```cshtml
+```html
 <SimpleButton Color="Color.Primary">PRIMARY</SimpleButton>
 ```
 
 ## Button group
 
-```cshtml
+```html
 <Buttons>
     <SimpleButton Color="Color.Secondary">LEFT</SimpleButton>
     <SimpleButton Color="Color.Secondary">CENTER</SimpleButton>

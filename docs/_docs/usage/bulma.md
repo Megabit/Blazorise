@@ -1,28 +1,34 @@
 ---
-layout: default
-title: Bulma
-parent: Usage
-nav_order: 2
+title: "Bulma"
+permalink: /docs/usage/bulma/
+excerpt: "Using bulma provider."
+toc: true
+toc_label: "Steps"
 ---
 
-### Bulma
+**Note:** Bulma provider is still work in progress so some of the features may not work.
+{: .notice--warning}
 
 ---
 
-1. Install Bulma provider from nuget.
+### Nuget
+
+Install Bulma provider from nuget.
 
 ```
 Install-Package Blazorise.Bulma
 ```
 
-2. in index.html add:
+### Index
 
 ```html
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 ```
 
-3. In your main _ViewImports.cshtml_ add:
+### Imports
+
+In your main _ViewImports.cshtml_ add:
 
 ```cs
 @addTagHelper *, Blazorise
@@ -31,7 +37,9 @@ Install-Package Blazorise.Bulma
 @using Blazorise.Bulma
 ```
 
-4. In Startup.cs add:
+### Startup
+
+In Startup.cs add:
 
 ```cs
 services

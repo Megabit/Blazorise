@@ -1,23 +1,24 @@
 ---
-layout: default
-title: Material
-parent: Usage
-nav_order: 2
+title: "Material"
+permalink: /docs/usage/material/
+excerpt: "Using material provider."
+toc: true
+toc_label: "Steps"
 ---
 
-### Material
+Since Material CSS is based on a Bootstrap you only need to change the css and js sources. The code in _ViewImports.cshtml_ will stay the same as in the [Bootstrap](docs/usage/bootstrap).
 
----
+### Nuget
 
-Since Material CSS is based on a Bootstrap you only need to change the css and js sources. The code in _ViewImports.cshtml_ will stay the same as in the [Bootstrap]({{ site.baseurl }}{% link docs/usage/bootstrap.md %}).
-
-1. Install Material provider from nuget.
+Install Material provider from nuget.
 
 ```
 Install-Package Blazorise.Material
 ```
 
-2. In your index.html just add 
+### Index
+
+In your index.html just add 
 
 ```html
 <!-- CSS -->
@@ -32,7 +33,9 @@ Install-Package Blazorise.Material
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 ```
 
-3. In Startup.cs add:
+### Startup
+
+In Startup.cs add:
 
 ```cs
 services
