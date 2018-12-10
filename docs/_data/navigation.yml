@@ -26,3 +26,9 @@ docs:
         url: /docs/components/forms/
       - title: "Cards"
         url: /docs/components/cards/
+  - title: FAQ
+    url: /docs/faq/
+  - title: Meta
+    children:
+      - title: "Licence"
+        url: /docs/licence/
