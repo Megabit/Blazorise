@@ -1,67 +1,20 @@
 ---
-title: "Quick-Start Guide"
+title: "Blazorise"
 permalink: /docs/
-excerpt: "How to quickly install and setup Minimal Mistakes for use with GitHub Pages."
-last_modified_at: 2018-11-25T22:21:33-05:00
-redirect_from:
-  - /theme-setup/
+excerpt: "Blazorise components."
 toc: true
-toc_label: "Steps"
+toc_label: "Overview"
 ---
 
-### Installing NuGet packages
+## Documentation
 
-Blazorise is designed to work with different css frameworks. Each of the supported css framework is defined by a different nuget package. To install them you must run one of the following commands:
+Learn everything you need to start using Blazorise
 
-```
-Install-Package Blazorise.Bootstrap
-or
-Install-Package Blazorise.Material
-or
-Install-Package Blazorise.Bulma
-```
+---
 
-**Note:** Bulma provider is still work in progress so some of the features may not work.
-{: .notice--warning}
+Blazorise is a user interface component library made on top of a web framework called Blazor, and CSS frameworks like Boostrap, Bulma or Material. Blazorise has two core principles: 1. keep stuff simple and 2. be extendable.
 
-## Usage
+**Note:** This documentation assumes you know the basics of Blazor, if you're not comfortable with it yet, it's probably not the best idea to learn from here as your first step — learn the basics then come back. Blazor website is the best source for you to start with.
+{: .notice--info}
 
-The setup process is the same for all supported frameworks, just replace Bootstrap with the one you need.
-
-Now, for a bootstrap framework you must do:
-
-### Index
-
-in index.html add:
-
-```html
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-```
-
-### Import
-
-In your main _ViewImports.cshtml add:
-
-```cs
-@addTagHelper *, Blazorise
-
-@using Blazorise
-@using Blazorise.Bootstrap
-```
-
-### Startup
-
-In Startup.cs add:
-
-```cs
-services
-    .AddBootstrapProviders()
-    .AddIconProvider( IconProvider.FontAwesome );
-```
-
-To setup Blazorise for other frameworks please refer the [Usage page](/docs/usage/)
+Now that you know what Blazorise is, get on to the [quick start]({{ "/docs/quick-start/" | relative_url }}) and start using it!

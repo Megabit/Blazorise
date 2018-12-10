@@ -7,8 +7,12 @@ main:
 
 # documentation links
 docs:
-  - title: Quick-Start Guide
-    url: /docs/
+  - title: Getting started
+    children:
+    - title: Overview
+      url: /docs/
+    - title: Quick Start
+      url: /docs/quick-start/
   - title: Usage
     children:
       - title: "Bootstrap"

@@ -7,6 +7,8 @@ header:
   actions:
     - label: "<i class='fas fa-book'></i> Get started now"
       url: "/docs/"
+    - label: "<i class='fas fa-desktop'></i> See it in action"
+      url: "https://blazorisedemo.azurewebsites.net"
 excerpt: >
   Blazorise is a frontend components library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.<br />
   <small><a href="https://github.com/stsrki/Blazorise">View it on GitHub</a></small>
