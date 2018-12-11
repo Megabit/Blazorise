@@ -16,7 +16,7 @@ feature_row:
   - image_path: /assets/images/mm-responsive-feature.png
     alt: "blazor"
     title: "Blazor"
-    excerpt: "Built with Blazor + CSS frameworks like Bootstrap, Bulma or Material."
+    excerpt: "Built with Blazor and CSS frameworks like Bootstrap, Bulma or Material."
     url: "/docs/"
     btn_class: "btn--primary"
     btn_label: "Start building"

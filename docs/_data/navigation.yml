@@ -2,8 +2,10 @@
 main:
   - title: "Docs"
     url: /docs/
-  # - title: "Sample Posts"
-  #   url: /year-archive/
+  - title: "GitHub"
+    icon: "fab fa-fw fa-github"
+    url: https://github.com/stsrki/Blazorise
+
 
 # documentation links
 docs:
@@ -28,11 +30,21 @@ docs:
         url: /docs/components/buttons/
       - title: "Forms"
         url: /docs/components/forms/
+      - title: "Fields"
+        url: /docs/components/fields/
       - title: "Cards"
         url: /docs/components/cards/
-  - title: FAQ
-    url: /docs/faq/
+  - title: Helpers
+    children:
+      - title: "Colors"
+        url: /docs/helpers/colors/
+      - title: "Utilities"
+        url: /docs/helpers/utilities/
   - title: Meta
     children:
+      - title: "Contributing"
+        url: /docs/contributing/
       - title: "Licence"
         url: /docs/licence/
+      - title: FAQ
+        url: /docs/faq/

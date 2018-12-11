@@ -14,7 +14,7 @@ locale                   : "en-US"
 title                    : "Blazorise"
 title_separator          : "-"
 name                     : &name "Mladen Macanovic" # &name is a YAML anchor which can be *referenced later
-description              : &description "Blazorise components."
+description              : &description "Blazorise is a frontend components library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material."
 url                      : https://blazerise.com # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : #"/minimal-mistakes" # the subpath of your site, e.g. "/blog"
 repository               : "stsrki/blazorise"
