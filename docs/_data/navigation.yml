@@ -42,6 +42,8 @@ docs:
         url: /docs/helpers/utilities/
   - title: Meta
     children:
+      - title: "Releases"
+        url: /docs/releases/
       - title: "Contributing"
         url: /docs/contributing/
       - title: "Licence"
