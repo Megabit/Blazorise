@@ -22,4 +22,4 @@ To try Blazorise please check out our [quick start]({{ "/docs/quick-start/" | re
 
 ### Why are some components named TextEdit, CheckEdit, etc.?
 
-This is a known limitation in Razor and Visual Studio, and not problem by the Razor itsels. Basically it's not not possible to have components that have the same name as regular `html` tags(form, button, text). Likely this will change in the future but until then we're stuck with this "weird" names for components.
+This is a known limitation in Razor and Visual Studio, and not problem by the Razor itself. Basically it's not not possible to have components that have the same name as regular `html` tags(form, button, text). Likely this will change in the future but until then we're stuck with this "weird" names for components.

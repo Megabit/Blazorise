@@ -12,7 +12,7 @@ Everything you need to create a single page application with Blazorise
 
 ---
 
-**Note:** This documentation assumes you know the basics of Blazor, if you're not comfortable with it yet, it's probably not the best idea to learn from here as your first step — learn the basics then come back. Blazor website is the best source for you to start with.
+**Note:** This documentation assumes you know the basics of Blazor, if you're not comfortable with it yet, it's probably not the best idea to learn from here as your first step — learn the basics then come back. [Blazor website](https://blazor.net/) is the best source for you to start with.
 {: .notice--info}
 
 ### Getting started

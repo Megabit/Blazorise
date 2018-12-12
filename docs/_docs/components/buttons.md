@@ -8,7 +8,7 @@ toc_label: "Components"
 
 The button is an essential element of any design. It's meant to look and behave as an interactive element of your page.
 
-## Single button
+## Basic button
 
 To create a basic button you need to use a SimpleButton component.
 
