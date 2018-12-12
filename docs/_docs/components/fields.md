@@ -3,6 +3,7 @@ title: "Fields"
 permalink: /docs/components/fields/
 excerpt: "Field components."
 toc: true
+toc_label: "Components"
 ---
 
 ## Field
@@ -37,7 +38,8 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
 
 ## Fields
 
-`Fields` is used to group multiple `Field` components. For example if you need to group fields into columns you must use fields component.
+`Fields` component is used to group multiple `Field` components. For example if you need to group fields into columns you must use fields component.
+{: .text-justify}
 
 ```html
 <Fields>

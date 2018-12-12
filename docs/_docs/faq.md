@@ -3,6 +3,7 @@ title: "FAQ"
 permalink: /docs/faq/
 excerpt: "Frequently asked questions (FAQ) about Blazorise."
 toc: true
+toc_label: "Questions"
 ---
 
 ### What is Blazorise?
@@ -17,4 +18,8 @@ It gives you a set of components that you can use to easily create a _single pag
 
 ### How can I try out Blazorise?
 
-To build your first Blazorise app check out our [quick start]({{ "/docs/quick-start/" | relative_url }}) guide.
+To try Blazorise please check out our [quick start]({{ "/docs/quick-start/" | relative_url }}) guide.
+
+### Why are some components named TextEdit, CheckEdit, etc.?
+
+This is a known limitation in Razor and Visual Studio, and not problem by the Razor itsels. Basically it's not not possible to have components that have the same name as regular `html` tags(form, button, text). Likely this will change in the future but until then we're stuck with this "weird" names for components.

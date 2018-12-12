@@ -34,6 +34,10 @@ docs:
         url: /docs/components/fields/
       - title: "Cards"
         url: /docs/components/cards/
+      - title: "Tabs"
+        url: /docs/components/tabs/
+      - title: "Elements"
+        url: /docs/components/elements/
   - title: Helpers
     children:
       - title: "Colors"
@@ -44,6 +48,8 @@ docs:
     children:
       - title: "Releases"
         url: /docs/releases/
+      - title: "Roadmap"
+        url: /docs/roadmap/
       - title: "Contributing"
         url: /docs/contributing/
       - title: "Licence"

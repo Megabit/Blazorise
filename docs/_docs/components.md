@@ -2,9 +2,8 @@
 title: "Components"
 permalink: /components/
 excerpt: "How to quickly install and setup Minimal Mistakes for use with GitHub Pages."
-redirect_from:
-  - /theme-setup/
 toc: true
+toc_label: "Components"
 ---
 
 ## Components

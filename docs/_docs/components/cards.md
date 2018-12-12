@@ -3,19 +3,22 @@ title: "Cards"
 permalink: /docs/components/cards/
 excerpt: "Cards."
 toc: true
+toc_label: "Components"
 ---
 
 ### Cards
 
 The card component comprises several elements that you can mix and match:
 
-- `Card`
-  - `CardHeader`
-    - `CardTitle`
-    - `CardSubtitle`
-  - `CardImage`
-  - `CardBody`
-  - `CardFooter`
+- `<Card>`
+  - `<CardHeader>`
+    - `<CardTitle>`
+    - `<CardSubtitle>`
+  - `<CardImage>`
+  - `<CardBody>`
+    - `<CardText>`
+  - `<CardFooter>`
+- `<CardGroup>`
 
 ```html
 <Card>

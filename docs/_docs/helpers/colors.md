@@ -3,6 +3,7 @@ title: "Colors"
 permalink: /docs/helpers/colors/
 excerpt: "Supported colors"
 toc: true
+toc_label: "Helpers"
 ---
 
 Here is a list of contextual classes that Blazorise offers

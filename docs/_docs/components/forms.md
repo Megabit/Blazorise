@@ -3,11 +3,12 @@ title: "Forms"
 permalink: /docs/components/forms/
 excerpt: "Forms."
 toc: true
+toc_label: "Components"
 ---
 
-## Text input
+## Text
 
-To have a basic input text you only need to write this
+Use TextEdit to have a basic input.
 
 ```html
 <TextEdit />
@@ -15,7 +16,7 @@ To have a basic input text you only need to write this
 
 ### Binding
 
-Text by itself is not really usable if you can't use it. To get or set the input value you have two options. You can use _bind-*_ attribute or you can use a _TextChanged_ event.
+TextEdit by itself is not really usable if you can't use it. To get or set the input value you have two options. You can use _bind-*_ attribute or you can use a _TextChanged_ event.
 
 1. Using bind-*
 
@@ -57,6 +58,8 @@ Static text removes the background, border, shadow, and horizontal padding, whil
 
 ### Disabled text
 
+A disabled input element is unusable and un-clickable.
+
 ```html
 <TextEdit IsDisabled="true" />
 ```
@@ -71,13 +74,52 @@ If you use the readonly attribute, the input text will look similar to a normal 
 
 ### Sizing
 
+Sets the heights of input elements.
+
 ```html
 <TextEdit Size="Size.Small" />
 <TextEdit Size="Size.Large" />
 ```
 
-## Memo input
+### Roles
+
+Use Role to define text value.
+
+```html
+<TextEdit Role="TextRole.Email" />
+<TextEdit Role="TextRole.Password" />
+```
+
+## Memo
+
+MemoEdit is used to create multiline text input (textarea).
 
 ```html
 <MemoEdit Rows="5" />
+```
+
+## Select
+
+Use SelectEdit to combine many choices into one menu.
+
+```html
+<SelectEdit>
+    <SelectItem>1</SelectItem>
+    <SelectItem>2</SelectItem>
+    <SelectItem>3</SelectItem>
+    <SelectItem>4</SelectItem>
+</SelectEdit>
+```
+
+### Multiple
+
+Add the `IsMultiple` attribute to allow more than one option to be selected.
+
+```html
+<SelectEdit IsMultiple="true">
+    <SelectItem>1</SelectItem>
+    <SelectItem>2</SelectItem>
+    <SelectItem>3</SelectItem>
+    <SelectItem>4</SelectItem>
+</SelectEdit>
 ```

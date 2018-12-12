@@ -1,0 +1,31 @@
+---
+---
+
+@charset "utf-8";
+
+/* solarized light syntax highlighting (base16) */
+$base00: #f5f5f5;
+$base01: #073642;
+$base02: #586e75;
+$base03: #657b83;
+$base04: #839496;
+$base05: #586e75;
+$base06: #eee8d5;
+$base07: #fdf6e3;
+$base08: #dc322f;
+$base09: #cb4b16;
+$base0a: #b58900;
+$base0b: #859900;
+$base0c: #2aa198;
+$base0d: #268bd2;
+$base0e: #6c71c4;
+$base0f: #d33682;
+
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
+@import "minimal-mistakes"; // main partials
+
+:not(pre) > code{
+    background-color: #f5f5f5;
+    color: #ff3860;
+    font-weight: 400;
+}
