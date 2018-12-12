@@ -268,7 +268,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string TabLinkActive() => $"{Active()} {Show()}";
 
-        public virtual string TabContent() => "tab-content";
+        public virtual string TabsContent() => "tab-content";
 
         public virtual string TabPanel() => "tab-pane";
 

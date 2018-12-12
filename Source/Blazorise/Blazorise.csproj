@@ -247,7 +247,7 @@
     <Content Update="Tab.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="TabContent.cshtml">
+    <Content Update="TabsContent.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="TableBody.cshtml">

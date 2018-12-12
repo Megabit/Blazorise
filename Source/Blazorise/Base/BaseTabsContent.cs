@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Blazor.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseTabContent : BaseComponent
+    public abstract class BaseTabsContent : BaseComponent
     {
         #region Members
 
@@ -22,7 +22,7 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.TabContent() );
+                .Add( () => ClassProvider.TabsContent() );
 
             base.RegisterClasses();
         }

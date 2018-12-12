@@ -261,7 +261,7 @@ namespace Blazorise.Bulma
 
         public virtual string TabLinkActive() => null;
 
-        public virtual string TabContent() => "tab-content";
+        public virtual string TabsContent() => "tab-content";
 
         public virtual string TabPanel() => "tab-pane";
 

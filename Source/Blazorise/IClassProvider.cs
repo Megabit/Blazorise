@@ -231,7 +231,7 @@ namespace Blazorise
 
         string TabLinkActive();
 
-        string TabContent();
+        string TabsContent();
 
         string TabPanel();
 
