@@ -16,8 +16,10 @@ The bar component is a responsive and versatile horizontal navigation bar with t
   - `BarMenu` the right side, hidden on touch devices, visible on desktop
   - `BarStart` (left side of the menu)
   - `BarEnd` (right side of the menu)
-    - `BarItem`
-      - `BarLink`
+    - `BarItem` each single item of the bar menu
+      - `BarLink` item link or button
+      - `BarDropdown` the dropdown menu, which can include bar items and dividers
+        - `BarDropdownItem` each single item of the dropdown
 
 ### Basic Bar
 
