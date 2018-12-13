@@ -24,9 +24,7 @@ The bar component is a responsive and versatile horizontal navigation bar with t
 ```html
 <Bar Breakpoint="Breakpoint.Desktop" Background="Background.Light" Theme="Theme.Light">
     <BarBrand>
-        <BarItem>
-            <BarLink To="">Brandname</BarLink>
-        </BarItem>
+        Brandname
     </BarBrand>
     <BarToggler>
     </BarToggler>
@@ -50,3 +48,34 @@ The bar component is a responsive and versatile horizontal navigation bar with t
 ```
 
 <iframe src="/examples/bars/basic/" frameborder="0" scrolling="no" style="width:100%;height:200px;"></iframe>
+
+### With dropdown
+
+```html
+<Bar Breakpoint="Breakpoint.Desktop" Background="Background.Light" Theme="Theme.Light">
+    <BarBrand>
+        Brandname
+    </BarBrand>
+    <BarToggler>
+    </BarToggler>
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarLink To="#home">Home</BarLink>
+            </BarItem>
+            <BarItem>
+                <BarLink To="#docs">Documentation</BarLink>
+            </BarItem>
+            <BarItem>
+                <BarDropdownToggler>Dropdown</BarDropdownToggler>
+                <BarDropdown>
+                    <BarDropdownItem>Action</BarDropdownItem>
+                    <BarDropdownItem>Another action</BarDropdownItem>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+    </BarMenu>
+</Bar>
+```
+
+<iframe src="/examples/bars/dropdown/" frameborder="0" scrolling="no" style="width:100%;height:200px;"></iframe>

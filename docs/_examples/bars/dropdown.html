@@ -1,7 +1,7 @@
 ---
 layout: snippet
-title: "Bars"
-permalink: /examples/bars/basic/
+title: "Bar with dropdown"
+permalink: /examples/bars/dropdown/
 ---
 
 <nav class="navbar bg-light navbar-light navbar-expand-md">
@@ -24,14 +24,17 @@ permalink: /examples/bars/basic/
                 </a>
             </div>
         </div>
-        <div class="navbar-nav">
-            <div class="nav-item">
-                <button type="button" class="btn btn-primary">
-                    Sign up
-                </button>
-                <button type="button" class="btn btn-secondary">
-                    Log in
-                </button>
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" role="button">
+                Dropdown
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item">
+                    Action
+                </a>
+                <a class="dropdown-item">
+                    Another action
+                </a>
             </div>
         </div>
     </div>
