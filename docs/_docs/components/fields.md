@@ -6,16 +6,29 @@ toc: true
 toc_label: "Components"
 ---
 
+
 ## Field
 
-Field should be used as a group container for all input fields and labels.
+It is recomended to place all input components inside of Field component. That way i will keep the right padding and stylings.
 
 ```html
 <Field>
-    <FieldLabel>Name</FieldLabel>
     <TextEdit Placeholder="Name" />
-</Field>
+<Field>
 ```
+
+<iframe class="frame" src="/examples/fields/basic/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
+### With label
+
+```html
+<Field>
+    <FieldLabel>Email address</FieldLabel>
+    <TextEdit Placeholder="Enter email" />
+<Field>
+```
+
+<iframe src="/examples/fields/field-label/" frameborder="0" scrolling="no" style="width:100%;height:80px;"></iframe>
 
 ### Horizontal field
 
@@ -25,6 +38,8 @@ Field should be used as a group container for all input fields and labels.
     <TextEdit Role="TextRole.Url" ColumnSize="ColumnSize.Is10" />
 </Field>
 ```
+
+<iframe class="frame" src="/examples/fields/field-horizontal/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
 ### Visibility
 
@@ -58,3 +73,5 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
     </Field>
 </Fields>
 ```
+
+<iframe class="frame" src="/examples/fields/fields/" frameborder="0" scrolling="no" style="width:100%;height:80px;"></iframe>

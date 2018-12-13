@@ -6,13 +6,15 @@ toc: true
 toc_label: "Components"
 ---
 
-## Text
+## Basic Text
 
 Use TextEdit to have a basic input.
 
 ```html
 <TextEdit />
 ```
+
+<iframe src="/examples/forms/text-basic/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
 ### Binding
 
@@ -45,8 +47,10 @@ TextEdit by itself is not really usable if you can't use it. To get or set the i
 ### Placeholder
 
 ```html
-<TextEdit Placeholder="Name" />
+<TextEdit Placeholder="Some text value..." />
 ```
+
+<iframe src="/examples/forms/text-placeholder/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
 ### Static text
 
@@ -56,6 +60,8 @@ Static text removes the background, border, shadow, and horizontal padding, whil
 <TextEdit IsPlaintext="true" />
 ```
 
+<iframe src="/examples/forms/text-plain/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ### Disabled text
 
 A disabled input element is unusable and un-clickable.
@@ -64,6 +70,8 @@ A disabled input element is unusable and un-clickable.
 <TextEdit IsDisabled="true" />
 ```
 
+<iframe src="/examples/forms/text-disabled/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ### Readonly text
 
 If you use the readonly attribute, the input text will look similar to a normal one, but is not editable.
@@ -71,6 +79,8 @@ If you use the readonly attribute, the input text will look similar to a normal 
 ```html
 <TextEdit IsReadonly="true" />
 ```
+
+<iframe src="/examples/forms/text-readonly/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
 ### Sizing
 
@@ -81,6 +91,8 @@ Sets the heights of input elements.
 <TextEdit Size="Size.Large" />
 ```
 
+<iframe src="/examples/forms/text-sizing/" frameborder="0" scrolling="no" style="width:100%;height:107px;"></iframe>
+
 ### Roles
 
 Use Role to define text value.
@@ -90,6 +102,8 @@ Use Role to define text value.
 <TextEdit Role="TextRole.Password" />
 ```
 
+<iframe src="/examples/forms/text-roles/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ## Memo
 
 MemoEdit is used to create multiline text input (textarea).
@@ -97,6 +111,8 @@ MemoEdit is used to create multiline text input (textarea).
 ```html
 <MemoEdit Rows="5" />
 ```
+
+<iframe src="/examples/forms/memo/" frameborder="0" scrolling="no" style="width:100%;height:143px;"></iframe>
 
 ## Select
 
@@ -111,6 +127,8 @@ Use SelectEdit to combine many choices into one menu.
 </SelectEdit>
 ```
 
+<iframe src="/examples/forms/select/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ### Multiple
 
 Add the `IsMultiple` attribute to allow more than one option to be selected.
@@ -123,3 +141,5 @@ Add the `IsMultiple` attribute to allow more than one option to be selected.
     <SelectItem>4</SelectItem>
 </SelectEdit>
 ```
+
+<iframe src="/examples/forms/select-multiple/" frameborder="0" scrolling="no" style="width:100%;height:112px;"></iframe>

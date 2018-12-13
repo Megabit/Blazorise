@@ -133,6 +133,7 @@ footer:
 include:
   - .htaccess
   - _pages
+  - _examples
 exclude:
   - "*.sublime-project"
   - "*.sublime-workspace"
@@ -232,6 +233,12 @@ defaults:
       comments: false
       sidebar:
         nav: "docs"
+  # _examples
+  - scope:
+      path: "_examples"
+      type: pages
+    values:
+      layout: snippet
 
 
 # Sass/SCSS

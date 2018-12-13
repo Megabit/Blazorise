@@ -50,3 +50,5 @@ Put it all together, and we get this:
     </TabPanel>
 </TabsContent>
 ```
+
+<iframe src="/examples/tabs/basic/" frameborder="0" scrolling="no" style="width:100%;height:625px;"></iframe>

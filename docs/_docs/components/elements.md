@@ -15,6 +15,8 @@ Simply set the Color attribute and you're good to go.
 <Badge Color="Color.Secondary">Secondary</Badge>
 ```
 
+<iframe class="frame" src="/examples/elements/badge/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ## Pagination
 
 ```html
@@ -47,6 +49,8 @@ Simply set the Color attribute and you're good to go.
 </Pagination>
 ```
 
+<iframe class="frame" src="/examples/elements/pagination/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ## Alert
 
 ```html
@@ -55,7 +59,44 @@ Simply set the Color attribute and you're good to go.
 </Alert>
 ```
 
-### Usage
+<iframe class="frame" src="/examples/elements/alert/" frameborder="0" scrolling="no" style="width:100%;height:60px;"></iframe>
+
+### With close
+
+You can also add a close button.
+
+```html
+<Alert Color="Color.Success">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Alert Link.</strong>
+    <CloseButton />
+</Alert>
+```
+
+<iframe class="frame" src="/examples/elements/alert-close/" frameborder="0" scrolling="no" style="width:100%;height:60px;"></iframe>
+
+### With content
+
+You can also add a close button.
+
+```html
+<Alert Color="Color.Info" IsShow="true">
+    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
+        Big one!
+        <CloseButton />
+    </Heading>
+    <Paragraph>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.
+    </Paragraph>
+    <Paragraph>
+        <SimpleButton Color="Color.Info">Wanna do this</SimpleButton>
+        <SimpleButton Color="Color.Light">Or do this</SimpleButton>
+    </Paragraph>
+</Alert>
+```
+
+<iframe class="frame" src="/examples/elements/alert-close-big/" frameborder="0" scrolling="no" style="width:100%;height:215px;"></iframe>
+
+### How to use
 
 To show alert just set `IsShow` attribute to true.
 
@@ -80,15 +121,4 @@ or programatically
         myAlert.Show();
     }
 }
-```
-
-### Close
-
-You can also add a close button.
-
-```html
-<Alert Color="Color.Success">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Alert Link.</strong>
-    <CloseButton />
-</Alert>
 ```

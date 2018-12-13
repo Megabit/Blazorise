@@ -16,35 +16,50 @@ To create a basic button you need to use a SimpleButton component.
 <SimpleButton>Click me</SimpleButton>
 ```
 
+<iframe src="/examples/buttons/basic/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ### Colored buttons
 
 To define button color use a `Color` attribute.
 
 ```html
-<SimpleButton Color="Color.Primary">PRIMARY</SimpleButton>
-<SimpleButton Color="Color.Secondary">SECONDARY</SimpleButton>
+<SimpleButton Color="Color.Primary">Primary</SimpleButton>
+<SimpleButton Color="Color.Secondary">Secondary</SimpleButton>
+<SimpleButton Color="Color.Warning">Warning</SimpleButton>
+<SimpleButton Color="Color.Danger">Danger</SimpleButton>
 ```
 
-To find the list of supported colors please look at the [colors]({{ "/docs/helpers/colors/" | relative_url }}) page.
+<iframe src="/examples/buttons/colors/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
+**Note:** To find the list of supported colors please look at the [colors]({{ "/docs/helpers/colors/" | relative_url }}) page.
+{: .notice--info}
 
 ### Block button
 
 ```html
-<SimpleButton IsBlock="true">Button</SimpleButton>
+<SimpleButton Color="Color.Primary" IsBlock="true">Blocked primary</SimpleButton>
+<SimpleButton Color="Color.Secondary" IsBlock="true">Blocked secondary</SimpleButton>
 ```
+
+<iframe src="/examples/buttons/block/" frameborder="0" scrolling="no" style="width:100%;height:95px;"></iframe>
 
 ### Active button
 
 ```html
-<SimpleButton IsActive="true">Button</SimpleButton>
+<SimpleButton IsActive="true">Primary</SimpleButton>
+<SimpleButton IsActive="true">Secondary</SimpleButton>
 ```
+
+<iframe src="/examples/buttons/active/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
 ### Disabled button
 
 ```html
-<SimpleButton IsDisabled="true">Button</SimpleButton>
+<SimpleButton IsDisabled="true">Primary</SimpleButton>
+<SimpleButton IsDisabled="true">Secondary</SimpleButton>
 ```
 
+<iframe src="/examples/buttons/disabled/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
 ## Button group
 
@@ -57,6 +72,8 @@ If you want to group buttons together on a single line, use the `Buttons` tag.
     <SimpleButton Color="Color.Secondary">RIGHT</SimpleButton>
 </Buttons>
 ```
+
+<iframe src="/examples/buttons/buttongroup/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
 ### Toolbar
 
@@ -79,6 +96,8 @@ To attach buttons together use a Toolbar role.
 </Buttons>
 ```
 
+<iframe src="/examples/buttons/buttontoolbar/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ## Dropdown
 
 The dropdown component is a container for a dropdown button and a dropdown menu.
@@ -86,7 +105,7 @@ The dropdown component is a container for a dropdown button and a dropdown menu.
 ```html
 <Dropdown>
     <DropdownToggle Color="Color.Primary">
-        DROPDOWN
+        Dropdown
     </DropdownToggle>
     <DropdownMenu>
         <DropdownItem>Action</DropdownItem>
@@ -96,13 +115,15 @@ The dropdown component is a container for a dropdown button and a dropdown menu.
 </Dropdown>
 ```
 
+<iframe src="/examples/buttons/dropdown/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ### Split
 
 Just add a buttons to have a split dropdown.
 
 ```html
 <Dropdown>
-    <SimpleButton>SPLIT DROPDOWN</SimpleButton>
+    <SimpleButton>Split Dropdown</SimpleButton>
     <DropdownToggle />
     <DropdownMenu>
         <DropdownItem>Action</DropdownItem>
@@ -111,3 +132,5 @@ Just add a buttons to have a split dropdown.
     </DropdownMenu>
 </Dropdown>
 ```
+
+<iframe src="/examples/buttons/splitdropdown/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
