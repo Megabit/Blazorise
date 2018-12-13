@@ -15,6 +15,8 @@ namespace Blazorise.Base
 
         private HeadingSize headingSize = HeadingSize.Is3;
 
+        private TextColor textColor = TextColor.None;
+
         #endregion
 
         #region Methods
@@ -22,7 +24,8 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.Heading( headingSize ) );
+                .Add( () => ClassProvider.Heading( headingSize ) )
+                .If( () => ClassProvider.HeadingTextColor( TextColor ), () => TextColor != TextColor.None );
 
             base.RegisterClasses();
         }
@@ -38,6 +41,18 @@ namespace Blazorise.Base
             set
             {
                 headingSize = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        [Parameter]
+        private TextColor TextColor
+        {
+            get => textColor;
+            set
+            {
+                textColor = value;
 
                 ClassMapper.Dirty();
             }

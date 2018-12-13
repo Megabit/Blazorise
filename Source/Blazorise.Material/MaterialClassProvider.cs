@@ -611,6 +611,8 @@ namespace Blazorise.Material
 
         public virtual string Heading( HeadingSize headingSize ) => $"h{HeadingSize( headingSize )}";
 
+        public virtual string HeadingTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
+
         #endregion
 
         #region Paragraph

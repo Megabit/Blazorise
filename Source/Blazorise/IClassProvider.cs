@@ -556,6 +556,8 @@ namespace Blazorise
 
         string Heading( HeadingSize headingSize );
 
+        string HeadingTextColor( TextColor textColor );
+
         #endregion
 
         #region Paragraph

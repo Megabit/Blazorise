@@ -631,6 +631,8 @@ namespace Blazorise.Bulma
 
         public virtual string Heading( HeadingSize headingSize ) => $"h{HeadingSize( headingSize )}";
 
+        public virtual string HeadingTextColor( TextColor textColor ) => $"has-text-{TextColor( textColor )}";
+
         #endregion
 
         #region Paragraph
