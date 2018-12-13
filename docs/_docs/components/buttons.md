@@ -18,7 +18,7 @@ To create a basic button you need to use a SimpleButton component.
 
 <iframe src="/examples/buttons/basic/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
-### Colored buttons
+### Colored
 
 To define button color use a `Color` attribute.
 
@@ -34,7 +34,20 @@ To define button color use a `Color` attribute.
 **Note:** To find the list of supported colors please look at the [colors]({{ "/docs/helpers/colors/" | relative_url }}) page.
 {: .notice--info}
 
-### Block button
+### Outlined
+
+To define button color use a `Color` attribute.
+
+```html
+<SimpleButton Color="Color.Primary" IsOutline="true">Primary</SimpleButton>
+<SimpleButton Color="Color.Secondary" IsOutline="true">Secondary</SimpleButton>
+<SimpleButton Color="Color.Warning" IsOutline="true">Warning</SimpleButton>
+<SimpleButton Color="Color.Danger" IsOutline="true">Danger</SimpleButton>
+```
+
+<iframe src="/examples/buttons/outlined/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
+### Blocked
 
 ```html
 <SimpleButton Color="Color.Primary" IsBlock="true">Blocked primary</SimpleButton>
@@ -43,7 +56,7 @@ To define button color use a `Color` attribute.
 
 <iframe src="/examples/buttons/block/" frameborder="0" scrolling="no" style="width:100%;height:95px;"></iframe>
 
-### Active button
+### Active
 
 ```html
 <SimpleButton IsActive="true">Primary</SimpleButton>
@@ -52,7 +65,7 @@ To define button color use a `Color` attribute.
 
 <iframe src="/examples/buttons/active/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
-### Disabled button
+### Disabled
 
 ```html
 <SimpleButton IsDisabled="true">Primary</SimpleButton>
@@ -115,7 +128,7 @@ The dropdown component is a container for a dropdown button and a dropdown menu.
 </Dropdown>
 ```
 
-<iframe src="/examples/buttons/dropdown/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+<iframe src="/examples/buttons/dropdown/" frameborder="0" scrolling="no" style="width:100%;height:150px;"></iframe>
 
 ### Split
 
@@ -133,4 +146,4 @@ Just add a buttons to have a split dropdown.
 </Dropdown>
 ```
 
-<iframe src="/examples/buttons/splitdropdown/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+<iframe src="/examples/buttons/splitdropdown/" frameborder="0" scrolling="no" style="width:100%;height:150px;"></iframe>

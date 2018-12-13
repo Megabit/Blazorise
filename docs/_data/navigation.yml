@@ -32,6 +32,8 @@ docs:
         url: /docs/components/forms/
       - title: "Fields"
         url: /docs/components/fields/
+      - title: "Addons"
+        url: /docs/components/addons/
       - title: "Cards"
         url: /docs/components/cards/
       - title: "Tabs"

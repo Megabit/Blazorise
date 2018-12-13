@@ -18,7 +18,7 @@ Use TextEdit to have a basic input.
 
 ### Binding
 
-TextEdit by itself is not really usable if you can't use it. To get or set the input value you have two options. You can use _bind-*_ attribute or you can use a _TextChanged_ event.
+TextEdit by itself is not really usable if you can't use it. To get or set the input value you have two options. You can use `bind-*` attribute or you can use a `TextChanged` event.
 
 1. Using bind-*
 
@@ -62,7 +62,7 @@ Static text removes the background, border, shadow, and horizontal padding, whil
 
 <iframe src="/examples/forms/text-plain/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
-### Disabled text
+### Disabled
 
 A disabled input element is unusable and un-clickable.
 
@@ -72,7 +72,7 @@ A disabled input element is unusable and un-clickable.
 
 <iframe src="/examples/forms/text-disabled/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
-### Readonly text
+### Readonly
 
 If you use the readonly attribute, the input text will look similar to a normal one, but is not editable.
 
@@ -143,3 +143,20 @@ Add the `IsMultiple` attribute to allow more than one option to be selected.
 ```
 
 <iframe src="/examples/forms/select-multiple/" frameborder="0" scrolling="no" style="width:100%;height:112px;"></iframe>
+
+## Check
+
+```html
+<CheckEdit>Check me out</CheckEdit>
+```
+
+<iframe src="/examples/forms/check/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
+## Radio
+
+```html
+<CheckEdit RadioGroup="radioGroup">Select this</CheckEdit>
+<CheckEdit RadioGroup="radioGroup">Or this</CheckEdit>
+```
+
+<iframe src="/examples/forms/radio/" frameborder="0" scrolling="no" style="width:100%;height:55px;"></iframe>

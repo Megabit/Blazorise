@@ -6,10 +6,18 @@ toc: true
 toc_label: "Components"
 ---
 
-
 ## Field
 
-It is recomended to place all input components inside of Field component. That way i will keep the right padding and stylings.
+The Field is a container for:
+
+- `Text`
+- `Select`
+- `Date`
+- `Check`
+- `Memo`
+- `Button`
+
+It is recomended to always place input components inside of field. That way you will keep the right spacing and arangement between input.
 
 ```html
 <Field>
@@ -54,7 +62,6 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
 ## Fields
 
 `Fields` component is used to group multiple `Field` components. For example if you need to group fields into columns you must use fields component.
-{: .text-justify}
 
 ```html
 <Fields>
