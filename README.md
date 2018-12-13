@@ -10,6 +10,10 @@ Note: This project is still experimental so it's possible that some components w
 
 [Releases](https://github.com/stsrki/Blazorise/wiki/Releases) and [Roadmap](https://github.com/stsrki/Blazorise/wiki/Roadmap)
 
+## Feeds
+
+* NuGet [![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/stsrki) ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
+
 ## Installation
 
 Each of the supported css framework is defined by a diferent nuget package. To install them you must run one of the following commands:
