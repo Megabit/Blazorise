@@ -6,6 +6,13 @@ toc: true
 toc_label: "On this page"
 ---
 
+## 0.2.2 (unreleased)
+
+### Enhancements
+
+- TabContent renamed to TabsContent
+- Added text color to Heading
+
 ## 0.2.1
 
 ### Enhancements
