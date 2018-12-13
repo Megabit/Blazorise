@@ -1,6 +1,6 @@
 # Blazorise components for Blazor
 
-Blazorise is a component library built on top of [Blazor](https://github.com/aspnet/AspNetCore/tree/master/src/Components) (Razor Components) and CSS frameworks like Bootstrap, Bulma and Material.
+Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
 Please look at [Live Demo](https://blazorisedemo.azurewebsites.net/) to see Blazorise in action.
 
@@ -8,7 +8,7 @@ Please look at [Live Demo](https://blazorisedemo.azurewebsites.net/) to see Blaz
 Note: This project is still experimental so it's possible that some components will be removed or refactored.
 ```
 
-[Releases](https://github.com/stsrki/Blazorise/wiki/Releases) and [Roadmap](https://github.com/stsrki/Blazorise/wiki/Roadmap)
+[Releases](https://blazorise.com/docs/releases/) and [Roadmap](https://blazorise.com/docs/roadmap/)
 
 ## Feeds
 
@@ -61,5 +61,5 @@ services
     .AddIconProvider( IconProvider.FontAwesome );
 ```
 
-To setup Blazorise for other frameworks please refer the [Usage](https://github.com/stsrki/Blazorise/wiki/Usage) page in the wiki.
+To setup Blazorise for other frameworks please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
 
