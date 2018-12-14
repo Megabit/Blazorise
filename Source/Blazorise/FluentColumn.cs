@@ -137,6 +137,12 @@ namespace Blazorise
         /// Fill all available space.
         /// </summary>
         IFluentColumnOnBreakpointWithOffsetAndSize IsAuto { get; }
+
+        /// <summary>
+        /// Used to add custom column rule.
+        /// </summary>
+        /// <param name="value">Custom css classname.</param>
+        IFluentColumnWithSize Is( string value );
     }
 
     public class FluentColumn : IFluentColumn, IFluentColumnOnBreakpointWithOffsetAndSize, IFluentColumnOnBreakpoint, IFluentColumnWithSize, IFluentColumnWithOffset
@@ -154,6 +160,8 @@ namespace Blazorise
 
         private Dictionary<ColumnWidth, List<ColumnDefinition>> rules = new Dictionary<ColumnWidth, List<ColumnDefinition>>();
 
+        private List<string> customRules;
+
         private bool built = false;
 
         #endregion
@@ -165,19 +173,8 @@ namespace Blazorise
             if ( !built )
             {
                 ClassMapper
-                    .If( () => classProvider.Col( ColumnWidth.Is1, rules[ColumnWidth.Is1].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is1 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Is2, rules[ColumnWidth.Is2].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is2 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Is3, rules[ColumnWidth.Is3].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is3 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Is4, rules[ColumnWidth.Is4].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is4 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Is5, rules[ColumnWidth.Is5].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is5 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Is6, rules[ColumnWidth.Is6].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is6 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Is7, rules[ColumnWidth.Is7].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is7 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Is8, rules[ColumnWidth.Is8].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is8 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Is9, rules[ColumnWidth.Is9].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is9 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Is10, rules[ColumnWidth.Is10].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is10 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Is11, rules[ColumnWidth.Is11].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is11 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Is12, rules[ColumnWidth.Is12].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Is12 ) )
-                    .If( () => classProvider.Col( ColumnWidth.Auto, rules[ColumnWidth.Auto].Select( x => (x.Breakpoint, x.Offset) ) ), () => rules.ContainsKey( ColumnWidth.Auto ) );
+                    .If( () => rules.Select( r => classProvider.Col( r.Key, r.Value.Select( v => (v.Breakpoint, v.Offset) ) ) ), () => rules.Count( x => x.Key != ColumnWidth.None ) > 0 )
+                    .If( () => customRules, () => customRules?.Count > 0 );
 
                 built = true;
             }
@@ -196,6 +193,19 @@ namespace Blazorise
 
             currentColumn = columnDefinition;
             ClassMapper.Dirty();
+
+            return this;
+        }
+
+        private IFluentColumnWithSize WithColumnSize( string value )
+        {
+            if ( customRules == null )
+                customRules = new List<string> { value };
+            else
+                customRules.Add( value );
+
+            ClassMapper.Dirty();
+
             return this;
         }
 
@@ -203,8 +213,15 @@ namespace Blazorise
         {
             currentColumn.Breakpoint = breakpoint;
             ClassMapper.Dirty();
+
             return this;
         }
+
+        /// <summary>
+        /// Used to add custom column rule.
+        /// </summary>
+        /// <param name="value">Custom css classname.</param>
+        public IFluentColumnWithSize Is( string value ) => WithColumnSize( value );
 
         #endregion
 
@@ -419,5 +436,11 @@ namespace Blazorise
         /// Fill all available space.
         /// </summary>
         public static IFluentColumnOnBreakpointWithOffsetAndSize IsAuto { get { return new FluentColumn().IsAuto; } }
+
+        /// <summary>
+        /// Add custom column rule.
+        /// </summary>
+        /// <param name="value">Custom css classname.</param>
+        public static IFluentColumnWithSize Is( string value ) => new FluentColumn().Is( value );
     }
 }
