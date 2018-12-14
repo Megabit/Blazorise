@@ -1,7 +1,7 @@
 ---
 title: "Bars"
 permalink: /docs/components/bars/
-excerpt: "Bars."
+excerpt: "Learn how to use bars."
 toc: true
 toc_label: "Components"
 ---

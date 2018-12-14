@@ -1,7 +1,7 @@
 ---
 title: "Addons"
 permalink: /docs/components/addons/
-excerpt: "Addons"
+excerpt: "Learn how to use addons."
 toc: true
 toc_label: "Components"
 ---

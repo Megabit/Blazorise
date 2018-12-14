@@ -1,7 +1,7 @@
 ---
 title: "Utilities"
 permalink: /docs/helpers/utilities/
-excerpt: "Utilities"
+excerpt: "Blazorise utilities and helpers."
 toc: true
 toc_label: "Helpers"
 ---

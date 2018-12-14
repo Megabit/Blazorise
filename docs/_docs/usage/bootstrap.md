@@ -1,7 +1,7 @@
 ---
 title: "Bootstrap"
 permalink: /docs/usage/bootstrap/
-excerpt: "Using bootstrap provider."
+excerpt: "How to quickly install and setup Blazorise using bootstrap provider."
 toc: true
 toc_label: "Steps"
 ---

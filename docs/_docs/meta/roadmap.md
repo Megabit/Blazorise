@@ -1,7 +1,7 @@
 ---
 title: "Roadmap"
 permalink: /docs/roadmap/
-excerpt: "Roadmap"
+excerpt: "Blazorise roadmap and planning."
 toc: true
 toc_label: "On this page"
 ---

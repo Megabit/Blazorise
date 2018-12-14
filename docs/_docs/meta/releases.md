@@ -1,7 +1,7 @@
 ---
 title: "Releases"
 permalink: /docs/releases/
-excerpt: "Releases"
+excerpt: "List of Blazorise versions so far."
 toc: true
 toc_label: "On this page"
 ---

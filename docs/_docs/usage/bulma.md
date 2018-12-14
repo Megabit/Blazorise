@@ -1,7 +1,7 @@
 ---
 title: "Bulma"
 permalink: /docs/usage/bulma/
-excerpt: "Using bulma provider."
+excerpt: "How to quickly install and setup Blazorise using bulma provider."
 toc: true
 toc_label: "Steps"
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Material"
 permalink: /docs/usage/material/
-excerpt: "Using material provider."
+excerpt: "How to quickly install and setup Blazorise using material provider."
 toc: true
 toc_label: "Steps"
 ---

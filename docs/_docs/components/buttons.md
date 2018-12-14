@@ -1,7 +1,7 @@
 ---
 title: "Buttons"
 permalink: /docs/components/buttons/
-excerpt: "Buttons."
+excerpt: "Learn how to use buttons."
 toc: true
 toc_label: "Components"
 ---

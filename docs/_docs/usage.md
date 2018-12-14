@@ -1,7 +1,7 @@
 ---
 title: "Usage"
 permalink: /docs/usage/
-excerpt: "Usage"
+excerpt: "Available CSS providers for Blazorise."
 ---
 
 ### Providers

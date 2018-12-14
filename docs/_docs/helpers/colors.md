@@ -1,7 +1,7 @@
 ---
 title: "Colors"
 permalink: /docs/helpers/colors/
-excerpt: "Supported colors"
+excerpt: "Supported colors in Blazorise."
 toc: true
 toc_label: "Helpers"
 ---

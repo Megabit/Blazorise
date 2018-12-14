@@ -1,7 +1,7 @@
 ---
 title: "Cards"
 permalink: /docs/components/cards/
-excerpt: "Cards."
+excerpt: "Learn how to use cards."
 toc: true
 toc_label: "Components"
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Forms"
 permalink: /docs/components/forms/
-excerpt: "Forms."
+excerpt: "Learn how to use form components like text, memo, select, check, radio, date."
 toc: true
 toc_label: "Components"
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Quick-Start Guide"
 permalink: /docs/quick-start/
-excerpt: "How to quickly install and setup Minimal Mistakes for use with GitHub Pages."
+excerpt: "How to quickly install and setup Blazorise."
 redirect_from:
   - /theme-setup/
 toc: true

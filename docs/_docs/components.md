@@ -1,7 +1,7 @@
 ---
 title: "Components"
 permalink: /components/
-excerpt: "How to quickly install and setup Minimal Mistakes for use with GitHub Pages."
+excerpt: "List of component categorises for Blazorise."
 toc: true
 toc_label: "Components"
 ---
