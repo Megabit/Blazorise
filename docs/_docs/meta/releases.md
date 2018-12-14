@@ -6,6 +6,12 @@ toc: true
 toc_label: "On this page"
 ---
 
+## 0.3.0
+
+### Enhancements
+
+- Ability to add custom rules for Margin, Padding and ColumnSize
+
 ## 0.2.2
 
 ### Enhancements
