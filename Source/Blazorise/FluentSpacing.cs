@@ -121,6 +121,12 @@ namespace Blazorise
         /// For classes that set the margin to auto.
         /// </summary>
         IFluentSpacingOnBreakpointWithSideAndSize IsAuto { get; }
+
+        /// <summary>
+        /// Used to add custom spacing rule.
+        /// </summary>
+        /// <param name="value">Custom css classname.</param>
+        IFluentSpacingWithSize Is( string value );
     }
 
     public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IFluentSpacingOnBreakpoint, IFluentSpacingFromSide, IFluentSpacingOnBreakpointWithSide, IFluentSpacingOnBreakpointWithSideAndSize
@@ -143,6 +149,8 @@ namespace Blazorise
 
         private Dictionary<SpacingSize, List<SpacingDefinition>> rules = new Dictionary<SpacingSize, List<SpacingDefinition>>();
 
+        private List<string> customRules;
+
         private bool built = false;
 
         #endregion
@@ -163,13 +171,8 @@ namespace Blazorise
             if ( !built )
             {
                 ClassMapper
-                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is0, rules[SpacingSize.Is0].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is0 ) )
-                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is1, rules[SpacingSize.Is1].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is1 ) )
-                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is2, rules[SpacingSize.Is2].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is2 ) )
-                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is3, rules[SpacingSize.Is3].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is3 ) )
-                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is4, rules[SpacingSize.Is4].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is4 ) )
-                    .If( () => classProvider.Spacing( spacing, SpacingSize.Is5, rules[SpacingSize.Is5].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.Is5 ) )
-                    .If( () => classProvider.Spacing( spacing, SpacingSize.IsAuto, rules[SpacingSize.IsAuto].Select( x => (x.Side, x.Breakpoint) ) ), () => rules.ContainsKey( SpacingSize.IsAuto ) );
+                    .If( () => rules.Select( r => classProvider.Spacing( spacing, r.Key, r.Value.Select( v => (v.Side, v.Breakpoint) ) ) ), () => rules.Count() > 0 )
+                    .If( () => customRules, () => customRules?.Count > 0 );
 
                 built = true;
             }
@@ -195,6 +198,7 @@ namespace Blazorise
         {
             currentSpacing.Side = side;
             ClassMapper.Dirty();
+
             return this;
         }
 
@@ -202,8 +206,27 @@ namespace Blazorise
         {
             currentSpacing.Breakpoint = breakpoint;
             ClassMapper.Dirty();
+
             return this;
         }
+
+        private IFluentSpacingWithSize WithSize( string value )
+        {
+            if ( customRules == null )
+                customRules = new List<string> { value };
+            else
+                customRules.Add( value );
+
+            ClassMapper.Dirty();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Used to add custom column rule.
+        /// </summary>
+        /// <param name="value">Custom css classname.</param>
+        public IFluentSpacingWithSize Is( string value ) => WithSize( value );
 
         #endregion
 
@@ -358,6 +381,12 @@ namespace Blazorise
         /// For classes that set the margin to auto.
         /// </summary>
         public static IFluentSpacingOnBreakpointWithSideAndSize IsAuto => new FluentMargin().IsAuto;
+
+        /// <summary>
+        /// Add custom margin rule.
+        /// </summary>
+        /// <param name="value">Custom css classname.</param>
+        public static IFluentSpacingWithSize Is( string value ) => new FluentMargin().Is( value );
     }
 
     /// <summary>
@@ -399,5 +428,11 @@ namespace Blazorise
         /// For classes that set the margin to auto.
         /// </summary>
         public static IFluentSpacingOnBreakpointWithSideAndSize IsAuto => new FluentPadding().IsAuto;
+
+        /// <summary>
+        /// Add custom padding rule.
+        /// </summary>
+        /// <param name="value">Custom css classname.</param>
+        public static IFluentSpacingWithSize Is( string value ) => new FluentPadding().Is( value );
     }
 }
