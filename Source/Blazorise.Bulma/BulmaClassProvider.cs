@@ -664,7 +664,13 @@ namespace Blazorise.Bulma
         #region Layout
 
         // TODO: Bulma by default doesn't have spacing utilities. Try to fix this!
-        public virtual string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint ) => $"{Spacing( spacing )}{Side( side )}-{SpacingSize( spacingSize )}";
+        public virtual string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
+        {
+            if ( breakpoint != Blazorise.Breakpoint.None )
+                return $"is-{Spacing( spacing )}{Side( side )}-{Breakpoint( breakpoint )}-{SpacingSize( spacingSize )}";
+
+            return $"is-{Spacing( spacing )}{Side( side )}-{SpacingSize( spacingSize )}";
+        }
 
         public virtual string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
 
