@@ -25,7 +25,10 @@ namespace Blazorise
                 if ( dirty )
                 {
                     // combine the classes, but only the ones that have a value
-                    builtClass = string.Join( " ", from r in rules where r.Value() let key = r.Key() where key != null select key );
+                    if ( listRules == null )
+                        builtClass = string.Join( " ", from r in rules where r.Value() let key = r.Key() where key != null select key );
+                    else
+                        builtClass = string.Join( " ", ( from r in rules where r.Value() let key = r.Key() where key != null select key ).Concat( from lr in listRules where lr.Value() from key in lr.Key() where key != null select key ) );
 
                     dirty = false;
                 }

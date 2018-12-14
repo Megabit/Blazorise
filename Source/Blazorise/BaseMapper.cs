@@ -18,6 +18,8 @@ namespace Blazorise
         IBaseMapper If( string value, Func<bool> condition );
 
         IBaseMapper If( Func<string> value, Func<bool> condition );
+
+        IBaseMapper If( Func<IEnumerable<string>> values, Func<bool> condition );
     }
 
     public abstract class BaseMapper : IBaseMapper
@@ -30,6 +32,8 @@ namespace Blazorise
 
         // TODO: implement lazy dictionary
         protected Dictionary<Func<string>, Func<bool>> rules = new Dictionary<Func<string>, Func<bool>>();
+
+        protected Dictionary<Func<IEnumerable<string>>, Func<bool>> listRules;
 
         #endregion
 
@@ -116,9 +120,21 @@ namespace Blazorise
             return this;
         }
 
-        #endregion
+        /// <summary>
+        /// Adds a list of values to the collection but only if the condition is met.
+        /// </summary>
+        /// <param name="values">Values getter.</param>
+        /// <param name="condition">Condition getter.</param>
+        /// <returns>Returns self.</returns>
+        public IBaseMapper If( Func<IEnumerable<string>> values, Func<bool> condition )
+        {
+            if ( listRules == null )
+                listRules = new Dictionary<Func<IEnumerable<string>>, Func<bool>> { { values, condition } };
+            else
+                listRules.Add( values, condition );
 
-        #region Properties
+            return this;
+        }
 
         #endregion
     }
