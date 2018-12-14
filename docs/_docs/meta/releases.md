@@ -6,7 +6,7 @@ toc: true
 toc_label: "On this page"
 ---
 
-## 0.2.2 (unreleased)
+## 0.2.2
 
 ### Enhancements
 
