@@ -4,7 +4,7 @@
 <Sidebar ref="sidebar">
     <SidebarContent>
         <SidebarBrand>
-            <a href="">Blazorise</a>
+            <a href="">Blazorise Demo</a>
         </SidebarBrand>
         <SidebarNavigation>
             <SidebarLabel>Main</SidebarLabel>
@@ -55,16 +55,38 @@
     <Bar Class="app-bar" Breakpoint="Breakpoint.Desktop" Background="Background.Light" Theme="Theme.Light">
         <BarBrand>
             <BarItem>
-                <BarLink To="">Blazorise</BarLink>
+                <BarLink To="">
+                    <Icon Name="IconName.Dashboard" />
+                    Blazorise Demo
+                </BarLink>
             </BarItem>
         </BarBrand>
         <BarToggler Clicked="@ToggleSidebar">
         </BarToggler>
-        <BarEnd>
-            <BarItem>
-                <BarLink To="https://github.com/stsrki/blazorise">GitHub</BarLink>
-            </BarItem>
-        </BarEnd>
+        <BarMenu>
+            <BarStart>
+                <BarItem>
+                    <BarLink To="https://blazorise.com/">Home</BarLink>
+                </BarItem>
+                <BarItem>
+                    <BarLink To="https://blazorise.com/docs/">Documentation</BarLink>
+                </BarItem>
+                <BarItem>
+                    <BarDropdownToggler>More</BarDropdownToggler>
+                    <BarDropdown>
+                        <BarDropdownItem>
+                            <BarLink To="https://blazorise.com/docs/quick-start/">Quick-Start Guide</BarLink>
+                            <BarLink To="https://blazorise.com/docs/usage/">Usage</BarLink>
+                        </BarDropdownItem>
+                    </BarDropdown>
+                </BarItem>
+            </BarStart>
+            <BarEnd>
+                <BarItem>
+                    <BarLink To="https://github.com/stsrki/blazorise">GitHub</BarLink>
+                </BarItem>
+            </BarEnd>
+        </BarMenu>
     </Bar>
     <div class="app-content">
         @Body

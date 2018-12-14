@@ -13,6 +13,10 @@ toc_label: "On this page"
 - TabContent renamed to TabsContent
 - Added text color to Heading
 
+### Bug Fixes
+
+- BarLink tag is null
+
 ## 0.2.1
 
 ### Enhancements
