@@ -47,4 +47,3 @@ services
     .AddBootstrapProviders()
     .AddIconProvider( IconProvider.FontAwesome );
 ```
-
