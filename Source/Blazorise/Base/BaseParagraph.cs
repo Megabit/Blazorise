@@ -20,7 +20,7 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.Pagination() );
+                .Add( () => ClassProvider.Paragraph() );
 
             base.RegisterClasses();
         }
