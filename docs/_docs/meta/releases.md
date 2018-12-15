@@ -6,11 +6,15 @@ toc: true
 toc_label: "On this page"
 ---
 
-## 0.3.0
+## 0.3.0 (unreleased)
 
 ### Enhancements
 
 - Ability to add custom rules for Margin, Padding and ColumnSize
+
+### Bug Fixes
+
+- Paragraph classname was "pagination"
 
 ## 0.2.2
 
