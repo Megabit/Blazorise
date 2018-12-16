@@ -12,6 +12,7 @@ toc_label: "On this page"
 
 - Ability to add custom rules for Margin, Padding and ColumnSize
 - Added ModalTitle component, Title argument on ModalHeader is now **obsolete**
+- Better implementation for bulma css
 
 ### Bug Fixes
 
