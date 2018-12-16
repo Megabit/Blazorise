@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Blazor.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseModalHeader : BaseComponent
+    public abstract class BaseModalTitle : BaseComponent
     {
         #region Members
 
@@ -20,7 +20,7 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.ModalHeader() );
+                .Add( () => ClassProvider.ModalTitle() );
 
             base.RegisterClasses();
         }
@@ -28,9 +28,6 @@ namespace Blazorise.Base
         #endregion
 
         #region Properties
-
-        [Obsolete]
-        [Parameter] protected string Title { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

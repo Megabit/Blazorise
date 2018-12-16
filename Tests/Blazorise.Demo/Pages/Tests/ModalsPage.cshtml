@@ -32,7 +32,11 @@
 <Modal ref="modalRef">
     <ModalBackdrop />
     <ModalContent Size="@modalSize" IsCentered="@isCentered">
-        <ModalHeader Title="Employee edit">
+        <ModalHeader>
+            <ModalTitle>
+                <Icon Name="IconName.Edit" />
+                Employee edit
+            </ModalTitle>
             <CloseButton Clicked="@HideModal" />
         </ModalHeader>
         <ModalBody MaxHeight="@maxHeight">

@@ -438,7 +438,7 @@ namespace Blazorise
 
         string ModalFooter();
 
-        string ModalHeaderTitle();
+        string ModalTitle();
 
         #endregion
 

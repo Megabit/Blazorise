@@ -11,6 +11,7 @@ toc_label: "On this page"
 ### Enhancements
 
 - Ability to add custom rules for Margin, Padding and ColumnSize
+- Added ModalTitle component, Title argument on ModalHeader is now **obsolete**
 
 ### Bug Fixes
 

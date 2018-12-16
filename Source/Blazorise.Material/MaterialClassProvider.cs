@@ -493,7 +493,7 @@ namespace Blazorise.Material
 
         public virtual string ModalFooter() => "modal-footer";
 
-        public virtual string ModalHeaderTitle() => "modal-title";
+        public virtual string ModalTitle() => "modal-title";
 
         #endregion
 

@@ -492,7 +492,7 @@ namespace Blazorise.Bulma
 
         public virtual string ModalFooter() => "modal-card-foot";
 
-        public virtual string ModalHeaderTitle() => "modal-card-title";
+        public virtual string ModalTitle() => "modal-card-title";
 
         #endregion
 
