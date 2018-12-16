@@ -3,7 +3,7 @@ title: "Buttons"
 permalink: /docs/components/buttons/
 excerpt: "Learn how to use buttons."
 toc: true
-toc_label: "Components"
+toc_label: "Guide"
 ---
 
 The button is an essential element of any design. It's meant to look and behave as an interactive element of your page.

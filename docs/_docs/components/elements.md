@@ -3,7 +3,7 @@ title: "Elements"
 permalink: /docs/components/elements/
 excerpt: "List of smaller elements like Badge, Pagination and Alert."
 toc: true
-toc_label: "Components"
+toc_label: "Guide"
 ---
 
 ## Badge

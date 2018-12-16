@@ -3,7 +3,7 @@ title: "Forms"
 permalink: /docs/components/forms/
 excerpt: "Learn how to use form components like text, memo, select, check, radio, date."
 toc: true
-toc_label: "Components"
+toc_label: "Guide"
 ---
 
 ## Basic Text

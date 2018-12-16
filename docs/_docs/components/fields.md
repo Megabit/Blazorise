@@ -3,7 +3,7 @@ title: "Fields"
 permalink: /docs/components/fields/
 excerpt: "Field components."
 toc: true
-toc_label: "Components"
+toc_label: "Guide"
 ---
 
 ## Field

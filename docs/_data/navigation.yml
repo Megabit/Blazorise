@@ -40,6 +40,8 @@ docs:
         url: /docs/components/tabs/
       - title: "Bars"
         url: /docs/components/bars/
+      - title: "Modals"
+        url: /docs/components/modals/
       - title: "Elements"
         url: /docs/components/elements/
   - title: Helpers

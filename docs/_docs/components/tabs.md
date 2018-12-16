@@ -3,7 +3,7 @@ title: "Tabs"
 permalink: /docs/components/tabs/
 excerpt: "Learn how to use tabs."
 toc: true
-toc_label: "Components"
+toc_label: "Guide"
 ---
 
 ## Basics

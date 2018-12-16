@@ -3,7 +3,7 @@ title: "Bars"
 permalink: /docs/components/bars/
 excerpt: "Learn how to use bars."
 toc: true
-toc_label: "Components"
+toc_label: "Guide"
 ---
 
 ## Basics
