@@ -1,9 +1,11 @@
 ﻿@inherits Base.BasePaginationItem
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <li class="@ClassMapper.Class">
-        @ChildContent
-    </li>
+    <CascadingValue Value=this>
+        <li class="@ClassMapper.Class">
+            @ChildContent
+        </li>
+    </CascadingValue>
 }
 else
 {

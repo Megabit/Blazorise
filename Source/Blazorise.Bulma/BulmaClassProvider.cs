@@ -513,13 +513,21 @@ namespace Blazorise.Bulma
 
         #region Pagination
 
-        public virtual string Pagination() => "pagination";
+        public virtual string Pagination() => "pagination-list";
 
         public virtual string PaginationSize( Size size ) => $"{Pagination()}-{Size( size )}";
 
-        public virtual string PaginationItem() => "page-item";
+        public virtual string PaginationItem() => null;
 
-        public virtual string PaginationLink() => "page-link";
+        public virtual string PaginationItemActive() => null;
+
+        public virtual string PaginationItemDisabled() => null;
+
+        public virtual string PaginationLink() => "pagination-link";
+
+        public virtual string PaginationLinkActive() => "is-current";
+
+        public virtual string PaginationLinkDisabled() => "disabled";
 
         #endregion
 

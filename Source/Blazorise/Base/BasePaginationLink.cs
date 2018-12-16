@@ -20,7 +20,8 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.PaginationLink() );
+                .Add( () => ClassProvider.PaginationLink() )
+                .If( () => ClassProvider.PaginationLinkActive(), () => ParentPaginationItem?.IsActive == true );
 
             base.RegisterClasses();
         }
@@ -43,6 +44,8 @@ namespace Blazorise.Base
         [Parameter] protected Action<string> Clicked { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
+
+        [CascadingParameter] protected BasePaginationItem ParentPaginationItem { get; set; }
 
         #endregion
     }

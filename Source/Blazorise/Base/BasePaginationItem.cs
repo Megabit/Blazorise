@@ -25,7 +25,7 @@ namespace Blazorise.Base
         {
             ClassMapper
                 .Add( () => ClassProvider.PaginationItem() )
-                .If( () => ClassProvider.Active(), () => IsActive )
+                .If( () => ClassProvider.PaginationItemActive(), () => IsActive )
                 .If( () => ClassProvider.Disabled(), () => IsDisabled );
 
             base.RegisterClasses();
@@ -36,7 +36,7 @@ namespace Blazorise.Base
         #region Properties
 
         [Parameter]
-        protected bool IsActive
+        internal protected bool IsActive
         {
             get => isActive;
             set

@@ -450,7 +450,15 @@ namespace Blazorise
 
         string PaginationItem();
 
+        string PaginationItemActive();
+
+        string PaginationItemDisabled();
+
         string PaginationLink();
+
+        string PaginationLinkActive();
+
+        string PaginationLinkDisabled();
 
         #endregion
 

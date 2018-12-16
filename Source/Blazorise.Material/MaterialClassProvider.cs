@@ -505,7 +505,15 @@ namespace Blazorise.Material
 
         public virtual string PaginationItem() => "page-item";
 
+        public virtual string PaginationItemActive() => Active();
+
+        public virtual string PaginationItemDisabled() => Disabled();
+
         public virtual string PaginationLink() => "page-link";
+
+        public virtual string PaginationLinkActive() => null;
+
+        public virtual string PaginationLinkDisabled() => null;
 
         #endregion
 
