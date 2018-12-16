@@ -428,6 +428,21 @@ namespace Blazorise.Bulma
 
         private string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
+            var baseClass = offset ? "offset-" : null;
+
+            if ( breakpoint != Blazorise.Breakpoint.None )
+            {
+                if ( columnWidth == Blazorise.ColumnWidth.None )
+                    return $"{Col()} is-{baseClass}{Breakpoint( breakpoint )}";
+
+                return $"{Col()} is-{baseClass}{Breakpoint( breakpoint )}-{ColumnWidth( columnWidth )}";
+            }
+
+            return $"{Col()} is-{baseClass}{ColumnWidth( columnWidth )}";
+        }
+
+        private string Col2( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+        {
             var offsetClass = offset ? "offset-" : null;
 
             if ( breakpoint != Blazorise.Breakpoint.None )
