@@ -595,26 +595,26 @@ namespace Blazorise.Bulma
 
         #region Badge
 
-        public virtual string Badge() => "badge";
+        public virtual string Badge() => "tag";
 
         public virtual string BadgeColor( Color color )
         {
             switch ( color )
             {
                 case Blazorise.Color.Primary:
-                    return "is-badge-primary";
+                    return "is-primary";
                 case Blazorise.Color.Secondary:
-                    return "is-badge-info";
+                    return "is-info";
                 case Blazorise.Color.Success:
-                    return "is-badge-success";
+                    return "is-success";
                 case Blazorise.Color.Danger:
-                    return "is-badge-danger";
+                    return "is-danger";
                 case Blazorise.Color.Warning:
-                    return "is-badge-warning";
+                    return "is-warning";
                 case Blazorise.Color.Info:
-                    return "is-badge-info";
+                    return "is-info";
                 case Blazorise.Color.Link:
-                    return "is-badge-link";
+                    return "is-link";
                 default:
                     return null;
             }
