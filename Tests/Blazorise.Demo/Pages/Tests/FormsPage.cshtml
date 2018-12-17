@@ -9,75 +9,104 @@
             <CardBody>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is10" Placeholder="Some text value..." />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit ColumnSize="ColumnSize.Is10" Placeholder="Some text value..." />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
-                    <TextEdit Role="TextRole.Email" ColumnSize="ColumnSize.Is10" Placeholder="email" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Role="TextRole.Email" Placeholder="email" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
-                    <TextEdit Role="TextRole.Password" ColumnSize="ColumnSize.Is10" Text="password" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Role="TextRole.Password" Text="password" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Placeholder</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is10" Placeholder="placeholder" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Placeholder="placeholder" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Text area</FieldLabel>
-                    <MemoEdit ColumnSize="ColumnSize.Is10" Rows="5" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <MemoEdit Rows="5" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Readonly</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is10" Text="Readonly value" IsReadonly="true" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Text="Readonly value" IsReadonly="true" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Disabled</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is10" Text="Disabled value" IsDisabled="true" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Text="Disabled value" IsDisabled="true" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Static control</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is10" Text="email@example.com" IsPlaintext="true" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Text="email@example.com" IsPlaintext="true" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Helping text</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is10" Placeholder="Helping text">
-                        <Help>A block of help text that breaks onto a new line and may extend beyond one line.</Help>
-                    </TextEdit>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Placeholder="Helping text" />
+                    </FieldBody>
+                    <FieldHelp>A block of help text that breaks onto a new line and may extend beyond one line.</FieldHelp>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
-                    <SelectEdit ColumnSize="ColumnSize.Is10">
-                        <SelectItem>1</SelectItem>
-                        <SelectItem>2</SelectItem>
-                        <SelectItem>3</SelectItem>
-                        <SelectItem>4</SelectItem>
-                    </SelectEdit>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <SelectEdit>
+                            <SelectItem>1</SelectItem>
+                            <SelectItem>2</SelectItem>
+                            <SelectItem>3</SelectItem>
+                            <SelectItem>4</SelectItem>
+                        </SelectEdit>
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Multiple Select</FieldLabel>
-                    <SelectEdit ColumnSize="ColumnSize.Is10" IsMultiple="true">
-                        <SelectItem>1</SelectItem>
-                        <SelectItem>2</SelectItem>
-                        <SelectItem>3</SelectItem>
-                        <SelectItem>4</SelectItem>
-                    </SelectEdit>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <SelectEdit IsMultiple="true">
+                            <SelectItem>1</SelectItem>
+                            <SelectItem>2</SelectItem>
+                            <SelectItem>3</SelectItem>
+                            <SelectItem>4</SelectItem>
+                        </SelectEdit>
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Default file input</FieldLabel>
-                    <FileEdit ColumnSize="ColumnSize.Is10" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <FileEdit />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
-                    <DateEdit ColumnSize="ColumnSize.Is10" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <DateEdit />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Number</FieldLabel>
-                    <TextEdit Role="TextRole.Number" ColumnSize="ColumnSize.Is10" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Role="TextRole.Number" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Url</FieldLabel>
-                    <TextEdit Role="TextRole.Url" ColumnSize="ColumnSize.Is10" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Role="TextRole.Url" />
+                    </FieldBody>
                 </Field>
             </CardBody>
         </Card>
@@ -93,88 +122,104 @@
             <CardBody>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Small</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is10" Size="Size.Small" Placeholder=".small" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Size="Size.Small" Placeholder=".small" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Normal</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is10" Placeholder="Normal" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Placeholder="Normal" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Large</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is10" Size="Size.Large" Placeholder=".large" />
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Size="Size.Large" Placeholder=".large" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Static</FieldLabel>
-                    <Addons ColumnSize="ColumnSize.Is10">
-                        <Addon AddonType="AddonType.Start">
-                            <AddonLabel>@@</AddonLabel>
-                        </Addon>
-                        <Addon AddonType="AddonType.Body">
-                            <TextEdit Placeholder="Username" />
-                        </Addon>
-                    </Addons>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <AddonLabel>@@</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Placeholder="Username" />
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Static 2</FieldLabel>
-                    <Addons ColumnSize="ColumnSize.Is10">
-                        <Addon AddonType="AddonType.Start">
-                            <AddonLabel>Start</AddonLabel>
-                        </Addon>
-                        <Addon AddonType="AddonType.Body">
-                            <TextEdit Placeholder="Placeholder" />
-                        </Addon>
-                        <Addon AddonType="AddonType.End">
-                            <AddonLabel>End</AddonLabel>
-                        </Addon>
-                    </Addons>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <AddonLabel>Start</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Placeholder="Placeholder" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>End</AddonLabel>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Multiple addons</FieldLabel>
-                    <Addons ColumnSize="ColumnSize.Is10">
-                        <Addon AddonType="AddonType.Start">
-                            <AddonLabel>Start</AddonLabel>
-                        </Addon>
-                        <Addon AddonType="AddonType.Body">
-                            <TextEdit Placeholder="Placeholder" />
-                        </Addon>
-                        <Addon AddonType="AddonType.Body">
-                            <TextEdit Placeholder="Placeholder 2" />
-                        </Addon>
-                        <Addon AddonType="AddonType.End">
-                            <AddonLabel>End</AddonLabel>
-                        </Addon>
-                    </Addons>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <AddonLabel>Start</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Placeholder="Placeholder" />
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Placeholder="Placeholder 2" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>End</AddonLabel>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Dropdowns</FieldLabel>
-                    <Addons ColumnSize="ColumnSize.Is10">
-                        <Addon AddonType="AddonType.Start">
-                            <Dropdown>
-                                <DropdownToggle Color="Color.Primary">Dropdown</DropdownToggle>
-                                <DropdownMenu>
-                                    <DropdownItem>Action</DropdownItem>
-                                    <DropdownItem>Another action</DropdownItem>
-                                    <DropdownItem>Something else here</DropdownItem>
-                                    <DropdownDivider />
-                                    <DropdownItem>Separated link</DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
-                        </Addon>
-                        <Addon AddonType="AddonType.Body">
-                            <TextEdit />
-                        </Addon>
-                    </Addons>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <Dropdown>
+                                    <DropdownToggle Color="Color.Primary">Dropdown</DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem>Action</DropdownItem>
+                                        <DropdownItem>Another action</DropdownItem>
+                                        <DropdownItem>Something else here</DropdownItem>
+                                        <DropdownDivider />
+                                        <DropdownItem>Separated link</DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit />
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Buttons</FieldLabel>
-                    <Addons ColumnSize="ColumnSize.Is10">
-                        <Addon AddonType="AddonType.Body">
-                            <TextEdit Placeholder="Recipient's username" />
-                        </Addon>
-                        <Addon AddonType="AddonType.End">
-                            <SimpleButton Color="Color.Secondary">Button</SimpleButton>
-                        </Addon>
-                    </Addons>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Addons>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Placeholder="Recipient's username" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <SimpleButton Color="Color.Secondary">Button</SimpleButton>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
                 </Field>
             </CardBody>
         </Card>
@@ -211,21 +256,31 @@
             <CardBody>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is3">Email address</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is9" Placeholder="Email" />
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Placeholder="Email" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is3">Password</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is9" Role="TextRole.Password" Placeholder="Password" />
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Role="TextRole.Password" Placeholder="Password" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is3">Re Password</FieldLabel>
-                    <TextEdit ColumnSize="ColumnSize.Is9" Role="TextRole.Password" Placeholder="Retype password" />
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Role="TextRole.Password" Placeholder="Retype password" />
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
-                    <CheckEdit ColumnSize="ColumnSize.Is9">Check me out</CheckEdit>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <CheckEdit>Check me out</CheckEdit>
+                    </FieldBody>
                 </Field>
                 <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
-                    <SimpleButton ColumnSize="ColumnSize.Is9" Color="Color.Primary">Submit</SimpleButton>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <SimpleButton Color="Color.Primary">Submit</SimpleButton>
+                    </FieldBody>
                 </Field>
             </CardBody>
         </Card>

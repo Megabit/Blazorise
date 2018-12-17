@@ -1,0 +1,13 @@
+﻿@inherits BulmaBase.BaseBulmaFieldBody
+<CascadingValue Value=this>
+    @if ( ParentIsHorizontal )
+    {
+        <div class="@ClassMapper.Class">
+            @ChildContent
+        </div>
+    }
+    else
+    {
+        @ChildContent
+    }
+</CascadingValue>

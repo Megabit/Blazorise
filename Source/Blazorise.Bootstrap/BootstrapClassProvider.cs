@@ -118,6 +118,12 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region FieldBody
+
+        public virtual string FieldBody() => null;
+
+        #endregion
+
         #region FieldHelp
 
         public virtual string FieldHelp() => "form-text text-muted";

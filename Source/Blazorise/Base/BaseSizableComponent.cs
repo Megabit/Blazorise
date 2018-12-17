@@ -22,10 +22,10 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .If( () => ColumnSize.Class( ClassProvider ), () => ColumnSize != null && !NeedSizableBlock );
-
-            SizableClassMapper
                 .If( () => ColumnSize.Class( ClassProvider ), () => ColumnSize != null && NeedSizableBlock );
+
+            //SizableClassMapper
+            //    .If( () => ColumnSize.Class( ClassProvider ), () => ColumnSize != null && NeedSizableBlock );
 
             base.RegisterClasses();
         }

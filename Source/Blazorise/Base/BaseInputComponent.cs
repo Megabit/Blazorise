@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Blazor.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseInputComponent : BaseSizableComponent
+    public abstract class BaseInputComponent : BaseComponent
     {
         #region Members
 
@@ -19,6 +19,8 @@ namespace Blazorise.Base
 
         private bool isDisabled;
 
+        private IFluentColumn columnSize;
+
         #endregion
 
         #region Methods
@@ -26,6 +28,14 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             base.RegisterClasses();
+        }
+
+        protected override void OnInit()
+        {
+            // link to the parent component
+            ParentField?.Hook( this );
+
+            base.OnInit();
         }
 
         #endregion
@@ -77,7 +87,30 @@ namespace Blazorise.Base
             }
         }
 
+        [Parameter]
+        protected IFluentColumn ColumnSize
+        {
+            get => columnSize;
+            set
+            {
+                columnSize = value;
+
+                Dirty();
+                ClassMapper.Dirty();
+            }
+        }
+
+        protected virtual bool ParentIsHorizontal => ParentField?.IsHorizontal == true;
+
+        protected virtual bool ParentIsField => ParentField != null;
+
+        protected virtual bool ParentIsFieldBody => ParentFieldBody != null;
+
         [Parameter] protected RenderFragment ChildContent { get; set; }
+
+        [CascadingParameter] protected BaseField ParentField { get; set; }
+
+        [CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
 
         #endregion
     }

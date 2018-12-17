@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Blazor.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseAddons : BaseSizableComponent
+    public abstract class BaseAddons : BaseComponent
     {
         #region Members
+
+        private IFluentColumn columnSize;
 
         #endregion
 
@@ -29,7 +31,28 @@ namespace Blazorise.Base
 
         #region Properties
 
+        [Parameter]
+        protected IFluentColumn ColumnSize
+        {
+            get => columnSize;
+            set
+            {
+                columnSize = value;
+
+                Dirty();
+                ClassMapper.Dirty();
+            }
+        }
+
+        protected virtual bool ParentIsHorizontal => ParentField?.IsHorizontal == true;
+
+        [CascadingParameter] protected BaseField ParentField { get; set; }
+
+        //protected bool IsInFieldBody => ParentFieldBody != null;
+
         [Parameter] protected RenderFragment ChildContent { get; set; }
+
+        //[CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
 
         #endregion
     }

@@ -39,7 +39,7 @@ namespace Blazorise.Base
 
         #region Properties
 
-        protected override bool NeedSizableBlock => ParentIsHorizontal && ParentAddons == null;
+        //protected override bool NeedSizableBlock => ParentIsHorizontal && ParentAddons == null;
 
         protected string Type => Role.ToTextRoleString();
 

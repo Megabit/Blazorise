@@ -112,6 +112,12 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region FieldBody
+
+        public virtual string FieldBody() => "field-body";
+
+        #endregion
+
         #region FieldHelp
 
         public virtual string FieldHelp() => "help";

@@ -24,19 +24,20 @@ namespace Blazorise.Bootstrap
             var componentMapper = new ComponentMapper();
 
             componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
-            componentMapper.Register<Blazorise.Addons, Bootstrap.Addons>();
+            //componentMapper.Register<Blazorise.Addons, Bootstrap.Addons>();
             componentMapper.Register<Blazorise.BarToggler, Bootstrap.BarToggler>();
             componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
             componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
             componentMapper.Register<Blazorise.CheckEdit, Bootstrap.CheckEdit>();
-            componentMapper.Register<Blazorise.DateEdit, Bootstrap.DateEdit>();
+            //componentMapper.Register<Blazorise.DateEdit, Bootstrap.DateEdit>();
             componentMapper.Register<Blazorise.Field, Bootstrap.Field>();
+            componentMapper.Register<Blazorise.FieldBody, Bootstrap.FieldBody>();
             componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
             componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
-            componentMapper.Register<Blazorise.MemoEdit, Bootstrap.MemoEdit>();
-            componentMapper.Register<Blazorise.SelectEdit, Bootstrap.SelectEdit>();
-            componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
-            componentMapper.Register<Blazorise.TextEdit, Bootstrap.TextEdit>();
+            //componentMapper.Register<Blazorise.MemoEdit, Bootstrap.MemoEdit>();
+            //componentMapper.Register<Blazorise.SelectEdit, Bootstrap.SelectEdit>();
+            //componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
+            //componentMapper.Register<Blazorise.TextEdit, Bootstrap.TextEdit>();
 
             serviceCollection.AddSingleton<IComponentMapper>( componentMapper );
 

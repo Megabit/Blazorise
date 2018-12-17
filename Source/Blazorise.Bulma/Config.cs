@@ -26,6 +26,8 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.DropdownDivider, Bulma.DropdownDivider>();
             componentMapper.Register<Blazorise.DropdownMenu, Bulma.DropdownMenu>();
             componentMapper.Register<Blazorise.Field, Bulma.Field>();
+            componentMapper.Register<Blazorise.FieldLabel, Bulma.FieldLabel>();
+            componentMapper.Register<Blazorise.FieldBody, Bulma.FieldBody>();
             componentMapper.Register<Blazorise.Fields, Bulma.Fields>();
             componentMapper.Register<Blazorise.FileEdit, Bulma.FileEdit>();
             componentMapper.Register<Blazorise.SelectEdit, Bulma.SelectEdit>();

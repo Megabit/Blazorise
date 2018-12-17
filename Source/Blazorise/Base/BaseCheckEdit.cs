@@ -40,7 +40,7 @@ namespace Blazorise.Base
 
         #region Properties
 
-        protected override bool NeedSizableBlock => ParentIsHorizontal && ParentAddons == null;
+        //protected override bool NeedSizableBlock => ParentIsHorizontal && ParentAddons == null;
 
         protected ControlRole Role => RadioGroup != null ? ControlRole.Radio : ControlRole.Check;
 

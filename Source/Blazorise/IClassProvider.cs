@@ -107,6 +107,12 @@ namespace Blazorise
 
         #endregion
 
+        #region FieldBody
+
+        string FieldBody();
+
+        #endregion
+
         #region FieldHelp
 
         string FieldHelp();
