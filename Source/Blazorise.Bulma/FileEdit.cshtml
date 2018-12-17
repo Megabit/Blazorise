@@ -3,5 +3,13 @@
     <FormLabel IsFile="true" For="@ElementId">
         <input id="@ElementId" type="file" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" onchange="@PathChangedHandler" />
         @ChildContent
+        <span class="file-cta">
+            <span class="file-label">
+                Choose a file
+            </span>
+        </span>
+        <span class="file-name">
+            @* TODO *@
+        </span>
     </FormLabel>
 </Control>

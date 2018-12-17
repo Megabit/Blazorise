@@ -1,0 +1,15 @@
+﻿@inherits Base.BaseFieldHelp
+@if ( ParentIsFieldBody )
+{
+    <div class="field">
+        <small class="@ClassMapper.Class">
+            @ChildContent
+        </small>
+    </div>
+}
+else
+{
+    <small class="@ClassMapper.Class">
+        @ChildContent
+    </small>
+}

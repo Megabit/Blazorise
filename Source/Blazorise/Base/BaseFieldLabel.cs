@@ -40,8 +40,6 @@ namespace Blazorise.Base
 
         #region Properties
 
-        protected override bool NeedSizableBlock => ParentIsHorizontal && ParentAddons == null;
-
         [Parameter] protected string For { get; set; }
 
         [Parameter]

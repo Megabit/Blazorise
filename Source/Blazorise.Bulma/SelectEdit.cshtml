@@ -1,6 +1,19 @@
 ﻿@inherits Base.BaseSelect
-<div class="@ClassMapper.Class">
-    <select disabled="@IsDisabled" readonly="@IsReadonly" onchange="@SelectionChangedHandler">
-        @ChildContent
-    </select>
-</div>
+@if ( ParentIsFieldBody )
+{
+    <div class="field">
+        <div class="@ClassMapper.Class">
+            <select disabled="@IsDisabled" readonly="@IsReadonly" onchange="@SelectionChangedHandler">
+                @ChildContent
+            </select>
+        </div>
+    </div>
+}
+else
+{
+    <div class="@ClassMapper.Class">
+        <select disabled="@IsDisabled" readonly="@IsReadonly" onchange="@SelectionChangedHandler">
+            @ChildContent
+        </select>
+    </div>
+}

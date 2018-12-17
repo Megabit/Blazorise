@@ -27,12 +27,14 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.DropdownMenu, Bulma.DropdownMenu>();
             componentMapper.Register<Blazorise.Field, Bulma.Field>();
             componentMapper.Register<Blazorise.FieldLabel, Bulma.FieldLabel>();
+            componentMapper.Register<Blazorise.FieldHelp, Bulma.FieldHelp>();
             componentMapper.Register<Blazorise.FieldBody, Bulma.FieldBody>();
             componentMapper.Register<Blazorise.Fields, Bulma.Fields>();
             componentMapper.Register<Blazorise.FileEdit, Bulma.FileEdit>();
             componentMapper.Register<Blazorise.SelectEdit, Bulma.SelectEdit>();
             componentMapper.Register<Blazorise.SimpleButton, Bulma.SimpleButton>();
             componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();
+            componentMapper.Register<Blazorise.TextEdit, Bulma.TextEdit>();
 
             serviceCollection.AddSingleton<IComponentMapper>( componentMapper );
 

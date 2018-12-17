@@ -77,8 +77,6 @@ namespace Blazorise.Base
 
         #region Properties
 
-        protected override bool NeedSizableBlock => base.NeedSizableBlock && ParentAddons == null;
-
         protected bool IsAddons => ParentButtons?.Role == ButtonsRole.Addons || ParentDropdown?.IsGroup == true;
 
         protected ClassMapper AddonContainerClassMapper { get; private set; } = new ClassMapper();

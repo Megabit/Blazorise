@@ -32,7 +32,11 @@ namespace Blazorise.Base
 
         #region Properties
 
+        protected virtual bool ParentIsFieldBody => ParentFieldBody != null;
+
         [Parameter] protected RenderFragment ChildContent { get; set; }
+
+        [CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
 
         #endregion
     }

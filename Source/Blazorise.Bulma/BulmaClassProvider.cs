@@ -108,7 +108,7 @@ namespace Blazorise.Bulma
 
         public virtual string FieldLabel() => "field-label";
 
-        public virtual string FieldLabelHorizontal() => null;
+        public virtual string FieldLabelHorizontal() => "is-normal";
 
         #endregion
 
@@ -130,7 +130,7 @@ namespace Blazorise.Bulma
 
         public virtual string ControlRadio() => "control";
 
-        public virtual string ControlFile() => "file has-name";
+        public virtual string ControlFile() => "file has-name is-fullwidth";
 
         public virtual string ControlText() => "control";
 

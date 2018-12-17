@@ -10,7 +10,7 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <TextEdit ColumnSize="ColumnSize.Is10" Placeholder="Some text value..." />
+                        <TextEdit Placeholder="Some text value..." />
                     </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
@@ -58,9 +58,10 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Helping text</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <TextEdit Placeholder="Helping text" />
+                        <TextEdit Placeholder="Helping text">
+                            <FieldHelp>A block of help text that breaks onto a new line and may extend beyond one line.</FieldHelp>
+                        </TextEdit>
                     </FieldBody>
-                    <FieldHelp>A block of help text that breaks onto a new line and may extend beyond one line.</FieldHelp>
                 </Field>
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
@@ -273,11 +274,13 @@
                     </FieldBody>
                 </Field>
                 <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is3"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is9">
                         <CheckEdit>Check me out</CheckEdit>
                     </FieldBody>
                 </Field>
                 <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is3"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is9">
                         <SimpleButton Color="Color.Primary">Submit</SimpleButton>
                     </FieldBody>

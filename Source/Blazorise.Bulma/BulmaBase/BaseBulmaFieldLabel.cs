@@ -21,7 +21,7 @@ namespace Blazorise.Bulma.BulmaBase
 
         #region Properties
 
-        protected override bool NeedSizableBlock => false;
+        protected override bool UseColumnSizes => false; // Bulma does not support column sizes on fields.
 
         #endregion
     }

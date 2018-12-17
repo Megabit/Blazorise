@@ -1,7 +1,21 @@
 ﻿@inherits Base.BaseCheckEdit
-<Control Role="@Role" IsInline="@IsInline">
-    <FormLabel IsCheck="true" For="@ElementId">
-        <input type="@Type" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" onchange="@CheckedChangedHandled" name="@RadioGroup" id="@ElementId" />
-        @ChildContent
-    </FormLabel>
-</Control>
+@if ( ParentIsFieldBody )
+{
+    <div class="field">
+        <Control Role="@Role" IsInline="@IsInline">
+            <FormLabel IsCheck="true" For="@ElementId">
+                <input type="@Type" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" onchange="@CheckedChangedHandled" name="@RadioGroup" id="@ElementId" />
+                @ChildContent
+            </FormLabel>
+        </Control>
+    </div>
+}
+else
+{
+    <Control Role="@Role" IsInline="@IsInline">
+        <FormLabel IsCheck="true" For="@ElementId">
+            <input type="@Type" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" onchange="@CheckedChangedHandled" name="@RadioGroup" id="@ElementId" />
+            @ChildContent
+        </FormLabel>
+    </Control>
+}

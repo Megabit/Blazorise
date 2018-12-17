@@ -22,19 +22,9 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .If( () => ColumnSize.Class( ClassProvider ), () => ColumnSize != null && NeedSizableBlock );
-
-            //SizableClassMapper
-            //    .If( () => ColumnSize.Class( ClassProvider ), () => ColumnSize != null && NeedSizableBlock );
+                .If( () => ColumnSize.Class( ClassProvider ), () => ColumnSize != null && UseColumnSizes );
 
             base.RegisterClasses();
-        }
-
-        protected internal override void Dirty()
-        {
-            SizableClassMapper.Dirty();
-
-            base.Dirty();
         }
 
         protected override void OnInit()
@@ -49,11 +39,16 @@ namespace Blazorise.Base
 
         #region Properties
 
-        protected ClassMapper SizableClassMapper { get; } = new ClassMapper();
-
         protected virtual bool ParentIsHorizontal => ParentField?.IsHorizontal == true;
 
-        protected virtual bool NeedSizableBlock => ParentIsHorizontal;
+        protected virtual bool ParentIsField => ParentField != null;
+
+        protected virtual bool ParentIsFieldBody => ParentFieldBody != null;
+
+        /// <summary>
+        /// Used to override the use of column sizes using by some of the providers.
+        /// </summary>
+        protected virtual bool UseColumnSizes => true;
 
         [Parameter]
         protected IFluentColumn ColumnSize
@@ -63,12 +58,13 @@ namespace Blazorise.Base
             {
                 columnSize = value;
 
-                Dirty();
                 ClassMapper.Dirty();
             }
         }
 
         [CascadingParameter] protected BaseField ParentField { get; set; }
+
+        [CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
 
         #endregion
     }
