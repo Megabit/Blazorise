@@ -3,16 +3,29 @@ title: "Releases"
 permalink: /docs/releases/
 excerpt: "List of Blazorise versions so far."
 toc: true
-toc_label: "On this page"
+toc_label: "Version history"
 ---
 
 ## 0.3.0 (unreleased)
 
 ### Enhancements
 
+#### Breaking Changes
+
+  - To allow better flexibility when defining horizontal fields a new tag `FieldBody` is introduced. Horizontal fields are now defined like this:
+
+  ```html
+  <Field IsHorizontal="true">
+      <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
+      <FieldBody ColumnSize="ColumnSize.Is10">
+          <TextEdit Placeholder="Some text value..." />
+      </FieldBody>
+  </Field>
+  ```
+
 - Ability to add custom rules for Margin, Padding and ColumnSize
 - Added ModalTitle component, Title argument on ModalHeader is now **obsolete**
-- Better implementation for bulma css
+- Better implementation of Bulma css framework
 
 ### Bug Fixes
 

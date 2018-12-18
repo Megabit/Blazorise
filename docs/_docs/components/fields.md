@@ -8,16 +8,17 @@ toc_label: "Guide"
 
 ## Field
 
-The Field is a container for:
+The Field is a container for `Text`, `Select`, `Date`, `Check`, `Memo`, and optionally for `Button`. Structure is very simple:
 
-- `Text`
-- `Select`
-- `Date`
-- `Check`
-- `Memo`
-- `Button`
+- `Field` the main container
+  - `FieldLabel` a field label
+  - `FieldBody` used only for _horizontal_ fields
+  - `FieldHelp` small text bellow the field
+- `Fields` container used to group several `Field` components
 
-It is recomended to always place input components inside of field. That way you will keep the right spacing and arangement between input.
+It is recomended to always place input components inside of a field. That way you will keep the right spacing and arangement between input controls.
+
+### Basic example
 
 ```html
 <Field>
@@ -38,12 +39,28 @@ It is recomended to always place input components inside of field. That way you 
 
 <iframe src="/examples/fields/field-label/" frameborder="0" scrolling="no" style="width:100%;height:80px;"></iframe>
 
+### With help
+```html
+<Field>
+    <FieldLabel>Email address</FieldLabel>
+    <TextEdit Placeholder="Enter email">
+        <FieldHelp>Please enter a valid email address</FieldHelp>
+    </TextEdit>
+<Field>
+```
+
+<iframe src="/examples/fields/field-help/" frameborder="0" scrolling="no" style="width:100%;height:105px;"></iframe>
+
 ### Horizontal field
+
+When using horizontal field you must place input controls inside of the `FieldBody` tag.
 
 ```html
 <Field IsHorizontal="true">
-    <FieldLabel ColumnSize="ColumnSize.Is2">Url</FieldLabel>
-    <TextEdit Role="TextRole.Url" ColumnSize="ColumnSize.Is10" />
+    <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
+    <FieldBody ColumnSize="ColumnSize.Is10">
+        <TextEdit Placeholder="Some text value..." />
+    </FieldBody>
 </Field>
 ```
 
