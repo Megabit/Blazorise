@@ -12,7 +12,7 @@ namespace Blazorise.Bulma
     {
         #region Text
 
-        public virtual string Text( bool plaintext ) => plaintext ? "control input is-static" : "control input";
+        public virtual string Text( bool plaintext ) => plaintext ? "input is-static" : "input";
 
         public virtual string TextSize( Size size ) => Size( size );
 
@@ -28,7 +28,7 @@ namespace Blazorise.Bulma
 
         #region Select
 
-        public virtual string Select() => "control select is-fullwidth";
+        public virtual string Select() => "select is-fullwidth";
 
         public virtual string SelectSize( Size size ) => $"{Size( size )}";
 
@@ -36,7 +36,7 @@ namespace Blazorise.Bulma
 
         #region Date
 
-        public string Date() => "control input";
+        public string Date() => "input";
 
         public string DateSize( Size size ) => $"{Size( size )}";
 
@@ -44,7 +44,7 @@ namespace Blazorise.Bulma
 
         #region Check
 
-        public string Check() => "control checkbox";
+        public string Check() => "checkbox";
 
         public string CheckInline() => "inline";
 
@@ -52,7 +52,7 @@ namespace Blazorise.Bulma
 
         #region Radio
 
-        public virtual string Radio() => "control radio";
+        public virtual string Radio() => "radio";
 
         public virtual string RadioInline() => "inline";
 

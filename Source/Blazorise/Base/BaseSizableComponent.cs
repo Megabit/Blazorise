@@ -46,7 +46,7 @@ namespace Blazorise.Base
         protected virtual bool ParentIsFieldBody => ParentFieldBody != null;
 
         /// <summary>
-        /// Used to override the use of column sizes using by some of the providers.
+        /// Used to override the use of column sizes by some of the providers.
         /// </summary>
         protected virtual bool UseColumnSizes => true;
 

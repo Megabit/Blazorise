@@ -2,18 +2,22 @@
 @if ( ParentIsFieldBody )
 {
     <div class="field">
-        <div class="@ClassMapper.Class">
-            <select disabled="@IsDisabled" readonly="@IsReadonly" onchange="@SelectionChangedHandler">
-                @ChildContent
-            </select>
+        <div class="control">
+            <div class="@ClassMapper.Class">
+                <select disabled="@IsDisabled" readonly="@IsReadonly" onchange="@SelectionChangedHandler">
+                    @ChildContent
+                </select>
+            </div>
         </div>
     </div>
 }
 else
 {
-    <div class="@ClassMapper.Class">
-        <select disabled="@IsDisabled" readonly="@IsReadonly" onchange="@SelectionChangedHandler">
-            @ChildContent
-        </select>
+    <div class="control">
+        <div class="@ClassMapper.Class">
+            <select disabled="@IsDisabled" readonly="@IsReadonly" onchange="@SelectionChangedHandler">
+                @ChildContent
+            </select>
+        </div>
     </div>
 }

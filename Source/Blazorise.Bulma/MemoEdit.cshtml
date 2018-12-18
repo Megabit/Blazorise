@@ -1,0 +1,17 @@
+﻿@inherits Base.BaseMemo
+@if ( ParentIsFieldBody )
+{
+    <div class="field">
+        <div class="control">
+            <textarea class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" rows="@Rows" onchange="@HandleTextChange" />
+            @ChildContent
+        </div>
+    </div>
+}
+else
+{
+    <div class="control">
+        <textarea class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" rows="@Rows" onchange="@HandleTextChange" />
+        @ChildContent
+    </div>
+}

@@ -23,6 +23,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.CardImage, Bulma.CardImage>();
             componentMapper.Register<Blazorise.CardSubtitle, Bulma.CardSubtitle>();
             componentMapper.Register<Blazorise.CheckEdit, Bulma.CheckEdit>();
+            componentMapper.Register<Blazorise.DateEdit, Bulma.DateEdit>();
             componentMapper.Register<Blazorise.DropdownDivider, Bulma.DropdownDivider>();
             componentMapper.Register<Blazorise.DropdownMenu, Bulma.DropdownMenu>();
             componentMapper.Register<Blazorise.Field, Bulma.Field>();
@@ -31,6 +32,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.FieldBody, Bulma.FieldBody>();
             componentMapper.Register<Blazorise.Fields, Bulma.Fields>();
             componentMapper.Register<Blazorise.FileEdit, Bulma.FileEdit>();
+            componentMapper.Register<Blazorise.MemoEdit, Bulma.MemoEdit>();
             componentMapper.Register<Blazorise.SelectEdit, Bulma.SelectEdit>();
             componentMapper.Register<Blazorise.SimpleButton, Bulma.SimpleButton>();
             componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();

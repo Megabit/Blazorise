@@ -1,0 +1,17 @@
+﻿@inherits Base.BaseDateEdit
+@if ( ParentIsFieldBody )
+{
+    <div class="field">
+        <div class="control">
+            <input type="text" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" value="@internalDate" onchange="@InternalDateHandler" onclick="@ClickHandler" id="@ElementId" ref="ElementRef" placeholder="@Placeholder" />
+            @ChildContent
+        </div>
+    </div>
+}
+else
+{
+    <div class="control">
+        <input type="text" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" value="@internalDate" onchange="@InternalDateHandler" onclick="@ClickHandler" id="@ElementId" ref="ElementRef" placeholder="@Placeholder" />
+        @ChildContent
+    </div>
+}

@@ -2,12 +2,16 @@
 @if ( ParentIsFieldBody )
 {
     <div class="field">
-        <input type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" onchange="@HandleTextChange" />
-        @ChildContent
+        <div class="control">
+            <input type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" onchange="@HandleTextChange" />
+            @ChildContent
+        </div>
     </div>
 }
 else
 {
-    <input type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" onchange="@HandleTextChange" />
-    @ChildContent
+    <div class="control">
+        <input type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" onchange="@HandleTextChange" />
+        @ChildContent
+    </div>
 }
