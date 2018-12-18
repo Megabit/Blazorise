@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blazorise.Bootstrap
 {
-    class BootstrapStyleProvider : IStyleProvider
+    public class BootstrapStyleProvider : IStyleProvider
     {
         #region Modal
 

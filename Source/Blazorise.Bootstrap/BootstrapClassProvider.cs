@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Blazorise.Bootstrap
 {
-    class BootstrapClassProvider : IClassProvider
+    public class BootstrapClassProvider : IClassProvider
     {
         #region Text
 
@@ -1061,8 +1061,8 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        public bool Custom { get; set; } = true;
+        public virtual bool Custom { get; set; } = true;
 
-        public string Provider => "Bootstrap";
+        public virtual string Provider => "Bootstrap";
     }
 }
