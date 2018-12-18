@@ -586,6 +586,18 @@ namespace Blazorise
 
         #endregion
 
+        #region Breadcrumb
+
+        string Breadcrumb();
+
+        string BreadcrumbItem();
+
+        string BreadcrumbItemActive();
+
+        string BreadcrumbLink();
+
+        #endregion
+
         #region States
 
         string Show();

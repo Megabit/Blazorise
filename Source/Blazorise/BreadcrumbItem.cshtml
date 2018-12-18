@@ -1,0 +1,13 @@
+﻿@inherits Base.BaseBreadcrumbItem
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <CascadingValue Value=this>
+        <li class="@ClassMapper.Class" aria-current="@(IsActive ? "page" : null)">
+            @ChildContent
+        </li>
+    </CascadingValue>
+}
+else
+{
+    @RenderCustomComponent()
+}

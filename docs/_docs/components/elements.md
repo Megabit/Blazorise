@@ -15,7 +15,7 @@ Simply set the Color attribute and you're good to go.
 <Badge Color="Color.Secondary">Secondary</Badge>
 ```
 
-<iframe class="frame" src="/examples/elements/badge/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+<iframe class="frame" src="/examples/elements/badge/" frameborder="0" scrolling="no" style="width:100%;height:35px;"></iframe>
 
 ## Pagination
 
@@ -50,6 +50,24 @@ Simply set the Color attribute and you're good to go.
 ```
 
 <iframe class="frame" src="/examples/elements/pagination/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
+## Breadcrumb
+
+```html
+<Breadcrumb>
+    <BreadcrumbItem>
+        <BreadcrumbLink To="#">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+        <BreadcrumbLink To="#">Library</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem IsActive="true">
+        <BreadcrumbLink To="#">Data</BreadcrumbLink>
+    </BreadcrumbItem>
+</Breadcrumb>
+```
+
+<iframe class="frame" src="/examples/elements/breadcrumb/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
 ## Alert
 

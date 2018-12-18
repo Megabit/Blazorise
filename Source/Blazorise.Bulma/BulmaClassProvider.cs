@@ -676,6 +676,18 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Breadcrumb
+
+        public virtual string Breadcrumb() => "breadcrumb";
+
+        public virtual string BreadcrumbItem() => null;
+
+        public virtual string BreadcrumbItemActive() => Active();
+
+        public virtual string BreadcrumbLink() => null;
+
+        #endregion
+
         #region States
 
         public virtual string Show() => "show";

@@ -1,0 +1,13 @@
+﻿@inherits Base.BaseBreadcrumb
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <nav aria-label="breadcrumb">
+        <ol class="@ClassMapper.Class">
+            @ChildContent
+        </ol>
+    </nav>
+}
+else
+{
+    @RenderCustomComponent()
+}

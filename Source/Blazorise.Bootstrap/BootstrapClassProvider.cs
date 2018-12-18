@@ -641,6 +641,18 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Breadcrumb
+
+        public virtual string Breadcrumb() => "breadcrumb";
+
+        public virtual string BreadcrumbItem() => "breadcrumb-item";
+
+        public virtual string BreadcrumbItemActive() => Active();
+
+        public virtual string BreadcrumbLink() => null;
+
+        #endregion
+
         #region States
 
         public virtual string Show() => "show";

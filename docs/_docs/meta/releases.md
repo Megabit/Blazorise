@@ -23,6 +23,7 @@ toc_label: "Version history"
   </Field>
   ```
 
+- New Breadcrumb components
 - Ability to add custom rules for Margin, Padding and ColumnSize
 - Added ModalTitle component, Title argument on ModalHeader is now **obsolete**
 - Better implementation of Bulma css framework
