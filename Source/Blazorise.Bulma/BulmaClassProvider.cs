@@ -469,15 +469,15 @@ namespace Blazorise.Bulma
 
         #region Snackbar
 
-        public virtual string Snackbar() => "notification";
+        public virtual string Snackbar() => "snackbar";
 
         public virtual string SnackbarShow() => Show();
 
-        public virtual string SnackbarMultiline() => null;
+        public virtual string SnackbarMultiline() => "snackbar-multi-line";
 
-        public virtual string SnackbarBody() => null;
+        public virtual string SnackbarBody() => "snackbar-body";
 
-        public virtual string SnackbarAction() => "close";
+        public virtual string SnackbarAction() => "snackbar-btn";
 
         #endregion
 

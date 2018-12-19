@@ -168,6 +168,20 @@
     </Column>
 </Row>
 <Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>SNACKBAR</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SimpleButton Clicked="@(()=>snackbar.Show())">Snackbar</SimpleButton>
+                <SimpleButton Clicked="@(()=>snackbarAction.Show())">Snackbar With Action</SimpleButton>
+                <SimpleButton Clicked="@(()=>snackbarMultiline.Show())">Multiline Snackbar</SimpleButton>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
     <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
@@ -238,3 +252,25 @@
         </Card>
     </Column>
 </Row>
+<Snackbar ref="snackbar">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
+</Snackbar>
+<Snackbar ref="snackbarAction">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
+    <SnackbarAction Clicked="@(()=>snackbarAction.Hide())">ACTION</SnackbarAction>
+</Snackbar>
+<Snackbar ref="snackbarMultiline" IsMultiline="true">
+    <SnackbarBody>
+        When I was 5 years old, my mother always told me that happiness was the key to life. When I went to school, they asked me what I wanted to be when I grew up. I wrote down ‘happy’. They told me I didn’t understand the assignment, and I told them they didn’t understand life. –John Lennon
+    </SnackbarBody>
+    <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
+</Snackbar>
+@functions{
+    Snackbar snackbar;
+    Snackbar snackbarAction;
+    Snackbar snackbarMultiline;
+}
