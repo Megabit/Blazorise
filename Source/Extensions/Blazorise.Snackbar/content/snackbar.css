@@ -1,0 +1,192 @@
+﻿.snackbar {
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: #323232;
+    color: white;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 0.875rem;
+    line-height: 1.428572;
+    opacity: 0;
+    padding: 0.875rem 1.5rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+    transition: opacity 0s 0.195s, -webkit-transform 0.195s cubic-bezier(0.4, 0, 1, 1);
+    transition: opacity 0s 0.195s, transform 0.195s cubic-bezier(0.4, 0, 1, 1);
+    transition: opacity 0s 0.195s, transform 0.195s cubic-bezier(0.4, 0, 1, 1), -webkit-transform 0.195s cubic-bezier(0.4, 0, 1, 1);
+    width: 100%;
+    z-index: 60;
+}
+
+@media (min-width: 576px) {
+    .snackbar {
+        border-radius: 2px;
+        max-width: 35.5rem;
+        min-width: 18rem;
+        left: 50%;
+        -webkit-transform: translate(-50%, 100%);
+        transform: translate(-50%, 100%);
+        width: auto;
+    }
+}
+
+@media (min-width: 576px) {
+    .snackbar {
+        transition: opacity 0s 0.2535s, -webkit-transform 0.2535s cubic-bezier(0.4, 0, 1, 1);
+        transition: opacity 0s 0.2535s, transform 0.2535s cubic-bezier(0.4, 0, 1, 1);
+        transition: opacity 0s 0.2535s, transform 0.2535s cubic-bezier(0.4, 0, 1, 1), -webkit-transform 0.2535s cubic-bezier(0.4, 0, 1, 1);
+    }
+}
+
+@media (min-width: 992px) {
+    .snackbar {
+        transition: opacity 0s 0.13s, -webkit-transform 0.13s cubic-bezier(0.4, 0, 1, 1);
+        transition: opacity 0s 0.13s, transform 0.13s cubic-bezier(0.4, 0, 1, 1);
+        transition: opacity 0s 0.13s, transform 0.13s cubic-bezier(0.4, 0, 1, 1), -webkit-transform 0.13s cubic-bezier(0.4, 0, 1, 1);
+    }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+    .snackbar {
+        transition: none;
+    }
+}
+
+.snackbar.show {
+    transition-duration: 0.225s;
+    transition-property: -webkit-transform;
+    transition-property: transform;
+    transition-property: transform, -webkit-transform;
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+
+@media (min-width: 576px) {
+    .snackbar.show {
+        transition-duration: 0.2925s;
+    }
+}
+
+@media (min-width: 992px) {
+    .snackbar.show {
+        transition-duration: 0.15s;
+    }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+    .snackbar.show {
+        transition: none;
+    }
+}
+
+@media (min-width: 576px) {
+    .snackbar.show {
+        -webkit-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+    }
+}
+
+.snackbar-body {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: auto;
+    max-height: 100%;
+    min-width: 0;
+}
+
+.snackbar-btn {
+    transition-duration: 0.3s;
+    transition-property: background-color, background-image;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: transparent;
+    background-image: none;
+    border: 0;
+    color: #ff4081;
+    cursor: pointer;
+    display: block;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    font-size: inherit;
+    font-weight: 500;
+    line-height: inherit;
+    margin-left: 1.5rem;
+    padding: 0;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+@media (min-width: 576px) {
+    .snackbar-btn {
+        transition-duration: 0.39s;
+    }
+}
+
+@media (min-width: 992px) {
+    .snackbar-btn {
+        transition-duration: 0.2s;
+    }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+    .snackbar-btn {
+        transition: none;
+    }
+}
+
+.snackbar-btn:focus, .snackbar-btn:hover {
+    color: #ff80ab;
+    text-decoration: none;
+}
+
+@media (min-width: 576px) {
+    .snackbar-btn {
+        margin-left: 3rem;
+    }
+}
+
+.snackbar-btn:focus {
+    outline: 0;
+}
+
+@media (min-width: 576px) {
+    .snackbar-left,
+    .snackbar-right {
+        -webkit-transform: translateY(100%);
+        transform: translateY(100%);
+    }
+
+        .snackbar-left.show,
+        .snackbar-right.show {
+            -webkit-transform: translateY(-1.5rem);
+            transform: translateY(-1.5rem);
+        }
+}
+
+@media (min-width: 576px) {
+    .snackbar-left {
+        left: 1.5rem;
+    }
+}
+
+@media (min-width: 576px) {
+    .snackbar-right {
+        right: 1.5rem;
+        left: auto;
+    }
+}
+
+.snackbar-multi-line {
+    height: 5rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+}
+
+    .snackbar-multi-line .snackbar-body {
+        white-space: normal;
+    }

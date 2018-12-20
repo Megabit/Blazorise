@@ -235,15 +235,6 @@
     <Content Update="SimpleButton.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Snackbar.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="SnackbarAction.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="SnackbarBody.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Tab.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

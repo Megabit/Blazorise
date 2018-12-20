@@ -398,20 +398,6 @@ namespace Blazorise
 
         #endregion
 
-        #region Snackbar
-
-        string Snackbar();
-
-        string SnackbarShow();
-
-        string SnackbarMultiline();
-
-        string SnackbarBody();
-
-        string SnackbarAction();
-
-        #endregion
-
         #region Alert
 
         string Alert();

@@ -177,6 +177,8 @@
                 <SimpleButton Clicked="@(()=>snackbar.Show())">Snackbar</SimpleButton>
                 <SimpleButton Clicked="@(()=>snackbarAction.Show())">Snackbar With Action</SimpleButton>
                 <SimpleButton Clicked="@(()=>snackbarMultiline.Show())">Multiline Snackbar</SimpleButton>
+                <SimpleButton Clicked="@(()=>snackbarLeft.Show())">Left-Aligned Snackbar</SimpleButton>
+                <SimpleButton Clicked="@(()=>snackbarRight.Show())">Right-Aligned Snackbar</SimpleButton>
             </CardBody>
         </Card>
     </Column>
@@ -269,8 +271,20 @@
     </SnackbarBody>
     <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
 </Snackbar>
+<Snackbar ref="snackbarLeft" Location="SnackbarLocation.Left">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
+</Snackbar>
+<Snackbar ref="snackbarRight" Location="SnackbarLocation.Right">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
+</Snackbar>
 @functions{
     Snackbar snackbar;
     Snackbar snackbarAction;
     Snackbar snackbarMultiline;
+    Snackbar snackbarLeft;
+    Snackbar snackbarRight;
 }

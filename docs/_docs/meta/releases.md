@@ -8,9 +8,7 @@ toc_label: "Version history"
 
 ## 0.3.0 (unreleased)
 
-### Enhancements
-
-#### Breaking Changes
+### Breaking Changes
 
   - To allow better flexibility when defining horizontal fields a new tag `FieldBody` is introduced. Horizontal fields are now defined like this:
 
@@ -23,10 +21,13 @@ toc_label: "Version history"
   </Field>
   ```
 
+### Enhancements
+
 - New Breadcrumb components
 - Ability to add custom rules for Margin, Padding and ColumnSize
 - Added ModalTitle component, Title argument on ModalHeader is now **obsolete**
 - Better implementation of Bulma css framework
+- Snackbar moved from Blazorise to the Extensions folder
 
 ### Bug Fixes
 

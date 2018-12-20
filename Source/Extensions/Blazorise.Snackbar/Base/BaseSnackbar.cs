@@ -8,15 +8,17 @@ using Microsoft.AspNetCore.Blazor;
 using Microsoft.AspNetCore.Blazor.Components;
 #endregion
 
-namespace Blazorise.Base
+namespace Blazorise.Snackbar.Base
 {
-    public abstract class BaseSnackbar : BaseComponent
+    public abstract class BaseSnackbar : Blazorise.Base.BaseComponent
     {
         #region Members
 
         private bool isOpen;
 
         private bool isMultiline;
+
+        private SnackbarLocation location;
 
         private Timer timer;
 
@@ -41,11 +43,25 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.Snackbar() )
-                .If( () => ClassProvider.SnackbarShow(), () => IsOpen )
-                .If( () => ClassProvider.SnackbarMultiline(), () => IsMultiline );
+                .Add( () => "snackbar" )
+                .If( () => "show", () => IsOpen )
+                .If( () => "snackbar-multi-line", () => IsMultiline )
+                .If( () => GetSnackbarLocation( Location ), () => Location != SnackbarLocation.None );
 
             base.RegisterClasses();
+        }
+
+        private static string GetSnackbarLocation( SnackbarLocation snackbarLocation )
+        {
+            switch ( snackbarLocation )
+            {
+                case SnackbarLocation.Left:
+                    return "snackbar-left";
+                case SnackbarLocation.Right:
+                    return "snackbar-right";
+                default:
+                    return null;
+            }
         }
 
         protected override void OnInit()
@@ -105,6 +121,18 @@ namespace Blazorise.Base
             set
             {
                 isMultiline = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        [Parameter]
+        private SnackbarLocation Location
+        {
+            get => location;
+            set
+            {
+                location = value;
 
                 ClassMapper.Dirty();
             }

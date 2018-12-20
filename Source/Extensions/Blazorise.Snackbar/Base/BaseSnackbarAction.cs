@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Blazor;
 using Microsoft.AspNetCore.Blazor.Components;
 #endregion
 
-namespace Blazorise.Base
+namespace Blazorise.Snackbar.Base
 {
-    public abstract class BaseSnackbarAction : BaseComponent
+    public abstract class BaseSnackbarAction : Blazorise.Base.BaseComponent
     {
         #region Members
 
@@ -20,7 +20,7 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.SnackbarAction() );
+                .Add( () => "snackbar-btn" );
 
             base.RegisterClasses();
         }
