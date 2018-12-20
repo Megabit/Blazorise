@@ -18,6 +18,23 @@ To create a basic button you need to use a SimpleButton component.
 
 <iframe src="/examples/buttons/basic/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
+### How to use
+
+To use button you just handle a button `Clicked` event.
+
+```html
+<SimpleButton Clicked="@OnButtonClicked">Click me</SimpleButton>
+```
+
+```cs
+@functions{
+    void OnButtonClicked()
+    {
+        Console.WriteLine( "Hello world!" );
+    }
+}
+```
+
 ### Colored
 
 To define button color use a `Color` attribute.
@@ -104,7 +121,7 @@ To attach buttons together use a Toolbar role.
         <SimpleButton Color="Color.Warning">Warning</SimpleButton>
     </Buttons>
     <Buttons Margin="Margin.Is2.OnX">
-        <SimpleButton Color="Color.Light">Light</SimpleButton>
+        <SimpleButton Color="Color.Success">Success</SimpleButton>
     </Buttons>
 </Buttons>
 ```
@@ -130,9 +147,9 @@ The dropdown component is a container for a dropdown button and a dropdown menu.
 
 <iframe src="/examples/buttons/dropdown/" frameborder="0" scrolling="no" style="width:100%;height:150px;"></iframe>
 
-### Split
+### Split Dropdown
 
-Just add a buttons to have a split dropdown.
+Just add another `Button` to have a split dropdown.
 
 ```html
 <Dropdown>
@@ -147,3 +164,29 @@ Just add a buttons to have a split dropdown.
 ```
 
 <iframe src="/examples/buttons/splitdropdown/" frameborder="0" scrolling="no" style="width:100%;height:150px;"></iframe>
+
+### How to use
+
+By default a dropdown toggle will open and close a dropdown menu without the need to do it manually. In case you need to control the menu programatically you have to use the Dropdown reference.
+
+```html
+<Dropdown ref="dropdown">
+    <DropdownToggle />
+    <DropdownMenu>
+        ...
+    </DropdownMenu>
+</Dropdown>
+
+<SimpleButton Clicked="@ShowMenu">Show Menu</SimpleButton>
+```
+
+```cs
+@functions{
+    Dropdown dropdown;
+
+    void ShowMenu()
+    {
+        dropdown.Open();
+    }
+}
+```
