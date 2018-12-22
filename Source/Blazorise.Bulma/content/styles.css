@@ -12,12 +12,31 @@
     text-align: center;
 }
 
+.list-group {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
 .list-group > .list-group-item:first-child {
     border-radius: 4px 4px 0 0;
 }
 
 .list-group > .list-group-item:last-child {
     border-radius: 0 0 4px 4px;
+    margin-bottom: 0;
 }
 
 .list-group > .list-group-item.is-primary {
@@ -44,6 +63,11 @@
     color: #fff;
 }
 
+.list-group-flush .list-group-item {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+}
 
 .card-group {
     display: -ms-flexbox;
