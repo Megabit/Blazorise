@@ -11,7 +11,7 @@ namespace Blazorise.Bulma
     {
         #region Modal
 
-        public string ModalShow() => "display: block; padding-right: 17px;";
+        public string ModalShow() => null;
 
         #endregion
 
