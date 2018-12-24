@@ -42,19 +42,32 @@ html, body {
 .tabs-vertical-env {
 }
 
-    .tabs-vertical-env .nav-tabs-vertical.nav.nav-tabs {
-        display: table-cell;
-        min-width: 120px;
-        vertical-align: top;
+/* FOR BULMA */
+.tabs.is-vertical {
+    display: table-cell;
+    min-width: 120px;
+    vertical-align: top;
+    width: 150px;
+}
+
+    .tabs.is-vertical a {
         width: 150px;
     }
 
-    .tabs-vertical-env .tab-content {
-        display: table-cell;
-        padding: 0 0 0 20px;
-        margin-bottom: 0;
-        vertical-align: top;
-    }
+/* FOR BOOTSTRAP */
+.nav.nav-tabs.flex-column {
+    display: table-cell;
+    min-width: 120px;
+    vertical-align: top;
+    width: 150px;
+}
+
+.tabs-vertical-env .tab-content {
+    display: table-cell;
+    padding: 0 0 0 20px;
+    margin-bottom: 0;
+    vertical-align: top;
+}
 
 .tabs-vertical-env-right {
 }

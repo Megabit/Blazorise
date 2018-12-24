@@ -2035,3 +2035,9 @@
         margin-left: auto !important;
     }
 }
+
+.tabs.is-vertical ul {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+

@@ -257,7 +257,7 @@ namespace Blazorise.Bulma
 
         public virtual string TabsJustified() => "is-justified";
 
-        public virtual string TabsVertical() => null;
+        public virtual string TabsVertical() => "is-vertical"; // this is custom class, bulma natively does not have vertical tabs
 
         public virtual string TabItem() => null;
 
@@ -272,12 +272,6 @@ namespace Blazorise.Bulma
         public virtual string TabPanel() => "tab-pane";
 
         public virtual string TabPanelActive() => $"{Active()}";
-
-        //public virtual string Tab() => "tabs";
-
-        //public virtual string TabPage() => null;
-
-        //public virtual string TabPageActive() => $"{Active()}";
 
         #endregion
 
