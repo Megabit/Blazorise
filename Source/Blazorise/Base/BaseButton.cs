@@ -47,8 +47,8 @@ namespace Blazorise.Base
         {
             ClassMapper
                 .Add( () => ClassProvider.Button() )
-                .If( () => ClassProvider.ButtonColor( Color ), () => Color != Color.None )
-                .If( () => ClassProvider.ButtonOutline( Color ), () => IsOutline )
+                .If( () => ClassProvider.ButtonColor( Color ), () => Color != Color.None && !IsOutline )
+                .If( () => ClassProvider.ButtonOutline( Color ), () => Color != Color.None && IsOutline )
                 .If( () => ClassProvider.ButtonSize( Size ), () => Size != Size.None )
                 .If( () => ClassProvider.ButtonBlock(), () => IsBlock )
                 .If( () => ClassProvider.ButtonActive(), () => IsActive );
