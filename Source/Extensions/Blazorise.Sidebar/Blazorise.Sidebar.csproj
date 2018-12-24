@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <Import Project="..\..\Build\Blazorise.Default.props" />
+  <Import Project="..\..\..\Build\Blazorise.Default.props" />
 	
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,8 +10,8 @@
     <PackageLicenseUrl>https://github.com/stsrki/Blazorise/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/stsrki/Blazorise</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
-    <PackageTags>blazorise blazor components chart</PackageTags>
-	<PackageId>Blazorise.Charts</PackageId>
+    <PackageTags>blazorise blazor components sidebar</PackageTags>
+	<PackageId>Blazorise.Sidebar</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,15 +22,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="content\charts.js" />
+    <None Remove="content\sidebar.css" />
+    <None Remove="content\sidebar.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Chart.cshtml">
+    <Content Update="Sidebar.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
