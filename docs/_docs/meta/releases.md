@@ -6,6 +6,18 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.4.0
+
+### Enhancements
+
+- Removed gijgo library for date input to make it work in native mode. This is a prerequisite for later to be able to create an extensions for date inputs.
+- Chart end Sidebar moved to an extensions subfolder.
+
+### Bug Fixes
+
+- Fixed modal dialogs for Bulma and Material providers.
+- Fixed vertical tabs for Bulma implementation.
+
 ## 0.3.0
 
 ### Breaking Changes
