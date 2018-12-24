@@ -26,6 +26,6 @@ namespace Blazorise
 
         Task<string[]> GetFilePaths( ElementRef element );
 
-        Task<bool> ActivateDatePicker( string elementId );
+        Task<bool> ActivateDatePicker( string elementId, string formatSubmit );
     }
 }

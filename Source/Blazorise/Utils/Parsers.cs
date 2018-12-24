@@ -12,12 +12,12 @@ namespace Blazorise.Utils
         /// <summary>
         /// Internal date format.
         /// </summary>
-        public const string InternalDateFormat = "dd.MM.yyyy";
+        public const string InternalDateFormat = "yyyy-MM-dd";
 
         /// <summary>
         /// Default date format.
         /// </summary>
-        public const string ExternalDateFormat = "yyyy-MM-dd";
+        public const string ExternalDateFormat = "dd.MM.yyyy";
 
         /// <summary>
         /// Possible date formats.

@@ -30,7 +30,7 @@ namespace Blazorise.Base
 
         protected void ClickHandler( UIMouseEventArgs e )
         {
-            JSRunner.ActivateDatePicker( ElementId );
+            JSRunner.ActivateDatePicker( ElementId, Utils.Parsers.InternalDateFormat );
         }
 
         protected void InternalDateHandler( UIChangeEventArgs e )
@@ -45,6 +45,9 @@ namespace Blazorise.Base
 
         [Parameter] protected string Placeholder { get; set; }
 
+        /// <summary>
+        /// Gets or sets the input date value.
+        /// </summary>
         [Parameter]
         protected DateTime? Date
         {
@@ -62,6 +65,16 @@ namespace Blazorise.Base
         /// Occurs when the date has changed.
         /// </summary>
         [Parameter] private Action<DateTime?> DateChanged { get; set; }
+
+        /// <summary>
+        /// The earliest date to accept.
+        /// </summary>
+        [Parameter] protected DateTime? Min { get; set; }
+
+        /// <summary>
+        /// The latest date to accept.
+        /// </summary>
+        [Parameter] protected DateTime? Max { get; set; }
 
         #endregion
     }

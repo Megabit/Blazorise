@@ -94,7 +94,7 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <DateEdit />
+                        <DateEdit DateChanged="@((d)=>Console.WriteLine(d))" />
                     </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">

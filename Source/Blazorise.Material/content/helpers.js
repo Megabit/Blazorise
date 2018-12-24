@@ -3,7 +3,7 @@ if (!window.blazoriseMaterial) {
 }
 
 window.blazoriseMaterial = {
-    activateDatePicker: (elementId) => {
+    activateDatePicker: (elementId, formatSubmit) => {
         const element = $(`#${elementId}`);
 
         element.pickdate({
@@ -16,7 +16,7 @@ window.blazoriseMaterial = {
             containerHidden: 'body',
             firstDay: 1, // monday
             format: 'dd.mm.yyyy',
-            formatSubmit: 'dd.mm.yyyy',
+            formatSubmit: formatSubmit,
             onClose: function (s) {
                 // trigger onchange event on the DateEdit component
                 mutateDOMChange(elementId);
