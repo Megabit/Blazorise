@@ -2041,3 +2041,20 @@
     flex-direction: column;
 }
 
+@media (min-width: 576px) {
+    .modal-sm {
+        width: 300px;
+    }
+}
+
+@media (min-width: 992px) {
+    .modal-lg {
+        width: 800px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .modal-xl {
+        width: 1140px;
+    }
+}
