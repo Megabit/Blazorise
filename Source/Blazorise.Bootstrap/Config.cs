@@ -36,7 +36,7 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
             //componentMapper.Register<Blazorise.MemoEdit, Bootstrap.MemoEdit>();
             //componentMapper.Register<Blazorise.SelectEdit, Bootstrap.SelectEdit>();
-            //componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
+            componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
             //componentMapper.Register<Blazorise.TextEdit, Bootstrap.TextEdit>();
 
             serviceCollection.AddSingleton<IComponentMapper>( componentMapper );

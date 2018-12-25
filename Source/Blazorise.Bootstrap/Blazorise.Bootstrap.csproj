@@ -26,7 +26,6 @@
     <Content Remove="DateEdit.cshtml" />
     <Content Remove="MemoEdit.cshtml" />
     <Content Remove="SelectEdit.cshtml" />
-    <Content Remove="SimpleButton.cshtml" />
     <Content Remove="TextEdit.cshtml" />
   </ItemGroup>
 

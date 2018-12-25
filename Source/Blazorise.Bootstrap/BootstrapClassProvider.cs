@@ -185,6 +185,8 @@ namespace Blazorise.Bootstrap
 
         public virtual string ButtonActive() => "active";
 
+        public virtual string ButtonLoading() => null;
+
         #endregion
 
         #region Buttons

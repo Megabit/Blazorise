@@ -25,6 +25,8 @@ namespace Blazorise.Base
 
         private bool isBlock;
 
+        private bool isLoading;
+
         #endregion
 
         #region Methods
@@ -51,7 +53,8 @@ namespace Blazorise.Base
                 .If( () => ClassProvider.ButtonOutline( Color ), () => Color != Color.None && IsOutline )
                 .If( () => ClassProvider.ButtonSize( Size ), () => Size != Size.None )
                 .If( () => ClassProvider.ButtonBlock(), () => IsBlock )
-                .If( () => ClassProvider.ButtonActive(), () => IsActive );
+                .If( () => ClassProvider.ButtonActive(), () => IsActive )
+                .If( () => ClassProvider.ButtonLoading(), () => IsLoading );
 
             AddonContainerClassMapper
                 .If( () => ClassProvider.AddonContainer(), () => IsAddons );
@@ -176,6 +179,21 @@ namespace Blazorise.Base
             set
             {
                 isBlock = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        /// <summary>
+        /// Shows the loading spinner.
+        /// </summary>
+        [Parameter]
+        protected bool IsLoading
+        {
+            get => isLoading;
+            set
+            {
+                isLoading = value;
 
                 ClassMapper.Dirty();
             }

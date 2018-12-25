@@ -163,6 +163,8 @@ namespace Blazorise
 
         string ButtonActive();
 
+        string ButtonLoading();
+
         #endregion
 
         #region Buttons

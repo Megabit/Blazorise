@@ -178,6 +178,8 @@ namespace Blazorise.Bulma
 
         public virtual string ButtonActive() => "is-active";
 
+        public virtual string ButtonLoading() => "is-loading";
+
         #endregion
 
         #region Buttons
