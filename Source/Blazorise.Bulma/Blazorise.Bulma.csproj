@@ -47,6 +47,9 @@
     <Content Update="DropdownMenu.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="DropdownToggle.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Fields.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
