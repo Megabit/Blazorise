@@ -2,10 +2,6 @@
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
     <div class="@ClassMapper.Class">
-        @if ( Title != null )
-        {
-            <h4 class="@ClassProvider.ModalTitle()">@Title</h4>
-        }
         @ChildContent
     </div>
 }

@@ -29,9 +29,6 @@ namespace Blazorise.Base
 
         #region Properties
 
-        [Obsolete]
-        [Parameter] protected string Title { get; set; }
-
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
         #endregion

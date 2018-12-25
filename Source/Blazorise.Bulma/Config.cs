@@ -44,22 +44,5 @@ namespace Blazorise.Bulma
 
             return serviceCollection;
         }
-
-        [Obsolete( "AddBulmaClassProvider is deprecated, please use AddBulmaProviders instead." )]
-        public static IServiceCollection AddBulmaClassProvider( this IServiceCollection serviceCollection )
-        {
-            serviceCollection.AddSingleton<IClassProvider, BulmaClassProvider>();
-            serviceCollection.AddSingleton<IJSRunner, JSRunner>();
-
-            return serviceCollection;
-        }
-
-        [Obsolete( "AddBulmaStyleProvider is deprecated, please use AddBulmaProviders instead." )]
-        public static IServiceCollection AddBulmaStyleProvider( this IServiceCollection serviceCollection )
-        {
-            serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
-
-            return serviceCollection;
-        }
     }
 }

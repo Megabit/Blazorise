@@ -349,9 +349,6 @@ namespace Blazorise
 
         string BarLinkDisabled();
 
-        //[Obsolete]
-        //string BarCollapse();
-
         string BarBrand();
 
         string BarToggler();

@@ -43,22 +43,5 @@ namespace Blazorise.Bootstrap
 
             return serviceCollection;
         }
-
-        [Obsolete( "AddBootstrapClassProvider is deprecated, please use AddBootstrapProviders instead." )]
-        public static IServiceCollection AddBootstrapClassProvider( this IServiceCollection serviceCollection )
-        {
-            serviceCollection.AddSingleton<IClassProvider, BootstrapClassProvider>();
-            serviceCollection.AddSingleton<IJSRunner, JSRunner>();
-
-            return serviceCollection;
-        }
-
-        [Obsolete( "AddBootstrapStyleProvider is deprecated, please use AddBootstrapProviders instead." )]
-        public static IServiceCollection AddBootstrapStyleProvider( this IServiceCollection serviceCollection )
-        {
-            serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
-
-            return serviceCollection;
-        }
     }
 }

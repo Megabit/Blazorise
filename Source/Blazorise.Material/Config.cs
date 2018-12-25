@@ -38,22 +38,5 @@ namespace Blazorise.Material
 
             return serviceCollection;
         }
-
-        [Obsolete( "AddMaterialClassProvider is deprecated, please use AddMaterialProviders instead." )]
-        public static IServiceCollection AddMaterialClassProvider( this IServiceCollection serviceCollection )
-        {
-            serviceCollection.AddSingleton<IClassProvider, MaterialClassProvider>();
-            serviceCollection.AddSingleton<IJSRunner, JSRunner>();
-
-            return serviceCollection;
-        }
-
-        [Obsolete( "AddMaterialStyleProvider is deprecated, please use AddMaterialProviders instead." )]
-        public static IServiceCollection AddMaterialStyleProvider( this IServiceCollection serviceCollection )
-        {
-            serviceCollection.AddSingleton<IStyleProvider, MaterialStyleProvider>();
-
-            return serviceCollection;
-        }
     }
 }
