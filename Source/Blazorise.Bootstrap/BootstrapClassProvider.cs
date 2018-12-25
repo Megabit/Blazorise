@@ -975,6 +975,8 @@ namespace Blazorise.Bootstrap
                     return "modal-sm";
                 case Blazorise.ModalSize.Large:
                     return "modal-lg";
+                case Blazorise.ModalSize.ExtraLarge:
+                    return "modal-xl";
                 case Blazorise.ModalSize.Default:
                 default:
                     return null;

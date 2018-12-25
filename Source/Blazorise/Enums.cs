@@ -821,6 +821,11 @@ namespace Blazorise
         /// Large modal.
         /// </summary>
         Large,
+
+        /// <summary>
+        /// Extra large modal.
+        /// </summary>
+        ExtraLarge,
     }
 
     /// <summary>

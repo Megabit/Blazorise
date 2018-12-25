@@ -26,7 +26,8 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.ModalContent( IsForm ) );
+                .Add( () => ClassProvider.ModalContent( IsForm ) )
+                .If( () => ClassProvider.ModalSize( Size ), () => Size != ModalSize.None );
 
             base.RegisterClasses();
         }
