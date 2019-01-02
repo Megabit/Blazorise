@@ -66,5 +66,10 @@ namespace Blazorise
             // must be implemented by a framework provider!
             return Task.FromResult( true );
         }
+
+        public Task<string[]> GetSelectedOptions( string elementId )
+        {
+            return JSRuntime.Current.InvokeAsync<string[]>( "blazorise.getSelectedOptions", elementId );
+        }
     }
 }

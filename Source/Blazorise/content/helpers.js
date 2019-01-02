@@ -65,5 +65,21 @@ window.blazorise = {
         }
 
         return paths;
+    },
+
+    getSelectedOptions: (elementId) => {
+        const element = document.getElementById(elementId);
+        const len = element.options.length;
+        var opts = [], opt;
+
+        for (var i = 0; i < len; i++) {
+            opt = element.options[i];
+
+            if (opt.selected) {
+                opts.push(opt.value);
+            }
+        }
+
+        return opts;
     }
 };

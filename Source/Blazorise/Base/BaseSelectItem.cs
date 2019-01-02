@@ -17,13 +17,22 @@ namespace Blazorise.Base
 
         #region Methods
 
+        protected override void OnInit()
+        {
+            ParentSelect?.Register( this );
+
+            base.OnInit();
+        }
+
         #endregion
 
         #region Properties
 
-        [Parameter] protected string Value { get; set; }
+        protected bool IsSelected => ParentSelect?.IsSelected( this ) == true;
 
-        [Parameter] protected bool IsSelected { get; set; }
+        [Parameter] internal protected string Value { get; set; }
+
+        [CascadingParameter] protected BaseSelect ParentSelect { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

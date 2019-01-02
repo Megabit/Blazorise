@@ -13,6 +13,10 @@ namespace Blazorise.Base
     {
         #region Members
 
+        private string[] selectedValues;
+
+        private List<BaseSelectItem> selectItems;
+
         #endregion
 
         #region Methods
@@ -26,9 +30,35 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
-        protected void SelectionChangedHandler( UIChangeEventArgs e )
+        protected async void SelectionChangedHandler( UIChangeEventArgs e )
         {
-            SelectedValueChanged?.Invoke( e.Value?.ToString() );
+            selectedValues = await JSRunner.GetSelectedOptions( ElementId );
+
+            SelectedValueChanged?.Invoke( string.Join( ";", selectedValues ) );
+        }
+
+        internal void Register( BaseSelectItem selectItem )
+        {
+            if ( selectItem == null )
+                return;
+
+            if ( selectItems == null )
+                selectItems = new List<BaseSelectItem>();
+
+            if ( !selectItems.Contains( selectItem ) )
+            {
+                selectItems.Add( selectItem );
+
+                ClassMapper.Dirty();
+
+                //if ( selectItems?.Count > 1 ) // must find a better way to refresh
+                //    StateHasChanged();
+            }
+        }
+
+        internal bool IsSelected( BaseSelectItem selectItem )
+        {
+            return selectedValues?.Contains( selectItem?.Value ) == true;
         }
 
         #endregion
@@ -36,6 +66,21 @@ namespace Blazorise.Base
         #region Properties
 
         [Parameter] protected bool IsMultiple { get; set; }
+
+        [Parameter]
+        protected string SelectedValue
+        {
+            get
+            {
+                return string.Join( ";", selectedValues );
+            }
+            set
+            {
+                selectedValues = value?.Split( ';' );
+
+                StateHasChanged();
+            }
+        }
 
         /// <summary>
         /// Occurs when the selected item value has changed.

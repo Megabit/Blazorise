@@ -2,8 +2,10 @@
 @inherits Base.BaseSelect
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <select class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" onchange="@SelectionChangedHandler">
-        @ChildContent
+    <select id="@ElementId" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" onchange="@SelectionChangedHandler">
+        <CascadingValue Value=this>
+            @ChildContent
+        </CascadingValue>
     </select>
 }
 else
