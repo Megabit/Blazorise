@@ -6,17 +6,19 @@ toc: true
 toc_label: "Version history"
 ---
 
-## 0.4.0
+## 0.4.0 (unreleased)
 
 ### Enhancements
 
 - Removed gijgo library for date input to make it work in native mode. This is a prerequisite for later to be able to create an extensions for date inputs.
 - Chart end Sidebar moved to an extensions subfolder.
+- Added support for `bind-*` attribute on `SelectEdit`.
 
 ### Bug Fixes
 
 - Fixed modal dialogs for Bulma and Material providers.
 - Fixed vertical tabs for Bulma implementation.
+- Fixed SelectedValueChanged on `SelectEdit` when multiple select is used.
 
 ## 0.3.0
 

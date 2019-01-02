@@ -114,36 +114,6 @@ MemoEdit is used to create multiline text input (textarea).
 
 <iframe src="/examples/forms/memo/" frameborder="0" scrolling="no" style="width:100%;height:143px;"></iframe>
 
-## Select
-
-Use SelectEdit to combine many choices into one menu.
-
-```html
-<SelectEdit>
-    <SelectItem>1</SelectItem>
-    <SelectItem>2</SelectItem>
-    <SelectItem>3</SelectItem>
-    <SelectItem>4</SelectItem>
-</SelectEdit>
-```
-
-<iframe src="/examples/forms/select/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
-
-### Multiple
-
-Add the `IsMultiple` attribute to allow more than one option to be selected.
-
-```html
-<SelectEdit IsMultiple="true">
-    <SelectItem>1</SelectItem>
-    <SelectItem>2</SelectItem>
-    <SelectItem>3</SelectItem>
-    <SelectItem>4</SelectItem>
-</SelectEdit>
-```
-
-<iframe src="/examples/forms/select-multiple/" frameborder="0" scrolling="no" style="width:100%;height:112px;"></iframe>
-
 ## Check
 
 ```html
