@@ -30,6 +30,8 @@ docs:
         url: /docs/components/buttons/
       - title: "Forms"
         url: /docs/components/forms/
+      - title: "Select"
+        url: /docs/components/select/
       - title: "Fields"
         url: /docs/components/fields/
       - title: "Addons"
