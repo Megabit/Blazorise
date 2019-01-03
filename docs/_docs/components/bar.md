@@ -1,9 +1,10 @@
 ---
-title: "Bars"
-permalink: /docs/components/bars/
+title: "Bar component"
+permalink: /docs/components/bar/
 excerpt: "Learn how to use bars."
 toc: true
 toc_label: "Guide"
+redirect_from: /docs/components/bars/
 ---
 
 ## Basics

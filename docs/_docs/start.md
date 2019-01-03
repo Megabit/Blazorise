@@ -1,15 +1,16 @@
 ---
-title: "Quick-Start Guide"
-permalink: /docs/quick-start/
+title: "Start"
+permalink: /docs/start/
 excerpt: "How to quickly install and setup Blazorise."
 redirect_from:
   - /theme-setup/
 toc: true
 toc_label: "Steps"
+redirect_from: /docs/quick-start/
 ---
 
-**Note:** Before continuing please make sure that you already have a Blazor project created. If not please go to the [official Blazor site](https://blazor.net/docs/get-started.html){:target="_blank"} and create one.
-{: .notice}
+**Note:** Before continuing please make sure that you already have a Blazor project created. If not please go to the [official Blazor site](https://blazor.net/docs/get-started.html){:target="_blank"} and learn how to create one.
+{: .notice--info}
 
 ### Installing NuGet packages
 
@@ -23,7 +24,7 @@ or
 Install-Package Blazorise.Bulma
 ```
 
-**Note:** Bulma provider is still work in progress so some of the features may not work.
+**Keep in mind:** Bulma provider is still work in progress so some of the features may not work.
 {: .notice--warning}
 
 ## Usage

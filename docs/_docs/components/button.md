@@ -1,9 +1,10 @@
 ---
-title: "Buttons"
-permalink: /docs/components/buttons/
+title: "Button component"
+permalink: /docs/components/button/
 excerpt: "Learn how to use buttons."
 toc: true
 toc_label: "Guide"
+redirect_from: /docs/components/buttons/
 ---
 
 The button is an essential element of any design. It's meant to look and behave as an interactive element of your page.
@@ -127,66 +128,3 @@ To attach buttons together use a Toolbar role.
 ```
 
 <iframe src="/examples/buttons/buttontoolbar/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
-
-## Dropdown
-
-The dropdown component is a container for a dropdown button and a dropdown menu.
-
-```html
-<Dropdown>
-    <DropdownToggle Color="Color.Primary">
-        Dropdown
-    </DropdownToggle>
-    <DropdownMenu>
-        <DropdownItem>Action</DropdownItem>
-        <DropdownDivider />
-        <DropdownItem>Another Action</DropdownItem>
-    </DropdownMenu>
-</Dropdown>
-```
-
-<iframe src="/examples/buttons/dropdown/" frameborder="0" scrolling="no" style="width:100%;height:150px;"></iframe>
-
-### Split Dropdown
-
-Just add another `Button` to have a split dropdown.
-
-```html
-<Dropdown>
-    <SimpleButton>Split Dropdown</SimpleButton>
-    <DropdownToggle />
-    <DropdownMenu>
-        <DropdownItem>Action</DropdownItem>
-        <DropdownDivider />
-        <DropdownItem>Another Action</DropdownItem>
-    </DropdownMenu>
-</Dropdown>
-```
-
-<iframe src="/examples/buttons/splitdropdown/" frameborder="0" scrolling="no" style="width:100%;height:150px;"></iframe>
-
-### How to use
-
-By default a dropdown toggle will open and close a dropdown menu without the need to do it manually. In case you need to control the menu programatically you have to use the Dropdown reference.
-
-```html
-<Dropdown ref="dropdown">
-    <DropdownToggle />
-    <DropdownMenu>
-        ...
-    </DropdownMenu>
-</Dropdown>
-
-<SimpleButton Clicked="@ShowMenu">Show Menu</SimpleButton>
-```
-
-```cs
-@functions{
-    Dropdown dropdown;
-
-    void ShowMenu()
-    {
-        dropdown.Open();
-    }
-}
-```

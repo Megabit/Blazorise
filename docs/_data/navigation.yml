@@ -9,44 +9,53 @@ main:
 
 # documentation links
 docs:
-  - title: Getting started
+  - title: Overview
+    url: /docs/
     children:
-    - title: Overview
-      url: /docs/
-    - title: Quick Start
-      url: /docs/quick-start/
-  - title: Usage
+    - title: Start
+      url: /docs/start/
+    - title: Usage
+      url: /docs/usage/
+  - title: Form
+    url: /docs/forms/
     children:
-      - title: "Bootstrap"
-        url: /docs/usage/bootstrap/
-      - title: "Bulma"
-        url: /docs/usage/bulma/
-      - title: "Material"
-        url: /docs/usage/material/
-  - title: Components
-    url: /components/
-    children:
-      - title: "Buttons"
-        url: /docs/components/buttons/
-      - title: "Forms"
-        url: /docs/components/forms/
+      - title: "Text"
+        url: /docs/components/text/
+      - title: "Memo"
+        url: /docs/components/memo/
       - title: "Select"
         url: /docs/components/select/
-      - title: "Fields"
-        url: /docs/components/fields/
-      - title: "Addons"
-        url: /docs/components/addons/
-      - title: "Cards"
-        url: /docs/components/cards/
-      - title: "Tabs"
-        url: /docs/components/tabs/
-      - title: "Bars"
-        url: /docs/components/bars/
-      - title: "Modals"
-        url: /docs/components/modals/
-      - title: "Elements"
-        url: /docs/components/elements/
+      - title: "Check"
+        url: /docs/components/check/
+      - title: "Field"
+        url: /docs/components/field/
+      - title: "Addon"
+        url: /docs/components/addon/
+  - title: Components
+    url: /docs/components/
+    children:
+      - title: "Button"
+        url: /docs/components/button/
+      - title: "Dropdown"
+        url: /docs/components/dropdown/
+      - title: "Card"
+        url: /docs/components/card/
+      - title: "Tab"
+        url: /docs/components/tab/
+      - title: "Bar"
+        url: /docs/components/bar/
+      - title: "Modal"
+        url: /docs/components/modal/
+      - title: "Badge"
+        url: /docs/components/badge/
+      - title: "Pagination"
+        url: /docs/components/pagination/
+      - title: "Breadcrumb"
+        url: /docs/components/breadcrumb/
+      - title: "Alert"
+        url: /docs/components/alert/
   - title: Helpers
+    url: /docs/helpers/
     children:
       - title: "Colors"
         url: /docs/helpers/colors/

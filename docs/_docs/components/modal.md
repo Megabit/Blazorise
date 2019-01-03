@@ -1,9 +1,10 @@
 ---
-title: "Modals"
-permalink: /docs/components/modals/
+title: "Modal component"
+permalink: /docs/components/modal/
 excerpt: "Learn how to use modals."
 toc: true
 toc_label: "Guide"
+redirect_from: /docs/components/modals/
 ---
 
 ## Basics

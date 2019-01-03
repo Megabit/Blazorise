@@ -1,9 +1,10 @@
 ---
 title: "Addons"
-permalink: /docs/components/addons/
+permalink: /docs/components/addon/
 excerpt: "Learn how to use addons."
 toc: true
 toc_label: "Guide"
+redirect_from: /docs/components/addons/
 ---
 
 ## Structure

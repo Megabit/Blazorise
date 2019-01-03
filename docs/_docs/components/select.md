@@ -1,5 +1,5 @@
 ---
-title: "Select"
+title: "Select component"
 permalink: /docs/components/select/
 excerpt: "Learn how to use form select component."
 toc: true

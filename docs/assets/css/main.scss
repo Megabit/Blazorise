@@ -29,3 +29,14 @@ $base0f: #d33682;
     color: #ff3860;
     font-weight: 400;
 }
+
+@media (min-width: 64em){
+    .sidebar.sticky {
+        overflow-y: hidden;
+        height: calc(100vh - 2em - 2em);
+    }
+
+    .sidebar.sticky:hover {
+        overflow-y: scroll;
+    }
+}

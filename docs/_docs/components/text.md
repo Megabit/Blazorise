@@ -1,7 +1,7 @@
 ---
-title: "Forms"
-permalink: /docs/components/forms/
-excerpt: "Learn how to use form components like text, memo, select, check, radio, date."
+title: "Text component"
+permalink: /docs/components/text/
+excerpt: "Learn how to use form text component."
 toc: true
 toc_label: "Guide"
 ---
@@ -103,30 +103,3 @@ Use Role to define text value.
 ```
 
 <iframe src="/examples/forms/text-roles/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
-
-## Memo
-
-MemoEdit is used to create multiline text input (textarea).
-
-```html
-<MemoEdit Rows="5" />
-```
-
-<iframe src="/examples/forms/memo/" frameborder="0" scrolling="no" style="width:100%;height:143px;"></iframe>
-
-## Check
-
-```html
-<CheckEdit>Check me out</CheckEdit>
-```
-
-<iframe src="/examples/forms/check/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
-
-## Radio
-
-```html
-<CheckEdit RadioGroup="radioGroup">Select this</CheckEdit>
-<CheckEdit RadioGroup="radioGroup">Or this</CheckEdit>
-```
-
-<iframe src="/examples/forms/radio/" frameborder="0" scrolling="no" style="width:100%;height:55px;"></iframe>

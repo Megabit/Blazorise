@@ -1,9 +1,10 @@
 ---
 title: "Tabs"
-permalink: /docs/components/tabs/
-excerpt: "Learn how to use tabs."
+permalink: /docs/components/tab/
+excerpt: "Learn how to use tab components."
 toc: true
 toc_label: "Guide"
+redirect_from: /docs/components/tabs/
 ---
 
 ## Basics

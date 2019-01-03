@@ -1,9 +1,10 @@
 ---
-title: "Fields"
-permalink: /docs/components/fields/
+title: "Field component"
+permalink: /docs/components/field/
 excerpt: "Field components."
 toc: true
 toc_label: "Guide"
+redirect_from: /docs/components/fields/
 ---
 
 ## Field

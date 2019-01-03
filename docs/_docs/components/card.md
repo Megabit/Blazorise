@@ -1,24 +1,27 @@
 ---
-title: "Cards"
-permalink: /docs/components/cards/
+title: "Card component"
+permalink: /docs/components/card/
 excerpt: "Learn how to use cards."
 toc: true
 toc_label: "Guide"
+redirect_from: /docs/components/cards/
 ---
 
-### Cards
+### Structure
 
 The card component comprises several elements that you can mix and match:
 
 - `<Card>`
   - `<CardHeader>`
-    - `<CardTitle>`
-    - `<CardSubtitle>`
   - `<CardImage>`
   - `<CardBody>`
+    - `<CardTitle>`
+    - `<CardSubtitle>`
     - `<CardText>`
   - `<CardFooter>`
 - `<CardGroup>`
+
+### Example
 
 ```html
 <Card>
