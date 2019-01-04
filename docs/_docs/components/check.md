@@ -6,7 +6,7 @@ toc: true
 toc_label: "Guide"
 ---
 
-## Basic Check
+## Check
 
 ```html
 <CheckEdit>Check me out</CheckEdit>
@@ -24,3 +24,30 @@ For radio control you must set the `RadioGroup` attribute.
 ```
 
 <iframe src="/examples/forms/radio/" frameborder="0" scrolling="no" style="width:100%;height:55px;"></iframe>
+
+## Usage
+
+### With bind attribute
+
+```html
+<CheckEdit bind-Checked="@rememberMe">Remember Me</CheckEdit>
+
+@functions{
+    bool rememberMe;
+}
+```
+
+### With event
+
+```html
+<CheckEdit Checked="@rememberMe" CheckedChanged="@OnRememberMeChanged">Remember Me</CheckEdit>
+
+@functions{
+    bool rememberMe;
+
+    void OnRememberMeChanged( bool value )
+    {
+        rememberMe = value;
+    }
+}
+```

@@ -128,3 +128,16 @@ To attach buttons together use a Toolbar role.
 ```
 
 <iframe src="/examples/buttons/buttontoolbar/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
+## Props
+
+| Name       | Type                                                         | Default | Description                                          |
+|------------|--------------------------------------------------------------|---------|------------------------------------------------------|
+| Color      | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }}) | `None`  | Component visual or contextual style variants        |
+| Size       | [Sizes]({{ "/docs/helpers/sizes/#size" | relative_url }})    | `None`  | Component size variations                            |
+| Clicked    | event                                                        |         |                                                      |
+| IsOutline  | boolean                                                      | false   | Outlined button                                      |
+| IsDisabled | boolean                                                      | false   | Makes button look inactive.                          |
+| IsActive   | boolean                                                      | false   | Makes the button to appear as pressed.               |
+| IsBlock    | boolean                                                      | false   | Makes the button to span the full width of a parent. |
+| IsLoading  | boolean                                                      | false   | Shows the loading spinner.                           |

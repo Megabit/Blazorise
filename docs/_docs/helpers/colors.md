@@ -3,12 +3,12 @@ title: "Colors"
 permalink: /docs/helpers/colors/
 excerpt: "Supported colors in Blazorise."
 toc: true
-toc_label: "Helpers"
+toc_label: "Types"
 ---
 
 Here is a list of contextual classes that Blazorise offers
 
-### Basic colors
+### Color
 
 Basic colors are used on most of the fields elements, buttons and dropdowns.
 
@@ -24,10 +24,10 @@ Basic colors are used on most of the fields elements, buttons and dropdowns.
 - `Dark`
 - `Link`
 
-**Tip:** All elements have a Color.None specified by default.
+**Keep in mind:** All elements have a color `None` specified by default.
 {: .notice--info}
 
-### Background colors
+### BackgroundColor
 
 - `None`
 - `Primary`
@@ -41,7 +41,7 @@ Basic colors are used on most of the fields elements, buttons and dropdowns.
 - `White`
 - `Transparent`
 
-### Text colors
+### TextColor
 
 - `None`
 - `Primary`

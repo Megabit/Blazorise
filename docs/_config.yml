@@ -124,6 +124,8 @@ footer:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/stsrki/blazorise"
+    - label: "Terms and Privacy Policy"
+      url: "/terms/"
     # - label: "Instagram"
     #   icon: "fab fa-fw fa-instagram"
     #   url: "https://instagram.com/blazorise"

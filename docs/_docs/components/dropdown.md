@@ -6,7 +6,7 @@ toc: true
 toc_label: "Guide"
 ---
 
-## Single button dropdown
+## Dropdown
 
 The dropdown component is a container for a dropdown button and a dropdown menu.
 
@@ -25,7 +25,7 @@ The dropdown component is a container for a dropdown button and a dropdown menu.
 
 <iframe src="/examples/buttons/dropdown/" frameborder="0" scrolling="no" style="width:100%;height:150px;"></iframe>
 
-## Split button dropdown
+### Split dropdown
 
 Just add another `Button` to have a split dropdown.
 
@@ -43,7 +43,7 @@ Just add another `Button` to have a split dropdown.
 
 <iframe src="/examples/buttons/splitdropdown/" frameborder="0" scrolling="no" style="width:100%;height:150px;"></iframe>
 
-## How to use
+## Usage
 
 By default a dropdown toggle will open and close a dropdown menu without the need to do it manually. In case you need to control the menu programatically you have to use the Dropdown reference.
 

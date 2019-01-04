@@ -6,9 +6,12 @@ toc: true
 toc_label: "Guide"
 ---
 
-## Basic Select
-
 Use SelectEdit to combine many choices into one menu.
+
+- `<SelectEdit>`
+  - `<SelectItem>`
+
+## Basic Select
 
 ```html
 <SelectEdit>
@@ -45,7 +48,7 @@ The process is basically the same for the ordinal and for multiple select. The o
 
 ### With bind attribute
 
-By using `bind-*` keyword the selected item value will be automatically assigned to the member variable.
+By using `bind-*` attribute the selected item value will be automatically assigned to the member variable.
 
 ```html
 <SelectEdit bind-SelectedValue="@selectedValue">
@@ -65,7 +68,7 @@ By using `bind-*` keyword the selected item value will be automatically assigned
 When using the event `SelectedValueChanged`, you also must define the `SelectedValue` attribute.
 
 ```html
-<SelectEdit Text="@name" SelectedValue="@selectedValue" SelectedValueChanged="@OnSelectedValueChanged">
+<SelectEdit SelectedValue="@selectedValue" SelectedValueChanged="@OnSelectedValueChanged">
     <SelectItem Value="1">1</SelectItem>
     <SelectItem Value="2">2</SelectItem>
     <SelectItem Value="3">3</SelectItem>

@@ -6,7 +6,9 @@ toc: true
 toc_label: "Guide"
 ---
 
-## Basic Text
+
+
+## Text
 
 Use TextEdit to have a basic input.
 
@@ -15,34 +17,6 @@ Use TextEdit to have a basic input.
 ```
 
 <iframe src="/examples/forms/text-basic/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
-
-### Binding
-
-TextEdit by itself is not really usable if you can't use it. To get or set the input value you have two options. You can use `bind-*` attribute or you can use a `TextChanged` event.
-
-1. Using bind-*
-
-    ```cs
-    <TextEdit bind-Text="@name" />
-    @functions{
-        string name;
-    }
-    ```
-
-2. Using TextChanged event
-
-    ```cs
-    <TextEdit Text="@name" TextChanged="@OnNameChanged" />
-
-    @functions{
-        string name;
-
-        void OnNameChanged( string value )
-        {
-            name = value;
-        }
-    }
-    ```
 
 ### Placeholder
 
@@ -93,7 +67,7 @@ Sets the heights of input elements.
 
 <iframe src="/examples/forms/text-sizing/" frameborder="0" scrolling="no" style="width:100%;height:107px;"></iframe>
 
-### Roles
+## Roles
 
 Use Role to define text value.
 
@@ -102,4 +76,37 @@ Use Role to define text value.
 <TextEdit Role="TextRole.Password" />
 ```
 
-<iframe src="/examples/forms/text-roles/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+<iframe src="/examples/forms/text-roles/" frameborder="0" scrolling="no" style="width:100%;height:100px;"></iframe>
+
+## Usage
+
+TextEdit by itself is not really usable if you can't use it. To get or set the input value you have two options. You can use `bind-*` attribute or you can use a `TextChanged` event.
+
+### With bind attribute
+
+By using `bind-*` attribute the text will be automatically assigned to the member variable.
+
+```html
+<TextEdit bind-Text="@name" />
+
+@functions{
+    string name;
+}
+```
+
+### With event
+
+When using the event `TextChanged`, you also must define the `Text` value attribute.
+
+```html
+<TextEdit Text="@name" TextChanged="@OnNameChanged" />
+
+@functions{
+    string name;
+
+    void OnNameChanged( string value )
+    {
+        name = value;
+    }
+}
+```

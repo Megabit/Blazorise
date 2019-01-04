@@ -6,6 +6,9 @@ toc: true
 toc_label: "Overview"
 ---
 
+**Note:** While most of the components are documented there is still work to be done to improve the documentation. For any info please open an issue on GitHub repository.
+{: .notice--warning}
+
 ## Documentation
 
 Everything you need to create a single page application with Blazorise

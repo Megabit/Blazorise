@@ -25,6 +25,8 @@ docs:
         url: /docs/components/memo/
       - title: "Select"
         url: /docs/components/select/
+      - title: "Date"
+        url: /docs/components/date/
       - title: "Check"
         url: /docs/components/check/
       - title: "Field"
@@ -59,6 +61,8 @@ docs:
     children:
       - title: "Colors"
         url: /docs/helpers/colors/
+      - title: "Sizes"
+        url: /docs/helpers/sizes/
       - title: "Utilities"
         url: /docs/helpers/utilities/
   - title: Meta

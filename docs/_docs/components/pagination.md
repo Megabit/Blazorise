@@ -6,6 +6,12 @@ toc: true
 toc_label: "Guide"
 ---
 
+## Basics
+
+- `<Pagination>`
+  - `<PaginationItem>`
+    - `<PaginationLink>`
+
 ## Pagination
 
 ```html
