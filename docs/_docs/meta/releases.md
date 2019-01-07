@@ -10,6 +10,7 @@ toc_label: "Version history"
 
 ### Enhancements
 
+- Updated to Bootstrap v4.2.1
 - Removed gijgo library for date input to make it work in native mode. This is a prerequisite for later to be able to create an extensions for date inputs.
 - Chart end Sidebar moved to an extensions subfolder.
 - Added support for `bind-*` attribute on `SelectEdit`.
