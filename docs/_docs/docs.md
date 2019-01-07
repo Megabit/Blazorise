@@ -36,4 +36,4 @@ See the Blazorise in action:
 
 - [Bootstrap Demo](http://demo.blazorise.com)
 - [Material Demo](http://materialdemo.blazorise.com)
-- Bulma (comming soon)
+- [Bulma Demo](http://bulmademo.blazorise.com) (PREVIEW)
