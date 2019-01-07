@@ -18,7 +18,7 @@ It gives you a set of components that you can use to easily create a _single pag
 
 ### How can I try out Blazorise?
 
-To try Blazorise please check out our [quick start]({{ "/docs/quick-start/" | relative_url }}) guide.
+To try Blazorise please check out our [quick start]({{ "/docs/start/" | relative_url }}) guide.
 
 ### Why are some components named TextEdit, CheckEdit, etc.?
 

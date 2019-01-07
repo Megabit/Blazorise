@@ -6,7 +6,7 @@ toc: true
 toc_label: "Version history"
 ---
 
-## 0.4.0 (unreleased)
+## 0.4.0
 
 ### Enhancements
 

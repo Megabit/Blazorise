@@ -20,7 +20,7 @@ Everything you need to create a single page application with Blazorise
 
 ### Getting started
 
-This [quick start]({{ "/docs/quick-start/" | relative_url }}) guide will take you through the downloading and getting started with the Blazorise.
+This [quick start]({{ "/docs/start/" | relative_url }}) guide will take you through the downloading and getting started with the Blazorise.
 
 ### Why Blazorise
 
