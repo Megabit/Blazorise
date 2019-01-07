@@ -16,9 +16,10 @@ toc_label: "Version history"
 
 ### Bug Fixes
 
-- Fixed modal dialogs for Bulma and Material providers.
-- Fixed vertical tabs for Bulma implementation.
+- Modal dialogs for Bulma and Material providers.
+- Vertical tabs for Bulma implementation.
 - Fixed SelectedValueChanged on `SelectEdit` when multiple select is used.
+- Dropdown arrow for Bulma
 
 ## 0.3.0
 
