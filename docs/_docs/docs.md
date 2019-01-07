@@ -34,6 +34,6 @@ Go through the Components section to find out how to work with some of the basic
 
 See the Blazorise in action:
 
-- [Bootstrap Demo](https://blazorisedemo.azurewebsites.net)
-- [Material Demo](https://blazorisematerialdemo.azurewebsites.net)
+- [Bootstrap Demo](http://demo.blazorise.com)
+- [Material Demo](http://materialdemo.blazorise.com)
 - Bulma (comming soon)
