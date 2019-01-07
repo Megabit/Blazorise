@@ -15,7 +15,7 @@ title                    : "Blazorise"
 title_separator          : "-"
 name                     : &name "Mladen Macanovic" # &name is a YAML anchor which can be *referenced later
 description              : &description "Blazorise is a frontend components library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material."
-url                      : https://blazerise.com # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : https://blazorise.com # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : #"/minimal-mistakes" # the subpath of your site, e.g. "/blog"
 repository               : "stsrki/blazorise"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
@@ -104,12 +104,12 @@ analytics:
 author:
   name             : *name # *name is a YAML reference pointing to the &anchor earlier
   avatar           : "/assets/images/strki.jpg"
-  bio              : "Senior Developer @ Travelsoft."
+  bio              : "Senior Developer @ Travelsoft"
   location         : "Split, Croatia"
   links:
-    - label: "Mladen Macanovic"
-      icon: "fas fa-fw fa-link"
-      url: "https://mladenmacanovic.com"
+    # - label: "Mladen Macanovic"
+    #   icon: "fas fa-fw fa-link"
+    #   url: "https://mladenmacanovic.com"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/stsrki"
