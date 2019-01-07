@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Blazorise.Demo.Bulma\Blazorise.Demo.Bulma.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
 </Project>

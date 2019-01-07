@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Blazorise.Demo.Material\Blazorise.Demo.Material.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
 </Project>
