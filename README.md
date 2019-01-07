@@ -2,7 +2,7 @@
 
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
-Please look at [Bootstrap Demo](https://blazorisedemo.azurewebsites.net/) or [Material Demo](https://blazorisematerialdemo.azurewebsites.net) to see Blazorise in action.
+Please look at [Bootstrap Demo](http://demo.blazorise.com) or [Material Demo](http://materialdemo.blazorise.com/) to see Blazorise in action.
 
 ```
 Note: This project is still experimental so it's possible that some components will be removed or refactored.
