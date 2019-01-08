@@ -38,6 +38,8 @@ In your index.html just add
 In Startup.cs add:
 
 ```cs
+using Blazorise.Material;
+
 services
     .AddMaterialProviders()
     .AddIconProvider( IconProvider.FontAwesome );
