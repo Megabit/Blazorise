@@ -54,7 +54,6 @@ In your main _ViewImports.cshtml add:
 @addTagHelper *, Blazorise
 
 @using Blazorise
-@using Blazorise.Bootstrap
 ```
 
 ### Startup

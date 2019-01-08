@@ -33,6 +33,16 @@ In your index.html just add
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 ```
 
+### Imports
+
+In your main _ViewImports.cshtml_ add:
+
+```cs
+@addTagHelper *, Blazorise
+
+@using Blazorise
+```
+
 ### Startup
 
 In Startup.cs add:

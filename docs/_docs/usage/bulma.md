@@ -34,7 +34,6 @@ In your main _ViewImports.cshtml_ add:
 @addTagHelper *, Blazorise
 
 @using Blazorise
-@using Blazorise.Bulma
 ```
 
 ### Startup
