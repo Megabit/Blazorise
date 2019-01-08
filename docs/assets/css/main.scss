@@ -40,3 +40,8 @@ $base0f: #d33682;
         overflow-y: scroll;
     }
 }
+
+// hide revoke cookie tab on the page bottom
+.cc-revoke {
+    display: none !important;
+}
