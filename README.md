@@ -42,7 +42,7 @@ Now, for a bootstrap framework you must do:
 
 1. in index.html add:
 
-```
+```html
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
@@ -53,7 +53,7 @@ Now, for a bootstrap framework you must do:
 
 2. In your main _ViewImports.cshtml add:
 
-```
+```cs
 @addTagHelper *, Blazorise
 
 @using Blazorise
@@ -61,7 +61,7 @@ Now, for a bootstrap framework you must do:
 
 3. In Startup.cs add:
 
-```cs
+```cshtml
 using Blazorise.Bootstrap;
 
 public void ConfigureServices( IServiceCollection services )
