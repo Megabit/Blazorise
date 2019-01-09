@@ -350,7 +350,7 @@ namespace Blazorise
         /// <summary>
         /// for classes that eliminate the margin by setting it to 0
         /// </summary>
-        public static IFluentSpacingOnBreakpointWithSideAndSize Is0 => new FluentMargin().Is1;
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is0 => new FluentMargin().Is0;
 
         /// <summary>
         /// (by default) for classes that set the margin to $spacer * .25
@@ -397,7 +397,7 @@ namespace Blazorise
         /// <summary>
         /// for classes that eliminate the padding by setting it to 0
         /// </summary>
-        public static IFluentSpacingOnBreakpointWithSideAndSize Is0 => new FluentPadding().Is1;
+        public static IFluentSpacingOnBreakpointWithSideAndSize Is0 => new FluentPadding().Is0;
 
         /// <summary>
         /// (by default) for classes that set the padding to $spacer * .25
