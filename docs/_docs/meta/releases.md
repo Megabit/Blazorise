@@ -6,6 +6,12 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.4.1
+
+### Bug Fixes
+
+- Blazorise depenedency was not included for NuGet packages (Bootstrap, Material, Charts, etc.)
+
 ## 0.4.0
 
 ### Enhancements

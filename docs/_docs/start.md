@@ -61,6 +61,7 @@ In your main _ViewImports.cshtml add:
 In Startup.cs add:
 
 ```cs
+using Blazorise;
 using Blazorise.Bootstrap;
 
 public void ConfigureServices( IServiceCollection services )

@@ -62,6 +62,7 @@ Now, for a bootstrap framework you must do:
 3. In Startup.cs add:
 
 ```cshtml
+using Blazorise;
 using Blazorise.Bootstrap;
 
 public void ConfigureServices( IServiceCollection services )

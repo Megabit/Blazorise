@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
 	<metadata>
-		<id>Blazorise</id>
-		<title>Blazorise</title>
+		<id>Blazorise.Material</id>
+		<title>Blazorise.Material</title>
 		<version>0.4.1</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
@@ -15,19 +15,19 @@
 		<repository url="https://github.com/stsrki/Blazorise" />
 		<iconUrl>https://github.com/stsrki/Blazorise/blob/master/NuGet/Blazorise.png</iconUrl>
 		<dependencies>
-			<group targetFramework=".NETStandard2.0">
-				<dependency id="Microsoft.AspNetCore.Blazor.Browser" version="0.7.0" exclude="Build,Analyzers" />
-				<dependency id="Microsoft.AspNetCore.Blazor.Build" version="0.7.0" exclude="Build,Analyzers" />
-			</group>
+			<dependency id="Blazorise" version="0.4.1" exclude="Build,Analyzers" />
+			<dependency id="Blazorise.Bootstrap" version="0.4.1" exclude="Build,Analyzers" />
+			
+			<dependency id="Microsoft.AspNetCore.Blazor.Browser" version="0.7.0" exclude="Build,Analyzers" />
 		</dependencies>
 		<contentFiles>
 			<files include="any/netstandard2.0/Properties/launchSettings.json" buildAction="Content" />
 		</contentFiles>
 	</metadata>
 	<files>
-		<file src="..\Source\Blazorise\bin\Release\**\Blazorise.dll" target="lib\" />
-
-		<file src="..\Source\Blazorise\Properties\launchSettings.json" target="content\Properties" />
-		<file src="..\Source\Blazorise\Properties\launchSettings.json" target="contentFiles\any\netstandard2.0\Properties" />
+		<file src="..\Source\Blazorise.Material\bin\Release\**\Blazorise.Material.dll" target="lib\" />
+		
+		<file src="..\Source\Blazorise.Material\Properties\launchSettings.json" target="content\Properties" />
+		<file src="..\Source\Blazorise.Material\Properties\launchSettings.json" target="contentFiles\any\netstandard2.0\Properties" />
 	</files>
 </package>
