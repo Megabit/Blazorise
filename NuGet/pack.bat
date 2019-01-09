@@ -4,11 +4,11 @@ cd NuGet
 
 del *.nupkg
 
-nuget pack ..\Source\Blazorise\Blazorise.csproj
-nuget pack ..\Source\Blazorise.Bootstrap\Blazorise.Bootstrap.csproj
-nuget pack ..\Source\Blazorise.Bulma\Blazorise.Bulma.csproj
-nuget pack ..\Source\Blazorise.Material\Blazorise.Material.csproj
+nuget pack Blazorise.nuspec
+nuget pack Blazorise.Bootstrap.nuspec
+nuget pack Blazorise.Material.nuspec
+nuget pack Blazorise.Bulma.nuspec
 
-nuget pack ..\Source\Extensions\Blazorise.Charts\Blazorise.Charts.csproj
-nuget pack ..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj
-nuget pack ..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj
+nuget pack Blazorise.Charts.nuspec
+nuget pack Blazorise.Sidebar.nuspec
+nuget pack Blazorise.Snackbar.nuspec

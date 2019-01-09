@@ -41,6 +41,7 @@ In your main _ViewImports.cshtml_ add:
 In Startup.cs add:
 
 ```cs
+using Blazorise;
 using Blazorise.Bulma;
 
 services

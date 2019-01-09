@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+	<metadata>
+		<id>Blazorise.Bulma</id>
+		<title>Blazorise.Bulma</title>
+		<version>0.4.1</version>
+		<authors>Mladen Macanovic</authors>
+		<owners>Mladen Macanovic</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<licenseUrl>https://github.com/stsrki/Blazorise/blob/master/LICENSE.md</licenseUrl>
+		<projectUrl>https://github.com/stsrki/Blazorise</projectUrl>
+		<description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</description>
+		<copyright>Copyright 2018</copyright>
+		<tags>blazorise blazor components bootstrap material bulma</tags>
+		<repository url="https://github.com/stsrki/Blazorise" />
+		<iconUrl>https://github.com/stsrki/Blazorise/blob/master/NuGet/Blazorise.png</iconUrl>
+		<dependencies>
+			<dependency id="Blazorise" version="0.4.1" exclude="Build,Analyzers" />
+			
+			<dependency id="Microsoft.AspNetCore.Blazor.Browser" version="0.7.0" exclude="Build,Analyzers" />
+		</dependencies>
+		<contentFiles>
+			<files include="any/netstandard2.0/Properties/launchSettings.json" buildAction="Content" />
+		</contentFiles>
+	</metadata>
+	<files>
+		<file src="..\Source\Blazorise.Bulma\bin\Release\**\Blazorise.Bulma.dll" target="lib\" />
+		
+		<file src="..\Source\Blazorise.Bulma\Properties\launchSettings.json" target="content\Properties" />
+		<file src="..\Source\Blazorise.Bulma\Properties\launchSettings.json" target="contentFiles\any\netstandard2.0\Properties" />
+	</files>
+</package>
