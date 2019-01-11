@@ -47,6 +47,16 @@
                     </SidebarItem>
                 </SidebarSubItem>
             </SidebarItem>
+            <SidebarItem>
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)" IsShow="true">
+                    <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
+                </SidebarLink>
+                <SidebarSubItem ref="sidebarSubItemApps" IsShow="true">
+                    <SidebarItem>
+                        <SidebarLink To="apps/todo">Todo List</SidebarLink>
+                    </SidebarItem>
+                </SidebarSubItem>
+            </SidebarItem>
         </SidebarNavigation>
     </SidebarContent>
 </Sidebar>
@@ -96,6 +106,7 @@
 @functions{
     Sidebar sidebar;
     SidebarSubItem sidebarSubItemTests;
+    SidebarSubItem sidebarSubItemApps;
 
     bool collapseNavMenu = true;
 
