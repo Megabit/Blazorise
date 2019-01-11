@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Bootstrap;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -22,24 +23,8 @@ namespace Blazorise.Material
 
         public static IServiceProvider UseMaterialProviders( this IServiceProvider serviceProvider )
         {
-            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
-
             // same components as in bootstrap provider
-            componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
-            //componentMapper.Register<Blazorise.Addons, Bootstrap.Addons>();
-            componentMapper.Register<Blazorise.BarToggler, Bootstrap.BarToggler>();
-            componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
-            componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
-            componentMapper.Register<Blazorise.CheckEdit, Bootstrap.CheckEdit>();
-            //componentMapper.Register<Blazorise.DateEdit, Bootstrap.DateEdit>();
-            componentMapper.Register<Blazorise.Field, Bootstrap.Field>();
-            componentMapper.Register<Blazorise.FieldBody, Bootstrap.FieldBody>();
-            componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
-            componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
-            //componentMapper.Register<Blazorise.MemoEdit, Bootstrap.MemoEdit>();
-            //componentMapper.Register<Blazorise.SelectEdit, Bootstrap.SelectEdit>();
-            componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
-            //componentMapper.Register<Blazorise.TextEdit, Bootstrap.TextEdit>();
+            serviceProvider.UseBootstrapProviders();
 
             return serviceProvider;
         }
