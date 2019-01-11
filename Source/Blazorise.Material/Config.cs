@@ -15,8 +15,14 @@ namespace Blazorise.Material
             serviceCollection.AddSingleton<IClassProvider, MaterialClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, MaterialStyleProvider>();
             serviceCollection.AddSingleton<IJSRunner, JSRunner>();
+            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
 
-            var componentMapper = new ComponentMapper();
+            return serviceCollection;
+        }
+
+        public static IServiceProvider UseMaterialProviders( this IServiceProvider serviceProvider )
+        {
+            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
 
             // same components as in bootstrap provider
             componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
@@ -27,16 +33,15 @@ namespace Blazorise.Material
             componentMapper.Register<Blazorise.CheckEdit, Bootstrap.CheckEdit>();
             //componentMapper.Register<Blazorise.DateEdit, Bootstrap.DateEdit>();
             componentMapper.Register<Blazorise.Field, Bootstrap.Field>();
-            //componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
+            componentMapper.Register<Blazorise.FieldBody, Bootstrap.FieldBody>();
+            componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
             componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
             //componentMapper.Register<Blazorise.MemoEdit, Bootstrap.MemoEdit>();
             //componentMapper.Register<Blazorise.SelectEdit, Bootstrap.SelectEdit>();
-            //componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
+            componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
             //componentMapper.Register<Blazorise.TextEdit, Bootstrap.TextEdit>();
 
-            serviceCollection.AddSingleton<IComponentMapper>( componentMapper );
-
-            return serviceCollection;
+            return serviceProvider;
         }
     }
 }

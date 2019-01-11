@@ -15,8 +15,14 @@ namespace Blazorise.Bulma
             serviceCollection.AddSingleton<IClassProvider, BulmaClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
             serviceCollection.AddSingleton<IJSRunner, JSRunner>();
+            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
 
-            var componentMapper = new ComponentMapper();
+            return serviceCollection;
+        }
+
+        public static IServiceProvider UseBulmaProviders( this IServiceProvider serviceProvider )
+        {
+            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
 
             componentMapper.Register<Blazorise.Addons, Bulma.Addons>();
             componentMapper.Register<Blazorise.BarToggler, Bulma.BarToggler>();
@@ -41,9 +47,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();
             componentMapper.Register<Blazorise.TextEdit, Bulma.TextEdit>();
 
-            serviceCollection.AddSingleton<IComponentMapper>( componentMapper );
-
-            return serviceCollection;
+            return serviceProvider;
         }
     }
 }

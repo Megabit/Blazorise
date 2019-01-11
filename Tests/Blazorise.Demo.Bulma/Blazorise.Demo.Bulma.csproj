@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Blazorise.Bulma\Blazorise.Bulma.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
     <ProjectReference Include="..\Blazorise.Demo\Blazorise.Demo.csproj" />
   </ItemGroup>
 

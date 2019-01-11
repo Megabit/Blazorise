@@ -38,23 +38,6 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Registers a predefined icon provider.
-        /// </summary>
-        /// <param name="serviceCollection"></param>
-        /// <param name="iconProvider"></param>
-        public static IServiceCollection AddIconProvider( this IServiceCollection serviceCollection, IconProvider iconProvider )
-        {
-            if ( iconProvider == IconProvider.FontAwesome )
-                serviceCollection.AddSingleton<IIconProvider, FontAwesomeIconProvider>();
-            else if ( iconProvider == IconProvider.Material )
-                serviceCollection.AddSingleton<IIconProvider, MaterialIconProvider>();
-            else
-                throw new NotImplementedException( "Icon provider is not supported." );
-
-            return serviceCollection;
-        }
-
-        /// <summary>
         /// Registers a custom icon provider.
         /// </summary>
         /// <param name="serviceCollection"></param>

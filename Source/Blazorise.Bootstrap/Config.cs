@@ -20,8 +20,14 @@ namespace Blazorise.Bootstrap
             serviceCollection.AddSingleton<IClassProvider, BootstrapClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
             serviceCollection.AddSingleton<IJSRunner, JSRunner>();
+            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
 
-            var componentMapper = new ComponentMapper();
+            return serviceCollection;
+        }
+
+        public static IServiceProvider UseBootstrapProviders( this IServiceProvider serviceProvider )
+        {
+            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
 
             componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
             //componentMapper.Register<Blazorise.Addons, Bootstrap.Addons>();
@@ -39,9 +45,7 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
             //componentMapper.Register<Blazorise.TextEdit, Bootstrap.TextEdit>();
 
-            serviceCollection.AddSingleton<IComponentMapper>( componentMapper );
-
-            return serviceCollection;
+            return serviceProvider;
         }
     }
 }
