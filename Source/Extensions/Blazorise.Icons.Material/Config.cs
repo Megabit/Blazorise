@@ -10,14 +10,14 @@ namespace Blazorise.Icons.Material
 {
     public static class Config
     {
-        public static IServiceCollection AddFontAwesomeIcons( this IServiceCollection serviceCollection )
+        public static IServiceCollection AddMaterialIcons( this IServiceCollection serviceCollection )
         {
             serviceCollection.AddSingleton<IIconProvider, MaterialIconProvider>();
 
             return serviceCollection;
         }
 
-        public static IServiceProvider UseFontAwesomeIcons( this IServiceProvider serviceProvider )
+        public static IServiceProvider UseMaterialIcons( this IServiceProvider serviceProvider )
         {
             var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
 
