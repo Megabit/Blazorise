@@ -15,6 +15,7 @@ The modal structure is very simple:
   - `<ModalBackdrop>` a transparent overlay that can act as a click target to close the modal
   - `<ModalContent>` a horizontally and vertically centered container, in which you can include _any_ content
     - `<ModalHeader>` top part of the modal, usually contains a title and close button
+      - `<ModalTitle>` a modal title
       - `<CloseButton>` a simple close button located in the top right corner
     - `<ModalBody>` main part of the modal, holds the input fields, images, etc.
     - `<ModalFooter>` bottom part of the modal, usually contains the action buttons
