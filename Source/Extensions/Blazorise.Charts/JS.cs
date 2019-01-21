@@ -1,9 +1,11 @@
+#region Using directives
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
+#endregion
 
 namespace Blazorise.Charts
 {
-    public static class JS
+    static class JS
     {
         public static Task<bool> SetChartData( string id, ChartType type, object data, object options )
         {

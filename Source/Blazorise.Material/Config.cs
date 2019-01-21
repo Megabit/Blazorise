@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Bootstrap;
+using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -15,18 +16,23 @@ namespace Blazorise.Material
         {
             serviceCollection.AddSingleton<IClassProvider, MaterialClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, MaterialStyleProvider>();
-            serviceCollection.AddSingleton<IJSRunner, JSRunner>();
+            serviceCollection.AddSingleton<IJSRunner, MaterialJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
 
             return serviceCollection;
         }
 
-        public static IServiceProvider UseMaterialProviders( this IServiceProvider serviceProvider )
+        /// <summary>
+        /// Registers the custom rules for material components.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IBlazorApplicationBuilder UseMaterialProviders( this IBlazorApplicationBuilder app )
         {
             // same components as in bootstrap provider
-            serviceProvider.UseBootstrapProviders();
+            app.UseBootstrapProviders();
 
-            return serviceProvider;
+            return app;
         }
     }
 }

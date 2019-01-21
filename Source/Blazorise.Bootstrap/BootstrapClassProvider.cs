@@ -36,17 +36,17 @@ namespace Blazorise.Bootstrap
 
         #region Date
 
-        public string Date() => "form-control";
+        public virtual string Date() => "form-control";
 
-        public string DateSize( Size size ) => $"{Date()}-{Size( size )}";
+        public virtual string DateSize( Size size ) => $"{Date()}-{Size( size )}";
 
         #endregion
 
         #region Check
 
-        public string Check() => Custom ? "custom-control-input" : "form-check-input";
+        public virtual string Check() => Custom ? "custom-control-input" : "form-check-input";
 
-        public string CheckInline() => Custom ? "custom-control-inline" : "form-check-inline";
+        public virtual string CheckInline() => Custom ? "custom-control-inline" : "form-check-inline";
 
         #endregion
 
@@ -66,17 +66,17 @@ namespace Blazorise.Bootstrap
 
         #region Label
 
-        public string Label() => null;
+        public virtual string Label() => null;
 
-        public string LabelCheck() => Custom ? "custom-control-label" : "form-check-label";
+        public virtual string LabelCheck() => Custom ? "custom-control-label" : "form-check-label";
 
-        public string LabelFile() => Custom ? "custom-file-label" : null;
+        public virtual string LabelFile() => Custom ? "custom-file-label" : null;
 
         #endregion
 
         #region Help
 
-        public string Help() => "form-text text-muted";
+        public virtual string Help() => "form-text text-muted";
 
         #endregion
 
@@ -87,14 +87,6 @@ namespace Blazorise.Bootstrap
         public virtual string FieldsBody() => null;
 
         public virtual string FieldsColumn() => $"{Col()}";
-
-        //public virtual string FieldsColumnSize( ColumnSize columnSize )
-        //{
-        //    var colClass = Col();
-        //    var columnSizeClass = ColumnSize( columnSize );
-
-        //    return columnSizeClass != null ? $"{colClass}-{columnSizeClass}" : colClass;
-        //}
 
         #endregion
 
@@ -677,7 +669,7 @@ namespace Blazorise.Bootstrap
 
         #region Enums
 
-        public string Size( Size size )
+        public virtual string Size( Size size )
         {
             switch ( size )
             {
@@ -696,7 +688,7 @@ namespace Blazorise.Bootstrap
             }
         }
 
-        public string Breakpoint( Breakpoint breakpoint )
+        public virtual string Breakpoint( Breakpoint breakpoint )
         {
             switch ( breakpoint )
             {
@@ -715,7 +707,7 @@ namespace Blazorise.Bootstrap
             }
         }
 
-        public string Color( Color color )
+        public virtual string Color( Color color )
         {
             switch ( color )
             {
@@ -744,7 +736,7 @@ namespace Blazorise.Bootstrap
             }
         }
 
-        public string Color( Background color )
+        public virtual string Color( Background color )
         {
             switch ( color )
             {
@@ -773,7 +765,7 @@ namespace Blazorise.Bootstrap
             }
         }
 
-        public string TextColor( TextColor textColor )
+        public virtual string TextColor( TextColor textColor )
         {
             switch ( textColor )
             {
@@ -808,7 +800,7 @@ namespace Blazorise.Bootstrap
             }
         }
 
-        public string Theme( Theme theme )
+        public virtual string Theme( Theme theme )
         {
             switch ( theme )
             {
@@ -985,7 +977,7 @@ namespace Blazorise.Bootstrap
             }
         }
 
-        public string SpacingSize( SpacingSize spacingSize )
+        public virtual string SpacingSize( SpacingSize spacingSize )
         {
             switch ( spacingSize )
             {
@@ -1008,7 +1000,7 @@ namespace Blazorise.Bootstrap
             }
         }
 
-        public string JustifyContent( JustifyContent justifyContent )
+        public virtual string JustifyContent( JustifyContent justifyContent )
         {
             switch ( justifyContent )
             {
@@ -1027,7 +1019,7 @@ namespace Blazorise.Bootstrap
             }
         }
 
-        public string Screenreader( Screenreader screenreader )
+        public virtual string Screenreader( Screenreader screenreader )
         {
             switch ( screenreader )
             {
@@ -1040,7 +1032,7 @@ namespace Blazorise.Bootstrap
             }
         }
 
-        public string HeadingSize( HeadingSize headingSize )
+        public virtual string HeadingSize( HeadingSize headingSize )
         {
             switch ( headingSize )
             {

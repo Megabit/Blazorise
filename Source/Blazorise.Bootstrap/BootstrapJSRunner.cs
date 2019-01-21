@@ -1,10 +1,12 @@
+#region Using directives
 using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
+#endregion
 
 namespace Blazorise.Bootstrap
 {
-    public partial class JSRunner : Blazorise.JSRunner
+    public partial class BootstrapJSRunner : JSRunner
     {
         //public override Task<bool> ActivateDatePicker( string elementId )
         //{

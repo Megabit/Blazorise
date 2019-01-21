@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -19,15 +20,20 @@ namespace Blazorise.Bootstrap
         {
             serviceCollection.AddSingleton<IClassProvider, BootstrapClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
-            serviceCollection.AddSingleton<IJSRunner, JSRunner>();
+            serviceCollection.AddSingleton<IJSRunner, BootstrapJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
 
             return serviceCollection;
         }
 
-        public static IServiceProvider UseBootstrapProviders( this IServiceProvider serviceProvider )
+        /// <summary>
+        /// Registers the custom rules for bootstrap components.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IBlazorApplicationBuilder UseBootstrapProviders( this IBlazorApplicationBuilder app )
         {
-            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
+            var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
 
             componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
             //componentMapper.Register<Blazorise.Addons, Bootstrap.Addons>();
@@ -45,7 +51,7 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
             //componentMapper.Register<Blazorise.TextEdit, Bootstrap.TextEdit>();
 
-            return serviceProvider;
+            return app;
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -14,15 +15,15 @@ namespace Blazorise.Bulma
         {
             serviceCollection.AddSingleton<IClassProvider, BulmaClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
-            serviceCollection.AddSingleton<IJSRunner, JSRunner>();
+            serviceCollection.AddSingleton<IJSRunner, BulmaJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
 
             return serviceCollection;
         }
 
-        public static IServiceProvider UseBulmaProviders( this IServiceProvider serviceProvider )
+        public static IBlazorApplicationBuilder UseBulmaProviders( this IBlazorApplicationBuilder app )
         {
-            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
+            var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
 
             componentMapper.Register<Blazorise.Addons, Bulma.Addons>();
             componentMapper.Register<Blazorise.BarToggler, Bulma.BarToggler>();
@@ -47,7 +48,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();
             componentMapper.Register<Blazorise.TextEdit, Bulma.TextEdit>();
 
-            return serviceProvider;
+            return app;
         }
     }
 }

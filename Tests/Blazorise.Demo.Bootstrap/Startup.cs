@@ -16,7 +16,7 @@ namespace Blazorise.Demo.Bootstrap
 
         public void Configure( IBlazorApplicationBuilder app )
         {
-            app.Services
+            app
                 .UseBootstrapProviders()
                 .UseFontAwesomeIcons();
 

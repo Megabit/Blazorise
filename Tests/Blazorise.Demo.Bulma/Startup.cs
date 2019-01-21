@@ -16,7 +16,7 @@ namespace Blazorise.Demo.Bulma
 
         public void Configure( IBlazorApplicationBuilder app )
         {
-            app.Services
+            app
                 .UseBulmaProviders()
                 .UseFontAwesomeIcons();
 

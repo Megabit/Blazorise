@@ -36,17 +36,17 @@ namespace Blazorise.Bulma
 
         #region Date
 
-        public string Date() => "input";
+        public virtual string Date() => "input";
 
-        public string DateSize( Size size ) => $"{Size( size )}";
+        public virtual string DateSize( Size size ) => $"{Size( size )}";
 
         #endregion
 
         #region Check
 
-        public string Check() => "checkbox";
+        public virtual string Check() => "checkbox";
 
-        public string CheckInline() => "inline";
+        public virtual string CheckInline() => "inline";
 
         #endregion
 
@@ -66,17 +66,17 @@ namespace Blazorise.Bulma
 
         #region Label
 
-        public string Label() => "label";
+        public virtual string Label() => "label";
 
-        public string LabelCheck() => "checkbox";
+        public virtual string LabelCheck() => "checkbox";
 
-        public string LabelFile() => "file-label";
+        public virtual string LabelFile() => "file-label";
 
         #endregion
 
         #region Help
 
-        public string Help() => "help";
+        public virtual string Help() => "help";
 
         #endregion
 
@@ -707,7 +707,7 @@ namespace Blazorise.Bulma
 
         #region Enums
 
-        public string Size( Size size )
+        public virtual string Size( Size size )
         {
             switch ( size )
             {
@@ -724,7 +724,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public string Breakpoint( Breakpoint breakpoint )
+        public virtual string Breakpoint( Breakpoint breakpoint )
         {
             switch ( breakpoint )
             {
@@ -743,7 +743,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public string Color( Color color )
+        public virtual string Color( Color color )
         {
             switch ( color )
             {
@@ -766,7 +766,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public string Color( Background color )
+        public virtual string Color( Background color )
         {
             switch ( color )
             {
@@ -795,7 +795,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public string TextColor( TextColor textColor )
+        public virtual string TextColor( TextColor textColor )
         {
             switch ( textColor )
             {
@@ -830,7 +830,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public string Theme( Theme theme )
+        public virtual string Theme( Theme theme )
         {
             switch ( theme )
             {
@@ -1005,7 +1005,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public string SpacingSize( SpacingSize spacingSize )
+        public virtual string SpacingSize( SpacingSize spacingSize )
         {
             switch ( spacingSize )
             {
@@ -1028,7 +1028,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public string JustifyContent( JustifyContent justifyContent )
+        public virtual string JustifyContent( JustifyContent justifyContent )
         {
             switch ( justifyContent )
             {
@@ -1047,7 +1047,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public string Screenreader( Screenreader screenreader )
+        public virtual string Screenreader( Screenreader screenreader )
         {
             switch ( screenreader )
             {
@@ -1060,7 +1060,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public string HeadingSize( HeadingSize headingSize )
+        public virtual string HeadingSize( HeadingSize headingSize )
         {
             switch ( headingSize )
             {
@@ -1085,6 +1085,6 @@ namespace Blazorise.Bulma
 
         public bool Custom { get; set; } = false;
 
-        public string Provider => "Bulma";
+        public virtual string Provider => "Bulma";
     }
 }

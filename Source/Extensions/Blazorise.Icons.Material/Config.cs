@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -17,13 +18,13 @@ namespace Blazorise.Icons.Material
             return serviceCollection;
         }
 
-        public static IServiceProvider UseMaterialIcons( this IServiceProvider serviceProvider )
+        public static IBlazorApplicationBuilder UseMaterialIcons( this IBlazorApplicationBuilder app )
         {
-            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
+            var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
 
             componentMapper.Register<Blazorise.Icon, Material.Icon>();
 
-            return serviceProvider;
+            return app;
         }
     }
 }
