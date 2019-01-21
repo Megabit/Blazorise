@@ -14,6 +14,12 @@ Install Bootstrap provider from nuget.
 Install-Package Blazorise.Bootstrap
 ```
 
+Also install icons
+
+```
+Install-Package Blazorise.Icons.FontAwesome
+```
+
 ### Index
 
 in index.html add:
@@ -49,6 +55,15 @@ public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBootstrapProviders()
-    .AddIconProvider( IconProvider.FontAwesome );
+    .AddFontAwesomeIcons();
+}
+
+public void Configure( IBlazorApplicationBuilder app )
+{
+  app
+    .UseBootstrapProviders()
+    .UseFontAwesomeIcons();
+
+  app.AddComponent<App>( "app" );
 }
 ```

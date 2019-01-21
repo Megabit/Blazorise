@@ -19,6 +19,12 @@ Install Bulma provider from nuget.
 Install-Package Blazorise.Bulma
 ```
 
+Also install icons
+
+```
+Install-Package Blazorise.Icons.FontAwesome
+```
+
 ### Index
 
 ```html
@@ -44,7 +50,19 @@ In Startup.cs add:
 using Blazorise;
 using Blazorise.Bulma;
 
-services
+public void ConfigureServices( IServiceCollection services )
+{
+  services
     .AddBulmaProviders()
-    .AddIconProvider( IconProvider.FontAwesome );
+    .AddFontAwesomeIcons();
+}
+
+public void Configure( IBlazorApplicationBuilder app )
+{
+  app
+    .UseBulmaProviders()
+    .UseFontAwesomeIcons();
+
+  app.AddComponent<App>( "app" );
+}
 ```

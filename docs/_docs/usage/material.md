@@ -16,6 +16,12 @@ Install Material provider from nuget.
 Install-Package Blazorise.Material
 ```
 
+Also install icons
+
+```
+Install-Package Blazorise.Icons.Material
+```
+
 ### Index
 
 In your index.html just add 
@@ -51,7 +57,19 @@ In Startup.cs add:
 using Blazorise;
 using Blazorise.Material;
 
-services
+public void ConfigureServices( IServiceCollection services )
+{
+  services
     .AddMaterialProviders()
-    .AddIconProvider( IconProvider.FontAwesome );
+    .AddMaterialIcons();
+}
+
+public void Configure( IBlazorApplicationBuilder app )
+{
+  app
+    .UseMaterialProviders()
+    .UseMaterialIcons();
+
+  app.AddComponent<App>( "app" );
+}
 ```

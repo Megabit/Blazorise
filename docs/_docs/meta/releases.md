@@ -6,6 +6,17 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.5.0 (unreleased)
+
+### Breaking Changes
+
+- Changed how to register blazorise css providers and icons. See the [usage page]({{ "/docs/usage/" | relative_url }}).
+- Icons moved to a separate Nuget packages.
+
+### Enhancements
+
+- Added "Empty" providers to allow using of extensions without CSS providers, see [usage]({{ "/docs/usage/#empty-provider" | relative_url }})
+
 ## 0.4.1
 
 ### Bug Fixes

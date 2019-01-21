@@ -14,14 +14,16 @@ redirect_from: /docs/quick-start/
 
 ### Installing NuGet packages
 
-Blazorise is designed to work with different css frameworks. Each of the supported css framework is defined by a different nuget package. To install them you must run one of the following commands:
+Blazorise is designed to work with different css frameworks. Each of the supported css framework is defined by a different nuget package. Please see the [usage page]({{ "/docs/usage/" | relative_url }}) on how to use them.
 
 ```
 Install-Package Blazorise.Bootstrap
-or
-Install-Package Blazorise.Material
-or
-Install-Package Blazorise.Bulma
+```
+
+Also install icons
+
+```
+Install-Package Blazorise.Icons.FontAwesome
 ```
 
 **Keep in mind:** Bulma provider is still work in progress so some of the features may not work.
@@ -68,8 +70,15 @@ public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBootstrapProviders()
-    .AddIconProvider( IconProvider.FontAwesome );
+    .AddFontAwesomeIcons();
+}
+
+public void Configure( IBlazorApplicationBuilder app )
+{
+  app
+    .UseBootstrapProviders()
+    .UseFontAwesomeIcons();
+
+  app.AddComponent<App>( "app" );
 }
 ```
-
-To setup Blazorise for other frameworks please refer the [Usage page](/docs/usage/)
