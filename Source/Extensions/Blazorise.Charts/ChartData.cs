@@ -13,6 +13,10 @@ namespace Blazorise.Charts
      * Hopefully this will change in the future.
      * =========================== */
 
+    /// <summary>
+    /// Base data object for all charts.
+    /// </summary>
+    /// <typeparam name="TItem">Type of value in the dataset.</typeparam>
     public class ChartData<TItem>
     {
         /// <summary>
@@ -25,25 +29,6 @@ namespace Blazorise.Charts
         /// </summary>
         public List<ChartDataset<TItem>> Datasets { get; set; }
     }
-
-    ///// <summary>
-    ///// Base data object for all charts.
-    ///// </summary>
-    ///// <typeparam name="TDataSet">Type of dataset.</typeparam>
-    ///// <typeparam name="TItem">Type of value in the dataset.</typeparam>
-    //public class ChartData<TDataSet, TItem>
-    //    where TDataSet : ChartDataset<TItem>
-    //{
-    //    /// <summary>
-    //    /// List of labels for the chart coordinates.
-    //    /// </summary>
-    //    public List<string> Labels { get; set; }
-
-    //    /// <summary>
-    //    /// List of datasets to be displayed in the chart.
-    //    /// </summary>
-    //    public List<TDataSet> Datasets { get; set; }
-    //}
 
     /// <summary>
     /// Base class for the chart dataset.
