@@ -16,6 +16,7 @@ toc_label: "Version history"
 ### Enhancements
 
 - Added "Empty" providers to allow using of extensions without CSS providers, see [usage]({{ "/docs/usage/#empty-provider" | relative_url }})
+- Finished chart components. [link]({{ "/docs/extensions/chart/" | relative_url }})
 
 ## 0.4.1
 

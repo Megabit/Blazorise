@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Blazor.Components;
 
 namespace Blazorise.Charts.Base
 {
-    public abstract class BaseChart : BaseComponent
+    public abstract class BaseChart<TDataSet, TItem, TOptions> : BaseComponent
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
     {
         #region Members
 
@@ -47,7 +49,7 @@ namespace Blazorise.Charts.Base
         public void AddLabel( params string[] label )
         {
             if ( Data == null )
-                Data = new ChartData();
+                Data = new ChartData<TItem>();
 
             if ( Data.Labels == null )
                 Data.Labels = new List<string>();
@@ -59,13 +61,13 @@ namespace Blazorise.Charts.Base
         /// Adds a new dataset to the chart.
         /// </summary>
         /// <param name="dataSet"></param>
-        public void AddDataSet( params ChartDataset[] dataSet )
+        public void AddDataSet( params TDataSet[] dataSet )
         {
             if ( Data == null )
-                Data = new ChartData();
+                Data = new ChartData<TItem>();
 
             if ( Data.Datasets == null )
-                Data.Datasets = new List<ChartDataset>();
+                Data.Datasets = new List<ChartDataset<TItem>>();
 
             Data.Datasets.AddRange( dataSet );
         }
@@ -86,19 +88,17 @@ namespace Blazorise.Charts.Base
         /// <summary>
         /// Defines the chart type.
         /// </summary>
-        [Parameter] protected ChartType Type { get; set; } = ChartType.Line;
+        [Parameter] protected virtual ChartType Type { get; set; }
 
         /// <summary>
         /// Defines the chart data.
         /// </summary>
-        [Parameter] protected ChartData Data { get; set; }
+        [Parameter] protected ChartData<TItem> Data { get; set; }
 
         /// <summary>
         /// Defines the chart options.
         /// </summary>
-        [Parameter] protected ChartOptions Options { get; set; }
-
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] protected TOptions Options { get; set; }
 
         #endregion
     }

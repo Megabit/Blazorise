@@ -5,10 +5,10 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Line</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( lineChart ))">Redraw</SimpleButton>
+                <SimpleButton Clicked="@(async () => await HandleRedraw( lineChart, GetLineChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart ref="lineChart" Type="ChartType.Line" />
+                <LineChart ref="lineChart" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -16,10 +16,10 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Bar</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( barChart ))">Redraw</SimpleButton>
+                <SimpleButton Clicked="@(async () => await HandleRedraw( barChart, GetChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart ref="barChart" Type="ChartType.Bar" />
+                <Chart ref="barChart" Type="ChartType.Bar" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -27,10 +27,10 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Pie</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( pieChart ))">Redraw</SimpleButton>
+                <SimpleButton Clicked="@(async () => await HandleRedraw( pieChart, GetChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart ref="pieChart" Type="ChartType.Pie" />
+                <Chart ref="pieChart" Type="ChartType.Pie" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -40,10 +40,10 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Polar Area</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( polarAreaChart ))">Redraw</SimpleButton>
+                <SimpleButton Clicked="@(async () => await HandleRedraw( polarAreaChart, GetChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart ref="polarAreaChart" Type="ChartType.PolarArea" />
+                <Chart ref="polarAreaChart" Type="ChartType.PolarArea" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -51,10 +51,10 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Radar</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( radarChart ))">Redraw</SimpleButton>
+                <SimpleButton Clicked="@(async () => await HandleRedraw( radarChart, GetRadarChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart ref="radarChart" Type="ChartType.Radar" />
+                <Chart ref="radarChart" Type="ChartType.Radar" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -62,57 +62,138 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Doughnut</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( doughnutChart ))">Redraw</SimpleButton>
+                <SimpleButton Clicked="@(async () => await HandleRedraw( doughnutChart, GetChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart ref="doughnutChart" Type="ChartType.Doughnut" />
+                <Chart ref="doughnutChart" Type="ChartType.Doughnut" TItem="double" />
             </CardBody>
         </Card>
     </Column>
 </Row>
 @functions{
-    Chart lineChart;
-    Chart barChart;
-    Chart pieChart;
-    Chart doughnutChart;
-    Chart polarAreaChart;
-    Chart radarChart;
+    LineChart<double> lineChart;
+    Chart<double> barChart;
+    Chart<double> pieChart;
+    Chart<double> doughnutChart;
+    Chart<double> polarAreaChart;
+    Chart<double> radarChart;
 
+    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
     List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
     List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
 
     protected override async Task OnAfterRenderAsync()
     {
         await Task.WhenAll(
-            HandleRedraw( lineChart ),
-            HandleRedraw( barChart ),
-            HandleRedraw( pieChart ),
-            HandleRedraw( doughnutChart ),
-            HandleRedraw( polarAreaChart ),
-            HandleRedraw( radarChart, new RadarChartDataset { Label = "custom radar", Data = RandomizeData(), BackgroundColor = backgroundColors, BorderColor = borderColors, Fill = false, LineTension = 0.5f } ) );
+            HandleRedraw( lineChart, GetLineChartDataset ),
+            HandleRedraw( barChart, GetChartDataset ),
+            HandleRedraw( pieChart, GetChartDataset ),
+            HandleRedraw( doughnutChart, GetChartDataset ),
+            HandleRedraw( polarAreaChart, GetChartDataset ),
+            HandleRedraw( radarChart, GetRadarChartDataset ) );
     }
 
-    async Task HandleRedraw( Chart chart, ChartDataset customDataSet = null )
+    async Task HandleRedraw<TDataSet, TItem, TOptions>( Blazorise.Charts.Base.BaseChart<TDataSet, TItem, TOptions> chart, Func<TDataSet> getDataSet )
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
     {
         chart.Clear();
 
-        chart.AddLabel( "Red", "Blue", "Yellow", "Green", "Purple", "Orange" );
+        chart.AddLabel( Labels );
 
-        chart.AddDataSet( customDataSet ?? new ChartDataset
+        chart.AddDataSet( getDataSet() );
+
+        await chart.Update();
+    }
+
+    ChartDataset<double> GetChartDataset()
+    {
+        return new ChartDataset<double>
         {
             Label = "# of randoms",
             Data = RandomizeData(),
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
-        } );
-
-        await chart.Update();
+        };
     }
 
-    List<int> RandomizeData()
+    LineChartDataset<double> GetLineChartDataset()
+    {
+        return new LineChartDataset<double>
+        {
+            Label = "# of randoms",
+            Data = RandomizeData(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+            Fill = true,
+            PointRadius = 2,
+            //LineTension = 1,
+            BorderDash = new List<int> { }
+        };
+    }
+
+    BarChartDataset<double> GetBarChartDataset()
+    {
+        return new BarChartDataset<double>
+        {
+            Label = "# of randoms",
+            Data = RandomizeData(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+        };
+    }
+
+    PieChartDataset<double> GetPieChartDataset()
+    {
+        return new PieChartDataset<double>
+
+        {
+            Label = "# of randoms",
+            Data = RandomizeData(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+        };
+    }
+
+    DoughnutChartDataset<double> GetDoughnutChartDataset()
+    {
+        return new DoughnutChartDataset<double>
+        {
+            Label = "# of randoms",
+            Data = RandomizeData(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+        };
+    }
+
+    PolarAreaChartDataset<double> GetPolarAreaChartDataset()
+    {
+        return new PolarAreaChartDataset<double>
+        {
+            Label = "# of randoms",
+            Data = RandomizeData(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+        };
+    }
+
+    RadarChartDataset<double> GetRadarChartDataset()
+    {
+        return new RadarChartDataset<double>
+        {
+            Label = "custom radar",
+            Data = RandomizeData(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+            Fill = false,
+            LineTension = 0.5f
+        };
+    }
+
+    List<double> RandomizeData()
     {
         var r = new Random( DateTime.Now.Millisecond );
 
-        return new List<int> { r.Next( 3, 50 ), r.Next( 3, 50 ), r.Next( 3, 50 ), r.Next( 3, 50 ), r.Next( 3, 50 ), r.Next( 3, 50 ) };
+        return new List<double> { r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble() };
     }
 }

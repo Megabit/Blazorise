@@ -56,6 +56,11 @@ docs:
         url: /docs/components/breadcrumb/
       - title: "Alert"
         url: /docs/components/alert/
+  - title: Extensions
+    url: /docs/extensions/
+    children:
+      - title: "Chart"
+        url: /docs/extensions/chart/
   - title: Helpers
     url: /docs/helpers/
     children:

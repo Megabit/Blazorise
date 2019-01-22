@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Blazor.Components;
 
 namespace Blazorise.Charts.Base
 {
-    public abstract class BaseBarChart<TItem> : BaseChart<BarChartDataset<TItem>, TItem, BarChartOptions>
+    public abstract class BaseLineChart<TItem> : BaseChart<LineChartDataset<TItem>, TItem, LineChartOptions>
     {
         #region Members
 
@@ -22,7 +22,7 @@ namespace Blazorise.Charts.Base
 
         #region Properties
 
-        protected override ChartType Type { get; set; } = ChartType.Bar;
+        protected override ChartType Type { get; set; } = ChartType.Line;
 
         #endregion
     }

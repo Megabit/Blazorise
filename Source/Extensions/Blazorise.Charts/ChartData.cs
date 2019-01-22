@@ -2,12 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.Charts
 {
-    public class ChartData
+    /* ======== IMPORTANT ========
+     * Blazor serializer does not support DataMember attribute and because of that there is no way to omit null fields when serializing objects to json.
+     * Hopefully this will change in the future.
+     * =========================== */
+
+    public class ChartData<TItem>
     {
         /// <summary>
         /// List of labels for the chart coordinates.
@@ -17,26 +23,32 @@ namespace Blazorise.Charts
         /// <summary>
         /// List of datasets to be displayed in the chart.
         /// </summary>
-        public List<ChartDataset> Datasets { get; set; }
+        public List<ChartDataset<TItem>> Datasets { get; set; }
     }
 
-    public class ChartData<T>
-    {
-        /// <summary>
-        /// List of labels for the chart coordinates.
-        /// </summary>
-        public List<string> Labels { get; set; }
+    ///// <summary>
+    ///// Base data object for all charts.
+    ///// </summary>
+    ///// <typeparam name="TDataSet">Type of dataset.</typeparam>
+    ///// <typeparam name="TItem">Type of value in the dataset.</typeparam>
+    //public class ChartData<TDataSet, TItem>
+    //    where TDataSet : ChartDataset<TItem>
+    //{
+    //    /// <summary>
+    //    /// List of labels for the chart coordinates.
+    //    /// </summary>
+    //    public List<string> Labels { get; set; }
 
-        /// <summary>
-        /// List of datasets to be displayed in the chart.
-        /// </summary>
-        public List<T> Datasets { get; set; }
-    }
+    //    /// <summary>
+    //    /// List of datasets to be displayed in the chart.
+    //    /// </summary>
+    //    public List<TDataSet> Datasets { get; set; }
+    //}
 
     /// <summary>
     /// Base class for the chart dataset.
     /// </summary>
-    public class ChartDataset
+    public class ChartDataset<T>
     {
         /// <summary>
         /// Defines the dataset display name.
@@ -46,7 +58,7 @@ namespace Blazorise.Charts
         /// <summary>
         /// List of data items.
         /// </summary>
-        public List<int> Data { get; set; }
+        public List<T> Data { get; set; }
 
         /// <summary>
         ///List of background colors for each of the data items.
@@ -64,11 +76,12 @@ namespace Blazorise.Charts
         public int BorderWidth { get; set; } = 1;
     }
 
-    public class LineChartDataset : ChartDataset
+    public class LineChartDataset<T> : ChartDataset<T>
     {
         /// <summary>
         /// Length and spacing of dashes.
         /// </summary>
+        [DataMember( EmitDefaultValue = false )]
         public List<int> BorderDash { get; set; }
 
         /// <summary>
@@ -77,9 +90,9 @@ namespace Blazorise.Charts
         public int BorderDashOffset { get; set; }
 
         /// <summary>
-        /// How to fill the area under the line.
+        /// Fill the area under the line.
         /// </summary>
-        public bool Fill { get; set; }
+        public bool Fill { get; set; } = true;
 
         /// <summary>
         /// Bezier curve tension of the line. Set to 0 to draw straightlines. This option is ignored if monotone cubic interpolation is used.
@@ -109,7 +122,7 @@ namespace Blazorise.Charts
         /// <summary>
         /// If false, the line is not drawn for this dataset.
         /// </summary>
-        public bool ShowLine { get; set; }
+        public bool ShowLine { get; set; } = true;
 
         /// <summary>
         /// If true, lines will be drawn between points with no or null data. If false, points with NaN data will create a break in the line.
@@ -122,7 +135,7 @@ namespace Blazorise.Charts
         public bool SteppedLine { get; set; }
     }
 
-    public class BarChartDataset : ChartDataset
+    public class BarChartDataset<T> : ChartDataset<T>
     {
         /// <summary>
         /// The fill colour of the bars when hovered.
@@ -140,7 +153,7 @@ namespace Blazorise.Charts
         public int HoverBorderWidth { get; set; }
     }
 
-    public class PieChartDataset : ChartDataset
+    public class PieChartDataset<T> : ChartDataset<T>
     {
         /// <summary>
         /// The fill colour of the arcs when hovered.
@@ -158,12 +171,12 @@ namespace Blazorise.Charts
         public int HoverBorderWidth { get; set; }
     }
 
-    public class DoughnutChartDataset : PieChartDataset
+    public class DoughnutChartDataset<T> : PieChartDataset<T>
     {
         // same as pie chart
     }
 
-    public class PolarAreaChartDataset : ChartDataset
+    public class PolarAreaChartDataset<T> : ChartDataset<T>
     {
         /// <summary>
         /// The fill colour of the arcs when hovered.
@@ -181,7 +194,7 @@ namespace Blazorise.Charts
         public int HoverBorderWidth { get; set; }
     }
 
-    public class RadarChartDataset : ChartDataset
+    public class RadarChartDataset<T> : ChartDataset<T>
     {
         /// <summary>
         /// How to fill the area under the line.
@@ -211,12 +224,25 @@ namespace Blazorise.Charts
             A = alpha;
         }
 
+        public ChartColor( float red, float green, float blue )
+            : this( red, green, blue, 1f )
+        {
+        }
+
+        public ChartColor( float red, float green, float blue, float alpha )
+        {
+            R = (byte)( red * 255 );
+            G = (byte)( green * 255 );
+            B = (byte)( blue * 255 );
+            A = alpha;
+        }
+
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Implicitly convert color to the string representation that is understood by the CrartJs.
+        /// Implicitly convert color to the string representation that is understood by the ChartJs.
         /// </summary>
         /// <param name="color"></param>
         public static implicit operator string( ChartColor color ) => color.ToJsRgba();
@@ -232,7 +258,7 @@ namespace Blazorise.Charts
         public static ChartColor FromRgba( byte red, byte green, byte blue, float alpha ) => new ChartColor( red, green, blue, alpha );
 
         /// <summary>
-        /// Converts the color to the js function.
+        /// Converts the color to the js function call.
         /// </summary>
         /// <returns></returns>
         public string ToJsRgba() => $"rgba({R},{G},{B},{A})";
