@@ -711,8 +711,6 @@ namespace Blazorise.Bootstrap
         {
             switch ( color )
             {
-                case Blazorise.Color.Active:
-                    return "active";
                 case Blazorise.Color.Primary:
                     return "primary";
                 case Blazorise.Color.Secondary:

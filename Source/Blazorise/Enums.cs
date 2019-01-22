@@ -39,11 +39,6 @@ namespace Blazorise
         None,
 
         /// <summary>
-        /// Active color.
-        /// </summary>
-        Active,
-
-        /// <summary>
         /// Primary color.
         /// </summary>
         Primary,
