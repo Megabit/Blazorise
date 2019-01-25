@@ -1,0 +1,76 @@
+﻿@page "/tests/editors"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Editors test</CardTitle>
+                <CardSubtitle>On this page you can find different samples on how to use edit fields.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Field IsHorizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Test 1</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is3">
+                        <TextEdit bind-Text="@value1" />
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.IsAuto">
+                        <SimpleButton Color="Color.Secondary" Clicked="@OnSet1_1">Set</SimpleButton>
+                        <SimpleButton Color="Color.Secondary" Clicked="@OnSet1_2">Set</SimpleButton>
+                    </FieldBody>
+                </Field>
+                <Field IsHorizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Test 2</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is3">
+                        <TextEdit bind-EditValue="@value2" />
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.IsAuto">
+                        <SimpleButton Color="Color.Secondary" Clicked="@OnSet2_1">Set 2</SimpleButton>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@functions{
+    string value1;
+    object value2;
+
+    //void OnTextChanging( ChangingEventArgs e )
+    //{
+    //    if ( Convert.ToString( e?.NewValue )?.Contains( "a" ) == true )
+    //    {
+    //        e.Cancel = true;
+    //    }
+    //}
+
+
+    //void OnEditValueChanging( ChangingEventArgs e )
+    //{
+    //    if ( Convert.ToString( e.NewValue )?.Contains( "a" ) == true )
+    //    {
+    //        e.Cancel = true;
+    //    }
+    //}
+
+    void OnEditValueChanged()
+    {
+        Console.WriteLine( "changed" );
+    }
+
+    void OnSet1_1()
+    {
+        value1 = "45,68";
+        StateHasChanged();
+    }
+
+    void OnSet1_2()
+    {
+        value1 = "45.68";
+        StateHasChanged();
+    }
+
+    void OnSet2_1()
+    {
+        value2 = 63.12m;
+        StateHasChanged();
+    }
+}

@@ -53,6 +53,11 @@ window.blazorise = {
         return false;
     },
 
+    setTextValue(element, value) {
+        element.value = value;
+        return true;
+    },
+
     getFilePaths: (element) => {
         var paths = [];
 

@@ -73,5 +73,10 @@ namespace Blazorise
         {
             return JSRuntime.Current.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getSelectedOptions", elementId );
         }
+
+        public Task<bool> SetTextValue( ElementRef elementRef, object value )
+        {
+            return JSRuntime.Current.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
+        }
     }
 }

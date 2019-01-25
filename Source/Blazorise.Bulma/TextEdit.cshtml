@@ -1,9 +1,9 @@
-﻿@inherits Base.BaseText
+﻿@inherits Base.BaseTextEdit
 @if ( ParentIsFieldBody )
 {
     <div class="field">
         <div class="control">
-            <input type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" onchange="@HandleTextChange" />
+            <input type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" onchange="@HandleOnChange" />
             @ChildContent
         </div>
     </div>
@@ -11,7 +11,7 @@
 else
 {
     <div class="control">
-        <input type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" onchange="@HandleTextChange" />
+        <input type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" onchange="@HandleOnChange" />
         @ChildContent
     </div>
 }
