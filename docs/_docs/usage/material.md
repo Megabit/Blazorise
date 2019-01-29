@@ -8,23 +8,25 @@ toc_label: "Steps"
 
 Since Material CSS is based on a Bootstrap you only need to change the css and js sources. The code in _ViewImports.cshtml_ will stay the same as in the [Bootstrap]({{ "/docs/usage/bootstrap/" | relative_url }}).
 
-### Nuget
+## Installations
 
-Install Material provider from nuget.
+### Nuget packages
+
+First step is to install a Material provider for Blazorise:
 
 ```
 Install-Package Blazorise.Material
 ```
 
-Also install icons
+You also need to install the icon package:
 
 ```
 Install-Package Blazorise.Icons.Material
 ```
 
-### Index
+### Sources files
 
-In your index.html just add 
+The next step is to change your `index.html` file and include the css and js source files:
 
 ```html
 <!-- CSS -->
@@ -39,9 +41,9 @@ In your index.html just add
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 ```
 
-### Imports
+### Usings
 
-In your main _ViewImports.cshtml_ add:
+In your main _ViewImports.cshtml add:
 
 ```cs
 @addTagHelper *, Blazorise
@@ -49,13 +51,14 @@ In your main _ViewImports.cshtml_ add:
 @using Blazorise
 ```
 
-### Startup
+### Registrations
 
-In Startup.cs add:
+Finally in the Startup.cs you must tell the Blazor to register Material provider and extensions:
 
 ```cs
 using Blazorise;
 using Blazorise.Material;
+using Blazorise.Icons.Material;
 
 public void ConfigureServices( IServiceCollection services )
 {

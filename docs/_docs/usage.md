@@ -6,13 +6,14 @@ toc: true
 toc_label: "Guide"
 ---
 
-## CSS Providers
-
-List of supported providers
+## Suppported CSS Providers
 
 - [Bootstrap]({{ "/docs/usage/bootstrap/" | relative_url }})
 - [Bulma]({{ "/docs/usage/bulma/" | relative_url }})
 - [Material]({{ "/docs/usage/material/" | relative_url }})
+
+**Note:** Bulma provider is still work in progress so some of the features may not work.
+{: .notice--warning}
 
 ### Empty provider
 
