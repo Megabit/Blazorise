@@ -6,7 +6,7 @@ toc: true
 toc_label: "Steps"
 ---
 
-Since Material CSS is based on a Bootstrap you only need to change the css and js sources. The code in _ViewImports.cshtml_ will stay the same as in the [Bootstrap](docs/usage/bootstrap).
+Since Material CSS is based on a Bootstrap you only need to change the css and js sources. The code in _ViewImports.cshtml_ will stay the same as in the [Bootstrap]({{ "/docs/usage/bootstrap/" | relative_url }}).
 
 ### Nuget
 
