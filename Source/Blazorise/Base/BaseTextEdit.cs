@@ -16,9 +16,7 @@ namespace Blazorise.Base
 
         private Color color;
 
-        protected string text;
-
-        protected object editValue;
+        //private string text;
 
         #endregion
 
@@ -36,83 +34,73 @@ namespace Blazorise.Base
 
         protected void HandleOnChange( UIChangeEventArgs e )
         {
+            Text = e?.Value?.ToString();
+            TextChanged?.Invoke( Text );
         }
 
-        protected void HandleOnInput( UIChangeEventArgs e )
-        {
-            Console.WriteLine( "oninput" );
+        //protected void HandleOnInput( UIChangeEventArgs e )
+        //{
+        //    Console.WriteLine( $"oninput: {e.Value}" );
 
-            var newValue = e?.Value?.ToString();
+        //    var newText = e?.Value?.ToString();
 
-            //if ( !ParseMask( newValue ) )
-            //{
-            //    // currently there is no other way to prevent onchange value without js :(
-            //    JSRunner.SetTextValue( ElementRef, Text );
+        //    if ( TryChangeText( newText ) && TryEditMask( newText ) )
+        //    {
+        //        text = newText;
+        //        TextChanged?.Invoke( text );
+        //    }
+        //    else
+        //    {
+        //        // currently there is no other way to prevent onchange value without js :(
+        //        JSRunner.SetTextValue( ElementRef, text );
+        //    }
 
-            //    return;
-            //}
+        //    //Console.WriteLine( $"text: {Text}; new: {newValue}" );
+        //}
 
-            ParseText( newValue );
-        }
+        //private bool TryEditMask( string newValue )
+        //{
+        //    if ( MaskType == MaskType.None || string.IsNullOrEmpty( newValue ) )
+        //        return true;
 
-        private bool ParseMask( string newValue )
-        {
-            if ( string.IsNullOrEmpty( newValue ) )
-                return true;
+        //    if ( MaskType == MaskType.Numeric )
+        //    {
+        //        return decimal.TryParse( newValue, out var n );
+        //    }
+        //    else if ( MaskType == MaskType.DateTime )
+        //    {
+        //        return DateTime.TryParse( newValue, out var dt );
+        //    }
 
-            if ( !int.TryParse( newValue, out var number ) )
-                return false;
+        //    return false;
+        //}
 
-            return true;
-        }
+        ///// <summary>
+        ///// Finds if any of the subscribed events has requested cancel.
+        ///// </summary>
+        ///// <param name="newValue">New value entered in the field.</param>
+        ///// <returns></returns>
+        //private bool TryChangeText( string newValue )
+        //{
+        //    var handler = TextChanging;
 
-        private void ParseText( string newValue )
-        {
-            //Console.WriteLine( $"2: {newValue}" );
+        //    if ( handler != null )
+        //    {
+        //        var args = new ChangingEventArgs( text, newValue, false );
 
-            var canceled = CheckCanceled( newValue );
+        //        foreach ( Action<ChangingEventArgs> subHandler in handler?.GetInvocationList() )
+        //        {
+        //            subHandler( args );
 
-            if ( !canceled )
-            {
-                text = newValue;
+        //            if ( args.Cancel )
+        //            {
+        //                return false;
+        //            }
+        //        }
+        //    }
 
-                TextChanged?.Invoke( Text );
-            }
-            else
-            {
-                // currently there is no other way to prevent onchange value without js :(
-                JSRunner.SetTextValue( ElementRef, Text );
-            }
-
-            //Console.WriteLine( $"text: {Text}; new: {newValue}" );
-        }
-
-        /// <summary>
-        /// Finds if any of the subscribed events has requested cancel.
-        /// </summary>
-        /// <param name="newValue">New value entered in the field.</param>
-        /// <returns></returns>
-        private bool CheckCanceled( string newValue )
-        {
-            var handler = TextChanging;
-
-            if ( handler != null )
-            {
-                var args = new ChangingEventArgs( Text, newValue, false );
-
-                foreach ( Action<ChangingEventArgs> subHandler in handler?.GetInvocationList() )
-                {
-                    subHandler( args );
-
-                    if ( args.Cancel )
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
+        //    return true;
+        //}
 
         #endregion
 
@@ -122,50 +110,29 @@ namespace Blazorise.Base
         /// Gets or sets the text inside the input field.
         /// </summary>
         [Parameter]
-        protected string Text
-        {
-            get { return text; }
-            set
-            {
-                if ( !CheckCanceled( value ) )
-                {
-                    text = value;
-                }
-            }
-        }
-
-        [Parameter]
-        protected object EditValue
-        {
-            get { return editValue; }
-            set
-            {
-                editValue = value;
-                
-                text = ( editValue as IFormattable )?.ToString( "C", new System.Globalization.NumberFormatInfo { CurrencySymbol = "kn" } );
-            }
-        }
+        protected string Text { get; set; }
+        //protected string Text
+        //{
+        //    get { return text; }
+        //    set
+        //    {
+        //        if ( text != value && TryChangeText( value ) )
+        //        {
+        //            text = value;
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Occurs after text has changed.
         /// </summary>
         [Parameter] protected Action<string> TextChanged { get; set; }
 
-        [Parameter] protected Action<ChangingEventArgs> TextChanging { get; set; }
+        //[Parameter] protected Action<ChangingEventArgs> TextChanging { get; set; }
 
-        [Parameter] protected Action<object> EditValueChanged { get; set; }
+        //[Parameter] protected MaskType MaskType { get; set; } = MaskType.None;
 
-        //[Parameter] protected Action<ConvertEditValueEventArgs> ParseEditValue { get; set; }
-
-        //[Parameter] protected Action<ChangingEventArgs> EditValueChanging { get; set; }
-
-        //[Parameter] protected FormatInfo DisplayFormat { get; set; } = new FormatInfo();
-
-        //[Parameter] protected FormatInfo EditFormat { get; set; } = new FormatInfo();
-
-        [Parameter] protected MaskType MaskType { get; set; } = MaskType.None;
-
-        [Parameter] protected string MaskFormat { get; set; }
+        //[Parameter] protected string MaskFormat { get; set; }
 
         protected string Type => Role.ToTextRoleString();
 
@@ -173,6 +140,8 @@ namespace Blazorise.Base
         /// Sets the role of the input text.
         /// </summary>
         [Parameter] protected TextRole Role { get; set; } = TextRole.Text;
+
+        [Parameter] protected int? Step { get; set; }
 
         /// <summary>
         /// Sets the placeholder for the empty text.

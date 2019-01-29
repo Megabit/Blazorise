@@ -1,4 +1,4 @@
-﻿@page "/tests/editors"
+﻿@*@page "/tests/editors"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -8,69 +8,30 @@
             </CardHeader>
             <CardBody>
                 <Field IsHorizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Test 1</FieldLabel>
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Text</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is3">
-                        <TextEdit bind-Text="@value1" />
-                    </FieldBody>
-                    <FieldBody ColumnSize="ColumnSize.IsAuto">
-                        <SimpleButton Color="Color.Secondary" Clicked="@OnSet1_1">Set</SimpleButton>
-                        <SimpleButton Color="Color.Secondary" Clicked="@OnSet1_2">Set</SimpleButton>
+                        <TextEdit />
                     </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Test 2</FieldLabel>
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Numeric with step</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is3">
-                        <TextEdit bind-EditValue="@value2" />
+                        <TextEdit Role="TextRole.Number" Step="2" />
                     </FieldBody>
-                    <FieldBody ColumnSize="ColumnSize.IsAuto">
-                        <SimpleButton Color="Color.Secondary" Clicked="@OnSet2_1">Set 2</SimpleButton>
+                </Field>
+                <Field IsHorizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Numeric mask</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is3">
+                        <TextEdit MaskType="MaskType.Numeric" MaskFormat="c" />
+                    </FieldBody>
+                </Field>
+                <Field IsHorizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Date mask</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is3">
+                        <TextEdit MaskType="MaskType.DateTime" MaskFormat="d" />
                     </FieldBody>
                 </Field>
             </CardBody>
         </Card>
     </Column>
-</Row>
-@functions{
-    string value1;
-    object value2;
-
-    //void OnTextChanging( ChangingEventArgs e )
-    //{
-    //    if ( Convert.ToString( e?.NewValue )?.Contains( "a" ) == true )
-    //    {
-    //        e.Cancel = true;
-    //    }
-    //}
-
-
-    //void OnEditValueChanging( ChangingEventArgs e )
-    //{
-    //    if ( Convert.ToString( e.NewValue )?.Contains( "a" ) == true )
-    //    {
-    //        e.Cancel = true;
-    //    }
-    //}
-
-    void OnEditValueChanged()
-    {
-        Console.WriteLine( "changed" );
-    }
-
-    void OnSet1_1()
-    {
-        value1 = "45,68";
-        StateHasChanged();
-    }
-
-    void OnSet1_2()
-    {
-        value1 = "45.68";
-        StateHasChanged();
-    }
-
-    void OnSet2_1()
-    {
-        value2 = 63.12m;
-        StateHasChanged();
-    }
-}
+</Row>*@

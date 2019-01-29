@@ -2,7 +2,7 @@
 @inherits Base.BaseTextEdit
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <input ref="ElementRef" type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" maxlength="@MaxLength" value="@Text" oninput="@HandleOnInput" onchange="@HandleOnChange" />
+    <input ref="ElementRef" type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" maxlength="@MaxLength" step="@Step" value="@Text" onchange="@HandleOnChange" />
     @ChildContent
 }
 else
