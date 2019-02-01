@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
 	<metadata>
-		<id>Blazorise.Charts</id>
-		<title>Blazorise.Charts</title>
+		<id>Blazorise.Icons.Material</id>
+		<title>Blazorise.Icons.Material</title>
 		<version>0.5.0</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
@@ -11,7 +11,7 @@
 		<projectUrl>https://github.com/stsrki/Blazorise</projectUrl>
 		<description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</description>
 		<copyright>Copyright 2018</copyright>
-		<tags>blazorise blazor components charts</tags>
+		<tags>blazorise blazor components material icons</tags>
 		<repository url="https://github.com/stsrki/Blazorise" />
 		<iconUrl>https://github.com/stsrki/Blazorise/blob/master/NuGet/Blazorise.png</iconUrl>
 		<dependencies>
@@ -24,9 +24,9 @@
 		</contentFiles>
 	</metadata>
 	<files>
-		<file src="..\Source\Extensions\Blazorise.Charts\bin\Release\**\Blazorise.Charts.dll" target="lib\" />
+		<file src="..\Source\Extensions\Blazorise.Icons.Material\bin\Release\**\Blazorise.Icons.Material.dll" target="lib\" />
 		
-		<file src="..\Source\Extensions\Blazorise.Charts\Properties\launchSettings.json" target="content\Properties" />
-		<file src="..\Source\Extensions\Blazorise.Charts\Properties\launchSettings.json" target="contentFiles\any\netstandard2.0\Properties" />
+		<file src="..\Source\Extensions\Blazorise.Icons.Material\Properties\launchSettings.json" target="content\Properties" />
+		<file src="..\Source\Extensions\Blazorise.Icons.Material\Properties\launchSettings.json" target="contentFiles\any\netstandard2.0\Properties" />
 	</files>
 </package>
