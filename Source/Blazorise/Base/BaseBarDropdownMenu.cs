@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Blazor.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseBarDropdownToggler : BaseComponent
+    public class BaseBarDropdownMenu : BaseComponent
     {
         #region Members
+
+        private bool isOpen;
 
         #endregion
 
@@ -20,7 +22,8 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.BarDropdownToggler() );
+                .Add( () => ClassProvider.BarDropdownMenu() )
+                .If( () => ClassProvider.BarDropdownMenuShow(), () => IsOpen );
 
             base.RegisterClasses();
         }
@@ -28,21 +31,28 @@ namespace Blazorise.Base
         protected override void OnInit()
         {
             // link to the parent component
-            BarItem?.Hook( this );
+            BarDropdown?.Hook( this );
 
             base.OnInit();
-        }
-
-        protected void ClickHandler()
-        {
-            BarItem?.Toggle();
         }
 
         #endregion
 
         #region Properties
 
-        [CascadingParameter] protected BarItem BarItem { get; set; }
+        [Parameter]
+        internal bool IsOpen
+        {
+            get => isOpen;
+            set
+            {
+                isOpen = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        [CascadingParameter] protected BaseBarDropdown BarDropdown { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

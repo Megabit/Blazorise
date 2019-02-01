@@ -25,8 +25,8 @@
                         <SidebarLink To="tests/forms">Forms</SidebarLink>
                     </SidebarItem>
                     @*<SidebarItem>
-                        <SidebarLink To="tests/editors">Editors</SidebarLink>
-                    </SidebarItem>*@
+                            <SidebarLink To="tests/editors">Editors</SidebarLink>
+                        </SidebarItem>*@
                     <SidebarItem>
                         <SidebarLink To="tests/modals">Modals</SidebarLink>
                     </SidebarItem>
@@ -85,12 +85,16 @@
                     <BarLink To="https://blazorise.com/docs/">Documentation</BarLink>
                 </BarItem>
                 <BarItem>
-                    <BarDropdownToggler>More</BarDropdownToggler>
                     <BarDropdown>
-                        <BarDropdownItem>
-                            <BarLink To="https://blazorise.com/docs/quick-start/">Quick-Start Guide</BarLink>
-                            <BarLink To="https://blazorise.com/docs/usage/">Usage</BarLink>
-                        </BarDropdownItem>
+                        <BarDropdownToggle>More</BarDropdownToggle>
+                        <BarDropdownMenu>
+                            <BarDropdownItem To="https://blazorise.com/docs/quick-start/">
+                                Quick-Start Guide
+                            </BarDropdownItem>
+                            <BarDropdownItem To="https://blazorise.com/docs/usage/">
+                                Usage
+                            </BarDropdownItem>
+                        </BarDropdownMenu>
                     </BarDropdown>
                 </BarItem>
             </BarStart>

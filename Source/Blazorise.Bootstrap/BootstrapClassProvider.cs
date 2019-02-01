@@ -370,9 +370,9 @@ namespace Blazorise.Bootstrap
 
         public virtual string BarItemDisabled() => Disabled();
 
-        public virtual string BarItemDropdown() => "dropdown";
+        public virtual string BarItemHasDropdown() => "dropdown";
 
-        public virtual string BarItemDropdownShow() => Show();
+        public virtual string BarItemHasDropdownShow() => Show();
 
         public virtual string BarLink() => "nav-link";
 
@@ -394,15 +394,19 @@ namespace Blazorise.Bootstrap
 
         //public virtual string BarHasDropdown() => "dropdown";
 
-        public virtual string BarDropdown() => "dropdown-menu";
+        public virtual string BarDropdown() => null;
 
-        public virtual string BarDropdownShow() => Show();
+        public virtual string BarDropdownShow() => null;
 
-        public virtual string BarDropdownToggler() => "nav-link dropdown-toggle";
+        public virtual string BarDropdownToggle() => "nav-link dropdown-toggle";
 
         public virtual string BarDropdownItem() => "dropdown-item";
 
         public virtual string BarTogglerIcon() => "navbar-toggler-icon";
+
+        public virtual string BarDropdownMenu() => "dropdown-menu";
+
+        public virtual string BarDropdownMenuShow() => Show();
 
         #endregion
 

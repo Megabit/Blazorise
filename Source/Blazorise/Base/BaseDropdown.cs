@@ -21,6 +21,8 @@ namespace Blazorise.Base
 
         private BaseDropdownMenu dropdownMenu;
 
+        private BaseDropdownToggle dropdownToggle;
+
         private List<BaseButton> registeredButtons;
 
         #endregion
@@ -38,6 +40,7 @@ namespace Blazorise.Base
                 }
 
                 dropdownMenu = null;
+                dropdownToggle = null;
             }
 
             base.Dispose( disposing );
@@ -96,6 +99,11 @@ namespace Blazorise.Base
             this.dropdownMenu = dropdownMenu;
         }
 
+        internal void Hook( BaseDropdownToggle dropdownToggle )
+        {
+            this.dropdownToggle = dropdownToggle;
+        }
+
         /// <summary>
         /// Registers a child button reference.
         /// </summary>
@@ -141,6 +149,9 @@ namespace Blazorise.Base
 
                 if ( dropdownMenu != null )
                     dropdownMenu.IsOpen = value;
+
+                if ( dropdownToggle != null )
+                    dropdownToggle.IsOpen = value;
 
                 ClassMapper.Dirty();
             }

@@ -38,6 +38,7 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
             //componentMapper.Register<Blazorise.Addons, Bootstrap.Addons>();
             componentMapper.Register<Blazorise.BarToggler, Bootstrap.BarToggler>();
+            componentMapper.Register<Blazorise.BarDropdown, Bootstrap.BarDropdown>();
             componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
             componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
             componentMapper.Register<Blazorise.CheckEdit, Bootstrap.CheckEdit>();

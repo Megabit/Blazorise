@@ -29,6 +29,9 @@
     <Content Update="Addons.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="BarDropdown.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="BarToggler.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

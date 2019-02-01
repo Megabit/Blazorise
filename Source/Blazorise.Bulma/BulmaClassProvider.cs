@@ -371,9 +371,9 @@ namespace Blazorise.Bulma
 
         public virtual string BarItemDisabled() => Disabled();
 
-        public virtual string BarItemDropdown() => "has-dropdown";
+        public virtual string BarItemHasDropdown() => "has-dropdown";
 
-        public virtual string BarItemDropdownShow() => Active();
+        public virtual string BarItemHasDropdownShow() => Active();
 
         public virtual string BarLink() => "navbar-item";
 
@@ -395,15 +395,19 @@ namespace Blazorise.Bulma
 
         //public virtual string BarHasDropdown() => "has-dropdown";
 
-        public virtual string BarDropdown() => "navbar-dropdown";
+        public virtual string BarDropdown() => null;
 
-        public virtual string BarDropdownShow() => Show();
+        public virtual string BarDropdownShow() => null;
 
-        public virtual string BarDropdownToggler() => null;
+        public virtual string BarDropdownToggle() => "navbar-link";
 
         public virtual string BarDropdownItem() => "navbar-item";
 
         public virtual string BarTogglerIcon() => null;
+
+        public virtual string BarDropdownMenu() => "navbar-dropdown";
+
+        public virtual string BarDropdownMenuShow() => Show();
 
         #endregion
 

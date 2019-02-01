@@ -15,6 +15,10 @@ namespace Blazorise.Base
 
         private bool isOpen;
 
+        private BaseBarDropdownMenu barDropdownMenu;
+
+        private BaseBarDropdownToggle barDropdownToggler;
+
         #endregion
 
         #region Methods
@@ -36,10 +40,50 @@ namespace Blazorise.Base
             base.OnInit();
         }
 
+        internal void Hook( BaseBarDropdownMenu barDropdownMenu )
+        {
+            this.barDropdownMenu = barDropdownMenu;
+        }
+
+        internal void Hook( BaseBarDropdownToggle barDropdownToggler )
+        {
+            this.barDropdownToggler = barDropdownToggler;
+        }
+
+        public void Open()
+        {
+            var temp = IsOpen;
+
+            IsOpen = true;
+
+            if ( temp != IsOpen ) // used to prevent toggle event call if Open() is called multiple times
+                Toggled?.Invoke( IsOpen );
+
+            BarItem?.MenuChanged();
+
+            StateHasChanged();
+        }
+
+        public void Close()
+        {
+            var temp = IsOpen;
+
+            IsOpen = false;
+
+            if ( temp != IsOpen ) // used to prevent toggle event call if Close() is called multiple times
+                Toggled?.Invoke( IsOpen );
+
+            BarItem?.MenuChanged();
+
+            StateHasChanged();
+        }
+
         public void Toggle()
         {
             IsOpen = !IsOpen;
             Toggled?.Invoke( IsOpen );
+
+            BarItem?.MenuChanged();
 
             StateHasChanged();
         }
@@ -55,6 +99,12 @@ namespace Blazorise.Base
             set
             {
                 isOpen = value;
+
+                if ( barDropdownMenu != null )
+                    barDropdownMenu.IsOpen = value;
+
+                if ( barDropdownToggler != null )
+                    barDropdownToggler.IsOpen = value;
 
                 ClassMapper.Dirty();
             }

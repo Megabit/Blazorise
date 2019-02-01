@@ -78,5 +78,15 @@ namespace Blazorise
         {
             return JSRuntime.Current.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
         }
+
+        public Task RegisterClosableComponent( ICloseActivator component )
+        {
+            return JSRuntime.Current.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", component.ElementId, new DotNetObjectRef( new CloseActivatorAdapter( component ) ) );
+        }
+
+        public Task UnregisterClosableComponent( ICloseActivator component )
+        {
+            return JSRuntime.Current.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementId );
+        }
     }
 }

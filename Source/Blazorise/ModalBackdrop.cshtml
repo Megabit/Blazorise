@@ -1,7 +1,7 @@
 ﻿@inherits Base.BaseModalBackdrop
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <div class="@ClassMapper.Class">
+    <div id="@ElementId" class="@ClassMapper.Class">
         @ChildContent
     </div>
 }

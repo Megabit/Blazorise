@@ -341,9 +341,9 @@ namespace Blazorise
 
         string BarItemDisabled();
 
-        string BarItemDropdown();
+        string BarItemHasDropdown();
 
-        string BarItemDropdownShow();
+        string BarItemHasDropdownShow();
 
         string BarLink();
 
@@ -367,11 +367,15 @@ namespace Blazorise
 
         string BarDropdownShow();
 
-        string BarDropdownToggler();
+        string BarDropdownToggle();
 
         string BarDropdownItem();
 
         string BarTogglerIcon();
+
+        string BarDropdownMenu();
+
+        string BarDropdownMenuShow();
 
         #endregion
 

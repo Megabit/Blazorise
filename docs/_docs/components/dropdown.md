@@ -6,9 +6,18 @@ toc: true
 toc_label: "Guide"
 ---
 
-## Dropdown
+## Basics
 
 The dropdown component is a container for a dropdown button and a dropdown menu.
+
+- `Dropdown` the **main** container
+  - `DropdownToggle` toggle button
+  - `DropdownMenu` the toggable menu, **hidden** by default
+    - `DropdownItem` each **single** item of the dropdown menu
+    - `DropdownDivider` a **horizontal line** to separate dropdown items
+          
+
+## Dropdown
 
 ```html
 <Dropdown>

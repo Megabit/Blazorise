@@ -4,9 +4,6 @@ if (!window.blazorise) {
 
 window.blazorise = {
     init: (element, componentReference) => {
-        if (element) {
-            element.style.color = "blue";
-        }
         return true;
     },
 
@@ -86,5 +83,64 @@ window.blazorise = {
         }
 
         return opts;
+    },
+
+    // holds the list of components that are triggers to close other components
+    closableComponents: [],
+
+    addClosableComponent: (elementId, dotnetAdapter) => {
+        window.blazorise.closableComponents.push({ elementId: elementId, dotnetAdapter: dotnetAdapter });
+    },
+
+    findClosableComponent: (elementId) => {
+        for (index = 0; index < window.blazorise.closableComponents.length; ++index) {
+            if (window.blazorise.closableComponents[index].elementId === elementId)
+                return window.blazorise.closableComponents[index];
+        }
+        return null;
+    },
+
+    isClosableComponent: (elementId) => {
+        for (index = 0; index < window.blazorise.closableComponents.length; ++index) {
+            if (window.blazorise.closableComponents[index].elementId === elementId)
+                return true;
+        }
+        return false;
+    },
+
+    registerClosableComponent: (elementId, dotnetAdapter) => {
+        if (window.blazorise.isClosableComponent(elementId) !== true) {
+            window.blazorise.addClosableComponent(elementId, dotnetAdapter);
+        }
+    },
+
+    unregisterClosableComponent: (elementId) => {
+        const closable = window.blazorise.findClosableComponent(elementId);
+        if (closable) {
+            window.blazorise.closableComponents.splice(closable, 1);
+        }
     }
 };
+
+document.addEventListener('click', function handler(evt) {
+    const clickedElementId = evt.target.id;
+
+    let requests = window.blazorise.closableComponents.map(closable => {
+        return new Promise((resolve, reject) => {
+            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', clickedElementId)
+                .then((result) => resolve({ elementId: closable.elementId, dotnetAdapter: closable.dotnetAdapter, status: result === true ? 'ok' : 'cancelled' }))
+                .catch(() => resolve({ elementId: closable.elementId, status: 'error' }));
+        });
+    });
+
+    Promise.all(requests)
+        .then(responses => responses.forEach((response) => {
+            if (response.status === 'ok') {
+                response.dotnetAdapter.invokeMethodAsync('Close')
+                    //.then(() => window.blazorise.unregisterClosableComponent(response.elementId))
+                    // If the user navigates to another page then it will raise exception because the reference to the component cannot be found.
+                    // In that case just remove the elementId from the list.
+                    .catch(() => window.blazorise.unregisterClosableComponent(response.elementId));
+            }
+        }));
+});

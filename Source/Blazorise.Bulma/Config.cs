@@ -27,6 +27,7 @@ namespace Blazorise.Bulma
 
             componentMapper.Register<Blazorise.Addons, Bulma.Addons>();
             componentMapper.Register<Blazorise.BarToggler, Bulma.BarToggler>();
+            componentMapper.Register<Blazorise.BarDropdown, Bulma.BarDropdown>();
             componentMapper.Register<Blazorise.Breadcrumb, Bulma.Breadcrumb>();
             componentMapper.Register<Blazorise.BreadcrumbLink, Bulma.BreadcrumbLink>();
             componentMapper.Register<Blazorise.CardImage, Bulma.CardImage>();

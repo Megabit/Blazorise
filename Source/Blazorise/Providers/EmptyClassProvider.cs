@@ -346,9 +346,9 @@ namespace Blazorise.Providers
 
         public string BarItemDisabled() => null;
 
-        public string BarItemDropdown() => null;
+        public string BarItemHasDropdown() => null;
 
-        public string BarItemDropdownShow() => null;
+        public string BarItemHasDropdownShow() => null;
 
         public string BarLink() => null;
 
@@ -374,11 +374,15 @@ namespace Blazorise.Providers
 
         public string BarDropdownShow() => null;
 
-        public string BarDropdownToggler() => null;
+        public string BarDropdownToggle() => null;
 
         public string BarDropdownItem() => null;
 
         public string BarTogglerIcon() => null;
+
+        public virtual string BarDropdownMenu() => null;
+
+        public virtual string BarDropdownMenuShow() => null;
 
         #endregion
 
