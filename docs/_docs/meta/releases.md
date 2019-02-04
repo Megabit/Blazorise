@@ -6,7 +6,7 @@ toc: true
 toc_label: "Version history"
 ---
 
-## 0.5.0 (unreleased)
+## 0.5.0
 
 ### Breaking Changes
 
