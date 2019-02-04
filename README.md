@@ -23,6 +23,16 @@ Note: This project is still experimental so it's possible that some components w
 
 ## Installations
 
+There are 3 diferent NuGet packages for each of the supported CSS frameworks. Available packages are:
+
+```
+Install-Package Blazorise.Bootstrap
+Install-Package Blazorise.Bulma
+Install-Package Blazorise.Material
+```
+
+Before continuing please choose one of them and modify your source files and your code accordingly. This guide will show you how to setup Blazorise with Bootstrap provider and FontAwesome icons.
+
 ### NuGet packages
 
 First step is to install a Bootstrap provider for Blazorise:
