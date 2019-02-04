@@ -29,5 +29,16 @@ namespace Blazorise
         Task<bool> ActivateDatePicker( string elementId, string formatSubmit );
 
         Task<string[]> GetSelectedOptions( string elementId );
+
+        Task<bool> SetTextValue( ElementRef elementRef, object value );
+
+        /// <summary>
+        /// Handles the closing of the components that can be toggled.
+        /// </summary>
+        /// <param name="component">Toggle component.</param>
+        /// <returns></returns>
+        Task RegisterClosableComponent( ICloseActivator component );
+
+        Task UnregisterClosableComponent( ICloseActivator component );
     }
 }

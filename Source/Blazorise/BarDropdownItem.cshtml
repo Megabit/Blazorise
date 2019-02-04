@@ -1,9 +1,18 @@
 ﻿@inherits Base.BaseBarDropdownItem
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <a class="@ClassMapper.Class" onclick="@ClickHandler">
-        @ChildContent
-    </a>
+    @if ( To != null )
+    {
+        <LinkBase TagName="a" class="@ClassMapper.Class" href="@To" title="@Title" Match="@Match">
+            @ChildContent
+        </LinkBase>
+    }
+    else
+    {
+        <a class="@ClassMapper.Class" title="@Title" onclick="@ClickHandler">
+            @ChildContent
+        </a>
+    }
 }
 else
 {

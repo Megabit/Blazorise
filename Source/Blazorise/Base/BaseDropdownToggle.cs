@@ -9,17 +9,37 @@ using Microsoft.AspNetCore.Blazor.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseDropdownToggle : BaseComponent
+    public abstract class BaseDropdownToggle : BaseComponent, ICloseActivator
     {
         #region Members
+
+        private bool isOpen;
 
         private bool actAsButton;
 
         private bool isSplit;
 
+        private bool isRegistered;
+
         #endregion
 
         #region Methods
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                // make sure to unregister listener
+                if ( isRegistered )
+                {
+                    isRegistered = false;
+
+                    JSRunner.UnregisterClosableComponent( this );
+                }
+            }
+
+            base.Dispose( disposing );
+        }
 
         protected override void RegisterClasses()
         {
@@ -30,9 +50,28 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
+        protected override void OnInit()
+        {
+            // link to the parent component
+            Dropdown?.Hook( this );
+
+            base.OnInit();
+        }
+
+
         protected void ClickHandler()
         {
             Dropdown?.Toggle();
+        }
+
+        public bool SafeToClose( string elementId )
+        {
+            return true;
+        }
+
+        public void Close()
+        {
+            Dropdown?.Close();
         }
 
         #endregion
@@ -55,9 +94,32 @@ namespace Blazorise.Base
         [Parameter] protected Size Size { get; set; } = Size.None;
 
         /// <summary>
-        /// Handles the visibility of dropdown items.
+        /// Handles the visibility of dropdown toggle.
         /// </summary>
-        [Parameter] protected bool IsOpen { get; set; }
+        [Parameter]
+        internal bool IsOpen
+        {
+            get => isOpen;
+            set
+            {
+                isOpen = value;
+
+                if ( isOpen )
+                {
+                    isRegistered = true;
+
+                    JSRunner.RegisterClosableComponent( this );
+                }
+                else
+                {
+                    isRegistered = false;
+
+                    JSRunner.UnregisterClosableComponent( this );
+                }
+
+                ClassMapper.Dirty();
+            }
+        }
 
         /// <summary>
         /// Button outline.

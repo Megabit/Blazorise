@@ -11,7 +11,11 @@ toc_label: "Steps"
 
 ---
 
-### Nuget
+## Installations
+
+### NuGet packages
+
+First step is to install a Bulm provider for Blazorise:
 
 Install Bulma provider from nuget.
 
@@ -19,14 +23,22 @@ Install Bulma provider from nuget.
 Install-Package Blazorise.Bulma
 ```
 
-### Index
+You also need to install the icon package:
+
+```
+Install-Package Blazorise.Icons.FontAwesome
+```
+
+### Sources files
+
+The next step is to change your `index.html` file and include the css and js source files:
 
 ```html
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 ```
 
-### Imports
+### Usings
 
 In your main _ViewImports.cshtml_ add:
 
@@ -36,15 +48,28 @@ In your main _ViewImports.cshtml_ add:
 @using Blazorise
 ```
 
-### Startup
+### Registrations
 
-In Startup.cs add:
+Finally in the Startup.cs you must tell the Blazor to register Bulma provider and extensions:
 
 ```cs
 using Blazorise;
 using Blazorise.Bulma;
+using Blazorise.Icons.FontAwesome;
 
-services
+public void ConfigureServices( IServiceCollection services )
+{
+  services
     .AddBulmaProviders()
-    .AddIconProvider( IconProvider.FontAwesome );
+    .AddFontAwesomeIcons();
+}
+
+public void Configure( IBlazorApplicationBuilder app )
+{
+  app
+    .UseBulmaProviders()
+    .UseFontAwesomeIcons();
+
+  app.AddComponent<App>( "app" );
+}
 ```

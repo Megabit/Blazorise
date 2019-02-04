@@ -39,11 +39,6 @@ namespace Blazorise
         None,
 
         /// <summary>
-        /// Active color.
-        /// </summary>
-        Active,
-
-        /// <summary>
         /// Primary color.
         /// </summary>
         Primary,
@@ -973,5 +968,21 @@ namespace Blazorise
         SliderHorizontal,
         SliderVertical,
         Dashboard,
+    }
+
+    public enum FormatType
+    {
+        None = 0,
+        Numeric = 1,
+        DateTime = 2,
+        Custom = 3,
+    }
+
+    public enum MaskType
+    {
+        None,
+        Numeric = 1,
+        DateTime = 2,
+        Regex = 3,
     }
 }

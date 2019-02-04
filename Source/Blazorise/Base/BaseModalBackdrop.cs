@@ -9,15 +9,33 @@ using Microsoft.AspNetCore.Blazor.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseModalBackdrop : BaseComponent
+    public abstract class BaseModalBackdrop : BaseComponent, ICloseActivator
     {
         #region Members
 
         private bool isOpen;
 
+        private bool isRegistered;
+
         #endregion
 
         #region Methods
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                // make sure to unregister listener
+                if ( isRegistered )
+                {
+                    isRegistered = false;
+
+                    JSRunner.UnregisterClosableComponent( this );
+                }
+            }
+
+            base.Dispose( disposing );
+        }
 
         protected override void RegisterClasses()
         {
@@ -37,6 +55,17 @@ namespace Blazorise.Base
             base.OnInit();
         }
 
+        public bool SafeToClose( string elementId )
+        {
+            // TODO: ask for parent modal is it OK to close it
+            return ElementId == elementId;
+        }
+
+        public void Close()
+        {
+            ParentModal?.Hide();
+        }
+
         #endregion
 
         #region Properties
@@ -54,6 +83,19 @@ namespace Blazorise.Base
             set
             {
                 isOpen = value;
+
+                if ( isOpen )
+                {
+                    isRegistered = true;
+
+                    JSRunner.RegisterClosableComponent( this );
+                }
+                else
+                {
+                    isRegistered = false;
+
+                    JSRunner.UnregisterClosableComponent( this );
+                }
 
                 ClassMapper.Dirty();
             }

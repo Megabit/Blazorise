@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -19,13 +20,25 @@ namespace Blazorise.Bootstrap
         {
             serviceCollection.AddSingleton<IClassProvider, BootstrapClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
-            serviceCollection.AddSingleton<IJSRunner, JSRunner>();
+            serviceCollection.AddSingleton<IJSRunner, BootstrapJSRunner>();
+            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
 
-            var componentMapper = new ComponentMapper();
+            return serviceCollection;
+        }
+
+        /// <summary>
+        /// Registers the custom rules for bootstrap components.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IBlazorApplicationBuilder UseBootstrapProviders( this IBlazorApplicationBuilder app )
+        {
+            var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
 
             componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
             //componentMapper.Register<Blazorise.Addons, Bootstrap.Addons>();
             componentMapper.Register<Blazorise.BarToggler, Bootstrap.BarToggler>();
+            componentMapper.Register<Blazorise.BarDropdown, Bootstrap.BarDropdown>();
             componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
             componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
             componentMapper.Register<Blazorise.CheckEdit, Bootstrap.CheckEdit>();
@@ -39,9 +52,7 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
             //componentMapper.Register<Blazorise.TextEdit, Bootstrap.TextEdit>();
 
-            serviceCollection.AddSingleton<IComponentMapper>( componentMapper );
-
-            return serviceCollection;
+            return app;
         }
     }
 }

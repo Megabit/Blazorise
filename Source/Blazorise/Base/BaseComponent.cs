@@ -153,7 +153,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets the unique id of the element.
         /// </summary>
-        protected string ElementId { get; }
+        public string ElementId { get; }
 
         /// <summary>
         /// Gets the class mapper.

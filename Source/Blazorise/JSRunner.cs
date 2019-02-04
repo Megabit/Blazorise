@@ -11,39 +11,41 @@ namespace Blazorise
 {
     public abstract class JSRunner : IJSRunner
     {
+        protected const string BLAZORISE_NAMESPACE = "blazorise";
+
         public Task<bool> Init( ElementRef elementRef, object componentRef )
         {
-            return JSRuntime.Current.InvokeAsync<bool>( "blazorise.init", elementRef, new DotNetObjectRef( componentRef ) );
+            return JSRuntime.Current.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.init", elementRef, new DotNetObjectRef( componentRef ) );
         }
 
         public Task<bool> AddClass( ElementRef elementRef, string classname )
         {
-            return JSRuntime.Current.InvokeAsync<bool>( "blazorise.addClass", elementRef, classname );
+            return JSRuntime.Current.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.addClass", elementRef, classname );
         }
 
         public Task<bool> RemoveClass( ElementRef elementRef, string classname )
         {
-            return JSRuntime.Current.InvokeAsync<bool>( "blazorise.removeClass", elementRef, classname );
+            return JSRuntime.Current.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.removeClass", elementRef, classname );
         }
 
         public Task<bool> ToggleClass( ElementRef elementId, string classname )
         {
-            return JSRuntime.Current.InvokeAsync<bool>( "blazorise.toggleClass", elementId, classname );
+            return JSRuntime.Current.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.toggleClass", elementId, classname );
         }
 
         public Task<bool> AddClassToBody( string classname )
         {
-            return JSRuntime.Current.InvokeAsync<bool>( "blazorise.addClassToBody", classname );
+            return JSRuntime.Current.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.addClassToBody", classname );
         }
 
         public Task<bool> RemoveClassFromBody( string classname )
         {
-            return JSRuntime.Current.InvokeAsync<bool>( "blazorise.removeClassFromBody", classname );
+            return JSRuntime.Current.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.removeClassFromBody", classname );
         }
 
         public Task<bool> ParentHasClass( ElementRef elementRef, string classaname )
         {
-            return JSRuntime.Current.InvokeAsync<bool>( "blazorise.parentHasClass", elementRef, classaname );
+            return JSRuntime.Current.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.parentHasClass", elementRef, classaname );
         }
 
         /// <summary>
@@ -53,7 +55,7 @@ namespace Blazorise
         /// <returns>Returns an array of paths.</returns>
         public Task<string[]> GetFilePaths( ElementRef element )
         {
-            return JSRuntime.Current.InvokeAsync<string[]>( "blazorise.getFilePaths", element );
+            return JSRuntime.Current.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getFilePaths", element );
         }
 
         /// <summary>
@@ -69,7 +71,22 @@ namespace Blazorise
 
         public Task<string[]> GetSelectedOptions( string elementId )
         {
-            return JSRuntime.Current.InvokeAsync<string[]>( "blazorise.getSelectedOptions", elementId );
+            return JSRuntime.Current.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getSelectedOptions", elementId );
+        }
+
+        public Task<bool> SetTextValue( ElementRef elementRef, object value )
+        {
+            return JSRuntime.Current.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
+        }
+
+        public Task RegisterClosableComponent( ICloseActivator component )
+        {
+            return JSRuntime.Current.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", component.ElementId, new DotNetObjectRef( new CloseActivatorAdapter( component ) ) );
+        }
+
+        public Task UnregisterClosableComponent( ICloseActivator component )
+        {
+            return JSRuntime.Current.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementId );
         }
     }
 }

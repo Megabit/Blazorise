@@ -3,7 +3,7 @@
 	<metadata>
 		<id>Blazorise.Material</id>
 		<title>Blazorise.Material</title>
-		<version>0.4.1</version>
+		<version>0.5.0</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,12 +11,12 @@
 		<projectUrl>https://github.com/stsrki/Blazorise</projectUrl>
 		<description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</description>
 		<copyright>Copyright 2018</copyright>
-		<tags>blazorise blazor components bootstrap material bulma</tags>
+		<tags>blazorise blazor components bootstrap material</tags>
 		<repository url="https://github.com/stsrki/Blazorise" />
 		<iconUrl>https://github.com/stsrki/Blazorise/blob/master/NuGet/Blazorise.png</iconUrl>
 		<dependencies>
-			<dependency id="Blazorise" version="0.4.1" exclude="Build,Analyzers" />
-			<dependency id="Blazorise.Bootstrap" version="0.4.1" exclude="Build,Analyzers" />
+			<dependency id="Blazorise" version="0.5.0" exclude="Build,Analyzers" />
+			<dependency id="Blazorise.Bootstrap" version="0.5.0" exclude="Build,Analyzers" />
 			
 			<dependency id="Microsoft.AspNetCore.Blazor.Browser" version="0.7.0" exclude="Build,Analyzers" />
 		</dependencies>

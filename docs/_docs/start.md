@@ -12,30 +12,29 @@ redirect_from: /docs/quick-start/
 **Note:** Before continuing please make sure that you already have a Blazor project created. If not please go to the [official Blazor site](https://blazor.net/docs/get-started.html){:target="_blank"} and learn how to create one.
 {: .notice--info}
 
-### Installing NuGet packages
+Blazorise is designed to work with different css frameworks. Each of the supported css framework is defined by a different nuget package. Please see the [usage page]({{ "/docs/usage/" | relative_url }}) to find a list of supported frameworks and how to use them.
 
-Blazorise is designed to work with different css frameworks. Each of the supported css framework is defined by a different nuget package. To install them you must run one of the following commands:
+The setup process is simillar for all of the supported frameworks, you will just replace Bootstrap sources with the one you need.
+
+## Installations
+
+### NuGet packages
+
+First step is to install a Bootstrap provider for Blazorise:
 
 ```
 Install-Package Blazorise.Bootstrap
-or
-Install-Package Blazorise.Material
-or
-Install-Package Blazorise.Bulma
 ```
 
-**Keep in mind:** Bulma provider is still work in progress so some of the features may not work.
-{: .notice--warning}
+You also need to install the icon package:
 
-## Usage
+```
+Install-Package Blazorise.Icons.FontAwesome
+```
 
-The setup process is the same for all supported frameworks, just replace Bootstrap with the one you need.
+### Sources files
 
-Now, for a bootstrap framework you must do:
-
-### Index
-
-in index.html add:
+The next step is to change your `index.html` file and include the css and js source files:
 
 ```html
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -46,7 +45,7 @@ in index.html add:
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 ```
 
-### Import
+### Usings
 
 In your main _ViewImports.cshtml add:
 
@@ -56,20 +55,28 @@ In your main _ViewImports.cshtml add:
 @using Blazorise
 ```
 
-### Startup
+### Registrations
 
-In Startup.cs add:
+Finally in the Startup.cs you must tell the Blazor to register Bootstrap provider and extensions:
 
 ```cs
 using Blazorise;
 using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 
 public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBootstrapProviders()
-    .AddIconProvider( IconProvider.FontAwesome );
+    .AddFontAwesomeIcons();
+}
+
+public void Configure( IBlazorApplicationBuilder app )
+{
+  app
+    .UseBootstrapProviders()
+    .UseFontAwesomeIcons();
+
+  app.AddComponent<App>( "app" );
 }
 ```
-
-To setup Blazorise for other frameworks please refer the [Usage page](/docs/usage/)

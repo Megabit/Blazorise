@@ -1,4 +1,5 @@
 using Blazorise.Material;
+using Blazorise.Icons.Material;
 using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,11 +11,15 @@ namespace Blazorise.Demo.Material
         {
             services
                 .AddMaterialProviders()
-                .AddIconProvider( IconProvider.FontAwesome );
+                .AddMaterialIcons();
         }
 
         public void Configure( IBlazorApplicationBuilder app )
         {
+            app
+                .UseMaterialProviders()
+                .UseMaterialIcons();
+
             app.AddComponent<App>( "app" );
         }
     }

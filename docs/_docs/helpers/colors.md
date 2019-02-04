@@ -13,7 +13,6 @@ Here is a list of contextual classes that Blazorise offers
 Basic colors are used on most of the fields elements, buttons and dropdowns.
 
 - `None`
-- `Active`
 - `Primary`
 - `Secondary`
 - `Success`

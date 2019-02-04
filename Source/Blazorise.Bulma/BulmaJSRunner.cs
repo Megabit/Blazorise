@@ -1,10 +1,12 @@
+#region Using directives
 using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
+#endregion
 
 namespace Blazorise.Bulma
 {
-    public partial class JSRunner : Blazorise.JSRunner
+    public partial class BulmaJSRunner : Blazorise.JSRunner
     {
         //public override Task<bool> ActivateDatePicker( string elementId, string formatSubmit )
         //{

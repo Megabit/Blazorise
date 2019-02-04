@@ -24,6 +24,9 @@
                     <SidebarItem>
                         <SidebarLink To="tests/forms">Forms</SidebarLink>
                     </SidebarItem>
+                    @*<SidebarItem>
+                            <SidebarLink To="tests/editors">Editors</SidebarLink>
+                        </SidebarItem>*@
                     <SidebarItem>
                         <SidebarLink To="tests/modals">Modals</SidebarLink>
                     </SidebarItem>
@@ -44,6 +47,16 @@
                     </SidebarItem>
                     <SidebarItem>
                         <SidebarLink To="tests/charts">Charts</SidebarLink>
+                    </SidebarItem>
+                </SidebarSubItem>
+            </SidebarItem>
+            <SidebarItem>
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)" IsShow="true">
+                    <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
+                </SidebarLink>
+                <SidebarSubItem ref="sidebarSubItemApps" IsShow="true">
+                    <SidebarItem>
+                        <SidebarLink To="apps/todo">Todo List</SidebarLink>
                     </SidebarItem>
                 </SidebarSubItem>
             </SidebarItem>
@@ -72,12 +85,16 @@
                     <BarLink To="https://blazorise.com/docs/">Documentation</BarLink>
                 </BarItem>
                 <BarItem>
-                    <BarDropdownToggler>More</BarDropdownToggler>
                     <BarDropdown>
-                        <BarDropdownItem>
-                            <BarLink To="https://blazorise.com/docs/quick-start/">Quick-Start Guide</BarLink>
-                            <BarLink To="https://blazorise.com/docs/usage/">Usage</BarLink>
-                        </BarDropdownItem>
+                        <BarDropdownToggle>More</BarDropdownToggle>
+                        <BarDropdownMenu>
+                            <BarDropdownItem To="https://blazorise.com/docs/quick-start/">
+                                Quick-Start Guide
+                            </BarDropdownItem>
+                            <BarDropdownItem To="https://blazorise.com/docs/usage/">
+                                Usage
+                            </BarDropdownItem>
+                        </BarDropdownMenu>
                     </BarDropdown>
                 </BarItem>
             </BarStart>
@@ -96,6 +113,7 @@
 @functions{
     Sidebar sidebar;
     SidebarSubItem sidebarSubItemTests;
+    SidebarSubItem sidebarSubItemApps;
 
     bool collapseNavMenu = true;
 

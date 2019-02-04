@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Blazor.Components;
 
 namespace Blazorise.Charts.Base
 {
-    public abstract class BaseBarChart : BaseComponent
+    public abstract class BaseBarChart<TItem> : BaseChart<BarChartDataset<TItem>, TItem, BarChartOptions>
     {
         #region Members
 
@@ -18,80 +18,11 @@ namespace Blazorise.Charts.Base
 
         #region Methods
 
-        protected override void RegisterClasses()
-        {
-            ClassMapper
-                .Add( () => ClassProvider.Chart() );
-
-            base.RegisterClasses();
-        }
-
-        protected override async Task OnAfterRenderAsync()
-        {
-            await Update();
-        }
-
-        /// <summary>
-        /// Clears all the data from the chart.
-        /// </summary>
-        public void Clear()
-        {
-            Data?.Labels?.Clear();
-            Data?.Datasets?.Clear();
-        }
-
-        /// <summary>
-        /// Adds a new label to the chart.
-        /// </summary>
-        /// <param name="label"></param>
-        public void AddLabel( params string[] label )
-        {
-            if ( Data == null )
-                Data = new ChartData<BarChartDataset>();
-
-            if ( Data.Labels == null )
-                Data.Labels = new List<string>();
-
-            Data.Labels.AddRange( label );
-        }
-
-        /// <summary>
-        /// Adds a new dataset to the chart.
-        /// </summary>
-        /// <param name="dataSet"></param>
-        public void AddDataSet( params BarChartDataset[] dataSet )
-        {
-            if ( Data == null )
-                Data = new ChartData<BarChartDataset>();
-
-            if ( Data.Datasets == null )
-                Data.Datasets = new List<BarChartDataset>();
-
-            Data.Datasets.AddRange( dataSet );
-        }
-
-        /// <summary>
-        /// Update and redraw the chart.
-        /// </summary>
-        /// <returns></returns>
-        public async Task Update()
-        {
-            await JS.SetChartData( ElementId, ChartType.Bar, Data, Options );
-        }
-
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Defines the chart data.
-        /// </summary>
-        [Parameter] private ChartData<BarChartDataset> Data { get; set; }
-
-        /// <summary>
-        /// Defines the chart options.
-        /// </summary>
-        [Parameter] private BarChartOptions Options { get; set; }
+        protected override ChartType Type { get; set; } = ChartType.Bar;
 
         #endregion
     }

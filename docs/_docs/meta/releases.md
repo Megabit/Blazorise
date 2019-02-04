@@ -6,6 +6,41 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.5.0 (unreleased)
+
+### Breaking Changes
+
+- Changed how to register and use Blazorise CSS providers and icons. eg:
+
+  ```cs
+  public void ConfigureServices( IServiceCollection services ) { 
+    services
+      .AddBootstrapProviders()
+      .AddFontAwesomeIcons();
+  }
+
+  public void Configure( IBlazorApplicationBuilder app ) {
+    app
+      .UseBootstrapProviders()
+      .UseFontAwesomeIcons();
+  }
+  ```
+
+  See the [usage page]({{ "/docs/usage/" | relative_url }}) for each provider on how to use it.
+- Icons moved to a separate project and now must be installed as a Nuget package.
+- `BarDropdown` is refactored to use new `BarDropdownMenu` component. This was necessary to have more control and also for bar-dropdown to have a similar structure as regular dropdown. 
+- `BarDropdownToggler` renamed to `BarDropdownToggle`
+
+### Enhancements
+
+- Added "Empty" providers to allow using of extensions without CSS providers, see [usage]({{ "/docs/usage/#empty-provider" | relative_url }})
+- Finished chart extension. [link]({{ "/docs/extensions/chart/" | relative_url }})
+- `Modal` and `Dropdown` components will now be closed automatically when clicked anywhere on the page.
+
+### Bug Fixes
+
+- Fixed bar-dropdown for Bulma provider.
+
 ## 0.4.1
 
 ### Bug Fixes

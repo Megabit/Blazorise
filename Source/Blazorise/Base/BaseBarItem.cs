@@ -19,8 +19,6 @@ namespace Blazorise.Base
 
         private BaseBarDropdown barDropdown;
 
-        private BaseBarDropdownToggler barDropdownToggler;
-
         #endregion
 
         #region Methods
@@ -31,8 +29,8 @@ namespace Blazorise.Base
                 .Add( () => ClassProvider.BarItem() )
                 .If( () => ClassProvider.BarItemActive(), () => IsActive )
                 .If( () => ClassProvider.BarItemDisabled(), () => IsDisabled )
-                .If( () => ClassProvider.BarItemDropdown(), () => IsDropdown )
-                .If( () => ClassProvider.BarItemDropdownShow(), () => IsDropdown && barDropdown?.IsOpen == true );
+                .If( () => ClassProvider.BarItemHasDropdown(), () => IsDropdown )
+                .If( () => ClassProvider.BarItemHasDropdownShow(), () => IsDropdown && barDropdown?.IsOpen == true );
 
             base.RegisterClasses();
         }
@@ -40,17 +38,12 @@ namespace Blazorise.Base
         internal void Hook( BaseBarDropdown barDropdown )
         {
             this.barDropdown = barDropdown;
+
+            MenuChanged();
         }
 
-        internal void Hook( BaseBarDropdownToggler barDropdownToggler )
+        internal void MenuChanged()
         {
-            this.barDropdownToggler = barDropdownToggler;
-        }
-
-        internal void Toggle()
-        {
-            barDropdown?.Toggle();
-
             ClassMapper.Dirty();
 
             StateHasChanged();

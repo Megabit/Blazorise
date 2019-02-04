@@ -12,6 +12,24 @@ namespace Blazorise
     public static class Config
     {
         /// <summary>
+        /// Registers an empty providers.
+        /// </summary>
+        /// <remarks>
+        /// Generaly this should not be used, except when the user wants to use extensions without any providers like Bootstrap or Bulma.
+        /// </remarks>
+        /// <param name="serviceCollection"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddEmptyProviders( this IServiceCollection serviceCollection )
+        {
+            serviceCollection.AddSingleton<IClassProvider, EmptyClassProvider>();
+            serviceCollection.AddSingleton<IStyleProvider, EmptyStyleProvider>();
+            serviceCollection.AddSingleton<IJSRunner, EmptyJSRunner>();
+            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
+
+            return serviceCollection;
+        }
+
+        /// <summary>
         /// Registers a custom class provider.
         /// </summary>
         /// <param name="serviceCollection"></param>
@@ -38,18 +56,14 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Registers a predefined icon provider.
+        /// Registers a custom js runner.
         /// </summary>
         /// <param name="serviceCollection"></param>
-        /// <param name="iconProvider"></param>
-        public static IServiceCollection AddIconProvider( this IServiceCollection serviceCollection, IconProvider iconProvider )
+        /// <param name="jsRunnerFactory"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddJSRunner( this IServiceCollection serviceCollection, Func<IJSRunner> jsRunnerFactory )
         {
-            if ( iconProvider == IconProvider.FontAwesome )
-                serviceCollection.AddSingleton<IIconProvider, FontAwesomeIconProvider>();
-            else if ( iconProvider == IconProvider.Material )
-                serviceCollection.AddSingleton<IIconProvider, MaterialIconProvider>();
-            else
-                throw new NotImplementedException( "Icon provider is not supported." );
+            serviceCollection.AddSingleton( ( p ) => jsRunnerFactory() );
 
             return serviceCollection;
         }

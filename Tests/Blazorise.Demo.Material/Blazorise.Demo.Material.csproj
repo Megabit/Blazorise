@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Blazorise.Material\Blazorise.Material.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.Material\Blazorise.Icons.Material.csproj" />
     <ProjectReference Include="..\Blazorise.Demo\Blazorise.Demo.csproj" />
   </ItemGroup>
 

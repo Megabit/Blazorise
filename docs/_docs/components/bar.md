@@ -19,8 +19,10 @@ The bar component is a responsive and versatile horizontal navigation bar with t
   - `BarEnd` (right side of the menu)
     - `BarItem` each single item of the bar menu
       - `BarLink` item link or button
-      - `BarDropdown` the dropdown menu, which can include bar items and dividers
-        - `BarDropdownItem` each single item of the dropdown
+      - `BarDropdown` dropdown container
+        - `BarDropdownToggle` dropdown trigger
+        - `BarDropdownMenu` the dropdown menu, which can include bar items and dividers
+          - `BarDropdownItem` each single item of the dropdown menu
 
 ### Basic Bar
 
@@ -70,10 +72,12 @@ The bar component is a responsive and versatile horizontal navigation bar with t
                 <BarLink To="#docs">Documentation</BarLink>
             </BarItem>
             <BarItem>
-                <BarDropdownToggler>Dropdown</BarDropdownToggler>
                 <BarDropdown>
-                    <BarDropdownItem>Action</BarDropdownItem>
-                    <BarDropdownItem>Another action</BarDropdownItem>
+                    <BarDropdownToggle>Dropdown</BarDropdownToggle>
+                    <BarDropdownMenu>                        
+                        <BarDropdownItem>Action</BarDropdownItem>
+                        <BarDropdownItem>Another action</BarDropdownItem>
+                    </BarDropdownMenu>
                 </BarDropdown>
             </BarItem>
         </BarStart>

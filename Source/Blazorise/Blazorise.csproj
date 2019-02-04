@@ -79,7 +79,7 @@
     <Content Update="BarDropdownItem.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="BarDropdownToggler.cshtml">
+    <Content Update="BarDropdownToggle.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="BarEnd.cshtml">

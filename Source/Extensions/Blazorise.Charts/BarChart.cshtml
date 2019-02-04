@@ -1,2 +1,3 @@
-﻿@inherits Base.BaseBarChart
-<canvas id="@ElementId"></canvas>
+﻿@typeparam TItem
+@inherits Base.BaseBarChart<TItem>
+<canvas id="@ElementId" class="@ClassMapper.Class"></canvas>

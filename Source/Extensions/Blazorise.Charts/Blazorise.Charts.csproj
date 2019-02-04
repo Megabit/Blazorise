@@ -12,6 +12,7 @@
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components chart</PackageTags>
 	<PackageId>Blazorise.Charts</PackageId>
+	<LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
