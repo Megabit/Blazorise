@@ -21,26 +21,25 @@ Note: This project is still experimental so it's possible that some components w
 * [![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/stsrki) ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
 * [![Join the chat at https://gitter.im/stsrki/Blazorise](https://badges.gitter.im/stsrki/Blazorise.svg)](https://gitter.im/stsrki/Blazorise?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-## Installation
+## Installations
 
-Each of the supported css framework is defined by a diferent nuget package. To install them you must run one of the following commands:
+### NuGet packages
+
+First step is to install a Bootstrap provider for Blazorise:
 
 ```
 Install-Package Blazorise.Bootstrap
-or
-Install-Package Blazorise.Material
-or
-Install-Package Blazorise.Bulma
 ```
-Note that Bulma implementation is still in progress.
 
-## Usage
+You also need to install the icon package:
 
-The setup process is the same for all supported frameworks, just replace Bootstrap with the one you need.
+```
+Install-Package Blazorise.Icons.FontAwesome
+```
 
-Now, for a bootstrap framework you must do:
+### Sources files
 
-1. in index.html add:
+The next step is to change your `index.html` file and include the css and js source files:
 
 ```html
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -51,7 +50,9 @@ Now, for a bootstrap framework you must do:
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 ```
 
-2. In your main _ViewImports.cshtml add:
+### Usings
+
+In your main _ViewImports.cshtml add:
 
 ```cs
 @addTagHelper *, Blazorise
@@ -59,19 +60,33 @@ Now, for a bootstrap framework you must do:
 @using Blazorise
 ```
 
-3. In Startup.cs add:
+### Registrations
 
-```cshtml
+Finally in the Startup.cs you must tell the Blazor to register Bootstrap provider and extensions:
+
+```cs
 using Blazorise;
 using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 
 public void ConfigureServices( IServiceCollection services )
 {
   services
     .AddBootstrapProviders()
-    .AddIconProvider( IconProvider.FontAwesome );
+    .AddFontAwesomeIcons();
+}
+
+public void Configure( IBlazorApplicationBuilder app )
+{
+  app
+    .UseBootstrapProviders()
+    .UseFontAwesomeIcons();
+
+  app.AddComponent<App>( "app" );
 }
 ```
 
-To setup Blazorise for other frameworks please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
+## Other frameworks
+
+To setup Blazorise for other css frameworks please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
 
