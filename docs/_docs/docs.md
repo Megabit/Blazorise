@@ -7,16 +7,14 @@ toc_label: "Overview"
 ---
 
 **Note:** While most of the components are documented there is still work to be done to improve the documentation. For any info please open an issue on GitHub repository.
-{: .notice--warning}
+{: .notice--info}
 
-## Documentation
-
-Everything you need to create a single page application with Blazorise
+Everything you need to create a single page application with Blazorise.
 
 ---
 
 **Note:** This documentation assumes you know the basics of Blazor, if you're not comfortable with it yet, it's probably not the best idea to learn from here as your first step — learn the basics then come back. [Blazor website](https://blazor.net/) is the best source for you to start with.
-{: .notice--info}
+{: .notice--warning}
 
 ### Getting started
 
