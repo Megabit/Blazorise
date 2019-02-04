@@ -3,7 +3,7 @@
 	<metadata>
 		<id>Blazorise.Sidebar</id>
 		<title>Blazorise.Sidebar</title>
-		<version>0.5.0</version>
+		<version>0.5.1</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -15,7 +15,7 @@
 		<repository url="https://github.com/stsrki/Blazorise" />
 		<iconUrl>https://github.com/stsrki/Blazorise/blob/master/NuGet/Blazorise.png</iconUrl>
 		<dependencies>
-			<dependency id="Blazorise" version="0.5.0" exclude="Build,Analyzers" />
+			<dependency id="Blazorise" version="0.5.1" exclude="Build,Analyzers" />
 			
 			<dependency id="Microsoft.AspNetCore.Blazor.Browser" version="0.7.0" exclude="Build,Analyzers" />
 		</dependencies>
