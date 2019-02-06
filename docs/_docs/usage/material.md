@@ -67,7 +67,7 @@ public void ConfigureServices( IServiceCollection services )
     .AddMaterialIcons();
 }
 
-public void Configure( IBlazorApplicationBuilder app )
+public void Configure( IComponentsApplicationBuilder app )
 {
   app
     .UseMaterialProviders()

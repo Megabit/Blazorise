@@ -71,7 +71,7 @@ public void ConfigureServices( IServiceCollection services )
     .AddFontAwesomeIcons();
 }
 
-public void Configure( IBlazorApplicationBuilder app )
+public void Configure( IComponentsApplicationBuilder app )
 {
   app
     .UseBootstrapProviders()

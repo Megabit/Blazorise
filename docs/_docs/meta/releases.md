@@ -6,7 +6,18 @@ toc: true
 toc_label: "Version history"
 ---
 
-## 0.5.0
+## 0.6.0-preview-19104-04
+
+### Breaking Changes
+
+The new version is upgraded to the newest Blazor v0.8-preview-19104-04. The preview number(19104-04) is used to match the preview number of Blazor!
+
+To upgrade your project to the new version you should first need to install new Blazor before installing Blazorise. To install Blazor look at the [official](https://blogs.msdn.microsoft.com/webdev/2019/02/05/blazor-0-8-0-experimental-release-now-available/) documentation. 
+
+**Note:** Keep in mind that after upgrading you will only be able to work in Visual Studio 2019!
+{: .notice--info}
+
+## 0.5.x
 
 ### Breaking Changes
 
@@ -19,7 +30,7 @@ toc_label: "Version history"
       .AddFontAwesomeIcons();
   }
 
-  public void Configure( IBlazorApplicationBuilder app ) {
+  public void Configure( IComponentsApplicationBuilder app ) {
     app
       .UseBootstrapProviders()
       .UseFontAwesomeIcons();
