@@ -3,13 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Blazor;
-using Microsoft.AspNetCore.Blazor.Components;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Base
 {
-    public abstract class BaseComponent : BlazorComponent, IDisposable
+    public abstract class BaseComponent : ComponentBase, IDisposable
     {
         #region Members
 
@@ -112,17 +111,17 @@ namespace Blazorise.Base
         {
         }
 
-        public override void SetParameters( ParameterCollection parameters )
+        public override Task SetParametersAsync( ParameterCollection parameters )
         {
             if ( ComponentMapper.HasRegistration( this ) )
             {
                 // the component has a custom implementation so we need to copy the parameters for manual rendering
                 this.parameters = parameters;
 
-                base.SetParameters( ParameterCollection.Empty );
+                return base.SetParametersAsync( ParameterCollection.Empty );
             }
             else
-                base.SetParameters( parameters );
+                return base.SetParametersAsync( parameters );
         }
 
         /// <summary>

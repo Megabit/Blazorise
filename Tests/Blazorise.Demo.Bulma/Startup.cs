@@ -1,6 +1,6 @@
 using Blazorise.Bulma;
 using Blazorise.Icons.FontAwesome;
-using Microsoft.AspNetCore.Blazor.Builder;
+using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazorise.Demo.Bulma
@@ -14,7 +14,7 @@ namespace Blazorise.Demo.Bulma
                 .AddFontAwesomeIcons();
         }
 
-        public void Configure( IBlazorApplicationBuilder app )
+        public void Configure( IComponentsApplicationBuilder app )
         {
             app
                 .UseBulmaProviders()

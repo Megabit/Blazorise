@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Blazor.Builder;
+using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -21,7 +21,7 @@ namespace Blazorise.Bulma
             return serviceCollection;
         }
 
-        public static IBlazorApplicationBuilder UseBulmaProviders( this IBlazorApplicationBuilder app )
+        public static IComponentsApplicationBuilder UseBulmaProviders( this IComponentsApplicationBuilder app )
         {
             var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
 

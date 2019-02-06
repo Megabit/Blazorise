@@ -3,9 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Blazor;
-using Microsoft.AspNetCore.Blazor.Components;
-using Microsoft.AspNetCore.Blazor.RenderTree;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.RenderTree;
 #endregion
 
 namespace Blazorise
@@ -51,12 +50,12 @@ namespace Blazorise
             }
         }
 
-        public void Init( RenderHandle renderHandle )
+        public void Configure( RenderHandle renderHandle )
         {
             this.renderHandle = renderHandle;
         }
 
-        public void SetParameters( ParameterCollection parameters )
+        public Task SetParametersAsync( ParameterCollection parameters )
         {
             attributes = parameters.ToDictionary() as Dictionary<string, object>;
 
@@ -85,6 +84,8 @@ namespace Blazorise
             //}
 
             renderHandle.Render( Render );
+
+            return Task.CompletedTask;
         }
 
         private void Render( RenderTreeBuilder builder )

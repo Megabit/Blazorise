@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Blazor;
-using Microsoft.AspNetCore.Blazor.Components;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Base
@@ -78,7 +77,7 @@ namespace Blazorise.Base
             }
         }
 
-        [CascadingParameter] protected Dropdown Dropdown { get; set; }
+        [CascadingParameter] protected BaseDropdown Dropdown { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

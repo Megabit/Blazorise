@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Blazor;
-using Microsoft.AspNetCore.Blazor.Components;
-using Microsoft.AspNetCore.Blazor.RenderTree;
-using Microsoft.AspNetCore.Blazor.Services;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.AspNetCore.Components.Services;
 #endregion
 
 namespace Blazorise
@@ -16,7 +15,7 @@ namespace Blazorise
     /// class based on whether its 'href' matches the current URI.
     /// </summary>
     /// <remarks>
-    /// This is a copy of Blazor implementation(<see cref="Microsoft.AspNetCore.Blazor.Routing.NavLink"/>) but without adding a fixed class for bootstrap.
+    /// This is a copy of Blazor implementation but without adding a fixed class for bootstrap.
     /// </remarks>
     public class LinkBase : IComponent, IDisposable
     {
@@ -59,24 +58,20 @@ namespace Blazorise
 
         #region Methods
 
-        /// <inheritdoc />
-        public void Init( RenderHandle renderHandle )
+        public void Configure( RenderHandle renderHandle )
         {
             this.renderHandle = renderHandle;
 
-            // We'll consider re-rendering on each location change
             UriHelper.OnLocationChanged += OnLocationChanged;
         }
 
-        /// <inheritdoc />
         public void Dispose()
         {
             // To avoid leaking memory, it's important to detach any event handlers in Dispose()
             UriHelper.OnLocationChanged -= OnLocationChanged;
         }
 
-        /// <inheritdoc />
-        public void SetParameters( ParameterCollection parameters )
+        public Task SetParametersAsync( ParameterCollection parameters )
         {
             attributes = parameters.ToDictionary() as Dictionary<string, object>;
 
@@ -99,6 +94,8 @@ namespace Blazorise
             isActive = ShouldMatch( UriHelper.GetAbsoluteUri() );
 
             renderHandle.Render( Render );
+
+            return Task.CompletedTask;
         }
 
         private static T GetAndRemove<T>( IDictionary<string, object> values, string key )
@@ -144,8 +141,7 @@ namespace Blazorise
                 return true;
             }
 
-            if ( Match == Match.Prefix
-                && IsStrictlyPrefixWithSeparator( currentUriAbsolute, hrefAbsolute ) )
+            if ( Match == Match.Prefix && IsStrictlyPrefixWithSeparator( currentUriAbsolute, hrefAbsolute ) )
             {
                 return true;
             }

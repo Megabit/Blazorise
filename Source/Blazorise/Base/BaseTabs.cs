@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Blazor;
-using Microsoft.AspNetCore.Blazor.Components;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Base
@@ -124,7 +123,7 @@ namespace Blazorise.Base
 
         [Parameter] protected Action<string> SelectedTabChanged { get; set; }
 
-        [CascadingParameter] protected CardHeader CardHeader { get; set; }
+        [CascadingParameter] protected BaseCardHeader CardHeader { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

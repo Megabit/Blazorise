@@ -1,7 +1,7 @@
 using Blazorise.Material;
 using Blazorise.Icons.Material;
-using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Components.Builder;
 
 namespace Blazorise.Demo.Material
 {
@@ -14,7 +14,7 @@ namespace Blazorise.Demo.Material
                 .AddMaterialIcons();
         }
 
-        public void Configure( IBlazorApplicationBuilder app )
+        public void Configure( IComponentsApplicationBuilder app )
         {
             app
                 .UseMaterialProviders()

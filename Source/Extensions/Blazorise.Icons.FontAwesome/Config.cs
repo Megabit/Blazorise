@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Blazor.Builder;
+using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -18,7 +18,7 @@ namespace Blazorise.Icons.FontAwesome
             return serviceCollection;
         }
 
-        public static IBlazorApplicationBuilder UseFontAwesomeIcons( this IBlazorApplicationBuilder app )
+        public static IComponentsApplicationBuilder UseFontAwesomeIcons( this IComponentsApplicationBuilder app )
         {
             var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
 

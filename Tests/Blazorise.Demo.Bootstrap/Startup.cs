@@ -1,7 +1,7 @@
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
-using Microsoft.AspNetCore.Blazor.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Components.Builder;
 
 namespace Blazorise.Demo.Bootstrap
 {
@@ -14,7 +14,7 @@ namespace Blazorise.Demo.Bootstrap
                 .AddFontAwesomeIcons();
         }
 
-        public void Configure( IBlazorApplicationBuilder app )
+        public void Configure( IComponentsApplicationBuilder app )
         {
             app
                 .UseBootstrapProviders()

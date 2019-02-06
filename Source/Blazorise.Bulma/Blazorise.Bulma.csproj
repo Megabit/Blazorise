@@ -1,17 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <Import Project="..\..\Build\Blazorise.Default.props" />
-	
+  <Import Project="..\..\Build\Blazorise.props" />
+
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <OutputType>Library</OutputType>
-    <IsPackable>true</IsPackable>
-    <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
+    <PackageId>Blazorise.Bulma</PackageId>
     <PackageLicenseUrl>https://github.com/stsrki/Blazorise/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/stsrki/Blazorise</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components bootstrap material bulma</PackageTags>
-	<PackageId>Blazorise.Bulma</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
