@@ -2,6 +2,13 @@
 
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
+---
+**NOTE**
+
+Blazorise version 0.6 and above are now updated for Blazor 0.8 and .Net Core 3.0 preview2. This version will work only in Visual Studio 2019. If you're still using Blazor 0.7, in that case you will use Blazorise v0.5.x!
+
+---
+
 ## Demos
 
 Please look at demos to see Blazorise in action.
@@ -20,13 +27,6 @@ Note: This project is still experimental so it's possible that some components w
 
 * [![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/stsrki) ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
 * [![Join the chat at https://gitter.im/stsrki/Blazorise](https://badges.gitter.im/stsrki/Blazorise.svg)](https://gitter.im/stsrki/Blazorise?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
----
-**NOTE**
-
-Blazorise version 0.6 and above are now updated for Blazor 0.8 and .Net Core 3.0 preview2. This version will work only in Visual Studio 2019. If you're still using Blazor 0.7, in that case you will use Blazorise v0.5.x!
-
----
 
 ## Installations
 
