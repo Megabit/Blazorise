@@ -6,7 +6,7 @@ toc: true
 toc_label: "Version history"
 ---
 
-## 0.6.0-preview-19104-04
+## 0.6.0-preview3-19104-04
 
 ### Breaking Changes
 
@@ -16,6 +16,10 @@ To upgrade your project to the new version you should first need to install new 
 
 **Note:** Keep in mind that after upgrading you will only be able to work in Visual Studio 2019!
 {: .notice--info}
+
+### Enhancements
+
+- Added two parameters to the chart components as a workaround for Blazor serializer which does not supports DataContract and DataMember attributes. The new parameters are `DataJsonString` and `OptionsJsonString` and are used to provide data and options for charts as json strings.
 
 ## 0.5.x
 
