@@ -77,7 +77,7 @@ namespace Blazorise.Charts.Base
         /// <returns></returns>
         public async Task Update()
         {
-            await JS.SetChartData( ElementId, Type, Data, Options );
+            await JS.SetChartData( ElementId, Type, DataJsonString ?? (object)Data, OptionsJsonString ?? (object)Options );
         }
 
         #endregion
@@ -98,6 +98,18 @@ namespace Blazorise.Charts.Base
         /// Defines the chart options.
         /// </summary>
         [Parameter] protected TOptions Options { get; set; }
+
+        /// <summary>
+        /// Defines the chart data that is serialized as json string.
+        /// </summary>
+        [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
+        [Parameter] protected string DataJsonString { get; set; }
+
+        /// <summary>
+        /// Defines the chart options that is serialized as json string.
+        /// </summary>
+        [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
+        [Parameter] protected string OptionsJsonString { get; set; }
 
         #endregion
     }

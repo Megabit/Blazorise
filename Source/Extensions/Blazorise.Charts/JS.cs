@@ -9,7 +9,7 @@ namespace Blazorise.Charts
     {
         public static Task<bool> SetChartData( string id, ChartType type, object data, object options )
         {
-            return JSRuntime.Current.InvokeAsync<bool>( "blazoriseCharts.setChartData", id, ToChartTypeString( type ), data, options );
+            return JSRuntime.Current.InvokeAsync<bool>( "blazoriseCharts.setChartData", id, ToChartTypeString( type ), data, options, data is string, options is string );
         }
 
         public static string ToChartTypeString( ChartType type )
