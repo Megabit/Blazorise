@@ -1,7 +1,7 @@
 ---
 title: "Material"
 permalink: /docs/usage/material/
-excerpt: "How to quickly install and setup Blazorise using material provider."
+excerpt: "Learn all the steps on how to quickly install and setup Blazorise for Material css framework and material icons."
 toc: true
 toc_label: "Steps"
 ---

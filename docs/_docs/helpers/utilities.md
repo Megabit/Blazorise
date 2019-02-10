@@ -1,7 +1,7 @@
 ---
 title: "Utilities"
 permalink: /docs/helpers/utilities/
-excerpt: "Blazorise utilities and helpers."
+excerpt: "Blazorise have it's own set of helpers classes and tools that you can use to organise you application without writing css classnames."
 toc: true
 toc_label: "Helpers"
 ---

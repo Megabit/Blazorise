@@ -1,7 +1,7 @@
 ---
 title: "Start"
 permalink: /docs/start/
-excerpt: "How to quickly install and setup Blazorise."
+excerpt: "Learn how to quickly install and setup Blazorise using Bootstrap css framework and FontAwesome icons extension."
 redirect_from:
   - /theme-setup/
 toc: true

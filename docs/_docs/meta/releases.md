@@ -1,7 +1,7 @@
 ---
 title: "Releases"
 permalink: /docs/releases/
-excerpt: "List of Blazorise versions so far."
+excerpt: "Complete list of Blazorise versions so far and a short description of added features, fixed bugs, breaking changes and how to apply them."
 toc: true
 toc_label: "Version history"
 ---
