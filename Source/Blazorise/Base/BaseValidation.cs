@@ -8,48 +8,60 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseValidation : BaseComponent
+    public abstract class BaseValidation : ComponentBase
     {
         #region Members
 
+        /// <summary>
+        /// Holds the last input value.
+        /// </summary>
         private object value;
 
+        /// <summary>
+        /// Input component that is validated.
+        /// </summary>
         private BaseInputComponent inputComponent;
 
+        /// <summary>
+        /// Raises an event that the validation has started.
+        /// </summary>
+        public event ValidatingEventHandler Validating;
+
+        /// <summary>
+        /// Raises an event after the validation has passes successfully.
+        /// </summary>
         public event ValidationSucceededEventHandler ValidationSucceeded;
 
+        /// <summary>
+        /// Raises an event after the validation has failed.
+        /// </summary>
         public event ValidationFailedEventHandler ValidationFailed;
 
         #endregion
 
         #region Methods
 
-        protected override void Dispose( bool disposing )
+        public void Dispose()
         {
-            if ( disposing )
+            if ( ParentValidations != null )
             {
-                if ( ParentValidations != null )
-                {
-                    ParentValidations.ManualValidation -= OnManualValidation;
-                }
+                ParentValidations.ValidatingAll -= OnValidatingAll;
             }
-
-            base.Dispose( disposing );
         }
 
         protected override void OnAfterRender()
         {
             if ( ParentValidations != null )
             {
-                ParentValidations.ManualValidation += OnManualValidation;
+                ParentValidations.ValidatingAll += OnValidatingAll;
             }
 
             base.OnAfterRender();
         }
 
-        private void OnManualValidation()
+        private void OnValidatingAll()
         {
-            OnValidate();
+            Validate();
         }
 
         internal void Hook( BaseInputComponent inputComponent, object value )
@@ -61,20 +73,25 @@ namespace Blazorise.Base
 
         internal void InputValueChanged( object value )
         {
-            // save last input value
+            // save the last input value
             this.value = value;
 
             if ( Mode == ValidationMode.Auto )
-                OnValidate();
+                Validate();
         }
 
-        private void OnValidate()
+        /// <summary>
+        /// Runs the validation process.
+        /// </summary>
+        public void Validate()
         {
-            var handler = Validate;
+            var handler = Validator;
 
             if ( handler != null )
             {
-                var args = new ValidateEventArgs( value );
+                Validating?.Invoke();
+
+                var args = new ValidatorEventArgs( value );
 
                 handler( args );
 
@@ -109,7 +126,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Validates the input value after it has being changed.
         /// </summary>
-        [Parameter] protected Action<ValidateEventArgs> Validate { get; set; }
+        [Parameter] protected Action<ValidatorEventArgs> Validator { get; set; }
 
         [CascadingParameter] protected BaseValidations ParentValidations { get; set; }
 

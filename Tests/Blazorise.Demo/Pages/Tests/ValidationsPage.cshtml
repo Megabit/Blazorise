@@ -10,7 +10,7 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validate="@ValidationRule.IsNotEmpty">
+                        <Validation Validator="@ValidationRule.IsNotEmpty">
                             <TextEdit Placeholder="Enter email">
                                 <Feedback>
                                     <ValidationError>Enter full name!</ValidationError>
@@ -22,7 +22,7 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validate="@ValidationRule.IsEmail">
+                        <Validation Validator="@ValidationRule.IsEmail">
                             <TextEdit Placeholder="Enter email">
                                 <Feedback>
                                     <ValidationSuccess>Email is good</ValidationSuccess>
@@ -35,7 +35,7 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validate="@ValidatePassword">
+                        <Validation Validator="@ValidatePassword">
                             <TextEdit Role="TextRole.Password" Placeholder="Password" bind-Text="@password">
                                 <Feedback>
                                     <ValidationError>Password must be at least 6 characters long!</ValidationError>
@@ -47,7 +47,7 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validate="@ValidatePassword2">
+                        <Validation Validator="@ValidatePassword2">
                             <TextEdit Role="TextRole.Password" Placeholder="Retype password">
                                 <Feedback>
                                     <ValidationError>Password does not match!</ValidationError>
@@ -59,7 +59,7 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validate="@ValidateSelect">
+                        <Validation Validator="@ValidateSelect">
                             <SelectEdit>
                                 <ChildContent>
                                     <SelectItem Value=""></SelectItem>
@@ -78,7 +78,7 @@
                 <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validate="@ValidateCheck">
+                        <Validation Validator="@ValidateCheck">
                             <CheckEdit>
                                 <ChildContent>
                                     Check me out
@@ -110,7 +110,7 @@
                     <Field IsHorizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validate="@ValidationRule.IsNotEmpty">
+                            <Validation Validator="@ValidationRule.IsNotEmpty">
                                 <TextEdit Placeholder="Enter email">
                                     <Feedback>
                                         <ValidationError>Enter full name!</ValidationError>
@@ -122,7 +122,7 @@
                     <Field IsHorizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validate="@ValidationRule.IsEmail">
+                            <Validation Validator="@ValidationRule.IsEmail">
                                 <TextEdit Placeholder="Enter email">
                                     <Feedback>
                                         <ValidationSuccess>Email is good</ValidationSuccess>
@@ -135,7 +135,7 @@
                     <Field IsHorizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validate="@ValidatePassword">
+                            <Validation Validator="@ValidatePassword">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" bind-Text="@password">
                                     <Feedback>
                                         <ValidationError>Password must be at least 6 characters long!</ValidationError>
@@ -147,7 +147,7 @@
                     <Field IsHorizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validate="@ValidatePassword2">
+                            <Validation Validator="@ValidatePassword2">
                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password">
                                     <Feedback>
                                         <ValidationError>Password does not match!</ValidationError>
@@ -159,7 +159,7 @@
                     <Field IsHorizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validate="@ValidateSelect">
+                            <Validation Validator="@ValidateSelect">
                                 <SelectEdit>
                                     <ChildContent>
                                         <SelectItem Value=""></SelectItem>
@@ -178,7 +178,7 @@
                     <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validate="@ValidateCheck">
+                            <Validation Validator="@ValidateCheck">
                                 <CheckEdit>
                                     <ChildContent>
                                         Check me out
@@ -206,13 +206,13 @@
 
     string password;
 
-    void ValidatePassword( ValidateEventArgs e )
+    void ValidatePassword( ValidatorEventArgs e )
     {
         var password = Convert.ToString( e.Value );
         e.Status = password?.Length >= 6 ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
-    void ValidatePassword2( ValidateEventArgs e )
+    void ValidatePassword2( ValidatorEventArgs e )
     {
         var password2 = Convert.ToString( e.Value );
 
@@ -229,12 +229,12 @@
             e.Status = ValidationStatus.Success;
     }
 
-    void ValidateCheck( ValidateEventArgs e )
+    void ValidateCheck( ValidatorEventArgs e )
     {
         e.Status = Convert.ToBoolean( e.Value ) ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
-    void ValidateSelect( ValidateEventArgs e )
+    void ValidateSelect( ValidatorEventArgs e )
     {
         var selectedValues = e.Value as string[];
 
@@ -243,6 +243,6 @@
 
     void Submit()
     {
-        validations.Validate();
+        validations.ValidateAll();
     }
 }

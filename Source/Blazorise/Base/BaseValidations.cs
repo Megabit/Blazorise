@@ -8,26 +8,32 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseValidations : BaseComponent
+    public abstract class BaseValidations : ComponentBase
     {
         #region Members
+
+        public event ValidatingAllEventHandler ValidatingAll;
 
         #endregion
 
         #region Methods
 
-        public void Validate()
+        /// <summary>
+        /// Runs the validation process for all validations.
+        /// </summary>
+        public void ValidateAll()
         {
-            ManualValidation?.Invoke();
+            ValidatingAll?.Invoke();
         }
 
         #endregion
 
         #region Properties        
 
+        /// <summary>
+        /// Defines the validation mode for validations inside of this container.
+        /// </summary>
         [Parameter] protected internal ValidationMode Mode { get; set; }
-
-        public event ManualValidationEventHandler ManualValidation;
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

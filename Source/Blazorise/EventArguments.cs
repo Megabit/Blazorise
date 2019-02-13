@@ -28,9 +28,9 @@ namespace Blazorise
         public string NewValue { get; set; }
     }
 
-    public class ValidateEventArgs : EventArgs
+    public class ValidatorEventArgs : EventArgs
     {
-        public ValidateEventArgs( object value )
+        public ValidatorEventArgs( object value )
         {
             Value = value;
         }
@@ -41,12 +41,12 @@ namespace Blazorise
         public object Value { get; }
 
         /// <summary>
-        /// Gets or sets the validation status.
+        /// Gets or sets the validation result.
         /// </summary>
         public ValidationStatus Status { get; set; }
 
         /// <summary>
-        /// Gets or sets the custom validation error message.
+        /// Gets or sets the validation custom error message.
         /// </summary>
         public string ErrorText { get; set; }
     }

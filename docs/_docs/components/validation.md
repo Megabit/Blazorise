@@ -16,17 +16,17 @@ Validation component is used to provide simple form validation for Blazorise inp
 
 ## Basic validation
 
-For the most part you will need to use just the `<Validation>` component along with `<ValidationSuccess>` and `<ValidationError>`. By default every validation will run automatically when input value changes. You must set the `Validate` event handler where you can define the validation rules and return the validation result.
+For the most part you will need to use just the `<Validation>` component along with `<ValidationSuccess>` and `<ValidationError>`. By default every validation will run automatically when input value changes. You must set the `Validator` event handler where you can define the validation rules and return the validation result.
 
 ### Example
 
-Here you can see the basic example for automatic validation and custom function for checking the email.
+Here you can see the basic example for automatic validation and a custom function for checking the email.
 
 ```html
-<Validation Validate="@ValidateEmail">
+<Validation Validator="@ValidateEmail">
     <TextEdit Placeholder="Enter email">
         <Feedback>
-            <ValidationSuccess>Email is good</ValidationSuccess>
+            <ValidationSuccess>Email is good.</ValidationSuccess>
             <ValidationError>Enter valid email!</ValidationError>
         </Feedback>
     </TextEdit>
@@ -45,7 +45,7 @@ Here you can see the basic example for automatic validation and custom function 
 The same structure is for all **Edit** components(check, radio, select, etc). Note that for some components there are some special rules when defining the validation structure. For example for **CheckEdit** you must use `ChildContent` tag along with the `<Feedback>` tag. This is a limitation in Blazor, hopefully it will be fixed in the future.
 
 ```html
-<Validation Validate="@ValidateCheck">
+<Validation Validator="@ValidateCheck">
     <CheckEdit>
         <ChildContent>
             Check me out
@@ -67,10 +67,10 @@ In this example you can see how the `<Validations>` component is used to enclose
 
 ```html
 <Validations ref="validations" Mode="ValidationMode.Manual">
-    <Validation Validate="@ValidateEmail">
+    <Validation Validator="@ValidateEmail">
         ...
     </Validation>
-    <Validation Validate="@ValidatePassword">
+    <Validation Validator="@ValidatePassword">
         ...
     </Validation>
     <SimpleButton Color="Color.Primary" Clicked="@Submit">Submit</SimpleButton>
@@ -80,7 +80,7 @@ In this example you can see how the `<Validations>` component is used to enclose
 
     void Submit()
     {
-        validations.Validate();
+        validations.ValidateAll();
     }
 }
 ```
@@ -90,7 +90,7 @@ In this example you can see how the `<Validations>` component is used to enclose
 In Blazorise you can use some of the predefined validation rules. eg
 
 ```html
-<Validation Validate="@ValidationRule.IsNotEmpty">
+<Validation Validator="@ValidationRule.IsNotEmpty">
 ```
 
 Here is a list of the validators currently available.
