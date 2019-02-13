@@ -52,9 +52,11 @@ namespace Blazorise.Base
             OnValidate();
         }
 
-        internal void Hook( BaseInputComponent inputComponent )
+        internal void Hook( BaseInputComponent inputComponent, object value )
         {
             this.inputComponent = inputComponent;
+
+            InputValueChanged( value );
         }
 
         internal void InputValueChanged( object value )

@@ -28,7 +28,7 @@ namespace Blazorise.Base
         protected override void OnInit()
         {
             // link to the parent component
-            ParentValidation?.Hook( this );
+            ParentValidation?.Hook( this, Text );
 
             base.OnInit();
         }

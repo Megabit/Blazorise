@@ -221,7 +221,7 @@
     {
         var selectedValues = e.Value as string[];
 
-        e.Status = selectedValues?.Count( x => string.IsNullOrEmpty( x ) ) == 1 ? ValidationStatus.Error : ValidationStatus.Success;
+        e.Status = selectedValues?.Any( x => !string.IsNullOrEmpty( x ) ) == true ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
     void Submit()
