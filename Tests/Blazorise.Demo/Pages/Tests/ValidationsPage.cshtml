@@ -8,9 +8,21 @@
             </CardHeader>
             <CardBody>
                 <Field IsHorizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Validation Validate="@ValidationRule.IsNotEmpty">
+                            <TextEdit Placeholder="Enter email">
+                                <Feedback>
+                                    <ValidationError>Enter full name!</ValidationError>
+                                </Feedback>
+                            </TextEdit>
+                        </Validation>
+                    </FieldBody>
+                </Field>
+                <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validate="@ValidateEmail" Status="ValidationStatus.Error">
+                        <Validation Validate="@ValidationRule.IsEmail">
                             <TextEdit Placeholder="Enter email">
                                 <Feedback>
                                     <ValidationSuccess>Email is good</ValidationSuccess>
@@ -96,9 +108,21 @@
             <CardBody>
                 <Validations ref="validations" Mode="ValidationMode.Manual">
                     <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation Validate="@ValidationRule.IsNotEmpty">
+                                <TextEdit Placeholder="Enter email">
+                                    <Feedback>
+                                        <ValidationError>Enter full name!</ValidationError>
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validate="@ValidateEmail">
+                            <Validation Validate="@ValidationRule.IsEmail">
                                 <TextEdit Placeholder="Enter email">
                                     <Feedback>
                                         <ValidationSuccess>Email is good</ValidationSuccess>
@@ -181,13 +205,6 @@
     Validations validations;
 
     string password;
-
-    void ValidateEmail( ValidateEventArgs e )
-    {
-        var email = Convert.ToString( e.Value );
-
-        e.Status = email?.Contains( "@" ) == true ? ValidationStatus.Success : ValidationStatus.Error;
-    }
 
     void ValidatePassword( ValidateEventArgs e )
     {

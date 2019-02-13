@@ -933,17 +933,41 @@ namespace Blazorise
         Is6,
     }
 
+    /// <summary>
+    /// Defines the validation results.
+    /// </summary>
     public enum ValidationStatus
     {
+        /// <summary>
+        /// No validation.
+        /// </summary>
         None,
+
+        /// <summary>
+        /// Validation has passed the check.
+        /// </summary>
         Success,
+
+        /// <summary>
+        /// Validation has failed.
+        /// </summary>
         Error,
     }
 
+    /// <summary>
+    /// Defines the validation execution mode.
+    /// </summary>
     public enum ValidationMode
     {
-        Auto = 0,
-        Manual = 1,
+        /// <summary>
+        /// Validation will execute on every input change.
+        /// </summary>
+        Auto,
+
+        /// <summary>
+        /// Validation will run only when explicitly called. 
+        /// </summary>
+        Manual,
     }
 
     public enum IconProvider
