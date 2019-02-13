@@ -2,4 +2,5 @@
 <Control Role="@Role" IsInline="@IsInline">
     <input type="@Type" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" onchange="@CheckedChangedHandled" name="@RadioGroup" id="@ElementId" />
     <FormLabel IsCheck="true" For="@ElementId">@ChildContent</FormLabel>
+    @Feedback
 </Control>

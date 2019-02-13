@@ -24,16 +24,33 @@ namespace Blazorise.Base
         {
             ClassMapper
                 .Add( () => ClassProvider.Select() )
-                .If( () => ClassProvider.SelectSize( Size ), () => Size != Size.None );
+                .If( () => ClassProvider.SelectSize( Size ), () => Size != Size.None )
+                .If( () => ClassProvider.SelectValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
+        }
+
+        protected override void OnInit()
+        {
+            // link to the parent component
+            ParentValidation?.Hook( this );
+
+            base.OnInit();
+        }
+
+        protected internal override void Dirty()
+        {
+            ClassMapper.Dirty();
+
+            base.Dirty();
         }
 
         protected async void SelectionChangedHandler( UIChangeEventArgs e )
         {
             selectedValues = await JSRunner.GetSelectedOptions( ElementId );
-
             SelectedValueChanged?.Invoke( string.Join( ";", selectedValues ) );
+
+            ParentValidation?.InputValueChanged( selectedValues );
         }
 
         internal void Register( BaseSelectItem selectItem )
@@ -87,6 +104,8 @@ namespace Blazorise.Base
         [Parameter] protected Action<string> SelectedValueChanged { get; set; }
 
         [CascadingParameter] protected BaseAddons ParentAddons { get; set; }
+
+        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

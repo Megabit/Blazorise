@@ -17,11 +17,15 @@ namespace Blazorise
 
         string TextColor( Color color );
 
+        string TextValidation( ValidationStatus validationStatus );
+
         #endregion
 
         #region Memo
 
         string Memo();
+
+        string MemoValidation( ValidationStatus validationStatus );
 
         #endregion
 
@@ -31,6 +35,8 @@ namespace Blazorise
 
         string SelectSize( Size size );
 
+        string SelectValidation( ValidationStatus validationStatus );
+
         #endregion
 
         #region Date
@@ -39,6 +45,8 @@ namespace Blazorise
 
         string DateSize( Size size );
 
+        string DateValidation( ValidationStatus validationStatus );
+
         #endregion
 
         #region Check
@@ -46,6 +54,8 @@ namespace Blazorise
         string Check();
 
         string CheckInline();
+
+        string CheckValidation( ValidationStatus validationStatus );
 
         #endregion
 
@@ -74,6 +84,14 @@ namespace Blazorise
         #region Help
 
         string Help();
+
+        #endregion
+
+        #region Validation
+
+        string ValidationSuccess();
+
+        string ValidationError();
 
         #endregion
 

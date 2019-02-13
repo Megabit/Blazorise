@@ -27,4 +27,44 @@ namespace Blazorise
 
         public string NewValue { get; set; }
     }
+
+    public class ValidateEventArgs : EventArgs
+    {
+        public ValidateEventArgs( object value )
+        {
+            Value = value;
+        }
+
+        /// <summary>
+        /// Gets the value to check for validation.
+        /// </summary>
+        public object Value { get; }
+
+        /// <summary>
+        /// Gets or sets the validation status.
+        /// </summary>
+        public ValidationStatus Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the custom validation error message.
+        /// </summary>
+        public string ErrorText { get; set; }
+    }
+
+    public class ValidationSucceededEventArgs : EventArgs
+    {
+    }
+
+    public class ValidationFailedEventArgs : EventArgs
+    {
+        public ValidationFailedEventArgs( string errorText )
+        {
+            ErrorText = errorText;
+        }
+
+        /// <summary>
+        /// Gets the custom validation error message.
+        /// </summary>
+        public string ErrorText { get; }
+    }
 }

@@ -1,0 +1,231 @@
+﻿@page "/tests/validations"
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Auto Validation</CardTitle>
+                <CardSubtitle>Example on how to validate input fields.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Field IsHorizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Validation Validate="@ValidateEmail" Status="ValidationStatus.Error">
+                            <TextEdit Placeholder="Enter email">
+                                <Feedback>
+                                    <ValidationSuccess>Email is good</ValidationSuccess>
+                                    <ValidationError>Enter valid email!</ValidationError>
+                                </Feedback>
+                            </TextEdit>
+                        </Validation>
+                    </FieldBody>
+                </Field>
+                <Field IsHorizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Validation Validate="@ValidatePassword">
+                            <TextEdit Role="TextRole.Password" Placeholder="Password" bind-Text="@password">
+                                <Feedback>
+                                    <ValidationError>Password must be at least 6 characters long!</ValidationError>
+                                </Feedback>
+                            </TextEdit>
+                        </Validation>
+                    </FieldBody>
+                </Field>
+                <Field IsHorizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Validation Validate="@ValidatePassword2">
+                            <TextEdit Role="TextRole.Password" Placeholder="Retype password">
+                                <Feedback>
+                                    <ValidationError>Password does not match!</ValidationError>
+                                </Feedback>
+                            </TextEdit>
+                        </Validation>
+                    </FieldBody>
+                </Field>
+                <Field IsHorizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Validation Validate="@ValidateSelect">
+                            <SelectEdit>
+                                <ChildContent>
+                                    <SelectItem Value=""></SelectItem>
+                                    <SelectItem Value="1">1</SelectItem>
+                                    <SelectItem Value="2">2</SelectItem>
+                                    <SelectItem Value="3">3</SelectItem>
+                                    <SelectItem Value="4">4</SelectItem>
+                                </ChildContent>
+                                <Feedback>
+                                    <ValidationError>Select one value!</ValidationError>
+                                </Feedback>
+                            </SelectEdit>
+                        </Validation>
+                    </FieldBody>
+                </Field>
+                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Validation Validate="@ValidateCheck">
+                            <CheckEdit>
+                                <ChildContent>
+                                    Check me out
+                                </ChildContent>
+                                <Feedback>
+                                    <ValidationError>You must check me out!</ValidationError>
+                                </Feedback>
+                            </CheckEdit>
+                        </Validation>
+                    </FieldBody>
+                </Field>
+                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <SimpleButton Color="Color.Primary">Submit</SimpleButton>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Manual Validation</CardTitle>
+                <CardSubtitle>Example on how to validate manualy on submit.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Validations ref="validations" Mode="ValidationMode.Manual">
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation Validate="@ValidateEmail">
+                                <TextEdit Placeholder="Enter email">
+                                    <Feedback>
+                                        <ValidationSuccess>Email is good</ValidationSuccess>
+                                        <ValidationError>Enter valid email!</ValidationError>
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation Validate="@ValidatePassword">
+                                <TextEdit Role="TextRole.Password" Placeholder="Password" bind-Text="@password">
+                                    <Feedback>
+                                        <ValidationError>Password must be at least 6 characters long!</ValidationError>
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation Validate="@ValidatePassword2">
+                                <TextEdit Role="TextRole.Password" Placeholder="Retype password">
+                                    <Feedback>
+                                        <ValidationError>Password does not match!</ValidationError>
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation Validate="@ValidateSelect">
+                                <SelectEdit>
+                                    <ChildContent>
+                                        <SelectItem Value=""></SelectItem>
+                                        <SelectItem Value="1">1</SelectItem>
+                                        <SelectItem Value="2">2</SelectItem>
+                                        <SelectItem Value="3">3</SelectItem>
+                                        <SelectItem Value="4">4</SelectItem>
+                                    </ChildContent>
+                                    <Feedback>
+                                        <ValidationError>Select one value!</ValidationError>
+                                    </Feedback>
+                                </SelectEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation Validate="@ValidateCheck">
+                                <CheckEdit>
+                                    <ChildContent>
+                                        Check me out
+                                    </ChildContent>
+                                    <Feedback>
+                                        <ValidationError>You must check me out!</ValidationError>
+                                    </Feedback>
+                                </CheckEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <SimpleButton Color="Color.Primary" Clicked="@Submit">Submit</SimpleButton>
+                        </FieldBody>
+                    </Field>
+                </Validations>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@functions{
+    Validations validations;
+
+    string password;
+
+    void ValidateEmail( ValidateEventArgs e )
+    {
+        var email = Convert.ToString( e.Value );
+
+        e.Status = email?.Contains( "@" ) == true ? ValidationStatus.Success : ValidationStatus.Error;
+    }
+
+    void ValidatePassword( ValidateEventArgs e )
+    {
+        var password = Convert.ToString( e.Value );
+        e.Status = password?.Length >= 6 ? ValidationStatus.Success : ValidationStatus.Error;
+    }
+
+    void ValidatePassword2( ValidateEventArgs e )
+    {
+        var password2 = Convert.ToString( e.Value );
+
+        if ( password2?.Length < 6 )
+        {
+            e.Status = ValidationStatus.Error;
+            e.ErrorText = "Password must be at least 6 characters long!";
+        }
+        else if ( password2 != password )
+        {
+            e.Status = ValidationStatus.Error;
+        }
+        else
+            e.Status = ValidationStatus.Success;
+    }
+
+    void ValidateCheck( ValidateEventArgs e )
+    {
+        e.Status = Convert.ToBoolean( e.Value ) ? ValidationStatus.Success : ValidationStatus.Error;
+    }
+
+    void ValidateSelect( ValidateEventArgs e )
+    {
+        var selectedValues = e.Value as string[];
+
+        e.Status = selectedValues?.Count( x => string.IsNullOrEmpty( x ) ) == 1 ? ValidationStatus.Error : ValidationStatus.Success;
+    }
+
+    void Submit()
+    {
+        validations.Validate();
+    }
+}

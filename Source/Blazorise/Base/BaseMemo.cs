@@ -19,15 +19,33 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.Memo() );
+                .Add( () => ClassProvider.Memo() )
+                .If( () => ClassProvider.MemoValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
+        }
+
+        protected override void OnInit()
+        {
+            // link to the parent component
+            ParentValidation?.Hook( this );
+
+            base.OnInit();
+        }
+
+        protected internal override void Dirty()
+        {
+            ClassMapper.Dirty();
+
+            base.Dirty();
         }
 
         protected void HandleTextChange( UIChangeEventArgs e )
         {
             Text = e?.Value?.ToString();
             TextChanged?.Invoke( Text );
+
+            ParentValidation?.InputValueChanged( Text );
         }
 
         #endregion
@@ -58,6 +76,8 @@ namespace Blazorise.Base
         /// Specifies the number lines in the input element.
         /// </summary>
         [Parameter] protected int? Rows { get; set; }
+
+        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

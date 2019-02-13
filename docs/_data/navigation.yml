@@ -33,6 +33,8 @@ docs:
         url: /docs/components/field/
       - title: "Addon"
         url: /docs/components/addon/
+      - title: "Validation"
+        url: /docs/components/validation/
   - title: Components
     url: /docs/components/
     children:

@@ -6,6 +6,7 @@
             <input type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" onchange="@HandleOnChange" />
             @ChildContent
         </div>
+        @Feedback
     </div>
 }
 else
@@ -14,4 +15,5 @@ else
         <input type="@Type" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" onchange="@HandleOnChange" />
         @ChildContent
     </div>
+    @Feedback
 }

@@ -933,6 +933,19 @@ namespace Blazorise
         Is6,
     }
 
+    public enum ValidationStatus
+    {
+        None,
+        Success,
+        Error,
+    }
+
+    public enum ValidationMode
+    {
+        Auto = 0,
+        Manual = 1,
+    }
+
     public enum IconProvider
     {
         /// <summary>

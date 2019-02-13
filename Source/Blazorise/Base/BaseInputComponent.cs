@@ -86,6 +86,11 @@ namespace Blazorise.Base
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
+        /// <summary>
+        /// Placeholder for validation messages.
+        /// </summary>
+        [Parameter] protected RenderFragment Feedback { get; set; }
+
         #endregion
     }
 }

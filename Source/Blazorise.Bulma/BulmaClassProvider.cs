@@ -18,11 +18,15 @@ namespace Blazorise.Bulma
 
         public virtual string TextColor( Color color ) => $"is-{Color( color )}";
 
+        public virtual string TextValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
         #endregion
 
         #region Memo
 
         public virtual string Memo() => "textarea";
+
+        public virtual string MemoValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
@@ -32,6 +36,8 @@ namespace Blazorise.Bulma
 
         public virtual string SelectSize( Size size ) => $"{Size( size )}";
 
+        public virtual string SelectValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
         #endregion
 
         #region Date
@@ -40,6 +46,8 @@ namespace Blazorise.Bulma
 
         public virtual string DateSize( Size size ) => $"{Size( size )}";
 
+        public virtual string DateValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
         #endregion
 
         #region Check
@@ -47,6 +55,8 @@ namespace Blazorise.Bulma
         public virtual string Check() => "checkbox";
 
         public virtual string CheckInline() => "inline";
+
+        public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
@@ -77,6 +87,14 @@ namespace Blazorise.Bulma
         #region Help
 
         public virtual string Help() => "help";
+
+        #region Validation
+
+        public string ValidationSuccess() => "help is-success";
+
+        public string ValidationError() => "help is-danger";
+
+        #endregion
 
         #endregion
 
@@ -1080,6 +1098,19 @@ namespace Blazorise.Bulma
                     return "5";
                 case Blazorise.HeadingSize.Is6:
                     return "6";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ValidationStatus( ValidationStatus validationStatus )
+        {
+            switch ( validationStatus )
+            {
+                case Blazorise.ValidationStatus.Success:
+                    return "is-success";
+                case Blazorise.ValidationStatus.Error:
+                    return "is-danger";
                 default:
                     return null;
             }

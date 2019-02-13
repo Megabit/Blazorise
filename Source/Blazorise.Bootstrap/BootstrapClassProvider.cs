@@ -18,11 +18,15 @@ namespace Blazorise.Bootstrap
 
         public virtual string TextColor( Color color ) => $"text-{Color( color )}";
 
+        public virtual string TextValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
         #endregion
 
         #region Memo
 
         public virtual string Memo() => "form-control";
+
+        public virtual string MemoValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
@@ -32,6 +36,8 @@ namespace Blazorise.Bootstrap
 
         public virtual string SelectSize( Size size ) => $"{Select()}-{Size( size )}";
 
+        public virtual string SelectValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
         #endregion
 
         #region Date
@@ -40,6 +46,8 @@ namespace Blazorise.Bootstrap
 
         public virtual string DateSize( Size size ) => $"{Date()}-{Size( size )}";
 
+        public virtual string DateValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
         #endregion
 
         #region Check
@@ -47,6 +55,8 @@ namespace Blazorise.Bootstrap
         public virtual string Check() => Custom ? "custom-control-input" : "form-check-input";
 
         public virtual string CheckInline() => Custom ? "custom-control-inline" : "form-check-inline";
+
+        public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
@@ -77,6 +87,14 @@ namespace Blazorise.Bootstrap
         #region Help
 
         public virtual string Help() => "form-text text-muted";
+
+        #endregion
+
+        #region Validation
+
+        public string ValidationSuccess() => "valid-feedback";
+
+        public string ValidationError() => "invalid-feedback";
 
         #endregion
 
@@ -1050,6 +1068,19 @@ namespace Blazorise.Bootstrap
                     return "5";
                 case Blazorise.HeadingSize.Is6:
                     return "6";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ValidationStatus( ValidationStatus validationStatus )
+        {
+            switch ( validationStatus )
+            {
+                case Blazorise.ValidationStatus.Success:
+                    return "is-valid";
+                case Blazorise.ValidationStatus.Error:
+                    return "is-invalid";
                 default:
                     return null;
             }

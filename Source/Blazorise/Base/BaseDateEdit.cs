@@ -22,9 +22,25 @@ namespace Blazorise.Base
         {
             ClassMapper
                 .Add( () => ClassProvider.Date() )
-                .If( () => ClassProvider.DateSize( Size ), () => Size != Size.None );
+                .If( () => ClassProvider.DateSize( Size ), () => Size != Size.None )
+                .If( () => ClassProvider.DateValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
+        }
+
+        protected override void OnInit()
+        {
+            // link to the parent component
+            ParentValidation?.Hook( this );
+
+            base.OnInit();
+        }
+
+        protected internal override void Dirty()
+        {
+            ClassMapper.Dirty();
+
+            base.Dirty();
         }
 
         protected void ClickHandler( UIMouseEventArgs e )
@@ -36,6 +52,8 @@ namespace Blazorise.Base
         {
             Date = Utils.Parsers.TryParseDate( e?.Value?.ToString() );
             DateChanged?.Invoke( Date );
+
+            ParentValidation?.InputValueChanged( Date );
         }
 
         #endregion
@@ -74,6 +92,8 @@ namespace Blazorise.Base
         /// The latest date to accept.
         /// </summary>
         [Parameter] protected DateTime? Max { get; set; }
+
+        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

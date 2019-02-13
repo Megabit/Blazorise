@@ -1,0 +1,11 @@
+﻿@inherits Base.BaseValidation
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <CascadingValue Value=this>
+        @ChildContent
+    </CascadingValue>
+}
+else
+{
+    @RenderCustomComponent()
+}

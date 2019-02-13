@@ -1,0 +1,21 @@
+﻿@inherits Base.BaseValidationError
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    @if ( ParentValidation?.Status == ValidationStatus.Error )
+    {
+        <div class="@ClassMapper.Class">
+            @if ( ErrorText != null )
+            {
+                @ErrorText
+            }
+            else
+            {
+                @ChildContent
+            }
+        </div>
+    }
+}
+else
+{
+    @RenderCustomComponent()
+}

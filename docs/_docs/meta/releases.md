@@ -17,6 +17,10 @@ To upgrade your project to the new version you should first need to install new 
 **Note:** Keep in mind that after upgrading you will only be able to work in Visual Studio 2019!
 {: .notice--info}
 
+### Enhancements
+
+- Added new `Validation` component for input fields.
+
 ## 0.5.x
 
 ### Breaking Changes

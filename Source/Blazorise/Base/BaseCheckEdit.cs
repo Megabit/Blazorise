@@ -24,15 +24,33 @@ namespace Blazorise.Base
         {
             ClassMapper
                 .If( () => ClassProvider.Radio(), () => RadioGroup != null )
-                .If( () => ClassProvider.Check(), () => RadioGroup == null );
+                .If( () => ClassProvider.Check(), () => RadioGroup == null )
+                .If( () => ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
+        }
+
+        protected override void OnInit()
+        {
+            // link to the parent component
+            ParentValidation?.Hook( this );
+
+            base.OnInit();
+        }
+
+        protected internal override void Dirty()
+        {
+            ClassMapper.Dirty();
+
+            base.Dirty();
         }
 
         protected void CheckedChangedHandled( UIChangeEventArgs e )
         {
             Checked = e.Value?.ToString().ToLowerInvariant() == ( RadioGroup != null ? "on" : "true" );
             CheckedChanged?.Invoke( Checked );
+
+            ParentValidation?.InputValueChanged( Checked );
         }
 
         #endregion
@@ -83,6 +101,8 @@ namespace Blazorise.Base
         }
 
         [CascadingParameter] protected BaseAddons ParentAddons { get; set; }
+
+        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

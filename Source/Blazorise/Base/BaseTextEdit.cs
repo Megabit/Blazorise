@@ -26,15 +26,33 @@ namespace Blazorise.Base
             ClassMapper
                 .Add( () => ClassProvider.Text( IsPlaintext ) )
                 .If( () => ClassProvider.TextColor( Color ), () => Color != Color.None )
-                .If( () => ClassProvider.TextSize( Size ), () => Size != Size.None );
+                .If( () => ClassProvider.TextSize( Size ), () => Size != Size.None )
+                .If( () => ClassProvider.TextValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
+        }
+
+        protected override void OnInit()
+        {
+            // link to the parent component
+            ParentValidation?.Hook( this );
+
+            base.OnInit();
+        }
+
+        protected internal override void Dirty()
+        {
+            ClassMapper.Dirty();
+
+            base.Dirty();
         }
 
         protected void HandleOnChange( UIChangeEventArgs e )
         {
             Text = e?.Value?.ToString();
             TextChanged?.Invoke( Text );
+
+            ParentValidation?.InputValueChanged( Text );
         }
 
         //protected void HandleOnInput( UIChangeEventArgs e )
@@ -171,6 +189,8 @@ namespace Blazorise.Base
         }
 
         [CascadingParameter] protected BaseAddons ParentAddons { get; set; }
+
+        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

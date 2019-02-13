@@ -20,11 +20,15 @@ namespace Blazorise.Providers
 
         public string TextColor( Color color ) => null;
 
+        public string TextValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region Memo
 
         public string Memo() => null;
+
+        public string MemoValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
@@ -34,6 +38,8 @@ namespace Blazorise.Providers
 
         public string SelectSize( Size size ) => null;
 
+        public string SelectValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region Date
@@ -42,6 +48,8 @@ namespace Blazorise.Providers
 
         public string DateSize( Size size ) => null;
 
+        public string DateValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region Check
@@ -49,6 +57,8 @@ namespace Blazorise.Providers
         public string Check() => null;
 
         public string CheckInline() => null;
+
+        public string CheckValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
@@ -79,6 +89,14 @@ namespace Blazorise.Providers
         #region Help
 
         public string Help() => null;
+
+        #endregion
+
+        #region Validation
+
+        public string ValidationSuccess() => null;
+
+        public string ValidationError() => null;
 
         #endregion
 
