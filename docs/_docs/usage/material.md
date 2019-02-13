@@ -30,9 +30,12 @@ Material css is not available through the cdn so you must download it yourself f
 
 The folder structure should be:
 
-- \wwwroot
-  - \css
-  - \js
+```text
+blazorproject.client/
+└── wwwroot/
+    ├── css/
+    └── js/
+```
 
 ### Sources files
 
