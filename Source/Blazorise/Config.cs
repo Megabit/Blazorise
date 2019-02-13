@@ -12,6 +12,23 @@ namespace Blazorise
     public static class Config
     {
         /// <summary>
+        /// Register blazorise and configures the default behaviour.
+        /// </summary>
+        /// <param name="serviceCollection"></param>
+        /// <param name="configureOptions"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddBlazorise( this IServiceCollection serviceCollection, Action<Options> configureOptions = null )
+        {
+            var options = new Options();
+
+            configureOptions?.Invoke( options );
+
+            serviceCollection.AddSingleton( options );
+
+            return serviceCollection;
+        }
+
+        /// <summary>
         /// Registers an empty providers.
         /// </summary>
         /// <remarks>

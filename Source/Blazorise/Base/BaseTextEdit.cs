@@ -49,7 +49,27 @@ namespace Blazorise.Base
 
         protected void HandleOnChange( UIChangeEventArgs e )
         {
-            Text = e?.Value?.ToString();
+           
+            if ( Options.TextChangesOnLeave )
+            {
+                Console.WriteLine( "change" );
+                HandleText( e?.Value?.ToString() );
+            }
+        }
+
+        protected void HandleOnInput( UIChangeEventArgs e )
+        {
+           
+            if ( !Options.TextChangesOnLeave )
+            {
+                Console.WriteLine( "input" );
+                HandleText( e?.Value?.ToString() );
+            }
+        }
+
+        protected void HandleText( string text )
+        {
+            Text = text;
             TextChanged?.Invoke( Text );
 
             ParentValidation?.InputValueChanged( Text );
@@ -122,6 +142,8 @@ namespace Blazorise.Base
         #endregion
 
         #region Properties
+
+        [Inject] protected Options Options { get; set; }
 
         /// <summary>
         /// Gets or sets the text inside the input field.

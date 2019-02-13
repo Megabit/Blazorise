@@ -10,6 +10,10 @@ namespace Blazorise.Demo.Bootstrap
         public void ConfigureServices( IServiceCollection services )
         {
             services
+                .AddBlazorise( options =>
+                {
+                    options.TextChangesOnLeave = false;
+                } )
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
         }
