@@ -32,7 +32,7 @@ Here you can see the basic example for automatic validation and a custom functio
     </TextEdit>
 </Validation>
 @functions{
-    void ValidateEmail( ValidateEventArgs e )
+    void ValidateEmail( ValidatorEventArgs e )
     {
         var email = Convert.ToString( e.Value );
 
