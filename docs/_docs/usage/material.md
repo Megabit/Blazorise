@@ -39,7 +39,7 @@ The folder structure should be:
 The next step is to change your `index.html` file and include the css and js source files:
 
 ```html
-<!-- CSS -->
+<!-- Material CSS -->
 <link href="css/material.min.css" rel="stylesheet">
 
 <!-- Add Material font (Roboto) and Material icon as needed -->
@@ -47,7 +47,7 @@ The next step is to change your `index.html` file and include the css and js sou
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!-- jQuery first, then Popper.js, then Material JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
