@@ -84,3 +84,24 @@ In this example you can see how the `<Validations>` component is used to enclose
     }
 }
 ```
+
+## Validation rules
+
+In Blazorise you can use some of the predefined validation rules. eg
+
+```html
+<Validation Validate="@ValidationRule.IsNotEmpty">
+```
+
+Here is a list of the validators currently available.
+
+| Validator                    | Description                                                        |
+|------------------------------|--------------------------------------------------------------------|
+| IsEmpty                      | Check if the string is null or empty.                              |
+| IsNotEmpty                   | Check if the string is not null or empty.                          |
+| IsEmail                      | Check if the string is an email.                                   |
+| IsAlpha                      | Check if the string contains only letters (a-zA-Z).                |
+| IsAlphanumeric               | Check if the string contains only letters and numbers.             |
+| IsAlphanumericWithUnderscore | Check if the string contains only letters, numbers and underscore. |
+| IsUppercase                  | Check if the string is uppercase.                                  |
+| IsLowercase                  | Check if the string is lowercase.                                  |

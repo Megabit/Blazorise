@@ -66,7 +66,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Checks if the string is uppercase.
+        /// Check if the string is uppercase.
         /// </summary>
         /// <param name="e"></param>
         public static void IsUppercase( ValidateEventArgs e )
