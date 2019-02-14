@@ -38,28 +38,28 @@ namespace Blazorise
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool IsEmail( string value ) => Regex.IsMatch( value, @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$", RegexOptions.IgnoreCase );
+        public static bool IsEmail( string value ) => value != null && Regex.IsMatch( value, @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$", RegexOptions.IgnoreCase );
 
         /// <summary>
         /// Check if the string contains only letters (a-zA-Z).
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool IsAlpha( string value ) => Regex.IsMatch( value, @"^[a-zA-Z]+$" );
+        public static bool IsAlpha( string value ) => value != null && Regex.IsMatch( value, @"^[a-zA-Z]+$" );
 
         /// <summary>
         /// Check if the string contains only letters and numbers.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool IsAlphanumeric( string value ) => Regex.IsMatch( value, @"^[a-zA-Z0-9]+$" );
+        public static bool IsAlphanumeric( string value ) => value != null && Regex.IsMatch( value, @"^[a-zA-Z0-9]+$" );
 
         /// <summary>
         /// Check if the string contains only letters, numbers and underscore.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool IsAlphanumericWithUnderscore( string value ) => Regex.IsMatch( value, "^[a-zA-Z0-9_]+$" );
+        public static bool IsAlphanumericWithUnderscore( string value ) => value != null && Regex.IsMatch( value, "^[a-zA-Z0-9_]+$" );
 
         /// <summary>
         /// Check if the string is uppercase.
