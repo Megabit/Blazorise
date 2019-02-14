@@ -678,7 +678,7 @@ namespace Blazorise
         /// <summary>
         /// Enables a custom css for select/check/radio/file inputs.
         /// </summary>
-        bool Custom { get; set; }
+        bool UseCustomInputStyles { get; set; }
 
         /// <summary>
         /// Gets the provider implementation name.

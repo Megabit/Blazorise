@@ -1118,7 +1118,7 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        public bool Custom { get; set; } = false;
+        public bool UseCustomInputStyles { get; set; } = false;
 
         public virtual string Provider => "Bulma";
     }

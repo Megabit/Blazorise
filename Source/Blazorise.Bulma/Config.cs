@@ -11,9 +11,13 @@ namespace Blazorise.Bulma
 {
     public static class Config
     {
-        public static IServiceCollection AddBulmaProviders( this IServiceCollection serviceCollection )
+        public static IServiceCollection AddBulmaProviders( this IServiceCollection serviceCollection, Action<IClassProvider> configureClassProvider = null )
         {
-            serviceCollection.AddSingleton<IClassProvider, BulmaClassProvider>();
+            var classProvider = new BulmaClassProvider();
+
+            configureClassProvider?.Invoke( classProvider );
+
+            serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
             serviceCollection.AddSingleton<IJSRunner, BulmaJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();

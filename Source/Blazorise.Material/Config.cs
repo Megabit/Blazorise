@@ -12,9 +12,13 @@ namespace Blazorise.Material
 {
     public static class Config
     {
-        public static IServiceCollection AddMaterialProviders( this IServiceCollection serviceCollection )
+        public static IServiceCollection AddMaterialProviders( this IServiceCollection serviceCollection, Action<IClassProvider> configureClassProvider = null )
         {
-            serviceCollection.AddSingleton<IClassProvider, MaterialClassProvider>();
+            var classProvider = new MaterialClassProvider();
+
+            configureClassProvider?.Invoke( classProvider );
+
+            serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, MaterialStyleProvider>();
             serviceCollection.AddSingleton<IJSRunner, MaterialJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();

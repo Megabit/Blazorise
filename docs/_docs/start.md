@@ -67,6 +67,10 @@ using Blazorise.Icons.FontAwesome;
 public void ConfigureServices( IServiceCollection services )
 {
   services
+    .AddBlazorise( options =>
+    {
+      options.ChangeTextOnKeyPress = true;
+    } )
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();
 }

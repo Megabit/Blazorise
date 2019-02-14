@@ -12,7 +12,7 @@ namespace Blazorise.Demo.Bootstrap
             services
                 .AddBlazorise( options =>
                 {
-                    options.TextChangesOnLeave = false;
+                    options.ChangeTextOnKeyPress = true;
                 } )
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();

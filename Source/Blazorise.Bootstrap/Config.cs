@@ -16,9 +16,13 @@ namespace Blazorise.Bootstrap
         /// </summary>
         /// <param name="serviceCollection"></param>
         /// <returns></returns>
-        public static IServiceCollection AddBootstrapProviders( this IServiceCollection serviceCollection )
+        public static IServiceCollection AddBootstrapProviders( this IServiceCollection serviceCollection, Action<IClassProvider> configureClassProvider = null )
         {
-            serviceCollection.AddSingleton<IClassProvider, BootstrapClassProvider>();
+            var classProvider = new BootstrapClassProvider();
+
+            configureClassProvider?.Invoke( classProvider );
+
+            serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
             serviceCollection.AddSingleton<IJSRunner, BootstrapJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();

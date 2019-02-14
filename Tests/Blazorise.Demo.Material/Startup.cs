@@ -10,6 +10,10 @@ namespace Blazorise.Demo.Material
         public void ConfigureServices( IServiceCollection services )
         {
             services
+                .AddBlazorise( options =>
+                {
+                    options.ChangeTextOnKeyPress = true;
+                } )
                 .AddMaterialProviders()
                 .AddMaterialIcons();
         }

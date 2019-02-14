@@ -49,20 +49,16 @@ namespace Blazorise.Base
 
         protected void HandleOnChange( UIChangeEventArgs e )
         {
-           
-            if ( Options.TextChangesOnLeave )
+            if ( !Options.ChangeTextOnKeyPress )
             {
-                Console.WriteLine( "change" );
                 HandleText( e?.Value?.ToString() );
             }
         }
 
         protected void HandleOnInput( UIChangeEventArgs e )
         {
-           
-            if ( !Options.TextChangesOnLeave )
+            if ( Options.ChangeTextOnKeyPress )
             {
-                Console.WriteLine( "input" );
                 HandleText( e?.Value?.ToString() );
             }
         }
@@ -143,7 +139,7 @@ namespace Blazorise.Base
 
         #region Properties
 
-        [Inject] protected Options Options { get; set; }
+        [Inject] protected BlazoriseOptions Options { get; set; }
 
         /// <summary>
         /// Gets or sets the text inside the input field.

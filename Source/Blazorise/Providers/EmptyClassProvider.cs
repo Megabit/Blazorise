@@ -684,7 +684,7 @@ namespace Blazorise.Providers
 
         #region Properties
 
-        public bool Custom { get; set; } = false;
+        public bool UseCustomInputStyles { get; set; } = false;
 
         public string Provider => "EmptyClassProvider";
 

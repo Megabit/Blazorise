@@ -32,7 +32,7 @@ namespace Blazorise.Bootstrap
 
         #region Select
 
-        public virtual string Select() => Custom ? "custom-select" : "form-control";
+        public virtual string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
 
         public virtual string SelectSize( Size size ) => $"{Select()}-{Size( size )}";
 
@@ -52,9 +52,9 @@ namespace Blazorise.Bootstrap
 
         #region Check
 
-        public virtual string Check() => Custom ? "custom-control-input" : "form-check-input";
+        public virtual string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
-        public virtual string CheckInline() => Custom ? "custom-control-inline" : "form-check-inline";
+        public virtual string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
         public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
@@ -62,15 +62,15 @@ namespace Blazorise.Bootstrap
 
         #region Radio
 
-        public virtual string Radio() => Custom ? "custom-control-input" : "form-check-input";
+        public virtual string Radio() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
-        public virtual string RadioInline() => Custom ? "custom-control-inline" : "form-check-inline";
+        public virtual string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
         #endregion
 
         #region File
 
-        public virtual string File() => Custom ? "custom-file-input" : "form-control-file";
+        public virtual string File() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
 
         #endregion
 
@@ -78,9 +78,9 @@ namespace Blazorise.Bootstrap
 
         public virtual string Label() => null;
 
-        public virtual string LabelCheck() => Custom ? "custom-control-label" : "form-check-label";
+        public virtual string LabelCheck() => UseCustomInputStyles ? "custom-control-label" : "form-check-label";
 
-        public virtual string LabelFile() => Custom ? "custom-file-label" : null;
+        public virtual string LabelFile() => UseCustomInputStyles ? "custom-file-label" : null;
 
         #endregion
 
@@ -142,11 +142,11 @@ namespace Blazorise.Bootstrap
 
         #region Control
 
-        public virtual string ControlCheck() => Custom ? "custom-control custom-checkbox" : "form-check";
+        public virtual string ControlCheck() => UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check";
 
-        public virtual string ControlRadio() => Custom ? "custom-control custom-radio" : "form-check";
+        public virtual string ControlRadio() => UseCustomInputStyles ? "custom-control custom-radio" : "form-check";
 
-        public virtual string ControlFile() => Custom ? "custom-control custom-file" : "form-group";
+        public virtual string ControlFile() => UseCustomInputStyles ? "custom-control custom-file" : "form-group";
 
         public virtual string ControlText() => null;
 
@@ -1088,7 +1088,7 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        public virtual bool Custom { get; set; } = true;
+        public virtual bool UseCustomInputStyles { get; set; } = true;
 
         public virtual string Provider => "Bootstrap";
     }

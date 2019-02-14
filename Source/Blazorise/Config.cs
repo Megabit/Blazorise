@@ -17,9 +17,9 @@ namespace Blazorise
         /// <param name="serviceCollection"></param>
         /// <param name="configureOptions"></param>
         /// <returns></returns>
-        public static IServiceCollection AddBlazorise( this IServiceCollection serviceCollection, Action<Options> configureOptions = null )
+        public static IServiceCollection AddBlazorise( this IServiceCollection serviceCollection, Action<BlazoriseOptions> configureOptions = null )
         {
-            var options = new Options();
+            var options = new BlazoriseOptions();
 
             configureOptions?.Invoke( options );
 

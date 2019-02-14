@@ -6,20 +6,34 @@ toc: true
 toc_label: "Version history"
 ---
 
-## 0.6.0-preview-19104-04
+## 0.6.0-preview(x)-19104-04
 
 ### Breaking Changes
 
-The new version is upgraded to the newest Blazor v0.8-preview-19104-04. The preview number(19104-04) is used to match the preview number of Blazor!
+- The new version is upgraded to the newest Blazor v0.8-preview-19104-04. The preview number(19104-04) is used to match the preview number of Blazor!
 
-To upgrade your project to the new version you should first need to install new Blazor before installing Blazorise. To install Blazor look at the [official](https://blogs.msdn.microsoft.com/webdev/2019/02/05/blazor-0-8-0-experimental-release-now-available/) documentation. 
+  To upgrade your project to the new version you should first need to install new Blazor before installing Blazorise. To install Blazor look at the [official](https://blogs.msdn.microsoft.com/webdev/2019/02/05/blazor-0-8-0-experimental-release-now-available/) documentation. 
 
-**Note:** Keep in mind that after upgrading you will only be able to work in Visual Studio 2019!
-{: .notice--info}
+  **Note:** Keep in mind that after upgrading you will only be able to work in Visual Studio 2019!
+  {: .notice--info}
+
+- Added registration for Blazorise with an optional configuration in which it's now possible to configure some of the internal settings and behaviour.
+
+  ```cs
+  public void ConfigureServices( IServiceCollection services ) { 
+    services
+      .AddBlazorise( options =>
+      {
+        options.ChangeTextOnKeyPress = true;
+      } )
+      .AddBootstrapProviders()
+      .AddFontAwesomeIcons();
+  }
+  ```
 
 ### Enhancements
 
-- Added new `Validation` component for input fields.
+- Added new `Validation` component for input fields. [link]({{ "/docs/components/validation/" | relative_url }})
 
 ## 0.5.x
 
