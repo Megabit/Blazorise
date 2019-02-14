@@ -25,7 +25,7 @@ toc_label: "Version history"
       .AddBlazorise( options =>
       {
         options.ChangeTextOnKeyPress = true;
-      } )
+      } ) // from v0.6.0-preview4
       .AddBootstrapProviders()
       .AddFontAwesomeIcons();
   }
