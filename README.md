@@ -89,7 +89,7 @@ using Blazorise.Icons.FontAwesome;
 public void ConfigureServices( IServiceCollection services )
 {
   services
-    .AddBlazorise()
+    .AddBlazorise() // from v0.6.0-preview4
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();
 }
