@@ -1,7 +1,7 @@
 ---
 title: "Usage"
 permalink: /docs/usage/
-excerpt: "Available CSS providers for Blazorise and how to use them."
+excerpt: "There are multiple available CSS providers for Blazorise that each have it's own set of rules and resources needed to be applied."
 toc: true
 toc_label: "Guide"
 ---

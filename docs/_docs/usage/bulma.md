@@ -1,7 +1,7 @@
 ---
 title: "Bulma"
 permalink: /docs/usage/bulma/
-excerpt: "How to quickly install and setup Blazorise using bulma provider."
+excerpt: "Learn all the steps on how to quickly install and setup Blazorise for Bulma css framework and FontAwesome icons."
 toc: true
 toc_label: "Steps"
 ---

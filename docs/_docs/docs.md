@@ -1,7 +1,7 @@
 ---
-title: "Blazorise"
+title: "Blazorise Documentation"
 permalink: /docs/
-excerpt: "Start learning about Blazorise components."
+excerpt: "Start learning about Blazorise components and how to use them."
 toc: true
 toc_label: "Overview"
 ---

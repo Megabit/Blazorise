@@ -1,16 +1,26 @@
 ---
 title: "Components"
 permalink: /docs/components/
-excerpt: "List of component categorises for Blazorise."
+excerpt: "Blazorise component are categorises into different groups of components that act and behave differently."
 toc: true
 toc_label: "Components"
 redirect_from: /components/
 redirect_from: /docs/components/elements/
 ---
 
+## Form
 
+Form components are comprised of basic input fields like text, check, select etc. and containers like field and addons that are used to give structure to the inputs.
 
-## List of Components
+- [Text]({{ "/docs/components/text/" | relative_url }})
+- [Memo]({{ "/docs/components/memo/" | relative_url }})
+- [Select]({{ "/docs/components/select/" | relative_url }})
+- [Date]({{ "/docs/components/date/" | relative_url }})
+- [Check]({{ "/docs/components/check/" | relative_url }})
+- [Field]({{ "/docs/components/field/" | relative_url }})
+- [Addon]({{ "/docs/components/addon/" | relative_url }})
+
+## Components
 
 - [Button]({{ "/docs/components/button/" | relative_url }})
 - [Dropdown]({{ "/docs/components/dropdown/" | relative_url }})
@@ -22,3 +32,7 @@ redirect_from: /docs/components/elements/
 - [Pagination]({{ "/docs/components/pagination/" | relative_url }})
 - [Breadcrumb]({{ "/docs/components/breadcrumb/" | relative_url }})
 - [Alert]({{ "/docs/components/alert/" | relative_url }})
+
+## Extensions
+
+- [Chart]({{ "/docs/extensions/chart/" | relative_url }})

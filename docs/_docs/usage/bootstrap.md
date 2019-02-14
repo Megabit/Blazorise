@@ -1,7 +1,7 @@
 ---
 title: "Bootstrap"
 permalink: /docs/usage/bootstrap/
-excerpt: "How to quickly install and setup Blazorise using bootstrap provider."
+excerpt: "Learn all the steps on how to quickly install and setup Blazorise for Bootstrap css framework and FontAwesome icons."
 toc: true
 toc_label: "Steps"
 ---
