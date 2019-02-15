@@ -8,11 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseSelect : BaseInputComponent
+    public abstract class BaseSelect : BaseInputComponent<string[]>
     {
         #region Members
-
-        private string[] selectedValues;
 
         private List<BaseSelectItem> selectItems;
 
@@ -30,27 +28,10 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
-        protected override void OnInit()
-        {
-            // link to the parent component
-            ParentValidation?.Hook( this, selectedValues );
-
-            base.OnInit();
-        }
-
-        protected internal override void Dirty()
-        {
-            ClassMapper.Dirty();
-
-            base.Dirty();
-        }
-
         protected async void SelectionChangedHandler( UIChangeEventArgs e )
         {
-            selectedValues = await JSRunner.GetSelectedOptions( ElementId );
-            SelectedValueChanged?.Invoke( string.Join( ";", selectedValues ) );
-
-            ParentValidation?.InputValueChanged( selectedValues );
+            Value = await JSRunner.GetSelectedOptions( ElementId );
+            SelectedValueChanged?.Invoke( string.Join( ";", Value ) );
         }
 
         internal void Register( BaseSelectItem selectItem )
@@ -74,25 +55,31 @@ namespace Blazorise.Base
 
         internal bool IsSelected( BaseSelectItem selectItem )
         {
-            return selectedValues?.Contains( selectItem?.Value ) == true;
+            return Value?.Contains( selectItem?.Value ) == true;
         }
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Specifies that multiple options can be selected at once.
+        /// </summary>
         [Parameter] protected bool IsMultiple { get; set; }
 
+        /// <summary>
+        /// Gets or sets the selected item value.
+        /// </summary>
         [Parameter]
         protected string SelectedValue
         {
             get
             {
-                return string.Join( ";", selectedValues );
+                return string.Join( ";", Value );
             }
             set
             {
-                selectedValues = value?.Split( ';' );
+                Value = value?.Split( ';' );
 
                 StateHasChanged();
             }
@@ -102,10 +89,6 @@ namespace Blazorise.Base
         /// Occurs when the selected item value has changed.
         /// </summary>
         [Parameter] protected Action<string> SelectedValueChanged { get; set; }
-
-        [CascadingParameter] protected BaseAddons ParentAddons { get; set; }
-
-        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

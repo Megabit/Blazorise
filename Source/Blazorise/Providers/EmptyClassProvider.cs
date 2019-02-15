@@ -74,6 +74,8 @@ namespace Blazorise.Providers
 
         public string File() => null;
 
+        public virtual string FileValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region Label

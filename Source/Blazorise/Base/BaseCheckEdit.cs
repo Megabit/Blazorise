@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseCheckEdit : BaseInputComponent
+    public abstract class BaseCheckEdit : BaseInputComponent<bool>
     {
         #region Members
 
@@ -30,34 +30,15 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
-        protected override void OnInit()
-        {
-            // link to the parent component
-            ParentValidation?.Hook( this, Checked );
-
-            base.OnInit();
-        }
-
-        protected internal override void Dirty()
-        {
-            ClassMapper.Dirty();
-
-            base.Dirty();
-        }
-
         protected void CheckedChangedHandled( UIChangeEventArgs e )
         {
             Checked = e.Value?.ToString().ToLowerInvariant() == ( RadioGroup != null ? "on" : "true" );
             CheckedChanged?.Invoke( Checked );
-
-            ParentValidation?.InputValueChanged( Checked );
         }
 
         #endregion
 
         #region Properties
-
-        //protected override bool NeedSizableBlock => ParentIsHorizontal && ParentAddons == null;
 
         protected ControlRole Role => RadioGroup != null ? ControlRole.Radio : ControlRole.Check;
 
@@ -66,7 +47,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets or sets the checked flag.
         /// </summary>
-        [Parameter] protected bool Checked { get; set; }
+        [Parameter] protected bool Checked { get => Value; set => Value = value; }
 
         /// <summary>
         /// Occurs when the check state is changed.
@@ -99,10 +80,6 @@ namespace Blazorise.Base
                 ClassMapper.Dirty();
             }
         }
-
-        [CascadingParameter] protected BaseAddons ParentAddons { get; set; }
-
-        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

@@ -79,8 +79,6 @@ namespace Blazorise.Base
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] protected BaseAddons ParentAddons { get; set; }
-
         #endregion
     }
 }

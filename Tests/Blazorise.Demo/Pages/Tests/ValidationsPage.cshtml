@@ -11,7 +11,7 @@
                     <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidationRule.IsNotEmpty">
-                            <TextEdit Placeholder="Enter name and last name">
+                            <TextEdit Placeholder="First and last name">
                                 <Feedback>
                                     <ValidationError>Enter full name!</ValidationError>
                                 </Feedback>
@@ -78,6 +78,18 @@
                 <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Validation Validator="@ValidateDateOfBirth">
+                            <DateEdit>
+                                <Feedback>
+                                    <ValidationError>You must enter date of birth!</ValidationError>
+                                </Feedback>
+                            </DateEdit>
+                        </Validation>
+                    </FieldBody>
+                </Field>
+                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidateCheck">
                             <CheckEdit>
                                 <ChildContent>
@@ -111,7 +123,7 @@
                         <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidationRule.IsNotEmpty">
-                                <TextEdit Placeholder="Enter name and last name">
+                                <TextEdit Placeholder="First and last name">
                                     <Feedback>
                                         <ValidationError>Enter full name!</ValidationError>
                                     </Feedback>
@@ -172,6 +184,18 @@
                                         <ValidationError>Select one value!</ValidationError>
                                     </Feedback>
                                 </SelectEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation Validator="@ValidateDateOfBirth">
+                                <DateEdit>
+                                    <Feedback>
+                                        <ValidationError>You must enter date of birth!</ValidationError>
+                                    </Feedback>
+                                </DateEdit>
                             </Validation>
                         </FieldBody>
                     </Field>
@@ -239,6 +263,23 @@
         var selectedValues = e.Value as string[];
 
         e.Status = selectedValues?.Any( x => !string.IsNullOrEmpty( x ) ) == true ? ValidationStatus.Success : ValidationStatus.Error;
+    }
+
+    void ValidateDateOfBirth( ValidatorEventArgs e )
+    {
+        var date = e.Value as DateTime?;
+
+        if ( date == null )
+        {
+            e.Status = ValidationStatus.Error;
+        }
+        else if ( date?.Year < 1900 )
+        {
+            e.Status = ValidationStatus.Error;
+            e.ErrorText = "Date cannot be less then 01.01.1900!";
+        }
+        else
+            e.Status = ValidationStatus.Success;
     }
 
     void Submit()

@@ -72,6 +72,8 @@ namespace Blazorise.Bootstrap
 
         public virtual string File() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
 
+        public virtual string FileValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
         #endregion
 
         #region Label

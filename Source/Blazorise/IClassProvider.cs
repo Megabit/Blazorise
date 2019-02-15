@@ -69,6 +69,8 @@ namespace Blazorise
 
         string File();
 
+        string FileValidation( ValidationStatus validationStatus );
+
         #endregion
 
         #region Label

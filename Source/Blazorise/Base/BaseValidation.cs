@@ -18,11 +18,6 @@ namespace Blazorise.Base
         private object value;
 
         /// <summary>
-        /// Input component that is validated.
-        /// </summary>
-        private BaseInputComponent inputComponent;
-
-        /// <summary>
         /// Raises an event that the validation has started.
         /// </summary>
         public event ValidatingEventHandler Validating;
@@ -41,14 +36,6 @@ namespace Blazorise.Base
 
         #region Methods
 
-        public void Dispose()
-        {
-            if ( ParentValidations != null )
-            {
-                ParentValidations.ValidatingAll -= OnValidatingAll;
-            }
-        }
-
         protected override void OnAfterRender()
         {
             if ( ParentValidations != null )
@@ -59,25 +46,38 @@ namespace Blazorise.Base
             base.OnAfterRender();
         }
 
-        private void OnValidatingAll()
+        public void Dispose()
         {
-            Validate();
+            if ( ParentValidations != null )
+            {
+                ParentValidations.ValidatingAll -= OnValidatingAll;
+            }
         }
 
-        internal void Hook( BaseInputComponent inputComponent, object value )
+        internal void InitInputValue( object value )
         {
-            this.inputComponent = inputComponent;
-
-            InputValueChanged( value );
-        }
-
-        internal void InputValueChanged( object value )
-        {
-            // save the last input value
+            // save the input value
             this.value = value;
 
             if ( Mode == ValidationMode.Auto )
                 Validate();
+        }
+
+        internal void UpdateInputValue( object value )
+        {
+            // save the last input value
+            if ( this.value != value )
+            {
+                this.value = value;
+
+                if ( Mode == ValidationMode.Auto )
+                    Validate();
+            }
+        }
+
+        private void OnValidatingAll()
+        {
+            Validate();
         }
 
         /// <summary>
@@ -103,9 +103,7 @@ namespace Blazorise.Base
                     ValidationFailed?.Invoke( new ValidationFailedEventArgs( args.ErrorText ) );
             }
 
-            // input component can also change it's status classes
-            inputComponent?.Dirty();
-
+            // force the reload of all child components
             StateHasChanged();
         }
 

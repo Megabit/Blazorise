@@ -72,6 +72,8 @@ namespace Blazorise.Bulma
 
         public virtual string File() => "file-input";
 
+        public virtual string FileValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
         #endregion
 
         #region Label

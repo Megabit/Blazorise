@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseTextEdit : BaseInputComponent
+    public abstract class BaseTextEdit : BaseInputComponent<string>
     {
         #region Members
 
@@ -32,21 +32,6 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
-        protected override void OnInit()
-        {
-            // link to the parent component
-            ParentValidation?.Hook( this, Text );
-
-            base.OnInit();
-        }
-
-        protected internal override void Dirty()
-        {
-            ClassMapper.Dirty();
-
-            base.Dirty();
-        }
-
         protected void HandleOnChange( UIChangeEventArgs e )
         {
             if ( !Options.ChangeTextOnKeyPress )
@@ -67,8 +52,6 @@ namespace Blazorise.Base
         {
             Text = text;
             TextChanged?.Invoke( Text );
-
-            ParentValidation?.InputValueChanged( Text );
         }
 
         //protected void HandleOnInput( UIChangeEventArgs e )
@@ -145,7 +128,7 @@ namespace Blazorise.Base
         /// Gets or sets the text inside the input field.
         /// </summary>
         [Parameter]
-        protected string Text { get; set; }
+        protected string Text { get => Value; set => Value = value; }
         //protected string Text
         //{
         //    get { return text; }
@@ -205,10 +188,6 @@ namespace Blazorise.Base
                 ClassMapper.Dirty();
             }
         }
-
-        [CascadingParameter] protected BaseAddons ParentAddons { get; set; }
-
-        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

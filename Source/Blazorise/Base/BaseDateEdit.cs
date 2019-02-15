@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseDateEdit : BaseInputComponent
+    public abstract class BaseDateEdit : BaseInputComponent<DateTime?>
     {
         #region Members
 
@@ -28,21 +28,6 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
-        protected override void OnInit()
-        {
-            // link to the parent component
-            ParentValidation?.Hook( this, Date );
-
-            base.OnInit();
-        }
-
-        protected internal override void Dirty()
-        {
-            ClassMapper.Dirty();
-
-            base.Dirty();
-        }
-
         protected void ClickHandler( UIMouseEventArgs e )
         {
             JSRunner.ActivateDatePicker( ElementId, Utils.Parsers.InternalDateFormat );
@@ -52,8 +37,6 @@ namespace Blazorise.Base
         {
             Date = Utils.Parsers.TryParseDate( e?.Value?.ToString() );
             DateChanged?.Invoke( Date );
-
-            ParentValidation?.InputValueChanged( Date );
         }
 
         #endregion
@@ -74,7 +57,8 @@ namespace Blazorise.Base
             }
             set
             {
-                internalDate = value?.ToString( Utils.Parsers.InternalDateFormat );
+                Value = value;
+                internalDate = Value?.ToString( Utils.Parsers.InternalDateFormat );
             }
         }
 
@@ -92,8 +76,6 @@ namespace Blazorise.Base
         /// The latest date to accept.
         /// </summary>
         [Parameter] protected DateTime? Max { get; set; }
-
-        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

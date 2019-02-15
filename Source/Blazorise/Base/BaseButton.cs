@@ -202,8 +202,6 @@ namespace Blazorise.Base
 
         [CascadingParameter] protected BaseButtons ParentButtons { get; set; }
 
-        [CascadingParameter] protected BaseAddons ParentAddons { get; set; }
-
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
         #endregion

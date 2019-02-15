@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseMemo : BaseInputComponent
+    public abstract class BaseMemo : BaseInputComponent<string>
     {
         #region Members
 
@@ -23,21 +23,6 @@ namespace Blazorise.Base
                 .If( () => ClassProvider.MemoValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
-        }
-
-        protected override void OnInit()
-        {
-            // link to the parent component
-            ParentValidation?.Hook( this, Text );
-
-            base.OnInit();
-        }
-
-        protected internal override void Dirty()
-        {
-            ClassMapper.Dirty();
-
-            base.Dirty();
         }
 
         protected void HandleOnChange( UIChangeEventArgs e )
@@ -60,8 +45,6 @@ namespace Blazorise.Base
         {
             Text = text;
             TextChanged?.Invoke( Text );
-
-            ParentValidation?.InputValueChanged( Text );
         }
 
         #endregion
@@ -78,7 +61,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets or sets the text inside the input field.
         /// </summary>
-        [Parameter] protected string Text { get; set; }
+        [Parameter] protected string Text { get => Value; set => Value = value; }
 
         /// <summary>
         /// Occurs after text has changed.
@@ -94,8 +77,6 @@ namespace Blazorise.Base
         /// Specifies the number lines in the input element.
         /// </summary>
         [Parameter] protected int? Rows { get; set; }
-
-        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

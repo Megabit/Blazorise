@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseFileEdit : BaseInputComponent
+    public abstract class BaseFileEdit : BaseInputComponent<string[]>
     {
         #region Members
 
@@ -21,7 +21,8 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.File() );
+                .Add( () => ClassProvider.File() )
+                .If( () => ClassProvider.FileValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
         }
@@ -29,15 +30,11 @@ namespace Blazorise.Base
         protected async void PathChangedHandler( UIChangeEventArgs e )
         {
             if ( IsMultiple )
-            {
-                var files = await JSRunner.GetFilePaths( ElementRef );
-
-                PathChanged?.Invoke( files );
-            }
+                Value = await JSRunner.GetFilePaths( ElementRef );
             else
-            {
-                PathChanged?.Invoke( new string[] { e?.Value?.ToString() } );
-            }
+                Value = new string[] { e?.Value?.ToString() };
+
+            PathChanged?.Invoke( Value );
         }
 
         #endregion

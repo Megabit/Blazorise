@@ -12,6 +12,9 @@ namespace Blazorise.Base
     {
         #region Members
 
+        /// <summary>
+        /// Raises an intent to validate all validations inside of this container.
+        /// </summary>
         public event ValidatingAllEventHandler ValidatingAll;
 
         #endregion
