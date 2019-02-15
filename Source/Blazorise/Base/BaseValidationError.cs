@@ -27,6 +27,16 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
+        protected override void OnInit()
+        {
+            if ( ParentValidation != null )
+            {
+                ParentValidation.ValidationFailed += OnValidationFailed;
+            }
+
+            base.OnInit();
+        }
+
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -38,16 +48,6 @@ namespace Blazorise.Base
             }
 
             base.Dispose( disposing );
-        }
-
-        protected override void OnAfterRender()
-        {
-            if ( ParentValidation != null )
-            {
-                ParentValidation.ValidationFailed += OnValidationFailed;
-            }
-
-            base.OnAfterRender();
         }
 
         private void OnValidationFailed( ValidationFailedEventArgs e )

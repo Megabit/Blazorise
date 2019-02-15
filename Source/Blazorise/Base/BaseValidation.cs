@@ -36,14 +36,15 @@ namespace Blazorise.Base
 
         #region Methods
 
-        protected override void OnAfterRender()
+        protected override void OnInit()
         {
             if ( ParentValidations != null )
             {
                 ParentValidations.ValidatingAll += OnValidatingAll;
+                ParentValidations.ClearingAll += OnClearingAll;
             }
 
-            base.OnAfterRender();
+            base.OnInit();
         }
 
         public void Dispose()
@@ -51,6 +52,7 @@ namespace Blazorise.Base
             if ( ParentValidations != null )
             {
                 ParentValidations.ValidatingAll -= OnValidatingAll;
+                ParentValidations.ClearingAll -= OnClearingAll;
             }
         }
 
@@ -75,17 +77,24 @@ namespace Blazorise.Base
             }
         }
 
-        private void OnValidatingAll()
+        private void OnValidatingAll( ValidatingAllEventArgs e )
         {
-            Validate();
+            e.Cancel = Validate() == ValidationStatus.Error;
+        }
+
+        private void OnClearingAll()
+        {
+            Clear();
         }
 
         /// <summary>
         /// Runs the validation process.
         /// </summary>
-        public void Validate()
+        public ValidationStatus Validate()
         {
             var handler = Validator;
+
+            Status = ValidationStatus.None;
 
             if ( handler != null )
             {
@@ -104,6 +113,17 @@ namespace Blazorise.Base
             }
 
             // force the reload of all child components
+            StateHasChanged();
+
+            return Status;
+        }
+
+        /// <summary>
+        /// Clears the validation status.
+        /// </summary>
+        public void Clear()
+        {
+            Status = ValidationStatus.None;
             StateHasChanged();
         }
 

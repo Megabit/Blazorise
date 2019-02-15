@@ -28,6 +28,14 @@ namespace Blazorise
         public string NewValue { get; set; }
     }
 
+    public class ValidatingAllEventArgs : CancelEventArgs
+    {
+        public ValidatingAllEventArgs( bool cancel )
+            : base( cancel )
+        {
+        }
+    }
+
     public class ValidatorEventArgs : EventArgs
     {
         public ValidatorEventArgs( object value )

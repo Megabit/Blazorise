@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -17,16 +18,59 @@ namespace Blazorise.Base
         /// </summary>
         public event ValidatingAllEventHandler ValidatingAll;
 
+        public event ValidatedAllEventHandler ValidatedAll;
+
+        public event ClearAllValidatinaEventHandler ClearingAll;
+
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Runs the validation process for all validations.
+        /// Runs the validation process for all validations and returns false if any is failed.
         /// </summary>
-        public void ValidateAll()
+        public bool ValidateAll()
         {
-            ValidatingAll?.Invoke();
+            var result = TryValidateAll();
+
+            if ( result )
+            {
+                ValidatedAll?.Invoke();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Clears all validation statuses.
+        /// </summary>
+        public void ClearAll()
+        {
+            ClearingAll?.Invoke();
+        }
+
+        private bool TryValidateAll()
+        {
+            var validated = true;
+
+            var handler = ValidatingAll;
+
+            if ( handler != null )
+            {
+                var args = new ValidatingAllEventArgs( false );
+
+                foreach ( ValidatingAllEventHandler subHandler in handler?.GetInvocationList() )
+                {
+                    subHandler( args );
+
+                    if ( args.Cancel )
+                    {
+                        validated = false;
+                    }
+                }
+            }
+
+            return validated;
         }
 
         #endregion
