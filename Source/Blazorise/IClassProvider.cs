@@ -93,7 +93,11 @@ namespace Blazorise
 
         string ValidationSuccess();
 
+        string ValidationSuccessTooltip();
+
         string ValidationError();
+
+        string ValidationErrorTooltip();
 
         #endregion
 

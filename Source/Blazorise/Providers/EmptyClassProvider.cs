@@ -98,7 +98,11 @@ namespace Blazorise.Providers
 
         public string ValidationSuccess() => null;
 
+        public string ValidationSuccessTooltip() => null;
+
         public string ValidationError() => null;
+
+        public string ValidationErrorTooltip() => null;
 
         #endregion
 

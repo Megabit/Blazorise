@@ -12,6 +12,8 @@ namespace Blazorise.Base
     {
         #region Members
 
+        private bool isTooltip;
+
         #endregion
 
         #region Methods
@@ -19,7 +21,8 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.ValidationSuccess() );
+                .If( () => ClassProvider.ValidationSuccess(), () => !IsTooltip )
+                .If( () => ClassProvider.ValidationSuccessTooltip(), () => IsTooltip );
 
             base.RegisterClasses();
         }
@@ -27,6 +30,21 @@ namespace Blazorise.Base
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Shows the tooltip instead of label.
+        /// </summary>
+        [Parameter]
+        protected bool IsTooltip
+        {
+            get => isTooltip;
+            set
+            {
+                isTooltip = value;
+
+                ClassMapper.Dirty();
+            }
+        }
 
         [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 

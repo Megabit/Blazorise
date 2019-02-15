@@ -96,7 +96,11 @@ namespace Blazorise.Bootstrap
 
         public string ValidationSuccess() => "valid-feedback";
 
+        public string ValidationSuccessTooltip() => "valid-tooltip";
+
         public string ValidationError() => "invalid-feedback";
+
+        public string ValidationErrorTooltip() => "invalid-tooltip";
 
         #endregion
 
