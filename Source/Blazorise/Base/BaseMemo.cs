@@ -40,9 +40,25 @@ namespace Blazorise.Base
             base.Dirty();
         }
 
-        protected void HandleTextChange( UIChangeEventArgs e )
+        protected void HandleOnChange( UIChangeEventArgs e )
         {
-            Text = e?.Value?.ToString();
+            if ( !Options.ChangeTextOnKeyPress )
+            {
+                HandleText( e?.Value?.ToString() );
+            }
+        }
+
+        protected void HandleOnInput( UIChangeEventArgs e )
+        {
+            if ( Options.ChangeTextOnKeyPress )
+            {
+                HandleText( e?.Value?.ToString() );
+            }
+        }
+
+        protected void HandleText( string text )
+        {
+            Text = text;
             TextChanged?.Invoke( Text );
 
             ParentValidation?.InputValueChanged( Text );
@@ -51,6 +67,8 @@ namespace Blazorise.Base
         #endregion
 
         #region Properties
+
+        [Inject] protected BlazoriseOptions Options { get; set; }
 
         /// <summary>
         /// Sets the placeholder for the empty text.
