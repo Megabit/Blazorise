@@ -284,6 +284,7 @@
 
     void Submit()
     {
-        validations.ValidateAll();
+        if ( validations.ValidateAll() )
+            validations.ClearAll();
     }
 }

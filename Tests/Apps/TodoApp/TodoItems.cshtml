@@ -12,7 +12,11 @@
                     <Column ColumnSize="ColumnSize.Is11">
                         <Addons>
                             <Addon AddonType="AddonType.Body">
-                                <TextEdit bind-Text="@description" Placeholder="What needs to be done?"></TextEdit>
+                                <Validations ref="validations" Mode="ValidationMode.Manual">
+                                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                                        <TextEdit bind-Text="@description" Placeholder="What needs to be done?"></TextEdit>
+                                    </Validation>
+                                </Validations>
                             </Addon>
                             <Addon AddonType="AddonType.End">
                                 <SimpleButton Color="Color.Primary" Clicked="@OnAddTodo">
@@ -49,12 +53,14 @@
     </Column>
 </Row>
 @functions{
+    Validations validations;
+
     string description;
 
     Filter filter = Filter.All;
 
     private List<Todo> todos = new List<Todo>()
-    {
+{
         new Todo { Description = "Buy milk" },
         new Todo { Description = "Call John regarding the meeting" },
         new Todo { Description = "Walk a dog" },
@@ -92,10 +98,15 @@
 
     void OnAddTodo()
     {
-        todos.Add( new Todo { Description = description } );
-        description = null;
+        if ( validations.ValidateAll() )
+        {
+            todos.Add( new Todo { Description = description } );
+            description = null;
 
-        StateHasChanged();
+            validations.ClearAll();
+
+            StateHasChanged();
+        }
     }
 
     void OnClearCompleted()
