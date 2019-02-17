@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Components.RenderTree
+<div id="test-selector">
+    Select test:
+    <select bind=@SelectedComponentTypeName>
+        <option value="none">Choose...</option>
+        <option value="Blazorise.BasicTestApp.Client.TextOnlyComponent">Plain text</option>
+        <option value="Blazorise.BasicTestApp.Client.ButtonComponent">Simple Button</option>
+    </select>
+
+    @if ( SelectedComponentType != null )
+    {
+        <span id="source-info"><code><tt>@(SelectedComponentType.Name.Replace( ".", "/" )).cshtml</tt></code></span>
+    }
+    <hr />
+</div>
+
+<app>
+    @((RenderFragment)RenderSelectedComponent)
+</app>
+
+@functions {
+    string SelectedComponentTypeName { get; set; } = "none";
+
+    Type SelectedComponentType
+        => SelectedComponentTypeName == "none" ? null : Type.GetType( SelectedComponentTypeName );
+
+    void RenderSelectedComponent( RenderTreeBuilder builder )
+    {
+        if ( SelectedComponentType != null )
+        {
+            builder.OpenComponent( 0, SelectedComponentType );
+            builder.CloseComponent();
+        }
+    }
+}
