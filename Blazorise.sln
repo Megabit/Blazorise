@@ -47,9 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Icons.Material", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.UnitTests", "Tests\Blazorise.UnitTests\Blazorise.UnitTests.csproj", "{B4563EEC-6076-497D-B877-D8D809F8C33B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.BasicTestApp.Server", "Tests\Blazorise.BasicTestApp\Blazorise.BasicTestApp.Server\Blazorise.BasicTestApp.Server.csproj", "{ACAD2FC6-F3DE-40C0-A5BC-DB214B2C66F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTestApp.Server", "Tests\BasicTestApp.Server\BasicTestApp.Server.csproj", "{ACAD2FC6-F3DE-40C0-A5BC-DB214B2C66F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.BasicTestApp.Client", "Tests\Blazorise.BasicTestApp\Blazorise.BasicTestApp.Client\Blazorise.BasicTestApp.Client.csproj", "{3BAB3F4A-3177-44EF-8F52-F76DDDCCE59F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTestApp.Client", "Tests\BasicTestApp.Client\BasicTestApp.Client.csproj", "{3BAB3F4A-3177-44EF-8F52-F76DDDCCE59F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

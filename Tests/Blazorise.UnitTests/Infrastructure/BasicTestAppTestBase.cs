@@ -7,7 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 using Xunit.Abstractions;
-using Blazorise.BasicTestApp.Server;
+using BasicTestApp.Server;
 
 namespace Blazorise.UnitTests.Infrastructure
 {

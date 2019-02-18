@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazorise.BasicTestApp.Client\Blazorise.BasicTestApp.Client.csproj" />
+    <ProjectReference Include="..\BasicTestApp.Client\BasicTestApp.Client.csproj" />
   </ItemGroup>
 
 </Project>

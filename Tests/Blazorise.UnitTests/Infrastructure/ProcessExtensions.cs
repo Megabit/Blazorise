@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Blazorise.UnitTests
+namespace Blazorise.UnitTests.Infrastructure
 {
     internal static class ProcessExtensions
     {

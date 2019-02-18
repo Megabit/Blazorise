@@ -1,6 +1,6 @@
 ﻿// We'll store the results from the tests here
 var results = {};
-var assemblyName = 'Blazorise.BasicTestApp.Client';
+var assemblyName = 'BasicTestApp.Client';
 
 function invokeDotNetInteropMethodsAsync(shouldSupportSyncInterop, dotNetObjectByRef, instanceMethodsTarget) {
     if (shouldSupportSyncInterop) {

@@ -15,55 +15,61 @@ namespace Blazorise.UnitTests.Infrastructure
 
     public class WaitAssert
     {
-        private readonly static TimeSpan DefaultTimeout = TimeSpan.FromSeconds(3);
+        private readonly static TimeSpan DefaultTimeout = TimeSpan.FromSeconds( 3 );
 
-        public static void Equal<T>(T expected, Func<T> actual)
-            => WaitAssertCore(() => Assert.Equal(expected, actual()));
+        public static void Equal<T>( T expected, Func<T> actual )
+            => WaitAssertCore( () => Assert.Equal( expected, actual() ) );
 
-        public static void True(Func<bool> actual)
-            => WaitAssertCore(() => Assert.True(actual()));
+        public static void True( Func<bool> actual )
+            => WaitAssertCore( () => Assert.True( actual() ) );
 
-        public static void True(Func<bool> actual, TimeSpan timeout)
-            => WaitAssertCore(() => Assert.True(actual()), timeout);
+        public static void True( Func<bool> actual, TimeSpan timeout )
+            => WaitAssertCore( () => Assert.True( actual() ), timeout );
 
-        public static void False(Func<bool> actual)
-            => WaitAssertCore(() => Assert.False(actual()));
+        public static void False( Func<bool> actual )
+            => WaitAssertCore( () => Assert.False( actual() ) );
 
-        public static void Contains(string expectedSubstring, Func<string> actualString)
-            => WaitAssertCore(() => Assert.Contains(expectedSubstring, actualString()));
+        public static void Contains( string expectedSubstring, Func<string> actualString )
+            => WaitAssertCore( () => Assert.Contains( expectedSubstring, actualString() ) );
 
-        public static void Collection<T>(Func<IEnumerable<T>> actualValues, params Action<T>[] elementInspectors)
-            => WaitAssertCore(() => Assert.Collection(actualValues(), elementInspectors));
+        public static void NotContains( string expectedSubstring, Func<string> actualString )
+            => WaitAssertCore( () => Assert.DoesNotContain( expectedSubstring, actualString() ) );
 
-        public static void Empty(Func<IEnumerable> actualValues)
-            => WaitAssertCore(() => Assert.Empty(actualValues()));
+        public static void Collection<T>( Func<IEnumerable<T>> actualValues, params Action<T>[] elementInspectors )
+            => WaitAssertCore( () => Assert.Collection( actualValues(), elementInspectors ) );
 
-        public static void Single(Func<IEnumerable> actualValues)
-            => WaitAssertCore(() => Assert.Single(actualValues()));
+        public static void Empty( Func<IEnumerable> actualValues )
+            => WaitAssertCore( () => Assert.Empty( actualValues() ) );
 
-        private static void WaitAssertCore(Action assertion, TimeSpan timeout = default)
+        public static void Single( Func<IEnumerable> actualValues )
+            => WaitAssertCore( () => Assert.Single( actualValues() ) );
+
+        public static void NotNull( Func<object> actual )
+            => WaitAssertCore( () => Assert.NotNull( actual() ) );
+
+        private static void WaitAssertCore( Action assertion, TimeSpan timeout = default )
         {
-            if (timeout == default)
+            if ( timeout == default )
             {
                 timeout = DefaultTimeout;
             }
 
             try
             {
-                new WebDriverWait(BrowserTestBase.Browser, timeout).Until(_ =>
-                {
-                    try
-                    {
-                        assertion();
-                        return true;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                });
+                new WebDriverWait( BrowserTestBase.Browser, timeout ).Until( _ =>
+                   {
+                       try
+                       {
+                           assertion();
+                           return true;
+                       }
+                       catch
+                       {
+                           return false;
+                       }
+                   } );
             }
-            catch (WebDriverTimeoutException)
+            catch ( WebDriverTimeoutException )
             {
                 // Instead of reporting it as a timeout, report the Xunit exception
                 assertion();

@@ -1,0 +1,10 @@
+﻿@* https://github.com/aspnet/AspNetCore/issues/6351 *@
+<TextEdit Text="@inputText" TextChanged="@((s)=>{ inputText = s; StateHasChanged(); })"></TextEdit>
+
+<p>The text below should update automatically as you type in the text field above</p>
+
+<p id="test-result">@inputText</p>
+
+@functions {
+    string inputText { get; set; }
+}

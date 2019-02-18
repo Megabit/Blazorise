@@ -9,7 +9,6 @@
   },
   "author": "",
   "license": "Apache-2.0",
-  "dependencies": {
-    "selenium-standalone": "^6.15.4"
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }

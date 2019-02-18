@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blazorise.UnitTests
+namespace Blazorise.UnitTests.Infrastructure
 {
     public static class Extensions
     {

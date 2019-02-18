@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using System.Linq;
 
-namespace Blazorise.BasicTestApp.Server
+namespace BasicTestApp.Server
 {
     public class Startup
     {

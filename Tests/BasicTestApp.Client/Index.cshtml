@@ -3,8 +3,11 @@
     Select test:
     <select bind=@SelectedComponentTypeName>
         <option value="none">Choose...</option>
-        <option value="Blazorise.BasicTestApp.Client.TextOnlyComponent">Plain text</option>
-        <option value="Blazorise.BasicTestApp.Client.ButtonComponent">Simple Button</option>
+        <option value="BasicTestApp.Client.TextOnlyComponent">Plain text</option>
+        <option value="BasicTestApp.Client.ButtonComponent">Button</option>
+        <option value="BasicTestApp.Client.DropdownComponent">Dropdown</option>
+        <option value="BasicTestApp.Client.TextEditComponent">TextEdit</option>
+        <option value="BasicTestApp.Client.TextEditValidationComponent">TextValidation</option>
     </select>
 
     @if ( SelectedComponentType != null )

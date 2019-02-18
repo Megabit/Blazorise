@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazorise.BasicTestApp\Blazorise.BasicTestApp.Server\Blazorise.BasicTestApp.Server.csproj" />
+    <ProjectReference Include="..\BasicTestApp.Server\BasicTestApp.Server.csproj" />
   </ItemGroup>
 
 </Project>

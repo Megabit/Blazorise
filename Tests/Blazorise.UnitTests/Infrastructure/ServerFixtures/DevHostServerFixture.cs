@@ -3,7 +3,7 @@
 
 using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
-using DevHostServerProgram = Blazorise.BasicTestApp.Server.Program;
+using DevHostServerProgram = BasicTestApp.Server.Program;
 
 namespace Blazorise.UnitTests.Infrastructure.ServerFixtures
 {
