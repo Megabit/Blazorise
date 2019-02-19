@@ -31,6 +31,8 @@ namespace Blazorise.Base
 
         [Parameter] internal protected TValue Value { get; set; }
 
+        [Parameter] protected bool IsDisabled { get; set; }
+
         [CascadingParameter] protected BaseSelect<TValue> ParentSelect { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }

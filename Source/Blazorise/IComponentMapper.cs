@@ -37,6 +37,8 @@ namespace Blazorise
             where TComponent : IComponent
             where TImplementation : IComponent;
 
+        void Register( Type component, Type implementation );
+
         /// <summary>
         /// Checks if a component type has a custom registration.
         /// </summary>

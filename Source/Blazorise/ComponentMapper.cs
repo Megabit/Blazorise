@@ -49,6 +49,11 @@ namespace Blazorise
             components.Add( typeof( TComponent ), typeof( TImplementation ) );
         }
 
+        public void Register( Type component, Type implementation )
+        {
+            components.Add( component, implementation );
+        }
+
         public bool HasRegistration<TComponent>()
             where TComponent : IComponent
         {

@@ -2,7 +2,7 @@
 @inherits Base.BaseSelectItem<TValue>
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <option class="@ClassMapper.Class" value="@Value" selected="@IsSelected">@ChildContent</option>
+    <option class="@ClassMapper.Class" value="@Value" selected="@IsSelected" disabled="@IsDisabled">@ChildContent</option>
 }
 else
 {

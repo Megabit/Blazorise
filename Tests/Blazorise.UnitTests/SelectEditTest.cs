@@ -23,42 +23,130 @@ namespace Blazorise.UnitTests
         }
 
         [Fact]
-        public void CanSelectString_InitiallValue()
+        public void CanSelectString_InitiallyBlank()
         {
-            var paragraphSelectString = Browser.FindElement( By.Id( "select-string" ) );
-            var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
-            var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-string-result" ) );
+            var paragraph = Browser.FindElement( By.Id( "select-string-initially-blank" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-string-initially-blank-result" ) );
 
-            var selectedValue = selectString.SelectedOption.GetAttribute( "value" );
+            Assert.Equal( string.Empty, select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( string.Empty, result.Text );
 
-            Assert.Equal( "Oliver", selectedValue );
-            Assert.Equal( "Oliver", selectStringResult.Text );
+            select.SelectByIndex( 1 );
+            Assert.Equal( "Oliver", select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( "Oliver", result.Text );
+
+            select.SelectByValue( "Harry" );
+            Assert.Equal( "Harry", select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( "Harry", result.Text );
+
+            select.SelectByText( "" );
+            Assert.Equal( string.Empty, select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( string.Empty, result.Text );
         }
 
         [Fact]
-        public void CanSelectString_ChangeValue()
+        public void CanSelectString_InitiallySelected()
         {
-            var paragraphSelectString = Browser.FindElement( By.Id( "select-string" ) );
-            var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
-            var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-string-result" ) );
+            var paragraph = Browser.FindElement( By.Id( "select-string-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-string-initially-selected-result" ) );
 
-            selectString.SelectByIndex( 2 );
-            WaitAssert.Equal( "Jack", () => selectStringResult.Text );
+            Assert.Equal( "Oliver", select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( "Oliver", result.Text );
+
+            select.SelectByIndex( 0 );
+            Assert.Equal( string.Empty, select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( string.Empty, result.Text );
+
+            select.SelectByValue( "Harry" );
+            Assert.Equal( "Harry", select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( "Harry", result.Text );
         }
 
         [Fact]
-        public void CanSelectInt_InitiallValue()
+        public void CanSelectInt_InitiallyBlank()
         {
-            var paragraphSelectString = Browser.FindElement( By.Id( "select-int" ) );
-            var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
-            var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-int-result" ) );
+            var paragraph = Browser.FindElement( By.Id( "select-int-initially-blank" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-int-initially-blank-result" ) );
 
-            var selectedValue = selectString.SelectedOption.GetAttribute( "value" );
+            Assert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( "0", result.Text );
 
-            Assert.Equal( "1", selectedValue );
-            Assert.Equal( "1", selectStringResult.Text );
+            select.SelectByIndex( 1 );
+            Assert.Equal( "1", select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( "1", result.Text );
+
+            select.SelectByValue( "2" );
+            Assert.Equal( "2", select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( "2", result.Text );
+
+            select.SelectByValue( "0" );
+            Assert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( "0", result.Text );
         }
 
+        [Fact]
+        public void CanSelectInt_InitiallySelected()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-int-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-int-initially-selected-result" ) );
+
+            Assert.Equal( "1", select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( "1", result.Text );
+
+            select.SelectByValue( "2" );
+            Assert.Equal( "2", select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( "2", result.Text );
+
+            select.SelectByValue( "0" );
+            Assert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
+            Assert.Equal( "0", result.Text );
+        }
+
+        [Fact]
+        public void CanSelectNullableInt_InitiallyBlank()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-nullable-int-initially-blank" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-nullable-int-initially-blank-result" ) );
+
+            WaitAssert.Equal( string.Empty, () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( string.Empty, () => result.Text );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.Equal( "1", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "1", () => result.Text );
+
+            select.SelectByValue( "2" );
+            WaitAssert.Equal( "2", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "2", () => result.Text );
+
+            //select.SelectByValue( "" );
+            //Assert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
+            //Assert.Equal( "0", result.Text );
+        }
+
+        //[Fact]
+        //public void CanSelectNullableInt_InitiallySelected()
+        //{
+        //    var paragraph = Browser.FindElement( By.Id( "select-nullable-int-initially-selected" ) );
+        //    var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+        //    var result = paragraph.FindElement( By.Id( "select-nullable-int-initially-selected-result" ) );
+
+        //    Assert.Equal( "1", select.SelectedOption.GetAttribute( "value" ) );
+        //    Assert.Equal( "1", result.Text );
+
+        //    select.SelectByValue( "2" );
+        //    Assert.Equal( "2", select.SelectedOption.GetAttribute( "value" ) );
+        //    Assert.Equal( "2", result.Text );
+
+        //    select.SelectByValue( "0" );
+        //    Assert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
+        //    Assert.Equal( "0", result.Text );
+        //}
 
         [Fact]
         public void CanSelectInt_ChangeValue()

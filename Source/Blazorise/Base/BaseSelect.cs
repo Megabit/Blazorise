@@ -31,6 +31,7 @@ namespace Blazorise.Base
         protected async void SelectionChangedHandler( UIChangeEventArgs e )
         {
             Value = await JSRunner.GetSelectedOptions<TValue>( ElementId );
+            Console.WriteLine( "V: " + string.Join( ";", Value ) );
             SelectedValueChanged?.Invoke( Value.FirstOrDefault() );
             SelectedValuesChanged?.Invoke( Value );
         }
@@ -56,7 +57,16 @@ namespace Blazorise.Base
 
         internal bool IsSelected( BaseSelectItem<TValue> selectItem )
         {
-            return Value?.Contains( selectItem.Value ) == true;
+            foreach ( var val in Value )
+            {
+                if ( EqualityComparer<TValue>.Default.Equals( selectItem.Value, default ) )
+                {
+                    return true;
+                }
+            }
+
+            return false;
+            //return Value?.Contains( selectItem.Value ) == true;
         }
 
         #endregion
