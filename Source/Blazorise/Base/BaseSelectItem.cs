@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseSelectItem : BaseComponent
+    public abstract class BaseSelectItem<TValue> : BaseComponent
     {
         #region Members
 
@@ -29,9 +29,9 @@ namespace Blazorise.Base
 
         protected bool IsSelected => ParentSelect?.IsSelected( this ) == true;
 
-        [Parameter] internal protected string Value { get; set; }
+        [Parameter] internal protected TValue Value { get; set; }
 
-        [CascadingParameter] protected BaseSelect ParentSelect { get; set; }
+        [CascadingParameter] protected BaseSelect<TValue> ParentSelect { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

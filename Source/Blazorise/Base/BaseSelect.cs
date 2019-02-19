@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseSelect : BaseInputComponent<string[]>
+    public abstract class BaseSelect<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     {
         #region Members
 
-        private List<BaseSelectItem> selectItems;
+        private List<BaseSelectItem<TValue>> selectItems;
 
         #endregion
 
@@ -30,17 +30,18 @@ namespace Blazorise.Base
 
         protected async void SelectionChangedHandler( UIChangeEventArgs e )
         {
-            Value = await JSRunner.GetSelectedOptions( ElementId );
-            SelectedValueChanged?.Invoke( string.Join( ";", Value ) );
+            Value = await JSRunner.GetSelectedOptions<TValue>( ElementId );
+            SelectedValueChanged?.Invoke( Value.FirstOrDefault() );
+            SelectedValuesChanged?.Invoke( Value );
         }
 
-        internal void Register( BaseSelectItem selectItem )
+        internal void Register( BaseSelectItem<TValue> selectItem )
         {
             if ( selectItem == null )
                 return;
 
             if ( selectItems == null )
-                selectItems = new List<BaseSelectItem>();
+                selectItems = new List<BaseSelectItem<TValue>>();
 
             if ( !selectItems.Contains( selectItem ) )
             {
@@ -53,9 +54,9 @@ namespace Blazorise.Base
             }
         }
 
-        internal bool IsSelected( BaseSelectItem selectItem )
+        internal bool IsSelected( BaseSelectItem<TValue> selectItem )
         {
-            return Value?.Contains( selectItem?.Value ) == true;
+            return Value?.Contains( selectItem.Value ) == true;
         }
 
         #endregion
@@ -71,15 +72,30 @@ namespace Blazorise.Base
         /// Gets or sets the selected item value.
         /// </summary>
         [Parameter]
-        protected string SelectedValue
+        protected TValue SelectedValue
         {
             get
             {
-                return string.Join( ";", Value );
+                return Value.FirstOrDefault();
             }
             set
             {
-                Value = value?.Split( ';' );
+                Value = new TValue[] { value };
+
+                StateHasChanged();
+            }
+        }
+
+        [Parameter]
+        protected IReadOnlyList<TValue> SelectedValues
+        {
+            get
+            {
+                return Value;
+            }
+            set
+            {
+                Value = value;
 
                 StateHasChanged();
             }
@@ -88,7 +104,9 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs when the selected item value has changed.
         /// </summary>
-        [Parameter] protected Action<string> SelectedValueChanged { get; set; }
+        [Parameter] protected Action<TValue> SelectedValueChanged { get; set; }
+
+        [Parameter] protected Action<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
 
         #endregion
     }

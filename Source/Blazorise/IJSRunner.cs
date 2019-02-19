@@ -28,7 +28,7 @@ namespace Blazorise
 
         Task<bool> ActivateDatePicker( string elementId, string formatSubmit );
 
-        Task<string[]> GetSelectedOptions( string elementId );
+        Task<TValue[]> GetSelectedOptions<TValue>( string elementId );
 
         Task<bool> SetTextValue( ElementRef elementRef, object value );
 

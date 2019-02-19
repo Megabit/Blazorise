@@ -69,9 +69,28 @@ namespace Blazorise
             return Task.FromResult( true );
         }
 
-        public Task<string[]> GetSelectedOptions( string elementId )
+        public async Task<TValue[]> GetSelectedOptions<TValue>( string elementId )
         {
-            return JSRuntime.Current.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getSelectedOptions", elementId );
+            var valueType = typeof( TValue );
+
+            if ( valueType.IsEnum )
+            {
+                var stringValues = await JSRuntime.Current.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getSelectedOptions", elementId );
+
+                return stringValues?.Select( value =>
+                {
+                    try
+                    {
+                        return (TValue)Enum.Parse( valueType, value );
+                    }
+                    catch
+                    {
+                        return default;
+                    }
+                } ).Where( x => x != default ).ToArray();
+            }
+            else
+                return await JSRuntime.Current.InvokeAsync<TValue[]>( $"{BLAZORISE_NAMESPACE}.getSelectedOptions", elementId );
         }
 
         public Task<bool> SetTextValue( ElementRef elementRef, object value )

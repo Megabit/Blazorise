@@ -1,0 +1,95 @@
+﻿<p id="select-string">
+    Select string:
+    <SelectEdit SelectedValue="@name" SelectedValueChanged="@((v)=> { name = v; StateHasChanged(); })">
+        <SelectItem Value="@("Oliver")">Oliver</SelectItem>
+        <SelectItem Value="@("Harry")">Harry</SelectItem>
+        <SelectItem Value="@("Jack")">Jack</SelectItem>
+        <SelectItem Value="@("George")">George</SelectItem>
+    </SelectEdit>
+    <span id="select-string-result">@name</span>
+</p>
+
+<p id="select-int">
+    Select int:
+    <SelectEdit SelectedValue="@number" SelectedValueChanged="@((v)=> { number = v; StateHasChanged(); })">
+        <SelectItem Value="1">1</SelectItem>
+        <SelectItem Value="2">2</SelectItem>
+        <SelectItem Value="3">3</SelectItem>
+        <SelectItem Value="4">4</SelectItem>
+    </SelectEdit>
+    <span id="select-int-result">@number</span>
+</p>
+
+<p id="select-enum">
+    Select enum:
+    <SelectEdit SelectedValue="@daysInWeekLocal" SelectedValueChanged="@((v)=> { daysInWeekLocal = v; StateHasChanged(); })">
+        <SelectItem Value="@DaysInWeek.Mon">Mon</SelectItem>
+        <SelectItem Value="@DaysInWeek.Tue">Tue</SelectItem>
+        <SelectItem Value="@DaysInWeek.Wen">Wen</SelectItem>
+        <SelectItem Value="@DaysInWeek.Thu">Thu</SelectItem>
+        <SelectItem Value="@DaysInWeek.Fri">Fri</SelectItem>
+        <SelectItem Value="@DaysInWeek.Sat">Sat</SelectItem>
+        <SelectItem Value="@DaysInWeek.Sun">Sun</SelectItem>
+    </SelectEdit>
+    <span id="select-enum-result">@daysInWeekLocal</span>
+</p>
+
+<p id="select-bind-string">
+    Bind string:
+    <SelectEdit bind-SelectedValue="@name2">
+        <SelectItem Value="@("Oliver")">Oliver</SelectItem>
+        <SelectItem Value="@("Harry")">Harry</SelectItem>
+        <SelectItem Value="@("Jack")">Jack</SelectItem>
+        <SelectItem Value="@("George")">George</SelectItem>
+    </SelectEdit>
+    <span id="select-bind-string-result">@name2</span>
+</p>
+
+<p id="select-bind-int">
+    Bind int:
+    <SelectEdit bind-SelectedValue="@number2">
+        <SelectItem Value="1">1</SelectItem>
+        <SelectItem Value="2">2</SelectItem>
+        <SelectItem Value="3">3</SelectItem>
+        <SelectItem Value="4">4</SelectItem>
+    </SelectEdit>
+    <span id="select-bind-int-result">@number2</span>
+</p>
+
+<p id="select-bind-enum">
+    Bind enum:
+    <SelectEdit bind-SelectedValue="@daysInWeekLocal2">
+        <SelectItem Value="@DaysInWeek.Mon">Mon</SelectItem>
+        <SelectItem Value="@DaysInWeek.Tue">Tue</SelectItem>
+        <SelectItem Value="@DaysInWeek.Wen">Wen</SelectItem>
+        <SelectItem Value="@DaysInWeek.Thu">Thu</SelectItem>
+        <SelectItem Value="@DaysInWeek.Fri">Fri</SelectItem>
+        <SelectItem Value="@DaysInWeek.Sat">Sat</SelectItem>
+        <SelectItem Value="@DaysInWeek.Sun">Sun</SelectItem>
+    </SelectEdit>
+    <span id="select-bind-enum-result">@daysInWeekLocal2</span>
+</p>
+
+<SimpleButton Clicked="@(()=>StateHasChanged())">CHANGE STATE</SimpleButton>
+
+@functions{
+    private string name = "Oliver";
+    private string name2 = "Harry";
+
+    private int number = 1;
+    private int number2 = 2;
+
+    private DaysInWeek daysInWeekLocal { get; set; } = DaysInWeek.Mon;
+    private DaysInWeek daysInWeekLocal2 { get; set; } = DaysInWeek.Tue;
+
+    public enum DaysInWeek
+    {
+        Mon,
+        Tue,
+        Wen,
+        Thu,
+        Fri,
+        Sat,
+        Sun,
+    }
+}

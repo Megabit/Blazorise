@@ -20,6 +20,9 @@ namespace Blazorise.UnitTests.Infrastructure
         public static void Equal<T>( T expected, Func<T> actual )
             => WaitAssertCore( () => Assert.Equal( expected, actual() ) );
 
+        public static void NotEqual<T>( T expected, Func<T> actual )
+            => WaitAssertCore( () => Assert.NotEqual( expected, actual() ) );
+
         public static void True( Func<bool> actual )
             => WaitAssertCore( () => Assert.True( actual() ) );
 
