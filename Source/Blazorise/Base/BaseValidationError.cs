@@ -31,7 +31,7 @@ namespace Blazorise.Base
         {
             if ( ParentValidation != null )
             {
-                ParentValidation.ValidationFailed += OnValidationFailed;
+                ParentValidation.Validated += OnValidated;
             }
 
             base.OnInit();
@@ -43,14 +43,14 @@ namespace Blazorise.Base
             {
                 if ( ParentValidation != null )
                 {
-                    ParentValidation.ValidationFailed -= OnValidationFailed;
+                    ParentValidation.Validated -= OnValidated;
                 }
             }
 
             base.Dispose( disposing );
         }
 
-        private void OnValidationFailed( ValidationFailedEventArgs e )
+        private void OnValidated( ValidatedEventArgs e )
         {
             ErrorText = e.ErrorText;
         }

@@ -58,56 +58,5 @@ namespace Blazorise.UnitTests
             WaitAssert.NotContains( "show", () => drpElement.GetAttribute( "class" ) );
             WaitAssert.NotContains( "show", () => mnuElement.GetAttribute( "class" ) );
         }
-
-        [Fact]
-        public void CanTextEditChangeText()
-        {
-            var appElement = MountTestComponent<TextEditComponent>();
-            var txtElement = appElement.FindElement( By.TagName( "input" ) );
-
-            txtElement.SendKeys( "abc" );
-            WaitAssert.Contains( "abc", () => txtElement.GetAttribute( "value" ) );
-        }
-
-        [Fact]
-        public void CanTextEditBindValue()
-        {
-            var appElement = MountTestComponent<TextEditComponent>();
-            var txtElement = appElement.FindElement( By.TagName( "input" ) );
-            var output = Browser.FindElement( By.Id( "test-result" ) );
-
-            WaitAssert.Equal( string.Empty, () => output.Text );
-
-            SendKeysSequentially( txtElement, "abcdefghijklmnopqrstuvwxyz" );
-            WaitAssert.Equal( "abcdefghijklmnopqrstuvwxyz", () => output.Text );
-
-            txtElement.SendKeys( Keys.Backspace );
-            WaitAssert.Equal( "abcdefghijklmnopqrstuvwxy", () => output.Text );
-        }
-
-        [Fact]
-        public void CanValidateTextEditComponent()
-        {
-            var appElement = MountTestComponent<TextEditValidationComponent>();
-            var txtElement = appElement.FindElement( By.TagName( "input" ) );
-
-            Assert.NotNull( appElement.FindElement( By.ClassName( "invalid-feedback" ) ) );
-
-            txtElement.SendKeys( "a" );
-            WaitAssert.NotNull( () => appElement.FindElement( By.ClassName( "valid-feedback" ) ) );
-
-            txtElement.SendKeys( Keys.Backspace );
-            WaitAssert.NotNull( () => appElement.FindElement( By.ClassName( "invalid-feedback" ) ) );
-        }
-
-        void SendKeysSequentially( IWebElement target, string text )
-        {
-            // Calling it for each character works around some chars being skipped
-            // https://stackoverflow.com/a/40986041
-            foreach ( var c in text )
-            {
-                target.SendKeys( c.ToString() );
-            }
-        }
     }
 }

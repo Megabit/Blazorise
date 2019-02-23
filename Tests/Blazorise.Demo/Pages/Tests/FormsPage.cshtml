@@ -67,20 +67,6 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <SelectEdit SelectedValue="DaysInWeekLocal" SelectedValueChanged="@((v)=> Console.WriteLine(v) )">
-                            <SelectItem Value="@DaysInWeek.Mon">Mon</SelectItem>
-                            <SelectItem Value="@DaysInWeek.Tue">Tue</SelectItem>
-                            <SelectItem Value="@DaysInWeek.Wen">Wen</SelectItem>
-                            <SelectItem Value="@DaysInWeek.Thu">Thu</SelectItem>
-                            <SelectItem Value="@DaysInWeek.Fri">Fri</SelectItem>
-                            <SelectItem Value="@DaysInWeek.Sat">Sat</SelectItem>
-                            <SelectItem Value="@DaysInWeek.Sun">Sun</SelectItem>
-                        </SelectEdit>
-                    </FieldBody>
-                </Field>
-                <Field IsHorizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
                         <SelectEdit SelectedValue="3" SelectedValueChanged="@((v)=> Console.WriteLine(v) )">
                             <SelectItem Value="1">1</SelectItem>
                             <SelectItem Value="2">2</SelectItem>
@@ -92,12 +78,6 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Multiple Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        @*<SelectEdit SelectedValues="numbers" SelectedValuesChanged="@((v)=> Console.WriteLine(string.Join(", ",v)) )" IsMultiple="true">
-                                <SelectItem Value="1">1</SelectItem>
-                                <SelectItem Value="2">2</SelectItem>
-                                <SelectItem Value="3">3</SelectItem>
-                                <SelectItem Value="4">4</SelectItem>
-                            </SelectEdit>*@
                         <SelectEdit TValue="int" SelectedValuesChanged="@((v)=> Console.WriteLine(string.Join(", ",v)) )" IsMultiple="true">
                             <SelectItem Value="1">1</SelectItem>
                             <SelectItem Value="2">2</SelectItem>

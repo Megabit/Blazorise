@@ -60,18 +60,18 @@
                     <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidateSelect">
-                            @*<SelectEdit>
+                            <SelectEdit TValue="int?">
                                 <ChildContent>
-                                    <SelectItem Value=""></SelectItem>
-                                    <SelectItem Value="1">1</SelectItem>
-                                    <SelectItem Value="2">2</SelectItem>
-                                    <SelectItem Value="3">3</SelectItem>
-                                    <SelectItem Value="4">4</SelectItem>
+                                    <SelectItem Value="@((int?)null)"></SelectItem>
+                                    <SelectItem Value="@((int?)1)">1</SelectItem>
+                                    <SelectItem Value="@((int?)2)">2</SelectItem>
+                                    <SelectItem Value="@((int?)3)">3</SelectItem>
+                                    <SelectItem Value="@((int?)4)">4</SelectItem>
                                 </ChildContent>
                                 <Feedback>
                                     <ValidationError>Select one value!</ValidationError>
                                 </Feedback>
-                            </SelectEdit>*@
+                            </SelectEdit>
                         </Validation>
                     </FieldBody>
                 </Field>
@@ -172,18 +172,18 @@
                         <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidateSelect">
-                                @*<SelectEdit>
+                                <SelectEdit TValue="int?">
                                     <ChildContent>
-                                        <SelectItem Value=""></SelectItem>
-                                        <SelectItem Value="1">1</SelectItem>
-                                        <SelectItem Value="2">2</SelectItem>
-                                        <SelectItem Value="3">3</SelectItem>
-                                        <SelectItem Value="4">4</SelectItem>
+                                        <SelectItem Value="@((int?)null)"></SelectItem>
+                                        <SelectItem Value="@((int?)1)">1</SelectItem>
+                                        <SelectItem Value="@((int?)2)">2</SelectItem>
+                                        <SelectItem Value="@((int?)3)">3</SelectItem>
+                                        <SelectItem Value="@((int?)4)">4</SelectItem>
                                     </ChildContent>
                                     <Feedback>
                                         <ValidationError>Select one value!</ValidationError>
                                     </Feedback>
-                                </SelectEdit>*@
+                                </SelectEdit>
                             </Validation>
                         </FieldBody>
                     </Field>

@@ -75,4 +75,23 @@ namespace Blazorise
         /// </summary>
         public string ErrorText { get; }
     }
+
+    public class ValidatedEventArgs : EventArgs
+    {
+        public ValidatedEventArgs( ValidationStatus status, string errorText )
+        {
+            Status = status;
+            ErrorText = errorText;
+        }
+
+        /// <summary>
+        /// Gets the validation result.
+        /// </summary>
+        public ValidationStatus Status { get; set; }
+
+        /// <summary>
+        /// Gets the custom validation error message.
+        /// </summary>
+        public string ErrorText { get; }
+    }
 }

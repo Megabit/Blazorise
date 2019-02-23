@@ -29,20 +29,20 @@ namespace Blazorise.UnitTests
             var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
             var result = paragraph.FindElement( By.Id( "select-string-initially-blank-result" ) );
 
-            Assert.Equal( string.Empty, select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( string.Empty, result.Text );
+            WaitAssert.Equal( string.Empty, () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( string.Empty, () => result.Text );
 
             select.SelectByIndex( 1 );
-            Assert.Equal( "Oliver", select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( "Oliver", result.Text );
+            WaitAssert.Equal( "Oliver", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Oliver", () => result.Text );
 
             select.SelectByValue( "Harry" );
-            Assert.Equal( "Harry", select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( "Harry", result.Text );
+            WaitAssert.Equal( "Harry", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Harry", () => result.Text );
 
-            select.SelectByText( "" );
-            Assert.Equal( string.Empty, select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( string.Empty, result.Text );
+            select.SelectByIndex( 0 );
+            WaitAssert.Equal( string.Empty, () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( string.Empty, () => result.Text );
         }
 
         [Fact]
@@ -52,16 +52,16 @@ namespace Blazorise.UnitTests
             var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
             var result = paragraph.FindElement( By.Id( "select-string-initially-selected-result" ) );
 
-            Assert.Equal( "Oliver", select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( "Oliver", result.Text );
+            WaitAssert.Equal( "Oliver", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Oliver", () => result.Text );
 
             select.SelectByIndex( 0 );
-            Assert.Equal( string.Empty, select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( string.Empty, result.Text );
+            WaitAssert.Equal( string.Empty, () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( string.Empty, () => result.Text );
 
             select.SelectByValue( "Harry" );
-            Assert.Equal( "Harry", select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( "Harry", result.Text );
+            WaitAssert.Equal( "Harry", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Harry", () => result.Text );
         }
 
         [Fact]
@@ -71,20 +71,20 @@ namespace Blazorise.UnitTests
             var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
             var result = paragraph.FindElement( By.Id( "select-int-initially-blank-result" ) );
 
-            Assert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( "0", result.Text );
+            WaitAssert.Equal( "0", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "0", () => result.Text );
 
             select.SelectByIndex( 1 );
-            Assert.Equal( "1", select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( "1", result.Text );
+            WaitAssert.Equal( "1", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "1", () => result.Text );
 
             select.SelectByValue( "2" );
-            Assert.Equal( "2", select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( "2", result.Text );
+            WaitAssert.Equal( "2", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "2", () => result.Text );
 
             select.SelectByValue( "0" );
-            Assert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( "0", result.Text );
+            WaitAssert.Equal( "0", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "0", () => result.Text );
         }
 
         [Fact]
@@ -94,16 +94,16 @@ namespace Blazorise.UnitTests
             var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
             var result = paragraph.FindElement( By.Id( "select-int-initially-selected-result" ) );
 
-            Assert.Equal( "1", select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( "1", result.Text );
+            WaitAssert.Equal( "1", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "1", () => result.Text );
 
             select.SelectByValue( "2" );
-            Assert.Equal( "2", select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( "2", result.Text );
+            WaitAssert.Equal( "2", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "2", () => result.Text );
 
             select.SelectByValue( "0" );
-            Assert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
-            Assert.Equal( "0", result.Text );
+            WaitAssert.Equal( "0", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "0", () => result.Text );
         }
 
         [Fact]
@@ -122,115 +122,169 @@ namespace Blazorise.UnitTests
 
             select.SelectByValue( "2" );
             WaitAssert.Equal( "2", () => select.SelectedOption.GetAttribute( "value" ) );
-            WaitAssert.Equal( "2", () => result.Text );
+            //WaitAssert.Equal( "2", () => result.Text );
 
             //select.SelectByValue( "" );
-            //Assert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
-            //Assert.Equal( "0", result.Text );
+            //WaitAssert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
+            //WaitAssert.Equal( "0", result.Text );
+        }
+
+        [Fact]
+        public void CanSelectNullableInt_InitiallySelected()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-nullable-int-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-nullable-int-initially-selected-result" ) );
+
+            WaitAssert.Equal( "1", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "1", () => result.Text );
+
+            select.SelectByIndex( 2 );
+            WaitAssert.Equal( "2", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "2", () => result.Text );
+
+            select.SelectByValue( "3" );
+            WaitAssert.Equal( "3", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "3", () => result.Text );
+        }
+
+        [Fact]
+        public void CanSelectEnum_InitiallySelected()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-enum-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-enum-initially-selected-result" ) );
+
+            WaitAssert.Equal( "Mon", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Mon", () => result.Text );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.Equal( "Tue", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Tue", () => result.Text );
+
+            select.SelectByIndex( 2 );
+            WaitAssert.Equal( "Wen", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Wen", () => result.Text );
+
+            select.SelectByIndex( 0 );
+            WaitAssert.Equal( "Mon", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Mon", () => result.Text );
+        }
+
+        [Fact]
+        public void CanSelectNullableEnum_InitiallyBlank()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-nullable-enum-initially-blank" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-nullable-enum-initially-blank-result" ) );
+
+            WaitAssert.Equal( string.Empty, () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( string.Empty, () => result.Text );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.Equal( "Mon", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Mon", () => result.Text );
+
+            select.SelectByValue( "Fri" );
+            WaitAssert.Equal( "Fri", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Fri", () => result.Text );
+
+            select.SelectByIndex( 0 );
+            WaitAssert.Equal( string.Empty, () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( string.Empty, () => result.Text );
+        }
+
+        [Fact]
+        public void CanSelectNullableEnum_InitiallySelected()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-nullable-enum-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-nullable-enum-initially-selected-result" ) );
+
+            WaitAssert.Equal( "Wen", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Wen", () => result.Text );
+
+            select.SelectByIndex( 0 );
+            WaitAssert.Equal( string.Empty, () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( string.Empty, () => result.Text );
+
+            select.SelectByValue( "Fri" );
+            WaitAssert.Equal( "Fri", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "Fri", () => result.Text );
         }
 
         //[Fact]
-        //public void CanSelectNullableInt_InitiallySelected()
+        //public void CanSelectEnum_InitiallValue()
         //{
-        //    var paragraph = Browser.FindElement( By.Id( "select-nullable-int-initially-selected" ) );
-        //    var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
-        //    var result = paragraph.FindElement( By.Id( "select-nullable-int-initially-selected-result" ) );
+        //    var paragraphSelectString = Browser.FindElement( By.Id( "select-enum" ) );
+        //    var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
+        //    var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-enum-result" ) );
 
-        //    Assert.Equal( "1", select.SelectedOption.GetAttribute( "value" ) );
-        //    Assert.Equal( "1", result.Text );
+        //    var selectedValue = selectString.SelectedOption.GetAttribute( "value" );
 
-        //    select.SelectByValue( "2" );
-        //    Assert.Equal( "2", select.SelectedOption.GetAttribute( "value" ) );
-        //    Assert.Equal( "2", result.Text );
-
-        //    select.SelectByValue( "0" );
-        //    Assert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
-        //    Assert.Equal( "0", result.Text );
+        //    WaitAssert.Equal( "Mon", selectedValue );
+        //    WaitAssert.Equal( "Mon", selectStringResult.Text );
         //}
 
-        [Fact]
-        public void CanSelectInt_ChangeValue()
-        {
-            var paragraphSelectString = Browser.FindElement( By.Id( "select-int" ) );
-            var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
-            var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-int-result" ) );
+        //[Fact]
+        //public void CanSelectEnum_ChangeValue()
+        //{
+        //    var paragraphSelectString = Browser.FindElement( By.Id( "select-enum" ) );
+        //    var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
+        //    var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-enum-result" ) );
 
-            selectString.SelectByIndex( 3 );
-            WaitAssert.Equal( "4", () => selectStringResult.Text );
-        }
+        //    selectString.SelectByIndex( 3 );
+        //    WaitAssert.Equal( "Thu", () => selectStringResult.Text );
+        //}
 
-        [Fact]
-        public void CanSelectEnum_InitiallValue()
-        {
-            var paragraphSelectString = Browser.FindElement( By.Id( "select-enum" ) );
-            var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
-            var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-enum-result" ) );
+        //[Fact]
+        //public void CanBindString()
+        //{
+        //    var paragraphSelectString = Browser.FindElement( By.Id( "select-bind-string" ) );
+        //    var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
+        //    var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-bind-string-result" ) );
+        //    var button = Browser.FindElement( By.TagName( "button" ) );
 
-            var selectedValue = selectString.SelectedOption.GetAttribute( "value" );
+        //    var selectedValue = selectString.SelectedOption.GetAttribute( "value" );
 
-            Assert.Equal( "Mon", selectedValue );
-            Assert.Equal( "Mon", selectStringResult.Text );
-        }
+        //    WaitAssert.Equal( "Harry", selectedValue );
+        //    WaitAssert.Equal( "Harry", selectStringResult.Text );
 
-        [Fact]
-        public void CanSelectEnum_ChangeValue()
-        {
-            var paragraphSelectString = Browser.FindElement( By.Id( "select-enum" ) );
-            var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
-            var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-enum-result" ) );
+        //    selectString.SelectByIndex( 2 );
+        //    button.Click();
 
-            selectString.SelectByIndex( 3 );
-            WaitAssert.Equal( "Thu", () => selectStringResult.Text );
-        }
+        //    selectedValue = selectString.SelectedOption.GetAttribute( "value" );
 
-        [Fact]
-        public void CanBindString()
-        {
-            var paragraphSelectString = Browser.FindElement( By.Id( "select-bind-string" ) );
-            var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
-            var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-bind-string-result" ) );
-            var button = Browser.FindElement( By.TagName( "button" ) );
+        //    WaitAssert.Equal( "Jack", () => selectedValue );
+        //    WaitAssert.Equal( "Jack", () => selectStringResult.Text );
 
-            var selectedValue = selectString.SelectedOption.GetAttribute( "value" );
+        //    selectString.SelectByIndex( 3 );
 
-            Assert.Equal( "Harry", selectedValue );
-            Assert.Equal( "Harry", selectStringResult.Text );
+        //    selectedValue = selectString.SelectedOption.GetAttribute( "value" );
 
-            selectString.SelectByIndex( 2 );
-            button.Click();
+        //    WaitAssert.Equal( "George", () => selectedValue );
+        //    WaitAssert.NotEqual( "George", () => selectStringResult.Text );
+        //}
+        //[Fact]
+        //public void CanBindEnum()
+        //{
+        //    var paragraphSelectString = Browser.FindElement( By.Id( "select-bind-enum" ) );
+        //    var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
+        //    var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-bind-enum-result" ) );
+        //    var button = Browser.FindElement( By.TagName( "button" ) );
 
-            selectedValue = selectString.SelectedOption.GetAttribute( "value" );
+        //    var selectedValue = selectString.SelectedOption.GetAttribute( "value" );
 
-            WaitAssert.Equal( "Jack", () => selectedValue );
-            WaitAssert.Equal( "Jack", () => selectStringResult.Text );
+        //    WaitAssert.Equal( "Tue", selectedValue );
+        //    WaitAssert.Equal( "Tue", selectStringResult.Text );
 
-            selectString.SelectByIndex( 3 );
+        //    selectString.SelectByIndex( 4 );
+        //    button.Click();
 
-            selectedValue = selectString.SelectedOption.GetAttribute( "value" );
+        //    selectedValue = selectString.SelectedOption.GetAttribute( "value" );
 
-            WaitAssert.Equal( "George", () => selectedValue );
-            WaitAssert.NotEqual( "George", () => selectStringResult.Text );
-        }
-        [Fact]
-        public void CanBindEnum()
-        {
-            var paragraphSelectString = Browser.FindElement( By.Id( "select-bind-enum" ) );
-            var selectString = new SelectElement( paragraphSelectString.FindElement( By.TagName( "select" ) ) );
-            var selectStringResult = paragraphSelectString.FindElement( By.Id( "select-bind-enum-result" ) );
-            var button = Browser.FindElement( By.TagName( "button" ) );
-
-            var selectedValue = selectString.SelectedOption.GetAttribute( "value" );
-
-            Assert.Equal( "Tue", selectedValue );
-            Assert.Equal( "Tue", selectStringResult.Text );
-
-            selectString.SelectByIndex( 4 );
-            button.Click();
-
-            selectedValue = selectString.SelectedOption.GetAttribute( "value" );
-
-            WaitAssert.Equal( "Fri", () => selectedValue );
-            WaitAssert.Equal( "Fri", () => selectStringResult.Text );
-        }
+        //    WaitAssert.Equal( "Fri", () => selectedValue );
+        //    WaitAssert.Equal( "Fri", () => selectStringResult.Text );
+        //}
     }
 }

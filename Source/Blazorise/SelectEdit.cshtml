@@ -3,7 +3,7 @@
 @inherits Base.BaseSelect<TValue>
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <select id="@ElementId" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" onchange="@SelectionChangedHandler">
+    <select id="@ElementId" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" onchange="@HandleOnChanged">
         <CascadingValue Value=this>
             @ChildContent
         </CascadingValue>

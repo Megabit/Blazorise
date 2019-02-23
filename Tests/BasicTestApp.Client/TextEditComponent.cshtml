@@ -1,10 +1,9 @@
-﻿@* https://github.com/aspnet/AspNetCore/issues/6351 *@
-<TextEdit Text="@inputText" TextChanged="@((s)=>{ inputText = s; StateHasChanged(); })"></TextEdit>
+﻿<TextEdit Text="@textWithEvent" TextChanged="@((s)=>{ textWithEvent = s; StateHasChanged(); })"></TextEdit>
 
 <p>The text below should update automatically as you type in the text field above</p>
 
-<p id="test-result">@inputText</p>
+<p id="test-result">@textWithEvent</p>
 
 @functions {
-    string inputText { get; set; }
+    string textWithEvent { get; set; }
 }

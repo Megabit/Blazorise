@@ -37,6 +37,11 @@ namespace Blazorise
             where TComponent : IComponent
             where TImplementation : IComponent;
 
+        /// <summary>
+        /// Registers the implementation component types to the base component.
+        /// </summary>
+        /// <param name="component">Base component type.</param>
+        /// <param name="implementation">Implementation component type.</param>
         void Register( Type component, Type implementation );
 
         /// <summary>

@@ -20,5 +20,7 @@ namespace Blazorise
 
     public delegate void ValidatedAllEventHandler();
 
+    public delegate void ValidatedEventHandler( ValidatedEventArgs e );
+
     public delegate void ClearAllValidatinaEventHandler();
 }

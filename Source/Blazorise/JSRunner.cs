@@ -1,8 +1,7 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -71,26 +70,26 @@ namespace Blazorise
 
         public async Task<TValue[]> GetSelectedOptions<TValue>( string elementId )
         {
-            var valueType = typeof( TValue );
+            // All of this is because Blazor is not serializing types as it should! In this case nullable types
+            // are not working (enum?, int?, etc.) so we need to do it manually.
 
-            if ( valueType.IsEnum )
+            // get the selected values for JS as strings
+            var stringValues = await JSRuntime.Current.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getSelectedOptions", elementId );
+
+            return stringValues?.Select( value =>
             {
-                var stringValues = await JSRuntime.Current.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getSelectedOptions", elementId );
-
-                return stringValues?.Select( value =>
+                try
                 {
-                    try
-                    {
-                        return (TValue)Enum.Parse( valueType, value );
-                    }
-                    catch
-                    {
+                    if ( string.IsNullOrEmpty( value ) )
                         return default;
-                    }
-                } ).Where( x => x != default ).ToArray();
-            }
-            else
-                return await JSRuntime.Current.InvokeAsync<TValue[]>( $"{BLAZORISE_NAMESPACE}.getSelectedOptions", elementId );
+
+                    return Convertes.ChangeType<TValue>( value );
+                }
+                catch
+                {
+                    return default;
+                }
+            } ).Where( x => x != default ).ToArray();
         }
 
         public Task<bool> SetTextValue( ElementRef elementRef, object value )

@@ -1,0 +1,116 @@
+﻿#region Using directives
+using System.Diagnostics;
+using BasicTestApp.Client;
+using Blazorise.UnitTests.Infrastructure;
+using Blazorise.UnitTests.Infrastructure.ServerFixtures;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using Xunit;
+using Xunit.Abstractions;
+using DevHostServerProgram = BasicTestApp.Server.Program;
+#endregion
+
+namespace Blazorise.UnitTests
+{
+    public class ValidateSelectTest : BasicTestAppTestBase
+    {
+        public ValidateSelectTest( BrowserFixture browserFixture,
+                  ToggleExecutionModeServerFixture<DevHostServerProgram> serverFixture,
+                  ITestOutputHelper output )
+                  : base( browserFixture, serverFixture, output )
+        {
+            Navigate( ServerPathBase, noReload: !serverFixture.UsingAspNetHost );
+            MountTestComponent<ValidateSelectComponent>();
+        }
+
+        [Fact]
+        public void CanValidateStringWithBind_InitiallyBlank()
+        {
+            var paragraph = Browser.FindElement( By.Id( "validate-string-with-bind-initially-blank" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 0 );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+        }
+
+        [Fact]
+        public void CanValidateStringWithBind_InitiallySelected()
+        {
+            var paragraph = Browser.FindElement( By.Id( "validate-string-with-bind-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 0 );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+        }
+
+        [Fact]
+        public void CanValidateIntWithBind_InitiallyBlank()
+        {
+            var paragraph = Browser.FindElement( By.Id( "validate-int-with-bind-initially-blank" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 0 );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+        }
+
+        [Fact]
+        public void CanValidateIntWithBind_InitiallySelected()
+        {
+            var paragraph = Browser.FindElement( By.Id( "validate-int-with-bind-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 0 );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+        }
+
+        [Fact]
+        public void CanValidateStringWithEvent_InitiallyBlank()
+        {
+            var paragraph = Browser.FindElement( By.Id( "validate-string-with-event-initially-blank" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 0 );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+        }
+
+        [Fact]
+        public void CanValidateStringWithEvent_InitiallySelected()
+        {
+            var paragraph = Browser.FindElement( By.Id( "validate-string-with-event-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            select.SelectByIndex( 0 );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+        }
+    }
+}

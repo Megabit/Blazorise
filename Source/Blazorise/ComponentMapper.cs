@@ -30,14 +30,17 @@ namespace Blazorise
         public Type GetImplementation<TComponent>()
             where TComponent : IComponent
         {
-            components.TryGetValue( typeof( TComponent ), out var implementationType );
-
-            return implementationType;
+            return GetImplementation( typeof( TComponent ) );
         }
 
         public Type GetImplementation( IComponent component )
         {
-            components.TryGetValue( component.GetType(), out var implementationType );
+            return GetImplementation( component.GetType() );
+        }
+
+        public Type GetImplementation( Type componentType )
+        {
+            components.TryGetValue( componentType, out var implementationType );
 
             return implementationType;
         }
@@ -46,24 +49,81 @@ namespace Blazorise
             where TComponent : IComponent
             where TImplementation : IComponent
         {
-            components.Add( typeof( TComponent ), typeof( TImplementation ) );
+            Register( typeof( TComponent ), typeof( TImplementation ) );
         }
 
         public void Register( Type component, Type implementation )
         {
-            components.Add( component, implementation );
+            if ( !components.ContainsKey( component ) )
+            {
+                components.Add( component, implementation );
+            }
         }
 
         public bool HasRegistration<TComponent>()
             where TComponent : IComponent
         {
-            return components.ContainsKey( typeof( TComponent ) );
+            return HasRegistration( typeof( TComponent ) );
         }
 
         public bool HasRegistration( IComponent component )
         {
-            return components.ContainsKey( component.GetType() );
+            return HasRegistration( component.GetType() );
         }
+
+        private bool HasRegistration( Type type )
+        {
+            if ( components.ContainsKey( type ) )
+                return true;
+
+            // since user can use any value data-type with generic components we must register those component implementations on the fly
+            if ( type.IsGenericType )
+            {
+                var genericComponentType = type.GetGenericTypeDefinition();
+
+                if ( genericComponentType == null )
+                    return false;
+
+                // get the generic types that are defined as generics without value type eg. Button<> to BulmaButton<>
+                if ( components.TryGetValue( genericComponentType, out var genericImplementationType ) )
+                {
+                    // get the generic type arguments
+                    var typeArguments = type.GenericTypeArguments;
+
+                    // create real implementation types based on the generic type
+                    var realComponentType = genericComponentType.MakeGenericType( typeArguments );
+                    var realImplementationType = genericImplementationType.MakeGenericType( typeArguments );
+
+                    // save new implementations
+                    Register( realComponentType, realImplementationType );
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        //private Type RegisterNewGenericType( Type type, Type genericComponentType )
+        //{
+        //    // get the generic types that are defined as generics without value type eg. Button<> to BulmaButton<>
+        //    if ( components.TryGetValue( genericComponentType, out var genericImplementationType ) )
+        //    {
+        //        // get the generic type arguments
+        //        var typeArguments = type.GenericTypeArguments;
+
+        //        // create real implementation types based on the generic type
+        //        var realComponentType = genericComponentType.MakeGenericType( typeArguments );
+        //        var realImplementationType = genericImplementationType.MakeGenericType( typeArguments );
+
+        //        // save new implementations
+        //        Register( realComponentType, realImplementationType );
+
+        //        return realImplementationType;
+        //    }
+
+        //    return null;
+        //}
 
         #endregion
     }

@@ -16,18 +16,11 @@ namespace Blazorise.Base
 
         #region Methods
 
-        protected override void OnInit()
-        {
-            ParentSelect?.Register( this );
-
-            base.OnInit();
-        }
-
         #endregion
 
         #region Properties
 
-        protected bool IsSelected => ParentSelect?.IsSelected( this ) == true;
+        protected bool IsSelected => ParentSelect?.IsSelected( Value ) == true;
 
         [Parameter] internal protected TValue Value { get; set; }
 

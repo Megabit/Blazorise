@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -12,7 +13,9 @@ namespace Blazorise.Base
     {
         #region Members
 
-        private List<BaseSelectItem<TValue>> selectItems;
+        private TValue singleValue;
+
+        private IReadOnlyList<TValue> multiValue;
 
         #endregion
 
@@ -28,46 +31,48 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
-        protected async void SelectionChangedHandler( UIChangeEventArgs e )
+        protected async void HandleOnChanged( UIChangeEventArgs e )
         {
-            Value = await JSRunner.GetSelectedOptions<TValue>( ElementId );
-            Console.WriteLine( "V: " + string.Join( ";", Value ) );
-            SelectedValueChanged?.Invoke( Value.FirstOrDefault() );
-            SelectedValuesChanged?.Invoke( Value );
-        }
+            // save result directly to the value in the base class
+            var values = await JSRunner.GetSelectedOptions<TValue>( ElementId );
 
-        internal void Register( BaseSelectItem<TValue> selectItem )
-        {
-            if ( selectItem == null )
-                return;
-
-            if ( selectItems == null )
-                selectItems = new List<BaseSelectItem<TValue>>();
-
-            if ( !selectItems.Contains( selectItem ) )
+            if ( IsMultiple )
             {
-                selectItems.Add( selectItem );
+                multiValue = values;
+                SelectedValuesChanged?.Invoke( multiValue );
 
-                ClassMapper.Dirty();
+                ParentValidation?.UpdateInputValue( multiValue );
+            }
+            else
+            {
+                singleValue = values == null ? default : values.FirstOrDefault();
+                SelectedValueChanged?.Invoke( singleValue );
 
-                //if ( selectItems?.Count > 1 ) // must find a better way to refresh
-                //    StateHasChanged();
+                ParentValidation?.UpdateInputValue( singleValue );
             }
         }
 
-        internal bool IsSelected( BaseSelectItem<TValue> selectItem )
+        internal bool IsSelected( TValue itemValue )
         {
-            foreach ( var val in Value )
-            {
-                if ( EqualityComparer<TValue>.Default.Equals( selectItem.Value, default ) )
-                {
-                    return true;
-                }
-            }
+            if ( IsMultiple )
+                return SelectedValues?.Contains( itemValue ) == true;
 
-            return false;
-            //return Value?.Contains( selectItem.Value ) == true;
+            return EqualityComparer<TValue>.Default.Equals( SelectedValue, itemValue );
         }
+
+        //protected async void HandleOnChanged( UIChangeEventArgs e )
+        //{
+        //    // save result directly to the value in the base class
+        //    Value = await JSRunner.GetSelectedOptions<TValue>( ElementId );
+
+        //    SelectedValueChanged?.Invoke( SelectedValue );
+        //    SelectedValuesChanged?.Invoke( SelectedValues );
+        //}
+
+        //internal bool IsSelected( TValue itemValue )
+        //{
+        //    return Value?.Contains( itemValue ) == true;
+        //}
 
         #endregion
 
@@ -84,32 +89,69 @@ namespace Blazorise.Base
         [Parameter]
         protected TValue SelectedValue
         {
-            get
-            {
-                return Value.FirstOrDefault();
-            }
+            get { return singleValue; }
             set
             {
-                Value = new TValue[] { value };
+                singleValue = value;
 
-                StateHasChanged();
+                ParentValidation?.UpdateInputValue( singleValue );
             }
         }
 
+        /// <summary>
+        /// Gets or sets the multiple selected item values.
+        /// </summary>
         [Parameter]
         protected IReadOnlyList<TValue> SelectedValues
         {
-            get
-            {
-                return Value;
-            }
+            get { return multiValue; }
             set
             {
-                Value = value;
+                multiValue = value;
 
-                StateHasChanged();
+                ParentValidation?.UpdateInputValue( multiValue );
             }
         }
+
+        ///// <summary>
+        ///// Gets or sets the selected item value.
+        ///// </summary>
+        //[Parameter]
+        //protected TValue SelectedValue
+        //{
+        //    get
+        //    {
+        //        // make sure there is always one item available
+        //        if ( Value?.Count == 0 )
+        //            Value = new TValue[] { default };
+
+        //        return Value[0];
+        //    }
+        //    set
+        //    {
+        //        Value = new TValue[] { value };
+
+        //        //StateHasChanged();
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Gets or sets the multiple selected item values.
+        ///// </summary>
+        //[Parameter]
+        //protected IReadOnlyList<TValue> SelectedValues
+        //{
+        //    get
+        //    {
+        //        return Value;
+        //    }
+        //    set
+        //    {
+        //        Value = value?.ToArray();
+
+        //        //StateHasChanged();
+        //    }
+        //}
 
         /// <summary>
         /// Occurs when the selected item value has changed.

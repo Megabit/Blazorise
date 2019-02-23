@@ -100,8 +100,7 @@ namespace Blazorise.Base
 
             if ( ParentValidation != null )
             {
-                ParentValidation.ValidationSucceeded += OnValidationSucceeded;
-                ParentValidation.ValidationFailed += OnValidationFailed;
+                ParentValidation.Validated += OnValidated;
             }
 
             base.OnInit();
@@ -113,20 +112,14 @@ namespace Blazorise.Base
             {
                 if ( ParentValidation != null )
                 {
-                    ParentValidation.ValidationSucceeded -= OnValidationSucceeded;
-                    ParentValidation.ValidationFailed -= OnValidationFailed;
+                    ParentValidation.Validated -= OnValidated;
                 }
             }
 
             base.Dispose( disposing );
         }
 
-        private void OnValidationFailed( ValidationFailedEventArgs e )
-        {
-            ClassMapper.Dirty();
-        }
-
-        private void OnValidationSucceeded( ValidationSucceededEventArgs e )
+        private void OnValidated( ValidatedEventArgs e )
         {
             ClassMapper.Dirty();
         }

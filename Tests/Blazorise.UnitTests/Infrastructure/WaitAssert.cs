@@ -47,8 +47,11 @@ namespace Blazorise.UnitTests.Infrastructure
         public static void Single( Func<IEnumerable> actualValues )
             => WaitAssertCore( () => Assert.Single( actualValues() ) );
 
+        public static void Null( Func<object> actual )
+            => WaitAssertCore( () => Assert.Null( actual() ) );
+
         public static void NotNull( Func<object> actual )
-            => WaitAssertCore( () => Assert.NotNull( actual() ) );
+           => WaitAssertCore( () => Assert.NotNull( actual() ) );
 
         private static void WaitAssertCore( Action assertion, TimeSpan timeout = default )
         {
