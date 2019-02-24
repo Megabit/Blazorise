@@ -260,9 +260,8 @@
 
     void ValidateSelect( ValidatorEventArgs e )
     {
-        var selectedValues = e.Value as string[];
-
-        e.Status = selectedValues?.Any( x => !string.IsNullOrEmpty( x ) ) == true ? ValidationStatus.Success : ValidationStatus.Error;
+        var selectedValue = Convert.ToInt32( e.Value );
+        e.Status = selectedValue != 0 ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
     void ValidateDateOfBirth( ValidatorEventArgs e )

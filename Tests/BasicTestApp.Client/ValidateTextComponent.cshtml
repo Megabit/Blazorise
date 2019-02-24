@@ -9,16 +9,16 @@
         </TextEdit>
     </Validation>
 </p>
-<p id="validate-text-initially-populated">
-    Initially populated:
-    <Validation Validator="@ValidationRule.IsNotEmpty">
-        <TextEdit Text="a">
-            <Feedback>
-                <ValidationError>error</ValidationError>
-            </Feedback>
-        </TextEdit>
-    </Validation>
-</p>
+@*<p id="validate-text-initially-populated">
+        Initially populated:
+<Validation Validator="@ValidationRule.IsNotEmpty">
+    <TextEdit Text="a">
+        <Feedback>
+            <ValidationError>error</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>
+    </p>*@
 
 <h2>With bind</h2>
 <p id="validate-text-with-bind-initially-blank">
