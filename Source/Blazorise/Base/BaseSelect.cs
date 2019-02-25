@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Base
 {
-    public abstract class BaseSelect<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
+    public abstract class BaseSelect<TValue> : BaseInputComponent<TValue>
     {
         #region Members
 
@@ -33,61 +34,44 @@ namespace Blazorise.Base
 
         protected async void HandleOnChanged( UIChangeEventArgs e )
         {
-            // save result directly to the value in the base class
-            var values = await JSRunner.GetSelectedOptions<TValue>( ElementId );
-
             if ( IsMultiple )
             {
-                multiValue = values;
+                // when multiple selection is enabled we need to use javascript to get the list of selected items
+                multiValue = await JSRunner.GetSelectedOptions<TValue>( ElementId );
+
+                // changed event must be called before validation
                 SelectedValuesChanged?.Invoke( multiValue );
 
                 ParentValidation?.UpdateInputValue( multiValue );
             }
             else
             {
-                singleValue = values == null ? default : values.FirstOrDefault();
+                if ( Convertes.TryChangeType<TValue>( e.Value, out var value ) )
+                    singleValue = value;
+                else
+                    singleValue = default;
+
+                // changed event must be called before validation
                 SelectedValueChanged?.Invoke( singleValue );
 
                 ParentValidation?.UpdateInputValue( singleValue );
             }
         }
 
-        internal bool IsSelected( TValue itemValue )
-        {
-            if ( IsMultiple )
-                return SelectedValues?.Contains( itemValue ) == true;
-
-            return EqualityComparer<TValue>.Default.Equals( SelectedValue, itemValue );
-        }
-
-        //protected async void HandleOnChanged( UIChangeEventArgs e )
-        //{
-        //    // save result directly to the value in the base class
-        //    Value = await JSRunner.GetSelectedOptions<TValue>( ElementId );
-
-        //    SelectedValueChanged?.Invoke( SelectedValue );
-        //    SelectedValuesChanged?.Invoke( SelectedValues );
-        //}
-
-        //internal bool IsSelected( TValue itemValue )
-        //{
-        //    return Value?.Contains( itemValue ) == true;
-        //}
-
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Specifies that multiple options can be selected at once.
+        /// Specifies that multiple items can be selected.
         /// </summary>
-        [Parameter] protected bool IsMultiple { get; set; }
+        [Parameter] protected internal bool IsMultiple { get; set; }
 
         /// <summary>
         /// Gets or sets the selected item value.
         /// </summary>
         [Parameter]
-        protected TValue SelectedValue
+        protected internal TValue SelectedValue
         {
             get { return singleValue; }
             set
@@ -102,7 +86,7 @@ namespace Blazorise.Base
         /// Gets or sets the multiple selected item values.
         /// </summary>
         [Parameter]
-        protected IReadOnlyList<TValue> SelectedValues
+        protected internal IReadOnlyList<TValue> SelectedValues
         {
             get { return multiValue; }
             set
@@ -113,51 +97,14 @@ namespace Blazorise.Base
             }
         }
 
-        ///// <summary>
-        ///// Gets or sets the selected item value.
-        ///// </summary>
-        //[Parameter]
-        //protected TValue SelectedValue
-        //{
-        //    get
-        //    {
-        //        // make sure there is always one item available
-        //        if ( Value?.Count == 0 )
-        //            Value = new TValue[] { default };
-
-        //        return Value[0];
-        //    }
-        //    set
-        //    {
-        //        Value = new TValue[] { value };
-
-        //        //StateHasChanged();
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Gets or sets the multiple selected item values.
-        ///// </summary>
-        //[Parameter]
-        //protected IReadOnlyList<TValue> SelectedValues
-        //{
-        //    get
-        //    {
-        //        return Value;
-        //    }
-        //    set
-        //    {
-        //        Value = value?.ToArray();
-
-        //        //StateHasChanged();
-        //    }
-        //}
-
         /// <summary>
         /// Occurs when the selected item value has changed.
         /// </summary>
         [Parameter] protected Action<TValue> SelectedValueChanged { get; set; }
 
+        /// <summary>
+        /// Occurs when the selected items value has changed (only when <see cref="IsMultiple"/>==true).
+        /// </summary>
         [Parameter] protected Action<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
 
         #endregion

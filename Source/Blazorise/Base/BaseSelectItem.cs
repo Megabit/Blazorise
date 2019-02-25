@@ -20,7 +20,19 @@ namespace Blazorise.Base
 
         #region Properties
 
-        protected bool IsSelected => ParentSelect?.IsSelected( Value ) == true;
+        protected bool IsSelected
+        {
+            get
+            {
+                if ( ParentSelect == null )
+                    return false;
+
+                if ( ParentSelect.IsMultiple )
+                    return ParentSelect.SelectedValues?.Contains( Value ) == true;
+
+                return EqualityComparer<TValue>.Default.Equals( ParentSelect.SelectedValue, Value );
+            }
+        }
 
         [Parameter] internal protected TValue Value { get; set; }
 
