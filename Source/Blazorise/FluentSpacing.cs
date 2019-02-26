@@ -19,7 +19,7 @@ namespace Blazorise
     {
     }
 
-    public interface IFluentSpacingFromSide : IFluentColumn
+    public interface IFluentSpacingFromSide : IFluentSpacing
     {
         /// <summary>
         /// For classes that set margin-top or padding-top.
@@ -57,7 +57,7 @@ namespace Blazorise
         IFluentSpacingOnBreakpointWithSideAndSize OnAll { get; }
     }
 
-    public interface IFluentSpacingOnBreakpoint : IFluentColumn, IFluentSpacingFromSide
+    public interface IFluentSpacingOnBreakpoint : IFluentSpacing, IFluentSpacingFromSide
     {
         /// <summary>
         /// Valid on all devices. (extra small)
@@ -85,7 +85,7 @@ namespace Blazorise
         IFluentSpacingOnBreakpointWithSideAndSize OnFullHD { get; }
     }
 
-    public interface IFluentSpacingWithSize : IFluentColumn
+    public interface IFluentSpacingWithSize : IFluentSpacing
     {
         /// <summary>
         /// For classes that eliminate the margin or padding by setting it to 0.
