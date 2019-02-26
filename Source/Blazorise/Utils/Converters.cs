@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blazorise.Utils
 {
-    public static class Convertes
+    public static class Converters
     {
         // https://stackoverflow.com/a/1107090/833106
         public static TValue ChangeType<TValue>( object o )

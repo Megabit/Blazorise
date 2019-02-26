@@ -83,7 +83,7 @@ namespace Blazorise
                     if ( string.IsNullOrEmpty( value ) )
                         return default;
 
-                    return Convertes.ChangeType<TValue>( value );
+                    return Converters.ChangeType<TValue>( value );
                 }
                 catch
                 {

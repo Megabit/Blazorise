@@ -46,7 +46,7 @@ namespace Blazorise.Base
             }
             else
             {
-                if ( Convertes.TryChangeType<TValue>( e.Value, out var value ) )
+                if ( Converters.TryChangeType<TValue>( e.Value, out var value ) )
                     singleValue = value;
                 else
                     singleValue = default;
