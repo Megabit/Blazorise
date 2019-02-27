@@ -10,7 +10,7 @@
 		<licenseUrl>https://github.com/stsrki/Blazorise/blob/master/LICENSE.md</licenseUrl>
 		<projectUrl>https://github.com/stsrki/Blazorise</projectUrl>
 		<description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</description>
-		<copyright>Copyright 2018</copyright>
+		<copyright>Copyright 2019 Mladen Macanovic</copyright>
 		<tags>blazorise blazor components sidebar</tags>
 		<repository url="https://github.com/stsrki/Blazorise" />
 		<iconUrl>https://github.com/stsrki/Blazorise/blob/master/NuGet/Blazorise.png</iconUrl>
