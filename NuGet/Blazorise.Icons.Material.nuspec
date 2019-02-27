@@ -7,7 +7,7 @@
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<licenseUrl>https://github.com/stsrki/Blazorise/blob/master/LICENSE.md</licenseUrl>
+		<license type="file">LICENSE.md</license>
 		<projectUrl>https://github.com/stsrki/Blazorise</projectUrl>
 		<description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</description>
 		<copyright>Copyright 2019 Mladen Macanovic</copyright>
@@ -25,6 +25,7 @@
 	</metadata>
 	<files>
 		<file src="..\Source\Extensions\Blazorise.Icons.Material\bin\Release\**\Blazorise.Icons.Material.dll" target="lib\" />
+		<file src="..\LICENSE.md" target="" />
 		
 		<file src="..\Source\Extensions\Blazorise.Icons.Material\Properties\launchSettings.json" target="content\Properties" />
 		<file src="..\Source\Extensions\Blazorise.Icons.Material\Properties\launchSettings.json" target="contentFiles\any\netstandard2.0\Properties" />
