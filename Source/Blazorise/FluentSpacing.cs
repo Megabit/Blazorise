@@ -171,7 +171,7 @@ namespace Blazorise
             if ( !built )
             {
                 ClassMapper
-                    .If( () => rules.Select( r => classProvider.Spacing( spacing, r.Key, r.Value.Select( v => (v.Side, v.Breakpoint) ) ) ), () => rules.Count() > 0 )
+                    .If( () => rules.Select( r => classProvider.Spacing( spacing, r.Key, r.Value.Select( v => (v.Side, v.Breakpoint) ) ) ), () => rules.Count > 0 )
                     .If( () => customRules, () => customRules?.Count > 0 );
 
                 built = true;

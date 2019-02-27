@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Linq;
 #endregion
 
@@ -25,10 +26,14 @@ namespace Blazorise
                 if ( dirty )
                 {
                     // combine the classes, but only the ones that have a value
-                    if ( listRules == null )
-                        builtClass = string.Join( " ", from r in rules where r.Value() let key = r.Key() where key != null select key );
+                    if ( rules != null && listRules != null )
+                        builtClass = string.Join( " ", GetValidRules().Concat( GetValidListRules() ) );
+                    else if ( rules != null )
+                        builtClass = string.Join( " ", GetValidRules() );
+                    else if ( listRules != null )
+                        builtClass = string.Join( " ", GetValidListRules() );
                     else
-                        builtClass = string.Join( " ", ( from r in rules where r.Value() let key = r.Key() where key != null select key ).Concat( from lr in listRules where lr.Value() from key in lr.Key() where key != null select key ) );
+                        builtClass = null;
 
                     dirty = false;
                 }

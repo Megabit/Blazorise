@@ -25,10 +25,12 @@ namespace Blazorise
                 if ( dirty )
                 {
                     // combine the styles, but only the ones that have a value
-                    if ( listRules == null )
-                        builtStyle = string.Join( ";", from r in rules where r.Value() let key = r.Key() where key != null select key );
-                    else
-                        builtStyle = string.Join( ";", ( from r in rules where r.Value() let key = r.Key() where key != null select key ).Concat( from lr in listRules where lr.Value() from key in lr.Key() where key != null select key ) );
+                    if ( rules != null && listRules != null )
+                        builtStyle = string.Join( ";", GetValidRules().Concat( GetValidListRules() ) );
+                    else if ( rules != null )
+                        builtStyle = string.Join( ";", GetValidRules() );
+                    else if ( listRules != null )
+                        builtStyle = string.Join( ";", GetValidListRules() );
 
                     dirty = false;
                 }

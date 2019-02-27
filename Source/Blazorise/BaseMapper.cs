@@ -30,8 +30,7 @@ namespace Blazorise
 
         protected bool dirty = true;
 
-        // TODO: implement lazy dictionary
-        protected Dictionary<Func<string>, Func<bool>> rules = new Dictionary<Func<string>, Func<bool>>();
+        protected Dictionary<Func<string>, Func<bool>> rules;
 
         protected Dictionary<Func<IEnumerable<string>>, Func<bool>> listRules;
 
@@ -56,9 +55,46 @@ namespace Blazorise
                         rules.Clear();
                         rules = null;
                     }
+
+                    if ( listRules != null )
+                    {
+                        listRules.Clear();
+                        listRules = null;
+                    }
                 }
 
                 disposed = true;
+            }
+        }
+
+        protected IEnumerable<string> GetValidRules()
+        {
+            foreach ( var rule in rules )
+            {
+                if ( !rule.Value() ) // skip false conditions
+                    continue;
+
+                var key = rule.Key();
+
+                if ( key != null )
+                    yield return key;
+            }
+        }
+
+        protected IEnumerable<string> GetValidListRules()
+        {
+            foreach ( var listRule in listRules )
+            {
+                if ( !listRule.Value() )
+                    continue;
+
+                var key = listRule.Key();
+
+                if ( key == null )
+                    continue;
+
+                foreach ( var value in key )
+                    yield return value;
             }
         }
 
@@ -77,7 +113,10 @@ namespace Blazorise
         /// <returns>Returns self.</returns>
         public IBaseMapper Add( string value )
         {
-            rules.Add( () => value, () => true );
+            if ( rules == null )
+                rules = new Dictionary<Func<string>, Func<bool>> { { () => value, () => true } };
+            else
+                rules.Add( () => value, () => true );
 
             return this;
         }
@@ -89,7 +128,10 @@ namespace Blazorise
         /// <returns>Returns self.</returns>
         public IBaseMapper Add( Func<string> value )
         {
-            rules.Add( value, () => true );
+            if ( rules == null )
+                rules = new Dictionary<Func<string>, Func<bool>> { { value, () => true } };
+            else
+                rules.Add( value, () => true );
 
             return this;
         }
@@ -102,7 +144,10 @@ namespace Blazorise
         /// <returns></returns>
         public IBaseMapper If( string value, Func<bool> condition )
         {
-            rules.Add( () => value, condition );
+            if ( rules == null )
+                rules = new Dictionary<Func<string>, Func<bool>> { { () => value, condition } };
+            else
+                rules.Add( () => value, condition );
 
             return this;
         }
@@ -115,7 +160,10 @@ namespace Blazorise
         /// <returns>Returns self.</returns>
         public IBaseMapper If( Func<string> value, Func<bool> condition )
         {
-            rules.Add( value, condition );
+            if ( rules == null )
+                rules = new Dictionary<Func<string>, Func<bool>> { { value, condition } };
+            else
+                rules.Add( value, condition );
 
             return this;
         }
