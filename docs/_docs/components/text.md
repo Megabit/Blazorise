@@ -110,3 +110,20 @@ When using the event `TextChanged`, you also must define the `Text` value attrib
     }
 }
 ```
+
+## Settings
+
+### TextChanged mode
+
+By default the TextChanged event will be raised only when text component loses focus. If you want to have TextChanged event raised on every key press you must set the `ChangeTextOnKeyPress` to true on application start.
+
+```cs
+public void ConfigureServices( IServiceCollection services )
+{
+  services
+    .AddBlazorise( options =>
+    {
+      options.ChangeTextOnKeyPress = true;
+    } );
+}
+```
