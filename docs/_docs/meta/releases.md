@@ -10,14 +10,14 @@ toc_label: "Version history"
 
 ### Breaking Changes
 
-- The new version is upgraded to the newest Blazor v0.8-preview-19104-04. The preview number(19104-04) is used to match the preview number of Blazor!
+- Upgraded to the newest Blazor v0.8-preview-19104-04. The preview number(19104-04) is used to match the preview number of Blazor!
 
   To upgrade your project to the new version you should first need to install new Blazor before installing Blazorise. To install Blazor look at the [official](https://blogs.msdn.microsoft.com/webdev/2019/02/05/blazor-0-8-0-experimental-release-now-available/) documentation. 
 
   **Note:** Keep in mind that after upgrading you will only be able to work in Visual Studio 2019!
   {: .notice--info}
 
-- Added registration for Blazorise with an optional configuration in which it's now possible to configure some of the internal settings and behaviour.
+- Added registration method for Blazorise with an optional configuration in which it's now possible to configure some of the internal settings and behaviour.
 
   ```cs
   public void ConfigureServices( IServiceCollection services ) { 
@@ -25,15 +25,18 @@ toc_label: "Version history"
       .AddBlazorise( options =>
       {
         options.ChangeTextOnKeyPress = true;
-      } ) // from v0.6.0-preview4
+      } )
       .AddBootstrapProviders()
       .AddFontAwesomeIcons();
   }
   ```
+- Since `SelectEdit` and `SelectItem` are now generics there are some special rules to be followed when using them. Please look at the [Select]({{ "/docs/components/select/" | relative_url }}) page to find more.
 
 ### Enhancements
 
 - Added new `Validation` component for input fields. [link]({{ "/docs/components/validation/" | relative_url }})
+- `SelectEdit` and `SelectItem` are converted to generic components and now they supports all kinds of data types and not just strings.
+- Optimized ClassMapper and fluent builders. Now they're about 50-60% percent faster when generating class names.
 
 ## 0.5.x
 
