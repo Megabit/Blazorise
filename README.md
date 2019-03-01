@@ -108,3 +108,6 @@ public void Configure( IComponentsApplicationBuilder app )
 
 To setup Blazorise for other css frameworks please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
 
+## Support
+
+<a href="https://www.buymeacoffee.com/mladenmacanovic" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/white_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
