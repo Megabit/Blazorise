@@ -180,7 +180,7 @@ namespace Blazorise
             return ClassMapper.Class;
         }
 
-        private IFluentSpacingOnBreakpointWithSideAndSize WithSize( SpacingSize spacingSize )
+        public IFluentSpacingOnBreakpointWithSideAndSize WithSize( SpacingSize spacingSize )
         {
             var spacingDefinition = new SpacingDefinition { Breakpoint = Breakpoint.None, Side = Side.All };
 
@@ -194,7 +194,7 @@ namespace Blazorise
             return this;
         }
 
-        private IFluentSpacingOnBreakpointWithSideAndSize WithSide( Side side )
+        public IFluentSpacingOnBreakpointWithSideAndSize WithSide( Side side )
         {
             currentSpacing.Side = side;
             ClassMapper.Dirty();
@@ -202,7 +202,7 @@ namespace Blazorise
             return this;
         }
 
-        private IFluentSpacingOnBreakpointWithSideAndSize WithBreakpoint( Breakpoint breakpoint )
+        public IFluentSpacingOnBreakpointWithSideAndSize WithBreakpoint( Breakpoint breakpoint )
         {
             currentSpacing.Breakpoint = breakpoint;
             ClassMapper.Dirty();
