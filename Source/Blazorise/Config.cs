@@ -40,8 +40,9 @@ namespace Blazorise
         {
             serviceCollection.AddSingleton<IClassProvider, EmptyClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, EmptyStyleProvider>();
-            serviceCollection.AddSingleton<IJSRunner, EmptyJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
+
+            serviceCollection.AddScoped<IJSRunner, EmptyJSRunner>();
 
             return serviceCollection;
         }
@@ -80,7 +81,7 @@ namespace Blazorise
         /// <returns></returns>
         public static IServiceCollection AddJSRunner( this IServiceCollection serviceCollection, Func<IJSRunner> jsRunnerFactory )
         {
-            serviceCollection.AddSingleton( ( p ) => jsRunnerFactory() );
+            serviceCollection.AddScoped( ( p ) => jsRunnerFactory() );
 
             return serviceCollection;
         }

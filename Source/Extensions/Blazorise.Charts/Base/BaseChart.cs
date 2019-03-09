@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Base;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Charts.Base
@@ -77,7 +78,7 @@ namespace Blazorise.Charts.Base
         /// <returns></returns>
         public async Task Update()
         {
-            await JS.SetChartData( ElementId, Type, DataJsonString ?? (object)Data, OptionsJsonString ?? (object)Options );
+            await JS.SetChartData( JSRuntime, ElementId, Type, DataJsonString ?? (object)Data, OptionsJsonString ?? (object)Options );
         }
 
         #endregion
@@ -110,6 +111,8 @@ namespace Blazorise.Charts.Base
         /// </summary>
         [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
         [Parameter] protected string OptionsJsonString { get; set; }
+
+        [Inject] IJSRuntime JSRuntime { get; set; }
 
         #endregion
     }

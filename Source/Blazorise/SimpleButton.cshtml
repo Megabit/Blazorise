@@ -1,4 +1,4 @@
-﻿@inherits Base.BaseButton
+﻿@inherits Blazorise.Base.BaseButton
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
     <button type="@Type.ToButtonTypeString()" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" aria-pressed="@IsActive" onclick="@ClickHandler">
