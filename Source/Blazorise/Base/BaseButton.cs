@@ -63,8 +63,8 @@ namespace Blazorise.Base
 
         protected void ClickHandler()
         {
-            if ( !IsDisabled )
-                Clicked?.Invoke();
+            if ( !IsDisabled && Clicked.HasDelegate )
+                Clicked.InvokeAsync( null );
         }
 
         protected override void OnInit()
@@ -86,7 +86,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        [Parameter] protected Action Clicked { get; set; }
+        [Parameter] protected EventCallback Clicked { get; set; }
 
         /// <summary>
         /// Defines the button type.
