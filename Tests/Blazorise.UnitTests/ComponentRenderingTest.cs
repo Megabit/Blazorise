@@ -41,22 +41,5 @@ namespace Blazorise.UnitTests
             Assert.Equal( "hello primary", btnElement.Text );
             Assert.Equal( "btn btn-primary", btnElement.GetAttribute( "class" ) );
         }
-
-        [Fact]
-        public void CanShowAndHideDropdownComponent()
-        {
-            var appElement = MountTestComponent<DropdownComponent>();
-            var drpElement = appElement.FindElement( By.ClassName( "dropdown" ) );
-            var btnElement = drpElement.FindElement( By.TagName( "button" ) );
-            var mnuElement = drpElement.FindElement( By.ClassName( "dropdown-menu" ) );
-
-            btnElement.Click();
-            WaitAssert.Contains( "show", () => drpElement.GetAttribute( "class" ) );
-            WaitAssert.Contains( "show", () => mnuElement.GetAttribute( "class" ) );
-
-            btnElement.Click();
-            WaitAssert.NotContains( "show", () => drpElement.GetAttribute( "class" ) );
-            WaitAssert.NotContains( "show", () => mnuElement.GetAttribute( "class" ) );
-        }
     }
 }
