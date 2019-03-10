@@ -1,9 +1,21 @@
-﻿<TextEdit Text="@textWithEvent" TextChanged="@((s)=>{ textWithEvent = s; StateHasChanged(); })"></TextEdit>
+﻿<p id="text-basic">
+    <TextEdit></TextEdit>
+</p>
+<p id="text-event-initially-blank">
+    <TextEdit Text="@textWithEvent" TextChanged="@((s)=> textWithEvent = s)"></TextEdit>
 
-<p>The text below should update automatically as you type in the text field above</p>
+    <span>The text below should update automatically as you type in the text field above</span>
 
-<p id="test-result">@textWithEvent</p>
+    <span id="text-event-initially-blank-result">@textWithEvent</span>
+</p>
+<p id="text-bind-initially-blank">
+    <TextEdit bind-Text="@textWithBind"></TextEdit>
 
+    <span>The text below should update automatically as you type in the text field above</span>
+
+    <span id="text-bind-initially-blank-result">@textWithBind</span>
+</p>
 @functions {
     string textWithEvent { get; set; }
+    string textWithBind { get; set; }
 }

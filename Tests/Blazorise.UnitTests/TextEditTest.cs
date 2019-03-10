@@ -25,27 +25,45 @@ namespace Blazorise.UnitTests
         [Fact]
         public void CanChangeText()
         {
-            var appElement = MountTestComponent<TextEditComponent>();
-            var txtElement = appElement.FindElement( By.TagName( "input" ) );
+            var paragraph = Browser.FindElement( By.Id( "text-basic" ) );
+            var text = paragraph.FindElement( By.TagName( "input" ) );
 
-            txtElement.SendKeys( "abc" );
-            WaitAssert.Contains( "abc", () => txtElement.GetAttribute( "value" ) );
+            WaitAssert.Equal( string.Empty, () => text.GetAttribute( "value" ) );
+
+            text.SendKeys( "abc" );
+            WaitAssert.Contains( "abc", () => text.GetAttribute( "value" ) );
         }
 
         [Fact]
-        public void CanBindText()
+        public void CanChangeTextUsingEvent()
         {
-            var appElement = MountTestComponent<TextEditComponent>();
-            var txtElement = appElement.FindElement( By.TagName( "input" ) );
-            var output = Browser.FindElement( By.Id( "test-result" ) );
+            var paragraph = Browser.FindElement( By.Id( "text-event-initially-blank" ) );
+            var text = paragraph.FindElement( By.TagName( "input" ) );
+            var result = paragraph.FindElement( By.Id( "text-event-initially-blank-result" ) );
 
-            WaitAssert.Equal( string.Empty, () => output.Text );
+            WaitAssert.Equal( string.Empty, () => result.Text );
 
-            txtElement.SendKeysSequentially( "abcdefghijklmnopqrstuvwxyz" );
-            WaitAssert.Equal( "abcdefghijklmnopqrstuvwxyz", () => output.Text );
+            text.SendKeysSequentially( "abcdefghijklmnopqrstuvwxyz" );
+            WaitAssert.Equal( "abcdefghijklmnopqrstuvwxyz", () => result.Text );
 
-            txtElement.SendKeys( Keys.Backspace );
-            WaitAssert.Equal( "abcdefghijklmnopqrstuvwxy", () => output.Text );
+            text.SendKeys( Keys.Backspace );
+            WaitAssert.Equal( "abcdefghijklmnopqrstuvwxy", () => result.Text );
+        }
+
+        [Fact]
+        public void CanChangeTextUsingBind()
+        {
+            var paragraph = Browser.FindElement( By.Id( "text-bind-initially-blank" ) );
+            var text = paragraph.FindElement( By.TagName( "input" ) );
+            var result = paragraph.FindElement( By.Id( "text-bind-initially-blank-result" ) );
+
+            WaitAssert.Equal( string.Empty, () => result.Text );
+
+            text.SendKeysSequentially( "abcdefghijklmnopqrstuvwxyz" );
+            WaitAssert.Equal( "abcdefghijklmnopqrstuvwxyz", () => result.Text );
+
+            text.SendKeys( Keys.Backspace );
+            WaitAssert.Equal( "abcdefghijklmnopqrstuvwxy", () => result.Text );
         }
     }
 }
