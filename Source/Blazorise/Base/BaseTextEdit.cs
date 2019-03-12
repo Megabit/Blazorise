@@ -51,8 +51,7 @@ namespace Blazorise.Base
         protected void HandleText( string text )
         {
             Text = text;
-            if ( TextChanged.HasDelegate )
-                TextChanged.InvokeAsync( Text );
+            TextChanged?.Invoke( Text );
         }
 
         //protected void HandleOnInput( UIChangeEventArgs e )
@@ -145,7 +144,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs after text has changed.
         /// </summary>
-        [Parameter] protected EventCallback<string> TextChanged { get; set; }
+        [Parameter] protected Action<string> TextChanged { get; set; }
 
         //[Parameter] protected Action<ChangingEventArgs> TextChanging { get; set; }
 

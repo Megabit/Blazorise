@@ -50,20 +50,20 @@ namespace Blazorise.UnitTests
             WaitAssert.Equal( "abcdefghijklmnopqrstuvwxy", () => result.Text );
         }
 
-        [Fact]
-        public void CanChangeTextUsingBind()
-        {
-            var paragraph = Browser.FindElement( By.Id( "text-bind-initially-blank" ) );
-            var text = paragraph.FindElement( By.TagName( "input" ) );
-            var result = paragraph.FindElement( By.Id( "text-bind-initially-blank-result" ) );
+        //[Fact]
+        //public void CanChangeTextUsingBind()
+        //{
+        //    var paragraph = Browser.FindElement( By.Id( "text-bind-initially-blank" ) );
+        //    var text = paragraph.FindElement( By.TagName( "input" ) );
+        //    var result = paragraph.FindElement( By.Id( "text-bind-initially-blank-result" ) );
 
-            WaitAssert.Equal( string.Empty, () => result.Text );
+        //    WaitAssert.Equal( string.Empty, () => result.Text );
 
-            text.SendKeysSequentially( "abcdefghijklmnopqrstuvwxyz" );
-            WaitAssert.Equal( "abcdefghijklmnopqrstuvwxyz", () => result.Text );
+        //    text.SendKeysSequentially( "abcdefghijklmnopqrstuvwxyz" );
+        //    WaitAssert.Equal( "abcdefghijklmnopqrstuvwxyz", () => result.Text );
 
-            text.SendKeys( Keys.Backspace );
-            WaitAssert.Equal( "abcdefghijklmnopqrstuvwxy", () => result.Text );
-        }
+        //    text.SendKeys( Keys.Backspace );
+        //    WaitAssert.Equal( "abcdefghijklmnopqrstuvwxy", () => result.Text );
+        //}
     }
 }
