@@ -6,7 +6,7 @@ Before creating NuGet packages make sure that documentation is updated to match 
 
 1. Update release notes
 2. Update _readme.md_
-3. Update quick start & usage pages
+3. Update quick start & usage pages if necessary
 3. Update version number in the demo home-page
 
 ## Nugets
