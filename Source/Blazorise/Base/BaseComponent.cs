@@ -14,11 +14,13 @@ namespace Blazorise.Base
 
         private bool disposed;
 
+        private string elementId;
+
         //private bool rendered = false;
 
-        private ElementRef elementRef;
-
         private string customClass;
+
+        private string customStyle;
 
         private IClassProvider classProvider;
 
@@ -40,7 +42,6 @@ namespace Blazorise.Base
 
         public BaseComponent()
         {
-            ElementId = Utils.IDGenerator.Instance.Generate;
         }
 
         #endregion
@@ -83,7 +84,7 @@ namespace Blazorise.Base
         //{
         //    if ( !rendered )
         //    {
-        //        JSRunner.Init( elementRef, this );
+        //        JSRunner.Init( ElementRef, this );
 
         //        rendered = true;
         //    }
@@ -103,6 +104,7 @@ namespace Blazorise.Base
         protected virtual void RegisterStyles()
         {
             StyleMapper
+                .If( () => Style, () => Style != null )
                 .Add( () => StyleProvider.Visibility( Visibility ) );
         }
 
@@ -147,12 +149,26 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets the reference to the rendered element.
         /// </summary>
-        public ElementRef ElementRef { get => elementRef; protected set => elementRef = value; }
+        public ElementRef ElementRef { get; protected set; }
 
         /// <summary>
         /// Gets the unique id of the element.
         /// </summary>
-        public string ElementId { get; }
+        /// <remarks>
+        /// Note that this ID is not defined for the component but instead for the underlined component that it represents.
+        /// eg: for the TextEdit the ID will be set on the input element.
+        /// </remarks>
+        public string ElementId
+        {
+            get
+            {
+                // generate ID only on first use
+                if ( elementId == null )
+                    elementId = Utils.IDGenerator.Instance.Generate;
+
+                return elementId;
+            }
+        }
 
         /// <summary>
         /// Gets the class mapper.
@@ -167,14 +183,12 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets or sets the custom components mapper.
         /// </summary>
-        [Inject]
-        protected IComponentMapper ComponentMapper { get; set; }
+        [Inject] protected IComponentMapper ComponentMapper { get; set; }
 
         /// <summary>
         /// Gets or set the javascript runner.
         /// </summary>
-        [Inject]
-        protected IJSRunner JSRunner { get; set; }
+        [Inject] protected IJSRunner JSRunner { get; set; }
 
         /// <summary>
         /// Gets or sets the classname provider.
@@ -207,7 +221,7 @@ namespace Blazorise.Base
         }
 
         /// <summary>
-        /// Defines the element custom css classname(s).
+        /// Custom css classname.
         /// </summary>
         [Parameter]
         protected string Class
@@ -218,6 +232,21 @@ namespace Blazorise.Base
                 customClass = value;
 
                 ClassMapper.Dirty();
+            }
+        }
+
+        /// <summary>
+        /// Custom html style.
+        /// </summary>
+        [Parameter]
+        protected string Style
+        {
+            get => customStyle;
+            set
+            {
+                customStyle = value;
+
+                StyleMapper.Dirty();
             }
         }
 
