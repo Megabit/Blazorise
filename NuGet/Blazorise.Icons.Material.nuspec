@@ -3,7 +3,7 @@
 	<metadata>
 		<id>Blazorise.Icons.Material</id>
 		<title>Blazorise.Icons.Material</title>
-		<version>0.6.0-preview6-19104-04</version>
+		<version>0.6.0-preview7-19154-02</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -15,9 +15,9 @@
 		<repository url="https://github.com/stsrki/Blazorise" />
 		<iconUrl>https://github.com/stsrki/Blazorise/blob/master/NuGet/Blazorise.png</iconUrl>
 		<dependencies>
-			<dependency id="Blazorise" version="0.6.0-preview6-19104-04" exclude="Build,Analyzers" />
+			<dependency id="Blazorise" version="0.6.0-preview7-19154-02" exclude="Build,Analyzers" />
 			
-			<dependency id="Microsoft.AspNetCore.Components.Browser" version="3.0.0-preview-19075-0444" exclude="Build,Analyzers" />
+			<dependency id="Microsoft.AspNetCore.Components.Browser" version="3.0.0-preview3-19153-02" exclude="Build,Analyzers" />
 		</dependencies>
 		<contentFiles>
 			<files include="any/netstandard2.0/Properties/launchSettings.json" buildAction="Content" />
