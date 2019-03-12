@@ -1,0 +1,16 @@
+﻿<h2>Basic tabs</h2>
+<p id="basic-tabs">
+    <Tabs SelectedTabChanged="@OnSelectedTabChanged">
+        <Tab Name="1" IsActive="@(selectedTab=="1")">1</Tab>
+        <Tab Name="2" IsActive="@(selectedTab=="2")">2</Tab>
+        <Tab Name="3" IsActive="@(selectedTab=="3")">3</Tab>
+    </Tabs>
+</p>
+@functions{
+    string selectedTab = "2";
+
+    private void OnSelectedTabChanged( string name )
+    {
+        selectedTab = name;
+    }
+}
