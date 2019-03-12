@@ -185,5 +185,14 @@ namespace Blazorise
         }
 
         #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Indicates if the mapping is ready to rebuild.
+        /// </summary>
+        internal bool IsDirty => dirty;
+
+        #endregion
     }
 }
