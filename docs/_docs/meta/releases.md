@@ -6,6 +6,12 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.6.0-preview7-19154-02
+
+### Enhancements
+
+- Upgraded to the newest Blazor v0.9.0-preview3-19154-02. The preview number(19154-02) is used to match the preview number of Blazor!
+
 ## 0.6.0-preview(x)-19104-04
 
 ### Breaking Changes
