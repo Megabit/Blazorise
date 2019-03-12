@@ -41,5 +41,20 @@ namespace Blazorise.UnitTests
             Assert.Equal( "hello primary", btnElement.Text );
             Assert.Equal( "btn btn-primary", btnElement.GetAttribute( "class" ) );
         }
+
+        [Fact]
+        public void CannotChangeElementId()
+        {
+            var appElement = MountTestComponent<ElementIdComponent>();
+            var date = appElement.FindElement( By.TagName( "input" ) );
+            var button = appElement.FindElement( By.TagName( "button" ) );
+
+            Assert.NotEqual( string.Empty, date.GetAttribute( "id" ) );
+
+            var before = date.GetAttribute( "id" );
+
+            button.Click();
+            WaitAssert.Equal( before, () => date.GetAttribute( "id" ) );
+        }
     }
 }
