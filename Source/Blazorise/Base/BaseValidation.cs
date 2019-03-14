@@ -128,8 +128,6 @@ namespace Blazorise.Base
         {
             var handler = Validator;
 
-            //Status = ValidationStatus.None;
-
             if ( handler != null )
             {
                 Validating?.Invoke();
@@ -152,9 +150,6 @@ namespace Blazorise.Base
                     StateHasChanged();
                 }
             }
-
-            // force the reload of all child components
-            //StateHasChanged();
 
             return Status;
         }
