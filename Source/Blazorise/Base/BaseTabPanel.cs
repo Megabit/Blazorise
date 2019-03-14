@@ -29,7 +29,7 @@ namespace Blazorise.Base
 
         protected override void OnInit()
         {
-            ParentTabContent?.LinkPanel( this );
+            ParentTabContent?.Hook( this );
 
             base.OnInit();
         }

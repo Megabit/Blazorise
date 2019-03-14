@@ -22,6 +22,8 @@ namespace Blazorise.Base
 
         private List<BaseTab> childTabs = new List<BaseTab>();
 
+        private string lastSelectedTab;
+
         #endregion
 
         #region Methods
@@ -39,20 +41,30 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
-        internal void LinkTab( BaseTab tab )
+        internal void Hook( BaseTab tab )
         {
             childTabs.Add( tab );
         }
 
         public void SelectTab( string tabName )
         {
-            foreach ( var child in childTabs )
+            if ( lastSelectedTab != tabName )
             {
-                child.IsActive = child.Name == tabName;
-            }
+                lastSelectedTab = tabName;
 
-            SelectedTabChanged?.Invoke( tabName );
-            StateHasChanged();
+                foreach ( var child in childTabs )
+                {
+                    child.IsActive = child.Name == tabName;
+                }
+
+                // raise the tabchanged notification
+                SelectedTabChanged?.Invoke( tabName );
+
+                // although nothing is actually changed we need to call this anyways or otherwise the rendering will not be called
+                ClassMapper.Dirty();
+
+                StateHasChanged();
+            }
         }
 
         #endregion

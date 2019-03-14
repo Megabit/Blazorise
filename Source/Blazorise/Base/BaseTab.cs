@@ -31,17 +31,17 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
+        protected override void OnInit()
+        {
+            ParentTabs?.Hook( this );
+
+            base.OnInit();
+        }
+
         protected void ClickHandler()
         {
             Clicked?.Invoke();
             ParentTabs?.SelectTab( Name );
-        }
-
-        protected override void OnInit()
-        {
-            ParentTabs?.LinkTab( this );
-
-            base.OnInit();
         }
 
         #endregion

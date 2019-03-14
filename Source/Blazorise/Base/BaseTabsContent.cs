@@ -14,6 +14,8 @@ namespace Blazorise.Base
 
         private List<BaseTabPanel> childPanels = new List<BaseTabPanel>();
 
+        private string lastSelectePanel;
+
         #endregion
 
         #region Methods
@@ -26,20 +28,30 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
-        internal void LinkPanel( BaseTabPanel panel )
+        internal void Hook( BaseTabPanel panel )
         {
             childPanels.Add( panel );
         }
 
         public void SelectPanel( string panelName )
         {
-            foreach ( var child in childPanels )
+            if ( lastSelectePanel != panelName )
             {
-                child.IsActive = child.Name == panelName;
-            }
+                lastSelectePanel = panelName;
 
-            SelectedPanelChanged?.Invoke( panelName );
-            StateHasChanged();
+                foreach ( var child in childPanels )
+                {
+                    child.IsActive = child.Name == panelName;
+                }
+
+                // raise the panelchanged notification
+                SelectedPanelChanged?.Invoke( panelName );
+
+                // although nothing is actually changed we need to call this anyways or otherwise the rendering will not be called
+                ClassMapper.Dirty();
+
+                StateHasChanged();
+            }
         }
 
         #endregion
