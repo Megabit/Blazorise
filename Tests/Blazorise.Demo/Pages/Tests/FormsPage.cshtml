@@ -67,7 +67,7 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <SelectEdit SelectedValue="3" SelectedValueChanged="@((v)=> Console.WriteLine(v) )">
+                        <SelectEdit SelectedValue="3">
                             <SelectItem Value="1">1</SelectItem>
                             <SelectItem Value="2">2</SelectItem>
                             <SelectItem Value="3">3</SelectItem>
@@ -78,7 +78,7 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Multiple Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <SelectEdit TValue="int" SelectedValuesChanged="@((v)=> Console.WriteLine(string.Join(", ",v)) )" IsMultiple="true">
+                        <SelectEdit TValue="int" IsMultiple="true">
                             <SelectItem Value="1">1</SelectItem>
                             <SelectItem Value="2">2</SelectItem>
                             <SelectItem Value="3">3</SelectItem>
@@ -95,7 +95,7 @@
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <DateEdit DateChanged="@((d)=>Console.WriteLine(d))" />
+                        <DateEdit />
                     </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
