@@ -49,7 +49,7 @@ namespace Blazorise.Base
         protected void HandleText( string text )
         {
             Text = text;
-            TextChanged?.Invoke( Text );
+            TextChanged.InvokeAsync( Text );
         }
 
         #endregion
@@ -67,7 +67,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs after text has changed.
         /// </summary>
-        [Parameter] protected Action<string> TextChanged { get; set; }
+        [Parameter] protected EventCallback<string> TextChanged { get; set; }
 
         protected string Type => Role.ToTextRoleString();
 
