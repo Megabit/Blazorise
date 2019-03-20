@@ -16,6 +16,8 @@ namespace Blazorise.Charts.Base
     {
         #region Members
 
+        private bool dirty = true;
+
         #endregion
 
         #region Methods
@@ -38,6 +40,8 @@ namespace Blazorise.Charts.Base
         /// </summary>
         public void Clear()
         {
+            dirty = true;
+
             Data?.Labels?.Clear();
             Data?.Datasets?.Clear();
         }
@@ -48,6 +52,8 @@ namespace Blazorise.Charts.Base
         /// <param name="label"></param>
         public void AddLabel( params string[] label )
         {
+            dirty = true;
+
             if ( Data == null )
                 Data = new ChartData<TItem>();
 
@@ -63,6 +69,8 @@ namespace Blazorise.Charts.Base
         /// <param name="dataSet"></param>
         public void AddDataSet( params TDataSet[] dataSet )
         {
+            dirty = true;
+
             if ( Data == null )
                 Data = new ChartData<TItem>();
 
@@ -78,7 +86,12 @@ namespace Blazorise.Charts.Base
         /// <returns></returns>
         public async Task Update()
         {
-            await JS.SetChartData( JSRuntime, ElementId, Type, DataJsonString ?? (object)Data, OptionsJsonString ?? (object)Options );
+            if ( dirty )
+            {
+                dirty = false;
+
+                await JS.SetChartData( JSRuntime, ElementId, Type, DataJsonString ?? (object)Data, OptionsJsonString ?? (object)Options );
+            }
         }
 
         #endregion
