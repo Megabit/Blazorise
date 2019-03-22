@@ -12,15 +12,15 @@ using DevHostServerProgram = BasicTestApp.Server.Program;
 
 namespace Blazorise.UnitTests
 {
-    public class ValidateSelectTest : BasicTestAppTestBase
+    public class ValidateSelectEditTest : BasicTestAppTestBase
     {
-        public ValidateSelectTest( BrowserFixture browserFixture,
+        public ValidateSelectEditTest( BrowserFixture browserFixture,
                   ToggleExecutionModeServerFixture<DevHostServerProgram> serverFixture,
                   ITestOutputHelper output )
                   : base( browserFixture, serverFixture, output )
         {
             Navigate( ServerPathBase, noReload: !serverFixture.UsingAspNetHost );
-            MountTestComponent<ValidateSelectComponent>();
+            MountTestComponent<ValidateSelectEditComponent>();
         }
 
         [Fact]

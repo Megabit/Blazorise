@@ -28,8 +28,6 @@ namespace Blazorise
         {
             switch ( textRole )
             {
-                case TextRole.Number:
-                    return "number";
                 case TextRole.Email:
                     return "email";
                 case TextRole.Password:

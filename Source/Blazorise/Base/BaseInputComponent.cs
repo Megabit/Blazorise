@@ -8,9 +8,14 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseInputComponent : BaseSizableComponent
+    /// <summary>
+    /// Base component for all the input types.
+    /// </summary>
+    public abstract class BaseInputComponent<TValue> : BaseSizableComponent
     {
         #region Members
+
+        private TValue internalValue;
 
         private Size size = Size.None;
 
@@ -27,12 +32,54 @@ namespace Blazorise.Base
             // link to the parent component
             ParentField?.Hook( this );
 
+            if ( ParentValidation != null )
+            {
+                ParentValidation.InitInputValue( internalValue );
+
+                ParentValidation.Validated += OnValidated;
+            }
+
             base.OnInit();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentValidation != null )
+                {
+                    ParentValidation.Validated -= OnValidated;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
+        private void OnValidated( ValidatedEventArgs e )
+        {
+            ClassMapper.Dirty();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Internal input value.
+        /// </summary>
+        protected TValue InternalValue
+        {
+            get
+            {
+                return internalValue;
+            }
+            set
+            {
+                internalValue = value;
+
+                ParentValidation?.UpdateInputValue( value );
+            }
+        }
 
         /// <summary>
         /// Sets the size of the input control.
@@ -79,76 +126,15 @@ namespace Blazorise.Base
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
-
-        #endregion
-    }
-
-    public abstract class BaseInputComponent<TValue> : BaseInputComponent
-    {
-        #region Members
-
-        private TValue value;
-
-        #endregion
-
-        #region Methods
-
-        protected override void OnInit()
-        {
-            ParentValidation?.InitInputValue( value );
-
-            if ( ParentValidation != null )
-            {
-                ParentValidation.Validated += OnValidated;
-            }
-
-            base.OnInit();
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( ParentValidation != null )
-                {
-                    ParentValidation.Validated -= OnValidated;
-                }
-            }
-
-            base.Dispose( disposing );
-        }
-
-        private void OnValidated( ValidatedEventArgs e )
-        {
-            ClassMapper.Dirty();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Internal input value.
-        /// </summary>
-        protected TValue Value
-        {
-            get
-            {
-                return value;
-            }
-            set
-            {
-                this.value = value;
-
-                ParentValidation?.UpdateInputValue( value );
-            }
-        }
-
         /// <summary>
         /// Placeholder for validation messages.
         /// </summary>
         [Parameter] protected RenderFragment Feedback { get; set; }
+
+        /// <summary>
+        /// Input content.
+        /// </summary>
+        [Parameter] protected RenderFragment ChildContent { get; set; }
 
         /// <summary>
         /// Parent validation container.

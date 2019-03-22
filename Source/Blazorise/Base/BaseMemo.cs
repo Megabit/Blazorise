@@ -61,7 +61,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets or sets the text inside the input field.
         /// </summary>
-        [Parameter] protected string Text { get => Value; set => Value = value; }
+        [Parameter] protected string Text { get => InternalValue; set => InternalValue = value; }
 
         /// <summary>
         /// Occurs after text has changed.

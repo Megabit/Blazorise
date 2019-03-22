@@ -57,8 +57,8 @@ namespace Blazorise.Base
             }
             set
             {
-                Value = value;
-                internalDate = Value?.ToString( Utils.Parsers.InternalDateFormat );
+                InternalValue = value;
+                internalDate = InternalValue?.ToString( Utils.Parsers.InternalDateFormat );
             }
         }
 

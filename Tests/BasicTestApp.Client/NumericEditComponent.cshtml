@@ -1,0 +1,57 @@
+﻿<h2>Integers</h2>
+<p id="int-event-initially-undefined">
+    <NumericEdit Value="@intValue" ValueChanged="@((v)=> { intValue = v; StateHasChanged(); } )" />
+
+    <span>The Value should update automatically as you type in the numeric field</span>
+
+    <span id="int-event-initially-undefined-result">@intValue</span>
+</p>
+<p id="nullable-int-event-initially-null">
+    <NumericEdit Value="@nullableIntValue" ValueChanged="@((v)=> { nullableIntValue = v; StateHasChanged(); } )" />
+
+    <span>The Value should update automatically as you type in the numeric field</span>
+
+    <span id="nullable-int-event-initially-null-result">@nullableIntValue</span>
+</p>
+
+<h2>Decimals</h2>
+<p id="decimal-event-initially-undefined">
+    <NumericEdit Value="@decimalValue" ValueChanged="@((v)=> { decimalValue = v; StateHasChanged(); } )" />
+
+    <span>The Value should update automatically as you type in the numeric field</span>
+
+    <span id="decimal-event-initially-undefined-result">@decimalValue</span>
+</p>
+<p id="nullable-decimal-event-initially-null">
+    <NumericEdit Value="@nullableDecimalValue" ValueChanged="@((v)=> { nullableDecimalValue = v; StateHasChanged(); } )" />
+
+    <span>The Value should update automatically as you type in the numeric field</span>
+
+    <span id="nullable-decimal-event-initially-null-result">@nullableDecimalValue</span>
+</p>
+
+<h2>Steps</h2>
+<p id="step-change-default">
+    <NumericEdit Value="@stepValue1" ValueChanged="@((v)=> { stepValue1 = v; StateHasChanged(); } )" />
+
+    <span>The Value should update automatically as you type in the numeric field</span>
+
+    <span id="step-change-default-result">@stepValue1</span>
+</p>
+<p id="step-change-by-2">
+    <NumericEdit Value="@stepValue2" ValueChanged="@((v)=> { stepValue2 = v; StateHasChanged(); } )" Step="2" />
+
+    <span>The Value should update automatically as you type in the numeric field</span>
+
+    <span id="step-change-by-2-result">@stepValue2</span>
+</p>
+@functions{
+    int intValue;
+    int? nullableIntValue;
+
+    decimal decimalValue;
+    decimal? nullableDecimalValue;
+
+    decimal stepValue1 = 1;
+    decimal stepValue2 = 2;
+}

@@ -1,0 +1,13 @@
+﻿@* This has to be name TextEdit because Razor(not Blazor) still doesn't support case sensitive components. *@
+@typeparam TValue
+@inherits Blazorise.Base.BaseNumericEdit<TValue>
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <input ref="ElementRef" type="number" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" step="@Step" value="@Value" onchange="@HandleOnChange" oninput="@HandleOnInput" />
+    @ChildContent
+    @Feedback
+}
+else
+{
+    @RenderCustomComponent()
+}

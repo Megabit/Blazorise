@@ -12,46 +12,49 @@ using DevHostServerProgram = BasicTestApp.Server.Program;
 
 namespace Blazorise.UnitTests
 {
-    public class ValidateTextTest : BasicTestAppTestBase
+    public class ValidateTextEditTest : BasicTestAppTestBase
     {
-        public ValidateTextTest( BrowserFixture browserFixture,
+        public ValidateTextEditTest( BrowserFixture browserFixture,
                ToggleExecutionModeServerFixture<DevHostServerProgram> serverFixture,
                ITestOutputHelper output )
                : base( browserFixture, serverFixture, output )
         {
             Navigate( ServerPathBase, noReload: !serverFixture.UsingAspNetHost );
-            MountTestComponent<ValidateTextComponent>();
+            MountTestComponent<ValidateTextEditComponent>();
         }
 
-        //[Fact]
-        //public void CanValidateText_InitiallyBlank()
-        //{
-        //    var paragraph = Browser.FindElement( By.Id( "validate-text-initially-blank" ) );
-        //    var edit = paragraph.FindElement( By.TagName( "input" ) );
+        [Fact]
+        public void CanValidateText_InitiallyBlank()
+        {
+            var paragraph = Browser.FindElement( By.Id( "validate-text-initially-blank" ) );
+            var edit = paragraph.FindElement( By.TagName( "input" ) );
 
-        //    WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
 
-        //    edit.SendKeys( "a" );
-        //    WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+            edit.SendKeys( "a" );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
 
-        //    edit.SendKeys( Keys.Backspace );
-        //    WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
-        //}
+            edit.SendKeys( Keys.Backspace );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+        }
 
-        //[Fact]
-        //public void CanValidateText_InitiallyPopulated()
-        //{
-        //    var paragraph = Browser.FindElement( By.Id( "validate-text-initially-populated" ) );
-        //    var edit = paragraph.FindElement( By.TagName( "input" ) );
+        // This test is little diferent because blazor is not working best with default values sent to component. see https://github.com/aspnet/AspNetCore/issues/7898
+        // I will leave this test here for future reference in case the bug is fixed.
+        [Fact]
+        public void CanValidateText_InitiallyPopulated()
+        {
+            var paragraph = Browser.FindElement( By.Id( "validate-text-initially-populated" ) );
+            var edit = paragraph.FindElement( By.TagName( "input" ) );
 
-        //    WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
 
-        //    edit.SendKeys( Keys.Backspace );
-        //    WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+            // although input should be cleared it will be reset to the default value
+            edit.SendKeys( Keys.Backspace );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
 
-        //    edit.SendKeys( "b" );
-        //    WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
-        //}
+            edit.SendKeys( "b" );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+        }
 
         [Fact]
         public void CanValidateTextWithBind_InitiallyBlank()

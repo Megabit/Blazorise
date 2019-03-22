@@ -1,0 +1,20 @@
+﻿@typeparam TValue
+@inherits Base.BaseNumericEdit<TValue>
+@if ( ParentIsFieldBody )
+{
+    <div class="field">
+        <div class="control">
+            <input type="number" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" step="@Step" value="@Value" onchange="@HandleOnChange" oninput="@HandleOnInput" />
+            @ChildContent
+        </div>
+        @Feedback
+    </div>
+}
+else
+{
+    <div class="control">
+        <input type="number" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" step="@Step" value="@Value" onchange="@HandleOnChange" oninput="@HandleOnInput" />
+        @ChildContent
+    </div>
+    @Feedback
+}

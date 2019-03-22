@@ -30,11 +30,11 @@ namespace Blazorise.Base
         protected async void PathChangedHandler( UIChangeEventArgs e )
         {
             if ( IsMultiple )
-                Value = await JSRunner.GetFilePaths( ElementRef );
+                InternalValue = await JSRunner.GetFilePaths( ElementRef );
             else
-                Value = new string[] { e?.Value?.ToString() };
+                InternalValue = new string[] { e?.Value?.ToString() };
 
-            PathChanged?.Invoke( Value );
+            PathChanged?.Invoke( InternalValue );
         }
 
         #endregion

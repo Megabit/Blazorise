@@ -47,7 +47,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets or sets the checked flag.
         /// </summary>
-        [Parameter] protected bool Checked { get => Value; set => Value = value; }
+        [Parameter] protected bool Checked { get => InternalValue; set => InternalValue = value; }
 
         /// <summary>
         /// Occurs when the check state is changed.

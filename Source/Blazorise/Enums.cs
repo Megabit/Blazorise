@@ -578,11 +578,6 @@ namespace Blazorise
         Text,
 
         /// <summary>
-        /// Defines a numeric input field.
-        /// </summary>
-        Number,
-
-        /// <summary>
         /// Used for input fields that should contain an e-mail address.
         /// </summary>
         Email,
