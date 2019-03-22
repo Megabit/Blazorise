@@ -6,6 +6,17 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.6.1-19154-02
+
+### Enhancements
+
+- Added new [NumericEdit]({{ "/docs/components/numeric/" | relative_url }}) component.
+- Action converted to EventCallback for `TextEdit` and `SimpleButton` components. This means that StateHasChanged will be called automatically for you.
+
+### Bug Fixes
+
+- Fixed bug with the charts when hovering after the chart is refreshed.
+
 ## 0.6.0-preview7-19154-02
 
 ### Enhancements
