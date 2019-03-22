@@ -27,6 +27,8 @@ docs:
         url: /docs/components/select/
       - title: "Date"
         url: /docs/components/date/
+      - title: "Numeric"
+        url: /docs/components/numeric/
       - title: "Check"
         url: /docs/components/check/
       - title: "Field"
