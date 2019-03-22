@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -67,31 +68,11 @@ namespace Blazorise.Base
                 Validate();
         }
 
-        bool AreEqual( Array array1, Array array2 )
-        {
-            if ( array1 == null && array2 == null )
-                return true;
-
-            if ( array1 != null && array2 != null
-                && array1.Length == array2.Length )
-            {
-                for ( int i = 0; i < array1.Length; ++i )
-                {
-                    if ( array1.GetValue( i ) != array2.GetValue( i ) )
-                        return false;
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
         internal void UpdateInputValue( object value )
         {
             if ( value is Array )
             {
-                if ( !AreEqual( this.value as Array, value as Array ) )
+                if ( !Comparers.AreEqual( this.value as Array, value as Array ) )
                 {
                     this.value = value;
 
