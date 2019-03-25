@@ -6,7 +6,10 @@ toc: true
 toc_label: "Version history"
 ---
 
-## 0.6.1-19154-02
+**Note:** The preview number (**19154-02**) is used to indicate that the current version of Blazorise is working on the preview version of Blazor and/or .Net Core 3.0!
+{: .notice--warning}
+
+## 0.6.1-preview1-19154-02
 
 ### Enhancements
 
@@ -22,7 +25,7 @@ toc_label: "Version history"
 
 ### Enhancements
 
-- Upgraded to the newest Blazor v0.9.0-preview3-19154-02. The preview number(19154-02) is used to match the preview number of Blazor!
+- Upgraded to the newest Blazor v0.9.0-preview3-19154-02.
 
 ## 0.6.0-preview(x)-19104-04
 

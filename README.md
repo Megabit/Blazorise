@@ -4,6 +4,7 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 
 ---
 **NOTE**
+The preview number (**19154-02**) is used to indicate that the current version of Blazorise is working on the preview version of Blazor and/or .Net Core 3.0!
 
 Blazorise version 0.6 and above are now updated for Blazor 0.9 and .Net Core 3.0 preview3. This version will work only in Visual Studio 2019. If you're still using Blazor 0.7, in that case you will use Blazorise v0.5.x!
 
