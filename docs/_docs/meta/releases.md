@@ -12,6 +12,7 @@ toc_label: "Version history"
 
 - Added new [NumericEdit]({{ "/docs/components/numeric/" | relative_url }}) component.
 - Action converted to EventCallback for `TextEdit` and `SimpleButton` components. This means that StateHasChanged will be called automatically for you.
+- Attribute `IsRightAligned` added on `BarDropdownMenu`. This is to allow the menu to be right-aligned to the parent element.
 
 ### Bug Fixes
 
