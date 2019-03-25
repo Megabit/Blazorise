@@ -408,6 +408,8 @@ namespace Blazorise.Providers
 
         public virtual string BarDropdownMenuShow() => null;
 
+        public virtual string BarDropdownMenuRight() => null;
+
         #endregion
 
         #region Collapse

@@ -433,6 +433,8 @@ namespace Blazorise.Bulma
 
         public virtual string BarDropdownMenuShow() => Show();
 
+        public virtual string BarDropdownMenuRight() => "is-right";
+
         #endregion
 
         #region Collapse

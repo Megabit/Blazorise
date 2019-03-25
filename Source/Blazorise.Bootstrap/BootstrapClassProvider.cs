@@ -432,6 +432,8 @@ namespace Blazorise.Bootstrap
 
         public virtual string BarDropdownMenuShow() => Show();
 
+        public virtual string BarDropdownMenuRight() => "dropdown-menu-right";
+
         #endregion
 
         #region Collapse

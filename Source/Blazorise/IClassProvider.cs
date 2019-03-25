@@ -401,6 +401,8 @@ namespace Blazorise
 
         string BarDropdownMenuShow();
 
+        string BarDropdownMenuRight();
+
         #endregion
 
         #region Collapse

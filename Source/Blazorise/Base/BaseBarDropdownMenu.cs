@@ -14,6 +14,8 @@ namespace Blazorise.Base
 
         private bool isOpen;
 
+        private bool isRightAligned;
+
         #endregion
 
         #region Methods
@@ -22,7 +24,8 @@ namespace Blazorise.Base
         {
             ClassMapper
                 .Add( () => ClassProvider.BarDropdownMenu() )
-                .If( () => ClassProvider.BarDropdownMenuShow(), () => IsOpen );
+                .If( () => ClassProvider.BarDropdownMenuShow(), () => IsOpen )
+                .If( () => ClassProvider.BarDropdownMenuRight(), () => IsRightAligned );
 
             base.RegisterClasses();
         }
@@ -39,6 +42,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Handles the visibility of dropdown menu.
+        /// </summary>
         [Parameter]
         internal bool IsOpen
         {
@@ -46,6 +52,21 @@ namespace Blazorise.Base
             set
             {
                 isOpen = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        /// <summary>
+        /// Right aligned dropdown menu.
+        /// </summary>
+        [Parameter]
+        protected bool IsRightAligned
+        {
+            get => isRightAligned;
+            set
+            {
+                isRightAligned = value;
 
                 ClassMapper.Dirty();
             }
