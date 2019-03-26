@@ -11,9 +11,9 @@ using DevHostServerProgram = BasicTestApp.Server.Program;
 
 namespace Blazorise.UnitTests
 {
-    public class ButtonTest : BasicTestAppTestBase
+    public class SimpleButtonTest : BasicTestAppTestBase
     {
-        public ButtonTest( BrowserFixture browserFixture,
+        public SimpleButtonTest( BrowserFixture browserFixture,
             ToggleExecutionModeServerFixture<DevHostServerProgram> serverFixture,
             ITestOutputHelper output )
             : base( browserFixture, serverFixture, output )

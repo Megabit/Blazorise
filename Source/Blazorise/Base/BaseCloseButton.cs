@@ -26,7 +26,7 @@ namespace Blazorise.Base
 
         protected void ClickHandler()
         {
-            Clicked?.Invoke();
+            Clicked.InvokeAsync( null );
         }
 
         #endregion
@@ -36,7 +36,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        [Parameter] private Action Clicked { get; set; }
+        [Parameter] private EventCallback Clicked { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
