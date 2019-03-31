@@ -9,6 +9,13 @@ toc_label: "Version history"
 **Note:** The preview number (**19154-02**) is used to indicate that the current version of Blazorise is working on the preview version of Blazor and/or .Net Core 3.0!
 {: .notice--warning}
 
+## 0.6.2-preview1-19154-02
+
+### Enhancements
+
+- Added support for Razor Components project types
+- Added EventCallback to CloseButton component
+
 ## 0.6.1-preview1-19154-02
 
 ### Enhancements
