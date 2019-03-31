@@ -80,7 +80,7 @@ public void Configure( IComponentsApplicationBuilder app )
 
 ### Razor Components
 
-Since Razor Components still doesn't support static files inside of class library you will need to manually add required js and css files. First you must download **bundle.zip** from the release tab and extract it to your _wwwroot_ folder. After extraction you will have to include files in your Index.cshtml eg.
+Since Razor Components still doesn't support static files inside of class library you will need to manually add required js and css files. First you must download **bundle.zip** from the [release](https://github.com/stsrki/Blazorise/releases) tab and extract it to your _wwwroot_ folder. After extraction you will have to include files in your Index.cshtml eg.
 
 ```
 <link href="blazorise.css" rel="stylesheet" />
