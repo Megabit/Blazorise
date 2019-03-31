@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+#if NETCORE3_0
+using Microsoft.AspNetCore.Builder;
+#endif
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -24,6 +27,8 @@ namespace Blazorise.Bulma
 
             return serviceCollection;
         }
+
+#if NETSTANDARD2_0
 
         public static IComponentsApplicationBuilder UseBulmaProviders( this IComponentsApplicationBuilder app )
         {
@@ -56,5 +61,41 @@ namespace Blazorise.Bulma
 
             return app;
         }
+
+#else
+
+        public static IApplicationBuilder UseBulmaProviders( this IApplicationBuilder app )
+        {
+            var componentMapper = app.ApplicationServices.GetRequiredService<IComponentMapper>();
+
+            componentMapper.Register<Blazorise.Addons, Bulma.Addons>();
+            componentMapper.Register<Blazorise.BarToggler, Bulma.BarToggler>();
+            componentMapper.Register<Blazorise.BarDropdown, Bulma.BarDropdown>();
+            componentMapper.Register<Blazorise.Breadcrumb, Bulma.Breadcrumb>();
+            componentMapper.Register<Blazorise.BreadcrumbLink, Bulma.BreadcrumbLink>();
+            componentMapper.Register<Blazorise.CardImage, Bulma.CardImage>();
+            componentMapper.Register<Blazorise.CardSubtitle, Bulma.CardSubtitle>();
+            componentMapper.Register<Blazorise.CheckEdit, Bulma.CheckEdit>();
+            componentMapper.Register<Blazorise.DateEdit, Bulma.DateEdit>();
+            componentMapper.Register<Blazorise.DropdownDivider, Bulma.DropdownDivider>();
+            componentMapper.Register<Blazorise.DropdownMenu, Bulma.DropdownMenu>();
+            componentMapper.Register<Blazorise.DropdownToggle, Bulma.DropdownToggle>();
+            componentMapper.Register<Blazorise.Field, Bulma.Field>();
+            componentMapper.Register<Blazorise.FieldLabel, Bulma.FieldLabel>();
+            componentMapper.Register<Blazorise.FieldHelp, Bulma.FieldHelp>();
+            componentMapper.Register<Blazorise.FieldBody, Bulma.FieldBody>();
+            componentMapper.Register<Blazorise.Fields, Bulma.Fields>();
+            componentMapper.Register<Blazorise.FileEdit, Bulma.FileEdit>();
+            componentMapper.Register<Blazorise.MemoEdit, Bulma.MemoEdit>();
+            componentMapper.Register( typeof( Blazorise.SelectEdit<> ), typeof( Bulma.SelectEdit<> ) );
+            componentMapper.Register<Blazorise.SimpleButton, Bulma.SimpleButton>();
+            componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();
+            componentMapper.Register<Blazorise.TextEdit, Bulma.TextEdit>();
+            componentMapper.Register( typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) );
+
+            return app;
+        }
+
+#endif
     }
 }

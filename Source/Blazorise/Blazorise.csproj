@@ -44,8 +44,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="content\helpers.js" />
-    <None Remove="content\styles.css" />
+    <None Remove="content\blazorise.css" />
+    <None Remove="content\blazorise.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -274,10 +274,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="content\helpers.js">
+    <EmbeddedResource Update="content\blazorise.js">
       <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Update="content\styles.css">
+    <EmbeddedResource Update="content\blazorise.css">
       <LogicalName>blazor:css:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>
   </ItemGroup>

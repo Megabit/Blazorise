@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="content\charts.js" />
+    <None Remove="content\blazorise.charts.js" />
   </ItemGroup>
 
   <ItemGroup>

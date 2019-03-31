@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="content\sidebar.css" />
-    <None Remove="content\sidebar.js" />
+    <None Remove="content\blazorise.sidebar.css" />
+    <None Remove="content\blazorise.sidebar.js" />
   </ItemGroup>
 
   <ItemGroup>

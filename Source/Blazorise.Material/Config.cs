@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Bootstrap;
+#if NETCORE3_0
+using Microsoft.AspNetCore.Builder;
+#endif
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -26,6 +29,8 @@ namespace Blazorise.Material
             return serviceCollection;
         }
 
+#if NETSTANDARD2_0
+
         /// <summary>
         /// Registers the custom rules for material components.
         /// </summary>
@@ -38,5 +43,22 @@ namespace Blazorise.Material
 
             return app;
         }
+
+#else
+
+        /// <summary>
+        /// Registers the custom rules for material components.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseMaterialProviders( this IApplicationBuilder app )
+        {
+            // same components as in bootstrap provider
+            app.UseBootstrapProviders();
+
+            return app;
+        }
+
+#endif
     }
 }
