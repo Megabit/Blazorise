@@ -1,4 +1,4 @@
-# Blazorise components for Blazor
+# Blazorise components for Blazor and Razor Components
 
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
@@ -104,6 +104,26 @@ public void Configure( IComponentsApplicationBuilder app )
   app.AddComponent<App>( "app" );
 }
 ```
+
+### Razor Components
+
+Since Razor Components still doesn't support static files inside of class library you will need to manually add required js and css files. First you must download **bundle.zip** from the release tab and extract it to your _wwwroot_ folder. After extraction you will have to include files in your Index.cshtml eg.
+
+```
+<link href="blazorise.css" rel="stylesheet" />
+<link href="blazorise.bootstrap.css" rel="stylesheet" />
+<link href="blazorise.sidebar.css" rel="stylesheet" />
+<link href="blazorise.snackbar.css" rel="stylesheet" />
+
+<script src="blazorise.js"></script>
+<script src="blazorise.bootstrap.js"></script>
+<script src="blazorise.charts.js"></script>
+<script src="blazorise.sidebar.js"></script>
+
+etc.
+```
+
+There is also another option. You can try the library [BlazorEmbedLibrary](https://github.com/SQL-MisterMagoo/BlazorEmbedLibrary). Full instruction on how to use it can be found on their project page.
 
 ## Other frameworks
 
