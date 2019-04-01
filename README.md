@@ -133,4 +133,6 @@ To setup Blazorise for other css frameworks please refer the [Usage](https://bla
 
 ## Support
 
+If you've got value from the components library which I have created, but pull requests are not your thing, then I would also very much appreciate your support by buying me a coffee.
+
 <a href="https://www.buymeacoffee.com/mladenmacanovic" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/white_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a> <a href="https://www.paypal.me/mladenmacanovic/5usd" id="donate-amount-5-usd"><img src="https://i.ibb.co/BKtv9Fs/PP-logo-h-100x26.png" alt="PP-logo-h-100x26" border="0"></a>
