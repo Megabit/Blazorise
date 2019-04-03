@@ -22,7 +22,7 @@ namespace Blazorise.Bulma
 
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
-            serviceCollection.AddSingleton<IJSRunner, BulmaJSRunner>();
+            serviceCollection.AddScoped<IJSRunner, BulmaJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
 
             return serviceCollection;
