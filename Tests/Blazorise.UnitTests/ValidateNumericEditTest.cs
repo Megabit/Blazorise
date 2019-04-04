@@ -38,8 +38,6 @@ namespace Blazorise.UnitTests
             WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
         }
 
-        // This test is little diferent because blazor is not working best with default values sent to component. see https://github.com/aspnet/AspNetCore/issues/7898
-        // I will leave this test here for future reference in case the bug is fixed.
         [Fact]
         public void CanValidateNumeric_InitiallyPopulated()
         {
@@ -49,9 +47,9 @@ namespace Blazorise.UnitTests
             WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
 
             edit.SendKeys( Keys.Backspace );
-            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
 
-            edit.SendKeys( "b" );
+            edit.SendKeys( "2" );
             WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
         }
 

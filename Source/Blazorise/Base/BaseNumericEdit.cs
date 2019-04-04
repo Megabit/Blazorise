@@ -19,6 +19,26 @@ namespace Blazorise.Base
 
         #region Methods
 
+        // implementation according to the response on https://github.com/aspnet/AspNetCore/issues/7898#issuecomment-479863699
+        protected override void OnInit()
+        {
+            internalValue = Value;
+
+            base.OnInit();
+        }
+
+        public override Task SetParametersAsync( ParameterCollection parameters )
+        {
+            // This is needed for the two-way binding to work properly.
+            // Otherwise the internal value would not be set.
+            if ( parameters.TryGetValue<TValue>( nameof( Value ), out var newValue ) )
+            {
+                internalValue = newValue;
+            }
+
+            return base.SetParametersAsync( parameters );
+        }
+
         protected override void HandleValue( object value )
         {
             if ( Converters.TryChangeType<TValue>( value, out var result ) )
@@ -29,12 +49,12 @@ namespace Blazorise.Base
                 //else if ( Min != null && Comparers.Compare( result, Min ) < 0 )
                 //    result = Min ?? default;
 
-                Value = result;
+                InternalValue = result;
             }
             else
-                Value = default;
+                InternalValue = default;
 
-            ValueChanged?.Invoke( Value );
+            ValueChanged?.Invoke( InternalValue );
         }
 
         #endregion
@@ -44,7 +64,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets or sets the value inside the input field.
         /// </summary>
-        [Parameter] protected TValue Value { get => InternalValue; set => InternalValue = value; }
+        [Parameter] protected TValue Value { get; set; }
 
         /// <summary>
         /// Occurs after the value has changed.
