@@ -15,7 +15,7 @@ namespace Blazorise.Base
     {
         #region Members
 
-        private TValue internalValue;
+        protected TValue internalValue;
 
         private Size size = Size.None;
 
@@ -30,8 +30,6 @@ namespace Blazorise.Base
         protected override void OnInit()
         {
             // link to the parent component
-            ParentField?.Hook( this );
-
             if ( ParentValidation != null )
             {
                 ParentValidation.InitInputValue( internalValue );

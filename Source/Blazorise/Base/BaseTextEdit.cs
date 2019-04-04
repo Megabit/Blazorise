@@ -17,10 +17,30 @@ namespace Blazorise.Base
 
         #region Methods
 
+        // implementation according to the response on https://github.com/aspnet/AspNetCore/issues/7898#issuecomment-479863699
+        protected override void OnInit()
+        {
+            internalValue = Text;
+
+            base.OnInit();
+        }
+
+        public override Task SetParametersAsync( ParameterCollection parameters )
+        {
+            // This is needed for the two-way binding to work properly.
+            // Otherwise the internal value would not be set.
+            if ( parameters.TryGetValue<string>( nameof( Text ), out var newText ) )
+            {
+                internalValue = newText;
+            }
+
+            return base.SetParametersAsync( parameters );
+        }
+
         protected override void HandleValue( object value )
         {
-            Text = value?.ToString();
-            TextChanged.InvokeAsync( Text );
+            InternalValue = value?.ToString();
+            TextChanged.InvokeAsync( InternalValue );
         }
 
         #endregion
@@ -37,7 +57,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets or sets the text inside the input field.
         /// </summary>
-        [Parameter] protected string Text { get => InternalValue; set => InternalValue = value; }
+        [Parameter] protected string Text { get; set; }
 
         /// <summary>
         /// Occurs after text has changed.
