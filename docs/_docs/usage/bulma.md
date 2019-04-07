@@ -29,7 +29,7 @@ You also need to install the icon package:
 Install-Package Blazorise.Icons.FontAwesome
 ```
 
-### Sources files
+### Source files
 
 The next step is to change your `index.html` file and include the css and js source files:
 
@@ -37,6 +37,9 @@ The next step is to change your `index.html` file and include the css and js sou
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 ```
+
+**Note:** Don't forget to remove default **bootstrap** css and js files that comes with the Blazor/RC project template. If you forget to remove them it's possible that some of component will not work as they should be.
+{: .notice--info}
 
 ### Usings
 
@@ -80,7 +83,9 @@ public void Configure( IComponentsApplicationBuilder app )
 
 ### Razor Components
 
-Since Razor Components still doesn't support static files inside of class library you will need to manually add required js and css files. First you must download **bundle.zip** from the [release](https://github.com/stsrki/Blazorise/releases) tab and extract it to your _wwwroot_ folder. After extraction you will have to include files in your Index.cshtml eg.
+This step is mandatory only for projects built on top of Razor Components! For Blazor projects this step is not requiered! Normally these files would be downloaded automatically by the framework but since Razor Components still doesn't support static files inside of class library you will need to manually include required js and css files into your project. Once the Blazor/RC team implements this feature this step will not we required.
+
+First you must download **bundle.zip** from the [release](https://github.com/stsrki/Blazorise/releases) tab and extract it to your _wwwroot_ folder. After extraction you will have to include files in your Index.cshtml eg.
 
 ```
 <link href="blazorise.css" rel="stylesheet" />
