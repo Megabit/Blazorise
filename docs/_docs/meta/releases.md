@@ -9,6 +9,18 @@ toc_label: "Version history"
 **Note:** The preview number (**19154-02**) is used to indicate that the current version of Blazorise is working on the preview version of Blazor and/or .Net Core 3.0!
 {: .notice--warning}
 
+## 0.6.3-preview1-19154-02
+
+### Enhancements
+
+- Pattern attribute(regex) for TextEdit, NumericEdit and DateEdit components
+- EventCallback for DropdownItem and BarDropdownItem [#62](https://github.com/stsrki/Blazorise/issues/62)
+
+### Bug Fixes
+
+- Cannot consume scoped service IJSRuntime [#58](https://github.com/stsrki/Blazorise/issues/58)
+- Validation for TextEdit and NumericEdit is now working with default values
+
 ## 0.6.2-preview1-19154-02
 
 ### Enhancements
