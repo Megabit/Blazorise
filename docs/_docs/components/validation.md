@@ -85,6 +85,22 @@ In this example you can see how the `<Validations>` component is used to enclose
 }
 ```
 
+## Pattern validation
+
+If you want to validate input by using regular expression instead of `Validator` handlers you can use `Pattern` attribute. Components that supports pattern attribute are `TextEdit`, `NumericEdit` and `DateEdit`.
+
+### Example
+
+```html
+<Validation UsePattern="true">
+    <TextEdit Pattern="[A-Za-z]{3}">
+        <Feedback>
+            <ValidationError>Pattern does not match!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>
+```
+
 ## Validation rules
 
 In Blazorise you can use some of the predefined validation rules. eg
