@@ -112,5 +112,43 @@ namespace Blazorise.UnitTests
             edit.SendKeys( "b" );
             WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
         }
+
+        [Fact]
+        public void CanValidatePattern_InitiallyBlank()
+        {
+            var paragraph = Browser.FindElement( By.Id( "validate-text-using-pattern-initially-blank" ) );
+            var edit = paragraph.FindElement( By.TagName( "input" ) );
+
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            edit.SendKeys( "a" );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            edit.SendKeys( Keys.Backspace );
+            edit.SendKeys( "1" );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            edit.SendKeys( Keys.Backspace );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+        }
+
+        [Fact]
+        public void CanValidatePattern_InitiallyPopulated()
+        {
+            var paragraph = Browser.FindElement( By.Id( "validate-text-using-pattern-initially-populated" ) );
+            var edit = paragraph.FindElement( By.TagName( "input" ) );
+
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            edit.SendKeys( Keys.Backspace );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            edit.SendKeys( "b" );
+            WaitAssert.False( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+
+            edit.SendKeys( Keys.Backspace );
+            edit.SendKeys( "1" );
+            WaitAssert.True( () => paragraph.ElementIsPresent( By.ClassName( "invalid-feedback" ) ) );
+        }
     }
 }

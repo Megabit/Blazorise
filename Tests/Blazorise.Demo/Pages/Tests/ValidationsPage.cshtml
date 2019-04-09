@@ -76,7 +76,7 @@
                     </FieldBody>
                 </Field>
                 <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidateDateOfBirth">
                             <DateEdit>
@@ -84,6 +84,18 @@
                                     <ValidationError>You must enter date of birth!</ValidationError>
                                 </Feedback>
                             </DateEdit>
+                        </Validation>
+                    </FieldBody>
+                </Field>
+                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Pattern</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Validation UsePattern="true">
+                            <TextEdit Pattern="[A-Za-z]{3}">
+                                <Feedback>
+                                    <ValidationError>Pattern [A-Za-z]{3} does not match!</ValidationError>
+                                </Feedback>
+                            </TextEdit>
                         </Validation>
                     </FieldBody>
                 </Field>
@@ -188,7 +200,7 @@
                         </FieldBody>
                     </Field>
                     <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
-                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidateDateOfBirth">
                                 <DateEdit>
@@ -196,6 +208,18 @@
                                         <ValidationError>You must enter date of birth!</ValidationError>
                                     </Feedback>
                                 </DateEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Pattern</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation UsePattern="true">
+                                <TextEdit Pattern="[A-Za-z]{3}">
+                                    <Feedback>
+                                        <ValidationError>Pattern [A-Za-z]{3} does not match!</ValidationError>
+                                    </Feedback>
+                                </TextEdit>
                             </Validation>
                         </FieldBody>
                     </Field>

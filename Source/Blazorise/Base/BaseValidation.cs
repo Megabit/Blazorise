@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
@@ -17,6 +18,11 @@ namespace Blazorise.Base
         /// Holds the last input value.
         /// </summary>
         private object value;
+
+        /// <summary>
+        /// Regex pattern used to override the validator handler.
+        /// </summary>
+        private Regex patternRegex;
 
         /// <summary>
         /// Raises an event that the validation has started.
@@ -68,6 +74,12 @@ namespace Blazorise.Base
                 Validate();
         }
 
+        internal void InitInputPattern( string pattern )
+        {
+            if ( !string.IsNullOrEmpty( pattern ) )
+                this.patternRegex = new Regex( pattern );
+        }
+
         internal void UpdateInputValue( object value )
         {
             if ( value is Array )
@@ -107,28 +119,51 @@ namespace Blazorise.Base
         /// </summary>
         public ValidationStatus Validate()
         {
-            var handler = Validator;
-
-            if ( handler != null )
+            if ( UsePattern && patternRegex != null )
             {
-                Validating?.Invoke();
+                var matchStatus = patternRegex.IsMatch( value?.ToString() ?? string.Empty )
+                    ? ValidationStatus.Success
+                    : ValidationStatus.Error;
 
-                var args = new ValidatorEventArgs( value );
-
-                handler( args );
-
-                if ( Status != args.Status )
+                if ( Status != matchStatus )
                 {
-                    Status = args.Status;
+                    Status = matchStatus;
 
-                    if ( args.Status == ValidationStatus.Success )
+                    if ( matchStatus == ValidationStatus.Success )
                         ValidationSucceeded?.Invoke( new ValidationSucceededEventArgs() );
-                    else if ( args.Status == ValidationStatus.Error )
-                        ValidationFailed?.Invoke( new ValidationFailedEventArgs( args.ErrorText ) );
+                    else if ( matchStatus == ValidationStatus.Error )
+                        ValidationFailed?.Invoke( new ValidationFailedEventArgs( null ) );
 
-                    Validated?.Invoke( new ValidatedEventArgs( Status, args.ErrorText ) );
+                    Validated?.Invoke( new ValidatedEventArgs( Status, null ) );
 
                     StateHasChanged();
+                }
+            }
+            else
+            {
+                var handler = Validator;
+
+                if ( handler != null )
+                {
+                    Validating?.Invoke();
+
+                    var args = new ValidatorEventArgs( value );
+
+                    handler( args );
+
+                    if ( Status != args.Status )
+                    {
+                        Status = args.Status;
+
+                        if ( args.Status == ValidationStatus.Success )
+                            ValidationSucceeded?.Invoke( new ValidationSucceededEventArgs() );
+                        else if ( args.Status == ValidationStatus.Error )
+                            ValidationFailed?.Invoke( new ValidationFailedEventArgs( args.ErrorText ) );
+
+                        Validated?.Invoke( new ValidatedEventArgs( Status, args.ErrorText ) );
+
+                        StateHasChanged();
+                    }
                 }
             }
 
@@ -163,6 +198,14 @@ namespace Blazorise.Base
         /// </summary>
         [Parameter] protected Action<ValidatorEventArgs> Validator { get; set; }
 
+        /// <summary>
+        /// Forces validation to use regex pattern matching instead of default validator handler.
+        /// </summary>
+        [Parameter] protected bool UsePattern { get; set; }
+
+        /// <summary>
+        /// Parent validation group.
+        /// </summary>
         [CascadingParameter] protected BaseValidations ParentValidations { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }

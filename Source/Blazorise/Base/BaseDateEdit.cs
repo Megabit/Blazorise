@@ -28,6 +28,16 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
+        protected override void OnInit()
+        {
+            if ( ParentValidation != null )
+            {
+                ParentValidation.InitInputPattern( Pattern );
+            }
+
+            base.OnInit();
+        }
+
         protected void ClickHandler( UIMouseEventArgs e )
         {
             JSRunner.ActivateDatePicker( ElementId, Utils.Parsers.InternalDateFormat );
@@ -76,6 +86,11 @@ namespace Blazorise.Base
         /// The latest date to accept.
         /// </summary>
         [Parameter] protected DateTime? Max { get; set; }
+
+        /// <summary>
+        /// The pattern attribute specifies a regular expression that the input element's value is checked against on form submission.
+        /// </summary>
+        [Parameter] protected string Pattern { get; set; }
 
         #endregion
     }
