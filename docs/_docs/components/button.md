@@ -129,7 +129,7 @@ To attach buttons together use a Toolbar role.
 
 <iframe src="/examples/buttons/buttontoolbar/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
-## Props
+## Attributes
 
 | Name       | Type                                                         | Default | Description                                          |
 |------------|--------------------------------------------------------------|---------|------------------------------------------------------|
