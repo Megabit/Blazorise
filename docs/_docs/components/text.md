@@ -67,6 +67,20 @@ Sets the heights of input elements.
 
 <iframe src="/examples/forms/text-sizing/" frameborder="0" scrolling="no" style="width:100%;height:107px;"></iframe>
 
+### Pattern
+
+Use pattern attribute to specify regular expression that will be used while validating the input text value.
+
+```html
+<Validation UsePattern="true">
+    <TextEdit Pattern="[A-Za-z]{3}">
+        <Feedback>
+            <ValidationError>Pattern does not match!</ValidationError>
+        </Feedback>
+    </TextEdit>
+</Validation>
+```
+
 ## Roles
 
 Use Role to define text value.
@@ -115,7 +129,7 @@ When using the event `TextChanged`, you also must define the `Text` value attrib
 
 ### TextChanged mode
 
-By default the TextChanged event will be raised only when text component loses focus. If you want to have TextChanged event raised on every key press you must set the `ChangeTextOnKeyPress` to true on application start.
+By default the TextChanged event will be raised only when component loses focus. To override default behaviour of TextChanged event you must set the `ChangeTextOnKeyPress` to true on application start.
 
 ```cs
 public void ConfigureServices( IServiceCollection services )
@@ -127,3 +141,19 @@ public void ConfigureServices( IServiceCollection services )
     } );
 }
 ```
+
+## Attributes
+
+| Name        | Type                                                         | Default | Description                                                                                          |
+|-------------|--------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
+| Role        | TextRole                                                     | `Text`  | The role of the input text.                                                                          |
+| Text        | string                                                       |         | Input value.                                                                                         |
+| TextChanged | event                                                        |         | Occurs after text has changed.                                                                       |
+| IsPlaintext | boolean                                                      | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
+| IsReadonly  | boolean                                                      | false   | Prevents modification of the input’s value.                                                          |
+| IsDisabled  | boolean                                                      | false   | Prevents user interactions and make it appear lighter.                                               |
+| MaxLength   | int?                                                         | null    | Specifies the maximum number of characters allowed in the input element.                             |
+| Placeholder | string                                                       |         | Sets the placeholder for the empty text.                                                             |
+| Pattern     | string                                                       |         | Specifies a regular expression that the input element's value is checked against on form validation. |
+| Color       | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }}) | `None`  | Component visual or contextual style variants.                                                       |
+| Size        | [Sizes]({{ "/docs/helpers/sizes/#size" | relative_url }})    | `None`  | Component size variations.                                                                           |
