@@ -95,7 +95,7 @@ namespace Blazorise.Base
         }
 
         /// <summary>
-        /// The pattern attribute specifies a regular expression that the input element's value is checked against on form submission.
+        /// The pattern attribute specifies a regular expression that the input element's value is checked against on form validation.
         /// </summary>
         [Parameter] protected string Pattern { get; set; }
 
