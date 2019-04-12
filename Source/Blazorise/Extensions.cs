@@ -39,6 +39,29 @@ namespace Blazorise
             }
         }
 
+        public static string ToTextInputMode( this TextInputMode textInputMode )
+        {
+            switch ( textInputMode )
+            {
+                case TextInputMode.Text:
+                    return "text";
+                case TextInputMode.Tel:
+                    return "tel";
+                case TextInputMode.Url:
+                    return "url";
+                case TextInputMode.Email:
+                    return "email";
+                case TextInputMode.Numeric:
+                    return "numeric";
+                case TextInputMode.Decimal:
+                    return "decimal";
+                case TextInputMode.Search:
+                    return "search";
+                default:
+                    return null;
+            }
+        }
+
         public static T GetAndRemove<T>( this IDictionary<string, object> values, string key )
         {
             if ( values.TryGetValue( key, out var value ) )

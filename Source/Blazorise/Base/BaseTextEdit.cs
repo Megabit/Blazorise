@@ -49,10 +49,14 @@ namespace Blazorise.Base
 
         protected string Type => Role.ToTextRoleString();
 
+        protected string Mode => InputMode.ToTextInputMode();
+
         /// <summary>
         /// Sets the role of the input text.
         /// </summary>
         [Parameter] protected TextRole Role { get; set; } = TextRole.Text;
+
+        [Parameter] protected TextInputMode InputMode { get; set; } = TextInputMode.None;
 
         /// <summary>
         /// Gets or sets the text inside the input field.
