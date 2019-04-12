@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Base.BaseTableRow
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <tr class="@ClassMapper.Class">
+    <tr class="@ClassMapper.Class" onclick="@HandleClick">
         @ChildContent
     </tr>
 }

@@ -1017,4 +1017,11 @@ namespace Blazorise
         DateTime = 2,
         Regex = 3,
     }
+
+    public enum MouseButton
+    {
+        Left = 0,
+        Middle = 1,
+        Right = 2,
+    }
 }
