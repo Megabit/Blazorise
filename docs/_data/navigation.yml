@@ -52,6 +52,8 @@ docs:
         url: /docs/components/bar/
       - title: "Modal"
         url: /docs/components/modal/
+      - title: "Table"
+        url: /docs/components/table/
       - title: "Badge"
         url: /docs/components/badge/
       - title: "Pagination"
