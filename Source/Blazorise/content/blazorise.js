@@ -100,6 +100,14 @@ window.blazorise = {
         return null;
     },
 
+    findClosableComponentIndex: (elementId) => {
+        for (index = 0; index < window.blazorise.closableComponents.length; ++index) {
+            if (window.blazorise.closableComponents[index].elementId === elementId)
+                return index;
+        }
+        return -1;
+    },
+
     isClosableComponent: (elementId) => {
         for (index = 0; index < window.blazorise.closableComponents.length; ++index) {
             if (window.blazorise.closableComponents[index].elementId === elementId)
@@ -115,32 +123,49 @@ window.blazorise = {
     },
 
     unregisterClosableComponent: (elementId) => {
-        const closable = window.blazorise.findClosableComponent(elementId);
-        if (closable) {
-            window.blazorise.closableComponents.splice(closable, 1);
+        const index = window.blazorise.findClosableComponentIndex(elementId);
+        if (index !== -1) {
+            window.blazorise.closableComponents.splice(index, 1);
+        }
+    },
+
+    tryClose: (closable, targetElementId) => {
+        let request = new Promise((resolve, reject) => {
+            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', targetElementId)
+                .then((result) => resolve({ elementId: closable.elementId, dotnetAdapter: closable.dotnetAdapter, status: result === true ? 'ok' : 'cancelled' }))
+                .catch(() => resolve({ elementId: closable.elementId, status: 'error' }));
+        });
+
+        if (request) {
+            request
+                .then((response) => {
+                    if (response.status === 'ok') {
+                        response.dotnetAdapter.invokeMethodAsync('Close')
+                            // If the user navigates to another page then it will raise exception because the reference to the component cannot be found.
+                            // In that case just remove the elementId from the list.
+                            .catch(() => window.blazorise.unregisterClosableComponent(response.elementId));
+                    }
+                });
         }
     }
 };
 
 document.addEventListener('click', function handler(evt) {
-    const clickedElementId = evt.target.id;
+    if (window.blazorise.closableComponents && window.blazorise.closableComponents.length > 0) {
+        const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
 
-    let requests = window.blazorise.closableComponents.map(closable => {
-        return new Promise((resolve, reject) => {
-            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', clickedElementId)
-                .then((result) => resolve({ elementId: closable.elementId, dotnetAdapter: closable.dotnetAdapter, status: result === true ? 'ok' : 'cancelled' }))
-                .catch(() => resolve({ elementId: closable.elementId, status: 'error' }));
-        });
-    });
+        if (lastClosable) {
+            window.blazorise.tryClose(lastClosable, evt.target.id);
+        }
+    }
+});
 
-    Promise.all(requests)
-        .then(responses => responses.forEach((response) => {
-            if (response.status === 'ok') {
-                response.dotnetAdapter.invokeMethodAsync('Close')
-                    //.then(() => window.blazorise.unregisterClosableComponent(response.elementId))
-                    // If the user navigates to another page then it will raise exception because the reference to the component cannot be found.
-                    // In that case just remove the elementId from the list.
-                    .catch(() => window.blazorise.unregisterClosableComponent(response.elementId));
-            }
-        }));
+document.addEventListener('keyup', function handler(evt) {
+    if (evt.keyCode === 27 && window.blazorise.closableComponents && window.blazorise.closableComponents.length > 0) {
+        const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
+
+        if (lastClosable) {
+            window.blazorise.tryClose(lastClosable, lastClosable.elementId);
+        }
+    }
 });
