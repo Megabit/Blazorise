@@ -80,6 +80,16 @@
         margin-bottom: 15px;
     }
 
+.is-borderless {
+    border: 0 !important;
+}
+
+table.is-borderless td,
+table.is-borderless th,
+table.is-borderless tr {
+    border: 0 !important;
+}
+
 @media (min-width: 768px) {
     .card-group {
         -ms-flex-flow: row wrap;

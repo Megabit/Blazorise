@@ -20,6 +20,10 @@ namespace Blazorise.Base
 
         private bool isHoverable;
 
+        private bool isNarrow;
+
+        private bool isBorderless;
+
         #endregion
 
         #region Methods
@@ -31,7 +35,9 @@ namespace Blazorise.Base
                 .If( () => ClassProvider.TableFullWidth(), () => IsFullWidth )
                 .If( () => ClassProvider.TableStriped(), () => IsStriped )
                 .If( () => ClassProvider.TableBordered(), () => IsBordered )
-                .If( () => ClassProvider.TableHoverable(), () => IsHoverable );
+                .If( () => ClassProvider.TableHoverable(), () => IsHoverable )
+                .If( () => ClassProvider.TableNarrow(), () => IsNarrow )
+                .If( () => ClassProvider.TableBorderless(), () => IsBorderless );
 
             base.RegisterClasses();
         }
@@ -40,6 +46,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Makes the table to fill entire horizontal space.
+        /// </summary>
         [Parameter]
         protected bool IsFullWidth
         {
@@ -53,7 +62,7 @@ namespace Blazorise.Base
         }
 
         /// <summary>
-        /// Add stripes to the table.
+        /// Adds stripes to the table.
         /// </summary>
         [Parameter]
         protected bool IsStriped
@@ -68,7 +77,7 @@ namespace Blazorise.Base
         }
 
         /// <summary>
-        /// Add borders to all the cells.
+        /// Adds borders to all the cells.
         /// </summary>
         [Parameter]
         protected bool IsBordered
@@ -82,6 +91,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Adds a hover effect when mousing over rows.
+        /// </summary>
         [Parameter]
         protected bool IsHoverable
         {
@@ -89,6 +101,36 @@ namespace Blazorise.Base
             set
             {
                 isHoverable = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        /// <summary>
+        /// Makes the table more compact by cutting cell padding in half.
+        /// </summary>
+        [Parameter]
+        protected bool IsNarrow
+        {
+            get => isNarrow;
+            set
+            {
+                isNarrow = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        /// <summary>
+        /// Makes the table without any borders.
+        /// </summary>
+        [Parameter]
+        protected bool IsBorderless
+        {
+            get => isBorderless;
+            set
+            {
+                isBorderless = value;
 
                 ClassMapper.Dirty();
             }

@@ -1,0 +1,11 @@
+﻿@inherits Blazorise.Base.BaseTableFooter
+@if ( !ComponentMapper.HasRegistration( this ) )
+{
+    <tfoot class="@ClassMapper.Class">
+        @ChildContent
+    </tfoot>
+}
+else
+{
+    @RenderCustomComponent()
+}

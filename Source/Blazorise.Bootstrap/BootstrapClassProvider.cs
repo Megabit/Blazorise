@@ -581,17 +581,37 @@ namespace Blazorise.Bootstrap
 
         public virtual string TableBordered() => "table-bordered";
 
+        public virtual string TableNarrow() => "table-sm";
+
+        public virtual string TableBorderless() => "table-borderless";
+
         public virtual string TableHeader() => null;
 
+        public virtual string TableHeaderTheme( Theme theme ) => $"thead-{Theme( theme )}";
+
         public virtual string TableHeaderCell() => null;
+
+        public virtual string TableFooter() => null;
 
         public virtual string TableBody() => null;
 
         public virtual string TableRow() => null;
 
+        public virtual string TableRowColor( Color color ) => $"table-{Color( color )}";
+
+        public virtual string TableRowBackground( Background background ) => BackgroundColor( background );
+
+        public virtual string TableRowTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
+
         public virtual string TableRowHeader() => null;
 
         public virtual string TableRowCell() => null;
+
+        public virtual string TableRowCellColor( Color color ) => $"table-{Color( color )}";
+
+        public virtual string TableRowCellBackground( Background background ) => BackgroundColor( background );
+
+        public virtual string TableRowCellTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
 
         #endregion
 

@@ -597,17 +597,37 @@ namespace Blazorise.Bulma
 
         public virtual string TableBordered() => "is-bordered";
 
+        public virtual string TableNarrow() => "is-narrow";
+
+        public virtual string TableBorderless() => "is-borderless";
+
         public virtual string TableHeader() => null;
 
+        public virtual string TableHeaderTheme( Theme theme ) => $"has-background-{Theme( theme )}";
+
         public virtual string TableHeaderCell() => null;
+
+        public virtual string TableFooter() => null;
 
         public virtual string TableBody() => null;
 
         public virtual string TableRow() => null;
 
+        public virtual string TableRowColor( Color color ) => $"has-background-{Color( color )}";
+
+        public virtual string TableRowBackground( Background background ) => BackgroundColor( background );
+
+        public virtual string TableRowTextColor( TextColor textColor ) => $"has-text-{TextColor( textColor )}";
+
         public virtual string TableRowHeader() => null;
 
         public virtual string TableRowCell() => null;
+
+        public virtual string TableRowCellColor( Color color ) => $"has-background-{Color( color )}";
+
+        public virtual string TableRowCellBackground( Background background ) => BackgroundColor( background );
+
+        public virtual string TableRowCellTextColor( TextColor textColor ) => $"has-text-{TextColor( textColor )}";
 
         #endregion
 

@@ -538,17 +538,37 @@ namespace Blazorise.Providers
 
         public string TableBordered() => null;
 
+        public string TableNarrow() => null;
+
+        public string TableBorderless() => null;
+
         public string TableHeader() => null;
 
+        public string TableHeaderTheme( Theme theme ) => null;
+
         public string TableHeaderCell() => null;
+
+        public string TableFooter() => null;
 
         public string TableBody() => null;
 
         public string TableRow() => null;
 
+        public string TableRowColor( Color color ) => null;
+
+        public string TableRowBackground( Background background ) => null;
+
+        public string TableRowTextColor( TextColor textColor ) => null;
+
         public string TableRowHeader() => null;
 
         public string TableRowCell() => null;
+
+        public string TableRowCellColor( Color color ) => null;
+
+        public virtual string TableRowCellBackground( Background background ) => null;
+
+        public virtual string TableRowCellTextColor( TextColor textColor ) => null;
 
         #endregion
 

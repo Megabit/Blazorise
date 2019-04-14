@@ -13,6 +13,12 @@ namespace Blazorise.Base
     {
         #region Members
 
+        private Color color = Color.None;
+
+        private Background background = Background.None;
+
+        private TextColor textColor = TextColor.None;
+
         #endregion
 
         #region Methods
@@ -20,7 +26,10 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.TableRowCell() );
+                .Add( () => ClassProvider.TableRowCell() )
+                .If( () => ClassProvider.TableRowCellColor( Color ), () => Color != Color.None )
+                .If( () => ClassProvider.TableRowCellBackground( Background ), () => Background != Background.None )
+                .If( () => ClassProvider.TableRowCellTextColor( TextColor ), () => TextColor != TextColor.None );
 
             base.RegisterClasses();
         }
@@ -33,6 +42,42 @@ namespace Blazorise.Base
         #endregion
 
         #region Properties
+
+        [Parameter]
+        protected Color Color
+        {
+            get => color;
+            set
+            {
+                color = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        [Parameter]
+        protected Background Background
+        {
+            get => background;
+            set
+            {
+                background = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        [Parameter]
+        protected TextColor TextColor
+        {
+            get => textColor;
+            set
+            {
+                textColor = value;
+
+                ClassMapper.Dirty();
+            }
+        }
 
         /// <summary>
         /// Occurs when the row cell is clicked.

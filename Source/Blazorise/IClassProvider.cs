@@ -531,17 +531,37 @@ namespace Blazorise
 
         string TableBordered();
 
+        string TableNarrow();
+
+        string TableBorderless();
+
         string TableHeader();
 
+        string TableHeaderTheme( Theme theme );
+
         string TableHeaderCell();
+
+        string TableFooter();
 
         string TableBody();
 
         string TableRow();
 
+        string TableRowColor( Color color );
+
+        string TableRowBackground( Background background );
+
+        string TableRowTextColor( TextColor textColor );
+
         string TableRowHeader();
 
         string TableRowCell();
+
+        string TableRowCellColor( Color color );
+
+        string TableRowCellBackground( Background background );
+
+        string TableRowCellTextColor( TextColor textColor );
 
         #endregion
 

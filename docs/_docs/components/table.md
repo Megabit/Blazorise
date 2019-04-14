@@ -17,6 +17,7 @@ Table displays information in a way that’s easy to scan, so that users can loo
   - `<TableHeader>` the optional **top** part of the table
     - `<TableRow>` header **row**
       - `<TableHeaderCell>` a header **cell**
+  - `<TableFooter>` the optional **bottom** part of the table
   - `<TableBody>` the main **content** of the table
     - `<TableRow>` each table **row**
       - `<TableRowHeader>` a table cell **heading**

@@ -8,11 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseTableHeader : BaseComponent
+    public abstract class BaseTableFooter : BaseComponent
     {
         #region Members
-
-        private Theme theme;
 
         #endregion
 
@@ -21,8 +19,7 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.TableHeader() )
-                .If( () => ClassProvider.TableHeaderTheme( Theme ), () => Theme != Theme.None );
+                .Add( () => ClassProvider.TableFooter() );
 
             base.RegisterClasses();
         }
@@ -30,21 +27,6 @@ namespace Blazorise.Base
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Sets the background color to the header.
-        /// </summary>
-        [Parameter]
-        protected Theme Theme
-        {
-            get => theme;
-            set
-            {
-                theme = value;
-
-                ClassMapper.Dirty();
-            }
-        }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
