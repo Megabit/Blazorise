@@ -80,6 +80,14 @@ namespace Blazorise.Charts.Base
             Data.Datasets.AddRange( dataSet );
         }
 
+
+        public void SetOptions( TOptions options )
+        {
+            dirty = true;
+
+            Options = options;
+        }
+
         /// <summary>
         /// Update and redraw the chart.
         /// </summary>
