@@ -2,14 +2,18 @@
     z-index: 100;
 }
 
-.nav.nav-tabs.flex-column {
+.e-tabs.vertical {
     display: table-cell;
     min-width: 120px;
     vertical-align: top;
     width: 150px;
 }
 
-.tabs-vertical-env .tab-content {
+    .e-tabs.vertical a {
+        width: 150px;
+    }
+
+.tabs-vertical-env .e-tabs-content {
     display: table-cell;
     padding: 0 0 0 20px;
     margin-bottom: 0;
@@ -19,6 +23,6 @@
 .tabs-vertical-env-right {
 }
 
-    .tabs-vertical-env-right .tab-content {
+    .tabs-vertical-env-right .e-tabs-content {
         padding: 0 20px 0 0;
     }

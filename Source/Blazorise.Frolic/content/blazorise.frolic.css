@@ -1,0 +1,40 @@
+﻿.e-table.borderless td,
+.e-table.borderless th,
+.e-table.borderless tr {
+    border: 0 !important;
+}
+
+.e-table.narrowed td,
+.e-table.narrowed th {
+    padding: .25em .5em;
+}
+
+.e-thead.light {
+    background: #e9ecef;
+}
+
+code {
+    color: #ff3860;
+    padding: .25em .5em .25em;
+}
+
+select.e-select {
+    width: 100%;
+}
+
+.e-tabs-content > .e-tabs-panel {
+    display: none;
+}
+
+.e-tabs-content > .e-tabs-panel {
+    display: none;
+}
+
+.e-tabs-content > .active {
+    display: block;
+    background-color: inherit !important;
+}
+
+.e-form-group .e-dropdown {
+    margin: 0;
+}

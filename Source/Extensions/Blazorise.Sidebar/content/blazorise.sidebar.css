@@ -45,7 +45,7 @@
 .sidebar-link, a.sidebar-link {
     display: block;
     padding: .75rem 1.25rem;
-    color: var(--bsb-dark-light);
+    color: var(--bsb-dark-light) !important;
     background: var(--bsb-dark);
     transition: background .1s ease-in-out,color .1s ease-in-out;
     position: relative;
@@ -62,8 +62,8 @@
 
     .sidebar-item.active .sidebar-link:hover,
     .sidebar-link:hover {
-        color: var(--bsb-dark-dark);
-        background: var(--bsb-dark-light);
+        color: var(--bsb-dark-dark) !important;
+        background: var(--bsb-dark-light) !important;
         cursor: pointer;
     }
 

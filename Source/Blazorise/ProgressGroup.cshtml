@@ -1,9 +1,11 @@
 ﻿@inherits Blazorise.Base.BaseProgressGroup
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <div class="@ClassMapper.Class">
-        @ChildContent
-    </div>
+    <CascadingValue Value=this>
+        <div class="@ClassMapper.Class">
+            @ChildContent
+        </div>
+    </CascadingValue>
 }
 else
 {

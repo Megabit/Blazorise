@@ -1,0 +1,13 @@
+﻿@inherits Blazorise.Base.BaseCardTitle
+@if ( Size != null )
+{
+    <Dynamic TagName="@($"h{Size}")" class="@ClassMapper.Class">
+        @ChildContent
+    </Dynamic>
+}
+else
+{
+    <h3 class="@ClassMapper.Class">
+        @ChildContent
+    </h3>
+}

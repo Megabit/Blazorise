@@ -34,7 +34,7 @@ namespace Blazorise.Base
         #region Properties
 
         [Parameter]
-        private HeadingSize Size
+        protected HeadingSize Size
         {
             get => headingSize;
             set
@@ -46,7 +46,7 @@ namespace Blazorise.Base
         }
 
         [Parameter]
-        private TextColor TextColor
+        protected TextColor TextColor
         {
             get => textColor;
             set

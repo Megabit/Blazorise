@@ -32,7 +32,7 @@ namespace Blazorise.Base
         #region Properties
 
         [Parameter]
-        protected Size Size
+        protected internal Size Size
         {
             get => size;
             set

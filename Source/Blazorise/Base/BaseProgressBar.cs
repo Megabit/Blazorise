@@ -29,7 +29,7 @@ namespace Blazorise.Base
             ClassMapper
                 .Add( () => ClassProvider.ProgressBar() )
                 .Add( () => ClassProvider.ProgressBarWidth( Value ?? 0 ) )
-                .If( () => ClassProvider.BackgroundColor( Background ), () => Background != Background.None )
+                .If( () => ClassProvider.ProgressBarColor( Background ), () => Background != Background.None )
                 .If( () => ClassProvider.ProgressBarStriped(), () => IsStriped )
                 .If( () => ClassProvider.ProgressBarAnimated(), () => IsAnimated );
 

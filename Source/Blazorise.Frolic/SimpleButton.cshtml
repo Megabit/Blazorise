@@ -1,0 +1,14 @@
+﻿@inherits Blazorise.Base.BaseButton
+<button type="@Type.ToButtonTypeString()" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" aria-pressed="@IsActive" onclick="@ClickHandler">
+    @ChildContent
+</button>
+@functions{
+    protected override void OnInit()
+    {
+        ParentAddon?.Hook( this );
+
+        base.OnInit();
+    }
+
+    [CascadingParameter] protected Addon ParentAddon { get; set; }
+}

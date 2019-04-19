@@ -1,0 +1,24 @@
+﻿@inherits Blazorise.Base.BaseAddon
+<CascadingValue Value="this">
+    @if ( AddonType == AddonType.Body || NoContainer )
+    {
+        @ChildContent
+    }
+    else
+    {
+        <div class="@ClassMapper.Class">
+            @ChildContent
+        </div>
+    }
+</CascadingValue>
+@functions{
+    Base.BaseComponent child;
+
+    internal void Hook( Base.BaseComponent child )
+    {
+        this.child = child;
+        StateHasChanged();
+    }
+
+    bool NoContainer => child is Frolic.SimpleButton || child is Frolic.Dropdown;
+}

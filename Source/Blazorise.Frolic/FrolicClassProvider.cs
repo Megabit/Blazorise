@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 #endregion
 
-namespace Blazorise.Bootstrap
+namespace Blazorise.Frolic
 {
-    public class BootstrapClassProvider : IClassProvider
+    public class FrolicClassProvider : IClassProvider
     {
         #region Text
 
-        public virtual string Text( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+        public virtual string Text( bool plaintext ) => "e-control";
 
         public virtual string TextSize( Size size ) => $"{Text( false )}-{Size( size )}";
 
@@ -24,7 +24,7 @@ namespace Blazorise.Bootstrap
 
         #region Memo
 
-        public virtual string Memo() => "form-control";
+        public virtual string Memo() => "e-control";
 
         public virtual string MemoValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
@@ -32,7 +32,7 @@ namespace Blazorise.Bootstrap
 
         #region Select
 
-        public virtual string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
+        public virtual string Select() => "e-select";
 
         public virtual string SelectSize( Size size ) => $"{Select()}-{Size( size )}";
 
@@ -42,7 +42,7 @@ namespace Blazorise.Bootstrap
 
         #region Date
 
-        public virtual string Date() => "form-control";
+        public virtual string Date() => "e-control";
 
         public virtual string DateSize( Size size ) => $"{Date()}-{Size( size )}";
 
@@ -52,9 +52,9 @@ namespace Blazorise.Bootstrap
 
         #region Check
 
-        public virtual string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+        public virtual string Check() => null;
 
-        public virtual string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+        public virtual string CheckInline() => null;
 
         public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
@@ -62,15 +62,15 @@ namespace Blazorise.Bootstrap
 
         #region Radio
 
-        public virtual string Radio() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+        public virtual string Radio() => null;
 
-        public virtual string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+        public virtual string RadioInline() => null;
 
         #endregion
 
         #region File
 
-        public virtual string File() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
+        public virtual string File() => "e-control";
 
         public virtual string FileValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
@@ -78,35 +78,35 @@ namespace Blazorise.Bootstrap
 
         #region Label
 
-        public virtual string Label() => null;
+        public virtual string Label() => "e-label";
 
-        public virtual string LabelCheck() => UseCustomInputStyles ? "custom-control-label" : "form-check-label";
+        public virtual string LabelCheck() => null;
 
-        public virtual string LabelFile() => UseCustomInputStyles ? "custom-file-label" : null;
+        public virtual string LabelFile() => "e-label";
 
         #endregion
 
         #region Help
 
-        public virtual string Help() => "form-text text-muted";
+        public virtual string Help() => "e-form-info";
 
         #endregion
 
         #region Validation
 
-        public string ValidationSuccess() => "valid-feedback";
+        public string ValidationSuccess() => "e-form-info text-success";
 
-        public string ValidationSuccessTooltip() => "valid-tooltip";
+        public string ValidationSuccessTooltip() => "e-form-info text-success";
 
-        public string ValidationError() => "invalid-feedback";
+        public string ValidationError() => "e-form-info text-danger";
 
-        public string ValidationErrorTooltip() => "invalid-tooltip";
+        public string ValidationErrorTooltip() => "e-form-info text-danger";
 
         #endregion
 
         #region Fields
 
-        public virtual string Fields() => "form-row";
+        public virtual string Fields() => "e-cols";
 
         public virtual string FieldsBody() => null;
 
@@ -116,9 +116,9 @@ namespace Blazorise.Bootstrap
 
         #region Field
 
-        public virtual string Field() => "form-group";
+        public virtual string Field() => "e-form-group";
 
-        public virtual string FieldHorizontal() => "row";
+        public virtual string FieldHorizontal() => "e-cols no-gap";
 
         public virtual string FieldColumn() => $"{Col()}";
 
@@ -128,9 +128,9 @@ namespace Blazorise.Bootstrap
 
         #region FieldLabel
 
-        public virtual string FieldLabel() => null;
+        public virtual string FieldLabel() => "e-label";
 
-        public virtual string FieldLabelHorizontal() => "col-form-label";
+        public virtual string FieldLabelHorizontal() => "e-form-group";
 
         #endregion
 
@@ -160,22 +160,11 @@ namespace Blazorise.Bootstrap
 
         #region Addons
 
-        public virtual string Addons() => "input-group";
+        public virtual string Addons() => "e-form-group unified";
 
-        public virtual string Addon( AddonType addonType )
-        {
-            switch ( addonType )
-            {
-                case AddonType.Start:
-                    return "input-group-prepend";
-                case AddonType.End:
-                    return "input-group-append";
-                default:
-                    return null;
-            }
-        }
+        public virtual string Addon( AddonType addonType ) => "e-control-helper";
 
-        public virtual string AddonLabel() => "input-group-text";
+        public virtual string AddonLabel() => null;
 
         public virtual string AddonContainer() => null;
 
@@ -189,19 +178,19 @@ namespace Blazorise.Bootstrap
 
         #region Button
 
-        public virtual string Button() => "btn";
+        public virtual string Button() => "e-btn";
 
-        public virtual string ButtonColor( Color color ) => $"{Button()}-{Color( color )}";
+        public virtual string ButtonColor( Color color ) => Color( color );
 
-        public virtual string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{Color( color )}" : $"{Button()}-outline";
+        public virtual string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"outlined {Color( color )}" : $"outlined";
 
-        public virtual string ButtonSize( Size size ) => $"{Button()}-{Size( size )}";
+        public virtual string ButtonSize( Size size ) => Size( size );
 
-        public virtual string ButtonBlock() => $"{Button()}-block";
+        public virtual string ButtonBlock() => $"fullwidth";
 
         public virtual string ButtonActive() => "active";
 
-        public virtual string ButtonLoading() => null;
+        public virtual string ButtonLoading() => "anime";
 
         #endregion
 
@@ -209,9 +198,9 @@ namespace Blazorise.Bootstrap
 
         //public virtual string Buttons() => "btn-group";
 
-        public virtual string ButtonsAddons() => "btn-group";
+        public virtual string ButtonsAddons() => "e-buttons unified";
 
-        public virtual string ButtonsToolbar() => "btn-toolbar";
+        public virtual string ButtonsToolbar() => "e-toolbar";
 
         public virtual string ButtonsSize( Size size ) => $"{ButtonsAddons()}-{Size( size )}";
 
@@ -221,35 +210,35 @@ namespace Blazorise.Bootstrap
 
         #region CloseButton
 
-        public virtual string CloseButton() => "close";
+        public virtual string CloseButton() => "e-delete";
 
         #endregion
 
         #region Dropdown
 
-        public virtual string Dropdown() => "dropdown";
+        public virtual string Dropdown() => "e-dropdown";
 
         public virtual string DropdownGroup() => "btn-group";
 
         public virtual string DropdownShow() => Show();
 
-        public virtual string DropdownRight() => null;
+        public virtual string DropdownRight() => "drop-right";
 
-        public virtual string DropdownItem() => "dropdown-item";
+        public virtual string DropdownItem() => "drop-item";
 
         public virtual string DropdownDivider() => "dropdown-divider";
 
-        public virtual string DropdownMenu() => "dropdown-menu";
+        public virtual string DropdownMenu() => "drop-items";
 
         public virtual string DropdownMenuBody() => null;
 
         public virtual string DropdownMenuShow() => Show();
 
-        public virtual string DropdownMenuRight() => "dropdown-menu-right";
+        public virtual string DropdownMenuRight() => null;
 
-        public virtual string DropdownToggle() => "dropdown-toggle";
+        public virtual string DropdownToggle() => "button dropdown";
 
-        public virtual string DropdownToggleSplit() => "dropdown-toggle-split";
+        public virtual string DropdownToggleSplit() => "button split";
 
         public virtual string DropdownDirection( Direction direction )
         {
@@ -272,7 +261,7 @@ namespace Blazorise.Bootstrap
 
         #region Tab
 
-        public virtual string Tabs() => "nav nav-tabs";
+        public virtual string Tabs() => "e-tabs";
 
         public virtual string TabsCards() => "card-header-tabs";
 
@@ -282,43 +271,43 @@ namespace Blazorise.Bootstrap
 
         public virtual string TabsJustified() => "nav-justified";
 
-        public virtual string TabsVertical() => "flex-column";
+        public virtual string TabsVertical() => "vertical";
 
-        public virtual string TabItem() => "nav-item";
+        public virtual string TabItem() => null;
 
-        public virtual string TabItemActive() => null;
+        public virtual string TabItemActive() => Active();
 
-        public virtual string TabLink() => "nav-link";
+        public virtual string TabLink() => null;
 
-        public virtual string TabLinkActive() => $"{Active()} {Show()}";
+        public virtual string TabLinkActive() => null;
 
-        public virtual string TabsContent() => "tab-content";
+        public virtual string TabsContent() => "e-tabs-content";
 
-        public virtual string TabPanel() => "tab-pane";
+        public virtual string TabPanel() => "e-tabs-panel";
 
-        public virtual string TabPanelActive() => $"{Active()} {Show()}";
+        public virtual string TabPanelActive() => Active();
 
         #endregion
 
         #region Card
 
-        public virtual string CardGroup() => "card-group";
+        public virtual string CardGroup() => "e-cards unified";
 
-        public virtual string Card() => "card";
+        public virtual string Card() => "e-card";
 
         public virtual string CardWhiteText() => "text-white";
 
-        public virtual string CardBackground( Background background ) => BackgroundColor( background );
+        public virtual string CardBackground( Background background ) => Color( background );
 
         public virtual string CardActions() => "card-actions";
 
         public virtual string CardBody() => "card-body";
 
-        public virtual string CardFooter() => "card-footer";
+        public virtual string CardFooter() => "card-body";
 
-        public virtual string CardHeader() => "card-header";
+        public virtual string CardHeader() => "card-body";
 
-        public virtual string CardImage() => "card-img-top";
+        public virtual string CardImage() => null;
 
         public virtual string CardTitle() => "card-title";
 
@@ -334,11 +323,11 @@ namespace Blazorise.Bootstrap
 
         #region ListGroup
 
-        public virtual string ListGroup() => "list-group";
+        public virtual string ListGroup() => "e-list";
 
-        public virtual string ListGroupFlush() => "list-group-flush";
+        public virtual string ListGroupFlush() => "no-border";
 
-        public virtual string ListGroupItem() => "list-group-item";
+        public virtual string ListGroupItem() => "e-list-item";
 
         public virtual string ListGroupItemActive() => Active();
 
@@ -348,9 +337,9 @@ namespace Blazorise.Bootstrap
 
         #region Container
 
-        public virtual string Container() => "container";
+        public virtual string Container() => "e-container";
 
-        public virtual string ContainerFluid() => "container-fluid";
+        public virtual string ContainerFluid() => "e-container-fluid";
 
         #endregion
 
@@ -382,15 +371,15 @@ namespace Blazorise.Bootstrap
 
         #region Navbar
 
-        public virtual string Bar() => "navbar";
+        public virtual string Bar() => "e-nav";
 
         public virtual string BarShade( Theme theme ) => $"navbar-{Theme( theme )}";
 
         public virtual string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{Breakpoint( breakpoint )}";
 
-        public virtual string BarItem() => "nav-item";
+        public virtual string BarItem() => null;
 
-        public virtual string BarItemActive() => Active();
+        public virtual string BarItemActive() => null;
 
         public virtual string BarItemDisabled() => Disabled();
 
@@ -398,7 +387,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string BarItemHasDropdownShow() => Show();
 
-        public virtual string BarLink() => "nav-link";
+        public virtual string BarLink() => "e-menu-item";
 
         public virtual string BarLinkDisabled() => Disabled();
 
@@ -408,27 +397,27 @@ namespace Blazorise.Bootstrap
 
         public virtual string BarToggler() => "navbar-toggler";
 
-        public virtual string BarMenu() => "collapse navbar-collapse";
+        public virtual string BarMenu() => "e-menu";
 
         public virtual string BarMenuShow() => Show();
 
-        public virtual string BarStart() => "navbar-nav mr-auto";
+        public virtual string BarStart() => "e-distribution";
 
-        public virtual string BarEnd() => "navbar-nav";
+        public virtual string BarEnd() => "e-distribution";
 
         //public virtual string BarHasDropdown() => "dropdown";
 
-        public virtual string BarDropdown() => null;
+        public virtual string BarDropdown() => "e-dropdown";
 
         public virtual string BarDropdownShow() => null;
 
-        public virtual string BarDropdownToggle() => "nav-link dropdown-toggle";
+        public virtual string BarDropdownToggle() => null;
 
-        public virtual string BarDropdownItem() => "dropdown-item";
+        public virtual string BarDropdownItem() => "drop-item";
 
         public virtual string BarTogglerIcon() => "navbar-toggler-icon";
 
-        public virtual string BarDropdownMenu() => "dropdown-menu";
+        public virtual string BarDropdownMenu() => "drop-items";
 
         public virtual string BarDropdownMenuShow() => Show();
 
@@ -446,13 +435,13 @@ namespace Blazorise.Bootstrap
 
         #region Row
 
-        public virtual string Row() => "row";
+        public virtual string Row() => "e-cols";
 
         #endregion
 
         #region Col
 
-        public virtual string Col() => "col";
+        public virtual string Col() => "e-col";
 
         public virtual string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
             string.Join( " ", rules.Select( r => Col( columnWidth, r.breakpoint, r.offset ) ) );
@@ -479,11 +468,11 @@ namespace Blazorise.Bootstrap
 
         #region Alert
 
-        public virtual string Alert() => "alert";
+        public virtual string Alert() => "e-alert";
 
-        public virtual string AlertColor( Color color ) => $"{Alert()}-{Color( color )}";
+        public virtual string AlertColor( Color color ) => Color( color );
 
-        public virtual string AlertDismisable() => "alert-dismissible";
+        public virtual string AlertDismisable() => null;
 
         //public virtual string AlertShow( bool show ) => $"alert-dismissible {Fade()} {( show ? Show() : null )}";
 
@@ -491,41 +480,41 @@ namespace Blazorise.Bootstrap
 
         #region Modal
 
-        public virtual string Modal() => "modal";
+        public virtual string Modal() => "e-modal";
 
-        public virtual string ModalFade() => $"{Fade()}";
+        public virtual string ModalFade() => "e-modal-e";
 
-        public virtual string ModalShow() => $"{Show()}";
+        public virtual string ModalShow() => "launch";
 
-        public virtual string ModalBackdrop() => "modal-backdrop";
+        public virtual string ModalBackdrop() => "e-modal-backdrop";
 
-        public virtual string ModalContent( bool isForm ) => "modal-content";
+        public virtual string ModalContent( bool isForm ) => "e-modal-content";
 
         public virtual string ModalContentCentered() => "modal-dialog-centered";
 
-        public virtual string ModalBody() => "modal-body";
+        public virtual string ModalBody() => "e-modal-body";
 
-        public virtual string ModalHeader() => "modal-header";
+        public virtual string ModalHeader() => "e-modal-header";
 
-        public virtual string ModalFooter() => "modal-footer";
+        public virtual string ModalFooter() => "e-modal-footer";
 
-        public virtual string ModalTitle() => "modal-title";
+        public virtual string ModalTitle() => "e-modal-title";
 
         #endregion
 
         #region Pagination
 
-        public virtual string Pagination() => "pagination";
+        public virtual string Pagination() => "e-pagination";
 
         public virtual string PaginationSize( Size size ) => $"{Pagination()}-{Size( size )}";
 
-        public virtual string PaginationItem() => "page-item";
+        public virtual string PaginationItem() => "e-page-item";
 
-        public virtual string PaginationItemActive() => Active();
+        public virtual string PaginationItemActive() => "on-page";
 
         public virtual string PaginationItemDisabled() => Disabled();
 
-        public virtual string PaginationLink() => "page-link";
+        public virtual string PaginationLink() => null;
 
         public virtual string PaginationLinkActive() => null;
 
@@ -535,13 +524,13 @@ namespace Blazorise.Bootstrap
 
         #region Progress
 
-        public virtual string Progress() => "progress";
+        public virtual string Progress() => null;
 
-        public virtual string ProgressSize( Size size ) => $"progress-{Size( size )}";
+        public virtual string ProgressSize( Size size ) => null;
 
-        public virtual string ProgressBar() => "progress-bar";
+        public virtual string ProgressBar() => "e-progress";
 
-        public virtual string ProgressBarColor( Background background ) => BackgroundColor( background );
+        public virtual string ProgressBarColor( Background background ) => Color( background );
 
         public virtual string ProgressBarStriped() => "progress-bar-striped";
 
@@ -559,13 +548,13 @@ namespace Blazorise.Bootstrap
 
         #region Colors
 
-        public virtual string BackgroundColor( Background color ) => $"bg-{Color( color )}";
+        public virtual string BackgroundColor( Background color ) => "bg-{Color( color )}";
 
         #endregion
 
         #region Title
 
-        public virtual string Title() => null;
+        public virtual string Title() => "e-title";
 
         public virtual string TitleSize( int size ) => $"h{size}";
 
@@ -573,23 +562,23 @@ namespace Blazorise.Bootstrap
 
         #region Table
 
-        public virtual string Table() => "table";
+        public virtual string Table() => "e-table";
 
         public virtual string TableFullWidth() => null;
 
-        public virtual string TableStriped() => "table-striped";
+        public virtual string TableStriped() => "striped";
 
-        public virtual string TableHoverable() => "table-hover";
+        public virtual string TableHoverable() => "hovered";
 
-        public virtual string TableBordered() => "table-bordered";
+        public virtual string TableBordered() => "bordered";
 
-        public virtual string TableNarrow() => "table-sm";
+        public virtual string TableNarrow() => "narrowed";
 
-        public virtual string TableBorderless() => "table-borderless";
+        public virtual string TableBorderless() => "borderless";
 
-        public virtual string TableHeader() => null;
+        public virtual string TableHeader() => "e-thead";
 
-        public virtual string TableHeaderTheme( Theme theme ) => $"thead-{Theme( theme )}";
+        public virtual string TableHeaderTheme( Theme theme ) => Theme( theme );
 
         public virtual string TableHeaderCell() => null;
 
@@ -597,11 +586,11 @@ namespace Blazorise.Bootstrap
 
         public virtual string TableBody() => null;
 
-        public virtual string TableRow() => null;
+        public virtual string TableRow() => "e-row";
 
-        public virtual string TableRowColor( Color color ) => $"table-{Color( color )}";
+        public virtual string TableRowColor( Color color ) => Color( color );
 
-        public virtual string TableRowBackground( Background background ) => BackgroundColor( background );
+        public virtual string TableRowBackground( Background background ) => Color( background );
 
         public virtual string TableRowTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
 
@@ -609,9 +598,9 @@ namespace Blazorise.Bootstrap
 
         public virtual string TableRowCell() => null;
 
-        public virtual string TableRowCellColor( Color color ) => $"table-{Color( color )}";
+        public virtual string TableRowCellColor( Color color ) => Color( color );
 
-        public virtual string TableRowCellBackground( Background background ) => BackgroundColor( background );
+        public virtual string TableRowCellBackground( Background background ) => Color( background );
 
         public virtual string TableRowCellTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
 
@@ -619,23 +608,23 @@ namespace Blazorise.Bootstrap
 
         #region Badge
 
-        public virtual string Badge() => "badge";
+        public virtual string Badge() => "e-tag";
 
-        public virtual string BadgeColor( Color color ) => $"{Badge()}-{Color( color )}";
+        public virtual string BadgeColor( Color color ) => $"{Badge()} {Color( color )}";
 
-        public virtual string BadgePill() => $"{Badge()}-pill";
+        public virtual string BadgePill() => $"{Badge()} rounded";
 
         #endregion
 
         #region Media
 
-        public virtual string Media() => "media";
+        public virtual string Media() => "e-media";
 
         public virtual string MediaLeft() => "media-left";
 
         public virtual string MediaRight() => "media-right";
 
-        public virtual string MediaBody() => "media-body";
+        public virtual string MediaBody() => "e-media-body";
 
         #endregion
 
@@ -655,7 +644,7 @@ namespace Blazorise.Bootstrap
 
         #region Heading
 
-        public virtual string Heading( HeadingSize headingSize ) => $"h{HeadingSize( headingSize )}";
+        public virtual string Heading( HeadingSize headingSize ) => null;
 
         public virtual string HeadingTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
 
@@ -675,9 +664,9 @@ namespace Blazorise.Bootstrap
 
         #region Breadcrumb
 
-        public virtual string Breadcrumb() => "breadcrumb";
+        public virtual string Breadcrumb() => "e-breadcrumb";
 
-        public virtual string BreadcrumbItem() => "breadcrumb-item";
+        public virtual string BreadcrumbItem() => null;
 
         public virtual string BreadcrumbItemActive() => Active();
 
@@ -726,15 +715,15 @@ namespace Blazorise.Bootstrap
             switch ( size )
             {
                 case Blazorise.Size.ExtraSmall:
-                    return "xs";
+                    return "tiny";
                 case Blazorise.Size.Small:
-                    return "sm";
+                    return "small";
                 case Blazorise.Size.Medium:
-                    return "md";
+                    return null;
                 case Blazorise.Size.Large:
-                    return "lg";
+                    return "large";
                 case Blazorise.Size.ExtraLarge:
-                    return "xl";
+                    return "large";
                 default:
                     return null;
             }
@@ -766,7 +755,7 @@ namespace Blazorise.Bootstrap
                 case Blazorise.Color.Primary:
                     return "primary";
                 case Blazorise.Color.Secondary:
-                    return "secondary";
+                    return "gray";
                 case Blazorise.Color.Success:
                     return "success";
                 case Blazorise.Color.Danger:
@@ -774,7 +763,7 @@ namespace Blazorise.Bootstrap
                 case Blazorise.Color.Warning:
                     return "warning";
                 case Blazorise.Color.Info:
-                    return "info";
+                    return "sky";
                 case Blazorise.Color.Light:
                     return "light";
                 case Blazorise.Color.Dark:
@@ -793,7 +782,7 @@ namespace Blazorise.Bootstrap
                 case Blazorise.Background.Primary:
                     return "primary";
                 case Blazorise.Background.Secondary:
-                    return "secondary";
+                    return "gray";
                 case Blazorise.Background.Success:
                     return "success";
                 case Blazorise.Background.Danger:
@@ -801,7 +790,7 @@ namespace Blazorise.Bootstrap
                 case Blazorise.Background.Warning:
                     return "warning";
                 case Blazorise.Background.Info:
-                    return "info";
+                    return "sky";
                 case Blazorise.Background.Light:
                     return "light";
                 case Blazorise.Background.Dark:
@@ -1034,15 +1023,15 @@ namespace Blazorise.Bootstrap
                 case Blazorise.SpacingSize.Is0:
                     return "0";
                 case Blazorise.SpacingSize.Is1:
-                    return "1";
+                    return "5";
                 case Blazorise.SpacingSize.Is2:
-                    return "2";
+                    return "4";
                 case Blazorise.SpacingSize.Is3:
                     return "3";
                 case Blazorise.SpacingSize.Is4:
-                    return "4";
+                    return "3";
                 case Blazorise.SpacingSize.Is5:
-                    return "5";
+                    return "1";
                 case Blazorise.SpacingSize.IsAuto:
                     return "auto";
                 default:
@@ -1120,6 +1109,6 @@ namespace Blazorise.Bootstrap
 
         public virtual bool UseCustomInputStyles { get; set; } = true;
 
-        public virtual string Provider => "Bootstrap";
+        public virtual string Provider => "frolic";
     }
 }

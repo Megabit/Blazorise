@@ -1,0 +1,16 @@
+﻿@inherits Blazorise.Base.BaseDropdown
+<CascadingValue Value=this>
+    <div class="@ClassMapper.Class">
+        @ChildContent
+    </div>
+</CascadingValue>
+@functions{
+    protected override void OnInit()
+    {
+        ParentAddon?.Hook( this );
+
+        base.OnInit();
+    }
+
+    [CascadingParameter] protected Addon ParentAddon { get; set; }
+}

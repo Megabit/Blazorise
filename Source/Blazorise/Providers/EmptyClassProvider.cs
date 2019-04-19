@@ -498,6 +498,8 @@ namespace Blazorise.Providers
 
         public string ProgressBar() => null;
 
+        public string ProgressBarColor( Background background ) => null;
+
         public string ProgressBarStriped() => null;
 
         public string ProgressBarAnimated() => null;

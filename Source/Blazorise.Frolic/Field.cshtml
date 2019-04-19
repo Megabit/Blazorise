@@ -1,0 +1,16 @@
+﻿@inherits Blazorise.Base.BaseField
+<CascadingValue Value=this>
+    <div class="@ClassMapper.Class">
+        @ChildContent
+    </div>
+</CascadingValue>
+@functions{
+    protected override void RegisterClasses()
+    {
+        ClassMapper
+            .If( () => ClassProvider.FieldColumn(), () => IsFields && ColumnSize != null )
+            .If( () => ColumnSize.Class( ClassProvider ), () => !IsFields && ColumnSize != null );
+
+        base.RegisterClasses();
+    }
+}

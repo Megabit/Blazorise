@@ -194,7 +194,7 @@ namespace Blazorise.Bulma
 
         public virtual string ButtonColor( Color color ) => $"is-{Color( color )}";
 
-        public virtual string ButtonOutline( Color color ) => $"is-outlined";
+        public virtual string ButtonOutline( Color color ) => $"is-{Color( color )} is-outlined";
 
         public virtual string ButtonSize( Size size ) => $"{Size( size )}";
 
@@ -556,6 +556,8 @@ namespace Blazorise.Bulma
         public virtual string ProgressSize( Size size ) => $"is-{Size( size )}";
 
         public virtual string ProgressBar() => "progress";
+
+        public virtual string ProgressBarColor( Background background ) => BackgroundColor( background );
 
         public virtual string ProgressBarStriped() => "progress-bar-striped";
 

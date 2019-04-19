@@ -51,7 +51,7 @@ namespace Blazorise.Base
         /// Handles the visibility of dropdown menu.
         /// </summary>
         [Parameter]
-        internal bool IsOpen
+        internal protected bool IsOpen
         {
             get => isOpen;
             set

@@ -491,6 +491,8 @@ namespace Blazorise
 
         string ProgressBar();
 
+        string ProgressBarColor( Background background );
+
         string ProgressBarStriped();
 
         string ProgressBarAnimated();
