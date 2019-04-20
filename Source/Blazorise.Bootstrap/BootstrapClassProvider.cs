@@ -605,6 +605,8 @@ namespace Blazorise.Bootstrap
 
         public virtual string TableRowTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
 
+        public virtual string TableRowIsSelected() => "selected";
+
         public virtual string TableRowHeader() => null;
 
         public virtual string TableRowCell() => null;

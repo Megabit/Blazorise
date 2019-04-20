@@ -13,6 +13,10 @@
     background: #e9ecef;
 }
 
+table.e-table tbody tr.selected {
+    background-color: #1da1f2;
+}
+
 code {
     color: #ff3860;
     padding: .25em .5em .25em;

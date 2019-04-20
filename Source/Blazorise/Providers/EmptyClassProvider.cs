@@ -562,6 +562,8 @@ namespace Blazorise.Providers
 
         public string TableRowTextColor( TextColor textColor ) => null;
 
+        public string TableRowIsSelected() => null;
+
         public string TableRowHeader() => null;
 
         public string TableRowCell() => null;

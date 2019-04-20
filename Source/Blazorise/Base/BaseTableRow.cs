@@ -19,6 +19,8 @@ namespace Blazorise.Base
 
         private TextColor textColor = TextColor.None;
 
+        private bool selected;
+
         #endregion
 
         #region Methods
@@ -29,7 +31,8 @@ namespace Blazorise.Base
                 .Add( () => ClassProvider.TableRow() )
                 .If( () => ClassProvider.TableRowColor( Color ), () => Color != Color.None )
                 .If( () => ClassProvider.TableRowBackground( Background ), () => Background != Background.None )
-                .If( () => ClassProvider.TableRowTextColor( TextColor ), () => TextColor != TextColor.None );
+                .If( () => ClassProvider.TableRowTextColor( TextColor ), () => TextColor != TextColor.None )
+                .If( () => ClassProvider.TableRowIsSelected(), () => IsSelected );
 
             base.RegisterClasses();
         }
@@ -74,6 +77,21 @@ namespace Blazorise.Base
             set
             {
                 textColor = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        /// <summary>
+        /// Sets a table row as selected by appending "selected" modifier on a <tr>.
+        /// </summary>
+        [Parameter]
+        protected bool IsSelected
+        {
+            get => selected;
+            set
+            {
+                selected = value;
 
                 ClassMapper.Dirty();
             }

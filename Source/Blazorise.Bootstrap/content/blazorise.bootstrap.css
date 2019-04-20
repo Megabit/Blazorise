@@ -13,3 +13,7 @@
 .modal-backdrop {
     z-index: -1;
 }
+
+table.table tbody tr.selected {
+    background-color: var(--primary);
+}

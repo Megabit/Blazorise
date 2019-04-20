@@ -594,6 +594,8 @@ namespace Blazorise.Frolic
 
         public virtual string TableRowTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
 
+        public virtual string TableRowIsSelected() => "selected";
+
         public virtual string TableRowHeader() => null;
 
         public virtual string TableRowCell() => null;
@@ -1109,6 +1111,6 @@ namespace Blazorise.Frolic
 
         public virtual bool UseCustomInputStyles { get; set; } = true;
 
-        public virtual string Provider => "frolic";
+        public virtual string Provider => "eFrolic";
     }
 }

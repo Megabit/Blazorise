@@ -621,6 +621,8 @@ namespace Blazorise.Bulma
 
         public virtual string TableRowTextColor( TextColor textColor ) => $"has-text-{TextColor( textColor )}";
 
+        public virtual string TableRowIsSelected() => "is-selected";
+
         public virtual string TableRowHeader() => null;
 
         public virtual string TableRowCell() => null;
