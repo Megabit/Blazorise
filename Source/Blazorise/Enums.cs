@@ -1011,19 +1011,6 @@ namespace Blazorise
         Manual,
     }
 
-    public enum IconProvider
-    {
-        /// <summary>
-        /// https://fontawesome.com/
-        /// </summary>
-        FontAwesome,
-
-        /// <summary>
-        /// https://material.io/tools/icons/?style=baseline
-        /// </summary>
-        Material,
-    }
-
     public enum IconName
     {
         New,
