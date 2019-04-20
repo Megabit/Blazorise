@@ -16,7 +16,7 @@ namespace Blazorise.Base
 
         private Orientation orientation = Orientation.Horizontal;
 
-        private Size size = Size.None;
+        private ButtonsSize size = ButtonsSize.None;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Blazorise.Base
                 .If( () => ClassProvider.ButtonsAddons(), () => Role == ButtonsRole.Addons )
                 .If( () => ClassProvider.ButtonsToolbar(), () => Role == ButtonsRole.Toolbar )
                 .If( () => ClassProvider.ButtonsVertical(), () => Orientation == Orientation.Vertical )
-                .If( () => ClassProvider.ButtonsSize( Size ), () => Size != Size.None );
+                .If( () => ClassProvider.ButtonsSize( Size ), () => Size != ButtonsSize.None );
 
             base.RegisterClasses();
         }
@@ -61,8 +61,11 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Change the size of multiple buttons at once.
+        /// </summary>
         [Parameter]
-        protected Size Size
+        protected ButtonsSize Size
         {
             get => size;
             set

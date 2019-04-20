@@ -184,7 +184,18 @@ namespace Blazorise.Frolic
 
         public virtual string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"outlined {Color( color )}" : $"outlined";
 
-        public virtual string ButtonSize( Size size ) => Size( size );
+        public virtual string ButtonSize( ButtonSize buttonSize )
+        {
+            switch ( buttonSize )
+            {
+                case Blazorise.ButtonSize.Small:
+                    return "small";
+                case Blazorise.ButtonSize.Large:
+                    return "plus";
+                default:
+                    return null;
+            }
+        }
 
         public virtual string ButtonBlock() => $"fullwidth";
 
@@ -202,7 +213,18 @@ namespace Blazorise.Frolic
 
         public virtual string ButtonsToolbar() => "e-toolbar";
 
-        public virtual string ButtonsSize( Size size ) => $"{ButtonsAddons()}-{Size( size )}";
+        public virtual string ButtonsSize( ButtonsSize buttonsSize )
+        {
+            switch ( buttonsSize )
+            {
+                case Blazorise.ButtonsSize.Small:
+                    return "small";
+                case Blazorise.ButtonsSize.Large:
+                    return "plus";
+                default:
+                    return null;
+            }
+        }
 
         public virtual string ButtonsVertical() => "btn-group-vertical";
 
@@ -723,7 +745,6 @@ namespace Blazorise.Frolic
                 case Blazorise.Size.Medium:
                     return null;
                 case Blazorise.Size.Large:
-                    return "large";
                 case Blazorise.Size.ExtraLarge:
                     return "large";
                 default:

@@ -181,7 +181,7 @@ namespace Blazorise
 
         string ButtonOutline( Color color );
 
-        string ButtonSize( Size size );
+        string ButtonSize( ButtonSize buttonSize );
 
         string ButtonBlock();
 
@@ -199,7 +199,7 @@ namespace Blazorise
 
         string ButtonsToolbar();
 
-        string ButtonsSize( Size size );
+        string ButtonsSize( ButtonsSize buttonsSize );
 
         string ButtonsVertical();
 

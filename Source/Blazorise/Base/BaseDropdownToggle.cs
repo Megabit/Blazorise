@@ -90,7 +90,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets or sets the dropdown size.
         /// </summary>
-        [Parameter] protected Size Size { get; set; } = Size.None;
+        [Parameter] protected ButtonSize Size { get; set; } = ButtonSize.None;
 
         /// <summary>
         /// Handles the visibility of dropdown toggle.

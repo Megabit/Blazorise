@@ -186,7 +186,7 @@ namespace Blazorise.Providers
 
         public string ButtonOutline( Color color ) => null;
 
-        public string ButtonSize( Size size ) => null;
+        public string ButtonSize( ButtonSize buttonSize ) => null;
 
         public string ButtonBlock() => null;
 
@@ -204,7 +204,7 @@ namespace Blazorise.Providers
 
         public string ButtonsToolbar() => null;
 
-        public string ButtonsSize( Size size ) => null;
+        public string ButtonsSize( ButtonsSize buttonsSize ) => null;
 
         public string ButtonsVertical() => null;
 

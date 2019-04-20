@@ -195,7 +195,18 @@ namespace Blazorise.Bootstrap
 
         public virtual string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{Color( color )}" : $"{Button()}-outline";
 
-        public virtual string ButtonSize( Size size ) => $"{Button()}-{Size( size )}";
+        public virtual string ButtonSize( ButtonSize buttonSize )
+        {
+            switch ( buttonSize )
+            {
+                case Blazorise.ButtonSize.Small:
+                    return "btn-sm";
+                case Blazorise.ButtonSize.Large:
+                    return "btn-lg";
+                default:
+                    return null;
+            }
+        }
 
         public virtual string ButtonBlock() => $"{Button()}-block";
 
@@ -213,7 +224,18 @@ namespace Blazorise.Bootstrap
 
         public virtual string ButtonsToolbar() => "btn-toolbar";
 
-        public virtual string ButtonsSize( Size size ) => $"{ButtonsAddons()}-{Size( size )}";
+        public virtual string ButtonsSize( ButtonsSize buttonsSize )
+        {
+            switch ( buttonsSize )
+            {
+                case Blazorise.ButtonsSize.Small:
+                    return "btn-group-sm";
+                case Blazorise.ButtonsSize.Large:
+                    return "btn-group-lg";
+                default:
+                    return null;
+            }
+        }
 
         public virtual string ButtonsVertical() => "btn-group-vertical";
 

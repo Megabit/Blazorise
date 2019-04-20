@@ -196,7 +196,18 @@ namespace Blazorise.Bulma
 
         public virtual string ButtonOutline( Color color ) => $"is-{Color( color )} is-outlined";
 
-        public virtual string ButtonSize( Size size ) => $"{Size( size )}";
+        public virtual string ButtonSize( ButtonSize buttonSize )
+        {
+            switch ( buttonSize )
+            {
+                case Blazorise.ButtonSize.Small:
+                    return "is-small";
+                case Blazorise.ButtonSize.Large:
+                    return "is-large";
+                default:
+                    return null;
+            }
+        }
 
         public virtual string ButtonBlock() => $"is-fullwidth";
 
@@ -214,7 +225,18 @@ namespace Blazorise.Bulma
 
         public virtual string ButtonsToolbar() => "field is-grouped";
 
-        public virtual string ButtonsSize( Size size ) => $"{Size( size )}";
+        public virtual string ButtonsSize( ButtonsSize buttonsSize )
+        {
+            switch ( buttonsSize )
+            {
+                case Blazorise.ButtonsSize.Small:
+                    return "are-small";
+                case Blazorise.ButtonsSize.Large:
+                    return "are-large";
+                default:
+                    return null;
+            }
+        }
 
         public virtual string ButtonsVertical() => "buttons";
 
