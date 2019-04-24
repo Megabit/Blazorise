@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-#if NETCORE3_0
+#if NETSTANDARD2_0
+using Microsoft.AspNetCore.Components.Builder;
+#elif NETCORE3_0
 using Microsoft.AspNetCore.Builder;
 #endif
-using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -28,12 +29,8 @@ namespace Blazorise.Frolic
             return serviceCollection;
         }
 
-#if NETSTANDARD2_0
-
-        public static IComponentsApplicationBuilder UseFrolicProviders( this IComponentsApplicationBuilder app )
+        private static void RegisterComponents( IComponentMapper componentMapper )
         {
-            var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
-
             componentMapper.Register<Blazorise.Addon, Frolic.Addon>();
             componentMapper.Register<Blazorise.Bar, Frolic.Bar>();
             componentMapper.Register<Blazorise.BarBrand, Frolic.BarBrand>();
@@ -55,17 +52,26 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.ProgressGroup, Frolic.ProgressGroup>();
             componentMapper.Register<Blazorise.SimpleButton, Frolic.SimpleButton>();
             componentMapper.Register<Blazorise.Tabs, Frolic.Tabs>();
+        }
+
+#if NETSTANDARD2_0
+
+        public static IComponentsApplicationBuilder UseFrolicProviders( this IComponentsApplicationBuilder app )
+        {
+            var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
+
+            RegisterComponents( componentMapper );
 
             return app;
         }
 
-#else
+#elif NETCORE3_0
 
         public static IApplicationBuilder UseFrolicProviders( this IApplicationBuilder app )
         {
             var componentMapper = app.ApplicationServices.GetRequiredService<IComponentMapper>();
 
-            componentMapper.Register<Blazorise.Dropdown, Frolic.Dropdown>();
+            RegisterComponents( componentMapper );
 
             return app;
         }

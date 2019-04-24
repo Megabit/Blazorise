@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Bootstrap;
-#if NETCORE3_0
+#if NETSTANDARD2_0
+using Microsoft.AspNetCore.Components.Builder;
+#elif NETCORE3_0
 using Microsoft.AspNetCore.Builder;
 #endif
-using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 

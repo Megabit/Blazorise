@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <Import Project="..\..\Build\Blazorise.props" />
-	
+
   <PropertyGroup>
     <PackageId>Blazorise.Material</PackageId>
     <PackageLicenseUrl>https://github.com/stsrki/Blazorise/blob/master/LICENSE.md</PackageLicenseUrl>
@@ -18,41 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="MaterialBase\**" />
-    <Content Remove="MaterialBase\**" />
-    <EmbeddedResource Remove="MaterialBase\**" />
-    <None Remove="MaterialBase\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Addon.cshtml" />
-    <Content Remove="Addons.cshtml" />
-    <Content Remove="BarToggler.cshtml" />
-    <Content Remove="CardSubtitle.cshtml" />
-    <Content Remove="CheckEdit.cshtml" />
-    <Content Remove="CloseButton.cshtml" />
-    <Content Remove="DropdownDivider.cshtml" />
-    <Content Remove="DropdownMenu.cshtml" />
-    <Content Remove="DropdownToggle.cshtml" />
-    <Content Remove="Field.cshtml" />
-    <Content Remove="Fields.cshtml" />
-    <Content Remove="FileEdit.cshtml" />
-    <Content Remove="ModalContent.cshtml" />
-    <Content Remove="SelectEdit.cshtml" />
-    <Content Remove="SimpleButton.cshtml" />
-    <Content Remove="Tabs.cshtml" />
-    <Content Remove="TextEdit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Blazorise.Bootstrap\Blazorise.Bootstrap.csproj" />
     <ProjectReference Include="..\Blazorise\Blazorise.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="_ViewImports.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
   </ItemGroup>
 
 </Project>

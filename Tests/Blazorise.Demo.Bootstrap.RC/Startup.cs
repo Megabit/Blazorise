@@ -11,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using System.Reflection;
-using Blazorise.Demo.Bootstrap.RC.Components;
 
 namespace Blazorise.Demo.Bootstrap.RC
 {
@@ -29,10 +28,8 @@ namespace Blazorise.Demo.Bootstrap.RC
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
 
-            services.AddMvc()
-                .AddNewtonsoftJson();
-
-            services.AddRazorComponents();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,15 +48,17 @@ namespace Blazorise.Demo.Bootstrap.RC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseRouting();
+
             app
                 .UseBootstrapProviders()
                 .UseFontAwesomeIcons();
 
-            app.UseRouting( routes =>
-             {
-                 routes.MapRazorPages();
-                 routes.MapComponentHub<App>( "app" );
-             } );
+            app.UseEndpoints( endpoints =>
+            {
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage( "/_Host" );
+            } );
         }
     }
 }

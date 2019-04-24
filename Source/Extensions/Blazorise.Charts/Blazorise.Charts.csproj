@@ -18,17 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="content\blazorise.charts.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Chart.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
   </ItemGroup>
 
 </Project>

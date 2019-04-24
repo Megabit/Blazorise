@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-#if NETCORE3_0
+#if NETSTANDARD2_0
+using Microsoft.AspNetCore.Components.Builder;
+#elif NETCORE3_0
 using Microsoft.AspNetCore.Builder;
 #endif
-using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -33,6 +34,21 @@ namespace Blazorise.Bootstrap
             return serviceCollection;
         }
 
+        private static void RegisterComponents( IComponentMapper componentMapper )
+        {
+            componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
+            componentMapper.Register<Blazorise.BarToggler, Bootstrap.BarToggler>();
+            componentMapper.Register<Blazorise.BarDropdown, Bootstrap.BarDropdown>();
+            componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
+            componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
+            componentMapper.Register<Blazorise.CheckEdit, Bootstrap.CheckEdit>();
+            componentMapper.Register<Blazorise.Field, Bootstrap.Field>();
+            componentMapper.Register<Blazorise.FieldBody, Bootstrap.FieldBody>();
+            componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
+            componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
+            componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
+        }
+
 #if NETSTANDARD2_0
 
         /// <summary>
@@ -44,48 +60,18 @@ namespace Blazorise.Bootstrap
         {
             var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
 
-            componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
-            //componentMapper.Register<Blazorise.Addons, Bootstrap.Addons>();
-            componentMapper.Register<Blazorise.BarToggler, Bootstrap.BarToggler>();
-            componentMapper.Register<Blazorise.BarDropdown, Bootstrap.BarDropdown>();
-            componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
-            componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
-            componentMapper.Register<Blazorise.CheckEdit, Bootstrap.CheckEdit>();
-            //componentMapper.Register<Blazorise.DateEdit, Bootstrap.DateEdit>();
-            componentMapper.Register<Blazorise.Field, Bootstrap.Field>();
-            componentMapper.Register<Blazorise.FieldBody, Bootstrap.FieldBody>();
-            componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
-            componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
-            //componentMapper.Register<Blazorise.MemoEdit, Bootstrap.MemoEdit>();
-            //componentMapper.Register<Blazorise.SelectEdit, Bootstrap.SelectEdit>();
-            componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
-            //componentMapper.Register<Blazorise.TextEdit, Bootstrap.TextEdit>();
+            RegisterComponents( componentMapper );
 
             return app;
         }
 
-#else
-        
+#elif NETCORE3_0
+
         public static IApplicationBuilder UseBootstrapProviders( this IApplicationBuilder app )
         {
             var componentMapper = app.ApplicationServices.GetRequiredService<IComponentMapper>();
 
-            componentMapper.Register<Blazorise.Addon, Bootstrap.Addon>();
-            //componentMapper.Register<Blazorise.Addons, Bootstrap.Addons>();
-            componentMapper.Register<Blazorise.BarToggler, Bootstrap.BarToggler>();
-            componentMapper.Register<Blazorise.BarDropdown, Bootstrap.BarDropdown>();
-            componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
-            componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
-            componentMapper.Register<Blazorise.CheckEdit, Bootstrap.CheckEdit>();
-            //componentMapper.Register<Blazorise.DateEdit, Bootstrap.DateEdit>();
-            componentMapper.Register<Blazorise.Field, Bootstrap.Field>();
-            componentMapper.Register<Blazorise.FieldBody, Bootstrap.FieldBody>();
-            componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
-            componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
-            //componentMapper.Register<Blazorise.MemoEdit, Bootstrap.MemoEdit>();
-            //componentMapper.Register<Blazorise.SelectEdit, Bootstrap.SelectEdit>();
-            componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
-            //componentMapper.Register<Blazorise.TextEdit, Bootstrap.TextEdit>();
+            RegisterComponents( componentMapper );
 
             return app;
         }

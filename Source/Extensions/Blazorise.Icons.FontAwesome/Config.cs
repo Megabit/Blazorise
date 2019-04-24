@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-#if NETCORE3_0
+#if NETSTANDARD2_0
+using Microsoft.AspNetCore.Components.Builder;
+#elif NETCORE3_0
 using Microsoft.AspNetCore.Builder;
 #endif
-using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -32,7 +33,7 @@ namespace Blazorise.Icons.FontAwesome
             return app;
         }
 
-#else
+#elif NETCORE3_0
 
         public static IApplicationBuilder UseFontAwesomeIcons( this IApplicationBuilder app )
         {

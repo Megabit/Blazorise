@@ -13,14 +13,4 @@
     <ProjectReference Include="..\..\..\Source\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="content\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="_ViewImports.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-  </ItemGroup>
-
 </Project>

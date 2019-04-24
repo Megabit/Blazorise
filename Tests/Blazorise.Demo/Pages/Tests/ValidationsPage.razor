@@ -256,8 +256,7 @@
 
     void ValidatePassword( ValidatorEventArgs e )
     {
-        var password = Convert.ToString( e.Value );
-        e.Status = password?.Length >= 6 ? ValidationStatus.Success : ValidationStatus.Error;
+        e.Status = Convert.ToString( e.Value )?.Length >= 6 ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
     void ValidatePassword2( ValidatorEventArgs e )
@@ -274,7 +273,9 @@
             e.Status = ValidationStatus.Error;
         }
         else
+        {
             e.Status = ValidationStatus.Success;
+        }
     }
 
     void ValidateCheck( ValidatorEventArgs e )
@@ -302,12 +303,16 @@
             e.ErrorText = "Date cannot be less then 01.01.1900!";
         }
         else
+        {
             e.Status = ValidationStatus.Success;
+        }
     }
 
     void Submit()
     {
         if ( validations.ValidateAll() )
+        {
             validations.ClearAll();
+        }
     }
 }
