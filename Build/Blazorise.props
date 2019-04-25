@@ -17,8 +17,6 @@
 
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		
-		<_RazorComponentInclude>*.cshtml</_RazorComponentInclude>
-		
 		<RestoreAdditionalProjectSources>
 			https://dotnet.myget.org/F/aspnetcore-dev/api/v3/index.json;
 			https://dotnet.myget.org/F/blazor-dev/api/v3/index.json;
