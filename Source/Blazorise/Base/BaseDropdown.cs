@@ -121,7 +121,7 @@ namespace Blazorise.Base
 
                 ClassMapper.Dirty();
 
-                if ( registeredButtons?.Count > 1 ) // must find a better way to refresh dropdown
+                if ( registeredButtons?.Count >= 1 ) // must find a better way to refresh dropdown
                     StateHasChanged();
             }
         }
@@ -133,7 +133,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Makes the drop down to behave as a group for buttons(used for the split-button behaviour).
         /// </summary>
-        internal bool IsGroup => Buttons != null || registeredButtons?.Count > 1;
+        internal bool IsGroup => Buttons != null || registeredButtons?.Count >= 1;
 
         /// <summary>
         /// Handles the visibility of dropdown items.

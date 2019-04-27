@@ -77,6 +77,8 @@ namespace Blazorise.Base
 
         #region Properties
 
+        protected bool IsGroup => Dropdown?.IsGroup == true;
+
         /// <summary>
         /// Gets or sets the dropdown color.
         /// </summary>
