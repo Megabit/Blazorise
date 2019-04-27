@@ -27,9 +27,9 @@ namespace Blazorise
         }
 
         [JSInvokable()]
-        public bool SafeToClose( string elementId )
+        public bool SafeToClose( string elementId, bool isEscapeKey )
         {
-            return component.SafeToClose( elementId );
+            return component.SafeToClose( elementId, isEscapeKey );
         }
 
         [JSInvokable()]

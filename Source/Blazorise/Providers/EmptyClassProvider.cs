@@ -240,6 +240,12 @@ namespace Blazorise.Providers
 
         public string DropdownToggle() => null;
 
+        public string DropdownToggleColor( Color color ) => null;
+
+        public string DropdownToggleOutline( Color color ) => null;
+
+        public string DropdownToggleSize( ButtonSize buttonSize ) => null;
+
         public string DropdownToggleSplit() => null;
 
         public string DropdownDirection( Direction direction ) => null;

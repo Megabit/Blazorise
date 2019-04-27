@@ -22,7 +22,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="elementId">Currently clicked element id.</param>
         /// <returns>Returns true if the closable component is ready to be closed.</returns>
-        bool SafeToClose( string elementId );
+        bool SafeToClose( string elementId, bool isEscapeKey );
 
         /// <summary>
         /// Triggers the closable component to be closed.

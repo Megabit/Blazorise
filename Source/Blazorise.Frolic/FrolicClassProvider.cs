@@ -260,6 +260,23 @@ namespace Blazorise.Frolic
 
         public virtual string DropdownToggle() => "button dropdown";
 
+        public virtual string DropdownToggleColor( Color color ) => Color( color );
+
+        public virtual string DropdownToggleOutline( Color color ) => color != Blazorise.Color.None ? $"outlined {Color( color )}" : $"outlined";
+
+        public virtual string DropdownToggleSize( ButtonSize buttonSize )
+        {
+            switch ( buttonSize )
+            {
+                case Blazorise.ButtonSize.Small:
+                    return "small";
+                case Blazorise.ButtonSize.Large:
+                    return "plus";
+                default:
+                    return null;
+            }
+        }
+
         public virtual string DropdownToggleSplit() => "button split";
 
         public virtual string DropdownDirection( Direction direction )

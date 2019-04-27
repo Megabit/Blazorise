@@ -57,9 +57,9 @@ namespace Blazorise.Base
             BarDropdown?.Toggle();
         }
 
-        public bool SafeToClose( string elementId )
+        public bool SafeToClose( string elementId, bool isEscapeKey )
         {
-            return true;
+            return isEscapeKey || elementId != ElementId;
         }
 
         public void Close()

@@ -129,9 +129,9 @@ window.blazorise = {
         }
     },
 
-    tryClose: (closable, targetElementId) => {
+    tryClose: (closable, targetElementId, isEscapeKey) => {
         let request = new Promise((resolve, reject) => {
-            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', targetElementId)
+            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', targetElementId, isEscapeKey)
                 .then((result) => resolve({ elementId: closable.elementId, dotnetAdapter: closable.dotnetAdapter, status: result === true ? 'ok' : 'cancelled' }))
                 .catch(() => resolve({ elementId: closable.elementId, status: 'error' }));
         });
@@ -155,7 +155,7 @@ document.addEventListener('click', function handler(evt) {
         const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
 
         if (lastClosable) {
-            window.blazorise.tryClose(lastClosable, evt.target.id);
+            window.blazorise.tryClose(lastClosable, evt.target.id, false);
         }
     }
 });
@@ -165,7 +165,7 @@ document.addEventListener('keyup', function handler(evt) {
         const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
 
         if (lastClosable) {
-            window.blazorise.tryClose(lastClosable, lastClosable.elementId);
+            window.blazorise.tryClose(lastClosable, lastClosable.elementId, true);
         }
     }
 });

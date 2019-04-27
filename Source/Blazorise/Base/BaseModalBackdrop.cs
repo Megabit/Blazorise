@@ -54,7 +54,7 @@ namespace Blazorise.Base
             base.OnInit();
         }
 
-        public bool SafeToClose( string elementId )
+        public bool SafeToClose( string elementId, bool isEscapeKey )
         {
             // TODO: ask for parent modal is it OK to close it
             return ElementId == elementId;

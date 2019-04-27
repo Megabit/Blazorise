@@ -14,8 +14,6 @@ namespace Blazorise.Base
 
         private bool isOpen;
 
-        private bool actAsButton;
-
         private bool isSplit;
 
         private bool isRegistered;
@@ -43,8 +41,11 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .If( () => ClassProvider.DropdownToggle(), () => !ActAsButton )
-                .If( () => ClassProvider.DropdownToggleSplit(), () => !ActAsButton && IsSplit );
+                .Add( () => ClassProvider.DropdownToggle() )
+                .If( () => ClassProvider.DropdownToggleColor( Color ), () => Color != Color.None && !IsOutline )
+                .If( () => ClassProvider.DropdownToggleOutline( Color ), () => Color != Color.None && IsOutline )
+                .If( () => ClassProvider.DropdownToggleSize( Size ), () => Size != ButtonSize.None )
+                .If( () => ClassProvider.DropdownToggleSplit(), () => IsSplit );
 
             base.RegisterClasses();
         }
@@ -57,15 +58,14 @@ namespace Blazorise.Base
             base.OnInit();
         }
 
-
         protected void ClickHandler()
         {
             Dropdown?.Toggle();
         }
 
-        public bool SafeToClose( string elementId )
+        public bool SafeToClose( string elementId, bool isEscapeKey )
         {
-            return true;
+            return isEscapeKey || elementId != ElementId;
         }
 
         public void Close()
@@ -76,11 +76,6 @@ namespace Blazorise.Base
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Occurs when the toggle button is clicked.
-        /// </summary>
-        [Parameter] protected Action<bool> Toggle { get; set; }
 
         /// <summary>
         /// Gets or sets the dropdown color.
@@ -124,21 +119,6 @@ namespace Blazorise.Base
         /// Button outline.
         /// </summary>
         [Parameter] protected bool IsOutline { get; set; }
-
-        /// <summary>
-        /// Act as ordinary button instead of dropdown toggle.
-        /// </summary>
-        [Parameter]
-        protected bool ActAsButton
-        {
-            get => actAsButton;
-            set
-            {
-                actAsButton = value;
-
-                ClassMapper.Dirty();
-            }
-        }
 
         /// <summary>
         /// Handles the visibility of split button.

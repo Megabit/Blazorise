@@ -235,6 +235,12 @@ namespace Blazorise
 
         string DropdownToggle();
 
+        string DropdownToggleColor( Color color );
+
+        string DropdownToggleOutline( Color color );
+
+        string DropdownToggleSize( ButtonSize buttonSize );
+
         string DropdownToggleSplit();
 
         string DropdownDirection( Direction direction );

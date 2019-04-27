@@ -269,7 +269,24 @@ namespace Blazorise.Bootstrap
 
         public virtual string DropdownMenuRight() => "dropdown-menu-right";
 
-        public virtual string DropdownToggle() => "dropdown-toggle";
+        public virtual string DropdownToggle() => "btn dropdown-toggle";
+
+        public virtual string DropdownToggleColor( Color color ) => $"{Button()}-{Color( color )}";
+
+        public virtual string DropdownToggleOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{Color( color )}" : $"{Button()}-outline";
+
+        public virtual string DropdownToggleSize( ButtonSize buttonSize )
+        {
+            switch ( buttonSize )
+            {
+                case Blazorise.ButtonSize.Small:
+                    return "btn-sm";
+                case Blazorise.ButtonSize.Large:
+                    return "btn-lg";
+                default:
+                    return null;
+            }
+        }
 
         public virtual string DropdownToggleSplit() => "dropdown-toggle-split";
 

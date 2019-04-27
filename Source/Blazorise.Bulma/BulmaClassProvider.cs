@@ -270,7 +270,24 @@ namespace Blazorise.Bulma
 
         public virtual string DropdownMenuRight() => null;
 
-        public virtual string DropdownToggle() => "dropdown-trigger";
+        public virtual string DropdownToggle() => "button dropdown-trigger";
+
+        public virtual string DropdownToggleColor( Color color ) => $"is-{Color( color )}";
+
+        public virtual string DropdownToggleOutline( Color color ) => $"is-{Color( color )} is-outlined";
+
+        public virtual string DropdownToggleSize( ButtonSize buttonSize )
+        {
+            switch ( buttonSize )
+            {
+                case Blazorise.ButtonSize.Small:
+                    return "is-small";
+                case Blazorise.ButtonSize.Large:
+                    return "is-large";
+                default:
+                    return null;
+            }
+        }
 
         public virtual string DropdownToggleSplit() => null;
 

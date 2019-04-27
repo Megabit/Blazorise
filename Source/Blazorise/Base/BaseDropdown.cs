@@ -59,24 +59,24 @@ namespace Blazorise.Base
 
         public void Open()
         {
-            var temp = IsOpen;
+            // used to prevent toggle event call if Open() is called multiple times
+            if ( IsOpen )
+                return;
 
             IsOpen = true;
-
-            if ( temp != IsOpen ) // used to prevent toggle event call if Open() is called multiple times
-                Toggled?.Invoke( IsOpen );
+            Toggled?.Invoke( IsOpen );
 
             StateHasChanged();
         }
 
         public void Close()
         {
-            var temp = IsOpen;
+            // used to prevent toggle event call if Close() is called multiple times
+            if ( !IsOpen )
+                return;
 
             IsOpen = false;
-
-            if ( temp != IsOpen ) // used to prevent toggle event call if Close() is called multiple times
-                Toggled?.Invoke( IsOpen );
+            Toggled?.Invoke( IsOpen );
 
             StateHasChanged();
         }
