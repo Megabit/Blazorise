@@ -4,30 +4,40 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Modal</CardTitle>
+                <CardTitle>Modals (Default)</CardTitle>
             </CardHeader>
             <CardBody>
-                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Default ))">
-                    Show Modal
+                <SimpleButton Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default ))">
+                    Standard Modal
                 </SimpleButton>
-                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Small ))">
-                    Show Small Modal
+                <SimpleButton Color="Color.Success" Clicked="@(()=>ShowModal( ModalSize.Small ))">
+                    Small Modal
                 </SimpleButton>
-                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Large ))">
-                    Show Large Modal
+                <SimpleButton Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.Large ))">
+                    Large Modal
                 </SimpleButton>
-
-                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.ExtraLarge ))">
-                    Show Extra Large Modal
+                <SimpleButton Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default, null, true ))">
+                    Centered Modal
                 </SimpleButton>
-                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Default, 50 ))">
-                    Show Modal (Body Height 50%)
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Modals (Sized)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SimpleButton Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.ExtraLarge ))">
+                    Extra Large Modal
                 </SimpleButton>
-                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Default, 20 ))">
-                    Show Modal (Body Height 20%)
+                <SimpleButton Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default, 50 ))">
+                    Sized Modal (Body Height 50%)
                 </SimpleButton>
-                <SimpleButton Clicked="@(()=>ShowModal( ModalSize.Default, null, true ))">
-                    Show Modal Centered
+                <SimpleButton Color="Color.Secondary" Clicked="@(()=>ShowModal( ModalSize.Default, 20 ))">
+                    Sized Modal (Body Height 20%)
                 </SimpleButton>
             </CardBody>
         </Card>
