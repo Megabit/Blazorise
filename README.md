@@ -14,7 +14,7 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 - [Bootstrap Demo](https://bootstrapdemo.blazorise.com)
 - [Material Demo](https://materialdemo.blazorise.com/)
 - [Bulma Demo](https://bulmademo.blazorise.com/) (PREVIEW)
-- [eFrolic Demo](https://bulmademo.blazorise.com/) (PREVIEW)
+- [eFrolic Demo](https://efrolicdemo.blazorise.com/) (PREVIEW)
 
 ### Server-Side Razor Components
 
