@@ -29,6 +29,8 @@ rd /s /q Tests\Blazorise.Demo.Bootstrap\bin
 rd /s /q Tests\Blazorise.Demo.Bootstrap\obj
 rd /s /q Tests\Blazorise.Demo.Bootstrap.Server\bin
 rd /s /q Tests\Blazorise.Demo.Bootstrap.Server\obj
+rd /s /q Tests\Blazorise.Demo.Bootstrap.RC\bin
+rd /s /q Tests\Blazorise.Demo.Bootstrap.RC\obj
 rd /s /q Tests\Blazorise.Demo.Bulma\bin
 rd /s /q Tests\Blazorise.Demo.Bulma\obj
 rd /s /q Tests\Blazorise.Demo.Bulma.Server\bin
@@ -37,3 +39,7 @@ rd /s /q Tests\Blazorise.Demo.Material\bin
 rd /s /q Tests\Blazorise.Demo.Material\obj
 rd /s /q Tests\Blazorise.Demo.Material.Server\bin
 rd /s /q Tests\Blazorise.Demo.Material.Server\obj
+rd /s /q Tests\Blazorise.Demo.Frolic\bin
+rd /s /q Tests\Blazorise.Demo.Frolic\obj
+rd /s /q Tests\Blazorise.Demo.Frolic.Server\bin
+rd /s /q Tests\Blazorise.Demo.Frolic.Server\obj
