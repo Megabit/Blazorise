@@ -15,5 +15,11 @@ toc_label: "Types"
 - `Large`
 - `ExtraLarge`
 
+### ButtonSize
+
+- `None`
+- `Small`
+- `Large`
+
 **Keep in mind:** All elements have a size `None` specified by default.
 {: .notice--info}

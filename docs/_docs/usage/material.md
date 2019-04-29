@@ -6,7 +6,7 @@ toc: true
 toc_label: "Steps"
 ---
 
-Since Material CSS is based on a Bootstrap you only need to change the css and js sources. The code in _ViewImports.cshtml_ will stay the same as in the [Bootstrap]({{ "/docs/usage/bootstrap/" | relative_url }}).
+Since Material CSS is based on a Bootstrap you only need to change the css and js sources. The code in _Imports.razor_ will stay the same as in the [Bootstrap]({{ "/docs/usage/bootstrap/" | relative_url }}).
 
 ## Installations
 
@@ -62,11 +62,9 @@ The next step is to change your `index.html` file and include the css and js sou
 
 ### Usings
 
-In your main _ViewImports.cshtml add:
+In your main _Imports.razor add:
 
 ```cs
-@addTagHelper *, Blazorise
-
 @using Blazorise
 ```
 

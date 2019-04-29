@@ -6,10 +6,26 @@ toc: true
 toc_label: "Version history"
 ---
 
-**Note:** The preview number (**19154-02**) is used to indicate that the current version of Blazorise is working on the preview version of Blazor and/or .Net Core 3.0!
-{: .notice--warning}
+## 0.7.0
+
+### Breaking Changes
+
+- Upgraded to the latest Blazor **v3.0.0-preview4-19216-03**.
+- `ButtonSize` instead of `Size` enum when defining the button sizes [#67](https://github.com/stsrki/Blazorise/issues/67)
+
+### Enhancements
+
+- New CSS provider [eFrolic](https://efrolicss.com/). [Demo](https://efrolicdemo.blazorise.com)
+- Additional attributes and features for Table components [#66](https://github.com/stsrki/Blazorise/issues/66)
+- Close modal by pressing the Esc key [#48](https://github.com/stsrki/Blazorise/issues/48)
+- InputMode for TextEdit component [#53](https://github.com/stsrki/Blazorise/issues/53)
+- Styling options for Chart components [#42](https://github.com/stsrki/Blazorise/issues/42)
+- `Step` attribute on `NumericEdit` converted to decimal type [#74](https://github.com/stsrki/Blazorise/issues/74)
 
 ## 0.6.4-preview1-19154-02
+
+**Note:** The preview number (**19154-02**) is used to indicate that the current version of Blazorise is working on the preview version of Blazor and/or .Net Core 3.0!
+{: .notice--warning}
 
 ### Enhancements
 

@@ -47,11 +47,9 @@ Add ChartsJS to your index.html file.
 
 ### Imports
 
-In your main _ViewImports.cshtml_ add:
+In your main _Imports.razor_ add:
 
 ```cs
-@addTagHelper *, Blazorise.Charts
-
 @using Blazorise.Charts
 ```
 

@@ -43,11 +43,9 @@ The next step is to change your `index.html` file and include the css and js sou
 
 ### Usings
 
-In your main _ViewImports.cshtml_ add:
+In your main _Imports.razor_ add:
 
 ```cs
-@addTagHelper *, Blazorise
-
 @using Blazorise
 ```
 

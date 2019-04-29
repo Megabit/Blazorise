@@ -41,7 +41,7 @@ Just add another `Button` to have a split dropdown.
 ```html
 <Dropdown>
     <SimpleButton>Split Dropdown</SimpleButton>
-    <DropdownToggle />
+    <DropdownToggle IsSplit="true"/>
     <DropdownMenu>
         <DropdownItem>Action</DropdownItem>
         <DropdownDivider />
