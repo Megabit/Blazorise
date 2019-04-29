@@ -77,7 +77,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Specifies the interval between valid values.
         /// </summary>
-        [Parameter] protected int? Step { get; set; }
+        [Parameter] protected decimal? Step { get; set; }
 
         ///// <summary>
         ///// The minimum value to accept for this input.
