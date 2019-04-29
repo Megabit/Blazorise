@@ -1,4 +1,10 @@
-﻿.sidebar {
+﻿:root {
+    --bsb-dark: #343a40;
+    --bsb-dark-dark: #343a40;
+    --bsb-dark-light: #ced4da;
+}
+
+.sidebar {
     min-width: 220px;
     max-width: 220px;
     min-height: 100vh;
@@ -9,7 +15,7 @@
 .sidebar, .sidebar-content {
     top: 0;
     position: sticky;
-    background: var(--dark);
+    background: var(--bsb-dark);
 }
 
 .sidebar-sticky .sidebar-nav {
@@ -39,8 +45,8 @@
 .sidebar-link, a.sidebar-link {
     display: block;
     padding: .75rem 1.25rem;
-    color: #ced4da !important;
-    background: var(--dark);
+    color: var(--bsb-dark-light) !important;
+    background: var(--bsb-dark);
     transition: background .1s ease-in-out,color .1s ease-in-out;
     position: relative;
     text-decoration: none;
@@ -56,8 +62,8 @@
 
     .sidebar-item.active .sidebar-link:hover,
     .sidebar-link:hover {
-        color: #ced4da;
-        background: var(--dark-light);
+        color: var(--bsb-dark-dark) !important;
+        background: var(--bsb-dark-light) !important;
         cursor: pointer;
     }
 
@@ -69,13 +75,13 @@
     .sidebar-subitem .sidebar-link {
         padding-left: 2.5rem;
         color: #adb5bd;
-        background: var(--dark-dark);
+        background: var(--bsb-dark-dark);
     }
 
         .sidebar-subitem .sidebar-item.active .sidebar-link,
         .sidebar-subitem .sidebar-link:hover {
-            color: #e9ecef;
-            background: var(--dark-light);
+            color: var(--bsb-dark-dark);
+            background: var(--bsb-dark-light);
         }
 
 .sidebar [data-toggle=sidebar-collapse] {
@@ -157,7 +163,7 @@ html[data-useragent*="MSIE 10.0"] .show.sidebar-collapsed {
     font-size: .8rem;
     bottom: 0;
     position: fixed;
-    background: var(--dark-dark);
+    background: var(--bsb-dark-dark);
     min-width: 220px;
     max-width: 220px;
     color: #e9ecef;
