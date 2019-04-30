@@ -39,6 +39,7 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.BarItem, Frolic.BarItem>();
             componentMapper.Register<Blazorise.BarMenu, Frolic.BarMenu>();
             componentMapper.Register<Blazorise.BarStart, Frolic.BarStart>();
+            componentMapper.Register<Blazorise.BarToggler, Frolic.BarToggler>();
             componentMapper.Register<Blazorise.Breadcrumb, Frolic.Breadcrumb>();
             componentMapper.Register<Blazorise.CardText, Frolic.CardText>();
             componentMapper.Register<Blazorise.CardTitle, Frolic.CardTitle>();

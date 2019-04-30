@@ -434,7 +434,7 @@ namespace Blazorise.Frolic
 
         public virtual string BarBrand() => "navbar-brand";
 
-        public virtual string BarToggler() => "navbar-toggler";
+        public virtual string BarToggler() => "e-btn no-shadow no-desktop";
 
         public virtual string BarMenu() => "e-menu";
 
