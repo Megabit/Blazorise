@@ -1,4 +1,6 @@
 ﻿@inherits Blazorise.Base.BaseBar
-<nav class="@ClassMapper.Class">
-    @ChildContent
-</nav>
+<CascadingValue Value=this>
+    <nav class="@ClassMapper.Class">
+        @ChildContent
+    </nav>
+</CascadingValue>

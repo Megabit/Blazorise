@@ -436,6 +436,8 @@ namespace Blazorise.Frolic
 
         public virtual string BarToggler() => "e-btn no-shadow no-desktop";
 
+        public virtual string BarTogglerCollapsed( bool isShow ) => isShow ? Show() : null;
+
         public virtual string BarMenu() => "e-menu";
 
         public virtual string BarMenuShow() => Show();

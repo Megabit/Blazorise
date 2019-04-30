@@ -448,9 +448,11 @@ namespace Blazorise.Bulma
 
         public virtual string BarToggler() => "navbar-burger";
 
+        public virtual string BarTogglerCollapsed( bool isShow ) => isShow ? Active() : null;
+
         public virtual string BarMenu() => "navbar-menu";
 
-        public virtual string BarMenuShow() => Show();
+        public virtual string BarMenuShow() => Active();
 
         public virtual string BarStart() => "navbar-start";
 

@@ -383,6 +383,8 @@ namespace Blazorise
 
         string BarToggler();
 
+        string BarTogglerCollapsed( bool isShow );
+
         string BarMenu();
 
         string BarMenuShow();

@@ -1,9 +1,11 @@
 ﻿@inherits Blazorise.Base.BaseBar
 @if ( !ComponentMapper.HasRegistration( this ) )
 {
-    <nav class="@ClassMapper.Class">
-        @ChildContent
-    </nav>
+    <CascadingValue Value=this>
+        <nav class="@ClassMapper.Class">
+            @ChildContent
+        </nav>
+    </CascadingValue>
 }
 else
 {

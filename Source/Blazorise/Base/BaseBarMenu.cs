@@ -27,6 +27,13 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
+        protected override void OnInit()
+        {
+            ParentBar?.Hook( this );
+
+            base.OnInit();
+        }
+
         public void Toggle()
         {
             IsOpen = !IsOpen;
@@ -40,7 +47,7 @@ namespace Blazorise.Base
         #region Properties
 
         [Parameter]
-        protected bool IsOpen
+        internal protected bool IsOpen
         {
             get => isOpen;
             set
@@ -52,6 +59,8 @@ namespace Blazorise.Base
         }
 
         [Parameter] protected Action<bool> Toggled { get; set; }
+
+        [CascadingParameter] protected BaseBar ParentBar { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

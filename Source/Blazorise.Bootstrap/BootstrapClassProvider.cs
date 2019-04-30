@@ -447,6 +447,8 @@ namespace Blazorise.Bootstrap
 
         public virtual string BarToggler() => "navbar-toggler";
 
+        public virtual string BarTogglerCollapsed( bool isShow ) => isShow ? null : "collapsed";
+
         public virtual string BarMenu() => "collapse navbar-collapse";
 
         public virtual string BarMenuShow() => Show();
