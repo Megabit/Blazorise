@@ -17,4 +17,9 @@
     <EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview5-19227-01" />
+    <PackageReference Update="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview5-19227-01" />
+  </ItemGroup>
+
 </Project>

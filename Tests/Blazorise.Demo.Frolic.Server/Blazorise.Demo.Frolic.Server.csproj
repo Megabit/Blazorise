@@ -6,4 +6,9 @@
     <ProjectReference Include="..\Blazorise.Demo.Frolic\Blazorise.Demo.Frolic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="Microsoft.AspNetCore.Blazor.Server" Version="3.0.0-preview5-19227-01" />
+    <PackageReference Update="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview5-19227-01" />
+  </ItemGroup>
+
 </Project>
