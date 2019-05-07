@@ -33,7 +33,7 @@ namespace Blazorise.Base
         protected void CheckedChangedHandled( UIChangeEventArgs e )
         {
             Checked = e.Value?.ToString().ToLowerInvariant() == ( RadioGroup != null ? "on" : "true" );
-            CheckedChanged?.Invoke( Checked );
+            CheckedChanged.InvokeAsync( Checked );
         }
 
         #endregion
@@ -52,7 +52,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs when the check state is changed.
         /// </summary>
-        [Parameter] protected Action<bool> CheckedChanged { get; set; }
+        [Parameter] protected EventCallback<bool> CheckedChanged { get; set; }
 
         /// <summary>
         /// Sets the field help-text postioned bellow the field.

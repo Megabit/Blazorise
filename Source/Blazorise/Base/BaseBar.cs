@@ -20,6 +20,12 @@ namespace Blazorise.Base
 
         private Background background = Background.None;
 
+        private BaseBarToggler barToggler;
+
+        private BaseBarMenu barMenu;
+
+        private bool isOpen;
+
         #endregion
 
         #region Methods
@@ -36,9 +42,47 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
+        internal void Hook( BaseBarToggler barToggler )
+        {
+            this.barToggler = barToggler;
+        }
+
+        internal void Hook( BaseBarMenu barMenu )
+        {
+            this.barMenu = barMenu;
+        }
+
+        internal void Toggle()
+        {
+            IsOpen = !IsOpen;
+
+            StateHasChanged();
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Controlls the state of toggler and the menu.
+        /// </summary>
+        [Parameter]
+        internal protected bool IsOpen
+        {
+            get => isOpen;
+            set
+            {
+                isOpen = value;
+
+                if ( barMenu != null )
+                    barMenu.IsOpen = value;
+
+                if ( barToggler != null )
+                    barToggler.IsOpen = value;
+
+                ClassMapper.Dirty();
+            }
+        }
 
         /// <summary>
         /// Used for responsive collapsing.

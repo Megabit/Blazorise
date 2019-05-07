@@ -41,15 +41,11 @@ namespace TodoApp
         protected void SetFilter( Filter filter )
         {
             this.filter = filter;
-
-            StateHasChanged();
         }
 
         protected void OnCheckAll( bool isChecked )
         {
             todos.ForEach( x => x.Completed = isChecked );
-
-            StateHasChanged();
         }
 
         protected void OnAddTodo()
@@ -60,8 +56,6 @@ namespace TodoApp
                 description = null;
 
                 validations.ClearAll();
-
-                StateHasChanged();
             }
         }
 
@@ -69,8 +63,6 @@ namespace TodoApp
         {
             todos.RemoveAll( x => x.Completed );
             filter = Filter.All;
-
-            StateHasChanged();
         }
 
         protected void OnTodoStatusChanged( bool isChecked )

@@ -6,6 +6,19 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.7.1
+
+### Enhancements
+
+- `BarToggle` is now automatically opening and closing `BarMenu` [#76](https://github.com/stsrki/Blazorise/issues/76)
+- `CheckedChanged` event on `CheckEdit` is converted to `EventCallback` [#83](https://github.com/stsrki/Blazorise/issues/83)
+
+### Bug Fixes
+
+- Collapse component was always opened [#77](https://github.com/stsrki/Blazorise/issues/77)
+- Server-side Demo application was crashing when navigating between pages [#78](https://github.com/stsrki/Blazorise/issues/78)
+- `BarToggler` is not visible on mobile for eFrolic demo application [#80](https://github.com/stsrki/Blazorise/issues/80)
+
 ## 0.7.0
 
 ### Breaking Changes

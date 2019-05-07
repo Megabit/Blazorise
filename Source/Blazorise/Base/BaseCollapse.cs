@@ -21,7 +21,7 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .If( () => ClassProvider.Collapse(), () => IsOpen )
+                .Add( () => ClassProvider.Collapse() )
                 .If( () => ClassProvider.CollapseShow(), () => IsOpen );
 
             base.RegisterClasses();

@@ -390,6 +390,8 @@ namespace Blazorise.Providers
 
         public string BarToggler() => null;
 
+        public virtual string BarTogglerCollapsed( bool isShow ) => null;
+
         public string BarMenu() => null;
 
         public string BarMenuShow() => null;

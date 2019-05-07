@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using System.Reflection;
+using Microsoft.AspNetCore.Components.Server;
 
 namespace Blazorise.Demo.Bootstrap.RC
 {
@@ -30,6 +31,11 @@ namespace Blazorise.Demo.Bootstrap.RC
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            services.AddServerSideBlazor().AddSignalR().AddHubOptions<ComponentHub>( o =>
+            {
+                o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
+            } );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +59,14 @@ namespace Blazorise.Demo.Bootstrap.RC
             app
                 .UseBootstrapProviders()
                 .UseFontAwesomeIcons();
+
+            // this is required to be here or otherwise the messages between server and client will be too large and
+            // the connection will be lost.
+            app.UseSignalR( route => route.MapHub<ComponentHub>( ComponentHub.DefaultPath, o =>
+            {
+                o.ApplicationMaxBufferSize = 1024 * 1024 * 100; // larger size
+                o.TransportMaxBufferSize = 1024 * 1024 * 100; // larger size
+            } ) );
 
             app.UseEndpoints( endpoints =>
             {
