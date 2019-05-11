@@ -28,23 +28,6 @@ namespace Blazorise.Base
 
         #region Methods
 
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( registeredButtons != null )
-                {
-                    registeredButtons.Clear();
-                    registeredButtons = null;
-                }
-
-                dropdownMenu = null;
-                dropdownToggle = null;
-            }
-
-            base.Dispose( disposing );
-        }
-
         protected override void RegisterClasses()
         {
             ClassMapper

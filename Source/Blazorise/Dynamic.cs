@@ -9,11 +9,9 @@ using Microsoft.AspNetCore.Components.RenderTree;
 
 namespace Blazorise
 {
-    public class Dynamic : IComponent, IDisposable
+    public class Dynamic : IComponent
     {
         #region Members
-
-        private bool disposed;
 
         private RenderHandle renderHandle;
 
@@ -26,29 +24,6 @@ namespace Blazorise
         #endregion
 
         #region Methods
-
-        public void Dispose()
-        {
-            Dispose( true );
-            GC.SuppressFinalize( this );
-        }
-
-        protected virtual void Dispose( bool disposing )
-        {
-            if ( !disposed )
-            {
-                if ( disposing )
-                {
-                    if ( attributes != null )
-                    {
-                        attributes.Clear();
-                        attributes = null;
-                    }
-                }
-
-                disposed = true;
-            }
-        }
 
         public void Configure( RenderHandle renderHandle )
         {

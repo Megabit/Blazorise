@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blazorise
 {
-    public interface IBaseMapper : IDisposable
+    public interface IBaseMapper
     {
         void Dirty();
 
@@ -26,8 +26,6 @@ namespace Blazorise
     {
         #region Members
 
-        private bool disposed;
-
         protected bool dirty = true;
 
         protected Dictionary<Func<string>, Func<bool>> rules;
@@ -37,35 +35,6 @@ namespace Blazorise
         #endregion
 
         #region Methods
-
-        public void Dispose()
-        {
-            Dispose( true );
-            GC.SuppressFinalize( this );
-        }
-
-        protected virtual void Dispose( bool disposing )
-        {
-            if ( !disposed )
-            {
-                if ( disposing )
-                {
-                    if ( rules != null )
-                    {
-                        rules.Clear();
-                        rules = null;
-                    }
-
-                    if ( listRules != null )
-                    {
-                        listRules.Clear();
-                        listRules = null;
-                    }
-                }
-
-                disposed = true;
-            }
-        }
 
         protected IEnumerable<string> GetValidRules()
         {

@@ -11,7 +11,7 @@ namespace Blazorise.Base
     /// <summary>
     /// Base component for all the input types.
     /// </summary>
-    public abstract class BaseInputComponent<TValue> : BaseSizableComponent
+    public abstract class BaseInputComponent<TValue> : BaseSizableComponent, IDisposable
     {
         #region Members
 
@@ -40,17 +40,13 @@ namespace Blazorise.Base
             base.OnInit();
         }
 
-        protected override void Dispose( bool disposing )
+        public void Dispose()
         {
-            if ( disposing )
+            if ( ParentValidation != null )
             {
-                if ( ParentValidation != null )
-                {
-                    ParentValidation.Validated -= OnValidated;
-                }
+                // To avoid leaking memory, it's important to detach any event handlers in Dispose()
+                ParentValidation.Validated -= OnValidated;
             }
-
-            base.Dispose( disposing );
         }
 
         private void OnValidated( ValidatedEventArgs e )

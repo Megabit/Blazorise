@@ -30,20 +30,6 @@ namespace Blazorise.Base
 
         #region Methods
 
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( AddonContainerClassMapper != null )
-                {
-                    AddonContainerClassMapper.Dispose();
-                    AddonContainerClassMapper = null;
-                }
-            }
-
-            base.Dispose( disposing );
-        }
-
         protected override void RegisterClasses()
         {
             ClassMapper

@@ -18,16 +18,6 @@ namespace Blazorise.Base
 
         #region Methods
 
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                columnSize = null;
-            }
-
-            base.Dispose( disposing );
-        }
-
         protected override void RegisterClasses()
         {
             ClassMapper
