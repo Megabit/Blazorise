@@ -2,8 +2,9 @@
 
 # Components for Blazor
 
-* [![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/stsrki) ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
-* [![Join the chat at https://gitter.im/stsrki/Blazorise](https://badges.gitter.im/stsrki/Blazorise.svg)](https://gitter.im/stsrki/Blazorise?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/stsrki) ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
+[![Join the chat at https://gitter.im/stsrki/Blazorise](https://badges.gitter.im/stsrki/Blazorise.svg)](https://gitter.im/stsrki/Blazorise?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.me/mladenmacanovic)
 
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
@@ -141,9 +142,3 @@ There is also another option. You can try the library [BlazorEmbedLibrary](https
 ## Other frameworks
 
 To setup Blazorise for other css frameworks please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
-
-## Support
-
-If you've got value from the components library which I have created, but pull requests are not your thing, then I would also very much appreciate your support by buying me a coffee.
-
-<a href="https://www.buymeacoffee.com/mladenmacanovic" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/white_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a> <a href="https://www.paypal.me/mladenmacanovic/5usd" id="donate-amount-5-usd"><img src="https://i.ibb.co/BKtv9Fs/PP-logo-h-100x26.png" alt="PP-logo-h-100x26" border="0"></a>
