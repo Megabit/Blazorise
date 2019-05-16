@@ -60,6 +60,7 @@ namespace Blazorise.Base
         {
             if ( ParentValidations != null )
             {
+                // To avoid leaking memory, it's important to detach any event handlers in Dispose()
                 ParentValidations.ValidatingAll -= OnValidatingAll;
                 ParentValidations.ClearingAll -= OnClearingAll;
             }

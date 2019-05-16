@@ -9,98 +9,89 @@ using Microsoft.AspNetCore.Components.RenderTree;
 
 namespace Blazorise
 {
-    public class Dynamic : IComponent, IDisposable
+    // based on https://github.com/chanan/BlazorStrap/blob/master/src/BlazorStrap/DynamicElement.cs
+    public class Dynamic : ComponentBase
     {
         #region Members
 
-        private bool disposed;
-
-        private RenderHandle renderHandle;
+        private IDictionary<string, object> parametersToRender;
 
         private RenderFragment childContent;
-
-        private string tagName;
-
-        private IDictionary<string, object> attributes;
 
         #endregion
 
         #region Methods
 
-        public void Dispose()
+        public override Task SetParametersAsync( ParameterCollection parameters )
         {
-            Dispose( true );
-            GC.SuppressFinalize( this );
-        }
+            parametersToRender = parameters.ToDictionary() as Dictionary<string, object>;
 
-        protected virtual void Dispose( bool disposing )
-        {
-            if ( !disposed )
+            childContent = parametersToRender.GetAndRemove<RenderFragment>( RenderTreeBuilder.ChildContent );
+            TagName = parametersToRender.GetAndRemove<string>( nameof( TagName ) ) ?? throw new InvalidOperationException( $"No value was supplied for required parameter '{nameof( TagName )}'." );
+
+            // Combine any explicitly-supplied attributes with the remaining parameters
+            var attributesParam = parametersToRender.GetAndRemove<IReadOnlyDictionary<string, object>>( nameof( Attributes ) );
+
+            if ( attributesParam != null )
             {
-                if ( disposing )
+                foreach ( var kvp in attributesParam )
                 {
-                    if ( attributes != null )
+                    if ( kvp.Value != null && parametersToRender.TryGetValue( kvp.Key, out var existingValue ) && existingValue != null )
                     {
-                        attributes.Clear();
-                        attributes = null;
+                        parametersToRender[kvp.Key] = $"{existingValue} {kvp.Value}";
+                    }
+                    else
+                    {
+                        parametersToRender[kvp.Key] = kvp.Value;
                     }
                 }
-
-                disposed = true;
             }
+
+            return base.SetParametersAsync( ParameterCollection.Empty );
         }
 
-        public void Configure( RenderHandle renderHandle )
+        protected override void BuildRenderTree( RenderTreeBuilder builder )
         {
-            this.renderHandle = renderHandle;
-        }
+            base.BuildRenderTree( builder );
 
-        public Task SetParametersAsync( ParameterCollection parameters )
-        {
-            attributes = parameters.ToDictionary() as Dictionary<string, object>;
+            builder.OpenElement( 0, TagName );
 
-            childContent = attributes.GetAndRemove<RenderFragment>( RenderTreeBuilder.ChildContent );
-            tagName = attributes.GetAndRemove<string>( "TagName" );
+            foreach ( var param in parametersToRender )
+            {
+                switch ( param.Value )
+                {
+                    case EventCallback<UIChangeEventArgs> ec:
+                        builder.AddAttribute( 1, param.Key, ec );
+                        break;
+                    case EventCallback<UIClipboardEventArgs> ec:
+                        builder.AddAttribute( 1, param.Key, ec );
+                        break;
+                    case EventCallback<UIDataTransferItem> ec:
+                        builder.AddAttribute( 1, param.Key, ec );
+                        break;
+                    case EventCallback<UIErrorEventArgs> ec:
+                        builder.AddAttribute( 1, param.Key, ec );
+                        break;
+                    case EventCallback<UIEventArgs> ec:
+                        builder.AddAttribute( 1, param.Key, ec );
+                        break;
+                    case EventCallback<UIFocusEventArgs> ec:
+                        builder.AddAttribute( 1, param.Key, ec );
+                        break;
+                    case EventCallback<UIKeyboardEventArgs> ec:
+                        builder.AddAttribute( 1, param.Key, ec );
+                        break;
+                    case EventCallback<UIMouseEventArgs> ec:
+                        builder.AddAttribute( 1, param.Key, ec );
+                        break;
+                    default:
+                        builder.AddAttribute( 1, param.Key, param.Value );
+                        break;
+                }
+            }
 
-            //foreach ( var att in attributes )
-            //{
-            //    if ( attributesToRender == null )
-            //        attributesToRender = new Dictionary<string, object>();
-
-            //    if ( att.Value == null )
-            //        continue;
-
-            //    if ( attributes.TryGetValue( att.Key, out var existingValue ) && existingValue != null )
-            //    //{
-            //    //    // concat the same attributes
-            //    //    attributesToRender[att.Key] = existingValue.ToString() + " " + att.Value.ToString();
-            //    //}
-            //    //else
-            //    {
-            //        attributesToRender[att.Key] = att.Value;
-            //    }
-
-            //    //Console.WriteLine( $"{kv.Key}: {kv.Value}" );
-            //}
-
-            renderHandle.Render( Render );
-
-            return Task.CompletedTask;
-        }
-
-        private void Render( RenderTreeBuilder builder )
-        {
-            builder.OpenElement( 0, tagName );
-
-            // Pass through all other attributes unchanged
-            foreach ( var attribute in attributes )
-                builder.AddAttribute( 0, attribute.Key, attribute.Value );
-
-            //builder.AddElementReferenceCapture( 2, capturedRef => { ElementRef = capturedRef; } );
-
-            // Pass through any child content unchanged
-            builder.AddContent( 2, childContent );
-
+            builder.AddElementReferenceCapture( 2, capturedRef => { ElementRef = capturedRef; } );
+            builder.AddContent( 3, childContent );
             builder.CloseElement();
         }
 
@@ -108,15 +99,25 @@ namespace Blazorise
 
         #region Properties
 
-        ///// <summary>
-        ///// Gets or sets the name of the element to render.
-        ///// </summary>
-        //public string TagName { get; set; }
+        /// <summary>
+        /// Gets or sets the name of the element to render.
+        /// </summary>
+        public string TagName { get; set; }
 
-        ///// <summary>
-        ///// Gets the <see cref="Microsoft.AspNetCore.Blazor.ElementRef"/>.
-        ///// </summary>
-        //public ElementRef ElementRef { get; private set; }
+        /// <summary>
+        /// Gets the <see cref="Microsoft.AspNetCore.Components.ElementRef"/>.
+        /// </summary>
+        public ElementRef ElementRef { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the attributes to render.
+        /// </summary>
+        public IReadOnlyDictionary<string, object> Attributes
+        {
+            // The property is only declared for intellisense. It's not used at runtime.
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
+        }
 
         #endregion
     }

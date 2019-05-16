@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseBarDropdownToggle : BaseComponent, ICloseActivator
+    public abstract class BaseBarDropdownToggle : BaseComponent, ICloseActivator, IDisposable
     {
         #region Members
 
@@ -20,20 +20,15 @@ namespace Blazorise.Base
 
         #region Methods
 
-        protected override void Dispose( bool disposing )
+        public void Dispose()
         {
-            if ( disposing )
+            // make sure to unregister listener
+            if ( isRegistered )
             {
-                // make sure to unregister listener
-                if ( isRegistered )
-                {
-                    isRegistered = false;
+                isRegistered = false;
 
-                    JSRunner.UnregisterClosableComponent( this );
-                }
+                JSRunner.UnregisterClosableComponent( this );
             }
-
-            base.Dispose( disposing );
         }
 
         protected override void RegisterClasses()

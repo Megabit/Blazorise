@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Snackbar.Base
 {
-    public abstract class BaseSnackbar : Blazorise.Base.BaseComponent
+    public abstract class BaseSnackbar : Blazorise.Base.BaseComponent, IDisposable
     {
         #region Members
 
@@ -25,18 +25,13 @@ namespace Blazorise.Snackbar.Base
 
         #region Methods
 
-        protected override void Dispose( bool disposing )
+        public void Dispose()
         {
-            if ( disposing )
+            if ( timer != null )
             {
-                if ( timer != null )
-                {
-                    timer.Elapsed -= Timer_Elapsed;
-                    timer = null;
-                }
+                timer.Elapsed -= Timer_Elapsed;
+                timer = null;
             }
-
-            base.Dispose( disposing );
         }
 
         protected override void RegisterClasses()

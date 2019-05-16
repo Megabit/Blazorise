@@ -8,11 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseComponent : ComponentBase, IDisposable
+    public abstract class BaseComponent : ComponentBase
     {
         #region Members
-
-        private bool disposed;
 
         private string elementId;
 
@@ -47,38 +45,6 @@ namespace Blazorise.Base
         #endregion
 
         #region Methods
-
-        public void Dispose()
-        {
-            Dispose( true );
-            GC.SuppressFinalize( this );
-        }
-
-        protected virtual void Dispose( bool disposing )
-        {
-            if ( !disposed )
-            {
-                if ( disposing )
-                {
-                    if ( ClassMapper != null )
-                    {
-                        ClassMapper.Dispose();
-                        ClassMapper = null;
-                    }
-
-                    if ( StyleMapper != null )
-                    {
-                        StyleMapper.Dispose();
-                        StyleMapper = null;
-                    }
-
-                    margin = null;
-                    padding = null;
-                }
-
-                disposed = true;
-            }
-        }
 
         //protected override void OnAfterRender()
         //{
