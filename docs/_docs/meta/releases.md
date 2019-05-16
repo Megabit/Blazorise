@@ -6,6 +6,12 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.7.3
+
+### Enhancements
+
+- Minor optimizations in _ClassMapper_ so that the initialisation of components should now be little faster.
+
 ## 0.7.2
 
 ### Breaking Changes
