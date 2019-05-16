@@ -26,11 +26,18 @@ namespace Blazorise
     {
         #region Members
 
+        protected class Rule<T>
+        {
+            public Func<T> Class { get; set; }
+
+            public Func<bool> Condition { get; set; }
+        }
+
         protected bool dirty = true;
 
-        protected Dictionary<Func<string>, Func<bool>> rules;
+        protected List<Rule<string>> rules;
 
-        protected Dictionary<Func<IEnumerable<string>>, Func<bool>> listRules;
+        protected List<Rule<IEnumerable<string>>> listRules;
 
         #endregion
 
@@ -38,12 +45,14 @@ namespace Blazorise
 
         protected IEnumerable<string> GetValidRules()
         {
-            foreach ( var rule in rules )
+            for ( int r = 0; r < rules.Count; ++r )
             {
-                if ( !rule.Value() ) // skip false conditions
+                var rule = rules[r];
+
+                if ( !rule.Condition() ) // skip false conditions
                     continue;
 
-                var key = rule.Key();
+                var key = rule.Class();
 
                 if ( key != null )
                     yield return key;
@@ -52,12 +61,14 @@ namespace Blazorise
 
         protected IEnumerable<string> GetValidListRules()
         {
-            foreach ( var listRule in listRules )
+            for ( int r = 0; r < listRules.Count; ++r )
             {
-                if ( !listRule.Value() )
+                var listRule = listRules[r];
+
+                if ( !listRule.Condition() )
                     continue;
 
-                var key = listRule.Key();
+                var key = listRule.Class();
 
                 if ( key == null )
                     continue;
@@ -83,9 +94,9 @@ namespace Blazorise
         public IBaseMapper Add( string value )
         {
             if ( rules == null )
-                rules = new Dictionary<Func<string>, Func<bool>> { { () => value, () => true } };
+                rules = new List<Rule<string>>() { new Rule<string> { Class = () => value, Condition = () => true } };
             else
-                rules.Add( () => value, () => true );
+                rules.Add( new Rule<string> { Class = () => value, Condition = () => true } );
 
             return this;
         }
@@ -98,9 +109,9 @@ namespace Blazorise
         public IBaseMapper Add( Func<string> value )
         {
             if ( rules == null )
-                rules = new Dictionary<Func<string>, Func<bool>> { { value, () => true } };
+                rules = new List<Rule<string>>() { new Rule<string> { Class = value, Condition = () => true } };
             else
-                rules.Add( value, () => true );
+                rules.Add( new Rule<string> { Class = value, Condition = () => true } );
 
             return this;
         }
@@ -114,9 +125,9 @@ namespace Blazorise
         public IBaseMapper If( string value, Func<bool> condition )
         {
             if ( rules == null )
-                rules = new Dictionary<Func<string>, Func<bool>> { { () => value, condition } };
+                rules = new List<Rule<string>>() { new Rule<string> { Class = () => value, Condition = condition } };
             else
-                rules.Add( () => value, condition );
+                rules.Add( new Rule<string> { Class = () => value, Condition = condition } );
 
             return this;
         }
@@ -130,9 +141,9 @@ namespace Blazorise
         public IBaseMapper If( Func<string> value, Func<bool> condition )
         {
             if ( rules == null )
-                rules = new Dictionary<Func<string>, Func<bool>> { { value, condition } };
+                rules = new List<Rule<string>>() { new Rule<string> { Class = value, Condition = condition } };
             else
-                rules.Add( value, condition );
+                rules.Add( new Rule<string> { Class = value, Condition = condition } );
 
             return this;
         }
@@ -146,9 +157,9 @@ namespace Blazorise
         public IBaseMapper If( Func<IEnumerable<string>> values, Func<bool> condition )
         {
             if ( listRules == null )
-                listRules = new Dictionary<Func<IEnumerable<string>>, Func<bool>> { { values, condition } };
+                listRules = new List<Rule<IEnumerable<string>>>() { new Rule<IEnumerable<string>> { Class = values, Condition = condition } };
             else
-                listRules.Add( values, condition );
+                listRules.Add( new Rule<IEnumerable<string>> { Class = values, Condition = condition } );
 
             return this;
         }
