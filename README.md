@@ -15,12 +15,12 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 
 - [Bootstrap Demo](https://bootstrapdemo.blazorise.com)
 - [Material Demo](https://materialdemo.blazorise.com/)
-- [Bulma Demo](https://bulmademo.blazorise.com/) (PREVIEW)
-- [eFrolic Demo](https://efrolicdemo.blazorise.com/) (PREVIEW)
+- [Bulma Demo](https://bulmademo.blazorise.com/)
+- [eFrolic Demo](https://efrolicdemo.blazorise.com/)
 
 ### Server-Side Razor Components
 
-- [Bootstrap Demo](https://rcbootstrapdemo.blazorise.com/) (PREVIEW)
+- [Bootstrap Demo](https://rcbootstrapdemo.blazorise.com/)
 
 ```
 Note: This project is still experimental so it's possible that some components will be removed or refactored.
