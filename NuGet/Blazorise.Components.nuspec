@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
 	<metadata>
-		<id>Blazorise.Frolic</id>
-		<title>Blazorise.Frolic</title>
+		<id>Blazorise.Components</id>
+		<title>Blazorise.Components</title>
 		<version>0.7.4</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
@@ -11,7 +11,7 @@
 		<projectUrl>https://github.com/stsrki/Blazorise</projectUrl>
 		<description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</description>
 		<copyright>Copyright 2019 Mladen Macanovic</copyright>
-		<tags>blazorise blazor razor components efrolic</tags>
+		<tags>blazorise blazor razor components</tags>
 		<repository url="https://github.com/stsrki/Blazorise" />
 		<iconUrl>https://github.com/stsrki/Blazorise/raw/master/NuGet/Blazorise.png</iconUrl>
 		<dependencies>
@@ -35,11 +35,11 @@
 		</contentFiles>
 	</metadata>
 	<files>
-		<file src="..\Source\Blazorise.Frolic\bin\Release\**\Blazorise.Frolic.dll" target="lib\" />
+		<file src="..\Source\Extensions\Blazorise.Components\bin\Release\**\Blazorise.Components.dll" target="lib\" />
 		<file src="..\LICENSE.md" target="" />
 		
-		<file src="..\Source\Blazorise.Frolic\Properties\launchSettings.json" target="content\Properties" />
-		<file src="..\Source\Blazorise.Frolic\Properties\launchSettings.json" target="contentFiles\any\netstandard2.0\Properties" />
-		<file src="..\Source\Blazorise.Frolic\Properties\launchSettings.json" target="contentFiles\any\netcoreapp3.0\Properties" />
+		<file src="..\Source\Extensions\Blazorise.Components\Properties\launchSettings.json" target="content\Properties" />
+		<file src="..\Source\Extensions\Blazorise.Components\Properties\launchSettings.json" target="contentFiles\any\netstandard2.0\Properties" />
+		<file src="..\Source\Extensions\Blazorise.Components\Properties\launchSettings.json" target="contentFiles\any\netcoreapp3.0\Properties" />
 	</files>
 </package>

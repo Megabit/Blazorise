@@ -26,7 +26,7 @@ namespace Blazorise.Base
 
         protected void ClickHandler()
         {
-            Clicked.InvokeAsync( null );
+            Clicked.InvokeAsync( Value );
         }
 
         #endregion
@@ -34,9 +34,14 @@ namespace Blazorise.Base
         #region Properties
 
         /// <summary>
+        /// Holds the item value.
+        /// </summary>
+        [Parameter] protected object Value { get; set; }
+
+        /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] protected EventCallback Clicked { get; set; }
+        [Parameter] protected EventCallback<object> Clicked { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

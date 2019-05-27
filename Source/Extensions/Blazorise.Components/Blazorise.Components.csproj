@@ -1,6 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <Import Project="..\..\Build\Blazorise.Demo.props" />
+  <Import Project="..\..\..\Build\Blazorise.props" />
+
+  <PropertyGroup>
+    <PackageId>Blazorise.Components</PackageId>
+    <PackageLicenseUrl>https://github.com/stsrki/Blazorise/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/stsrki/Blazorise</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
+    <PackageTags>blazorise blazor components</PackageTags>
+  </PropertyGroup>
 
   <ItemGroup>
     <!-- .js/.css files will be referenced via <script>/<link> tags; other content files will just be included in the app's 'dist' directory without any tags referencing them -->
@@ -10,12 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
-    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts\Blazorise.Charts.csproj" />
-    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Components\Blazorise.Components.csproj" />
-    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
-    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
-    <ProjectReference Include="..\Apps\TodoApp\TodoApp.csproj" />
+    <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
 </Project>

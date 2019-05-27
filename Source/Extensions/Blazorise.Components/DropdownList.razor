@@ -1,0 +1,18 @@
+﻿@typeparam TItem
+@inherits Base.BaseDropdownList<TItem>
+<Dropdown>
+    <DropdownToggle Color="@Color">@ChildContent</DropdownToggle>
+    <DropdownMenu>
+        @if ( Data != null )
+        {
+            foreach ( var item in Data )
+            {
+                var text = TextField?.Invoke( item );
+                var value = ValueField?.Invoke( item );
+
+                <DropdownItem Clicked="@HandleItemClicked" Value="@value">@text</DropdownItem>
+            }
+        }
+    </DropdownMenu>
+</Dropdown>
+

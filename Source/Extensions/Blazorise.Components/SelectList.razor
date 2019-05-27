@@ -1,0 +1,15 @@
+﻿@typeparam TItem
+@inherits Base.BaseSelectList<TItem>
+<SelectEdit TValue="object" SelectedValue="@SelectedValue" SelectedValueChanged="@SelectedValueChanged">
+    @if ( Data != null )
+    {
+        foreach ( var item in Data )
+        {
+            var text = TextField?.Invoke( item );
+            var value = ValueField?.Invoke( item );
+
+            <SelectItem TValue="object" Value="@value">@text</SelectItem>
+        }
+    }
+    @ChildContent
+</SelectEdit>
