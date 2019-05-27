@@ -6,6 +6,14 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.7.4
+
+### Enhancements
+
+- New Autocomplete component
+- New DropdownList component
+- New SelectList component
+
 ## 0.7.3
 
 ### Enhancements
