@@ -13,6 +13,7 @@ nuget pack Blazorise.Frolic.nuspec
 nuget pack Blazorise.Charts.nuspec
 nuget pack Blazorise.Sidebar.nuspec
 nuget pack Blazorise.Snackbar.nuspec
+nuget pack Blazorise.Components.nuspec
 
 nuget pack Blazorise.Icons.FontAwesome.nuspec
 nuget pack Blazorise.Icons.Material.nuspec
