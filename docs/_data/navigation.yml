@@ -67,6 +67,12 @@ docs:
     children:
       - title: "Chart"
         url: /docs/extensions/chart/
+      - title: "Autocomplete"
+        url: /docs/extensions/autocomplete/
+      - title: "SelectList"
+        url: /docs/extensions/selectlist/
+      - title: "DropdownList"
+        url: /docs/extensions/dropdownlist/
   - title: Helpers
     url: /docs/helpers/
     children:
