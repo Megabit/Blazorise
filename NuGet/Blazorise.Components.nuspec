@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+	<metadata>
+		<id>Blazorise.Components</id>
+		<title>Blazorise.Components</title>
+		<version>0.7.3</version>
+		<authors>Mladen Macanovic</authors>
+		<owners>Mladen Macanovic</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="file">LICENSE.md</license>
+		<projectUrl>https://github.com/stsrki/Blazorise</projectUrl>
+		<description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</description>
+		<copyright>Copyright 2019 Mladen Macanovic</copyright>
+		<tags>blazorise blazor razor components</tags>
+		<repository url="https://github.com/stsrki/Blazorise" />
+		<iconUrl>https://github.com/stsrki/Blazorise/raw/master/NuGet/Blazorise.png</iconUrl>
+		<dependencies>
+			<group targetFramework=".NETStandard2.0">
+				<dependency id="Blazorise" version="0.7.3" exclude="Build,Analyzers" />
+				<dependency id="Microsoft.AspNetCore.Blazor" version="3.0.0-preview4-19216-03" exclude="Build,Analyzers" />
+			</group>
+			<group targetFramework=".NETCoreApp3.0">
+				<dependency id="Blazorise" version="0.7.3" exclude="Build,Analyzers" />
+				<dependency id="Microsoft.AspNetCore.Blazor" version="3.0.0-preview4-19216-03" exclude="Build,Analyzers" />
+			</group>
+		</dependencies>
+		<!-- <frameworkReferences>
+			<group targetFramework=".NETCoreApp3.0">
+				<frameworkReference name="Microsoft.AspNetCore.App" />
+			</group>
+		</frameworkReferences> -->
+		<contentFiles>
+			<files include="any/netstandard2.0/Properties/launchSettings.json" buildAction="Content" />
+			<files include="any/netcoreapp3.0/Properties/launchSettings.json" buildAction="Content" />
+		</contentFiles>
+	</metadata>
+	<files>
+		<file src="..\Source\Extensions\Blazorise.Components\bin\Release\**\Blazorise.Components.dll" target="lib\" />
+		<file src="..\LICENSE.md" target="" />
+		
+		<file src="..\Source\Extensions\Blazorise.Components\Properties\launchSettings.json" target="content\Properties" />
+		<file src="..\Source\Extensions\Blazorise.Components\Properties\launchSettings.json" target="contentFiles\any\netstandard2.0\Properties" />
+		<file src="..\Source\Extensions\Blazorise.Components\Properties\launchSettings.json" target="contentFiles\any\netcoreapp3.0\Properties" />
+	</files>
+</package>
