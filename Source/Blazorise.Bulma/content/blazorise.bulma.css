@@ -2051,6 +2051,14 @@ table.is-borderless tr {
     flex-direction: column;
 }
 
+.tabs.is-vertical li {
+    width: 100%;
+}
+
+    .tabs.is-vertical li > a {
+        border: none;
+    }
+
 @media (min-width: 576px) {
     .modal-sm {
         width: 300px;

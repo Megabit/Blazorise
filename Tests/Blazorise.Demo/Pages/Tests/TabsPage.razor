@@ -66,28 +66,32 @@
                 <CardTitle>TABS VERTICAL LEFT</CardTitle>
             </CardHeader>
             <CardBody>
-                <div class="tabs-vertical-env">
-                    <Tabs SelectedTabChanged="@OnSelectedTabChanged3" IsVertical="true" IsPills="true">
-                        <Tab Name="home" IsActive="@(selectedTabName3 == "home")">Home</Tab>
-                        <Tab Name="profile" IsActive="@(selectedTabName3 == "profile")">Profile</Tab>
-                        <Tab Name="messages" IsActive="@(selectedTabName3 == "messages")">Messages</Tab>
-                        <Tab Name="settings" IsActive="@(selectedTabName3 == "settings")">Settings</Tab>
-                    </Tabs>
-                    <TabsContent ref="tabContent3">
-                        <TabPanel IsActive="@(selectedTabName3 == "home")">
-                            Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
-                        </TabPanel>
-                        <TabPanel IsActive="@(selectedTabName3 == "profile")">
-                            Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.
-                        </TabPanel>
-                        <TabPanel IsActive="@(selectedTabName3 == "messages")">
-                            Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna. Ad proident laboris ullamco esse anim Lorem Lorem veniam quis Lorem irure occaecat velit nostrud magna nulla. Velit et et proident Lorem do ea tempor officia dolor. Reprehenderit Lorem aliquip labore est magna commodo est ea veniam consectetur.
-                        </TabPanel>
-                        <TabPanel IsActive="@(selectedTabName3 == "settings")">
-                            Eu dolore ea ullamco dolore Lorem id cupidatat excepteur reprehenderit consectetur elit id dolor proident in cupidatat officia. Voluptate excepteur commodo labore nisi cillum duis aliqua do. Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore officia magna elit nisi in aute tempor commodo eiusmod.
-                        </TabPanel>
-                    </TabsContent>
-                </div>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Tabs SelectedTabChanged="@OnSelectedTabChanged3" IsVertical="true" IsPills="true">
+                            <Tab Name="home" IsActive="@(selectedTabName3 == "home")">Home</Tab>
+                            <Tab Name="profile" IsActive="@(selectedTabName3 == "profile")">Profile</Tab>
+                            <Tab Name="messages" IsActive="@(selectedTabName3 == "messages")">Messages</Tab>
+                            <Tab Name="settings" IsActive="@(selectedTabName3 == "settings")">Settings</Tab>
+                        </Tabs>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is9">
+                        <TabsContent ref="tabContent3">
+                            <TabPanel IsActive="@(selectedTabName3 == "home")">
+                                Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
+                            </TabPanel>
+                            <TabPanel IsActive="@(selectedTabName3 == "profile")">
+                                Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.
+                            </TabPanel>
+                            <TabPanel IsActive="@(selectedTabName3 == "messages")">
+                                Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna. Ad proident laboris ullamco esse anim Lorem Lorem veniam quis Lorem irure occaecat velit nostrud magna nulla. Velit et et proident Lorem do ea tempor officia dolor. Reprehenderit Lorem aliquip labore est magna commodo est ea veniam consectetur.
+                            </TabPanel>
+                            <TabPanel IsActive="@(selectedTabName3 == "settings")">
+                                Eu dolore ea ullamco dolore Lorem id cupidatat excepteur reprehenderit consectetur elit id dolor proident in cupidatat officia. Voluptate excepteur commodo labore nisi cillum duis aliqua do. Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore officia magna elit nisi in aute tempor commodo eiusmod.
+                            </TabPanel>
+                        </TabsContent>
+                    </Column>
+                </Row>
             </CardBody>
         </Card>
     </Column>
@@ -97,28 +101,32 @@
                 <CardTitle>TABS VERTICAL RIGHT</CardTitle>
             </CardHeader>
             <CardBody>
-                <div class="tabs-vertical-env tabs-vertical-env-right">
-                    <TabsContent ref="tabContent4">
-                        <TabPanel IsActive="@(selectedTabName4 == "home")">
-                            Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
-                        </TabPanel>
-                        <TabPanel IsActive="@(selectedTabName4 == "profile")">
-                            Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.
-                        </TabPanel>
-                        <TabPanel IsActive="@(selectedTabName4 == "messages")">
-                            Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna. Ad proident laboris ullamco esse anim Lorem Lorem veniam quis Lorem irure occaecat velit nostrud magna nulla. Velit et et proident Lorem do ea tempor officia dolor. Reprehenderit Lorem aliquip labore est magna commodo est ea veniam consectetur.
-                        </TabPanel>
-                        <TabPanel IsActive="@(selectedTabName4 == "settings")">
-                            Eu dolore ea ullamco dolore Lorem id cupidatat excepteur reprehenderit consectetur elit id dolor proident in cupidatat officia. Voluptate excepteur commodo labore nisi cillum duis aliqua do. Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore officia magna elit nisi in aute tempor commodo eiusmod.
-                        </TabPanel>
-                    </TabsContent>
-                    <Tabs SelectedTabChanged="@OnSelectedTabChanged4" IsVertical="true" IsPills="true">
-                        <Tab Name="home" IsActive="@(selectedTabName4 == "home")">Home</Tab>
-                        <Tab Name="profile" IsActive="@(selectedTabName4 == "profile")">Profile</Tab>
-                        <Tab Name="messages" IsActive="@(selectedTabName4 == "messages")">Messages</Tab>
-                        <Tab Name="settings" IsActive="@(selectedTabName4 == "settings")">Settings</Tab>
-                    </Tabs>
-                </div>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is9">
+                        <TabsContent ref="tabContent4">
+                            <TabPanel IsActive="@(selectedTabName4 == "home")">
+                                Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
+                            </TabPanel>
+                            <TabPanel IsActive="@(selectedTabName4 == "profile")">
+                                Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.
+                            </TabPanel>
+                            <TabPanel IsActive="@(selectedTabName4 == "messages")">
+                                Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna. Ad proident laboris ullamco esse anim Lorem Lorem veniam quis Lorem irure occaecat velit nostrud magna nulla. Velit et et proident Lorem do ea tempor officia dolor. Reprehenderit Lorem aliquip labore est magna commodo est ea veniam consectetur.
+                            </TabPanel>
+                            <TabPanel IsActive="@(selectedTabName4 == "settings")">
+                                Eu dolore ea ullamco dolore Lorem id cupidatat excepteur reprehenderit consectetur elit id dolor proident in cupidatat officia. Voluptate excepteur commodo labore nisi cillum duis aliqua do. Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore officia magna elit nisi in aute tempor commodo eiusmod.
+                            </TabPanel>
+                        </TabsContent>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Tabs SelectedTabChanged="@OnSelectedTabChanged4" IsVertical="true" IsPills="true">
+                            <Tab Name="home" IsActive="@(selectedTabName4 == "home")">Home</Tab>
+                            <Tab Name="profile" IsActive="@(selectedTabName4 == "profile")">Profile</Tab>
+                            <Tab Name="messages" IsActive="@(selectedTabName4 == "messages")">Messages</Tab>
+                            <Tab Name="settings" IsActive="@(selectedTabName4 == "settings")">Settings</Tab>
+                        </Tabs>
+                    </Column>
+                </Row>
             </CardBody>
         </Card>
     </Column>
