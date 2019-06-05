@@ -285,7 +285,7 @@
 
     void ValidateSelect( ValidatorEventArgs e )
     {
-        var selectedValue = Convert.ToInt32( e.Value );
+        var selectedValue = e.Value == null ? 0 : Convert.ToInt32( e.Value );
         e.Status = selectedValue != 0 ? ValidationStatus.Success : ValidationStatus.Error;
     }
 

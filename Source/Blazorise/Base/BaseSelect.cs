@@ -14,9 +14,7 @@ namespace Blazorise.Base
     {
         #region Members
 
-        private TValue singleValue;
-
-        private IReadOnlyList<TValue> multiValue;
+        private IReadOnlyList<TValue> internalMultiValue;
 
         #endregion
 
@@ -37,24 +35,24 @@ namespace Blazorise.Base
             if ( IsMultiple )
             {
                 // when multiple selection is enabled we need to use javascript to get the list of selected items
-                multiValue = await JSRunner.GetSelectedOptions<TValue>( ElementId );
+                internalMultiValue = await JSRunner.GetSelectedOptions<TValue>( ElementId );
 
                 // changed event must be called before validation
-                SelectedValuesChanged?.Invoke( multiValue );
+                SelectedValuesChanged?.Invoke( internalMultiValue );
 
-                ParentValidation?.UpdateInputValue( multiValue );
+                ParentValidation?.UpdateInputValue( internalMultiValue );
             }
             else
             {
                 if ( Converters.TryChangeType<TValue>( e.Value, out var value ) )
-                    singleValue = value;
+                    internalValue = value;
                 else
-                    singleValue = default;
+                    internalValue = default;
 
                 // changed event must be called before validation
-                SelectedValueChanged?.Invoke( singleValue );
+                SelectedValueChanged?.Invoke( internalValue );
 
-                ParentValidation?.UpdateInputValue( singleValue );
+                ParentValidation?.UpdateInputValue( internalValue );
             }
         }
 
@@ -73,12 +71,15 @@ namespace Blazorise.Base
         [Parameter]
         protected internal TValue SelectedValue
         {
-            get { return singleValue; }
+            get { return internalValue; }
             set
             {
-                singleValue = value;
+                if ( !EqualityComparer<TValue>.Default.Equals( this.internalValue, value ) )
+                {
+                    internalValue = value;
 
-                ParentValidation?.UpdateInputValue( singleValue );
+                    ParentValidation?.UpdateInputValue( internalValue );
+                }
             }
         }
 
@@ -88,12 +89,12 @@ namespace Blazorise.Base
         [Parameter]
         protected internal IReadOnlyList<TValue> SelectedValues
         {
-            get { return multiValue; }
+            get { return internalMultiValue; }
             set
             {
-                multiValue = value;
+                internalMultiValue = value;
 
-                ParentValidation?.UpdateInputValue( multiValue );
+                ParentValidation?.UpdateInputValue( internalMultiValue );
             }
         }
 

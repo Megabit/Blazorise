@@ -6,6 +6,17 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.7.5
+
+### Enhancements
+
+- A new atribute `NullableChecked` on `CheckEdit` component is introduced to handle nullable boolean values (bool?).
+
+### Bug Fixes
+
+- Fixed bug when first value in `SelectEdit` was null while validation is set to automatic.
+- Fixed css for vertical `Tabs` so they don't apear as broken.
+
 ## 0.7.4
 
 ### Enhancements
