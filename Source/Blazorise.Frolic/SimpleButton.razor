@@ -1,5 +1,9 @@
 ﻿@inherits Blazorise.Base.BaseButton
 <button type="@Type.ToButtonTypeString()" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" aria-pressed="@IsActive" onclick="@ClickHandler">
+    @if ( IsLoading )
+    {
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    }
     @ChildContent
 </button>
 @functions{
