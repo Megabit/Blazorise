@@ -6,6 +6,12 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.7.6
+
+### Bug Fixes
+
+- Fixed loading buttons for material and eFrolic css.
+
 ## 0.7.5
 
 ### Enhancements
