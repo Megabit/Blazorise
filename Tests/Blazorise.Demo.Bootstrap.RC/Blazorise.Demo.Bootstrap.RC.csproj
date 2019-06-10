@@ -3,55 +3,42 @@
   <Import Project="..\..\Build\Blazorise.Server.RC.props" />
 
   <ItemGroup>
-    <Content Remove="wwwroot\blazorise.bootstrap.css" />
-    <Content Remove="wwwroot\blazorise.bootstrap.js" />
-    <Content Remove="wwwroot\blazorise.charts.js" />
-    <Content Remove="wwwroot\blazorise.css" />
-    <Content Remove="wwwroot\blazorise.js" />
-    <Content Remove="wwwroot\blazorise.sidebar.css" />
-    <Content Remove="wwwroot\blazorise.sidebar.js" />
-    <Content Remove="wwwroot\blazorise.snackbar.css" />
-    <Content Remove="wwwroot\demo.css" />
-    <Content Remove="wwwroot\demo.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="wwwroot\blazorise.bootstrap.css">
-      <LogicalName>blazor:css:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="wwwroot\blazorise.bootstrap.js">
-      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="wwwroot\blazorise.charts.js">
-      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="wwwroot\blazorise.css">
-      <LogicalName>blazor:css:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="wwwroot\blazorise.js">
-      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="wwwroot\blazorise.sidebar.css">
-      <LogicalName>blazor:css:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="wwwroot\blazorise.sidebar.js">
-      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="wwwroot\blazorise.snackbar.css">
-      <LogicalName>blazor:css:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="wwwroot\demo.css">
-      <LogicalName>blazor:css:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="wwwroot\demo.js">
-      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Source\Blazorise.Bootstrap\Blazorise.Bootstrap.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
     <ProjectReference Include="..\Blazorise.Demo\Blazorise.Demo.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\blazorise.bootstrap.css">
+      <LogicalName>blazor:css:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </Content>
+    <Content Update="wwwroot\blazorise.bootstrap.js">
+      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </Content>
+    <Content Update="wwwroot\blazorise.charts.js">
+      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </Content>
+    <Content Update="wwwroot\blazorise.css">
+      <LogicalName>blazor:css:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </Content>
+    <Content Update="wwwroot\blazorise.js">
+      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </Content>
+    <Content Update="wwwroot\blazorise.sidebar.css">
+      <LogicalName>blazor:css:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </Content>
+    <Content Update="wwwroot\blazorise.sidebar.js">
+      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </Content>
+    <Content Update="wwwroot\blazorise.snackbar.css">
+      <LogicalName>blazor:css:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </Content>
+    <Content Update="wwwroot\demo.css">
+      <LogicalName>blazor:css:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </Content>
+    <Content Update="wwwroot\demo.js">
+      <LogicalName>blazor:js:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </Content>
   </ItemGroup>
 
 </Project>
