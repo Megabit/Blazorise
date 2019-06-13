@@ -21,7 +21,7 @@
 <p id="validate-string-with-bind-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateStringSelect">
-        <SelectEdit bind-SelectedValue="@stringWithBindInitiallyBlank">
+        <SelectEdit @bind-SelectedValue="@stringWithBindInitiallyBlank">
             <ChildContent>
                 <SelectItem Value="string.Empty"></SelectItem>
                 <SelectItem Value="@("Oliver")">Oliver</SelectItem>
@@ -38,7 +38,7 @@
 <p id="validate-string-with-bind-initially-selected">
     Initially selected:
     <Validation Validator="@ValidateStringSelect">
-        <SelectEdit bind-SelectedValue="@stringWithBindInitiallySelected">
+        <SelectEdit @bind-SelectedValue="@stringWithBindInitiallySelected">
             <ChildContent>
                 <SelectItem Value="string.Empty"></SelectItem>
                 <SelectItem Value="@("Oliver")">Oliver</SelectItem>
@@ -111,7 +111,7 @@
 <p id="validate-int-with-bind-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateIntSelect">
-        <SelectEdit bind-SelectedValue="@intWithBindInitiallyBlank">
+        <SelectEdit @bind-SelectedValue="@intWithBindInitiallyBlank">
             <ChildContent>
                 <SelectItem Value="0"></SelectItem>
                 <SelectItem Value="1">1</SelectItem>
@@ -128,7 +128,7 @@
 <p id="validate-int-with-bind-initially-selected">
     Initially selected:
     <Validation Validator="@ValidateIntSelect">
-        <SelectEdit bind-SelectedValue="@intWithBindInitiallySelected">
+        <SelectEdit @bind-SelectedValue="@intWithBindInitiallySelected">
             <ChildContent>
                 <SelectItem Value="0"></SelectItem>
                 <SelectItem Value="1">1</SelectItem>
@@ -182,7 +182,7 @@
 <p id="validate-enum-with-bind-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateEnumSelect">
-        <SelectEdit bind-SelectedValue="@enumWithBindInitiallyBlank">
+        <SelectEdit @bind-SelectedValue="@enumWithBindInitiallyBlank">
             <ChildContent>
                 <SelectItem Value="SelectableValues.None"></SelectItem>
                 <SelectItem Value="SelectableValues.First">First</SelectItem>
@@ -198,7 +198,7 @@
 <p id="validate-enum-with-bind-initially-selected">
     Initially selected:
     <Validation Validator="@ValidateEnumSelect">
-        <SelectEdit bind-SelectedValue="@enumWithBindInitiallySelected">
+        <SelectEdit @bind-SelectedValue="@enumWithBindInitiallySelected">
             <ChildContent>
                 <SelectItem Value="SelectableValues.None"></SelectItem>
                 <SelectItem Value="SelectableValues.First">First</SelectItem>

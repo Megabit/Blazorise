@@ -8,7 +8,7 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( lineChart, GetLineChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <LineChart ref="lineChart" TItem="double" />
+                <LineChart @ref="lineChart" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -19,7 +19,7 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( barChart, GetChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart ref="barChart" Type="ChartType.Bar" TItem="double" />
+                <Chart @ref="barChart" Type="ChartType.Bar" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -30,7 +30,7 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( pieChart, GetChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart ref="pieChart" Type="ChartType.Pie" TItem="double" />
+                <Chart @ref="pieChart" Type="ChartType.Pie" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -43,7 +43,7 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( polarAreaChart, GetChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart ref="polarAreaChart" Type="ChartType.PolarArea" TItem="double" />
+                <Chart @ref="polarAreaChart" Type="ChartType.PolarArea" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -54,7 +54,7 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( radarChart, GetRadarChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart ref="radarChart" Type="ChartType.Radar" TItem="double" />
+                <Chart @ref="radarChart" Type="ChartType.Radar" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -65,12 +65,12 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( doughnutChart, GetChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart ref="doughnutChart" Type="ChartType.Doughnut" TItem="double" />
+                <Chart @ref="doughnutChart" Type="ChartType.Doughnut" TItem="double" />
             </CardBody>
         </Card>
     </Column>
 </Row>
-@functions{
+@code{
     LineChart<double> lineChart;
     Chart<double> barChart;
     Chart<double> pieChart;

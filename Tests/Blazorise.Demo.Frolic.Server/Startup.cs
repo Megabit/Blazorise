@@ -38,14 +38,15 @@ namespace Blazorise.Demo.Frolic.Server
                 app.UseBlazorDebugging();
             }
 
+            app.UseClientSideBlazorFiles<Frolic.Startup>();
+
             app.UseRouting();
 
             app.UseEndpoints( endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapFallbackToClientSideBlazor<Frolic.Startup>( "index.html" );
             } );
-
-            app.UseBlazor<Frolic.Startup>();
         }
     }
 }

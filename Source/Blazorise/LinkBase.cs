@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.AspNetCore.Components.Routing;
 #endregion
 
 namespace Blazorise
@@ -40,11 +41,11 @@ namespace Blazorise
 
         #region Events
 
-        private void OnLocationChanged( object sender, string newUriAbsolute )
+        private void OnLocationChanged( object sender, LocationChangedEventArgs args )
         {
             // We could just re-render always, but for this component we know the
             // only relevant state change is to the _isActive property.
-            var shouldBeActiveNow = ShouldMatch( newUriAbsolute );
+            var shouldBeActiveNow = ShouldMatch( args.Location );
 
             if ( shouldBeActiveNow != isActive )
             {

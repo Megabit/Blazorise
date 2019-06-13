@@ -5,7 +5,7 @@
         <Tab Name="2" IsActive="@(selectedTab=="2")">2</Tab>
         <Tab Name="3" IsActive="@(selectedTab=="3")">3</Tab>
     </Tabs>
-    <TabsContent ref="tabContent">
+    <TabsContent @ref="tabContent">
         <TabPanel Name="1" IsActive="@(selectedTab == "1")">
             First tab content
         </TabPanel>

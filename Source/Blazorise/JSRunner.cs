@@ -22,7 +22,7 @@ namespace Blazorise
 
         public Task<bool> Init( ElementRef elementRef, object componentRef )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.init", elementRef, new DotNetObjectRef( componentRef ) );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.init", elementRef, DotNetObjectRef.Create( componentRef ) );
         }
 
         public Task<bool> AddClass( ElementRef elementRef, string classname )
@@ -107,7 +107,7 @@ namespace Blazorise
 
         public Task RegisterClosableComponent( ICloseActivator component )
         {
-            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", component.ElementId, new DotNetObjectRef( new CloseActivatorAdapter( component ) ) );
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", component.ElementId, DotNetObjectRef.Create( new CloseActivatorAdapter( component ) ) );
         }
 
         public Task UnregisterClosableComponent( ICloseActivator component )

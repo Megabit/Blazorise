@@ -1,7 +1,7 @@
 ﻿@layout RootLayout
 @inherits LayoutComponentBase
 
-<Sidebar ref="sidebar">
+<Sidebar @ref="sidebar">
     <SidebarContent>
         <SidebarBrand>
             <a href="">Blazorise Demo</a>
@@ -17,7 +17,7 @@
                 <SidebarLink Toggled="(isOpen)=> sidebarSubItemTests.Toggle(isOpen)" IsShow="true">
                     <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Test Pages
                 </SidebarLink>
-                <SidebarSubItem ref="sidebarSubItemTests" IsShow="true">
+                <SidebarSubItem @ref="sidebarSubItemTests" IsShow="true">
                     <SidebarItem>
                         <SidebarLink To="tests/buttons">Buttons</SidebarLink>
                     </SidebarItem>
@@ -28,8 +28,8 @@
                         <SidebarLink To="tests/validations">Validations</SidebarLink>
                     </SidebarItem>
                     @*<SidebarItem>
-            <SidebarLink To="tests/editors">Editors</SidebarLink>
-        </SidebarItem>*@
+                            <SidebarLink To="tests/editors">Editors</SidebarLink>
+                        </SidebarItem>*@
                     <SidebarItem>
                         <SidebarLink To="tests/modals">Modals</SidebarLink>
                     </SidebarItem>
@@ -60,7 +60,7 @@
                 <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)" IsShow="true">
                     <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
                 </SidebarLink>
-                <SidebarSubItem ref="sidebarSubItemApps" IsShow="true">
+                <SidebarSubItem @ref="sidebarSubItemApps" IsShow="true">
                     <SidebarItem>
                         <SidebarLink To="apps/todo">Todo List</SidebarLink>
                     </SidebarItem>
@@ -116,7 +116,7 @@
     </div>
 </div>
 
-@functions{
+@code{
     Sidebar sidebar;
     SidebarSubItem sidebarSubItemTests;
     SidebarSubItem sidebarSubItemApps;

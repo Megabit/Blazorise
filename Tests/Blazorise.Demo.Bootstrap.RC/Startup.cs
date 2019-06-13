@@ -32,7 +32,7 @@ namespace Blazorise.Demo.Bootstrap.RC
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddServerSideBlazor().AddSignalR().AddHubOptions<ComponentHub>( o =>
+            services.AddServerSideBlazor().AddHubOptions( ( o ) =>
             {
                 o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
             } );
@@ -62,11 +62,11 @@ namespace Blazorise.Demo.Bootstrap.RC
 
             // this is required to be here or otherwise the messages between server and client will be too large and
             // the connection will be lost.
-            app.UseSignalR( route => route.MapHub<ComponentHub>( ComponentHub.DefaultPath, o =>
-            {
-                o.ApplicationMaxBufferSize = 1024 * 1024 * 100; // larger size
-                o.TransportMaxBufferSize = 1024 * 1024 * 100; // larger size
-            } ) );
+            //app.UseSignalR( route => route.MapHub<ComponentHub>( ComponentHub.DefaultPath, o =>
+            //{
+            //    o.ApplicationMaxBufferSize = 1024 * 1024 * 100; // larger size
+            //    o.TransportMaxBufferSize = 1024 * 1024 * 100; // larger size
+            //} ) );
 
             app.UseEndpoints( endpoints =>
             {

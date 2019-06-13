@@ -1,6 +1,6 @@
 ﻿// We'll store the results from the tests here
 var results = {};
-var assemblyName = 'BasicTestApp.Client';
+var assemblyName = 'BasicTestApp';
 
 function invokeDotNetInteropMethodsAsync(shouldSupportSyncInterop, dotNetObjectByRef, instanceMethodsTarget) {
     if (shouldSupportSyncInterop) {

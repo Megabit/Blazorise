@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components.RenderTree
 <div id="test-selector">
     Select test:
-    <select bind=@SelectedComponentTypeName>
+    <select @bind=@SelectedComponentTypeName>
         <option value="none">Choose...</option>
         <option value="BasicTestApp.Client.ElementIdComponent">ElementId</option>
         <option value="BasicTestApp.Client.TextOnlyComponent">Plain text</option>

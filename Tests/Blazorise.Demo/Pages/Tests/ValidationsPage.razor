@@ -36,7 +36,7 @@
                     <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidatePassword">
-                            <TextEdit Role="TextRole.Password" Placeholder="Password" bind-Text="@password">
+                            <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@password">
                                 <Feedback>
                                     <ValidationError>Password must be at least 6 characters long!</ValidationError>
                                 </Feedback>
@@ -130,7 +130,7 @@
                 <CardSubtitle>Example on how to validate manualy on submit.</CardSubtitle>
             </CardHeader>
             <CardBody>
-                <Validations ref="validations" Mode="ValidationMode.Manual">
+                <Validations @ref="validations" Mode="ValidationMode.Manual">
                     <Field IsHorizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
@@ -160,7 +160,7 @@
                         <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidatePassword">
-                                <TextEdit Role="TextRole.Password" Placeholder="Password" bind-Text="@password">
+                                <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@password">
                                     <Feedback>
                                         <ValidationError>Password must be at least 6 characters long!</ValidationError>
                                     </Feedback>
@@ -249,7 +249,7 @@
         </Card>
     </Column>
 </Row>
-@functions{
+@code{
     Validations validations;
 
     string password;

@@ -2,7 +2,7 @@
 <Dynamic TagName="@($"h{HeadingSize(Size)}")" class="@ClassMapper.Class">
     @ChildContent
 </Dynamic>
-@functions{
+@code{
     string HeadingSize( HeadingSize headingSize )
     {
         switch ( headingSize )

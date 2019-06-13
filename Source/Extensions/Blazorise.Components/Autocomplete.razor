@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @inherits Base.BaseAutocomplete<TItem>
-<Dropdown ref="dropdownRef">
+<Dropdown @ref="dropdownRef">
     <TextEdit Text="@SelectedText" TextChanged="@HandleTextChanged" Placeholder="@Placeholder" IsDisabled="@IsDisabled" />
     <DropdownMenu>
         @if ( Data != null && TextField != null && CurrentSearch?.Length >= MinLength )

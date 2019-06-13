@@ -24,7 +24,7 @@
 <p id="validate-numeric-with-bind-initially-blank">
     Initially blank:
     <Validation Validator="@IsValidInteger">
-        <NumericEdit bind-Value="@intWithBindInitiallyBlank">
+        <NumericEdit @bind-Value="@intWithBindInitiallyBlank">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
@@ -34,7 +34,7 @@
 <p id="validate-numeric-with-bind-initially-populated">
     Initially populated:
     <Validation Validator="@IsValidInteger">
-        <NumericEdit bind-Value="@intWithBindInitiallyPopulated">
+        <NumericEdit @bind-Value="@intWithBindInitiallyPopulated">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>

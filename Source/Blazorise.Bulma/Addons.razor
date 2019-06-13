@@ -2,22 +2,18 @@
 <CascadingValue Value=this>
     @if ( ParentIsHorizontal )
     {
-        <FieldBody ColumnSize="@ColumnSize">
+        <FieldBody>
             <div class="field is-expanded">
-                <CascadingValue Value=this>
-                    <div class="@ClassMapper.Class">
-                        @ChildContent
-                    </div>
-                </CascadingValue>
+                <div class="@ClassMapper.Class">
+                    @ChildContent
+                </div>
             </div>
         </FieldBody>
     }
     else
     {
-        <CascadingValue Value=this>
-            <div class="@ClassMapper.Class">
-                @ChildContent
-            </div>
-        </CascadingValue>
+        <div class="@ClassMapper.Class">
+            @ChildContent
+        </div>
     }
 </CascadingValue>

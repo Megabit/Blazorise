@@ -43,7 +43,7 @@
         </Card>
     </Column>
 </Row>
-<Modal ref="modalRef">
+<Modal @ref="modalRef">
     <ModalBackdrop />
     <ModalContent Size="@modalSize" IsCentered="@isCentered">
         <ModalHeader>
@@ -73,7 +73,7 @@
         </ModalFooter>
     </ModalContent>
 </Modal>
-@functions{
+@code{
     private Modal modalRef;
     private bool isCentered = false;
     private ModalSize modalSize = ModalSize.Default;

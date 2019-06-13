@@ -12,7 +12,7 @@
                     <Tab Name="messages" IsActive="@(selectedTabName1 == "messages")">Messages</Tab>
                     <Tab Name="settings" IsActive="@(selectedTabName1 == "settings")">Settings</Tab>
                 </Tabs>
-                <TabsContent ref="tabContent1">
+                <TabsContent @ref="tabContent1">
                     <TabPanel IsActive="@(selectedTabName1 == "home")">
                         Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
                     </TabPanel>
@@ -41,7 +41,7 @@
                     <Tab Name="messages" IsActive="@(selectedTabName2 == "messages")">Messages</Tab>
                     <Tab Name="settings" IsActive="@(selectedTabName2 == "settings")">Settings</Tab>
                 </Tabs>
-                <TabsContent ref="tabContent2">
+                <TabsContent @ref="tabContent2">
                     <TabPanel IsActive="@(selectedTabName2 == "home")">
                         Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
                     </TabPanel>
@@ -76,7 +76,7 @@
                         </Tabs>
                     </Column>
                     <Column ColumnSize="ColumnSize.Is9">
-                        <TabsContent ref="tabContent3">
+                        <TabsContent @ref="tabContent3">
                             <TabPanel IsActive="@(selectedTabName3 == "home")">
                                 Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
                             </TabPanel>
@@ -103,7 +103,7 @@
             <CardBody>
                 <Row>
                     <Column ColumnSize="ColumnSize.Is9">
-                        <TabsContent ref="tabContent4">
+                        <TabsContent @ref="tabContent4">
                             <TabPanel IsActive="@(selectedTabName4 == "home")">
                                 Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
                             </TabPanel>
@@ -131,7 +131,7 @@
         </Card>
     </Column>
 </Row>
-@functions{
+@code{
     private string selectedTabName1 = "home";
     private string selectedTabName2 = "profile";
     private string selectedTabName3 = "messages";

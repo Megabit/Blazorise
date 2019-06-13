@@ -38,14 +38,15 @@ namespace Blazorise.Demo.Material.Server
                 app.UseBlazorDebugging();
             }
 
+            app.UseClientSideBlazorFiles<Material.Startup>();
+
             app.UseRouting();
 
             app.UseEndpoints( endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapFallbackToClientSideBlazor<Material.Startup>( "index.html" );
             } );
-
-            app.UseBlazor<Material.Startup>();
         }
     }
 }
