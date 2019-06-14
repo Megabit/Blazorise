@@ -12,8 +12,6 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 
 ## Demos
 
-WARNING! Demo projects are currently not working because of an issue with runtimes for preview 6. see [#11223](https://github.com/aspnet/AspNetCore/issues/11223)
-
 ### Client-Side Blazor
 
 - [Bootstrap Demo](https://bootstrapdemo.blazorise.com)
