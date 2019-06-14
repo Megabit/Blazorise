@@ -6,6 +6,12 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.7.7
+
+### Bug Fixes
+
+- Upgraded to the Blazor **v3.0.0-preview6.19307.2**.
+
 ## 0.7.6
 
 ### Bug Fixes
