@@ -58,12 +58,12 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs when the check state is changed.
         /// </summary>
-        [Obsolete( "This parameter is only temporary until the issue with generic componnets is fixed. see http://git.travelsoft.hr/Travelsoft/_git/Adriagate/pullrequest/59?_a=overview" )]
         [Parameter] protected EventCallback<bool> CheckedChanged { get; set; }
 
         /// <summary>
         /// Occurs when the check state of nullable value is changed.
         /// </summary>
+        [Obsolete( "This parameter is only temporary until the issue with generic componnets is fixed. see http://git.travelsoft.hr/Travelsoft/_git/Adriagate/pullrequest/59?_a=overview" )]
         [Parameter] protected EventCallback<bool?> NullableCheckedChanged { get; set; }
 
         /// <summary>
