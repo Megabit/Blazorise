@@ -56,6 +56,8 @@ namespace Blazorise.Bootstrap
 
         public virtual string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
+        public virtual string CheckCursor( Cursor cursor ) => $"{Check()}-{Cursor( cursor )}";
+
         public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
@@ -79,6 +81,8 @@ namespace Blazorise.Bootstrap
         #region Label
 
         public virtual string Label() => null;
+
+        public virtual string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{Cursor( cursor )}" : $"form-check-label-{Cursor( cursor )}";
 
         public virtual string LabelCheck() => UseCustomInputStyles ? "custom-control-label" : "form-check-label";
 
@@ -1154,6 +1158,17 @@ namespace Blazorise.Bootstrap
                     return "is-valid";
                 case Blazorise.ValidationStatus.Error:
                     return "is-invalid";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string Cursor( Cursor cursor )
+        {
+            switch ( cursor )
+            {
+                case Blazorise.Cursor.Pointer:
+                    return "pointer";
                 default:
                     return null;
             }
