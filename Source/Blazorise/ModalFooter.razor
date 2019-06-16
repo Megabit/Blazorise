@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseModalFooter
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <div class="@ClassMapper.Class">
         @ChildContent

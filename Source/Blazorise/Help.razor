@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseHelp
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <small class="@ClassMapper.Class">
         @ChildContent

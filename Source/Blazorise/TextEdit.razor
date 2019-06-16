@@ -1,6 +1,6 @@
 ﻿@* This has to be name TextEdit because Razor(not Blazor) still doesn't support case sensitive components. *@
 @inherits Blazorise.Base.BaseTextEdit
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <input @ref="ElementRef" type="@Type" inputmode="@Mode" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" maxlength="@MaxLength" pattern="@Pattern" value="@Text" onchange="@HandleOnChange" oninput="@HandleOnInput" />
     @ChildContent

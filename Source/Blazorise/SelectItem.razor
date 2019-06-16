@@ -1,6 +1,6 @@
 ﻿@typeparam TValue
 @inherits Blazorise.Base.BaseSelectItem<TValue>
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <option class="@ClassMapper.Class" value="@Value" selected="@IsSelected" disabled="@IsDisabled">@ChildContent</option>
 }

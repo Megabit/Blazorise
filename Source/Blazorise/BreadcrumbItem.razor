@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseBreadcrumbItem
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
         <li class="@ClassMapper.Class" aria-current="@(IsActive ? "page" : null)">

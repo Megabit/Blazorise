@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseModalTitle
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <h4 class="@ClassMapper.Class">
         @ChildContent

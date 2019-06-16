@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseProgressBar
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <div class="@ClassMapper.Class" style="@StyleMapper.Style" role="progressbar" aria-valuenow="@Value " aria-valuemin="@Min" aria-valuemax="@Max">
         @ChildContent

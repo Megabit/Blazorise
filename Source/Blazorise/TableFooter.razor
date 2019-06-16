@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseTableFooter
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <tfoot class="@ClassMapper.Class">
         @ChildContent
