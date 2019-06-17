@@ -3,7 +3,7 @@
 @inherits Blazorise.Base.BaseNumericEdit<TValue>
 @if ( !HasCustomRegistration )
 {
-    <input @ref="ElementRef" type="number" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" step="@Step" pattern="@Pattern" value="@Value" onchange="@HandleOnChange" oninput="@HandleOnInput" />
+    <input @ref="ElementRef" type="number" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" step="@Step" pattern="@Pattern" value="@Value" @onchange="@HandleOnChange" @oninput="@HandleOnInput" />
     @ChildContent
     @Feedback
 }

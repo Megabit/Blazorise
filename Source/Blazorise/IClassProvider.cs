@@ -55,6 +55,8 @@ namespace Blazorise
 
         string CheckInline();
 
+        string CheckCursor( Cursor cursor );
+
         string CheckValidation( ValidationStatus validationStatus );
 
         #endregion
@@ -76,6 +78,8 @@ namespace Blazorise
         #region Label
 
         string Label();
+
+        string LabelCursor( Cursor cursor );
 
         string LabelCheck();
 

@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Base.BasePaginationLink
 @if ( !HasCustomRegistration )
 {
-    <a class="@ClassMapper.Class" onclick="@ClickHandler">@ChildContent</a>
+    <a class="@ClassMapper.Class" @onclick="@ClickHandler">@ChildContent</a>
 }
 else
 {

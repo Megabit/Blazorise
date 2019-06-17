@@ -58,6 +58,8 @@ namespace Blazorise.Providers
 
         public string CheckInline() => null;
 
+        public string CheckCursor( Cursor cursor ) => null;
+
         public string CheckValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
@@ -81,6 +83,8 @@ namespace Blazorise.Providers
         #region Label
 
         public string Label() => null;
+
+        public string LabelCursor( Cursor cursor ) => null;
 
         public string LabelCheck() => null;
 

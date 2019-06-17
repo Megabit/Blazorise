@@ -127,3 +127,8 @@ select.e-select {
     width: 1rem;
     height: 1rem;
 }
+
+.e-form-group > .e-label-pointer,
+.e-form-group > .e-label-pointer > .e-check-pointer {
+    cursor: pointer;
+}

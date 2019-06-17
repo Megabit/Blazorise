@@ -16,6 +16,8 @@ namespace Blazorise.Base
 
         private bool isInline;
 
+        private Cursor cursor;
+
         #endregion
 
         #region Methods
@@ -25,6 +27,7 @@ namespace Blazorise.Base
             ClassMapper
                 .If( () => ClassProvider.Radio(), () => RadioGroup != null )
                 .If( () => ClassProvider.Check(), () => RadioGroup == null )
+                .If( () => ClassProvider.CheckCursor( Cursor ), () => Cursor != Cursor.Default )
                 .If( () => ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
@@ -88,6 +91,18 @@ namespace Blazorise.Base
             set
             {
                 isInline = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        [Parameter]
+        protected Cursor Cursor
+        {
+            get => cursor;
+            set
+            {
+                cursor = value;
 
                 ClassMapper.Dirty();
             }
