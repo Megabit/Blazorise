@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseHeading
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <p class="@ClassMapper.Class">
         @ChildContent

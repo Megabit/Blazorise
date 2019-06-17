@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseCardImage
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <img class="@ClassMapper.Class" src="@Source" alt="@Alt" />
 }

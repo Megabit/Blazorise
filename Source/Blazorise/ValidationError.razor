@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseValidationError
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     @if ( ParentValidation?.Status == ValidationStatus.Error )
     {

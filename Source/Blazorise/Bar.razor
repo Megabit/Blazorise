@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseBar
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
         <nav class="@ClassMapper.Class">
