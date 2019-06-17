@@ -3,7 +3,7 @@
 {
     <div class="field">
         <Control Role="@Role" IsInline="@IsInline">
-            <FormLabel IsCheck="true" For="@ElementId">
+            <FormLabel IsCheck="true" For="@ElementId" Cursor="@Cursor">
                 <input type="@Type" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" @onchange="@HandleCheckedChanged" name="@RadioGroup" id="@ElementId" />
                 @ChildContent
             </FormLabel>
@@ -14,7 +14,7 @@
 else
 {
     <Control Role="@Role" IsInline="@IsInline">
-        <FormLabel IsCheck="true" For="@ElementId">
+        <FormLabel IsCheck="true" For="@ElementId" Cursor="@Cursor">
             <input type="@Type" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" @onchange="@HandleCheckedChanged" name="@RadioGroup" id="@ElementId" />
             @ChildContent
         </FormLabel>

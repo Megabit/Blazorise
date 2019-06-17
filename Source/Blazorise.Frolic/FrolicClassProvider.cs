@@ -56,6 +56,8 @@ namespace Blazorise.Frolic
 
         public virtual string CheckInline() => null;
 
+        public virtual string CheckCursor( Cursor cursor ) => $"e-check-{Cursor( cursor )}";
+
         public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
@@ -79,6 +81,8 @@ namespace Blazorise.Frolic
         #region Label
 
         public virtual string Label() => "e-label";
+
+        public virtual string LabelCursor( Cursor cursor ) => $"e-label-{Cursor( cursor )}";
 
         public virtual string LabelCheck() => null;
 
@@ -1142,6 +1146,17 @@ namespace Blazorise.Frolic
                     return "is-valid";
                 case Blazorise.ValidationStatus.Error:
                     return "is-invalid";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string Cursor( Cursor cursor )
+        {
+            switch ( cursor )
+            {
+                case Blazorise.Cursor.Pointer:
+                    return "pointer";
                 default:
                     return null;
             }
