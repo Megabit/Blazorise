@@ -3,7 +3,7 @@
 {
     <div class="field">
         <div class="control">
-            <input type="@Type" inputmode="@Mode" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" maxlength="@MaxLength" pattern="@Pattern" value="@Text" onchange="@HandleOnChange" oninput="@HandleOnInput" />
+            <input type="@Type" inputmode="@Mode" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" maxlength="@MaxLength" pattern="@Pattern" value="@Text" @onchange="@HandleOnChange" @oninput="@HandleOnInput" />
             @ChildContent
         </div>
         @Feedback
@@ -12,7 +12,7 @@
 else
 {
     <div class="control">
-        <input type="@Type" inputmode="@Mode" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" maxlength="@MaxLength" pattern="@Pattern" value="@Text" onchange="@HandleOnChange" oninput="@HandleOnInput" />
+        <input type="@Type" inputmode="@Mode" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" maxlength="@MaxLength" pattern="@Pattern" value="@Text" @onchange="@HandleOnChange" @oninput="@HandleOnInput" />
         @ChildContent
     </div>
     @Feedback
