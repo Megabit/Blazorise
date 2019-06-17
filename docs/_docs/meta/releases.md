@@ -6,6 +6,15 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.7.8
+
+### Enhancements
+
+- Added `Style` attribute to `CheckEdit` component.
+- Added `Cursor` attribute on `CheckEdit` component.
+- html events(_onchange_, _onclick_) renamed to have an @ prefix according to the Blazor preview-6
+- Optimized the rendering of custom registered components.
+
 ## 0.7.7
 
 ### Bug Fixes
