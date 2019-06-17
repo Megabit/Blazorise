@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseBarDropdownItem
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     @if ( To != null )
     {
@@ -9,7 +9,7 @@
     }
     else
     {
-        <a class="@ClassMapper.Class" title="@Title" onclick="@ClickHandler">
+        <a class="@ClassMapper.Class" title="@Title" @onclick="@ClickHandler">
             @ChildContent
         </a>
     }

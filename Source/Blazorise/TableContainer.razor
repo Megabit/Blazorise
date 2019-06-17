@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseTable
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <table class="@ClassMapper.Class">
         @ChildContent

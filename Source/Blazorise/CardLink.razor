@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseCardLink
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <a href="@Source" class="@ClassMapper.Class">@ChildContent</a>
 }

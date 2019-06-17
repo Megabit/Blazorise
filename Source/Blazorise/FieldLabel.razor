@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseFieldLabel
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <label class="@ClassMapper.Class" for="@For">
         @ChildContent

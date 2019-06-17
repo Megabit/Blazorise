@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Base.BaseBarToggler
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
-    <a role="button" class="@ClassMapper.Class" onclick="@ClickHandler">
+    <a role="button" class="@ClassMapper.Class" @onclick="@ClickHandler">
         @ChildContent
     </a>
 }

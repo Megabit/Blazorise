@@ -56,6 +56,8 @@ namespace Blazorise.Bulma
 
         public virtual string CheckInline() => "inline";
 
+        public virtual string CheckCursor( Cursor cursor ) => $"{Check()}-{Cursor( cursor )}";
+
         public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
@@ -79,6 +81,8 @@ namespace Blazorise.Bulma
         #region Label
 
         public virtual string Label() => "label";
+
+        public virtual string LabelCursor( Cursor cursor ) => $"label-{Cursor( cursor )}";
 
         public virtual string LabelCheck() => "checkbox";
 
@@ -1184,6 +1188,17 @@ namespace Blazorise.Bulma
                     return "is-success";
                 case Blazorise.ValidationStatus.Error:
                     return "is-danger";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string Cursor( Cursor cursorType )
+        {
+            switch ( cursorType )
+            {
+                case Blazorise.Cursor.Pointer:
+                    return "pointer";
                 default:
                     return null;
             }

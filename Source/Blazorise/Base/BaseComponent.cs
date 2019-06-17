@@ -24,6 +24,8 @@ namespace Blazorise.Base
 
         private IStyleProvider styleProvider;
 
+        private IComponentMapper componentMapper;
+
         private Float @float = Float.None;
 
         private IFluentSpacing margin;
@@ -81,7 +83,7 @@ namespace Blazorise.Base
 
         public override Task SetParametersAsync( ParameterCollection parameters )
         {
-            if ( ComponentMapper.HasRegistration( this ) )
+            if ( HasCustomRegistration )
             {
                 // the component has a custom implementation so we need to copy the parameters for manual rendering
                 this.parameters = parameters;
@@ -149,7 +151,22 @@ namespace Blazorise.Base
         /// <summary>
         /// Gets or sets the custom components mapper.
         /// </summary>
-        [Inject] protected IComponentMapper ComponentMapper { get; set; }
+        [Inject]
+        protected IComponentMapper ComponentMapper
+        {
+            get => componentMapper;
+            set
+            {
+                componentMapper = value;
+
+                HasCustomRegistration = componentMapper.HasRegistration( this );
+            }
+        }
+
+        /// <summary>
+        /// Indicates if components has a registered custom component.
+        /// </summary>
+        protected bool HasCustomRegistration { get; private set; }
 
         /// <summary>
         /// Gets or set the javascript runner.

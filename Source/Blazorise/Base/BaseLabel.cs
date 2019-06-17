@@ -16,6 +16,8 @@ namespace Blazorise.Base
 
         private bool isFile;
 
+        private Cursor cursor;
+
         #endregion
 
         #region Methods
@@ -25,7 +27,8 @@ namespace Blazorise.Base
             ClassMapper
                 .If( () => ClassProvider.Label(), () => !IsFile && !IsCheck )
                 .If( () => ClassProvider.LabelFile(), () => IsFile )
-                .If( () => ClassProvider.LabelCheck(), () => IsCheck );
+                .If( () => ClassProvider.LabelCheck(), () => IsCheck )
+                .If( () => ClassProvider.LabelCursor( Cursor ), () => Cursor != Cursor.Default );
 
             base.RegisterClasses();
         }
@@ -55,6 +58,18 @@ namespace Blazorise.Base
             set
             {
                 isFile = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        [Parameter]
+        protected Cursor Cursor
+        {
+            get => cursor;
+            set
+            {
+                cursor = value;
 
                 ClassMapper.Dirty();
             }

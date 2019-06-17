@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Base.BaseFileEdit
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
-    <input id="@ElementId" type="file" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" onchange="@PathChangedHandler" />
+    <input id="@ElementId" type="file" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" @onchange="@PathChangedHandler" />
     @ChildContent
 }
 else

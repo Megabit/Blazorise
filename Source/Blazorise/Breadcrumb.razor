@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseBreadcrumb
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <nav aria-label="breadcrumb">
         <ol class="@ClassMapper.Class">
