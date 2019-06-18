@@ -370,7 +370,7 @@ namespace Blazorise.Providers
 
         public string Bar() => null;
 
-        public string BarShade( Theme theme ) => null;
+        public string BarThemeContrast( ThemeContrast themeContrast ) => null;
 
         public string BarBreakpoint( Breakpoint breakpoint ) => null;
 
@@ -558,7 +558,7 @@ namespace Blazorise.Providers
 
         public string TableHeader() => null;
 
-        public string TableHeaderTheme( Theme theme ) => null;
+        public string TableHeaderThemeContrast( ThemeContrast themeContrast ) => null;
 
         public string TableHeaderCell() => null;
 
@@ -696,7 +696,7 @@ namespace Blazorise.Providers
 
         public string TextColor( TextColor textColor ) => null;
 
-        public string Theme( Theme theme ) => null;
+        public string ThemeContrast( ThemeContrast themeContrast ) => null;
 
         public string Float( Float @float ) => null;
 

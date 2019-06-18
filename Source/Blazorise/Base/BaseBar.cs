@@ -14,7 +14,7 @@ namespace Blazorise.Base
 
         private Breakpoint breakpoint = Breakpoint.None;
 
-        private Theme theme = Theme.Light;
+        private ThemeContrast themeContrast = ThemeContrast.Light;
 
         private Alignment alignment = Alignment.None;
 
@@ -35,7 +35,7 @@ namespace Blazorise.Base
             ClassMapper
                .Add( () => ClassProvider.Bar() )
                .If( () => ClassProvider.BackgroundColor( Background ), () => Background != Background.None )
-               .If( () => ClassProvider.BarShade( Theme ), () => Theme != Theme.None )
+               .If( () => ClassProvider.BarThemeContrast( ThemeContrast ), () => ThemeContrast != ThemeContrast.None )
                .If( () => ClassProvider.BarBreakpoint( Breakpoint ), () => Breakpoint != Breakpoint.None )
                .If( () => ClassProvider.FlexAlignment( Alignment ), () => Alignment != Alignment.None );
 
@@ -100,12 +100,12 @@ namespace Blazorise.Base
         }
 
         [Parameter]
-        protected Theme Theme
+        protected ThemeContrast ThemeContrast
         {
-            get => theme;
+            get => themeContrast;
             set
             {
-                theme = value;
+                themeContrast = value;
 
                 ClassMapper.Dirty();
             }

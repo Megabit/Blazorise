@@ -224,7 +224,7 @@ namespace Blazorise
     /// <summary>
     /// Adjusts the theme contrast.
     /// </summary>
-    public enum Theme
+    public enum ThemeContrast
     {
         /// <summary>
         /// Undefined.
