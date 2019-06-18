@@ -24,3 +24,21 @@ table.table tbody tr.selected {
 .custom-checkbox > .custom-control-label.custom-control-label-pointer {
     cursor: pointer;
 }
+
+.btn-primary {
+    background-color: var(--b-theme-variant-primary, --primary);
+    border-color: var(--b-theme-variant-primary, --primary);
+}
+
+.btn-secondary {
+    background-color: var(--b-theme-variant-secondary, --secondary);
+    border-color: var(--b-theme-variant-secondary, --secondary);
+}
+
+.btn-outline-primary {
+    border-color: var(--b-theme-variant-primary, --primary);
+}
+
+.btn-outline-secondary {
+    border-color: var(--b-theme-variant-secondary, --secondary);
+}

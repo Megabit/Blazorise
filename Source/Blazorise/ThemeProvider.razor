@@ -1,0 +1,7 @@
+@inherits Blazorise.Base.BaseThemeProvider
+
+@((MarkupString)GetStyleTag())
+
+<CascadingValue Value=Theme>
+    @ChildContent
+</CascadingValue>

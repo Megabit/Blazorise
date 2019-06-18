@@ -8,9 +8,9 @@
                 <CardSubtitle>Use the color enums like <code>Color.Primary</code></CardSubtitle>
             </CardHeader>
             <CardBody>
-                <SimpleButton Color="Color.Primary">PRIMARY</SimpleButton>
-                <SimpleButton Color="Color.Secondary">SECONDARY</SimpleButton>
-                <SimpleButton Color="Color.Success">SUCCESS</SimpleButton>
+                <SimpleButton Color="Color.Primary" Clicked="@(()=> { Theme.Variants.Primary = "red"; Theme.ThemeHasChanged(); })">PRIMARY</SimpleButton>
+                <SimpleButton Color="Color.Secondary" Clicked="@(()=> { Theme.Variants.Primary = "green"; Theme.ThemeHasChanged();})">SECONDARY</SimpleButton>
+                <SimpleButton Color="Color.Success" Clicked="@(()=> { Theme.Variants.Primary = "blue";Theme.ThemeHasChanged(); })">SUCCESS</SimpleButton>
                 <SimpleButton Color="Color.Danger">DANGER</SimpleButton>
                 <SimpleButton Color="Color.Warning">WARNING</SimpleButton>
                 <SimpleButton Color="Color.Info">INFO</SimpleButton>
@@ -252,3 +252,6 @@
         </Card>
     </Column>
 </Row>
+@code{
+    [CascadingParameter] protected Theme Theme { get; set; }
+}
