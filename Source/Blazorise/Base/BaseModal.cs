@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -48,7 +49,47 @@ namespace Blazorise.Base
         public void Hide()
         {
             IsOpen = false;
+
             StateHasChanged();
+        }
+
+        private bool IsSafeToClose()
+        {
+            var safeToClose = true;
+
+            var handler = Closing;
+
+            if ( handler != null )
+            {
+                var args = new CancelEventArgs( false );
+
+                foreach ( Action<CancelEventArgs> subHandler in handler?.GetInvocationList() )
+                {
+                    subHandler( args );
+
+                    if ( args.Cancel )
+                    {
+                        safeToClose = false;
+                    }
+                }
+            }
+
+            return safeToClose;
+        }
+
+        private void HandleOpenState( bool isOpen )
+        {
+            if ( modalBackdrop != null )
+                modalBackdrop.IsOpen = isOpen;
+
+            // TODO: find a way to remove javascript
+            if ( isOpen )
+                JSRunner.AddClassToBody( "modal-open" );
+            else
+                JSRunner.RemoveClassFromBody( "modal-open" );
+
+            ClassMapper.Dirty();
+            StyleMapper.Dirty();
         }
 
         internal void Hook( BaseModalBackdrop modalBackdrop )
@@ -69,21 +110,25 @@ namespace Blazorise.Base
             get => isOpen;
             set
             {
-                isOpen = value;
+                if ( value == true )
+                {
+                    isOpen = true;
 
-                if ( modalBackdrop != null )
-                    modalBackdrop.IsOpen = value;
+                    HandleOpenState( true );
+                }
+                else if ( value == false && IsSafeToClose() )
+                {
+                    isOpen = false;
 
-                // TODO: find a way to remove javascript
-                if ( isOpen )
-                    JSRunner.AddClassToBody( "modal-open" );
-                else
-                    JSRunner.RemoveClassFromBody( "modal-open" );
-
-                ClassMapper.Dirty();
-                StyleMapper.Dirty();
+                    HandleOpenState( false );
+                }
             }
         }
+
+        /// <summary>
+        /// Occurs before the modal is closed.
+        /// </summary>
+        [Parameter] protected Action<CancelEventArgs> Closing { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
