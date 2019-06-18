@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseListGroupItem
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <li class="@ClassMapper.Class">
         @ChildContent

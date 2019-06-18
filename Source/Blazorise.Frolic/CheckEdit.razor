@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.Base.BaseCheckEdit
-<FormLabel IsCheck="true" For="@ElementId">
-    <input type="@Type" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" onchange="@HandleCheckedChanged" name="@RadioGroup" id="@ElementId" />
+<FormLabel IsCheck="true" For="@ElementId" Style="@Style" Cursor="@Cursor">
+    <input type="@Type" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" @onchange="@HandleCheckedChanged" name="@RadioGroup" id="@ElementId" />
     @ChildContent
 </FormLabel>
 @Feedback

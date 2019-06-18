@@ -16,6 +16,8 @@ namespace Blazorise.Base
 
         private bool isInline;
 
+        private Cursor cursor;
+
         #endregion
 
         #region Methods
@@ -25,6 +27,7 @@ namespace Blazorise.Base
             ClassMapper
                 .If( () => ClassProvider.Radio(), () => RadioGroup != null )
                 .If( () => ClassProvider.Check(), () => RadioGroup == null )
+                .If( () => ClassProvider.CheckCursor( Cursor ), () => Cursor != Cursor.Default )
                 .If( () => ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
@@ -58,12 +61,12 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs when the check state is changed.
         /// </summary>
-        [Obsolete( "This parameter is only temporary until the issue with generic componnets is fixed. see http://git.travelsoft.hr/Travelsoft/_git/Adriagate/pullrequest/59?_a=overview" )]
         [Parameter] protected EventCallback<bool> CheckedChanged { get; set; }
 
         /// <summary>
         /// Occurs when the check state of nullable value is changed.
         /// </summary>
+        [Obsolete( "This parameter is only temporary until the issue with generic componnets is fixed. see http://git.travelsoft.hr/Travelsoft/_git/Adriagate/pullrequest/59?_a=overview" )]
         [Parameter] protected EventCallback<bool?> NullableCheckedChanged { get; set; }
 
         /// <summary>
@@ -88,6 +91,18 @@ namespace Blazorise.Base
             set
             {
                 isInline = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        [Parameter]
+        protected Cursor Cursor
+        {
+            get => cursor;
+            set
+            {
+                cursor = value;
 
                 ClassMapper.Dirty();
             }

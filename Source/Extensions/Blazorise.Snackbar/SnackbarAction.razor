@@ -1,7 +1,7 @@
 ﻿@inherits Base.BaseSnackbarAction
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
-    <button class="@ClassMapper.Class" type="button" onclick="@ClickHandler">
+    <button class="@ClassMapper.Class" type="button" @onclick="@ClickHandler">
         @ChildContent
     </button>
 }

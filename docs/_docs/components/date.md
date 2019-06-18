@@ -23,7 +23,7 @@ By using `bind-*` attribute the selected date will be automatically assigned to 
 ```html
 <DateEdit bind-Date="@selectedDate" />
 
-@functions{
+@code{
     DateTime? selectedDate;
 }
 ```
@@ -35,7 +35,7 @@ When using the event `DateChanged`, you also must define the `Date` value attrib
 ```html
 <DateEdit Date="@selectedDate" DateChanged="@OnDateChanged" />
 
-@functions{
+@code{
     DateTime? selectedDate;
 
     void OnDateChanged( DateTime? date )

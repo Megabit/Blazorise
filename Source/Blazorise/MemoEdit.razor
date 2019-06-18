@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Base.BaseMemo
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
-    <textarea class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" rows="@Rows" onchange="@HandleOnChange" oninput="@HandleOnInput" />
+    <textarea class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@Text" maxlength="@MaxLength" rows="@Rows" @onchange="@HandleOnChange" @oninput="@HandleOnInput" />
     @ChildContent
 }
 else

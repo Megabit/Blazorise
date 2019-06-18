@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseAddonLabel
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <span class="@ClassMapper.Class">
         @ChildContent

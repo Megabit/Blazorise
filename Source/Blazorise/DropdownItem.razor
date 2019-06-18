@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Base.BaseDropdownItem
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
-    <a class="@ClassMapper.Class" onclick="@ClickHandler">
+    <a class="@ClassMapper.Class" @onclick="@ClickHandler">
         @ChildContent
     </a>
 }

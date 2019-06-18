@@ -3,7 +3,7 @@
 	<metadata>
 		<id>Blazorise.Components</id>
 		<title>Blazorise.Components</title>
-		<version>0.7.7</version>
+		<version>0.7.8</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -16,11 +16,11 @@
 		<iconUrl>https://github.com/stsrki/Blazorise/raw/master/NuGet/Blazorise.png</iconUrl>
 		<dependencies>
 			<group targetFramework=".NETStandard2.0">
-				<dependency id="Blazorise" version="0.7.7" exclude="Build,Analyzers" />
+				<dependency id="Blazorise" version="0.7.8" exclude="Build,Analyzers" />
 				<dependency id="Microsoft.AspNetCore.Blazor" version="3.0.0-preview6.19307.2" exclude="Build,Analyzers" />
 			</group>
 			<group targetFramework=".NETCoreApp3.0">
-				<dependency id="Blazorise" version="0.7.7" exclude="Build,Analyzers" />
+				<dependency id="Blazorise" version="0.7.8" exclude="Build,Analyzers" />
 				<dependency id="Microsoft.AspNetCore.Blazor" version="3.0.0-preview6.19307.2" exclude="Build,Analyzers" />
 			</group>
 		</dependencies>

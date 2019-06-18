@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseField
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
         <div class="@ClassMapper.Class">

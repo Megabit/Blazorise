@@ -131,7 +131,7 @@ or programatically
     ...
 </Alert>
 
-@functions{
+@code{
     Alert myAlert;
 
     void ButtonClick()

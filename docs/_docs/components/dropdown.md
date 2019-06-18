@@ -68,7 +68,7 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
 ```
 
 ```cs
-@functions{
+@code{
     Dropdown dropdown;
 
     void ShowMenu()

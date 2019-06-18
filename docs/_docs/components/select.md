@@ -67,7 +67,7 @@ By using `bind-*` attribute the selected item value will be automatically assign
     <SelectItem Value="4">4</SelectItem>
 </SelectEdit>
 
-@functions{
+@code{
     int selectedValue;
 }
 ```
@@ -84,7 +84,7 @@ When using the event `SelectedValueChanged`, you also must define the `SelectedV
     <SelectItem Value="4">4</SelectItem>
 </SelectEdit>
 
-@functions{
+@code{
     int selectedValue;
 
     void OnSelectedValueChanged( int value )

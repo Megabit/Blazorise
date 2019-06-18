@@ -1,11 +1,4 @@
 ﻿@inherits Blazorise.Base.BaseBarMenu
-@if ( !ComponentMapper.HasRegistration( this ) )
-{
-    <div class="@ClassMapper.Class">
-        @ChildContent
-    </div>
-}
-else
-{
-    @RenderCustomComponent()
-}
+<div class="@ClassMapper.Class">
+    @ChildContent
+</div>

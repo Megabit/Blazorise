@@ -6,6 +6,16 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.7.8
+
+### Enhancements
+
+- Added `Style` attribute to `CheckEdit` component. [#112](https://github.com/stsrki/Blazorise/issues/112)
+- Added `Cursor` attribute on `CheckEdit` component. [114](https://github.com/stsrki/Blazorise/issues/114)
+- html events(_onchange_, _onclick_) renamed to have an @ prefix according to the Blazor preview-6
+- Optimized the rendering of custom registered components.
+- Added `Closing` attribute on modal to prevent it from closing. [#125](https://github.com/stsrki/Blazorise/issues/125)
+
 ## 0.7.7
 
 ### Bug Fixes

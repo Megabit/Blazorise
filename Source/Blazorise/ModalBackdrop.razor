@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BaseModalBackdrop
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <div id="@ElementId" class="@ClassMapper.Class">
         @ChildContent

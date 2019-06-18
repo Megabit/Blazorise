@@ -21,7 +21,9 @@ The modal structure is very simple:
     - `<ModalFooter>` bottom part of the modal, usually contains the action buttons
 
 
-### Usage
+## Usage
+
+### Basics
 
 Place the modal markup somewhere at root of you component layout.
 
@@ -56,7 +58,7 @@ Place the modal markup somewhere at root of you component layout.
 To work with the modal you must use the reference to the `Modal` component.
 
 ```cs
-@functions{
+@code{
     // reference to the modal component
     private Modal modalRef;
 
@@ -68,6 +70,29 @@ To work with the modal you must use the reference to the `Modal` component.
     private void HideModal()
     {
         modalRef.Hide();
+    }
+}
+```
+
+### Closing
+
+If you want to prevent modal from closing you can use `Closing` event.
+
+```html
+<Modal ref="modalRef" Closing="@OnModalClosing">
+    ...
+</Modal>
+```
+
+```cs
+@code{
+    // reference to the modal component
+    private Modal modalRef;
+
+    private void OnModalClosing( CancelEventArgs e )
+    {
+        // just set Cancel to true to prevent modal from closing
+        e.Cancel = true;
     }
 }
 ```

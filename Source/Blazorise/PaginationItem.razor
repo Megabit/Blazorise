@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Base.BasePaginationItem
-@if ( !ComponentMapper.HasRegistration( this ) )
+@if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
         <li class="@ClassMapper.Class">

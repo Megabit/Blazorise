@@ -40,7 +40,7 @@ To use event you must provide both `Text` value attribute and `TextChanged` even
 ```cs
 <TextEdit Text="@name" TextChanged="@OnNameChanged" />
 
-@functions{
+@code{
     string name;
 
     void OnNameChanged( string value )
@@ -57,7 +57,7 @@ Blazorise also supports automatic binding via `bind-*` attribute to keep it all 
 ```cs
 <TextEdit bind-Text="@name" />
 
-@functions{
+@code{
     string name;
 }
 ```
