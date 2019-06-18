@@ -28,7 +28,7 @@ To use button you just handle a button `Clicked` event.
 ```
 
 ```cs
-@functions{
+@code{
     void OnButtonClicked()
     {
         Console.WriteLine( "Hello world!" );

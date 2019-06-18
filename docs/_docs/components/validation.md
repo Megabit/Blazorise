@@ -31,7 +31,7 @@ Here you can see the basic example for automatic validation and a custom functio
         </Feedback>
     </TextEdit>
 </Validation>
-@functions{
+@code{
     void ValidateEmail( ValidatorEventArgs e )
     {
         var email = Convert.ToString( e.Value );
@@ -75,7 +75,7 @@ In this example you can see how the `<Validations>` component is used to enclose
     </Validation>
     <SimpleButton Color="Color.Primary" Clicked="@Submit">Submit</SimpleButton>
 </Validation>
-@functions{
+@code{
     Validations validations;
 
     void Submit()

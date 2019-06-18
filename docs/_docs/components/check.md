@@ -32,7 +32,7 @@ For radio control you must set the `RadioGroup` attribute.
 ```html
 <CheckEdit bind-Checked="@rememberMe">Remember Me</CheckEdit>
 
-@functions{
+@code{
     bool rememberMe;
 }
 ```
@@ -42,7 +42,7 @@ For radio control you must set the `RadioGroup` attribute.
 ```html
 <CheckEdit Checked="@rememberMe" CheckedChanged="@OnRememberMeChanged">Remember Me</CheckEdit>
 
-@functions{
+@code{
     bool rememberMe;
 
     void OnRememberMeChanged( bool value )

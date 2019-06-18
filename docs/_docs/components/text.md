@@ -103,7 +103,7 @@ By using `bind-*` attribute the text will be automatically assigned to the membe
 ```html
 <TextEdit bind-Text="@name" />
 
-@functions{
+@code{
     string name;
 }
 ```
@@ -115,7 +115,7 @@ When using the event `TextChanged`, you also must define the `Text` value attrib
 ```html
 <TextEdit Text="@name" TextChanged="@OnNameChanged" />
 
-@functions{
+@code{
     string name;
 
     void OnNameChanged( string value )

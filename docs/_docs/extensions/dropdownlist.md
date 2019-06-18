@@ -41,7 +41,7 @@ Install-Package Blazorise.Components
 ### Data binding
 
 ```cs
-@functions{
+@code{
     public class MySelectModel
     {
         public int MyValueField { get; set; }

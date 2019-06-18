@@ -25,7 +25,7 @@ By using `bind-*` attribute the text will be automatically assigned to the membe
 ```html
 <MemoEdit bind-Text="@description" />
 
-@functions{
+@code{
     string description;
 }
 ```
@@ -37,7 +37,7 @@ When using the event `TextChanged`, you also must define the `Text` value attrib
 ```html
 <MemoEdit Text="@description" TextChanged="@OnDescriptionChanged" />
 
-@functions{
+@code{
     string description;
 
     void OnDescriptionChanged( string value )

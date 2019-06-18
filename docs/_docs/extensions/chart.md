@@ -63,7 +63,7 @@ You should always define `TItem` data type.
 <LineChart ref="lineChart" TItem="double" />
 ```
 ```cs
-@functions{
+@code{
     LineChart<double> lineChart;
 
     protected override async Task OnAfterRenderAsync()
