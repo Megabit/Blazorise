@@ -12,7 +12,7 @@ namespace Blazorise.Base
     {
         #region Members
 
-        private Theme theme;
+        private ThemeContrast themeContrast;
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace Blazorise.Base
         {
             ClassMapper
                 .Add( () => ClassProvider.TableHeader() )
-                .If( () => ClassProvider.TableHeaderTheme( Theme ), () => Theme != Theme.None );
+                .If( () => ClassProvider.TableHeaderThemeContrast( ThemeContrast ), () => ThemeContrast != ThemeContrast.None );
 
             base.RegisterClasses();
         }
@@ -35,12 +35,12 @@ namespace Blazorise.Base
         /// Sets the background color to the header.
         /// </summary>
         [Parameter]
-        protected Theme Theme
+        protected ThemeContrast ThemeContrast
         {
-            get => theme;
+            get => themeContrast;
             set
             {
-                theme = value;
+                themeContrast = value;
 
                 ClassMapper.Dirty();
             }

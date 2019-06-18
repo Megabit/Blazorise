@@ -428,7 +428,7 @@ namespace Blazorise.Bulma
 
         public virtual string Bar() => "navbar";
 
-        public virtual string BarShade( Theme theme ) => null;
+        public virtual string BarThemeContrast( ThemeContrast themeContrast ) => null;
 
         public virtual string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{Breakpoint( breakpoint )}";
 
@@ -650,7 +650,7 @@ namespace Blazorise.Bulma
 
         public virtual string TableHeader() => null;
 
-        public virtual string TableHeaderTheme( Theme theme ) => $"has-background-{Theme( theme )}";
+        public virtual string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"has-background-{ThemeContrast( themeContrast )}";
 
         public virtual string TableHeaderCell() => null;
 
@@ -929,13 +929,13 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Theme( Theme theme )
+        public virtual string ThemeContrast( ThemeContrast themeContrast )
         {
-            switch ( theme )
+            switch ( themeContrast )
             {
-                case Blazorise.Theme.Light:
+                case Blazorise.ThemeContrast.Light:
                     return "light";
-                case Blazorise.Theme.Dark:
+                case Blazorise.ThemeContrast.Dark:
                     return "dark";
                 default:
                     return null;
