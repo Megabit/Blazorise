@@ -27,44 +27,6 @@ namespace Blazorise.Base
             }
         }
 
-        protected virtual void GenerateVariables( StringBuilder sb )
-        {
-            #region Variants
-
-            if ( !string.IsNullOrEmpty( Theme?.Variants?.Primary ) )
-                sb.AppendLine( $"--b-theme-variant-primary: {Theme.Variants.Primary};" );
-
-            if ( !string.IsNullOrEmpty( Theme?.Variants?.Secondary ) )
-                sb.AppendLine( $"--b-theme-variant-secondary: {Theme.Variants.Secondary};" );
-
-            if ( !string.IsNullOrEmpty( Theme?.Variants?.Success ) )
-                sb.AppendLine( $"--b-theme-variant-success: {Theme.Variants.Success};" );
-
-            if ( !string.IsNullOrEmpty( Theme?.Variants?.Info ) )
-                sb.AppendLine( $"--b-theme-variant-info: {Theme.Variants.Info};" );
-
-            if ( !string.IsNullOrEmpty( Theme?.Variants?.Warning ) )
-                sb.AppendLine( $"--b-theme-variant-warning: {Theme.Variants.Warning};" );
-
-            if ( !string.IsNullOrEmpty( Theme?.Variants?.Danger ) )
-                sb.AppendLine( $"--b-theme-variant-danger: {Theme.Variants.Danger};" );
-
-            if ( !string.IsNullOrEmpty( Theme?.Variants?.Light ) )
-                sb.AppendLine( $"--b-theme-variant-light: {Theme.Variants.Light};" );
-
-            if ( !string.IsNullOrEmpty( Theme?.Variants?.Dark ) )
-                sb.AppendLine( $"--b-theme-variant-dark: {Theme.Variants.Dark};" );
-
-            #endregion
-
-            #region Buttons
-
-            if ( !string.IsNullOrEmpty( Theme?.ButtonFocusWidth ) )
-                sb.AppendLine( $"--b-theme-button-focus-width: {Theme.ButtonFocusWidth};" );
-
-            #endregion
-        }
-
         public string GetVariablesTag()
         {
             var sb = new StringBuilder();
@@ -73,9 +35,22 @@ namespace Blazorise.Base
             sb.AppendLine( ":root" );
             sb.AppendLine( "{" );
 
-            GenerateVariables( sb );
+            ThemeGenerator.GenerateVariables( sb, Theme );
 
             sb.AppendLine( "}" );
+            sb.AppendLine( "</style>" );
+
+            return sb.ToString();
+        }
+
+        public string GetStylesTag()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine( $"<style type=\"text/css\" scoped>" );
+
+            ThemeGenerator.GenerateStyles( sb, Theme );
+
             sb.AppendLine( "</style>" );
 
             return sb.ToString();
@@ -115,7 +90,7 @@ namespace Blazorise.Base
             }
         }
 
-        [Inject] protected IClassProvider ClassProvider { get; set; }
+        [Inject] protected IThemeGenerator ThemeGenerator { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

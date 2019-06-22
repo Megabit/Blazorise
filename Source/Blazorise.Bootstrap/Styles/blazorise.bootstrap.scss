@@ -63,6 +63,10 @@ $yiq-text-light: $white !default;
     @return if($yiq >= $yiq-contrasted-threshold, $dark, $light);
 }
 
+@function color-yiq2($r, $g, $b, $dark: $yiq-text-dark, $light: $yiq-text-light) {
+    @return calc(((($r * 299) + ($g * 587) + ($b * 114)) - 128000) * -1000);
+}
+
 $body-bg: $white !default;
 
 $component-active-bg: theme-color("primary") !default;
@@ -86,7 +90,7 @@ $colors: ( primary:$primary, secondary:$secondary,success:$success,info:$info,wa
         background: $color linear-gradient(180deg, mix($body-bg, $color, 15%), $color) repeat-x;
     }
     @else {
-        background-color: var($variable-name, $color);
+        background-color: var(--b-button-#{$variable-name}-background, $color);
     }
 }
 
@@ -114,36 +118,36 @@ $colors: ( primary:$primary, secondary:$secondary,success:$success,info:$info,wa
 }
 
 @mixin button-variant($variable-name, $background, $border, $hover-background: darken($background, 7.5%), $hover-border: darken($border, 10%), $active-background: darken($background, 10%), $active-border: darken($border, 12.5%)) {
-    color: color-yiq($background);
+    color: var(--b-button-#{$variable-name}-yiq-background);
     @include gradient-bg($variable-name, $background);
-    border-color: $border;
+    border-color: var(--b-button-#{$variable-name}-border);
     @include box-shadow($btn-box-shadow);
 
     &:hover {
-        color: color-yiq($hover-background);
+        color: var(--b-button-#{$variable-name}-yiq-hover-background);
         @include gradient-bg($variable-name, $hover-background);
-        border-color: $hover-border;
+        border-color: var(--b-button-#{$variable-name}-hover-border);
     }
 
     &:focus,
     &.focus {
-        color: color-yiq($hover-background);
+        color: var(--b-button-#{$variable-name}-yiq-hover-background);
         @include gradient-bg($variable-name, $hover-background);
-        border-color: $hover-border;
+        border-color: var(--b-button-#{$variable-name}-hover-border);
         // Avoid using mixin so we can pass custom focus shadow properly
         @if $enable-shadows {
             box-shadow: $btn-box-shadow, 0 0 0 $btn-focus-width rgba(mix(color-yiq($background), $border, 15%), .5);
         }
         @else {
-            box-shadow: 0 0 0 $btn-focus-width rgba(mix(color-yiq($background), $border, 15%), .5);
+            box-shadow: 0 0 0 $btn-focus-width var(--b-button-#{$variable-name}-transparent);
         }
     }
     // Disabled comes first so active can properly restyle
     &.disabled,
     &:disabled {
-        color: color-yiq($background);
-        background-color: $background;
-        border-color: $border;
+        color: var(--b-button-#{$variable-name}-yiq-background);
+        background-color: var(--b-button-#{$variable-name}-background);
+        border-color: var(--b-button-#{$variable-name}-border);
         // Remove CSS gradients if they're enabled
         @if $enable-gradients {
             background-image: none;
@@ -153,34 +157,41 @@ $colors: ( primary:$primary, secondary:$secondary,success:$success,info:$info,wa
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active,
     .show > &.dropdown-toggle {
-        color: color-yiq($active-background);
-        background-color: $active-background;
+        color: var(--b-button-#{$variable-name}-yiq-active-background);
+        background-color: var(--b-button-#{$variable-name}-active-background);
 
         @if $enable-gradients {
             background-image: none; // Remove the gradient for the pressed/active state
         }
 
-        border-color: $active-border;
+        border-color: var(--b-button-#{$variable-name}-active-border);
 
         &:focus {
             // Avoid using mixin so we can pass custom focus shadow properly
             @if $enable-shadows and $btn-active-box-shadow != none {
-                box-shadow: $btn-active-box-shadow, 0 0 0 $btn-focus-width rgba(mix(color-yiq($background), $border, 15%), .5);
+                box-shadow: $btn-active-box-shadow, 0 0 0 $btn-focus-width var(--b-button-#{$variable-name}-transparent);
             }
             @else {
-                box-shadow: 0 0 0 $btn-focus-width rgba(mix(color-yiq($background), $border, 15%), .5);
+                box-shadow: 0 0 0 $btn-focus-width var(--b-button-#{$variable-name}-transparent);
             }
         }
     }
 }
 
-/* color can be based on var() so this function is needed */
 @function to-rgba($color, $alpha) {
     @return unquote('rgba(' + $color + ', ' + $alpha + ')');
 }
 
-@mixin button-outline-variant($variable-name, $color, $color-hover: color-yiq($color)) {
-    $mycolor: var($variable-name, $color);
+@function to-rgb($r, $g, $b) {
+    @return unquote('rgb(' + $r + ', ' + $g + ', ' + $b + ')');
+}
+
+@mixin button-outline-variant($variant, $color, $color-hover: color-yiq($color)) {
+    $r: var(--b-theme-variant-#{$variant}-r, 0);
+    $g: var(--b-theme-variant-#{$variant}-g, 0);
+    $b: var(--b-theme-variant-#{$variant}-b, 0);
+    $mycolor: to-rgb($r, $g, $b);
+
     $active-background: $mycolor;
     $active-border: $mycolor;
 
@@ -207,7 +218,7 @@ $colors: ( primary:$primary, secondary:$secondary,success:$success,info:$info,wa
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active,
     .show > &.dropdown-toggle {
-        //color: color-yiq($active-background);
+        color: color-yiq2(var(--b-theme-variant-#{$variant}-r, 0), var(--b-theme-variant-#{$variant}-g, 0), var(--b-theme-variant-#{$variant}-b, 0));
         background-color: $active-background;
         border-color: $active-border;
 
@@ -229,20 +240,4 @@ $colors: ( primary:$primary, secondary:$secondary,success:$success,info:$info,wa
 
 @mixin set-border-color($key, $val) {
     border-color: var(--b-theme-variant-#{$key}, #{$val});
-}
-
-.btn {
-    @each $key, $val in $colors {
-        &-#{$key} {
-            @include button-variant(--b-theme-variant-#{$key}, $val, $val);
-        }
-    }
-}
-
-.btn-outline {
-    @each $key, $val in $colors {
-        &-#{$key} {
-            @include button-outline-variant(--b-theme-variant-#{$key}, $val);
-        }
-    }
 }
