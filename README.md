@@ -7,6 +7,7 @@
 [![Slack](https://img.shields.io/badge/chat-on%20Slack-green.svg)](https://join.slack.com/t/blazorise/shared_invite/enQtNjQ3NTcyNzM2OTk0LTIyNDBiYTRkNmI4NDU0NzU5NTEyOGFlMGE1ZmQ2YzI4ZTc1OWE3NDkwMGRjOGEwOTY2YjQ1NWQxZDhiN2Q1Yjk)
 [![MIT](https://img.shields.io/github/license/stsrki/Blazorise.svg)](LICENSE)
 [![Tip Me via PayPal](https://img.shields.io/badge/PayPal-tip%20me-green.svg?logo=paypal)](https://www.paypal.me/mladenmacanovic)
+[![Buy me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-donate-yellow.svg)](https://www.buymeacoffee.com/mladenmacanovic)
 
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
