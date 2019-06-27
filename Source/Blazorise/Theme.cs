@@ -70,6 +70,14 @@ namespace Blazorise
         public string BoxShadowSize { get; set; }
 
         public byte BoxShadowTransparency { get; set; } = 127;
+
+        public float HoverDarkenColor { get; set; } = 7.5f;
+
+        public float HoverLightenColor { get; set; } = 10f;
+
+        public float ActiveDarkenColor { get; set; } = 10f;
+
+        public float ActiveLightenColor { get; set; } = 12.5f;
     }
 
     public class ThemeDropdownOptions : BasicOptions
