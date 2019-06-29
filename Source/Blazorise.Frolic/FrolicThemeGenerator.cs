@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 #endregion
 
-namespace Blazorise.Bootstrap
+namespace Blazorise.Frolic
 {
-    public class BootstrapThemeGenerator : ThemeGenerator
+    public class FrolicThemeGenerator : ThemeGenerator
     {
         #region Methods
 
@@ -30,53 +30,50 @@ namespace Blazorise.Bootstrap
             var yiqActiveBackground = Var( $"--b-button-{variant}-yiq-active-background" );
             var boxShadow = Var( $"--b-button-{variant}-box-shadow" );
 
-            sb.Append( $".btn-{variant}" ).Append( "{" )
+            sb.Append( $".e-btn.{variant}" ).Append( "{" )
                 .Append( $"color: {yiqBackground};" )
                 .Append( GradientBg( theme, background ) )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-{variant}:hover" ).Append( "{" )
-                .Append( $"color: {yiqHoverBackground};" )
-                .Append( GradientBg( theme, hoverBackground ) )
-                .Append( $"border-color: {hoverBorder};" )
-                .AppendLine( "}" );
-
-            sb.Append( $".btn-{variant}:focus," )
-                .Append( $".btn-{variant}.focus" )
+            sb.Append( $".e-btn.{variant}:hover," )
+                .Append( $".e-btn.{variant}:focus" )
                 .Append( "{" )
-                .Append( $"color: {yiqHoverBackground};" )
                 .Append( GradientBg( theme, hoverBackground ) )
-                .Append( $"border-color: {hoverBorder};" )
                 .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-{variant}.disabled," )
-                .Append( $".btn-{variant}:disabled" )
-                .Append( "{" )
-                .Append( $"color: {yiqBackground};" )
-                .Append( $"background-color: {background};" )
-                .Append( $"border-color: {border};" )
-                .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
-                .AppendLine( "}" );
+            //sb.Append( $".e-btn.{variant}:focus" ).Append( $".e-btn.{variant}.focus" ).Append( "{" )
+            //    .Append( $"color: {yiqHoverBackground};" )
+            //    .Append( GradientBg( theme, hoverBackground ) )
+            //    .Append( $"border-color: {hoverBorder};" )
+            //    .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
+            //    .AppendLine( "}" );
 
-            sb
-                .Append( $".btn-{variant}:not(:disabled):not(.disabled):active," )
-                .Append( $".btn-{variant}:not(:disabled):not(.disabled).active," )
-                .Append( $".show>.btn-{variant}.dropdown-toggle" )
-                .Append( "{" )
-                .Append( $"color: {yiqActiveBackground};" )
-                .Append( $"background-color: {activeBackground};" )
-                .Append( $"border-color: {activeBorder};" )
-                .AppendLine( "}" );
+            //sb.Append( $".e-btn.{variant}.disabled" ).Append( $".e-btn.{variant}:disabled" ).Append( "{" )
+            //    .Append( $"color: {yiqBackground};" )
+            //    .Append( $"background-color: {background};" )
+            //    .Append( $"border-color: {border};" )
+            //    .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
+            //    .AppendLine( "}" );
 
-            sb
-                .Append( $".btn-{variant}:not(:disabled):not(.disabled):active:focus," )
-                .Append( $".btn-{variant}:not(:disabled):not(.disabled).active:focus," )
-                .Append( $".show>.btn-{variant}.dropdown-toggle:focus" )
-                .Append( "{" )
-                .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow}" )
-                .AppendLine( "}" );
+            //sb
+            //    .Append( $".e-btn.{variant}:not(:disabled):not(.disabled):active," )
+            //    .Append( $".e-btn.{variant}:not(:disabled):not(.disabled).active," )
+            //    .Append( $".show>.e-btn.{variant}.dropdown-toggle" )
+            //    .Append( "{" )
+            //    .Append( $"color: {yiqActiveBackground};" )
+            //    .Append( $"background-color: {activeBackground};" )
+            //    .Append( $"border-color: {activeBorder};" )
+            //    .AppendLine( "}" );
+
+            //sb
+            //    .Append( $".e-btn.{variant}:not(:disabled):not(.disabled):active:focus," )
+            //    .Append( $".e-btn.{variant}:not(:disabled):not(.disabled).active:focus," )
+            //    .Append( $".show>.e-btn.{variant}.dropdown-toggle:focus" )
+            //    .Append( "{" )
+            //    .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow}" )
+            //    .AppendLine( "}" );
         }
 
         protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, string inBorderColor, ThemeButtonOptions buttonOptions )
@@ -85,63 +82,56 @@ namespace Blazorise.Bootstrap
             var yiqColor = Var( $"--b-outline-button-{variant}-yiq-color" );
             var boxShadow = Var( $"--b-outline-button-{variant}-box-shadow" );
 
-            sb.Append( $".btn-outline-{variant}" ).Append( "{" )
+            sb.Append( $".e-btn.outlined.{variant}" ).Append( "{" )
                 .Append( $"color: {color};" )
+                .Append( $"background-color: white;" )
                 .Append( $"border-color: {color};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-outline-{variant}:hover" ).Append( "{" )
-                .Append( $"color: {yiqColor};" )
+            sb.Append( $".e-btn.outlined.{variant}:hover," )
+                .Append( $".e-btn.outlined.{variant}:focus" )
+                .Append( "{" )
                 .Append( $"background-color: {color};" )
-                .Append( $"border-color: {color};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-outline-{variant}:focus," )
-                .Append( $".btn-outline-{variant}.focus" )
-                .Append( "{" )
-                .Append( $"box-shadow: 0 0 0 2rem {boxShadow};" )
-                .AppendLine( "}" );
+            //sb.Append( $".e-btn.outlined.{variant}.disabled" ).Append( $".e-btn.outlined.{variant}:disabled" ).Append( "{" )
+            //    .Append( $"color: {color};" )
+            //    .Append( $"background-color: transparent;" )
+            //    .AppendLine( "}" );
 
-            sb.Append( $".btn-outline-{variant}.disabled," )
-                .Append( $".btn-outline-{variant}:disabled" )
-                .Append( "{" )
-                .Append( $"color: {color};" )
-                .Append( $"background-color: transparent;" )
-                .AppendLine( "}" );
+            //sb
+            //    .Append( $".e-btn.outlined.{variant}:not(:disabled):not(.disabled):active," )
+            //    .Append( $".e-btn.outlined.{variant}:not(:disabled):not(.disabled).active," )
+            //    .Append( $".show>.e-btn.outlined.{variant}.dropdown-toggle" )
+            //    .Append( "{" )
+            //    .Append( $"color: {yiqColor};" )
+            //    .Append( $"background-color: {color};" )
+            //    .Append( $"border-color: {color};" )
+            //    .AppendLine( "}" );
 
-            sb
-                .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled):active," )
-                .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled).active," )
-                .Append( $".show>.btn-outline-{variant}.dropdown-toggle" )
-                .Append( "{" )
-                .Append( $"color: {yiqColor};" )
-                .Append( $"background-color: {color};" )
-                .Append( $"border-color: {color};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled):active:focus," )
-                .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled).active:focus," )
-                .Append( $".show>.btn-outline-{variant}.dropdown-toggle:focus" )
-                .Append( "{" )
-                .Append( $"box-shadow: 0 0 0 2rem {boxShadow};" )
-                .AppendLine( "}" );
+            //sb
+            //    .Append( $".e-btn.outlined.{variant}:not(:disabled):not(.disabled):active:focus," )
+            //    .Append( $".e-btn.outlined.{variant}:not(:disabled):not(.disabled).active:focus," )
+            //    .Append( $".show>.e-btn.outlined.{variant}.dropdown-toggle:focus" )
+            //    .Append( "{" )
+            //    .Append( $"box-shadow: 0 0 0 2rem {boxShadow};" )
+            //    .AppendLine( "}" );
         }
 
         protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".btn" ).Append( "{" )
+                sb.Append( $".e-btn" ).Append( "{" )
                     .Append( $"border-radius: {options.BorderRadius};" )
                     .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options.Padding ) )
-                sb.Append( $".btn" ).Append( "{" )
+                sb.Append( $".e-btn" ).Append( "{" )
                     .Append( $"padding: {options.Padding};" )
                     .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options.Margin ) )
-                sb.Append( $".btn" ).Append( "{" )
+                sb.Append( $".e-btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
                     .AppendLine( "}" );
         }
@@ -149,7 +139,7 @@ namespace Blazorise.Bootstrap
         protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".dropdown-menu" ).Append( "{" )
+                sb.Append( $".drop-items" ).Append( "{" )
                     .Append( $"border-radius: {options.BorderRadius};" )
                     .AppendLine( "}" );
 
@@ -161,8 +151,8 @@ namespace Blazorise.Bootstrap
                 {
                     var background = ToHex( backgroundColor );
 
-                    sb.Append( $".dropdown-item.active," )
-                        .Append( $".dropdown-item:active" ).Append( "{" )
+                    sb.Append( $".drop-item:hover" )
+                        .Append( "{" )
                         .Append( GradientBg( theme, background ) )
                         .AppendLine( "}" );
                 }
@@ -173,38 +163,30 @@ namespace Blazorise.Bootstrap
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
             {
-                sb.Append( $".form-control" ).Append( "{" )
+                sb.Append( $".e-control" ).Append( "{" )
                     .Append( $"border-radius: {options.BorderRadius};" )
                     .AppendLine( "}" );
 
-                sb.Append( $".input-group-text" ).Append( "{" )
+                sb.Append( $".e-control-helper" ).Append( "{" )
                     .Append( $"border-radius: {options.BorderRadius};" )
                     .AppendLine( "}" );
 
-                sb.Append( $".custom-select" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-
-                sb.Append( $".custom-checkbox .custom-control-label::before" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-
-                sb.Append( $".custom-file-label" ).Append( "{" )
+                sb.Append( $".e-select" ).Append( "{" )
                     .Append( $"border-radius: {options.BorderRadius};" )
                     .AppendLine( "}" );
             }
 
             if ( !string.IsNullOrEmpty( options.Color ) )
             {
-                sb.Append( $".form-control" ).Append( "{" )
+                sb.Append( $".e-control" ).Append( "{" )
                     .Append( $"color: {options.Color};" )
                     .AppendLine( "}" );
 
-                sb.Append( $".input-group-text" ).Append( "{" )
+                sb.Append( $".e-control-helper" ).Append( "{" )
                     .Append( $"color: {options.Color};" )
                     .AppendLine( "}" );
 
-                sb.Append( $".custom-select" ).Append( "{" )
+                sb.Append( $".e-select" ).Append( "{" )
                     .Append( $"color: {options.Color};" )
                     .AppendLine( "}" );
             }
@@ -222,7 +204,7 @@ namespace Blazorise.Bootstrap
             var background = ToHex( backgroundColor );
             var yiqBackground = ToHex( yiqBackgroundColor );
 
-            sb.Append( $".badge-{variant}" ).Append( "{" )
+            sb.Append( $".e-tag.{variant}" ).Append( "{" )
                 .Append( $"color: {yiqBackground};" )
                 .Append( $"background-color: {background};" )
                 .AppendLine( "}" );
@@ -241,13 +223,13 @@ namespace Blazorise.Bootstrap
             var text = ToHex( textColor );
             var alertLink = ToHex( alertLinkColor );
 
-            sb.Append( $".alert-{variant}" ).Append( "{" )
+            sb.Append( $".e-alert.{variant}" ).Append( "{" )
                 .Append( $"color: {text};" )
                 .Append( GradientBg( theme, background ) )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".alert-{variant}.alert-link" ).Append( "{" )
+            sb.Append( $".e-alert.{variant}.alert-link" ).Append( "{" )
                 .Append( $"color: {alertLink};" )
                 .AppendLine( "}" );
         }
@@ -255,21 +237,15 @@ namespace Blazorise.Bootstrap
         protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".card" ).Append( "{" )
+                sb.Append( $".e-card" ).Append( "{" )
                     .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-
-            if ( !string.IsNullOrEmpty( options.ImageTopRadius ) )
-                sb.Append( $".card-image-top" ).Append( "{" )
-                    .Append( $"border-top-left-radius: {options.ImageTopRadius};" )
-                    .Append( $"border-top-right-radius: {options.ImageTopRadius};" )
                     .AppendLine( "}" );
         }
 
         protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".modal-content" ).Append( "{" )
+                sb.Append( $".e-modal-content" ).Append( "{" )
                     .Append( $"border-radius: {options.BorderRadius};" )
                     .AppendLine( "}" );
         }
@@ -278,12 +254,7 @@ namespace Blazorise.Bootstrap
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
             {
-                sb.Append( $".nav-tabs .nav-link" ).Append( "{" )
-                    .Append( $"border-top-left-radius: {options.BorderRadius};" )
-                    .Append( $"border-top-right-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-
-                sb.Append( $".nav-pills .nav-link" ).Append( "{" )
+                sb.Append( $".e-tabs" ).Append( "{" )
                     .Append( $"border-radius: {options.BorderRadius};" )
                     .AppendLine( "}" );
             }
@@ -292,7 +263,7 @@ namespace Blazorise.Bootstrap
         protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".progress" ).Append( "{" )
+                sb.Append( $".e-progress" ).Append( "{" )
                     .Append( $"border-radius: {options.BorderRadius};" )
                     .AppendLine( "}" );
         }
@@ -300,7 +271,7 @@ namespace Blazorise.Bootstrap
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".alert" ).Append( "{" )
+                sb.Append( $".e-alert" ).Append( "{" )
                     .Append( $"border-radius: {options.BorderRadius};" )
                     .AppendLine( "}" );
         }
@@ -309,23 +280,23 @@ namespace Blazorise.Bootstrap
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
             {
-                sb.Append( $".breadcrumb" ).Append( "{" )
+                sb.Append( $".e-breadcrumb" ).Append( "{" )
                      .Append( $"border-radius: {options.BorderRadius};" )
                      .AppendLine( "}" );
             }
 
-            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-            {
-                sb.Append( $".breadcrumb-item>a" ).Append( "{" )
-                    .Append( $"color: {theme.ColorOptions.Primary};" )
-                    .AppendLine( "}" );
-            }
+            //if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            //{
+            //    sb.Append( $".breadcrumb-item>a" ).Append( "{" )
+            //        .Append( $"color: {theme.ColorOptions.Primary};" )
+            //        .AppendLine( "}" );
+            //}
         }
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".badge" ).Append( "{" )
+                sb.Append( $".e-tag" ).Append( "{" )
                     .Append( $"border-radius: {options.BorderRadius};" )
                     .AppendLine( "}" );
         }
@@ -334,33 +305,14 @@ namespace Blazorise.Bootstrap
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
             {
-                sb.Append( $".page-item:first-child .page-link" ).Append( "{" )
-                    .Append( $"border-top-left-radius: {options.BorderRadius};" )
-                    .Append( $"border-bottom-left-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-
-                sb.Append( $".page-item:last-child .page-link" ).Append( "{" )
-                    .Append( $"border-top-right-radius: {options.BorderRadius};" )
-                    .Append( $"border-bottom-right-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-            }
-
-            if ( !string.IsNullOrEmpty( options.LargeBorderRadius ) )
-            {
-                sb.Append( $".pagination-lg .page-item:first-child .page-link" ).Append( "{" )
-                    .Append( $"border-top-left-radius: {options.BorderRadius};" )
-                    .Append( $"border-bottom-left-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-
-                sb.Append( $".pagination-lg .page-item:last-child .page-link" ).Append( "{" )
-                    .Append( $"border-top-right-radius: {options.LargeBorderRadius};" )
-                    .Append( $"border-bottom-right-radius: {options.LargeBorderRadius};" )
+                sb.Append( $".e-page-item" ).Append( "{" )
+                    .Append( $"border-radius: {options.BorderRadius};" )
                     .AppendLine( "}" );
             }
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
-                sb.Append( $".page-item.active .page-link" ).Append( "{" )
+                sb.Append( $".e-page-item.on-page" ).Append( "{" )
                     .Append( $"background-color: {theme.ColorOptions.Primary};" )
                     .Append( $"border-color: {theme.ColorOptions.Primary};" )
                     .AppendLine( "}" );
