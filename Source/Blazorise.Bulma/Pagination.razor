@@ -1,0 +1,6 @@
+@inherits Base.BasePagination
+<nav class=@("pagination " + ClassProvider.PaginationSize(Size))>
+    <ul class="@ClassMapper.Class">
+        @ChildContent
+    </ul>
+</nav>
