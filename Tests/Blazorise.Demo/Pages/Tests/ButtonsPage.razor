@@ -8,9 +8,9 @@
                 <CardSubtitle>Use the color enums like <code>Color.Primary</code></CardSubtitle>
             </CardHeader>
             <CardBody>
-                <SimpleButton Color="Color.Primary" Clicked="@(()=> { Theme.VariantOptions.Primary = "#DF5537"; Theme.ThemeHasChanged(); })">PRIMARY</SimpleButton>
-                <SimpleButton Color="Color.Secondary" Clicked="@(()=> { Theme.VariantOptions.Primary = "#66B2E9"; Theme.ThemeHasChanged();})">SECONDARY</SimpleButton>
-                <SimpleButton Color="Color.Success" Clicked="@(()=> { Theme.VariantOptions.Primary = "#F03992";Theme.ThemeHasChanged(); })">SUCCESS</SimpleButton>
+                <SimpleButton Color="Color.Primary" Clicked="@(()=> { Theme.ColorOptions.Primary = "#DF5537"; Theme.ThemeHasChanged(); })">PRIMARY</SimpleButton>
+                <SimpleButton Color="Color.Secondary" Clicked="@(()=> { Theme.ColorOptions.Primary = "#66B2E9"; Theme.ThemeHasChanged();})">SECONDARY</SimpleButton>
+                <SimpleButton Color="Color.Success" Clicked="@(()=> { Theme.ColorOptions.Primary = "#F03992";Theme.ThemeHasChanged(); })">SUCCESS</SimpleButton>
                 <SimpleButton Color="Color.Danger">DANGER</SimpleButton>
                 <SimpleButton Color="Color.Warning">WARNING</SimpleButton>
                 <SimpleButton Color="Color.Info">INFO</SimpleButton>

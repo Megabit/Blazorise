@@ -44,17 +44,20 @@ namespace Blazorise
             if ( !string.IsNullOrEmpty( theme.Black ) )
                 variables["--b-theme-black"] = theme.Black;
 
-            foreach ( var (name, color) in theme.Variants )
-                GenerateVariantVariables( theme, name, color );
+            foreach ( var (name, color) in theme.ValidColors )
+                GenerateColorVariables( theme, name, color );
+
+            foreach ( var (name, color) in theme.ValidBackgroundColors )
+                GenerateBackgroundVariables( theme, name, color );
 
             // apply variables
             foreach ( var kv in variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value}" );
         }
 
-        protected virtual void GenerateVariantVariables( Theme theme, string variant, string value )
+        protected virtual void GenerateColorVariables( Theme theme, string variant, string value )
         {
-            variables[$"--b-theme-variant-{variant}"] = value;
+            variables[$"--b-theme-{variant}"] = value;
 
             GenerateButtonVariables( variant, value, value, theme.ButtonOptions );
             GenerateOutlineButtonVariables( variant, value, theme.ButtonOptions );
@@ -116,6 +119,16 @@ namespace Blazorise
             variables[$"--b-outline-button-{variant}-box-shadow"] = boxShadow;
         }
 
+        protected virtual void GenerateBackgroundVariables( Theme theme, string variant, string inColor )
+        {
+            var backgroundColor = ParseColor( inColor );
+
+            if ( backgroundColor.IsEmpty )
+                return;
+
+            variables[$"--b-theme-background-{variant}"] = ToHex( backgroundColor );
+        }
+
         protected string Var( string name, string defaultValue = null )
         {
             if ( variables.TryGetValue( name, out var value ) )
@@ -130,7 +143,7 @@ namespace Blazorise
 
         public virtual void GenerateStyles( StringBuilder sb, Theme theme )
         {
-            foreach ( var (name, color) in theme.Variants )
+            foreach ( var (name, color) in theme.ValidColors )
             {
                 GenerateVariantStyles( sb, theme, name, color );
             }
@@ -177,6 +190,7 @@ namespace Blazorise
         /// <param name="color">Color value.</param>
         protected virtual void GenerateVariantStyles( StringBuilder sb, Theme theme, string variant, string color )
         {
+            GenerateBackgroundVariantStyles( sb, theme, variant );
             GenerateButtonVariantStyles( sb, theme, variant, color, color, theme.ButtonOptions );
             GenerateButtonOutlineVariantStyles( sb, theme, variant, color, theme.ButtonOptions );
             GenerateBadgeVariantStyles( sb, theme, variant, color );
@@ -186,6 +200,8 @@ namespace Blazorise
                 ThemeColorLevel( theme, color, theme.AlertOptions?.BorderLevel ?? -9 ),
                 ThemeColorLevel( theme, color, theme.AlertOptions?.ColorLevel ?? 6 ) );
         }
+
+        protected abstract void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant );
 
         protected abstract void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options );
 

@@ -28,10 +28,18 @@ namespace Blazorise
         /// <summary>
         /// Gets the valid variant colors.
         /// </summary>
-        public IEnumerable<(string name, string color)> Variants
-            => VariantOptions?.Map?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+        public IEnumerable<(string name, string color)> ValidColors
+            => ColorOptions?.ColorMap?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
-        public ThemeVariantOptions VariantOptions { get; set; }
+        /// <summary>
+        /// Gets the valid background colors.
+        /// </summary>
+        public IEnumerable<(string name, string color)> ValidBackgroundColors
+            => BackgroundOptions?.ColorMap?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+
+        public ThemeBackgroundOptions BackgroundOptions { get; set; }
+
+        public ThemeColorOptions ColorOptions { get; set; }
 
         public ThemeButtonOptions ButtonOptions { get; set; }
 
@@ -128,9 +136,9 @@ namespace Blazorise
         public string LargeBorderRadius { get; set; } = ".3rem";
     }
 
-    public class ThemeVariantOptions
+    public class ThemeColorOptions
     {
-        public Dictionary<string, Func<string>> Map => new Dictionary<string, Func<string>> {
+        public Dictionary<string, Func<string>> ColorMap => new Dictionary<string, Func<string>> {
             { "primary", () => Primary },
             { "secondary", () => Secondary },
             { "success", () => Success },
@@ -156,5 +164,41 @@ namespace Blazorise
         public string Light { get; set; }
 
         public string Dark { get; set; }
+    }
+
+    public class ThemeBackgroundOptions
+    {
+        public Dictionary<string, Func<string>> ColorMap => new Dictionary<string, Func<string>> {
+            { "primary", () => Primary },
+            { "secondary", () => Secondary },
+            { "success", () => Success },
+            { "info", () => Info },
+            { "warning", () => Warning },
+            { "danger", () => Danger },
+            { "light", () => Light },
+            { "dark", () => Dark },
+            { "body", () => Body },
+            { "muted", () => Muted }
+        };
+
+        public string Primary { get; set; }
+
+        public string Secondary { get; set; }
+
+        public string Success { get; set; }
+
+        public string Info { get; set; }
+
+        public string Warning { get; set; }
+
+        public string Danger { get; set; }
+
+        public string Light { get; set; }
+
+        public string Dark { get; set; }
+
+        public string Body { get; set; }
+
+        public string Muted { get; set; }
     }
 }
