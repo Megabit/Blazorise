@@ -1,0 +1,11 @@
+@inherits Blazorise.Base.BaseBarItem
+@if ( !HasCustomRegistration )
+{
+    <div class="accordion">
+        @ChildContent
+    </div>
+}
+else
+{
+    @RenderCustomComponent()
+}
