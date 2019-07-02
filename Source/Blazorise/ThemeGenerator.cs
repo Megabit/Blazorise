@@ -50,9 +50,12 @@ namespace Blazorise
             foreach ( var (name, color) in theme.ValidBackgroundColors )
                 GenerateBackgroundVariables( theme, name, color );
 
+            if ( theme.SidebarOptions != null )
+                GenerateSidebarVariables( theme.SidebarOptions );
+
             // apply variables
             foreach ( var kv in variables )
-                sb.AppendLine( $"{kv.Key}: {kv.Value}" );
+                sb.AppendLine( $"{kv.Key}: {kv.Value};" );
         }
 
         protected virtual void GenerateColorVariables( Theme theme, string variant, string value )
@@ -127,6 +130,15 @@ namespace Blazorise
                 return;
 
             variables[$"--b-theme-background-{variant}"] = ToHex( backgroundColor );
+        }
+
+        protected virtual void GenerateSidebarVariables( ThemeSidebarOptions sidebarOptions )
+        {
+            if ( sidebarOptions.BackgroundColor != null )
+                variables[$"--b-sidebar-background"] = ToHex( ParseColor( sidebarOptions.BackgroundColor ) );
+
+            if ( sidebarOptions.Color != null )
+                variables[$"--b-sidebar-color"] = ToHex( ParseColor( sidebarOptions.Color ) );
         }
 
         protected string Var( string name, string defaultValue = null )

@@ -79,7 +79,7 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
         }
 
-        protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, string inBorderColor, ThemeButtonOptions buttonOptions )
+        protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, string inBorderColor, ThemeButtonOptions options )
         {
             var color = Var( $"--b-outline-button-{variant}-color" );
             var yiqColor = Var( $"--b-outline-button-{variant}-yiq-color" );
@@ -99,7 +99,7 @@ namespace Blazorise.Bootstrap
             sb.Append( $".btn-outline-{variant}:focus," )
                 .Append( $".btn-outline-{variant}.focus" )
                 .Append( "{" )
-                .Append( $"box-shadow: 0 0 0 2rem {boxShadow};" )
+                .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
                 .AppendLine( "}" );
 
             sb.Append( $".btn-outline-{variant}.disabled," )
@@ -124,7 +124,7 @@ namespace Blazorise.Bootstrap
                 .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled).active:focus," )
                 .Append( $".show>.btn-outline-{variant}.dropdown-toggle:focus" )
                 .Append( "{" )
-                .Append( $"box-shadow: 0 0 0 2rem {boxShadow};" )
+                .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
                 .AppendLine( "}" );
         }
 

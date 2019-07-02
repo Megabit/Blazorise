@@ -62,6 +62,8 @@ namespace Blazorise
         public ThemeBadgeOptions BadgeOptions { get; set; }
 
         public ThemePaginationOptions PaginationOptions { get; set; }
+
+        public ThemeSidebarOptions SidebarOptions { get; set; }
     }
 
     public class BasicOptions
@@ -200,5 +202,12 @@ namespace Blazorise
         public string Body { get; set; }
 
         public string Muted { get; set; }
+    }
+
+    public class ThemeSidebarOptions
+    {
+        public string BackgroundColor { get; set; }
+
+        public string Color { get; set; }
     }
 }
