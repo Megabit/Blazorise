@@ -71,7 +71,7 @@
 </Sidebar>
 
 <div class="app-main">
-    <Bar Class="app-bar" Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
+    <Bar Class="app-bar" Breakpoint="Breakpoint.Desktop" Background="Background.Primary" ThemeContrast="ThemeContrast.Light">
         <BarBrand>
             <BarItem>
                 <BarLink To="">
@@ -106,6 +106,18 @@
             </BarStart>
             <BarEnd>
                 <BarItem>
+                    <BarDropdown>
+                        <BarDropdownToggle>Theme</BarDropdownToggle>
+                        <BarDropdownMenu Style="padding: 15px; min-width:600px;" IsRightAligned="true">
+                            <Row>
+                                <Container IsFluid="true">
+                                    <ThemeColorSelector Value="@Theme.ColorOptions.Primary" ValueChanged="@((s)=> { Theme.ColorOptions.Primary = s; Theme.BackgroundOptions.Primary = s; Theme.ThemeHasChanged(); })"></ThemeColorSelector>
+                                </Container>
+                            </Row>
+                        </BarDropdownMenu>
+                    </BarDropdown>
+                </BarItem>
+                <BarItem>
                     <BarLink To="https://github.com/stsrki/blazorise">GitHub</BarLink>
                 </BarItem>
             </BarEnd>
@@ -127,4 +139,6 @@
     {
         sidebar.Toggle();
     }
+
+    [CascadingParameter] Theme Theme { get; set; }
 }

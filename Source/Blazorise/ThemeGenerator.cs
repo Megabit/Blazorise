@@ -157,7 +157,12 @@ namespace Blazorise
         {
             foreach ( var (name, color) in theme.ValidColors )
             {
-                GenerateVariantStyles( sb, theme, name, color );
+                GenerateColorStyles( sb, theme, name, color );
+            }
+
+            foreach ( var (name, color) in theme.ValidBackgroundColors )
+            {
+                GenerateBackgroundStyles( sb, theme, name, color );
             }
 
             if ( theme.ButtonOptions != null )
@@ -200,11 +205,11 @@ namespace Blazorise
         /// <param name="sb">Target string builder.</param>
         /// <param name="variant">Variant name.</param>
         /// <param name="color">Color value.</param>
-        protected virtual void GenerateVariantStyles( StringBuilder sb, Theme theme, string variant, string color )
+        protected virtual void GenerateColorStyles( StringBuilder sb, Theme theme, string variant, string color )
         {
-            GenerateBackgroundVariantStyles( sb, theme, variant );
-            GenerateButtonVariantStyles( sb, theme, variant, color, color, theme.ButtonOptions );
-            GenerateButtonOutlineVariantStyles( sb, theme, variant, color, theme.ButtonOptions );
+            //GenerateBackgroundVariantStyles( sb, theme, variant );
+            GenerateButtonVariantStyles( sb, theme, variant, theme.ButtonOptions );
+            GenerateButtonOutlineVariantStyles( sb, theme, variant, theme.ButtonOptions );
             GenerateBadgeVariantStyles( sb, theme, variant, color );
 
             GenerateAlertVariantStyles( sb, theme, variant,
@@ -213,11 +218,16 @@ namespace Blazorise
                 ThemeColorLevel( theme, color, theme.AlertOptions?.ColorLevel ?? 6 ) );
         }
 
+        protected virtual void GenerateBackgroundStyles( StringBuilder sb, Theme theme, string variant, string color )
+        {
+            GenerateBackgroundVariantStyles( sb, theme, variant );
+        }
+
         protected abstract void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant );
 
-        protected abstract void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options );
+        protected abstract void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options );
 
-        protected abstract void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, string inBorderColor, ThemeButtonOptions buttonOptions );
+        protected abstract void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions buttonOptions );
 
         protected abstract void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options );
 

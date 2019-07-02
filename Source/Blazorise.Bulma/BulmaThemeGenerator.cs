@@ -17,7 +17,7 @@ namespace Blazorise.Bulma
                 .AppendLine( "}" );
         }
 
-        protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options )
+        protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
             var background = Var( $"--b-button-{variant}-background" );
             var border = Var( $"--b-button-{variant}-border" );
@@ -80,7 +80,7 @@ namespace Blazorise.Bulma
             //    .AppendLine( "}" );
         }
 
-        protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, string inBorderColor, ThemeButtonOptions buttonOptions )
+        protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions buttonOptions )
         {
             var color = Var( $"--b-outline-button-{variant}-color" );
             var yiqColor = Var( $"--b-outline-button-{variant}-yiq-color" );

@@ -13,11 +13,11 @@ namespace Blazorise.Bootstrap
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
         {
             sb.Append( $".bg-{variant}" ).Append( "{" )
-                .Append( $"background-color: {Var( $"--b-theme-background-{variant}" )};" )
+                .Append( $"background-color: {Var( $"--b-theme-background-{variant}" )} !important;" )
                 .AppendLine( "}" );
         }
 
-        protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options )
+        protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
             var background = Var( $"--b-button-{variant}-background" );
             var border = Var( $"--b-button-{variant}-border" );
@@ -79,7 +79,7 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
         }
 
-        protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, string inBorderColor, ThemeButtonOptions options )
+        protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
             var color = Var( $"--b-outline-button-{variant}-color" );
             var yiqColor = Var( $"--b-outline-button-{variant}-yiq-color" );
