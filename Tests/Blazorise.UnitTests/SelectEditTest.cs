@@ -149,6 +149,90 @@ namespace Blazorise.UnitTests
         }
 
         [Fact]
+        public void CanSelectGuid_InitiallyBlank()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-guid-initially-blank" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-guid-initially-blank-result" ) );
+
+            WaitAssert.Equal( "00000000-0000-0000-0000-000000000000", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "00000000-0000-0000-0000-000000000000", () => result.Text );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", () => result.Text );
+
+            select.SelectByValue( "00cd0391-5e22-4729-855a-fec86267722c" );
+            WaitAssert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", () => result.Text );
+
+            select.SelectByValue( "00000000-0000-0000-0000-000000000000" );
+            WaitAssert.Equal( "00000000-0000-0000-0000-000000000000", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "00000000-0000-0000-0000-000000000000", () => result.Text );
+        }
+
+        [Fact]
+        public void CanSelectGuid_InitiallySelected()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-guid-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-guid-initially-selected-result" ) );
+
+            WaitAssert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", () => result.Text );
+
+            select.SelectByValue( "00cd0391-5e22-4729-855a-fec86267722c" );
+            WaitAssert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", () => result.Text );
+
+            select.SelectByValue( "00000000-0000-0000-0000-000000000000" );
+            WaitAssert.Equal( "00000000-0000-0000-0000-000000000000", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "00000000-0000-0000-0000-000000000000", () => result.Text );
+        }
+
+        [Fact]
+        public void CanSelectNullableGuid_InitiallyBlank()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-nullable-guid-initially-blank" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-nullable-guid-initially-blank-result" ) );
+
+            WaitAssert.Equal( string.Empty, () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( string.Empty, () => result.Text );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", () => result.Text );
+
+            select.SelectByValue( "00cd0391-5e22-4729-855a-fec86267722c" );
+            WaitAssert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", () => select.SelectedOption.GetAttribute( "value" ) );
+            //WaitAssert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", () => result.Text );
+
+            //select.SelectByValue( "" );
+            //WaitAssert.Equal( "0", select.SelectedOption.GetAttribute( "value" ) );
+            //WaitAssert.Equal( "0", result.Text );
+        }
+
+        [Fact]
+        public void CanSelectNullableGuid_InitiallySelected()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-nullable-guid-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-nullable-guid-initially-selected-result" ) );
+
+            WaitAssert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", () => result.Text );
+
+            select.SelectByIndex( 2 );
+            WaitAssert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", () => result.Text );
+
+            select.SelectByValue( "bca8ef46-abb7-4aec-b700-90b2b730a382" );
+            WaitAssert.Equal( "bca8ef46-abb7-4aec-b700-90b2b730a382", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "bca8ef46-abb7-4aec-b700-90b2b730a382", () => result.Text );
+        }
+
+        [Fact]
         public void CanSelectEnum_InitiallySelected()
         {
             var paragraph = Browser.FindElement( By.Id( "select-enum-initially-selected" ) );
