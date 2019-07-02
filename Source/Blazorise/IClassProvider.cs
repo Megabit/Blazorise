@@ -417,6 +417,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Accordion
+
+        string Accordion();
+
+        #endregion
+
         #region Collapse
 
         string Collapse();
