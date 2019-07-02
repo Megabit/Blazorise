@@ -28,6 +28,8 @@ namespace Blazorise.Utils
 
                 if ( conversionType.IsEnum && EnumTryParse( o?.ToString(), conversionType, out TValue theEnum ) )
                     value = theEnum;
+                else if ( conversionType == typeof( Guid ) )
+                    value = (TValue)Convert.ChangeType( Guid.Parse( o.ToString() ), conversionType );
                 else
                     value = (TValue)Convert.ChangeType( o, conversionType );
 
