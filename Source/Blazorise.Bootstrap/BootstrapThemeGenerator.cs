@@ -252,6 +252,43 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+            var hoverBackgroundColor = Darken( backgroundColor, 5 );
+            var borderColor = ParseColor( inBorderColor );
+
+            var background = ToHex( backgroundColor );
+            var hoverBackground = ToHex( hoverBackgroundColor );
+            var border = ToHex( borderColor );
+
+            sb.Append( $".table-{variant}," )
+                .Append( $".table-{variant}>th," )
+                .Append( $".table-{variant}>td" )
+                .Append( "{" )
+                .Append( $"background-color: {background};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".table-{variant} th," )
+                .Append( $".table-{variant} td," )
+                .Append( $".table-{variant} thead td," )
+                .Append( $".table-{variant} tbody + tbody," )
+                .Append( "{" )
+                .Append( $"border-color: {border};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".table-hover table-{variant}:hover" )
+                .Append( "{" )
+                .Append( $"background-color: {hoverBackground};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".table-hover table-{variant}:hover>td" )
+                .Append( $".table-hover table-{variant}:hover>th" )
+                .Append( "{" )
+                .Append( $"background-color: {hoverBackground};" )
+                .AppendLine( "}" );
+        }
+
         protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )

@@ -234,6 +234,20 @@ namespace Blazorise.Frolic
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+            var borderColor = ParseColor( inBorderColor );
+
+            var background = ToHex( backgroundColor );
+            var border = ToHex( borderColor );
+
+            sb.Append( $".e-row.{variant}" ).Append( "{" )
+                .Append( $"background-color: {background};" )
+                .Append( $"border-color: {border};" )
+                .AppendLine( "}" );
+        }
+
         protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
         {
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )

@@ -57,6 +57,8 @@ namespace Blazorise
 
         public ThemeAlertOptions AlertOptions { get; set; }
 
+        public ThemeTableOptions TableOptions { get; set; }
+
         public ThemeBreadcrumbOptions BreadcrumbOptions { get; set; }
 
         public ThemeBadgeOptions BadgeOptions { get; set; }
@@ -123,6 +125,13 @@ namespace Blazorise
         public int BorderLevel { get; set; } = -9;
 
         public int ColorLevel { get; set; } = 6;
+    }
+
+    public class ThemeTableOptions : BasicOptions
+    {
+        public int BackgroundLevel { get; set; } = -9;
+
+        public int BorderLevel { get; set; } = -6;
     }
 
     public class ThemeBreadcrumbOptions : BasicOptions

@@ -216,6 +216,10 @@ namespace Blazorise
                 ThemeColorLevel( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
                 ThemeColorLevel( theme, color, theme.AlertOptions?.BorderLevel ?? -9 ),
                 ThemeColorLevel( theme, color, theme.AlertOptions?.ColorLevel ?? 6 ) );
+
+            GenerateTableVariantStyles( sb, theme, variant,
+                ThemeColorLevel( theme, color, theme.TableOptions?.BackgroundLevel ?? -9 ),
+                ThemeColorLevel( theme, color, theme.TableOptions?.BorderLevel ?? -6 ) );
         }
 
         protected virtual void GenerateBackgroundStyles( StringBuilder sb, Theme theme, string variant, string color )
@@ -238,6 +242,8 @@ namespace Blazorise
         protected abstract void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor );
 
         protected abstract void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor );
+
+        protected abstract void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor );
 
         protected abstract void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options );
 
