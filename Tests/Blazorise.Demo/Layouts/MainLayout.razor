@@ -111,7 +111,7 @@
                         <BarDropdownMenu Style="padding: 15px; min-width:600px;" IsRightAligned="true">
                             <Row>
                                 <Container IsFluid="true">
-                                    <ThemeColorSelector Value="@Theme.ColorOptions.Primary" ValueChanged="@((s)=> { Theme.ColorOptions.Primary = s; Theme.BackgroundOptions.Primary = s; Theme.ThemeHasChanged(); })"></ThemeColorSelector>
+                                    <ThemeColorSelector Value="@Theme.ColorOptions.Primary" ValueChanged="@ThemeColorChanged"></ThemeColorSelector>
                                 </Container>
                             </Row>
                         </BarDropdownMenu>
@@ -129,6 +129,17 @@
 </div>
 
 @code{
+    void ThemeColorChanged( string value )
+    {
+        if ( Theme?.ColorOptions != null )
+            Theme.ColorOptions.Primary = value;
+
+        if ( Theme?.BackgroundOptions != null )
+            Theme.BackgroundOptions.Primary = value;
+
+        Theme?.ThemeHasChanged();
+    }
+
     Sidebar sidebar;
     SidebarSubItem sidebarSubItemTests;
     SidebarSubItem sidebarSubItemApps;

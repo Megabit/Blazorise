@@ -13,7 +13,7 @@ namespace Blazorise.Bulma
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
         {
             sb.Append( $".has-background-{variant}" ).Append( "{" )
-                .Append( $"background-color: {Var( $"--b-theme-background-{variant}" )};" )
+                .Append( $"background-color: {Var( $"--b-theme-background-{variant}" )} !important;" )
                 .AppendLine( "}" );
         }
 

@@ -593,7 +593,7 @@ namespace Blazorise.Frolic
 
         #region Colors
 
-        public virtual string BackgroundColor( Background color ) => "bg-{Color( color )}";
+        public virtual string BackgroundColor( Background color ) => $"bg-{Color( color )}";
 
         #endregion
 
