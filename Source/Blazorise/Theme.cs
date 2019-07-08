@@ -14,6 +14,9 @@ namespace Blazorise
     {
         public event EventHandler<EventArgs> Changed;
 
+        /// <summary>
+        /// Must be called to rebuild the theme.
+        /// </summary>
         public void ThemeHasChanged()
         {
             Changed?.Invoke( this, EventArgs.Empty );
@@ -23,6 +26,9 @@ namespace Blazorise
 
         public string Black { get; set; } = "#343a40";
 
+        /// <summary>
+        /// Enables the gradient background colors.
+        /// </summary>
         public bool IsGradient { get; set; }
 
         /// <summary>
@@ -37,10 +43,19 @@ namespace Blazorise
         public IEnumerable<(string name, string color)> ValidBackgroundColors
             => BackgroundOptions?.ColorMap?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
-        public ThemeBackgroundOptions BackgroundOptions { get; set; }
-
+        /// <summary>
+        /// Used to override default theme colors.
+        /// </summary>
         public ThemeColorOptions ColorOptions { get; set; }
 
+        /// <summary>
+        /// Used to override default background colors.
+        /// </summary>
+        public ThemeBackgroundOptions BackgroundOptions { get; set; }
+
+        /// <summary>
+        /// Overrides the button styles.
+        /// </summary>
         public ThemeButtonOptions ButtonOptions { get; set; }
 
         public ThemeDropdownOptions DropdownOptions { get; set; }
@@ -149,6 +164,8 @@ namespace Blazorise
 
     public class ThemeColorOptions
     {
+
+
         public Dictionary<string, Func<string>> ColorMap => new Dictionary<string, Func<string>> {
             { "primary", () => Primary },
             { "secondary", () => Secondary },
@@ -160,21 +177,21 @@ namespace Blazorise
             { "dark", () => Dark }
         };
 
-        public string Primary { get; set; }
+        public string Primary { get; set; } = ThemeColors.Blue.Shades["400"].Value;
 
-        public string Secondary { get; set; }
+        public string Secondary { get; set; } = ThemeColors.Gray.Shades["600"].Value;
 
-        public string Success { get; set; }
+        public string Success { get; set; } = ThemeColors.Green.Shades["500"].Value;
 
-        public string Info { get; set; }
+        public string Info { get; set; } = ThemeColors.Cyan.Shades["500"].Value;
 
-        public string Warning { get; set; }
+        public string Warning { get; set; } = ThemeColors.Yellow.Shades["500"].Value;
 
-        public string Danger { get; set; }
+        public string Danger { get; set; } = ThemeColors.Red.Shades["500"].Value;
 
-        public string Light { get; set; }
+        public string Light { get; set; } = ThemeColors.Gray.Shades["100"].Value;
 
-        public string Dark { get; set; }
+        public string Dark { get; set; } = ThemeColors.Gray.Shades["800"].Value;
     }
 
     public class ThemeBackgroundOptions
@@ -192,21 +209,21 @@ namespace Blazorise
             { "muted", () => Muted }
         };
 
-        public string Primary { get; set; }
+        public string Primary { get; set; } = ThemeColors.Blue.Shades["400"].Value;
 
-        public string Secondary { get; set; }
+        public string Secondary { get; set; } = ThemeColors.Gray.Shades["600"].Value;
 
-        public string Success { get; set; }
+        public string Success { get; set; } = ThemeColors.Green.Shades["500"].Value;
 
-        public string Info { get; set; }
+        public string Info { get; set; } = ThemeColors.Cyan.Shades["500"].Value;
 
-        public string Warning { get; set; }
+        public string Warning { get; set; } = ThemeColors.Yellow.Shades["500"].Value;
 
-        public string Danger { get; set; }
+        public string Danger { get; set; } = ThemeColors.Red.Shades["500"].Value;
 
-        public string Light { get; set; }
+        public string Light { get; set; } = ThemeColors.Gray.Shades["100"].Value;
 
-        public string Dark { get; set; }
+        public string Dark { get; set; } = ThemeColors.Gray.Shades["800"].Value;
 
         public string Body { get; set; }
 
@@ -220,6 +237,12 @@ namespace Blazorise
         public string Color { get; set; }
     }
 
+    /// <summary>
+    /// Default theme colors. 
+    /// </summary>
+    /// <remarks>
+    /// Source: https://htmlcolorcodes.com/color-chart/material-design-color-chart/
+    /// </remarks>
     public static class ThemeColors
     {
         public static ThemeColorRed Red { get; } = new ThemeColorRed();
@@ -239,8 +262,8 @@ namespace Blazorise
         public static ThemeColorOrange Orange { get; } = new ThemeColorOrange();
         public static ThemeColorDeepOrange DeepOrange { get; } = new ThemeColorDeepOrange();
         public static ThemeColorBrown Brown { get; } = new ThemeColorBrown();
-        public static ThemeColorGrey Grey { get; } = new ThemeColorGrey();
-        public static ThemeColorBlueGrey BlueGrey { get; } = new ThemeColorBlueGrey();
+        public static ThemeColorGray Gray { get; } = new ThemeColorGray();
+        public static ThemeColorBlueGray BlueGray { get; } = new ThemeColorBlueGray();
 
         static ThemeColors()
         {
@@ -263,8 +286,8 @@ namespace Blazorise
                 {Orange.Key, Orange},
                 {DeepOrange.Key, DeepOrange},
                 {Brown.Key, Brown},
-                {Grey.Key, Grey},
-                {BlueGrey.Key, BlueGrey},
+                {Gray.Key, Gray},
+                {BlueGray.Key, BlueGray},
             };
         }
 
@@ -283,10 +306,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#d32f2f" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#c62828" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#b71c1c" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#ff8a80" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#ff5252" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#ff1744" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#d50000" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#ff8a80" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#ff5252" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#ff1744" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#d50000" );
 
         public ThemeColorRed()
             : base( "red", "Red" )
@@ -323,10 +346,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#c2185b" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#ad1457" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#880e4f" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#ff80ab" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#ff4081" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#f50057" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#c51162" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#ff80ab" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#ff4081" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#f50057" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#c51162" );
 
         public ThemeColorPink() : base( "pink", "Pink" )
         {
@@ -362,10 +385,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#7b1fa2" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#6a1b9a" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#4a148c" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#ea80fc" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#e040fb" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#d500f9" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#a0f" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#ea80fc" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#e040fb" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#d500f9" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#a0f" );
 
         public ThemeColorPurple() : base( "purple", "Purple" )
         {
@@ -401,10 +424,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#512da8" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#4527a0" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#311b92" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#b388ff" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#7c4dff" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#651fff" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#6200ea" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#b388ff" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#7c4dff" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#651fff" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#6200ea" );
 
         public ThemeColorDeepPurple() : base( "deep-purple", "DeepPurple" )
         {
@@ -440,10 +463,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#303f9f" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#283593" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#1a237e" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#8c9eff" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#536dfe" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#3d5afe" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#304ffe" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#8c9eff" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#536dfe" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#3d5afe" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#304ffe" );
 
         public ThemeColorIndigo() : base( "indigo", "Indigo" )
         {
@@ -479,10 +502,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#1976d2" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#1565c0" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#0d47a1" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#82b1ff" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#448aff" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#2979ff" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#2962ff" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#82b1ff" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#448aff" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#2979ff" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#2962ff" );
 
         public ThemeColorBlue() : base( "blue", "Blue" )
         {
@@ -518,10 +541,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#0288d1" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#0277bd" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#01579b" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#80d8ff" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#40c4ff" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#00b0ff" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#0091ea" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#80d8ff" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#40c4ff" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#00b0ff" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#0091ea" );
 
         public ThemeColorLightBlue() : base( "light-blue", "LightBlue" )
         {
@@ -557,10 +580,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#0097a7" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#00838f" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#006064" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#84ffff" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#18ffff" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#00e5ff" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#00b8d4" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#84ffff" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#18ffff" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#00e5ff" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#00b8d4" );
 
         public ThemeColorCyan() : base( "cyan", "Cyan" )
         {
@@ -596,10 +619,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#00796b" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#00695c" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#004d40" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#a7ffeb" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#64ffda" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#1de9b6" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#00bfa5" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#a7ffeb" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#64ffda" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#1de9b6" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#00bfa5" );
 
         public ThemeColorTeal() : base( "teal", "Teal" )
         {
@@ -635,10 +658,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#388e3c" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#2e7d32" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#1b5e20" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#b9f6ca" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#69f0ae" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#00e676" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#00c853" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#b9f6ca" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#69f0ae" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#00e676" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#00c853" );
 
         public ThemeColorGreen() : base( "green", "Green" )
         {
@@ -674,10 +697,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#689f38" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#558b2f" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#33691e" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#ccff90" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#b2ff59" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#76ff03" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#64dd17" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#ccff90" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#b2ff59" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#76ff03" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#64dd17" );
 
         public ThemeColorLightGreen() : base( "light-green", "LightGreen" )
         {
@@ -713,10 +736,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#afb42b" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#9e9d24" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#827717" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#f4ff81" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#eeff41" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#c6ff00" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#aeea00" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#f4ff81" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#eeff41" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#c6ff00" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#aeea00" );
 
         public ThemeColorLime() : base( "lime", "Lime" )
         {
@@ -752,10 +775,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#fbc02d" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#f9a825" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#f57f17" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#ffff8d" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#ff0" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#ffea00" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#ffd600" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#ffff8d" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#ff0" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#ffea00" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#ffd600" );
 
         public ThemeColorYellow() : base( "yellow", "Yellow" )
         {
@@ -791,10 +814,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#ffa000" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#ff8f00" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#ff6f00" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#ffe57f" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#ffd740" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#ffc400" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#ffab00" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#ffe57f" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#ffd740" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#ffc400" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#ffab00" );
 
         public ThemeColorAmber() : base( "amber", "Amber" )
         {
@@ -830,10 +853,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#f57c00" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#ef6c00" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#e65100" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#ffd180" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#ffab40" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#ff9100" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#ff6d00" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#ffd180" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#ffab40" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#ff9100" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#ff6d00" );
 
         public ThemeColorOrange() : base( "orange", "Orange" )
         {
@@ -869,10 +892,10 @@ namespace Blazorise
         public ThemeColorShade _700 { get; } = new ThemeColorShade( "700", "_700", "#e64a19" );
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#d84315" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#bf360c" );
-        public ThemeColorShade A100 { get; } = new ThemeColorShade( "a100", "A100", "#ff9e80" );
-        public ThemeColorShade A200 { get; } = new ThemeColorShade( "a200", "A200", "#ff6e40" );
-        public ThemeColorShade A400 { get; } = new ThemeColorShade( "a400", "A400", "#ff3d00" );
-        public ThemeColorShade A700 { get; } = new ThemeColorShade( "a700", "A700", "#dd2c00" );
+        public ThemeColorShade A100 { get; } = new ThemeColorShade( "A100", "A100", "#ff9e80" );
+        public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#ff6e40" );
+        public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#ff3d00" );
+        public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#dd2c00" );
 
         public ThemeColorDeepOrange() : base( "deep-orange", "DeepOrange" )
         {
@@ -927,7 +950,7 @@ namespace Blazorise
         }
     }
 
-    public class ThemeColorGrey : ThemeColor
+    public class ThemeColorGray : ThemeColor
     {
         public ThemeColorShade _50 { get; } = new ThemeColorShade( "50", "_50", "#fafafa" );
         public ThemeColorShade _100 { get; } = new ThemeColorShade( "100", "_100", "#f5f5f5" );
@@ -940,7 +963,7 @@ namespace Blazorise
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#424242" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#212121" );
 
-        public ThemeColorGrey() : base( "grey", "Grey" )
+        public ThemeColorGray() : base( "gray", "Gray" )
         {
             Shades = new Dictionary<string, ThemeColorShade>()
             {
@@ -958,7 +981,7 @@ namespace Blazorise
         }
     }
 
-    public class ThemeColorBlueGrey : ThemeColor
+    public class ThemeColorBlueGray : ThemeColor
     {
         public ThemeColorShade _50 { get; } = new ThemeColorShade( "50", "_50", "#eceff1" );
         public ThemeColorShade _100 { get; } = new ThemeColorShade( "100", "_100", "#cfd8dc" );
@@ -971,7 +994,7 @@ namespace Blazorise
         public ThemeColorShade _800 { get; } = new ThemeColorShade( "800", "_800", "#37474f" );
         public ThemeColorShade _900 { get; } = new ThemeColorShade( "900", "_900", "#263238" );
 
-        public ThemeColorBlueGrey() : base( "blue-grey", "BlueGrey" )
+        public ThemeColorBlueGray() : base( "blue-gray", "BlueGray" )
         {
             Shades = new Dictionary<string, ThemeColorShade>()
             {
