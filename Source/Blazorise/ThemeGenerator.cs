@@ -280,6 +280,11 @@ namespace Blazorise
 
         #region Helpers
 
+        protected string GetBorderRadius( Theme theme, string borderRadius )
+        {
+            return theme.IsRounded && !string.IsNullOrEmpty( borderRadius ) ? borderRadius : "0rem";
+        }
+
         protected static System.Drawing.Color ParseColor( string value )
         {
             return value.StartsWith( "#" )

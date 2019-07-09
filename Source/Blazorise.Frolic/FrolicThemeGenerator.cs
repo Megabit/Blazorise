@@ -85,6 +85,7 @@ namespace Blazorise.Frolic
             sb.Append( $".e-btn.outlined.{variant}" ).Append( "{" )
                 .Append( $"color: {color};" )
                 .Append( $"background-color: white;" )
+                .Append( $"background: white;" )
                 .Append( $"border-color: {color};" )
                 .AppendLine( "}" );
 
@@ -120,15 +121,17 @@ namespace Blazorise.Frolic
 
         protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".e-btn" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".e-btn" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-            if ( !string.IsNullOrEmpty( options.Padding ) )
-                sb.Append( $".e-btn" ).Append( "{" )
-                    .Append( $"padding: {options.Padding};" )
-                    .AppendLine( "}" );
+            sb.Append( $".e-btn.small" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius )};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".e-btn.plus" ).Append( "{" )
+                .Append( $"padding: {GetBorderRadius( theme, options?.LargeBorderRadius )};" )
+                .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options.Margin ) )
                 sb.Append( $".e-btn" ).Append( "{" )
@@ -138,10 +141,9 @@ namespace Blazorise.Frolic
 
         protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".drop-items" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".drop-items" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
@@ -161,20 +163,17 @@ namespace Blazorise.Frolic
 
         protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-            {
-                sb.Append( $".e-control" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".e-control" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-                sb.Append( $".e-control-helper" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".e-control-helper" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-                sb.Append( $".e-select" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-            }
+            sb.Append( $".e-select" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options.Color ) )
             {
@@ -250,54 +249,44 @@ namespace Blazorise.Frolic
 
         protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".e-card" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".e-card" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".e-modal-content" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".e-modal-content" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-            {
-                sb.Append( $".e-tabs" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-            }
+            sb.Append( $".e-tabs" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".e-progress" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".e-progress" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".e-alert" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".e-alert" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-            {
-                sb.Append( $".e-breadcrumb" ).Append( "{" )
-                     .Append( $"border-radius: {options.BorderRadius};" )
-                     .AppendLine( "}" );
-            }
+            sb.Append( $".e-breadcrumb" ).Append( "{" )
+                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                 .AppendLine( "}" );
 
             //if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             //{
@@ -309,20 +298,16 @@ namespace Blazorise.Frolic
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".e-tag" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".e-tag" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-            {
-                sb.Append( $".e-page-item" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-            }
+            sb.Append( $".e-page-item" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {

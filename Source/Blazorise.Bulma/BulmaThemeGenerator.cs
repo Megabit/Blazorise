@@ -84,27 +84,29 @@ namespace Blazorise.Bulma
         {
             var color = Var( $"--b-outline-button-{variant}-color" );
             var yiqColor = Var( $"--b-outline-button-{variant}-yiq-color" );
-            var boxShadow = Var( $"--b-outline-button-{variant}-box-shadow" );
+            //var boxShadow = Var( $"--b-outline-button-{variant}-box-shadow" );
 
-            sb.Append( $".button.is-{variant}.is-outlined-{variant}" ).Append( "{" )
+            sb.Append( $".button.is-{variant}.is-outlined" ).Append( "{" )
                 .Append( $"color: {color};" )
                 .Append( $"border-color: {color};" )
+                .Append( $"background-color: transparent;" )
+                .Append( $"background: transparent;" )
                 .AppendLine( "}" );
 
-            sb.Append( $".button.is-{variant}.is-outlined-{variant}:hover," )
-                .Append( $".button.is-{variant}.is-outlined-{variant}.is-hovered," )
-                .Append( $".button.is-{variant}.is-outlined-{variant}:focus," )
-                .Append( $".button.is-{variant}.is-outlined-{variant}.is-focused" ).Append( "{" )
+            sb.Append( $".button.is-{variant}.is-outlined:hover," )
+                .Append( $".button.is-{variant}.is-outlined.is-hovered," )
+                .Append( $".button.is-{variant}.is-outlined:focus," )
+                .Append( $".button.is-{variant}.is-outlined.is-focused" ).Append( "{" )
                 .Append( $"color: {yiqColor};" )
                 .Append( $"background-color: white;" )
                 .Append( $"border-color: {color};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".button.is-{variant}.is-outlined-{variant}.is-loading::after" ).Append( "{" )
+            sb.Append( $".button.is-{variant}.is-outlined.is-loading::after" ).Append( "{" )
                 .Append( $"border-color: transparent transparent white white;" )
                 .AppendLine( "}" );
 
-            sb.Append( $".button.is-{variant}.is-outlined-{variant}[disabled]," ).Append( $"fieldset[disabled] .button.is-{variant}.is-outlined-{variant}" ).Append( "{" )
+            sb.Append( $".button.is-{variant}.is-outlined[disabled]," ).Append( $"fieldset[disabled] .button.is-{variant}.is-outlined" ).Append( "{" )
                 .Append( $"color: {color};" )
                 .Append( $"background-color: transparent;" )
                 .Append( $"border-color: {color};" )
@@ -114,10 +116,17 @@ namespace Blazorise.Bulma
 
         protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".button" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".button" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".button.is-small" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius )};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".button.is-large" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius )};" )
+                .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options.Padding ) )
                 sb.Append( $".button" ).Append( "{" )
@@ -132,28 +141,24 @@ namespace Blazorise.Bulma
 
         protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".dropdown-content" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".dropdown-content" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-            {
-                sb.Append( $".input" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".input" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-                sb.Append( $".select select" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".select select" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-                sb.Append( $".textarea" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-            }
+            sb.Append( $".textarea" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor )
@@ -235,7 +240,7 @@ namespace Blazorise.Bulma
         {
             //if ( !string.IsNullOrEmpty( options.BorderRadius ) )
             //    sb.Append( $".card" ).Append( "{" )
-            //        .Append( $"border-radius: {options.BorderRadius};" )
+            //        .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
             //        .AppendLine( "}" );
 
             //if ( !string.IsNullOrEmpty( options.ImageTopRadius ) )
@@ -250,13 +255,13 @@ namespace Blazorise.Bulma
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
             {
                 sb.Append( $".modal-card-head" ).Append( "{" )
-                    .Append( $"border-top-left-radius: {options.BorderRadius};" )
-                    .Append( $"border-top-right-radius: {options.BorderRadius};" )
+                    .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                    .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
                     .AppendLine( "}" );
 
                 sb.Append( $".modal-card-foot" ).Append( "{" )
-                   .Append( $"border-bottom-left-radius: {options.BorderRadius};" )
-                   .Append( $"border-bottom-right-radius: {options.BorderRadius};" )
+                   .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                   .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
                    .AppendLine( "}" );
             }
         }
@@ -266,30 +271,28 @@ namespace Blazorise.Bulma
             //if ( !string.IsNullOrEmpty( options.BorderRadius ) )
             //{
             //    sb.Append( $".nav-tabs .nav-link" ).Append( "{" )
-            //        .Append( $"border-top-left-radius: {options.BorderRadius};" )
-            //        .Append( $"border-top-right-radius: {options.BorderRadius};" )
+            //        .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+            //        .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
             //        .AppendLine( "}" );
 
             //    sb.Append( $".nav-pills .nav-link" ).Append( "{" )
-            //        .Append( $"border-radius: {options.BorderRadius};" )
+            //        .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
             //        .AppendLine( "}" );
             //}
         }
 
         protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".progress" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".progress" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".notification" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".notification" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
@@ -298,27 +301,20 @@ namespace Blazorise.Bulma
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".tag:not(body)" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".tag:not(body)" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-            {
-                sb.Append( $".pagination-link,.pagination-previous,.pagination-next" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-            }
+            sb.Append( $".pagination-link,.pagination-previous,.pagination-next" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-            if ( !string.IsNullOrEmpty( options.LargeBorderRadius ) )
-            {
-                sb.Append( $".pagination.is-large .pagination-link,.pagination-previous,.pagination-next" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-            }
+            sb.Append( $".pagination.is-large .pagination-link,.pagination-previous,.pagination-next" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius )};" )
+                .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {

@@ -130,10 +130,17 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".btn" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".btn" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".btn-sm" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius )};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".btn-lg" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius )};" )
+                .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options.Padding ) )
                 sb.Append( $".btn" ).Append( "{" )
@@ -148,10 +155,9 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".dropdown-menu" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".dropdown-menu" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
@@ -171,28 +177,25 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-            {
-                sb.Append( $".form-control" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
+            sb.Append( $".form-control" ).Append( "{" )
+                    .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
                     .AppendLine( "}" );
 
-                sb.Append( $".input-group-text" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".input-group-text" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-                sb.Append( $".custom-select" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".custom-select" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-                sb.Append( $".custom-checkbox .custom-control-label::before" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".custom-checkbox .custom-control-label::before" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-                sb.Append( $".custom-file-label" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-            }
+            sb.Append( $".custom-file-label" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options.Color ) )
             {
@@ -291,10 +294,9 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".card" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".card" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options.ImageTopRadius ) )
                 sb.Append( $".card-image-top" ).Append( "{" )
@@ -305,51 +307,43 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".modal-content" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".modal-content" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-            {
-                sb.Append( $".nav-tabs .nav-link" ).Append( "{" )
-                    .Append( $"border-top-left-radius: {options.BorderRadius};" )
-                    .Append( $"border-top-right-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".nav-tabs .nav-link" ).Append( "{" )
+                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-                sb.Append( $".nav-pills .nav-link" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-            }
+            sb.Append( $".nav-pills .nav-link" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".progress" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".progress" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".alert" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".alert" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-            {
-                sb.Append( $".breadcrumb" ).Append( "{" )
-                     .Append( $"border-radius: {options.BorderRadius};" )
-                     .AppendLine( "}" );
-            }
+            sb.Append( $".breadcrumb" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
+
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
@@ -361,39 +355,32 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-                sb.Append( $".badge" ).Append( "{" )
-                    .Append( $"border-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".badge" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-            {
-                sb.Append( $".page-item:first-child .page-link" ).Append( "{" )
-                    .Append( $"border-top-left-radius: {options.BorderRadius};" )
-                    .Append( $"border-bottom-left-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".page-item:first-child .page-link" ).Append( "{" )
+                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-                sb.Append( $".page-item:last-child .page-link" ).Append( "{" )
-                    .Append( $"border-top-right-radius: {options.BorderRadius};" )
-                    .Append( $"border-bottom-right-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
-            }
+            sb.Append( $".page-item:last-child .page-link" ).Append( "{" )
+                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .AppendLine( "}" );
 
-            if ( !string.IsNullOrEmpty( options.LargeBorderRadius ) )
-            {
-                sb.Append( $".pagination-lg .page-item:first-child .page-link" ).Append( "{" )
-                    .Append( $"border-top-left-radius: {options.BorderRadius};" )
-                    .Append( $"border-bottom-left-radius: {options.BorderRadius};" )
-                    .AppendLine( "}" );
+            sb.Append( $".pagination-lg .page-item:first-child .page-link" ).Append( "{" )
+                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius )};" )
+                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius )};" )
+                .AppendLine( "}" );
 
-                sb.Append( $".pagination-lg .page-item:last-child .page-link" ).Append( "{" )
-                    .Append( $"border-top-right-radius: {options.LargeBorderRadius};" )
-                    .Append( $"border-bottom-right-radius: {options.LargeBorderRadius};" )
-                    .AppendLine( "}" );
-            }
+            sb.Append( $".pagination-lg .page-item:last-child .page-link" ).Append( "{" )
+                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius )};" )
+                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius )};" )
+                .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {

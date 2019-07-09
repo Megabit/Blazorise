@@ -29,7 +29,12 @@ namespace Blazorise
         /// <summary>
         /// Enables the gradient background colors.
         /// </summary>
-        public bool IsGradient { get; set; }
+        public bool IsGradient { get; set; } = false;
+
+        /// <summary>
+        /// Globaly enables rounded elements.
+        /// </summary>
+        public bool IsRounded { get; set; } = true;
 
         /// <summary>
         /// Gets the valid variant colors.
@@ -105,6 +110,10 @@ namespace Blazorise
         public float ActiveDarkenColor { get; set; } = 10f;
 
         public float ActiveLightenColor { get; set; } = 12.5f;
+
+        public string LargeBorderRadius { get; set; } = ".3rem";
+
+        public string SmallBorderRadius { get; set; } = ".2rem";
     }
 
     public class ThemeDropdownOptions : BasicOptions
