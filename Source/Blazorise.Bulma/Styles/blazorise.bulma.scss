@@ -1,0 +1,417 @@
+﻿.tab-pane {
+    display: none;
+
+    &.is-active {
+        display: block;
+    }
+}
+
+.tabs.is-justified li {
+    flex-basis: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.list-group {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+
+    & > .list-group-item {
+        &:first-child {
+            border-radius: 4px 4px 0 0;
+        }
+
+        &:last-child {
+            border-radius: 0 0 4px 4px;
+            margin-bottom: 0;
+        }
+
+        &.is-primary {
+            background-color: hsl(171, 100%, 41%);
+            color: #fff;
+        }
+
+        &.is-secondary {
+            background-color: hsl(208, 14%, 46%);
+            color: #fff;
+        }
+
+        &.is-info {
+            background-color: hsl(217, 71%, 53%);
+            color: #fff;
+        }
+
+        &.is-success {
+            background-color: hsl(141, 71%, 48%);
+            color: #fff;
+        }
+
+        &.is-warning {
+            background-color: hsl(48, 100%, 67%);
+        }
+
+        &.is-danger {
+            background-color: hsl(348, 100%, 61%);
+            color: #fff;
+        }
+    }
+}
+
+.list-group-flush {
+    .list-group-item {
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+    }
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.card-group {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+
+    & > .card {
+        margin-bottom: 15px;
+    }
+}
+
+.is-borderless {
+    border: 0 !important;
+}
+
+table {
+    &.is-borderless td,
+    &.is-borderless th,
+    &.is-borderless tr {
+        border: 0 !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .card-group {
+        -ms-flex-flow: row wrap;
+        flex-flow: row wrap;
+    }
+
+    .card-group > .card {
+        -ms-flex: 1 0 0%;
+        flex: 1 0 0%;
+        margin-bottom: 0;
+    }
+
+    .card-group > .card + .card {
+        margin-left: 0;
+        border-left: 0;
+    }
+
+    .card-group > .card:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .card-group > .card:first-child .card-image,
+    .card-group > .card:first-child .card-header {
+        border-top-right-radius: 0;
+    }
+
+    .card-group > .card:first-child .card-footer {
+        border-bottom-right-radius: 0;
+    }
+
+    .card-group > .card:last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .card-group > .card:last-child .card-image,
+    .card-group > .card:last-child .card-header {
+        border-top-left-radius: 0;
+    }
+
+    .card-group > .card:last-child .card-footer {
+        border-bottom-left-radius: 0;
+    }
+
+    .card-group > .card:only-child {
+        border-radius: 0.25rem;
+    }
+
+    .card-group > .card:only-child .card-image,
+    .card-group > .card:only-child .card-header {
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+    }
+
+    .card-group > .card:only-child .card-footer {
+        border-bottom-right-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+    }
+
+    .card-group > .card:not(:first-child):not(:last-child):not(:only-child) {
+        border-radius: 0;
+    }
+
+    .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-image,
+    .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-header,
+    .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-footer {
+        border-radius: 0;
+    }
+}
+/*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
+$tablet: 1023px;
+$desktop: 1215px;
+$widescreen: 1407px;
+$fullhd: 1907px;
+$spacer: 1rem !default;
+$spacers: () !default;
+$spacers: map-merge(( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3) ), $spacers);
+
+$grid-breakpoints: ( xs: 0, mobile: 576px, tablet: $tablet, desktop: $desktop, widescreen: $widescreen, hd: $fullhd ) !default;
+
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+    $min: map-get($breakpoints, $name);
+    @return if($min != 0, $min, null);
+}
+
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+    $min: breakpoint-min($name, $breakpoints);
+
+    @if $min {
+        @media (min-width: $min) {
+            @content;
+        }
+    }
+    @else {
+        @content;
+    }
+}
+
+@function breakpoint-infix($name, $breakpoints: $grid-breakpoints) {
+    @return if(breakpoint-min($name, $breakpoints) == null, "", "-#{$name}");
+}
+
+@function breakpoint-next($name, $breakpoints: $grid-breakpoints, $breakpoint-names: map-keys($breakpoints)) {
+    $n: index($breakpoint-names, $name);
+    @return if($n < length($breakpoint-names), nth($breakpoint-names, $n + 1), null);
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        @each $prop, $abbrev in (margin: m, padding: p) {
+            @each $size, $length in $spacers {
+
+                .is-#{$abbrev}#{$infix}-#{$size} {
+                    #{$prop}: $length !important;
+                }
+
+                .is-#{$abbrev}t#{$infix}-#{$size},
+                .is-#{$abbrev}y#{$infix}-#{$size} {
+                    #{$prop}-top: $length !important;
+                }
+
+                .is-#{$abbrev}r#{$infix}-#{$size},
+                .is-#{$abbrev}x#{$infix}-#{$size} {
+                    #{$prop}-right: $length !important;
+                }
+
+                .is-#{$abbrev}b#{$infix}-#{$size},
+                .is-#{$abbrev}y#{$infix}-#{$size} {
+                    #{$prop}-bottom: $length !important;
+                }
+
+                .is-#{$abbrev}l#{$infix}-#{$size},
+                .is-#{$abbrev}x#{$infix}-#{$size} {
+                    #{$prop}-left: $length !important;
+                }
+            }
+        }
+        // Some special margin utils
+        .is-m#{$infix}-auto {
+            margin: auto !important;
+        }
+
+        .is-mt#{$infix}-auto,
+        .is-my#{$infix}-auto {
+            margin-top: auto !important;
+        }
+
+        .is-mr#{$infix}-auto,
+        .is-mx#{$infix}-auto {
+            margin-right: auto !important;
+        }
+
+        .is-mb#{$infix}-auto,
+        .is-my#{$infix}-auto {
+            margin-bottom: auto !important;
+        }
+
+        .is-ml#{$infix}-auto,
+        .is-mx#{$infix}-auto {
+            margin-left: auto !important;
+        }
+    }
+}
+
+.tabs {
+    &.is-vertical ul {
+        -webkit-flex-direction: column;
+        flex-direction: column;
+    }
+
+    &.is-vertical li {
+        width: 100%;
+    }
+
+    &.is-vertical li > a {
+        border: none;
+    }
+}
+
+.modal {
+    &-sm {
+        @media (min-width: 576px) {
+            width: 300px;
+        }
+    }
+
+    &-lg {
+        @media (min-width: 992px) {
+            width: 800px;
+        }
+    }
+
+    &-xl {
+        @media (min-width: 1200px) {
+            width: 1140px;
+        }
+    }
+}
+
+.button {
+    &.is-secondary {
+        background-color: #6c757d;
+        border-color: transparent;
+        color: #fff;
+
+        &:hover, &.is-hovered {
+            background-color: #5a6268;
+            border-color: transparent;
+            color: #fff;
+        }
+
+        &:focus, &.is-focused {
+            border-color: transparent;
+            color: #fff;
+        }
+
+        &:focus:not(:active), &.is-focused:not(:active) {
+            box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
+        }
+
+        &:active, &.is-active {
+            background-color: #545b62;
+            border-color: transparent;
+            color: #fff;
+        }
+
+        &[disabled],
+        fieldset[disabled] & {
+            background-color: #6c757d;
+            border-color: transparent;
+            box-shadow: none;
+        }
+
+        &.is-inverted {
+            background-color: #fff;
+            color: #6c757d;
+
+            &:hover, &.is-hovered {
+                background-color: #f2f2f2;
+            }
+
+            &[disabled],
+            fieldset[disabled] & {
+                background-color: #fff;
+                border-color: transparent;
+                box-shadow: none;
+                color: #6c757d;
+            }
+        }
+
+
+        &.is-loading {
+            &::after {
+                border-color: transparent transparent #fff #fff !important;
+            }
+        }
+
+        &.is-outlined {
+            background-color: transparent;
+            border-color: #6c757d;
+            color: #6c757d;
+
+            &:hover, &.is-hovered, &:focus, &.is-focused {
+                background-color: #6c757d;
+                border-color: #6c757d;
+                color: #fff;
+            }
+
+            &.is-loading::after {
+                border-color: transparent transparent #6c757d #6c757d !important;
+            }
+
+            &.is-loading:hover::after, &.is-loading.is-hovered::after, &.is-loading:focus::after, &.is-loading.is-focused::after {
+                border-color: transparent transparent #fff #fff !important;
+            }
+
+            &[disabled],
+            fieldset[disabled] & {
+                background-color: transparent;
+                border-color: #6c757d;
+                box-shadow: none;
+                color: #6c757d;
+            }
+        }
+
+        &.is-inverted.is-outlined {
+            background-color: transparent;
+            border-color: #fff;
+            color: #fff;
+
+            &:hover, &.is-hovered, &:focus, &.is-focused {
+                background-color: #fff;
+                color: #6c757d;
+            }
+
+            &.is-loading {
+                &:hover::after, &.is-hovered::after, &:focus::after, &.is-focused::after {
+                    border-color: transparent transparent #6c757d #6c757d !important;
+                }
+            }
+
+            &[disabled],
+            fieldset[disabled] & {
+                background-color: transparent;
+                border-color: #fff;
+                box-shadow: none;
+                color: #fff;
+            }
+        }
+    }
+}

@@ -578,7 +578,7 @@ namespace Blazorise.Bulma
 
         public virtual string Pagination() => "pagination-list";
 
-        public virtual string PaginationSize( Size size ) => $"{Pagination()}-{Size( size )}";
+        public virtual string PaginationSize( Size size ) => $"{Size( size )}";
 
         public virtual string PaginationItem() => null;
 
@@ -684,28 +684,7 @@ namespace Blazorise.Bulma
 
         public virtual string Badge() => "tag";
 
-        public virtual string BadgeColor( Color color )
-        {
-            switch ( color )
-            {
-                case Blazorise.Color.Primary:
-                    return "is-primary";
-                case Blazorise.Color.Secondary:
-                    return "is-info";
-                case Blazorise.Color.Success:
-                    return "is-success";
-                case Blazorise.Color.Danger:
-                    return "is-danger";
-                case Blazorise.Color.Warning:
-                    return "is-warning";
-                case Blazorise.Color.Info:
-                    return "is-info";
-                case Blazorise.Color.Link:
-                    return "is-link";
-                default:
-                    return null;
-            }
-        }
+        public virtual string BadgeColor( Color color ) => $"is-{Color( color )}";
 
         public virtual string BadgePill() => null;
 
@@ -849,7 +828,7 @@ namespace Blazorise.Bulma
                 case Blazorise.Color.Primary:
                     return "primary";
                 case Blazorise.Color.Secondary:
-                    return "info";
+                    return "secondary";
                 case Blazorise.Color.Success:
                     return "success";
                 case Blazorise.Color.Danger:
@@ -858,6 +837,10 @@ namespace Blazorise.Bulma
                     return "warning";
                 case Blazorise.Color.Info:
                     return "info";
+                case Blazorise.Color.Light:
+                    return "light";
+                case Blazorise.Color.Dark:
+                    return "dark";
                 case Blazorise.Color.Link:
                     return "link";
                 default:

@@ -25,6 +25,7 @@ namespace Blazorise.Frolic
             serviceCollection.AddSingleton<IStyleProvider, FrolicStyleProvider>();
             serviceCollection.AddScoped<IJSRunner, FrolicJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
+            serviceCollection.AddSingleton<IThemeGenerator, FrolicThemeGenerator>();
 
             return serviceCollection;
         }

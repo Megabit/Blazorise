@@ -26,6 +26,7 @@ namespace Blazorise.Material
             serviceCollection.AddSingleton<IStyleProvider, MaterialStyleProvider>();
             serviceCollection.AddScoped<IJSRunner, MaterialJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
+            serviceCollection.AddScoped<IThemeGenerator, MaterialThemeGenerator>();
 
             return serviceCollection;
         }
