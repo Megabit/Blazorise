@@ -1368,3 +1368,22 @@ table.is-borderless tr {
             border-color: #fff;
             box-shadow: none;
             color: #fff; }
+
+.collapse:not(.show) {
+    display: none; }
+
+.accordion > .card {
+    overflow: hidden; }
+    .accordion > .card:not(:first-of-type) .card-header:first-child {
+        border-radius: 0; }
+    .accordion > .card:not(:first-of-type):not(:last-of-type) {
+        border-bottom: 0;
+        border-radius: 0; }
+    .accordion > .card:first-of-type:not(:last-of-type) {
+        border-bottom: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0; }
+    .accordion > .card:last-of-type {
+        border-top-left-radius: 0; }
+    .accordion > .card .card-header {
+        margin-bottom: 1px; }

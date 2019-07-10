@@ -1,0 +1,11 @@
+@inherits Blazorise.Base.BaseAccordion
+@if ( !HasCustomRegistration )
+{
+    <div class="@ClassMapper.Class">
+        @ChildContent
+    </div>
+}
+else
+{
+    @RenderCustomComponent()
+}
