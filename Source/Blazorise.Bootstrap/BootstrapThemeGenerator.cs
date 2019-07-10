@@ -322,6 +322,16 @@ namespace Blazorise.Bootstrap
             sb.Append( $".nav-pills .nav-link" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
                 .AppendLine( "}" );
+
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                sb
+                    .Append( $".nav-pills .nav-link.active," )
+                    .Append( $".nav-pills .show>.nav-link" )
+                    .Append( "{" )
+                    .Append( $"background-color: {Var( "--b-theme-primary" )};" )
+                    .AppendLine( "}" );
+            }
         }
 
         protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
@@ -329,6 +339,13 @@ namespace Blazorise.Bootstrap
             sb.Append( $".progress" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
                 .AppendLine( "}" );
+
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                sb.Append( $".progress-bar" ).Append( "{" )
+                    .Append( $"background-color: {Var( "--b-theme-primary" )};" )
+                    .AppendLine( "}" );
+            }
         }
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )

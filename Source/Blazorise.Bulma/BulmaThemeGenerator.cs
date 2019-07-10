@@ -173,7 +173,7 @@ namespace Blazorise.Bulma
             var background = ToHex( backgroundColor );
             var yiqBackground = ToHex( yiqBackgroundColor );
 
-            sb.Append( $".tag.is-{variant}" ).Append( "{" )
+            sb.Append( $".tag:not(body).is-{variant}" ).Append( "{" )
                 .Append( $"color: {yiqBackground};" )
                 .Append( $"background-color: {background};" )
                 .AppendLine( "}" );
@@ -268,17 +268,14 @@ namespace Blazorise.Bulma
 
         protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
         {
-            //if ( !string.IsNullOrEmpty( options.BorderRadius ) )
-            //{
-            //    sb.Append( $".nav-tabs .nav-link" ).Append( "{" )
-            //        .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
-            //        .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
-            //        .AppendLine( "}" );
-
-            //    sb.Append( $".nav-pills .nav-link" ).Append( "{" )
-            //        .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
-            //        .AppendLine( "}" );
-            //}
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                sb
+                    .Append( $".tabs.is-toggle li.is-active a" )
+                    .Append( "{" )
+                    .Append( $"background-color: {Var( "--b-theme-primary" )};" )
+                    .AppendLine( "}" );
+            }
         }
 
         protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
@@ -297,6 +294,12 @@ namespace Blazorise.Bulma
 
         protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
         {
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                sb.Append( $".breadcrumb a" ).Append( "{" )
+                .Append( $"color: {Var( "--b-theme-primary" )};" )
+                .AppendLine( "}" );
+            }
         }
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
@@ -319,8 +322,8 @@ namespace Blazorise.Bulma
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
                 sb.Append( $".pagination-link.is-current,.pagination-previous.is-current,.pagination-next.is-current" ).Append( "{" )
-                    .Append( $"background-color: {theme.ColorOptions.Primary};" )
-                    .Append( $"border-color: {theme.ColorOptions.Primary};" )
+                    .Append( $"background-color: {Var( "--b-theme-primary" )};" )
+                    .Append( $"border-color: {Var( "--b-theme-primary" )};" )
                     .AppendLine( "}" );
             }
         }

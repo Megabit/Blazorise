@@ -288,12 +288,9 @@ namespace Blazorise.Frolic
                  .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
                  .AppendLine( "}" );
 
-            //if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
-            //{
-            //    sb.Append( $".breadcrumb-item>a" ).Append( "{" )
-            //        .Append( $"color: {theme.ColorOptions.Primary};" )
-            //        .AppendLine( "}" );
-            //}
+            //sb.Append( $".breadcrumb a" ).Append( "{" )
+            //    .Append( $"color: {Var( "--b-theme-primary" )};" )
+            //    .AppendLine( "}" );
         }
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
