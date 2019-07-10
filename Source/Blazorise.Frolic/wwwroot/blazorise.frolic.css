@@ -56,6 +56,10 @@ select.e-select {
     margin: 0;
 }
 
+.drop-items-right {
+    right: 0;
+    left: auto;
+}
 
 @-webkit-keyframes spinner-border {
     to {

@@ -1091,6 +1091,8 @@ namespace Blazorise
         SliderHorizontal,
         SliderVertical,
         Dashboard,
+        Tint,
+        Palette,
     }
 
     public enum FormatType

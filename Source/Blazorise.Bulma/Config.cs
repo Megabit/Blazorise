@@ -25,6 +25,7 @@ namespace Blazorise.Bulma
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
             serviceCollection.AddScoped<IJSRunner, BulmaJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
+            serviceCollection.AddSingleton<IThemeGenerator, BulmaThemeGenerator>();
 
             return serviceCollection;
         }
@@ -55,6 +56,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();
             componentMapper.Register<Blazorise.TextEdit, Bulma.TextEdit>();
             componentMapper.Register( typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) );
+            componentMapper.Register<Blazorise.Pagination, Bulma.Pagination>();
         }
 
 #if NETSTANDARD2_0

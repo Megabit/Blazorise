@@ -1,0 +1,9 @@
+@inherits Blazorise.Base.BaseThemeProvider
+@if ( WriteVariables )
+{
+    @((MarkupString)GetVariablesTag())
+}
+<CascadingValue Value=Theme>
+    @ChildContent
+</CascadingValue>
+@((MarkupString)GetStylesTag())

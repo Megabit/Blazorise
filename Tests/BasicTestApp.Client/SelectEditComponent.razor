@@ -71,6 +71,55 @@
 </p>
 
 
+<h2>Select guid:</h2>
+<p id="select-guid-initially-blank">
+    Initially blank:
+    <SelectEdit SelectedValue="@guidInitiallyBlank" SelectedValueChanged="@((v)=> { guidInitiallyBlank = v; StateHasChanged(); })">
+        <SelectItem Value="Guid.Empty"></SelectItem>
+        <SelectItem Value="@(Guid.Parse("413a7c18-b190-4f58-a967-338cd1566e97"))">g1</SelectItem>
+        <SelectItem Value="@(Guid.Parse("00cd0391-5e22-4729-855a-fec86267722c"))">g2</SelectItem>
+        <SelectItem Value="@(Guid.Parse("bca8ef46-abb7-4aec-b700-90b2b730a382"))">g3</SelectItem>
+        <SelectItem Value="@(Guid.Parse("71faf98c-286d-429e-854c-7877b7559f06"))">g4</SelectItem>
+    </SelectEdit>
+    <span id="select-guid-initially-blank-result">@guidInitiallyBlank</span>
+</p>
+<p id="select-guid-initially-selected">
+    Initially selected:
+    <SelectEdit SelectedValue="@guidInitiallySelected" SelectedValueChanged="@((v)=> { guidInitiallySelected = v; StateHasChanged(); })">
+        <SelectItem Value="Guid.Empty"></SelectItem>
+        <SelectItem Value="@(Guid.Parse("413a7c18-b190-4f58-a967-338cd1566e97"))">g1</SelectItem>
+        <SelectItem Value="@(Guid.Parse("00cd0391-5e22-4729-855a-fec86267722c"))">g2</SelectItem>
+        <SelectItem Value="@(Guid.Parse("bca8ef46-abb7-4aec-b700-90b2b730a382"))">g3</SelectItem>
+        <SelectItem Value="@(Guid.Parse("71faf98c-286d-429e-854c-7877b7559f06"))">g4</SelectItem>
+    </SelectEdit>
+    <span id="select-guid-initially-selected-result">@guidInitiallySelected</span>
+</p>
+
+<h2>Select nullable guid:</h2>
+<p id="select-nullable-guid-initially-blank">
+    Initially blank:
+    <SelectEdit SelectedValue="@nullableGuidInitiallyBlank" SelectedValueChanged="@((v)=> { nullableGuidInitiallyBlank = v; StateHasChanged(); })">
+        <SelectItem Value="@((Guid?)null)"></SelectItem>
+        <SelectItem Value="@((Guid?)Guid.Parse("413a7c18-b190-4f58-a967-338cd1566e97"))">g1</SelectItem>
+        <SelectItem Value="@((Guid?)Guid.Parse("00cd0391-5e22-4729-855a-fec86267722c"))">g2</SelectItem>
+        <SelectItem Value="@((Guid?)Guid.Parse("bca8ef46-abb7-4aec-b700-90b2b730a382"))">g3</SelectItem>
+        <SelectItem Value="@((Guid?)Guid.Parse("71faf98c-286d-429e-854c-7877b7559f06"))">g4</SelectItem>
+    </SelectEdit>
+    <span id="select-nullable-guid-initially-blank-result">@nullableGuidInitiallyBlank</span>
+</p>
+<p id="select-nullable-guid-initially-selected">
+    Initially selected:
+    <SelectEdit SelectedValue="@nullableGuidInitiallySelected" SelectedValueChanged="@((v)=> { nullableGuidInitiallySelected = v; StateHasChanged(); })">
+        <SelectItem Value="@((Guid?)null)"></SelectItem>
+        <SelectItem Value="@((Guid?)Guid.Parse("413a7c18-b190-4f58-a967-338cd1566e97"))">g1</SelectItem>
+        <SelectItem Value="@((Guid?)Guid.Parse("00cd0391-5e22-4729-855a-fec86267722c"))">g2</SelectItem>
+        <SelectItem Value="@((Guid?)Guid.Parse("bca8ef46-abb7-4aec-b700-90b2b730a382"))">g3</SelectItem>
+        <SelectItem Value="@((Guid?)Guid.Parse("71faf98c-286d-429e-854c-7877b7559f06"))">g4</SelectItem>
+    </SelectEdit>
+    <span id="select-nullable-guid-initially-selected-result">@nullableGuidInitiallySelected</span>
+</p>
+
+
 <h2>Select enum:</h2>
 <p id="select-enum-initially-selected">
     Initially selected:
@@ -127,6 +176,12 @@
 
     int? nullableIntInitiallyBlank;
     int? nullableIntInitiallySelected = 1;
+
+    Guid guidInitiallyBlank;
+    Guid guidInitiallySelected = Guid.Parse( "413a7c18-b190-4f58-a967-338cd1566e97" );
+
+    Guid? nullableGuidInitiallyBlank;
+    Guid? nullableGuidInitiallySelected = Guid.Parse( "413a7c18-b190-4f58-a967-338cd1566e97" );
 
     DaysInWeek enumInitiallySelected;
 

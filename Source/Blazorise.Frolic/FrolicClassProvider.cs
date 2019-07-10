@@ -466,7 +466,7 @@ namespace Blazorise.Frolic
 
         public virtual string BarDropdownMenuShow() => Show();
 
-        public virtual string BarDropdownMenuRight() => "dropdown-menu-right";
+        public virtual string BarDropdownMenuRight() => "drop-items-right";
 
         #endregion
 
@@ -593,7 +593,7 @@ namespace Blazorise.Frolic
 
         #region Colors
 
-        public virtual string BackgroundColor( Background color ) => "bg-{Color( color )}";
+        public virtual string BackgroundColor( Background color ) => $"bg-{Color( color )}";
 
         #endregion
 
