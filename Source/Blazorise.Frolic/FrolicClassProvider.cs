@@ -470,6 +470,12 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Accordion
+
+        public virtual string Accordion() => "accordion";
+
+        #endregion
+
         #region Collapse
 
         public virtual string Collapse() => "collapse";

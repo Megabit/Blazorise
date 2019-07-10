@@ -16,6 +16,14 @@ namespace Blazorise.Base
 
         #region Methods
 
+        protected override void RegisterClasses()
+        {
+            ClassMapper
+                .Add( () => ClassProvider.Accordion() );
+
+            base.RegisterClasses();
+        }
+
         #endregion
 
         #region Properties

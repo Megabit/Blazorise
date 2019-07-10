@@ -424,6 +424,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Accordion
+
+        public string Accordion() => null;
+
+        #endregion
+
         #region Collapse
 
         public string Collapse() => null;

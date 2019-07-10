@@ -1,7 +1,7 @@
 @inherits Blazorise.Base.BaseBarItem
 @if ( !HasCustomRegistration )
 {
-    <div class="accordion">
+    <div class="@ClassMapper.Class">
         @ChildContent
     </div>
 }
