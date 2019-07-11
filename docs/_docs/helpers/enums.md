@@ -84,3 +84,14 @@ Defines the validation results.
 - `None` No validation.
 - `Success` Validation has passed the check.
 - `Error` Validation has failed.
+
+## ChartType
+
+Defines the chart type.
+
+- `Line`
+- `Bar`
+- `Pie`
+- `Doughnut`
+- `PolarArea`
+- `Radar`

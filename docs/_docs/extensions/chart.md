@@ -108,3 +108,16 @@ You should always define `TItem` data type.
     }
 }
 ```
+
+## Attributes
+
+| Name               | Type                                                                       | Default      | Description                                                                           |
+|--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| Type               | [ChartType]({{ "/docs/helpers/enums/#charttype" | relative_url }})         | `Line`       | Defines the chart type.                                                               |
+| Data               | ChartData                                                                  |              | Defines the chart data.                                                               |
+| Options            | ChartOptions                                                               |              | Defines the chart options.                                                            |
+| DataJsonString     | string                                                                     | null         | Defines the chart data that is serialized as json string. **[WILL BE REMOVED]**       |
+| OptionsJsonString  | string                                                                     | null         | Defines the chart options that is serialized as json string. **[WILL BE REMOVED]**    |
+
+**Note:** DataJsonString and OptionsJsonString are used only temporary until the Blazor team fixes the built-in json serializer.
+{: .notice--info}
