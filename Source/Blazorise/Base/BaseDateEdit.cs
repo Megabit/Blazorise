@@ -53,6 +53,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Sets the placeholder for the empty date.
+        /// </summary>
         [Parameter] protected string Placeholder { get; set; }
 
         /// <summary>

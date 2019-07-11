@@ -34,6 +34,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Sets the white text when using the darker background.
+        /// </summary>
         [Parameter]
         protected bool IsWhiteText
         {
@@ -46,6 +49,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Gets or sets the bar background color.
+        /// </summary>
         [Parameter]
         protected Background Background
         {

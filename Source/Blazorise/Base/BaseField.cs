@@ -51,6 +51,9 @@ namespace Blazorise.Base
         /// </summary>
         protected bool IsFields => ParentFields != null;
 
+        /// <summary>
+        /// Aligns the controls for horizontal form.
+        /// </summary>
         [Parameter]
         internal bool IsHorizontal
         {
@@ -80,6 +83,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally).
+        /// </summary>
         [Parameter]
         protected JustifyContent JustifyContent
         {
