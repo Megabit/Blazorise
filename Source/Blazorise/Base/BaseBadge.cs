@@ -36,6 +36,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Make the badge more rounded.
+        /// </summary>
         [Parameter]
         protected bool IsPill
         {
@@ -48,6 +51,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Sets the badge contextual color.
+        /// </summary>
         [Parameter]
         protected Color Color
         {
@@ -60,6 +66,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Create a badge link and provide actionable badges with hover and focus states.
+        /// </summary>
         [Parameter]
         protected string Link
         {
