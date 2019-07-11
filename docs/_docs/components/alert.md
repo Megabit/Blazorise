@@ -77,3 +77,19 @@ or programatically
     }
 }
 ```
+
+## Functions
+
+| Name         | Description                                                                                 |
+|--------------|---------------------------------------------------------------------------------------------|
+| Show()       | Makes the alert visible.                                                                    |
+| Hide()       | Hides the alert.                                                                            |
+| Toggle()     | Switches the alert visibility.                                                              |
+
+## Attributes
+
+| Name         | Type                                                         | Default          | Description                                                                                 |
+|--------------|--------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| IsDismisable | boolean                                                      | false            | Enables the alert to be closed by placing the padding for close button.                     |
+| IsShow       | boolean                                                      | false            | Sets the alert visibilty.                                                                   |
+| Color        | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }}) | `None`           | Component visual or contextual style variants.                                              |

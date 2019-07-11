@@ -56,6 +56,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Enables the alert to be closed by placing the padding for close button.
+        /// </summary>
         [Parameter]
         protected bool IsDismisable
         {
@@ -68,6 +71,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Sets the alert visibilty.
+        /// </summary>
         [Parameter]
         protected bool IsShow
         {
