@@ -82,6 +82,8 @@ docs:
         url: /docs/helpers/sizes/
       - title: "Utilities"
         url: /docs/helpers/utilities/
+      - title: "Enums"
+        url: /docs/helpers/enums/
   - title: Meta
     children:
       - title: "Releases"
