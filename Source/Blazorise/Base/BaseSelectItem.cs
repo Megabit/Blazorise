@@ -34,6 +34,11 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Convert the value to string because option tags are working with string internally. Otherwise some datatypes like booleans will not work as expected.
+        /// </summary>
+        protected string StringValue => Value?.ToString();
+
         [Parameter] internal protected TValue Value { get; set; }
 
         [Parameter] protected bool IsDisabled { get; set; }

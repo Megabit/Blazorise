@@ -120,6 +120,44 @@
 </p>
 
 
+<h2>Select bool:</h2>
+<p id="select-bool-initially-blank">
+    Initially blank:
+    <SelectEdit SelectedValue="@boolInitiallyBlank" SelectedValueChanged="@((v)=> { boolInitiallyBlank = v; StateHasChanged(); })">
+        <SelectItem Value="@true">True Value</SelectItem>
+        <SelectItem Value="@false">False Value</SelectItem>
+    </SelectEdit>
+    <span id="select-bool-initially-blank-result">@boolInitiallyBlank</span>
+</p>
+<p id="select-bool-initially-selected">
+    Initially selected:
+    <SelectEdit SelectedValue="@boolInitiallySelected" SelectedValueChanged="@((v)=> { boolInitiallySelected = v; StateHasChanged(); })">
+        <SelectItem Value="@true">True Value</SelectItem>
+        <SelectItem Value="@false">False Value</SelectItem>
+    </SelectEdit>
+    <span id="select-bool-initially-selected-result">@boolInitiallySelected</span>
+</p>
+
+<h2>Select nullable bool:</h2>
+<p id="select-nullable-bool-initially-blank">
+    Initially blank:
+    <SelectEdit SelectedValue="@nullableBoolInitiallyBlank" SelectedValueChanged="@((v)=> { nullableBoolInitiallyBlank = v; StateHasChanged(); })">
+        <SelectItem Value="@((bool?)null)"></SelectItem>
+        <SelectItem Value="@((bool?)true)">True Value</SelectItem>
+        <SelectItem Value="@((bool?)false)">False Value</SelectItem>
+    </SelectEdit>
+    <span id="select-nullable-bool-initially-blank-result">@nullableBoolInitiallyBlank</span>
+</p>
+<p id="select-nullable-bool-initially-selected">
+    Initially selected:
+    <SelectEdit SelectedValue="@nullableBoolInitiallySelected" SelectedValueChanged="@((v)=> { nullableBoolInitiallySelected = v; StateHasChanged(); })">
+        <SelectItem Value="@((bool?)null)"></SelectItem>
+        <SelectItem Value="@((bool?)true)">True Value</SelectItem>
+        <SelectItem Value="@((bool?)false)">False Value</SelectItem>
+    </SelectEdit>
+    <span id="select-nullable-bool-initially-selected-result">@nullableBoolInitiallySelected</span>
+</p>
+
 <h2>Select enum:</h2>
 <p id="select-enum-initially-selected">
     Initially selected:
@@ -182,6 +220,12 @@
 
     Guid? nullableGuidInitiallyBlank;
     Guid? nullableGuidInitiallySelected = Guid.Parse( "413a7c18-b190-4f58-a967-338cd1566e97" );
+
+    bool boolInitiallyBlank;
+    bool boolInitiallySelected = true;
+
+    bool? nullableBoolInitiallyBlank;
+    bool? nullableBoolInitiallySelected = true;
 
     DaysInWeek enumInitiallySelected;
 

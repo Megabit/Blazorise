@@ -233,6 +233,89 @@ namespace Blazorise.UnitTests
         }
 
         [Fact]
+        public void CanSelectBool_InitiallyBlank()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-bool-initially-blank" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-bool-initially-blank-result" ) );
+
+            WaitAssert.Equal( "False", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "False", () => result.Text );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.Equal( "False", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "False", () => result.Text );
+
+            select.SelectByIndex( 0 );
+            WaitAssert.Equal( "True", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "True", () => result.Text );
+
+            select.SelectByValue( "False" );
+            WaitAssert.Equal( "False", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "False", () => result.Text );
+
+            select.SelectByValue( "True" );
+            WaitAssert.Equal( "True", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "True", () => result.Text );
+        }
+
+        [Fact]
+        public void CanSelectBool_InitiallySelected()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-bool-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-bool-initially-selected-result" ) );
+
+            WaitAssert.Equal( "True", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "True", () => result.Text );
+
+            select.SelectByValue( "False" );
+            WaitAssert.Equal( "False", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "False", () => result.Text );
+
+            select.SelectByValue( "True" );
+            WaitAssert.Equal( "True", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "True", () => result.Text );
+        }
+
+        [Fact]
+        public void CanSelectNullableBool_InitiallyBlank()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-nullable-bool-initially-blank" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-nullable-bool-initially-blank-result" ) );
+
+            WaitAssert.Equal( string.Empty, () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( string.Empty, () => result.Text );
+
+            select.SelectByIndex( 1 );
+            WaitAssert.Equal( "True", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "True", () => result.Text );
+
+            select.SelectByValue( "False" );
+            WaitAssert.Equal( "False", () => select.SelectedOption.GetAttribute( "value" ) );
+        }
+
+        [Fact]
+        public void CanSelectNullableBool_InitiallySelected()
+        {
+            var paragraph = Browser.FindElement( By.Id( "select-nullable-bool-initially-selected" ) );
+            var select = new SelectElement( paragraph.FindElement( By.TagName( "select" ) ) );
+            var result = paragraph.FindElement( By.Id( "select-nullable-bool-initially-selected-result" ) );
+
+            WaitAssert.Equal( "True", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "True", () => result.Text );
+
+            select.SelectByIndex( 2 );
+            WaitAssert.Equal( "False", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "False", () => result.Text );
+
+            select.SelectByValue( "True" );
+            WaitAssert.Equal( "True", () => select.SelectedOption.GetAttribute( "value" ) );
+            WaitAssert.Equal( "True", () => result.Text );
+        }
+
+        [Fact]
         public void CanSelectEnum_InitiallySelected()
         {
             var paragraph = Browser.FindElement( By.Id( "select-enum-initially-selected" ) );
