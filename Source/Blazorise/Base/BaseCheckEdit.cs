@@ -100,7 +100,7 @@ namespace Blazorise.Base
         }
 
         /// <summary>
-        /// 
+        /// Defines the mouse cursor based on the behaviour by the current css framework.
         /// </summary>
         [Parameter]
         protected Cursor Cursor
