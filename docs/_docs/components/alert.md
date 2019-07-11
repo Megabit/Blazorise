@@ -68,10 +68,12 @@ or programatically
     ...
 </Alert>
 
+<SimpleButton Clicked="@OnButtonClick">Show alert</SimpleButton>
+
 @code{
     Alert myAlert;
 
-    void ButtonClick()
+    void OnButtonClick()
     {
         myAlert.Show();
     }
