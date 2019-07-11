@@ -133,11 +133,11 @@ Table displays information in a way that’s easy to scan, so that users can loo
 
 ## Attributes
 
-| Name         | Type    | Default | Description                      |
-|--------------|---------|---------|----------------------------------|
-| IsFullWidth  | boolean | false   | You can have a full width table. |
-| IsStriped    | boolean | false   | Adds stripes to the table.       |
-| IsBordered   | boolean | false   | Adds borders to all the cells.   |
-| IsHoverable  | boolean | false   | Adds a hover effect on each row. |
-| IsBorderless | boolean | false   | Table without any borders.       |
-| IsNarrow     | boolean | false   | Cutta the cell padding in half.  |
+| Name         | Type    | Default | Description                                                   |
+|--------------|---------|---------|---------------------------------------------------------------|
+| IsFullWidth  | boolean | false   | Makes the table to fill entire horizontal space.              |
+| IsStriped    | boolean | false   | Adds stripes to the table.                                    |
+| IsBordered   | boolean | false   | Adds borders to all the cells.                                |
+| IsHoverable  | boolean | false   | Adds a hover effect on each row.                              |
+| IsBorderless | boolean | false   | Table without any borders.                                    |
+| IsNarrow     | boolean | false   | Makes the table more compact by cutting cell padding in half. |

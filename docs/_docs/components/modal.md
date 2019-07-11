@@ -96,3 +96,17 @@ If you want to prevent modal from closing you can use `Closing` event.
     }
 }
 ```
+
+## Functions
+
+| Name         | Description                                                                                 |
+|--------------|---------------------------------------------------------------------------------------------|
+| Show()       | Open the modal dialog.                                                                      |
+| Hide()       | Close the modal dialog.                                                                     |
+
+## Attributes
+
+| Name           | Type                                                                   | Default   | Description                                                                                                                    |
+|----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
+| IsOpen         | boolean                                                                | false     | Handles the visibility of modal dialog.                                                                                        |
+| Closing        | event                                                                  |           | Occurs before the modal is closed and can be used to prevent the modal from closing.                                           |

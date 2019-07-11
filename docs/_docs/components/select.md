@@ -95,12 +95,12 @@ When using the event `SelectedValueChanged`, you also must define the `SelectedV
 }
 ```
 
-## Props
+## Attributes
 
 | Name                  | Type      | Default | Description                                                                                  |
 |-----------------------|-----------|---------|----------------------------------------------------------------------------------------------|
 | IsMultiple            | boolean   | false   | Specifies that multiple items can be selected.                                               |
 | SelectedValue         | generic   |         | Selected item value when in single edit mode.                                                |
-| selected item value.  | generic[] |         | Selected item value when in multi edit mode.                                                 |
+| SelectedValues        | generic[] |         | Selected item value when in multi edit mode.                                                 |
 | SelectedValueChanged  | action    |         | Occurs when the selected item value has changed.                                             |
 | SelectedValuesChanged | action    |         | Occurs when the selected items value has changed (only when IsMultiple==true).               |

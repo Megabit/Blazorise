@@ -86,3 +86,13 @@ The bar component is a responsive and versatile horizontal navigation bar with t
 ```
 
 <iframe src="/examples/bars/dropdown/" frameborder="0" scrolling="no" style="width:100%;height:200px;"></iframe>
+
+## Attributes
+
+| Name          | Type                                                                       | Default          | Description                                                                                 |
+|---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| IsOpen        | boolean                                                                    | false            | Controlls the state of toggler and the menu.                                                |
+| Breakpoint    | [Breakpoint]({{ "/docs/helpers/enums/#breakpoint" | relative_url }})       | `None`           | Defines the media breakpoint.                                                               |
+| ThemeContrast | [ThemeContrast]({{ "/docs/helpers/enums/#themecontrast" | relative_url }}) | `Light`          | Adjusts the contrast for light or dark themes.                                              |
+| Background    | [Background]({{ "/docs/helpers/colors/#background" | relative_url }})      | `None`           | Sets the bar background color.                                                              |
+| Color         | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})               | `None`           | Component visual or contextual style variants.                                              |

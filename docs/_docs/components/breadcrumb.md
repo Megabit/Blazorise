@@ -33,7 +33,7 @@ Breadcrumbs are used to indicate the current page's location. Add `IsActive` att
 <iframe class="frame" src="/examples/elements/breadcrumb/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
 
-## Props
+## Attributes
 
 ### Breadcrumb
 
@@ -44,3 +44,11 @@ Breadcrumbs are used to indicate the current page's location. Add `IsActive` att
 | Name     | Type    | Default | Description                                     |
 |----------|---------|---------|-------------------------------------------------|
 | IsActive | boolean | false   | If set to true, renders  `span` instead of  `a` |
+
+### BreadcrumbLink
+
+| Name       | Type                                                        | Default | Description                                                          |
+|------------|-------------------------------------------------------------|---------|----------------------------------------------------------------------|
+| To         | string                                                      | null    | Link to the destination page.                                        |
+| Match      | [Match]({{ "/docs/helpers/enums/#match" | relative_url }})  | `All`   | URL matching behavior for a link.                                    |
+| Title      | string                                                      | null    | Defines the title of a link, which appears to the user as a tooltip. |

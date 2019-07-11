@@ -77,3 +77,20 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
     }
 }
 ```
+
+## Functions
+
+| Name         | Description                                                                                 |
+|--------------|---------------------------------------------------------------------------------------------|
+| Open()       | Open the dropdown menu.                                                                     |
+| Close()      | Close the dropdown menu.                                                                    |
+| Toggle()     | Switches the visibility of dropdown menu.                                                   |
+
+## Attributes
+
+| Name           | Type                                                                   | Default   | Description                                                                                                                    |
+|----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
+| IsOpen         | boolean                                                                | false     | Handles the visibility of dropdown menu.                                                                                       |
+| IsRightAligned | boolean                                                                | false     | Right aligned dropdown menu.                                                                                                   |
+| Direction      | [Direction]({{ "/docs/helpers/enums/#direction" | relative_url }})     | `Down`    | Direction of an dropdown menu.                                                                                                 |
+| Toggled        | event                                                                  |           | Occurs after the dropdown menu visibility has changed.                                                                         |

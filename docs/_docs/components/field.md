@@ -100,3 +100,11 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
 ```
 
 <iframe class="frame" src="/examples/fields/fields/" frameborder="0" scrolling="no" style="width:100%;height:80px;"></iframe>
+
+## Attributes
+
+| Name            | Type                                                                              | Default   | Description                                                                                                             |
+|-----------------|-----------------------------------------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------|
+| IsHorizontal    | boolean                                                                           | false     | Aligns the controls for horizontal form.                                                                                |
+| ColumnSize      | [ColumnSize]({{ "/docs/helpers/utilities/#columnsize" | relative_url }})          | null      | Determines how much space will be used by the field inside of the grid row.                                             |
+| JustifyContent  | [JustifyContent]({{ "/docs/helpers/enums/#justifycontent" | relative_url }})      | `None`    | Aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally).    |

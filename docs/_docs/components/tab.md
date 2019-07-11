@@ -53,3 +53,19 @@ Put it all together, and we get this:
 ```
 
 <iframe src="/examples/tabs/basic/" frameborder="0" scrolling="no" style="width:100%;height:625px;"></iframe>
+
+## Functions
+
+| Name                    | Description                                                                                 |
+|-------------------------|---------------------------------------------------------------------------------------------|
+| SelectTab(string name)  | Sets the active tab by the name.                                                            |
+
+## Attributes
+
+| Name                | Type                                                                       | Default          | Description                                                                                           |
+|---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
+| IsPills             | boolean                                                                    | false            | Makes the tab items to appear as pills.                                                               |
+| IsFullWidth         | boolean                                                                    | false            | Makes the tab items to extend the full available width.                                               |
+| IsJustified         | boolean                                                                    | false            | Makes the tab items to extend the full available width, but every item will be the same width.        |
+| IsVertical          | boolean                                                                    | false            | Stack the navigation items by changing the flex item direction.                                       |
+| SelectedTabChanged  | event                                                                      |                  | Occurs after the selected tab has changed.                                                            |

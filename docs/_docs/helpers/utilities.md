@@ -6,7 +6,7 @@ toc: true
 toc_label: "Helpers"
 ---
 
-### Spacing
+## Spacing
 
 To define spacing between components you have an option to use a fluent-builder patern. This way you can combine multiple spacings at once.
 
@@ -19,7 +19,7 @@ The following example will set the margins for mobile(xs) and desktop(md) breakp
 **Note:** The same rules can also be applied for paddings.
 {: .notice--info}
 
-### Column Size
+## ColumnSize
 
 Similar to the spacing builder you can also define column sizes using the same pattern.
 
@@ -27,7 +27,7 @@ Similar to the spacing builder you can also define column sizes using the same p
 <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile">
 ```
 
-### Breakpoints by frameworks
+## Breakpoints by frameworks
 
 | Blazorise     | Bootstrap     | Material      | Bulma         |
 | ------------- |:-------------:|:-------------:| -------------:|

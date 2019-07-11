@@ -51,3 +51,15 @@ For radio control you must set the `RadioGroup` attribute.
     }
 }
 ```
+
+## Attributes
+
+| Name                    | Type                                                                       | Default      | Description                                                                           |
+|-------------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| Checked                 | boolean                                                                    | false        | Gets or sets the checked flag.                                                        |
+| NullableChecked         | boolean                                                                    | false        | Gets or sets the nullable value for checked flag.    **[WILL BE REMOVED]**            |
+| CheckedChanged          | event                                                                      |              | Occurs when the check state is changed.                                               |
+| NullableCheckedChanged  | event                                                                      |              | Occurs when the check state of nullable value is changed. **[WILL BE REMOVED]**       |
+| RadioGroup              | string                                                                     | null         | Sets the radio group name.                                                            |
+| IsInline                | boolean                                                                    | false        | Group checkboxes or radios on the same horizontal row.                                |
+| Cursor                  | [Cursor]({{ "/docs/helpers/enums/#cursor" | relative_url }})               | `Default`    | Defines the mouse cursor based on the behaviour by the current css framework.         |
