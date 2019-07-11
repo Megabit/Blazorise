@@ -30,7 +30,7 @@ For radio control you must set the `RadioGroup` attribute.
 ### With bind attribute
 
 ```html
-<CheckEdit bind-Checked="@rememberMe">Remember Me</CheckEdit>
+<CheckEdit @bind-Checked="@rememberMe">Remember Me</CheckEdit>
 
 @code{
     bool rememberMe;

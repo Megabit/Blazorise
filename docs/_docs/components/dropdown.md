@@ -57,7 +57,7 @@ Just add another `Button` to have a split dropdown.
 By default a dropdown toggle will open and close a dropdown menu without the need to do it manually. In case you need to control the menu programatically you have to use the Dropdown reference.
 
 ```html
-<Dropdown ref="dropdown">
+<Dropdown @ref="dropdown">
     <DropdownToggle />
     <DropdownMenu>
         ...

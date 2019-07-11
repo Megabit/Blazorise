@@ -23,7 +23,7 @@ MemoEdit is used to create multiline text input (textarea).
 By using `bind-*` attribute the text will be automatically assigned to the member variable.
 
 ```html
-<MemoEdit bind-Text="@description" />
+<MemoEdit @bind-Text="@description" />
 
 @code{
     string description;

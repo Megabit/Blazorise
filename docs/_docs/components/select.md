@@ -60,7 +60,7 @@ The process is basically the same for the single and for multiple select. The on
 By using `bind-*` attribute the selected item value will be automatically assigned to the member variable.
 
 ```html
-<SelectEdit bind-SelectedValue="@selectedValue">
+<SelectEdit @bind-SelectedValue="@selectedValue">
     <SelectItem Value="1">1</SelectItem>
     <SelectItem Value="2">2</SelectItem>
     <SelectItem Value="3">3</SelectItem>

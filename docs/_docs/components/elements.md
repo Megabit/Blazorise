@@ -127,7 +127,7 @@ To show alert just set `IsShow` attribute to true.
 or programatically
 
 ```cs
-<Alert ref="myAlert" Color="Color.Success">
+<Alert @ref="myAlert" Color="Color.Success">
     ...
 </Alert>
 

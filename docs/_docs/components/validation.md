@@ -66,7 +66,7 @@ Sometimes you don't want to do validation on every input change. In that case yo
 In this example you can see how the `<Validations>` component is used to enclose multiple validation components and the `Mode` attribute is set to Manual. Validation is executed only when clicked on submit button.
 
 ```html
-<Validations ref="validations" Mode="ValidationMode.Manual">
+<Validations @ref="validations" Mode="ValidationMode.Manual">
     <Validation Validator="@ValidateEmail">
         ...
     </Validation>

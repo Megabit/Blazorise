@@ -21,7 +21,7 @@ toc_label: "Guide"
 By using `bind-*` attribute the selected date will be automatically assigned to the member variable.
 
 ```html
-<DateEdit bind-Date="@selectedDate" />
+<DateEdit @bind-Date="@selectedDate" />
 
 @code{
     DateTime? selectedDate;

@@ -60,7 +60,7 @@ You should always define `TItem` data type.
 ```html
 <SimpleButton Clicked="@(async () => await HandleRedraw())">Redraw</SimpleButton>
 
-<LineChart ref="lineChart" TItem="double" />
+<LineChart @ref="lineChart" TItem="double" />
 ```
 ```cs
 @code{

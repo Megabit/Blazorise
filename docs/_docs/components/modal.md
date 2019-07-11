@@ -30,7 +30,7 @@ Place the modal markup somewhere at root of you component layout.
 ```html
 <SimpleButton Clicked="@ShowModal">Show Modal</SimpleButton>
 
-<Modal ref="modalRef">
+<Modal @ref="modalRef">
     <ModalBackdrop />
     <ModalContent IsCentered="true">
         <ModalHeader>
@@ -79,7 +79,7 @@ To work with the modal you must use the reference to the `Modal` component.
 If you want to prevent modal from closing you can use `Closing` event.
 
 ```html
-<Modal ref="modalRef" Closing="@OnModalClosing">
+<Modal @ref="modalRef" Closing="@OnModalClosing">
     ...
 </Modal>
 ```

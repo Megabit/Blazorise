@@ -101,7 +101,7 @@ TextEdit by itself is not really usable if you can't use it. To get or set the i
 By using `bind-*` attribute the text will be automatically assigned to the member variable.
 
 ```html
-<TextEdit bind-Text="@name" />
+<TextEdit @bind-Text="@name" />
 
 @code{
     string name;
