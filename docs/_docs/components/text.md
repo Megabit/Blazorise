@@ -129,7 +129,7 @@ When using the event `TextChanged`, you also must define the `Text` value attrib
 
 ### TextChanged mode
 
-By default the TextChanged event will be raised only when component loses focus. To override default behaviour of TextChanged event you must set the `ChangeTextOnKeyPress` to true on application start.
+By default the TextChanged event will be raised on every keypress. To override default behaviour of `TextChanged` event and to disable the change on every keypress you must set the `ChangeTextOnKeyPress` to `false` on application start. After setting it to `false` the event will be raised only after the input loses focus.
 
 ```cs
 public void ConfigureServices( IServiceCollection services )
@@ -137,7 +137,7 @@ public void ConfigureServices( IServiceCollection services )
   services
     .AddBlazorise( options =>
     {
-      options.ChangeTextOnKeyPress = true;
+      options.ChangeTextOnKeyPress = false;
     } );
 }
 ```
