@@ -34,6 +34,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the page name.
+        /// </summary>
         [Parameter]
         protected string Page { get; set; }
 

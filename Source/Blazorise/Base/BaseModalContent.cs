@@ -35,6 +35,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Makes the modal as classic dialog with header, body and footer. Used only by bulma https://bulma.io/documentation/components/modal/
+        /// </summary>
         [Parameter]
         protected bool IsForm
         {
@@ -48,6 +51,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Centers the modal vertically.
+        /// </summary>
         [Parameter]
         protected bool IsCentered
         {
@@ -61,6 +67,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Changes the size of the modal.
+        /// </summary>
         [Parameter]
         protected virtual ModalSize Size
         {

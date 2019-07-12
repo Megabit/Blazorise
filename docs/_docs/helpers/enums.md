@@ -95,3 +95,11 @@ Defines the chart type.
 - `Doughnut`
 - `PolarArea`
 - `Radar`
+
+## Screenreader
+
+Defines the visibility for screen readers.
+
+- `Always` Default.
+- `Only` Hide an element to all devices except screen readers.
+- `OnlyFocusable` Show the element again when it’s focused.

@@ -52,7 +52,7 @@ namespace Blazorise.Base
         }
 
         /// <summary>
-        /// Sets the field help-text postioned bellow the field.
+        /// Sets the field help-text positioned bellow the field.
         /// </summary>
         [Parameter]
         protected string Help

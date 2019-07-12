@@ -97,6 +97,8 @@ When using the event `SelectedValueChanged`, you also must define the `SelectedV
 
 ## Attributes
 
+### SelectEdit
+
 | Name                  | Type      | Default | Description                                                                                  |
 |-----------------------|-----------|---------|----------------------------------------------------------------------------------------------|
 | IsMultiple            | boolean   | false   | Specifies that multiple items can be selected.                                               |
@@ -104,3 +106,16 @@ When using the event `SelectedValueChanged`, you also must define the `SelectedV
 | SelectedValues        | generic[] |         | Selected item value when in multi edit mode.                                                 |
 | SelectedValueChanged  | action    |         | Occurs when the selected item value has changed.                                             |
 | SelectedValuesChanged | action    |         | Occurs when the selected items value has changed (only when IsMultiple==true).               |
+
+### SelectItem
+
+| Name                  | Type      | Default | Description                                                                                  |
+|-----------------------|-----------|---------|----------------------------------------------------------------------------------------------|
+| Value                 | generic   |         | Gets or sets the item value.                                                                 |
+| IsDisabled            | boolean   | false   | Disable the item from mouse click.                                                           |
+
+### SelectGroup
+
+| Name                  | Type      | Default | Description                                                                                  |
+|-----------------------|-----------|---------|----------------------------------------------------------------------------------------------|
+| Label                 | string    |         | Gets or sets the group label.                                                                |

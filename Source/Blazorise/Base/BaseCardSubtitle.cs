@@ -31,6 +31,12 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Number from 1 to 6 that defines the subtitle size where the smaller number means larger text.
+        /// </summary>
+        /// <remarks>
+        /// todo: change to enum
+        /// </remarks>
         [Parameter]
         protected int Size
         {

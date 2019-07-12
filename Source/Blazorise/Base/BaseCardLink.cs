@@ -28,8 +28,14 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Link url.
+        /// </summary>
         [Parameter] protected string Source { get; set; }
 
+        /// <summary>
+        /// Alternative link text.
+        /// </summary>
         [Parameter] protected string Alt { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }

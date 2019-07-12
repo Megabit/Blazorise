@@ -39,8 +39,14 @@ namespace Blazorise.Base
         /// </summary>
         protected string StringValue => Value?.ToString();
 
+        /// <summary>
+        /// Gets or sets the item value.
+        /// </summary>
         [Parameter] internal protected TValue Value { get; set; }
 
+        /// <summary>
+        /// Disable the item from mouse click.
+        /// </summary>
         [Parameter] protected bool IsDisabled { get; set; }
 
         [CascadingParameter] protected BaseSelect<TValue> ParentSelect { get; set; }

@@ -137,7 +137,7 @@ To attach buttons together use a Toolbar role.
 | Size       | [ButtonSize]({{ "/docs/helpers/sizes/#buttonsize" | relative_url }})    | `None`   | Button size variations.                              |
 | Type       | [ButtonType]({{ "/docs/helpers/enums/#buttontype" | relative_url }})    | `Button` | Defines the button type.                              |
 | Clicked    | event                                                                   |          | Occurs when the button is clicked.                   |
-| IsOutline  | boolean                                                                 | false    | Outlined button                                      |
+| IsOutline  | boolean                                                                 | false    | Outlined button.                                      |
 | IsDisabled | boolean                                                                 | false    | Makes button look inactive.                          |
 | IsActive   | boolean                                                                 | false    | Makes the button to appear as pressed.               |
 | IsBlock    | boolean                                                                 | false    | Makes the button to span the full width of a parent. |

@@ -27,3 +27,13 @@ Defines a button size.
 
 **Keep in mind:** All elements have a size `None` specified by default.
 {: .notice--info}
+
+## ModalSize
+
+Changes the size of the modal.
+
+- `None` No sizing applied.
+- `Default` Default modal size for current provider.
+- `Small` Small modal.
+- `Large` Large modal.
+- `ExtraLarge` Extra large modal.

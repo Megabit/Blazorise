@@ -34,6 +34,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Indicate the currently active page.
+        /// </summary>
         [Parameter]
         internal protected bool IsActive
         {
@@ -46,6 +49,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Used for links that appear un-clickable.
+        /// </summary>
         [Parameter]
         protected bool IsDisabled
         {

@@ -103,8 +103,26 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
 
 ## Attributes
 
+### Field
+
 | Name            | Type                                                                              | Default   | Description                                                                                                             |
 |-----------------|-----------------------------------------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------|
 | IsHorizontal    | boolean                                                                           | false     | Aligns the controls for horizontal form.                                                                                |
 | ColumnSize      | [ColumnSize]({{ "/docs/helpers/utilities/#columnsize" | relative_url }})          | null      | Determines how much space will be used by the field inside of the grid row.                                             |
 | JustifyContent  | [JustifyContent]({{ "/docs/helpers/enums/#justifycontent" | relative_url }})      | `None`    | Aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally).    |
+
+### FieldLabel
+
+| Name            | Type                                                                              | Default   | Description                                                                                                             |
+|-----------------|-----------------------------------------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------|
+| IsCheck         | boolean                                                                           | false     | Label is used by the checkbox.                                                                                          |
+| IsFile          | boolean                                                                           | false     | Label is used by the file input.                                                                                        |
+| Screenreader    | [Screenreader]({{ "/docs/helpers/enums/#screenreader" | relative_url }})          | `Always`  | Defines the visibility for screen readers.                                                                              |
+
+### Fields
+
+| Name            | Type                                                                              | Default   | Description                                                                                                             |
+|-----------------|-----------------------------------------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------|
+| Label           | string                                                                            | false     | Sets the field group label.                                                                                             |
+| Help            | string                                                                            | false     | Sets the field group  help-text positioned bellow the field.                                                            |
+| ColumnSize      | [ColumnSize]({{ "/docs/helpers/utilities/#columnsize" | relative_url }})          | null      | Determines how much space will be used by the field inside of the grid row.                                             |

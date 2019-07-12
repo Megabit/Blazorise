@@ -88,9 +88,33 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
 
 ## Attributes
 
+### Dropdown
+
 | Name           | Type                                                                   | Default   | Description                                                                                                                    |
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
 | IsOpen         | boolean                                                                | false     | Handles the visibility of dropdown menu.                                                                                       |
 | IsRightAligned | boolean                                                                | false     | Right aligned dropdown menu.                                                                                                   |
 | Direction      | [Direction]({{ "/docs/helpers/enums/#direction" | relative_url }})     | `Down`    | Direction of an dropdown menu.                                                                                                 |
 | Toggled        | event                                                                  |           | Occurs after the dropdown menu visibility has changed.                                                                         |
+
+### DropdownMenu
+
+| Name           | Type                                                                   | Default   | Description                                                                                                                    |
+|----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
+| IsRightAligned | boolean                                                                | false     | Right aligned dropdown menu.                                                                                                   |
+
+### DropdownItem
+
+| Name           | Type                                                                   | Default   | Description                                                                                                                    |
+|----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
+| Value          | object                                                                 | null      | Holds the item value.                                                                                                          |
+| Clicked        | event                                                                  |           | Occurs when the item is clicked.                                                                                               |
+
+### DropdownToggle
+
+| Name           | Type                                                                   | Default   | Description                                                                                                                    |
+|----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
+| Color          | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})           | `None`    | Component visual or contextual style variants.                                                                                 |
+| Size           | [ButtonSize]({{ "/docs/helpers/sizes/#buttonsize" | relative_url }})   | `None`    | Button size variations.                                                                                                        |
+| IsSplit        | boolean                                                                | false     | Handles the visibility of split button.                                                                                        |
+| IsOutline      | boolean                                                                | false     | Outlined button                                                                                                                |

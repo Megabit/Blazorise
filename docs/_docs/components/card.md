@@ -41,7 +41,35 @@ The card component comprises several elements that you can mix and match:
 
 ## Attributes
 
+### Card
+
 | Name          | Type                                                                       | Default          | Description                                                                                 |
 |---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
 | IsWhiteText   | boolean                                                                    | false            | Sets the white text when using the darker background.                                       |
 | Background    | [Background]({{ "/docs/helpers/colors/#background" | relative_url }})      | `None`           | Sets the bar background color.                                                              |
+
+### CardTitle
+
+| Name          | Type                                                                       | Default          | Description                                                                                 |
+|---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| Size          | int?                                                                       | null             | Number from 1 to 6 that defines the title size where the smaller number means larger text.  |
+
+### CardSubtitle
+
+| Name          | Type                                                                       | Default          | Description                                                                                 |
+|---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| Size          | int                                                                        | 6                | Number from 1 to 6 that defines the subtitle size where the smaller number means larger text.  |
+
+### CardLink
+
+| Name          | Type                                                                       | Default          | Description                                                                                 |
+|---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| Source        | string                                                                     | null             | Link url.                                                                                   |
+| Alt           | string                                                                     | null             | Alternative link text.                                                                      |
+
+### CardImage
+
+| Name          | Type                                                                       | Default          | Description                                                                                 |
+|---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| Source        | string                                                                     | null             | Image url.                                                                                  |
+| Alt           | string                                                                     | null             | Alternative image text.                                                                     |

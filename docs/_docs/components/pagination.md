@@ -48,8 +48,24 @@ toc_label: "Guide"
 
 ## Attributes
 
+### Pagination
+
 | Name          | Type                                                                       | Default          | Description                                                                                 |
 |---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
 | Size          | [Size]({{ "/docs/helpers/sizes/#size" | relative_url }})                   | `None`           | Gets or sets the pagination size.                                                           |
 | Alignment     | [Alignment]({{ "/docs/helpers/enums/#alignment" | relative_url }})         | `None`           | Gets or sets the pagination alignment.                                                      |
 | Background    | [Background]({{ "/docs/helpers/colors/#background" | relative_url }})      | `None`           | Gets or sets the pagination background color.                                               |
+
+### PaginationItem
+
+| Name          | Type                                                                       | Default          | Description                                                                                 |
+|---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| IsActive      | boolean                                                                    | false            | Indicate the currently active page.                                                         |
+| IsDisabled    | boolean                                                                    | false            | Used for links that appear un-clickable.                                                    |
+
+### PaginationLink
+
+| Name          | Type                                                                       | Default          | Description                                                                                 |
+|---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| Page          | string                                                                     | false            | Defines the page name.                                                                      |
+| Clicked       | event                                                                      |                  | Occurs when the item link is clicked.                                                       |

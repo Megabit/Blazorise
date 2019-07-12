@@ -55,6 +55,9 @@ namespace Blazorise.Base
         /// </summary>
         [Parameter] internal protected string Name { get; set; }
 
+        /// <summary>
+        /// Sets the active tab.
+        /// </summary>
         [Parameter]
         internal protected bool IsActive
         {
