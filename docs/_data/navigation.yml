@@ -16,6 +16,8 @@ docs:
       url: /docs/start/
     - title: Usage
       url: /docs/usage/
+    - title: Theming
+      url: /docs/theming/
   - title: Form
     url: /docs/forms/
     children:
