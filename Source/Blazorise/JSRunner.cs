@@ -25,6 +25,16 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.init", elementRef, DotNetObjectRef.Create( componentRef ) );
         }
 
+        public Task<bool> Initialize( string path, string elementId, ElementRef elementRef, string mask )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.{path}.initialize", elementId, elementRef, mask );
+        }
+
+        public Task<bool> Destroy( string path, string elementId, ElementRef elementRef, string mask )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.{path}.destroy", elementId, elementRef, mask );
+        }
+
         public Task<bool> AddClass( ElementRef elementRef, string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.addClass", elementRef, classname );

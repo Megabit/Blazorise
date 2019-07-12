@@ -2,7 +2,7 @@
 @inherits Blazorise.Base.BaseTextEdit
 @if ( !HasCustomRegistration )
 {
-    <input @ref="ElementRef" type="@Type" inputmode="@Mode" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" maxlength="@MaxLength" pattern="@Pattern" value="@Text" @onchange="@HandleOnChange" @oninput="@HandleOnInput" />
+    <input @ref="ElementRef" id="@ElementId" type="@Type" inputmode="@Mode" class="@ClassMapper.Class" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" maxlength="@MaxLength" pattern="@Pattern" value="@Text" @onchange="@HandleOnChange" @oninput="@HandleOnInput" />
     @ChildContent
     @Feedback
 }

@@ -25,6 +25,20 @@ namespace Blazorise.Base
             base.OnInit();
         }
 
+        protected override Task OnFirstAfterRenderAsync()
+        {
+            JSRunner.Initialize( "textEdit", ElementId, ElementRef, Mask );
+
+            return base.OnFirstAfterRenderAsync();
+        }
+
+        public override void Dispose()
+        {
+            JSRunner.Destroy( "textEdit", ElementId, ElementRef, Mask );
+
+            base.Dispose();
+        }
+
         public override Task SetParametersAsync( ParameterCollection parameters )
         {
             // This is needed for the two-way binding to work properly.
@@ -67,6 +81,11 @@ namespace Blazorise.Base
         /// Occurs after text has changed.
         /// </summary>
         [Parameter] protected EventCallback<string> TextChanged { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Parameter] protected string Mask { get; set; }
 
         /// <summary>
         /// Specifies the maximum number of characters allowed in the input element.

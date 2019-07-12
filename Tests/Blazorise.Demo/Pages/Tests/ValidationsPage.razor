@@ -11,7 +11,7 @@
                     <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidationRule.IsNotEmpty">
-                            <TextEdit Placeholder="First and last name">
+                            <TextEdit Placeholder="First and last name" Mask="^[0-9]*$">
                                 <Feedback>
                                     <ValidationError>Enter full name!</ValidationError>
                                 </Feedback>

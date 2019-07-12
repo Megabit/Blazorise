@@ -147,6 +147,49 @@ window.blazorise = {
                     }
                 });
         }
+    },
+    textEdit: {
+        _instances: [],
+
+        initialize: (elementId, element, mask) => {
+            console.log("hello " + elementId);
+
+            window.blazorise.textEdit._instances[elementId] = new window.blazorise.textEdit.maskValidator(elementId, element, mask);
+
+            element.addEventListener("keypress", (e) => {
+                window.blazorise.textEdit.keyPress(window.blazorise.textEdit._instances[elementId], e);
+            });
+        },
+        destroy: (elementId, element) => {
+            console.log("good bye: " + elementId);
+
+            element.removeEventListener("keypress", (e) => {
+                window.blazorise.textEdit.keyPress(window.blazorise.textEdit._instances[elementId], e);
+            });
+
+            delete window.blazorise.textEdit._instances[elementId];
+        },
+        keyPress: (validator, e) => {
+            var r = String.fromCharCode(e.which);
+
+            if (validator.mask) {
+                return validator.isValid(r) || e.preventDefault();
+            }
+
+            return true;
+        },
+        maskValidator: function (elementId, element, mask) {
+            this.elementId = elementId;
+            this.element = element;
+            this.mask = mask;
+            this.regex = function () {
+                return new RegExp(this.mask);
+            };
+            this.isValid = function (value) {
+                console.log(value);
+                return this.regex().test(value);
+            };
+        }
     }
 };
 

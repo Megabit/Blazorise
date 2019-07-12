@@ -12,6 +12,10 @@ namespace Blazorise
     {
         Task<bool> Init( ElementRef elementRef, object componentRef );
 
+        Task<bool> Initialize( string path, string elementId, ElementRef elementRef, string mask );
+
+        Task<bool> Destroy( string path, string elementId, ElementRef elementRef, string mask );
+
         Task<bool> AddClass( ElementRef elementRef, string classname );
 
         Task<bool> RemoveClass( ElementRef elementRef, string classname );
