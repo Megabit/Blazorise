@@ -12,6 +12,14 @@ namespace Blazorise
     {
         Task<bool> Init( ElementRef elementRef, object componentRef );
 
+        Task<bool> InitializeTextEdit( string elementId, ElementRef elementRef, string maskType, string editMask );
+
+        Task<bool> DestroyTextEdit( string elementId, ElementRef elementRef );
+
+        Task<bool> InitializeNumericEdit( string elementId, ElementRef elementRef, int decimals, string decimalsSeparator, decimal? step );
+
+        Task<bool> DestroyNumericEdit( string elementId, ElementRef elementRef );
+
         Task<bool> AddClass( ElementRef elementRef, string classname );
 
         Task<bool> RemoveClass( ElementRef elementRef, string classname );

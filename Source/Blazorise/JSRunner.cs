@@ -25,6 +25,26 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.init", elementRef, DotNetObjectRef.Create( componentRef ) );
         }
 
+        public Task<bool> InitializeTextEdit( string elementId, ElementRef elementRef, string maskType, string editMask )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementId, elementRef, maskType, editMask );
+        }
+
+        public Task<bool> DestroyTextEdit( string elementId, ElementRef elementRef )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementId, elementRef );
+        }
+
+        public Task<bool> InitializeNumericEdit( string elementId, ElementRef elementRef, int decimals, string decimalsSeparator, decimal? step )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", elementId, elementRef, decimals, decimalsSeparator, step );
+        }
+
+        public Task<bool> DestroyNumericEdit( string elementId, ElementRef elementRef )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementId, elementRef );
+        }
+
         public Task<bool> AddClass( ElementRef elementRef, string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.addClass", elementRef, classname );
