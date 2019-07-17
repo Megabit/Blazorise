@@ -52,18 +52,16 @@ namespace Blazorise.Base
         {
             if ( !rendered )
             {
-                await OnFirstAfterRenderAsync();
-
                 rendered = true;
+
+                await OnFirstAfterRenderAsync();
             }
 
-            //await base.OnAfterRenderAsync();
+            await base.OnAfterRenderAsync();
         }
 
         protected virtual Task OnFirstAfterRenderAsync()
-        {
-            return Task.CompletedTask;
-        }
+            => Task.CompletedTask;
 
         protected virtual void RegisterClasses()
         {

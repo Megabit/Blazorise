@@ -235,10 +235,10 @@ window.blazorise = {
         this.elementId = elementId;
         this.element = element;
         this.decimals = decimals || 2;
-        this.separator = separator || "\\.";
+        this.separator = separator || ".";
         this.step = step || 1;
         this.regex = function () {
-            var sep = this.separator,
+            var sep = "\\" + this.separator,
                 dec = this.decimals,
                 reg = "{0," + dec + "}";
 
