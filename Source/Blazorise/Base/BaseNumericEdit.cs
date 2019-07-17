@@ -27,6 +27,20 @@ namespace Blazorise.Base
             base.OnInit();
         }
 
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            await JSRunner.InitializeNumericEdit( ElementId, ElementRef, Decimals, DecimalsSeparator, Step );
+
+            await base.OnFirstAfterRenderAsync();
+        }
+
+        public override void Dispose()
+        {
+            JSRunner.DestroyNumericEdit( ElementId, ElementRef );
+
+            base.Dispose();
+        }
+
         public override Task SetParametersAsync( ParameterCollection parameters )
         {
             // This is needed for the two-way binding to work properly.
@@ -78,6 +92,16 @@ namespace Blazorise.Base
         /// Specifies the interval between valid values.
         /// </summary>
         [Parameter] protected decimal? Step { get; set; }
+
+        /// <summary>
+        /// Maximum number of decimal places after the decimal separator.
+        /// </summary>
+        [Parameter] protected int Decimals { get; set; } = 2;
+
+        /// <summary>
+        /// String to use as the decimal separator in numeric values.
+        /// </summary>
+        [Parameter] protected string DecimalsSeparator { get; set; } = ".";
 
         ///// <summary>
         ///// The minimum value to accept for this input.

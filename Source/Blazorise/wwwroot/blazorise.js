@@ -151,45 +151,147 @@ window.blazorise = {
     textEdit: {
         _instances: [],
 
-        initialize: (elementId, element, mask) => {
-            console.log("hello " + elementId);
+        initialize: (elementId, element, maskType, editMask) => {
+            var instances = window.blazorise.textEdit._instances = window.blazorise.textEdit._instances || {};
 
-            window.blazorise.textEdit._instances[elementId] = new window.blazorise.textEdit.maskValidator(elementId, element, mask);
+            if (maskType === "numeric") {
+                instances[elementId] = new window.blazorise.NumericMaskValidator(elementId, element);
+            }
+            else if (maskType === "datetime") {
+                instances[elementId] = new window.blazorise.DateTimeMaskValidator(elementId, element);
+            }
+            else if (maskType === "regex") {
+                instances[elementId] = new window.blazorise.RegExMaskValidator(elementId, element, editMask);
+            }
+            else {
+                instances[elementId] = new window.blazorise.NoValidator();
+            }
 
             element.addEventListener("keypress", (e) => {
-                window.blazorise.textEdit.keyPress(window.blazorise.textEdit._instances[elementId], e);
+                window.blazorise.textEdit.keyPress(instances[elementId], e);
+            });
+
+            element.addEventListener("paste", (e) => {
+                window.blazorise.textEdit.paste(instances[elementId], e);
             });
         },
         destroy: (elementId, element) => {
-            console.log("good bye: " + elementId);
-
-            element.removeEventListener("keypress", (e) => {
-                window.blazorise.textEdit.keyPress(window.blazorise.textEdit._instances[elementId], e);
-            });
-
-            delete window.blazorise.textEdit._instances[elementId];
+            var instances = window.blazorise.textEdit._instances || {};
+            delete instances[elementId];
         },
         keyPress: (validator, e) => {
-            var r = String.fromCharCode(e.which);
+            var currentValue = String.fromCharCode(e.which);
 
-            if (validator.mask) {
-                return validator.isValid(r) || e.preventDefault();
-            }
-
-            return true;
+            return validator.isValid(currentValue) || e.preventDefault();
         },
-        maskValidator: function (elementId, element, mask) {
-            this.elementId = elementId;
-            this.element = element;
-            this.mask = mask;
-            this.regex = function () {
-                return new RegExp(this.mask);
-            };
-            this.isValid = function (value) {
-                console.log(value);
-                return this.regex().test(value);
-            };
+        paste: (validator, e) => {
+            return validator.isValid(e.clipboardData.getData("text/plain")) || e.preventDefault();
         }
+    },
+    numericEdit: {
+        _instances: [],
+
+        initialize: (elementId, element, decimals, separator, step) => {
+            window.blazorise.numericEdit._instances[elementId] = new window.blazorise.NumericMaskValidator(elementId, element, decimals, separator, step);
+
+            element.addEventListener("keypress", (e) => {
+                window.blazorise.numericEdit.keyPress(window.blazorise.numericEdit._instances[elementId], e);
+            });
+
+            element.addEventListener("keydown", (e) => {
+                window.blazorise.numericEdit.keyDown(window.blazorise.numericEdit._instances[elementId], e);
+            });
+
+            element.addEventListener("paste", (e) => {
+                window.blazorise.numericEdit.paste(window.blazorise.numericEdit._instances[elementId], e);
+            });
+        },
+        destroy: (elementId, element) => {
+            var instances = window.blazorise.numericEdit._instances || {};
+            delete instances[elementId];
+        },
+        keyDown: (validator, e) => {
+            if (e.which === 38) {
+                validator.stepApply(1);
+            } else if (e.which === 40) {
+                validator.stepApply(-1);
+            }
+        },
+        keyPress: (validator, e) => {
+            var currentValue = String.fromCharCode(e.which);
+
+            return validator.isValid(currentValue) || e.preventDefault();
+        },
+        paste: (validator, e) => {
+            return validator.isValid(e.clipboardData.getData("text/plain")) || e.preventDefault();
+        }
+    },
+    NoValidator: function () {
+        this.isValid = function (currentValue) {
+            return true;
+        };
+    },
+    NumericMaskValidator: function (elementId, element, decimals, separator, step) {
+        this.elementId = elementId;
+        this.element = element;
+        this.decimals = decimals || 2;
+        this.separator = separator || "\\.";
+        this.step = step || 1;
+        this.regex = function () {
+            var sep = this.separator,
+                dec = this.decimals,
+                reg = "{0," + dec + "}";
+
+            return dec ? new RegExp("^(-)?(((\\d+(" + sep + "\\d" + reg + ")?)|(" + sep + "\\d" + reg + ")))?$") : /^(-)?(\d*)$/;
+        };
+        this.carret = function () {
+            return [this.element.selectionStart, this.element.selectionEnd];
+        };
+        this.isValid = function (currentValue) {
+            var value = this.element.value,
+                selection = this.carret();
+
+            return value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value);
+        };
+        this.stepApply = function (sign) {
+            var value = (this.element.value || "").replace(this.separator, ".");
+            var number = Number(value);
+            number = number + (this.step * sign);
+            this.element.value = number.toString().replace(".", this.separator);
+        };
+    },
+    DateTimeMaskValidator: function (elementId, element) {
+        this.elementId = elementId;
+        this.element = element;
+        this.regex = function () {
+            return /^\d{0,4}$|^\d{4}-0?$|^\d{4}-(?:0?[1-9]|1[012])(?:-(?:0?[1-9]?|[12]\d|3[01])?)?$/;
+        };
+        this.carret = function () {
+            return [this.element.selectionStart, this.element.selectionEnd];
+        };
+        this.isValid = function (currentValue) {
+            var value = this.element.value,
+                selection = this.carret();
+
+            return value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value);
+        };
+    },
+    RegExMaskValidator: function (elementId, element, editMask) {
+        this.elementId = elementId;
+        this.element = element;
+        this.editMask = editMask;
+        this.regex = function () {
+            return new RegExp(this.editMask);
+        };
+        this.carret = function () {
+            return [this.element.selectionStart, this.element.selectionEnd];
+        };
+        this.isValid = function (currentValue) {
+            var value = this.element.value,
+                selection = this.carret();
+
+            return value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value);
+        };
     }
 };
 
