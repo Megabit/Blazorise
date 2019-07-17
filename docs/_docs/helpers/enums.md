@@ -103,3 +103,12 @@ Defines the visibility for screen readers.
 - `Always` Default.
 - `Only` Hide an element to all devices except screen readers.
 - `OnlyFocusable` Show the element again when it’s focused.
+
+## MaskType
+
+Lists values that specify the type of mask used by an editor.
+
+- `None` Specifies that the mask feature is disabled.
+- `Numeric` Specifies that the editor should accept numeric values and that the mask string must use the Numeric format syntax.
+- `DateTime` Specifies that the editor should accept date/time values and that the mask string must use the DateTime format syntax.
+- `RegEx` Specifies that the mask should be created using full-functional regular expressions.
