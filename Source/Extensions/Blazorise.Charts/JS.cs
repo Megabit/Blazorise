@@ -1,5 +1,6 @@
 #region Using directives
 using Microsoft.JSInterop;
+using System.Linq;
 using System.Threading.Tasks;
 #endregion
 
@@ -8,9 +9,9 @@ namespace Blazorise.Charts
     static class JS
     {
         // TODO: clean this
-        public static Task<bool> SetChartData( IJSRuntime runtime, string id, ChartType type, object data, object options )
+        public static Task<bool> SetChartData<TItem, TOptions>( IJSRuntime runtime, string id, ChartType type, ChartData<TItem> data, TOptions options )
         {
-            return runtime.InvokeAsync<bool>( "blazoriseCharts.setChartData", id, ToChartTypeString( type ), data, options, data is string, options is string );
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.setChartData", id, ToChartTypeString( type ), ToChartDataSet( data ), options);
         }
 
         public static string ToChartTypeString( ChartType type )
@@ -31,6 +32,15 @@ namespace Blazorise.Charts
                 default:
                     return "line";
             }
+        }
+
+        private static object ToChartDataSet<T>( ChartData<T> data )
+        {
+            return new
+            {
+                data.Labels,
+                Datasets = data.Datasets.Select( d => d as object ).ToList()
+            };
         }
     }
 }
