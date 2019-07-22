@@ -16,7 +16,7 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Bar</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( barChart, GetChartDataset ))">Redraw</SimpleButton>
+                <SimpleButton Clicked="@(async () => await HandleRedraw( barChart, GetBarChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
                 <Chart @ref="barChart" Type="ChartType.Bar" TItem="double" />
@@ -27,7 +27,7 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Pie</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( pieChart, GetChartDataset ))">Redraw</SimpleButton>
+                <SimpleButton Clicked="@(async () => await HandleRedraw( pieChart, GetPieChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
                 <Chart @ref="pieChart" Type="ChartType.Pie" TItem="double" />
@@ -40,7 +40,7 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Polar Area</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( polarAreaChart, GetChartDataset ))">Redraw</SimpleButton>
+                <SimpleButton Clicked="@(async () => await HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
                 <Chart @ref="polarAreaChart" Type="ChartType.PolarArea" TItem="double" />
@@ -62,7 +62,7 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Doughnut</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( doughnutChart, GetChartDataset ))">Redraw</SimpleButton>
+                <SimpleButton Clicked="@(async () => await HandleRedraw( doughnutChart, GetDoughnutChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
                 <Chart @ref="doughnutChart" Type="ChartType.Doughnut" TItem="double" />
@@ -92,10 +92,10 @@
 
             await Task.WhenAll(
                 HandleRedraw( lineChart, GetLineChartDataset ),
-                HandleRedraw( barChart, GetChartDataset ),
-                HandleRedraw( pieChart, GetChartDataset ),
-                HandleRedraw( doughnutChart, GetChartDataset ),
-                HandleRedraw( polarAreaChart, GetChartDataset ),
+                HandleRedraw( barChart, GetBarChartDataset ),
+                HandleRedraw( pieChart, GetPieChartDataset ),
+                HandleRedraw( doughnutChart, GetDoughnutChartDataset ),
+                HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ),
                 HandleRedraw( radarChart, GetRadarChartDataset ) );
         }
     }
@@ -133,10 +133,7 @@
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
             Fill = true,
-            PointRadius = 2,
-            //LineTension = 1,
-            BorderDash = new List<int> { },
-            SteppedLine = true
+            SteppedLine = false
         };
     }
 

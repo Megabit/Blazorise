@@ -39,7 +39,7 @@ namespace Blazorise.Charts
             return new
             {
                 data.Labels,
-                Datasets = data.Datasets.Select( d => d as object ).ToList()
+                Datasets = data.Datasets.ToList<object>()
             };
         }
     }

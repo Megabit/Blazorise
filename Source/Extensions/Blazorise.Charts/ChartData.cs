@@ -1,9 +1,6 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.Charts
@@ -39,6 +36,22 @@ namespace Blazorise.Charts
     [DataContract]
     public class ChartDataset<T>
     {
+
+        public ChartDataset() { }
+
+        protected ChartDataset(
+            string label,
+            List<string> backgroundColor,
+            List<string> borderColor,
+            int borderWidth
+        )
+        {
+            Label = label;
+            BackgroundColor = backgroundColor;
+            BorderColor = borderColor;
+            BorderWidth = borderWidth;
+        }
+
         /// <summary>
         /// Defines the dataset display name.
         /// </summary>
@@ -70,20 +83,31 @@ namespace Blazorise.Charts
         public int BorderWidth { get; set; } = 1;
     }
 
+    /// <remarks>
+    /// Defaults values as per https://www.chartjs.org/docs/latest/charts/line.html#dataset-properties
+    /// </remarks>
     [DataContract]
     public class LineChartDataset<T> : ChartDataset<T>
     {
+        public LineChartDataset() : base(
+            label: string.Empty,
+            backgroundColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
+            borderColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
+            borderWidth: 3
+        )
+        { }
+
         /// <summary>
         /// Length and spacing of dashes.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<int> BorderDash { get; set; }
+        public List<int> BorderDash { get; set; } = new List<int>();
 
         /// <summary>
         /// Offset for line dashes.
         /// </summary>
         [DataMember]
-        public int BorderDashOffset { get; set; }
+        public float BorderDashOffset { get; set; }
 
         /// <summary>
         /// Fill the area under the line.
@@ -92,34 +116,34 @@ namespace Blazorise.Charts
         public bool Fill { get; set; } = true;
 
         /// <summary>
-        /// Bezier curve tension of the line. Set to 0 to draw straightlines. This option is ignored if monotone cubic interpolation is used.
+        /// Bezier curve tension of the line. Set to 0f to draw straightlines. This option is ignored if monotone cubic interpolation is used.
         /// </summary>
         [DataMember]
-        public int LineTension { get; set; }
+        public float LineTension { get; set; } = 0.4f;
 
         /// <summary>
         /// The fill color for points.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> PointBackgroundColor { get; set; }
+        public List<string> PointBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
 
         /// <summary>
         /// The border color for points.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> PointBorderColor { get; set; }
+        public List<string> PointBorderColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
 
         /// <summary>
         /// The width of the point border in pixels.
         /// </summary>
         [DataMember]
-        public int PointBorderWidth { get; set; }
+        public int PointBorderWidth { get; set; } = 1;
 
         /// <summary>
         /// The radius of the point shape. If set to 0, the point is not rendered.
         /// </summary>
         [DataMember]
-        public float PointRadius { get; set; }
+        public float PointRadius { get; set; } = 3.0f;
 
         /// <summary>
         /// If false, the line is not drawn for this dataset.
@@ -140,46 +164,73 @@ namespace Blazorise.Charts
         public bool SteppedLine { get; set; }
     }
 
+    /// <remarks>
+    /// Defaults as per https://www.chartjs.org/docs/latest/charts/bar.html#dataset-properties
+    /// </remarks>
     [DataContract]
     public class BarChartDataset<T> : ChartDataset<T>
     {
+        public BarChartDataset() : base(
+            label: string.Empty,
+            backgroundColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
+            borderColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
+            borderWidth: 0
+        )
+        { }
+
         /// <summary>
         /// The fill colour of the bars when hovered.
         /// </summary>
+        /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#rectangle-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; }
+        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
 
         /// <summary>
         /// The stroke colour of the bars when hovered.
         /// </summary>
+        /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#rectangle-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; }
+        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
 
         /// <summary>
         /// The stroke width of the bars when hovered.
         /// </summary>
         [DataMember]
-        public int HoverBorderWidth { get; set; }
+        public int HoverBorderWidth { get; set; } = 1;
     }
 
+    /// <remarks>
+    /// Defaults as per https://www.chartjs.org/docs/latest/charts/doughnut.html#dataset-properties
+    /// </remarks>
     [DataContract]
     public class PieChartDataset<T> : ChartDataset<T>
     {
+        public PieChartDataset() : base(
+            label: string.Empty,
+            backgroundColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
+            borderColor: new List<string> { ChartColor.FromRgba(0xF, 0xF, 0xF, 1.0f) },
+            borderWidth: 2
+        )
+        { }
+
         /// <summary>
         /// The fill colour of the arcs when hovered.
         /// </summary>
+        /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; }
+        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
 
         /// <summary>
         /// The stroke colour of the arcs when hovered.
         /// </summary>
+        /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; }
+        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
 
         /// <summary>
         /// The stroke width of the arcs when hovered.
         /// </summary>
+        /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember]
         public int HoverBorderWidth { get; set; }
     }
@@ -190,42 +241,67 @@ namespace Blazorise.Charts
         // same as pie chart
     }
 
+    /// <remarks>
+    /// Defaults as per https://www.chartjs.org/docs/latest/charts/polar.html#dataset-properties
+    /// </remarks>
     [DataContract]
     public class PolarAreaChartDataset<T> : ChartDataset<T>
     {
+        public PolarAreaChartDataset() : base(
+            label: string.Empty,
+            backgroundColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
+            borderColor: new List<string> { ChartColor.FromRgba(0xF, 0xF, 0xF, 1.0f) },
+            borderWidth: 2
+        )
+        { }
+
         /// <summary>
         /// The fill colour of the arcs when hovered.
         /// </summary>
+        /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; }
+        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
 
         /// <summary>
         /// The stroke colour of the arcs when hovered.
         /// </summary>
+        /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; }
+        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
 
         /// <summary>
         /// The stroke width of the arcs when hovered.
         /// </summary>
+        /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember]
         public int HoverBorderWidth { get; set; }
     }
 
+    /// <remarks>
+    /// Defaults from https://www.chartjs.org/docs/latest/charts/radar.html#dataset-properties
+    /// </remarks>
     [DataContract]
     public class RadarChartDataset<T> : ChartDataset<T>
     {
+        public RadarChartDataset() : base(
+            label: string.Empty,
+            backgroundColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
+            borderColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
+            borderWidth: 3
+        )
+        { }
+
         /// <summary>
         /// How to fill the area under the line.
         /// </summary>
         [DataMember]
-        public bool Fill { get; set; }
+        public bool Fill { get; set; } = true;
 
         /// <summary>
         /// Bezier curve tension of the line. Set to 0 to draw straightlines.
         /// </summary>
         [DataMember]
-        public float LineTension { get; set; }
+        public float LineTension { get; set; } = 0.4f;
     }
 
     [DataContract]
