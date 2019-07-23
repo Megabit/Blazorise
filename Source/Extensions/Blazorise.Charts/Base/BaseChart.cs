@@ -124,13 +124,13 @@ namespace Blazorise.Charts.Base
         /// <summary>
         /// Defines the chart data that is serialized as json string.
         /// </summary>
-        [Obsolete("This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer.")]
+        [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
         [Parameter] protected string DataJsonString { get; set; }
 
         /// <summary>
         /// Defines the chart options that is serialized as json string.
         /// </summary>
-        [Obsolete("This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer.")]
+        [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
         [Parameter] protected string OptionsJsonString { get; set; }
 
         [Inject] IJSRuntime JSRuntime { get; set; }
