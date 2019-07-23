@@ -91,8 +91,8 @@ namespace Blazorise.Charts
     {
         public LineChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
-            borderColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
+            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 3
         )
         { }
@@ -125,13 +125,13 @@ namespace Blazorise.Charts
         /// The fill color for points.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> PointBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
+        public List<string> PointBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
 
         /// <summary>
         /// The border color for points.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> PointBorderColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
+        public List<string> PointBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
 
         /// <summary>
         /// The width of the point border in pixels.
@@ -172,8 +172,8 @@ namespace Blazorise.Charts
     {
         public BarChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
-            borderColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
+            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 0
         )
         { }
@@ -183,14 +183,14 @@ namespace Blazorise.Charts
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#rectangle-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
+        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
 
         /// <summary>
         /// The stroke colour of the bars when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#rectangle-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
+        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
 
         /// <summary>
         /// The stroke width of the bars when hovered.
@@ -207,8 +207,8 @@ namespace Blazorise.Charts
     {
         public PieChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
-            borderColor: new List<string> { ChartColor.FromRgba(0xF, 0xF, 0xF, 1.0f) },
+            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new List<string> { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
             borderWidth: 2
         )
         { }
@@ -218,14 +218,14 @@ namespace Blazorise.Charts
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
+        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
 
         /// <summary>
         /// The stroke colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
+        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
 
         /// <summary>
         /// The stroke width of the arcs when hovered.
@@ -249,8 +249,8 @@ namespace Blazorise.Charts
     {
         public PolarAreaChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
-            borderColor: new List<string> { ChartColor.FromRgba(0xF, 0xF, 0xF, 1.0f) },
+            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new List<string> { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
             borderWidth: 2
         )
         { }
@@ -260,14 +260,14 @@ namespace Blazorise.Charts
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
+        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
 
         /// <summary>
         /// The stroke colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) };
+        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
 
         /// <summary>
         /// The stroke width of the arcs when hovered.
@@ -285,8 +285,8 @@ namespace Blazorise.Charts
     {
         public RadarChartDataset() : base(
             label: string.Empty,
-            backgroundColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
-            borderColor: new List<string> { ChartColor.FromRgba(0, 0, 0, 0.1f) },
+            backgroundColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
+            borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 3
         )
         { }

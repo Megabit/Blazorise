@@ -9,9 +9,9 @@ namespace Blazorise.Charts
     static class JS
     {
         // TODO: clean this
-        public static Task<bool> SetChartData<TItem, TOptions>( IJSRuntime runtime, string id, ChartType type, ChartData<TItem> data, TOptions options )
+        public static Task<bool> SetChartData<TItem, TOptions>( IJSRuntime runtime, string id, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString )
         {
-            return runtime.InvokeAsync<bool>( "blazoriseCharts.setChartData", id, ToChartTypeString( type ), ToChartDataSet( data ), options);
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.setChartData", id, ToChartTypeString( type ), ToChartDataSet( data ), options, dataJsonString, optionsJsonString );
         }
 
         public static string ToChartTypeString( ChartType type )
