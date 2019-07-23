@@ -120,7 +120,7 @@
             Label = "# of randoms",
             Data = RandomizeData(),
             BackgroundColor = backgroundColors,
-            BorderColor = borderColors,
+            BorderColor = borderColors
         };
     }
 
@@ -133,7 +133,9 @@
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
             Fill = true,
-            SteppedLine = false
+            PointRadius = 3,
+            BorderWidth = 1,
+            PointBorderColor = Enumerable.Repeat(borderColors.First(), 6).ToList()
         };
     }
 
@@ -145,6 +147,7 @@
             Data = RandomizeData(),
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
+            BorderWidth = 1
         };
     }
 
@@ -157,6 +160,7 @@
             Data = RandomizeData(),
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
+            BorderWidth = 1
         };
     }
 
@@ -168,6 +172,7 @@
             Data = RandomizeData(),
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
+            BorderWidth = 1
         };
     }
 
@@ -179,6 +184,7 @@
             Data = RandomizeData(),
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
+            BorderWidth = 1
         };
     }
 
@@ -190,8 +196,8 @@
             Data = RandomizeData(),
             BackgroundColor = backgroundColors,
             BorderColor = borderColors,
-            Fill = false,
-            LineTension = 0.5f
+            LineTension = 0.0f,
+            BorderWidth = 1
         };
     }
 
