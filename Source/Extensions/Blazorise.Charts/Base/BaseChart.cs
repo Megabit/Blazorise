@@ -98,7 +98,7 @@ namespace Blazorise.Charts.Base
             {
                 dirty = false;
 
-                await JS.SetChartData( JSRuntime, ElementId, Type, DataJsonString ?? (object)Data, OptionsJsonString ?? (object)Options );
+                await JS.SetChartData( JSRuntime, ElementId, Type, Data, Options, DataJsonString, OptionsJsonString );
             }
         }
 

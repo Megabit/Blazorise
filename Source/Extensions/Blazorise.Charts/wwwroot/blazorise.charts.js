@@ -1,10 +1,10 @@
 window.blazoriseCharts = {
-    setChartData: (canvasId, type, data, options, dataIsString, optionsIsString) => {
-        if (dataIsString)
-            data = JSON.parse(data);
+    setChartData: (canvasId, type, data, options, dataJsonString, optionsJsonString) => {
+        if (dataJsonString)
+            data = JSON.parse(dataJsonString);
 
-        if (optionsIsString)
-            options = JSON.parse(options);
+        if (optionsJsonString)
+            options = JSON.parse(optionsJsonString);
 
         //console.log(type);
         //console.log(JSON.stringify(data));
