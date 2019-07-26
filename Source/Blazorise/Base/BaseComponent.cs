@@ -50,7 +50,9 @@ namespace Blazorise.Base
 
         protected override async Task OnAfterRenderAsync()
         {
-            if ( !rendered )
+            // If the component has custom implementation we need to postpone the initialisation
+            // until the custom component is rendered!
+            if ( !rendered && !HasCustomRegistration )
             {
                 rendered = true;
 
