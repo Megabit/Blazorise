@@ -174,10 +174,13 @@ window.blazorise = {
             element.addEventListener("paste", (e) => {
                 window.blazorise.textEdit.paste(instances[elementId], e);
             });
+
+            return true;
         },
         destroy: (elementId, element) => {
             var instances = window.blazorise.textEdit._instances || {};
             delete instances[elementId];
+            return true;
         },
         keyPress: (validator, e) => {
             var currentValue = String.fromCharCode(e.which);
@@ -205,10 +208,12 @@ window.blazorise = {
             element.addEventListener("paste", (e) => {
                 window.blazorise.numericEdit.paste(window.blazorise.numericEdit._instances[elementId], e);
             });
+            return true;
         },
         destroy: (elementId, element) => {
             var instances = window.blazorise.numericEdit._instances || {};
             delete instances[elementId];
+            return true;
         },
         keyDown: (validator, e) => {
             if (e.which === 38) {
@@ -216,6 +221,7 @@ window.blazorise = {
             } else if (e.which === 40) {
                 validator.stepApply(-1);
             }
+            return true;
         },
         keyPress: (validator, e) => {
             var currentValue = String.fromCharCode(e.which);
