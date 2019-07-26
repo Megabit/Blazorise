@@ -53,7 +53,7 @@ namespace Blazorise.Base
             return base.SetParametersAsync( parameters );
         }
 
-        protected override void HandleValue( object value )
+        protected override Task HandleValue( object value )
         {
             if ( Converters.TryChangeType<TValue>( value, out var result ) )
             {
@@ -68,7 +68,7 @@ namespace Blazorise.Base
             else
                 InternalValue = default;
 
-            ValueChanged?.Invoke( InternalValue );
+            return ValueChanged.InvokeAsync( InternalValue );
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace Blazorise.Base
         /// <remarks>
         /// This will be converted to EventCallback once the Blazor team fix the error for generic components. see https://github.com/aspnet/AspNetCore/issues/8385
         /// </remarks>
-        [Parameter] protected Action<TValue> ValueChanged { get; set; }
+        [Parameter] protected EventCallback<TValue> ValueChanged { get; set; }
 
         /// <summary>
         /// Specifies the interval between valid values.

@@ -43,10 +43,10 @@ namespace Blazorise.Base
             JSRunner.ActivateDatePicker( ElementId, Utils.Parsers.InternalDateFormat );
         }
 
-        protected void InternalDateHandler( UIChangeEventArgs e )
+        protected Task InternalDateHandler( UIChangeEventArgs e )
         {
             Date = Utils.Parsers.TryParseDate( e?.Value?.ToString() );
-            DateChanged?.Invoke( Date );
+            return DateChanged.InvokeAsync( Date );
         }
 
         #endregion
@@ -78,7 +78,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs when the date has changed.
         /// </summary>
-        [Parameter] private Action<DateTime?> DateChanged { get; set; }
+        [Parameter] private EventCallback<DateTime?> DateChanged { get; set; }
 
         /// <summary>
         /// The earliest date to accept.

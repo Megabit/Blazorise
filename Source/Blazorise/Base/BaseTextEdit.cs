@@ -51,10 +51,10 @@ namespace Blazorise.Base
             return base.SetParametersAsync( parameters );
         }
 
-        protected override void HandleValue( object value )
+        protected override Task HandleValue( object value )
         {
             InternalValue = value?.ToString();
-            TextChanged.InvokeAsync( InternalValue );
+            return TextChanged.InvokeAsync( InternalValue );
         }
 
         #endregion

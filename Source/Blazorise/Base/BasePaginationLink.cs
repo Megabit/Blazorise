@@ -25,9 +25,9 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
-        protected void ClickHandler( UIMouseEventArgs eventArgs )
+        protected Task ClickHandler( UIMouseEventArgs eventArgs )
         {
-            Clicked?.Invoke( Page );
+            return Clicked.InvokeAsync( Page );
         }
 
         #endregion
@@ -43,7 +43,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs when the item link is clicked.
         /// </summary>
-        [Parameter] protected Action<string> Clicked { get; set; }
+        [Parameter] protected EventCallback<string> Clicked { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

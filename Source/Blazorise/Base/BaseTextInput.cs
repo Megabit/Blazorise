@@ -44,23 +44,27 @@ namespace Blazorise.Base
             base.OnInit();
         }
 
-        protected void HandleOnChange( UIChangeEventArgs e )
+        protected Task HandleOnChange( UIChangeEventArgs e )
         {
             if ( !Options.ChangeTextOnKeyPress )
             {
-                HandleValue( e?.Value );
+                return HandleValue( e?.Value );
             }
+
+            return Task.CompletedTask;
         }
 
-        protected void HandleOnInput( UIChangeEventArgs e )
+        protected Task HandleOnInput( UIChangeEventArgs e )
         {
             if ( Options.ChangeTextOnKeyPress )
             {
-                HandleValue( e?.Value );
+                return HandleValue( e?.Value );
             }
+
+            return Task.CompletedTask;
         }
 
-        protected abstract void HandleValue( object value );
+        protected abstract Task HandleValue( object value );
 
         #endregion
 

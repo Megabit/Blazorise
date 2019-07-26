@@ -30,7 +30,7 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
-        protected async void HandleOnChanged( UIChangeEventArgs e )
+        protected async Task HandleOnChanged( UIChangeEventArgs e )
         {
             if ( IsMultiple )
             {
@@ -38,7 +38,7 @@ namespace Blazorise.Base
                 internalMultiValue = await JSRunner.GetSelectedOptions<TValue>( ElementId );
 
                 // changed event must be called before validation
-                SelectedValuesChanged?.Invoke( internalMultiValue );
+                await SelectedValuesChanged.InvokeAsync( internalMultiValue );
 
                 ParentValidation?.UpdateInputValue( internalMultiValue );
             }
@@ -50,7 +50,7 @@ namespace Blazorise.Base
                     internalValue = default;
 
                 // changed event must be called before validation
-                SelectedValueChanged?.Invoke( internalValue );
+                await SelectedValueChanged.InvokeAsync( internalValue );
 
                 ParentValidation?.UpdateInputValue( internalValue );
             }
@@ -101,12 +101,12 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs when the selected item value has changed.
         /// </summary>
-        [Parameter] protected Action<TValue> SelectedValueChanged { get; set; }
+        [Parameter] protected EventCallback<TValue> SelectedValueChanged { get; set; }
 
         /// <summary>
         /// Occurs when the selected items value has changed (only when <see cref="IsMultiple"/>==true).
         /// </summary>
-        [Parameter] protected Action<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
+        [Parameter] protected EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
 
         #endregion
     }

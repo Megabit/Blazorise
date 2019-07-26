@@ -57,7 +57,7 @@
 <p id="validate-string-with-event-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateStringSelect">
-        <SelectEdit SelectedValue="@stringWithEventInitiallyBlank" SelectedValueChanged="@((v)=> { stringWithEventInitiallyBlank = v; })">
+        <SelectEdit TValue="string" SelectedValue="@stringWithEventInitiallyBlank" SelectedValueChanged="@((v)=> { stringWithEventInitiallyBlank = v; })">
             <ChildContent>
                 <SelectItem Value="string.Empty"></SelectItem>
                 <SelectItem Value="@("Oliver")">Oliver</SelectItem>
@@ -74,7 +74,7 @@
 <p id="validate-string-with-event-initially-selected">
     Initially selected:
     <Validation Validator="@ValidateStringSelect">
-        <SelectEdit SelectedValue="@stringWithEventInitiallySelected" SelectedValueChanged="@((v)=> { stringWithEventInitiallySelected = v; })">
+        <SelectEdit TValue="string" SelectedValue="@stringWithEventInitiallySelected" SelectedValueChanged="@((v)=> { stringWithEventInitiallySelected = v; })">
             <ChildContent>
                 <SelectItem Value="string.Empty"></SelectItem>
                 <SelectItem Value="@("Oliver")">Oliver</SelectItem>
