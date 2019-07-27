@@ -20,24 +20,24 @@ namespace Blazorise.Utils
             return (TValue)Convert.ChangeType( o, conversionType );
         }
 
-        public static bool TryChangeType<TValue>( object o, out TValue value )
+        public static bool TryChangeType<TValue>( object value, out TValue result )
         {
             try
             {
                 Type conversionType = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
 
-                if ( conversionType.IsEnum && EnumTryParse( o?.ToString(), conversionType, out TValue theEnum ) )
-                    value = theEnum;
+                if ( conversionType.IsEnum && EnumTryParse( value?.ToString(), conversionType, out TValue theEnum ) )
+                    result = theEnum;
                 else if ( conversionType == typeof( Guid ) )
-                    value = (TValue)Convert.ChangeType( Guid.Parse( o.ToString() ), conversionType );
+                    result = (TValue)Convert.ChangeType( Guid.Parse( value.ToString() ), conversionType );
                 else
-                    value = (TValue)Convert.ChangeType( o, conversionType );
+                    result = (TValue)Convert.ChangeType( value, conversionType );
 
                 return true;
             }
             catch
             {
-                value = default;
+                result = default;
                 return false;
             }
         }
