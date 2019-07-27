@@ -79,6 +79,10 @@ namespace Blazorise.Base
             }
         }
 
+        [Parameter] protected int? RowSpan { get; set; }
+
+        [Parameter] protected int? ColumnSpan { get; set; }
+
         /// <summary>
         /// Occurs when the row cell is clicked.
         /// </summary>

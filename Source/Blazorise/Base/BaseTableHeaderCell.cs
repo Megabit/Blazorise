@@ -34,6 +34,10 @@ namespace Blazorise.Base
 
         #region Properties
 
+        [Parameter] protected int? RowSpan { get; set; }
+
+        [Parameter] protected int? ColumnSpan { get; set; }
+
         /// <summary>
         /// Occurs when the header cell is clicked.
         /// </summary>
