@@ -36,6 +36,8 @@ namespace Blazorise.Icons.Material
             { IconName.Dashboard, "dashboard" },
             { IconName.Tint, "invert_colors" },
             { IconName.Palette, "palette" },
+            { IconName.SortUp, "arrow_drop_up" },
+            { IconName.SortDown, "arrow_drop_down" },
         };
 
         #endregion

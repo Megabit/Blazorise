@@ -1093,6 +1093,8 @@ namespace Blazorise
         Dashboard,
         Tint,
         Palette,
+        SortUp,
+        SortDown,
     }
 
     public enum FormatType
@@ -1134,5 +1136,21 @@ namespace Blazorise
         Left = 0,
         Middle = 1,
         Right = 2,
+    }
+
+    /// <summary>
+    /// Specifies the direction of a sort operation.
+    /// </summary>
+    public enum SortDirection
+    {
+        /// <summary>
+        /// Sorts in ascending order.
+        /// </summary>
+        Ascending = 0,
+
+        /// <summary>
+        /// Sorts in descending order.
+        /// </summary>
+        Descending = 1,
     }
 }
