@@ -8,35 +8,35 @@
             </CardHeader>
             <CardBody>
                 <Fields>
-                    <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                    <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
                             <CheckEdit @bind-Checked="@allowEdit">Allow Edit</CheckEdit>
                         </FieldBody>
                     </Field>
-                    <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                    <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
                             <CheckEdit @bind-Checked="@allowSort">Allow Sort</CheckEdit>
                         </FieldBody>
                     </Field>
-                    <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                    <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
                             <CheckEdit @bind-Checked="@allowFilter">Allow Filter</CheckEdit>
                         </FieldBody>
                     </Field>
-                    <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                    <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
                             <CheckEdit @bind-Checked="@showPager">Show Pager</CheckEdit>
                         </FieldBody>
                     </Field>
-                    <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                    <Field>
                         <FieldLabel>
                             Edit Mode
                         </FieldLabel>
@@ -132,15 +132,27 @@
             </CardHeader>
             <CardBody>
                 <Fields>
-                    <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                    <Field>
                         <FieldLabel>First Name</FieldLabel>
                         <FieldBody>
                             <TextEdit IsReadonly="true" Text="@selectedEmployee?.FirstName"></TextEdit>
                         </FieldBody>
                     </Field>
-                    <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                    <Field>
                         <FieldLabel>Last Name</FieldLabel>
                         <TextEdit IsReadonly="true" Text="@selectedEmployee?.LastName"></TextEdit>
+                    </Field>
+                </Fields>
+                <Fields>
+                    <Field>
+                        <FieldLabel>Email</FieldLabel>
+                        <FieldBody>
+                            <TextEdit IsReadonly="true" Text="@selectedEmployee?.EMail"></TextEdit>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>City</FieldLabel>
+                        <TextEdit IsReadonly="true" Text="@selectedEmployee?.City"></TextEdit>
                     </Field>
                 </Fields>
             </CardBody>
