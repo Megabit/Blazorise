@@ -1,0 +1,113 @@
+@typeparam TItem
+@inherits Base.BaseDataGrid<TItem>
+<TableContainer Class="@Class" Margin="@Margin" Padding="@Padding">
+    <TableHeader>
+        <TableRow>
+            @foreach ( var column in Columns )
+            {
+                @if ( column.ColumnType == DataGridColumnType.Command )
+                {
+                    @if ( AllowEdit )
+                    {
+                        <TableHeaderCell ColumnSpan="2">
+                            @if ( AllowEdit && CanInsertNewItem && editState != DataGridEditState.New )
+                            {
+                                <SimpleButton Color="Color.Link" Clicked="@OnNewCommand">New</SimpleButton>
+                            }
+                        </TableHeaderCell>
+                    }
+                }
+                else
+                {
+                    <TableHeaderCell Style="cursor: pointer" Clicked="@(() => OnSortClicked( column ) )">
+                        @if ( column.ShowCaption )
+                        {
+                            @column.Caption
+                        }
+                        @if ( AllowSort && column.AllowSort )
+                        {
+                            <Icon Name="@(column.Direction == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                        }
+                    </TableHeaderCell>
+                }
+            }
+        </TableRow>
+        @if ( AllowFilter )
+        {
+            <TableRow>
+                @foreach ( var column in Columns )
+                {
+                    @if ( !column.AllowFilter )
+                        continue;
+
+                    @if ( column.ColumnType == DataGridColumnType.Command )
+                    {
+                        @if ( AllowEdit )
+                        {
+                            // since Clear Filter is located in the command column it can be visible onle when Edit is enabled
+                            <TableHeaderCell ColumnSpan="2">
+                                <SimpleButton Color="Color.Link" Clicked="@OnClearFilterClicked">Clear Filter</SimpleButton>
+                            </TableHeaderCell>
+                        }
+                    }
+                    else
+                    {
+                        <TableHeaderCell>
+                            <TextEdit Text="@column.Filter.SearchValue" TextChanged="@(( newValue ) => OnFilterChanged( column, newValue))" />
+                        </TableHeaderCell>
+                    }
+                }
+            </TableRow>
+        }
+    </TableHeader>
+    <TableBody>
+        @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
+        @* This one is to build rows *@
+        <CascadingValue Value=this>
+            @if ( AllowEdit && editState == DataGridEditState.New )
+            {
+                <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
+            }
+            @foreach ( var item in DisplayData )
+            {
+                @if ( AllowEdit && editState == DataGridEditState.Edit && (object)item == (object)editItem )
+                {
+                    <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
+                }
+                else
+                {
+                    <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@Columns" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" />
+                }
+            }
+        </CascadingValue>
+        @* This one is to hold information about column *@
+        <CascadingValue Value=this>
+            @ChildContent
+        </CascadingValue>
+    </TableBody>
+</TableContainer>
+@if ( ShowPager )
+{
+    <Pagination>
+        <PaginationItem IsDisabled="@(CurrentPage <= 1)">
+            <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
+                Prev
+            </PaginationLink>
+        </PaginationItem>
+        @for ( int i = 1; i <= LastPage; ++i )
+        {
+            var pageName = i.ToString();
+
+            <PaginationItem IsDisabled="@(i == CurrentPage)" IsActive="@(i == CurrentPage)">
+                <PaginationLink Page="@pageName" Clicked="@OnPaginationItemClick">
+                    @pageName
+                </PaginationLink>
+            </PaginationItem>
+        }
+        <PaginationItem IsDisabled="@(CurrentPage >= LastPage)">
+            <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
+                Next
+            </PaginationLink>
+        </PaginationItem>
+    </Pagination>
+}

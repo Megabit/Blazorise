@@ -1,0 +1,21 @@
+@typeparam TItem
+@inherits Base._BaseDataGridCell<TItem>
+@if ( Column.EditTemplate != null )
+{
+    @Column.EditTemplate( CellEditContext )
+}
+else
+{
+    @if ( Column.ColumnType == DataGridColumnType.Numeric 
+        || Column.ColumnType == DataGridColumnType.Check 
+        || Column.ColumnType == DataGridColumnType.Date )
+    {
+        var type = Column.GetValueType();
+
+        <_DataGridCellEdit ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" />
+    }
+    else
+    {
+        <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@(( v ) => CellEditContext.CellValue = v)" IsReadonly="@Column.Readonly" />
+    }
+}
