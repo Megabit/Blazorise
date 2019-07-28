@@ -149,9 +149,9 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
         }
 
-        public Task RegisterClosableComponent( ICloseActivator component )
+        public Task RegisterClosableComponent( DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef, string elementId )
         {
-            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", component.ElementId, DotNetObjectRef.Create( new CloseActivatorAdapter( component ) ) );
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", elementId, dotNetObjectRef );
         }
 
         public Task UnregisterClosableComponent( ICloseActivator component )

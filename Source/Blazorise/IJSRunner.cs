@@ -51,7 +51,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="component">Toggle component.</param>
         /// <returns></returns>
-        Task RegisterClosableComponent( ICloseActivator component );
+        Task RegisterClosableComponent( DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef, string elementId );
 
         Task UnregisterClosableComponent( ICloseActivator component );
     }
