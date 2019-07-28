@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Base;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -13,12 +14,35 @@ namespace Blazorise
     {
         protected readonly IJSRuntime runtime;
 
+        protected const string BLAZORISE_NAMESPACE = "blazorise";
+
+        private static object CreateDotNetObjectRefSyncObj = new object();
+
         public JSRunner( IJSRuntime runtime )
         {
             this.runtime = runtime;
         }
 
-        protected const string BLAZORISE_NAMESPACE = "blazorise";
+        public DotNetObjectRef<T> CreateDotNetObjectRef<T>( T value ) where T : class
+        {
+            lock ( CreateDotNetObjectRefSyncObj )
+            {
+                JSRuntime.SetCurrentJSRuntime( runtime );
+                return DotNetObjectRef.Create( value );
+            }
+        }
+
+        public void DisposeDotNetObjectRef<T>( DotNetObjectRef<T> value ) where T : class
+        {
+            if ( value != null )
+            {
+                lock ( CreateDotNetObjectRefSyncObj )
+                {
+                    JSRuntime.SetCurrentJSRuntime( runtime );
+                    value.Dispose();
+                }
+            }
+        }
 
         public Task<bool> Init( ElementRef elementRef, object componentRef )
         {
@@ -35,9 +59,9 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementId, elementRef );
         }
 
-        public Task<bool> InitializeNumericEdit( string elementId, ElementRef elementRef, int decimals, string decimalsSeparator, decimal? step )
+        public Task<bool> InitializeNumericEdit( DotNetObjectRef<NumericEditAdapter> dotNetObjectRef, string elementId, ElementRef elementRef, int decimals, string decimalsSeparator, decimal? step )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", elementId, elementRef, decimals, decimalsSeparator, step );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementId, elementRef, decimals, decimalsSeparator, step );
         }
 
         public Task<bool> DestroyNumericEdit( string elementId, ElementRef elementRef )

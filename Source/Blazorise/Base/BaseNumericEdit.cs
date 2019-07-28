@@ -6,14 +6,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Base
 {
-    public abstract class BaseNumericEdit<TValue> : BaseTextInput<TValue>
-    //where TValue : struct 
+    /// <summary>
+    /// This is needed to set the value from javascript because calling generic component directly is not supported by Blazor.
+    /// </summary>
+    public interface INumericEdit
+    {
+        Task SetValue( string value );
+    }
+
+    public abstract class BaseNumericEdit<TValue> : BaseTextInput<TValue>, INumericEdit
     {
         #region Members
+
+        // taken from https://github.com/aspnet/AspNetCore/issues/11159
+        private DotNetObjectRef<NumericEditAdapter> dotNetObjectRef;
 
         #endregion
 
@@ -29,7 +40,8 @@ namespace Blazorise.Base
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            await JSRunner.InitializeNumericEdit( ElementId, ElementRef, Decimals, DecimalsSeparator, Step );
+            dotNetObjectRef = dotNetObjectRef ?? JSRunner.CreateDotNetObjectRef( new NumericEditAdapter( this ) );
+            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementId, ElementRef, Decimals, DecimalsSeparator, Step );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -37,6 +49,7 @@ namespace Blazorise.Base
         public override void Dispose()
         {
             JSRunner.DestroyNumericEdit( ElementId, ElementRef );
+            JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
 
             base.Dispose();
         }
@@ -51,6 +64,11 @@ namespace Blazorise.Base
             }
 
             return base.SetParametersAsync( parameters );
+        }
+
+        public Task SetValue( string value )
+        {
+            return HandleValue( value );
         }
 
         protected override Task HandleValue( object value )

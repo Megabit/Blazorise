@@ -194,8 +194,8 @@ window.blazorise = {
     numericEdit: {
         _instances: [],
 
-        initialize: (elementId, element, decimals, separator, step) => {
-            window.blazorise.numericEdit._instances[elementId] = new window.blazorise.NumericMaskValidator(elementId, element, decimals, separator, step);
+        initialize: (dotnetAdapter, elementId, element, decimals, separator, step) => {
+            window.blazorise.numericEdit._instances[elementId] = new window.blazorise.NumericMaskValidator(dotnetAdapter, elementId, element, decimals, separator, step);
 
             element.addEventListener("keypress", (e) => {
                 window.blazorise.numericEdit.keyPress(window.blazorise.numericEdit._instances[elementId], e);
@@ -237,7 +237,8 @@ window.blazorise = {
             return true;
         };
     },
-    NumericMaskValidator: function (elementId, element, decimals, separator, step) {
+    NumericMaskValidator: function (dotnetAdapter, elementId, element, decimals, separator, step) {
+        this.dotnetAdapter = dotnetAdapter;
         this.elementId = elementId;
         this.element = element;
         this.decimals = decimals || 2;
@@ -263,7 +264,9 @@ window.blazorise = {
             var value = (this.element.value || "").replace(this.separator, ".");
             var number = Number(value);
             number = number + (this.step * sign);
-            this.element.value = number.toString().replace(".", this.separator);
+            var newValue = number.toString().replace(".", this.separator);
+            this.element.value = newValue;
+            this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
         };
     },
     DateTimeMaskValidator: function (elementId, element) {
