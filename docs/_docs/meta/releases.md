@@ -10,6 +10,7 @@ toc_label: "Version history"
 
 ### Enhancements
 
+- Upgraded to the Blazor preview 7.
 - New [DataGrid]({{ "/docs/extensions/datagrid/" | relative_url }}) component extension.
 - New [ThemeProvider]({{ "/docs/theming/" | relative_url }}).
 - EditMask added to TextEdit
