@@ -8,10 +8,14 @@ rd /s /q Source\Blazorise.Material\bin
 rd /s /q Source\Blazorise.Material\obj
 rd /s /q Source\Blazorise.Bulma\bin
 rd /s /q Source\Blazorise.Bulma\obj
-rd /s /q Source\Blazorise.Bulma\bin
-rd /s /q Source\Blazorise.Bulma\obj
+rd /s /q Source\Blazorise.Frolic\bin
+rd /s /q Source\Blazorise.Frolic\obj
 rd /s /q Source\Extensions\Blazorise.Charts\bin
 rd /s /q Source\Extensions\Blazorise.Charts\obj
+rd /s /q Source\Extensions\Blazorise.Components\bin
+rd /s /q Source\Extensions\Blazorise.Components\obj
+rd /s /q Source\Extensions\Blazorise.DataGrid\bin
+rd /s /q Source\Extensions\Blazorise.DataGrid\obj
 rd /s /q Source\Extensions\Blazorise.Sidebar\bin
 rd /s /q Source\Extensions\Blazorise.Sidebar\obj
 rd /s /q Source\Extensions\Blazorise.Snackbar\bin
