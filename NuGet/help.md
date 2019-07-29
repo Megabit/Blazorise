@@ -7,7 +7,8 @@ Before creating NuGet packages make sure that documentation is updated to match 
 1. Update release notes
 2. Update _readme.md_
 3. Update quick start & usage pages if necessary
-3. Update version number in the demo home-page
+4. Update version number in the demo home-page
+5. Make sure that Blazor version number is matching the one in *.props files
 
 ## Nugets
 
