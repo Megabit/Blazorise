@@ -131,13 +131,14 @@ To attach buttons together use a Toolbar role.
 
 ## Attributes
 
-| Name       | Type                                                                    | Default | Description                                          |
-|------------|-------------------------------------------------------------------------|---------|------------------------------------------------------|
-| Color      | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})            | `None`  | Component visual or contextual style variants        |
-| Size       | [ButtonSize]({{ "/docs/helpers/sizes/#buttonsize" | relative_url }})    | `None`  | Button size variations                               |
-| Clicked    | event                                                                   |         |                                                      |
-| IsOutline  | boolean                                                                 | false   | Outlined button                                      |
-| IsDisabled | boolean                                                                 | false   | Makes button look inactive.                          |
-| IsActive   | boolean                                                                 | false   | Makes the button to appear as pressed.               |
-| IsBlock    | boolean                                                                 | false   | Makes the button to span the full width of a parent. |
-| IsLoading  | boolean                                                                 | false   | Shows the loading spinner.                           |
+| Name       | Type                                                                    | Default  | Description                                          |
+|------------|-------------------------------------------------------------------------|----------|------------------------------------------------------|
+| Color      | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})            | `None`   | Component visual or contextual style variants        |
+| Size       | [ButtonSize]({{ "/docs/helpers/sizes/#buttonsize" | relative_url }})    | `None`   | Button size variations.                              |
+| Type       | [ButtonType]({{ "/docs/helpers/enums/#buttontype" | relative_url }})    | `Button` | Defines the button type.                              |
+| Clicked    | event                                                                   |          | Occurs when the button is clicked.                   |
+| IsOutline  | boolean                                                                 | false    | Outlined button.                                      |
+| IsDisabled | boolean                                                                 | false    | Makes button look inactive.                          |
+| IsActive   | boolean                                                                 | false    | Makes the button to appear as pressed.               |
+| IsBlock    | boolean                                                                 | false    | Makes the button to span the full width of a parent. |
+| IsLoading  | boolean                                                                 | false    | Shows the loading spinner.                           |

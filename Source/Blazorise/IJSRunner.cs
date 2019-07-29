@@ -3,14 +3,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Base;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
 {
     public interface IJSRunner
     {
+        DotNetObjectRef<T> CreateDotNetObjectRef<T>( T value ) where T : class;
+
+        void DisposeDotNetObjectRef<T>( DotNetObjectRef<T> value ) where T : class;
+
         Task<bool> Init( ElementRef elementRef, object componentRef );
+
+        Task<bool> InitializeTextEdit( string elementId, ElementRef elementRef, string maskType, string editMask );
+
+        Task<bool> DestroyTextEdit( string elementId, ElementRef elementRef );
+
+        Task<bool> InitializeNumericEdit( DotNetObjectRef<NumericEditAdapter> dotNetObjectRef, string elementId, ElementRef elementRef, int decimals, string decimalsSeparator, decimal? step );
+
+        Task<bool> DestroyNumericEdit( string elementId, ElementRef elementRef );
 
         Task<bool> AddClass( ElementRef elementRef, string classname );
 
@@ -37,7 +51,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="component">Toggle component.</param>
         /// <returns></returns>
-        Task RegisterClosableComponent( ICloseActivator component );
+        Task RegisterClosableComponent( DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef, string elementId );
 
         Task UnregisterClosableComponent( ICloseActivator component );
     }

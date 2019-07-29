@@ -2,4 +2,34 @@
     The Router component displays whichever component has a @page
     directive matching the current URI.
 *@
-<Router AppAssembly="typeof(Startup).Assembly" />
+<Blazorise.ThemeProvider Theme="@theme">
+    <Router AppAssembly="typeof(Program).Assembly" />
+</Blazorise.ThemeProvider>
+@code{
+    private Theme theme = new Theme
+    {
+        ColorOptions = new ThemeColorOptions
+        {
+            //Primary = "#45B1E8",
+            //Secondary = "#A65529",
+            //Success = "#23C02E",
+            //Info = "#9BD8FE",
+            //Warning = "#F8B86C",
+            //Danger = "#F95741",
+            //Light = "#F0F0F0",
+            //Dark = "#535353",
+        },
+        BackgroundOptions = new ThemeBackgroundOptions { },
+        ButtonOptions = new ThemeButtonOptions { },
+        DropdownOptions = new ThemeDropdownOptions { },
+        InputOptions = new ThemeInputOptions { },
+        CardOptions = new ThemeCardOptions { },
+        ModalOptions = new ThemeModalOptions { },
+        TabsOptions = new ThemeTabsOptions { },
+        ProgressOptions = new ThemeProgressOptions { },
+        AlertOptions = new ThemeAlertOptions { },
+        BreadcrumbOptions = new ThemeBreadcrumbOptions { },
+        BadgeOptions = new ThemeBadgeOptions { },
+        PaginationOptions = new ThemePaginationOptions { },
+    };
+}

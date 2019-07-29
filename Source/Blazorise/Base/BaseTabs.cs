@@ -46,6 +46,10 @@ namespace Blazorise.Base
             childTabs.Add( tab );
         }
 
+        /// <summary>
+        /// Sets the active tab by the name.
+        /// </summary>
+        /// <param name="tabName"></param>
         public void SelectTab( string tabName )
         {
             if ( lastSelectedTab != tabName )
@@ -133,6 +137,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Occurs after the selected tab has changed.
+        /// </summary>
         [Parameter] protected Action<string> SelectedTabChanged { get; set; }
 
         [CascadingParameter] protected BaseCardHeader CardHeader { get; set; }

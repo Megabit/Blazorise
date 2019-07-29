@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Blazorise.Snackbar": {
+    "Blazorise.Components": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

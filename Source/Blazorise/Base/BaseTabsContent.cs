@@ -58,6 +58,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Occurs after the selected panel has changed.
+        /// </summary>
         [Parameter] protected Action<string> SelectedPanelChanged { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }

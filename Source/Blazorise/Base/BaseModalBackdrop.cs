@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Base
@@ -16,9 +17,26 @@ namespace Blazorise.Base
 
         private bool isRegistered;
 
+        private DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef;
+
         #endregion
 
         #region Methods
+
+        protected override void OnInit()
+        {
+            // link to the parent component
+            ParentModal?.Hook( this );
+
+            base.OnInit();
+        }
+
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            dotNetObjectRef = dotNetObjectRef ?? JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+
+            await base.OnFirstAfterRenderAsync();
+        }
 
         public void Dispose()
         {
@@ -28,6 +46,7 @@ namespace Blazorise.Base
                 isRegistered = false;
 
                 JSRunner.UnregisterClosableComponent( this );
+                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
             }
         }
 
@@ -39,14 +58,6 @@ namespace Blazorise.Base
                 .If( () => ClassProvider.ModalShow(), () => IsOpen );
 
             base.RegisterClasses();
-        }
-
-        protected override void OnInit()
-        {
-            // link to the parent component
-            ParentModal?.Hook( this );
-
-            base.OnInit();
         }
 
         public bool SafeToClose( string elementId, bool isEscapeKey )
@@ -82,7 +93,7 @@ namespace Blazorise.Base
                 {
                     isRegistered = true;
 
-                    JSRunner.RegisterClosableComponent( this );
+                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
                 }
                 else
                 {

@@ -30,6 +30,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Defines the location and behaviour of addon container.
+        /// </summary>
         [Parameter]
         protected AddonType AddonType
         {

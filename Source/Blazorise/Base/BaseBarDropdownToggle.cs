@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Base
@@ -16,19 +17,25 @@ namespace Blazorise.Base
 
         private bool isRegistered;
 
+        private DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef;
+
         #endregion
 
         #region Methods
 
-        public void Dispose()
+        protected override void OnInit()
         {
-            // make sure to unregister listener
-            if ( isRegistered )
-            {
-                isRegistered = false;
+            // link to the parent component
+            BarDropdown?.Hook( this );
 
-                JSRunner.UnregisterClosableComponent( this );
-            }
+            base.OnInit();
+        }
+
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            dotNetObjectRef = dotNetObjectRef ?? JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+
+            await base.OnFirstAfterRenderAsync();
         }
 
         protected override void RegisterClasses()
@@ -39,12 +46,16 @@ namespace Blazorise.Base
             base.RegisterClasses();
         }
 
-        protected override void OnInit()
+        public void Dispose()
         {
-            // link to the parent component
-            BarDropdown?.Hook( this );
+            // make sure to unregister listener
+            if ( isRegistered )
+            {
+                isRegistered = false;
 
-            base.OnInit();
+                JSRunner.UnregisterClosableComponent( this );
+                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+            }
         }
 
         protected void ClickHandler()
@@ -81,7 +92,7 @@ namespace Blazorise.Base
                 {
                     isRegistered = true;
 
-                    JSRunner.RegisterClosableComponent( this );
+                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
                 }
                 else
                 {

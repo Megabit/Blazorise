@@ -28,7 +28,12 @@ namespace Blazorise.Base
 
         #region Properties
 
-        // todo: change to enum
+        /// <summary>
+        /// Number from 1 to 6 that defines the title size where the smaller number means larger text.
+        /// </summary>
+        /// <remarks>
+        /// todo: change to enum
+        /// </remarks>
         [Parameter] protected int? Size { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }

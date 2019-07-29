@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Base;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -13,16 +14,59 @@ namespace Blazorise
     {
         protected readonly IJSRuntime runtime;
 
+        protected const string BLAZORISE_NAMESPACE = "blazorise";
+
+        private static object CreateDotNetObjectRefSyncObj = new object();
+
         public JSRunner( IJSRuntime runtime )
         {
             this.runtime = runtime;
         }
 
-        protected const string BLAZORISE_NAMESPACE = "blazorise";
+        public DotNetObjectRef<T> CreateDotNetObjectRef<T>( T value ) where T : class
+        {
+            lock ( CreateDotNetObjectRefSyncObj )
+            {
+                JSRuntime.SetCurrentJSRuntime( runtime );
+                return DotNetObjectRef.Create( value );
+            }
+        }
+
+        public void DisposeDotNetObjectRef<T>( DotNetObjectRef<T> value ) where T : class
+        {
+            if ( value != null )
+            {
+                lock ( CreateDotNetObjectRefSyncObj )
+                {
+                    JSRuntime.SetCurrentJSRuntime( runtime );
+                    value.Dispose();
+                }
+            }
+        }
 
         public Task<bool> Init( ElementRef elementRef, object componentRef )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.init", elementRef, DotNetObjectRef.Create( componentRef ) );
+        }
+
+        public Task<bool> InitializeTextEdit( string elementId, ElementRef elementRef, string maskType, string editMask )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementId, elementRef, maskType, editMask );
+        }
+
+        public Task<bool> DestroyTextEdit( string elementId, ElementRef elementRef )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementId, elementRef );
+        }
+
+        public Task<bool> InitializeNumericEdit( DotNetObjectRef<NumericEditAdapter> dotNetObjectRef, string elementId, ElementRef elementRef, int decimals, string decimalsSeparator, decimal? step )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementId, elementRef, decimals, decimalsSeparator, step );
+        }
+
+        public Task<bool> DestroyNumericEdit( string elementId, ElementRef elementRef )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementId, elementRef );
         }
 
         public Task<bool> AddClass( ElementRef elementRef, string classname )
@@ -105,9 +149,9 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
         }
 
-        public Task RegisterClosableComponent( ICloseActivator component )
+        public Task RegisterClosableComponent( DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef, string elementId )
         {
-            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", component.ElementId, DotNetObjectRef.Create( new CloseActivatorAdapter( component ) ) );
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", elementId, dotNetObjectRef );
         }
 
         public Task UnregisterClosableComponent( ICloseActivator component )

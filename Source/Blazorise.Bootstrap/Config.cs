@@ -30,6 +30,7 @@ namespace Blazorise.Bootstrap
             serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
             serviceCollection.AddScoped<IJSRunner, BootstrapJSRunner>();
             serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
+            serviceCollection.AddScoped<IThemeGenerator, BootstrapThemeGenerator>();
 
             return serviceCollection;
         }

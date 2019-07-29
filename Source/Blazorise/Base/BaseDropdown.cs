@@ -119,7 +119,7 @@ namespace Blazorise.Base
         internal bool IsGroup => Buttons != null || registeredButtons?.Count >= 1;
 
         /// <summary>
-        /// Handles the visibility of dropdown items.
+        /// Handles the visibility of dropdown menu.
         /// </summary>
         [Parameter]
         internal bool IsOpen
@@ -169,9 +169,12 @@ namespace Blazorise.Base
             }
         }
 
-        [CascadingParameter] protected BaseButtons Buttons { get; set; }
-
+        /// <summary>
+        /// Occurs after the dropdown menu visibility has changed.
+        /// </summary>
         [Parameter] protected Action<bool> Toggled { get; set; }
+
+        [CascadingParameter] protected BaseButtons Buttons { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 

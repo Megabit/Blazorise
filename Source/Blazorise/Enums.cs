@@ -224,7 +224,7 @@ namespace Blazorise
     /// <summary>
     /// Adjusts the theme contrast.
     /// </summary>
-    public enum Theme
+    public enum ThemeContrast
     {
         /// <summary>
         /// Undefined.
@@ -1091,6 +1091,10 @@ namespace Blazorise
         SliderHorizontal,
         SliderVertical,
         Dashboard,
+        Tint,
+        Palette,
+        SortUp,
+        SortDown,
     }
 
     public enum FormatType
@@ -1101,12 +1105,30 @@ namespace Blazorise
         Custom = 3,
     }
 
+    /// <summary>
+    /// Lists values that specify the type of mask used by an editor.
+    /// </summary>
     public enum MaskType
     {
+        /// <summary>
+        /// Specifies that the mask feature is disabled.
+        /// </summary>
         None,
+
+        /// <summary>
+        /// Specifies that the editor should accept numeric values and that the mask string must use the Numeric format syntax.
+        /// </summary>
         Numeric = 1,
+
+        /// <summary>
+        /// Specifies that the editor should accept date/time values and that the mask string must use the DateTime format syntax.
+        /// </summary>
         DateTime = 2,
-        Regex = 3,
+
+        /// <summary>
+        /// Specifies that the mask should be created using full-functional regular expressions.
+        /// </summary>
+        RegEx = 3,
     }
 
     public enum MouseButton
@@ -1114,5 +1136,21 @@ namespace Blazorise
         Left = 0,
         Middle = 1,
         Right = 2,
+    }
+
+    /// <summary>
+    /// Specifies the direction of a sort operation.
+    /// </summary>
+    public enum SortDirection
+    {
+        /// <summary>
+        /// Sorts in ascending order.
+        /// </summary>
+        Ascending = 0,
+
+        /// <summary>
+        /// Sorts in descending order.
+        /// </summary>
+        Descending = 1,
     }
 }

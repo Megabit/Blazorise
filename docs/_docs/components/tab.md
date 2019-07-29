@@ -11,10 +11,10 @@ redirect_from: /docs/components/tabs/
 
 There are two pieces to a tabbed interface: the tabs themselves, and the content for each tab. 
 
-- `<Tabs>`
-  - `<Tab>`
-- `<TabsContent>`
-  - `<TabPanel>`
+- `<Tabs>` container for Tab items
+  - `<Tab>` clickable tab items
+- `<TabsContent>` container for tab panels
+  - `<TabPanel>` container for tab content
 
 The tabs are container for tab items. Each tab item contains a link to a tab panel. The `Name` of each tab item should match the `Name` of a tab panel.
 
@@ -53,3 +53,42 @@ Put it all together, and we get this:
 ```
 
 <iframe src="/examples/tabs/basic/" frameborder="0" scrolling="no" style="width:100%;height:625px;"></iframe>
+
+## Functions
+
+| Name                    | Description                                                                                 |
+|-------------------------|---------------------------------------------------------------------------------------------|
+| SelectTab(string name)  | Sets the active tab by the name.                                                            |
+
+## Attributes
+
+### Tabs
+
+| Name                | Type                                                                       | Default          | Description                                                                                           |
+|---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
+| IsPills             | boolean                                                                    | false            | Makes the tab items to appear as pills.                                                               |
+| IsFullWidth         | boolean                                                                    | false            | Makes the tab items to extend the full available width.                                               |
+| IsJustified         | boolean                                                                    | false            | Makes the tab items to extend the full available width, but every item will be the same width.        |
+| IsVertical          | boolean                                                                    | false            | Stack the navigation items by changing the flex item direction.                                       |
+| SelectedTabChanged  | event                                                                      |                  | Occurs after the selected tab has changed.                                                            |
+
+### Tab
+
+| Name                | Type                                                                       | Default          | Description                                                                                           |
+|---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
+| Name                | string                                                                     | null             | Defines the unique tab name.                                                                          |
+| IsActive            | boolean                                                                    | false            | Sets the active tab.                                                                                  |
+
+### TabsContent
+
+| Name                | Type                                                                       | Default          | Description                                                                                           |
+|---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
+| SelectedPanelChanged | event                                                                     |                  | Occurs after the selected panel has changed.                                                          |
+
+### TabPanel
+
+| Name                | Type                                                                       | Default          | Description                                                                                           |
+|---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
+| Name                | string                                                                     | null             | Defines the panel name that must match the coresponding tab name.                                     |
+| IsActive            | boolean                                                                    | false            | Sets the active panel.                                                                                |
+

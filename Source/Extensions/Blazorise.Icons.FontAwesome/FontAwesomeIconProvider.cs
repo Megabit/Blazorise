@@ -34,6 +34,10 @@ namespace Blazorise.Icons.FontAwesome
             { IconName.SliderHorizontal, "fa-sliders-h" },
             { IconName.SliderVertical, "fa-sliders-v" },
             { IconName.Dashboard, "fa-columns" }, // find better
+            { IconName.Tint, "fa-tint" },
+            { IconName.Palette, "fa-palette" },
+            { IconName.SortUp, "fa-sort-up" },
+            { IconName.SortDown, "fa-sort-down" },
         };
 
         #endregion

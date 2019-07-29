@@ -1,0 +1,67 @@
+﻿@typeparam TItem
+@inherits Base._BaseDataGridRowEdit<TItem>
+@if ( EditMode == DataGridEditMode.Form )
+{
+    <TableRowCell ColumnSpan="@(Columns.Count() + 2)">
+        <Row>
+            @foreach ( var column in Columns )
+            {
+                @if ( column.ColumnType == DataGridColumnType.Command )
+                    continue;
+
+                @if ( column.AllowEdit )
+                {
+                    <Column ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                        <Field>
+                            <FieldLabel>
+                                @column.Caption
+                            </FieldLabel>
+                            <FieldBody>
+                                <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" />
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                }
+            }
+        </Row>
+        <Row>
+            <Column>
+                <SimpleButton Color="Color.Link" Clicked="@Save">Save</SimpleButton>
+                <SimpleButton Color="Color.Link" Clicked="@Cancel">Cancel</SimpleButton>
+            </Column>
+        </Row>
+    </TableRowCell>
+}
+else if ( EditMode == DataGridEditMode.InRow )
+{
+    @foreach ( var column in Columns )
+    {
+        @if ( column.ColumnType == DataGridColumnType.Command )
+        {
+            @if ( ParentDataGrid?.AllowEdit == true )
+            {
+                <_DataGridRowCommand EditState="DataGridEditState.Edit" Save="@Save" Cancel="@Cancel" />
+            }
+        }
+        else
+        {
+            <TableRowCell>
+                @if ( ParentDataGrid?.AllowEdit == true && column.AllowEdit )
+                {
+                    <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" />
+                }
+                else
+                {
+                    if ( column.DisplayTemplate != null )
+                    {
+                        @column.DisplayTemplate( Item )
+                    }
+                    else
+                    {
+                        @column.GetValue( Item )
+                    }
+                }
+            </TableRowCell>
+        }
+    }
+}

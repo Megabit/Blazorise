@@ -2,7 +2,7 @@
 @inherits Blazorise.Base.BaseSelectItem<TValue>
 @if ( !HasCustomRegistration )
 {
-    <option class="@ClassMapper.Class" value="@Value" selected="@IsSelected" disabled="@IsDisabled">@ChildContent</option>
+    <option class="@ClassMapper.Class" value="@StringValue" selected="@IsSelected" disabled="@IsDisabled">@ChildContent</option>
 }
 else
 {

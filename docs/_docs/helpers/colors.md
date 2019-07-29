@@ -8,7 +8,7 @@ toc_label: "Types"
 
 Here is a list of contextual classes that Blazorise offers
 
-### Color
+## Color
 
 Basic colors are used on most of the fields elements, buttons and dropdowns.
 
@@ -26,7 +26,9 @@ Basic colors are used on most of the fields elements, buttons and dropdowns.
 **Keep in mind:** All elements have a color `None` specified by default.
 {: .notice--info}
 
-### BackgroundColor
+## Background
+
+Similar to the contextual color classes, easily set the background of an element to any contextual class.
 
 - `None`
 - `Primary`
@@ -40,7 +42,7 @@ Basic colors are used on most of the fields elements, buttons and dropdowns.
 - `White`
 - `Transparent`
 
-### TextColor
+## TextColor
 
 - `None`
 - `Primary`

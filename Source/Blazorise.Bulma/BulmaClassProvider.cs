@@ -428,7 +428,7 @@ namespace Blazorise.Bulma
 
         public virtual string Bar() => "navbar";
 
-        public virtual string BarShade( Theme theme ) => null;
+        public virtual string BarThemeContrast( ThemeContrast themeContrast ) => null;
 
         public virtual string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{Breakpoint( breakpoint )}";
 
@@ -479,6 +479,12 @@ namespace Blazorise.Bulma
         public virtual string BarDropdownMenuShow() => Show();
 
         public virtual string BarDropdownMenuRight() => "is-right";
+
+        #endregion
+
+        #region Accordion
+
+        public virtual string Accordion() => "accordion";
 
         #endregion
 
@@ -578,7 +584,7 @@ namespace Blazorise.Bulma
 
         public virtual string Pagination() => "pagination-list";
 
-        public virtual string PaginationSize( Size size ) => $"{Pagination()}-{Size( size )}";
+        public virtual string PaginationSize( Size size ) => $"{Size( size )}";
 
         public virtual string PaginationItem() => null;
 
@@ -650,7 +656,7 @@ namespace Blazorise.Bulma
 
         public virtual string TableHeader() => null;
 
-        public virtual string TableHeaderTheme( Theme theme ) => $"has-background-{Theme( theme )}";
+        public virtual string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"has-background-{ThemeContrast( themeContrast )}";
 
         public virtual string TableHeaderCell() => null;
 
@@ -684,28 +690,7 @@ namespace Blazorise.Bulma
 
         public virtual string Badge() => "tag";
 
-        public virtual string BadgeColor( Color color )
-        {
-            switch ( color )
-            {
-                case Blazorise.Color.Primary:
-                    return "is-primary";
-                case Blazorise.Color.Secondary:
-                    return "is-info";
-                case Blazorise.Color.Success:
-                    return "is-success";
-                case Blazorise.Color.Danger:
-                    return "is-danger";
-                case Blazorise.Color.Warning:
-                    return "is-warning";
-                case Blazorise.Color.Info:
-                    return "is-info";
-                case Blazorise.Color.Link:
-                    return "is-link";
-                default:
-                    return null;
-            }
-        }
+        public virtual string BadgeColor( Color color ) => $"is-{Color( color )}";
 
         public virtual string BadgePill() => null;
 
@@ -849,7 +834,7 @@ namespace Blazorise.Bulma
                 case Blazorise.Color.Primary:
                     return "primary";
                 case Blazorise.Color.Secondary:
-                    return "info";
+                    return "secondary";
                 case Blazorise.Color.Success:
                     return "success";
                 case Blazorise.Color.Danger:
@@ -858,6 +843,10 @@ namespace Blazorise.Bulma
                     return "warning";
                 case Blazorise.Color.Info:
                     return "info";
+                case Blazorise.Color.Light:
+                    return "light";
+                case Blazorise.Color.Dark:
+                    return "dark";
                 case Blazorise.Color.Link:
                     return "link";
                 default:
@@ -929,13 +918,13 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Theme( Theme theme )
+        public virtual string ThemeContrast( ThemeContrast themeContrast )
         {
-            switch ( theme )
+            switch ( themeContrast )
             {
-                case Blazorise.Theme.Light:
+                case Blazorise.ThemeContrast.Light:
                     return "light";
-                case Blazorise.Theme.Dark:
+                case Blazorise.ThemeContrast.Dark:
                     return "dark";
                 default:
                     return null;

@@ -1,0 +1,19 @@
+﻿@inherits Base._BaseDataGridRowCommand
+@if ( EditState == DataGridEditState.Edit )
+{
+    <TableRowCell>
+        <SimpleButton Color="Color.Link" Clicked="@Save">Save</SimpleButton>
+    </TableRowCell>
+    <TableRowCell>
+        <SimpleButton Color="Color.Link" Clicked="@Cancel">Cancel</SimpleButton>
+    </TableRowCell>
+}
+else if ( EditState == DataGridEditState.None )
+{
+    <TableRowCell>
+        <SimpleButton Color="Color.Link" Clicked="@Edit">Edit</SimpleButton>
+    </TableRowCell>
+    <TableRowCell>
+        <SimpleButton Color="Color.Link" Clicked="@Delete">Delete</SimpleButton>
+    </TableRowCell>
+}

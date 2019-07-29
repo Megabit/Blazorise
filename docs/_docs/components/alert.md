@@ -64,16 +64,34 @@ To show alert just set `IsShow` attribute to true.
 or programatically
 
 ```cs
-<Alert ref="myAlert" Color="Color.Success">
+<Alert @ref="myAlert" Color="Color.Success">
     ...
 </Alert>
+
+<SimpleButton Clicked="@OnButtonClick">Show alert</SimpleButton>
 
 @code{
     Alert myAlert;
 
-    void ButtonClick()
+    void OnButtonClick()
     {
         myAlert.Show();
     }
 }
 ```
+
+## Functions
+
+| Name         | Description                                                                                 |
+|--------------|---------------------------------------------------------------------------------------------|
+| Show()       | Makes the alert visible.                                                                    |
+| Hide()       | Hides the alert.                                                                            |
+| Toggle()     | Switches the alert visibility.                                                              |
+
+## Attributes
+
+| Name         | Type                                                         | Default          | Description                                                                                 |
+|--------------|--------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| IsDismisable | boolean                                                      | false            | Enables the alert to be closed by placing the padding for close button.                     |
+| IsShow       | boolean                                                      | false            | Sets the alert visibilty.                                                                   |
+| Color        | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }}) | `None`           | Component visual or contextual style variants.                                              |

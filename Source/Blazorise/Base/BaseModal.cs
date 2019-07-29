@@ -39,6 +39,9 @@ namespace Blazorise.Base
             base.RegisterStyles();
         }
 
+        /// <summary>
+        /// Open the modal dialog.
+        /// </summary>
         public void Show()
         {
             IsOpen = true;
@@ -46,6 +49,9 @@ namespace Blazorise.Base
             StateHasChanged();
         }
 
+        /// <summary>
+        /// Close the modal dialog.
+        /// </summary>
         public void Hide()
         {
             IsOpen = false;

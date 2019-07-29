@@ -81,6 +81,14 @@ Use pattern attribute to specify regular expression that will be used while vali
 </Validation>
 ```
 
+### EditMask
+
+Edit masks are used to prevent user from entering an invalid values and when entered string must match a specific format. For example you can limit input to only accept numeric string, date string or if you want full control you can use RegEx format.
+
+```html
+<TextEdit MaskType="MaskType.RegEx" EditMask="^[a-zA-Z ]*$" />
+```
+
 ## Roles
 
 Use Role to define text value.
@@ -101,7 +109,7 @@ TextEdit by itself is not really usable if you can't use it. To get or set the i
 By using `bind-*` attribute the text will be automatically assigned to the member variable.
 
 ```html
-<TextEdit bind-Text="@name" />
+<TextEdit @bind-Text="@name" />
 
 @code{
     string name;
@@ -129,7 +137,7 @@ When using the event `TextChanged`, you also must define the `Text` value attrib
 
 ### TextChanged mode
 
-By default the TextChanged event will be raised only when component loses focus. To override default behaviour of TextChanged event you must set the `ChangeTextOnKeyPress` to true on application start.
+By default the TextChanged event will be raised on every keypress. To override default behavior of `TextChanged` event and to disable the change on every keypress you must set the `ChangeTextOnKeyPress` to `false` on application start. After setting it to `false` the event will be raised only after the input loses focus.
 
 ```cs
 public void ConfigureServices( IServiceCollection services )
@@ -137,23 +145,25 @@ public void ConfigureServices( IServiceCollection services )
   services
     .AddBlazorise( options =>
     {
-      options.ChangeTextOnKeyPress = true;
+      options.ChangeTextOnKeyPress = false;
     } );
 }
 ```
 
 ## Attributes
 
-| Name        | Type                                                         | Default | Description                                                                                          |
-|-------------|--------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
-| Role        | TextRole                                                     | `Text`  | The role of the input text.                                                                          |
-| Text        | string                                                       |         | Input value.                                                                                         |
-| TextChanged | event                                                        |         | Occurs after text has changed.                                                                       |
-| IsPlaintext | boolean                                                      | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
-| IsReadonly  | boolean                                                      | false   | Prevents modification of the input’s value.                                                          |
-| IsDisabled  | boolean                                                      | false   | Prevents user interactions and make it appear lighter.                                               |
-| MaxLength   | int?                                                         | null    | Specifies the maximum number of characters allowed in the input element.                             |
-| Placeholder | string                                                       |         | Sets the placeholder for the empty text.                                                             |
-| Pattern     | string                                                       |         | Specifies a regular expression that the input element's value is checked against on form validation. |
-| Color       | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }}) | `None`  | Component visual or contextual style variants.                                                       |
-| Size        | [Sizes]({{ "/docs/helpers/sizes/#size" | relative_url }})    | `None`  | Component size variations.                                                                           |
+| Name        | Type                                                                | Default | Description                                                                                          |
+|-------------|---------------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
+| Role        | TextRole                                                            | `Text`  | The role of the input text.                                                                          |
+| Text        | string                                                              |         | Input value.                                                                                         |
+| TextChanged | event                                                               |         | Occurs after text has changed.                                                                       |
+| IsPlaintext | boolean                                                             | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
+| IsReadonly  | boolean                                                             | false   | Prevents modification of the input’s value.                                                          |
+| IsDisabled  | boolean                                                             | false   | Prevents user interactions and make it appear lighter.                                               |
+| MaxLength   | int?                                                                | null    | Specifies the maximum number of characters allowed in the input element.                             |
+| Placeholder | string                                                              |         | Sets the placeholder for the empty text.                                                             |
+| Pattern     | string                                                              |         | Specifies a regular expression that the input element's value is checked against on form validation. |
+| Color       | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})        | `None`  | Component visual or contextual style variants.                                                       |
+| Size        | [Sizes]({{ "/docs/helpers/sizes/#size" | relative_url }})           | `None`  | Component size variations.                                                                           |
+| EditMask    | string                                                              |         | A string representing a edit mask expression.                                                        |
+| MaskType    | [MaskType]({{ "/docs/helpers/enums/#masktype" | relative_url }})    | `None`  | Specify the mask type used by the editor.                                                            |

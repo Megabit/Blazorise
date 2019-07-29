@@ -87,6 +87,21 @@
                     </FieldBody>
                 </Field>
                 <Field IsHorizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Input Select With Group</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <SelectEdit SelectedValue="3">
+                            <SelectGroup Label="first group">
+                                <SelectItem Value="1">1</SelectItem>
+                                <SelectItem Value="2">2</SelectItem>
+                            </SelectGroup>
+                            <SelectGroup Label="second group">
+                                <SelectItem Value="3">3</SelectItem>
+                                <SelectItem Value="4">4</SelectItem>
+                            </SelectGroup>
+                        </SelectEdit>
+                    </FieldBody>
+                </Field>
+                <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Default file input</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <FileEdit />

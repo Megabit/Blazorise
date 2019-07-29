@@ -416,7 +416,7 @@ namespace Blazorise.Frolic
 
         public virtual string Bar() => "e-nav";
 
-        public virtual string BarShade( Theme theme ) => $"navbar-{Theme( theme )}";
+        public virtual string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ThemeContrast( themeContrast )}";
 
         public virtual string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{Breakpoint( breakpoint )}";
 
@@ -466,7 +466,13 @@ namespace Blazorise.Frolic
 
         public virtual string BarDropdownMenuShow() => Show();
 
-        public virtual string BarDropdownMenuRight() => "dropdown-menu-right";
+        public virtual string BarDropdownMenuRight() => "drop-items-right";
+
+        #endregion
+
+        #region Accordion
+
+        public virtual string Accordion() => "accordion";
 
         #endregion
 
@@ -593,7 +599,7 @@ namespace Blazorise.Frolic
 
         #region Colors
 
-        public virtual string BackgroundColor( Background color ) => "bg-{Color( color )}";
+        public virtual string BackgroundColor( Background color ) => $"bg-{Color( color )}";
 
         #endregion
 
@@ -623,7 +629,7 @@ namespace Blazorise.Frolic
 
         public virtual string TableHeader() => "e-thead";
 
-        public virtual string TableHeaderTheme( Theme theme ) => Theme( theme );
+        public virtual string TableHeaderThemeContrast( ThemeContrast themeContrast ) => ThemeContrast( themeContrast );
 
         public virtual string TableHeaderCell() => null;
 
@@ -885,13 +891,13 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string Theme( Theme theme )
+        public virtual string ThemeContrast( ThemeContrast themeContrast )
         {
-            switch ( theme )
+            switch ( themeContrast )
             {
-                case Blazorise.Theme.Light:
+                case Blazorise.ThemeContrast.Light:
                     return "light";
-                case Blazorise.Theme.Dark:
+                case Blazorise.ThemeContrast.Dark:
                     return "dark";
                 default:
                     return null;

@@ -41,6 +41,9 @@ namespace Blazorise.Base
 
         [Parameter] protected string For { get; set; }
 
+        /// <summary>
+        /// Label is used by the checkbox.
+        /// </summary>
         [Parameter]
         protected bool IsCheck
         {
@@ -53,6 +56,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Label is used by the file input.
+        /// </summary>
         [Parameter]
         protected bool IsFile
         {
@@ -65,6 +71,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Defines the visibility for screen readers.
+        /// </summary>
         [Parameter]
         protected Screenreader Screenreader
         {

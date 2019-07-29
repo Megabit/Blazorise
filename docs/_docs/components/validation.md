@@ -66,7 +66,7 @@ Sometimes you don't want to do validation on every input change. In that case yo
 In this example you can see how the `<Validations>` component is used to enclose multiple validation components and the `Mode` attribute is set to Manual. Validation is executed only when clicked on submit button.
 
 ```html
-<Validations ref="validations" Mode="ValidationMode.Manual">
+<Validations @ref="validations" Mode="ValidationMode.Manual">
     <Validation Validator="@ValidateEmail">
         ...
     </Validation>
@@ -121,3 +121,11 @@ Here is a list of the validators currently available.
 | IsAlphanumericWithUnderscore | Check if the string contains only letters, numbers and underscore. |
 | IsUppercase                  | Check if the string is uppercase.                                  |
 | IsLowercase                  | Check if the string is lowercase.                                  |
+
+## Attributes
+
+| Name         | Type                                                                              | Default  | Description                                                                                |
+|--------------|-----------------------------------------------------------------------------------|----------|--------------------------------------------------------------------------------------------|
+| Status       | [ValidationStatus]({{ "/docs/helpers/enums/#validationstatus" | relative_url }})  | `None`   | Gets or sets the current validation status.                                                |
+| Validator    | action                                                                            |          | Validates the input value after it has being changed.                                      |
+| UsePattern   | boolean                                                                           | false    | Forces validation to use regex pattern matching instead of default validator handler.      |

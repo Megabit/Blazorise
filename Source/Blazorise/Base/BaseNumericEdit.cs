@@ -6,14 +6,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Base
 {
-    public abstract class BaseNumericEdit<TValue> : BaseTextInput<TValue>
-    //where TValue : struct 
+    /// <summary>
+    /// This is needed to set the value from javascript because calling generic component directly is not supported by Blazor.
+    /// </summary>
+    public interface INumericEdit
+    {
+        Task SetValue( string value );
+    }
+
+    public abstract class BaseNumericEdit<TValue> : BaseTextInput<TValue>, INumericEdit
     {
         #region Members
+
+        // taken from https://github.com/aspnet/AspNetCore/issues/11159
+        private DotNetObjectRef<NumericEditAdapter> dotNetObjectRef;
 
         #endregion
 
@@ -25,6 +36,22 @@ namespace Blazorise.Base
             internalValue = Value;
 
             base.OnInit();
+        }
+
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            dotNetObjectRef = dotNetObjectRef ?? JSRunner.CreateDotNetObjectRef( new NumericEditAdapter( this ) );
+            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementId, ElementRef, Decimals, DecimalsSeparator, Step );
+
+            await base.OnFirstAfterRenderAsync();
+        }
+
+        public override void Dispose()
+        {
+            JSRunner.DestroyNumericEdit( ElementId, ElementRef );
+            JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+
+            base.Dispose();
         }
 
         public override Task SetParametersAsync( ParameterCollection parameters )
@@ -39,7 +66,12 @@ namespace Blazorise.Base
             return base.SetParametersAsync( parameters );
         }
 
-        protected override void HandleValue( object value )
+        public Task SetValue( string value )
+        {
+            return HandleValue( value );
+        }
+
+        protected override Task HandleValue( object value )
         {
             if ( Converters.TryChangeType<TValue>( value, out var result ) )
             {
@@ -54,7 +86,7 @@ namespace Blazorise.Base
             else
                 InternalValue = default;
 
-            ValueChanged?.Invoke( InternalValue );
+            return ValueChanged.InvokeAsync( InternalValue );
         }
 
         #endregion
@@ -72,12 +104,22 @@ namespace Blazorise.Base
         /// <remarks>
         /// This will be converted to EventCallback once the Blazor team fix the error for generic components. see https://github.com/aspnet/AspNetCore/issues/8385
         /// </remarks>
-        [Parameter] protected Action<TValue> ValueChanged { get; set; }
+        [Parameter] protected EventCallback<TValue> ValueChanged { get; set; }
 
         /// <summary>
         /// Specifies the interval between valid values.
         /// </summary>
         [Parameter] protected decimal? Step { get; set; }
+
+        /// <summary>
+        /// Maximum number of decimal places after the decimal separator.
+        /// </summary>
+        [Parameter] protected int Decimals { get; set; } = 2;
+
+        /// <summary>
+        /// String to use as the decimal separator in numeric values.
+        /// </summary>
+        [Parameter] protected string DecimalsSeparator { get; set; } = ".";
 
         ///// <summary>
         ///// The minimum value to accept for this input.

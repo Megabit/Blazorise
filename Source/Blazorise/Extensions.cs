@@ -39,6 +39,22 @@ namespace Blazorise
             }
         }
 
+
+        public static string ToMaskTypeString( this MaskType maskType )
+        {
+            switch ( maskType )
+            {
+                case MaskType.Numeric:
+                    return "numeric";
+                case MaskType.DateTime:
+                    return "datetime";
+                case MaskType.RegEx:
+                    return "regex";
+                default:
+                    return null;
+            }
+        }
+
         public static string ToTextInputMode( this TextInputMode textInputMode )
         {
             switch ( textInputMode )

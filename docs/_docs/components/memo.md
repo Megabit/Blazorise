@@ -23,7 +23,7 @@ MemoEdit is used to create multiline text input (textarea).
 By using `bind-*` attribute the text will be automatically assigned to the member variable.
 
 ```html
-<MemoEdit bind-Text="@description" />
+<MemoEdit @bind-Text="@description" />
 
 @code{
     string description;
@@ -46,3 +46,17 @@ When using the event `TextChanged`, you also must define the `Text` value attrib
     }
 }
 ```
+
+## Attributes
+
+| Name        | Type                                                         | Default | Description                                                                                          |
+|-------------|--------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
+| Text        | string                                                       |         | Input value.                                                                                         |
+| TextChanged | event                                                        |         | Occurs after text has changed.                                                                       |
+| IsPlaintext | boolean                                                      | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
+| IsReadonly  | boolean                                                      | false   | Prevents modification of the input’s value.                                                          |
+| IsDisabled  | boolean                                                      | false   | Prevents user interactions and make it appear lighter.                                               |
+| MaxLength   | int?                                                         | null    | Specifies the maximum number of characters allowed in the input element.                             |
+| Placeholder | string                                                       |         | Sets the placeholder for the empty text.                                                             |
+| Rows        | int?                                                         | null    | Specifies the number lines in the input element.                                                     |
+| Size        | [Sizes]({{ "/docs/helpers/sizes/#size" | relative_url }})    | `None`  | Component size variations.                                                                           |

@@ -30,7 +30,7 @@ Place the modal markup somewhere at root of you component layout.
 ```html
 <SimpleButton Clicked="@ShowModal">Show Modal</SimpleButton>
 
-<Modal ref="modalRef">
+<Modal @ref="modalRef">
     <ModalBackdrop />
     <ModalContent IsCentered="true">
         <ModalHeader>
@@ -79,7 +79,7 @@ To work with the modal you must use the reference to the `Modal` component.
 If you want to prevent modal from closing you can use `Closing` event.
 
 ```html
-<Modal ref="modalRef" Closing="@OnModalClosing">
+<Modal @ref="modalRef" Closing="@OnModalClosing">
     ...
 </Modal>
 ```
@@ -96,3 +96,33 @@ If you want to prevent modal from closing you can use `Closing` event.
     }
 }
 ```
+
+## Functions
+
+| Name         | Description                                                                                 |
+|--------------|---------------------------------------------------------------------------------------------|
+| Show()       | Open the modal dialog.                                                                      |
+| Hide()       | Close the modal dialog.                                                                     |
+
+## Attributes
+
+### Modal
+
+| Name           | Type                                                                   | Default   | Description                                                                                                                    |
+|----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
+| IsOpen         | boolean                                                                | false     | Handles the visibility of modal dialog.                                                                                        |
+| Closing        | event                                                                  |           | Occurs before the modal is closed and can be used to prevent the modal from closing.                                           |
+
+### ModalContent
+
+| Name           | Type                                                                   | Default   | Description                                                                                                                    |
+|----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
+| IsForm         | boolean                                                                | false     | Makes the modal as classic dialog with header, body and footer. Used only by bulma provider! [see Modal card](https://bulma.io/documentation/components/modal#modal-card)                  |
+| IsCentered     | boolean                                                                | false     | Centers the modal vertically.                                                                                                  |
+| Size           | [ModalSize]({{ "/docs/helpers/sizes/#modalsize" | relative_url }})     | `Default` | Changes the size of the modal.                                                                                                 |
+
+### ModalBody
+
+| Name           | Type                                                                   | Default   | Description                                                                                                                    |
+|----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
+| MaxHeight      | int?                                                                   | null      | Sets the maximum height of the modal body (in viewport size unit).                                                             |

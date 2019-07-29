@@ -37,6 +37,9 @@ namespace Blazorise.Base
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the pagination size.
+        /// </summary>
         [Parameter]
         protected Size Size
         {
@@ -49,6 +52,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Gets or sets the pagination alignment.
+        /// </summary>
         [Parameter]
         protected Alignment Alignment
         {

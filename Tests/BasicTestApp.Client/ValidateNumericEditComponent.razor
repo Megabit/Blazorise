@@ -46,7 +46,7 @@
 <p id="validate-numeric-with-event-initially-blank">
     Initially blank:
     <Validation Validator="@IsValidInteger">
-        <NumericEdit Value="@intWithEventInitiallyBlank" ValueChanged="@(( v ) => { intWithEventInitiallyBlank = v; })">
+        <NumericEdit TValue="int" Value="@intWithEventInitiallyBlank" ValueChanged="@(( v ) => { intWithEventInitiallyBlank = v; })">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>
@@ -56,7 +56,7 @@
 <p id="validate-numeric-with-event-initially-populated">
     Initially populated:
     <Validation Validator="@IsValidInteger">
-        <NumericEdit Value="@intWithEventInitiallyPopulated" ValueChanged="@(( v ) => { intWithEventInitiallyPopulated = v; })">
+        <NumericEdit TValue="int" Value="@intWithEventInitiallyPopulated" ValueChanged="@(( v ) => { intWithEventInitiallyPopulated = v; })">
             <Feedback>
                 <ValidationError>error</ValidationError>
             </Feedback>

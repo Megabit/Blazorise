@@ -55,12 +55,18 @@ namespace Blazorise.Base
         [Parameter] protected Action Clicked { get; set; }
 
         /// <summary>
-        /// Page address.
+        /// Link to the destination page.
         /// </summary>
         [Parameter] protected string To { get; set; }
 
+        /// <summary>
+        /// URL matching behavior for a link.
+        /// </summary>
         [Parameter] protected Match Match { get; set; } = Match.All;
 
+        /// <summary>
+        /// Defines the title of a link, which appears to the user as a tooltip.
+        /// </summary>
         [Parameter] protected string Title { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }

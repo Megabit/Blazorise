@@ -6,10 +6,10 @@ toc: true
 toc_label: "Guide"
 ---
 
-**Warning:** Right now there are some issues when serializing dataset object to json. Blazor internal serializer is serializing nullable fields and when ChartJS is trying to read them it will break. There is not much I can do for now, except to always inititalise all of the fields for the particular chart dataset.
+**Warning:** Right now there are some issues when serializing dataset object to JSON. Blazor internal serializer is serializing nullable fields and when ChartJS is trying to read them it will break. There is not much I can do for now, except to always initialize all of the fields for the particular chart dataset.
 {: .notice--warning}
 
-**Update:** As of version **0.5.2** and **0.6.0-preview3** there are now two parameters for the chart components that will serve as a workaround for Blazor serializer which does not supports DataContract and DataMember attributes. The new parameters are `DataJsonString` and `OptionsJsonString` and are used to provide data and options for charts as json strings.
+**Update:** As of version **0.5.2** and **0.6.0-preview3** there are now two parameters for the chart components that will serve as a workaround for Blazor serializer which does not supports DataContract and DataMember attributes. The new parameters are `DataJsonString` and `OptionsJsonString` and are used to provide data and options for charts as JSON strings.
 Keep in mind that these two parameters are just a temporary feature that will be removed once the Blazor team implements a better serializer.
 {: .notice--info}
 
@@ -29,9 +29,9 @@ Supported charts types are:
 
 ## Installation
 
-### Nuget
+### NuGet
 
-Install chart extension from nuget.
+Install chart extension from NuGet.
 
 ```
 Install-Package Blazorise.Charts
@@ -60,7 +60,7 @@ You should always define `TItem` data type.
 ```html
 <SimpleButton Clicked="@(async () => await HandleRedraw())">Redraw</SimpleButton>
 
-<LineChart ref="lineChart" TItem="double" />
+<LineChart @ref="lineChart" TItem="double" />
 ```
 ```cs
 @code{
@@ -108,3 +108,16 @@ You should always define `TItem` data type.
     }
 }
 ```
+
+## Attributes
+
+| Name               | Type                                                                       | Default      | Description                                                                           |
+|--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| Type               | [ChartType]({{ "/docs/helpers/enums/#charttype" | relative_url }})         | `Line`       | Defines the chart type.                                                               |
+| Data               | ChartData                                                                  |              | Defines the chart data.                                                               |
+| Options            | ChartOptions                                                               |              | Defines the chart options.                                                            |
+| DataJsonString     | string                                                                     | null         | Defines the chart data that is serialized as JSON string. **[WILL BE REMOVED]**       |
+| OptionsJsonString  | string                                                                     | null         | Defines the chart options that is serialized as JSON string. **[WILL BE REMOVED]**    |
+
+**Note:** DataJsonString and OptionsJsonString are used only temporary until the Blazor team fixes the built-in JSON serializer.
+{: .notice--info}

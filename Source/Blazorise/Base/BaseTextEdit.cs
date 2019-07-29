@@ -25,6 +25,20 @@ namespace Blazorise.Base
             base.OnInit();
         }
 
+        protected async override Task OnFirstAfterRenderAsync()
+        {
+            await JSRunner.InitializeTextEdit( ElementId, ElementRef, MaskType.ToMaskTypeString(), EditMask );
+
+            await base.OnFirstAfterRenderAsync();
+        }
+
+        public override void Dispose()
+        {
+            JSRunner.DestroyTextEdit( ElementId, ElementRef );
+
+            base.Dispose();
+        }
+
         public override Task SetParametersAsync( ParameterCollection parameters )
         {
             // This is needed for the two-way binding to work properly.
@@ -37,10 +51,10 @@ namespace Blazorise.Base
             return base.SetParametersAsync( parameters );
         }
 
-        protected override void HandleValue( object value )
+        protected override Task HandleValue( object value )
         {
             InternalValue = value?.ToString();
-            TextChanged.InvokeAsync( InternalValue );
+            return TextChanged.InvokeAsync( InternalValue );
         }
 
         #endregion
@@ -67,6 +81,16 @@ namespace Blazorise.Base
         /// Occurs after text has changed.
         /// </summary>
         [Parameter] protected EventCallback<string> TextChanged { get; set; }
+
+        /// <summary>
+        /// A string representing a edit mask expression.
+        /// </summary>
+        [Parameter] protected string EditMask { get; set; }
+
+        /// <summary>
+        /// Specify the mask type used by the editor.
+        /// </summary>
+        [Parameter] protected MaskType MaskType { get; set; }
 
         /// <summary>
         /// Specifies the maximum number of characters allowed in the input element.

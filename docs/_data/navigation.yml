@@ -16,6 +16,8 @@ docs:
       url: /docs/start/
     - title: Usage
       url: /docs/usage/
+    - title: Theming
+      url: /docs/theming/
   - title: Form
     url: /docs/forms/
     children:
@@ -62,11 +64,15 @@ docs:
         url: /docs/components/breadcrumb/
       - title: "Alert"
         url: /docs/components/alert/
+      - title: "Accordion"
+        url: /docs/components/accordion/
   - title: Extensions
     url: /docs/extensions/
     children:
       - title: "Chart"
         url: /docs/extensions/chart/
+      - title: "DataGrid"
+        url: /docs/extensions/datagrid/
       - title: "Autocomplete"
         url: /docs/extensions/autocomplete/
       - title: "SelectList"
@@ -82,6 +88,8 @@ docs:
         url: /docs/helpers/sizes/
       - title: "Utilities"
         url: /docs/helpers/utilities/
+      - title: "Enums"
+        url: /docs/helpers/enums/
   - title: Meta
     children:
       - title: "Releases"

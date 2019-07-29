@@ -40,7 +40,7 @@ namespace Blazorise.Base
             base.OnInit();
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             if ( ParentValidation != null )
             {

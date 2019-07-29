@@ -43,6 +43,9 @@ namespace Blazorise.Base
         /// </summary>
         [Parameter] internal protected string Name { get; set; }
 
+        /// <summary>
+        /// Sets the active panel.
+        /// </summary>
         [Parameter]
         protected internal bool IsActive
         {

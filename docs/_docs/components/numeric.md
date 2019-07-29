@@ -8,7 +8,7 @@ toc_label: "Guide"
 
 ## Basics
 
-Use NumericEdit to have a field for any kind if numeric values. All basic types are supported, including nullables(`int`, `long`, `float`, `double`, `decimal`, etc.).
+Use NumericEdit to have a field for any kind if numeric values. All basic types are supported, including nullable types(`int`, `long`, `float`, `double`, `decimal`, etc.).
 
 ```html
 <NumericEdit Value="123" />
@@ -24,6 +24,14 @@ Since NumericEdit is a generic component you will have to specify the exact data
 <NumericEdit TValue="int?" />
 ```
 
-## Attributes & Usage
+## Attributes
 
 NumericEdit is just a specialized version of `TextEdit` component so all of the rules and styles are still working all the same. See [TextEdit]({{ "/docs/components/text/" | relative_url }}) to find the list of supported attributes.
+
+| Name              | Type                                                         | Default | Description                                                                                          |
+|-------------------|--------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
+| Value             | string                                                       |         | Gets or sets the value inside the input field.                                                       |
+| ValueChanged      | event                                                        |         | Occurs after the value has changed.                                                                  |
+| Step              | decimal?                                                     | null    | Specifies the interval between valid values.                                                         |
+| Decimals          | int                                                          | 2       | Maximum number of decimal places after the decimal separator.                                        |
+| DecimalsSeparator | string                                                       | "."     | String to use as the decimal separator in numeric values.                                            |

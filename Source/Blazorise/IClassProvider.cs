@@ -365,7 +365,7 @@ namespace Blazorise
 
         string Bar();
 
-        string BarShade( Theme theme );
+        string BarThemeContrast( ThemeContrast themeContrast );
 
         string BarBreakpoint( Breakpoint breakpoint );
 
@@ -414,6 +414,12 @@ namespace Blazorise
         string BarDropdownMenuShow();
 
         string BarDropdownMenuRight();
+
+        #endregion
+
+        #region Accordion
+
+        string Accordion();
 
         #endregion
 
@@ -551,7 +557,7 @@ namespace Blazorise
 
         string TableHeader();
 
-        string TableHeaderTheme( Theme theme );
+        string TableHeaderThemeContrast( ThemeContrast themeContrast );
 
         string TableHeaderCell();
 
@@ -689,7 +695,7 @@ namespace Blazorise
 
         string TextColor( TextColor textColor );
 
-        string Theme( Theme theme );
+        string ThemeContrast( ThemeContrast themeContrast );
 
         string Float( Float @float );
 

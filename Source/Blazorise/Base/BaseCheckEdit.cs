@@ -84,6 +84,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Group checkboxes or radios on the same horizontal row.
+        /// </summary>
         [Parameter]
         protected bool IsInline
         {
@@ -96,6 +99,9 @@ namespace Blazorise.Base
             }
         }
 
+        /// <summary>
+        /// Defines the mouse cursor based on the behaviour by the current css framework.
+        /// </summary>
         [Parameter]
         protected Cursor Cursor
         {

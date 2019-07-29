@@ -93,3 +93,9 @@ Addons are used to attach controls together.
 ```
 
 <iframe src="/examples/addons/dropdown/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
+## Attributes
+
+| Name        | Type                  | Default | Description                                                                                 |
+|-------------|-----------------------|---------|---------------------------------------------------------------------------------------------|
+| AddonType   | AddonType             | `Body`  | Defines the location and behaviour of addon container.                                      |

@@ -14,7 +14,7 @@ namespace Blazorise.Base
 
         private string elementId;
 
-        //private bool rendered = false;
+        private bool rendered = false;
 
         private string customClass;
 
@@ -48,17 +48,22 @@ namespace Blazorise.Base
 
         #region Methods
 
-        //protected override void OnAfterRender()
-        //{
-        //    if ( !rendered )
-        //    {
-        //        JSRunner.Init( ElementRef, this );
+        protected override async Task OnAfterRenderAsync()
+        {
+            // If the component has custom implementation we need to postpone the initialisation
+            // until the custom component is rendered!
+            if ( !rendered && !HasCustomRegistration )
+            {
+                rendered = true;
 
-        //        rendered = true;
-        //    }
+                await OnFirstAfterRenderAsync();
+            }
 
-        //    base.OnAfterRender();
-        //}
+            await base.OnAfterRenderAsync();
+        }
+
+        protected virtual Task OnFirstAfterRenderAsync()
+            => Task.CompletedTask;
 
         protected virtual void RegisterClasses()
         {

@@ -55,7 +55,7 @@ To use event you must provide both `Text` value attribute and `TextChanged` even
 Blazorise also supports automatic binding via `bind-*` attribute to keep it all much simpler.
 
 ```cs
-<TextEdit bind-Text="@name" />
+<TextEdit @bind-Text="@name" />
 
 @code{
     string name;
