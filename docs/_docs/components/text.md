@@ -81,6 +81,14 @@ Use pattern attribute to specify regular expression that will be used while vali
 </Validation>
 ```
 
+### EditMask
+
+Edit masks are used to prevent user from entering an invalid values and when entered string must match a specific format. For example you can limit input to only accept numeric string, date string or if you want full control you can use RegEx format.
+
+```html
+<TextEdit MaskType="MaskType.RegEx" EditMask="^[a-zA-Z ]*$" />
+```
+
 ## Roles
 
 Use Role to define text value.
@@ -129,7 +137,7 @@ When using the event `TextChanged`, you also must define the `Text` value attrib
 
 ### TextChanged mode
 
-By default the TextChanged event will be raised on every keypress. To override default behaviour of `TextChanged` event and to disable the change on every keypress you must set the `ChangeTextOnKeyPress` to `false` on application start. After setting it to `false` the event will be raised only after the input loses focus.
+By default the TextChanged event will be raised on every keypress. To override default behavior of `TextChanged` event and to disable the change on every keypress you must set the `ChangeTextOnKeyPress` to `false` on application start. After setting it to `false` the event will be raised only after the input loses focus.
 
 ```cs
 public void ConfigureServices( IServiceCollection services )

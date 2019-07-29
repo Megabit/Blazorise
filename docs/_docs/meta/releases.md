@@ -6,6 +6,18 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8
+
+### Enhancements
+
+- New [DataGrid]({{ "/docs/extensions/datagrid/" | relative_url }}) component extension.
+- New [ThemeProvider]({{ "/docs/theming/" | relative_url }}).
+- EditMask added to TextEdit
+- New Accordion component
+- Added SelectGroup for SelectEdit
+
+For detail description of changes please look at [v0.8 release page]({{ "/docs/releases/v-080/" | relative_url }})
+
 ## 0.7.8
 
 ### Enhancements
@@ -26,18 +38,18 @@ toc_label: "Version history"
 
 ### Bug Fixes
 
-- Fixed loading buttons for material and eFrolic css.
+- Fixed loading buttons for material and eFrolic CSS.
 
 ## 0.7.5
 
 ### Enhancements
 
-- A new atribute `NullableChecked` on `CheckEdit` component is introduced to handle nullable boolean values (bool?).
+- A new attribute `NullableChecked` on `CheckEdit` component is introduced to handle nullable boolean values (bool?).
 
 ### Bug Fixes
 
 - Fixed bug when first value in `SelectEdit` was null while validation is set to automatic.
-- Fixed css for vertical `Tabs` so they don't apear as broken.
+- Fixed CSS for vertical `Tabs` so they don't appear as broken.
 
 ## 0.7.4
 
@@ -51,7 +63,7 @@ toc_label: "Version history"
 
 ### Enhancements
 
-- Minor optimizations in _ClassMapper_ so that the initialisation of components should now be little faster.
+- Minor optimizations in _ClassMapper_ so that the initialization of components should now be little faster.
 
 ## 0.7.2
 

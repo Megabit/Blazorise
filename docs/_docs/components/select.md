@@ -6,13 +6,12 @@ toc: true
 toc_label: "Guide"
 ---
 
-**Update:** As of **v0.6-preview6** `SelectEdit` and `SelectItem` are generic components. 
-{: .notice--warning}
-
 Use SelectEdit to combine many choices into one menu.
 
 - `<SelectEdit>`
   - `<SelectItem>`
+  - `<SelectGroup>` Optional tag used to group select items
+    - `<SelectItem>`
 
 SelectEdit and SelectItem are generic components and they support all of the basic value types line int, string, enum, etc. Nullable types are also supported. Since they are generic component they also come with some special rules that must be followed:
 
@@ -48,9 +47,28 @@ Add the `IsMultiple` attribute to allow more than one option to be selected.
 
 <iframe src="/examples/forms/select-multiple/" frameborder="0" scrolling="no" style="width:100%;height:112px;"></iframe>
 
+## Select Groups
+
+You can also group items into categories for better user experience.
+
+```html
+<SelectEdit TValue="int">
+    <SelectGroup Label="Group 1">
+        <SelectItem Value="1">1</SelectItem>
+        <SelectItem Value="2">2</SelectItem>
+    </SelectGroup>
+    <SelectGroup Label="Group 2">
+        <SelectItem Value="3">3</SelectItem>
+        <SelectItem Value="4">4</SelectItem>
+    </SelectGroup>
+</SelectEdit>
+```
+
+<iframe src="/examples/forms/select-group/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ## Usage
 
-The process is basically the same for the single and for multiple select. The only diference is that `SelectedValue` attribute is used for single select mode, and `SelectedValues` attribute is used for multi-selection. Keep in mind that `IsMultiple` must be set to **true** for multi-selection to work properly.
+The process is basically the same for the single and for multiple select. The only difference is that `SelectedValue` attribute is used for single select mode, and `SelectedValues` attribute is used for multi-selection. Keep in mind that `IsMultiple` must be set to **true** for multi-selection to work properly.
 
 **Note:** The `Value` attribute is required on the `SelectItem`. Otherwise the `SelectEdit` will not behave as expected.
 {: .notice--info}

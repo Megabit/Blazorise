@@ -64,11 +64,15 @@ docs:
         url: /docs/components/breadcrumb/
       - title: "Alert"
         url: /docs/components/alert/
+      - title: "Accordion"
+        url: /docs/components/accordion/
   - title: Extensions
     url: /docs/extensions/
     children:
       - title: "Chart"
         url: /docs/extensions/chart/
+      - title: "DataGrid"
+        url: /docs/extensions/datagrid/
       - title: "Autocomplete"
         url: /docs/extensions/autocomplete/
       - title: "SelectList"

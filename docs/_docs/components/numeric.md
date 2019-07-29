@@ -8,7 +8,7 @@ toc_label: "Guide"
 
 ## Basics
 
-Use NumericEdit to have a field for any kind if numeric values. All basic types are supported, including nullables(`int`, `long`, `float`, `double`, `decimal`, etc.).
+Use NumericEdit to have a field for any kind if numeric values. All basic types are supported, including nullable types(`int`, `long`, `float`, `double`, `decimal`, etc.).
 
 ```html
 <NumericEdit Value="123" />

@@ -493,7 +493,7 @@ namespace Blazorise.DataGrid.Base
         [Parameter] public bool AllowFilter { get; set; }
 
         /// <summary>
-        /// Gets or sets whether users navigate datagrid by using pagination controls.
+        /// Gets or sets whether users can navigate datagrid by using pagination controls.
         /// </summary>
         [Parameter] public bool ShowPager { get; set; }
 
