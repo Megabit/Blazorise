@@ -23,7 +23,7 @@ namespace BasicTestApp.Client
 
         public void Configure( IComponentsApplicationBuilder app )
         {
-            app
+            app.Services
                 .UseBootstrapProviders()
                 .UseFontAwesomeIcons();
 

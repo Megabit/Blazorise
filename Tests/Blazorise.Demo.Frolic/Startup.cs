@@ -20,7 +20,7 @@ namespace Blazorise.Demo.Frolic
 
         public void Configure( IComponentsApplicationBuilder app )
         {
-            app
+            app.Services
                 .UseFrolicProviders()
                 .UseFontAwesomeIcons();
 

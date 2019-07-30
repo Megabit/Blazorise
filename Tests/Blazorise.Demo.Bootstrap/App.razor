@@ -3,7 +3,11 @@
     directive matching the current URI.
 *@
 <Blazorise.ThemeProvider Theme="@theme">
-    <Router AppAssembly="typeof(Program).Assembly" />
+    <Router AppAssembly="typeof(Program).Assembly">
+        <NotFoundContent>
+            <p>Sorry, there's nothing at this address.</p>
+        </NotFoundContent>
+    </Router>
 </Blazorise.ThemeProvider>
 @code{
     private Theme theme = new Theme

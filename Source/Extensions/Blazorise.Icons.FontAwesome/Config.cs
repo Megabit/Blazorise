@@ -3,11 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-#if NETSTANDARD2_0
-using Microsoft.AspNetCore.Components.Builder;
-#elif NETCORE3_0
-using Microsoft.AspNetCore.Builder;
-#endif
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -22,28 +17,13 @@ namespace Blazorise.Icons.FontAwesome
             return serviceCollection;
         }
 
-#if NETSTANDARD2_0
-
-        public static IComponentsApplicationBuilder UseFontAwesomeIcons( this IComponentsApplicationBuilder app )
+        public static IServiceProvider UseFontAwesomeIcons( this IServiceProvider serviceProvider )
         {
-            var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
+            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
 
             componentMapper.Register<Blazorise.Icon, FontAwesome.Icon>();
 
-            return app;
+            return serviceProvider;
         }
-
-#elif NETCORE3_0
-
-        public static IApplicationBuilder UseFontAwesomeIcons( this IApplicationBuilder app )
-        {
-            var componentMapper = app.ApplicationServices.GetRequiredService<IComponentMapper>();
-
-            componentMapper.Register<Blazorise.Icon, FontAwesome.Icon>();
-
-            return app;
-        }
-
-#endif
     }
 }

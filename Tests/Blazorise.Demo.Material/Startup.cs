@@ -20,7 +20,7 @@ namespace Blazorise.Demo.Material
 
         public void Configure( IComponentsApplicationBuilder app )
         {
-            app
+            app.Services
                 .UseMaterialProviders()
                 .UseMaterialIcons();
 

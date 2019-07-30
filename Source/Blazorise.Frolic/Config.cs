@@ -3,11 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-#if NETSTANDARD2_0
-using Microsoft.AspNetCore.Components.Builder;
-#elif NETCORE3_0
-using Microsoft.AspNetCore.Builder;
-#endif
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -56,28 +51,13 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.Tabs, Frolic.Tabs>();
         }
 
-#if NETSTANDARD2_0
-
-        public static IComponentsApplicationBuilder UseFrolicProviders( this IComponentsApplicationBuilder app )
+        public static IServiceProvider UseFrolicProviders( this IServiceProvider serviceProvider )
         {
-            var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
+            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
 
             RegisterComponents( componentMapper );
 
-            return app;
+            return serviceProvider;
         }
-
-#elif NETCORE3_0
-
-        public static IApplicationBuilder UseFrolicProviders( this IApplicationBuilder app )
-        {
-            var componentMapper = app.ApplicationServices.GetRequiredService<IComponentMapper>();
-
-            RegisterComponents( componentMapper );
-
-            return app;
-        }
-
-#endif
     }
 }

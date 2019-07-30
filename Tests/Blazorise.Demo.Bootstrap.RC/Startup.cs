@@ -56,7 +56,7 @@ namespace Blazorise.Demo.Bootstrap.RC
 
             app.UseRouting();
 
-            app
+            app.ApplicationServices
                 .UseBootstrapProviders()
                 .UseFontAwesomeIcons();
 

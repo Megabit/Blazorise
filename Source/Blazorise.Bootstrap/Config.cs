@@ -3,11 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-#if NETSTANDARD2_0
-using Microsoft.AspNetCore.Components.Builder;
-#elif NETCORE3_0
-using Microsoft.AspNetCore.Builder;
-#endif
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -50,33 +45,18 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
         }
 
-#if NETSTANDARD2_0
-
         /// <summary>
         /// Registers the custom rules for bootstrap components.
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IComponentsApplicationBuilder UseBootstrapProviders( this IComponentsApplicationBuilder app )
-        {
-            var componentMapper = app.Services.GetRequiredService<IComponentMapper>();
+public static IServiceProvider UseBootstrapProviders( this IServiceProvider serviceProvider )
+{
+    var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
 
-            RegisterComponents( componentMapper );
+    RegisterComponents( componentMapper );
 
-            return app;
-        }
-
-#elif NETCORE3_0
-
-        public static IApplicationBuilder UseBootstrapProviders( this IApplicationBuilder app )
-        {
-            var componentMapper = app.ApplicationServices.GetRequiredService<IComponentMapper>();
-
-            RegisterComponents( componentMapper );
-
-            return app;
-        }
-
-#endif
+    return serviceProvider;
+}
     }
 }
