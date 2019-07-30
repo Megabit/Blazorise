@@ -49,3 +49,8 @@ While it looks like it doesn't do much, it can be very useful. With this feature
 - Fixed bug with Guid values on `SelectEdit`
 - Fixed memory leak when using _DotNewObjectRef_
 - Removed unused classes
+- Fixed bug when serializing chart Data and Options
+
+## Contributors
+
+Also, thanks to [John Bird](https://github.com/johnbirdau) for taking time to fix bug with serializing chart `Data` and `Options` attributes.
