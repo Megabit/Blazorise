@@ -1,5 +1,7 @@
 ![Blazorise](docs/assets/images/blazorise.png)
 
+> Currently experiencing some technical difficulties with demo applications! 
+
 # Components for Blazor
 
 [![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/stsrki) ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
