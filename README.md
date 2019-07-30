@@ -1,7 +1,5 @@
 ![Blazorise](docs/assets/images/blazorise.png)
 
-> Currently experiencing some technical difficulties with demo applications! 
-
 # Components for Blazor
 
 [![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/stsrki) ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
@@ -22,7 +20,7 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 - [Bulma Demo](https://bulmademo.blazorise.com/)
 - [eFrolic Demo](https://efrolicdemo.blazorise.com/)
 
-### Server-Side Razor Components
+### Server-Side Blazor
 
 - [Bootstrap Demo](https://rcbootstrapdemo.blazorise.com/)
 
@@ -111,10 +109,14 @@ public void ConfigureServices( IServiceCollection services )
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();
 }
+```
 
+### Client-Side
+
+```
 public void Configure( IComponentsApplicationBuilder app )
 {
-  app
+  app.Services
     .UseBootstrapProviders()
     .UseFontAwesomeIcons();
 
@@ -122,7 +124,25 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-### Server-Side Blazor
+### Server-Side
+
+```
+public void Configure( IComponentsApplicationBuilder app )
+{
+  ...
+  app.UseRouting();
+  
+  app.ApplicationServices
+    .UseBootstrapProviders()
+    .UseFontAwesomeIcons();
+
+  app.UseEndpoints( endpoints =>
+  {
+      endpoints.MapBlazorHub();
+      endpoints.MapFallbackToPage( "/_Host" );
+  } );
+}
+```
 
 This step is mandatory only for projects built on top of Server-Side Blazor(Razor Components)! For Client-Side Blazor projects this step is not required! Normally these files would be downloaded automatically by the framework but since Razor Components still doesn't support static files inside of class library you will need to manually include required js and css files into your project. Once the Blazor/RC team implements this feature this step will not we required.
 
