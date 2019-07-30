@@ -11,6 +11,7 @@ nuget pack Blazorise.Bulma.nuspec
 nuget pack Blazorise.Frolic.nuspec
 
 nuget pack Blazorise.Charts.nuspec
+nuget pack Blazorise.DataGrid.nuspec
 nuget pack Blazorise.Sidebar.nuspec
 nuget pack Blazorise.Snackbar.nuspec
 nuget pack Blazorise.Components.nuspec
