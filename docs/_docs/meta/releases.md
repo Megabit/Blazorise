@@ -17,7 +17,7 @@ toc_label: "Version history"
 - New Accordion component
 - Added SelectGroup for SelectEdit
 
-For detail description of changes please look at [v0.8 release page]({{ "/docs/releases/v-080/" | relative_url }})
+For detail description of changes please look at [v0.8 release page]({{ "/docs/release-notes/release080/" | relative_url }})
 
 ## 0.7.8
 

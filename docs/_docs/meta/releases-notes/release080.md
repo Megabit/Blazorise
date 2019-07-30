@@ -1,6 +1,6 @@
 ---
 title: "Blazorise 0.8"
-permalink: /docs/releases/v-080/
+permalink: /docs/release-notes/release080/
 excerpt: "Release notes for Blazorise 0.8"
 toc: true
 toc_label: "Features"
