@@ -68,10 +68,14 @@ public void ConfigureServices( IServiceCollection services )
     .AddBulmaProviders()
     .AddFontAwesomeIcons();
 }
+```
 
+### Client-Side
+
+```
 public void Configure( IComponentsApplicationBuilder app )
 {
-  app
+  app.Services
     .UseBulmaProviders()
     .UseFontAwesomeIcons();
 
@@ -79,7 +83,25 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-### Razor Components
+### Server-Side
+
+```
+public void Configure( IComponentsApplicationBuilder app )
+{
+  ...
+  app.UseRouting();
+  
+  app.ApplicationServices
+    .UseBulmaProviders()
+    .UseFontAwesomeIcons();
+
+  app.UseEndpoints( endpoints =>
+  {
+      endpoints.MapBlazorHub();
+      endpoints.MapFallbackToPage( "/_Host" );
+  } );
+}
+```
 
 This step is mandatory only for projects built on top of Razor Components! For Blazor projects this step is not required! Normally these files would be downloaded automatically by the framework but since Razor Components still doesn't support static files inside of class library you will need to manually include required js and css files into your project. Once the Blazor/RC team implements this feature this step will not we required.
 
