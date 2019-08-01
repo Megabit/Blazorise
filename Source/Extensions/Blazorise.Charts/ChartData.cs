@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.Serialization;
 #endregion
 
@@ -359,7 +360,7 @@ namespace Blazorise.Charts
         /// Converts the color to the js function call.
         /// </summary>
         /// <returns></returns>
-        public string ToJsRgba() => $"rgba({R},{G},{B},{A})";
+        public string ToJsRgba() => $"rgba({R},{G},{B},{A.ToString( CultureInfo.InvariantCulture )})";
 
         #endregion
 
