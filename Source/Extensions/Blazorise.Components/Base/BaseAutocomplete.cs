@@ -13,6 +13,8 @@ namespace Blazorise.Components.Base
     {
         #region Members
 
+        private object selectedValue;
+
         #endregion
 
         #region Methods
@@ -52,6 +54,16 @@ namespace Blazorise.Components.Base
             }
         }
 
+        /// <summary>
+        /// Clears the selected value and the search field.
+        /// </summary>
+        public void Clear()
+        {
+            SelectedText = string.Empty;
+            selectedValue = null;
+            SelectedValueChanged.InvokeAsync( selectedValue );
+        }
+
         #endregion
 
         #region Properties
@@ -65,29 +77,48 @@ namespace Blazorise.Components.Base
         /// <summary>
         /// Defines the method by which the search will be done.
         /// </summary>
-        [Parameter] protected AutocompleteFilter Filter { get; set; } = AutocompleteFilter.StartsWith;
+        [Parameter] public AutocompleteFilter Filter { get; set; } = AutocompleteFilter.StartsWith;
 
         /// <summary>
         /// The minimum number of characters a user must type before a search is performed.
         /// </summary>
-        [Parameter] protected int MinLength { get; set; } = 1;
+        [Parameter] public int MinLength { get; set; } = 1;
 
         /// <summary>
         /// Sets the placeholder for the empty search.
         /// </summary>
-        [Parameter] protected string Placeholder { get; set; }
+        [Parameter] public string Placeholder { get; set; }
 
-        [Parameter] protected bool IsDisabled { get; set; }
+        [Parameter] public bool IsDisabled { get; set; }
 
-        [Parameter] protected IEnumerable<TItem> Data { get; set; }
+        [Parameter] public IEnumerable<TItem> Data { get; set; }
 
-        [Parameter] protected Func<TItem, string> TextField { get; set; }
+        [Parameter] public Func<TItem, string> TextField { get; set; }
 
-        [Parameter] protected Func<TItem, object> ValueField { get; set; }
+        [Parameter] public Func<TItem, object> ValueField { get; set; }
 
-        [Parameter] protected object SelectedValue { get; set; }
+        [Parameter]
+        public object SelectedValue
+        {
+            get { return selectedValue; }
+            set
+            {
+                if ( selectedValue == value )
+                    return;
 
-        [Parameter] protected EventCallback<object> SelectedValueChanged { get; set; }
+                selectedValue = value;
+
+                var item = Data != null
+                    ? Data.FirstOrDefault( x => ValueField( x ) == value )
+                    : default;
+
+                SelectedText = item != null
+                    ? TextField?.Invoke( item )
+                    : string.Empty;
+            }
+        }
+
+        [Parameter] public EventCallback<object> SelectedValueChanged { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
