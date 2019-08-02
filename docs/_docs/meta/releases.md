@@ -6,6 +6,14 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.1
+
+### Enhancements
+
+- Added support for nested field in datagrid column [#165](https://github.com/stsrki/Blazorise/issues/165)
+
+For detail description of changes please look at [v0.8.1 release page]({{ "/docs/release-notes/release081/" | relative_url }})
+
 ## 0.8
 
 ### Enhancements
