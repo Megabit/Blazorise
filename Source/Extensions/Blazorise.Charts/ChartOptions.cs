@@ -19,6 +19,9 @@ namespace Blazorise.Charts
 
         [DataMember( EmitDefaultValue = false )]
         public Tooltips Tooltips { get; set; }
+
+        [DataMember( EmitDefaultValue = false )]
+        public Animation Animation { get; set; }
     }
 
     #region Specifics
@@ -417,5 +420,24 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public bool OffsetGridLines { get; set; }
+    }
+
+    /// <summary>
+    /// Defines the chart animation options.
+    /// </summary>
+    [DataContract]
+    public class Animation
+    {
+        /// <summary>
+        /// The number of milliseconds an animation takes.
+        /// </summary>
+        [DataMember]
+        public int Duration { get; set; } = 1000;
+
+        /// <summary>
+        /// Easing function to use. <seealso cref="https://www.chartjs.org/docs/latest/configuration/animations.html#easing"/>
+        /// </summary>
+        [DataMember]
+        public string Easing { get; set; } = "easeOutQuart";
     }
 }
