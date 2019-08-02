@@ -69,15 +69,25 @@ The grid can work in two different editing modes that can provide different user
 
 ## Usage
 
-The basic structure is pretty straightforward. You must set the `TItem` typeparam and set `Data` attribute. Other attributes on the DataGrid are optional.
+The basic structure is pretty straightforward. You must define data and columns for the grid.
+
+### DataGrid
+
+For DataGrid the required fields are `TItem` typeparam and `Data` attribute. Other attributes on the DataGrid are optional.
+
+### Columns
 
 Next you must set the Columns that you want to see in the grid. When defining the columns the required fields are:
 
-- `TItem` this is always the same model as on DataGrid
-- `Field` name of the field in the supplied model
-- `Caption` the column caption text
+- `TItem` this is always the same model as on DataGrid.
+- `Field` name of the field in the supplied model.
+- `Caption` the column caption text.
 
-As you can see in the example the _Salary_ field is defined different that the other columns. It has `DisplayTemplate` and `EditTemplate` with which you have more freedom to show your data and how it will be edited. Every column can be defined like this. Please note that this templates are just optional. The grid will use the default editors if the templates are not defined.
+### Nested fields
+
+Field attribute also supports nested fields. You can define a column with field name like `"City.Country.Name"` and it will work. Just keep in mind that when editing nested fields they must be initialized first or otherwise they will raise an exception.
+
+### Example
 
 ```html
 <DataGrid TItem="Employee"
@@ -102,13 +112,45 @@ As you can see in the example the _Salary_ field is defined different that the o
 </DataGrid>
 ```
 
+## Templates
+
+For extra customization DataGrid will provide you with two additional templates that you can use to extend it's default behavior. A display template is used to customize display cells and an edit template is used to customize cell editors. You can place anything inside of the templates, be it a Blazorise components, regular html tags or your own components.
+
+Both templates have a special `context` attribute that is used to give access to the underline cell value. To learn more about `context` please go to official Blazor [documentation](https://docs.microsoft.com/hr-hr/aspnet/core/blazor/components?view=aspnetcore-3.0#template-context-parameters).
+
 ### DisplayTemplate
 
-This is the special component fragment that you can use to format displayed cell values. It will provide you with the `context` keyword that represents the grid model. To learn more about context please look at the official blazor [documentation](https://docs.microsoft.com/hr-hr/aspnet/core/blazor/components?view=aspnetcore-3.0#templated-components).
+Display template is using `TItem` as a context value. 
+
+```html
+<DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" AllowEdit="true">
+    <DisplayTemplate>
+        @{
+            var date = ( context as Employee )?.DateOfBirth;
+
+            if ( date != null )
+            {
+                @($"{date.Value.ToShortDateString()}, age: {( DateTime.Now.Year - date.Value.Year )}")
+            }
+        }
+    </DisplayTemplate>
+</DataGridNumericColumn>
+```
 
 ### EditTemplate
 
-This template will give you a way to handle the editing of grid cell values. The template `context` is CellEditContext. Use it to get or set the cell values.
+Edit template will give you a way to handle the editing of grid cell values. For this template `CellEditContext` is used as a `context` value. Use it to get or set the cell values.
+
+```html
+<DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" AllowEdit="true">
+    <DisplayTemplate>
+        @($"{( context as Employee )?.Salary} €")
+    </DisplayTemplate>
+    <EditTemplate>
+        <NumericEdit TValue="decimal" Value="@((decimal)(((CellEditContext)context).CellValue))" ValueChanged="@(v=>((CellEditContext)context).CellValue=v)" />
+    </EditTemplate>
+</DataGridColumn>
+```
 
 ## Attributes
 
@@ -136,5 +178,5 @@ This template will give you a way to handle the editing of grid cell values. The
 
 Specifies the grid editing modes.
 
-- `Form` Specifies that the mask feature is disabled.
-- `InRow` Specifies that the editor should accept numeric values and that the mask string must use the Numeric format syntax.
+- `Form` editing is done in the internal DataGrid form
+- `InRow` editing is done in the current row
