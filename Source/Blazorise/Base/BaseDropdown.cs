@@ -47,7 +47,7 @@ namespace Blazorise.Base
                 return;
 
             IsOpen = true;
-            Toggled?.Invoke( IsOpen );
+            Toggled.InvokeAsync( IsOpen );
 
             StateHasChanged();
         }
@@ -59,7 +59,7 @@ namespace Blazorise.Base
                 return;
 
             IsOpen = false;
-            Toggled?.Invoke( IsOpen );
+            Toggled.InvokeAsync( IsOpen );
 
             StateHasChanged();
         }
@@ -67,7 +67,7 @@ namespace Blazorise.Base
         public void Toggle()
         {
             IsOpen = !IsOpen;
-            Toggled?.Invoke( IsOpen );
+            Toggled.InvokeAsync( IsOpen );
 
             StateHasChanged();
         }
@@ -172,7 +172,7 @@ namespace Blazorise.Base
         /// <summary>
         /// Occurs after the dropdown menu visibility has changed.
         /// </summary>
-        [Parameter] protected Action<bool> Toggled { get; set; }
+        [Parameter] protected EventCallback<bool> Toggled { get; set; }
 
         [CascadingParameter] protected BaseButtons Buttons { get; set; }
 
