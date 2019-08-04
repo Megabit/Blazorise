@@ -232,6 +232,8 @@ namespace Blazorise.Providers
 
         public string DropdownItem() => null;
 
+        public string DropdownItemActive() => null;
+
         public string DropdownDivider() => null;
 
         public string DropdownMenu() => null;

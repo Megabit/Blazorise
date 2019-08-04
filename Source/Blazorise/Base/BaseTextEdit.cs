@@ -83,6 +83,21 @@ namespace Blazorise.Base
         [Parameter] protected EventCallback<string> TextChanged { get; set; }
 
         /// <summary>
+        /// Occurs when a key is pressed down while the control has focus.
+        /// </summary>
+        [Parameter] protected EventCallback<UIKeyboardEventArgs> KeyDown { get; set; }
+
+        /// <summary>
+        /// Occurs when a key is pressed while the control has focus.
+        /// </summary>
+        [Parameter] protected EventCallback<UIKeyboardEventArgs> KeyPress { get; set; }
+
+        /// <summary>
+        /// Occurs when a key is released while the control has focus.
+        /// </summary>
+        [Parameter] protected EventCallback<UIKeyboardEventArgs> KeyUp { get; set; }
+
+        /// <summary>
         /// A string representing a edit mask expression.
         /// </summary>
         [Parameter] protected string EditMask { get; set; }
