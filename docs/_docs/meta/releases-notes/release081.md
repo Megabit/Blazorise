@@ -20,7 +20,11 @@ The nasty bug with wrong color filing for charts in server-side Blazor is finall
 
 Also added `Animation` to the chart options to be able to control the animation duration or to disable it completely.
 
-## Bug Fixes
+### Autocomplete
+
+- Added an option to clear selected value and search field in the `Autocomplete` component.
+- Added keyboard navigation for filtered items.
+- Added Size attribute for search field.
 
 ## Contributors
 
