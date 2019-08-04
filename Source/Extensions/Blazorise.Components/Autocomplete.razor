@@ -1,16 +1,18 @@
 ﻿@typeparam TItem
 @inherits Base.BaseAutocomplete<TItem>
 <Dropdown @ref="dropdownRef">
-    <TextEdit Text="@SelectedText" TextChanged="@HandleTextChanged" Placeholder="@Placeholder" IsDisabled="@IsDisabled" />
+    <TextEdit Text="@SelectedText" TextChanged="@HandleTextChanged" Placeholder="@Placeholder" Size="@Size" IsDisabled="@IsDisabled" KeyDown="@HandleTextKeyDown" />
     <DropdownMenu>
-        @if ( Data != null && TextField != null && CurrentSearch?.Length >= MinLength )
+        @if ( DropdownVisible )
         {
-            foreach ( var item in Data.Where( x => SearchHandler( x ) ) )
+            for ( int i = 0; i < FilteredData.Count; ++i )
             {
+                var item = FilteredData[i];
+
                 var text = TextField?.Invoke( item );
                 var value = ValueField?.Invoke( item );
 
-                <DropdownItem Value="@value" Clicked="@HandleDropdownItemClicked">@text</DropdownItem>
+                <DropdownItem IsActive="@(i == ActiveItemIndex)" Value="@value" Clicked="@HandleDropdownItemClicked">@text</DropdownItem>
             }
         }
     </DropdownMenu>
