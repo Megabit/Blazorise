@@ -252,6 +252,8 @@ namespace Blazorise.Frolic
 
         public virtual string DropdownItem() => "drop-item";
 
+        public virtual string DropdownItemActive() => Active();
+
         public virtual string DropdownDivider() => "dropdown-divider";
 
         public virtual string DropdownMenu() => "drop-items";

@@ -12,6 +12,8 @@ namespace Blazorise.Base
     {
         #region Members
 
+        private bool isActive;
+
         #endregion
 
         #region Methods
@@ -19,7 +21,8 @@ namespace Blazorise.Base
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.DropdownItem() );
+                .Add( () => ClassProvider.DropdownItem() )
+                .If( () => ClassProvider.DropdownItemActive(), () => IsActive );
 
             base.RegisterClasses();
         }
@@ -37,6 +40,21 @@ namespace Blazorise.Base
         /// Holds the item value.
         /// </summary>
         [Parameter] protected object Value { get; set; }
+
+        /// <summary>
+        /// Indicate the currently active item.
+        /// </summary>
+        [Parameter]
+        internal bool IsActive
+        {
+            get => isActive;
+            set
+            {
+                isActive = value;
+
+                ClassMapper.Dirty();
+            }
+        }
 
         /// <summary>
         /// Occurs when the item is clicked.

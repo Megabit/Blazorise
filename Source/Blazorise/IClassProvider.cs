@@ -227,6 +227,8 @@ namespace Blazorise
 
         string DropdownItem();
 
+        string DropdownItemActive();
+
         string DropdownDivider();
 
         string DropdownMenu();

@@ -264,6 +264,8 @@ namespace Blazorise.Bulma
 
         public virtual string DropdownItem() => "dropdown-item";
 
+        public virtual string DropdownItemActive() => Active();
+
         public virtual string DropdownDivider() => "dropdown-divider";
 
         public virtual string DropdownMenu() => "dropdown-menu";
