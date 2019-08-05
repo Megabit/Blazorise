@@ -53,6 +53,9 @@ namespace Blazorise
             if ( theme.SidebarOptions != null )
                 GenerateSidebarVariables( theme.SidebarOptions );
 
+            if ( theme.SnackbarOptions != null )
+                GenerateSnackbarVariables( theme.SnackbarOptions );
+
             // apply variables
             foreach ( var kv in variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value};" );
@@ -139,6 +142,18 @@ namespace Blazorise
 
             if ( sidebarOptions.Color != null )
                 variables[$"--b-sidebar-color"] = ToHex( ParseColor( sidebarOptions.Color ) );
+        }
+
+        protected virtual void GenerateSnackbarVariables( ThemeSnackbarOptions snackbarOptions )
+        {
+            if ( snackbarOptions.BackgroundColor != null )
+                variables[$"--b-snackbar-background"] = ToHex( ParseColor( snackbarOptions.BackgroundColor ) );
+
+            if ( snackbarOptions.ButtonColor != null )
+                variables[$"--b-snackbar-button-color"] = ToHex( ParseColor( snackbarOptions.ButtonColor ) );
+
+            if ( snackbarOptions.ButtonHoverColor != null )
+                variables[$"--b-snackbar-button-hover-color"] = ToHex( ParseColor( snackbarOptions.ButtonHoverColor ) );
         }
 
         protected string Var( string name, string defaultValue = null )

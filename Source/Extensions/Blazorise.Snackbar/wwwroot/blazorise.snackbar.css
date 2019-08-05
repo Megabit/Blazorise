@@ -1,7 +1,7 @@
 ﻿.snackbar {
     -ms-flex-align: center;
     align-items: center;
-    background-color: #323232;
+    background-color: var(--b-snackbar-background, #323232);
     color: white;
     display: -ms-flexbox;
     display: flex;
@@ -107,7 +107,7 @@
     background-color: transparent;
     background-image: none;
     border: 0;
-    color: #ff4081;
+    color: var(--b-snackbar-button-color, #ff4081);
     cursor: pointer;
     display: block;
     -ms-flex-negative: 0;
@@ -140,7 +140,7 @@
 }
 
 .snackbar-btn:focus, .snackbar-btn:hover {
-    color: #ff80ab;
+    color: var(--b-snackbar-button-hover-color, #ff80ab);
     text-decoration: none;
 }
 

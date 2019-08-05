@@ -86,6 +86,8 @@ namespace Blazorise
         public ThemePaginationOptions PaginationOptions { get; set; }
 
         public ThemeSidebarOptions SidebarOptions { get; set; }
+
+        public ThemeSnackbarOptions SnackbarOptions { get; set; }
     }
 
     public class BasicOptions
@@ -244,6 +246,15 @@ namespace Blazorise
         public string BackgroundColor { get; set; }
 
         public string Color { get; set; }
+    }
+
+    public class ThemeSnackbarOptions
+    {
+        public string BackgroundColor { get; set; }
+
+        public string ButtonColor { get; set; }
+
+        public string ButtonHoverColor { get; set; }
     }
 
     /// <summary>
