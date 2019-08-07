@@ -3,7 +3,7 @@
 {
     <div class="field">
         <div class="control">
-            <input type="date" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" pattern="@Pattern" value="@internalDate" @onchange="@InternalDateHandler" @onclick="@ClickHandler" id="@ElementId" @ref="ElementRef" placeholder="@Placeholder" min="@Min?.ToString(Utils.Parsers.InternalDateFormat)" max="@Max?.ToString(Utils.Parsers.InternalDateFormat)" />
+            <input type="date" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" readonly="@IsReadonly" pattern="@Pattern" value="@internalDate" @onchange="@InternalDateHandler" @onclick="@ClickHandler" id="@ElementId" @ref="ElementRef" placeholder="@Placeholder" min="@Min?.ToString(Utils.Parsers.InternalDateFormat)" max="@Max?.ToString(Utils.Parsers.InternalDateFormat)" />
             @ChildContent
         </div>
         @Feedback
@@ -12,7 +12,7 @@
 else
 {
     <div class="control">
-        <input type="date" class="@ClassMapper.Class" disabled="@IsDisabled" readonly="@IsReadonly" pattern="@Pattern" value="@internalDate" @onchange="@InternalDateHandler" @onclick="@ClickHandler" id="@ElementId" @ref="ElementRef" placeholder="@Placeholder" min="@Min?.ToString(Utils.Parsers.InternalDateFormat)" max="@Max?.ToString(Utils.Parsers.InternalDateFormat)" />
+        <input type="date" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" readonly="@IsReadonly" pattern="@Pattern" value="@internalDate" @onchange="@InternalDateHandler" @onclick="@ClickHandler" id="@ElementId" @ref="ElementRef" placeholder="@Placeholder" min="@Min?.ToString(Utils.Parsers.InternalDateFormat)" max="@Max?.ToString(Utils.Parsers.InternalDateFormat)" />
         @ChildContent
     </div>
     @Feedback
