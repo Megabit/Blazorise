@@ -10,7 +10,17 @@ toc_label: "Version history"
 
 ### Enhancements
 
-- Added support for nested field in datagrid column [#165](https://github.com/stsrki/Blazorise/issues/165)
+- Added support for nested fields in datagrid column [#165](https://github.com/stsrki/Blazorise/issues/165)
+- Added an option to clear selected value and search field in the `Autocomplete` component. [#150](https://github.com/stsrki/Blazorise/issues/150)
+- Added keyboard navigation for filtered items.
+- Added Size attribute for search field.
+- Theming options for Snackbar
+
+### Bug Fixes
+
+- Fixed bug with wrong color filing for charts in server-side Blazor [#115](https://github.com/stsrki/Blazorise/issues/115)
+- Visibility not working for Edit components [#183](https://github.com/stsrki/Blazorise/issues/183)
+- CardTitle "Size" property ignored was ignored for Material CSS [#149](https://github.com/stsrki/Blazorise/issues/149)
 
 For detail description of changes please look at [v0.8.1 release page]({{ "/docs/release-notes/release081/" | relative_url }})
 

@@ -8,7 +8,9 @@ toc_label: "Features"
 
 ## Overview
 
-This release is bringing some smaller fixes and improvements.
+This release is mainly bringing some bug fixes and improvements based on the reports for 0.8 version.
+
+## Enhancements
 
 ### DataGrid
 
@@ -25,6 +27,15 @@ Also added `Animation` to the chart options to be able to control the animation 
 - Added an option to clear selected value and search field in the `Autocomplete` component.
 - Added keyboard navigation for filtered items.
 - Added Size attribute for search field.
+
+### Snackbar
+
+In the version 0.8 the option to theme a Snackbar was left missing. So here it is, theming is now possible for Snackbar also.
+
+## Bug Fixes
+
+- Visibility not working for Edit components [#183](https://github.com/stsrki/Blazorise/issues/183)
+- CardTitle "Size" property ignored was ignored for Material CSS [#149](https://github.com/stsrki/Blazorise/issues/149)
 
 ## Contributors
 

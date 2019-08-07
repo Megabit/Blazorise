@@ -10,8 +10,6 @@ toc_label: "Guide"
 
 Blazorise offers its own theme provider to control your application look and feel. Generally, if you stick to the built-in provider(s) and it's CSS classes and variants, there isn't anything else you need to do to use a custom theme with Blazorise. It just works. But we also make coloring outside the lines easy to do.
 
-
-
 ## Start
 
 To prepare your application for theming you need to wrap your root component with the `ThemeProvider` component tag. The best option is to add it to the **App.razor** where you wrap the `Router` tag with the `ThemeProvider` tag. Next you must set the `Theme` attribute where you can configure _colors_, _borders_, _margins_, _paddings_ etc. 
@@ -159,5 +157,6 @@ Globally enable or disable rounded elements.
 - `PaginationOptions` various settings for paginations
   - `LargeBorderRadius`
 - `SidebarOptions` various settings for sidebar component
+- `SnackbarOptions` various settings for snackbar  component
 
 There are some more options to choose when setting the Theme so feel free to explore it all. Please note that in time there will be many more options added.
