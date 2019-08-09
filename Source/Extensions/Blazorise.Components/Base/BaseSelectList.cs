@@ -16,6 +16,12 @@ namespace Blazorise.Components.Base
 
         #region Methods
 
+        protected Task HandleSelectedValueChanged( object value )
+        {
+            SelectedValue = value;
+            return SelectedValueChanged.InvokeAsync( value );
+        }
+
         #endregion
 
         #region Properties
@@ -28,7 +34,7 @@ namespace Blazorise.Components.Base
 
         [Parameter] protected object SelectedValue { get; set; }
 
-        [Parameter] protected Action<object> SelectedValueChanged { get; set; }
+        [Parameter] protected EventCallback<object> SelectedValueChanged { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
