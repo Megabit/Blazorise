@@ -2,7 +2,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Base;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;

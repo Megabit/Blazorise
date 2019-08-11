@@ -1,0 +1,67 @@
+﻿#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+#endregion
+
+namespace Blazorise
+{
+    public abstract class BaseTabPanel : BaseComponent
+    {
+        #region Members
+
+        private bool isActive;
+
+        #endregion
+
+        #region Methods
+
+        protected override void RegisterClasses()
+        {
+            ClassMapper
+                .Add( () => ClassProvider.TabPanel() )
+                .If( () => ClassProvider.TabPanelActive(), () => IsActive );
+
+            base.RegisterClasses();
+        }
+
+        protected override void OnInit()
+        {
+            ParentTabContent?.Hook( this );
+
+            base.OnInit();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Defines the panel name.
+        /// </summary>
+        [Parameter] internal protected string Name { get; set; }
+
+        /// <summary>
+        /// Sets the active panel.
+        /// </summary>
+        [Parameter]
+        protected internal bool IsActive
+        {
+            get => isActive;
+            set
+            {
+                isActive = value;
+
+                ClassMapper.Dirty();
+            }
+        }
+
+        [CascadingParameter] protected BaseTabsContent ParentTabContent { get; set; }
+
+        [Parameter] protected RenderFragment ChildContent { get; set; }
+
+        #endregion
+    }
+}

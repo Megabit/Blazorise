@@ -1,4 +1,4 @@
-﻿@inherits Base.BaseFileEdit
+﻿@inherits BaseFileEdit
 <Control Role="ControlRole.File">
     <input id="@ElementId" @ref="@ElementRef" type="file" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" @onchange="@PathChangedHandler" />
     <FormLabel IsFile="true" For="@ElementId">@ChildContent</FormLabel>

@@ -1,5 +1,5 @@
 @typeparam TItem
-@inherits Base._BaseDataGridRow<TItem>
+@inherits _BaseDataGridRow<TItem>
 <TableRow Clicked="@OnSelectedCommand" Background="@((object)ParentDataGrid.SelectedRow == (object)Item ? Background.Primary : Background.None)">
     @foreach ( var column in Columns )
     {

@@ -1,4 +1,4 @@
-﻿@inherits Blazorise.Base.BaseFileEdit
+﻿@inherits Blazorise.BaseFileEdit
 @if ( !HasCustomRegistration )
 {
     <input id="@ElementId" type="file" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" @onchange="@PathChangedHandler" />
