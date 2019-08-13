@@ -77,6 +77,12 @@
                 else
                 {
                     <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@Columns" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" />
+                    @if ( DetailRowTemplate != null )
+                    {
+                        <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
+                            @DetailRowTemplate( item )
+                        </_DataGridDetailRow>
+                    }
                 }
             }
         </CascadingValue>

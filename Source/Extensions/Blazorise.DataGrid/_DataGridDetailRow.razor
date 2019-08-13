@@ -1,0 +1,7 @@
+﻿@typeparam TItem
+@inherits _BaseDataGridDetailRow<TItem>
+<TableRow>
+    <TableRowCell ColumnSpan="@Columns.Count()">
+        @ChildContent
+    </TableRowCell>
+</TableRow>

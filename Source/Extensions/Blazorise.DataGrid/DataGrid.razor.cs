@@ -568,6 +568,8 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public DataGridEditMode EditMode { get; set; } = DataGridEditMode.Form;
 
+        [Parameter] protected RenderFragment<TItem> DetailRowTemplate { get; set; }
+
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
         #endregion
