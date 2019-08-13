@@ -8,6 +8,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Base class for field and input components that can be sized in grid layout.
+    /// </summary>
+    /// <remarks>
+    /// TODO: Currently this class is inherited by the input components. This is problematic because the sizing of
+    /// input components is done by the FieldBody. See if there is a need for this class to be used by the input components!!
+    /// </remarks>
     public abstract class BaseSizableComponent : BaseComponent
     {
         #region Members

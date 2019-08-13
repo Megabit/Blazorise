@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Base component for all the input types.
+    /// Base component for all the input component types.
     /// </summary>
     public abstract class BaseInputComponent<TValue> : BaseSizableComponent, IDisposable
     {

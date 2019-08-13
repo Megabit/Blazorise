@@ -18,7 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Base\" />
+    <Compile Remove="Base\**" />
+    <Content Remove="Base\**" />
+    <EmbeddedResource Remove="Base\**" />
+    <None Remove="Base\**" />
   </ItemGroup>
 
 </Project>

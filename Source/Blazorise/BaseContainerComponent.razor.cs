@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Base class for components that are containers for other components.
+    /// </summary>
     public abstract class BaseContainerComponent : BaseComponent
     {
         #region Members
