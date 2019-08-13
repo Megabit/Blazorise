@@ -1,7 +1,21 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridDetailRow<TItem>
 <TableRow>
-    <TableRowCell ColumnSpan="@Columns.Count()">
-        @ChildContent
-    </TableRowCell>
+    @{
+        var location = CommandColumnLocation;
+
+        if ( location == "start" )
+        {
+            <TableRowCell ColumnSpan="2">
+            </TableRowCell>
+        }
+        <TableRowCell ColumnSpan="@Columns.Count">
+            @ChildContent
+        </TableRowCell>
+        if ( location == "end" )
+        {
+            <TableRowCell ColumnSpan="2">
+            </TableRowCell>
+        }
+    }
 </TableRow>
