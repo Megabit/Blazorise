@@ -50,13 +50,13 @@ namespace Blazorise.Bootstrap
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-public static IServiceProvider UseBootstrapProviders( this IServiceProvider serviceProvider )
-{
-    var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
+        public static IServiceProvider UseBootstrapProviders( this IServiceProvider serviceProvider )
+        {
+            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
 
-    RegisterComponents( componentMapper );
+            RegisterComponents( componentMapper );
 
-    return serviceProvider;
-}
+            return serviceProvider;
+        }
     }
 }
