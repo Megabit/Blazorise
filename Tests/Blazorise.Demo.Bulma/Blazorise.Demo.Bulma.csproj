@@ -8,4 +8,11 @@
     <ProjectReference Include="..\Blazorise.Demo\Blazorise.Demo.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="_Imports.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
+    </Content>
+  </ItemGroup>
+
 </Project>
