@@ -27,11 +27,11 @@ namespace Blazorise
             base.RegisterClasses();
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             ParentTabContent?.Hook( this );
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         #endregion

@@ -1,5 +1,4 @@
-﻿@page "/tests/tabs"
-<Row>
+﻿<Row>
     <Column ColumnSize="ColumnSize.IsHalf">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
@@ -12,7 +11,7 @@
                     <Tab Name="messages" IsActive="@(selectedTabName1 == "messages")">Messages</Tab>
                     <Tab Name="settings" IsActive="@(selectedTabName1 == "settings")">Settings</Tab>
                 </Tabs>
-                <TabsContent @ref="tabContent1">
+                <TabsContent @ref="tabContent1" @ref:suppressField>
                     <TabPanel IsActive="@(selectedTabName1 == "home")">
                         Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
                     </TabPanel>
@@ -41,7 +40,7 @@
                     <Tab Name="messages" IsActive="@(selectedTabName2 == "messages")">Messages</Tab>
                     <Tab Name="settings" IsActive="@(selectedTabName2 == "settings")">Settings</Tab>
                 </Tabs>
-                <TabsContent @ref="tabContent2">
+                <TabsContent @ref="tabContent2" @ref:suppressField>
                     <TabPanel IsActive="@(selectedTabName2 == "home")">
                         Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
                     </TabPanel>
@@ -76,7 +75,7 @@
                         </Tabs>
                     </Column>
                     <Column ColumnSize="ColumnSize.Is9">
-                        <TabsContent @ref="tabContent3">
+                        <TabsContent @ref="tabContent3" @ref:suppressField>
                             <TabPanel IsActive="@(selectedTabName3 == "home")">
                                 Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
                             </TabPanel>
@@ -103,7 +102,7 @@
             <CardBody>
                 <Row>
                     <Column ColumnSize="ColumnSize.Is9">
-                        <TabsContent @ref="tabContent4">
+                        <TabsContent @ref="tabContent4" @ref:suppressField>
                             <TabPanel IsActive="@(selectedTabName4 == "home")">
                                 Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.
                             </TabPanel>

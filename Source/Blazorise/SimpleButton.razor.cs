@@ -53,12 +53,12 @@ namespace Blazorise
                 Clicked.InvokeAsync( null );
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             // notify dropdown that the button is inside of it
             ParentDropdown?.Register( this );
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         #endregion

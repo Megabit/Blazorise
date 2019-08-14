@@ -34,7 +34,7 @@ namespace Blazorise
 
         private Visibility visibility = Visibility.Default;
 
-        private ParameterCollection parameters;
+        private ParameterView parameters;
 
         #endregion
 
@@ -86,14 +86,14 @@ namespace Blazorise
         {
         }
 
-        public override Task SetParametersAsync( ParameterCollection parameters )
+        public override Task SetParametersAsync( ParameterView parameters )
         {
             if ( HasCustomRegistration )
             {
                 // the component has a custom implementation so we need to copy the parameters for manual rendering
                 this.parameters = parameters;
 
-                return base.SetParametersAsync( ParameterCollection.Empty );
+                return base.SetParametersAsync( ParameterView.Empty );
             }
             else
                 return base.SetParametersAsync( parameters );
@@ -122,7 +122,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the reference to the rendered element.
         /// </summary>
-        public ElementRef ElementRef { get; protected set; }
+        public ElementReference ElementRef { get; protected set; }
 
         /// <summary>
         /// Gets the unique id of the element.

@@ -36,11 +36,11 @@ namespace Blazorise
                 Clicked?.Invoke();
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             ParentBar?.Hook( this );
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         #endregion

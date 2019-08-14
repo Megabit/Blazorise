@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Pages\Index.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
+    </Content>
     <Content Update="wwwroot\blazorise.bootstrap.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

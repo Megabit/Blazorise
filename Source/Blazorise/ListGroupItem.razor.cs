@@ -36,11 +36,11 @@ namespace Blazorise
             ParentListGroup?.SelectItem( Name );
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             ParentListGroup?.LinkItem( this );
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         #endregion

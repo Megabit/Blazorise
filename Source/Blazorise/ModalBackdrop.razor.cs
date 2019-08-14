@@ -23,12 +23,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             // link to the parent component
             ParentModal?.Hook( this );
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         protected override async Task OnFirstAfterRenderAsync()

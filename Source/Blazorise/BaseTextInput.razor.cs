@@ -34,14 +34,14 @@ namespace Blazorise
             base.RegisterClasses();
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             if ( ParentValidation != null )
             {
                 ParentValidation.InitInputPattern( Pattern );
             }
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         protected Task HandleOnChange( UIChangeEventArgs e )

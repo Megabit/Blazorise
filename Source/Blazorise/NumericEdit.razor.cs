@@ -31,11 +31,11 @@ namespace Blazorise
         #region Methods
 
         // implementation according to the response on https://github.com/aspnet/AspNetCore/issues/7898#issuecomment-479863699
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             internalValue = Value;
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         protected override async Task OnFirstAfterRenderAsync()
@@ -54,7 +54,7 @@ namespace Blazorise
             base.Dispose();
         }
 
-        public override Task SetParametersAsync( ParameterCollection parameters )
+        public override Task SetParametersAsync( ParameterView parameters )
         {
             // This is needed for the two-way binding to work properly.
             // Otherwise the internal value would not be set.

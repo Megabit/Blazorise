@@ -58,7 +58,7 @@ namespace Blazorise.Snackbar
             }
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             if ( timer == null )
             {
@@ -68,7 +68,7 @@ namespace Blazorise.Snackbar
                 timer.AutoReset = false;
             }
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         public void Show()

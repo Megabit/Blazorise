@@ -33,12 +33,12 @@ namespace Blazorise
             base.RegisterClasses();
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             // link to the parent component
             Dropdown?.Hook( this );
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         #endregion
