@@ -210,12 +210,18 @@
 
     // generated with https://mockaroo.com/
     List<Employee> dataModels = new List<Employee> {
-        new Employee {
-            Id = 1,FirstName = "Caro",LastName = "Nizard",EMail = "cnizard0@hc360.com",City = "Faīẕābād",Zip = null,Salary = 51724.19m,
-            Salaries = new List<Salary> { new Salary { Date = new DateTime(2019,1,6), Total = 5888 } }
-        },
-        new Employee {Id = 2,FirstName = "Matthew",LastName = "Labb",EMail = "mlabb1@ca.gov",City = "Xinxi",Zip = null,Salary = 65176.6m, Childrens=2 },
-        new Employee {Id = 3,FirstName = "Enos",LastName = "Clendennen",EMail = "eclendennen2@shareasale.com",City = "Listvyanskiy",Zip = "633224",Salary = 75602.48m, Childrens=1 },
+        new Employee {Id = 1,FirstName = "Caro",LastName = "Nizard",EMail = "cnizard0@hc360.com",City = "Faīẕābād",Zip = null,Salary = 51724.19m,
+            Salaries = new List<Salary> {
+                new Salary { Date = new DateTime(2019,1,6), Total = 6000 },
+                new Salary { Date = new DateTime(2019,2,7), Total = 5005 },
+                new Salary { Date = new DateTime(2019,3,5), Total = 3000 }
+            }},
+        new Employee {Id = 2,FirstName = "Matthew",LastName = "Labb",EMail = "mlabb1@ca.gov",City = "Xinxi",Zip = null,Salary = 65176.6m, Childrens=2},
+        new Employee {Id = 3,FirstName = "Enos",LastName = "Clendennen",EMail = "eclendennen2@shareasale.com",City = "Listvyanskiy",Zip = "633224",Salary = 75602.48m, Childrens=1,
+            Salaries = new List<Salary> {
+                new Salary { Date = new DateTime(2019,2,7), Total = 4005 },
+                new Salary { Date = new DateTime(2019,3,5), Total = 8000 }
+            }},
         new Employee {Id = 4,FirstName = "Cirilo",LastName = "Douch",EMail = "cdouch3@thetimes.co.uk",City = "Wiset Chaichan",Zip = "84280",Salary = 88511.38m },
         new Employee {Id = 5,FirstName = "Bibbie",LastName = "Prahm",EMail = "bprahm4@dropbox.com",City = "Nkandla",Zip = "3859",Salary = 41665.0m },
         new Employee {Id = 6,FirstName = "Ferd",LastName = "Bizzey",EMail = "fbizzey5@vimeo.com",City = "Arroyo Seco",Zip = "5196",Salary = 58632.74m },
