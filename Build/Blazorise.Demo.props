@@ -7,7 +7,6 @@
 		<LangVersion>8.0</LangVersion>
 		<RazorLangVersion>3.0</RazorLangVersion>
     	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-		<BlazorLinkOnBuild>false</BlazorLinkOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
