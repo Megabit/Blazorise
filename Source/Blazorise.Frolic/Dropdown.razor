@@ -5,11 +5,11 @@
     </div>
 </CascadingValue>
 @code{
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
         ParentAddon?.Hook( this );
 
-        base.OnInit();
+        base.OnInitialized();
     }
 
     [CascadingParameter] protected Addon ParentAddon { get; set; }
