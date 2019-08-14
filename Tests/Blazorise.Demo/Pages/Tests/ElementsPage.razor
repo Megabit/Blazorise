@@ -1,6 +1,4 @@
-﻿@page "/tests/elements";
-
-<Row>
+﻿<Row>
     <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
@@ -254,29 +252,29 @@
         </Card>
     </Column>
 </Row>
-<Snackbar @ref="snackbar">
+<Snackbar @ref="snackbar" @ref:suppressField>
     <SnackbarBody>
         Single line of text directly related to the operation performed
     </SnackbarBody>
 </Snackbar>
-<Snackbar @ref="snackbarAction">
+<Snackbar @ref="snackbarAction" @ref:suppressField>
     <SnackbarBody>
         Single line of text directly related to the operation performed
     </SnackbarBody>
     <SnackbarAction Clicked="@(()=>snackbarAction.Hide())">ACTION</SnackbarAction>
 </Snackbar>
-<Snackbar @ref="snackbarMultiline" IsMultiline="true">
+<Snackbar @ref="snackbarMultiline" @ref:suppressField IsMultiline="true">
     <SnackbarBody>
         When I was 5 years old, my mother always told me that happiness was the key to life. When I went to school, they asked me what I wanted to be when I grew up. I wrote down ‘happy’. They told me I didn’t understand the assignment, and I told them they didn’t understand life. –John Lennon
     </SnackbarBody>
     <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
 </Snackbar>
-<Snackbar @ref="snackbarLeft" Location="SnackbarLocation.Left">
+<Snackbar @ref="snackbarLeft" @ref:suppressField Location="SnackbarLocation.Left">
     <SnackbarBody>
         Single line of text directly related to the operation performed
     </SnackbarBody>
 </Snackbar>
-<Snackbar @ref="snackbarRight" Location="SnackbarLocation.Right">
+<Snackbar @ref="snackbarRight" @ref:suppressField Location="SnackbarLocation.Right">
     <SnackbarBody>
         Single line of text directly related to the operation performed
     </SnackbarBody>

@@ -25,7 +25,7 @@
         <div>
             @foreach ( var shade in color.Shades.Values )
             {
-                <div class="demo-theme-color-item" style="background: @(shade.Value)" onclick="@(()=>Value=shade.Value)">
+                <div class="demo-theme-color-item" style="background: @(shade.Value)" @onclick="@(()=>Value=shade.Value)">
 
                 </div>
             }

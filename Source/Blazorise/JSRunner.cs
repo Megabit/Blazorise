@@ -43,42 +43,42 @@ namespace Blazorise
             }
         }
 
-        public Task<bool> Init( ElementRef elementRef, object componentRef )
+        public Task<bool> Init( ElementReference elementRef, object componentRef )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.init", elementRef, DotNetObjectRef.Create( componentRef ) );
         }
 
-        public Task<bool> InitializeTextEdit( string elementId, ElementRef elementRef, string maskType, string editMask )
+        public Task<bool> InitializeTextEdit( string elementId, ElementReference elementRef, string maskType, string editMask )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementId, elementRef, maskType, editMask );
         }
 
-        public Task<bool> DestroyTextEdit( string elementId, ElementRef elementRef )
+        public Task<bool> DestroyTextEdit( string elementId, ElementReference elementRef )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementId, elementRef );
         }
 
-        public Task<bool> InitializeNumericEdit( DotNetObjectRef<NumericEditAdapter> dotNetObjectRef, string elementId, ElementRef elementRef, int decimals, string decimalsSeparator, decimal? step )
+        public Task<bool> InitializeNumericEdit( DotNetObjectRef<NumericEditAdapter> dotNetObjectRef, string elementId, ElementReference elementRef, int decimals, string decimalsSeparator, decimal? step )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementId, elementRef, decimals, decimalsSeparator, step );
         }
 
-        public Task<bool> DestroyNumericEdit( string elementId, ElementRef elementRef )
+        public Task<bool> DestroyNumericEdit( string elementId, ElementReference elementRef )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementId, elementRef );
         }
 
-        public Task<bool> AddClass( ElementRef elementRef, string classname )
+        public Task<bool> AddClass( ElementReference elementRef, string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.addClass", elementRef, classname );
         }
 
-        public Task<bool> RemoveClass( ElementRef elementRef, string classname )
+        public Task<bool> RemoveClass( ElementReference elementRef, string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.removeClass", elementRef, classname );
         }
 
-        public Task<bool> ToggleClass( ElementRef elementId, string classname )
+        public Task<bool> ToggleClass( ElementReference elementId, string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.toggleClass", elementId, classname );
         }
@@ -93,7 +93,7 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.removeClassFromBody", classname );
         }
 
-        public Task<bool> ParentHasClass( ElementRef elementRef, string classaname )
+        public Task<bool> ParentHasClass( ElementReference elementRef, string classaname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.parentHasClass", elementRef, classaname );
         }
@@ -103,7 +103,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="element">Input field.</param>
         /// <returns>Returns an array of paths.</returns>
-        public Task<string[]> GetFilePaths( ElementRef element )
+        public Task<string[]> GetFilePaths( ElementReference element )
         {
             return runtime.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getFilePaths", element );
         }
@@ -143,7 +143,7 @@ namespace Blazorise
             } ).Where( x => x != default ).ToArray();
         }
 
-        public Task<bool> SetTextValue( ElementRef elementRef, object value )
+        public Task<bool> SetTextValue( ElementReference elementRef, object value )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
         }

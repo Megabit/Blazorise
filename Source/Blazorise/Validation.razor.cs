@@ -45,7 +45,7 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             if ( ParentValidations != null )
             {
@@ -53,7 +53,7 @@ namespace Blazorise
                 ParentValidations.ClearingAll += OnClearingAll;
             }
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         public void Dispose()

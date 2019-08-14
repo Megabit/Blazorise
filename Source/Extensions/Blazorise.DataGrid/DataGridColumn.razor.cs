@@ -36,12 +36,12 @@ namespace Blazorise.DataGrid
 
         #region Methods
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             // connect column to the parent datagrid
             ParentDataGrid?.Hook( this );
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         /// <summary>

@@ -31,11 +31,11 @@ namespace Blazorise
             base.RegisterClasses();
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             ParentTabs?.Hook( this );
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         protected void ClickHandler()

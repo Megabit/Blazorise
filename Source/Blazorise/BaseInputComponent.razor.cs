@@ -27,7 +27,7 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             // link to the parent component
             if ( ParentValidation != null )
@@ -37,7 +37,7 @@ namespace Blazorise
                 ParentValidation.Validated += OnValidated;
             }
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         public virtual void Dispose()

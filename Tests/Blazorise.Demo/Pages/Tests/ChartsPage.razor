@@ -1,6 +1,4 @@
-﻿@page "/tests/charts";
-
-<Row>
+﻿<Row>
     <Column ColumnSize="ColumnSize.IsThird.OnWidescreen">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
@@ -8,7 +6,7 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( lineChart, GetLineChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <LineChart @ref="lineChart" TItem="double" />
+                <LineChart @ref="lineChart" @ref:suppressField TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -19,7 +17,7 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( barChart, GetBarChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart @ref="barChart" Type="ChartType.Bar" TItem="double" />
+                <Chart @ref="barChart" @ref:suppressField Type="ChartType.Bar" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -30,7 +28,7 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( pieChart, GetPieChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart @ref="pieChart" Type="ChartType.Pie" TItem="double" />
+                <Chart @ref="pieChart" @ref:suppressField Type="ChartType.Pie" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -43,7 +41,7 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart @ref="polarAreaChart" Type="ChartType.PolarArea" TItem="double" />
+                <Chart @ref="polarAreaChart" @ref:suppressField Type="ChartType.PolarArea" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -54,7 +52,7 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( radarChart, GetRadarChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart @ref="radarChart" Type="ChartType.Radar" TItem="double" />
+                <Chart @ref="radarChart" @ref:suppressField Type="ChartType.Radar" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -65,7 +63,7 @@
                 <SimpleButton Clicked="@(async () => await HandleRedraw( doughnutChart, GetDoughnutChartDataset ))">Redraw</SimpleButton>
             </CardHeader>
             <CardBody>
-                <Chart @ref="doughnutChart" Type="ChartType.Doughnut" TItem="double" />
+                <Chart @ref="doughnutChart" @ref:suppressField Type="ChartType.Doughnut" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -135,7 +133,7 @@
             Fill = true,
             PointRadius = 3,
             BorderWidth = 1,
-            PointBorderColor = Enumerable.Repeat(borderColors.First(), 6).ToList()
+            PointBorderColor = Enumerable.Repeat( borderColors.First(), 6 ).ToList()
         };
     }
 

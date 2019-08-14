@@ -22,11 +22,11 @@ namespace Blazorise
 
         #region Methods
 
-        public override Task SetParametersAsync( ParameterCollection parameters )
+        public override Task SetParametersAsync( ParameterView parameters )
         {
             parametersToRender = parameters.ToDictionary() as Dictionary<string, object>;
 
-            childContent = parametersToRender.GetAndRemove<RenderFragment>( RenderTreeBuilder.ChildContent );
+            childContent = parametersToRender.GetAndRemove<RenderFragment>( "ChildContent" );
             TagName = parametersToRender.GetAndRemove<string>( nameof( TagName ) ) ?? throw new InvalidOperationException( $"No value was supplied for required parameter '{nameof( TagName )}'." );
 
             // Combine any explicitly-supplied attributes with the remaining parameters
@@ -47,7 +47,7 @@ namespace Blazorise
                 }
             }
 
-            return base.SetParametersAsync( ParameterCollection.Empty );
+            return base.SetParametersAsync( ParameterView.Empty );
         }
 
         protected override void BuildRenderTree( RenderTreeBuilder builder )
@@ -107,7 +107,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the <see cref="Microsoft.AspNetCore.Components.ElementRef"/>.
         /// </summary>
-        public ElementRef ElementRef { get; private set; }
+        public ElementReference ElementRef { get; private set; }
 
         /// <summary>
         /// Gets or sets the attributes to render.

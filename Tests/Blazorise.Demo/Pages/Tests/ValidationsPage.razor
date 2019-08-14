@@ -1,5 +1,4 @@
-﻿@page "/tests/validations"
-<Row>
+﻿<Row>
     <Column ColumnSize="ColumnSize.IsHalf">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
@@ -130,7 +129,7 @@
                 <CardSubtitle>Example on how to validate manualy on submit.</CardSubtitle>
             </CardHeader>
             <CardBody>
-                <Validations @ref="validations" Mode="ValidationMode.Manual">
+                <Validations @ref="validations" @ref:suppressField Mode="ValidationMode.Manual">
                     <Field IsHorizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">

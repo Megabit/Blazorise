@@ -27,11 +27,11 @@ namespace Blazorise
             base.RegisterClasses();
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             ParentBar?.Hook( this );
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         public void Toggle()

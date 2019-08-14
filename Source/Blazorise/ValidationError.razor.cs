@@ -27,14 +27,14 @@ namespace Blazorise
             base.RegisterClasses();
         }
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             if ( ParentValidation != null )
             {
                 ParentValidation.Validated += OnValidated;
             }
 
-            base.OnInit();
+            base.OnInitialized();
         }
 
         public void Dispose()
