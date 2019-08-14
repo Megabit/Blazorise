@@ -493,6 +493,11 @@ namespace Blazorise.DataGrid
         [Parameter] public bool AllowFilter { get; set; }
 
         /// <summary>
+        /// Gets or sets whether user can see a column captions.
+        /// </summary>
+        [Parameter] public bool ShowCaptions { get; set; } = true;
+
+        /// <summary>
         /// Gets or sets whether users can navigate datagrid by using pagination controls.
         /// </summary>
         [Parameter] public bool ShowPager { get; set; }
@@ -567,6 +572,16 @@ namespace Blazorise.DataGrid
         /// Specifes the grid editing modes.
         /// </summary>
         [Parameter] public DataGridEditMode EditMode { get; set; } = DataGridEditMode.Form;
+
+        /// <summary>
+        /// A trigger function used to handle the visibility of detail row.
+        /// </summary>
+        [Parameter] public Func<TItem, bool> DetailRowTrigger { get; set; }
+
+        /// <summary>
+        /// Template for displaying detail or nested row.
+        /// </summary>
+        [Parameter] protected RenderFragment<TItem> DetailRowTemplate { get; set; }
 
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
