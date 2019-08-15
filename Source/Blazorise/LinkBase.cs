@@ -21,8 +21,6 @@ namespace Blazorise
     {
         #region Members
 
-        private const string defaultActiveClass = "active";
-
         private RenderHandle renderHandle;
 
         private RenderFragment childContent;

@@ -20,7 +20,7 @@ namespace Blazorise
 
         private bool isVertical;
 
-        private List<BaseTab> childTabs = new List<BaseTab>();
+        private readonly List<BaseTab> childTabs = new List<BaseTab>();
 
         private string lastSelectedTab;
 

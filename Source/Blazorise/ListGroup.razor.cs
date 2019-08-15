@@ -14,7 +14,7 @@ namespace Blazorise
 
         private bool isFlush;
 
-        private List<BaseListGroupItem> childItems = new List<BaseListGroupItem>();
+        private readonly List<BaseListGroupItem> childItems = new List<BaseListGroupItem>();
 
         #endregion
 
