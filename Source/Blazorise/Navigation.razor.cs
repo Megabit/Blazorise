@@ -44,7 +44,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        protected bool IsTabs
+        public bool IsTabs
         {
             get => isTabs;
             set
@@ -56,7 +56,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected bool IsCards
+        public bool IsCards
         {
             get => isCards;
             set
@@ -68,7 +68,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected bool IsPills
+        public bool IsPills
         {
             get => isPills;
             set
@@ -80,7 +80,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected bool IsVertical
+        public bool IsVertical
         {
             get => isVertical;
             set
@@ -92,7 +92,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected NavFillType Fill
+        public NavFillType Fill
         {
             get => fill;
             set
@@ -103,7 +103,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

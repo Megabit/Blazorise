@@ -40,7 +40,7 @@ namespace Blazorise
         /// Determines if the check or radio control will be inlined.
         /// </summary>
         [Parameter]
-        protected bool IsInline
+        public bool IsInline
         {
             get => isInline;
             set
@@ -55,7 +55,7 @@ namespace Blazorise
         /// Sets the role that affects the behaviour of the control container.
         /// </summary>
         [Parameter]
-        protected ControlRole Role
+        public ControlRole Role
         {
             get => role;
             set
@@ -66,7 +66,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

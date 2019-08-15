@@ -46,7 +46,7 @@ namespace Blazorise.Sidebar
         #region Properties
 
         [Parameter]
-        protected bool IsShow
+        public bool IsShow
         {
             get => isShow;
             set
@@ -57,20 +57,20 @@ namespace Blazorise.Sidebar
             }
         }
 
-        [Parameter] protected string To { get; set; }
+        [Parameter] public string To { get; set; }
 
-        [Parameter] protected Match Match { get; set; } = Match.All;
+        [Parameter] public Match Match { get; set; } = Match.All;
 
-        [Parameter] protected string Title { get; set; }
+        [Parameter] public string Title { get; set; }
 
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] protected Action Click { get; set; }
+        [Parameter] public Action Click { get; set; }
 
-        [Parameter] protected Action<bool> Toggled { get; set; }
+        [Parameter] public Action<bool> Toggled { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -46,7 +46,7 @@ namespace Blazorise
         /// Handles the visibility of dropdown menu.
         /// </summary>
         [Parameter]
-        internal bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -61,7 +61,7 @@ namespace Blazorise
         /// Right aligned dropdown menu.
         /// </summary>
         [Parameter]
-        protected bool IsRightAligned
+        public bool IsRightAligned
         {
             get => isRightAligned;
             set
@@ -74,7 +74,7 @@ namespace Blazorise
 
         [CascadingParameter] protected BaseBarDropdown BarDropdown { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -192,24 +192,24 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the current validation status.
         /// </summary>
-        [Parameter] protected internal ValidationStatus Status { get; set; }
+        [Parameter] public ValidationStatus Status { get; set; }
 
         /// <summary>
         /// Validates the input value after it has being changed.
         /// </summary>
-        [Parameter] protected Action<ValidatorEventArgs> Validator { get; set; }
+        [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
 
         /// <summary>
         /// Forces validation to use regex pattern matching instead of default validator handler.
         /// </summary>
-        [Parameter] protected bool UsePattern { get; set; }
+        [Parameter] public bool UsePattern { get; set; }
 
         /// <summary>
         /// Parent validation group.
         /// </summary>
         [CascadingParameter] protected BaseValidations ParentValidations { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

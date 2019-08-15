@@ -55,7 +55,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        protected Background Background
+        public Background Background
         {
             get => background;
             set
@@ -67,7 +67,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected bool IsStriped
+        public bool IsStriped
         {
             get => isStriped;
             set
@@ -79,7 +79,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected bool IsAnimated
+        public bool IsAnimated
         {
             get => isAnimated;
             set
@@ -90,12 +90,12 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected int Min { get; set; } = 0;
+        [Parameter] public int Min { get; set; } = 0;
 
-        [Parameter] protected int Max { get; set; } = 100;
+        [Parameter] public int Max { get; set; } = 100;
 
         [Parameter]
-        protected int? Value
+        public int? Value
         {
             get => @value;
             set
@@ -107,7 +107,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

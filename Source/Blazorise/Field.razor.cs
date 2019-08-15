@@ -55,7 +55,7 @@ namespace Blazorise
         /// Aligns the controls for horizontal form.
         /// </summary>
         [Parameter]
-        internal bool IsHorizontal
+        public bool IsHorizontal
         {
             get => isHorizontal;
             set
@@ -72,7 +72,7 @@ namespace Blazorise
         /// Determines how much space will be used by the field inside of the grid row.
         /// </summary>
         [Parameter]
-        protected IFluentColumn ColumnSize
+        public IFluentColumn ColumnSize
         {
             get => columnSize;
             set
@@ -87,7 +87,7 @@ namespace Blazorise
         /// Aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally).
         /// </summary>
         [Parameter]
-        protected JustifyContent JustifyContent
+        public JustifyContent JustifyContent
         {
             get => justifyContent;
             set
@@ -100,7 +100,7 @@ namespace Blazorise
 
         [CascadingParameter] protected BaseFields ParentFields { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

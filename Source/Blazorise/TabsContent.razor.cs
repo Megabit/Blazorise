@@ -61,9 +61,9 @@ namespace Blazorise
         /// <summary>
         /// Occurs after the selected panel has changed.
         /// </summary>
-        [Parameter] protected Action<string> SelectedPanelChanged { get; set; }
+        [Parameter] public Action<string> SelectedPanelChanged { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

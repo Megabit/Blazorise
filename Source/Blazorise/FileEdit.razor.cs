@@ -45,7 +45,7 @@ namespace Blazorise
         /// Enables the multiple file selection.
         /// </summary>
         [Parameter]
-        protected bool IsMultiple
+        public bool IsMultiple
         {
             get => isMultiple;
             set
@@ -60,12 +60,12 @@ namespace Blazorise
         /// Specifies the types of files that the input accepts.
         /// </summary>
         /// <see cref="https://www.w3schools.com/tags/att_input_accept.asp"/>
-        [Parameter] protected string Filter { get; set; }
+        [Parameter] public string Filter { get; set; }
 
         /// <summary>
         /// Occurs when the file path is changed.
         /// </summary>
-        [Parameter] private Action<string[]> PathChanged { get; set; }
+        [Parameter] public Action<string[]> PathChanged { get; set; }
 
         #endregion
     }

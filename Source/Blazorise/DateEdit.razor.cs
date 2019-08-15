@@ -56,13 +56,13 @@ namespace Blazorise
         /// <summary>
         /// Sets the placeholder for the empty date.
         /// </summary>
-        [Parameter] protected string Placeholder { get; set; }
+        [Parameter] public string Placeholder { get; set; }
 
         /// <summary>
         /// Gets or sets the input date value.
         /// </summary>
         [Parameter]
-        protected DateTime? Date
+        public DateTime? Date
         {
             get
             {
@@ -78,22 +78,22 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the date has changed.
         /// </summary>
-        [Parameter] private EventCallback<DateTime?> DateChanged { get; set; }
+        [Parameter] public EventCallback<DateTime?> DateChanged { get; set; }
 
         /// <summary>
         /// The earliest date to accept.
         /// </summary>
-        [Parameter] protected DateTime? Min { get; set; }
+        [Parameter] public DateTime? Min { get; set; }
 
         /// <summary>
         /// The latest date to accept.
         /// </summary>
-        [Parameter] protected DateTime? Max { get; set; }
+        [Parameter] public DateTime? Max { get; set; }
 
         /// <summary>
         /// The pattern attribute specifies a regular expression that the input element's value is checked against on form submission.
         /// </summary>
-        [Parameter] protected string Pattern { get; set; }
+        [Parameter] public string Pattern { get; set; }
 
         #endregion
     }

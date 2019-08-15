@@ -38,7 +38,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        internal ButtonsRole Role
+        public ButtonsRole Role
         {
             get => role;
             set
@@ -50,7 +50,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected Orientation Orientation
+        public Orientation Orientation
         {
             get => orientation;
             set
@@ -65,7 +65,7 @@ namespace Blazorise
         /// Change the size of multiple buttons at once.
         /// </summary>
         [Parameter]
-        protected ButtonsSize Size
+        public ButtonsSize Size
         {
             get => size;
             set
@@ -76,7 +76,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

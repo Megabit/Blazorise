@@ -60,7 +60,7 @@ namespace Blazorise
         /// Enables the alert to be closed by placing the padding for close button.
         /// </summary>
         [Parameter]
-        protected bool IsDismisable
+        public bool IsDismisable
         {
             get => isDismisable;
             set
@@ -75,7 +75,7 @@ namespace Blazorise
         /// Sets the alert visibilty.
         /// </summary>
         [Parameter]
-        protected bool IsShow
+        public bool IsShow
         {
             get => isShow;
             set
@@ -87,7 +87,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected Color Color
+        public Color Color
         {
             get => color;
             set
@@ -98,7 +98,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -31,14 +31,14 @@ namespace Blazorise
         /// <summary>
         /// Link url.
         /// </summary>
-        [Parameter] protected string Source { get; set; }
+        [Parameter] public string Source { get; set; }
 
         /// <summary>
         /// Alternative link text.
         /// </summary>
-        [Parameter] protected string Alt { get; set; }
+        [Parameter] public string Alt { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

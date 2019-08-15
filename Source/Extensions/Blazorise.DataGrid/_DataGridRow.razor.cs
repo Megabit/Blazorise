@@ -104,7 +104,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public EventCallback Cancel { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -96,7 +96,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the value inside the input field.
         /// </summary>
-        [Parameter] protected TValue Value { get; set; }
+        [Parameter] public TValue Value { get; set; }
 
         /// <summary>
         /// Occurs after the value has changed.
@@ -104,32 +104,32 @@ namespace Blazorise
         /// <remarks>
         /// This will be converted to EventCallback once the Blazor team fix the error for generic components. see https://github.com/aspnet/AspNetCore/issues/8385
         /// </remarks>
-        [Parameter] protected EventCallback<TValue> ValueChanged { get; set; }
+        [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
 
         /// <summary>
         /// Specifies the interval between valid values.
         /// </summary>
-        [Parameter] protected decimal? Step { get; set; }
+        [Parameter] public decimal? Step { get; set; }
 
         /// <summary>
         /// Maximum number of decimal places after the decimal separator.
         /// </summary>
-        [Parameter] protected int Decimals { get; set; } = 2;
+        [Parameter] public int Decimals { get; set; } = 2;
 
         /// <summary>
         /// String to use as the decimal separator in numeric values.
         /// </summary>
-        [Parameter] protected string DecimalsSeparator { get; set; } = ".";
+        [Parameter] public string DecimalsSeparator { get; set; } = ".";
 
         ///// <summary>
         ///// The minimum value to accept for this input.
         ///// </summary>
-        //[Parameter] protected TValue? Min { get; set; }
+        //[Parameter] public TValue? Min { get; set; }
 
         ///// <summary>
         ///// The maximum value to accept for this input.
         ///// </summary>
-        //[Parameter] protected TValue? Max { get; set; }
+        //[Parameter] public TValue? Max { get; set; }
 
         #endregion
     }

@@ -258,7 +258,7 @@ namespace Blazorise.Components
         /// </summary>
         [Parameter] public EventCallback<object> SelectedValueChanged { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

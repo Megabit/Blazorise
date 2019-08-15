@@ -32,7 +32,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        internal protected bool IsActive
+        public bool IsActive
         {
             get => isActive;
             set
@@ -43,7 +43,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

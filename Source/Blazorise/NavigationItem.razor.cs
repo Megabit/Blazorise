@@ -38,7 +38,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        protected bool IsActive
+        public bool IsActive
         {
             get => isActive;
             set
@@ -52,9 +52,9 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] protected Action Clicked { get; set; }
+        [Parameter] public Action Clicked { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

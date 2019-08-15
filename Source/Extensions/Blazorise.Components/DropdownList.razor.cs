@@ -26,19 +26,19 @@ namespace Blazorise.Components
 
         #region Properties
 
-        [Parameter] protected Color Color { get; set; }
+        [Parameter] public Color Color { get; set; }
 
-        [Parameter] protected IEnumerable<TItem> Data { get; set; }
+        [Parameter] public IEnumerable<TItem> Data { get; set; }
 
-        [Parameter] protected Func<TItem, string> TextField { get; set; }
+        [Parameter] public Func<TItem, string> TextField { get; set; }
 
-        [Parameter] protected Func<TItem, object> ValueField { get; set; }
+        [Parameter] public Func<TItem, object> ValueField { get; set; }
 
-        [Parameter] protected object SelectedValue { get; set; }
+        [Parameter] public object SelectedValue { get; set; }
 
-        [Parameter] protected EventCallback<object> SelectedValueChanged { get; set; }
+        [Parameter] public EventCallback<object> SelectedValueChanged { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

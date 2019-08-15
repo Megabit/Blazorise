@@ -72,18 +72,18 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        [Parameter] protected EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback Clicked { get; set; }
 
         /// <summary>
         /// Defines the button type.
         /// </summary>
-        [Parameter] protected ButtonType Type { get; set; } = ButtonType.Button;
+        [Parameter] public ButtonType Type { get; set; } = ButtonType.Button;
 
         /// <summary>
         /// Gets or sets the button color.
         /// </summary>
         [Parameter]
-        protected Color Color
+        public Color Color
         {
             get => color;
             set
@@ -98,7 +98,7 @@ namespace Blazorise
         /// Changes the size of a button.
         /// </summary>
         [Parameter]
-        protected ButtonSize Size
+        public ButtonSize Size
         {
             get => size;
             set
@@ -113,7 +113,7 @@ namespace Blazorise
         /// Makes the button to have the outlines.
         /// </summary>
         [Parameter]
-        protected bool IsOutline
+        public bool IsOutline
         {
             get => isOutline;
             set
@@ -128,7 +128,7 @@ namespace Blazorise
         /// Makes button look inactive.
         /// </summary>
         [Parameter]
-        protected bool IsDisabled
+        public bool IsDisabled
         {
             get => isDisabled;
             set
@@ -143,7 +143,7 @@ namespace Blazorise
         /// Makes the button to appear as pressed.
         /// </summary>
         [Parameter]
-        protected bool IsActive
+        public bool IsActive
         {
             get => isActive;
             set
@@ -158,7 +158,7 @@ namespace Blazorise
         /// Makes the button to span the full width of a parent.
         /// </summary>
         [Parameter]
-        protected bool IsBlock
+        public bool IsBlock
         {
             get => isBlock;
             set
@@ -173,7 +173,7 @@ namespace Blazorise
         /// Shows the loading spinner.
         /// </summary>
         [Parameter]
-        protected bool IsLoading
+        public bool IsLoading
         {
             get => isLoading;
             set
@@ -188,7 +188,7 @@ namespace Blazorise
 
         [CascadingParameter] protected BaseButtons ParentButtons { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

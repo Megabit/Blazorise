@@ -79,7 +79,7 @@ namespace Blazorise
         /// Sets the size of the input control.
         /// </summary>
         [Parameter]
-        protected Size Size
+        public Size Size
         {
             get => size;
             set
@@ -94,7 +94,7 @@ namespace Blazorise
         /// Add the readonly boolean attribute on an input to prevent modification of the input’s value.
         /// </summary>
         [Parameter]
-        protected bool IsReadonly
+        public bool IsReadonly
         {
             get => isReadonly;
             set
@@ -109,7 +109,7 @@ namespace Blazorise
         /// Add the disabled boolean attribute on an input to prevent user interactions and make it appear lighter.
         /// </summary>
         [Parameter]
-        protected bool IsDisabled
+        public bool IsDisabled
         {
             get => isDisabled;
             set
@@ -123,12 +123,12 @@ namespace Blazorise
         /// <summary>
         /// Placeholder for validation messages.
         /// </summary>
-        [Parameter] protected RenderFragment Feedback { get; set; }
+        [Parameter] public RenderFragment Feedback { get; set; }
 
         /// <summary>
         /// Input content.
         /// </summary>
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>
         /// Parent validation container.

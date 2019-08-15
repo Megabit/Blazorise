@@ -37,7 +37,7 @@ namespace Blazorise
         /// Defines the column sizes.
         /// </summary>
         [Parameter]
-        protected IFluentColumn ColumnSize
+        public IFluentColumn ColumnSize
         {
             get => columnSize;
             set
@@ -48,7 +48,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

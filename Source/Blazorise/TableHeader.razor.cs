@@ -35,7 +35,7 @@ namespace Blazorise
         /// Sets the background color to the header.
         /// </summary>
         [Parameter]
-        protected ThemeContrast ThemeContrast
+        public ThemeContrast ThemeContrast
         {
             get => themeContrast;
             set
@@ -46,7 +46,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

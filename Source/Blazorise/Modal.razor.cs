@@ -111,7 +111,7 @@ namespace Blazorise
         /// Defines the visibility of modal dialog.
         /// </summary>
         [Parameter]
-        internal bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -134,9 +134,9 @@ namespace Blazorise
         /// <summary>
         /// Occurs before the modal is closed.
         /// </summary>
-        [Parameter] protected Action<CancelEventArgs> Closing { get; set; }
+        [Parameter] public Action<CancelEventArgs> Closing { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

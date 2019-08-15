@@ -43,7 +43,7 @@ namespace Blazorise.Sidebar
         #region Properties
 
         [Parameter]
-        protected bool IsShow
+        public bool IsShow
         {
             get => isShow;
             set
@@ -54,7 +54,7 @@ namespace Blazorise.Sidebar
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

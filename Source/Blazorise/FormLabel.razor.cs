@@ -37,10 +37,10 @@ namespace Blazorise
 
         #region Properties
 
-        [Parameter] protected string For { get; set; }
+        [Parameter] public string For { get; set; }
 
         [Parameter]
-        protected bool IsCheck
+        public bool IsCheck
         {
             get => isCheck;
             set
@@ -52,7 +52,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected bool IsFile
+        public bool IsFile
         {
             get => isFile;
             set
@@ -64,7 +64,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected Cursor Cursor
+        public Cursor Cursor
         {
             get => cursor;
             set
@@ -75,7 +75,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

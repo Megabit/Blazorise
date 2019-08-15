@@ -43,7 +43,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        protected TextColor Color
+        public TextColor Color
         {
             get => color;
             set
@@ -55,7 +55,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected TextAlignment Alignment
+        public TextAlignment Alignment
         {
             get => alignment;
             set
@@ -67,7 +67,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected TextTransform Transform
+        public TextTransform Transform
         {
             get => textTransform;
             set
@@ -79,7 +79,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected TextWeight Weight
+        public TextWeight Weight
         {
             get => textWeight;
             set
@@ -91,7 +91,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected bool IsItalic
+        public bool IsItalic
         {
             get => isItalic;
             set
@@ -102,7 +102,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

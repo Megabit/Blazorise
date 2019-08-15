@@ -56,27 +56,27 @@ namespace Blazorise
         /// <summary>
         /// Sets the placeholder for the empty text.
         /// </summary>
-        [Parameter] protected string Placeholder { get; set; }
+        [Parameter] public string Placeholder { get; set; }
 
         /// <summary>
         /// Gets or sets the text inside the input field.
         /// </summary>
-        [Parameter] protected string Text { get => InternalValue; set => InternalValue = value; }
+        [Parameter] public string Text { get => InternalValue; set => InternalValue = value; }
 
         /// <summary>
         /// Occurs after text has changed.
         /// </summary>
-        [Parameter] protected Action<string> TextChanged { get; set; }
+        [Parameter] public Action<string> TextChanged { get; set; }
 
         /// <summary>
         /// Specifies the maximum number of characters allowed in the input element.
         /// </summary>
-        [Parameter] protected int? MaxLength { get; set; }
+        [Parameter] public int? MaxLength { get; set; }
 
         /// <summary>
         /// Specifies the number lines in the input element.
         /// </summary>
-        [Parameter] protected int? Rows { get; set; }
+        [Parameter] public int? Rows { get; set; }
 
         #endregion
     }

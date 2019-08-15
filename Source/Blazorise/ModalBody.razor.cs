@@ -42,7 +42,7 @@ namespace Blazorise
         /// Sets the maximum height of the modal body (in viewport size unit).
         /// </summary>
         [Parameter]
-        protected int? MaxHeight
+        public int? MaxHeight
         {
             get => maxHeight;
             set
@@ -53,7 +53,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

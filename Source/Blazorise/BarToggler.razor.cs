@@ -48,7 +48,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        internal protected bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -62,11 +62,11 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        [Parameter] protected Action Clicked { get; set; }
+        [Parameter] public Action Clicked { get; set; }
 
         [CascadingParameter] protected BaseBar ParentBar { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

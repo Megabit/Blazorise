@@ -40,7 +40,7 @@ namespace Blazorise
         /// Sets the field label.
         /// </summary>
         [Parameter]
-        protected string Label
+        public string Label
         {
             get => label;
             set
@@ -55,7 +55,7 @@ namespace Blazorise
         /// Sets the field help-text positioned bellow the field.
         /// </summary>
         [Parameter]
-        protected string Help
+        public string Help
         {
             get => help;
             set
@@ -70,7 +70,7 @@ namespace Blazorise
         /// Determines how much space will be used by the field inside of the grid row.
         /// </summary>
         [Parameter]
-        IFluentColumn ColumnSize
+        public IFluentColumn ColumnSize
         {
             get => columnSize;
             set
@@ -81,7 +81,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -63,13 +63,13 @@ namespace Blazorise
         /// <summary>
         /// Specifies that multiple items can be selected.
         /// </summary>
-        [Parameter] protected internal bool IsMultiple { get; set; }
+        [Parameter] public bool IsMultiple { get; set; }
 
         /// <summary>
         /// Gets or sets the selected item value.
         /// </summary>
         [Parameter]
-        protected internal TValue SelectedValue
+        public TValue SelectedValue
         {
             get { return internalValue; }
             set
@@ -87,7 +87,7 @@ namespace Blazorise
         /// Gets or sets the multiple selected item values.
         /// </summary>
         [Parameter]
-        protected internal IReadOnlyList<TValue> SelectedValues
+        public IReadOnlyList<TValue> SelectedValues
         {
             get { return internalMultiValue; }
             set
@@ -101,12 +101,12 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the selected item value has changed.
         /// </summary>
-        [Parameter] protected EventCallback<TValue> SelectedValueChanged { get; set; }
+        [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
 
         /// <summary>
         /// Occurs when the selected items value has changed (only when <see cref="IsMultiple"/>==true).
         /// </summary>
-        [Parameter] protected EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
+        [Parameter] public EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
 
         #endregion
     }

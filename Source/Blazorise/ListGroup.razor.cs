@@ -53,7 +53,7 @@ namespace Blazorise
         /// Remove some borders and rounded corners to render list group items edge-to-edge in a parent container (e.g., cards).
         /// </summary>
         [Parameter]
-        protected bool IsFlush
+        public bool IsFlush
         {
             get => isFlush;
             set
@@ -64,9 +64,9 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected Action<string> SelectedItemChanged { get; set; }
+        [Parameter] public Action<string> SelectedItemChanged { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -36,15 +36,15 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] private EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback Clicked { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [Parameter] protected string To { get; set; }
+        [Parameter] public string To { get; set; }
 
-        [Parameter] protected Match Match { get; set; } = Match.All;
+        [Parameter] public Match Match { get; set; } = Match.All;
 
-        [Parameter] protected string Title { get; set; }
+        [Parameter] public string Title { get; set; }
 
         #endregion
     }

@@ -97,7 +97,7 @@ namespace Blazorise.Snackbar
         #region Properties
 
         [Parameter]
-        private bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -109,7 +109,7 @@ namespace Blazorise.Snackbar
         }
 
         [Parameter]
-        private bool IsMultiline
+        public bool IsMultiline
         {
             get => isMultiline;
             set
@@ -121,7 +121,7 @@ namespace Blazorise.Snackbar
         }
 
         [Parameter]
-        private SnackbarLocation Location
+        public SnackbarLocation Location
         {
             get => location;
             set
@@ -132,10 +132,9 @@ namespace Blazorise.Snackbar
             }
         }
 
-        [Parameter]
-        private double Interval { get; set; } = 3000;
+        [Parameter] public double Interval { get; set; } = 3000;
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

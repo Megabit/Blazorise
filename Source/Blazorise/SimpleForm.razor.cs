@@ -25,7 +25,7 @@ namespace Blazorise
 
         #region Properties
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

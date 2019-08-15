@@ -34,16 +34,16 @@ namespace Blazorise
 
         #region Properties
 
-        [Parameter] protected int? RowSpan { get; set; }
+        [Parameter] public int? RowSpan { get; set; }
 
-        [Parameter] protected int? ColumnSpan { get; set; }
+        [Parameter] public int? ColumnSpan { get; set; }
 
         /// <summary>
         /// Occurs when the header cell is clicked.
         /// </summary>
-        [Parameter] protected EventCallback<MouseEventArgs> Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }
