@@ -20,8 +20,6 @@ namespace Blazorise.Charts
 
         #region Properties
 
-        protected override ChartType Type { get; set; } = ChartType.Radar;
-
         #endregion
     }
 }
