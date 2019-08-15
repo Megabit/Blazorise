@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Blazorise.Providers
     {
         #region Members
 
-        private Dictionary<string, string> customIcons = new Dictionary<string, string>();
+        private readonly ConcurrentDictionary<string, string> customIcons = new ConcurrentDictionary<string, string>();
 
         #endregion
 
@@ -25,9 +26,7 @@ namespace Blazorise.Providers
 
         public string Get( string customName )
         {
-            customIcons.TryGetValue( customName, out var name );
-
-            return name;
+            return customIcons.GetOrAdd( customName, customName );
         }
 
         public abstract string Get( IconName name );
