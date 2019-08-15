@@ -6,6 +6,22 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.3
+
+### Breaking changes
+
+- Upgrade to Blazor preview 8 [#199](https://github.com/stsrki/Blazorise/issues/199)
+
+### Enhancements
+
+- Added DetailRowTemplate to DataGrid [#184](https://github.com/stsrki/Blazorise/issues/184)
+
+### Bug Fixes
+
+- Fixed first time selection from SelectList [#188](https://github.com/stsrki/Blazorise/issues/188)
+
+For detail description of changes please look at [v0.8.2 release page]({{ "/docs/release-notes/release082/" | relative_url }})
+
 ## 0.8.1
 
 ### Enhancements
