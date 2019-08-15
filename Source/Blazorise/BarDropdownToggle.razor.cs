@@ -33,7 +33,7 @@ namespace Blazorise
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef = dotNetObjectRef ?? JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -81,7 +81,7 @@ namespace Blazorise
         /// Handles the visibility of dropdown toggle.
         /// </summary>
         [Parameter]
-        internal bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -107,7 +107,7 @@ namespace Blazorise
 
         [CascadingParameter] protected BaseBarDropdown BarDropdown { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

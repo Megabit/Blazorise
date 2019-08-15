@@ -38,7 +38,7 @@ namespace Blazorise
         /// Sets the white text when using the darker background.
         /// </summary>
         [Parameter]
-        protected bool IsWhiteText
+        public bool IsWhiteText
         {
             get => isWhiteText;
             set
@@ -53,7 +53,7 @@ namespace Blazorise
         /// Gets or sets the bar background color.
         /// </summary>
         [Parameter]
-        protected Background Background
+        public Background Background
         {
             get => background;
             set

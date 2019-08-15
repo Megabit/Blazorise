@@ -35,7 +35,7 @@ namespace Blazorise
         /// Shows the tooltip instead of label.
         /// </summary>
         [Parameter]
-        protected bool IsTooltip
+        public bool IsTooltip
         {
             get => isTooltip;
             set
@@ -48,7 +48,7 @@ namespace Blazorise
 
         [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

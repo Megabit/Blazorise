@@ -38,7 +38,7 @@ namespace Blazorise
         /// Indicate the currently active page.
         /// </summary>
         [Parameter]
-        internal protected bool IsActive
+        public bool IsActive
         {
             get => isActive;
             set
@@ -53,7 +53,7 @@ namespace Blazorise
         /// Used for links that appear un-clickable.
         /// </summary>
         [Parameter]
-        protected bool IsDisabled
+        public bool IsDisabled
         {
             get => isDisabled;
             set
@@ -64,7 +64,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

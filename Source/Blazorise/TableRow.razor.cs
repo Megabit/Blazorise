@@ -47,7 +47,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        protected Color Color
+        public Color Color
         {
             get => color;
             set
@@ -59,7 +59,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected Background Background
+        public Background Background
         {
             get => background;
             set
@@ -71,7 +71,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected TextColor TextColor
+        public TextColor TextColor
         {
             get => textColor;
             set
@@ -86,7 +86,7 @@ namespace Blazorise
         /// Sets a table row as selected by appending "selected" modifier on a <tr>.
         /// </summary>
         [Parameter]
-        protected bool IsSelected
+        public bool IsSelected
         {
             get => selected;
             set
@@ -100,9 +100,9 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the row is clicked.
         /// </summary>
-        [Parameter] protected EventCallback<MouseEventArgs> Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

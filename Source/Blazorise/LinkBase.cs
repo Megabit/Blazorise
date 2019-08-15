@@ -21,8 +21,6 @@ namespace Blazorise
     {
         #region Members
 
-        private const string defaultActiveClass = "active";
-
         private RenderHandle renderHandle;
 
         private RenderFragment childContent;
@@ -207,7 +205,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets a value representing the URL matching behavior.
         /// </summary>
-        [Parameter] Match Match { get; set; }
+        [Parameter] public Match Match { get; set; }
 
         [Inject] private IUriHelper UriHelper { get; set; }
 

@@ -35,7 +35,7 @@ namespace Blazorise
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef = dotNetObjectRef ?? JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -88,18 +88,18 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the dropdown color.
         /// </summary>
-        [Parameter] protected Color Color { get; set; } = Color.None;
+        [Parameter] public Color Color { get; set; } = Color.None;
 
         /// <summary>
         /// Gets or sets the dropdown size.
         /// </summary>
-        [Parameter] protected ButtonSize Size { get; set; } = ButtonSize.None;
+        [Parameter] public ButtonSize Size { get; set; } = ButtonSize.None;
 
         /// <summary>
         /// Handles the visibility of dropdown toggle.
         /// </summary>
         [Parameter]
-        internal bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -126,13 +126,13 @@ namespace Blazorise
         /// <summary>
         /// Button outline.
         /// </summary>
-        [Parameter] protected bool IsOutline { get; set; }
+        [Parameter] public bool IsOutline { get; set; }
 
         /// <summary>
         /// Handles the visibility of split button.
         /// </summary>
         [Parameter]
-        protected bool IsSplit
+        public bool IsSplit
         {
             get => isSplit;
             set
@@ -145,7 +145,7 @@ namespace Blazorise
 
         [CascadingParameter] protected BaseDropdown Dropdown { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

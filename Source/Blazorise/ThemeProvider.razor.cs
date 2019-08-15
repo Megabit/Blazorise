@@ -93,11 +93,11 @@ namespace Blazorise
         /// <summary>
         /// If true variables will be written to the page body.
         /// </summary>
-        [Parameter] protected bool WriteVariables { get; set; } = true;
+        [Parameter] public bool WriteVariables { get; set; } = true;
 
         [Inject] protected IThemeGenerator ThemeGenerator { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -20,7 +20,7 @@ namespace Blazorise
 
         private bool isVertical;
 
-        private List<BaseTab> childTabs = new List<BaseTab>();
+        private readonly List<BaseTab> childTabs = new List<BaseTab>();
 
         private string lastSelectedTab;
 
@@ -81,7 +81,7 @@ namespace Blazorise
         /// Makes the tab items to appear as pills.
         /// </summary>
         [Parameter]
-        private bool IsPills
+        public bool IsPills
         {
             get => isPills;
             set
@@ -96,7 +96,7 @@ namespace Blazorise
         /// Makes the tab items to extend the full available width.
         /// </summary>
         [Parameter]
-        private bool IsFullWidth
+        public bool IsFullWidth
         {
             get => isFullWidth;
             set
@@ -111,7 +111,7 @@ namespace Blazorise
         /// Makes the tab items to extend the full available width, but every item will be the same width.
         /// </summary>
         [Parameter]
-        private bool IsJustified
+        public bool IsJustified
         {
             get => isJustified;
             set
@@ -126,7 +126,7 @@ namespace Blazorise
         /// Stack the navigation items by changing the flex item direction.
         /// </summary>
         [Parameter]
-        private bool IsVertical
+        public bool IsVertical
         {
             get => isVertical;
             set
@@ -140,11 +140,11 @@ namespace Blazorise
         /// <summary>
         /// Occurs after the selected tab has changed.
         /// </summary>
-        [Parameter] protected Action<string> SelectedTabChanged { get; set; }
+        [Parameter] public Action<string> SelectedTabChanged { get; set; }
 
         [CascadingParameter] protected BaseCardHeader CardHeader { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -581,9 +581,9 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Template for displaying detail or nested row.
         /// </summary>
-        [Parameter] protected RenderFragment<TItem> DetailRowTemplate { get; set; }
+        [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
 

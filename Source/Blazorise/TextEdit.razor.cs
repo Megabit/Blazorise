@@ -68,49 +68,49 @@ namespace Blazorise
         /// <summary>
         /// Sets the role of the input text.
         /// </summary>
-        [Parameter] protected TextRole Role { get; set; } = TextRole.Text;
+        [Parameter] public TextRole Role { get; set; } = TextRole.Text;
 
-        [Parameter] protected TextInputMode InputMode { get; set; } = TextInputMode.None;
+        [Parameter] public TextInputMode InputMode { get; set; } = TextInputMode.None;
 
         /// <summary>
         /// Gets or sets the text inside the input field.
         /// </summary>
-        [Parameter] protected string Text { get; set; }
+        [Parameter] public string Text { get; set; }
 
         /// <summary>
         /// Occurs after text has changed.
         /// </summary>
-        [Parameter] protected EventCallback<string> TextChanged { get; set; }
+        [Parameter] public EventCallback<string> TextChanged { get; set; }
 
         /// <summary>
         /// Occurs when a key is pressed down while the control has focus.
         /// </summary>
-        [Parameter] protected EventCallback<UIKeyboardEventArgs> KeyDown { get; set; }
+        [Parameter] public EventCallback<UIKeyboardEventArgs> KeyDown { get; set; }
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
-        [Parameter] protected EventCallback<UIKeyboardEventArgs> KeyPress { get; set; }
+        [Parameter] public EventCallback<UIKeyboardEventArgs> KeyPress { get; set; }
 
         /// <summary>
         /// Occurs when a key is released while the control has focus.
         /// </summary>
-        [Parameter] protected EventCallback<UIKeyboardEventArgs> KeyUp { get; set; }
+        [Parameter] public EventCallback<UIKeyboardEventArgs> KeyUp { get; set; }
 
         /// <summary>
         /// A string representing a edit mask expression.
         /// </summary>
-        [Parameter] protected string EditMask { get; set; }
+        [Parameter] public string EditMask { get; set; }
 
         /// <summary>
         /// Specify the mask type used by the editor.
         /// </summary>
-        [Parameter] protected MaskType MaskType { get; set; }
+        [Parameter] public MaskType MaskType { get; set; }
 
         /// <summary>
         /// Specifies the maximum number of characters allowed in the input element.
         /// </summary>
-        [Parameter] protected int? MaxLength { get; set; }
+        [Parameter] public int? MaxLength { get; set; }
 
         #endregion
     }

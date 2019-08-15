@@ -36,7 +36,7 @@ namespace Blazorise
         protected IIconProvider IconProvider { get; set; }
 
         [Parameter]
-        protected object Name
+        public object Name
         {
             get => name;
             set

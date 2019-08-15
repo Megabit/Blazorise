@@ -41,13 +41,13 @@ namespace Blazorise
         /// <summary>
         /// Defines the panel name.
         /// </summary>
-        [Parameter] internal protected string Name { get; set; }
+        [Parameter] public string Name { get; set; }
 
         /// <summary>
         /// Sets the active panel.
         /// </summary>
         [Parameter]
-        protected internal bool IsActive
+        public bool IsActive
         {
             get => isActive;
             set
@@ -60,7 +60,7 @@ namespace Blazorise
 
         [CascadingParameter] protected BaseTabsContent ParentTabContent { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -53,13 +53,13 @@ namespace Blazorise
         /// <summary>
         /// Defines the tab name.
         /// </summary>
-        [Parameter] internal protected string Name { get; set; }
+        [Parameter] public string Name { get; set; }
 
         /// <summary>
         /// Sets the active tab.
         /// </summary>
         [Parameter]
-        internal protected bool IsActive
+        public bool IsActive
         {
             get => isActive;
             set
@@ -74,11 +74,11 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] protected Action Clicked { get; set; }
+        [Parameter] public Action Clicked { get; set; }
 
         [CascadingParameter] protected BaseTabs ParentTabs { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

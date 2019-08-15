@@ -31,7 +31,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        protected IFluentColumn ColumnSize
+        public IFluentColumn ColumnSize
         {
             get => columnSize;
             set
@@ -49,7 +49,7 @@ namespace Blazorise
 
         //protected bool IsInFieldBody => ParentFieldBody != null;
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         //[CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
 

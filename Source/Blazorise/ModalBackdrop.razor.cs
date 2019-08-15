@@ -33,7 +33,7 @@ namespace Blazorise
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef = dotNetObjectRef ?? JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -82,7 +82,7 @@ namespace Blazorise
         /// Use this only when backdrop is placed outside of modal.
         /// </remarks>
         [Parameter]
-        internal bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -108,7 +108,7 @@ namespace Blazorise
 
         [CascadingParameter] protected BaseModal ParentModal { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

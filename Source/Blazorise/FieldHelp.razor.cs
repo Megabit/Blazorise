@@ -33,7 +33,7 @@ namespace Blazorise
 
         protected virtual bool ParentIsFieldBody => ParentFieldBody != null;
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         [CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
 

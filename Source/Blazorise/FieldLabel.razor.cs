@@ -39,13 +39,13 @@ namespace Blazorise
 
         #region Properties
 
-        [Parameter] protected string For { get; set; }
+        [Parameter] public string For { get; set; }
 
         /// <summary>
         /// Label is used by the checkbox.
         /// </summary>
         [Parameter]
-        protected bool IsCheck
+        public bool IsCheck
         {
             get => isCheck;
             set
@@ -60,7 +60,7 @@ namespace Blazorise
         /// Label is used by the file input.
         /// </summary>
         [Parameter]
-        protected bool IsFile
+        public bool IsFile
         {
             get => isFile;
             set
@@ -75,7 +75,7 @@ namespace Blazorise
         /// Defines the visibility for screen readers.
         /// </summary>
         [Parameter]
-        protected Screenreader Screenreader
+        public Screenreader Screenreader
         {
             get => screenreader;
             set
@@ -86,7 +86,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

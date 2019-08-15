@@ -36,9 +36,9 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        [Parameter] private EventCallback Clicked { get; set; }
+        [Parameter] public EventCallback Clicked { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

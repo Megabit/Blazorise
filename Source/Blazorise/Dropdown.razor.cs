@@ -122,7 +122,7 @@ namespace Blazorise
         /// Handles the visibility of dropdown menu.
         /// </summary>
         [Parameter]
-        internal bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -143,7 +143,7 @@ namespace Blazorise
         /// Right aligned dropdown menu.
         /// </summary>
         [Parameter]
-        protected bool IsRightAligned
+        public bool IsRightAligned
         {
             get => isRightAligned;
             set
@@ -158,7 +158,7 @@ namespace Blazorise
         /// Dropdown-menu slide direction.
         /// </summary>
         [Parameter]
-        protected Direction Direction
+        public Direction Direction
         {
             get => direction;
             set
@@ -172,11 +172,11 @@ namespace Blazorise
         /// <summary>
         /// Occurs after the dropdown menu visibility has changed.
         /// </summary>
-        [Parameter] protected EventCallback<bool> Toggled { get; set; }
+        [Parameter] public EventCallback<bool> Toggled { get; set; }
 
         [CascadingParameter] protected BaseButtons Buttons { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

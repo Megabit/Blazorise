@@ -47,7 +47,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        internal protected bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -58,11 +58,11 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected Action<bool> Toggled { get; set; }
+        [Parameter] public Action<bool> Toggled { get; set; }
 
         [CascadingParameter] protected BaseBar ParentBar { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

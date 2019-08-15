@@ -39,7 +39,7 @@ namespace Blazorise
         /// Makes the modal as classic dialog with header, body and footer. Used only by bulma https://bulma.io/documentation/components/modal/
         /// </summary>
         [Parameter]
-        protected bool IsForm
+        public bool IsForm
         {
             get => isForm;
             set
@@ -55,7 +55,7 @@ namespace Blazorise
         /// Centers the modal vertically.
         /// </summary>
         [Parameter]
-        protected bool IsCentered
+        public bool IsCentered
         {
             get => isCentered;
             set
@@ -71,7 +71,7 @@ namespace Blazorise
         /// Changes the size of the modal.
         /// </summary>
         [Parameter]
-        protected virtual ModalSize Size
+        public virtual ModalSize Size
         {
             get => modalSize;
             set
@@ -83,7 +83,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -146,7 +146,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<CellEditContext> EditTemplate { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         [CascadingParameter] protected BaseDataGrid<TItem> ParentDataGrid { get; set; }
 

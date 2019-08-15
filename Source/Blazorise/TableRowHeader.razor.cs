@@ -37,9 +37,9 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the row header is clicked.
         /// </summary>
-        [Parameter] protected EventCallback<MouseEventArgs> Clicked { get; set; }
+        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

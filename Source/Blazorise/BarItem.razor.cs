@@ -55,7 +55,7 @@ namespace Blazorise
         protected bool IsDropdown => barDropdown != null;
 
         [Parameter]
-        protected bool IsActive
+        public bool IsActive
         {
             get => isActive;
             set
@@ -67,7 +67,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected bool IsDisabled
+        public bool IsDisabled
         {
             get => isDisabled;
             set
@@ -78,7 +78,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

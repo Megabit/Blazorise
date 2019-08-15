@@ -34,9 +34,9 @@ namespace Blazorise
         /// <remarks>
         /// todo: change to enum
         /// </remarks>
-        [Parameter] protected int? Size { get; set; }
+        [Parameter] public int? Size { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

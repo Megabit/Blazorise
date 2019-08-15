@@ -50,7 +50,7 @@ namespace Blazorise
         /// Makes the table to fill entire horizontal space.
         /// </summary>
         [Parameter]
-        protected bool IsFullWidth
+        public bool IsFullWidth
         {
             get => isFullWidth;
             set
@@ -65,7 +65,7 @@ namespace Blazorise
         /// Adds stripes to the table.
         /// </summary>
         [Parameter]
-        protected bool IsStriped
+        public bool IsStriped
         {
             get => isStriped;
             set
@@ -80,7 +80,7 @@ namespace Blazorise
         /// Adds borders to all the cells.
         /// </summary>
         [Parameter]
-        protected bool IsBordered
+        public bool IsBordered
         {
             get => isBordered;
             set
@@ -95,7 +95,7 @@ namespace Blazorise
         /// Adds a hover effect when mousing over rows.
         /// </summary>
         [Parameter]
-        protected bool IsHoverable
+        public bool IsHoverable
         {
             get => isHoverable;
             set
@@ -110,7 +110,7 @@ namespace Blazorise
         /// Makes the table more compact by cutting cell padding in half.
         /// </summary>
         [Parameter]
-        protected bool IsNarrow
+        public bool IsNarrow
         {
             get => isNarrow;
             set
@@ -125,7 +125,7 @@ namespace Blazorise
         /// Makes the table without any borders.
         /// </summary>
         [Parameter]
-        protected bool IsBorderless
+        public bool IsBorderless
         {
             get => isBorderless;
             set
@@ -136,7 +136,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

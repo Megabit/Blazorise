@@ -56,7 +56,7 @@ namespace Blazorise.Sidebar
         /// Handles the visibility of sidebar.
         /// </summary>
         [Parameter]
-        internal bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -67,7 +67,7 @@ namespace Blazorise.Sidebar
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

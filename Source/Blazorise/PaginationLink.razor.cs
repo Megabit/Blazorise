@@ -38,14 +38,14 @@ namespace Blazorise
         /// Gets or sets the page name.
         /// </summary>
         [Parameter]
-        protected string Page { get; set; }
+        public string Page { get; set; }
 
         /// <summary>
         /// Occurs when the item link is clicked.
         /// </summary>
-        [Parameter] protected EventCallback<string> Clicked { get; set; }
+        [Parameter] public EventCallback<string> Clicked { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         [CascadingParameter] protected BasePaginationItem ParentPaginationItem { get; set; }
 

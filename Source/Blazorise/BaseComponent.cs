@@ -212,7 +212,7 @@ namespace Blazorise
         /// Custom css classname.
         /// </summary>
         [Parameter]
-        protected string Class
+        public string Class
         {
             get => customClass;
             set
@@ -227,7 +227,7 @@ namespace Blazorise
         /// Custom html style.
         /// </summary>
         [Parameter]
-        protected string Style
+        public string Style
         {
             get => customStyle;
             set
@@ -242,7 +242,7 @@ namespace Blazorise
         /// Floats an element to the defined side.
         /// </summary>
         [Parameter]
-        protected Float Float
+        public Float Float
         {
             get => @float;
             set
@@ -257,7 +257,7 @@ namespace Blazorise
         /// Defines the element margin spacing.
         /// </summary>
         [Parameter]
-        protected IFluentSpacing Margin
+        public IFluentSpacing Margin
         {
             get => margin;
             set
@@ -272,7 +272,7 @@ namespace Blazorise
         /// Defines the element padding spacing.
         /// </summary>
         [Parameter]
-        protected IFluentSpacing Padding
+        public IFluentSpacing Padding
         {
             get => padding;
             set
@@ -287,7 +287,7 @@ namespace Blazorise
         /// Gets or sets the element visibility.
         /// </summary>
         [Parameter]
-        protected Visibility Visibility
+        public Visibility Visibility
         {
             get => visibility;
             set

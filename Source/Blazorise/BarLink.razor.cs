@@ -37,7 +37,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        protected bool IsDisabled
+        public bool IsDisabled
         {
             get => isDisabled;
             set
@@ -51,18 +51,18 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] protected Action Clicked { get; set; }
+        [Parameter] public Action Clicked { get; set; }
 
         /// <summary>
         /// Page address.
         /// </summary>
-        [Parameter] protected string To { get; set; }
+        [Parameter] public string To { get; set; }
 
-        [Parameter] protected Match Match { get; set; } = Match.All;
+        [Parameter] public Match Match { get; set; } = Match.All;
 
-        [Parameter] protected string Title { get; set; }
+        [Parameter] public string Title { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

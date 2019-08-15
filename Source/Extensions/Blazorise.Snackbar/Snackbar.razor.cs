@@ -30,6 +30,7 @@ namespace Blazorise.Snackbar
             if ( timer != null )
             {
                 timer.Elapsed -= Timer_Elapsed;
+                timer.Dispose();
                 timer = null;
             }
         }
@@ -53,6 +54,7 @@ namespace Blazorise.Snackbar
                     return "snackbar-left";
                 case SnackbarLocation.Right:
                     return "snackbar-right";
+                case SnackbarLocation.None:
                 default:
                     return null;
             }
@@ -62,8 +64,10 @@ namespace Blazorise.Snackbar
         {
             if ( timer == null )
             {
-                timer = new Timer();
-                timer.Interval = Interval;
+                timer = new Timer
+                {
+                    Interval = Interval
+                };
                 timer.Elapsed += Timer_Elapsed;
                 timer.AutoReset = false;
             }
@@ -97,7 +101,7 @@ namespace Blazorise.Snackbar
         #region Properties
 
         [Parameter]
-        private bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -109,7 +113,7 @@ namespace Blazorise.Snackbar
         }
 
         [Parameter]
-        private bool IsMultiline
+        public bool IsMultiline
         {
             get => isMultiline;
             set
@@ -121,7 +125,7 @@ namespace Blazorise.Snackbar
         }
 
         [Parameter]
-        private SnackbarLocation Location
+        public SnackbarLocation Location
         {
             get => location;
             set
@@ -132,10 +136,9 @@ namespace Blazorise.Snackbar
             }
         }
 
-        [Parameter]
-        private double Interval { get; set; } = 3000;
+        [Parameter] public double Interval { get; set; } = 3000;
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

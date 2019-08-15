@@ -51,29 +51,29 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the checked flag.
         /// </summary>
-        [Parameter] protected bool Checked { get => InternalValue ?? false; set => InternalValue = value; }
+        [Parameter] public bool Checked { get => InternalValue ?? false; set => InternalValue = value; }
 
         /// <summary>
         /// Gets or sets the nullable value for checked flag.
         /// </summary>
-        [Parameter] protected bool? NullableChecked { get => InternalValue; set => InternalValue = value; }
+        [Parameter] public bool? NullableChecked { get => InternalValue; set => InternalValue = value; }
 
         /// <summary>
         /// Occurs when the check state is changed.
         /// </summary>
-        [Parameter] protected EventCallback<bool> CheckedChanged { get; set; }
+        [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
 
         /// <summary>
         /// Occurs when the check state of nullable value is changed.
         /// </summary>
         [Obsolete( "This parameter is only temporary until the issue with generic componnets is fixed. see http://git.travelsoft.hr/Travelsoft/_git/Adriagate/pullrequest/59?_a=overview" )]
-        [Parameter] protected EventCallback<bool?> NullableCheckedChanged { get; set; }
+        [Parameter] public EventCallback<bool?> NullableCheckedChanged { get; set; }
 
         /// <summary>
         /// Sets the radio group name.
         /// </summary>
         [Parameter]
-        protected string RadioGroup
+        public string RadioGroup
         {
             get => radioGroup;
             set
@@ -88,7 +88,7 @@ namespace Blazorise
         /// Group checkboxes or radios on the same horizontal row.
         /// </summary>
         [Parameter]
-        protected bool IsInline
+        public bool IsInline
         {
             get => isInline;
             set
@@ -103,7 +103,7 @@ namespace Blazorise
         /// Defines the mouse cursor based on the behaviour by the current css framework.
         /// </summary>
         [Parameter]
-        protected Cursor Cursor
+        public Cursor Cursor
         {
             get => cursor;
             set

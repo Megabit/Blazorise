@@ -32,7 +32,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        protected bool IsFluid
+        public bool IsFluid
         {
             get => isFluid;
             set
@@ -43,7 +43,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -67,7 +67,7 @@ namespace Blazorise
         /// Controlls the state of toggler and the menu.
         /// </summary>
         [Parameter]
-        internal protected bool IsOpen
+        public bool IsOpen
         {
             get => isOpen;
             set
@@ -88,7 +88,7 @@ namespace Blazorise
         /// Used for responsive collapsing.
         /// </summary>
         [Parameter]
-        protected Breakpoint Breakpoint
+        public Breakpoint Breakpoint
         {
             get => breakpoint;
             set
@@ -100,7 +100,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected ThemeContrast ThemeContrast
+        public ThemeContrast ThemeContrast
         {
             get => themeContrast;
             set
@@ -115,7 +115,7 @@ namespace Blazorise
         /// Defines the alignment within bar.
         /// </summary>
         [Parameter]
-        protected Alignment Alignment
+        public Alignment Alignment
         {
             get => alignment;
             set
@@ -130,7 +130,7 @@ namespace Blazorise
         /// Gets or sets the bar background color.
         /// </summary>
         [Parameter]
-        protected Background Background
+        public Background Background
         {
             get => background;
             set
@@ -141,7 +141,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

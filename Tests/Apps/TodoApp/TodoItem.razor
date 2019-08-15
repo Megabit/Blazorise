@@ -16,7 +16,7 @@
         StatusChanged?.Invoke( isChecked );
     }
 
-    [Parameter] Todo Todo { get; set; }
+    [Parameter] public Todo Todo { get; set; }
 
-    [Parameter] Action<bool> StatusChanged { get; set; }
+    [Parameter] public Action<bool> StatusChanged { get; set; }
 }

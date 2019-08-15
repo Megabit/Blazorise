@@ -34,7 +34,7 @@ namespace Blazorise
         /// Defines the location and behaviour of addon container.
         /// </summary>
         [Parameter]
-        protected AddonType AddonType
+        public AddonType AddonType
         {
             get => addonType;
             set
@@ -45,7 +45,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

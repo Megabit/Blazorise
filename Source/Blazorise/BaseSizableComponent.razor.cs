@@ -57,7 +57,7 @@ namespace Blazorise
         protected virtual bool UseColumnSizes => true;
 
         [Parameter]
-        protected IFluentColumn ColumnSize
+        public IFluentColumn ColumnSize
         {
             get => columnSize;
             set

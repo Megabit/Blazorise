@@ -38,7 +38,7 @@ namespace Blazorise
         /// todo: change to enum
         /// </remarks>
         [Parameter]
-        protected int Size
+        public int Size
         {
             get => size;
             set
@@ -49,7 +49,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

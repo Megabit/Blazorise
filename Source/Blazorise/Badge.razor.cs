@@ -40,7 +40,7 @@ namespace Blazorise
         /// Make the badge more rounded.
         /// </summary>
         [Parameter]
-        protected bool IsPill
+        public bool IsPill
         {
             get => isPill;
             set
@@ -55,7 +55,7 @@ namespace Blazorise
         /// Sets the badge contextual color.
         /// </summary>
         [Parameter]
-        protected Color Color
+        public Color Color
         {
             get => color;
             set
@@ -70,7 +70,7 @@ namespace Blazorise
         /// Create a badge link and provide actionable badges with hover and focus states.
         /// </summary>
         [Parameter]
-        protected string Link
+        public string Link
         {
             get => link;
             set
@@ -81,7 +81,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

@@ -42,16 +42,16 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the item value.
         /// </summary>
-        [Parameter] internal protected TValue Value { get; set; }
+        [Parameter] public TValue Value { get; set; }
 
         /// <summary>
         /// Disable the item from mouse click.
         /// </summary>
-        [Parameter] protected bool IsDisabled { get; set; }
+        [Parameter] public bool IsDisabled { get; set; }
 
         [CascadingParameter] protected BaseSelect<TValue> ParentSelect { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

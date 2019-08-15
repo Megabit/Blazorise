@@ -34,7 +34,7 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        protected HeadingSize Size
+        public HeadingSize Size
         {
             get => headingSize;
             set
@@ -46,7 +46,7 @@ namespace Blazorise
         }
 
         [Parameter]
-        protected TextColor TextColor
+        public TextColor TextColor
         {
             get => textColor;
             set
@@ -57,7 +57,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

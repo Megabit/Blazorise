@@ -80,9 +80,9 @@ namespace Blazorise
         /// <summary>
         /// Defines the validation mode for validations inside of this container.
         /// </summary>
-        [Parameter] protected internal ValidationMode Mode { get; set; }
+        [Parameter] public ValidationMode Mode { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

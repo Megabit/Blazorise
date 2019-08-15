@@ -41,7 +41,7 @@ namespace Blazorise
         /// Gets or sets the pagination size.
         /// </summary>
         [Parameter]
-        protected Size Size
+        public Size Size
         {
             get => size;
             set
@@ -56,7 +56,7 @@ namespace Blazorise
         /// Gets or sets the pagination alignment.
         /// </summary>
         [Parameter]
-        protected Alignment Alignment
+        public Alignment Alignment
         {
             get => alignment;
             set
@@ -71,7 +71,7 @@ namespace Blazorise
         /// Gets or sets the pagination background color.
         /// </summary>
         [Parameter]
-        protected Background Background
+        public Background Background
         {
             get => background;
             set
@@ -82,7 +82,7 @@ namespace Blazorise
             }
         }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

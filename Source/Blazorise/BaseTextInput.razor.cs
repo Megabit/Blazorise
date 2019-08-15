@@ -75,18 +75,18 @@ namespace Blazorise
         /// <summary>
         /// Sets the placeholder for the empty text.
         /// </summary>
-        [Parameter] protected string Placeholder { get; set; }
+        [Parameter] public string Placeholder { get; set; }
 
         /// <summary>
         /// Sets the class to remove the default form field styling and preserve the correct margin and padding.
         /// </summary>
-        [Parameter] protected bool IsPlaintext { get; set; }
+        [Parameter] public bool IsPlaintext { get; set; }
 
         /// <summary>
         /// Sets the input text color.
         /// </summary>
         [Parameter]
-        protected Color Color
+        public Color Color
         {
             get => color;
             set
@@ -101,7 +101,7 @@ namespace Blazorise
         /// <summary>
         /// The pattern attribute specifies a regular expression that the input element's value is checked against on form validation.
         /// </summary>
-        [Parameter] protected string Pattern { get; set; }
+        [Parameter] public string Pattern { get; set; }
 
         #endregion
     }

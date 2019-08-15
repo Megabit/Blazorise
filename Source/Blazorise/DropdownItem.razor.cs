@@ -39,13 +39,13 @@ namespace Blazorise
         /// <summary>
         /// Holds the item value.
         /// </summary>
-        [Parameter] protected object Value { get; set; }
+        [Parameter] public object Value { get; set; }
 
         /// <summary>
         /// Indicate the currently active item.
         /// </summary>
         [Parameter]
-        internal bool IsActive
+        public bool IsActive
         {
             get => isActive;
             set
@@ -59,9 +59,9 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] protected EventCallback<object> Clicked { get; set; }
+        [Parameter] public EventCallback<object> Clicked { get; set; }
 
-        [Parameter] protected RenderFragment ChildContent { get; set; }
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }
