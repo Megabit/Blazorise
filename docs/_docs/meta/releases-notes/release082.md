@@ -37,3 +37,4 @@ Added new `RowDetailTemplate` to the DataGrid which can be used to define nested
 ## Other
 
 - Fixed bug with first time selection in SelectList component [#188](https://github.com/stsrki/Blazorise/issues/188)
+- Fixed bug when setting the icon name manually [#95](https://github.com/stsrki/Blazorise/issues/95)
