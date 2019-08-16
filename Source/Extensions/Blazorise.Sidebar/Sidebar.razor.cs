@@ -67,6 +67,11 @@ namespace Blazorise.Sidebar
             }
         }
 
+        /// <summary>
+        /// Optional data for generating sidebar dynamically.
+        /// </summary>
+        [Parameter] public SidebarData Data { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

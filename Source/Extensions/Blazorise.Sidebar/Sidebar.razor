@@ -1,4 +1,33 @@
 ﻿@inherits BaseSidebar
 <nav class="@ClassMapper.Class">
+    @if ( Data != null )
+    {
+        <SidebarContent>
+            @if ( Data.Items != null )
+            {
+                <SidebarNavigation>
+                    @foreach ( var item in Data.Items )
+                    {
+                        <SidebarItem>
+                            <SidebarLink To="@item.To" Title="@item.Tooltip">
+                                <Icon Name="IconName.Dashboard" Margin="Blazorise.Margin.Is3.FromRight" />@item.Text
+                            </SidebarLink>
+                            @if ( item.Items != null )
+                            {
+                                <SidebarSubItem>
+                                    @foreach ( var subItem in item.Items )
+                                    {
+                                        <SidebarItem>
+                                            <SidebarLink To="@subItem.To">@subItem.Text</SidebarLink>
+                                        </SidebarItem>
+                                    }
+                                </SidebarSubItem>
+                            }
+                        </SidebarItem>
+                    }
+                </SidebarNavigation>
+            }
+        </SidebarContent>
+    }
     @ChildContent
 </nav>
