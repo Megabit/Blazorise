@@ -152,6 +152,41 @@ Edit template will give you a way to handle the editing of grid cell values. For
 </DataGridColumn>
 ```
 
+### RowDetailTemplate
+
+RowDetail template allows you to display nested structure bellow each row in the grid. One of the examples is "master-detail" relationship between two data-source inside the DataGrid.
+
+For this template the `context` value is the item from the parent grid.
+
+```
+<DetailRowTemplate>
+    @{
+        var salaries = ( context as Employee ).Salaries;
+
+        <DataGrid TItem="Salary"
+                  Data="salaries"
+                  AllowSort="false"
+                  ShowCaptions="false">
+            <DataGridCommandColumn TItem="Salary" />
+            <DataGridDateColumn TItem="Salary" Field="@nameof(Salary.Date)" Caption="Date" />
+            <DataGridNumericColumn TItem="Salary" Field="@nameof(Salary.Total)" Caption="Total" />
+        </DataGrid>
+    }
+</DetailRowTemplate>
+```
+
+Once it's defined a DetailRow will be visible for every row in the grid. If you want to control the visibility of detail-row you can use `RowDetailTrigger` attribute that can be defined in it's parent grid.
+
+```
+<DataGrid TItem="Employee"
+          Data="@employees"
+          ...
+          @bind-SelectedRow="@selectedEmployee"
+          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)">
+    ...
+</DataGrid>
+```
+
 ## Attributes
 
 | Name                  | Type                                                                | Default | Description                                                                                           |

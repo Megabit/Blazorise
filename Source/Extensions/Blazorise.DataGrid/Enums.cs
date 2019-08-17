@@ -31,16 +31,16 @@ namespace Blazorise.DataGrid
     public enum DataGridEditMode
     {
         /// <summary>
-        /// Values will be edited in the inline form.
+        /// Values will be edited in the edit form.
         /// </summary>
         Form,
 
         /// <summary>
-        /// Values will be edited in the row.
+        /// Values will be edited within the inline edit row.
         /// </summary>
-        InRow,
+        Inline,
 
-        //InCell,
+        //Popup,
     }
 
     /// <summary>

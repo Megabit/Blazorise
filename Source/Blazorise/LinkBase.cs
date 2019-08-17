@@ -21,8 +21,6 @@ namespace Blazorise
     {
         #region Members
 
-        private const string defaultActiveClass = "active";
-
         private RenderHandle renderHandle;
 
         private RenderFragment childContent;
@@ -58,7 +56,7 @@ namespace Blazorise
 
         #region Methods
 
-        public void Configure( RenderHandle renderHandle )
+        public void Attach( RenderHandle renderHandle )
         {
             this.renderHandle = renderHandle;
 
@@ -71,12 +69,12 @@ namespace Blazorise
             UriHelper.OnLocationChanged -= OnLocationChanged;
         }
 
-        public Task SetParametersAsync( ParameterCollection parameters )
+        public Task SetParametersAsync( ParameterView parameters )
         {
             attributes = parameters.ToDictionary() as Dictionary<string, object>;
 
             // Capture the parameters we want to do special things with, plus all as a dictionary
-            childContent = GetAndRemove<RenderFragment>( attributes, RenderTreeBuilder.ChildContent );
+            childContent = GetAndRemove<RenderFragment>( attributes, "ChildContent" );
             tagName = GetAndRemove<string>( attributes, "TagName" );
             className = GetAndRemove<string>( attributes, "class" );
             Match = GetAndRemove<Match>( attributes, "Match" );
@@ -207,7 +205,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets a value representing the URL matching behavior.
         /// </summary>
-        [Parameter] Match Match { get; set; }
+        [Parameter] public Match Match { get; set; }
 
         [Inject] private IUriHelper UriHelper { get; set; }
 

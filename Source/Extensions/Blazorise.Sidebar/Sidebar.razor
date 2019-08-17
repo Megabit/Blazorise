@@ -1,4 +1,42 @@
-﻿@inherits Base.BaseSidebar
+﻿@inherits BaseSidebar
 <nav class="@ClassMapper.Class">
-    @ChildContent
+    @if ( Data != null )
+    {
+        <SidebarContent>
+            @if ( Data.Brand?.Text != null || Data.Brand?.To != null )
+            {
+                <SidebarBrand>
+                    <a href="@(Data.Brand?.To ?? string.Empty)">@Data.Brand?.Text</a>
+                </SidebarBrand>
+            }
+            @if ( Data.Items != null )
+            {
+                <SidebarNavigation>
+                    @foreach ( var item in Data.Items )
+                    {
+                        <SidebarItem @key="@item">
+                            <SidebarLink To="@item.To" Title="@item.Tooltip" Toggled="@((isOpen)=>{item.SubItemReference?.Toggle( isOpen );})">
+                                @item.Text
+                            </SidebarLink>
+                            @if ( item.SubItems != null )
+                            {
+                                <SidebarSubItem @ref="item.SubItemReference" @ref:suppressField>
+                                    @foreach ( var subItem in item.SubItems )
+                                    {
+                                        <SidebarItem @key="@subItem">
+                                            <SidebarLink To="@subItem.To">@subItem.Text</SidebarLink>
+                                        </SidebarItem>
+                                    }
+                                </SidebarSubItem>
+                            }
+                        </SidebarItem>
+                    }
+                </SidebarNavigation>
+            }
+        </SidebarContent>
+    }
+    else
+    {
+        @ChildContent
+    }
 </nav>

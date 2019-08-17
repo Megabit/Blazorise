@@ -1,6 +1,6 @@
 ﻿@* This has to be name SelectEdit because Razor(not Blazor) still doesn't support case sensitive components. *@
 @typeparam TValue
-@inherits Blazorise.Base.BaseSelect<TValue>
+@inherits Blazorise.BaseSelect<TValue>
 @if ( !HasCustomRegistration )
 {
     <select id="@ElementId" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" @onchange="@HandleOnChanged">

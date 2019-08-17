@@ -1,37 +1,40 @@
 @typeparam TItem
-@inherits Base.BaseDataGrid<TItem>
+@inherits BaseDataGrid<TItem>
 <TableContainer Class="@Class" Margin="@Margin" Padding="@Padding">
     <TableHeader>
-        <TableRow>
-            @foreach ( var column in Columns )
-            {
-                @if ( column.ColumnType == DataGridColumnType.Command )
+        @if ( ShowCaptions )
+        {
+            <TableRow>
+                @foreach ( var column in Columns )
                 {
-                    @if ( AllowEdit )
+                    @if ( column.ColumnType == DataGridColumnType.Command )
                     {
-                        <TableHeaderCell ColumnSpan="2">
-                            @if ( AllowEdit && CanInsertNewItem && editState != DataGridEditState.New )
+                        @if ( AllowEdit )
+                        {
+                            <TableHeaderCell ColumnSpan="2">
+                                @if ( AllowEdit && CanInsertNewItem && editState != DataGridEditState.New )
+                                {
+                                    <SimpleButton Color="Color.Link" Clicked="@OnNewCommand">New</SimpleButton>
+                                }
+                            </TableHeaderCell>
+                        }
+                    }
+                    else
+                    {
+                        <TableHeaderCell Style="cursor: pointer" Clicked="@(() => OnSortClicked( column ) )">
+                            @if ( column.ShowCaption )
                             {
-                                <SimpleButton Color="Color.Link" Clicked="@OnNewCommand">New</SimpleButton>
+                                @column.Caption
+                            }
+                            @if ( AllowSort && column.AllowSort )
+                            {
+                                <Icon Name="@(column.Direction == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
                             }
                         </TableHeaderCell>
                     }
                 }
-                else
-                {
-                    <TableHeaderCell Style="cursor: pointer" Clicked="@(() => OnSortClicked( column ) )">
-                        @if ( column.ShowCaption )
-                        {
-                            @column.Caption
-                        }
-                        @if ( AllowSort && column.AllowSort )
-                        {
-                            <Icon Name="@(column.Direction == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
-                        }
-                    </TableHeaderCell>
-                }
-            }
-        </TableRow>
+            </TableRow>
+        }
         @if ( AllowFilter )
         {
             <TableRow>
@@ -77,6 +80,17 @@
                 else
                 {
                     <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@Columns" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" />
+                    @if ( DetailRowTemplate != null )
+                    {
+                        var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
+
+                        @if ( canShow )
+                        {
+                            <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
+                                @DetailRowTemplate( item )
+                            </_DataGridDetailRow>
+                        }
+                    }
                 }
             }
         </CascadingValue>

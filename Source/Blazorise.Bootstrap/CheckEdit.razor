@@ -1,4 +1,4 @@
-﻿@inherits Base.BaseCheckEdit
+﻿@inherits BaseCheckEdit
 <Control Role="@Role" IsInline="@IsInline">
     <input type="@Type" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" @onchange="@HandleCheckedChanged" name="@RadioGroup" id="@ElementId" />
     <FormLabel IsCheck="true" For="@ElementId" Style="@Style" Cursor="@Cursor">@ChildContent</FormLabel>

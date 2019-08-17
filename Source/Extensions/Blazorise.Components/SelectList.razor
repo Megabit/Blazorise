@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
-@inherits Base.BaseSelectList<TItem>
-<SelectEdit TValue="object" SelectedValue="@SelectedValue" SelectedValueChanged="@SelectedValueChanged">
+@inherits BaseSelectList<TItem>
+<SelectEdit TValue="object" SelectedValue="@SelectedValue" SelectedValueChanged="@HandleSelectedValueChanged">
     @if ( Data != null )
     {
         foreach ( var item in Data )

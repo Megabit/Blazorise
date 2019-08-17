@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Base;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -16,35 +15,35 @@ namespace Blazorise
 
         void DisposeDotNetObjectRef<T>( DotNetObjectRef<T> value ) where T : class;
 
-        Task<bool> Init( ElementRef elementRef, object componentRef );
+        Task<bool> Init( ElementReference elementRef, object componentRef );
 
-        Task<bool> InitializeTextEdit( string elementId, ElementRef elementRef, string maskType, string editMask );
+        Task<bool> InitializeTextEdit( string elementId, ElementReference elementRef, string maskType, string editMask );
 
-        Task<bool> DestroyTextEdit( string elementId, ElementRef elementRef );
+        Task<bool> DestroyTextEdit( string elementId, ElementReference elementRef );
 
-        Task<bool> InitializeNumericEdit( DotNetObjectRef<NumericEditAdapter> dotNetObjectRef, string elementId, ElementRef elementRef, int decimals, string decimalsSeparator, decimal? step );
+        Task<bool> InitializeNumericEdit( DotNetObjectRef<NumericEditAdapter> dotNetObjectRef, string elementId, ElementReference elementRef, int decimals, string decimalsSeparator, decimal? step );
 
-        Task<bool> DestroyNumericEdit( string elementId, ElementRef elementRef );
+        Task<bool> DestroyNumericEdit( string elementId, ElementReference elementRef );
 
-        Task<bool> AddClass( ElementRef elementRef, string classname );
+        Task<bool> AddClass( ElementReference elementRef, string classname );
 
-        Task<bool> RemoveClass( ElementRef elementRef, string classname );
+        Task<bool> RemoveClass( ElementReference elementRef, string classname );
 
-        Task<bool> ToggleClass( ElementRef elementId, string classname );
+        Task<bool> ToggleClass( ElementReference elementId, string classname );
 
         Task<bool> AddClassToBody( string classname );
 
         Task<bool> RemoveClassFromBody( string classname );
 
-        Task<bool> ParentHasClass( ElementRef elementRef, string classaname );
+        Task<bool> ParentHasClass( ElementReference elementRef, string classaname );
 
-        Task<string[]> GetFilePaths( ElementRef element );
+        Task<string[]> GetFilePaths( ElementReference element );
 
         Task<bool> ActivateDatePicker( string elementId, string formatSubmit );
 
         Task<TValue[]> GetSelectedOptions<TValue>( string elementId );
 
-        Task<bool> SetTextValue( ElementRef elementRef, object value );
+        Task<bool> SetTextValue( ElementReference elementRef, object value );
 
         /// <summary>
         /// Handles the closing of the components that can be toggled.

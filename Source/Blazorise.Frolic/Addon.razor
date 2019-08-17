@@ -1,4 +1,4 @@
-﻿@inherits Blazorise.Base.BaseAddon
+﻿@inherits BaseAddon
 <CascadingValue Value="this">
     @if ( AddonType == AddonType.Body || NoContainer )
     {
@@ -12,9 +12,9 @@
     }
 </CascadingValue>
 @code{
-    Base.BaseComponent child;
+    BaseComponent child;
 
-    internal void Hook( Base.BaseComponent child )
+    internal void Hook( BaseComponent child )
     {
         this.child = child;
         StateHasChanged();

@@ -1,5 +1,4 @@
 ﻿@page "/tests/modals";
-
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -43,7 +42,7 @@
         </Card>
     </Column>
 </Row>
-<Modal @ref="modalRef">
+<Modal @ref="modalRef" @ref:suppressField>
     <ModalBackdrop />
     <ModalContent Size="@modalSize" IsCentered="@isCentered">
         <ModalHeader>
