@@ -8,10 +8,10 @@ using System.Text;
 namespace Blazorise.Sidebar
 {
     /// <summary>
-    /// Holds the data to generate the sidebar items.
+    /// Holds the information to generate the sidebar items.
     /// </summary>
     [DataContract]
-    public class SidebarData
+    public class SidebarInfo
     {
         /// <summary>
         /// Sidebar brand located in sidebar header.

@@ -104,38 +104,37 @@ When building your sidebar manually you have full control of it's content and na
 
 ### Dynamic
 
-You can also build sidebar dynamically by using the `Data` attribute and the `SidebarData` class. The `SidebarData` is fully serializable so you can save it to an external source or database.
+You can also build sidebar dynamically by using the `Data` attribute and the `SidebarInfo` class. The `SidebarInfo` is fully serializable so you can save it to an external source or database.
 
 ```cs
-<Sidebar Data="@sidebarData" />
+<Sidebar Data="@sidebarInfo" />
 
 @code{
     Sidebar sidebar;
     
-    SidebarData sidebarData = new SidebarData
+    SidebarInfo sidebarInfo = new SidebarInfo
     {
         Brand = new SidebarBrandInfo
         {
             Text = "Blazorise Demo"
         },
         Items = new List<SidebarItemInfo>
-    {
+        {
             new SidebarItemInfo { To = "", Text = "Dashboard" },
             new SidebarItemInfo
             {
-                Text = "Pages",
+                Text = "Email",
                 SubItems = new List<SidebarItemInfo>
-            {
-                    new SidebarItemInfo { To = "tests/buttons", Text = "Buttons" },
-                    new SidebarItemInfo { To = "tests/forms", Text = "Forms" },
-                    new SidebarItemInfo { To = "tests/charts", Text = "Charts" }
+                {
+                    new SidebarItemInfo { To = "email/inbox", Text = "Inbox" },
+                    new SidebarItemInfo { To = "email/compose", Text = "Compose Email" },
                 }
             },
             new SidebarItemInfo
             {
                 Text = "Applications",
                 SubItems = new List<SidebarItemInfo>
-            {
+                {
                     new SidebarItemInfo { To = "apps/todo", Text = "Todo List" }
                 }
             },
