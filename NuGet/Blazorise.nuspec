@@ -16,8 +16,8 @@
 		<iconUrl>https://github.com/stsrki/Blazorise/raw/master/NuGet/Blazorise.png</iconUrl>
 		<dependencies>
 			<group targetFramework=".NETStandard2.0">
-				<dependency id="Microsoft.AspNetCore.Blazor" version="3.0.0-preview7.19365.7" exclude="Build,Analyzers" />
-				<dependency id="Microsoft.AspNetCore.Blazor.Build" version="3.0.0-preview7.19365.7" exclude="Build,Analyzers" />
+				<dependency id="Microsoft.AspNetCore.Blazor" version="3.0.0-preview8.19405.7" exclude="Build,Analyzers" />
+				<dependency id="Microsoft.AspNetCore.Blazor.Build" version="3.0.0-preview8.19405.7" exclude="Build,Analyzers" />
 			</group>
 		</dependencies>
 		<contentFiles>
