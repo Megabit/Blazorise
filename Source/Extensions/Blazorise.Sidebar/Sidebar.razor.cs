@@ -27,6 +27,9 @@ namespace Blazorise.Sidebar
             base.RegisterClasses();
         }
 
+        /// <summary>
+        /// Opens the sidebar.
+        /// </summary>
         public void Open()
         {
             IsOpen = true;
@@ -34,6 +37,9 @@ namespace Blazorise.Sidebar
             StateHasChanged();
         }
 
+        /// <summary>
+        /// Closes the sidebar.
+        /// </summary>
         public void Close()
         {
             IsOpen = false;
@@ -41,6 +47,9 @@ namespace Blazorise.Sidebar
             StateHasChanged();
         }
 
+        /// <summary>
+        /// Toggles the sidebar open or close state.
+        /// </summary>
         public void Toggle()
         {
             IsOpen = !IsOpen;
@@ -53,7 +62,7 @@ namespace Blazorise.Sidebar
         #region Properties
 
         /// <summary>
-        /// Handles the visibility of sidebar.
+        /// Gets or sets the sidebar visibility state.
         /// </summary>
         [Parameter]
         public bool IsOpen
@@ -68,7 +77,7 @@ namespace Blazorise.Sidebar
         }
 
         /// <summary>
-        /// Optional data for generating sidebar dynamically.
+        /// Data for generating sidebar dynamically.
         /// </summary>
         [Parameter] public SidebarData Data { get; set; }
 

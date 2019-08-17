@@ -1,8 +1,8 @@
 ﻿@layout RootLayout
 @inherits LayoutComponentBase
 
-<Sidebar @ref="sidebar" @ref:suppressField Data="@sidebarData">
-    @*<SidebarContent>
+<Sidebar @ref="sidebar" @ref:suppressField>
+    <SidebarContent>
         <SidebarBrand>
             <a href="">Blazorise Demo</a>
         </SidebarBrand>
@@ -70,7 +70,7 @@
                 </SidebarSubItem>
             </SidebarItem>
         </SidebarNavigation>
-    </SidebarContent>*@
+    </SidebarContent>
 </Sidebar>
 
 <div class="app-main">
@@ -80,7 +80,7 @@
                 <BarLink To="">
                     <Icon Name="IconName.Dashboard" />
                     Blazorise Demo
-                </BarLink>
+                </BarLink>                
             </BarItem>
         </BarBrand>
         <BarToggler Clicked="@ToggleSidebar">
@@ -209,25 +209,6 @@
     Sidebar sidebar;
     SidebarSubItem sidebarSubItemTests;
     SidebarSubItem sidebarSubItemApps;
-
-    SidebarData sidebarData = new SidebarData
-    {
-        Items = new List<SidebarNode>
-    {
-            new SidebarNode { Text = "Dashboard" },
-            new SidebarNode
-            {
-                Text = "Pages",
-                Items = new List<SidebarNode>
-                {
-                    new SidebarNode { To = "tests/buttons", Text = "Buttons" },
-                    new SidebarNode { To = "tests/forms", Text = "Forms" },
-                    new SidebarNode { To = "tests/charts", Text = "Charts" }
-                }
-            },
-            new SidebarNode { Text = "Applications" },
-        }
-    };
 
     //bool collapseNavMenu = true;
 
