@@ -8,7 +8,7 @@ toc_label: "Features"
 
 ## Overview
 
-This release was mainly focused on code cleanup and refactoring based on the changes in the Blazor preview 8.
+This release was mainly focused on code cleanup and refactoring based on the changes in the Blazor preview 8 with some minor features and bug fixes.
 
 ## Breaking changes
 
@@ -32,7 +32,11 @@ The next big change is based on the new feature in Blazor preview 8. In previous
 
 ### DataGrid
 
-Added new `RowDetailTemplate` to the DataGrid which can be used to define nested structure for every row in the grid. [more]({{ "/docs/extensions/datagrid/#rowdetailtemplate" | relative_url }})
+Added new `RowDetailTemplate` to the DataGrid which can be used to define nested structure for every row in the grid. A detail example can be found in the [documentation]({{ "/docs/extensions/datagrid/#rowdetailtemplate" | relative_url }}).
+
+### Sidebar
+
+It's now possible to create sidebar structure dynamically based on the supplied data. This feature was requested several times and it's finally done. To find more please visit the [documentation]({{ "/docs/extensions/sidebar/#usage" | relative_url }}) to see how it can be used. 
 
 ## Other
 

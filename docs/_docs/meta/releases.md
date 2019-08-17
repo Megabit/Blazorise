@@ -6,7 +6,7 @@ toc: true
 toc_label: "Version history"
 ---
 
-## 0.8.3
+## 0.8.2
 
 ### Breaking changes
 
@@ -15,6 +15,7 @@ toc_label: "Version history"
 ### Enhancements
 
 - Added DetailRowTemplate to DataGrid [#184](https://github.com/stsrki/Blazorise/issues/184)
+- Dynamic building of Sidebar [#157](https://github.com/stsrki/Blazorise/issues/157)
 
 ### Bug Fixes
 
