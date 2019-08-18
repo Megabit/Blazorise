@@ -16,6 +16,11 @@ namespace Blazorise.Charts
 
         #region Methods
 
+        public BasePieChart()
+        {
+            Type = ChartType.Pie;
+        }
+
         #endregion
 
         #region Properties
