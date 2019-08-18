@@ -14,7 +14,7 @@
                             <TableHeaderCell ColumnSpan="2">
                                 @if ( AllowEdit && CanInsertNewItem && editState != DataGridEditState.New )
                                 {
-                                    <SimpleButton Color="Color.Link" Clicked="@OnNewCommand">New</SimpleButton>
+                                    <Button Color="Color.Link" Clicked="@OnNewCommand">New</Button>
                                 }
                             </TableHeaderCell>
                         }
@@ -49,7 +49,7 @@
                         {
                             // since Clear Filter is located in the command column it can be visible onle when Edit is enabled
                             <TableHeaderCell ColumnSpan="2">
-                                <SimpleButton Color="Color.Link" Clicked="@OnClearFilterClicked">Clear Filter</SimpleButton>
+                                <Button Color="Color.Link" Clicked="@OnClearFilterClicked">Clear Filter</Button>
                             </TableHeaderCell>
                         }
                     }

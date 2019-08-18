@@ -2,18 +2,18 @@
 @if ( EditState == DataGridEditState.Edit )
 {
     <TableRowCell>
-        <SimpleButton Color="Color.Link" Clicked="@Save">Save</SimpleButton>
+        <Button Color="Color.Link" Clicked="@Save">Save</Button>
     </TableRowCell>
     <TableRowCell>
-        <SimpleButton Color="Color.Link" Clicked="@Cancel">Cancel</SimpleButton>
+        <Button Color="Color.Link" Clicked="@Cancel">Cancel</Button>
     </TableRowCell>
 }
 else if ( EditState == DataGridEditState.None )
 {
     <TableRowCell>
-        <SimpleButton Color="Color.Link" Clicked="@Edit">Edit</SimpleButton>
+        <Button Color="Color.Link" Clicked="@Edit">Edit</Button>
     </TableRowCell>
     <TableRowCell>
-        <SimpleButton Color="Color.Link" Clicked="@Delete">Delete</SimpleButton>
+        <Button Color="Color.Link" Clicked="@Delete">Delete</Button>
     </TableRowCell>
 }
