@@ -1,6 +1,6 @@
 @typeparam TItem
 @inherits BaseDataGrid<TItem>
-<TableContainer Class="@Class" Margin="@Margin" Padding="@Padding">
+<Table Class="@Class" Margin="@Margin" Padding="@Padding">
     <TableHeader>
         @if ( ShowCaptions )
         {
@@ -99,7 +99,7 @@
             @ChildContent
         </CascadingValue>
     </TableBody>
-</TableContainer>
+</Table>
 @if ( ShowPager )
 {
     <Pagination>
