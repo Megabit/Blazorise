@@ -694,43 +694,43 @@ namespace Blazorise.Providers
 
         #region Enums
 
-        public string Size( Size size ) => null;
+        public string ToSize( Size size ) => null;
 
-        public string Breakpoint( Breakpoint breakpoint ) => null;
+        public string ToBreakpoint( Breakpoint breakpoint ) => null;
 
-        public string Color( Color color ) => null;
+        public string ToColor( Color color ) => null;
 
-        public string Color( Background color ) => null;
+        public string ToBackground( Background color ) => null;
 
-        public string TextColor( TextColor textColor ) => null;
+        public string ToTextColor( TextColor textColor ) => null;
 
-        public string ThemeContrast( ThemeContrast themeContrast ) => null;
+        public string ToThemeContrast( ThemeContrast themeContrast ) => null;
 
-        public string Float( Float @float ) => null;
+        public string ToFloat( Float @float ) => null;
 
-        public string Spacing( Spacing spacing ) => null;
+        public string ToSpacing( Spacing spacing ) => null;
 
-        public string Side( Side side ) => null;
+        public string ToSide( Side side ) => null;
 
-        public string Alignment( Alignment alignment ) => null;
+        public string ToAlignment( Alignment alignment ) => null;
 
-        public string TextAlignment( TextAlignment textAlignment ) => null;
+        public string ToTextAlignment( TextAlignment textAlignment ) => null;
 
-        public string TextTransform( TextTransform textTransform ) => null;
+        public string ToTextTransform( TextTransform textTransform ) => null;
 
-        public string TextWeight( TextWeight textWeight ) => null;
+        public string ToTextWeight( TextWeight textWeight ) => null;
 
-        public string ColumnWidth( ColumnWidth columnWidth ) => null;
+        public string ToColumnWidth( ColumnWidth columnWidth ) => null;
 
-        public string ModalSize( ModalSize modalSize ) => null;
+        public string ToModalSize( ModalSize modalSize ) => null;
 
-        public string SpacingSize( SpacingSize spacingSize ) => null;
+        public string ToSpacingSize( SpacingSize spacingSize ) => null;
 
-        public string JustifyContent( JustifyContent justifyContent ) => null;
+        public string ToJustifyContent( JustifyContent justifyContent ) => null;
 
-        public string Screenreader( Screenreader screenreader ) => null;
+        public string ToScreenreader( Screenreader screenreader ) => null;
 
-        public string HeadingSize( HeadingSize headingSize ) => null;
+        public string ToHeadingSize( HeadingSize headingSize ) => null;
 
         #endregion
 

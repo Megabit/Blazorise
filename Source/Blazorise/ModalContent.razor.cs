@@ -26,7 +26,7 @@ namespace Blazorise
         {
             ClassMapper
                 .Add( () => ClassProvider.ModalContent( IsForm ) )
-                .If( () => ClassProvider.ModalSize( Size ), () => Size != ModalSize.None );
+                .If( () => ClassProvider.ToModalSize( Size ), () => Size != ModalSize.None );
 
             base.RegisterClasses();
         }

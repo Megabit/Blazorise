@@ -18,7 +18,7 @@ namespace Blazorise.Bootstrap.BootstrapBase
         protected override void RegisterClasses()
         {
             DialogClassMapper
-                .Add( () => $"modal-dialog {ClassProvider.ModalSize( Size )}" )
+                .Add( () => $"modal-dialog {ClassProvider.ToModalSize( Size )}" )
                 .If( () => ClassProvider.ModalContentCentered(), () => IsCentered );
 
             base.RegisterClasses();

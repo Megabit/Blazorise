@@ -687,43 +687,48 @@ namespace Blazorise
 
         #region Enums
 
-        string Size( Size size );
+        /* 
+         * These methods are named with "To" prefix to indicate they're used only to convert en enum to the equivalent
+         * keyword in the implementation class provider.
+         */
 
-        string Breakpoint( Breakpoint breakpoint );
+        string ToSize( Size size );
 
-        string Color( Color color );
+        string ToBreakpoint( Breakpoint breakpoint );
 
-        string Color( Background color );
+        string ToColor( Color color );
 
-        string TextColor( TextColor textColor );
+        string ToBackground( Background color );
 
-        string ThemeContrast( ThemeContrast themeContrast );
+        string ToTextColor( TextColor textColor );
 
-        string Float( Float @float );
+        string ToThemeContrast( ThemeContrast themeContrast );
 
-        string Spacing( Spacing spacing );
+        string ToFloat( Float @float );
 
-        string Side( Side side );
+        string ToSpacing( Spacing spacing );
 
-        string Alignment( Alignment alignment );
+        string ToSide( Side side );
 
-        string TextAlignment( TextAlignment textAlignment );
+        string ToAlignment( Alignment alignment );
 
-        string TextTransform( TextTransform textTransform );
+        string ToTextAlignment( TextAlignment textAlignment );
 
-        string TextWeight( TextWeight textWeight );
+        string ToTextTransform( TextTransform textTransform );
 
-        string ColumnWidth( ColumnWidth columnWidth );
+        string ToTextWeight( TextWeight textWeight );
 
-        string ModalSize( ModalSize modalSize );
+        string ToColumnWidth( ColumnWidth columnWidth );
 
-        string SpacingSize( SpacingSize spacingSize );
+        string ToModalSize( ModalSize modalSize );
 
-        string JustifyContent( JustifyContent justifyContent );
+        string ToSpacingSize( SpacingSize spacingSize );
 
-        string Screenreader( Screenreader screenreader );
+        string ToJustifyContent( JustifyContent justifyContent );
 
-        string HeadingSize( HeadingSize headingSize );
+        string ToScreenreader( Screenreader screenreader );
+
+        string ToHeadingSize( HeadingSize headingSize );
 
         #endregion
 
