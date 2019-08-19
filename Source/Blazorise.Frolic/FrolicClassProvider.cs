@@ -683,17 +683,17 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region SimpleText
+        #region Text
 
-        public virtual string SimpleTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+        public virtual string TextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
-        public virtual string SimpleTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
+        public virtual string TextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
 
-        public virtual string SimpleTextTransform( TextTransform textTransform ) => $"text-{ToTextTransform( textTransform )}";
+        public virtual string TextTransform( TextTransform textTransform ) => $"text-{ToTextTransform( textTransform )}";
 
-        public virtual string SimpleTextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
+        public virtual string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
 
-        public virtual string SimpleTextItalic() => "font-italic";
+        public virtual string TextItalic() => "font-italic";
 
         #endregion
 

@@ -611,17 +611,17 @@ namespace Blazorise
 
         #endregion
 
-        #region SimpleText
+        #region Text
 
-        string SimpleTextColor( TextColor textColor );
+        string TextColor( TextColor textColor );
 
-        string SimpleTextAlignment( TextAlignment textAlignment );
+        string TextAlignment( TextAlignment textAlignment );
 
-        string SimpleTextTransform( TextTransform textTransform );
+        string TextTransform( TextTransform textTransform );
 
-        string SimpleTextWeight( TextWeight textWeight );
+        string TextWeight( TextWeight textWeight );
 
-        string SimpleTextItalic();
+        string TextItalic();
 
         #endregion
 

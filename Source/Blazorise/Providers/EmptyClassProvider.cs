@@ -618,17 +618,17 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region SimpleText
+        #region Text
 
-        public string SimpleTextColor( TextColor textColor ) => null;
+        public string TextColor( TextColor textColor ) => null;
 
-        public string SimpleTextAlignment( TextAlignment textAlignment ) => null;
+        public string TextAlignment( TextAlignment textAlignment ) => null;
 
-        public string SimpleTextTransform( TextTransform textTransform ) => null;
+        public string TextTransform( TextTransform textTransform ) => null;
 
-        public string SimpleTextWeight( TextWeight textWeight ) => null;
+        public string TextWeight( TextWeight textWeight ) => null;
 
-        public string SimpleTextItalic() => null;
+        public string TextItalic() => null;
 
         #endregion
 

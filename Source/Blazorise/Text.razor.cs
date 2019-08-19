@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseSimpleText : BaseComponent
+    public abstract class BaseText : BaseComponent
     {
         #region Members
 
@@ -29,11 +29,11 @@ namespace Blazorise
         protected override void RegisterClasses()
         {
             ClassMapper
-                .If( () => ClassProvider.SimpleTextColor( Color ), () => Color != TextColor.None )
-                .If( () => ClassProvider.SimpleTextAlignment( Alignment ), () => Alignment != TextAlignment.None )
-                .If( () => ClassProvider.SimpleTextTransform( Transform ), () => Transform != TextTransform.None )
-                .If( () => ClassProvider.SimpleTextWeight( Weight ), () => Weight != TextWeight.None )
-                .If( () => ClassProvider.SimpleTextItalic(), () => IsItalic );
+                .If( () => ClassProvider.TextColor( Color ), () => Color != TextColor.None )
+                .If( () => ClassProvider.TextAlignment( Alignment ), () => Alignment != TextAlignment.None )
+                .If( () => ClassProvider.TextTransform( Transform ), () => Transform != TextTransform.None )
+                .If( () => ClassProvider.TextWeight( Weight ), () => Weight != TextWeight.None )
+                .If( () => ClassProvider.TextItalic(), () => IsItalic );
 
             base.RegisterClasses();
         }

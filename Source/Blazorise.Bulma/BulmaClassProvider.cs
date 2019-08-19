@@ -710,17 +710,17 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        #region SimpleText
+        #region Text
 
-        public virtual string SimpleTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
+        public virtual string TextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
 
-        public virtual string SimpleTextAlignment( TextAlignment textAlignment ) => $"has-text-{ToTextAlignment( textAlignment )}";
+        public virtual string TextAlignment( TextAlignment textAlignment ) => $"has-text-{ToTextAlignment( textAlignment )}";
 
-        public virtual string SimpleTextTransform( TextTransform textTransform ) => $"is-{ToTextTransform( textTransform )}";
+        public virtual string TextTransform( TextTransform textTransform ) => $"is-{ToTextTransform( textTransform )}";
 
-        public virtual string SimpleTextWeight( TextWeight textWeight ) => $"has-text-weight-{ToTextWeight( textWeight )}";
+        public virtual string TextWeight( TextWeight textWeight ) => $"has-text-weight-{ToTextWeight( textWeight )}";
 
-        public virtual string SimpleTextItalic() => "is-italic";
+        public virtual string TextItalic() => "is-italic";
 
         #endregion
 
