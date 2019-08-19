@@ -707,7 +707,7 @@ namespace Blazorise.Frolic
 
         #region DisplayHeading
 
-        public virtual string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"display-{ToDisplayHeadingSize( displayHeadingSize )}";
+        public virtual string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"size-{ToDisplayHeadingSize( displayHeadingSize )}";
 
         #endregion
 

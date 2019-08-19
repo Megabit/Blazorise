@@ -726,7 +726,7 @@ namespace Blazorise.Bulma
 
         #region Heading
 
-        public virtual string HeadingSize( HeadingSize headingSize ) => $"h{ToHeadingSize( headingSize )}";
+        public virtual string HeadingSize( HeadingSize headingSize ) => $"title is-{ToHeadingSize( headingSize )}";
 
         public virtual string HeadingTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
 
@@ -734,7 +734,7 @@ namespace Blazorise.Bulma
 
         #region DisplayHeading
 
-        public virtual string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"display-{ToDisplayHeadingSize( displayHeadingSize )}";
+        public virtual string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"title is-{ToDisplayHeadingSize( displayHeadingSize )}";
 
         #endregion
 

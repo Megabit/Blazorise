@@ -738,6 +738,8 @@ namespace Blazorise
 
         string ToHeadingSize( HeadingSize headingSize );
 
+        string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
+
         #endregion
 
         /// <summary>

@@ -740,6 +740,8 @@ namespace Blazorise.Providers
 
         public string ToHeadingSize( HeadingSize headingSize ) => null;
 
+        public string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
+
         #endregion
 
         #region Properties
