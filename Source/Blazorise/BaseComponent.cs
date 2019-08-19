@@ -71,7 +71,7 @@ namespace Blazorise
                 .If( () => Class, () => Class != null )
                 .If( () => Margin.Class( classProvider ), () => Margin != null )
                 .If( () => Padding.Class( classProvider ), () => Padding != null )
-                .If( () => ClassProvider.Float( Float ), () => Float != Float.None );
+                .If( () => ClassProvider.ToFloat( Float ), () => Float != Float.None );
         }
 
         protected virtual void RegisterStyles()

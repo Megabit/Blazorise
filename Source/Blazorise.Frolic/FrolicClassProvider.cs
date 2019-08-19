@@ -10,71 +10,71 @@ namespace Blazorise.Frolic
 {
     public class FrolicClassProvider : IClassProvider
     {
-        #region Text
+        #region TextEdit
 
-        public virtual string Text( bool plaintext ) => "e-control";
+        public virtual string TextEdit( bool plaintext ) => "e-control";
 
-        public virtual string TextSize( Size size ) => $"{Text( false )}-{Size( size )}";
+        public virtual string TextEditSize( Size size ) => $"{TextEdit( false )}-{ToSize( size )}";
 
-        public virtual string TextColor( Color color ) => $"text-{Color( color )}";
+        public virtual string TextEditColor( Color color ) => $"text-{ToColor( color )}";
 
-        public virtual string TextValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string TextEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
         #region Memo
 
-        public virtual string Memo() => "e-control";
+        public virtual string MemoEdit() => "e-control";
 
-        public virtual string MemoValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
-
-        #endregion
-
-        #region Select
-
-        public virtual string Select() => "e-select";
-
-        public virtual string SelectSize( Size size ) => $"{Select()}-{Size( size )}";
-
-        public virtual string SelectValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string MemoEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
-        #region Date
+        #region SelectEdit
 
-        public virtual string Date() => "e-control";
+        public virtual string SelectEdit() => "e-select";
 
-        public virtual string DateSize( Size size ) => $"{Date()}-{Size( size )}";
+        public virtual string SelectEditSize( Size size ) => $"{SelectEdit()}-{ToSize( size )}";
 
-        public virtual string DateValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
-
-        #endregion
-
-        #region Check
-
-        public virtual string Check() => null;
-
-        public virtual string CheckInline() => null;
-
-        public virtual string CheckCursor( Cursor cursor ) => $"e-check-{Cursor( cursor )}";
-
-        public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string SelectEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
-        #region Radio
+        #region DateEdit
 
-        public virtual string Radio() => null;
+        public virtual string DateEdit() => "e-control";
+
+        public virtual string DateEditSize( Size size ) => $"{DateEdit()}-{ToSize( size )}";
+
+        public virtual string DateEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
+        #endregion
+
+        #region CheckEdit
+
+        public virtual string CheckEdit() => null;
+
+        public virtual string CheckEditInline() => null;
+
+        public virtual string CheckEditCursor( Cursor cursor ) => $"e-check-{Cursor( cursor )}";
+
+        public virtual string CheckEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
+        #endregion
+
+        #region RadioEdit
+
+        public virtual string RadioEdit() => null;
 
         public virtual string RadioInline() => null;
 
         #endregion
 
-        #region File
+        #region FileEdit
 
-        public virtual string File() => "e-control";
+        public virtual string FileEdit() => "e-control";
 
-        public virtual string FileValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string FileEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
@@ -126,7 +126,7 @@ namespace Blazorise.Frolic
 
         public virtual string FieldColumn() => $"{Col()}";
 
-        public virtual string FieldJustifyContent( JustifyContent justifyContent ) => JustifyContent( justifyContent );
+        public virtual string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
         #endregion
 
@@ -184,9 +184,9 @@ namespace Blazorise.Frolic
 
         public virtual string Button() => "e-btn";
 
-        public virtual string ButtonColor( Color color ) => Color( color );
+        public virtual string ButtonColor( Color color ) => ToColor( color );
 
-        public virtual string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"outlined {Color( color )}" : $"outlined";
+        public virtual string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"outlined {ToColor( color )}" : $"outlined";
 
         public virtual string ButtonSize( ButtonSize buttonSize )
         {
@@ -266,9 +266,9 @@ namespace Blazorise.Frolic
 
         public virtual string DropdownToggle() => "button dropdown";
 
-        public virtual string DropdownToggleColor( Color color ) => Color( color );
+        public virtual string DropdownToggleColor( Color color ) => ToColor( color );
 
-        public virtual string DropdownToggleOutline( Color color ) => color != Blazorise.Color.None ? $"outlined {Color( color )}" : $"outlined";
+        public virtual string DropdownToggleOutline( Color color ) => color != Blazorise.Color.None ? $"outlined {ToColor( color )}" : $"outlined";
 
         public virtual string DropdownToggleSize( ButtonSize buttonSize )
         {
@@ -342,7 +342,7 @@ namespace Blazorise.Frolic
 
         public virtual string CardWhiteText() => "text-white";
 
-        public virtual string CardBackground( Background background ) => Color( background );
+        public virtual string CardBackground( Background background ) => ToBackground( background );
 
         public virtual string CardActions() => "card-actions";
 
@@ -418,9 +418,9 @@ namespace Blazorise.Frolic
 
         public virtual string Bar() => "e-nav";
 
-        public virtual string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ThemeContrast( themeContrast )}";
+        public virtual string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )}";
 
-        public virtual string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{Breakpoint( breakpoint )}";
+        public virtual string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
 
         public virtual string BarItem() => null;
 
@@ -506,15 +506,15 @@ namespace Blazorise.Frolic
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
                 if ( columnWidth == Blazorise.ColumnWidth.None )
-                    return $"{baseClass}-{Breakpoint( breakpoint )}";
+                    return $"{baseClass}-{ToBreakpoint( breakpoint )}";
 
-                return $"{baseClass}-{Breakpoint( breakpoint )}-{ColumnWidth( columnWidth )}";
+                return $"{baseClass}-{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
             }
 
             //if ( columnWidth == Blazorise.ColumnWidth.Auto )
             //    return $"{baseClass}";
 
-            return $"{baseClass}-{ColumnWidth( columnWidth )}";
+            return $"{baseClass}-{ToColumnWidth( columnWidth )}";
         }
 
         #endregion
@@ -523,7 +523,7 @@ namespace Blazorise.Frolic
 
         public virtual string Alert() => "e-alert";
 
-        public virtual string AlertColor( Color color ) => Color( color );
+        public virtual string AlertColor( Color color ) => ToColor( color );
 
         public virtual string AlertDismisable() => null;
 
@@ -559,7 +559,7 @@ namespace Blazorise.Frolic
 
         public virtual string Pagination() => "e-pagination";
 
-        public virtual string PaginationSize( Size size ) => $"{Pagination()}-{Size( size )}";
+        public virtual string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
 
         public virtual string PaginationItem() => "e-page-item";
 
@@ -583,7 +583,7 @@ namespace Blazorise.Frolic
 
         public virtual string ProgressBar() => "e-progress";
 
-        public virtual string ProgressBarColor( Background background ) => Color( background );
+        public virtual string ProgressBarColor( Background background ) => ToBackground( background );
 
         public virtual string ProgressBarStriped() => "progress-bar-striped";
 
@@ -601,7 +601,7 @@ namespace Blazorise.Frolic
 
         #region Colors
 
-        public virtual string BackgroundColor( Background color ) => $"bg-{Color( color )}";
+        public virtual string BackgroundColor( Background color ) => $"bg-{ToBackground( color )}";
 
         #endregion
 
@@ -631,7 +631,7 @@ namespace Blazorise.Frolic
 
         public virtual string TableHeader() => "e-thead";
 
-        public virtual string TableHeaderThemeContrast( ThemeContrast themeContrast ) => ThemeContrast( themeContrast );
+        public virtual string TableHeaderThemeContrast( ThemeContrast themeContrast ) => ToThemeContrast( themeContrast );
 
         public virtual string TableHeaderCell() => null;
 
@@ -641,11 +641,11 @@ namespace Blazorise.Frolic
 
         public virtual string TableRow() => "e-row";
 
-        public virtual string TableRowColor( Color color ) => Color( color );
+        public virtual string TableRowColor( Color color ) => ToColor( color );
 
-        public virtual string TableRowBackground( Background background ) => Color( background );
+        public virtual string TableRowBackground( Background background ) => ToBackground( background );
 
-        public virtual string TableRowTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
+        public virtual string TableRowTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
         public virtual string TableRowIsSelected() => "selected";
 
@@ -653,11 +653,11 @@ namespace Blazorise.Frolic
 
         public virtual string TableRowCell() => null;
 
-        public virtual string TableRowCellColor( Color color ) => Color( color );
+        public virtual string TableRowCellColor( Color color ) => ToColor( color );
 
-        public virtual string TableRowCellBackground( Background background ) => Color( background );
+        public virtual string TableRowCellBackground( Background background ) => ToBackground( background );
 
-        public virtual string TableRowCellTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
+        public virtual string TableRowCellTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
         #endregion
 
@@ -665,7 +665,7 @@ namespace Blazorise.Frolic
 
         public virtual string Badge() => "e-tag";
 
-        public virtual string BadgeColor( Color color ) => $"{Badge()} {Color( color )}";
+        public virtual string BadgeColor( Color color ) => $"{Badge()} {ToColor( color )}";
 
         public virtual string BadgePill() => $"{Badge()} rounded";
 
@@ -683,17 +683,17 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region SimpleText
+        #region Text
 
-        public virtual string SimpleTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
+        public virtual string TextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
-        public virtual string SimpleTextAlignment( TextAlignment textAlignment ) => $"text-{TextAlignment( textAlignment )}";
+        public virtual string TextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
 
-        public virtual string SimpleTextTransform( TextTransform textTransform ) => $"text-{TextTransform( textTransform )}";
+        public virtual string TextTransform( TextTransform textTransform ) => $"text-{ToTextTransform( textTransform )}";
 
-        public virtual string SimpleTextWeight( TextWeight textWeight ) => $"font-weight-{TextWeight( textWeight )}";
+        public virtual string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
 
-        public virtual string SimpleTextItalic() => "font-italic";
+        public virtual string TextItalic() => "font-italic";
 
         #endregion
 
@@ -701,7 +701,7 @@ namespace Blazorise.Frolic
 
         public virtual string Heading( HeadingSize headingSize ) => null;
 
-        public virtual string HeadingTextColor( TextColor textColor ) => $"text-{TextColor( textColor )}";
+        public virtual string HeadingTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
         #endregion
 
@@ -748,9 +748,9 @@ namespace Blazorise.Frolic
         public virtual string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
         {
             if ( breakpoint != Blazorise.Breakpoint.None )
-                return $"{Spacing( spacing )}{Side( side )}-{Breakpoint( breakpoint )}-{SpacingSize( spacingSize )}";
+                return $"{ToSpacing( spacing )}{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
 
-            return $"{Spacing( spacing )}{Side( side )}-{SpacingSize( spacingSize )}";
+            return $"{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
         }
 
         public virtual string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
@@ -759,13 +759,13 @@ namespace Blazorise.Frolic
 
         #region Flex
 
-        public virtual string FlexAlignment( Alignment alignment ) => $"justify-content-{Alignment( alignment )}";
+        public virtual string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
 
         #endregion
 
         #region Enums
 
-        public virtual string Size( Size size )
+        public virtual string ToSize( Size size )
         {
             switch ( size )
             {
@@ -783,7 +783,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string Breakpoint( Breakpoint breakpoint )
+        public virtual string ToBreakpoint( Breakpoint breakpoint )
         {
             switch ( breakpoint )
             {
@@ -802,7 +802,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string Color( Color color )
+        public virtual string ToColor( Color color )
         {
             switch ( color )
             {
@@ -829,7 +829,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string Color( Background color )
+        public virtual string ToBackground( Background color )
         {
             switch ( color )
             {
@@ -858,7 +858,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string TextColor( TextColor textColor )
+        public virtual string ToTextColor( TextColor textColor )
         {
             switch ( textColor )
             {
@@ -893,7 +893,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string ThemeContrast( ThemeContrast themeContrast )
+        public virtual string ToThemeContrast( ThemeContrast themeContrast )
         {
             switch ( themeContrast )
             {
@@ -906,7 +906,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string Float( Float @float )
+        public virtual string ToFloat( Float @float )
         {
             switch ( @float )
             {
@@ -919,7 +919,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string Spacing( Spacing spacing )
+        public virtual string ToSpacing( Spacing spacing )
         {
             switch ( spacing )
             {
@@ -932,7 +932,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string Side( Side side )
+        public virtual string ToSide( Side side )
         {
             switch ( side )
             {
@@ -953,7 +953,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string Alignment( Alignment alignment )
+        public virtual string ToAlignment( Alignment alignment )
         {
             switch ( alignment )
             {
@@ -968,7 +968,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string TextAlignment( TextAlignment textAlignment )
+        public virtual string ToTextAlignment( TextAlignment textAlignment )
         {
             switch ( textAlignment )
             {
@@ -985,7 +985,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string TextTransform( TextTransform textTransform )
+        public virtual string ToTextTransform( TextTransform textTransform )
         {
             switch ( textTransform )
             {
@@ -1000,7 +1000,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string TextWeight( TextWeight textWeight )
+        public virtual string ToTextWeight( TextWeight textWeight )
         {
             switch ( textWeight )
             {
@@ -1015,7 +1015,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string ColumnWidth( ColumnWidth columnWidth )
+        public virtual string ToColumnWidth( ColumnWidth columnWidth )
         {
             switch ( columnWidth )
             {
@@ -1054,7 +1054,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string ModalSize( ModalSize modalSize )
+        public virtual string ToModalSize( ModalSize modalSize )
         {
             switch ( modalSize )
             {
@@ -1070,7 +1070,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string SpacingSize( SpacingSize spacingSize )
+        public virtual string ToSpacingSize( SpacingSize spacingSize )
         {
             switch ( spacingSize )
             {
@@ -1093,7 +1093,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string JustifyContent( JustifyContent justifyContent )
+        public virtual string ToJustifyContent( JustifyContent justifyContent )
         {
             switch ( justifyContent )
             {
@@ -1112,7 +1112,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string Screenreader( Screenreader screenreader )
+        public virtual string ToScreenreader( Screenreader screenreader )
         {
             switch ( screenreader )
             {
@@ -1125,7 +1125,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string HeadingSize( HeadingSize headingSize )
+        public virtual string ToHeadingSize( HeadingSize headingSize )
         {
             switch ( headingSize )
             {

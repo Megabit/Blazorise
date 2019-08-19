@@ -27,7 +27,7 @@ namespace Blazorise
                 .If( () => ClassProvider.ControlRadio(), () => Role == ControlRole.Radio )
                 .If( () => ClassProvider.ControlFile(), () => Role == ControlRole.File )
                 .If( () => ClassProvider.ControlText(), () => Role == ControlRole.Text )
-                .If( () => ClassProvider.CheckInline(), () => IsInline );
+                .If( () => ClassProvider.CheckEditInline(), () => IsInline );
 
             base.RegisterClasses();
         }

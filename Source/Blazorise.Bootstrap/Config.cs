@@ -42,7 +42,7 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.FieldBody, Bootstrap.FieldBody>();
             componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
             componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
-            componentMapper.Register<Blazorise.SimpleButton, Bootstrap.SimpleButton>();
+            componentMapper.Register<Blazorise.Button, Bootstrap.Button>();
         }
 
         /// <summary>

@@ -46,8 +46,8 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.Heading, Frolic.Heading>();
             componentMapper.Register<Blazorise.Pagination, Frolic.Pagination>();
             componentMapper.Register<Blazorise.ProgressBar, Frolic.ProgressBar>();
-            componentMapper.Register<Blazorise.ProgressGroup, Frolic.ProgressGroup>();
-            componentMapper.Register<Blazorise.SimpleButton, Frolic.SimpleButton>();
+            componentMapper.Register<Blazorise.Progress, Frolic.Progress>();
+            componentMapper.Register<Blazorise.Button, Frolic.Button>();
             componentMapper.Register<Blazorise.Tabs, Frolic.Tabs>();
         }
 

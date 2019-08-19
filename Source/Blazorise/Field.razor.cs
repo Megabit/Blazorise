@@ -29,7 +29,7 @@ namespace Blazorise
             ClassMapper
                 .Add( () => ClassProvider.Field() )
                 .If( () => ClassProvider.FieldHorizontal(), () => IsHorizontal )
-                .If( () => ClassProvider.JustifyContent( JustifyContent ), () => JustifyContent != JustifyContent.None );
+                .If( () => ClassProvider.ToJustifyContent( JustifyContent ), () => JustifyContent != JustifyContent.None );
 
             base.RegisterClasses();
         }
