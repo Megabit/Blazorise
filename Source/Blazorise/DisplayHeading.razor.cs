@@ -8,13 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseHeading : BaseComponent
+    public abstract class BaseDisplayHeading : BaseComponent
     {
         #region Members
 
-        private HeadingSize headingSize = HeadingSize.Is3;
-
-        private TextColor textColor = TextColor.None;
+        private DisplayHeadingSize displayHeadingSize = DisplayHeadingSize.Is2;
 
         #endregion
 
@@ -23,8 +21,7 @@ namespace Blazorise
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.HeadingSize( headingSize ) )
-                .If( () => ClassProvider.HeadingTextColor( TextColor ), () => TextColor != TextColor.None );
+                .Add( () => ClassProvider.DisplayHeadingSize( Size ) );
 
             base.RegisterClasses();
         }
@@ -34,24 +31,12 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        public HeadingSize Size
+        public DisplayHeadingSize Size
         {
-            get => headingSize;
+            get => displayHeadingSize;
             set
             {
-                headingSize = value;
-
-                ClassMapper.Dirty();
-            }
-        }
-
-        [Parameter]
-        public TextColor TextColor
-        {
-            get => textColor;
-            set
-            {
-                textColor = value;
+                displayHeadingSize = value;
 
                 ClassMapper.Dirty();
             }
