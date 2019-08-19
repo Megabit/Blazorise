@@ -643,6 +643,8 @@ namespace Blazorise
 
         string Paragraph();
 
+        string ParagraphColor( TextColor textColor );
+
         #endregion
 
         #region Figure

@@ -650,6 +650,8 @@ namespace Blazorise.Providers
 
         public string Paragraph() => null;
 
+        public string ParagraphColor( TextColor textColor ) => null;
+
         #endregion
 
         #region Figure

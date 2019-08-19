@@ -726,6 +726,8 @@ namespace Blazorise.Bootstrap
 
         public virtual string Paragraph() => null;
 
+        public virtual string ParagraphColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+
         #endregion
 
         #region Figure

@@ -742,6 +742,8 @@ namespace Blazorise.Bulma
 
         public virtual string Paragraph() => null;
 
+        public virtual string ParagraphColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
+
         #endregion
 
         #region Figure
