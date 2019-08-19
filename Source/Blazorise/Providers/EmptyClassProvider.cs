@@ -12,71 +12,71 @@ namespace Blazorise.Providers
     /// </summary>
     class EmptyClassProvider : IClassProvider
     {
-        #region Text
+        #region TextEdit
 
-        public string Text( bool plaintext ) => null;
+        public string TextEdit( bool plaintext ) => null;
 
-        public string TextSize( Size size ) => null;
+        public string TextEditSize( Size size ) => null;
 
-        public string TextColor( Color color ) => null;
+        public string TextEditColor( Color color ) => null;
 
-        public string TextValidation( ValidationStatus validationStatus ) => null;
-
-        #endregion
-
-        #region Memo
-
-        public string Memo() => null;
-
-        public string MemoValidation( ValidationStatus validationStatus ) => null;
+        public string TextEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
-        #region Select
+        #region MemoEdit
 
-        public string Select() => null;
+        public string MemoEdit() => null;
 
-        public string SelectSize( Size size ) => null;
-
-        public string SelectValidation( ValidationStatus validationStatus ) => null;
+        public string MemoEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
-        #region Date
+        #region SelectEdit
 
-        public string Date() => null;
+        public string SelectEdit() => null;
 
-        public string DateSize( Size size ) => null;
+        public string SelectEditSize( Size size ) => null;
 
-        public string DateValidation( ValidationStatus validationStatus ) => null;
-
-        #endregion
-
-        #region Check
-
-        public string Check() => null;
-
-        public string CheckInline() => null;
-
-        public string CheckCursor( Cursor cursor ) => null;
-
-        public string CheckValidation( ValidationStatus validationStatus ) => null;
+        public string SelectEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
-        #region Radio
+        #region DateEdit
 
-        public string Radio() => null;
+        public string DateEdit() => null;
 
-        public string RadioInline() => null;
+        public string DateEditSize( Size size ) => null;
+
+        public string DateEditValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region CheckEdit
+
+        public string CheckEdit() => null;
+
+        public string CheckEditInline() => null;
+
+        public string CheckEditCursor( Cursor cursor ) => null;
+
+        public string CheckEditValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region RadioEdit
+
+        public string RadioEdit() => null;
+
+        public string RadioEditInline() => null;
 
         #endregion
 
         #region File
 
-        public string File() => null;
+        public string FileEdit() => null;
 
-        public virtual string FileValidation( ValidationStatus validationStatus ) => null;
+        public virtual string FileEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 

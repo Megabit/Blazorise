@@ -10,71 +10,71 @@ namespace Blazorise.Frolic
 {
     public class FrolicClassProvider : IClassProvider
     {
-        #region Text
+        #region TextEdit
 
-        public virtual string Text( bool plaintext ) => "e-control";
+        public virtual string TextEdit( bool plaintext ) => "e-control";
 
-        public virtual string TextSize( Size size ) => $"{Text( false )}-{Size( size )}";
+        public virtual string TextEditSize( Size size ) => $"{TextEdit( false )}-{Size( size )}";
 
-        public virtual string TextColor( Color color ) => $"text-{Color( color )}";
+        public virtual string TextEditColor( Color color ) => $"text-{Color( color )}";
 
-        public virtual string TextValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string TextEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
         #region Memo
 
-        public virtual string Memo() => "e-control";
+        public virtual string MemoEdit() => "e-control";
 
-        public virtual string MemoValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
-
-        #endregion
-
-        #region Select
-
-        public virtual string Select() => "e-select";
-
-        public virtual string SelectSize( Size size ) => $"{Select()}-{Size( size )}";
-
-        public virtual string SelectValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string MemoEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
-        #region Date
+        #region SelectEdit
 
-        public virtual string Date() => "e-control";
+        public virtual string SelectEdit() => "e-select";
 
-        public virtual string DateSize( Size size ) => $"{Date()}-{Size( size )}";
+        public virtual string SelectEditSize( Size size ) => $"{SelectEdit()}-{Size( size )}";
 
-        public virtual string DateValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
-
-        #endregion
-
-        #region Check
-
-        public virtual string Check() => null;
-
-        public virtual string CheckInline() => null;
-
-        public virtual string CheckCursor( Cursor cursor ) => $"e-check-{Cursor( cursor )}";
-
-        public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string SelectEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
-        #region Radio
+        #region DateEdit
 
-        public virtual string Radio() => null;
+        public virtual string DateEdit() => "e-control";
+
+        public virtual string DateEditSize( Size size ) => $"{DateEdit()}-{Size( size )}";
+
+        public virtual string DateEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
+        #endregion
+
+        #region CheckEdit
+
+        public virtual string CheckEdit() => null;
+
+        public virtual string CheckEditInline() => null;
+
+        public virtual string CheckEditCursor( Cursor cursor ) => $"e-check-{Cursor( cursor )}";
+
+        public virtual string CheckEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
+        #endregion
+
+        #region RadioEdit
+
+        public virtual string RadioEdit() => null;
 
         public virtual string RadioInline() => null;
 
         #endregion
 
-        #region File
+        #region FileEdit
 
-        public virtual string File() => "e-control";
+        public virtual string FileEdit() => "e-control";
 
-        public virtual string FileValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string FileEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 

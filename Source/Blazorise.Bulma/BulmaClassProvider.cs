@@ -10,71 +10,71 @@ namespace Blazorise.Bulma
 {
     class BulmaClassProvider : IClassProvider
     {
-        #region Text
+        #region TextEdit
 
-        public virtual string Text( bool plaintext ) => plaintext ? "input is-static" : "input";
+        public virtual string TextEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-        public virtual string TextSize( Size size ) => Size( size );
+        public virtual string TextEditSize( Size size ) => Size( size );
 
-        public virtual string TextColor( Color color ) => $"is-{Color( color )}";
+        public virtual string TextEditColor( Color color ) => $"is-{Color( color )}";
 
-        public virtual string TextValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
-
-        #endregion
-
-        #region Memo
-
-        public virtual string Memo() => "textarea";
-
-        public virtual string MemoValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string TextEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
-        #region Select
+        #region MemoEdit
 
-        public virtual string Select() => "select is-fullwidth";
+        public virtual string MemoEdit() => "textarea";
 
-        public virtual string SelectSize( Size size ) => $"{Size( size )}";
-
-        public virtual string SelectValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string MemoEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
-        #region Date
+        #region SelectEdit
 
-        public virtual string Date() => "input";
+        public virtual string SelectEdit() => "select is-fullwidth";
 
-        public virtual string DateSize( Size size ) => $"{Size( size )}";
+        public virtual string SelectEditSize( Size size ) => $"{Size( size )}";
 
-        public virtual string DateValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
-
-        #endregion
-
-        #region Check
-
-        public virtual string Check() => "checkbox";
-
-        public virtual string CheckInline() => "inline";
-
-        public virtual string CheckCursor( Cursor cursor ) => $"{Check()}-{Cursor( cursor )}";
-
-        public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string SelectEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
-        #region Radio
+        #region DateEdit
 
-        public virtual string Radio() => "radio";
+        public virtual string DateEdit() => "input";
+
+        public virtual string DateEditSize( Size size ) => $"{Size( size )}";
+
+        public virtual string DateEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
+        #endregion
+
+        #region CheckEdit
+
+        public virtual string CheckEdit() => "checkbox";
+
+        public virtual string CheckEditInline() => "inline";
+
+        public virtual string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{Cursor( cursor )}";
+
+        public virtual string CheckEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
+        #endregion
+
+        #region RadioEdit
+
+        public virtual string RadioEdit() => "radio";
 
         public virtual string RadioInline() => "inline";
 
         #endregion
 
-        #region File
+        #region FileEdit
 
-        public virtual string File() => "file-input";
+        public virtual string FileEdit() => "file-input";
 
-        public virtual string FileValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string FileEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 

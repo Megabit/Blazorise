@@ -26,10 +26,10 @@ namespace Blazorise
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.Text( IsPlaintext ) )
-                .If( () => ClassProvider.TextColor( Color ), () => Color != Color.None )
-                .If( () => ClassProvider.TextSize( Size ), () => Size != Size.None )
-                .If( () => ClassProvider.TextValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+                .Add( () => ClassProvider.TextEdit( IsPlaintext ) )
+                .If( () => ClassProvider.TextEditColor( Color ), () => Color != Color.None )
+                .If( () => ClassProvider.TextEditSize( Size ), () => Size != Size.None )
+                .If( () => ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
         }

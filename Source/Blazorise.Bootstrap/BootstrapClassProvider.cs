@@ -10,71 +10,71 @@ namespace Blazorise.Bootstrap
 {
     public class BootstrapClassProvider : IClassProvider
     {
-        #region Text
+        #region TextEdit
 
-        public virtual string Text( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+        public virtual string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-        public virtual string TextSize( Size size ) => $"{Text( false )}-{Size( size )}";
+        public virtual string TextEditSize( Size size ) => $"{TextEdit( false )}-{Size( size )}";
 
-        public virtual string TextColor( Color color ) => $"text-{Color( color )}";
+        public virtual string TextEditColor( Color color ) => $"text-{Color( color )}";
 
-        public virtual string TextValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
-
-        #endregion
-
-        #region Memo
-
-        public virtual string Memo() => "form-control";
-
-        public virtual string MemoValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string TextEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
-        #region Select
+        #region MemoEdit
 
-        public virtual string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
+        public virtual string MemoEdit() => "form-control";
 
-        public virtual string SelectSize( Size size ) => $"{Select()}-{Size( size )}";
-
-        public virtual string SelectValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string MemoEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
-        #region Date
+        #region SelectEdit
 
-        public virtual string Date() => "form-control";
+        public virtual string SelectEdit() => UseCustomInputStyles ? "custom-select" : "form-control";
 
-        public virtual string DateSize( Size size ) => $"{Date()}-{Size( size )}";
+        public virtual string SelectEditSize( Size size ) => $"{SelectEdit()}-{Size( size )}";
 
-        public virtual string DateValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
-
-        #endregion
-
-        #region Check
-
-        public virtual string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
-
-        public virtual string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
-
-        public virtual string CheckCursor( Cursor cursor ) => $"{Check()}-{Cursor( cursor )}";
-
-        public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string SelectEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
-        #region Radio
+        #region DateEdit
 
-        public virtual string Radio() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+        public virtual string DateEdit() => "form-control";
+
+        public virtual string DateEditSize( Size size ) => $"{DateEdit()}-{Size( size )}";
+
+        public virtual string DateEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
+        #endregion
+
+        #region CheckEdit
+
+        public virtual string CheckEdit() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+
+        public virtual string CheckEditInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+
+        public virtual string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{Cursor( cursor )}";
+
+        public virtual string CheckEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+
+        #endregion
+
+        #region RadioEdit
+
+        public virtual string RadioEdit() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
         public virtual string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
         #endregion
 
-        #region File
+        #region FileEdit
 
-        public virtual string File() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
+        public virtual string FileEdit() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
 
-        public virtual string FileValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string FileEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
 
         #endregion
 
