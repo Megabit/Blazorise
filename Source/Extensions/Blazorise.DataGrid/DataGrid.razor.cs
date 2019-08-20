@@ -583,6 +583,31 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
 
+        /// <summary>
+        /// Adds stripes to the table.
+        /// </summary>
+        [Parameter] public bool IsStriped { get; set; }
+
+        /// <summary>
+        /// Adds borders to all the cells.
+        /// </summary>
+        [Parameter] public bool IsBordered { get; set; }
+
+        /// <summary>
+        /// Makes the table without any borders.
+        /// </summary>
+        [Parameter] public bool IsBorderless { get; set; }
+
+        /// <summary>
+        /// Adds a hover effect when mousing over rows.
+        /// </summary>
+        [Parameter] public bool IsHoverable { get; set; }
+
+        /// <summary>
+        /// Makes the table more compact by cutting cell padding in half.
+        /// </summary>
+        [Parameter] public bool IsNarrow { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

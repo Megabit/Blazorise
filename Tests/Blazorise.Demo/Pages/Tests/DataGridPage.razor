@@ -62,7 +62,10 @@
                           RowRemoved="@OnRowRemoved"
                           UseInternalEditing="true"
                           @bind-SelectedRow="@selectedEmployee"
-                          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)">
+                          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
+                          IsStriped="true"
+                          IsBordered="true"
+                          IsHoverable="true">
                     <ChildContent>
                         <DataGridCommandColumn TItem="Employee" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" AllowSort="false" />
