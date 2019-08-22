@@ -40,7 +40,10 @@ namespace Blazorise.DataGrid
         /// </summary>
         Inline,
 
-        //Popup,
+        /// <summary>
+        /// Values will be edited in the modal dialog.
+        /// </summary>
+        Popup,
     }
 
     /// <summary>

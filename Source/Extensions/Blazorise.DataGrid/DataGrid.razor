@@ -67,13 +67,13 @@
         @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
         @* This one is to build rows *@
         <CascadingValue Value=this>
-            @if ( AllowEdit && editState == DataGridEditState.New )
+            @if ( AllowEdit && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup )
             {
                 <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
             }
             @foreach ( var item in DisplayData )
             {
-                @if ( AllowEdit && editState == DataGridEditState.Edit && (object)item == (object)editItem )
+                @if ( AllowEdit && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && (object)item == (object)editItem )
                 {
                     <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
                 }
@@ -124,4 +124,45 @@
             </PaginationLink>
         </PaginationItem>
     </Pagination>
+}
+@if ( editItem != null && EditMode == DataGridEditMode.Popup && EditState != DataGridEditState.None )
+{
+    <Modal IsOpen="@PopupVisible" Closed="@(()=> { editState = DataGridEditState.None; PopupVisible = false; })">
+        <ModalBackdrop />
+        <ModalContent>
+            <ModalHeader>
+                <ModalTitle>
+                    Row Edit
+                </ModalTitle>
+                <CloseButton Clicked="@OnCancelCommand" />
+            </ModalHeader>
+            <ModalBody>
+                <Fields>
+                    @foreach ( var column in Columns )
+                    {
+                        @if ( column.ColumnType == DataGridColumnType.Command )
+                            continue;
+
+                        @if ( column.AllowEdit )
+                        {
+                            <Field ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                                <Field>
+                                    <FieldLabel>
+                                        @column.Caption
+                                    </FieldLabel>
+                                    <FieldBody>
+                                        <_DataGridCell TItem="TItem" Column="@column" Item="@editItem" CellEditContext="@editItemCellValues[column.ElementId]" />
+                                    </FieldBody>
+                                </Field>
+                            </Field>
+                        }
+                    }
+                </Fields>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary" Clicked="@OnCancelCommand">Cancel</Button>
+                <Button Color="Color.Primary" Clicked="@OnSaveCommand">Save</Button>
+            </ModalFooter>
+        </ModalContent>
+    </Modal>
 }

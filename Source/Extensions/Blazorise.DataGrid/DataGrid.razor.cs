@@ -132,6 +132,11 @@ namespace Blazorise.DataGrid
             InitEditItem( CreateNewItem() );
 
             editState = DataGridEditState.New;
+
+            if ( EditMode == DataGridEditMode.Popup )
+                PopupVisible = true;
+
+            StateHasChanged();
         }
 
         protected void OnEditCommand( TItem item )
@@ -139,6 +144,9 @@ namespace Blazorise.DataGrid
             InitEditItem( item );
 
             editState = DataGridEditState.Edit;
+
+            if ( EditMode == DataGridEditMode.Popup )
+                PopupVisible = true;
         }
 
         protected async Task OnDeleteCommand( TItem item )
@@ -194,6 +202,9 @@ namespace Blazorise.DataGrid
                         await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
 
                     editState = DataGridEditState.None;
+
+                    if ( EditMode == DataGridEditMode.Popup )
+                        PopupVisible = false;
                 }
             }
         }
@@ -201,6 +212,9 @@ namespace Blazorise.DataGrid
         protected void OnCancelCommand()
         {
             editState = DataGridEditState.None;
+
+            if ( EditMode == DataGridEditMode.Popup )
+                PopupVisible = false;
         }
 
         // this is to give user a way to stop save if necessary
@@ -431,6 +445,8 @@ namespace Blazorise.DataGrid
         /// Gets the current datagrid editing state.
         /// </summary>
         public DataGridEditState EditState => editState;
+
+        protected bool PopupVisible = false;
 
         /// <summary>
         /// Gets or sets the datagrid data-source.
