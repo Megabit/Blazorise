@@ -36,6 +36,11 @@ namespace Blazorise
 
         private ParameterView parameters;
 
+        /// <summary>
+        /// A stack of functions to execute after the rendering.
+        /// </summary>
+        private Queue<Func<Task>> executeAfterRendereQueue;
+
         #endregion
 
         #region Constructors
@@ -48,6 +53,14 @@ namespace Blazorise
 
         #region Methods
 
+        protected void ExecuteAfterRender( Func<Task> action )
+        {
+            if ( executeAfterRendereQueue == null )
+                executeAfterRendereQueue = new Queue<Func<Task>>();
+
+            executeAfterRendereQueue.Enqueue( action );
+        }
+
         protected override async Task OnAfterRenderAsync()
         {
             // If the component has custom implementation we need to postpone the initialisation
@@ -57,6 +70,17 @@ namespace Blazorise
                 rendered = true;
 
                 await OnFirstAfterRenderAsync();
+            }
+
+            if ( executeAfterRendereQueue?.Count > 0 )
+            {
+                var actions = executeAfterRendereQueue.ToArray();
+                executeAfterRendereQueue.Clear();
+
+                foreach ( var action in actions )
+                {
+                    await action();
+                }
             }
 
             await base.OnAfterRenderAsync();
