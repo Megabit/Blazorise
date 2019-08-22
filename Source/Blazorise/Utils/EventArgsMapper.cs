@@ -16,7 +16,7 @@ namespace Blazorise.Utils
                 return null;
 
             return new MouseEventArgs( ToMouseButton( e.Button ),
-                (int)e.Detail,
+                e.Detail,
                 new Point( (int)e.ScreenX, (int)e.ScreenY ),
                 new Point( (int)e.ClientX, (int)e.ClientY ),
                 e.CtrlKey, e.ShiftKey, e.AltKey );
