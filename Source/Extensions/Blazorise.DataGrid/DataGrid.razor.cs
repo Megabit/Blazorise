@@ -399,9 +399,11 @@ namespace Blazorise.DataGrid
 
         public Task SelectRow( TItem item )
         {
+            if ( editState != DataGridEditState.None )
+                return Task.CompletedTask;
+
             SelectedRow = item;
             return SelectedRowChanged.InvokeAsync( SelectedRow );
-            //StateHasChanged();
         }
 
         #endregion
@@ -424,6 +426,11 @@ namespace Blazorise.DataGrid
         /// Returns true if <see cref="Data"/> is safe to modify.
         /// </summary>
         protected bool CanInsertNewItem => AllowEdit && Data is ICollection<TItem>;
+
+        /// <summary>
+        /// Gets the current datagrid editing state.
+        /// </summary>
+        public DataGridEditState EditState => editState;
 
         /// <summary>
         /// Gets or sets the datagrid data-source.
