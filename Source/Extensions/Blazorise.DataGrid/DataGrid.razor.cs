@@ -135,8 +135,6 @@ namespace Blazorise.DataGrid
 
             if ( EditMode == DataGridEditMode.Popup )
                 PopupVisible = true;
-
-            StateHasChanged();
         }
 
         protected void OnEditCommand( TItem item )
