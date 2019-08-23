@@ -22,16 +22,34 @@ namespace Blazorise.DataGrid
 
         public override DataGridColumnType ColumnType => DataGridColumnType.Command;
 
+        /// <summary>
+        /// Template to customize new command button.
+        /// </summary>
         [Parameter] public RenderFragment<CommandContext> NewCommandTemplate { get; set; }
 
+        /// <summary>
+        /// Template to customize edit command button.
+        /// </summary>
         [Parameter] public RenderFragment<CommandContext<TItem>> EditCommandTemplate { get; set; }
 
+        /// <summary>
+        /// Template to customize save command button.
+        /// </summary>
         [Parameter] public RenderFragment<CommandContext<TItem>> SaveCommandTemplate { get; set; }
 
+        /// <summary>
+        /// Template to customize cancel command button.
+        /// </summary>
         [Parameter] public RenderFragment<CommandContext<TItem>> CancelCommandTemplate { get; set; }
 
+        /// <summary>
+        /// Template to customize delete command button.
+        /// </summary>
         [Parameter] public RenderFragment<CommandContext<TItem>> DeleteCommandTemplate { get; set; }
 
+        /// <summary>
+        /// Template to customize clear-filter command button.
+        /// </summary>
         [Parameter] public RenderFragment<CommandContext> ClearFilterCommandTemplate { get; set; }
 
         #endregion
