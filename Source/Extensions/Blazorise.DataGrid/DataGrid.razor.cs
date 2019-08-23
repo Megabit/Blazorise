@@ -83,6 +83,12 @@ namespace Blazorise.DataGrid
         internal void Hook( BaseDataGridColumn<TItem> column )
         {
             Columns.Add( column );
+
+            // save command column reference for later
+            if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
+            {
+                CommandColumn = commandColumn;
+            }
         }
 
         protected override Task OnFirstAfterRenderAsync()
@@ -287,7 +293,7 @@ namespace Blazorise.DataGrid
             dirtyFilter = dirtyView = true;
         }
 
-        protected void OnClearFilterClicked()
+        protected void OnClearFilterCommand()
         {
             foreach ( var column in Columns )
             {
@@ -444,7 +450,15 @@ namespace Blazorise.DataGrid
         /// </summary>
         public DataGridEditState EditState => editState;
 
+        /// <summary>
+        /// Gets the flag which indicates if popup editor is visible.
+        /// </summary>
         protected bool PopupVisible = false;
+
+        /// <summary>
+        /// Gets the reference to the associated command column.
+        /// </summary>
+        public DataGridCommandColumn<TItem> CommandColumn { get; private set; }
 
         /// <summary>
         /// Gets or sets the datagrid data-source.

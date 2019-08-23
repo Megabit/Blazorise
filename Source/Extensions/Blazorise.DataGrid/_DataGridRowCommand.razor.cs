@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridRowCommand : ComponentBase
+    public abstract class _BaseDataGridRowCommand<TItem> : ComponentBase
     {
+        [Parameter] public TItem Item { get; set; }
+
         [Parameter] public DataGridEditState EditState { get; set; }
 
         [Parameter] public EventCallback Edit { get; set; }
@@ -19,5 +21,7 @@ namespace Blazorise.DataGrid
         [Parameter] public EventCallback Save { get; set; }
 
         [Parameter] public EventCallback Cancel { get; set; }
+
+        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
     }
 }
