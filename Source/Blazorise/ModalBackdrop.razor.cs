@@ -28,6 +28,10 @@ namespace Blazorise
             // link to the parent component
             ParentModal?.Hook( this );
 
+            // initialize backdrop in case that modal is already set to visible
+            if ( ParentModal != null )
+                IsOpen = ParentModal.IsOpen;
+
             base.OnInitialized();
         }
 
@@ -93,13 +97,13 @@ namespace Blazorise
                 {
                     isRegistered = true;
 
-                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                    ExecuteAfterRender( async () => await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId ) );
                 }
                 else
                 {
                     isRegistered = false;
 
-                    JSRunner.UnregisterClosableComponent( this );
+                    ExecuteAfterRender( async () => await JSRunner.UnregisterClosableComponent( this ) );
                 }
 
                 ClassMapper.Dirty();

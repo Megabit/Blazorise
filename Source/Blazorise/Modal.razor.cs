@@ -55,6 +55,7 @@ namespace Blazorise
         public void Hide()
         {
             IsOpen = false;
+            Closed.InvokeAsync( null );
 
             StateHasChanged();
         }
@@ -90,9 +91,19 @@ namespace Blazorise
 
             // TODO: find a way to remove javascript
             if ( isOpen )
-                JSRunner.AddClassToBody( "modal-open" );
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    await JSRunner.AddClassToBody( "modal-open" );
+                } );
+            }
             else
-                JSRunner.RemoveClassFromBody( "modal-open" );
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    await JSRunner.RemoveClassFromBody( "modal-open" );
+                } );
+            }
 
             ClassMapper.Dirty();
             StyleMapper.Dirty();
@@ -127,6 +138,8 @@ namespace Blazorise
                     isOpen = false;
 
                     HandleOpenState( false );
+
+                    Closed.InvokeAsync( null );
                 }
             }
         }
@@ -135,6 +148,11 @@ namespace Blazorise
         /// Occurs before the modal is closed.
         /// </summary>
         [Parameter] public Action<CancelEventArgs> Closing { get; set; }
+
+        /// <summary>
+        /// Occurs after the modal has closed.
+        /// </summary>
+        [Parameter] public EventCallback Closed { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

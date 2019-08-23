@@ -40,7 +40,10 @@ namespace Blazorise.DataGrid
         /// </summary>
         Inline,
 
-        //Popup,
+        /// <summary>
+        /// Values will be edited in the modal dialog.
+        /// </summary>
+        Popup,
     }
 
     /// <summary>
@@ -77,5 +80,14 @@ namespace Blazorise.DataGrid
         /// Column is used only to represent commands like edit, save, etc.
         /// </summary>
         Command,
+    }
+
+    public enum DataGridFilterMethod
+    {
+        Contains,
+        StartsWith,
+        EndsWith,
+        Equals,
+        NotEquals,
     }
 }
