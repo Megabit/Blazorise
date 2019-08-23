@@ -81,4 +81,13 @@ namespace Blazorise.DataGrid
         /// </summary>
         Command,
     }
+
+    public enum DataGridFilterMethod
+    {
+        Contains,
+        StartsWith,
+        EndsWith,
+        Equals,
+        NotEquals,
+    }
 }

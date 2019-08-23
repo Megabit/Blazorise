@@ -385,7 +385,7 @@ namespace Blazorise.DataGrid
                 query = from q in query
                         let cellRealValue = column.GetValue( q )
                         let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                        where cellStringValue.Contains( column.Filter.SearchValue )
+                        where CompareFilterValues( cellStringValue, column.Filter.SearchValue )
                         select q;
             }
 
@@ -397,6 +397,24 @@ namespace Blazorise.DataGrid
             //return orderedQuery == null
             //    ? query?.ToList()
             //    : orderedQuery?.ToList();
+        }
+
+        private bool CompareFilterValues( string searchValue, string compareTo )
+        {
+            switch ( FilterMethod )
+            {
+                case DataGridFilterMethod.StartsWith:
+                    return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.EndsWith:
+                    return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.Equals:
+                    return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.NotEquals:
+                    return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.Contains:
+                default:
+                    return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
+            }
         }
 
         private IEnumerable<TItem> FilterViewData()
@@ -562,6 +580,11 @@ namespace Blazorise.DataGrid
         /// Gets or sets the maximum number of items for each page.
         /// </summary>
         [Parameter] public int PageSize { get; set; } = 5;
+
+        /// <summary>
+        /// Defines the filter method when searching the cell values.
+        /// </summary>
+        [Parameter] public DataGridFilterMethod FilterMethod { get; set; } = DataGridFilterMethod.Contains;
 
         /// <summary>
         /// Gets or sets currently selected row.
