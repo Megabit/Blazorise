@@ -1,0 +1,77 @@
+﻿@import 'positions';
+
+.b-tooltip {
+    overflow: visible;
+    position: relative;
+
+    &:hover,
+    &.b-tooltip-show {
+        &:not(.is-loading) {
+            &::after {
+                z-index: 9999;
+                position: absolute;
+                display: inline-block;
+                pointer-events: none;
+            }
+        }
+
+        &::before {
+            z-index: 99999;
+            position: absolute;
+            display: inline-block;
+            pointer-events: none;
+        }
+
+        &:not(.is-loading) {
+            &::after {
+                content: "";
+                border-style: solid;
+                border-width: .5rem;
+            }
+        }
+
+        &::before {
+            opacity: 0;
+            content: attr(data-tooltip);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: $tooltip-font-size;
+            padding: .4rem .8rem;
+            background: rgba($tooltip-background-color, $tooltip-background-opacity);
+            border-radius: $tooltip-border-radius;
+            color: $tooltip-color;
+            max-width: $tooltip-max-width;
+        }
+    }
+
+    &:focus,
+    &:hover,
+    &.b-tooltip-show {
+        &:not(.is-loading) {
+            &::after {
+                opacity: 1;
+                margin-left: -.5rem;
+                margin-top: -.5rem;
+            }
+        }
+
+        &::before {
+            opacity: 1;
+        }
+    }
+
+    @include top();
+
+    &.b-tooltip-bottom {
+        @include bottom();
+    }
+
+    &.b-tooltip-left {
+        @include left();
+    }
+
+    &.b-tooltip-right {
+        @include right();
+    }
+}

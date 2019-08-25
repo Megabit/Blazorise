@@ -18,7 +18,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string TextEditColor( Color color ) => $"text-{ToColor( color )}";
 
-        public virtual string TextEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string MemoEdit() => "form-control";
 
-        public virtual string MemoEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string SelectEditSize( Size size ) => $"{SelectEdit()}-{ToSize( size )}";
 
-        public virtual string SelectEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string SelectEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string DateEditSize( Size size ) => $"{DateEdit()}-{ToSize( size )}";
 
-        public virtual string DateEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -56,9 +56,9 @@ namespace Blazorise.Bootstrap
 
         public virtual string CheckEditInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
-        public virtual string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{Cursor( cursor )}";
+        public virtual string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{ToCursor( cursor )}";
 
-        public virtual string CheckEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -74,7 +74,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string FileEdit() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
 
-        public virtual string FileEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -82,7 +82,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string Label() => null;
 
-        public virtual string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{Cursor( cursor )}" : $"form-check-label-{Cursor( cursor )}";
+        public virtual string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}";
 
         public virtual string LabelCheck() => UseCustomInputStyles ? "custom-control-label" : "form-check-label";
 
@@ -748,6 +748,14 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Tooltip
+
+        public virtual string Tooltip() => "b-tooltip";
+
+        public virtual string TooltipPlacement( Placement placement ) => $"b-tooltip-{ToPlacement( placement )}";
+
+        #endregion
+
         #region States
 
         public virtual string Show() => "show";
@@ -1183,7 +1191,23 @@ namespace Blazorise.Bootstrap
             }
         }
 
-        public virtual string ValidationStatus( ValidationStatus validationStatus )
+        public string ToPlacement( Placement placement )
+        {
+            switch ( placement )
+            {
+                case Blazorise.Placement.Bottom:
+                    return "bottom";
+                case Blazorise.Placement.Left:
+                    return "left";
+                case Blazorise.Placement.Right:
+                    return "right";
+                case Blazorise.Placement.Top:
+                default:
+                    return "top";
+            }
+        }
+
+        public virtual string ToValidationStatus( ValidationStatus validationStatus )
         {
             switch ( validationStatus )
             {
@@ -1196,7 +1220,7 @@ namespace Blazorise.Bootstrap
             }
         }
 
-        public virtual string Cursor( Cursor cursor )
+        public virtual string ToCursor( Cursor cursor )
         {
             switch ( cursor )
             {

@@ -148,6 +148,66 @@ window.blazorise = {
                 });
         }
     },
+    tooltip: {
+        _instances: [],
+
+        initialize: (elementId, element, tooltip, arrow, placement) => {
+            var instances = window.blazorise.tooltip._instances = window.blazorise.tooltip._instances || {};
+
+            instances[elementId] = new window.blazorise.TooltipInfo(elementId, element, tooltip, arrow, placement);
+
+            var reference = document.getElementById(elementId);
+
+            function mouseOverHandler() {
+                window.blazorise.tooltip.mouseOver(instances[elementId]);
+            }
+
+            function mouseOutHandler() {
+                window.blazorise.tooltip.mouseOut(instances[elementId]);
+            }
+
+            reference.addEventListener("mouseover", mouseOverHandler);
+            reference.addEventListener("mouseout", mouseOutHandler);
+
+            return true;
+        },
+        destroy: (elementId) => {
+            var instances = window.blazorise.tooltip._instances || {};
+            delete instances[elementId];
+            return true;
+        },
+        mouseOver: (tooltipInfo) => {
+            tooltipInfo.show();
+        },
+        mouseOut: (tooltipInfo) => {
+            tooltipInfo.hide();
+        }
+    },
+    TooltipInfo: function (elementId, element, tooltip, arrow, placement) {
+        this.elementId = elementId;
+        this.element = element;
+        this.tooltip = tooltip;
+        this.arrow = arrow;
+        this.placement = placement;
+        this.popper = undefined;
+
+        this.show = function () {
+            this.tooltip.className = "tooltip fade show bs-tooltip-" + placement;
+            //window.blazorise.addClass(this.tooltip, "show bs-tooltip-" + this.placement);
+
+            this.popper = showPopper(this.element, this.tooltip, this.arrow, this.placement);
+        };
+
+        this.hide = function () {
+            this.tooltip.className = "tooltip d-none";
+            //window.blazorise.removeClass(this.tooltip, "show bs-tooltip-" + this.placement);
+
+            if (this.popper) {
+                this.popper.destroy && this.popper.destroy();
+                this.popper = undefined;
+            }
+        };
+    },
     textEdit: {
         _instances: [],
 
@@ -323,3 +383,28 @@ document.addEventListener('keyup', function handler(evt) {
         }
     }
 });
+
+function showPopper(element, tooltip, arrow, placement) {
+    var thePopper = new Popper(element, tooltip,
+        {
+            placement,
+            modifiers: {
+                offset: {
+                    offset: 0
+                },
+                flip: {
+                    behavior: "flip"
+                },
+                arrow: {
+                    element: arrow,
+                    enabled: true
+                },
+                preventOverflow: {
+                    boundary: "scrollParent"
+                }
+
+            }
+        }
+    );
+    return thePopper;
+}

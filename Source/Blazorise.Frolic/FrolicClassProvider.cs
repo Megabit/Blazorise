@@ -18,7 +18,7 @@ namespace Blazorise.Frolic
 
         public virtual string TextEditColor( Color color ) => $"text-{ToColor( color )}";
 
-        public virtual string TextEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace Blazorise.Frolic
 
         public virtual string MemoEdit() => "e-control";
 
-        public virtual string MemoEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace Blazorise.Frolic
 
         public virtual string SelectEditSize( Size size ) => $"{SelectEdit()}-{ToSize( size )}";
 
-        public virtual string SelectEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string SelectEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace Blazorise.Frolic
 
         public virtual string DateEditSize( Size size ) => $"{DateEdit()}-{ToSize( size )}";
 
-        public virtual string DateEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -56,9 +56,9 @@ namespace Blazorise.Frolic
 
         public virtual string CheckEditInline() => null;
 
-        public virtual string CheckEditCursor( Cursor cursor ) => $"e-check-{Cursor( cursor )}";
+        public virtual string CheckEditCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
 
-        public virtual string CheckEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -74,7 +74,7 @@ namespace Blazorise.Frolic
 
         public virtual string FileEdit() => "e-control";
 
-        public virtual string FileEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -82,7 +82,7 @@ namespace Blazorise.Frolic
 
         public virtual string Label() => "e-label";
 
-        public virtual string LabelCursor( Cursor cursor ) => $"e-label-{Cursor( cursor )}";
+        public virtual string LabelCursor( Cursor cursor ) => $"e-label-{ToCursor( cursor )}";
 
         public virtual string LabelCheck() => null;
 
@@ -737,6 +737,14 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Tooltip
+
+        public virtual string Tooltip() => "tooltip fade";
+
+        public virtual string TooltipPlacement( Placement placement ) => $"bs-tooltip-{ToPlacement( placement )}";
+
+        #endregion
+
         #region States
 
         public virtual string Show() => "show";
@@ -1171,7 +1179,23 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string ValidationStatus( ValidationStatus validationStatus )
+        public string ToPlacement( Placement placement )
+        {
+            switch ( placement )
+            {
+                case Blazorise.Placement.Bottom:
+                    return "bottom";
+                case Blazorise.Placement.Left:
+                    return "left";
+                case Blazorise.Placement.Right:
+                    return "right";
+                case Blazorise.Placement.Top:
+                default:
+                    return "top";
+            }
+        }
+
+        public virtual string ToValidationStatus( ValidationStatus validationStatus )
         {
             switch ( validationStatus )
             {
@@ -1184,7 +1208,7 @@ namespace Blazorise.Frolic
             }
         }
 
-        public virtual string Cursor( Cursor cursor )
+        public virtual string ToCursor( Cursor cursor )
         {
             switch ( cursor )
             {
