@@ -20,12 +20,17 @@ namespace Blazorise
 
         #region Properties
 
-        internal ElementReference ArrowRef { get; set; }
+        /// <summary>
+        /// Gets the reference to the arrow element.
+        /// </summary>
+        public ElementReference ArrowRef { get; protected set; }
 
         /// <summary>
         /// Gets or sets a regular tooltip's content. 
         /// </summary>
         [Parameter] public string Text { get; set; }
+
+        [Parameter] public RenderFragment HtmlTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets the tooltip location relative to it's component.

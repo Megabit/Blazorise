@@ -2,7 +2,14 @@
 <div @ref="@ElementRef" @ref:suppressField class="b-tooltip b-tooltip-none" role="tooltip">
     <div @ref="@ArrowRef" @ref:suppressField class="arrow"></div>
     <div class="b-tooltip-inner">
-        @Text
+        @if ( HtmlTemplate != null )
+        {
+            @HtmlTemplate
+        }
+        else
+        {
+            @Text
+        }
     </div>
 </div>
 <CascadingValue Value="this">
