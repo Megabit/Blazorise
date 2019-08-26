@@ -672,6 +672,14 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Tooltip
+
+        public string Tooltip() => null;
+
+        public string TooltipPlacement( Placement placement ) => null;
+
+        #endregion
+
         #region States
 
         public string Show() => null;
@@ -741,6 +749,8 @@ namespace Blazorise.Providers
         public string ToHeadingSize( HeadingSize headingSize ) => null;
 
         public string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
+
+        public string ToPlacement( Placement placement ) => null;
 
         #endregion
 

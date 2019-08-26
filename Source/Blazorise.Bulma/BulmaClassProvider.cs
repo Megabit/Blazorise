@@ -18,7 +18,7 @@ namespace Blazorise.Bulma
 
         public virtual string TextEditColor( Color color ) => $"is-{ToColor( color )}";
 
-        public virtual string TextEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace Blazorise.Bulma
 
         public virtual string MemoEdit() => "textarea";
 
-        public virtual string MemoEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace Blazorise.Bulma
 
         public virtual string SelectEditSize( Size size ) => $"{ToSize( size )}";
 
-        public virtual string SelectEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string SelectEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace Blazorise.Bulma
 
         public virtual string DateEditSize( Size size ) => $"{ToSize( size )}";
 
-        public virtual string DateEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -56,9 +56,9 @@ namespace Blazorise.Bulma
 
         public virtual string CheckEditInline() => "inline";
 
-        public virtual string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{Cursor( cursor )}";
+        public virtual string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{ToCursor( cursor )}";
 
-        public virtual string CheckEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -74,7 +74,7 @@ namespace Blazorise.Bulma
 
         public virtual string FileEdit() => "file-input";
 
-        public virtual string FileEditValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -82,7 +82,7 @@ namespace Blazorise.Bulma
 
         public virtual string Label() => "label";
 
-        public virtual string LabelCursor( Cursor cursor ) => $"label-{Cursor( cursor )}";
+        public virtual string LabelCursor( Cursor cursor ) => $"label-{ToCursor( cursor )}";
 
         public virtual string LabelCheck() => "checkbox";
 
@@ -764,6 +764,14 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Tooltip
+
+        public virtual string Tooltip() => "tooltip fade";
+
+        public virtual string TooltipPlacement( Placement placement ) => $"bs-tooltip-{ToPlacement( placement )}";
+
+        #endregion
+
         #region States
 
         public virtual string Show() => "show";
@@ -1196,7 +1204,23 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string ValidationStatus( ValidationStatus validationStatus )
+        public string ToPlacement( Placement placement )
+        {
+            switch ( placement )
+            {
+                case Blazorise.Placement.Bottom:
+                    return "bottom";
+                case Blazorise.Placement.Left:
+                    return "left";
+                case Blazorise.Placement.Right:
+                    return "right";
+                case Blazorise.Placement.Top:
+                default:
+                    return "top";
+            }
+
+        }
+        public virtual string ToValidationStatus( ValidationStatus validationStatus )
         {
             switch ( validationStatus )
             {
@@ -1209,7 +1233,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Cursor( Cursor cursorType )
+        public virtual string ToCursor( Cursor cursorType )
         {
             switch ( cursorType )
             {
