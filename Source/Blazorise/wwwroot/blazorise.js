@@ -192,15 +192,13 @@ window.blazorise = {
         this.popper = undefined;
 
         this.show = function () {
-            this.tooltip.className = "tooltip fade show bs-tooltip-" + placement;
-            //window.blazorise.addClass(this.tooltip, "show bs-tooltip-" + this.placement);
+            this.tooltip.className = "b-tooltip b-tooltip-show b-tooltip-" + placement;
 
             this.popper = showPopper(this.element, this.tooltip, this.arrow, this.placement);
         };
 
         this.hide = function () {
-            this.tooltip.className = "tooltip d-none";
-            //window.blazorise.removeClass(this.tooltip, "show bs-tooltip-" + this.placement);
+            this.tooltip.className = "b-tooltip b-tooltip-none";
 
             if (this.popper) {
                 this.popper.destroy && this.popper.destroy();

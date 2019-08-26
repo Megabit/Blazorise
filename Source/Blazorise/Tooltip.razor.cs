@@ -12,10 +12,6 @@ namespace Blazorise
     {
         #region Members
 
-        private Placement placement = Placement.Top;
-
-        public event TooltipChangedEventHandler Changed;
-
         #endregion
 
         #region Methods
@@ -26,22 +22,15 @@ namespace Blazorise
 
         internal ElementReference ArrowRef { get; set; }
 
+        /// <summary>
+        /// Gets or sets a regular tooltip's content. 
+        /// </summary>
         [Parameter] public string Text { get; set; }
 
-        [Parameter]
-        public Placement Placement
-        {
-            get => placement;
-            set
-            {
-                if ( placement != value )
-                {
-                    placement = value;
-
-                    Changed?.Invoke();
-                }
-            }
-        }
+        /// <summary>
+        /// Gets or sets the tooltip location relative to it's component.
+        /// </summary>
+        [Parameter] public Placement Placement { get; set; } = Placement.Top;
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -1,6 +1,28 @@
-﻿$tooltip-color: var(--tooltip-color, #ffffff) !default
+﻿$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-base: $font-family-sans-serif !default;
+
+$font-size-base: var(--b-font-size-base, 1rem) !default;
+$font-size-lg: var(--b-font-size-lg, 1.25rem) !default;
+$font-size-sm: var(--b-font-size-sm, .875rem) !default;
+
+$font-weight-light: var(--b-font-weight-light, 300) !default;
+$font-weight-normal: var(--b-font-weight-normal, 400) !default;
+$font-weight-bold: var(--b-font-weight-bold, 700) !default;
+
+$font-weight-base: $font-weight-normal !default;
+$line-height-base: 1.5 !default;
+
+$tooltip-color: var(--b-tooltip-color, #ffffff) !default
 $tooltip-background-color: #808080 !default
 $tooltip-background-opacity: 0.9 !default
-$tooltip-max-width: var(--tooltip-max-width, 24rem) !default
-$tooltip-font-size: var(--tooltip-font-size, .75rem) !default
-$tooltip-border-radius: var(--tooltip-border-radius, 4px) !default
+$tooltip-max-width: var(--b-tooltip-max-width, 24rem) !default
+$tooltip-font-size: var(--b-tooltip-font-size, $font-size-sm) !default
+$tooltip-border-radius: var(--b-tooltip-border-radius, 4px) !default
+$tooltip-padding-y: var(--b-tooltip-padding-y, .25rem) !default;
+$tooltip-padding-x: var(--b-tooltip-padding-x, .5rem) !default;
+$tooltip-margin: var(--b-tooltip-margin, 0) !default;
+
+$tooltip-arrow-width: var(--b-tooltip-arrow-width, .8rem) !default;
+$tooltip-arrow-height: var(--b-tooltip-arrow-height, .4rem) !default;
+$tooltip-arrow-color: $tooltip-background-color !default;

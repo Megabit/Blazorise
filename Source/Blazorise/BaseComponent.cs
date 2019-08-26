@@ -65,21 +65,24 @@ namespace Blazorise
         {
             // If the component has custom implementation we need to postpone the initialisation
             // until the custom component is rendered!
-            if ( !rendered && !HasCustomRegistration )
+            if ( !HasCustomRegistration )
             {
-                rendered = true;
-
-                await OnFirstAfterRenderAsync();
-            }
-
-            if ( executeAfterRendereQueue?.Count > 0 )
-            {
-                var actions = executeAfterRendereQueue.ToArray();
-                executeAfterRendereQueue.Clear();
-
-                foreach ( var action in actions )
+                if ( !rendered )
                 {
-                    await action();
+                    rendered = true;
+
+                    await OnFirstAfterRenderAsync();
+                }
+
+                if ( executeAfterRendereQueue?.Count > 0 )
+                {
+                    var actions = executeAfterRendereQueue.ToArray();
+                    executeAfterRendereQueue.Clear();
+
+                    foreach ( var action in actions )
+                    {
+                        await action();
+                    }
                 }
             }
 

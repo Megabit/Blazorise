@@ -1,6 +1,113 @@
-﻿@import 'positions';
+﻿/*@import 'positions';*/
 
+// Base class
 .b-tooltip {
+    position: absolute;
+    z-index: 9999;
+    display: block;
+    margin: $tooltip-margin;
+    // Our parent element can be arbitrary since tooltips are by default inserted as a sibling of their target element.
+    // So reset our font and text properties to avoid inheriting weird values.
+    @include reset-text();
+    font-size: $tooltip-font-size;
+    // Allow breaking very long words so they don't overflow the tooltip's bounds
+    word-wrap: break-word;
+    opacity: 0;
+
+    &.b-tooltip {
+        opacity: $tooltip-background-opacity;
+    }
+
+    .arrow {
+        position: absolute;
+        display: block;
+        width: $tooltip-arrow-width;
+        height: $tooltip-arrow-height;
+
+        &::before {
+            position: absolute;
+            content: "";
+            border-color: transparent;
+            border-style: solid;
+        }
+    }
+}
+
+.b-tooltip-none {
+    display: none !important;
+}
+
+.b-tooltip-top {
+    padding: $tooltip-arrow-height 0;
+
+    .arrow {
+        bottom: 0;
+
+        &::before {
+            top: 0;
+            border-width: $tooltip-arrow-height ($tooltip-arrow-width / 2) 0;
+            border-top-color: $tooltip-arrow-color;
+        }
+    }
+}
+
+.b-tooltip-right {
+    padding: 0 $tooltip-arrow-height;
+
+    .arrow {
+        left: 0;
+        width: $tooltip-arrow-height;
+        height: $tooltip-arrow-width;
+
+        &::before {
+            right: 0;
+            border-width: ($tooltip-arrow-width / 2) $tooltip-arrow-height ($tooltip-arrow-width / 2) 0;
+            border-right-color: $tooltip-arrow-color;
+        }
+    }
+}
+
+.b-tooltip-bottom {
+    padding: $tooltip-arrow-height 0;
+
+    .arrow {
+        top: 0;
+
+        &::before {
+            bottom: 0;
+            border-width: 0 ($tooltip-arrow-width / 2) $tooltip-arrow-height;
+            border-bottom-color: $tooltip-arrow-color;
+        }
+    }
+}
+
+.b-tooltip-left {
+    padding: 0 $tooltip-arrow-height;
+
+    .arrow {
+        right: 0;
+        width: $tooltip-arrow-height;
+        height: $tooltip-arrow-width;
+
+        &::before {
+            left: 0;
+            border-width: ($tooltip-arrow-width / 2) 0 ($tooltip-arrow-width / 2) $tooltip-arrow-height;
+            border-left-color: $tooltip-arrow-color;
+        }
+    }
+}
+
+// Wrapper for the tooltip content
+.b-tooltip-inner {
+    max-width: $tooltip-max-width;
+    padding: $tooltip-padding-y $tooltip-padding-x;
+    color: $tooltip-color;
+    text-align: center;
+    background-color: $tooltip-background-color;
+    border-radius: $tooltip-border-radius;
+}
+
+/*.b-tooltip {
     overflow: visible;
     position: relative;
 
@@ -74,4 +181,4 @@
     &.b-tooltip-right {
         @include right();
     }
-}
+}*/

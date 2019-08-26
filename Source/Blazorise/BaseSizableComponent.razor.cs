@@ -33,7 +33,6 @@ namespace Blazorise
                 {
                     await JSRunner.DestroyTooltip( ElementId );
                 } );
-                //ParentTooltip.Changed -= OnTooltipChanged;
             }
         }
 
@@ -41,8 +40,6 @@ namespace Blazorise
         {
             ClassMapper
                 .If( () => ColumnSize.Class( ClassProvider ), () => ColumnSize != null && UseColumnSizes );
-            //.If( () => ClassProvider.Tooltip(), () => ParentTooltip != null )
-            //.If( () => ClassProvider.TooltipPlacement( ParentTooltip.Placement ), () => ParentTooltip != null );
 
             base.RegisterClasses();
         }
@@ -58,17 +55,10 @@ namespace Blazorise
                 {
                     await JSRunner.InitializeTooltip( ElementId, ElementRef, ParentTooltip.ElementRef, ParentTooltip.ArrowRef, ClassProvider.ToPlacement( ParentTooltip.Placement ) );
                 } );
-
-                //ParentTooltip.Changed += OnTooltipChanged;
             }
 
             base.OnInitialized();
         }
-
-        //private void OnTooltipChanged()
-        //{
-        //    ClassMapper.Dirty();
-        //}
 
         #endregion
 
@@ -79,8 +69,6 @@ namespace Blazorise
         protected virtual bool ParentIsField => ParentField != null;
 
         protected virtual bool ParentIsFieldBody => ParentFieldBody != null;
-
-        protected string DataTooltip => ParentTooltip?.Text;
 
         /// <summary>
         /// Used to override the use of column sizes by some of the providers.

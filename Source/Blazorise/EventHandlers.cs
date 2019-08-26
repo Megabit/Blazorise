@@ -23,6 +23,4 @@ namespace Blazorise
     public delegate void ValidatedEventHandler( ValidatedEventArgs e );
 
     public delegate void ClearAllValidatinaEventHandler();
-
-    public delegate void TooltipChangedEventHandler();
 }
