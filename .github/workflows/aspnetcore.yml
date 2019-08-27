@@ -14,4 +14,4 @@ jobs:
       with:
         dotnet-version: 3.0.100-preview8-013656
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build Blazorise.sln --configuration Release
