@@ -16,6 +16,25 @@ namespace Blazorise
 
         #region Methods
 
+        protected override void RegisterClasses()
+        {
+            ClassMapper
+                .Add( () => ClassProvider.Tooltip() )
+                .Add( () => ClassProvider.TooltipPlacement( Placement ) );
+
+            base.RegisterClasses();
+        }
+
+        protected override void OnInitialized()
+        {
+            ExecuteAfterRender( async () =>
+            {
+                await JSRunner.InitializeTooltip( ElementId, ElementRef );
+            } );
+
+            base.OnInitialized();
+        }
+
         #endregion
 
         #region Properties
@@ -30,7 +49,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public string Text { get; set; }
 
-        [Parameter] public RenderFragment HtmlTemplate { get; set; }
+        //[Parameter] public RenderFragment HtmlTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets the tooltip location relative to it's component.

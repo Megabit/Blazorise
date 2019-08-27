@@ -766,9 +766,9 @@ namespace Blazorise.Bulma
 
         #region Tooltip
 
-        public virtual string Tooltip() => "tooltip fade";
+        public virtual string Tooltip() => "b-tooltip";
 
-        public virtual string TooltipPlacement( Placement placement ) => $"bs-tooltip-{ToPlacement( placement )}";
+        public virtual string TooltipPlacement( Placement placement ) => $"b-tooltip-{ToPlacement( placement )}";
 
         #endregion
 

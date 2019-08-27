@@ -1,4 +1,5 @@
 #region Using directives
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
 #endregion
@@ -10,6 +11,11 @@ namespace Blazorise.Material
         public MaterialJSRunner( IJSRuntime runtime )
                : base( runtime )
         {
+        }
+
+        public override Task<bool> InitializeTooltip( string elementId, ElementReference elementRef )
+        {
+            return runtime.InvokeAsync<bool>( $"blazoriseMaterial.tooltip.initialize", elementId, elementRef );
         }
 
         public override Task<bool> ActivateDatePicker( string elementId, string formatSubmit )

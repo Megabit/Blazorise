@@ -1,4 +1,5 @@
 #region Using directives
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
@@ -12,6 +13,11 @@ namespace Blazorise.Bulma
             : base( runtime )
         {
 
+        }
+
+        public override Task<bool> InitializeTooltip( string elementId, ElementReference elementRef )
+        {
+            return runtime.InvokeAsync<bool>( $"blazoriseBulma.tooltip.initialize", elementId, elementRef );
         }
 
         //public override Task<bool> ActivateDatePicker( string elementId, string formatSubmit )

@@ -27,13 +27,6 @@ namespace Blazorise
 
         public virtual void Dispose()
         {
-            if ( ParentTooltip != null )
-            {
-                ExecuteAfterRender( async () =>
-                {
-                    await JSRunner.DestroyTooltip( ElementId );
-                } );
-            }
         }
 
         protected override void RegisterClasses()
@@ -48,14 +41,6 @@ namespace Blazorise
         {
             // link to the parent component
             ParentField?.Hook( this );
-
-            if ( ParentTooltip != null )
-            {
-                ExecuteAfterRender( async () =>
-                {
-                    await JSRunner.InitializeTooltip( ElementId, ElementRef, ParentTooltip.ElementRef, ParentTooltip.ArrowRef, ClassProvider.ToPlacement( ParentTooltip.Placement ) );
-                } );
-            }
 
             base.OnInitialized();
         }
