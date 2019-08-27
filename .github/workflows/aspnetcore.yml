@@ -1,0 +1,17 @@
+name: ASP.NET Core 3.0-p8
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core 3.0-p8
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.0.100-preview8-013656
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
