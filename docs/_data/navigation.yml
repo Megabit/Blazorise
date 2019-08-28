@@ -66,6 +66,8 @@ docs:
         url: /docs/components/alert/
       - title: "Accordion"
         url: /docs/components/accordion/
+      - title: "Tooltip"
+        url: /docs/components/tooltip/
   - title: Extensions
     url: /docs/extensions/
     children:
