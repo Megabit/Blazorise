@@ -13,7 +13,7 @@ Table displays information in a way that’s easy to scan, so that users can loo
 
 ## Structure
 
-- `<TableContainer>` the main **container**
+- `<Table>` the main **container**
   - `<TableHeader>` the optional **top** part of the table
     - `<TableRow>` header **row**
       - `<TableHeaderCell>` a header **cell**
@@ -23,15 +23,12 @@ Table displays information in a way that’s easy to scan, so that users can loo
       - `<TableRowHeader>` a table cell **heading**
       - `<TableRowCell>` a table **cell**
 
-**Note:** TableContainer will be renamed to Table once the Razor [issue](https://github.com/aspnet/AspNetCore/issues/5550) is resolved.
-{: .notice--info}
-
 ## Example
 
 ### Simple
 
 ```html
-<TableContainer>
+<Table>
     <TableHeader>
         <TableRow>
             <TableHeaderCell>#</TableHeaderCell>
@@ -60,7 +57,7 @@ Table displays information in a way that’s easy to scan, so that users can loo
             <TableRowCell>@@twitter</TableRowCell>
         </TableRow>
     </TableBody>
-</TableContainer>
+</Table>
 ```
 
 <iframe src="/examples/table/basic/" frameborder="0" scrolling="no" style="width:100%;height:200px;"></iframe>
@@ -68,9 +65,9 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Striped
 
 ```html
-<TableContainer IsStriped="true">
+<Table IsStriped="true">
     ...
-</TableContainer>
+</Table>
 ```
 
 <iframe src="/examples/table/striped/" frameborder="0" scrolling="no" style="width:100%;height:200px;"></iframe>
@@ -78,9 +75,9 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Hoverable
 
 ```html
-<TableContainer IsHoverable="true">
+<Table IsHoverable="true">
     ...
-</TableContainer>
+</Table>
 ```
 
 <iframe src="/examples/table/hoverable/" frameborder="0" scrolling="no" style="width:100%;height:200px;"></iframe>
@@ -88,9 +85,9 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Bordered
 
 ```html
-<TableContainer IsBordered="true">
+<Table IsBordered="true">
     ...
-</TableContainer>
+</Table>
 ```
 
 <iframe src="/examples/table/bordered/" frameborder="0" scrolling="no" style="width:100%;height:200px;"></iframe>
@@ -98,36 +95,36 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Borderless
 
 ```html
-<TableContainer IsBorderless="true">
+<Table IsBorderless="true">
     ...
-</TableContainer>
+</Table>
 ```
 <iframe src="/examples/table/borderless/" frameborder="0" scrolling="no" style="width:100%;height:200px;"></iframe>
 
 ### Small table
 
 ```html
-<TableContainer IsNarrow="true">
+<Table IsNarrow="true">
     ...
-</TableContainer>
+</Table>
 ```
 <iframe src="/examples/table/narrowed/" frameborder="0" scrolling="no" style="width:100%;height:200px;"></iframe>
 
 ### Light header
 
 ```html
-<TableContainer Theme="Theme.Light">
+<Table Theme="Theme.Light">
     ...
-</TableContainer>
+</Table>
 ```
 <iframe src="/examples/table/head-light/" frameborder="0" scrolling="no" style="width:100%;height:200px;"></iframe>
 
 ### Dark header
 
 ```html
-<TableContainer Theme="Theme.Dark">
+<Table Theme="Theme.Dark">
     ...
-</TableContainer>
+</Table>
 ```
 <iframe src="/examples/table/head-dark/" frameborder="0" scrolling="no" style="width:100%;height:200px;"></iframe>
 
