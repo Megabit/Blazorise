@@ -63,7 +63,7 @@ Addons are used to attach controls together.
         <TextEdit Placeholder="Recipient's username" />
     </Addon>
     <Addon AddonType="AddonType.End">
-        <SimpleButton Color="Color.Secondary">Button</SimpleButton>
+        <Button Color="Color.Secondary">Button</Button>
     </Addon>
 </Addons>
 ```

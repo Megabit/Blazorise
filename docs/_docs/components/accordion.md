@@ -15,7 +15,7 @@ Using the `Card` component, you can extend the default collapse behavior to crea
     <Card>
         <CardHeader>
             <Heading Size="HeadingSize.Is5">
-                <SimpleButton Clicked="@(()=>isOpen1 = !isOpen1)">Switch 1</SimpleButton>
+                <Button Clicked="@(()=>isOpen1 = !isOpen1)">Switch 1</Button>
             </Heading>
         </CardHeader>
         <Collapse IsOpen="@isOpen1">
@@ -27,7 +27,7 @@ Using the `Card` component, you can extend the default collapse behavior to crea
     <Card>
         <CardHeader>
             <Heading Size="HeadingSize.Is5">
-                <SimpleButton Clicked="@(()=>isOpen2 = !isOpen2)">Switch 2</SimpleButton>
+                <Button Clicked="@(()=>isOpen2 = !isOpen2)">Switch 2</Button>
             </Heading>
         </CardHeader>
         <Collapse IsOpen="@isOpen2">
@@ -39,7 +39,7 @@ Using the `Card` component, you can extend the default collapse behavior to crea
     <Card>
         <CardHeader>
             <Heading Size="HeadingSize.Is5">
-                <SimpleButton Clicked="@(()=>isOpen3 = !isOpen3)">Switch 3</SimpleButton>
+                <Button Clicked="@(()=>isOpen3 = !isOpen3)">Switch 3</Button>
             </Heading>
         </CardHeader>
         <Collapse IsOpen="@isOpen3">

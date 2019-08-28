@@ -36,7 +36,7 @@ What this little peace of code is doing behind the scene? Basically it's generat
 To dynamically change theme settings you can use `Theme` from anywhere in your application.
 
 ```cs
-<SimpleButton Clicked="@(()=>OnThemeColorChanged("#d16f9e"))">Change theme</SimpleButton>
+<Button Clicked="@(()=>OnThemeColorChanged("#d16f9e"))">Change theme</Button>
 
 void OnThemeColorChanged( string value )
 {

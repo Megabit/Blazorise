@@ -106,8 +106,8 @@ You can also add a close button.
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.
     </Paragraph>
     <Paragraph>
-        <SimpleButton Color="Color.Info">Wanna do this</SimpleButton>
-        <SimpleButton Color="Color.Light">Or do this</SimpleButton>
+        <Button Color="Color.Info">Wanna do this</Button>
+        <Button Color="Color.Light">Or do this</Button>
     </Paragraph>
 </Alert>
 ```
