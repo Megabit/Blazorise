@@ -121,3 +121,11 @@ Defines the placement of an element.
 - `Bottom` Bottom side.
 - `Left` Left side.
 - `Right` Right side.
+
+## DataGridFilterMethod
+
+- `Contains` search for any occurrence (default)
+- `StartsWith` search only the beginning
+- `EndsWith` search only the ending
+- `Equals` search must match the entire value
+- `NotEquals` opposite of Equals
