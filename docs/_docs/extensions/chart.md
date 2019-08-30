@@ -58,7 +58,7 @@ In your main _Imports.razor_ add:
 You should always define `TItem` data type.
 
 ```html
-<SimpleButton Clicked="@(async () => await HandleRedraw())">Redraw</SimpleButton>
+<Button Clicked="@(async () => await HandleRedraw())">Redraw</Button>
 
 <LineChart @ref="lineChart" TItem="double" />
 ```

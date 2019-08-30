@@ -9,69 +9,69 @@ namespace Blazorise
 {
     public interface IClassProvider
     {
-        #region Text
+        #region TextEdit
 
-        string Text( bool plaintext );
+        string TextEdit( bool plaintext );
 
-        string TextSize( Size size );
+        string TextEditSize( Size size );
 
-        string TextColor( Color color );
+        string TextEditColor( Color color );
 
-        string TextValidation( ValidationStatus validationStatus );
-
-        #endregion
-
-        #region Memo
-
-        string Memo();
-
-        string MemoValidation( ValidationStatus validationStatus );
+        string TextEditValidation( ValidationStatus validationStatus );
 
         #endregion
 
-        #region Select
+        #region MemoEdit
 
-        string Select();
+        string MemoEdit();
 
-        string SelectSize( Size size );
-
-        string SelectValidation( ValidationStatus validationStatus );
+        string MemoEditValidation( ValidationStatus validationStatus );
 
         #endregion
 
-        #region Date
+        #region SelectEdit
 
-        string Date();
+        string SelectEdit();
 
-        string DateSize( Size size );
+        string SelectEditSize( Size size );
 
-        string DateValidation( ValidationStatus validationStatus );
-
-        #endregion
-
-        #region Check
-
-        string Check();
-
-        string CheckInline();
-
-        string CheckCursor( Cursor cursor );
-
-        string CheckValidation( ValidationStatus validationStatus );
+        string SelectEditValidation( ValidationStatus validationStatus );
 
         #endregion
 
-        #region Radio
+        #region DateEdit
 
-        string Radio();
+        string DateEdit();
+
+        string DateEditSize( Size size );
+
+        string DateEditValidation( ValidationStatus validationStatus );
 
         #endregion
 
-        #region File
+        #region CheckEdit
 
-        string File();
+        string CheckEdit();
 
-        string FileValidation( ValidationStatus validationStatus );
+        string CheckEditInline();
+
+        string CheckEditCursor( Cursor cursor );
+
+        string CheckEditValidation( ValidationStatus validationStatus );
+
+        #endregion
+
+        #region RadioEdit
+
+        string RadioEdit();
+
+        #endregion
+
+        #region FileEdit
+
+        string FileEdit();
+
+        string FileEditValidation( ValidationStatus validationStatus );
 
         #endregion
 
@@ -611,31 +611,39 @@ namespace Blazorise
 
         #endregion
 
-        #region SimpleText
+        #region Text
 
-        string SimpleTextColor( TextColor textColor );
+        string TextColor( TextColor textColor );
 
-        string SimpleTextAlignment( TextAlignment textAlignment );
+        string TextAlignment( TextAlignment textAlignment );
 
-        string SimpleTextTransform( TextTransform textTransform );
+        string TextTransform( TextTransform textTransform );
 
-        string SimpleTextWeight( TextWeight textWeight );
+        string TextWeight( TextWeight textWeight );
 
-        string SimpleTextItalic();
+        string TextItalic();
 
         #endregion
 
         #region Heading
 
-        string Heading( HeadingSize headingSize );
+        string HeadingSize( HeadingSize headingSize );
 
         string HeadingTextColor( TextColor textColor );
+
+        #endregion
+
+        #region DisplayHeading
+
+        string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
 
         #endregion
 
         #region Paragraph
 
         string Paragraph();
+
+        string ParagraphColor( TextColor textColor );
 
         #endregion
 
@@ -654,6 +662,14 @@ namespace Blazorise
         string BreadcrumbItemActive();
 
         string BreadcrumbLink();
+
+        #endregion
+
+        #region Tooltip
+
+        string Tooltip();
+
+        string TooltipPlacement( Placement placement );
 
         #endregion
 
@@ -687,43 +703,52 @@ namespace Blazorise
 
         #region Enums
 
-        string Size( Size size );
+        /* 
+         * These methods are named with "To" prefix to indicate they're used only to convert en enum to the equivalent
+         * keyword in the implementation class provider.
+         */
 
-        string Breakpoint( Breakpoint breakpoint );
+        string ToSize( Size size );
 
-        string Color( Color color );
+        string ToBreakpoint( Breakpoint breakpoint );
 
-        string Color( Background color );
+        string ToColor( Color color );
 
-        string TextColor( TextColor textColor );
+        string ToBackground( Background color );
 
-        string ThemeContrast( ThemeContrast themeContrast );
+        string ToTextColor( TextColor textColor );
 
-        string Float( Float @float );
+        string ToThemeContrast( ThemeContrast themeContrast );
 
-        string Spacing( Spacing spacing );
+        string ToFloat( Float @float );
 
-        string Side( Side side );
+        string ToSpacing( Spacing spacing );
 
-        string Alignment( Alignment alignment );
+        string ToSide( Side side );
 
-        string TextAlignment( TextAlignment textAlignment );
+        string ToAlignment( Alignment alignment );
 
-        string TextTransform( TextTransform textTransform );
+        string ToTextAlignment( TextAlignment textAlignment );
 
-        string TextWeight( TextWeight textWeight );
+        string ToTextTransform( TextTransform textTransform );
 
-        string ColumnWidth( ColumnWidth columnWidth );
+        string ToTextWeight( TextWeight textWeight );
 
-        string ModalSize( ModalSize modalSize );
+        string ToColumnWidth( ColumnWidth columnWidth );
 
-        string SpacingSize( SpacingSize spacingSize );
+        string ToModalSize( ModalSize modalSize );
 
-        string JustifyContent( JustifyContent justifyContent );
+        string ToSpacingSize( SpacingSize spacingSize );
 
-        string Screenreader( Screenreader screenreader );
+        string ToJustifyContent( JustifyContent justifyContent );
 
-        string HeadingSize( HeadingSize headingSize );
+        string ToScreenreader( Screenreader screenreader );
+
+        string ToHeadingSize( HeadingSize headingSize );
+
+        string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
+
+        string ToPlacement( Placement placement );
 
         #endregion
 

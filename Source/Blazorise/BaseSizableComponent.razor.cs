@@ -15,7 +15,7 @@ namespace Blazorise
     /// TODO: Currently this class is inherited by the input components. This is problematic because the sizing of
     /// input components is done by the FieldBody. See if there is a need for this class to be used by the input components!!
     /// </remarks>
-    public abstract class BaseSizableComponent : BaseComponent
+    public abstract class BaseSizableComponent : BaseComponent, IDisposable
     {
         #region Members
 
@@ -24,6 +24,10 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        public virtual void Dispose()
+        {
+        }
 
         protected override void RegisterClasses()
         {
@@ -71,6 +75,8 @@ namespace Blazorise
         [CascadingParameter] protected BaseField ParentField { get; set; }
 
         [CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
+
+        [CascadingParameter] protected Tooltip ParentTooltip { get; set; }
 
         #endregion
     }

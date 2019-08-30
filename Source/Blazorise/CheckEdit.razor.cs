@@ -25,10 +25,10 @@ namespace Blazorise
         protected override void RegisterClasses()
         {
             ClassMapper
-                .If( () => ClassProvider.Radio(), () => RadioGroup != null )
-                .If( () => ClassProvider.Check(), () => RadioGroup == null )
-                .If( () => ClassProvider.CheckCursor( Cursor ), () => Cursor != Cursor.Default )
-                .If( () => ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+                .If( () => ClassProvider.RadioEdit(), () => RadioGroup != null )
+                .If( () => ClassProvider.CheckEdit(), () => RadioGroup == null )
+                .If( () => ClassProvider.CheckEditCursor( Cursor ), () => Cursor != Cursor.Default )
+                .If( () => ClassProvider.CheckEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
         }

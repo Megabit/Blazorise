@@ -25,6 +25,8 @@ namespace Blazorise
 
         Task<bool> DestroyNumericEdit( string elementId, ElementReference elementRef );
 
+        Task<bool> InitializeTooltip( string elementId, ElementReference elementRef );
+
         Task<bool> AddClass( ElementReference elementRef, string classname );
 
         Task<bool> RemoveClass( ElementReference elementRef, string classname );

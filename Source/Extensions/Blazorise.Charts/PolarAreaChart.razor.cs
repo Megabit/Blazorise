@@ -16,6 +16,11 @@ namespace Blazorise.Charts
 
         #region Methods
 
+        public BasePolarAreaChart()
+        {
+            Type = ChartType.PolarArea;
+        }
+
         #endregion
 
         #region Properties

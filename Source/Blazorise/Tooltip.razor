@@ -1,0 +1,6 @@
+﻿@inherits Blazorise.BaseTooltip
+<div @ref="@ElementRef" @ref:suppressField class="@ClassMapper.Class" role="tooltip" data-tooltip="@Text">
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</div>

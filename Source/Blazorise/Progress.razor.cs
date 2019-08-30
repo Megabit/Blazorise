@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseProgressGroup : BaseComponent
+    public abstract class BaseProgress : BaseComponent
     {
         #region Members
 

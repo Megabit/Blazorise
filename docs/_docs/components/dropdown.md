@@ -40,7 +40,7 @@ Just add another `Button` to have a split dropdown.
 
 ```html
 <Dropdown>
-    <SimpleButton>Split Dropdown</SimpleButton>
+    <Button>Split Dropdown</Button>
     <DropdownToggle IsSplit="true"/>
     <DropdownMenu>
         <DropdownItem>Action</DropdownItem>
@@ -64,7 +64,7 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
     </DropdownMenu>
 </Dropdown>
 
-<SimpleButton Clicked="@ShowMenu">Show Menu</SimpleButton>
+<Button Clicked="@ShowMenu">Show Menu</Button>
 ```
 
 ```cs

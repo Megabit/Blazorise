@@ -38,8 +38,16 @@ namespace Blazorise.DataGrid
             return base.OnFirstAfterRenderAsync();
         }
 
-        protected internal Task OnSelectedCommand()
+        protected internal Task OnSelectedCommand( MouseEventArgs eventArgs )
         {
+            // un-select row if the user is holding the ctrl key on already selected row
+            if ( eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
+                && ParentDataGrid.SelectedRow != null
+                && (object)Item == (object)ParentDataGrid.SelectedRow )
+            {
+                return Selected.InvokeAsync( default );
+            }
+
             return Selected.InvokeAsync( Item );
         }
 

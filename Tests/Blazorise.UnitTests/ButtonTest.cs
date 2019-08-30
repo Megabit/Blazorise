@@ -11,15 +11,15 @@ using DevHostServerProgram = BasicTestApp.Server.Program;
 
 namespace Blazorise.UnitTests
 {
-    public class SimpleButtonTest : BasicTestAppTestBase
+    public class ButtonTest : BasicTestAppTestBase
     {
-        public SimpleButtonTest( BrowserFixture browserFixture,
+        public ButtonTest( BrowserFixture browserFixture,
             ToggleExecutionModeServerFixture<DevHostServerProgram> serverFixture,
             ITestOutputHelper output )
             : base( browserFixture, serverFixture, output )
         {
             Navigate( ServerPathBase, noReload: !serverFixture.UsingAspNetHost );
-            MountTestComponent<SimpleButtonComponent>();
+            MountTestComponent<ButtonComponent>();
         }
 
         [Fact]

@@ -1,1 +1,13 @@
-﻿<SimpleButton Type="ButtonType.Button" Color="Color.Primary">hello primary</SimpleButton>
+﻿<h2>Button</h2>
+<p id="basic-button-event">
+    <Button Clicked="@RaiseBasicCounter">Count</Button>
+    <span id="basic-button-event-result">@basicEventCounter</span>
+</p>
+@functions{
+    int basicEventCounter = 0;
+
+    void RaiseBasicCounter()
+    {
+        basicEventCounter++;
+    }
+}

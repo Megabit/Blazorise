@@ -36,6 +36,11 @@ namespace Blazorise
 
         private ParameterView parameters;
 
+        /// <summary>
+        /// A stack of functions to execute after the rendering.
+        /// </summary>
+        private Queue<Func<Task>> executeAfterRendereQueue;
+
         #endregion
 
         #region Constructors
@@ -48,15 +53,37 @@ namespace Blazorise
 
         #region Methods
 
+        protected void ExecuteAfterRender( Func<Task> action )
+        {
+            if ( executeAfterRendereQueue == null )
+                executeAfterRendereQueue = new Queue<Func<Task>>();
+
+            executeAfterRendereQueue.Enqueue( action );
+        }
+
         protected override async Task OnAfterRenderAsync()
         {
             // If the component has custom implementation we need to postpone the initialisation
             // until the custom component is rendered!
-            if ( !rendered && !HasCustomRegistration )
+            if ( !HasCustomRegistration )
             {
-                rendered = true;
+                if ( !rendered )
+                {
+                    rendered = true;
 
-                await OnFirstAfterRenderAsync();
+                    await OnFirstAfterRenderAsync();
+                }
+
+                if ( executeAfterRendereQueue?.Count > 0 )
+                {
+                    var actions = executeAfterRendereQueue.ToArray();
+                    executeAfterRendereQueue.Clear();
+
+                    foreach ( var action in actions )
+                    {
+                        await action();
+                    }
+                }
             }
 
             await base.OnAfterRenderAsync();
@@ -71,7 +98,7 @@ namespace Blazorise
                 .If( () => Class, () => Class != null )
                 .If( () => Margin.Class( classProvider ), () => Margin != null )
                 .If( () => Padding.Class( classProvider ), () => Padding != null )
-                .If( () => ClassProvider.Float( Float ), () => Float != Float.None );
+                .If( () => ClassProvider.ToFloat( Float ), () => Float != Float.None );
         }
 
         protected virtual void RegisterStyles()

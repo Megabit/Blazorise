@@ -1,9 +1,9 @@
-﻿@inherits Blazorise.BaseSimpleText
+﻿@inherits Blazorise.BaseForm
 @if ( !HasCustomRegistration )
 {
-    <div class="@ClassMapper.Class">
+    <form class="@ClassMapper.Class">
         @ChildContent
-    </div>
+    </form>
 }
 else
 {

@@ -28,7 +28,7 @@ The modal structure is very simple:
 Place the modal markup somewhere at root of you component layout.
 
 ```html
-<SimpleButton Clicked="@ShowModal">Show Modal</SimpleButton>
+<Button Clicked="@ShowModal">Show Modal</Button>
 
 <Modal @ref="modalRef">
     <ModalBackdrop />
@@ -48,8 +48,8 @@ Place the modal markup somewhere at root of you component layout.
             </Field>
         </ModalBody>
         <ModalFooter>
-            <SimpleButton Color="Color.Secondary" Clicked="@HideModal">Close</SimpleButton>
-            <SimpleButton Color="Color.Primary" Clicked="@HideModal">Save Changes</SimpleButton>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Close</Button>
+            <Button Color="Color.Primary" Clicked="@HideModal">Save Changes</Button>
         </ModalFooter>
     </ModalContent>
 </Modal>

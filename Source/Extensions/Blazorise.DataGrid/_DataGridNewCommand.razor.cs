@@ -1,0 +1,17 @@
+﻿#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+#endregion
+
+namespace Blazorise.DataGrid
+{
+    public abstract class _BaseDataGridNewCommand<TItem> : ComponentBase
+    {
+        [Parameter] public EventCallback New { get; set; }
+
+        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+    }
+}

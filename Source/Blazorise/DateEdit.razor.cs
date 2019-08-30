@@ -21,9 +21,9 @@ namespace Blazorise
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.Date() )
-                .If( () => ClassProvider.DateSize( Size ), () => Size != Size.None )
-                .If( () => ClassProvider.DateValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+                .Add( () => ClassProvider.DateEdit() )
+                .If( () => ClassProvider.DateEditSize( Size ), () => Size != Size.None )
+                .If( () => ClassProvider.DateEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
         }

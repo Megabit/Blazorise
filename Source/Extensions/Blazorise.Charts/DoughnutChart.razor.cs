@@ -16,6 +16,11 @@ namespace Blazorise.Charts
 
         #region Methods
 
+        public BaseDoughnutChart()
+        {
+            Type = ChartType.Doughnut;
+        }
+
         #endregion
 
         #region Properties

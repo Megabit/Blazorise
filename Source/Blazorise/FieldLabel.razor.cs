@@ -30,7 +30,7 @@ namespace Blazorise
             ClassMapper
                 .Add( () => ClassProvider.FieldLabel() )
                 .If( () => ClassProvider.FieldLabelHorizontal(), () => ParentIsHorizontal )
-                .If( () => ClassProvider.Screenreader( Screenreader ), () => Screenreader != Screenreader.Always );
+                .If( () => ClassProvider.ToScreenreader( Screenreader ), () => Screenreader != Screenreader.Always );
 
             base.RegisterClasses();
         }

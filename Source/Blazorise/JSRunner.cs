@@ -68,6 +68,11 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementId, elementRef );
         }
 
+        public virtual Task<bool> InitializeTooltip( string elementId, ElementReference elementRef )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementId, elementRef );
+        }
+
         public Task<bool> AddClass( ElementReference elementRef, string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.addClass", elementRef, classname );

@@ -148,6 +148,12 @@ window.blazorise = {
                 });
         }
     },
+    tooltip: {
+        initialize: (elementId, element) => {
+            // implementation is in the providers
+            return true;
+        }
+    },
     textEdit: {
         _instances: [],
 
@@ -323,3 +329,28 @@ document.addEventListener('keyup', function handler(evt) {
         }
     }
 });
+
+function showPopper(element, tooltip, arrow, placement) {
+    var thePopper = new Popper(element, tooltip,
+        {
+            placement,
+            modifiers: {
+                offset: {
+                    offset: 0
+                },
+                flip: {
+                    behavior: "flip"
+                },
+                arrow: {
+                    element: arrow,
+                    enabled: true
+                },
+                preventOverflow: {
+                    boundary: "scrollParent"
+                }
+
+            }
+        }
+    );
+    return thePopper;
+}

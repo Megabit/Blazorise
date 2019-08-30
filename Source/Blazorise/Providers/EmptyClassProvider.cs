@@ -12,71 +12,71 @@ namespace Blazorise.Providers
     /// </summary>
     class EmptyClassProvider : IClassProvider
     {
-        #region Text
+        #region TextEdit
 
-        public string Text( bool plaintext ) => null;
+        public string TextEdit( bool plaintext ) => null;
 
-        public string TextSize( Size size ) => null;
+        public string TextEditSize( Size size ) => null;
 
-        public string TextColor( Color color ) => null;
+        public string TextEditColor( Color color ) => null;
 
-        public string TextValidation( ValidationStatus validationStatus ) => null;
-
-        #endregion
-
-        #region Memo
-
-        public string Memo() => null;
-
-        public string MemoValidation( ValidationStatus validationStatus ) => null;
+        public string TextEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
-        #region Select
+        #region MemoEdit
 
-        public string Select() => null;
+        public string MemoEdit() => null;
 
-        public string SelectSize( Size size ) => null;
-
-        public string SelectValidation( ValidationStatus validationStatus ) => null;
+        public string MemoEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
-        #region Date
+        #region SelectEdit
 
-        public string Date() => null;
+        public string SelectEdit() => null;
 
-        public string DateSize( Size size ) => null;
+        public string SelectEditSize( Size size ) => null;
 
-        public string DateValidation( ValidationStatus validationStatus ) => null;
-
-        #endregion
-
-        #region Check
-
-        public string Check() => null;
-
-        public string CheckInline() => null;
-
-        public string CheckCursor( Cursor cursor ) => null;
-
-        public string CheckValidation( ValidationStatus validationStatus ) => null;
+        public string SelectEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
-        #region Radio
+        #region DateEdit
 
-        public string Radio() => null;
+        public string DateEdit() => null;
 
-        public string RadioInline() => null;
+        public string DateEditSize( Size size ) => null;
+
+        public string DateEditValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region CheckEdit
+
+        public string CheckEdit() => null;
+
+        public string CheckEditInline() => null;
+
+        public string CheckEditCursor( Cursor cursor ) => null;
+
+        public string CheckEditValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region RadioEdit
+
+        public string RadioEdit() => null;
+
+        public string RadioEditInline() => null;
 
         #endregion
 
         #region File
 
-        public string File() => null;
+        public string FileEdit() => null;
 
-        public virtual string FileValidation( ValidationStatus validationStatus ) => null;
+        public virtual string FileEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
@@ -618,31 +618,39 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region SimpleText
+        #region Text
 
-        public string SimpleTextColor( TextColor textColor ) => null;
+        public string TextColor( TextColor textColor ) => null;
 
-        public string SimpleTextAlignment( TextAlignment textAlignment ) => null;
+        public string TextAlignment( TextAlignment textAlignment ) => null;
 
-        public string SimpleTextTransform( TextTransform textTransform ) => null;
+        public string TextTransform( TextTransform textTransform ) => null;
 
-        public string SimpleTextWeight( TextWeight textWeight ) => null;
+        public string TextWeight( TextWeight textWeight ) => null;
 
-        public string SimpleTextItalic() => null;
+        public string TextItalic() => null;
 
         #endregion
 
         #region Heading
 
-        public string Heading( HeadingSize headingSize ) => null;
+        public string HeadingSize( HeadingSize headingSize ) => null;
 
         public string HeadingTextColor( TextColor textColor ) => null;
+
+        #endregion
+
+        #region DisplayHeading
+
+        public string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
 
         #endregion
 
         #region Paragraph
 
         public string Paragraph() => null;
+
+        public string ParagraphColor( TextColor textColor ) => null;
 
         #endregion
 
@@ -661,6 +669,14 @@ namespace Blazorise.Providers
         public string BreadcrumbItemActive() => null;
 
         public string BreadcrumbLink() => null;
+
+        #endregion
+
+        #region Tooltip
+
+        public string Tooltip() => null;
+
+        public string TooltipPlacement( Placement placement ) => null;
 
         #endregion
 
@@ -694,43 +710,47 @@ namespace Blazorise.Providers
 
         #region Enums
 
-        public string Size( Size size ) => null;
+        public string ToSize( Size size ) => null;
 
-        public string Breakpoint( Breakpoint breakpoint ) => null;
+        public string ToBreakpoint( Breakpoint breakpoint ) => null;
 
-        public string Color( Color color ) => null;
+        public string ToColor( Color color ) => null;
 
-        public string Color( Background color ) => null;
+        public string ToBackground( Background color ) => null;
 
-        public string TextColor( TextColor textColor ) => null;
+        public string ToTextColor( TextColor textColor ) => null;
 
-        public string ThemeContrast( ThemeContrast themeContrast ) => null;
+        public string ToThemeContrast( ThemeContrast themeContrast ) => null;
 
-        public string Float( Float @float ) => null;
+        public string ToFloat( Float @float ) => null;
 
-        public string Spacing( Spacing spacing ) => null;
+        public string ToSpacing( Spacing spacing ) => null;
 
-        public string Side( Side side ) => null;
+        public string ToSide( Side side ) => null;
 
-        public string Alignment( Alignment alignment ) => null;
+        public string ToAlignment( Alignment alignment ) => null;
 
-        public string TextAlignment( TextAlignment textAlignment ) => null;
+        public string ToTextAlignment( TextAlignment textAlignment ) => null;
 
-        public string TextTransform( TextTransform textTransform ) => null;
+        public string ToTextTransform( TextTransform textTransform ) => null;
 
-        public string TextWeight( TextWeight textWeight ) => null;
+        public string ToTextWeight( TextWeight textWeight ) => null;
 
-        public string ColumnWidth( ColumnWidth columnWidth ) => null;
+        public string ToColumnWidth( ColumnWidth columnWidth ) => null;
 
-        public string ModalSize( ModalSize modalSize ) => null;
+        public string ToModalSize( ModalSize modalSize ) => null;
 
-        public string SpacingSize( SpacingSize spacingSize ) => null;
+        public string ToSpacingSize( SpacingSize spacingSize ) => null;
 
-        public string JustifyContent( JustifyContent justifyContent ) => null;
+        public string ToJustifyContent( JustifyContent justifyContent ) => null;
 
-        public string Screenreader( Screenreader screenreader ) => null;
+        public string ToScreenreader( Screenreader screenreader ) => null;
 
-        public string HeadingSize( HeadingSize headingSize ) => null;
+        public string ToHeadingSize( HeadingSize headingSize ) => null;
+
+        public string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
+
+        public string ToPlacement( Placement placement ) => null;
 
         #endregion
 

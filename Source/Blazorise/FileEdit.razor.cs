@@ -21,8 +21,8 @@ namespace Blazorise
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.File() )
-                .If( () => ClassProvider.FileValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+                .Add( () => ClassProvider.FileEdit() )
+                .If( () => ClassProvider.FileEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
 
             base.RegisterClasses();
         }

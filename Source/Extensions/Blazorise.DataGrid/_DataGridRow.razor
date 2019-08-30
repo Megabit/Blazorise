@@ -1,13 +1,13 @@
 @typeparam TItem
 @inherits _BaseDataGridRow<TItem>
-<TableRow Clicked="@OnSelectedCommand" Background="@((object)ParentDataGrid.SelectedRow == (object)Item ? Background.Primary : Background.None)">
+<TableRow Clicked="@OnSelectedCommand" Background="@(ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item ? Background.Primary : Background.None)">
     @foreach ( var column in Columns )
     {
         @if ( column.ColumnType == DataGridColumnType.Command )
         {
             @if ( ParentDataGrid.AllowEdit == true )
             {
-                <_DataGridRowCommand EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" />
+                <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" />
             }
         }
         else

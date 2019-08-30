@@ -1,0 +1,11 @@
+﻿@inherits Blazorise.BaseText
+@if ( !HasCustomRegistration )
+{
+    <div class="@ClassMapper.Class">
+        @ChildContent
+    </div>
+}
+else
+{
+    @RenderCustomComponent()
+}

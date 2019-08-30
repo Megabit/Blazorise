@@ -12,6 +12,8 @@ namespace Blazorise
     {
         #region Members
 
+        private TextColor color = TextColor.None;
+
         #endregion
 
         #region Methods
@@ -19,7 +21,8 @@ namespace Blazorise
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.Paragraph() );
+                .Add( () => ClassProvider.Paragraph() )
+                .If( () => ClassProvider.ParagraphColor( Color ), () => Color != TextColor.None );
 
             base.RegisterClasses();
         }
@@ -27,6 +30,18 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        [Parameter]
+        public TextColor Color
+        {
+            get => color;
+            set
+            {
+                color = value;
+
+                ClassMapper.Dirty();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

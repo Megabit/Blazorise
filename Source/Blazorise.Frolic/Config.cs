@@ -40,14 +40,15 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.CardText, Frolic.CardText>();
             componentMapper.Register<Blazorise.CardTitle, Frolic.CardTitle>();
             componentMapper.Register<Blazorise.CheckEdit, Frolic.CheckEdit>();
+            componentMapper.Register<Blazorise.DisplayHeading, Frolic.DisplayHeading>();
             componentMapper.Register<Blazorise.Dropdown, Frolic.Dropdown>();
             componentMapper.Register<Blazorise.DropdownToggle, Frolic.DropdownToggle>();
             componentMapper.Register<Blazorise.Field, Frolic.Field>();
             componentMapper.Register<Blazorise.Heading, Frolic.Heading>();
             componentMapper.Register<Blazorise.Pagination, Frolic.Pagination>();
             componentMapper.Register<Blazorise.ProgressBar, Frolic.ProgressBar>();
-            componentMapper.Register<Blazorise.ProgressGroup, Frolic.ProgressGroup>();
-            componentMapper.Register<Blazorise.SimpleButton, Frolic.SimpleButton>();
+            componentMapper.Register<Blazorise.Progress, Frolic.Progress>();
+            componentMapper.Register<Blazorise.Button, Frolic.Button>();
             componentMapper.Register<Blazorise.Tabs, Frolic.Tabs>();
         }
 

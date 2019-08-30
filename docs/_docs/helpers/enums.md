@@ -112,3 +112,20 @@ Lists values that specify the type of mask used by an editor.
 - `Numeric` Specifies that the editor should accept numeric values and that the mask string must use the Numeric format syntax.
 - `DateTime` Specifies that the editor should accept date/time values and that the mask string must use the DateTime format syntax.
 - `RegEx` Specifies that the mask should be created using full-functional regular expressions.
+
+## Placement
+
+Defines the placement of an element.
+
+- `Top` Top side.
+- `Bottom` Bottom side.
+- `Left` Left side.
+- `Right` Right side.
+
+## DataGridFilterMethod
+
+- `Contains` search for any occurrence (default)
+- `StartsWith` search only the beginning
+- `EndsWith` search only the ending
+- `Equals` search must match the entire value
+- `NotEquals` opposite of Equals

@@ -16,6 +16,11 @@ namespace Blazorise.Charts
 
         #region Methods
 
+        public BaseBarChart()
+        {
+            Type = ChartType.Bar;
+        }
+
         #endregion
 
         #region Properties

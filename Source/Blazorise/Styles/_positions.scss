@@ -1,0 +1,111 @@
+﻿@mixin top($important: null) {
+    &::before {
+        top: auto $important;
+        bottom: 100% $important;
+        left: 50% $important;
+        right: auto $important;
+    }
+
+    &:focus,
+    &:hover,
+    &.b-tooltip-show {
+        &:not(.is-loading) {
+            &::after {
+                top: 0 $important;
+                bottom: auto $important;
+                left: 50% $important;
+                right: auto $important;
+                border-color: rgba($tooltip-background-color, 0.9) transparent transparent transparent $important;
+            }
+        }
+
+        &::before {
+            transform: translate(-50%, -.5rem) $important;
+        }
+    }
+}
+
+@mixin bottom($important: null) {
+    &::before {
+        top: 100% $important;
+        bottom: auto $important;
+        left: 50% $important;
+        right: auto $important;
+        transform: translate(-50%, -1rem) $important;
+    }
+
+    &:focus,
+    &:hover,
+    &.b-tooltip-show {
+        &:not(.is-loading) {
+            &::after {
+                top: 100% $important;
+                bottom: auto $important;
+                left: 50% $important;
+                right: auto $important;
+                border-color: transparent transparent rgba($tooltip-background-color, 0.9) transparent $important;
+            }
+        }
+
+        &::before {
+            transform: translate(-50%, .5rem) $important;
+        }
+    }
+}
+
+
+@mixin left($important: null) {
+    &::before {
+        top: auto $important;
+        bottom: 50% $important;
+        left: auto $important;
+        right: 100% $important;
+        transform: translate(1rem, 50%) $important;
+    }
+
+    &:focus,
+    &:hover,
+    &.b-tooltip-show {
+        &:not(.is-loading) {
+            &::after {
+                top: 50% $important;
+                bottom: auto $important;
+                left: auto $important;
+                right: calc(100% - .5rem) $important;
+                border-color: transparent transparent transparent rgba($tooltip-background-color, 0.9) $important;
+            }
+        }
+
+        &::before {
+            transform: translate(-0.5rem, 50%) $important;
+        }
+    }
+}
+
+
+@mixin right($important: null) {
+    &::before {
+        top: auto $important;
+        bottom: 50% $important;
+        left: 100% $important;
+        right: auto $important;
+        transform: translate(-1rem, 50%) $important;
+    }
+
+    &:focus,
+    &:hover,
+    &.b-tooltip-show {
+        &:not(.is-loading) {
+            &::after {
+                top: 50% $important;
+                left: 100% $important;
+                right: auto $important;
+                border-color: transparent rgba($tooltip-background-color, 0.9) transparent transparent $important;
+            }
+        }
+
+        &::before {
+            transform: translate(0.5rem, 50%) $important;
+        }
+    }
+}

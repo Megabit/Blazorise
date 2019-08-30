@@ -44,6 +44,7 @@
                             <SelectEdit @bind-SelectedValue="@editMode">
                                 <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
                                 <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
+                                <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
                             </SelectEdit>
                         </FieldBody>
                     </Field>
@@ -62,9 +63,31 @@
                           RowRemoved="@OnRowRemoved"
                           UseInternalEditing="true"
                           @bind-SelectedRow="@selectedEmployee"
-                          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)">
+                          DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
+                          IsStriped="true"
+                          IsBordered="true"
+                          IsHoverable="true">
                     <ChildContent>
-                        <DataGridCommandColumn TItem="Employee" />
+                        <DataGridCommandColumn TItem="Employee">
+                            <NewCommandTemplate>
+                                <Button Color="Color.Success" Clicked="@context.Clicked">New</Button>
+                            </NewCommandTemplate>
+                            <EditCommandTemplate>
+                                <Button Color="Color.Primary" Clicked="@context.Clicked">Edit</Button>
+                            </EditCommandTemplate>
+                            <SaveCommandTemplate>
+                                <Button Color="Color.Primary" Clicked="@context.Clicked">Save</Button>
+                            </SaveCommandTemplate>
+                            <DeleteCommandTemplate>
+                                <Button Color="Color.Danger" Clicked="@context.Clicked">Delete</Button>
+                            </DeleteCommandTemplate>
+                            <CancelCommandTemplate>
+                                <Button Color="Color.Secondary" Clicked="@context.Clicked">Cancel</Button>
+                            </CancelCommandTemplate>
+                            <ClearFilterCommandTemplate>
+                                <Button Color="Color.Warning" Clicked="@context.Clicked">Clear Filter</Button>
+                            </ClearFilterCommandTemplate>
+                        </DataGridCommandColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" AllowSort="false" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" AllowEdit="true" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" AllowEdit="true" />

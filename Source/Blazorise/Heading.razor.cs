@@ -23,7 +23,7 @@ namespace Blazorise
         protected override void RegisterClasses()
         {
             ClassMapper
-                .Add( () => ClassProvider.Heading( headingSize ) )
+                .Add( () => ClassProvider.HeadingSize( headingSize ) )
                 .If( () => ClassProvider.HeadingTextColor( TextColor ), () => TextColor != TextColor.None );
 
             base.RegisterClasses();

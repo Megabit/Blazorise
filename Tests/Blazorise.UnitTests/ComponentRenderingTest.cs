@@ -36,7 +36,7 @@ namespace Blazorise.UnitTests
         [Fact]
         public void CanRenderButtonComponent()
         {
-            var appElement = MountTestComponent<ButtonComponent>();
+            var appElement = MountTestComponent<ButtonOnlyComponent>();
             var btnElement = appElement.FindElement( By.TagName( "button" ) );
             Assert.Equal( "hello primary", btnElement.Text );
             Assert.Equal( "btn btn-primary", btnElement.GetAttribute( "class" ) );
