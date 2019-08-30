@@ -6,6 +6,24 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.3
+
+### Breaking changes
+
+- Components should be case sensitive [#8](https://github.com/stsrki/Blazorise/issues/8)
+
+### Enhancements
+
+- New Tooltip component [#113](https://github.com/stsrki/Blazorise/issues/113)
+- Filter method added to DataGrid [#169](https://github.com/stsrki/Blazorise/issues/169)
+- DataGrid styles and missing features [#204](https://github.com/stsrki/Blazorise/issues/204)
+
+### Bug Fixes
+
+- Every chart shows up at Line Chart on latest package upgrade [#210](https://github.com/stsrki/Blazorise/issues/210)
+
+For detail description of changes please look at [v0.8.3 release page]({{ "/docs/release-notes/release083/" | relative_url }})
+
 ## 0.8.2
 
 ### Breaking changes
