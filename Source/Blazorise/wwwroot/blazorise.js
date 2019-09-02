@@ -247,7 +247,7 @@ window.blazorise = {
         this.dotnetAdapter = dotnetAdapter;
         this.elementId = elementId;
         this.element = element;
-        this.decimals = decimals || 2;
+        this.decimals = decimals === null || decimals === undefined ? 2 : decimals;
         this.separator = separator || ".";
         this.step = step || 1;
         this.regex = function () {
