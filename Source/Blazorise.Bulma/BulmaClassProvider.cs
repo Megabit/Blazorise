@@ -104,6 +104,8 @@ namespace Blazorise.Bulma
 
         public string ValidationErrorTooltip() => "help is-danger"; // TODO
 
+        public string ValidationNone() => "help";
+
         #endregion
 
         #endregion

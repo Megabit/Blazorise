@@ -98,13 +98,15 @@ namespace Blazorise.Bootstrap
 
         #region Validation
 
-        public string ValidationSuccess() => "valid-feedback";
+        public virtual string ValidationSuccess() => "valid-feedback";
 
-        public string ValidationSuccessTooltip() => "valid-tooltip";
+        public virtual string ValidationSuccessTooltip() => "valid-tooltip";
 
-        public string ValidationError() => "invalid-feedback";
+        public virtual string ValidationError() => "invalid-feedback";
 
-        public string ValidationErrorTooltip() => "invalid-tooltip";
+        public virtual string ValidationErrorTooltip() => "invalid-tooltip";
+
+        public virtual string ValidationNone() => "form-text text-muted";
 
         #endregion
 

@@ -108,6 +108,8 @@ namespace Blazorise.Providers
 
         public string ValidationErrorTooltip() => null;
 
+        public string ValidationNone() => null;
+
         #endregion
 
         #region Fields

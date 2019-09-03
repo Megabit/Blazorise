@@ -1,0 +1,14 @@
+﻿@inherits Blazorise.BaseValidationNone
+@if ( !HasCustomRegistration )
+{
+    @if ( ParentValidation?.Status == ValidationStatus.None )
+    {
+        <small class="@ClassMapper.Class">
+            @ChildContent
+        </small>
+    }
+}
+else
+{
+    @RenderCustomComponent()
+}

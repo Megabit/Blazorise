@@ -103,6 +103,8 @@ namespace Blazorise
 
         string ValidationErrorTooltip();
 
+        string ValidationNone();
+
         #endregion
 
         #region Fields
