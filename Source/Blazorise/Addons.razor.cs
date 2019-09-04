@@ -45,13 +45,13 @@ namespace Blazorise
 
         protected virtual bool ParentIsHorizontal => ParentField?.IsHorizontal == true;
 
-        [CascadingParameter] protected BaseField ParentField { get; set; }
+        [CascadingParameter] public BaseField ParentField { get; set; }
 
         //protected bool IsInFieldBody => ParentFieldBody != null;
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        //[CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
+        //[CascadingParameter] public BaseFieldBody ParentFieldBody { get; set; }
 
         #endregion
     }

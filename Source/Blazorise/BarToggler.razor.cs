@@ -30,15 +30,15 @@ namespace Blazorise
         protected void ClickHandler()
         {
             // NOTE: is this right?
-            if ( Clicked == null )
-                ParentBar?.Toggle();
-            else
-                Clicked?.Invoke();
+            //if ( Clicked == null )
+            //    ParentBar?.Toggle();
+            //else
+            Clicked?.Invoke();
         }
 
         protected override void OnInitialized()
         {
-            ParentBar?.Hook( this );
+            //ParentBar?.Hook( this );
 
             base.OnInitialized();
         }
@@ -64,7 +64,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
 
-        [CascadingParameter] protected BaseBar ParentBar { get; set; }
+        [CascadingParameter] public BaseBar ParentBar { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

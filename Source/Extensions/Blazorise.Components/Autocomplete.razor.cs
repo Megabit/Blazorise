@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Components
@@ -45,7 +46,7 @@ namespace Blazorise.Components
                 dropdownRef.Close();
         }
 
-        protected async Task HandleTextKeyDown( UIKeyboardEventArgs e )
+        protected async Task HandleTextKeyDown( KeyboardEventArgs e )
         {
             if ( !DropdownVisible )
                 return;

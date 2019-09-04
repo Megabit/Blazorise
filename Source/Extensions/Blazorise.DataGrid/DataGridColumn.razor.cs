@@ -148,7 +148,7 @@ namespace Blazorise.DataGrid
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] protected BaseDataGrid<TItem> ParentDataGrid { get; set; }
+        [CascadingParameter] public BaseDataGrid<TItem> ParentDataGrid { get; set; }
 
         #endregion
     }

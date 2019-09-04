@@ -20,7 +20,7 @@
                             </SidebarLink>
                             @if ( item.SubItems != null )
                             {
-                                <SidebarSubItem @ref="item.SubItemReference" @ref:suppressField>
+                                <SidebarSubItem @ref="item.SubItemReference">
                                     @foreach ( var subItem in item.SubItems )
                                     {
                                         <SidebarItem @key="@subItem">

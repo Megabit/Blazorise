@@ -14,8 +14,6 @@ namespace Blazorise
 
         private string elementId;
 
-        private bool rendered = false;
-
         private string customClass;
 
         private string customStyle;
@@ -61,16 +59,14 @@ namespace Blazorise
             executeAfterRendereQueue.Enqueue( action );
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             // If the component has custom implementation we need to postpone the initialisation
             // until the custom component is rendered!
             if ( !HasCustomRegistration )
             {
-                if ( !rendered )
+                if ( firstRender )
                 {
-                    rendered = true;
-
                     await OnFirstAfterRenderAsync();
                 }
 
@@ -86,7 +82,7 @@ namespace Blazorise
                 }
             }
 
-            await base.OnAfterRenderAsync();
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         protected virtual Task OnFirstAfterRenderAsync()

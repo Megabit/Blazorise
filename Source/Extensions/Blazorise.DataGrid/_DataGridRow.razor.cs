@@ -38,7 +38,7 @@ namespace Blazorise.DataGrid
             return base.OnFirstAfterRenderAsync();
         }
 
-        protected internal Task OnSelectedCommand( MouseEventArgs eventArgs )
+        protected internal Task OnSelectedCommand( MyMouseEventArgs eventArgs )
         {
             // un-select row if the user is holding the ctrl key on already selected row
             if ( eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
@@ -85,7 +85,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public IEnumerable<BaseDataGridColumn<TItem>> Columns { get; set; }
 
-        [CascadingParameter] protected BaseDataGrid<TItem> ParentDataGrid { get; set; }
+        [CascadingParameter] public BaseDataGrid<TItem> ParentDataGrid { get; set; }
 
         /// <summary>
         /// Occurs after the row is selected.

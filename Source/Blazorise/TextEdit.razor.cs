@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -85,17 +86,17 @@ namespace Blazorise
         /// <summary>
         /// Occurs when a key is pressed down while the control has focus.
         /// </summary>
-        [Parameter] public EventCallback<UIKeyboardEventArgs> KeyDown { get; set; }
+        [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
-        [Parameter] public EventCallback<UIKeyboardEventArgs> KeyPress { get; set; }
+        [Parameter] public EventCallback<KeyboardEventArgs> KeyPress { get; set; }
 
         /// <summary>
         /// Occurs when a key is released while the control has focus.
         /// </summary>
-        [Parameter] public EventCallback<UIKeyboardEventArgs> KeyUp { get; set; }
+        [Parameter] public EventCallback<KeyboardEventArgs> KeyUp { get; set; }
 
         /// <summary>
         /// A string representing a edit mask expression.

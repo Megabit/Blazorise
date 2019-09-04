@@ -72,11 +72,11 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected BaseField ParentField { get; set; }
+        [CascadingParameter] public BaseField ParentField { get; set; }
 
-        [CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
+        [CascadingParameter] public BaseFieldBody ParentFieldBody { get; set; }
 
-        [CascadingParameter] protected Tooltip ParentTooltip { get; set; }
+        [CascadingParameter] public Tooltip ParentTooltip { get; set; }
 
         #endregion
     }

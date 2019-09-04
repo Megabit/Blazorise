@@ -99,9 +99,9 @@ namespace Blazorise
     /// <summary>
     /// Supplies information about a mouse event that is being raised.
     /// </summary>
-    public class MouseEventArgs : EventArgs
+    public class MyMouseEventArgs : EventArgs
     {
-        public MouseEventArgs( MouseButton button, long clicks, Point screen, Point client, bool ctrl, bool shift, bool alt )
+        public MyMouseEventArgs( MouseButton button, long clicks, Point screen, Point client, bool ctrl, bool shift, bool alt )
         {
             Button = button;
             Clicks = clicks;
