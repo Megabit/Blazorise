@@ -21,14 +21,13 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Modal() )
-                .Add( () => ClassProvider.ModalFade() )
-                .If( () => ClassProvider.ModalShow(), () => IsOpen );
+            builder.Append( ClassProvider.Modal() );
+            builder.Append( ClassProvider.ModalFade() );
+            builder.Append( ClassProvider.ModalShow(), IsOpen );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void RegisterStyles()
@@ -105,7 +104,7 @@ namespace Blazorise
                 } );
             }
 
-            ClassMapper.Dirty();
+            Dirty();
             StyleMapper.Dirty();
         }
 

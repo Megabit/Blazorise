@@ -24,16 +24,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.ProgressBar() )
-                .Add( () => ClassProvider.ProgressBarWidth( Value ?? 0 ) )
-                .If( () => ClassProvider.ProgressBarColor( Background ), () => Background != Background.None )
-                .If( () => ClassProvider.ProgressBarStriped(), () => IsStriped )
-                .If( () => ClassProvider.ProgressBarAnimated(), () => IsAnimated );
+            builder.Append( ClassProvider.ProgressBar() );
+            builder.Append( ClassProvider.ProgressBarWidth( Value ?? 0 ) );
+            builder.Append( ClassProvider.ProgressBarColor( Background ), Background != Background.None );
+            builder.Append( ClassProvider.ProgressBarStriped(), IsStriped );
+            builder.Append( ClassProvider.ProgressBarAnimated(), IsAnimated );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void RegisterStyles()
@@ -62,7 +61,7 @@ namespace Blazorise
             {
                 background = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -74,7 +73,7 @@ namespace Blazorise
             {
                 isStriped = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -86,7 +85,7 @@ namespace Blazorise
             {
                 isAnimated = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -102,7 +101,7 @@ namespace Blazorise
             {
                 this.@value = value;
 
-                ClassMapper.Dirty();
+                Dirty();
                 StyleMapper.Dirty();
             }
         }

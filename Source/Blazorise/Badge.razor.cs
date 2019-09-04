@@ -22,14 +22,13 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Badge() )
-                .If( () => ClassProvider.BadgeColor( Color ), () => Color != Color.None )
-                .If( () => ClassProvider.BadgePill(), () => IsPill );
+            builder.Append( ClassProvider.Badge() );
+            builder.Append( ClassProvider.BadgeColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.BadgePill(), IsPill );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -47,7 +46,7 @@ namespace Blazorise
             {
                 isPill = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -62,7 +61,7 @@ namespace Blazorise
             {
                 color = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -77,7 +76,7 @@ namespace Blazorise
             {
                 link = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

@@ -18,12 +18,11 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.DisplayHeadingSize( Size ) );
+            builder.Append( ClassProvider.DisplayHeadingSize( Size ) );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -38,7 +37,7 @@ namespace Blazorise
             {
                 displayHeadingSize = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

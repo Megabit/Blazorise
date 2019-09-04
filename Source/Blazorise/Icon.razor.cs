@@ -18,14 +18,17 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => IconProvider.Icon() )
-                .If( () => IconProvider.Get( (IconName)Name ), () => !IconProvider.IconNameAsContent && Name != null && Name is IconName )
-                .If( () => IconProvider.Get( (string)Name ), () => !IconProvider.IconNameAsContent && Name != null && Name is string );
+            builder.Append( IconProvider.Icon() );
 
-            base.RegisterClasses();
+            if ( !IconProvider.IconNameAsContent && Name != null && Name is IconName )
+                builder.Append( IconProvider.Get( (IconName)Name ) );
+
+            if ( !IconProvider.IconNameAsContent && Name != null && Name is string )
+                builder.Append( IconProvider.Get( (string)Name ) );
+
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -43,7 +46,7 @@ namespace Blazorise
             {
                 name = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

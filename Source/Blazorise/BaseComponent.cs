@@ -20,8 +20,6 @@ namespace Blazorise
 
         private string customStyle;
 
-        private IClassProvider classProvider;
-
         private IStyleProvider styleProvider;
 
         private IComponentMapper componentMapper;
@@ -40,6 +38,10 @@ namespace Blazorise
         /// A stack of functions to execute after the rendering.
         /// </summary>
         private Queue<Func<Task>> executeAfterRendereQueue;
+
+        private string classNames;
+
+        private bool dirty = true;
 
         #endregion
 
@@ -92,13 +94,19 @@ namespace Blazorise
         protected virtual Task OnFirstAfterRenderAsync()
             => Task.CompletedTask;
 
-        protected virtual void RegisterClasses()
+        protected virtual void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => Class, () => Class != null )
-                .If( () => Margin.Class( classProvider ), () => Margin != null )
-                .If( () => Padding.Class( classProvider ), () => Padding != null )
-                .If( () => ClassProvider.ToFloat( Float ), () => Float != Float.None );
+            if ( Class != null )
+                builder.Append( Class );
+
+            if ( Margin != null )
+                builder.Append( Margin.Class( ClassProvider ) );
+
+            if ( Padding != null )
+                builder.Append( Padding.Class( ClassProvider ) );
+
+            if ( Float != Float.None )
+                builder.Append( ClassProvider.ToFloat( Float ) );
         }
 
         protected virtual void RegisterStyles()
@@ -111,6 +119,7 @@ namespace Blazorise
         // use this until https://github.com/aspnet/Blazor/issues/1732 is fixed!!
         internal protected virtual void Dirty()
         {
+            dirty = true;
         }
 
         public override Task SetParametersAsync( ParameterView parameters )
@@ -171,9 +180,28 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets the class mapper.
+        /// Gets the class builder.
         /// </summary>
-        protected ClassMapper ClassMapper { get; private set; } = new ClassMapper();
+        protected ClassBuilder ClassBuilder { get; private set; } = new ClassBuilder();
+
+        protected string Classnames
+        {
+            get
+            {
+                if ( dirty )
+                {
+                    var classBuilder = new ClassBuilder();
+
+                    BuildClasses( classBuilder );
+
+                    classNames = classBuilder.Value?.TrimEnd();
+
+                    dirty = false;
+                }
+
+                return classNames;
+            }
+        }
 
         /// <summary>
         /// Gets the style mapper.
@@ -209,16 +237,7 @@ namespace Blazorise
         /// Gets or sets the classname provider.
         /// </summary>
         [Inject]
-        protected IClassProvider ClassProvider
-        {
-            get => classProvider;
-            set
-            {
-                classProvider = value;
-
-                RegisterClasses();
-            }
-        }
+        protected IClassProvider ClassProvider { get; set; }
 
         /// <summary>
         /// Gets or sets the style provider.
@@ -246,7 +265,7 @@ namespace Blazorise
             {
                 customClass = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -276,7 +295,7 @@ namespace Blazorise
             {
                 @float = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -291,7 +310,7 @@ namespace Blazorise
             {
                 margin = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -306,7 +325,7 @@ namespace Blazorise
             {
                 padding = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

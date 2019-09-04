@@ -18,17 +18,16 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.TabItem() )
-                .If( () => ClassProvider.TabItemActive(), () => IsActive );
+            builder.Append( ClassProvider.TabItem() );
+            builder.Append( ClassProvider.TabItemActive(), IsActive );
 
             LinkClassMapper
                 .Add( () => ClassProvider.TabLink() )
                 .If( () => ClassProvider.TabLinkActive(), () => IsActive );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
@@ -66,7 +65,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                ClassMapper.Dirty();
+                Dirty();
                 LinkClassMapper.Dirty();
             }
         }

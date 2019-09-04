@@ -22,15 +22,14 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => ClassProvider.ButtonsAddons(), () => Role == ButtonsRole.Addons )
-                .If( () => ClassProvider.ButtonsToolbar(), () => Role == ButtonsRole.Toolbar )
-                .If( () => ClassProvider.ButtonsVertical(), () => Orientation == Orientation.Vertical )
-                .If( () => ClassProvider.ButtonsSize( Size ), () => Size != ButtonsSize.None );
+            builder.Append( ClassProvider.ButtonsAddons(), Role == ButtonsRole.Addons );
+            builder.Append( ClassProvider.ButtonsToolbar(), Role == ButtonsRole.Toolbar );
+            builder.Append( ClassProvider.ButtonsVertical(), Orientation == Orientation.Vertical );
+            builder.Append( ClassProvider.ButtonsSize( Size ), Size != ButtonsSize.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -45,7 +44,7 @@ namespace Blazorise
             {
                 role = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -57,7 +56,7 @@ namespace Blazorise
             {
                 orientation = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -72,7 +71,7 @@ namespace Blazorise
             {
                 size = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

@@ -35,15 +35,14 @@ namespace Blazorise.Snackbar
             }
         }
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => "snackbar" )
-                .If( () => "show", () => IsOpen )
-                .If( () => "snackbar-multi-line", () => IsMultiline )
-                .If( () => GetSnackbarLocation( Location ), () => Location != SnackbarLocation.None );
+            builder.Append( "snackbar" );
+            builder.Append( "show", IsOpen );
+            builder.Append( "snackbar-multi-line", IsMultiline );
+            builder.Append( GetSnackbarLocation( Location ), Location != SnackbarLocation.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         private static string GetSnackbarLocation( SnackbarLocation snackbarLocation )
@@ -108,7 +107,7 @@ namespace Blazorise.Snackbar
             {
                 isOpen = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -120,7 +119,7 @@ namespace Blazorise.Snackbar
             {
                 isMultiline = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -132,7 +131,7 @@ namespace Blazorise.Snackbar
             {
                 location = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

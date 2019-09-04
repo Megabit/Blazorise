@@ -18,13 +18,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Paragraph() )
-                .If( () => ClassProvider.ParagraphColor( Color ), () => Color != TextColor.None );
+            builder.Append( ClassProvider.Paragraph() );
+            builder.Append( ClassProvider.ParagraphColor( Color ), Color != TextColor.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -39,7 +38,7 @@ namespace Blazorise
             {
                 color = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

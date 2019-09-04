@@ -20,13 +20,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.ListGroup() )
-                .If( () => ClassProvider.ListGroupFlush(), () => IsFlush );
+            builder.Append( ClassProvider.ListGroup() );
+            builder.Append( ClassProvider.ListGroupFlush(), IsFlush );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         internal void LinkItem( BaseListGroupItem listGroupItem )
@@ -60,7 +59,7 @@ namespace Blazorise
             {
                 isFlush = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

@@ -28,17 +28,16 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Tabs() )
-                .If( () => ClassProvider.TabsCards(), () => IsCards )
-                .If( () => ClassProvider.TabsPills(), () => IsPills )
-                .If( () => ClassProvider.TabsFullWidth(), () => IsFullWidth )
-                .If( () => ClassProvider.TabsJustified(), () => IsJustified )
-                .If( () => ClassProvider.TabsVertical(), () => IsVertical );
+            builder.Append( ClassProvider.Tabs() );
+            builder.Append( ClassProvider.TabsCards(), IsCards );
+            builder.Append( ClassProvider.TabsPills(), IsPills );
+            builder.Append( ClassProvider.TabsFullWidth(), IsFullWidth );
+            builder.Append( ClassProvider.TabsJustified(), IsJustified );
+            builder.Append( ClassProvider.TabsVertical(), IsVertical );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         internal void Hook( BaseTab tab )
@@ -65,7 +64,7 @@ namespace Blazorise
                 SelectedTabChanged?.Invoke( tabName );
 
                 // although nothing is actually changed we need to call this anyways or otherwise the rendering will not be called
-                ClassMapper.Dirty();
+                Dirty();
 
                 StateHasChanged();
             }
@@ -88,7 +87,7 @@ namespace Blazorise
             {
                 isPills = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -103,7 +102,7 @@ namespace Blazorise
             {
                 isFullWidth = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -118,7 +117,7 @@ namespace Blazorise
             {
                 isJustified = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -133,7 +132,7 @@ namespace Blazorise
             {
                 isVertical = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

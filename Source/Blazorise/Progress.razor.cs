@@ -18,13 +18,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Progress() )
-                .If( () => ClassProvider.ProgressSize( Size ), () => Size != Size.None );
+            builder.Append( ClassProvider.Progress() );
+            builder.Append( ClassProvider.ProgressSize( Size ), Size != Size.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -39,7 +38,7 @@ namespace Blazorise
             {
                 size = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

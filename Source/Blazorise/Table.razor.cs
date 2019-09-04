@@ -28,18 +28,17 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Table() )
-                .If( () => ClassProvider.TableFullWidth(), () => IsFullWidth )
-                .If( () => ClassProvider.TableStriped(), () => IsStriped )
-                .If( () => ClassProvider.TableBordered(), () => IsBordered )
-                .If( () => ClassProvider.TableHoverable(), () => IsHoverable )
-                .If( () => ClassProvider.TableNarrow(), () => IsNarrow )
-                .If( () => ClassProvider.TableBorderless(), () => IsBorderless );
+            builder.Append( ClassProvider.Table() );
+            builder.Append( ClassProvider.TableFullWidth(), IsFullWidth );
+            builder.Append( ClassProvider.TableStriped(), IsStriped );
+            builder.Append( ClassProvider.TableBordered(), IsBordered );
+            builder.Append( ClassProvider.TableHoverable(), IsHoverable );
+            builder.Append( ClassProvider.TableNarrow(), IsNarrow );
+            builder.Append( ClassProvider.TableBorderless(), IsBorderless );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -57,7 +56,7 @@ namespace Blazorise
             {
                 isFullWidth = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -72,7 +71,7 @@ namespace Blazorise
             {
                 isStriped = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -87,7 +86,7 @@ namespace Blazorise
             {
                 isBordered = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -102,7 +101,7 @@ namespace Blazorise
             {
                 isHoverable = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -117,7 +116,7 @@ namespace Blazorise
             {
                 isNarrow = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -132,7 +131,7 @@ namespace Blazorise
             {
                 isBorderless = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

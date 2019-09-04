@@ -22,16 +22,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Alert() )
-                .If( () => ClassProvider.AlertColor( Color ), () => Color != Color.None )
-                .If( () => ClassProvider.AlertDismisable(), () => IsDismisable )
-                .If( () => ClassProvider.Fade(), () => IsDismisable )
-                .If( () => ClassProvider.Show(), () => IsDismisable && IsShow );
+            builder.Append( ClassProvider.Alert() );
+            builder.Append( ClassProvider.AlertColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.AlertDismisable(), IsDismisable );
+            builder.Append( ClassProvider.Fade(), IsDismisable );
+            builder.Append( ClassProvider.Show(), IsDismisable && IsShow );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         public void Show()
@@ -67,7 +66,7 @@ namespace Blazorise
             {
                 isDismisable = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -82,7 +81,7 @@ namespace Blazorise
             {
                 isShow = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -94,7 +93,7 @@ namespace Blazorise
             {
                 color = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

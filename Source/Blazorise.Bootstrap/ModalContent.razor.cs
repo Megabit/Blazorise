@@ -15,13 +15,13 @@ namespace Blazorise.Bootstrap.BootstrapBase
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
             DialogClassMapper
                 .Add( () => $"modal-dialog {ClassProvider.ToModalSize( Size )}" )
                 .If( () => ClassProvider.ModalContentCentered(), () => IsCentered );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void Dirty()

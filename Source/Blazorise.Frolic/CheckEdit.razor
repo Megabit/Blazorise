@@ -1,6 +1,6 @@
 ﻿@inherits BaseCheckEdit
 <Label IsCheck="true" For="@ElementId" Style="@Style" Cursor="@Cursor">
-    <input @ref="@ElementRef" @ref:suppressField id="@ElementId" type="@Type" class="@ClassMapper.Class" style="@StyleMapper.Style" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" @onchange="@HandleCheckedChanged" name="@RadioGroup" />
+    <input @ref="@ElementRef" @ref:suppressField id="@ElementId" type="@Type" class="@Classnames" style="@StyleMapper.Style" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" @onchange="@HandleCheckedChanged" name="@RadioGroup" />
     @ChildContent
 </Label>
 @Feedback

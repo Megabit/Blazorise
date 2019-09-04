@@ -40,16 +40,15 @@ namespace Blazorise
             await base.OnFirstAfterRenderAsync();
         }
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.DropdownToggle() )
-                .If( () => ClassProvider.DropdownToggleColor( Color ), () => Color != Color.None && !IsOutline )
-                .If( () => ClassProvider.DropdownToggleOutline( Color ), () => Color != Color.None && IsOutline )
-                .If( () => ClassProvider.DropdownToggleSize( Size ), () => Size != ButtonSize.None )
-                .If( () => ClassProvider.DropdownToggleSplit(), () => IsSplit );
+            builder.Append( ClassProvider.DropdownToggle() );
+            builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !IsOutline );
+            builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && IsOutline );
+            builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != ButtonSize.None );
+            builder.Append( ClassProvider.DropdownToggleSplit(), IsSplit );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         public void Dispose()
@@ -119,7 +118,7 @@ namespace Blazorise
                     JSRunner.UnregisterClosableComponent( this );
                 }
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -139,7 +138,7 @@ namespace Blazorise
             {
                 isSplit = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

@@ -20,14 +20,13 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.PaginationItem() )
-                .If( () => ClassProvider.PaginationItemActive(), () => IsActive )
-                .If( () => ClassProvider.Disabled(), () => IsDisabled );
+            builder.Append( ClassProvider.PaginationItem() );
+            builder.Append( ClassProvider.PaginationItemActive(), IsActive );
+            builder.Append( ClassProvider.Disabled(), IsDisabled );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -45,7 +44,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -60,7 +59,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

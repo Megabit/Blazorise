@@ -18,13 +18,12 @@ namespace Blazorise.Sidebar
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( "sidebar" )
-                .If( "show", () => IsOpen );
+            builder.Append( "sidebar" );
+            builder.Append( "show", IsOpen );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         /// <summary>
@@ -72,7 +71,7 @@ namespace Blazorise.Sidebar
             {
                 isOpen = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

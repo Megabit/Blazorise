@@ -18,13 +18,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.BreadcrumbItem() )
-                .If( () => ClassProvider.BreadcrumbItemActive(), () => IsActive );
+            builder.Append( ClassProvider.BreadcrumbItem() );
+            builder.Append( ClassProvider.BreadcrumbItemActive(), IsActive );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -39,7 +38,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

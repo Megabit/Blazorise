@@ -18,13 +18,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.DropdownItem() )
-                .If( () => ClassProvider.DropdownItemActive(), () => IsActive );
+            builder.Append( ClassProvider.DropdownItem() );
+            builder.Append( ClassProvider.DropdownItemActive(), IsActive );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected void ClickHandler()
@@ -52,7 +51,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

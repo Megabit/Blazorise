@@ -18,13 +18,12 @@ namespace Blazorise.Sidebar
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( "sidebar-link" )
-                .If( () => "collapsed", () => !IsShow );
+            builder.Append( "sidebar-link" );
+            builder.Append( "collapsed", !IsShow );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected void ClickHandler()
@@ -53,7 +52,7 @@ namespace Blazorise.Sidebar
             {
                 isShow = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

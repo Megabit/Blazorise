@@ -18,13 +18,12 @@ namespace Blazorise.Sidebar
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( "sidebar-subitem" )
-                .If( () => "show", () => IsShow );
+            builder.Append( "sidebar-subitem" );
+            builder.Append( "show", IsShow );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         /// <summary>
@@ -50,7 +49,7 @@ namespace Blazorise.Sidebar
             {
                 isShow = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

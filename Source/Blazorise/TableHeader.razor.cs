@@ -18,13 +18,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.TableHeader() )
-                .If( () => ClassProvider.TableHeaderThemeContrast( ThemeContrast ), () => ThemeContrast != ThemeContrast.None );
+            builder.Append( ClassProvider.TableHeader() );
+            builder.Append( ClassProvider.TableHeaderThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -42,7 +41,7 @@ namespace Blazorise
             {
                 themeContrast = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

@@ -20,17 +20,16 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.DropdownMenu() )
-                .If( () => ClassProvider.DropdownMenuShow(), () => IsOpen )
-                .If( () => ClassProvider.DropdownMenuRight(), () => IsRightAligned );
+            builder.Append( ClassProvider.DropdownMenu() );
+            builder.Append( ClassProvider.DropdownMenuShow(), IsOpen );
+            builder.Append( ClassProvider.DropdownMenuRight(), IsRightAligned );
 
             BodyClassMapper
                 .Add( () => ClassProvider.DropdownMenuBody() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
@@ -58,7 +57,7 @@ namespace Blazorise
             {
                 isOpen = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -73,7 +72,7 @@ namespace Blazorise
             {
                 isRightAligned = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

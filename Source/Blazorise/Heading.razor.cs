@@ -20,13 +20,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.HeadingSize( headingSize ) )
-                .If( () => ClassProvider.HeadingTextColor( TextColor ), () => TextColor != TextColor.None );
+            builder.Append( ClassProvider.HeadingSize( headingSize ) );
+            builder.Append( ClassProvider.HeadingTextColor( TextColor ), TextColor != TextColor.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -41,7 +40,7 @@ namespace Blazorise
             {
                 headingSize = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -53,7 +52,7 @@ namespace Blazorise
             {
                 textColor = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

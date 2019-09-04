@@ -1,7 +1,7 @@
 ﻿@inherits BaseSnackbarAction
 @if ( !HasCustomRegistration )
 {
-    <button class="@ClassMapper.Class" type="button" @onclick="@ClickHandler">
+    <button class="@Classnames" type="button" @onclick="@ClickHandler">
         @ChildContent
     </button>
 }

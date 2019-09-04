@@ -22,14 +22,17 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Fields() )
-                .If( () => ClassProvider.FieldsColumn(), () => ColumnSize != null )
-                .If( () => ColumnSize.Class( ClassProvider ), () => ColumnSize != null );
+            builder.Append( ClassProvider.Fields() );
 
-            base.RegisterClasses();
+            if ( ColumnSize != null )
+            {
+                builder.Append( ClassProvider.FieldsColumn() );
+                builder.Append( ColumnSize.Class( ClassProvider ) );
+            }
+
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -47,7 +50,7 @@ namespace Blazorise
             {
                 label = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -62,7 +65,7 @@ namespace Blazorise
             {
                 help = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 
@@ -77,7 +80,7 @@ namespace Blazorise
             {
                 columnSize = value;
 
-                ClassMapper.Dirty();
+                Dirty();
             }
         }
 

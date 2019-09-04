@@ -16,12 +16,11 @@ namespace Blazorise.Snackbar
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => "snackbar-body" );
+            builder.Append( "snackbar-body" );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
