@@ -132,6 +132,9 @@ namespace Blazorise
 
             foreach ( var parameter in parameters )
             {
+                if ( parameter.Cascading )
+                    continue;
+
                 builder.AddAttribute( 1, parameter.Name, parameter.Value );
             }
 
