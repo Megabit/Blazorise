@@ -1,7 +1,7 @@
 ﻿@inherits BaseFileEdit
 <Control Role="ControlRole.File">
     <Label IsFile="true" For="@ElementId">
-        <input id="@ElementId" type="file" class="@Classnames" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" @onchange="@PathChangedHandler" />
+        <input id="@ElementId" type="file" class="@ClassNames" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" @onchange="@PathChangedHandler" />
         @ChildContent
         <span class="file-cta">
             <span class="file-label">

@@ -39,9 +39,9 @@ namespace Blazorise
 
         private string classNames;
 
-        private bool dirtyClasses = true;
-
         private string styleNames;
+
+        private bool dirtyClasses = true;
 
         private bool dirtyStyles = true;
 
@@ -193,7 +193,10 @@ namespace Blazorise
         /// </summary>
         protected ClassBuilder ClassBuilder { get; private set; } = new ClassBuilder();
 
-        protected string Classnames
+        /// <summary>
+        /// Gets the built class-names based on all the rules set by the component parameters.
+        /// </summary>
+        protected string ClassNames
         {
             get
             {
@@ -217,7 +220,10 @@ namespace Blazorise
         /// </summary>
         protected StyleBuilder StyleBuilder { get; private set; } = new StyleBuilder();
 
-        protected string Stylenames
+        /// <summary>
+        /// Gets the built styles based on all the rules set by the component parameters.
+        /// </summary>
+        protected string StyleNames
         {
             get
             {

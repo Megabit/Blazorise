@@ -4,7 +4,7 @@
     <div class="field">
         <Control Role="@Role" IsInline="@IsInline">
             <Label IsCheck="true" For="@ElementId" Style="@Style" Cursor="@Cursor">
-                <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@Classnames" style="@Stylenames" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" @onchange="@HandleCheckedChanged" name="@RadioGroup" />
+                <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" @onchange="@HandleCheckedChanged" name="@RadioGroup" />
                 @ChildContent
             </Label>
         </Control>
@@ -15,7 +15,7 @@ else
 {
     <Control Role="@Role" IsInline="@IsInline">
         <Label IsCheck="true" For="@ElementId" Style="@Style" Cursor="@Cursor">
-            <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@Classnames" style="@Stylenames" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" @onchange="@HandleCheckedChanged" name="@RadioGroup" />
+            <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" @onchange="@HandleCheckedChanged" name="@RadioGroup" />
             @ChildContent
         </Label>
     </Control>

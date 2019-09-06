@@ -3,13 +3,13 @@
 {
     @if ( Size != null )
     {
-        <Dynamic TagName="@($"h{Size}")" class="@Classnames">
+        <Dynamic TagName="@($"h{Size}")" class="@ClassNames">
             @ChildContent
         </Dynamic>
     }
     else
     {
-        <div class="@Classnames">
+        <div class="@ClassNames">
             @ChildContent
         </div>
     }
