@@ -2,7 +2,7 @@
 @if ( IsAddons )
 {
     <div class="@AddonContainerClassMapper.Class">
-        <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@Classnames" style="@StyleMapper.Style" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler">
+        <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@Classnames" style="@Stylenames" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler">
             @ChildContent
         </button>
     </div>
@@ -12,14 +12,14 @@ else
     @if ( ParentIsField )
     {
         <div class="control">
-            <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@Classnames" style="@StyleMapper.Style" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler">
+            <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@Classnames" style="@Stylenames" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler">
                 @ChildContent
             </button>
         </div>
     }
     else
     {
-        <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@Classnames" style="@StyleMapper.Style" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler">
+        <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@Classnames" style="@Stylenames" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler">
             @ChildContent
         </button>
     }

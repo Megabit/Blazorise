@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseTableHeaderCell
 @if ( !HasCustomRegistration )
 {
-    <th scope="col" class="@Classnames" style="@StyleMapper.Style" @onclick="@HandleClick" colspan="@ColumnSpan" rowspan="@RowSpan">
+    <th scope="col" class="@Classnames" style="@Stylenames" @onclick="@HandleClick" colspan="@ColumnSpan" rowspan="@RowSpan">
         @ChildContent
     </th>
 }

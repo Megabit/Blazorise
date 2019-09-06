@@ -25,12 +25,12 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected override void RegisterStyles()
+        protected override void BuildStyles( StyleBuilder builder )
         {
-            StyleMapper
-                .If( () => StyleProvider.ModalBodyMaxHeight( MaxHeight ?? 0 ), () => MaxHeight != null );
+            if ( MaxHeight != null )
+                builder.Append( StyleProvider.ModalBodyMaxHeight( MaxHeight ?? 0 ) );
 
-            base.RegisterStyles();
+            base.BuildStyles( builder );
         }
 
         #endregion
@@ -48,7 +48,7 @@ namespace Blazorise
             {
                 maxHeight = value;
 
-                StyleMapper.Dirty();
+                DirtyStyles();
             }
         }
 

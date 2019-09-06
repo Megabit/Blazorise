@@ -39,7 +39,11 @@ namespace Blazorise
 
         private string classNames;
 
-        private bool dirty = true;
+        private bool dirtyClasses = true;
+
+        private string styleNames;
+
+        private bool dirtyStyles = true;
 
         #endregion
 
@@ -105,17 +109,23 @@ namespace Blazorise
                 builder.Append( ClassProvider.ToFloat( Float ) );
         }
 
-        protected virtual void RegisterStyles()
+        protected virtual void BuildStyles( StyleBuilder builder )
         {
-            StyleMapper
-                .If( () => Style, () => Style != null )
-                .Add( () => StyleProvider.Visibility( Visibility ) );
+            if ( Style != null )
+                builder.Append( Style );
+
+            builder.Append( StyleProvider.Visibility( Visibility ) );
         }
 
         // use this until https://github.com/aspnet/Blazor/issues/1732 is fixed!!
         internal protected virtual void Dirty()
         {
-            dirty = true;
+            dirtyClasses = true;
+        }
+
+        protected virtual void DirtyStyles()
+        {
+            dirtyStyles = true;
         }
 
         public override Task SetParametersAsync( ParameterView parameters )
@@ -187,7 +197,7 @@ namespace Blazorise
         {
             get
             {
-                if ( dirty )
+                if ( dirtyClasses )
                 {
                     var classBuilder = new ClassBuilder();
 
@@ -195,7 +205,7 @@ namespace Blazorise
 
                     classNames = classBuilder.Value?.TrimEnd();
 
-                    dirty = false;
+                    dirtyClasses = false;
                 }
 
                 return classNames;
@@ -205,7 +215,26 @@ namespace Blazorise
         /// <summary>
         /// Gets the style mapper.
         /// </summary>
-        protected StyleMapper StyleMapper { get; private set; } = new StyleMapper();
+        protected StyleBuilder StyleBuilder { get; private set; } = new StyleBuilder();
+
+        protected string Stylenames
+        {
+            get
+            {
+                if ( dirtyStyles )
+                {
+                    var styleBuilder = new StyleBuilder();
+
+                    BuildStyles( styleBuilder );
+
+                    styleNames = styleBuilder.Value;
+
+                    dirtyStyles = false;
+                }
+
+                return styleNames;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the custom components mapper.
@@ -242,16 +271,7 @@ namespace Blazorise
         /// Gets or sets the style provider.
         /// </summary>
         [Inject]
-        protected IStyleProvider StyleProvider
-        {
-            get => styleProvider;
-            set
-            {
-                styleProvider = value;
-
-                RegisterStyles();
-            }
-        }
+        protected IStyleProvider StyleProvider { get; set; }
 
         /// <summary>
         /// Custom css classname.
@@ -279,7 +299,7 @@ namespace Blazorise
             {
                 customStyle = value;
 
-                StyleMapper.Dirty();
+                DirtyStyles();
             }
         }
 
@@ -339,7 +359,7 @@ namespace Blazorise
             {
                 visibility = value;
 
-                StyleMapper.Dirty();
+                DirtyStyles();
             }
         }
 

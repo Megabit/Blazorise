@@ -4,7 +4,7 @@
 {
     <div class="field">
         <div class="control">
-            <div class="@Classnames" style="@StyleMapper.Style">
+            <div class="@Classnames" style="@Stylenames">
                 <select @ref="@ElementRef" id="@ElementId" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" @onchange="@HandleOnChanged">
                     <CascadingValue Value=this>
                         @ChildContent
@@ -18,7 +18,7 @@
 else
 {
     <div class="control">
-        <div class="@Classnames" style="@StyleMapper.Style">
+        <div class="@Classnames" style="@Stylenames">
             <select @ref="@ElementRef" id="@ElementId" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" @onchange="@HandleOnChanged">
                 <CascadingValue Value=this>
                     @ChildContent

@@ -30,12 +30,11 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected override void RegisterStyles()
+        protected override void BuildStyles( StyleBuilder builder )
         {
-            StyleMapper
-                .If( () => StyleProvider.ModalShow(), () => IsOpen );
+            builder.Append( StyleProvider.ModalShow(), IsOpen );
 
-            base.RegisterStyles();
+            base.BuildStyles( builder );
         }
 
         /// <summary>
@@ -105,7 +104,7 @@ namespace Blazorise
             }
 
             Dirty();
-            StyleMapper.Dirty();
+            DirtyStyles();
         }
 
         internal void Hook( BaseModalBackdrop modalBackdrop )

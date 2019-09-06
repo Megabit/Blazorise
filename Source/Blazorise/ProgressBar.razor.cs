@@ -35,12 +35,12 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected override void RegisterStyles()
+        protected override void BuildStyles( StyleBuilder builder )
         {
-            StyleMapper
-                .If( () => StyleProvider.ProgressBarValue( Value ?? 0 ), () => Value != null );
+            if ( Value != null )
+                builder.Append( StyleProvider.ProgressBarValue( Value ?? 0 ) );
 
-            base.RegisterStyles();
+            base.BuildStyles( builder );
         }
 
         public void Animate( bool isAnimated )
@@ -102,7 +102,7 @@ namespace Blazorise
                 this.@value = value;
 
                 Dirty();
-                StyleMapper.Dirty();
+                DirtyStyles();
             }
         }
 
