@@ -6,6 +6,15 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.4
+
+### Breaking changes
+
+- Upgraded to the Blazor preview 9
+- Renamed `MouseEventArgs` to `BLMouseEventArgs`
+
+For detail description of changes please look at [v0.8.4 release page]({{ "/docs/release-notes/release084/" | relative_url }})
+
 ## 0.8.3
 
 ### Breaking changes

@@ -184,9 +184,9 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected BaseDropdown ParentDropdown { get; set; }
+        [CascadingParameter] public BaseDropdown ParentDropdown { get; set; }
 
-        [CascadingParameter] protected BaseButtons ParentButtons { get; set; }
+        [CascadingParameter] public BaseButtons ParentButtons { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

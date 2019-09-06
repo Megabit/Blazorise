@@ -135,7 +135,7 @@ namespace Blazorise
         /// <summary>
         /// Parent validation container.
         /// </summary>
-        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
+        [CascadingParameter] public BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

@@ -19,7 +19,7 @@ namespace Blazorise
 
         private bool isRegistered;
 
-        private DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef;
+        private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
         #endregion
 
@@ -143,7 +143,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected BaseDropdown Dropdown { get; set; }
+        [CascadingParameter] public BaseDropdown Dropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

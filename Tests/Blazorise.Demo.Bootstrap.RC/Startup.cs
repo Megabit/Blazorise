@@ -70,7 +70,7 @@ namespace Blazorise.Demo.Bootstrap.RC
 
             app.UseEndpoints( endpoints =>
             {
-                endpoints.MapBlazorHub<App>( selector: "app" );
+                endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage( "/_Host" );
             } );
         }
