@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -37,12 +38,12 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        protected void ClickHandler( UIMouseEventArgs e )
+        protected void ClickHandler( MouseEventArgs e )
         {
             JSRunner.ActivateDatePicker( ElementId, Utils.Parsers.InternalDateFormat );
         }
 
-        protected Task InternalDateHandler( UIChangeEventArgs e )
+        protected Task InternalDateHandler( ChangeEventArgs e )
         {
             Date = Utils.Parsers.TryParseDate( e?.Value?.ToString() );
             return DateChanged.InvokeAsync( Date );

@@ -26,7 +26,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected async void PathChangedHandler( UIChangeEventArgs e )
+        protected async void PathChangedHandler( ChangeEventArgs e )
         {
             if ( IsMultiple )
                 InternalValue = await JSRunner.GetFilePaths( ElementRef );

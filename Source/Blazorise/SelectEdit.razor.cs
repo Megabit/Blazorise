@@ -29,7 +29,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected async Task HandleOnChanged( UIChangeEventArgs e )
+        protected async Task HandleOnChanged( ChangeEventArgs e )
         {
             if ( IsMultiple )
             {

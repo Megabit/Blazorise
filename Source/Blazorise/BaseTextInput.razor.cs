@@ -43,7 +43,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        protected Task HandleOnChange( UIChangeEventArgs e )
+        protected Task HandleOnChange( ChangeEventArgs e )
         {
             if ( !Options.ChangeTextOnKeyPress )
             {
@@ -53,7 +53,7 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        protected Task HandleOnInput( UIChangeEventArgs e )
+        protected Task HandleOnInput( ChangeEventArgs e )
         {
             if ( Options.ChangeTextOnKeyPress )
             {

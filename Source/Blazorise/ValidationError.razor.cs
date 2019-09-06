@@ -76,7 +76,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
+        [CascadingParameter] public BaseValidation ParentValidation { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

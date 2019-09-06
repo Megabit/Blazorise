@@ -35,7 +35,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void HandleCheckedChanged( UIChangeEventArgs e )
+        protected void HandleCheckedChanged( ChangeEventArgs e )
         {
             InternalValue = e.Value?.ToString().ToLowerInvariant() == ( RadioGroup != null ? "on" : "true" );
             CheckedChanged.InvokeAsync( Checked );

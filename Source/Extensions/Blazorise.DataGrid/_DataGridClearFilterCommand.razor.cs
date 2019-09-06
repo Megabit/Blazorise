@@ -12,6 +12,6 @@ namespace Blazorise.DataGrid
     {
         [Parameter] public EventCallback ClearFilter { get; set; }
 
-        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
     }
 }

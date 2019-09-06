@@ -24,7 +24,7 @@ namespace Blazorise
         #region Members
 
         // taken from https://github.com/aspnet/AspNetCore/issues/11159
-        private DotNetObjectRef<NumericEditAdapter> dotNetObjectRef;
+        private DotNetObjectReference<NumericEditAdapter> dotNetObjectRef;
 
         #endregion
 

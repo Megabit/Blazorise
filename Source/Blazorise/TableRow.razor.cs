@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -36,7 +37,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void HandleClick( UIMouseEventArgs e )
+        protected void HandleClick( MouseEventArgs e )
         {
             Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
         }
@@ -99,7 +100,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the row is clicked.
         /// </summary>
-        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+        [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

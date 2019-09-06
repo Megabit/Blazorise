@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -24,7 +25,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected Task ClickHandler( UIMouseEventArgs eventArgs )
+        protected Task ClickHandler( MouseEventArgs eventArgs )
         {
             return Clicked.InvokeAsync( Page );
         }
@@ -46,7 +47,7 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] protected BasePaginationItem ParentPaginationItem { get; set; }
+        [CascadingParameter] public BasePaginationItem ParentPaginationItem { get; set; }
 
         #endregion
     }

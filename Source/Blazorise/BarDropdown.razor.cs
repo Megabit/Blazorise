@@ -110,7 +110,7 @@ namespace Blazorise
 
         [Parameter] public Action<bool> Toggled { get; set; }
 
-        [CascadingParameter] protected BaseBarItem BarItem { get; set; }
+        [CascadingParameter] public BaseBarItem BarItem { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

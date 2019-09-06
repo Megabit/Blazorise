@@ -70,7 +70,7 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] protected BaseBreadcrumbItem ParentBreadcrumbItem { get; set; }
+        [CascadingParameter] public BaseBreadcrumbItem ParentBreadcrumbItem { get; set; }
 
         #endregion
     }
