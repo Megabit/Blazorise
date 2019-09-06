@@ -11,12 +11,12 @@ namespace Blazorise.Utils
 {
     internal static class EventArgsMapper
     {
-        public static MyMouseEventArgs ToMouseEventArgs( MouseEventArgs e )
+        public static BLMouseEventArgs ToMouseEventArgs( MouseEventArgs e )
         {
             if ( e == null )
                 return null;
 
-            return new MyMouseEventArgs( ToMouseButton( e.Button ),
+            return new BLMouseEventArgs( ToMouseButton( e.Button ),
                 e.Detail,
                 new Point( (int)e.ScreenX, (int)e.ScreenY ),
                 new Point( (int)e.ClientX, (int)e.ClientY ),
