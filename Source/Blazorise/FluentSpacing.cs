@@ -151,7 +151,9 @@ namespace Blazorise
 
         private List<string> customRules;
 
-        private bool built = false;
+        private bool dirty = true;
+
+        private string classNames;
 
         #endregion
 
@@ -168,16 +170,27 @@ namespace Blazorise
 
         public string Class( IClassProvider classProvider )
         {
-            if ( !built )
+            if ( dirty )
             {
-                ClassMapper
-                    .If( () => rules.Select( r => classProvider.Spacing( spacing, r.Key, r.Value.Select( v => (v.Side, v.Breakpoint) ) ) ), () => rules.Count > 0 )
-                    .If( () => customRules, () => customRules?.Count > 0 );
+                var classBuilder = new ClassBuilder();
 
-                built = true;
+                if ( rules.Count > 0 )
+                    classBuilder.Append( rules.Select( r => classProvider.Spacing( spacing, r.Key, r.Value.Select( v => (v.Side, v.Breakpoint) ) ) ) );
+
+                if ( customRules?.Count > 0 )
+                    classBuilder.Append( customRules );
+
+                classNames = classBuilder.Value;
+
+                dirty = false;
             }
 
-            return ClassMapper.Class;
+            return classNames;
+        }
+
+        private void Dirty()
+        {
+            dirty = true;
         }
 
         public IFluentSpacingOnBreakpointWithSideAndSize WithSize( SpacingSize spacingSize )
@@ -190,14 +203,14 @@ namespace Blazorise
                 rules[spacingSize].Add( spacingDefinition );
 
             currentSpacing = spacingDefinition;
-            ClassMapper.Dirty();
+            Dirty();
             return this;
         }
 
         public IFluentSpacingOnBreakpointWithSideAndSize WithSide( Side side )
         {
             currentSpacing.Side = side;
-            ClassMapper.Dirty();
+            Dirty();
 
             return this;
         }
@@ -205,7 +218,7 @@ namespace Blazorise
         public IFluentSpacingOnBreakpointWithSideAndSize WithBreakpoint( Breakpoint breakpoint )
         {
             currentSpacing.Breakpoint = breakpoint;
-            ClassMapper.Dirty();
+            Dirty();
 
             return this;
         }
@@ -217,7 +230,7 @@ namespace Blazorise
             else
                 customRules.Add( value );
 
-            ClassMapper.Dirty();
+            Dirty();
 
             return this;
         }
@@ -231,8 +244,6 @@ namespace Blazorise
         #endregion
 
         #region Properties
-
-        internal ClassMapper ClassMapper { get; } = new ClassMapper();
 
         /// <summary>
         /// For classes that eliminate the margin or padding by setting it to 0.

@@ -29,6 +29,11 @@ namespace Blazorise
                 sb.Append( value ).Append( Delimiter );
         }
 
+        public void Append( IEnumerable<string> values )
+        {
+            sb.Append( string.Join( Delimiter.ToString(), values ) ).Append( Delimiter );
+        }
+
         #endregion
 
         #region Properties
