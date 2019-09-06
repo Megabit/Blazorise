@@ -40,9 +40,6 @@ namespace Blazorise
             builder.Append( ClassProvider.ButtonActive(), IsActive );
             builder.Append( ClassProvider.ButtonLoading(), IsLoading );
 
-            AddonContainerClassMapper
-                .If( () => ClassProvider.AddonContainer(), () => IsAddons );
-
             base.BuildClasses( builder );
         }
 
@@ -65,8 +62,6 @@ namespace Blazorise
         #region Properties
 
         protected bool IsAddons => ParentButtons?.Role == ButtonsRole.Addons || ParentDropdown?.IsGroup == true;
-
-        protected ClassMapper AddonContainerClassMapper { get; private set; } = new ClassMapper();
 
         /// <summary>
         /// Occurs when the button is clicked.
