@@ -22,83 +22,81 @@ namespace Blazorise
             this.runtime = runtime;
         }
 
-        public DotNetObjectRef<T> CreateDotNetObjectRef<T>( T value ) where T : class
+        public DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
         {
             lock ( CreateDotNetObjectRefSyncObj )
             {
-                JSRuntime.SetCurrentJSRuntime( runtime );
-                return DotNetObjectRef.Create( value );
+                return DotNetObjectReference.Create( value );
             }
         }
 
-        public void DisposeDotNetObjectRef<T>( DotNetObjectRef<T> value ) where T : class
+        public void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
         {
             if ( value != null )
             {
                 lock ( CreateDotNetObjectRefSyncObj )
                 {
-                    JSRuntime.SetCurrentJSRuntime( runtime );
                     value.Dispose();
                 }
             }
         }
 
-        public Task<bool> Init( ElementReference elementRef, object componentRef )
+        public ValueTask<bool> Init( ElementReference elementRef, object componentRef )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.init", elementRef, DotNetObjectRef.Create( componentRef ) );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.init", elementRef, DotNetObjectReference.Create( componentRef ) );
         }
 
-        public Task<bool> InitializeTextEdit( string elementId, ElementReference elementRef, string maskType, string editMask )
+        public ValueTask<bool> InitializeTextEdit( string elementId, ElementReference elementRef, string maskType, string editMask )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementId, elementRef, maskType, editMask );
         }
 
-        public Task<bool> DestroyTextEdit( string elementId, ElementReference elementRef )
+        public ValueTask<bool> DestroyTextEdit( string elementId, ElementReference elementRef )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementId, elementRef );
         }
 
-        public Task<bool> InitializeNumericEdit( DotNetObjectRef<NumericEditAdapter> dotNetObjectRef, string elementId, ElementReference elementRef, int decimals, string decimalsSeparator, decimal? step )
+        public ValueTask<bool> InitializeNumericEdit( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, string elementId, ElementReference elementRef, int decimals, string decimalsSeparator, decimal? step )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementId, elementRef, decimals, decimalsSeparator, step );
         }
 
-        public Task<bool> DestroyNumericEdit( string elementId, ElementReference elementRef )
+        public ValueTask<bool> DestroyNumericEdit( string elementId, ElementReference elementRef )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementId, elementRef );
         }
 
-        public virtual Task<bool> InitializeTooltip( string elementId, ElementReference elementRef )
+        public virtual ValueTask<bool> InitializeTooltip( string elementId, ElementReference elementRef )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementId, elementRef );
         }
 
-        public Task<bool> AddClass( ElementReference elementRef, string classname )
+        public ValueTask<bool> AddClass( ElementReference elementRef, string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.addClass", elementRef, classname );
         }
 
-        public Task<bool> RemoveClass( ElementReference elementRef, string classname )
+        public ValueTask<bool> RemoveClass( ElementReference elementRef, string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.removeClass", elementRef, classname );
         }
 
-        public Task<bool> ToggleClass( ElementReference elementId, string classname )
+        public ValueTask<bool> ToggleClass( ElementReference elementId, string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.toggleClass", elementId, classname );
         }
 
-        public Task<bool> AddClassToBody( string classname )
+        public ValueTask<bool> AddClassToBody( string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.addClassToBody", classname );
         }
 
-        public Task<bool> RemoveClassFromBody( string classname )
+        public ValueTask<bool> RemoveClassFromBody( string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.removeClassFromBody", classname );
         }
 
-        public Task<bool> ParentHasClass( ElementReference elementRef, string classaname )
+        public ValueTask<bool> ParentHasClass( ElementReference elementRef, string classaname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.parentHasClass", elementRef, classaname );
         }
@@ -108,7 +106,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="element">Input field.</param>
         /// <returns>Returns an array of paths.</returns>
-        public Task<string[]> GetFilePaths( ElementReference element )
+        public ValueTask<string[]> GetFilePaths( ElementReference element )
         {
             return runtime.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getFilePaths", element );
         }
@@ -118,13 +116,13 @@ namespace Blazorise
         /// </summary>
         /// <param name="elementId">Input element id.</param>
         /// <param name="formatSubmit">Date format to submit.</param>
-        public virtual Task<bool> ActivateDatePicker( string elementId, string formatSubmit )
+        public virtual ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit )
         {
             // must be implemented by a framework provider!
-            return Task.FromResult( true );
+            return new ValueTask<bool>( true );
         }
 
-        public async Task<TValue[]> GetSelectedOptions<TValue>( string elementId )
+        public async ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId )
         {
             // All of this is because Blazor is not serializing types as it should! In this case nullable types
             // are not working (enum?, int?, etc.) so we need to do it manually.
@@ -148,17 +146,17 @@ namespace Blazorise
             } ).Where( x => x != default ).ToArray();
         }
 
-        public Task<bool> SetTextValue( ElementReference elementRef, object value )
+        public ValueTask<bool> SetTextValue( ElementReference elementRef, object value )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
         }
 
-        public Task RegisterClosableComponent( DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef, string elementId )
+        public ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, string elementId )
         {
             return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", elementId, dotNetObjectRef );
         }
 
-        public Task UnregisterClosableComponent( ICloseActivator component )
+        public ValueTask<object> UnregisterClosableComponent( ICloseActivator component )
         {
             return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementId );
         }

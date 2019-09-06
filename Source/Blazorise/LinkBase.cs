@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Components.Routing;
 #endregion
@@ -60,13 +61,13 @@ namespace Blazorise
         {
             this.renderHandle = renderHandle;
 
-            UriHelper.OnLocationChanged += OnLocationChanged;
+            NavigationManager.LocationChanged += OnLocationChanged;
         }
 
         public void Dispose()
         {
             // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-            UriHelper.OnLocationChanged -= OnLocationChanged;
+            NavigationManager.LocationChanged -= OnLocationChanged;
         }
 
         public Task SetParametersAsync( ParameterView parameters )
@@ -88,8 +89,8 @@ namespace Blazorise
 
 
             // Update computed state and render
-            hrefAbsolute = href == null ? string.Empty : UriHelper.ToAbsoluteUri( href ).AbsoluteUri;
-            isActive = ShouldMatch( UriHelper.GetAbsoluteUri() );
+            hrefAbsolute = href == null ? string.Empty : NavigationManager.ToAbsoluteUri( href ).AbsoluteUri;
+            isActive = ShouldMatch( NavigationManager.Uri );
 
             renderHandle.Render( Render );
 
@@ -207,7 +208,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Match Match { get; set; }
 
-        [Inject] private IUriHelper UriHelper { get; set; }
+        [Inject] private NavigationManager NavigationManager { get; set; }
 
         [Inject] private IClassProvider ClassProvider { get; set; }
 

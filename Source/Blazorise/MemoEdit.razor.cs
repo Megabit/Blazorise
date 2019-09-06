@@ -25,7 +25,7 @@ namespace Blazorise
             base.RegisterClasses();
         }
 
-        protected void HandleOnChange( UIChangeEventArgs e )
+        protected void HandleOnChange( ChangeEventArgs e )
         {
             if ( !Options.ChangeTextOnKeyPress )
             {
@@ -33,7 +33,7 @@ namespace Blazorise
             }
         }
 
-        protected void HandleOnInput( UIChangeEventArgs e )
+        protected void HandleOnInput( ChangeEventArgs e )
         {
             if ( Options.ChangeTextOnKeyPress )
             {

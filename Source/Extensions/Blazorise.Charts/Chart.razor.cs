@@ -29,7 +29,7 @@ namespace Blazorise.Charts
             base.RegisterClasses();
         }
 
-        protected override async Task OnAfterRenderAsync()
+        protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             await Update();
         }

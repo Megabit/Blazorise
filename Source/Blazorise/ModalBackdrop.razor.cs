@@ -17,7 +17,7 @@ namespace Blazorise
 
         private bool isRegistered;
 
-        private DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef;
+        private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
         #endregion
 
@@ -110,7 +110,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected BaseModal ParentModal { get; set; }
+        [CascadingParameter] public BaseModal ParentModal { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
