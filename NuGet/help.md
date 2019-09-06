@@ -14,11 +14,12 @@ Before creating NuGet packages make sure that documentation is updated to match 
 
 ### Update project files
 
-Open Blazorise.props file in the Build folder and raise the version numbers.
+1. Open Blazorise.props file in the Build folder and raise the version numbers.
 
 ### Update nuspec files
 
-Go through all *.nuspec files and raise version number to be the same as in the Blazorise.props
+1. Go through all *.nuspec files and raise version number to be the same as in the Blazorise.props
+2. Make sure the Blazor version is matching the version in the .props file.
 
 ### Build & Publish
 
