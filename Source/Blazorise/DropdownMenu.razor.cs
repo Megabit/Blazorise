@@ -26,9 +26,6 @@ namespace Blazorise
             builder.Append( ClassProvider.DropdownMenuShow(), IsOpen );
             builder.Append( ClassProvider.DropdownMenuRight(), IsRightAligned );
 
-            BodyClassMapper
-                .Add( () => ClassProvider.DropdownMenuBody() );
-
             base.BuildClasses( builder );
         }
 
@@ -43,8 +40,6 @@ namespace Blazorise
         #endregion
 
         #region Properties
-
-        protected ClassMapper BodyClassMapper { get; private set; } = new ClassMapper();
 
         /// <summary>
         /// Handles the visibility of dropdown menu.

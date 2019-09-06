@@ -1,7 +1,7 @@
 ﻿@inherits BaseButton
 @if ( IsAddons )
 {
-    <div class="@ClassProvider.AddonContainer()">
+    <div class="control">
         <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler">
             @ChildContent
         </button>

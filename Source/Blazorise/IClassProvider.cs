@@ -169,7 +169,7 @@ namespace Blazorise
 
         string AddonLabel();
 
-        string AddonContainer();
+        //string AddonContainer();
 
         #endregion
 
@@ -235,7 +235,7 @@ namespace Blazorise
 
         string DropdownMenu();
 
-        string DropdownMenuBody();
+        //string DropdownMenuBody();
 
         string DropdownMenuShow();
 

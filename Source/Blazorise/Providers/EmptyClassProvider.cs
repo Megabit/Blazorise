@@ -174,7 +174,7 @@ namespace Blazorise.Providers
 
         public string AddonLabel() => null;
 
-        public string AddonContainer() => null;
+        //public string AddonContainer() => null;
 
         #endregion
 
@@ -240,7 +240,7 @@ namespace Blazorise.Providers
 
         public string DropdownMenu() => null;
 
-        public string DropdownMenuBody() => null;
+        //public string DropdownMenuBody() => null;
 
         public string DropdownMenuShow() => null;
 
