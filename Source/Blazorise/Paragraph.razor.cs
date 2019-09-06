@@ -38,7 +38,7 @@ namespace Blazorise
             {
                 color = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

@@ -46,7 +46,7 @@ namespace Blazorise
             {
                 isPill = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -61,7 +61,7 @@ namespace Blazorise
             {
                 color = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -76,7 +76,7 @@ namespace Blazorise
             {
                 link = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

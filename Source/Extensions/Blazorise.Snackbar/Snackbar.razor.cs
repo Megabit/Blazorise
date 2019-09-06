@@ -107,7 +107,7 @@ namespace Blazorise.Snackbar
             {
                 isOpen = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -119,7 +119,7 @@ namespace Blazorise.Snackbar
             {
                 isMultiline = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -131,7 +131,7 @@ namespace Blazorise.Snackbar
             {
                 location = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

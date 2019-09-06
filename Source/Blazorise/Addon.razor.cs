@@ -40,7 +40,7 @@ namespace Blazorise
             {
                 addonType = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

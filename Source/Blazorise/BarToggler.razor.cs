@@ -55,7 +55,7 @@ namespace Blazorise
             {
                 isOpen = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

@@ -100,7 +100,7 @@ namespace Blazorise
                     JSRunner.UnregisterClosableComponent( this );
                 }
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

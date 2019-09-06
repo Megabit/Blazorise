@@ -42,7 +42,7 @@ namespace Blazorise
 
         internal void MenuChanged()
         {
-            Dirty();
+            DirtyClasses();
 
             StateHasChanged();
         }
@@ -61,7 +61,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -73,7 +73,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

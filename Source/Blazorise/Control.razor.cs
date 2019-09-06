@@ -46,7 +46,7 @@ namespace Blazorise
             {
                 isInline = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -61,7 +61,7 @@ namespace Blazorise
             {
                 role = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

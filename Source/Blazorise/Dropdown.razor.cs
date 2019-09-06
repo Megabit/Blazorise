@@ -101,7 +101,7 @@ namespace Blazorise
             {
                 registeredButtons.Add( button );
 
-                Dirty();
+                DirtyClasses();
 
                 if ( registeredButtons?.Count >= 1 ) // must find a better way to refresh dropdown
                     StateHasChanged();
@@ -134,7 +134,7 @@ namespace Blazorise
                 if ( dropdownToggle != null )
                     dropdownToggle.IsOpen = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -149,7 +149,7 @@ namespace Blazorise
             {
                 isRightAligned = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -164,7 +164,7 @@ namespace Blazorise
             {
                 direction = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

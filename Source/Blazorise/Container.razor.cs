@@ -40,7 +40,7 @@ namespace Blazorise
             {
                 isFluid = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

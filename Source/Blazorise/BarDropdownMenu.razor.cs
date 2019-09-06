@@ -52,7 +52,7 @@ namespace Blazorise
             {
                 isOpen = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -67,7 +67,7 @@ namespace Blazorise
             {
                 isRightAligned = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

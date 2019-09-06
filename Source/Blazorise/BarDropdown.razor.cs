@@ -104,7 +104,7 @@ namespace Blazorise
                 if ( barDropdownToggler != null )
                     barDropdownToggler.IsOpen = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

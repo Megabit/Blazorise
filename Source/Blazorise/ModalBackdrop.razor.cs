@@ -105,7 +105,7 @@ namespace Blazorise
                     ExecuteAfterRender( async () => await JSRunner.UnregisterClosableComponent( this ) );
                 }
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

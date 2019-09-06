@@ -50,7 +50,7 @@ namespace Blazorise
             {
                 isTabs = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -62,7 +62,7 @@ namespace Blazorise
             {
                 isCards = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -74,7 +74,7 @@ namespace Blazorise
             {
                 isPills = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -86,7 +86,7 @@ namespace Blazorise
             {
                 isVertical = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -98,7 +98,7 @@ namespace Blazorise
             {
                 fill = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

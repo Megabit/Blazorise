@@ -47,7 +47,7 @@ namespace Blazorise
                 SelectedPanelChanged?.Invoke( panelName );
 
                 // although nothing is actually changed we need to call this anyways or otherwise the rendering will not be called
-                Dirty();
+                DirtyClasses();
 
                 StateHasChanged();
             }

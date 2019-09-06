@@ -118,7 +118,7 @@ namespace Blazorise
         }
 
         // use this until https://github.com/aspnet/Blazor/issues/1732 is fixed!!
-        internal protected virtual void Dirty()
+        internal protected virtual void DirtyClasses()
         {
             dirtyClasses = true;
         }
@@ -290,7 +290,7 @@ namespace Blazorise
             {
                 customClass = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -320,7 +320,7 @@ namespace Blazorise
             {
                 @float = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -335,7 +335,7 @@ namespace Blazorise
             {
                 margin = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -350,7 +350,7 @@ namespace Blazorise
             {
                 padding = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

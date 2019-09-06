@@ -43,7 +43,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

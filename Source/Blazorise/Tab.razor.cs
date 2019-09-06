@@ -65,7 +65,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                Dirty();
+                DirtyClasses();
                 LinkClassMapper.Dirty();
             }
         }

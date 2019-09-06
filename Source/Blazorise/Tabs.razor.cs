@@ -64,7 +64,7 @@ namespace Blazorise
                 SelectedTabChanged?.Invoke( tabName );
 
                 // although nothing is actually changed we need to call this anyways or otherwise the rendering will not be called
-                Dirty();
+                DirtyClasses();
 
                 StateHasChanged();
             }
@@ -87,7 +87,7 @@ namespace Blazorise
             {
                 isPills = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -102,7 +102,7 @@ namespace Blazorise
             {
                 isFullWidth = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -117,7 +117,7 @@ namespace Blazorise
             {
                 isJustified = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -132,7 +132,7 @@ namespace Blazorise
             {
                 isVertical = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

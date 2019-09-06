@@ -54,7 +54,7 @@ namespace Blazorise
             {
                 color = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -66,7 +66,7 @@ namespace Blazorise
             {
                 background = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -78,7 +78,7 @@ namespace Blazorise
             {
                 textColor = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -93,7 +93,7 @@ namespace Blazorise
             {
                 selected = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

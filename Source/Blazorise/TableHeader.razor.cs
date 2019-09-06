@@ -41,7 +41,7 @@ namespace Blazorise
             {
                 themeContrast = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

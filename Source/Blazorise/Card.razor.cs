@@ -44,7 +44,7 @@ namespace Blazorise
             {
                 isWhiteText = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -59,7 +59,7 @@ namespace Blazorise
             {
                 background = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

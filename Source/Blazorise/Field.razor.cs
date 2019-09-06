@@ -61,9 +61,9 @@ namespace Blazorise
             {
                 isHorizontal = value;
 
-                hookables?.ForEach( x => x.Dirty() );
+                hookables?.ForEach( x => x.DirtyClasses() );
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -78,7 +78,7 @@ namespace Blazorise
             {
                 columnSize = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -93,7 +93,7 @@ namespace Blazorise
             {
                 justifyContent = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

@@ -89,7 +89,7 @@ namespace Blazorise
             {
                 color = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -104,7 +104,7 @@ namespace Blazorise
             {
                 size = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -119,7 +119,7 @@ namespace Blazorise
             {
                 isOutline = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -134,7 +134,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -149,7 +149,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -164,7 +164,7 @@ namespace Blazorise
             {
                 isBlock = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -179,7 +179,7 @@ namespace Blazorise
             {
                 isLoading = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

@@ -103,7 +103,7 @@ namespace Blazorise
                 } );
             }
 
-            Dirty();
+            DirtyClasses();
             DirtyStyles();
         }
 

@@ -49,7 +49,7 @@ namespace Blazorise.Sidebar
             {
                 isShow = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

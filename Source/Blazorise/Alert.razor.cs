@@ -66,7 +66,7 @@ namespace Blazorise
             {
                 isDismisable = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -81,7 +81,7 @@ namespace Blazorise
             {
                 isShow = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -93,7 +93,7 @@ namespace Blazorise
             {
                 color = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

@@ -92,8 +92,8 @@ namespace Blazorise
             {
                 color = value;
 
-                Dirty();
-                Dirty();
+                DirtyClasses();
+                DirtyClasses();
             }
         }
 

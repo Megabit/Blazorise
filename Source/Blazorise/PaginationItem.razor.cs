@@ -44,7 +44,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -59,7 +59,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

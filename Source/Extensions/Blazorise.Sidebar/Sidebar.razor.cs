@@ -71,7 +71,7 @@ namespace Blazorise.Sidebar
             {
                 isOpen = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

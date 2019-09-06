@@ -38,7 +38,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

@@ -24,7 +24,7 @@ namespace Blazorise.Bootstrap.BootstrapBase
             base.BuildClasses( builder );
         }
 
-        protected override void Dirty()
+        protected override void DirtyClasses()
         {
             DialogClassMapper.Dirty();
         }

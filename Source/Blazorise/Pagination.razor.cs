@@ -47,7 +47,7 @@ namespace Blazorise
             {
                 size = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -62,7 +62,7 @@ namespace Blazorise
             {
                 alignment = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -77,7 +77,7 @@ namespace Blazorise
             {
                 background = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

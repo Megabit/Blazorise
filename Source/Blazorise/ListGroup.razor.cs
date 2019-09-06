@@ -59,7 +59,7 @@ namespace Blazorise
             {
                 isFlush = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

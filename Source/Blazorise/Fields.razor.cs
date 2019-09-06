@@ -50,7 +50,7 @@ namespace Blazorise
             {
                 label = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -65,7 +65,7 @@ namespace Blazorise
             {
                 help = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -80,7 +80,7 @@ namespace Blazorise
             {
                 columnSize = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

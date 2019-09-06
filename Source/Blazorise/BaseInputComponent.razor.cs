@@ -53,7 +53,7 @@ namespace Blazorise
 
         private void OnValidated( ValidatedEventArgs e )
         {
-            Dirty();
+            DirtyClasses();
         }
 
         #endregion
@@ -88,7 +88,7 @@ namespace Blazorise
             {
                 size = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -103,7 +103,7 @@ namespace Blazorise
             {
                 isReadonly = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -118,7 +118,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

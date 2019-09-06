@@ -51,7 +51,7 @@ namespace Blazorise
             {
                 isMultiple = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

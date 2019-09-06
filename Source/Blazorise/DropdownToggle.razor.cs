@@ -118,7 +118,7 @@ namespace Blazorise
                     JSRunner.UnregisterClosableComponent( this );
                 }
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -138,7 +138,7 @@ namespace Blazorise
             {
                 isSplit = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

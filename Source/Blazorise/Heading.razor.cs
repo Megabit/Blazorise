@@ -40,7 +40,7 @@ namespace Blazorise
             {
                 headingSize = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -52,7 +52,7 @@ namespace Blazorise
             {
                 textColor = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

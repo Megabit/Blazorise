@@ -61,7 +61,7 @@ namespace Blazorise
             {
                 background = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -73,7 +73,7 @@ namespace Blazorise
             {
                 isStriped = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -85,7 +85,7 @@ namespace Blazorise
             {
                 isAnimated = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -101,7 +101,7 @@ namespace Blazorise
             {
                 this.@value = value;
 
-                Dirty();
+                DirtyClasses();
                 DirtyStyles();
             }
         }

@@ -46,7 +46,7 @@ namespace Blazorise
             {
                 name = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

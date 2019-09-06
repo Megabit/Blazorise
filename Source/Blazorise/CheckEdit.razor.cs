@@ -82,7 +82,7 @@ namespace Blazorise
             {
                 radioGroup = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -97,7 +97,7 @@ namespace Blazorise
             {
                 isInline = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -112,7 +112,7 @@ namespace Blazorise
             {
                 cursor = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

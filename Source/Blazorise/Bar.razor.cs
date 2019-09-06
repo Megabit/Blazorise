@@ -79,7 +79,7 @@ namespace Blazorise
                 if ( barToggler != null )
                     barToggler.IsOpen = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -94,7 +94,7 @@ namespace Blazorise
             {
                 breakpoint = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -106,7 +106,7 @@ namespace Blazorise
             {
                 themeContrast = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -121,7 +121,7 @@ namespace Blazorise
             {
                 alignment = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -136,7 +136,7 @@ namespace Blazorise
             {
                 background = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

@@ -44,7 +44,7 @@ namespace Blazorise
             {
                 role = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -56,7 +56,7 @@ namespace Blazorise
             {
                 orientation = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -71,7 +71,7 @@ namespace Blazorise
             {
                 size = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

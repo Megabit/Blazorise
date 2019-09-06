@@ -68,7 +68,7 @@ namespace Blazorise
             {
                 columnSize = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

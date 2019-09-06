@@ -72,7 +72,7 @@ namespace Blazorise
             {
                 isTooltip = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

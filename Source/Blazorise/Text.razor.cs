@@ -49,7 +49,7 @@ namespace Blazorise
             {
                 color = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -61,7 +61,7 @@ namespace Blazorise
             {
                 alignment = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -73,7 +73,7 @@ namespace Blazorise
             {
                 textTransform = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -85,7 +85,7 @@ namespace Blazorise
             {
                 textWeight = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -97,7 +97,7 @@ namespace Blazorise
             {
                 isItalic = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

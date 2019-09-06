@@ -56,7 +56,7 @@ namespace Blazorise
             {
                 isFullWidth = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -71,7 +71,7 @@ namespace Blazorise
             {
                 isStriped = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -86,7 +86,7 @@ namespace Blazorise
             {
                 isBordered = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -101,7 +101,7 @@ namespace Blazorise
             {
                 isHoverable = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -116,7 +116,7 @@ namespace Blazorise
             {
                 isNarrow = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -131,7 +131,7 @@ namespace Blazorise
             {
                 isBorderless = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

@@ -37,7 +37,7 @@ namespace Blazorise
             {
                 displayHeadingSize = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 

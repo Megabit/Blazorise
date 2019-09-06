@@ -51,7 +51,7 @@ namespace Blazorise
             {
                 isCheck = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -66,7 +66,7 @@ namespace Blazorise
             {
                 isFile = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
@@ -81,7 +81,7 @@ namespace Blazorise
             {
                 screenreader = value;
 
-                Dirty();
+                DirtyClasses();
             }
         }
 
