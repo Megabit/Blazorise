@@ -37,7 +37,6 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            Console.WriteLine( ElementId + " " + ParentBar + " " + this );
             ParentBar?.Hook( this );
 
             base.OnInitialized();
