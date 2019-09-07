@@ -11,9 +11,14 @@ namespace Blazorise.Bootstrap.BootstrapBase
     {
         #region Members
 
-        private string dialogClassNames;
+        #endregion
 
-        private bool dialogDirtyClasses = true;
+        #region Constructors
+
+        public BaseBootstrapModalContent()
+        {
+            DialogClassBuilder = new ClassBuilder( BuildDialogClasses );
+        }
 
         #endregion
 
@@ -21,37 +26,27 @@ namespace Blazorise.Bootstrap.BootstrapBase
 
         protected override void DirtyClasses()
         {
-            dialogDirtyClasses = true;
+            DialogClassBuilder.Dirty();
 
             base.DirtyClasses();
+        }
+
+        private void BuildDialogClasses( ClassBuilder builder )
+        {
+            builder.Append( $"modal-dialog {ClassProvider.ToModalSize( Size )}" );
+            builder.Append( ClassProvider.ModalContentCentered(), IsCentered );
         }
 
         #endregion
 
         #region Properties
 
+        protected ClassBuilder DialogClassBuilder { get; private set; }
+
         /// <summary>
-        /// Gets dialog container classname.
+        /// Gets dialog container class-names.
         /// </summary>
-        protected string DialogClassNames
-        {
-            get
-            {
-                if ( dialogDirtyClasses )
-                {
-                    var classBuilder = new ClassBuilder();
-
-                    classBuilder.Append( $"modal-dialog {ClassProvider.ToModalSize( Size )}" );
-                    classBuilder.Append( ClassProvider.ModalContentCentered(), IsCentered );
-
-                    dialogClassNames = classBuilder.Value?.TrimEnd();
-
-                    dialogDirtyClasses = false;
-                }
-
-                return dialogClassNames;
-            }
-        }
+        protected string DialogClassNames => DialogClassBuilder.Class;
 
         #endregion
     }

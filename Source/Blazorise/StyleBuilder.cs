@@ -10,9 +10,28 @@ namespace Blazorise
     {
         #region Members
 
-        private readonly StringBuilder sb = new StringBuilder();
-
         const char Delimiter = ';';
+
+        private readonly Action<StyleBuilder> buildStyles;
+
+        private StringBuilder builder = new StringBuilder();
+
+        private string styles;
+
+        private bool dirty = true;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default style builder constructor that accepts build action.
+        /// </summary>
+        /// <param name="buildStyles">Action responsible for building the styles.</param>
+        public StyleBuilder( Action<StyleBuilder> buildStyles )
+        {
+            this.buildStyles = buildStyles;
+        }
 
         #endregion
 
@@ -21,20 +40,48 @@ namespace Blazorise
         public void Append( string value )
         {
             if ( value != null )
-                sb.Append( value ).Append( Delimiter );
+                builder.Append( value ).Append( Delimiter );
         }
 
         public void Append( string value, bool condition )
         {
             if ( condition )
-                sb.Append( value ).Append( Delimiter );
+                builder.Append( value ).Append( Delimiter );
+        }
+
+        /// <summary>
+        /// Marks the builder as dirty to rebuild the values.
+        /// </summary>
+        public void Dirty()
+        {
+            dirty = true;
         }
 
         #endregion
 
         #region Properties
 
-        public string Value => sb.ToString();
+        /// <summary>
+        /// Get the styles.
+        /// </summary>
+        public string Styles
+        {
+            get
+            {
+                if ( dirty )
+                {
+                    builder = new StringBuilder();
+
+                    buildStyles( this );
+
+                    styles = builder.ToString();
+
+                    dirty = false;
+                }
+
+                return styles;
+            }
+        }
 
         #endregion
     }

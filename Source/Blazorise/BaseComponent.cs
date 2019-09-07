@@ -37,20 +37,14 @@ namespace Blazorise
         /// </summary>
         private Queue<Func<Task>> executeAfterRendereQueue;
 
-        private string classNames;
-
-        private string styleNames;
-
-        private bool dirtyClasses = true;
-
-        private bool dirtyStyles = true;
-
         #endregion
 
         #region Constructors
 
         public BaseComponent()
         {
+            ClassBuilder = new ClassBuilder( BuildClasses );
+            StyleBuilder = new StyleBuilder( BuildStyles );
         }
 
         #endregion
@@ -120,12 +114,12 @@ namespace Blazorise
         // use this until https://github.com/aspnet/Blazor/issues/1732 is fixed!!
         internal protected virtual void DirtyClasses()
         {
-            dirtyClasses = true;
+            ClassBuilder.Dirty();
         }
 
         protected virtual void DirtyStyles()
         {
-            dirtyStyles = true;
+            StyleBuilder.Dirty();
         }
 
         public override Task SetParametersAsync( ParameterView parameters )
@@ -191,56 +185,22 @@ namespace Blazorise
         /// <summary>
         /// Gets the class builder.
         /// </summary>
-        protected ClassBuilder ClassBuilder { get; private set; } = new ClassBuilder();
+        protected ClassBuilder ClassBuilder { get; private set; }
 
         /// <summary>
         /// Gets the built class-names based on all the rules set by the component parameters.
         /// </summary>
-        protected string ClassNames
-        {
-            get
-            {
-                if ( dirtyClasses )
-                {
-                    var classBuilder = new ClassBuilder();
-
-                    BuildClasses( classBuilder );
-
-                    classNames = classBuilder.Value?.TrimEnd();
-
-                    dirtyClasses = false;
-                }
-
-                return classNames;
-            }
-        }
+        protected string ClassNames => ClassBuilder.Class;
 
         /// <summary>
         /// Gets the style mapper.
         /// </summary>
-        protected StyleBuilder StyleBuilder { get; private set; } = new StyleBuilder();
+        protected StyleBuilder StyleBuilder { get; private set; }
 
         /// <summary>
         /// Gets the built styles based on all the rules set by the component parameters.
         /// </summary>
-        protected string StyleNames
-        {
-            get
-            {
-                if ( dirtyStyles )
-                {
-                    var styleBuilder = new StyleBuilder();
-
-                    BuildStyles( styleBuilder );
-
-                    styleNames = styleBuilder.Value;
-
-                    dirtyStyles = false;
-                }
-
-                return styleNames;
-            }
-        }
+        protected string StyleNames => StyleBuilder.Styles;
 
         /// <summary>
         /// Gets or sets the custom components mapper.

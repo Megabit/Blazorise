@@ -174,15 +174,18 @@ namespace Blazorise
         {
             if ( dirty )
             {
-                var classBuilder = new ClassBuilder();
+                void BuildClasses( ClassBuilder builder )
+                {
+                    if ( rules.Count( x => x.Key != ColumnWidth.None ) > 0 )
+                        builder.Append( rules.Select( r => classProvider.Col( r.Key, r.Value.Select( v => (v.Breakpoint, v.Offset) ) ) ) );
 
-                if ( rules.Count( x => x.Key != ColumnWidth.None ) > 0 )
-                    classBuilder.Append( rules.Select( r => classProvider.Col( r.Key, r.Value.Select( v => (v.Breakpoint, v.Offset) ) ) ) );
+                    if ( customRules?.Count > 0 )
+                        builder.Append( customRules );
+                }
 
-                if ( customRules?.Count > 0 )
-                    classBuilder.Append( customRules );
+                var classBuilder = new ClassBuilder( BuildClasses );
 
-                classNames = classBuilder.Value;
+                classNames = classBuilder.Class;
 
                 dirty = false;
             }

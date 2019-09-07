@@ -10,9 +10,28 @@ namespace Blazorise
     {
         #region Members
 
-        private readonly StringBuilder sb = new StringBuilder();
+        private const char Delimiter = ' ';
 
-        const char Delimiter = ' ';
+        private readonly Action<ClassBuilder> buildClasses;
+
+        private StringBuilder builder = new StringBuilder();
+
+        private string classNames;
+
+        private bool dirty = true;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default class builder constructor that accepts build action.
+        /// </summary>
+        /// <param name="buildStyles">Action responsible for building the classes.</param>
+        public ClassBuilder( Action<ClassBuilder> buildClasses )
+        {
+            this.buildClasses = buildClasses;
+        }
 
         #endregion
 
@@ -20,25 +39,53 @@ namespace Blazorise
 
         public void Append( string value )
         {
-            sb.Append( value ).Append( Delimiter );
+            builder.Append( value ).Append( Delimiter );
         }
 
         public void Append( string value, bool condition )
         {
             if ( condition )
-                sb.Append( value ).Append( Delimiter );
+                builder.Append( value ).Append( Delimiter );
         }
 
         public void Append( IEnumerable<string> values )
         {
-            sb.Append( string.Join( Delimiter.ToString(), values ) ).Append( Delimiter );
+            builder.Append( string.Join( Delimiter.ToString(), values ) ).Append( Delimiter );
+        }
+
+        /// <summary>
+        /// Marks the builder as dirty to rebuild the values.
+        /// </summary>
+        public void Dirty()
+        {
+            dirty = true;
         }
 
         #endregion
 
         #region Properties
 
-        public string Value => sb.ToString();
+        /// <summary>
+        /// Gets the class-names.
+        /// </summary>
+        public string Class
+        {
+            get
+            {
+                if ( dirty )
+                {
+                    builder = new StringBuilder();
+
+                    buildClasses( this );
+
+                    classNames = builder.ToString()?.TrimEnd();
+
+                    dirty = false;
+                }
+
+                return classNames;
+            }
+        }
 
         #endregion
     }

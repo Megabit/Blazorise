@@ -14,9 +14,14 @@ namespace Blazorise
 
         private bool isActive;
 
-        private string linkClassNames;
+        #endregion
 
-        private bool linkDirtyClasses = true;
+        #region Constructors
+
+        public BaseTab()
+        {
+            LinkClassBuilder = new ClassBuilder( BuildLinkClasses );
+        }
 
         #endregion
 
@@ -30,9 +35,15 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected override void DirtyClasses()
+        private void BuildLinkClasses( ClassBuilder builder )
         {
-            linkDirtyClasses = true;
+            builder.Append( ClassProvider.TabLink() );
+            builder.Append( ClassProvider.TabLinkActive(), IsActive );
+        }
+
+        internal protected override void DirtyClasses()
+        {
+            LinkClassBuilder.Dirty();
 
             base.DirtyClasses();
         }
@@ -53,26 +64,12 @@ namespace Blazorise
         #endregion
 
         #region Properties
+        protected ClassBuilder LinkClassBuilder { get; private set; }
 
-        protected string LinkClassNames
-        {
-            get
-            {
-                if ( linkDirtyClasses )
-                {
-                    var classBuilder = new ClassBuilder();
-
-                    classBuilder.Append( ClassProvider.TabLink() );
-                    classBuilder.Append( ClassProvider.TabLinkActive(), IsActive );
-
-                    linkClassNames = classBuilder.Value?.TrimEnd();
-
-                    linkDirtyClasses = false;
-                }
-
-                return linkClassNames;
-            }
-        }
+        /// <summary>
+        /// Gets the link class-names.
+        /// </summary>
+        protected string LinkClassNames => LinkClassBuilder.Class;
 
         /// <summary>
         /// Defines the tab name.
