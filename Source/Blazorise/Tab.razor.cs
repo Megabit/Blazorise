@@ -14,6 +14,10 @@ namespace Blazorise
 
         private bool isActive;
 
+        private string linkClassNames;
+
+        private bool linkDirtyClasses = true;
+
         #endregion
 
         #region Methods
@@ -23,11 +27,14 @@ namespace Blazorise
             builder.Append( ClassProvider.TabItem() );
             builder.Append( ClassProvider.TabItemActive(), IsActive );
 
-            LinkClassMapper
-                .Add( () => ClassProvider.TabLink() )
-                .If( () => ClassProvider.TabLinkActive(), () => IsActive );
-
             base.BuildClasses( builder );
+        }
+
+        protected override void DirtyClasses()
+        {
+            linkDirtyClasses = true;
+
+            base.DirtyClasses();
         }
 
         protected override void OnInitialized()
@@ -47,7 +54,25 @@ namespace Blazorise
 
         #region Properties
 
-        protected ClassMapper LinkClassMapper { get; } = new ClassMapper();
+        protected string LinkClassNames
+        {
+            get
+            {
+                if ( linkDirtyClasses )
+                {
+                    var classBuilder = new ClassBuilder();
+
+                    classBuilder.Append( ClassProvider.TabLink() );
+                    classBuilder.Append( ClassProvider.TabLinkActive(), IsActive );
+
+                    linkClassNames = classBuilder.Value?.TrimEnd();
+
+                    linkDirtyClasses = false;
+                }
+
+                return linkClassNames;
+            }
+        }
 
         /// <summary>
         /// Defines the tab name.
@@ -66,7 +91,6 @@ namespace Blazorise
                 isActive = value;
 
                 DirtyClasses();
-                LinkClassMapper.Dirty();
             }
         }
 
