@@ -20,12 +20,11 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.TabsContent() );
+            builder.Append( ClassProvider.TabsContent() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         internal void Hook( BaseTabPanel panel )
@@ -48,7 +47,7 @@ namespace Blazorise
                 SelectedPanelChanged?.Invoke( panelName );
 
                 // although nothing is actually changed we need to call this anyways or otherwise the rendering will not be called
-                ClassMapper.Dirty();
+                DirtyClasses();
 
                 StateHasChanged();
             }

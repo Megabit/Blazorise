@@ -30,21 +30,17 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Button() )
-                .If( () => ClassProvider.ButtonColor( Color ), () => Color != Color.None && !IsOutline )
-                .If( () => ClassProvider.ButtonOutline( Color ), () => Color != Color.None && IsOutline )
-                .If( () => ClassProvider.ButtonSize( Size ), () => Size != ButtonSize.None )
-                .If( () => ClassProvider.ButtonBlock(), () => IsBlock )
-                .If( () => ClassProvider.ButtonActive(), () => IsActive )
-                .If( () => ClassProvider.ButtonLoading(), () => IsLoading );
+            builder.Append( ClassProvider.Button() );
+            builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.None && !IsOutline );
+            builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.None && IsOutline );
+            builder.Append( ClassProvider.ButtonSize( Size ), Size != ButtonSize.None );
+            builder.Append( ClassProvider.ButtonBlock(), IsBlock );
+            builder.Append( ClassProvider.ButtonActive(), IsActive );
+            builder.Append( ClassProvider.ButtonLoading(), IsLoading );
 
-            AddonContainerClassMapper
-                .If( () => ClassProvider.AddonContainer(), () => IsAddons );
-
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected void ClickHandler()
@@ -67,8 +63,6 @@ namespace Blazorise
 
         protected bool IsAddons => ParentButtons?.Role == ButtonsRole.Addons || ParentDropdown?.IsGroup == true;
 
-        protected ClassMapper AddonContainerClassMapper { get; private set; } = new ClassMapper();
-
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
@@ -90,7 +84,7 @@ namespace Blazorise
             {
                 color = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -105,7 +99,7 @@ namespace Blazorise
             {
                 size = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -120,7 +114,7 @@ namespace Blazorise
             {
                 isOutline = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -135,7 +129,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -150,7 +144,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -165,7 +159,7 @@ namespace Blazorise
             {
                 isBlock = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -180,7 +174,7 @@ namespace Blazorise
             {
                 isLoading = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

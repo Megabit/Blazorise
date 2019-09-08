@@ -21,22 +21,20 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Modal() )
-                .Add( () => ClassProvider.ModalFade() )
-                .If( () => ClassProvider.ModalShow(), () => IsOpen );
+            builder.Append( ClassProvider.Modal() );
+            builder.Append( ClassProvider.ModalFade() );
+            builder.Append( ClassProvider.ModalShow(), IsOpen );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
-        protected override void RegisterStyles()
+        protected override void BuildStyles( StyleBuilder builder )
         {
-            StyleMapper
-                .If( () => StyleProvider.ModalShow(), () => IsOpen );
+            builder.Append( StyleProvider.ModalShow(), IsOpen );
 
-            base.RegisterStyles();
+            base.BuildStyles( builder );
         }
 
         /// <summary>
@@ -105,8 +103,8 @@ namespace Blazorise
                 } );
             }
 
-            ClassMapper.Dirty();
-            StyleMapper.Dirty();
+            DirtyClasses();
+            DirtyStyles();
         }
 
         internal void Hook( BaseModalBackdrop modalBackdrop )

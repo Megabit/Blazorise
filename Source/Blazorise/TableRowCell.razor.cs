@@ -24,15 +24,14 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.TableRowCell() )
-                .If( () => ClassProvider.TableRowCellColor( Color ), () => Color != Color.None )
-                .If( () => ClassProvider.TableRowCellBackground( Background ), () => Background != Background.None )
-                .If( () => ClassProvider.TableRowCellTextColor( TextColor ), () => TextColor != TextColor.None );
+            builder.Append( ClassProvider.TableRowCell() );
+            builder.Append( ClassProvider.TableRowCellColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.TableRowCellBackground( Background ), Background != Background.None );
+            builder.Append( ClassProvider.TableRowCellTextColor( TextColor ), TextColor != TextColor.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected void HandleClick( MouseEventArgs e )
@@ -52,7 +51,7 @@ namespace Blazorise
             {
                 color = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -64,7 +63,7 @@ namespace Blazorise
             {
                 background = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -76,7 +75,7 @@ namespace Blazorise
             {
                 textColor = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

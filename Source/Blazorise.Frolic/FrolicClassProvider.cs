@@ -172,7 +172,7 @@ namespace Blazorise.Frolic
 
         public virtual string AddonLabel() => null;
 
-        public virtual string AddonContainer() => null;
+        //public virtual string AddonContainer() => null;
 
         #endregion
 
@@ -260,7 +260,7 @@ namespace Blazorise.Frolic
 
         public virtual string DropdownMenu() => "drop-items";
 
-        public virtual string DropdownMenuBody() => null;
+        //public virtual string DropdownMenuBody() => null;
 
         public virtual string DropdownMenuShow() => Show();
 

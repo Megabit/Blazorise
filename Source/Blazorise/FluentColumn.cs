@@ -162,7 +162,9 @@ namespace Blazorise
 
         private List<string> customRules;
 
-        private bool built = false;
+        private bool dirty = true;
+
+        private string classNames;
 
         #endregion
 
@@ -170,16 +172,30 @@ namespace Blazorise
 
         public string Class( IClassProvider classProvider )
         {
-            if ( !built )
+            if ( dirty )
             {
-                ClassMapper
-                    .If( () => rules.Select( r => classProvider.Col( r.Key, r.Value.Select( v => (v.Breakpoint, v.Offset) ) ) ), () => rules.Count( x => x.Key != ColumnWidth.None ) > 0 )
-                    .If( () => customRules, () => customRules?.Count > 0 );
+                void BuildClasses( ClassBuilder builder )
+                {
+                    if ( rules.Count( x => x.Key != ColumnWidth.None ) > 0 )
+                        builder.Append( rules.Select( r => classProvider.Col( r.Key, r.Value.Select( v => (v.Breakpoint, v.Offset) ) ) ) );
 
-                built = true;
+                    if ( customRules?.Count > 0 )
+                        builder.Append( customRules );
+                }
+
+                var classBuilder = new ClassBuilder( BuildClasses );
+
+                classNames = classBuilder.Class;
+
+                dirty = false;
             }
 
-            return ClassMapper.Class;
+            return classNames;
+        }
+
+        private void Dirty()
+        {
+            dirty = true;
         }
 
         private IFluentColumnOnBreakpointWithOffsetAndSize WithColumnSize( ColumnWidth columnSize )
@@ -192,7 +208,7 @@ namespace Blazorise
                 rules[columnSize].Add( columnDefinition );
 
             currentColumn = columnDefinition;
-            ClassMapper.Dirty();
+            Dirty();
 
             return this;
         }
@@ -204,7 +220,7 @@ namespace Blazorise
             else
                 customRules.Add( value );
 
-            ClassMapper.Dirty();
+            Dirty();
 
             return this;
         }
@@ -212,7 +228,7 @@ namespace Blazorise
         private IFluentColumnWithSize WithBreakpoint( Breakpoint breakpoint )
         {
             currentColumn.Breakpoint = breakpoint;
-            ClassMapper.Dirty();
+            Dirty();
 
             return this;
         }
@@ -226,8 +242,6 @@ namespace Blazorise
         #endregion
 
         #region Properties
-
-        internal ClassMapper ClassMapper { get; } = new ClassMapper();
 
         /// <summary>
         /// Valid on all devices. (extra small)
@@ -257,7 +271,7 @@ namespace Blazorise
         /// <summary>
         /// Move columns to the right.
         /// </summary>
-        public IFluentColumnOnBreakpoint WithOffset { get { currentColumn.Offset = true; ClassMapper.Dirty(); return this; } }
+        public IFluentColumnOnBreakpoint WithOffset { get { currentColumn.Offset = true; Dirty(); return this; } }
 
         /// <summary>
         /// One column width.

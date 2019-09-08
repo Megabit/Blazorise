@@ -18,13 +18,14 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => ClassProvider.ContainerFluid(), () => IsFluid )
-                .If( () => ClassProvider.Container(), () => !IsFluid );
+            if ( IsFluid )
+                builder.Append( ClassProvider.ContainerFluid() );
+            else
+                builder.Append( ClassProvider.Container() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -39,7 +40,7 @@ namespace Blazorise
             {
                 isFluid = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

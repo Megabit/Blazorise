@@ -16,13 +16,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.MemoEdit() )
-                .If( () => ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.MemoEdit() );
+            builder.Append( ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected void HandleOnChange( ChangeEventArgs e )

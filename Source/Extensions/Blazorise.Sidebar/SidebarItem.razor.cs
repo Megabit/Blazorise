@@ -16,12 +16,11 @@ namespace Blazorise.Sidebar
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( "sidebar-item" );
+            builder.Append( "sidebar-item" );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion

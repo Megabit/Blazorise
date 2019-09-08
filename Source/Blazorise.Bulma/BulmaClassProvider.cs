@@ -184,7 +184,7 @@ namespace Blazorise.Bulma
 
         public virtual string AddonLabel() => "button is-static";
 
-        public virtual string AddonContainer() => "control";
+        //public virtual string AddonContainer() => "control";
 
         #endregion
 
@@ -272,7 +272,7 @@ namespace Blazorise.Bulma
 
         public virtual string DropdownMenu() => "dropdown-menu";
 
-        public virtual string DropdownMenuBody() => "dropdown-content";
+        //public virtual string DropdownMenuBody() => "dropdown-content";
 
         public virtual string DropdownMenuShow() => null;
 

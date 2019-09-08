@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseTableRowHeader
 @if ( !HasCustomRegistration )
 {
-    <th scope="row" class="@ClassMapper.Class" @onclick="@HandleClick">
+    <th scope="row" class="@ClassNames" @onclick="@HandleClick">
         @ChildContent
     </th>
 }

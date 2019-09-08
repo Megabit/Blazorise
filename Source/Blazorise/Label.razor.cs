@@ -22,15 +22,14 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => ClassProvider.Label(), () => !IsFile && !IsCheck )
-                .If( () => ClassProvider.LabelFile(), () => IsFile )
-                .If( () => ClassProvider.LabelCheck(), () => IsCheck )
-                .If( () => ClassProvider.LabelCursor( Cursor ), () => Cursor != Cursor.Default );
+            builder.Append( ClassProvider.Label(), !IsFile && !IsCheck );
+            builder.Append( ClassProvider.LabelFile(), IsFile );
+            builder.Append( ClassProvider.LabelCheck(), IsCheck );
+            builder.Append( ClassProvider.LabelCursor( Cursor ), Cursor != Cursor.Default );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -47,7 +46,7 @@ namespace Blazorise
             {
                 isCheck = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -59,7 +58,7 @@ namespace Blazorise
             {
                 isFile = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -71,7 +70,7 @@ namespace Blazorise
             {
                 cursor = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

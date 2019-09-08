@@ -20,14 +20,13 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.ListGroupItem() )
-                .If( () => ClassProvider.ListGroupItemActive(), () => IsActive )
-                .If( () => ClassProvider.ListGroupItemDisabled(), () => IsDisabled );
+            builder.Append( ClassProvider.ListGroupItem() );
+            builder.Append( ClassProvider.ListGroupItemActive(), IsActive );
+            builder.Append( ClassProvider.ListGroupItemDisabled(), IsDisabled );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected void ClickHandler()
@@ -60,7 +59,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -72,7 +71,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

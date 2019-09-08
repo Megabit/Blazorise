@@ -183,7 +183,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string AddonLabel() => "input-group-text";
 
-        public virtual string AddonContainer() => null;
+        //public virtual string AddonContainer() => null;
 
         #endregion
 
@@ -271,7 +271,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string DropdownMenu() => "dropdown-menu";
 
-        public virtual string DropdownMenuBody() => null;
+        //public virtual string DropdownMenuBody() => null;
 
         public virtual string DropdownMenuShow() => Show();
 

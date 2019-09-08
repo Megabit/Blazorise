@@ -21,12 +21,11 @@ namespace Blazorise.Charts
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Chart() );
+            builder.Append( ClassProvider.Chart() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
