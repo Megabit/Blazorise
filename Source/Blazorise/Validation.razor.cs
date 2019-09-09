@@ -177,6 +177,8 @@ namespace Blazorise
         public void Clear()
         {
             Status = ValidationStatus.None;
+            Validated?.Invoke( new ValidatedEventArgs( Status, string.Empty ) );
+
             StateHasChanged();
         }
 
