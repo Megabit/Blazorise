@@ -130,7 +130,8 @@ public void Configure( IComponentsApplicationBuilder app )
 ```cs
 public void Configure( IComponentsApplicationBuilder app )
 {
-  ...
+  // other settings
+  
   app.UseRouting();
   
   app.ApplicationServices
