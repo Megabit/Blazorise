@@ -114,7 +114,7 @@ public void ConfigureServices( IServiceCollection services )
 
 ### Client-Side
 
-```
+```cs
 public void Configure( IComponentsApplicationBuilder app )
 {
   app.Services
@@ -127,7 +127,7 @@ public void Configure( IComponentsApplicationBuilder app )
 
 ### Server-Side
 
-```
+```cs
 public void Configure( IComponentsApplicationBuilder app )
 {
   ...
@@ -149,7 +149,7 @@ This step is mandatory only for projects built on top of Server-Side Blazor(Razo
 
 First you must download **bundle.zip** from the [release](https://github.com/stsrki/Blazorise/releases) tab and extract it to your _wwwroot_ folder. After extraction you will have to include files in your Index.cshtml eg.
 
-```
+```html
 <link href="blazorise.css" rel="stylesheet" />
 <link href="blazorise.bootstrap.css" rel="stylesheet" />
 <link href="blazorise.sidebar.css" rel="stylesheet" />
@@ -164,6 +164,27 @@ etc.
 ```
 
 There is also another option. You can try the library [BlazorEmbedLibrary](https://github.com/SQL-MisterMagoo/BlazorEmbedLibrary). Full instruction on how to use it can be found on their project page.
+
+## Usage
+
+```html
+@page "/counter"
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<Button Color="Color.Primary" Clicked="IncrementCount">Click me</Button>
+
+@code {
+    int currentCount = 0;
+
+    void IncrementCount()
+    {
+        currentCount++;
+    }
+}
+```
 
 ## Other frameworks
 
