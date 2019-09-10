@@ -170,9 +170,9 @@ There is also another option. You can try the library [BlazorEmbedLibrary](https
 ```html
 @page "/counter"
 
-<h1>Counter</h1>
+<Heading Size="HeadingSize.Is1">Counter</Heading>
 
-<p>Current count: @currentCount</p>
+<Paragraph>Current count: @currentCount</Paragraph>
 
 <Button Color="Color.Primary" Clicked="IncrementCount">Click me</Button>
 
