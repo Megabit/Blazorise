@@ -653,6 +653,14 @@ namespace Blazorise
 
         string Figure();
 
+        string FigureSize( FigureSize figureSize );
+
+        string FigureImage();
+
+        string FigureImageRounded();
+
+        string FigureCaption();
+
         #endregion
 
         #region Breadcrumb
@@ -751,6 +759,8 @@ namespace Blazorise
         string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
 
         string ToPlacement( Placement placement );
+
+        string ToFigureSize( FigureSize figureSize );
 
         #endregion
 

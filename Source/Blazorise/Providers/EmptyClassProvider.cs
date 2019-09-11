@@ -660,6 +660,14 @@ namespace Blazorise.Providers
 
         public string Figure() => null;
 
+        public string FigureSize( FigureSize figureSize ) => null;
+
+        public string FigureImage() => null;
+
+        public string FigureImageRounded() => null;
+
+        public string FigureCaption() => null;
+
         #endregion
 
         #region Breadcrumb
@@ -753,6 +761,8 @@ namespace Blazorise.Providers
         public string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
 
         public string ToPlacement( Placement placement ) => null;
+
+        public string ToFigureSize( FigureSize figureSize ) => null;
 
         #endregion
 
