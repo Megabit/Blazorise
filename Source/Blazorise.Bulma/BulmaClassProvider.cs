@@ -752,6 +752,12 @@ namespace Blazorise.Bulma
 
         public virtual string Figure() => "image";
 
+        public virtual string FigureImage() => "figure-img";
+
+        public virtual string FigureImageRounded() => "is-rounded";
+
+        public virtual string FigureCaption() => "figure-caption";
+
         #endregion
 
         #region Breadcrumb

@@ -736,6 +736,12 @@ namespace Blazorise.Bootstrap
 
         public virtual string Figure() => "figure";
 
+        public virtual string FigureImage() => "figure-img";
+
+        public virtual string FigureImageRounded() => "rounded";
+
+        public virtual string FigureCaption() => "figure-caption";
+
         #endregion
 
         #region Breadcrumb

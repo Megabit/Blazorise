@@ -660,6 +660,12 @@ namespace Blazorise.Providers
 
         public string Figure() => null;
 
+        public string FigureImage() => null;
+
+        public string FigureImageRounded() => null;
+
+        public string FigureCaption() => null;
+
         #endregion
 
         #region Breadcrumb

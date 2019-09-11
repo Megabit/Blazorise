@@ -653,6 +653,12 @@ namespace Blazorise
 
         string Figure();
 
+        string FigureImage();
+
+        string FigureImageRounded();
+
+        string FigureCaption();
+
         #endregion
 
         #region Breadcrumb

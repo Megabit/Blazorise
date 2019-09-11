@@ -1,0 +1,33 @@
+﻿@page "/tests/figures"
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Figure</CardTitle>
+                <CardSubtitle>Anytime you need to display a piece of content—like an image with an optional caption, consider using a <code>Figure</code>.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Figure>
+                    <FigureImage Source="assets/images/gallery/9.jpg" AlternateText="some text" />
+                    <FigureCaption>A caption for the above image.</FigureCaption>
+                </Figure>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Rounded Figure</CardTitle>
+                <CardSubtitle></CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Figure>
+                    <FigureImage Source="assets/images/gallery/9.jpg" AlternateText="some text" IsRounded="true" />
+                    <FigureCaption>A caption for the above image.</FigureCaption>
+                </Figure>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code{
+}
