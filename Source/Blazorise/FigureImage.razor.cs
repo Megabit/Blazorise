@@ -37,7 +37,8 @@ namespace Blazorise
         [Parameter]
         public bool IsRounded
         {
-            get => isRounded; set
+            get => isRounded;
+            set
             {
                 isRounded = value;
 

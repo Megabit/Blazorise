@@ -12,6 +12,8 @@ namespace Blazorise
     {
         #region Members
 
+        private FigureSize size = FigureSize.None;
+
         #endregion
 
         #region Methods
@@ -19,6 +21,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Figure() );
+            builder.Append( ClassProvider.FigureSize( Size ), Size != FigureSize.None );
 
             base.BuildClasses( builder );
         }
@@ -26,6 +29,18 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        [Parameter]
+        public FigureSize Size
+        {
+            get => size;
+            set
+            {
+                size = value;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

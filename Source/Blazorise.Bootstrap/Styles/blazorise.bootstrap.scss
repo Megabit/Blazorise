@@ -24,3 +24,12 @@ table.table tbody tr.selected {
 .custom-checkbox > .custom-control-label.custom-control-label-pointer {
     cursor: pointer;
 }
+
+$dimensions: 16 24 32 48 64 96 128 256 512 !default
+
+@each $dimension in $dimensions {
+    &.figure-is-#{$dimension}x#{$dimension} {
+        height: $dimension * 1px;
+        width: $dimension * 1px;
+    }
+}
