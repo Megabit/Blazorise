@@ -92,7 +92,7 @@ namespace Blazorise.Snackbar
 
         private void Timer_Elapsed( object sender, ElapsedEventArgs e )
         {
-            Hide();
+            InvokeAsync( () => Hide() );
         }
 
         #endregion
