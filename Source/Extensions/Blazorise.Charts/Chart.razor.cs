@@ -138,10 +138,12 @@ namespace Blazorise.Charts
 
             var chartClickData = new ChartMouseEventArgs( datasetIndex, index, model );
 
-            if ( eventName == "hover" )
+            if ( eventName == "click" )
+                return Clicked.InvokeAsync( chartClickData );
+            else if ( eventName == "hover" )
                 return Hovered.InvokeAsync( chartClickData );
 
-            return Clicked.InvokeAsync( chartClickData );
+            return Task.CompletedTask;
         }
 
         // TODO: this is just temporary until System.Text.Json implements serialization of the inheriter fields.
