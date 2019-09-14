@@ -8,10 +8,41 @@ namespace Blazorise.Charts
 {
     static class JS
     {
-        // TODO: clean this
-        public static ValueTask<bool> SetChartData<TItem, TOptions>( IJSRuntime runtime, string id, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString )
+        private static object CreateDotNetObjectRefSyncObj = new object();
+
+        public static DotNetObjectReference<ChartAdapter> CreateDotNetObjectRef( ChartAdapter adapter )
         {
-            return runtime.InvokeAsync<bool>( "blazoriseCharts.setChartData", id, ToChartTypeString( type ), ToChartDataSet( data ), options, dataJsonString, optionsJsonString );
+            lock ( CreateDotNetObjectRefSyncObj )
+            {
+                return DotNetObjectReference.Create( adapter );
+            }
+        }
+
+        public static void DisposeDotNetObjectRef( DotNetObjectReference<ChartAdapter> dotNetObjectReference )
+        {
+            if ( dotNetObjectReference != null )
+            {
+                lock ( CreateDotNetObjectRefSyncObj )
+                {
+                    dotNetObjectReference.Dispose();
+                }
+            }
+        }
+
+        public static ValueTask<bool> InitializeChart<TItem, TOptions>( DotNetObjectReference<ChartAdapter> dotNetObjectReference, IJSRuntime runtime, string id, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString )
+        {
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.initialize", dotNetObjectReference, id, ToChartTypeString( type ), ToChartDataSet( data ), options, dataJsonString, optionsJsonString );
+        }
+
+        public static ValueTask<bool> Destroy( IJSRuntime runtime, string id )
+        {
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.destroy", id );
+        }
+
+        // TODO: clean this
+        public static ValueTask<bool> UpdateChart<TItem, TOptions>( IJSRuntime runtime, string id, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString )
+        {
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.update", id, ToChartDataSet( data ), options, dataJsonString, optionsJsonString );
         }
 
         public static string ToChartTypeString( ChartType type )
