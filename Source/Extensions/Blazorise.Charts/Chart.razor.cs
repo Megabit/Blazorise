@@ -14,7 +14,7 @@ namespace Blazorise.Charts
     /// </summary>
     public interface IBaseChart
     {
-        Task ModelClicked( int datasetIndex, int index, string model );
+        Task Event( string eventName, int datasetIndex, int index, string model );
     }
 
     public abstract class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseComponent, IDisposable, IBaseChart
@@ -112,7 +112,8 @@ namespace Blazorise.Charts
         private async Task Initialize()
         {
             dotNetObjectRef = dotNetObjectRef ?? JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
-            await JS.InitializeChart( dotNetObjectRef, JSRuntime, ElementId, Type, Data, Options, DataJsonString, OptionsJsonString );
+
+            await JS.InitializeChart( JSRuntime, dotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type, Data, Options, DataJsonString, OptionsJsonString );
         }
 
         /// <summary>
@@ -129,11 +130,16 @@ namespace Blazorise.Charts
             }
         }
 
-        public Task ModelClicked( int datasetIndex, int index, string modelJson )
+        public Task Event( string eventName, int datasetIndex, int index, string modelJson )
         {
+            Console.WriteLine( eventName + ": " + modelJson );
+
             var model = Serialize( modelJson );
 
             var chartClickData = new ChartMouseEventArgs( datasetIndex, index, model );
+
+            if ( eventName == "hover" )
+                return Hovered.InvokeAsync( chartClickData );
 
             return Clicked.InvokeAsync( chartClickData );
         }
@@ -192,6 +198,8 @@ namespace Blazorise.Charts
         [Parameter] public string OptionsJsonString { get; set; }
 
         [Parameter] public EventCallback<ChartMouseEventArgs> Clicked { get; set; }
+
+        [Parameter] public EventCallback<ChartMouseEventArgs> Hovered { get; set; }
 
         [Inject] IJSRuntime JSRuntime { get; set; }
 

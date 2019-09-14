@@ -18,9 +18,9 @@ namespace Blazorise.Charts
         }
 
         [JSInvokable]
-        public Task ModelClicked( int datasetIndex, int index, string model )
+        public Task Event( string eventName, int datasetIndex, int index, string model )
         {
-            return chart.ModelClicked( datasetIndex, index, model );
+            return chart.Event( eventName, datasetIndex, index, model );
         }
     }
 }

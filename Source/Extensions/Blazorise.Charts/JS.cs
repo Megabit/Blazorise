@@ -29,9 +29,9 @@ namespace Blazorise.Charts
             }
         }
 
-        public static ValueTask<bool> InitializeChart<TItem, TOptions>( DotNetObjectReference<ChartAdapter> dotNetObjectReference, IJSRuntime runtime, string id, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString )
+        public static ValueTask<bool> InitializeChart<TItem, TOptions>( IJSRuntime runtime, DotNetObjectReference<ChartAdapter> dotNetObjectReference, bool hasClickEvent, bool hasHoverEvent, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString )
         {
-            return runtime.InvokeAsync<bool>( "blazoriseCharts.initialize", dotNetObjectReference, id, ToChartTypeString( type ), ToChartDataSet( data ), options, dataJsonString, optionsJsonString );
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.initialize", dotNetObjectReference, hasClickEvent, hasHoverEvent, canvasId, ToChartTypeString( type ), ToChartDataSet( data ), options, dataJsonString, optionsJsonString );
         }
 
         public static ValueTask<bool> Destroy( IJSRuntime runtime, string id )
@@ -40,9 +40,9 @@ namespace Blazorise.Charts
         }
 
         // TODO: clean this
-        public static ValueTask<bool> UpdateChart<TItem, TOptions>( IJSRuntime runtime, string id, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString )
+        public static ValueTask<bool> UpdateChart<TItem, TOptions>( IJSRuntime runtime, string canvasId, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString )
         {
-            return runtime.InvokeAsync<bool>( "blazoriseCharts.update", id, ToChartDataSet( data ), options, dataJsonString, optionsJsonString );
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.update", canvasId, ToChartDataSet( data ), options, dataJsonString, optionsJsonString );
         }
 
         public static string ToChartTypeString( ChartType type )
