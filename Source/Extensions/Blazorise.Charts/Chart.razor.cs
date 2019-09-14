@@ -132,8 +132,6 @@ namespace Blazorise.Charts
 
         public Task Event( string eventName, int datasetIndex, int index, string modelJson )
         {
-            Console.WriteLine( eventName + ": " + modelJson );
-
             var model = Serialize( modelJson );
 
             var chartClickData = new ChartMouseEventArgs( datasetIndex, index, model );
