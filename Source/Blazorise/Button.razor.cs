@@ -54,7 +54,19 @@ namespace Blazorise
             // notify dropdown that the button is inside of it
             ParentDropdown?.Register( this );
 
+            ExecuteAfterRender( async () =>
+            {
+                await JSRunner.InitializeButton( ElementId, ElementRef, PreventDefaultOnSubmit );
+            } );
+
             base.OnInitialized();
+        }
+
+        public override void Dispose()
+        {
+            JSRunner.DestroyButton( ElementId );
+
+            base.Dispose();
         }
 
         #endregion
@@ -177,6 +189,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Prevents a default form-post when button type is set to <see cref="ButtonType.Submit"/>.
+        /// </summary>
+        [Parameter] public bool PreventDefaultOnSubmit { get; set; }
 
         [CascadingParameter] public BaseDropdown ParentDropdown { get; set; }
 

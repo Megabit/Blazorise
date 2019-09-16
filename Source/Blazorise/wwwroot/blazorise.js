@@ -307,6 +307,36 @@ window.blazorise = {
 
             return value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value);
         };
+    },
+    button: {
+        _instances: [],
+
+        initialize: (elementId, element, preventDefaultOnSubmit) => {
+            window.blazorise.button._instances[elementId] = new window.blazorise.ButtonInfo(elementId, element, preventDefaultOnSubmit);
+
+            if (element.type === "submit") {
+                element.addEventListener("click", (e) => {
+                    window.blazorise.button.click(window.blazorise.button._instances[elementId], e);
+                });
+            }
+
+            return true;
+        },
+        destroy: (elementId) => {
+            var instances = window.blazorise.button._instances || {};
+            delete instances[elementId];
+            return true;
+        },
+        click: (buttonInfo, e) => {
+            if (buttonInfo.preventDefaultOnSubmit) {
+                return e.preventDefault();
+            }
+        }
+    },
+    ButtonInfo: function (elementId, element, preventDefaultOnSubmit) {
+        this.elementId = elementId;
+        this.element = element;
+        this.preventDefaultOnSubmit = preventDefaultOnSubmit;
     }
 };
 
