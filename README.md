@@ -14,14 +14,14 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 
 ## Demos
 
-### Client-Side Blazor
+### Blazor WebAssembly
 
 - [Bootstrap Demo](https://bootstrapdemo.blazorise.com)
 - [Material Demo](https://materialdemo.blazorise.com/)
 - [Bulma Demo](https://bulmademo.blazorise.com/)
 - [eFrolic Demo](https://efrolicdemo.blazorise.com/)
 
-### Server-Side Blazor
+### Blazor Server
 
 - [Bootstrap Demo](https://rcbootstrapdemo.blazorise.com/)
 
@@ -112,7 +112,7 @@ public void ConfigureServices( IServiceCollection services )
 }
 ```
 
-### Client-Side
+### Blazor WebAssembly
 
 ```cs
 public void Configure( IComponentsApplicationBuilder app )
@@ -125,7 +125,7 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-### Server-Side
+### Blazor Server
 
 ```cs
 public void Configure( IComponentsApplicationBuilder app )
@@ -146,7 +146,7 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-This step is mandatory only for projects built on top of Server-Side Blazor(Razor Components)! For Client-Side Blazor projects this step is not required! Normally these files would be downloaded automatically by the framework but since Razor Components still doesn't support static files inside of class library you will need to manually include required js and css files into your project. Once the Blazor/RC team implements this feature this step will not we required.
+This step is mandatory only for projects built on top of Blazor Server(Razor Components)! For Blazor WebAssembly projects this step is not required! Normally these files would be downloaded automatically by the framework but since Razor Components still doesn't support static files inside of class library you will need to manually include required js and css files into your project. Once the Blazor/RC team implements this feature this step will not we required.
 
 First you must download **bundle.zip** from the [release](https://github.com/stsrki/Blazorise/releases) tab and extract it to your _wwwroot_ folder. After extraction you will have to include files in your Index.cshtml eg.
 

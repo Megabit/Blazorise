@@ -70,7 +70,7 @@ public void ConfigureServices( IServiceCollection services )
 }
 ```
 
-### Client-Side
+### Blazor WebAssembly
 
 ```
 public void Configure( IComponentsApplicationBuilder app )
@@ -83,7 +83,7 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-### Server-Side
+### Blazor Server
 
 ```
 public void Configure( IComponentsApplicationBuilder app )
