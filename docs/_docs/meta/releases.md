@@ -29,9 +29,9 @@ toc_label: "Version history"
 - [#222](https://github.com/stsrki/Blazorise/issues/222) Validations.ClearAll() Fails to clear validations for second field
 - [#230](https://github.com/stsrki/Blazorise/issues/230) NumericEdit Decimals Property Handling
 
-## 0.8.4
-
 For detail description of changes please look at [v0.8.5 release page]({{ "/docs/release-notes/release085/" | relative_url }})
+
+## 0.8.4
 
 ### Breaking changes
 
