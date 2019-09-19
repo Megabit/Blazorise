@@ -20,9 +20,11 @@
     </Content>
     <Content Update="wwwroot\blazorise.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="wwwroot\blazorise.js">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="wwwroot\blazorise.sidebar.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
