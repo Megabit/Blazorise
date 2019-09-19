@@ -106,6 +106,8 @@ namespace Blazorise.Frolic
 
         public string ValidationErrorTooltip() => "e-form-info text-danger";
 
+        public string ValidationNone() => "e-form-info text-muted";
+
         #endregion
 
         #region Fields
@@ -170,7 +172,7 @@ namespace Blazorise.Frolic
 
         public virtual string AddonLabel() => null;
 
-        public virtual string AddonContainer() => null;
+        //public virtual string AddonContainer() => null;
 
         #endregion
 
@@ -258,7 +260,7 @@ namespace Blazorise.Frolic
 
         public virtual string DropdownMenu() => "drop-items";
 
-        public virtual string DropdownMenuBody() => null;
+        //public virtual string DropdownMenuBody() => null;
 
         public virtual string DropdownMenuShow() => Show();
 
@@ -721,7 +723,15 @@ namespace Blazorise.Frolic
 
         #region Figure
 
-        public virtual string Figure() => "figure";
+        public virtual string Figure() => "e-figure";
+
+        public virtual string FigureSize( FigureSize figureSize ) => $"e-figure-is-{ToFigureSize( figureSize )}";
+
+        public virtual string FigureImage() => "e-figure-img";
+
+        public virtual string FigureImageRounded() => "e-rounded";
+
+        public virtual string FigureCaption() => "e-figure-caption";
 
         #endregion
 
@@ -1214,6 +1224,33 @@ namespace Blazorise.Frolic
             {
                 case Blazorise.Cursor.Pointer:
                     return "pointer";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ToFigureSize( FigureSize figureSize )
+        {
+            switch ( figureSize )
+            {
+                case Blazorise.FigureSize.Is16x16:
+                    return "16x16";
+                case Blazorise.FigureSize.Is24x24:
+                    return "24x24";
+                case Blazorise.FigureSize.Is32x32:
+                    return "32x32";
+                case Blazorise.FigureSize.Is48x48:
+                    return "48x48";
+                case Blazorise.FigureSize.Is64x64:
+                    return "64x64";
+                case Blazorise.FigureSize.Is96x96:
+                    return "96x96";
+                case Blazorise.FigureSize.Is128x128:
+                    return "128x128";
+                case Blazorise.FigureSize.Is256x256:
+                    return "256x256";
+                case Blazorise.FigureSize.Is512x512:
+                    return "512x512";
                 default:
                     return null;
             }

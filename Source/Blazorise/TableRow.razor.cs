@@ -26,16 +26,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.TableRow() )
-                .If( () => ClassProvider.TableRowColor( Color ), () => Color != Color.None )
-                .If( () => ClassProvider.TableRowBackground( Background ), () => Background != Background.None )
-                .If( () => ClassProvider.TableRowTextColor( TextColor ), () => TextColor != TextColor.None )
-                .If( () => ClassProvider.TableRowIsSelected(), () => IsSelected );
+            builder.Append( ClassProvider.TableRow() );
+            builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.TableRowBackground( Background ), Background != Background.None );
+            builder.Append( ClassProvider.TableRowTextColor( TextColor ), TextColor != TextColor.None );
+            builder.Append( ClassProvider.TableRowIsSelected(), IsSelected );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected void HandleClick( MouseEventArgs e )
@@ -55,7 +54,7 @@ namespace Blazorise
             {
                 color = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -67,7 +66,7 @@ namespace Blazorise
             {
                 background = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -79,7 +78,7 @@ namespace Blazorise
             {
                 textColor = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -94,7 +93,7 @@ namespace Blazorise
             {
                 selected = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

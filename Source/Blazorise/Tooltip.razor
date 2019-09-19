@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.BaseTooltip
-<div @ref="@ElementRef" class="@ClassMapper.Class" role="tooltip" data-tooltip="@Text">
+<div @ref="@ElementRef" class="@ClassNames" role="tooltip" data-tooltip="@Text">
     <CascadingValue Value="this">
         @ChildContent
     </CascadingValue>

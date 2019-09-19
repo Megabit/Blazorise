@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Charts
 {
-    public abstract class BasePolarAreaChart<TItem> : BaseChart<PolarAreaChartDataset<TItem>, TItem, PolarAreaChartOptions>
+    public abstract class BasePolarAreaChart<TItem> : BaseChart<PolarAreaChartDataset<TItem>, TItem, PolarAreaChartOptions, PolarChartModel>
     {
         #region Members
 

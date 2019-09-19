@@ -28,16 +28,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Dropdown() )
-                .If( () => ClassProvider.DropdownGroup(), () => IsGroup )
-                .If( () => ClassProvider.DropdownShow(), () => IsOpen )
-                .If( () => ClassProvider.DropdownRight(), () => IsRightAligned )
-                .If( () => ClassProvider.DropdownDirection( Direction ), () => Direction != Direction.Down );
+            builder.Append( ClassProvider.Dropdown() );
+            builder.Append( ClassProvider.DropdownGroup(), IsGroup );
+            builder.Append( ClassProvider.DropdownShow(), IsOpen );
+            builder.Append( ClassProvider.DropdownRight(), IsRightAligned );
+            builder.Append( ClassProvider.DropdownDirection( Direction ), Direction != Direction.Down );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         public void Open()
@@ -102,7 +101,7 @@ namespace Blazorise
             {
                 registeredButtons.Add( button );
 
-                ClassMapper.Dirty();
+                DirtyClasses();
 
                 if ( registeredButtons?.Count >= 1 ) // must find a better way to refresh dropdown
                     StateHasChanged();
@@ -135,7 +134,7 @@ namespace Blazorise
                 if ( dropdownToggle != null )
                     dropdownToggle.IsOpen = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -150,7 +149,7 @@ namespace Blazorise
             {
                 isRightAligned = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -165,7 +164,7 @@ namespace Blazorise
             {
                 direction = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

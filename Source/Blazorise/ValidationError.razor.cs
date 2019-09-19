@@ -18,13 +18,14 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => ClassProvider.ValidationError(), () => !IsTooltip )
-                .If( () => ClassProvider.ValidationErrorTooltip(), () => IsTooltip );
+            if ( !IsTooltip )
+                builder.Append( ClassProvider.ValidationError() );
+            else
+                builder.Append( ClassProvider.ValidationErrorTooltip() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
@@ -71,7 +72,7 @@ namespace Blazorise
             {
                 isTooltip = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

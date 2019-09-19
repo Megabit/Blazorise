@@ -22,15 +22,17 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => ClassProvider.RadioEdit(), () => RadioGroup != null )
-                .If( () => ClassProvider.CheckEdit(), () => RadioGroup == null )
-                .If( () => ClassProvider.CheckEditCursor( Cursor ), () => Cursor != Cursor.Default )
-                .If( () => ClassProvider.CheckEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+            if ( RadioGroup != null )
+                builder.Append( ClassProvider.RadioEdit() );
+            else
+                builder.Append( ClassProvider.CheckEdit() );
 
-            base.RegisterClasses();
+            builder.Append( ClassProvider.CheckEditCursor( Cursor ), Cursor != Cursor.Default );
+            builder.Append( ClassProvider.CheckEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+
+            base.BuildClasses( builder );
         }
 
         protected void HandleCheckedChanged( ChangeEventArgs e )
@@ -80,7 +82,7 @@ namespace Blazorise
             {
                 radioGroup = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -95,7 +97,7 @@ namespace Blazorise
             {
                 isInline = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -110,7 +112,7 @@ namespace Blazorise
             {
                 cursor = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

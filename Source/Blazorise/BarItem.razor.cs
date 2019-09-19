@@ -22,16 +22,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.BarItem() )
-                .If( () => ClassProvider.BarItemActive(), () => IsActive )
-                .If( () => ClassProvider.BarItemDisabled(), () => IsDisabled )
-                .If( () => ClassProvider.BarItemHasDropdown(), () => IsDropdown )
-                .If( () => ClassProvider.BarItemHasDropdownShow(), () => IsDropdown && barDropdown?.IsOpen == true );
+            builder.Append( ClassProvider.BarItem() );
+            builder.Append( ClassProvider.BarItemActive(), IsActive );
+            builder.Append( ClassProvider.BarItemDisabled(), IsDisabled );
+            builder.Append( ClassProvider.BarItemHasDropdown(), IsDropdown );
+            builder.Append( ClassProvider.BarItemHasDropdownShow(), IsDropdown && barDropdown?.IsOpen == true );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         internal void Hook( BaseBarDropdown barDropdown )
@@ -43,7 +42,7 @@ namespace Blazorise
 
         internal void MenuChanged()
         {
-            ClassMapper.Dirty();
+            DirtyClasses();
 
             StateHasChanged();
         }
@@ -62,7 +61,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -74,7 +73,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

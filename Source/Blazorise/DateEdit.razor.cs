@@ -19,14 +19,13 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.DateEdit() )
-                .If( () => ClassProvider.DateEditSize( Size ), () => Size != Size.None )
-                .If( () => ClassProvider.DateEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.DateEdit() );
+            builder.Append( ClassProvider.DateEditSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.DateEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()

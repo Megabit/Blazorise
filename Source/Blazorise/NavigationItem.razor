@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseNavigationItem
 @if ( !HasCustomRegistration )
 {
-    <a class="@ClassMapper.Class" @onclick="@ClickHandler">
+    <a class="@ClassNames" @onclick="@ClickHandler">
         @ChildContent
     </a>
 }

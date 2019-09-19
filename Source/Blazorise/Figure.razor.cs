@@ -12,21 +12,35 @@ namespace Blazorise
     {
         #region Members
 
+        private FigureSize size = FigureSize.None;
+
         #endregion
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Figure() );
+            builder.Append( ClassProvider.Figure() );
+            builder.Append( ClassProvider.FigureSize( Size ), Size != FigureSize.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
 
         #region Properties
+
+        [Parameter]
+        public FigureSize Size
+        {
+            get => size;
+            set
+            {
+                size = value;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

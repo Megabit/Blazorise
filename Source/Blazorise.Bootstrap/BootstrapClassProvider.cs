@@ -98,13 +98,15 @@ namespace Blazorise.Bootstrap
 
         #region Validation
 
-        public string ValidationSuccess() => "valid-feedback";
+        public virtual string ValidationSuccess() => "valid-feedback";
 
-        public string ValidationSuccessTooltip() => "valid-tooltip";
+        public virtual string ValidationSuccessTooltip() => "valid-tooltip";
 
-        public string ValidationError() => "invalid-feedback";
+        public virtual string ValidationError() => "invalid-feedback";
 
-        public string ValidationErrorTooltip() => "invalid-tooltip";
+        public virtual string ValidationErrorTooltip() => "invalid-tooltip";
+
+        public virtual string ValidationNone() => "form-text text-muted";
 
         #endregion
 
@@ -181,7 +183,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string AddonLabel() => "input-group-text";
 
-        public virtual string AddonContainer() => null;
+        //public virtual string AddonContainer() => null;
 
         #endregion
 
@@ -269,7 +271,7 @@ namespace Blazorise.Bootstrap
 
         public virtual string DropdownMenu() => "dropdown-menu";
 
-        public virtual string DropdownMenuBody() => null;
+        //public virtual string DropdownMenuBody() => null;
 
         public virtual string DropdownMenuShow() => Show();
 
@@ -733,6 +735,14 @@ namespace Blazorise.Bootstrap
         #region Figure
 
         public virtual string Figure() => "figure";
+
+        public virtual string FigureSize( FigureSize figureSize ) => $"figure-is-{ToFigureSize( figureSize )}";
+
+        public virtual string FigureImage() => "figure-img";
+
+        public virtual string FigureImageRounded() => "rounded";
+
+        public virtual string FigureCaption() => "figure-caption";
 
         #endregion
 
@@ -1226,6 +1236,33 @@ namespace Blazorise.Bootstrap
             {
                 case Blazorise.Cursor.Pointer:
                     return "pointer";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ToFigureSize( FigureSize figureSize )
+        {
+            switch ( figureSize )
+            {
+                case Blazorise.FigureSize.Is16x16:
+                    return "16x16";
+                case Blazorise.FigureSize.Is24x24:
+                    return "24x24";
+                case Blazorise.FigureSize.Is32x32:
+                    return "32x32";
+                case Blazorise.FigureSize.Is48x48:
+                    return "48x48";
+                case Blazorise.FigureSize.Is64x64:
+                    return "64x64";
+                case Blazorise.FigureSize.Is96x96:
+                    return "96x96";
+                case Blazorise.FigureSize.Is128x128:
+                    return "128x128";
+                case Blazorise.FigureSize.Is256x256:
+                    return "256x256";
+                case Blazorise.FigureSize.Is512x512:
+                    return "512x512";
                 default:
                     return null;
             }

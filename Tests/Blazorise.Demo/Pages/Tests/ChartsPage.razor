@@ -99,7 +99,7 @@
         }
     }
 
-    async Task HandleRedraw<TDataSet, TItem, TOptions>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions> chart, Func<TDataSet> getDataSet )
+    async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<TDataSet> getDataSet )
         where TDataSet : ChartDataset<TItem>
         where TOptions : ChartOptions
     {

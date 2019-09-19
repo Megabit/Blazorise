@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Charts
 {
-    public abstract class BaseRadarChart<TItem> : BaseChart<RadarChartDataset<TItem>, TItem, RadarChartOptions>
+    public abstract class BaseRadarChart<TItem> : BaseChart<RadarChartDataset<TItem>, TItem, RadarChartOptions, RadarChartModel>
     {
         #region Members
 
