@@ -37,3 +37,18 @@ Changes the size of the modal.
 - `Small` Small modal.
 - `Large` Large modal.
 - `ExtraLarge` Extra large modal.
+
+## FigureSize
+
+Defines the size of the figure component.
+
+- `None` No sizing applied.
+- `Is16x16` 16x16 px
+- `Is24x24` 24x24 px
+- `Is32x32` 32x32 px
+- `Is48x48` 48x48 px
+- `Is64x64` 64x64 px
+- `Is96x96` 96x96 px
+- `Is128x128` 128x128 px
+- `Is256x256` 256x256 px
+- `Is512x512` 512x512 px
