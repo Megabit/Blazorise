@@ -13,6 +13,7 @@ Validation component is used to provide simple form validation for Blazorise inp
     - `<Feedback>` messages placeholder
       - `<ValidationSuccess>` success message
       - `<ValidationError>` error message
+      - `<ValidationNone>` message when nothing has happened
 
 ## Basic validation
 
@@ -26,6 +27,7 @@ Here you can see the basic example for automatic validation and a custom functio
 <Validation Validator="@ValidateEmail">
     <TextEdit Placeholder="Enter email">
         <Feedback>
+            <ValidationNone>Please enter the email.</ValidationNone>
             <ValidationSuccess>Email is good.</ValidationSuccess>
             <ValidationError>Enter valid email!</ValidationError>
         </Feedback>
