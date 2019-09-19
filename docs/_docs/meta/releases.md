@@ -8,11 +8,11 @@ toc_label: "Version history"
 
 ## 0.8.5
 
-## Breaking changes
+### Breaking changes
 
 - [#258](https://github.com/stsrki/Blazorise/issues/210) Upgrade to 3.0.0-preview9.19457.4
 
-## Enhancements
+### Enhancements
 
 - [#191](https://github.com/stsrki/Blazorise/issues/191) Optimize classname builders
 - [#145](https://github.com/stsrki/Blazorise/issues/145) Using 'enter' as a keypress for SimpleButton
@@ -21,7 +21,7 @@ toc_label: "Version history"
 - [#225](https://github.com/stsrki/Blazorise/issues/225) Add missing sub-component to Figure
 - [#226](https://github.com/stsrki/Blazorise/issues/226) Feature Request : `<ValidationNone></ValidationNone>`
 
-## Bug Fixes
+### Bug Fixes
 
 - [#244](https://github.com/stsrki/Blazorise/issues/244) Dropdown going out of bounds
 - [#162](https://github.com/stsrki/Blazorise/issues/162) Snackbar not closing (Server-side)

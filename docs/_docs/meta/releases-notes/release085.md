@@ -20,15 +20,15 @@ Although it wasn't supposed to be any new preview of Blazor before hitting the f
 
 This is the biggest and the most important change in this release. The main plan for the **0.9** milestone is to refactor and optimize some parts of Blazorise. With this release we're one step closer to that goal. 
 
-For the long time generating css class-names was a pretty a big bottleneck. Since class-names had to be regenerated every time a component is initialized the process can noticeably slow down rendering of the page. For regular-sized pages this is not the problem. But if the page contains a large number of components it can become a problem.
+For the long time generating CSS class-names was a pretty a big bottleneck. Since class-names had to be regenerated every time a component is initialized the process can noticeably slow down rendering of the page. For regular-sized pages this is not the problem. But if the page contains a large number of components it can become a problem.
 
-After a lot of refactoring the old `ClassMapper` is replaced with the `ClassBuilder`. Based on my benchmark calculations the new builder is around _40%_ faster for the worst-case scenarios where a lot of classes need to be randomly generated based on some condition. It could be speed for up to _2-3%_ more but that would require the change to the builder API and it would be a lot more dificult to use. These optimizations can be safely be said to be final as there is in my opinion no more noticable room to improve that is worth doing.
+After a lot of refactoring the old `ClassMapper` is replaced with the `ClassBuilder`. Based on my benchmark calculations the new builder is around _40%_ faster for the worst-case scenarios where a lot of classes need to be randomly generated based on some condition. It could be speed for up to _2-3%_ more but that would require the change to the builder API and it would be a lot more difficult to use. These optimizations can be safely be said to be final as there is in my opinion no more noticeable room to improve that is worth doing.
 
-The change is visible only in the code-behind so nothing needs to be changed on your side. Only thing 
+The change is visible only in the code-behind so nothing needs to be changed on your side.
 
 ### Submit button
 
-When using a submit button inside of `<Form>` element the browser will automatically try to post the page. This is the default browser behaviour. Because of this a new attribute is introduced to the `<Button>` element, called `PreventDefaultOnSubmit`. Basically it prevents a default browser behaviour when clicking the submit button. So instead of posting the page it will stop it and just call the `Clicked` event handler. Pressing the `Enter` key will still work just as it's supposed to do. [more]({{ "/docs/components/button/#submit-button" | relative_url }})
+When using a submit button inside of `<Form>` element the browser will automatically try to post the page. This is the default browser behavior. Because of this a new attribute is introduced to the `<Button>` element, called `PreventDefaultOnSubmit`. Basically it prevents a default browser behavior when clicking the submit button. So instead of posting the page it will stop it and just call the `Clicked` event handler. Pressing the `Enter` key will still work just as it's supposed to do. [more]({{ "/docs/components/button/#submit-button" | relative_url }})
 
 ### Chart events
 
@@ -36,7 +36,7 @@ Chart extension now supports `Clicked` and `Hovered` event callbacks. When click
 
 ### Figure
 
-Intruduced new `<FigureImage>` and `<FigureCaption>` components that can be used along the existing `<Figure>` component. [more]({{ "/docs/extensions/figure/" | relative_url }})
+Introduced new `<FigureImage>` and `<FigureCaption>` components that can be used along the existing `<Figure>` component. [more]({{ "/docs/extensions/figure/" | relative_url }})
 
 ### Misc
 
@@ -47,7 +47,7 @@ Intruduced new `<FigureImage>` and `<FigureCaption>` components that can be used
 
 - [#244](https://github.com/stsrki/Blazorise/issues/244) Dropdown going out of bounds
 - [#162](https://github.com/stsrki/Blazorise/issues/162) Snackbar not closing (Server-side)
-- [#248](https://github.com/stsrki/Blazorise/issues/248) launchSettings.json warning
+- [#248](https://github.com/stsrki/Blazorise/issues/248) `launchSettings.json` warning
 - [#222](https://github.com/stsrki/Blazorise/issues/222) Validations.ClearAll() Fails to clear validations for second field
 - [#230](https://github.com/stsrki/Blazorise/issues/230) NumericEdit Decimals Property Handling
 
