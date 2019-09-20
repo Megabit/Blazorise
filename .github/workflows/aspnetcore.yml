@@ -9,9 +9,9 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Setup .NET Core 3.0-p8
+    - name: Setup .NET Core 3.0-p9
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.0.0-preview9.19457.4
+        dotnet-version: 3.0.100-preview9-014004
     - name: Build with dotnet
       run: dotnet build Blazorise.sln --configuration Release
