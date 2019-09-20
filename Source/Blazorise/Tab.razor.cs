@@ -16,19 +16,36 @@ namespace Blazorise
 
         #endregion
 
+        #region Constructors
+
+        public BaseTab()
+        {
+            LinkClassBuilder = new ClassBuilder( BuildLinkClasses );
+        }
+
+        #endregion
+
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.TabItem() )
-                .If( () => ClassProvider.TabItemActive(), () => IsActive );
+            builder.Append( ClassProvider.TabItem() );
+            builder.Append( ClassProvider.TabItemActive(), IsActive );
 
-            LinkClassMapper
-                .Add( () => ClassProvider.TabLink() )
-                .If( () => ClassProvider.TabLinkActive(), () => IsActive );
+            base.BuildClasses( builder );
+        }
 
-            base.RegisterClasses();
+        private void BuildLinkClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.TabLink() );
+            builder.Append( ClassProvider.TabLinkActive(), IsActive );
+        }
+
+        internal protected override void DirtyClasses()
+        {
+            LinkClassBuilder.Dirty();
+
+            base.DirtyClasses();
         }
 
         protected override void OnInitialized()
@@ -47,8 +64,12 @@ namespace Blazorise
         #endregion
 
         #region Properties
+        protected ClassBuilder LinkClassBuilder { get; private set; }
 
-        protected ClassMapper LinkClassMapper { get; } = new ClassMapper();
+        /// <summary>
+        /// Gets the link class-names.
+        /// </summary>
+        protected string LinkClassNames => LinkClassBuilder.Class;
 
         /// <summary>
         /// Defines the tab name.
@@ -66,8 +87,7 @@ namespace Blazorise
             {
                 isActive = value;
 
-                ClassMapper.Dirty();
-                LinkClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -76,7 +96,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
 
-        [CascadingParameter] protected BaseTabs ParentTabs { get; set; }
+        [CascadingParameter] public BaseTabs ParentTabs { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

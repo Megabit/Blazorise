@@ -1,0 +1,11 @@
+﻿@inherits Blazorise.BaseLabel
+@if ( !HasCustomRegistration )
+{
+    <label class="@ClassNames" style="@StyleNames" for="@For">
+        @ChildContent
+    </label>
+}
+else
+{
+    @RenderCustomComponent()
+}

@@ -1,0 +1,7 @@
+﻿@inherits BaseDisplayHeading
+<Dynamic TagName="@TagName" class="@ClassNames">
+    @ChildContent
+</Dynamic>
+@code{
+    string TagName => $"h{( ClassProvider.ToDisplayHeadingSize( Size ) ?? "1" )}";
+}

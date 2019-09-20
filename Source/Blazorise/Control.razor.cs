@@ -20,16 +20,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => ClassProvider.ControlCheck(), () => Role == ControlRole.Check )
-                .If( () => ClassProvider.ControlRadio(), () => Role == ControlRole.Radio )
-                .If( () => ClassProvider.ControlFile(), () => Role == ControlRole.File )
-                .If( () => ClassProvider.ControlText(), () => Role == ControlRole.Text )
-                .If( () => ClassProvider.CheckInline(), () => IsInline );
+            builder.Append( ClassProvider.ControlCheck(), Role == ControlRole.Check );
+            builder.Append( ClassProvider.ControlRadio(), Role == ControlRole.Radio );
+            builder.Append( ClassProvider.ControlFile(), Role == ControlRole.File );
+            builder.Append( ClassProvider.ControlText(), Role == ControlRole.Text );
+            builder.Append( ClassProvider.CheckEditInline(), IsInline );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -47,7 +46,7 @@ namespace Blazorise
             {
                 isInline = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -62,7 +61,7 @@ namespace Blazorise
             {
                 role = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

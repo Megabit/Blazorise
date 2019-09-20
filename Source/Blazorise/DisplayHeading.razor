@@ -1,0 +1,11 @@
+﻿@inherits Blazorise.BaseDisplayHeading
+@if ( !HasCustomRegistration )
+{
+    <h1 class="@ClassNames">
+        @ChildContent
+    </h1>
+}
+else
+{
+    @RenderCustomComponent()
+}

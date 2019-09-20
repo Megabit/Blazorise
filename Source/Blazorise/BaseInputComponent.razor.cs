@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Base component for all the input component types.
     /// </summary>
-    public abstract class BaseInputComponent<TValue> : BaseSizableComponent, IDisposable
+    public abstract class BaseInputComponent<TValue> : BaseSizableComponent
     {
         #region Members
 
@@ -40,18 +40,20 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        public virtual void Dispose()
+        public override void Dispose()
         {
             if ( ParentValidation != null )
             {
                 // To avoid leaking memory, it's important to detach any event handlers in Dispose()
                 ParentValidation.Validated -= OnValidated;
             }
+
+            base.Dispose();
         }
 
         private void OnValidated( ValidatedEventArgs e )
         {
-            ClassMapper.Dirty();
+            DirtyClasses();
         }
 
         #endregion
@@ -86,7 +88,7 @@ namespace Blazorise
             {
                 size = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -101,7 +103,7 @@ namespace Blazorise
             {
                 isReadonly = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -116,7 +118,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -133,7 +135,7 @@ namespace Blazorise
         /// <summary>
         /// Parent validation container.
         /// </summary>
-        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
+        [CascadingParameter] public BaseValidation ParentValidation { get; set; }
 
         #endregion
     }

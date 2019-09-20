@@ -509,6 +509,32 @@ namespace Blazorise
     }
 
     /// <summary>
+    /// Defines the placement of an element.
+    /// </summary>
+    public enum Placement
+    {
+        /// <summary>
+        /// Top side.
+        /// </summary>
+        Top,
+
+        /// <summary>
+        /// Bottom side.
+        /// </summary>
+        Bottom,
+
+        /// <summary>
+        /// Left side.
+        /// </summary>
+        Left,
+
+        /// <summary>
+        /// Right side.
+        /// </summary>
+        Right,
+    }
+
+    /// <summary>
     /// Defines the spacing property.
     /// </summary>
     public enum Spacing
@@ -975,6 +1001,20 @@ namespace Blazorise
     }
 
     /// <summary>
+    /// Defines the display heading size.
+    /// </summary>
+    public enum DisplayHeadingSize
+    {
+        Is1,
+
+        Is2,
+
+        Is3,
+
+        Is4,
+    }
+
+    /// <summary>
     /// Defines the validation results.
     /// </summary>
     public enum ValidationStatus
@@ -1152,5 +1192,61 @@ namespace Blazorise
         /// Sorts in descending order.
         /// </summary>
         Descending = 1,
+    }
+
+    /// <summary>
+    /// Defines a figure size in pixels.
+    /// </summary>
+    public enum FigureSize
+    {
+        /// <summary>
+        /// No sizing will be applied.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// 16x16px
+        /// </summary>
+        Is16x16 = 1,
+
+        /// <summary>
+        /// 24x24px
+        /// </summary>
+        Is24x24 = 2,
+
+        /// <summary>
+        /// 32x32px
+        /// </summary>
+        Is32x32 = 3,
+
+        /// <summary>
+        /// 48x48px
+        /// </summary>
+        Is48x48 = 4,
+
+        /// <summary>
+        /// 64x64px
+        /// </summary>
+        Is64x64 = 5,
+
+        /// <summary>
+        /// 96x96px
+        /// </summary>
+        Is96x96 = 6,
+
+        /// <summary>
+        /// 128x128px
+        /// </summary>
+        Is128x128 = 7,
+
+        /// <summary>
+        /// 256x256px
+        /// </summary>
+        Is256x256 = 8,
+
+        /// <summary>
+        /// 512x512px
+        /// </summary>
+        Is512x512 = 9,
     }
 }

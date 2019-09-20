@@ -10,71 +10,71 @@ namespace Blazorise.Bulma
 {
     class BulmaClassProvider : IClassProvider
     {
-        #region Text
+        #region TextEdit
 
-        public virtual string Text( bool plaintext ) => plaintext ? "input is-static" : "input";
+        public virtual string TextEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-        public virtual string TextSize( Size size ) => Size( size );
+        public virtual string TextEditSize( Size size ) => ToSize( size );
 
-        public virtual string TextColor( Color color ) => $"is-{Color( color )}";
+        public virtual string TextEditColor( Color color ) => $"is-{ToColor( color )}";
 
-        public virtual string TextValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
-
-        #endregion
-
-        #region Memo
-
-        public virtual string Memo() => "textarea";
-
-        public virtual string MemoValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
-        #region Select
+        #region MemoEdit
 
-        public virtual string Select() => "select is-fullwidth";
+        public virtual string MemoEdit() => "textarea";
 
-        public virtual string SelectSize( Size size ) => $"{Size( size )}";
-
-        public virtual string SelectValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
-        #region Date
+        #region SelectEdit
 
-        public virtual string Date() => "input";
+        public virtual string SelectEdit() => "select is-fullwidth";
 
-        public virtual string DateSize( Size size ) => $"{Size( size )}";
+        public virtual string SelectEditSize( Size size ) => $"{ToSize( size )}";
 
-        public virtual string DateValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
-
-        #endregion
-
-        #region Check
-
-        public virtual string Check() => "checkbox";
-
-        public virtual string CheckInline() => "inline";
-
-        public virtual string CheckCursor( Cursor cursor ) => $"{Check()}-{Cursor( cursor )}";
-
-        public virtual string CheckValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string SelectEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
-        #region Radio
+        #region DateEdit
 
-        public virtual string Radio() => "radio";
+        public virtual string DateEdit() => "input";
+
+        public virtual string DateEditSize( Size size ) => $"{ToSize( size )}";
+
+        public virtual string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region CheckEdit
+
+        public virtual string CheckEdit() => "checkbox";
+
+        public virtual string CheckEditInline() => "inline";
+
+        public virtual string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{ToCursor( cursor )}";
+
+        public virtual string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region RadioEdit
+
+        public virtual string RadioEdit() => "radio";
 
         public virtual string RadioInline() => "inline";
 
         #endregion
 
-        #region File
+        #region FileEdit
 
-        public virtual string File() => "file-input";
+        public virtual string FileEdit() => "file-input";
 
-        public virtual string FileValidation( ValidationStatus validationStatus ) => ValidationStatus( validationStatus );
+        public virtual string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -82,7 +82,7 @@ namespace Blazorise.Bulma
 
         public virtual string Label() => "label";
 
-        public virtual string LabelCursor( Cursor cursor ) => $"label-{Cursor( cursor )}";
+        public virtual string LabelCursor( Cursor cursor ) => $"label-{ToCursor( cursor )}";
 
         public virtual string LabelCheck() => "checkbox";
 
@@ -103,6 +103,8 @@ namespace Blazorise.Bulma
         public string ValidationError() => "help is-danger";
 
         public string ValidationErrorTooltip() => "help is-danger"; // TODO
+
+        public string ValidationNone() => "help";
 
         #endregion
 
@@ -128,7 +130,7 @@ namespace Blazorise.Bulma
 
         public virtual string FieldColumn() => $"{Col()}";
 
-        public virtual string FieldJustifyContent( JustifyContent justifyContent ) => JustifyContent( justifyContent );
+        public virtual string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
         #endregion
 
@@ -182,7 +184,7 @@ namespace Blazorise.Bulma
 
         public virtual string AddonLabel() => "button is-static";
 
-        public virtual string AddonContainer() => "control";
+        //public virtual string AddonContainer() => "control";
 
         #endregion
 
@@ -196,9 +198,9 @@ namespace Blazorise.Bulma
 
         public virtual string Button() => "button";
 
-        public virtual string ButtonColor( Color color ) => $"is-{Color( color )}";
+        public virtual string ButtonColor( Color color ) => $"is-{ToColor( color )}";
 
-        public virtual string ButtonOutline( Color color ) => $"is-{Color( color )} is-outlined";
+        public virtual string ButtonOutline( Color color ) => $"is-{ToColor( color )} is-outlined";
 
         public virtual string ButtonSize( ButtonSize buttonSize )
         {
@@ -270,7 +272,7 @@ namespace Blazorise.Bulma
 
         public virtual string DropdownMenu() => "dropdown-menu";
 
-        public virtual string DropdownMenuBody() => "dropdown-content";
+        //public virtual string DropdownMenuBody() => "dropdown-content";
 
         public virtual string DropdownMenuShow() => null;
 
@@ -278,9 +280,9 @@ namespace Blazorise.Bulma
 
         public virtual string DropdownToggle() => "button dropdown-trigger";
 
-        public virtual string DropdownToggleColor( Color color ) => $"is-{Color( color )}";
+        public virtual string DropdownToggleColor( Color color ) => $"is-{ToColor( color )}";
 
-        public virtual string DropdownToggleOutline( Color color ) => $"is-{Color( color )} is-outlined";
+        public virtual string DropdownToggleOutline( Color color ) => $"is-{ToColor( color )} is-outlined";
 
         public virtual string DropdownToggleSize( ButtonSize buttonSize )
         {
@@ -432,7 +434,7 @@ namespace Blazorise.Bulma
 
         public virtual string BarThemeContrast( ThemeContrast themeContrast ) => null;
 
-        public virtual string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{Breakpoint( breakpoint )}";
+        public virtual string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
 
         public virtual string BarItem() => "navbar-item";
 
@@ -518,12 +520,12 @@ namespace Blazorise.Bulma
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
                 if ( columnWidth == Blazorise.ColumnWidth.None )
-                    return $"{Col()} is-{baseClass}{Breakpoint( breakpoint )}";
+                    return $"{Col()} is-{baseClass}{ToBreakpoint( breakpoint )}";
 
-                return $"{Col()} is-{baseClass}{Breakpoint( breakpoint )}-{ColumnWidth( columnWidth )}";
+                return $"{Col()} is-{baseClass}{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
             }
 
-            return $"{Col()} is-{baseClass}{ColumnWidth( columnWidth )}";
+            return $"{Col()} is-{baseClass}{ToColumnWidth( columnWidth )}";
         }
 
         private string Col2( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
@@ -533,15 +535,15 @@ namespace Blazorise.Bulma
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
                 if ( columnWidth == Blazorise.ColumnWidth.Auto )
-                    return $"{Col()} is-{Breakpoint( breakpoint )}";
+                    return $"{Col()} is-{ToBreakpoint( breakpoint )}";
 
-                return $"{Col()} is-{Breakpoint( breakpoint )} is-{offsetClass}{ColumnWidth( columnWidth )}";
+                return $"{Col()} is-{ToBreakpoint( breakpoint )} is-{offsetClass}{ToColumnWidth( columnWidth )}";
             }
 
             if ( columnWidth == Blazorise.ColumnWidth.Auto )
                 return $"{Col()}";
 
-            return $"{Col()} is-{offsetClass}{ColumnWidth( columnWidth )}";
+            return $"{Col()} is-{offsetClass}{ToColumnWidth( columnWidth )}";
         }
 
         #endregion
@@ -550,7 +552,7 @@ namespace Blazorise.Bulma
 
         public virtual string Alert() => "notification";
 
-        public virtual string AlertColor( Color color ) => $"is-{Color( color )}";
+        public virtual string AlertColor( Color color ) => $"is-{ToColor( color )}";
 
         public virtual string AlertDismisable() => null;
 
@@ -586,7 +588,7 @@ namespace Blazorise.Bulma
 
         public virtual string Pagination() => "pagination-list";
 
-        public virtual string PaginationSize( Size size ) => $"{Size( size )}";
+        public virtual string PaginationSize( Size size ) => $"{ToSize( size )}";
 
         public virtual string PaginationItem() => null;
 
@@ -606,7 +608,7 @@ namespace Blazorise.Bulma
 
         public virtual string Progress() => "progress";
 
-        public virtual string ProgressSize( Size size ) => $"is-{Size( size )}";
+        public virtual string ProgressSize( Size size ) => $"is-{ToSize( size )}";
 
         public virtual string ProgressBar() => "progress";
 
@@ -628,7 +630,7 @@ namespace Blazorise.Bulma
 
         #region Colors
 
-        public virtual string BackgroundColor( Background color ) => $"{Color( color )}";
+        public virtual string BackgroundColor( Background color ) => $"{ToBackground( color )}";
 
         #endregion
 
@@ -658,7 +660,7 @@ namespace Blazorise.Bulma
 
         public virtual string TableHeader() => null;
 
-        public virtual string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"has-background-{ThemeContrast( themeContrast )}";
+        public virtual string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"has-background-{ToThemeContrast( themeContrast )}";
 
         public virtual string TableHeaderCell() => null;
 
@@ -668,11 +670,11 @@ namespace Blazorise.Bulma
 
         public virtual string TableRow() => null;
 
-        public virtual string TableRowColor( Color color ) => $"has-background-{Color( color )}";
+        public virtual string TableRowColor( Color color ) => $"has-background-{ToColor( color )}";
 
         public virtual string TableRowBackground( Background background ) => BackgroundColor( background );
 
-        public virtual string TableRowTextColor( TextColor textColor ) => $"has-text-{TextColor( textColor )}";
+        public virtual string TableRowTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
 
         public virtual string TableRowIsSelected() => "is-selected";
 
@@ -680,11 +682,11 @@ namespace Blazorise.Bulma
 
         public virtual string TableRowCell() => null;
 
-        public virtual string TableRowCellColor( Color color ) => $"has-background-{Color( color )}";
+        public virtual string TableRowCellColor( Color color ) => $"has-background-{ToColor( color )}";
 
         public virtual string TableRowCellBackground( Background background ) => BackgroundColor( background );
 
-        public virtual string TableRowCellTextColor( TextColor textColor ) => $"has-text-{TextColor( textColor )}";
+        public virtual string TableRowCellTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
 
         #endregion
 
@@ -692,7 +694,7 @@ namespace Blazorise.Bulma
 
         public virtual string Badge() => "tag";
 
-        public virtual string BadgeColor( Color color ) => $"is-{Color( color )}";
+        public virtual string BadgeColor( Color color ) => $"is-{ToColor( color )}";
 
         public virtual string BadgePill() => null;
 
@@ -710,25 +712,31 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        #region SimpleText
+        #region Text
 
-        public virtual string SimpleTextColor( TextColor textColor ) => $"has-text-{TextColor( textColor )}";
+        public virtual string TextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
 
-        public virtual string SimpleTextAlignment( TextAlignment textAlignment ) => $"has-text-{TextAlignment( textAlignment )}";
+        public virtual string TextAlignment( TextAlignment textAlignment ) => $"has-text-{ToTextAlignment( textAlignment )}";
 
-        public virtual string SimpleTextTransform( TextTransform textTransform ) => $"is-{TextTransform( textTransform )}";
+        public virtual string TextTransform( TextTransform textTransform ) => $"is-{ToTextTransform( textTransform )}";
 
-        public virtual string SimpleTextWeight( TextWeight textWeight ) => $"has-text-weight-{TextWeight( textWeight )}";
+        public virtual string TextWeight( TextWeight textWeight ) => $"has-text-weight-{ToTextWeight( textWeight )}";
 
-        public virtual string SimpleTextItalic() => "is-italic";
+        public virtual string TextItalic() => "is-italic";
 
         #endregion
 
         #region Heading
 
-        public virtual string Heading( HeadingSize headingSize ) => $"h{HeadingSize( headingSize )}";
+        public virtual string HeadingSize( HeadingSize headingSize ) => $"title is-{ToHeadingSize( headingSize )}";
 
-        public virtual string HeadingTextColor( TextColor textColor ) => $"has-text-{TextColor( textColor )}";
+        public virtual string HeadingTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
+
+        #endregion
+
+        #region DisplayHeading
+
+        public virtual string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"title is-{ToDisplayHeadingSize( displayHeadingSize )}";
 
         #endregion
 
@@ -736,11 +744,21 @@ namespace Blazorise.Bulma
 
         public virtual string Paragraph() => null;
 
+        public virtual string ParagraphColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
+
         #endregion
 
         #region Figure
 
         public virtual string Figure() => "image";
+
+        public virtual string FigureSize( FigureSize figureSize ) => $"is-{ToFigureSize( figureSize )}";
+
+        public virtual string FigureImage() => "figure-img";
+
+        public virtual string FigureImageRounded() => "is-rounded";
+
+        public virtual string FigureCaption() => "figure-caption";
 
         #endregion
 
@@ -753,6 +771,14 @@ namespace Blazorise.Bulma
         public virtual string BreadcrumbItemActive() => Active();
 
         public virtual string BreadcrumbLink() => null;
+
+        #endregion
+
+        #region Tooltip
+
+        public virtual string Tooltip() => "b-tooltip";
+
+        public virtual string TooltipPlacement( Placement placement ) => $"b-tooltip-{ToPlacement( placement )}";
 
         #endregion
 
@@ -776,9 +802,9 @@ namespace Blazorise.Bulma
         public virtual string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
         {
             if ( breakpoint != Blazorise.Breakpoint.None )
-                return $"is-{Spacing( spacing )}{Side( side )}-{Breakpoint( breakpoint )}-{SpacingSize( spacingSize )}";
+                return $"is-{ToSpacing( spacing )}{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
 
-            return $"is-{Spacing( spacing )}{Side( side )}-{SpacingSize( spacingSize )}";
+            return $"is-{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
         }
 
         public virtual string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
@@ -787,13 +813,13 @@ namespace Blazorise.Bulma
 
         #region Flex
 
-        public virtual string FlexAlignment( Alignment alignment ) => $"justify-content-{Alignment( alignment )}";
+        public virtual string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
 
         #endregion
 
         #region Enums
 
-        public virtual string Size( Size size )
+        public virtual string ToSize( Size size )
         {
             switch ( size )
             {
@@ -810,7 +836,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Breakpoint( Breakpoint breakpoint )
+        public virtual string ToBreakpoint( Breakpoint breakpoint )
         {
             switch ( breakpoint )
             {
@@ -829,7 +855,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Color( Color color )
+        public virtual string ToColor( Color color )
         {
             switch ( color )
             {
@@ -856,7 +882,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Color( Background color )
+        public virtual string ToBackground( Background color )
         {
             switch ( color )
             {
@@ -885,7 +911,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string TextColor( TextColor textColor )
+        public virtual string ToTextColor( TextColor textColor )
         {
             switch ( textColor )
             {
@@ -920,7 +946,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string ThemeContrast( ThemeContrast themeContrast )
+        public virtual string ToThemeContrast( ThemeContrast themeContrast )
         {
             switch ( themeContrast )
             {
@@ -933,7 +959,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Float( Float @float )
+        public virtual string ToFloat( Float @float )
         {
             switch ( @float )
             {
@@ -946,7 +972,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Spacing( Spacing spacing )
+        public virtual string ToSpacing( Spacing spacing )
         {
             switch ( spacing )
             {
@@ -959,7 +985,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Side( Side side )
+        public virtual string ToSide( Side side )
         {
             switch ( side )
             {
@@ -980,7 +1006,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Alignment( Alignment alignment )
+        public virtual string ToAlignment( Alignment alignment )
         {
             switch ( alignment )
             {
@@ -995,7 +1021,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string TextAlignment( TextAlignment textAlignment )
+        public virtual string ToTextAlignment( TextAlignment textAlignment )
         {
             switch ( textAlignment )
             {
@@ -1012,7 +1038,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string TextTransform( TextTransform textTransform )
+        public virtual string ToTextTransform( TextTransform textTransform )
         {
             switch ( textTransform )
             {
@@ -1027,7 +1053,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string TextWeight( TextWeight textWeight )
+        public virtual string ToTextWeight( TextWeight textWeight )
         {
             switch ( textWeight )
             {
@@ -1042,7 +1068,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string ColumnWidth( ColumnWidth columnWidth )
+        public virtual string ToColumnWidth( ColumnWidth columnWidth )
         {
             switch ( columnWidth )
             {
@@ -1079,7 +1105,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string ModalSize( ModalSize modalSize )
+        public virtual string ToModalSize( ModalSize modalSize )
         {
             switch ( modalSize )
             {
@@ -1095,7 +1121,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string SpacingSize( SpacingSize spacingSize )
+        public virtual string ToSpacingSize( SpacingSize spacingSize )
         {
             switch ( spacingSize )
             {
@@ -1118,7 +1144,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string JustifyContent( JustifyContent justifyContent )
+        public virtual string ToJustifyContent( JustifyContent justifyContent )
         {
             switch ( justifyContent )
             {
@@ -1137,7 +1163,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Screenreader( Screenreader screenreader )
+        public virtual string ToScreenreader( Screenreader screenreader )
         {
             switch ( screenreader )
             {
@@ -1150,7 +1176,7 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string HeadingSize( HeadingSize headingSize )
+        public virtual string ToHeadingSize( HeadingSize headingSize )
         {
             switch ( headingSize )
             {
@@ -1171,7 +1197,40 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string ValidationStatus( ValidationStatus validationStatus )
+        public virtual string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize )
+        {
+            switch ( displayHeadingSize )
+            {
+                case Blazorise.DisplayHeadingSize.Is1:
+                    return "1";
+                case Blazorise.DisplayHeadingSize.Is2:
+                    return "2";
+                case Blazorise.DisplayHeadingSize.Is3:
+                    return "3";
+                case Blazorise.DisplayHeadingSize.Is4:
+                    return "4";
+                default:
+                    return null;
+            }
+        }
+
+        public string ToPlacement( Placement placement )
+        {
+            switch ( placement )
+            {
+                case Blazorise.Placement.Bottom:
+                    return "bottom";
+                case Blazorise.Placement.Left:
+                    return "left";
+                case Blazorise.Placement.Right:
+                    return "right";
+                case Blazorise.Placement.Top:
+                default:
+                    return "top";
+            }
+
+        }
+        public virtual string ToValidationStatus( ValidationStatus validationStatus )
         {
             switch ( validationStatus )
             {
@@ -1184,12 +1243,39 @@ namespace Blazorise.Bulma
             }
         }
 
-        public virtual string Cursor( Cursor cursorType )
+        public virtual string ToCursor( Cursor cursorType )
         {
             switch ( cursorType )
             {
                 case Blazorise.Cursor.Pointer:
                     return "pointer";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ToFigureSize( FigureSize figureSize )
+        {
+            switch ( figureSize )
+            {
+                case Blazorise.FigureSize.Is16x16:
+                    return "16x16";
+                case Blazorise.FigureSize.Is24x24:
+                    return "24x24";
+                case Blazorise.FigureSize.Is32x32:
+                    return "32x32";
+                case Blazorise.FigureSize.Is48x48:
+                    return "48x48";
+                case Blazorise.FigureSize.Is64x64:
+                    return "64x64";
+                case Blazorise.FigureSize.Is96x96:
+                    return "96x96";
+                case Blazorise.FigureSize.Is128x128:
+                    return "128x128";
+                case Blazorise.FigureSize.Is256x256:
+                    return "256x256";
+                case Blazorise.FigureSize.Is512x512:
+                    return "512x512";
                 default:
                     return null;
             }

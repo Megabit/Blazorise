@@ -21,22 +21,20 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Modal() )
-                .Add( () => ClassProvider.ModalFade() )
-                .If( () => ClassProvider.ModalShow(), () => IsOpen );
+            builder.Append( ClassProvider.Modal() );
+            builder.Append( ClassProvider.ModalFade() );
+            builder.Append( ClassProvider.ModalShow(), IsOpen );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
-        protected override void RegisterStyles()
+        protected override void BuildStyles( StyleBuilder builder )
         {
-            StyleMapper
-                .If( () => StyleProvider.ModalShow(), () => IsOpen );
+            builder.Append( StyleProvider.ModalShow(), IsOpen );
 
-            base.RegisterStyles();
+            base.BuildStyles( builder );
         }
 
         /// <summary>
@@ -55,6 +53,7 @@ namespace Blazorise
         public void Hide()
         {
             IsOpen = false;
+            Closed.InvokeAsync( null );
 
             StateHasChanged();
         }
@@ -90,12 +89,22 @@ namespace Blazorise
 
             // TODO: find a way to remove javascript
             if ( isOpen )
-                JSRunner.AddClassToBody( "modal-open" );
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    await JSRunner.AddClassToBody( "modal-open" );
+                } );
+            }
             else
-                JSRunner.RemoveClassFromBody( "modal-open" );
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    await JSRunner.RemoveClassFromBody( "modal-open" );
+                } );
+            }
 
-            ClassMapper.Dirty();
-            StyleMapper.Dirty();
+            DirtyClasses();
+            DirtyStyles();
         }
 
         internal void Hook( BaseModalBackdrop modalBackdrop )
@@ -127,6 +136,8 @@ namespace Blazorise
                     isOpen = false;
 
                     HandleOpenState( false );
+
+                    Closed.InvokeAsync( null );
                 }
             }
         }
@@ -135,6 +146,11 @@ namespace Blazorise
         /// Occurs before the modal is closed.
         /// </summary>
         [Parameter] public Action<CancelEventArgs> Closing { get; set; }
+
+        /// <summary>
+        /// Occurs after the modal has closed.
+        /// </summary>
+        [Parameter] public EventCallback Closed { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

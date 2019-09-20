@@ -20,14 +20,13 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Card() )
-                .If( () => ClassProvider.CardWhiteText(), () => IsWhiteText )
-                .If( () => ClassProvider.CardBackground( Background ), () => Background != Background.None );
+            builder.Append( ClassProvider.Card() );
+            builder.Append( ClassProvider.CardWhiteText(), IsWhiteText );
+            builder.Append( ClassProvider.CardBackground( Background ), Background != Background.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -45,7 +44,7 @@ namespace Blazorise
             {
                 isWhiteText = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -60,7 +59,7 @@ namespace Blazorise
             {
                 background = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

@@ -177,6 +177,8 @@ namespace Blazorise
         public void Clear()
         {
             Status = ValidationStatus.None;
+            Validated?.Invoke( new ValidatedEventArgs( Status, string.Empty ) );
+
             StateHasChanged();
         }
 
@@ -207,7 +209,7 @@ namespace Blazorise
         /// <summary>
         /// Parent validation group.
         /// </summary>
-        [CascadingParameter] protected BaseValidations ParentValidations { get; set; }
+        [CascadingParameter] public BaseValidations ParentValidations { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

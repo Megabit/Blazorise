@@ -6,6 +6,7 @@
         <option value="BasicTestApp.Client.ElementIdComponent">ElementId</option>
         <option value="BasicTestApp.Client.TextOnlyComponent">Plain text</option>
         <option value="BasicTestApp.Client.ButtonComponent">Button</option>
+        <option value="BasicTestApp.Client.ButtonOnlyComponent">ButtonOnly</option>
         <option value="BasicTestApp.Client.DropdownComponent">Dropdown</option>
         <option value="BasicTestApp.Client.NumericEditComponent">NumericEditComponent</option>
         <option value="BasicTestApp.Client.TextEditComponent">TextEdit</option>
@@ -13,7 +14,7 @@
         <option value="BasicTestApp.Client.ValidateNumericEditComponent">ValidateNumericEditComponent</option>
         <option value="BasicTestApp.Client.ValidateTextEditComponent">ValidateTextEditComponent</option>
         <option value="BasicTestApp.Client.ValidateSelectEditComponent">ValidateSelectEditComponent</option>
-        <option value="BasicTestApp.Client.SimpleButtonComponent">SimpleButtonComponent</option>
+        <option value="BasicTestApp.Client.ButtonComponent">ButtonComponent</option>
         <option value="BasicTestApp.Client.CloseButtonComponent">CloseButtonComponent</option>
         <option value="BasicTestApp.Client.TabsComponent">TabsComponent</option>
     </select>
@@ -29,7 +30,7 @@
     @((RenderFragment)RenderSelectedComponent)
 </app>
 
-@functions {
+@code {
     string SelectedComponentTypeName { get; set; } = "none";
 
     Type SelectedComponentType

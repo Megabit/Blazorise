@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -17,15 +18,14 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.TableRowHeader() );
+            builder.Append( ClassProvider.TableRowHeader() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
-        protected void HandleClick( UIMouseEventArgs e )
+        protected void HandleClick( MouseEventArgs e )
         {
             Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
         }
@@ -37,7 +37,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the row header is clicked.
         /// </summary>
-        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+        [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -13,30 +13,40 @@ namespace Blazorise.Bootstrap.BootstrapBase
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
-        protected override void RegisterClasses()
+        public BaseBootstrapModalContent()
         {
-            DialogClassMapper
-                .Add( () => $"modal-dialog {ClassProvider.ModalSize( Size )}" )
-                .If( () => ClassProvider.ModalContentCentered(), () => IsCentered );
-
-            base.RegisterClasses();
+            DialogClassBuilder = new ClassBuilder( BuildDialogClasses );
         }
 
-        protected override void Dirty()
+        #endregion
+
+        #region Methods
+
+        protected override void DirtyClasses()
         {
-            DialogClassMapper.Dirty();
+            DialogClassBuilder.Dirty();
+
+            base.DirtyClasses();
+        }
+
+        private void BuildDialogClasses( ClassBuilder builder )
+        {
+            builder.Append( $"modal-dialog {ClassProvider.ToModalSize( Size )}" );
+            builder.Append( ClassProvider.ModalContentCentered(), IsCentered );
         }
 
         #endregion
 
         #region Properties
 
+        protected ClassBuilder DialogClassBuilder { get; private set; }
+
         /// <summary>
-        /// Dialog container classname.
+        /// Gets dialog container class-names.
         /// </summary>
-        protected ClassMapper DialogClassMapper { get; } = new ClassMapper();
+        protected string DialogClassNames => DialogClassBuilder.Class;
 
         #endregion
     }

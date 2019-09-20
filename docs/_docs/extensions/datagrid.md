@@ -50,6 +50,14 @@ All columns can be sorted automatically if the option  `AllowSort` is enabled on
 
 Use an attribute `AllowFilter` to enable or disable automatic filtering in grid component.
 
+Default method for filtering is `Contains`. If you want to change it you can set the `FilterMethod` attribute on data grid. Supported methods are:
+
+- `Contains` search for any occurrence  (default)
+- `StartsWith` search only the beginning
+- `EndsWith` search only the ending
+- `Equals` search must match the entire value
+- `NotEquals` opposite of Equals
+
 ### Paging
 
 Paging is handled automatically by the DataGrid. You also have some additional attributes to configure paging based on your requirements.
@@ -64,8 +72,9 @@ The grid can perform some basic CRUD operations on the supplied `Data` collectio
 
 The grid can work in two different editing modes that can provide different user experiences.
 
-- `Form` - editing is done in the internal DataGrid form
-- `InRow` - editing is done in the current row
+- `Form` editing is done in the internal DataGrid form
+- `Inline` editing is done in the current row
+- `Popup` editing is done in the the modal dialog
 
 ## Usage
 
@@ -158,7 +167,7 @@ RowDetail template allows you to display nested structure bellow each row in the
 
 For this template the `context` value is the item from the parent grid.
 
-```
+```html
 <DetailRowTemplate>
     @{
         var salaries = ( context as Employee ).Salaries;
@@ -177,7 +186,7 @@ For this template the `context` value is the item from the parent grid.
 
 Once it's defined a DetailRow will be visible for every row in the grid. If you want to control the visibility of detail-row you can use `RowDetailTrigger` attribute that can be defined in it's parent grid.
 
-```
+```html
 <DataGrid TItem="Employee"
           Data="@employees"
           ...
@@ -185,6 +194,28 @@ Once it's defined a DetailRow will be visible for every row in the grid. If you 
           DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)">
     ...
 </DataGrid>
+```
+
+### Command Templates
+
+If you want to change default buttons you can use following templates
+
+- `NewCommandTemplate`
+- `EditCommandTemplate`
+- `SaveCommandTemplate`
+- `CancelCommandTemplate`
+- `DeleteCommandTemplate`
+- `ClearFilterCommandTemplate`
+
+```html
+<DataGridCommandColumn TItem="Employee">
+    <NewCommandTemplate>
+        <Button Color="Color.Success" Clicked="@context.Clicked">New</Button>
+    </NewCommandTemplate>
+    <EditCommandTemplate>
+        <Button Color="Color.Primary" Clicked="@context.Clicked">Edit</Button>
+    </EditCommandTemplate>
+</DataGridCommandColumn>
 ```
 
 ## Attributes
@@ -214,4 +245,5 @@ Once it's defined a DetailRow will be visible for every row in the grid. If you 
 Specifies the grid editing modes.
 
 - `Form` editing is done in the internal DataGrid form
-- `InRow` editing is done in the current row
+- `Inline` editing is done in the current row
+- `Popup` editing is done in the the modal dialog

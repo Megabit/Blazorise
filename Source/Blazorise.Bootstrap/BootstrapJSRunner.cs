@@ -1,4 +1,5 @@
 #region Using directives
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
@@ -11,6 +12,11 @@ namespace Blazorise.Bootstrap
         public BootstrapJSRunner( IJSRuntime runtime )
             : base( runtime )
         {
+        }
+
+        public override ValueTask<bool> InitializeTooltip( string elementId, ElementReference elementRef )
+        {
+            return runtime.InvokeAsync<bool>( $"blazoriseBootstrap.tooltip.initialize", elementId, elementRef );
         }
 
         //public override Task<bool> ActivateDatePicker( string elementId )

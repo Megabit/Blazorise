@@ -15,5 +15,4 @@ toc_label: "On this page"
 
 ### Long term
 
-- Better components naming, eg. Button instead of SimpleButton (Waiting Blazor for this)
 - Completely remove JavaScript

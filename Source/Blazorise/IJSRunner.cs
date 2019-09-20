@@ -11,47 +11,53 @@ namespace Blazorise
 {
     public interface IJSRunner
     {
-        DotNetObjectRef<T> CreateDotNetObjectRef<T>( T value ) where T : class;
+        DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class;
 
-        void DisposeDotNetObjectRef<T>( DotNetObjectRef<T> value ) where T : class;
+        void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class;
 
-        Task<bool> Init( ElementReference elementRef, object componentRef );
+        ValueTask<bool> Init( ElementReference elementRef, object componentRef );
 
-        Task<bool> InitializeTextEdit( string elementId, ElementReference elementRef, string maskType, string editMask );
+        ValueTask<bool> InitializeTextEdit( string elementId, ElementReference elementRef, string maskType, string editMask );
 
-        Task<bool> DestroyTextEdit( string elementId, ElementReference elementRef );
+        ValueTask<bool> DestroyTextEdit( string elementId, ElementReference elementRef );
 
-        Task<bool> InitializeNumericEdit( DotNetObjectRef<NumericEditAdapter> dotNetObjectRef, string elementId, ElementReference elementRef, int decimals, string decimalsSeparator, decimal? step );
+        ValueTask<bool> InitializeNumericEdit( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, string elementId, ElementReference elementRef, int decimals, string decimalsSeparator, decimal? step );
 
-        Task<bool> DestroyNumericEdit( string elementId, ElementReference elementRef );
+        ValueTask<bool> DestroyNumericEdit( string elementId, ElementReference elementRef );
 
-        Task<bool> AddClass( ElementReference elementRef, string classname );
+        ValueTask<bool> InitializeTooltip( string elementId, ElementReference elementRef );
 
-        Task<bool> RemoveClass( ElementReference elementRef, string classname );
+        ValueTask<bool> InitializeButton( string elementId, ElementReference elementRef, bool preventDefaultSubmit );
 
-        Task<bool> ToggleClass( ElementReference elementId, string classname );
+        ValueTask<bool> DestroyButton( string elementId );
 
-        Task<bool> AddClassToBody( string classname );
+        ValueTask<bool> AddClass( ElementReference elementRef, string classname );
 
-        Task<bool> RemoveClassFromBody( string classname );
+        ValueTask<bool> RemoveClass( ElementReference elementRef, string classname );
 
-        Task<bool> ParentHasClass( ElementReference elementRef, string classaname );
+        ValueTask<bool> ToggleClass( ElementReference elementId, string classname );
 
-        Task<string[]> GetFilePaths( ElementReference element );
+        ValueTask<bool> AddClassToBody( string classname );
 
-        Task<bool> ActivateDatePicker( string elementId, string formatSubmit );
+        ValueTask<bool> RemoveClassFromBody( string classname );
 
-        Task<TValue[]> GetSelectedOptions<TValue>( string elementId );
+        ValueTask<bool> ParentHasClass( ElementReference elementRef, string classaname );
 
-        Task<bool> SetTextValue( ElementReference elementRef, object value );
+        ValueTask<string[]> GetFilePaths( ElementReference element );
+
+        ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit );
+
+        ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
+
+        ValueTask<bool> SetTextValue( ElementReference elementRef, object value );
 
         /// <summary>
         /// Handles the closing of the components that can be toggled.
         /// </summary>
         /// <param name="component">Toggle component.</param>
         /// <returns></returns>
-        Task RegisterClosableComponent( DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef, string elementId );
+        ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, string elementId );
 
-        Task UnregisterClosableComponent( ICloseActivator component );
+        ValueTask<object> UnregisterClosableComponent( ICloseActivator component );
     }
 }

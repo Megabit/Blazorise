@@ -4,10 +4,10 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Line</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( lineChart, GetLineChartDataset ))">Redraw</SimpleButton>
+                <Button Clicked="@(async () => await HandleRedraw( lineChart, GetLineChartDataset ))">Redraw</Button>
             </CardHeader>
             <CardBody>
-                <LineChart @ref="lineChart" @ref:suppressField TItem="double" />
+                <LineChart @ref="lineChart" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -15,10 +15,10 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Bar</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( barChart, GetBarChartDataset ))">Redraw</SimpleButton>
+                <Button Clicked="@(async () => await HandleRedraw( barChart, GetBarChartDataset ))">Redraw</Button>
             </CardHeader>
             <CardBody>
-                <Chart @ref="barChart" @ref:suppressField Type="ChartType.Bar" TItem="double" />
+                <Chart @ref="barChart" Type="ChartType.Bar" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -26,10 +26,10 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Pie</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( pieChart, GetPieChartDataset ))">Redraw</SimpleButton>
+                <Button Clicked="@(async () => await HandleRedraw( pieChart, GetPieChartDataset ))">Redraw</Button>
             </CardHeader>
             <CardBody>
-                <Chart @ref="pieChart" @ref:suppressField Type="ChartType.Pie" TItem="double" />
+                <Chart @ref="pieChart" Type="ChartType.Pie" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -39,10 +39,10 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Polar Area</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ))">Redraw</SimpleButton>
+                <Button Clicked="@(async () => await HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ))">Redraw</Button>
             </CardHeader>
             <CardBody>
-                <Chart @ref="polarAreaChart" @ref:suppressField Type="ChartType.PolarArea" TItem="double" />
+                <Chart @ref="polarAreaChart" Type="ChartType.PolarArea" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -50,10 +50,10 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Radar</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( radarChart, GetRadarChartDataset ))">Redraw</SimpleButton>
+                <Button Clicked="@(async () => await HandleRedraw( radarChart, GetRadarChartDataset ))">Redraw</Button>
             </CardHeader>
             <CardBody>
-                <Chart @ref="radarChart" @ref:suppressField Type="ChartType.Radar" TItem="double" />
+                <Chart @ref="radarChart" Type="ChartType.Radar" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -61,10 +61,10 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Doughnut</CardTitle>
-                <SimpleButton Clicked="@(async () => await HandleRedraw( doughnutChart, GetDoughnutChartDataset ))">Redraw</SimpleButton>
+                <Button Clicked="@(async () => await HandleRedraw( doughnutChart, GetDoughnutChartDataset ))">Redraw</Button>
             </CardHeader>
             <CardBody>
-                <Chart @ref="doughnutChart" @ref:suppressField Type="ChartType.Doughnut" TItem="double" />
+                <Chart @ref="doughnutChart" Type="ChartType.Doughnut" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -83,7 +83,7 @@
 
     bool isAlreadyInitialised;
 
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( !isAlreadyInitialised )
         {
@@ -99,7 +99,7 @@
         }
     }
 
-    async Task HandleRedraw<TDataSet, TItem, TOptions>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions> chart, Func<TDataSet> getDataSet )
+    async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<TDataSet> getDataSet )
         where TDataSet : ChartDataset<TItem>
         where TOptions : ChartOptions
     {

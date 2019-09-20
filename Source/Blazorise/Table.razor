@@ -1,0 +1,11 @@
+﻿@inherits Blazorise.BaseTable
+@if ( !HasCustomRegistration )
+{
+    <table class="@ClassNames">
+        @ChildContent
+    </table>
+}
+else
+{
+    @RenderCustomComponent()
+}

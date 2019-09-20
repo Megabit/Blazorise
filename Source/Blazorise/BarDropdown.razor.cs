@@ -22,13 +22,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.BarDropdown() )
-                .If( () => ClassProvider.BarDropdownShow(), () => IsOpen );
+            builder.Append( ClassProvider.BarDropdown() );
+            builder.Append( ClassProvider.BarDropdownShow(), IsOpen );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
@@ -105,13 +104,13 @@ namespace Blazorise
                 if ( barDropdownToggler != null )
                     barDropdownToggler.IsOpen = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
         [Parameter] public Action<bool> Toggled { get; set; }
 
-        [CascadingParameter] protected BaseBarItem BarItem { get; set; }
+        [CascadingParameter] public BaseBarItem BarItem { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

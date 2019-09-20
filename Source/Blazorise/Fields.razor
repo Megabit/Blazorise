@@ -3,9 +3,9 @@
 {
     @if ( Label != null )
     {
-        <FormLabel>@Label</FormLabel>
+        <Label>@Label</Label>
     }
-    <div class="@ClassMapper.Class">
+    <div class="@ClassNames">
         <CascadingValue Value=this>
             @ChildContent
         </CascadingValue>

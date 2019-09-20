@@ -1,0 +1,26 @@
+﻿@inherits BaseButton
+@if ( IsAddons )
+{
+    <div class="control">
+        <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler">
+            @ChildContent
+        </button>
+    </div>
+}
+else
+{
+    @if ( ParentIsField )
+    {
+        <div class="control">
+            <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler">
+                @ChildContent
+            </button>
+        </div>
+    }
+    else
+    {
+        <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler">
+            @ChildContent
+        </button>
+    }
+}

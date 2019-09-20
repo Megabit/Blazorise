@@ -6,6 +6,58 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.5
+
+### Breaking changes
+
+- [#258](https://github.com/stsrki/Blazorise/issues/210) Upgrade to 3.0.0-preview9.19457.4
+
+### Enhancements
+
+- [#191](https://github.com/stsrki/Blazorise/issues/191) Optimize classname builders
+- [#145](https://github.com/stsrki/Blazorise/issues/145) Using 'enter' as a keypress for SimpleButton
+- [#252](https://github.com/stsrki/Blazorise/issues/252) SelectEdit : Handling for No-Match
+- [#167](https://github.com/stsrki/Blazorise/issues/167) Chart Events Support
+- [#225](https://github.com/stsrki/Blazorise/issues/225) Add missing sub-component to Figure
+- [#226](https://github.com/stsrki/Blazorise/issues/226) Feature Request : `<ValidationNone></ValidationNone>`
+
+### Bug Fixes
+
+- [#244](https://github.com/stsrki/Blazorise/issues/244) Dropdown going out of bounds
+- [#162](https://github.com/stsrki/Blazorise/issues/162) Snackbar not closing (Server-side)
+- [#248](https://github.com/stsrki/Blazorise/issues/248) launchSettings.json warning
+- [#222](https://github.com/stsrki/Blazorise/issues/222) Validations.ClearAll() Fails to clear validations for second field
+- [#230](https://github.com/stsrki/Blazorise/issues/230) NumericEdit Decimals Property Handling
+
+For detail description of changes please look at [v0.8.5 release page]({{ "/docs/release-notes/release085/" | relative_url }})
+
+## 0.8.4
+
+### Breaking changes
+
+- Upgraded to the Blazor preview 9
+- Renamed `MouseEventArgs` to `BLMouseEventArgs`
+
+For detail description of changes please look at [v0.8.4 release page]({{ "/docs/release-notes/release084/" | relative_url }})
+
+## 0.8.3
+
+### Breaking changes
+
+- Components should be case sensitive [#8](https://github.com/stsrki/Blazorise/issues/8)
+
+### Enhancements
+
+- New Tooltip component [#113](https://github.com/stsrki/Blazorise/issues/113)
+- Filter method added to DataGrid [#169](https://github.com/stsrki/Blazorise/issues/169)
+- DataGrid styles and missing features [#204](https://github.com/stsrki/Blazorise/issues/204)
+
+### Bug Fixes
+
+- Every chart shows up at Line Chart on latest package upgrade [#210](https://github.com/stsrki/Blazorise/issues/210)
+
+For detail description of changes please look at [v0.8.3 release page]({{ "/docs/release-notes/release083/" | relative_url }})
+
 ## 0.8.2
 
 ### Breaking changes
@@ -173,7 +225,7 @@ For detail description of changes please look at [v0.8 release page]({{ "/docs/r
 ### Enhancements
 
 - Added new [NumericEdit]({{ "/docs/components/numeric/" | relative_url }}) component.
-- Action converted to EventCallback for `TextEdit` and `SimpleButton` components. This means that StateHasChanged will be called automatically for you.
+- Action converted to EventCallback for `TextEdit` and `Button` components. This means that StateHasChanged will be called automatically for you.
 - Attribute `IsRightAligned` added on `BarDropdownMenu`. This is to allow the menu to be right-aligned to the parent element.
 
 ### Bug Fixes

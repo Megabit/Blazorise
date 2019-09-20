@@ -14,13 +14,9 @@ namespace Blazorise
 
         private string elementId;
 
-        private bool rendered = false;
-
         private string customClass;
 
         private string customStyle;
-
-        private IClassProvider classProvider;
 
         private IStyleProvider styleProvider;
 
@@ -36,54 +32,94 @@ namespace Blazorise
 
         private ParameterView parameters;
 
+        /// <summary>
+        /// A stack of functions to execute after the rendering.
+        /// </summary>
+        private Queue<Func<Task>> executeAfterRendereQueue;
+
         #endregion
 
         #region Constructors
 
         public BaseComponent()
         {
+            ClassBuilder = new ClassBuilder( BuildClasses );
+            StyleBuilder = new StyleBuilder( BuildStyles );
         }
 
         #endregion
 
         #region Methods
 
-        protected override async Task OnAfterRenderAsync()
+        protected void ExecuteAfterRender( Func<Task> action )
+        {
+            if ( executeAfterRendereQueue == null )
+                executeAfterRendereQueue = new Queue<Func<Task>>();
+
+            executeAfterRendereQueue.Enqueue( action );
+        }
+
+        protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             // If the component has custom implementation we need to postpone the initialisation
             // until the custom component is rendered!
-            if ( !rendered && !HasCustomRegistration )
+            if ( !HasCustomRegistration )
             {
-                rendered = true;
+                if ( firstRender )
+                {
+                    await OnFirstAfterRenderAsync();
+                }
 
-                await OnFirstAfterRenderAsync();
+                if ( executeAfterRendereQueue?.Count > 0 )
+                {
+                    var actions = executeAfterRendereQueue.ToArray();
+                    executeAfterRendereQueue.Clear();
+
+                    foreach ( var action in actions )
+                    {
+                        await action();
+                    }
+                }
             }
 
-            await base.OnAfterRenderAsync();
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         protected virtual Task OnFirstAfterRenderAsync()
             => Task.CompletedTask;
 
-        protected virtual void RegisterClasses()
+        protected virtual void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => Class, () => Class != null )
-                .If( () => Margin.Class( classProvider ), () => Margin != null )
-                .If( () => Padding.Class( classProvider ), () => Padding != null )
-                .If( () => ClassProvider.Float( Float ), () => Float != Float.None );
+            if ( Class != null )
+                builder.Append( Class );
+
+            if ( Margin != null )
+                builder.Append( Margin.Class( ClassProvider ) );
+
+            if ( Padding != null )
+                builder.Append( Padding.Class( ClassProvider ) );
+
+            if ( Float != Float.None )
+                builder.Append( ClassProvider.ToFloat( Float ) );
         }
 
-        protected virtual void RegisterStyles()
+        protected virtual void BuildStyles( StyleBuilder builder )
         {
-            StyleMapper
-                .If( () => Style, () => Style != null )
-                .Add( () => StyleProvider.Visibility( Visibility ) );
+            if ( Style != null )
+                builder.Append( Style );
+
+            builder.Append( StyleProvider.Visibility( Visibility ) );
         }
 
         // use this until https://github.com/aspnet/Blazor/issues/1732 is fixed!!
-        internal protected virtual void Dirty()
+        internal protected virtual void DirtyClasses()
         {
+            ClassBuilder.Dirty();
+        }
+
+        protected virtual void DirtyStyles()
+        {
+            StyleBuilder.Dirty();
         }
 
         public override Task SetParametersAsync( ParameterView parameters )
@@ -109,6 +145,9 @@ namespace Blazorise
 
             foreach ( var parameter in parameters )
             {
+                if ( parameter.Cascading )
+                    continue;
+
                 builder.AddAttribute( 1, parameter.Name, parameter.Value );
             }
 
@@ -144,14 +183,24 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets the class mapper.
+        /// Gets the class builder.
         /// </summary>
-        protected ClassMapper ClassMapper { get; private set; } = new ClassMapper();
+        protected ClassBuilder ClassBuilder { get; private set; }
+
+        /// <summary>
+        /// Gets the built class-names based on all the rules set by the component parameters.
+        /// </summary>
+        protected string ClassNames => ClassBuilder.Class;
 
         /// <summary>
         /// Gets the style mapper.
         /// </summary>
-        protected StyleMapper StyleMapper { get; private set; } = new StyleMapper();
+        protected StyleBuilder StyleBuilder { get; private set; }
+
+        /// <summary>
+        /// Gets the built styles based on all the rules set by the component parameters.
+        /// </summary>
+        protected string StyleNames => StyleBuilder.Styles;
 
         /// <summary>
         /// Gets or sets the custom components mapper.
@@ -182,31 +231,13 @@ namespace Blazorise
         /// Gets or sets the classname provider.
         /// </summary>
         [Inject]
-        protected IClassProvider ClassProvider
-        {
-            get => classProvider;
-            set
-            {
-                classProvider = value;
-
-                RegisterClasses();
-            }
-        }
+        protected IClassProvider ClassProvider { get; set; }
 
         /// <summary>
         /// Gets or sets the style provider.
         /// </summary>
         [Inject]
-        protected IStyleProvider StyleProvider
-        {
-            get => styleProvider;
-            set
-            {
-                styleProvider = value;
-
-                RegisterStyles();
-            }
-        }
+        protected IStyleProvider StyleProvider { get; set; }
 
         /// <summary>
         /// Custom css classname.
@@ -219,7 +250,7 @@ namespace Blazorise
             {
                 customClass = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -234,7 +265,7 @@ namespace Blazorise
             {
                 customStyle = value;
 
-                StyleMapper.Dirty();
+                DirtyStyles();
             }
         }
 
@@ -249,7 +280,7 @@ namespace Blazorise
             {
                 @float = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -264,7 +295,7 @@ namespace Blazorise
             {
                 margin = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -279,7 +310,7 @@ namespace Blazorise
             {
                 padding = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -294,7 +325,7 @@ namespace Blazorise
             {
                 visibility = value;
 
-                StyleMapper.Dirty();
+                DirtyStyles();
             }
         }
 

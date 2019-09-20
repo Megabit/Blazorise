@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -18,14 +19,13 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Date() )
-                .If( () => ClassProvider.DateSize( Size ), () => Size != Size.None )
-                .If( () => ClassProvider.DateValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.DateEdit() );
+            builder.Append( ClassProvider.DateEditSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.DateEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
@@ -38,12 +38,12 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        protected void ClickHandler( UIMouseEventArgs e )
+        protected void ClickHandler( MouseEventArgs e )
         {
             JSRunner.ActivateDatePicker( ElementId, Utils.Parsers.InternalDateFormat );
         }
 
-        protected Task InternalDateHandler( UIChangeEventArgs e )
+        protected Task InternalDateHandler( ChangeEventArgs e )
         {
             Date = Utils.Parsers.TryParseDate( e?.Value?.ToString() );
             return DateChanged.InvokeAsync( Date );

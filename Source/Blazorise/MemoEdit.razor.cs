@@ -16,16 +16,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Memo() )
-                .If( () => ClassProvider.MemoValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.MemoEdit() );
+            builder.Append( ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
-        protected void HandleOnChange( UIChangeEventArgs e )
+        protected void HandleOnChange( ChangeEventArgs e )
         {
             if ( !Options.ChangeTextOnKeyPress )
             {
@@ -33,7 +32,7 @@ namespace Blazorise
             }
         }
 
-        protected void HandleOnInput( UIChangeEventArgs e )
+        protected void HandleOnInput( ChangeEventArgs e )
         {
             if ( Options.ChangeTextOnKeyPress )
             {

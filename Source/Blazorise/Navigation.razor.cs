@@ -26,17 +26,16 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Nav() )
-                .If( () => ClassProvider.NavTabs(), () => IsTabs )
-                .If( () => ClassProvider.NavCards(), () => IsCards )
-                .If( () => ClassProvider.NavPills(), () => IsPills )
-                .If( () => ClassProvider.NavVertical(), () => IsVertical )
-                .If( () => ClassProvider.NavFill( Fill ), () => Fill != NavFillType.None );
+            builder.Append( ClassProvider.Nav() );
+            builder.Append( ClassProvider.NavTabs(), IsTabs );
+            builder.Append( ClassProvider.NavCards(), IsCards );
+            builder.Append( ClassProvider.NavPills(), IsPills );
+            builder.Append( ClassProvider.NavVertical(), IsVertical );
+            builder.Append( ClassProvider.NavFill( Fill ), Fill != NavFillType.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -51,7 +50,7 @@ namespace Blazorise
             {
                 isTabs = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -63,7 +62,7 @@ namespace Blazorise
             {
                 isCards = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -75,7 +74,7 @@ namespace Blazorise
             {
                 isPills = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -87,7 +86,7 @@ namespace Blazorise
             {
                 isVertical = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -99,7 +98,7 @@ namespace Blazorise
             {
                 fill = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

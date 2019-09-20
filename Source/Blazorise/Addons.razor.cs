@@ -18,12 +18,11 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Addons() );
+            builder.Append( ClassProvider.Addons() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -38,20 +37,20 @@ namespace Blazorise
             {
                 columnSize = value;
 
-                Dirty();
-                ClassMapper.Dirty();
+                DirtyClasses();
+                DirtyClasses();
             }
         }
 
         protected virtual bool ParentIsHorizontal => ParentField?.IsHorizontal == true;
 
-        [CascadingParameter] protected BaseField ParentField { get; set; }
+        [CascadingParameter] public BaseField ParentField { get; set; }
 
         //protected bool IsInFieldBody => ParentFieldBody != null;
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        //[CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
+        //[CascadingParameter] public BaseFieldBody ParentFieldBody { get; set; }
 
         #endregion
     }

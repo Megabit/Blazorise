@@ -1,0 +1,8 @@
+﻿@inherits BaseButton
+<button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler">
+    @if ( IsLoading )
+    {
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    }
+    @ChildContent
+</button>

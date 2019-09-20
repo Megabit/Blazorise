@@ -32,7 +32,7 @@ The card component comprises several elements that you can mix and match:
         <CardText>
             Some quick example text to build on the card title and make up the bulk of the card's content.
         </CardText>
-        <SimpleButton Color="Color.Primary">Button</SimpleButton>
+        <Button Color="Color.Primary">Button</Button>
     </CardBody>
 </Card>
 ```

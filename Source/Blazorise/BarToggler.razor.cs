@@ -18,13 +18,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.BarToggler() )
-                .Add( () => ClassProvider.BarTogglerCollapsed( IsOpen ) );
+            builder.Append( ClassProvider.BarToggler() );
+            builder.Append( ClassProvider.BarTogglerCollapsed( IsOpen ) );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected void ClickHandler()
@@ -55,7 +54,7 @@ namespace Blazorise
             {
                 isOpen = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -64,7 +63,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
 
-        [CascadingParameter] protected BaseBar ParentBar { get; set; }
+        [CascadingParameter] virtual public BaseBar ParentBar { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

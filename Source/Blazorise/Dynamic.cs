@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -60,28 +62,28 @@ namespace Blazorise
             {
                 switch ( param.Value )
                 {
-                    case EventCallback<UIChangeEventArgs> ec:
+                    case EventCallback<ChangeEventArgs> ec:
                         builder.AddAttribute( 1, param.Key, ec );
                         break;
-                    case EventCallback<UIClipboardEventArgs> ec:
+                    case EventCallback<ClipboardEventArgs> ec:
                         builder.AddAttribute( 1, param.Key, ec );
                         break;
-                    case EventCallback<UIDataTransferItem> ec:
+                    case EventCallback<DataTransferItem> ec:
                         builder.AddAttribute( 1, param.Key, ec );
                         break;
-                    case EventCallback<UIErrorEventArgs> ec:
+                    case EventCallback<ErrorEventArgs> ec:
                         builder.AddAttribute( 1, param.Key, ec );
                         break;
-                    case EventCallback<UIEventArgs> ec:
+                    case EventCallback<EventArgs> ec:
                         builder.AddAttribute( 1, param.Key, ec );
                         break;
-                    case EventCallback<UIFocusEventArgs> ec:
+                    case EventCallback<FocusEventArgs> ec:
                         builder.AddAttribute( 1, param.Key, ec );
                         break;
-                    case EventCallback<UIKeyboardEventArgs> ec:
+                    case EventCallback<KeyboardEventArgs> ec:
                         builder.AddAttribute( 1, param.Key, ec );
                         break;
-                    case EventCallback<UIMouseEventArgs> ec:
+                    case EventCallback<MouseEventArgs> ec:
                         builder.AddAttribute( 1, param.Key, ec );
                         break;
                     default:

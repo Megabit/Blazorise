@@ -11,10 +11,10 @@ The button is an essential element of any design. It's meant to look and behave 
 
 ## Basic button
 
-To create a basic button you need to use a SimpleButton component.
+To create a basic button you need to use a Button component.
 
 ```html
-<SimpleButton>Click me</SimpleButton>
+<Button>Click me</Button>
 ```
 
 <iframe src="/examples/buttons/basic/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -24,7 +24,7 @@ To create a basic button you need to use a SimpleButton component.
 To use button you just handle a button `Clicked` event.
 
 ```html
-<SimpleButton Clicked="@OnButtonClicked">Click me</SimpleButton>
+<Button Clicked="@OnButtonClicked">Click me</Button>
 ```
 
 ```cs
@@ -36,40 +36,45 @@ To use button you just handle a button `Clicked` event.
 }
 ```
 
-### Colored
+### Colors
 
 To define button color use a `Color` attribute.
 
 ```html
-<SimpleButton Color="Color.Primary">Primary</SimpleButton>
-<SimpleButton Color="Color.Secondary">Secondary</SimpleButton>
-<SimpleButton Color="Color.Warning">Warning</SimpleButton>
-<SimpleButton Color="Color.Danger">Danger</SimpleButton>
+<Button Color="Color.Primary">Primary</Button>
+<Button Color="Color.Secondary">Secondary</Button>
+<Button Color="Color.Success">Success</Button>
+<Button Color="Color.Warning">Warning</Button>
+<Button Color="Color.Danger">Danger</Button>
+<Button Color="Color.Info">Info</Button>
+<Button Color="Color.Light">Light</Button>
+<Button Color="Color.Dark">Dark</Button>
+<Button>None</Button>
 ```
 
-<iframe src="/examples/buttons/colors/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+<iframe src="/examples/buttons/colors/" frameborder="0" scrolling="no" style="width:100%;height:90px;"></iframe>
 
 **Note:** To find the list of supported colors please look at the [colors]({{ "/docs/helpers/colors/" | relative_url }}) page.
 {: .notice--info}
 
-### Outlined
+### Outline
 
 To define button color use a `Color` attribute.
 
 ```html
-<SimpleButton Color="Color.Primary" IsOutline="true">Primary</SimpleButton>
-<SimpleButton Color="Color.Secondary" IsOutline="true">Secondary</SimpleButton>
-<SimpleButton Color="Color.Warning" IsOutline="true">Warning</SimpleButton>
-<SimpleButton Color="Color.Danger" IsOutline="true">Danger</SimpleButton>
+<Button Color="Color.Primary" IsOutline="true">Primary</Button>
+<Button Color="Color.Secondary" IsOutline="true">Secondary</Button>
+<Button Color="Color.Warning" IsOutline="true">Warning</Button>
+<Button Color="Color.Danger" IsOutline="true">Danger</Button>
 ```
 
 <iframe src="/examples/buttons/outlined/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
-### Blocked
+### Block
 
 ```html
-<SimpleButton Color="Color.Primary" IsBlock="true">Blocked primary</SimpleButton>
-<SimpleButton Color="Color.Secondary" IsBlock="true">Blocked secondary</SimpleButton>
+<Button Color="Color.Primary" IsBlock="true">Blocked primary</Button>
+<Button Color="Color.Secondary" IsBlock="true">Blocked secondary</Button>
 ```
 
 <iframe src="/examples/buttons/block/" frameborder="0" scrolling="no" style="width:100%;height:95px;"></iframe>
@@ -77,8 +82,8 @@ To define button color use a `Color` attribute.
 ### Active
 
 ```html
-<SimpleButton IsActive="true">Primary</SimpleButton>
-<SimpleButton IsActive="true">Secondary</SimpleButton>
+<Button IsActive="true">Primary</Button>
+<Button IsActive="true">Secondary</Button>
 ```
 
 <iframe src="/examples/buttons/active/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -86,8 +91,8 @@ To define button color use a `Color` attribute.
 ### Disabled
 
 ```html
-<SimpleButton IsDisabled="true">Primary</SimpleButton>
-<SimpleButton IsDisabled="true">Secondary</SimpleButton>
+<Button IsDisabled="true">Primary</Button>
+<Button IsDisabled="true">Secondary</Button>
 ```
 
 <iframe src="/examples/buttons/disabled/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -98,9 +103,9 @@ If you want to group buttons together on a single line, use the `Buttons` tag.
 
 ```html
 <Buttons>
-    <SimpleButton Color="Color.Secondary">LEFT</SimpleButton>
-    <SimpleButton Color="Color.Secondary">CENTER</SimpleButton>
-    <SimpleButton Color="Color.Secondary">RIGHT</SimpleButton>
+    <Button Color="Color.Secondary">LEFT</Button>
+    <Button Color="Color.Secondary">CENTER</Button>
+    <Button Color="Color.Secondary">RIGHT</Button>
 </Buttons>
 ```
 
@@ -113,21 +118,39 @@ To attach buttons together use a Toolbar role.
 ```html
 <Buttons Role="ButtonsRole.Toolbar">
     <Buttons Margin="Margin.Is2.FromRight">
-        <SimpleButton Color="Color.Primary">Primary</SimpleButton>
-        <SimpleButton Color="Color.Secondary">Secondary</SimpleButton>
-        <SimpleButton Color="Color.Info">Info</SimpleButton>
+        <Button Color="Color.Primary">Primary</Button>
+        <Button Color="Color.Secondary">Secondary</Button>
+        <Button Color="Color.Info">Info</Button>
     </Buttons>
     <Buttons>
-        <SimpleButton Color="Color.Danger">Danger</SimpleButton>
-        <SimpleButton Color="Color.Warning">Warning</SimpleButton>
+        <Button Color="Color.Danger">Danger</Button>
+        <Button Color="Color.Warning">Warning</Button>
     </Buttons>
     <Buttons Margin="Margin.Is2.OnX">
-        <SimpleButton Color="Color.Success">Success</SimpleButton>
+        <Button Color="Color.Success">Success</Button>
     </Buttons>
 </Buttons>
 ```
 
 <iframe src="/examples/buttons/buttontoolbar/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
+## Special cases
+
+### Submit button
+
+When using a submit button inside of `<Form>` element the browser will automatically try to post the page. This is the default browser behaviour. Because of this a new attribute is introduced to the `<Button>` element, called `PreventDefaultOnSubmit`. Basically it prevents a default browser behaviour when clicking the submit button. So instead of posting the page it will stop it and just call the `Clicked` event handler. Pressing the `Enter` key will still work just as it's supposed to do.
+
+```html
+<Form>
+    <Field IsHorizontal="true">
+        <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is10">
+            <TextEdit Placeholder="Some text value..." />
+        </FieldBody>
+    </Field>
+    <Button Type="ButtonType.Submit" PreventDefaultOnSubmit="true">Submit</Button>
+</Form>
+```
 
 ## Attributes
 
@@ -142,3 +165,4 @@ To attach buttons together use a Toolbar role.
 | IsActive   | boolean                                                                 | false    | Makes the button to appear as pressed.               |
 | IsBlock    | boolean                                                                 | false    | Makes the button to span the full width of a parent. |
 | IsLoading  | boolean                                                                 | false    | Shows the loading spinner.                           |
+| PreventDefaultOnSubmit  | boolean                                                    | false    | Prevents the button from submiting the form.         |

@@ -3,6 +3,15 @@ if (!window.blazoriseBootstrap) {
 }
 
 window.blazoriseBootstrap = {
+    tooltip: {
+        initialize: (elementId, element) => {
+            if (element.querySelector(".custom-control-input,.btn")) {
+                element.classList.add("b-tooltip-inline");
+            }
+
+            return true;
+        }
+    }
     //activateDatePicker: (elementId, formatSubmit) => {
     //    const element = $(`#${elementId}`);
 

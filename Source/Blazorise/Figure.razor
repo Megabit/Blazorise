@@ -1,0 +1,11 @@
+﻿@inherits Blazorise.BaseFigure
+@if ( !HasCustomRegistration )
+{
+    <figure class="@ClassNames">
+        @ChildContent
+    </figure>
+}
+else
+{
+    @RenderCustomComponent()
+}

@@ -22,13 +22,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.ModalContent( IsForm ) )
-                .If( () => ClassProvider.ModalSize( Size ), () => Size != ModalSize.None );
+            builder.Append( ClassProvider.ModalContent( IsForm ) );
+            builder.Append( ClassProvider.ToModalSize( Size ), Size != ModalSize.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -46,8 +45,8 @@ namespace Blazorise
             {
                 isForm = value;
 
-                Dirty();
-                ClassMapper.Dirty();
+                DirtyClasses();
+                DirtyClasses();
             }
         }
 
@@ -62,8 +61,8 @@ namespace Blazorise
             {
                 isCentered = value;
 
-                Dirty();
-                ClassMapper.Dirty();
+                DirtyClasses();
+                DirtyClasses();
             }
         }
 
@@ -78,8 +77,8 @@ namespace Blazorise
             {
                 modalSize = value;
 
-                Dirty();
-                ClassMapper.Dirty();
+                DirtyClasses();
+                DirtyClasses();
             }
         }
 

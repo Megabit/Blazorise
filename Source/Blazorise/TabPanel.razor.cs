@@ -18,13 +18,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.TabPanel() )
-                .If( () => ClassProvider.TabPanelActive(), () => IsActive );
+            builder.Append( ClassProvider.TabPanel() );
+            builder.Append( ClassProvider.TabPanelActive(), IsActive );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
@@ -54,11 +53,11 @@ namespace Blazorise
             {
                 isActive = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
-        [CascadingParameter] protected BaseTabsContent ParentTabContent { get; set; }
+        [CascadingParameter] public BaseTabsContent ParentTabContent { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

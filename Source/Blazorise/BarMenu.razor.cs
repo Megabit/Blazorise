@@ -18,13 +18,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.BarMenu() )
-                .If( () => ClassProvider.BarMenuShow(), () => IsOpen );
+            builder.Append( ClassProvider.BarMenu() );
+            builder.Append( ClassProvider.BarMenuShow(), IsOpen );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
@@ -54,13 +53,13 @@ namespace Blazorise
             {
                 isOpen = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
         [Parameter] public Action<bool> Toggled { get; set; }
 
-        [CascadingParameter] protected BaseBar ParentBar { get; set; }
+        [CascadingParameter] public BaseBar ParentBar { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

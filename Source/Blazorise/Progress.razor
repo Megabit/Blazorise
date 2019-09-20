@@ -1,0 +1,13 @@
+﻿@inherits Blazorise.BaseProgress
+@if ( !HasCustomRegistration )
+{
+    <CascadingValue Value=this>
+        <div class="@ClassNames">
+            @ChildContent
+        </div>
+    </CascadingValue>
+}
+else
+{
+    @RenderCustomComponent()
+}

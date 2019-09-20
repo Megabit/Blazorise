@@ -1,0 +1,13 @@
+﻿@typeparam TItem
+@inherits _BaseDataGridNewCommand<TItem>
+@if ( ParentDataGrid?.CommandColumn?.NewCommandTemplate != null )
+{
+    @ParentDataGrid.CommandColumn.NewCommandTemplate( new CommandContext<TItem>
+    {
+        Clicked = New,
+    } )
+}
+else
+{
+    <Button Color="Color.Link" Clicked="@New">New</Button>
+}

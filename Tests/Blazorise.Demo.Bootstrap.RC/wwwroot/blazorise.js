@@ -148,6 +148,12 @@ window.blazorise = {
                 });
         }
     },
+    tooltip: {
+        initialize: (elementId, element) => {
+            // implementation is in the providers
+            return true;
+        }
+    },
     textEdit: {
         _instances: [],
 
@@ -241,7 +247,7 @@ window.blazorise = {
         this.dotnetAdapter = dotnetAdapter;
         this.elementId = elementId;
         this.element = element;
-        this.decimals = decimals || 2;
+        this.decimals = decimals === null || decimals === undefined ? 2 : decimals;
         this.separator = separator || ".";
         this.step = step || 1;
         this.regex = function () {
@@ -301,6 +307,36 @@ window.blazorise = {
 
             return value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value);
         };
+    },
+    button: {
+        _instances: [],
+
+        initialize: (elementId, element, preventDefaultOnSubmit) => {
+            window.blazorise.button._instances[elementId] = new window.blazorise.ButtonInfo(elementId, element, preventDefaultOnSubmit);
+
+            if (element.type === "submit") {
+                element.addEventListener("click", (e) => {
+                    window.blazorise.button.click(window.blazorise.button._instances[elementId], e);
+                });
+            }
+
+            return true;
+        },
+        destroy: (elementId) => {
+            var instances = window.blazorise.button._instances || {};
+            delete instances[elementId];
+            return true;
+        },
+        click: (buttonInfo, e) => {
+            if (buttonInfo.preventDefaultOnSubmit) {
+                return e.preventDefault();
+            }
+        }
+    },
+    ButtonInfo: function (elementId, element, preventDefaultOnSubmit) {
+        this.elementId = elementId;
+        this.element = element;
+        this.preventDefaultOnSubmit = preventDefaultOnSubmit;
     }
 };
 
@@ -323,3 +359,28 @@ document.addEventListener('keyup', function handler(evt) {
         }
     }
 });
+
+function showPopper(element, tooltip, arrow, placement) {
+    var thePopper = new Popper(element, tooltip,
+        {
+            placement,
+            modifiers: {
+                offset: {
+                    offset: 0
+                },
+                flip: {
+                    behavior: "flip"
+                },
+                arrow: {
+                    element: arrow,
+                    enabled: true
+                },
+                preventOverflow: {
+                    boundary: "scrollParent"
+                }
+
+            }
+        }
+    );
+    return thePopper;
+}

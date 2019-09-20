@@ -203,9 +203,9 @@
     <span id="select-nullable-enum-initially-selected-result">@nullableEnumInitiallySelected</span>
 </p>
 
-<SimpleButton Clicked="@(()=>StateHasChanged())">CHANGE STATE</SimpleButton>
+<Button Clicked="@(()=>StateHasChanged())">CHANGE STATE</Button>
 
-@functions{
+@code{
     string nameInitiallyBlank = string.Empty;
     string nameInitiallySelected = "Oliver";
 

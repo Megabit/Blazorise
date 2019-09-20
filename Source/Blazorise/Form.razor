@@ -1,0 +1,11 @@
+﻿@inherits Blazorise.BaseForm
+@if ( !HasCustomRegistration )
+{
+    <form class="@ClassNames">
+        @ChildContent
+    </form>
+}
+else
+{
+    @RenderCustomComponent()
+}

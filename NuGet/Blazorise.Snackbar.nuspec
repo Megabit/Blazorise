@@ -3,7 +3,7 @@
 	<metadata>
 		<id>Blazorise.Snackbar</id>
 		<title>Blazorise.Snackbar</title>
-		<version>0.8.2</version>
+		<version>0.8.5</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -16,19 +16,13 @@
 		<iconUrl>https://github.com/stsrki/Blazorise/raw/master/NuGet/Blazorise.png</iconUrl>
 		<dependencies>
 			<group targetFramework=".NETStandard2.0">
-				<dependency id="Blazorise" version="0.8.2" exclude="Build,Analyzers" />
-				<dependency id="Microsoft.AspNetCore.Blazor" version="3.0.0-preview8.19405.7" exclude="Build,Analyzers" />
+				<dependency id="Blazorise" version="0.8.5" exclude="Build,Analyzers" />
+				<dependency id="Microsoft.AspNetCore.Blazor" version="3.0.0-preview9.19457.4" exclude="Build,Analyzers" />
 			</group>
 		</dependencies>
-		<contentFiles>
-			<files include="any/netstandard2.0/Properties/launchSettings.json" buildAction="Content" />
-		</contentFiles>
 	</metadata>
 	<files>
 		<file src="..\Source\Extensions\Blazorise.Snackbar\bin\Release\**\Blazorise.Snackbar.dll" target="lib\" />
 		<file src="..\LICENSE.md" target="" />
-		
-		<file src="..\Source\Extensions\Blazorise.Snackbar\Properties\launchSettings.json" target="content\Properties" />
-		<file src="..\Source\Extensions\Blazorise.Snackbar\Properties\launchSettings.json" target="contentFiles\any\netstandard2.0\Properties" />
 	</files>
 </package>

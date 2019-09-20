@@ -19,7 +19,3 @@ It gives you a set of components that you can use to easily create a _single pag
 ### How can I try out Blazorise?
 
 To try Blazorise please check out our [quick start]({{ "/docs/start/" | relative_url }}) guide.
-
-### Why are some components named TextEdit, CheckEdit, etc.?
-
-This is a known limitation in Razor and Visual Studio, and not problem by the Razor itself. Basically it's not not possible to have components that have the same name as regular `html` tags(form, button, text). Likely this will change in the future but until then we're stuck with this "weird" names for components.

@@ -6,7 +6,7 @@
     }
     else
     {
-        <div class="@ClassMapper.Class">
+        <div class="@ClassNames">
             @ChildContent
         </div>
     }
@@ -20,5 +20,5 @@
         StateHasChanged();
     }
 
-    bool NoContainer => child is Frolic.SimpleButton || child is Frolic.Dropdown;
+    bool NoContainer => child is Frolic.Button || child is Frolic.Dropdown;
 }

@@ -117,7 +117,7 @@
                 <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <SimpleButton Color="Color.Primary">Submit</SimpleButton>
+                        <Button Color="Color.Primary">Submit</Button>
                     </FieldBody>
                 </Field>
             </CardBody>
@@ -130,7 +130,7 @@
                 <CardSubtitle>Example on how to validate manualy on submit.</CardSubtitle>
             </CardHeader>
             <CardBody>
-                <Validations @ref="validations" @ref:suppressField Mode="ValidationMode.Manual">
+                <Validations @ref="validations" Mode="ValidationMode.Manual">
                     <Field IsHorizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
@@ -241,7 +241,7 @@
                     <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
-                            <SimpleButton Color="Color.Primary" Clicked="@Submit">Submit</SimpleButton>
+                            <Button Color="Color.Primary" Clicked="@Submit">Submit</Button>
                         </FieldBody>
                     </Field>
                 </Validations>

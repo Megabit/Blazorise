@@ -44,8 +44,8 @@ The bar component is a responsive and versatile horizontal navigation bar with t
         </BarStart>
         <BarEnd>
             <BarItem>
-                <SimpleButton Color="Color.Primary">Sign up</SimpleButton>
-                <SimpleButton Color="Color.Secondary">Log in</SimpleButton>
+                <Button Color="Color.Primary">Sign up</Button>
+                <Button Color="Color.Secondary">Log in</Button>
             </BarItem>
         </BarEnd>
     </BarMenu>

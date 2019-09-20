@@ -83,6 +83,12 @@ namespace Blazorise.DataGrid
         internal void Hook( BaseDataGridColumn<TItem> column )
         {
             Columns.Add( column );
+
+            // save command column reference for later
+            if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
+            {
+                CommandColumn = commandColumn;
+            }
         }
 
         protected override Task OnFirstAfterRenderAsync()
@@ -132,6 +138,9 @@ namespace Blazorise.DataGrid
             InitEditItem( CreateNewItem() );
 
             editState = DataGridEditState.New;
+
+            if ( EditMode == DataGridEditMode.Popup )
+                PopupVisible = true;
         }
 
         protected void OnEditCommand( TItem item )
@@ -139,6 +148,9 @@ namespace Blazorise.DataGrid
             InitEditItem( item );
 
             editState = DataGridEditState.Edit;
+
+            if ( EditMode == DataGridEditMode.Popup )
+                PopupVisible = true;
         }
 
         protected async Task OnDeleteCommand( TItem item )
@@ -194,6 +206,9 @@ namespace Blazorise.DataGrid
                         await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
 
                     editState = DataGridEditState.None;
+
+                    if ( EditMode == DataGridEditMode.Popup )
+                        PopupVisible = false;
                 }
             }
         }
@@ -201,6 +216,9 @@ namespace Blazorise.DataGrid
         protected void OnCancelCommand()
         {
             editState = DataGridEditState.None;
+
+            if ( EditMode == DataGridEditMode.Popup )
+                PopupVisible = false;
         }
 
         // this is to give user a way to stop save if necessary
@@ -275,7 +293,7 @@ namespace Blazorise.DataGrid
             dirtyFilter = dirtyView = true;
         }
 
-        protected void OnClearFilterClicked()
+        protected void OnClearFilterCommand()
         {
             foreach ( var column in Columns )
             {
@@ -367,7 +385,7 @@ namespace Blazorise.DataGrid
                 query = from q in query
                         let cellRealValue = column.GetValue( q )
                         let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                        where cellStringValue.Contains( column.Filter.SearchValue )
+                        where CompareFilterValues( cellStringValue, column.Filter.SearchValue )
                         select q;
             }
 
@@ -379,6 +397,24 @@ namespace Blazorise.DataGrid
             //return orderedQuery == null
             //    ? query?.ToList()
             //    : orderedQuery?.ToList();
+        }
+
+        private bool CompareFilterValues( string searchValue, string compareTo )
+        {
+            switch ( FilterMethod )
+            {
+                case DataGridFilterMethod.StartsWith:
+                    return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.EndsWith:
+                    return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.Equals:
+                    return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.NotEquals:
+                    return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridFilterMethod.Contains:
+                default:
+                    return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
+            }
         }
 
         private IEnumerable<TItem> FilterViewData()
@@ -399,9 +435,11 @@ namespace Blazorise.DataGrid
 
         public Task SelectRow( TItem item )
         {
+            if ( editState != DataGridEditState.None )
+                return Task.CompletedTask;
+
             SelectedRow = item;
             return SelectedRowChanged.InvokeAsync( SelectedRow );
-            //StateHasChanged();
         }
 
         #endregion
@@ -424,6 +462,21 @@ namespace Blazorise.DataGrid
         /// Returns true if <see cref="Data"/> is safe to modify.
         /// </summary>
         protected bool CanInsertNewItem => AllowEdit && Data is ICollection<TItem>;
+
+        /// <summary>
+        /// Gets the current datagrid editing state.
+        /// </summary>
+        public DataGridEditState EditState => editState;
+
+        /// <summary>
+        /// Gets the flag which indicates if popup editor is visible.
+        /// </summary>
+        protected bool PopupVisible = false;
+
+        /// <summary>
+        /// Gets the reference to the associated command column.
+        /// </summary>
+        public DataGridCommandColumn<TItem> CommandColumn { get; private set; }
 
         /// <summary>
         /// Gets or sets the datagrid data-source.
@@ -529,6 +582,11 @@ namespace Blazorise.DataGrid
         [Parameter] public int PageSize { get; set; } = 5;
 
         /// <summary>
+        /// Defines the filter method when searching the cell values.
+        /// </summary>
+        [Parameter] public DataGridFilterMethod FilterMethod { get; set; } = DataGridFilterMethod.Contains;
+
+        /// <summary>
         /// Gets or sets currently selected row.
         /// </summary>
         [Parameter] public TItem SelectedRow { get; set; }
@@ -582,6 +640,31 @@ namespace Blazorise.DataGrid
         /// Template for displaying detail or nested row.
         /// </summary>
         [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
+
+        /// <summary>
+        /// Adds stripes to the table.
+        /// </summary>
+        [Parameter] public bool IsStriped { get; set; }
+
+        /// <summary>
+        /// Adds borders to all the cells.
+        /// </summary>
+        [Parameter] public bool IsBordered { get; set; }
+
+        /// <summary>
+        /// Makes the table without any borders.
+        /// </summary>
+        [Parameter] public bool IsBorderless { get; set; }
+
+        /// <summary>
+        /// Adds a hover effect when mousing over rows.
+        /// </summary>
+        [Parameter] public bool IsHoverable { get; set; }
+
+        /// <summary>
+        /// Makes the table more compact by cutting cell padding in half.
+        /// </summary>
+        [Parameter] public bool IsNarrow { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

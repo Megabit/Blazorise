@@ -17,7 +17,7 @@ namespace Blazorise
 
         private bool isRegistered;
 
-        private DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef;
+        private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
         #endregion
 
@@ -27,6 +27,10 @@ namespace Blazorise
         {
             // link to the parent component
             ParentModal?.Hook( this );
+
+            // initialize backdrop in case that modal is already set to visible
+            if ( ParentModal != null )
+                IsOpen = ParentModal.IsOpen;
 
             base.OnInitialized();
         }
@@ -50,14 +54,13 @@ namespace Blazorise
             }
         }
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.ModalBackdrop() )
-                .Add( () => ClassProvider.ModalFade() )
-                .If( () => ClassProvider.ModalShow(), () => IsOpen );
+            builder.Append( ClassProvider.ModalBackdrop() );
+            builder.Append( ClassProvider.ModalFade() );
+            builder.Append( ClassProvider.ModalShow(), IsOpen );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         public bool SafeToClose( string elementId, bool isEscapeKey )
@@ -93,20 +96,20 @@ namespace Blazorise
                 {
                     isRegistered = true;
 
-                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                    ExecuteAfterRender( async () => await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId ) );
                 }
                 else
                 {
                     isRegistered = false;
 
-                    JSRunner.UnregisterClosableComponent( this );
+                    ExecuteAfterRender( async () => await JSRunner.UnregisterClosableComponent( this ) );
                 }
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
-        [CascadingParameter] protected BaseModal ParentModal { get; set; }
+        [CascadingParameter] public BaseModal ParentModal { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

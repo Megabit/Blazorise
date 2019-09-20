@@ -8,13 +8,18 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Charts
 {
-    public abstract class BaseDoughnutChart<TItem> : BaseChart<DoughnutChartDataset<TItem>, TItem, DoughnutChartOptions>
+    public abstract class BaseDoughnutChart<TItem> : BaseChart<DoughnutChartDataset<TItem>, TItem, DoughnutChartOptions, DoughnutChartModel>
     {
         #region Members
 
         #endregion
 
         #region Methods
+
+        public BaseDoughnutChart()
+        {
+            Type = ChartType.Doughnut;
+        }
 
         #endregion
 

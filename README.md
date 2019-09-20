@@ -4,23 +4,24 @@
 
 [![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/stsrki) ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
 [![Join the chat at https://gitter.im/stsrki/Blazorise](https://badges.gitter.im/stsrki/Blazorise.svg)](https://gitter.im/stsrki/Blazorise?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Slack](https://img.shields.io/badge/chat-on%20Slack-green.svg)](https://join.slack.com/t/blazorise/shared_invite/enQtNjQ3NTcyNzM2OTk0LTIyNDBiYTRkNmI4NDU0NzU5NTEyOGFlMGE1ZmQ2YzI4ZTc1OWE3NDkwMGRjOGEwOTY2YjQ1NWQxZDhiN2Q1Yjk)
+[![Slack](https://img.shields.io/badge/chat-on%20Slack-green.svg)](https://join.slack.com/t/blazorise/shared_invite/enQtNzQ2MjQxNDI4MzQxLThjZWM2YjRjMzg1OTlmMWY5NTBlNGRhYmQxOWZhY2Q2ZDcwYjRiMTQzZWZiOTAzMmE5YmNjNzMzYjY5YWRkZjg)
 [![MIT](https://img.shields.io/github/license/stsrki/Blazorise.svg)](LICENSE)
 [![Tip Me via PayPal](https://img.shields.io/badge/PayPal-tip%20me-green.svg?logo=paypal)](https://www.paypal.me/mladenmacanovic)
 [![Buy me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-donate-yellow.svg)](https://www.buymeacoffee.com/mladenmacanovic)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-donate-9cf.svg)](https://ko-fi.com/mladenmacanovic)
 
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
 ## Demos
 
-### Client-Side Blazor
+### Blazor WebAssembly
 
 - [Bootstrap Demo](https://bootstrapdemo.blazorise.com)
 - [Material Demo](https://materialdemo.blazorise.com/)
 - [Bulma Demo](https://bulmademo.blazorise.com/)
 - [eFrolic Demo](https://efrolicdemo.blazorise.com/)
 
-### Server-Side Blazor
+### Blazor Server
 
 - [Bootstrap Demo](https://rcbootstrapdemo.blazorise.com/)
 
@@ -111,9 +112,9 @@ public void ConfigureServices( IServiceCollection services )
 }
 ```
 
-### Client-Side
+### Blazor WebAssembly
 
-```
+```cs
 public void Configure( IComponentsApplicationBuilder app )
 {
   app.Services
@@ -124,12 +125,13 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-### Server-Side
+### Blazor Server
 
-```
+```cs
 public void Configure( IComponentsApplicationBuilder app )
 {
-  ...
+  // other settings
+  
   app.UseRouting();
   
   app.ApplicationServices
@@ -144,11 +146,11 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-This step is mandatory only for projects built on top of Server-Side Blazor(Razor Components)! For Client-Side Blazor projects this step is not required! Normally these files would be downloaded automatically by the framework but since Razor Components still doesn't support static files inside of class library you will need to manually include required js and css files into your project. Once the Blazor/RC team implements this feature this step will not we required.
+This step is mandatory only for projects built on top of Blazor Server(Razor Components)! For Blazor WebAssembly projects this step is not required! Normally these files would be downloaded automatically by the framework but since Razor Components still doesn't support static files inside of class library you will need to manually include required js and css files into your project. Once the Blazor/RC team implements this feature this step will not we required.
 
 First you must download **bundle.zip** from the [release](https://github.com/stsrki/Blazorise/releases) tab and extract it to your _wwwroot_ folder. After extraction you will have to include files in your Index.cshtml eg.
 
-```
+```html
 <link href="blazorise.css" rel="stylesheet" />
 <link href="blazorise.bootstrap.css" rel="stylesheet" />
 <link href="blazorise.sidebar.css" rel="stylesheet" />
@@ -163,6 +165,27 @@ etc.
 ```
 
 There is also another option. You can try the library [BlazorEmbedLibrary](https://github.com/SQL-MisterMagoo/BlazorEmbedLibrary). Full instruction on how to use it can be found on their project page.
+
+## Usage
+
+```html
+@page "/counter"
+
+<Heading Size="HeadingSize.Is1">Counter</Heading>
+
+<Paragraph>Current count: @currentCount</Paragraph>
+
+<Button Color="Color.Primary" Clicked="IncrementCount">Click me</Button>
+
+@code {
+    int currentCount = 0;
+
+    void IncrementCount()
+    {
+        currentCount++;
+    }
+}
+```
 
 ## Other frameworks
 

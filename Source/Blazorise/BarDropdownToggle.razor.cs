@@ -17,7 +17,7 @@ namespace Blazorise
 
         private bool isRegistered;
 
-        private DotNetObjectRef<CloseActivatorAdapter> dotNetObjectRef;
+        private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
         #endregion
 
@@ -38,12 +38,11 @@ namespace Blazorise
             await base.OnFirstAfterRenderAsync();
         }
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.BarDropdownToggle() );
+            builder.Append( ClassProvider.BarDropdownToggle() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         public void Dispose()
@@ -101,11 +100,11 @@ namespace Blazorise
                     JSRunner.UnregisterClosableComponent( this );
                 }
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
-        [CascadingParameter] protected BaseBarDropdown BarDropdown { get; set; }
+        [CascadingParameter] public BaseBarDropdown BarDropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

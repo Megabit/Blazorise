@@ -99,9 +99,9 @@ namespace Blazorise
     /// <summary>
     /// Supplies information about a mouse event that is being raised.
     /// </summary>
-    public class MouseEventArgs : EventArgs
+    public class BLMouseEventArgs : EventArgs
     {
-        public MouseEventArgs( MouseButton button, int clicks, Point screen, Point client, bool ctrl, bool shift, bool alt )
+        public BLMouseEventArgs( MouseButton button, long clicks, Point screen, Point client, bool ctrl, bool shift, bool alt )
         {
             Button = button;
             Clicks = clicks;
@@ -120,7 +120,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the number of times the mouse button was pressed and released.
         /// </summary>
-        public int Clicks { get; }
+        public long Clicks { get; }
 
         /// <summary>
         /// Gets the coordinate of the mouse pointer in global (screen) coordinates.

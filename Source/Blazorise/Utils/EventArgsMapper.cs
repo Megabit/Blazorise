@@ -4,19 +4,20 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Utils
 {
     internal static class EventArgsMapper
     {
-        public static MouseEventArgs ToMouseEventArgs( UIMouseEventArgs e )
+        public static BLMouseEventArgs ToMouseEventArgs( MouseEventArgs e )
         {
             if ( e == null )
                 return null;
 
-            return new MouseEventArgs( ToMouseButton( e.Button ),
-                (int)e.Detail,
+            return new BLMouseEventArgs( ToMouseButton( e.Button ),
+                e.Detail,
                 new Point( (int)e.ScreenX, (int)e.ScreenY ),
                 new Point( (int)e.ClientX, (int)e.ClientY ),
                 e.CtrlKey, e.ShiftKey, e.AltKey );

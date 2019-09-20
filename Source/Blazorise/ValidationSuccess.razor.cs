@@ -18,13 +18,14 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => ClassProvider.ValidationSuccess(), () => !IsTooltip )
-                .If( () => ClassProvider.ValidationSuccessTooltip(), () => IsTooltip );
+            if ( !IsTooltip )
+                builder.Append( ClassProvider.ValidationSuccess() );
+            else
+                builder.Append( ClassProvider.ValidationSuccessTooltip() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -42,11 +43,11 @@ namespace Blazorise
             {
                 isTooltip = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
-        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
+        [CascadingParameter] public BaseValidation ParentValidation { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
