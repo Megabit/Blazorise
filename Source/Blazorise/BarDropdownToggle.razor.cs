@@ -38,12 +38,11 @@ namespace Blazorise
             await base.OnFirstAfterRenderAsync();
         }
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.BarDropdownToggle() );
+            builder.Append( ClassProvider.BarDropdownToggle() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         public void Dispose()
@@ -101,7 +100,7 @@ namespace Blazorise
                     JSRunner.UnregisterClosableComponent( this );
                 }
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

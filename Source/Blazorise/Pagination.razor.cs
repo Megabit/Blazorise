@@ -22,15 +22,14 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Pagination() )
-                .If( () => ClassProvider.PaginationSize( Size ), () => Size != Size.None )
-                .If( () => ClassProvider.FlexAlignment( Alignment ), () => Alignment != Alignment.None )
-                .If( () => ClassProvider.BackgroundColor( Background ), () => Background != Background.None );
+            builder.Append( ClassProvider.Pagination() );
+            builder.Append( ClassProvider.PaginationSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
+            builder.Append( ClassProvider.BackgroundColor( Background ), Background != Background.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -48,7 +47,7 @@ namespace Blazorise
             {
                 size = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -63,7 +62,7 @@ namespace Blazorise
             {
                 alignment = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -78,7 +77,7 @@ namespace Blazorise
             {
                 background = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

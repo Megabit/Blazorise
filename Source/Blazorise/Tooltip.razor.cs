@@ -16,13 +16,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Tooltip() )
-                .Add( () => ClassProvider.TooltipPlacement( Placement ) );
+            builder.Append( ClassProvider.Tooltip() );
+            builder.Append( ClassProvider.TooltipPlacement( Placement ) );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()

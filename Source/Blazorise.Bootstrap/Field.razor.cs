@@ -15,13 +15,15 @@ namespace Blazorise.Bootstrap.BootstrapBase
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => ClassProvider.FieldColumn(), () => IsFields )
-                .If( () => ColumnSize.Class( ClassProvider ), () => ColumnSize != null );
+            if ( IsFields )
+                builder.Append( ClassProvider.FieldColumn() );
 
-            base.RegisterClasses();
+            if ( ColumnSize != null )
+                builder.Append( ColumnSize.Class( ClassProvider ) );
+
+            base.BuildClasses( builder );
         }
 
         #endregion

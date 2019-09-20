@@ -27,6 +27,10 @@ namespace Blazorise
 
         ValueTask<bool> InitializeTooltip( string elementId, ElementReference elementRef );
 
+        ValueTask<bool> InitializeButton( string elementId, ElementReference elementRef, bool preventDefaultSubmit );
+
+        ValueTask<bool> DestroyButton( string elementId );
+
         ValueTask<bool> AddClass( ElementReference elementRef, string classname );
 
         ValueTask<bool> RemoveClass( ElementReference elementRef, string classname );

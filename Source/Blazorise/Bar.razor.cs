@@ -30,16 +30,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-               .Add( () => ClassProvider.Bar() )
-               .If( () => ClassProvider.BackgroundColor( Background ), () => Background != Background.None )
-               .If( () => ClassProvider.BarThemeContrast( ThemeContrast ), () => ThemeContrast != ThemeContrast.None )
-               .If( () => ClassProvider.BarBreakpoint( Breakpoint ), () => Breakpoint != Breakpoint.None )
-               .If( () => ClassProvider.FlexAlignment( Alignment ), () => Alignment != Alignment.None );
+            builder.Append( ClassProvider.Bar() );
+            builder.Append( ClassProvider.BackgroundColor( Background ), Background != Background.None );
+            builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
+            builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
+            builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         internal void Hook( BaseBarToggler barToggler )
@@ -80,7 +79,7 @@ namespace Blazorise
                 if ( barToggler != null )
                     barToggler.IsOpen = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -95,7 +94,7 @@ namespace Blazorise
             {
                 breakpoint = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -107,7 +106,7 @@ namespace Blazorise
             {
                 themeContrast = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -122,7 +121,7 @@ namespace Blazorise
             {
                 alignment = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -137,7 +136,7 @@ namespace Blazorise
             {
                 background = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

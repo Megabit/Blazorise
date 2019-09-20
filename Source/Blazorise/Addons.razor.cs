@@ -18,12 +18,11 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Addons() );
+            builder.Append( ClassProvider.Addons() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -38,8 +37,8 @@ namespace Blazorise
             {
                 columnSize = value;
 
-                Dirty();
-                ClassMapper.Dirty();
+                DirtyClasses();
+                DirtyClasses();
             }
         }
 

@@ -134,6 +134,24 @@ To attach buttons together use a Toolbar role.
 
 <iframe src="/examples/buttons/buttontoolbar/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
+## Special cases
+
+### Submit button
+
+When using a submit button inside of `<Form>` element the browser will automatically try to post the page. This is the default browser behaviour. Because of this a new attribute is introduced to the `<Button>` element, called `PreventDefaultOnSubmit`. Basically it prevents a default browser behaviour when clicking the submit button. So instead of posting the page it will stop it and just call the `Clicked` event handler. Pressing the `Enter` key will still work just as it's supposed to do.
+
+```html
+<Form>
+    <Field IsHorizontal="true">
+        <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is10">
+            <TextEdit Placeholder="Some text value..." />
+        </FieldBody>
+    </Field>
+    <Button Type="ButtonType.Submit" PreventDefaultOnSubmit="true">Submit</Button>
+</Form>
+```
+
 ## Attributes
 
 | Name       | Type                                                                    | Default  | Description                                          |
@@ -147,3 +165,4 @@ To attach buttons together use a Toolbar role.
 | IsActive   | boolean                                                                 | false    | Makes the button to appear as pressed.               |
 | IsBlock    | boolean                                                                 | false    | Makes the button to span the full width of a parent. |
 | IsLoading  | boolean                                                                 | false    | Shows the loading spinner.                           |
+| PreventDefaultOnSubmit  | boolean                                                    | false    | Prevents the button from submiting the form.         |

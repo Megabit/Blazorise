@@ -16,11 +16,6 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
-        {
-            base.RegisterClasses();
-        }
-
         #endregion
 
         #region Properties

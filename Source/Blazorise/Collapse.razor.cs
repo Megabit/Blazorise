@@ -18,13 +18,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Collapse() )
-                .If( () => ClassProvider.CollapseShow(), () => IsOpen );
+            builder.Append( ClassProvider.Collapse() );
+            builder.Append( ClassProvider.CollapseShow(), IsOpen );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -39,7 +38,7 @@ namespace Blazorise
             {
                 isOpen = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

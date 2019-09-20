@@ -71,6 +71,16 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementId, elementRef );
         }
 
+        public virtual ValueTask<bool> InitializeButton( string elementId, ElementReference elementRef, bool preventDefaultSubmit )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.button.initialize", elementId, elementRef, preventDefaultSubmit );
+        }
+
+        public ValueTask<bool> DestroyButton( string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.button.destroy", elementId );
+        }
+
         public ValueTask<bool> AddClass( ElementReference elementRef, string classname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.addClass", elementRef, classname );

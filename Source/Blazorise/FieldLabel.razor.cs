@@ -25,14 +25,13 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.FieldLabel() )
-                .If( () => ClassProvider.FieldLabelHorizontal(), () => ParentIsHorizontal )
-                .If( () => ClassProvider.ToScreenreader( Screenreader ), () => Screenreader != Screenreader.Always );
+            builder.Append( ClassProvider.FieldLabel() );
+            builder.Append( ClassProvider.FieldLabelHorizontal(), ParentIsHorizontal );
+            builder.Append( ClassProvider.ToScreenreader( Screenreader ), Screenreader != Screenreader.Always );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -52,7 +51,7 @@ namespace Blazorise
             {
                 isCheck = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -67,7 +66,7 @@ namespace Blazorise
             {
                 isFile = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -82,7 +81,7 @@ namespace Blazorise
             {
                 screenreader = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

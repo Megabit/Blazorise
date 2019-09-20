@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseTableRow
 @if ( !HasCustomRegistration )
 {
-    <tr class="@ClassMapper.Class" style="@StyleMapper.Style" @onclick="@HandleClick">
+    <tr class="@ClassNames" style="@StyleNames" @onclick="@HandleClick">
         @ChildContent
     </tr>
 }

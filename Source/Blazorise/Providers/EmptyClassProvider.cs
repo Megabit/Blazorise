@@ -108,6 +108,8 @@ namespace Blazorise.Providers
 
         public string ValidationErrorTooltip() => null;
 
+        public string ValidationNone() => null;
+
         #endregion
 
         #region Fields
@@ -172,7 +174,7 @@ namespace Blazorise.Providers
 
         public string AddonLabel() => null;
 
-        public string AddonContainer() => null;
+        //public string AddonContainer() => null;
 
         #endregion
 
@@ -238,7 +240,7 @@ namespace Blazorise.Providers
 
         public string DropdownMenu() => null;
 
-        public string DropdownMenuBody() => null;
+        //public string DropdownMenuBody() => null;
 
         public string DropdownMenuShow() => null;
 
@@ -658,6 +660,14 @@ namespace Blazorise.Providers
 
         public string Figure() => null;
 
+        public string FigureSize( FigureSize figureSize ) => null;
+
+        public string FigureImage() => null;
+
+        public string FigureImageRounded() => null;
+
+        public string FigureCaption() => null;
+
         #endregion
 
         #region Breadcrumb
@@ -751,6 +761,8 @@ namespace Blazorise.Providers
         public string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
 
         public string ToPlacement( Placement placement ) => null;
+
+        public string ToFigureSize( FigureSize figureSize ) => null;
 
         #endregion
 

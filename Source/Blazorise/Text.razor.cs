@@ -26,16 +26,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => ClassProvider.TextColor( Color ), () => Color != TextColor.None )
-                .If( () => ClassProvider.TextAlignment( Alignment ), () => Alignment != TextAlignment.None )
-                .If( () => ClassProvider.TextTransform( Transform ), () => Transform != TextTransform.None )
-                .If( () => ClassProvider.TextWeight( Weight ), () => Weight != TextWeight.None )
-                .If( () => ClassProvider.TextItalic(), () => IsItalic );
+            builder.Append( ClassProvider.TextColor( Color ), Color != TextColor.None );
+            builder.Append( ClassProvider.TextAlignment( Alignment ), Alignment != TextAlignment.None );
+            builder.Append( ClassProvider.TextTransform( Transform ), Transform != TextTransform.None );
+            builder.Append( ClassProvider.TextWeight( Weight ), Weight != TextWeight.None );
+            builder.Append( ClassProvider.TextItalic(), IsItalic );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
@@ -50,7 +49,7 @@ namespace Blazorise
             {
                 color = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -62,7 +61,7 @@ namespace Blazorise
             {
                 alignment = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -74,7 +73,7 @@ namespace Blazorise
             {
                 textTransform = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -86,7 +85,7 @@ namespace Blazorise
             {
                 textWeight = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -98,7 +97,7 @@ namespace Blazorise
             {
                 isItalic = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

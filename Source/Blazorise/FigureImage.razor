@@ -1,0 +1,9 @@
+﻿@inherits Blazorise.BaseFigureImage
+@if ( !HasCustomRegistration )
+{
+    <img src="@Source" class="@ClassNames" alt="@AlternateText" />
+}
+else
+{
+    @RenderCustomComponent()
+}

@@ -16,12 +16,11 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.FieldBody() );
+            builder.Append( ClassProvider.FieldBody() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion
