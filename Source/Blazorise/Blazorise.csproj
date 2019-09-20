@@ -10,11 +10,4 @@
     <PackageTags>blazorise blazor components bootstrap material bulma</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Base\**" />
-    <Content Remove="Base\**" />
-    <EmbeddedResource Remove="Base\**" />
-    <None Remove="Base\**" />
-  </ItemGroup>
-
 </Project>
