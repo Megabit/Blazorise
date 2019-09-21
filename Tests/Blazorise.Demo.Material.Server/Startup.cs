@@ -38,6 +38,7 @@ namespace Blazorise.Demo.Material.Server
                 app.UseBlazorDebugging();
             }
 
+            app.UseStaticFiles();
             app.UseClientSideBlazorFiles<Material.Startup>();
 
             app.UseRouting();
