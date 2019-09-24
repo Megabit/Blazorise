@@ -17,7 +17,7 @@
 		<dependencies>
 			<group targetFramework=".NETStandard2.0">
 				<dependency id="Blazorise" version="0.8.5" exclude="Build,Analyzers" />
-				<dependency id="Microsoft.AspNetCore.Blazor" version="3.0.0-preview9.19457.4" exclude="Build,Analyzers" />
+				<dependency id="Microsoft.AspNetCore.Components" version="3.0.0" exclude="Build,Analyzers" />
 			</group>
 		</dependencies>
 	</metadata>
