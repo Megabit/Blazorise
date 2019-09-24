@@ -17,6 +17,7 @@ namespace BasicTestApp.Server
                     .AddCommandLine( args )
                     .Build() )
                 .UseStartup<Startup>()
+                .UseStaticWebAssets()
                 .Build();
     }
 }
