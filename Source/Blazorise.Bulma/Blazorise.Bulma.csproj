@@ -4,10 +4,11 @@
 
   <PropertyGroup>
     <PackageId>Blazorise.Bulma</PackageId>
-    <PackageLicenseUrl>https://github.com/stsrki/Blazorise/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/stsrki/Blazorise</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/stsrki/Blazorise/raw/master/NuGet/Blazorise.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
-    <PackageTags>blazorise blazor components bootstrap material bulma</PackageTags>
+    <PackageTags>blazorise blazor components bulma</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="compilerconfig.json" />
+    <ProjectReference Include="..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazorise\Blazorise.csproj" />
+    <None Include="..\..\LICENSE.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

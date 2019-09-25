@@ -4,14 +4,19 @@
 
   <PropertyGroup>
     <PackageId>Blazorise.DataGrid</PackageId>
-    <PackageLicenseUrl>https://github.com/stsrki/Blazorise/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/stsrki/Blazorise</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/stsrki/Blazorise/raw/master/NuGet/Blazorise.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
-    <PackageTags>blazorise blazor datagrid</PackageTags>
+    <PackageTags>blazorise blazor components datagrid</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
