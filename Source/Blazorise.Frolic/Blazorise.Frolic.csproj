@@ -6,7 +6,7 @@
     <PackageId>Blazorise.Frolic</PackageId>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>
-    <PackageProjectUrl>https://github.com/stsrki/Blazorise</PackageProjectUrl>
+    <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components efrolic</PackageTags>
   </PropertyGroup>
