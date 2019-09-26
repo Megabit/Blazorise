@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utils;
@@ -153,7 +154,7 @@ namespace Blazorise
                 {
                     return default;
                 }
-            } ).Where( x => x != default ).ToArray();
+            } ).Where( x => !EqualityComparer<TValue>.Default.Equals( x, default ) ).ToArray();
         }
 
         public ValueTask<bool> SetTextValue( ElementReference elementRef, object value )
