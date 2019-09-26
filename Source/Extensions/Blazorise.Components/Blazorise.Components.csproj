@@ -5,8 +5,8 @@
   <PropertyGroup>
     <PackageId>Blazorise.Components</PackageId>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageIcon>Blazorise.png</PackageIcon>
     <PackageProjectUrl>https://github.com/stsrki/Blazorise</PackageProjectUrl>
-    <PackageIconUrl>https://github.com/stsrki/Blazorise/raw/master/NuGet/Blazorise.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components</PackageTags>
   </PropertyGroup>
@@ -16,7 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\LICENSE.md" Pack="true" PackagePath="" />
+    <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
+    <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
 </Project>
