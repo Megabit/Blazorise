@@ -6,6 +6,15 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.6
+
+### Breaking changes
+
+- Upgraded to the .NET Core 3.0
+- Manual static files
+
+For detail description of changes please look at [v0.8.6 release page]({{ "/docs/release-notes/release086/" | relative_url }})
+
 ## 0.8.5
 
 ### Breaking changes
