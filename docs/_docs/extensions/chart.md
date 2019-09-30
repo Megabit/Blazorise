@@ -68,9 +68,12 @@ You should always define `TItem` data type.
 @code{
     LineChart<double> lineChart;
 
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        await HandleRedraw();
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
     }
 
     async Task HandleRedraw()
