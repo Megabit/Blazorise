@@ -68,7 +68,9 @@ Paging is handled automatically by the DataGrid. You also have some additional a
 
 ### Editing
 
-The grid can perform some basic CRUD operations on the supplied `Data` collection. By default every time the `Item` is saved it will be automatically handled by the datagrid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the `UseInternalEditing` to **false**.
+The grid can perform some basic CRUD operations on the supplied `Data` collection. To enable editing on datagrid just set the `AllowEdit` attribute to **true**.
+
+By default every time the `Item` is saved it will be automatically handled by the datagrid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the `UseInternalEditing` to **false**.
 
 The grid can work in two different editing modes that can provide different user experiences.
 
