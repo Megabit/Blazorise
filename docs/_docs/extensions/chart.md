@@ -39,10 +39,12 @@ Install-Package Blazorise.Charts
 
 ### Index
 
-Add ChartsJS to your index.html file.
+Add `ChartsJS` and `blazorise.charts.js` to your index.html file.
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
+<script src="_content/Blazorise.Charts/blazorise.charts.js"></script>
 ```
 
 ### Imports
@@ -66,9 +68,12 @@ You should always define `TItem` data type.
 @code{
     LineChart<double> lineChart;
 
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        await HandleRedraw();
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
     }
 
     async Task HandleRedraw()
