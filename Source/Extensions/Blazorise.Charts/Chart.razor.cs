@@ -17,7 +17,7 @@ namespace Blazorise.Charts
         Task Event( string eventName, int datasetIndex, int index, string model );
     }
 
-    public abstract class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseComponent, IDisposable, IBaseChart
+    public abstract class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseComponent, IBaseChart
         where TDataSet : ChartDataset<TItem>
         where TOptions : ChartOptions
     {
@@ -38,10 +38,15 @@ namespace Blazorise.Charts
             base.BuildClasses( builder );
         }
 
-        public void Dispose()
+        protected override void Dispose( bool disposing )
         {
-            JS.Destroy( JSRuntime, ElementId );
-            JS.DisposeDotNetObjectRef( dotNetObjectRef );
+            if ( disposing )
+            {
+                JS.Destroy( JSRuntime, ElementId );
+                JS.DisposeDotNetObjectRef( dotNetObjectRef );
+            }
+
+            base.Dispose( disposing );
         }
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -111,7 +116,7 @@ namespace Blazorise.Charts
 
         private async Task Initialize()
         {
-            dotNetObjectRef = dotNetObjectRef ?? JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
+            dotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
 
             await JS.InitializeChart( JSRuntime, dotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type, Data, Options, DataJsonString, OptionsJsonString );
         }

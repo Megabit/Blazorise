@@ -30,16 +30,9 @@ namespace Blazorise
         public event ValidatingEventHandler Validating;
 
         /// <summary>
-        /// Raises an event after the validation has passes successfully.
+        /// Raises every time a validation state has changed.
         /// </summary>
-        public event ValidationSucceededEventHandler ValidationSucceeded;
-
-        /// <summary>
-        /// Raises an event after the validation has failed.
-        /// </summary>
-        public event ValidationFailedEventHandler ValidationFailed;
-
-        internal event ValidatedEventHandler Validated;
+        public event EventHandler<ValidationStatusChangedEventArgs> ValidationStatusChanged;
 
         #endregion
 
@@ -130,40 +123,30 @@ namespace Blazorise
                 {
                     Status = matchStatus;
 
-                    if ( matchStatus == ValidationStatus.Success )
-                        ValidationSucceeded?.Invoke( new ValidationSucceededEventArgs() );
-                    else if ( matchStatus == ValidationStatus.Error )
-                        ValidationFailed?.Invoke( new ValidationFailedEventArgs( null ) );
+                    ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status ) );
 
-                    Validated?.Invoke( new ValidatedEventArgs( Status, null ) );
-
-                    StateHasChanged();
+                    //StateHasChanged();
                 }
             }
             else
             {
-                var handler = Validator;
+                var validatorHandler = Validator;
 
-                if ( handler != null )
+                if ( validatorHandler != null )
                 {
                     Validating?.Invoke();
 
-                    var args = new ValidatorEventArgs( value );
+                    var validatorEventArgs = new ValidatorEventArgs( value );
 
-                    handler( args );
+                    validatorHandler( validatorEventArgs );
 
-                    if ( Status != args.Status )
+                    if ( Status != validatorEventArgs.Status )
                     {
-                        Status = args.Status;
+                        Status = validatorEventArgs.Status;
 
-                        if ( args.Status == ValidationStatus.Success )
-                            ValidationSucceeded?.Invoke( new ValidationSucceededEventArgs() );
-                        else if ( args.Status == ValidationStatus.Error )
-                            ValidationFailed?.Invoke( new ValidationFailedEventArgs( args.ErrorText ) );
+                        ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status, Status == ValidationStatus.Error ? validatorEventArgs.ErrorText : null ) );
 
-                        Validated?.Invoke( new ValidatedEventArgs( Status, args.ErrorText ) );
-
-                        StateHasChanged();
+                        //StateHasChanged();
                     }
                 }
             }
@@ -177,9 +160,9 @@ namespace Blazorise
         public void Clear()
         {
             Status = ValidationStatus.None;
-            Validated?.Invoke( new ValidatedEventArgs( Status, string.Empty ) );
+            ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status ) );
 
-            StateHasChanged();
+            //StateHasChanged();
         }
 
         #endregion

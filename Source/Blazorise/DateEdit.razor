@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseDateEdit
 @if ( !HasCustomRegistration )
 {
-    <input @ref="@ElementRef" id="@ElementId" type="date" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" pattern="@Pattern" value="@internalDate" @onchange="@InternalDateHandler" @onclick="@ClickHandler" placeholder="@Placeholder" min="@Min?.ToString(Utils.Parsers.InternalDateFormat)" max="@Max?.ToString(Utils.Parsers.InternalDateFormat)" />
+    <input @ref="@ElementRef" id="@ElementId" type="date" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@ClickHandler" placeholder="@Placeholder" min="@Min?.ToString(Utils.Parsers.InternalDateFormat)" max="@Max?.ToString(Utils.Parsers.InternalDateFormat)" />
     @ChildContent
     @Feedback
 }

@@ -43,27 +43,25 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        protected Task HandleOnChange( ChangeEventArgs e )
+        protected Task OnChangeHandler( ChangeEventArgs e )
         {
             if ( !Options.ChangeTextOnKeyPress )
             {
-                return HandleValue( e?.Value );
+                return CurrentValueHandler( e?.Value?.ToString() );
             }
 
             return Task.CompletedTask;
         }
 
-        protected Task HandleOnInput( ChangeEventArgs e )
+        protected Task OnInputHandler( ChangeEventArgs e )
         {
             if ( Options.ChangeTextOnKeyPress )
             {
-                return HandleValue( e?.Value );
+                return CurrentValueHandler( e?.Value?.ToString() );
             }
 
             return Task.CompletedTask;
         }
-
-        protected abstract Task HandleValue( object value );
 
         #endregion
 

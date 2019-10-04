@@ -13,8 +13,6 @@ namespace Blazorise
     {
         #region Members
 
-        protected string internalDate;
-
         #endregion
 
         #region Methods
@@ -38,20 +36,41 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        protected Task OnChangeHandler( ChangeEventArgs e )
+        {
+            return CurrentValueHandler( e?.Value?.ToString() );
+        }
+
         protected void ClickHandler( MouseEventArgs e )
         {
             JSRunner.ActivateDatePicker( ElementId, Utils.Parsers.InternalDateFormat );
         }
 
-        protected Task InternalDateHandler( ChangeEventArgs e )
+        protected override void OnInternalValueChanged( DateTime? value )
         {
-            Date = Utils.Parsers.TryParseDate( e?.Value?.ToString() );
-            return DateChanged.InvokeAsync( Date );
+            DateChanged.InvokeAsync( value );
+        }
+
+        protected override string FormatValueAsString( DateTime? value )
+            => value?.ToString( Utils.Parsers.InternalDateFormat );
+
+        protected override Task<ParseValue<DateTime?>> ParseValueFromStringAsync( string value )
+        {
+            if ( Utils.Parsers.TryParseDate( value, out var result ) )
+            {
+                return Task.FromResult( new ParseValue<DateTime?>( true, result, null ) );
+            }
+            else
+            {
+                return Task.FromResult( new ParseValue<DateTime?>( false, default, null ) );
+            }
         }
 
         #endregion
 
         #region Properties
+
+        protected override DateTime? InternalValue { get => Date; set => Date = value; }
 
         /// <summary>
         /// Sets the placeholder for the empty date.
@@ -62,18 +81,18 @@ namespace Blazorise
         /// Gets or sets the input date value.
         /// </summary>
         [Parameter]
-        public DateTime? Date
-        {
-            get
-            {
-                return string.IsNullOrEmpty( internalDate ) ? null : Utils.Parsers.TryParseDate( internalDate );
-            }
-            set
-            {
-                InternalValue = value;
-                internalDate = InternalValue?.ToString( Utils.Parsers.InternalDateFormat );
-            }
-        }
+        public DateTime? Date { get; set; }
+        //{
+        //    get
+        //    {
+        //        return string.IsNullOrEmpty( internalDate ) ? null : Utils.Parsers.TryParseDate( internalDate );
+        //    }
+        //    set
+        //    {
+        //        InternalValue = value;
+        //        internalDate = InternalValue?.ToString( Utils.Parsers.InternalDateFormat );
+        //    }
+        //}
 
         /// <summary>
         /// Occurs when the date has changed.

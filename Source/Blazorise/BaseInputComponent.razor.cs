@@ -15,8 +15,6 @@ namespace Blazorise
     {
         #region Members
 
-        protected TValue internalValue;
-
         private Size size = Size.None;
 
         private bool isReadonly;
@@ -32,50 +30,105 @@ namespace Blazorise
             // link to the parent component
             if ( ParentValidation != null )
             {
-                ParentValidation.InitInputValue( internalValue );
+                ParentValidation.InitInputValue( PrepareValueForValidation( InternalValue ) );
 
-                ParentValidation.Validated += OnValidated;
+                ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
             }
 
             base.OnInitialized();
         }
 
-        public override void Dispose()
+        protected override void Dispose( bool disposing )
         {
-            if ( ParentValidation != null )
+            if ( disposing )
             {
-                // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-                ParentValidation.Validated -= OnValidated;
+                if ( ParentValidation != null )
+                {
+                    // To avoid leaking memory, it's important to detach any event handlers in Dispose()
+                    ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+                }
             }
 
-            base.Dispose();
+            base.Dispose( disposing );
         }
 
-        private void OnValidated( ValidatedEventArgs e )
+        private void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs e )
         {
             DirtyClasses();
+            StateHasChanged();
         }
+
+        /// <summary>
+        /// Handles the parsing of an input value.
+        /// </summary>
+        /// <param name="value">Input value to be parsed.</param>
+        /// <returns>Returns the awaitable task.</returns>
+        protected async Task CurrentValueHandler( string value )
+        {
+            var empty = false;
+
+            if ( string.IsNullOrEmpty( value ) )
+            {
+                empty = true;
+                CurrentValue = default;
+            }
+
+            if ( !empty )
+            {
+                var result = await ParseValueFromStringAsync( value );
+
+                if ( result.Success )
+                {
+                    CurrentValue = result.ParsedValue;
+                }
+            }
+
+            // send the value to the validation for processing
+            ParentValidation?.UpdateInputValue( PrepareValueForValidation( CurrentValue ) );
+        }
+
+        protected abstract Task<ParseValue<TValue>> ParseValueFromStringAsync( string value );
+
+        protected virtual string FormatValueAsString( TValue value )
+            => value?.ToString();
+
+        protected virtual object PrepareValueForValidation( TValue value )
+            => value;
+
+        /// <summary>
+        /// Raises and event that handles the edit value of Text, Date, Numeric etc.
+        /// </summary>
+        /// <param name="value">New edit value.</param>
+        protected abstract void OnInternalValueChanged( TValue value );
 
         #endregion
 
         #region Properties
 
         /// <summary>
-        /// Internal input value.
+        /// Gets or sets the imternal edit value.
         /// </summary>
-        protected TValue InternalValue
+        /// <remarks>
+        /// The reason for this to be abstract is so that input components can have
+        /// their own specialized parameters that can be binded(Text, Date, Value etc.)
+        /// </remarks>
+        protected abstract TValue InternalValue { get; set; }
+
+        protected TValue CurrentValue
         {
-            get
-            {
-                return internalValue;
-            }
+            get => InternalValue;
             set
             {
-                internalValue = value;
-
-                ParentValidation?.UpdateInputValue( value );
+                if ( !EqualityComparer<TValue>.Default.Equals( value, InternalValue ) )
+                {
+                    InternalValue = value;
+                    OnInternalValueChanged( value );
+                }
             }
         }
+
+        protected string CurrentValueAsString
+            => FormatValueAsString( CurrentValue );
 
         /// <summary>
         /// Sets the size of the input control.

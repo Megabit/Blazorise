@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseValidationSuccess : BaseComponent
+    public abstract class BaseValidationSuccess : BaseValidationSummary
     {
         #region Members
 
@@ -46,10 +46,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-
-        [CascadingParameter] public BaseValidation ParentValidation { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

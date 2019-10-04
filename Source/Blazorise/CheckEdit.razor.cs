@@ -35,9 +35,20 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void HandleCheckedChanged( ChangeEventArgs e )
+        protected Task OnChangeHandler( ChangeEventArgs e )
         {
-            InternalValue = e.Value?.ToString().ToLowerInvariant() == ( RadioGroup != null ? "on" : "true" );
+            return CurrentValueHandler( e?.Value?.ToString() );
+        }
+
+        protected override Task<ParseValue<bool?>> ParseValueFromStringAsync( string value )
+        {
+            var parsedValue = value?.ToLowerInvariant() == ( RadioGroup != null ? "on" : "true" );
+
+            return Task.FromResult( new ParseValue<bool?>( true, parsedValue, null ) );
+        }
+
+        protected override void OnInternalValueChanged( bool? value )
+        {
             CheckedChanged.InvokeAsync( Checked );
             NullableCheckedChanged.InvokeAsync( NullableChecked );
         }
@@ -50,15 +61,17 @@ namespace Blazorise
 
         protected string Type => RadioGroup != null ? "radio" : "checkbox";
 
+        protected override bool? InternalValue { get => Checked; set => Checked = value ?? false; }
+
         /// <summary>
         /// Gets or sets the checked flag.
         /// </summary>
-        [Parameter] public bool Checked { get => InternalValue ?? false; set => InternalValue = value; }
+        [Parameter] public bool Checked { get; set; }
 
         /// <summary>
         /// Gets or sets the nullable value for checked flag.
         /// </summary>
-        [Parameter] public bool? NullableChecked { get => InternalValue; set => InternalValue = value; }
+        [Parameter] public bool? NullableChecked { get; set; }
 
         /// <summary>
         /// Occurs when the check state is changed.
