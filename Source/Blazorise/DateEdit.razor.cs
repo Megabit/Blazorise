@@ -26,22 +26,12 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected override void OnInitialized()
-        {
-            if ( ParentValidation != null )
-            {
-                ParentValidation.InitInputPattern( Pattern );
-            }
-
-            base.OnInitialized();
-        }
-
         protected override Task OnChangeHandler( ChangeEventArgs e )
         {
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
-        protected void ClickHandler( MouseEventArgs e )
+        protected void OnClickHandler( MouseEventArgs e )
         {
             JSRunner.ActivateDatePicker( ElementId, Utils.Parsers.InternalDateFormat );
         }
