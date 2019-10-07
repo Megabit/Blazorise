@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public abstract class BaseDateEdit : BaseInputComponent<DateTime?>
+    public abstract class BaseDateEdit : BaseTextInput<DateTime?>
     {
         #region Members
 
@@ -36,7 +36,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        protected Task OnChangeHandler( ChangeEventArgs e )
+        protected override Task OnChangeHandler( ChangeEventArgs e )
         {
             return CurrentValueHandler( e?.Value?.ToString() );
         }
@@ -73,26 +73,10 @@ namespace Blazorise
         protected override DateTime? InternalValue { get => Date; set => Date = value; }
 
         /// <summary>
-        /// Sets the placeholder for the empty date.
-        /// </summary>
-        [Parameter] public string Placeholder { get; set; }
-
-        /// <summary>
         /// Gets or sets the input date value.
         /// </summary>
         [Parameter]
         public DateTime? Date { get; set; }
-        //{
-        //    get
-        //    {
-        //        return string.IsNullOrEmpty( internalDate ) ? null : Utils.Parsers.TryParseDate( internalDate );
-        //    }
-        //    set
-        //    {
-        //        InternalValue = value;
-        //        internalDate = InternalValue?.ToString( Utils.Parsers.InternalDateFormat );
-        //    }
-        //}
 
         /// <summary>
         /// Occurs when the date has changed.
@@ -108,11 +92,6 @@ namespace Blazorise
         /// The latest date to accept.
         /// </summary>
         [Parameter] public DateTime? Max { get; set; }
-
-        /// <summary>
-        /// The pattern attribute specifies a regular expression that the input element's value is checked against on form submission.
-        /// </summary>
-        [Parameter] public string Pattern { get; set; }
 
         #endregion
     }

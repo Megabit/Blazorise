@@ -106,7 +106,7 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Gets or sets the imternal edit value.
+        /// Gets or sets the internal edit value.
         /// </summary>
         /// <remarks>
         /// The reason for this to be abstract is so that input components can have
