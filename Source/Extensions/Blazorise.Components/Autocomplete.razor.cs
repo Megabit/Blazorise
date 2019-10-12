@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +40,7 @@ namespace Blazorise.Components
             CurrentSearch = text ?? string.Empty;
             dirtyFilter = true;
 
-            if ( text?.Length >= MinLength )
+            if ( text?.Length >= MinLength && FilteredData.Any() )
                 dropdownRef.Open();
             else
                 dropdownRef.Close();
