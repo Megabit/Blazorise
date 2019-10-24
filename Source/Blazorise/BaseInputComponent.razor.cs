@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Base component for all the input component types.
     /// </summary>
-    public abstract class BaseInputComponent<TValue> : BaseSizableComponent
+    public abstract class BaseInputComponent<TValue> : BaseSizableComponent, IValidationInput
     {
         #region Members
 
@@ -30,7 +30,7 @@ namespace Blazorise
             // link to the parent component
             if ( ParentValidation != null )
             {
-                ParentValidation.InitInputValue( PrepareValueForValidation( InternalValue ) );
+                ParentValidation.InitializeInput( this );
 
                 ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
             }
@@ -84,7 +84,7 @@ namespace Blazorise
             }
 
             // send the value to the validation for processing
-            ParentValidation?.UpdateInputValue( PrepareValueForValidation( CurrentValue ) );
+            ParentValidation?.NotifyInputChanged();
         }
 
         protected abstract Task<ParseValue<TValue>> ParseValueFromStringAsync( string value );
@@ -104,6 +104,8 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        public virtual object ValidationValue => InternalValue;
 
         /// <summary>
         /// Gets or sets the internal edit value.

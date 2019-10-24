@@ -85,6 +85,17 @@ namespace Blazorise
 
         #region Properties
 
+        public override object ValidationValue
+        {
+            get
+            {
+                if ( IsMultiple )
+                    return InternalValue;
+                else
+                    return InternalValue == null ? default : InternalValue.FirstOrDefault();
+            }
+        }
+
         protected override IReadOnlyList<TValue> InternalValue
         {
             get => IsMultiple ? SelectedValues : new TValue[] { SelectedValue };

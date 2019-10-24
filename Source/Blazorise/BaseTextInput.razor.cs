@@ -37,7 +37,7 @@ namespace Blazorise
         {
             if ( ParentValidation != null )
             {
-                ParentValidation.InitInputPattern( Pattern );
+                ParentValidation.InitializeInputPattern( Pattern );
             }
 
             base.OnInitialized();

@@ -15,9 +15,14 @@ namespace Blazorise
         #region Members
 
         /// <summary>
+        /// Reference to the validation input.
+        /// </summary>
+        private IValidationInput inputComponent;
+
+        /// <summary>
         /// Holds the last input value.
         /// </summary>
-        private object value;
+        private object lastKnownValue;
 
         /// <summary>
         /// Regex pattern used to override the validator handler.
@@ -59,28 +64,30 @@ namespace Blazorise
             }
         }
 
-        internal void InitInputValue( object value )
+        internal void InitializeInput( IValidationInput inputComponent )
         {
+            this.inputComponent = inputComponent;
+
             // save the input value
-            this.value = value;
+            lastKnownValue = inputComponent.ValidationValue;
 
             if ( Mode == ValidationMode.Auto )
                 Validate();
         }
 
-        internal void InitInputPattern( string pattern )
+        internal void InitializeInputPattern( string pattern )
         {
             if ( !string.IsNullOrEmpty( pattern ) )
                 this.patternRegex = new Regex( pattern );
         }
 
-        internal void UpdateInputValue( object value )
+        internal void NotifyInputChanged()
         {
-            if ( value is Array )
+            if ( inputComponent.ValidationValue is Array )
             {
-                if ( !Comparers.AreEqual( this.value as Array, value as Array ) )
+                if ( !Comparers.AreEqual( this.lastKnownValue as Array, inputComponent.ValidationValue as Array ) )
                 {
-                    this.value = value;
+                    this.lastKnownValue = inputComponent.ValidationValue;
 
                     if ( Mode == ValidationMode.Auto )
                         Validate();
@@ -88,9 +95,9 @@ namespace Blazorise
             }
             else
             {
-                if ( this.value != value )
+                if ( this.lastKnownValue != inputComponent.ValidationValue )
                 {
-                    this.value = value;
+                    this.lastKnownValue = inputComponent.ValidationValue;
 
                     if ( Mode == ValidationMode.Auto )
                         Validate();
@@ -115,7 +122,7 @@ namespace Blazorise
         {
             if ( UsePattern && patternRegex != null )
             {
-                var matchStatus = patternRegex.IsMatch( value?.ToString() ?? string.Empty )
+                var matchStatus = patternRegex.IsMatch( inputComponent.ValidationValue?.ToString() ?? string.Empty )
                     ? ValidationStatus.Success
                     : ValidationStatus.Error;
 
@@ -124,8 +131,6 @@ namespace Blazorise
                     Status = matchStatus;
 
                     ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status ) );
-
-                    //StateHasChanged();
                 }
             }
             else
@@ -136,7 +141,7 @@ namespace Blazorise
                 {
                     Validating?.Invoke();
 
-                    var validatorEventArgs = new ValidatorEventArgs( value );
+                    var validatorEventArgs = new ValidatorEventArgs( inputComponent.ValidationValue );
 
                     validatorHandler( validatorEventArgs );
 
@@ -145,8 +150,6 @@ namespace Blazorise
                         Status = validatorEventArgs.Status;
 
                         ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status, Status == ValidationStatus.Error ? validatorEventArgs.ErrorText : null ) );
-
-                        //StateHasChanged();
                     }
                 }
             }
@@ -197,5 +200,17 @@ namespace Blazorise
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
+    }
+
+    public interface IValidationInput
+    {
+        /// <summary>
+        /// Gets the input value prepared for the validation check.
+        /// </summary>
+        /// <remarks>
+        /// This is mostly used to handle special inputs where there can be more than one
+        /// value types. For example a Select component can have single-value and multi-value.
+        /// </remarks>
+        object ValidationValue { get; }
     }
 }
