@@ -53,7 +53,7 @@ namespace Blazorise
         /// <param name="serviceCollection"></param>
         /// <param name="classProviderFactory"></param>
         /// <returns></returns>
-        public static IServiceCollection AddClassProvider( this IServiceCollection serviceCollection, Func<IStyleProvider> classProviderFactory )
+        public static IServiceCollection AddClassProvider( this IServiceCollection serviceCollection, Func<IClassProvider> classProviderFactory )
         {
             serviceCollection.AddSingleton( ( p ) => classProviderFactory() );
 

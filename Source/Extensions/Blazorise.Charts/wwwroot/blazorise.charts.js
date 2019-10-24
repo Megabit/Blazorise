@@ -55,8 +55,8 @@ window.blazoriseCharts = {
         const chart = window.blazoriseCharts.getChart(canvasId);
 
         if (chart) {
-            chart.config.data = data;
-            chart.config.options = options;
+            chart.data = data;
+            chart.options = options;
             chart.update();
         }
 

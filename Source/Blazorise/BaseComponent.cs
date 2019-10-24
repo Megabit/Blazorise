@@ -28,7 +28,7 @@ namespace Blazorise
 
         private Visibility visibility = Visibility.Default;
 
-        private ParameterView parameters;
+        private Dictionary<string, object> parameters;
 
         /// <summary>
         /// A stack of functions to execute after the rendering.
@@ -138,7 +138,15 @@ namespace Blazorise
             if ( HasCustomRegistration )
             {
                 // the component has a custom implementation so we need to copy the parameters for manual rendering
-                this.parameters = parameters;
+                this.parameters = new Dictionary<string, object>();
+
+                foreach ( var parameter in parameters )
+                {
+                    if ( parameter.Cascading )
+                        continue;
+
+                    this.parameters.Add( parameter.Name, parameter.Value );
+                }
 
                 return base.SetParametersAsync( ParameterView.Empty );
             }
@@ -156,10 +164,7 @@ namespace Blazorise
 
             foreach ( var parameter in parameters )
             {
-                if ( parameter.Cascading )
-                    continue;
-
-                builder.AddAttribute( 1, parameter.Name, parameter.Value );
+                builder.AddAttribute( 1, parameter.Key, parameter.Value );
             }
 
             builder.CloseComponent();
