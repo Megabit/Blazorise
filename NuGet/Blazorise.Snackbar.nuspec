@@ -3,7 +3,7 @@
 	<metadata>
 		<id>Blazorise.Snackbar</id>
 		<title>Blazorise.Snackbar</title>
-		<version>0.8.6.2</version>
+		<version>0.8.6.3</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -16,7 +16,7 @@
 		<icon>Blazorise.png</icon>
 		<dependencies>
 			<group targetFramework=".NETStandard2.0">
-				<dependency id="Blazorise" version="0.8.6.2" exclude="Build,Analyzers" />
+				<dependency id="Blazorise" version="0.8.6.3" exclude="Build,Analyzers" />
 				<dependency id="Microsoft.AspNetCore.Components" version="3.1.0-preview2.19528.8" exclude="Build,Analyzers" />
 			</group>
 		</dependencies>
