@@ -6,6 +6,14 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.6.4
+
+### Breaking changes
+
+- Upgraded to the .NET Core 3.1 Preview 3
+
+For detail description of changes please look at [v0.8.6.4 release page]({{ "/docs/release-notes/release0864/" | relative_url }})
+
 ## 0.8.6.3
 
 ### Breaking changes
