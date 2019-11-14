@@ -48,7 +48,17 @@ namespace Blazorise.Icons.FontAwesome
 
         #region Methods
 
-        public override string Icon() => "fas";
+        public override string Icon( object name )
+        {
+            if (name != null && name is IconName)
+            {
+                return "fas";
+            }
+            else
+            {
+                return String.Empty;
+            }
+        }
 
         public override string Get( IconName iconName )
         {

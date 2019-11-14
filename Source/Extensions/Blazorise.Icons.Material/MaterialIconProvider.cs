@@ -48,7 +48,7 @@ namespace Blazorise.Icons.Material
 
         #region Methods
 
-        public override string Icon() => "material-icons";
+        public override string Icon( object name ) => "material-icons";
 
         public override string Get( IconName iconName )
         {
