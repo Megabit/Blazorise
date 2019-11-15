@@ -31,7 +31,7 @@ namespace BasicTestApp.Client
             {
                 // Needed because the test server runs on a different port than the client app,
                 // and we want to test sending/receiving cookies underling this config
-                WebAssemblyHttpMessageHandler.DefaultCredentials = FetchCredentialsOption.Include;
+                WebAssemblyHttpMessageHandlerOptions.DefaultCredentials = FetchCredentialsOption.Include;
             }
 
             app.AddComponent<Index>( "root" );
