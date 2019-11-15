@@ -9,11 +9,21 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts
 {
-    public abstract class BaseChart<TDataSet, TItem, TOptions> : BaseComponent
+    /// <summary>
+    /// This is needed to set the value from javascript because calling generic component directly is not supported by Blazor.
+    /// </summary>
+    public interface IBaseChart
+    {
+        Task Event( string eventName, int datasetIndex, int index, string model );
+    }
+
+    public abstract class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseComponent, IDisposable, IBaseChart
         where TDataSet : ChartDataset<TItem>
         where TOptions : ChartOptions
     {
         #region Members
+
+        private DotNetObjectReference<ChartAdapter> dotNetObjectRef;
 
         private bool dirty = true;
 
@@ -21,17 +31,29 @@ namespace Blazorise.Charts
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Chart() );
+            builder.Append( ClassProvider.Chart() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
-        protected override async Task OnAfterRenderAsync()
+        public void Dispose()
         {
-            await Update();
+            JS.Destroy( JSRuntime, ElementId );
+            JS.DisposeDotNetObjectRef( dotNetObjectRef );
+        }
+
+        protected override async Task OnAfterRenderAsync( bool firstRender )
+        {
+            if ( firstRender )
+            {
+                await Initialize();
+            }
+            else
+            {
+                await Update();
+            }
         }
 
         /// <summary>
@@ -87,6 +109,13 @@ namespace Blazorise.Charts
             Options = options;
         }
 
+        private async Task Initialize()
+        {
+            dotNetObjectRef = dotNetObjectRef ?? JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
+
+            await JS.InitializeChart( JSRuntime, dotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type, Data, Options, DataJsonString, OptionsJsonString );
+        }
+
         /// <summary>
         /// Update and redraw the chart.
         /// </summary>
@@ -97,7 +126,43 @@ namespace Blazorise.Charts
             {
                 dirty = false;
 
-                await JS.SetChartData( JSRuntime, ElementId, Type, Data, Options, DataJsonString, OptionsJsonString );
+                await JS.UpdateChart( JSRuntime, ElementId, Data, Options, DataJsonString, OptionsJsonString );
+            }
+        }
+
+        public Task Event( string eventName, int datasetIndex, int index, string modelJson )
+        {
+            var model = Serialize( modelJson );
+
+            var chartClickData = new ChartMouseEventArgs( datasetIndex, index, model );
+
+            if ( eventName == "click" )
+                return Clicked.InvokeAsync( chartClickData );
+            else if ( eventName == "hover" )
+                return Hovered.InvokeAsync( chartClickData );
+
+            return Task.CompletedTask;
+        }
+
+        // TODO: this is just temporary until System.Text.Json implements serialization of the inheriter fields.
+        private object Serialize( string data )
+        {
+            switch ( this.Type )
+            {
+                case ChartType.Line:
+                    return System.Text.Json.JsonSerializer.Deserialize<LineChartModel>( data );
+                case ChartType.Bar:
+                    return System.Text.Json.JsonSerializer.Deserialize<BarChartModel>( data );
+                case ChartType.Pie:
+                    return System.Text.Json.JsonSerializer.Deserialize<PieChartModel>( data );
+                case ChartType.Doughnut:
+                    return System.Text.Json.JsonSerializer.Deserialize<DoughnutChartModel>( data );
+                case ChartType.PolarArea:
+                    return System.Text.Json.JsonSerializer.Deserialize<PolarChartModel>( data );
+                case ChartType.Radar:
+                    return System.Text.Json.JsonSerializer.Deserialize<RadarChartModel>( data );
+                default:
+                    return null;
             }
         }
 
@@ -131,6 +196,10 @@ namespace Blazorise.Charts
         /// </summary>
         [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
         [Parameter] public string OptionsJsonString { get; set; }
+
+        [Parameter] public EventCallback<ChartMouseEventArgs> Clicked { get; set; }
+
+        [Parameter] public EventCallback<ChartMouseEventArgs> Hovered { get; set; }
 
         [Inject] IJSRuntime JSRuntime { get; set; }
 

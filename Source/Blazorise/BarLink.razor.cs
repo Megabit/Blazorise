@@ -18,13 +18,12 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.BarLink() )
-                .If( () => ClassProvider.BarLinkDisabled(), () => IsDisabled );
+            builder.Append( ClassProvider.BarLink() );
+            builder.Append( ClassProvider.BarLinkDisabled(), IsDisabled );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected void ClickHandler()
@@ -44,7 +43,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

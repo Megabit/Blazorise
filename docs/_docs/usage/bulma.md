@@ -13,7 +13,7 @@ toc_label: "Steps"
 
 ## Installations
 
-### NuGet packages
+### 1. NuGet packages
 
 First step is to install a Bulm provider for Blazorise:
 
@@ -29,7 +29,7 @@ You also need to install the icon package:
 Install-Package Blazorise.Icons.FontAwesome
 ```
 
-### Source files
+### 2. Source files
 
 The next step is to change your `index.html` file and include the css and js source files:
 
@@ -41,7 +41,7 @@ The next step is to change your `index.html` file and include the css and js sou
 **Note:** Don't forget to remove default **bootstrap** css and js files that comes with the Blazor/RC project template. If you forget to remove them it's possible that some of component will not work as they should be.
 {: .notice--info}
 
-### Usings
+### 3. Usings
 
 In your main _Imports.razor_ add:
 
@@ -49,7 +49,7 @@ In your main _Imports.razor_ add:
 @using Blazorise
 ```
 
-### Registrations
+### 4. Registrations
 
 Finally in the Startup.cs you must tell the Blazor to register Bulma provider and extensions:
 
@@ -70,9 +70,9 @@ public void ConfigureServices( IServiceCollection services )
 }
 ```
 
-### Client-Side
+### 4.a Blazor WebAssembly
 
-```
+```cs
 public void Configure( IComponentsApplicationBuilder app )
 {
   app.Services
@@ -83,9 +83,9 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-### Server-Side
+### 4.b Blazor Server
 
-```
+```cs
 public void Configure( IComponentsApplicationBuilder app )
 {
   ...
@@ -103,22 +103,14 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-This step is mandatory only for projects built on top of Razor Components! For Blazor projects this step is not required! Normally these files would be downloaded automatically by the framework but since Razor Components still doesn't support static files inside of class library you will need to manually include required js and css files into your project. Once the Blazor/RC team implements this feature this step will not we required.
+### 5. Static files
 
-First you must download **bundle.zip** from the [release](https://github.com/stsrki/Blazorise/releases) tab and extract it to your _wwwroot_ folder. After extraction you will have to include files in your Index.cshtml eg.
+The final step is mandatory for all Blazor project types. Unlike in previous versions of Blazorise from now on you must set the path for static file manually. When consuming nuget packages that contains static files you must follow the convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. So for this guide the required files are:
 
+```html
+<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+<link href="_content/Blazorise.Bulma/blazorise.bulma.css" rel="stylesheet" />
+
+<script src="_content/Blazorise/blazorise.js"></script>
+<script src="_content/Blazorise.Bulma/blazorise.bulma.js"></script>
 ```
-<link href="blazorise.css" rel="stylesheet" />
-<link href="blazorise.bootstrap.css" rel="stylesheet" />
-<link href="blazorise.sidebar.css" rel="stylesheet" />
-<link href="blazorise.snackbar.css" rel="stylesheet" />
-
-<script src="blazorise.js"></script>
-<script src="blazorise.bootstrap.js"></script>
-<script src="blazorise.charts.js"></script>
-<script src="blazorise.sidebar.js"></script>
-
-etc.
-```
-
-There is also another option. You can try the library [BlazorEmbedLibrary](https://github.com/SQL-MisterMagoo/BlazorEmbedLibrary). Full instruction on how to use it can be found on their project page.

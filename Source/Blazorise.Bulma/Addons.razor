@@ -2,17 +2,17 @@
 <CascadingValue Value=this>
     @if ( ParentIsHorizontal )
     {
-        <FieldBody>
+        <Blazorise.FieldBody>
             <div class="field is-expanded">
-                <div class="@ClassMapper.Class">
+                <div class="@ClassNames">
                     @ChildContent
                 </div>
             </div>
-        </FieldBody>
+        </Blazorise.FieldBody>
     }
     else
     {
-        <div class="@ClassMapper.Class">
+        <div class="@ClassNames">
             @ChildContent
         </div>
     }

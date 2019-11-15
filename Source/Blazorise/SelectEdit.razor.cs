@@ -20,17 +20,16 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.SelectEdit() )
-                .If( () => ClassProvider.SelectEditSize( Size ), () => Size != Size.None )
-                .If( () => ClassProvider.SelectEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.SelectEdit() );
+            builder.Append( ClassProvider.SelectEditSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.SelectEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
-        protected async Task HandleOnChanged( UIChangeEventArgs e )
+        protected async Task HandleOnChanged( ChangeEventArgs e )
         {
             if ( IsMultiple )
             {

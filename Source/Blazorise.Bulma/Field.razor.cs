@@ -20,13 +20,15 @@ namespace Blazorise.Bulma.BulmaBase
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => ClassProvider.FieldColumn(), () => !IsFields && ColumnSize != null )
-                .If( () => ColumnSize.Class( ClassProvider ), () => !IsFields && ColumnSize != null );
+            if ( !IsFields && ColumnSize != null )
+            {
+                builder.Append( ClassProvider.FieldColumn() );
+                builder.Append( ColumnSize.Class( ClassProvider ) );
+            }
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         #endregion

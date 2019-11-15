@@ -38,6 +38,7 @@ namespace Blazorise.Demo.Frolic.Server
                 app.UseBlazorDebugging();
             }
 
+            app.UseStaticFiles();
             app.UseClientSideBlazorFiles<Frolic.Startup>();
 
             app.UseRouting();

@@ -18,16 +18,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.FileEdit() )
-                .If( () => ClassProvider.FileEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.FileEdit() );
+            builder.Append( ClassProvider.FileEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
-        protected async void PathChangedHandler( UIChangeEventArgs e )
+        protected async void PathChangedHandler( ChangeEventArgs e )
         {
             if ( IsMultiple )
                 InternalValue = await JSRunner.GetFilePaths( ElementRef );
@@ -52,7 +51,7 @@ namespace Blazorise
             {
                 isMultiple = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 

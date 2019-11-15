@@ -3,7 +3,7 @@
     <CloseButton Clicked="@RaiseCounter">Count</CloseButton>
     <span id="close-button-event-result">@eventCounter</span>
 </p>
-@functions{
+@code{
     int eventCounter = 0;
 
     void RaiseCounter()

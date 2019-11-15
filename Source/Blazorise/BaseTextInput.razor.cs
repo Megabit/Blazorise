@@ -23,15 +23,14 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.TextEdit( IsPlaintext ) )
-                .If( () => ClassProvider.TextEditColor( Color ), () => Color != Color.None )
-                .If( () => ClassProvider.TextEditSize( Size ), () => Size != Size.None )
-                .If( () => ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), () => ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.TextEdit( IsPlaintext ) );
+            builder.Append( ClassProvider.TextEditColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.TextEditSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
@@ -44,7 +43,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        protected Task HandleOnChange( UIChangeEventArgs e )
+        protected Task HandleOnChange( ChangeEventArgs e )
         {
             if ( !Options.ChangeTextOnKeyPress )
             {
@@ -54,7 +53,7 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        protected Task HandleOnInput( UIChangeEventArgs e )
+        protected Task HandleOnInput( ChangeEventArgs e )
         {
             if ( Options.ChangeTextOnKeyPress )
             {
@@ -93,8 +92,8 @@ namespace Blazorise
             {
                 color = value;
 
-                Dirty();
-                ClassMapper.Dirty();
+                DirtyClasses();
+                DirtyClasses();
             }
         }
 

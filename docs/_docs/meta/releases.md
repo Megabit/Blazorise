@@ -6,6 +6,73 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.6.4
+
+### Breaking changes
+
+- Upgraded to the .NET Core 3.1 Preview 3
+
+For detail description of changes please look at [v0.8.6.4 release page]({{ "/docs/release-notes/release0864/" | relative_url }})
+
+## 0.8.6.3
+
+### Breaking changes
+
+- Upgraded to the .NET Core 3.1 Preview 2
+
+For detail description of changes please look at [v0.8.6.3 release page]({{ "/docs/release-notes/release0863/" | relative_url }})
+
+## 0.8.6.2
+
+### Breaking changes
+
+- Upgraded to the .NET Core 3.1 Preview 1
+
+For detail description of changes please look at [v0.8.6.2 release page]({{ "/docs/release-notes/release0862/" | relative_url }})
+
+## 0.8.6
+
+### Breaking changes
+
+- Upgraded to the .NET Core 3.0
+- Manual static files
+
+For detail description of changes please look at [v0.8.6 release page]({{ "/docs/release-notes/release086/" | relative_url }})
+
+## 0.8.5
+
+### Breaking changes
+
+- [#258](https://github.com/stsrki/Blazorise/issues/210) Upgrade to 3.0.0-preview9.19457.4
+
+### Enhancements
+
+- [#191](https://github.com/stsrki/Blazorise/issues/191) Optimize classname builders
+- [#145](https://github.com/stsrki/Blazorise/issues/145) Using 'enter' as a keypress for SimpleButton
+- [#252](https://github.com/stsrki/Blazorise/issues/252) SelectEdit : Handling for No-Match
+- [#167](https://github.com/stsrki/Blazorise/issues/167) Chart Events Support
+- [#225](https://github.com/stsrki/Blazorise/issues/225) Add missing sub-component to Figure
+- [#226](https://github.com/stsrki/Blazorise/issues/226) Feature Request : `<ValidationNone></ValidationNone>`
+
+### Bug Fixes
+
+- [#244](https://github.com/stsrki/Blazorise/issues/244) Dropdown going out of bounds
+- [#162](https://github.com/stsrki/Blazorise/issues/162) Snackbar not closing (Server-side)
+- [#248](https://github.com/stsrki/Blazorise/issues/248) launchSettings.json warning
+- [#222](https://github.com/stsrki/Blazorise/issues/222) Validations.ClearAll() Fails to clear validations for second field
+- [#230](https://github.com/stsrki/Blazorise/issues/230) NumericEdit Decimals Property Handling
+
+For detail description of changes please look at [v0.8.5 release page]({{ "/docs/release-notes/release085/" | relative_url }})
+
+## 0.8.4
+
+### Breaking changes
+
+- Upgraded to the Blazor preview 9
+- Renamed `MouseEventArgs` to `BLMouseEventArgs`
+
+For detail description of changes please look at [v0.8.4 release page]({{ "/docs/release-notes/release084/" | relative_url }})
+
 ## 0.8.3
 
 ### Breaking changes

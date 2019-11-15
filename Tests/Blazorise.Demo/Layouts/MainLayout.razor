@@ -1,7 +1,7 @@
 ﻿@layout RootLayout
 @inherits LayoutComponentBase
 
-<Sidebar @ref="sidebar" @ref:suppressField>
+<Sidebar @ref="sidebar">
     <SidebarContent>
         <SidebarBrand>
             <a href="">Blazorise Demo</a>
@@ -17,7 +17,7 @@
                 <SidebarLink Toggled="(isOpen)=> sidebarSubItemTests.Toggle(isOpen)" IsShow="true">
                     <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Test Pages
                 </SidebarLink>
-                <SidebarSubItem @ref="sidebarSubItemTests" @ref:suppressField IsShow="true">
+                <SidebarSubItem @ref="sidebarSubItemTests" IsShow="true">
                     <SidebarItem>
                         <SidebarLink To="tests/buttons">Buttons</SidebarLink>
                     </SidebarItem>
@@ -41,6 +41,9 @@
                     </SidebarItem>
                     <SidebarItem>
                         <SidebarLink To="tests/cards">Cards</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/figures">Figures</SidebarLink>
                     </SidebarItem>
                     <SidebarItem>
                         <SidebarLink To="tests/tabs">Tabs</SidebarLink>
@@ -69,7 +72,7 @@
                 <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)" IsShow="true">
                     <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
                 </SidebarLink>
-                <SidebarSubItem @ref="sidebarSubItemApps" @ref:suppressField IsShow="true">
+                <SidebarSubItem @ref="sidebarSubItemApps" IsShow="true">
                     <SidebarItem>
                         <SidebarLink To="apps/todo">Todo List</SidebarLink>
                     </SidebarItem>
@@ -86,7 +89,7 @@
                 <BarLink To="">
                     <Icon Name="IconName.Dashboard" />
                     Blazorise Demo
-                </BarLink>                
+                </BarLink>
             </BarItem>
         </BarBrand>
         <BarToggler Clicked="@ToggleSidebar">
@@ -223,5 +226,5 @@
         sidebar.Toggle();
     }
 
-    [CascadingParameter] Theme Theme { get; set; }
+    [CascadingParameter] public Theme Theme { get; set; }
 }

@@ -14,14 +14,14 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 
 ## Demos
 
-### Client-Side Blazor
+### Blazor WebAssembly
 
 - [Bootstrap Demo](https://bootstrapdemo.blazorise.com)
 - [Material Demo](https://materialdemo.blazorise.com/)
 - [Bulma Demo](https://bulmademo.blazorise.com/)
 - [eFrolic Demo](https://efrolicdemo.blazorise.com/)
 
-### Server-Side Blazor
+### Blazor Server
 
 - [Bootstrap Demo](https://rcbootstrapdemo.blazorise.com/)
 
@@ -48,7 +48,7 @@ Install-Package Blazorise.Frolic
 
 Choose one of them and modify your source files and your code accordingly. This guide will show you how to setup Blazorise with **Bootstrap** provider and FontAwesome icons.
 
-### NuGet packages
+### 1. NuGet packages
 
 First step is to install a Bootstrap provider for Blazorise:
 
@@ -62,7 +62,7 @@ You also need to install the icon package:
 Install-Package Blazorise.Icons.FontAwesome
 ```
 
-### Source files
+### 2. Source files
 
 The next step is to change your `index.html` file located in the _wwwroot_folder and include the following css and js source files:
 
@@ -83,7 +83,7 @@ The next step is to change your `index.html` file located in the _wwwroot_folder
 
 ---
 
-### Usings
+### 3. Usings
 
 In your main _Imports.razor add:
 
@@ -91,7 +91,7 @@ In your main _Imports.razor add:
 @using Blazorise
 ```
 
-### Registrations
+### 4. Registrations
 
 Finally in the Startup.cs you must tell the Blazor to register Bootstrap provider and extensions:
 
@@ -112,9 +112,9 @@ public void ConfigureServices( IServiceCollection services )
 }
 ```
 
-### Client-Side
+### 4.a Blazor WebAssembly
 
-```
+```cs
 public void Configure( IComponentsApplicationBuilder app )
 {
   app.Services
@@ -125,12 +125,13 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-### Server-Side
+### 4.b Blazor Server
 
-```
+```cs
 public void Configure( IComponentsApplicationBuilder app )
 {
-  ...
+  // other settings
+  
   app.UseRouting();
   
   app.ApplicationServices
@@ -145,25 +146,40 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-This step is mandatory only for projects built on top of Server-Side Blazor(Razor Components)! For Client-Side Blazor projects this step is not required! Normally these files would be downloaded automatically by the framework but since Razor Components still doesn't support static files inside of class library you will need to manually include required js and css files into your project. Once the Blazor/RC team implements this feature this step will not we required.
+### 5. Static files
 
-First you must download **bundle.zip** from the [release](https://github.com/stsrki/Blazorise/releases) tab and extract it to your _wwwroot_ folder. After extraction you will have to include files in your Index.cshtml eg.
+The final step is mandatory for all Blazor project types. Unlike in previous versions of Blazorise from now on you must set the path for static file manually. When consuming nuget packages that contains static files you must follow the convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. So for this guide the required files are:
 
-```
-<link href="blazorise.css" rel="stylesheet" />
-<link href="blazorise.bootstrap.css" rel="stylesheet" />
-<link href="blazorise.sidebar.css" rel="stylesheet" />
-<link href="blazorise.snackbar.css" rel="stylesheet" />
+```html
+<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
 
-<script src="blazorise.js"></script>
-<script src="blazorise.bootstrap.js"></script>
-<script src="blazorise.charts.js"></script>
-<script src="blazorise.sidebar.js"></script>
-
-etc.
+<script src="_content/Blazorise/blazorise.js"></script>
+<script src="_content/Blazorise.Bootstrap/blazorise.bootstrap.js"></script>
 ```
 
-There is also another option. You can try the library [BlazorEmbedLibrary](https://github.com/SQL-MisterMagoo/BlazorEmbedLibrary). Full instruction on how to use it can be found on their project page.
+> If you want to learn more about the reason behind this decision please look at the [oficial Blazor documentation.](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/ui-class?view=aspnetcore-3.0&tabs=visual-studio#consume-content-from-a-referenced-rcl)
+
+## Usage
+
+```html
+@page "/counter"
+
+<Heading Size="HeadingSize.Is1">Counter</Heading>
+
+<Paragraph>Current count: @currentCount</Paragraph>
+
+<Button Color="Color.Primary" Clicked="IncrementCount">Click me</Button>
+
+@code {
+    int currentCount = 0;
+
+    void IncrementCount()
+    {
+        currentCount++;
+    }
+}
+```
 
 ## Other frameworks
 

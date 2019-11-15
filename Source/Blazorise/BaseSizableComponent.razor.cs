@@ -29,12 +29,12 @@ namespace Blazorise
         {
         }
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .If( () => ColumnSize.Class( ClassProvider ), () => ColumnSize != null && UseColumnSizes );
+            if ( ColumnSize != null && UseColumnSizes )
+                builder.Append( ColumnSize.Class( ClassProvider ) );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
@@ -68,15 +68,15 @@ namespace Blazorise
             {
                 columnSize = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
-        [CascadingParameter] protected BaseField ParentField { get; set; }
+        [CascadingParameter] public BaseField ParentField { get; set; }
 
-        [CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
+        [CascadingParameter] public BaseFieldBody ParentFieldBody { get; set; }
 
-        [CascadingParameter] protected Tooltip ParentTooltip { get; set; }
+        [CascadingParameter] public Tooltip ParentTooltip { get; set; }
 
         #endregion
     }

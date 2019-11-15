@@ -39,10 +39,12 @@ Install-Package Blazorise.Charts
 
 ### Index
 
-Add ChartsJS to your index.html file.
+Add `ChartsJS` and `blazorise.charts.js` to your index.html file.
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
+<script src="_content/Blazorise.Charts/blazorise.charts.js"></script>
 ```
 
 ### Imports
@@ -66,9 +68,12 @@ You should always define `TItem` data type.
 @code{
     LineChart<double> lineChart;
 
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        await HandleRedraw();
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
     }
 
     async Task HandleRedraw()
@@ -109,6 +114,29 @@ You should always define `TItem` data type.
 }
 ```
 
+### Events
+
+It is possible to use `Clicked` and `Hovered` events to interact with chart. The usage is pretty straighforward. The only thing to keep in mind is the `Model` field that needs to be casted to the right chart-model type. The available model types are:
+
+- `LineChartModel`
+- `BarChartModel`
+- `DoughnutChartModel`
+- `PieChartModel`
+- `PolarChartModel`
+- `RadarChartModel`
+
+```html
+<Chart @ref="barChart" Type="ChartType.Bar" TItem="double" Clicked="@OnClicked" />
+@code{
+    void OnClicked(ChartMouseEventArgs e)
+    {
+        var model = e.Model as BarChartModel;
+
+        Console.WriteLine($"{model.X}-{model.Y}");
+    }
+}
+```
+
 ## Attributes
 
 | Name               | Type                                                                       | Default      | Description                                                                           |
@@ -118,6 +146,9 @@ You should always define `TItem` data type.
 | Options            | ChartOptions                                                               |              | Defines the chart options.                                                            |
 | DataJsonString     | string                                                                     | null         | Defines the chart data that is serialized as JSON string. **[WILL BE REMOVED]**       |
 | OptionsJsonString  | string                                                                     | null         | Defines the chart options that is serialized as JSON string. **[WILL BE REMOVED]**    |
+| Clicked            | event                                                                      |              | Raised when clicked on data point.                                                    |
+| Hovered            | event                                                                      |              | Raised when hovered over data point.                                                  |
+
 
 **Note:** DataJsonString and OptionsJsonString are used only temporary until the Blazor team fixes the built-in JSON serializer.
 {: .notice--info}

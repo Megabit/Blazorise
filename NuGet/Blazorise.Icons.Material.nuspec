@@ -3,32 +3,27 @@
 	<metadata>
 		<id>Blazorise.Icons.Material</id>
 		<title>Blazorise.Icons.Material</title>
-		<version>0.8.3</version>
+		<version>0.8.6.4</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<license type="file">LICENSE.md</license>
-		<projectUrl>https://github.com/stsrki/Blazorise</projectUrl>
+		<projectUrl>https://blazorise.com</projectUrl>
 		<description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</description>
 		<copyright>Copyright 2019 Mladen Macanovic</copyright>
 		<tags>blazorise blazor razor components material icons</tags>
 		<repository url="https://github.com/stsrki/Blazorise" />
-		<iconUrl>https://github.com/stsrki/Blazorise/raw/master/NuGet/Blazorise.png</iconUrl>
+		<icon>Blazorise.png</icon>
 		<dependencies>
 			<group targetFramework=".NETStandard2.0">
-				<dependency id="Blazorise" version="0.8.3" exclude="Build,Analyzers" />
-				<dependency id="Microsoft.AspNetCore.Blazor" version="3.0.0-preview8.19405.7" exclude="Build,Analyzers" />
+				<dependency id="Blazorise" version="0.8.6.4" exclude="Build,Analyzers" />
+				<dependency id="Microsoft.AspNetCore.Components" version="3.1.0-preview3.19555.2" exclude="Build,Analyzers" />
 			</group>
 		</dependencies>
-		<contentFiles>
-			<files include="any/netstandard2.0/Properties/launchSettings.json" buildAction="Content" />
-		</contentFiles>
 	</metadata>
 	<files>
 		<file src="..\Source\Extensions\Blazorise.Icons.Material\bin\Release\**\Blazorise.Icons.Material.dll" target="lib\" />
 		<file src="..\LICENSE.md" target="" />
-		
-		<file src="..\Source\Extensions\Blazorise.Icons.Material\Properties\launchSettings.json" target="content\Properties" />
-		<file src="..\Source\Extensions\Blazorise.Icons.Material\Properties\launchSettings.json" target="contentFiles\any\netstandard2.0\Properties" />
+		<file src="Blazorise.png" target="" />
 	</files>
 </package>

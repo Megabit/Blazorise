@@ -1,10 +1,11 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Components
@@ -39,13 +40,13 @@ namespace Blazorise.Components
             CurrentSearch = text ?? string.Empty;
             dirtyFilter = true;
 
-            if ( text?.Length >= MinLength )
+            if ( text?.Length >= MinLength && FilteredData.Any() )
                 dropdownRef.Open();
             else
                 dropdownRef.Close();
         }
 
-        protected async Task HandleTextKeyDown( UIKeyboardEventArgs e )
+        protected async Task HandleTextKeyDown( KeyboardEventArgs e )
         {
             if ( !DropdownVisible )
                 return;

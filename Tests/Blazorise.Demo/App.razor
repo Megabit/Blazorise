@@ -4,9 +4,12 @@
 *@
 <Blazorise.ThemeProvider Theme="@theme">
     <Router AppAssembly="typeof(App).Assembly">
-        <NotFoundContent>
+        <Found Context="routeData">
+            <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)" />
+        </Found>
+        <NotFound>
             <p>Sorry, there's nothing at this address.</p>
-        </NotFoundContent>
+        </NotFound>
     </Router>
 </Blazorise.ThemeProvider>
 @code{
@@ -14,7 +17,7 @@
     {
         ColorOptions = new ThemeColorOptions
         {
-            //Primary = "#45B1E8",
+            Primary = "#0288D1",
             //Secondary = "#A65529",
             //Success = "#23C02E",
             //Info = "#9BD8FE",
@@ -23,7 +26,10 @@
             //Light = "#F0F0F0",
             //Dark = "#535353",
         },
-        BackgroundOptions = new ThemeBackgroundOptions { },
+        BackgroundOptions = new ThemeBackgroundOptions
+        {
+            Primary = "#0288D1",
+        },
         ButtonOptions = new ThemeButtonOptions { },
         DropdownOptions = new ThemeDropdownOptions { },
         InputOptions = new ThemeInputOptions { },

@@ -1,0 +1,11 @@
+﻿@inherits Blazorise.BaseFigureCaption
+@if ( !HasCustomRegistration )
+{
+    <figcaption class="@ClassNames">
+        @ChildContent
+    </figcaption>
+}
+else
+{
+    @RenderCustomComponent()
+}

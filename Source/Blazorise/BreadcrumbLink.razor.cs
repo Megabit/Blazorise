@@ -18,12 +18,11 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.BreadcrumbLink() );
+            builder.Append( ClassProvider.BreadcrumbLink() );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         protected void ClickHandler()
@@ -45,7 +44,7 @@ namespace Blazorise
             {
                 isDisabled = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -71,7 +70,7 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] protected BaseBreadcrumbItem ParentBreadcrumbItem { get; set; }
+        [CascadingParameter] public BaseBreadcrumbItem ParentBreadcrumbItem { get; set; }
 
         #endregion
     }

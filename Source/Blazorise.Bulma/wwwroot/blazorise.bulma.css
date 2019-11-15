@@ -1387,3 +1387,11 @@ table.is-borderless tr {
         border-top-left-radius: 0; }
     .accordion > .card .card-header {
         margin-bottom: 1px; }
+
+.is-256x256 {
+    height: 256px;
+    width: 256px; }
+
+.is-512x512 {
+    height: 512px;
+    width: 512px; }

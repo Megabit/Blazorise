@@ -24,14 +24,13 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void RegisterClasses()
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            ClassMapper
-                .Add( () => ClassProvider.Field() )
-                .If( () => ClassProvider.FieldHorizontal(), () => IsHorizontal )
-                .If( () => ClassProvider.ToJustifyContent( JustifyContent ), () => JustifyContent != JustifyContent.None );
+            builder.Append( ClassProvider.Field() );
+            builder.Append( ClassProvider.FieldHorizontal(), IsHorizontal );
+            builder.Append( ClassProvider.ToJustifyContent( JustifyContent ), JustifyContent != JustifyContent.None );
 
-            base.RegisterClasses();
+            base.BuildClasses( builder );
         }
 
         internal void Hook( BaseComponent component )
@@ -62,9 +61,9 @@ namespace Blazorise
             {
                 isHorizontal = value;
 
-                hookables?.ForEach( x => x.Dirty() );
+                hookables?.ForEach( x => x.DirtyClasses() );
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -79,7 +78,7 @@ namespace Blazorise
             {
                 columnSize = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
@@ -94,11 +93,11 @@ namespace Blazorise
             {
                 justifyContent = value;
 
-                ClassMapper.Dirty();
+                DirtyClasses();
             }
         }
 
-        [CascadingParameter] protected BaseFields ParentFields { get; set; }
+        [CascadingParameter] public BaseFields ParentFields { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -38,6 +38,7 @@ namespace Blazorise.Demo.Bulma.Server
                 app.UseBlazorDebugging();
             }
 
+            app.UseStaticFiles();
             app.UseClientSideBlazorFiles<Bulma.Startup>();
 
             app.UseRouting();
