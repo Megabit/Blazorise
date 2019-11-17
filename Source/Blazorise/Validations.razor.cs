@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
 namespace Blazorise
@@ -25,6 +26,16 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            if ( Model != null )
+            {
+                EditContext = new EditContext( Model );
+            }
+
+            base.OnInitialized();
+        }
 
         /// <summary>
         /// Runs the validation process for all validations and returns false if any is failed.
@@ -77,10 +88,17 @@ namespace Blazorise
 
         #region Properties        
 
+        protected EditContext EditContext { get; set; }
+
         /// <summary>
         /// Defines the validation mode for validations inside of this container.
         /// </summary>
         [Parameter] public ValidationMode Mode { get; set; }
+
+        /// <summary>
+        /// Specifies the top-level model object for the form. An edit context will be constructed for this model.
+        /// </summary>
+        [Parameter] public object Model { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

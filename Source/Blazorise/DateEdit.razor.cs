@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -16,6 +17,16 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            if ( ParentValidation != null )
+            {
+                ParentValidation.InitializeInputExpression( DateExpression );
+            }
+
+            base.OnInitialized();
+        }
 
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -72,6 +83,11 @@ namespace Blazorise
         /// Occurs when the date has changed.
         /// </summary>
         [Parameter] public EventCallback<DateTime?> DateChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the date value.
+        /// </summary>
+        [Parameter] public Expression<Func<DateTime?>> DateExpression { get; set; }
 
         /// <summary>
         /// The earliest date to accept.

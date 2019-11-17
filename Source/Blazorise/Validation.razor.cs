@@ -1,11 +1,16 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
 namespace Blazorise
@@ -28,6 +33,16 @@ namespace Blazorise
         /// Regex pattern used to override the validator handler.
         /// </summary>
         private Regex patternRegex;
+
+        /// <summary>
+        /// Field identifier for the bound value.
+        /// </summary>
+        private FieldIdentifier fieldIdentifier;
+
+        /// <summary>
+        /// Flag that indicates field value has being bound.
+        /// </summary>
+        private bool hasFieldIdentifier;
 
         /// <summary>
         /// Raises an event that the validation has started.
@@ -81,6 +96,15 @@ namespace Blazorise
                 this.patternRegex = new Regex( pattern );
         }
 
+        internal void InitializeInputExpression<T>( Expression<Func<T>> expression )
+        {
+            if ( expression == null )
+                return;
+
+            fieldIdentifier = FieldIdentifier.Create( expression );
+            hasFieldIdentifier = true;
+        }
+
         internal void NotifyInputChanged()
         {
             if ( inputComponent.ValidationValue is Array )
@@ -88,6 +112,11 @@ namespace Blazorise
                 if ( !Comparers.AreEqual( this.lastKnownValue as Array, inputComponent.ValidationValue as Array ) )
                 {
                     this.lastKnownValue = inputComponent.ValidationValue;
+
+                    if ( EditContext != null && hasFieldIdentifier )
+                    {
+                        EditContext.NotifyFieldChanged( fieldIdentifier );
+                    }
 
                     if ( Mode == ValidationMode.Auto )
                         Validate();
@@ -98,6 +127,11 @@ namespace Blazorise
                 if ( this.lastKnownValue != inputComponent.ValidationValue )
                 {
                     this.lastKnownValue = inputComponent.ValidationValue;
+
+                    if ( EditContext != null && hasFieldIdentifier )
+                    {
+                        EditContext.NotifyFieldChanged( fieldIdentifier );
+                    }
 
                     if ( Mode == ValidationMode.Auto )
                         Validate();
@@ -133,6 +167,19 @@ namespace Blazorise
                     ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status ) );
                 }
             }
+            else if ( EditContext != null && hasFieldIdentifier )
+            {
+                Validating?.Invoke();
+
+                var messages = new ValidationMessageStore( EditContext );
+
+                EditContext.ValidateField( messages, fieldIdentifier );
+
+                Status = messages[fieldIdentifier].Any() ? ValidationStatus.Error : ValidationStatus.Success;
+                LastErrorMessage = Status == ValidationStatus.Error ? string.Join( "; ", messages[fieldIdentifier] ) : null;
+
+                ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status, LastErrorMessage ) );
+            }
             else
             {
                 var validatorHandler = Validator;
@@ -148,8 +195,9 @@ namespace Blazorise
                     if ( Status != validatorEventArgs.Status )
                     {
                         Status = validatorEventArgs.Status;
+                        LastErrorMessage = Status == ValidationStatus.Error ? validatorEventArgs.ErrorText : null;
 
-                        ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status, Status == ValidationStatus.Error ? validatorEventArgs.ErrorText : null ) );
+                        ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status, LastErrorMessage ) );
                     }
                 }
             }
@@ -164,8 +212,6 @@ namespace Blazorise
         {
             Status = ValidationStatus.None;
             ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status ) );
-
-            //StateHasChanged();
         }
 
         #endregion
@@ -183,6 +229,11 @@ namespace Blazorise
         [Parameter] public ValidationStatus Status { get; set; }
 
         /// <summary>
+        /// Gets the last error message.
+        /// </summary>
+        public string LastErrorMessage { get; private set; }
+
+        /// <summary>
         /// Validates the input value after it has being changed.
         /// </summary>
         [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
@@ -196,6 +247,8 @@ namespace Blazorise
         /// Parent validation group.
         /// </summary>
         [CascadingParameter] public BaseValidations ParentValidations { get; set; }
+
+        [CascadingParameter] public EditContext EditContext { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

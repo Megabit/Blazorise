@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -15,6 +16,16 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            if ( ParentValidation != null )
+            {
+                ParentValidation.InitializeInputExpression( TextExpression );
+            }
+
+            base.OnInitialized();
+        }
 
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -76,6 +87,11 @@ namespace Blazorise
         /// Occurs after text has changed.
         /// </summary>
         [Parameter] public EventCallback<string> TextChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the text value.
+        /// </summary>
+        [Parameter] public Expression<Func<string>> TextExpression { get; set; }
 
         /// <summary>
         /// Specifies the maximum number of characters allowed in the input element.

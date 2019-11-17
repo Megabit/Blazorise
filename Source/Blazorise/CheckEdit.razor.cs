@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -21,6 +22,19 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            if ( ParentValidation != null )
+            {
+                if ( CheckedExpression != null )
+                    ParentValidation.InitializeInputExpression( CheckedExpression );
+                else if ( NullableCheckedExpression != null )
+                    ParentValidation.InitializeInputExpression( NullableCheckedExpression );
+            }
+
+            base.OnInitialized();
+        }
 
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -83,6 +97,16 @@ namespace Blazorise
         /// </summary>
         [Obsolete( "This parameter is only temporary until the issue with generic componnets is fixed. see http://git.travelsoft.hr/Travelsoft/_git/Adriagate/pullrequest/59?_a=overview" )]
         [Parameter] public EventCallback<bool?> NullableCheckedChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the checked value.
+        /// </summary>
+        [Parameter] public Expression<Func<bool>> CheckedExpression { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the nullable checked value.
+        /// </summary>
+        [Parameter] public Expression<Func<bool?>> NullableCheckedExpression { get; set; }
 
         /// <summary>
         /// Sets the radio group name.

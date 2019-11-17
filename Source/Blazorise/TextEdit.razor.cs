@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -17,6 +18,16 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            if ( ParentValidation != null )
+            {
+                ParentValidation.InitializeInputExpression( TextExpression );
+            }
+
+            base.OnInitialized();
+        }
 
         protected async override Task OnFirstAfterRenderAsync()
         {
@@ -71,6 +82,11 @@ namespace Blazorise
         /// Occurs after text has changed.
         /// </summary>
         [Parameter] public EventCallback<string> TextChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the text value.
+        /// </summary>
+        [Parameter] public Expression<Func<string>> TextExpression { get; set; }
 
         /// <summary>
         /// Occurs when a key is pressed down while the control has focus.

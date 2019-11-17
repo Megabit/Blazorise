@@ -105,6 +105,7 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
         public virtual object ValidationValue => InternalValue;
 
         /// <summary>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
@@ -17,6 +18,23 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            if ( ParentValidation != null )
+            {
+                if ( IsMultiple )
+                {
+                    ParentValidation.InitializeInputExpression( SelectedValuesExpression );
+                }
+                else
+                {
+                    ParentValidation.InitializeInputExpression( SelectedValueExpression );
+                }
+            }
+
+            base.OnInitialized();
+        }
 
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -138,6 +156,16 @@ namespace Blazorise
         /// Occurs when the selected items value has changed (only when <see cref="IsMultiple"/>==true).
         /// </summary>
         [Parameter] public EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the selected value.
+        /// </summary>
+        [Parameter] public Expression<Func<TValue>> SelectedValueExpression { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the selected value.
+        /// </summary>
+        [Parameter] public Expression<Func<IReadOnlyList<TValue>>> SelectedValuesExpression { get; set; }
 
         #endregion
     }

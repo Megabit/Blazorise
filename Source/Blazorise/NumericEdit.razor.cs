@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
@@ -29,6 +30,16 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            if ( ParentValidation != null )
+            {
+                ParentValidation.InitializeInputExpression( ValueExpression );
+            }
+
+            base.OnInitialized();
+        }
 
         protected override async Task OnFirstAfterRenderAsync()
         {
@@ -89,6 +100,11 @@ namespace Blazorise
         /// This will be converted to EventCallback once the Blazor team fix the error for generic components. see https://github.com/aspnet/AspNetCore/issues/8385
         /// </remarks>
         [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the value.
+        /// </summary>
+        [Parameter] public Expression<Func<TValue>> ValueExpression { get; set; }
 
         /// <summary>
         /// Specifies the interval between valid values.

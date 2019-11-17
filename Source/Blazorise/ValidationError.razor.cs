@@ -18,6 +18,13 @@ namespace Blazorise
 
         #region Methods
 
+        protected override void OnInitialized()
+        {
+            ErrorText = ParentValidation?.LastErrorMessage;
+
+            base.OnInitialized();
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             if ( !IsTooltip )
