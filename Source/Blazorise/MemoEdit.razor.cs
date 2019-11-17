@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -16,6 +17,16 @@ namespace Blazorise
 
         #region Methods
 
+        protected override void OnInitialized()
+        {
+            if ( ParentValidation != null )
+            {
+                ParentValidation.InitializeInputExpression( TextExpression );
+            }
+
+            base.OnInitialized();
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.MemoEdit() );
@@ -24,31 +35,41 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void HandleOnChange( ChangeEventArgs e )
+        protected Task OnChangeHandler( ChangeEventArgs e )
         {
             if ( !Options.ChangeTextOnKeyPress )
             {
-                HandleText( e?.Value?.ToString() );
+                return CurrentValueHandler( e?.Value?.ToString() );
             }
+
+            return Task.CompletedTask;
         }
 
-        protected void HandleOnInput( ChangeEventArgs e )
+        protected Task OnInputHandler( ChangeEventArgs e )
         {
             if ( Options.ChangeTextOnKeyPress )
             {
-                HandleText( e?.Value?.ToString() );
+                return CurrentValueHandler( e?.Value?.ToString() );
             }
+
+            return Task.CompletedTask;
         }
 
-        protected void HandleText( string text )
+        protected override void OnInternalValueChanged( string value )
         {
-            Text = text;
-            TextChanged?.Invoke( Text );
+            TextChanged.InvokeAsync( value );
+        }
+
+        protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
+        {
+            return Task.FromResult( new ParseValue<string>( true, value, null ) );
         }
 
         #endregion
 
         #region Properties
+
+        protected override string InternalValue { get => Text; set => Text = value; }
 
         [Inject] protected BlazoriseOptions Options { get; set; }
 
@@ -60,12 +81,17 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the text inside the input field.
         /// </summary>
-        [Parameter] public string Text { get => InternalValue; set => InternalValue = value; }
+        [Parameter] public string Text { get; set; }
 
         /// <summary>
         /// Occurs after text has changed.
         /// </summary>
-        [Parameter] public Action<string> TextChanged { get; set; }
+        [Parameter] public EventCallback<string> TextChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the text value.
+        /// </summary>
+        [Parameter] public Expression<Func<string>> TextExpression { get; set; }
 
         /// <summary>
         /// Specifies the maximum number of characters allowed in the input element.

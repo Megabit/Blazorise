@@ -4,7 +4,7 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Auto Validation</CardTitle>
-                <CardSubtitle>Example on how to validate input fields.</CardSubtitle>
+                <CardSubtitle>Example on how to validate input fields by using the <code>Validator</code> handlers.</CardSubtitle>
             </CardHeader>
             <CardBody>
                 <Field IsHorizontal="true">
@@ -127,7 +127,7 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Manual Validation</CardTitle>
-                <CardSubtitle>Example on how to validate manualy on submit.</CardSubtitle>
+                <CardSubtitle>Example on how to validate manually on submit.</CardSubtitle>
             </CardHeader>
             <CardBody>
                 <Validations @ref="validations" Mode="ValidationMode.Manual">
@@ -249,8 +249,211 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Annotation Validation</CardTitle>
+                <CardSubtitle>Example on how to validate model using data annotations.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Validations Mode="ValidationMode.Auto" Model="@user">
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <TextEdit Placeholder="First and last name" @bind-Text="@user.Name">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <TextEdit Placeholder="Enter email" @bind-Text="@user.Email">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@user.Password">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@user.ConfirmPassword">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <SelectEdit TValue="string" @bind-SelectedValue="@user.Title">
+                                    <ChildContent>
+                                        <SelectItem Value="@(string.Empty)"></SelectItem>
+                                        <SelectItem Value="@("Mr")">Mr.</SelectItem>
+                                        <SelectItem Value="@("Mrs")">Mrs.</SelectItem>
+                                    </ChildContent>
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </SelectEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <CheckEdit @bind-Checked="@user.TermsAndConditions">
+                                    <ChildContent>
+                                        Terms and Conditions
+                                    </ChildContent>
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </CheckEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Button Color="Color.Primary">Submit</Button>
+                        </FieldBody>
+                    </Field>
+                </Validations>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Manual Annotation Validation</CardTitle>
+                <CardSubtitle>Example on how to manually validate model using data annotations.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Validations @ref="annotationsValidations" Mode="ValidationMode.Manual" Model="@manualUser">
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <TextEdit Placeholder="First and last name" @bind-Text="@manualUser.Name">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <TextEdit Placeholder="Enter email" @bind-Text="@manualUser.Email">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@manualUser.Password">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@manualUser.ConfirmPassword">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <SelectEdit TValue="string" @bind-SelectedValue="@manualUser.Title">
+                                    <ChildContent>
+                                        <SelectItem Value="@(string.Empty)"></SelectItem>
+                                        <SelectItem Value="@("Mr")">Mr.</SelectItem>
+                                        <SelectItem Value="@("Mrs")">Mrs.</SelectItem>
+                                    </ChildContent>
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </SelectEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Validation>
+                                <CheckEdit @bind-Checked="@manualUser.TermsAndConditions">
+                                    <ChildContent>
+                                        Terms and Conditions
+                                    </ChildContent>
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </CheckEdit>
+                            </Validation>
+                        </FieldBody>
+                    </Field>
+                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+                            <Button Color="Color.Primary" Clicked="@AnnotationsSubmit">Submit</Button>
+                        </FieldBody>
+                    </Field>
+                </Validations>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 @code{
     Validations validations;
+
+    Validations annotationsValidations;
+
+    User user = new User();
+    User manualUser = new User();
 
     string password;
 
@@ -313,6 +516,14 @@
         if ( validations.ValidateAll() )
         {
             validations.ClearAll();
+        }
+    }
+
+    void AnnotationsSubmit()
+    {
+        if ( annotationsValidations.ValidateAll() )
+        {
+            annotationsValidations.ClearAll();
         }
     }
 }

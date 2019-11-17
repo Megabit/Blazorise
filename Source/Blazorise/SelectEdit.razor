@@ -3,7 +3,7 @@
 @inherits Blazorise.BaseSelect<TValue>
 @if ( !HasCustomRegistration )
 {
-    <select @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" @onchange="@HandleOnChanged">
+    <select @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" @onchange="@OnChangeHandler">
         <CascadingValue Value=this>
             @ChildContent
         </CascadingValue>

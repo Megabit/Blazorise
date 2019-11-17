@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
@@ -30,68 +31,62 @@ namespace Blazorise
 
         #region Methods
 
-        // implementation according to the response on https://github.com/aspnet/AspNetCore/issues/7898#issuecomment-479863699
         protected override void OnInitialized()
         {
-            internalValue = Value;
+            if ( ParentValidation != null )
+            {
+                ParentValidation.InitializeInputExpression( ValueExpression );
+            }
 
             base.OnInitialized();
         }
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef = dotNetObjectRef ?? JSRunner.CreateDotNetObjectRef( new NumericEditAdapter( this ) );
+            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new NumericEditAdapter( this ) );
             await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementId, ElementRef, Decimals, DecimalsSeparator, Step );
 
             await base.OnFirstAfterRenderAsync();
         }
 
-        public override void Dispose()
+        protected override void Dispose( bool disposing )
         {
-            JSRunner.DestroyNumericEdit( ElementId, ElementRef );
-            JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
-
-            base.Dispose();
-        }
-
-        public override Task SetParametersAsync( ParameterView parameters )
-        {
-            // This is needed for the two-way binding to work properly.
-            // Otherwise the internal value would not be set.
-            if ( parameters.TryGetValue<TValue>( nameof( Value ), out var newValue ) )
+            if ( disposing )
             {
-                internalValue = newValue;
+                JSRunner.DestroyNumericEdit( ElementId, ElementRef );
+                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
-            return base.SetParametersAsync( parameters );
+            base.Dispose( disposing );
         }
 
         public Task SetValue( string value )
         {
-            return HandleValue( value );
+            return CurrentValueHandler( value );
         }
 
-        protected override Task HandleValue( object value )
+        protected override void OnInternalValueChanged( TValue value )
+        {
+            ValueChanged.InvokeAsync( value );
+        }
+
+        protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
             if ( Converters.TryChangeType<TValue>( value, out var result ) )
             {
-                // TODO: disabled until Blazor implements constraints for generic components!!!!
-                //if ( Max != null && Comparers.Compare( result, Max ) > 0 )
-                //    result = Max ?? default;
-                //else if ( Min != null && Comparers.Compare( result, Min ) < 0 )
-                //    result = Min ?? default;
-
-                InternalValue = result;
+                return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
             }
             else
-                InternalValue = default;
-
-            return ValueChanged.InvokeAsync( InternalValue );
+            {
+                return Task.FromResult( ParseValue<TValue>.Empty );
+            }
         }
 
         #endregion
 
         #region Properties
+
+        protected override TValue InternalValue { get => Value; set => Value = value; }
 
         /// <summary>
         /// Gets or sets the value inside the input field.
@@ -105,6 +100,11 @@ namespace Blazorise
         /// This will be converted to EventCallback once the Blazor team fix the error for generic components. see https://github.com/aspnet/AspNetCore/issues/8385
         /// </remarks>
         [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the value.
+        /// </summary>
+        [Parameter] public Expression<Func<TValue>> ValueExpression { get; set; }
 
         /// <summary>
         /// Specifies the interval between valid values.

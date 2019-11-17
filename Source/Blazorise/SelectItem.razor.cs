@@ -20,19 +20,7 @@ namespace Blazorise
 
         #region Properties
 
-        protected bool IsSelected
-        {
-            get
-            {
-                if ( ParentSelect == null )
-                    return false;
-
-                if ( ParentSelect.IsMultiple )
-                    return ParentSelect.SelectedValues?.Contains( Value ) == true;
-
-                return EqualityComparer<TValue>.Default.Equals( ParentSelect.SelectedValue, Value );
-            }
-        }
+        protected bool IsSelected => ParentSelect?.ContainsValue( Value ) == true;
 
         /// <summary>
         /// Convert the value to string because option tags are working with string internally. Otherwise some datatypes like booleans will not work as expected.

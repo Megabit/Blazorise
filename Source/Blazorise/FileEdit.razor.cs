@@ -26,19 +26,42 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected async void PathChangedHandler( ChangeEventArgs e )
+        protected Task OnChangeHandler( ChangeEventArgs e )
+        {
+            return CurrentValueHandler( e?.Value?.ToString() );
+        }
+
+        protected override void OnInternalValueChanged( string[] value )
+        {
+            PathChanged?.Invoke( value );
+        }
+
+        protected override async Task<ParseValue<string[]>> ParseValueFromStringAsync( string value )
         {
             if ( IsMultiple )
-                InternalValue = await JSRunner.GetFilePaths( ElementRef );
-            else
-                InternalValue = new string[] { e?.Value?.ToString() };
+            {
+                var multipleValues = await JSRunner.GetFilePaths( ElementRef );
 
-            PathChanged?.Invoke( InternalValue );
+                return new ParseValue<string[]>( true, multipleValues, null );
+            }
+            else
+            {
+                return new ParseValue<string[]>( true, new string[] { value?.ToString() }, null );
+            }
         }
 
         #endregion
 
         #region Properties
+
+        protected override string[] InternalValue
+        {
+            get => null;
+            set
+            {
+                // TODO
+            }
+        }
 
         /// <summary>
         /// Enables the multiple file selection.

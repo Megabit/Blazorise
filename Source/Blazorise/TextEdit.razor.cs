@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -18,10 +19,12 @@ namespace Blazorise
 
         #region Methods
 
-        // implementation according to the response on https://github.com/aspnet/AspNetCore/issues/7898#issuecomment-479863699
         protected override void OnInitialized()
         {
-            internalValue = Text;
+            if ( ParentValidation != null )
+            {
+                ParentValidation.InitializeInputExpression( TextExpression );
+            }
 
             base.OnInitialized();
         }
@@ -33,29 +36,24 @@ namespace Blazorise
             await base.OnFirstAfterRenderAsync();
         }
 
-        public override void Dispose()
+        protected override void Dispose( bool disposing )
         {
-            JSRunner.DestroyTextEdit( ElementId, ElementRef );
-
-            base.Dispose();
-        }
-
-        public override Task SetParametersAsync( ParameterView parameters )
-        {
-            // This is needed for the two-way binding to work properly.
-            // Otherwise the internal value would not be set.
-            if ( parameters.TryGetValue<string>( nameof( Text ), out var newText ) )
+            if ( disposing )
             {
-                internalValue = newText;
+                JSRunner.DestroyTextEdit( ElementId, ElementRef );
             }
 
-            return base.SetParametersAsync( parameters );
+            base.Dispose( disposing );
         }
 
-        protected override Task HandleValue( object value )
+        protected override void OnInternalValueChanged( string value )
         {
-            InternalValue = value?.ToString();
-            return TextChanged.InvokeAsync( InternalValue );
+            TextChanged.InvokeAsync( value );
+        }
+
+        protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
+        {
+            return Task.FromResult( new ParseValue<string>( true, value, null ) );
         }
 
         #endregion
@@ -65,6 +63,8 @@ namespace Blazorise
         protected string Type => Role.ToTextRoleString();
 
         protected string Mode => InputMode.ToTextInputMode();
+
+        protected override string InternalValue { get => Text; set => Text = value; }
 
         /// <summary>
         /// Sets the role of the input text.
@@ -82,6 +82,11 @@ namespace Blazorise
         /// Occurs after text has changed.
         /// </summary>
         [Parameter] public EventCallback<string> TextChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the text value.
+        /// </summary>
+        [Parameter] public Expression<Func<string>> TextExpression { get; set; }
 
         /// <summary>
         /// Occurs when a key is pressed down while the control has focus.

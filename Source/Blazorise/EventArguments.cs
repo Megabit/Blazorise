@@ -96,6 +96,36 @@ namespace Blazorise
         public string ErrorText { get; }
     }
 
+    public class ValidationStartedEventArgs : EventArgs
+    {
+        public static new readonly ValidationStartedEventArgs Empty = new ValidationStartedEventArgs();
+
+        public ValidationStartedEventArgs()
+        {
+        }
+    }
+
+    public class ValidationStatusChangedEventArgs : EventArgs
+    {
+        public static new readonly ValidationStatusChangedEventArgs Empty = new ValidationStatusChangedEventArgs( ValidationStatus.None );
+
+        public ValidationStatusChangedEventArgs( ValidationStatus status, string message = null )
+        {
+            Status = status;
+            Message = message;
+        }
+
+        /// <summary>
+        /// Gets the validation result.
+        /// </summary>
+        public ValidationStatus Status { get; set; }
+
+        /// <summary>
+        /// Gets the custom validation message.
+        /// </summary>
+        public string Message { get; }
+    }
+
     /// <summary>
     /// Supplies information about a mouse event that is being raised.
     /// </summary>
