@@ -3,7 +3,7 @@
 	<metadata>
 		<id>Blazorise.Icons.Material</id>
 		<title>Blazorise.Icons.Material</title>
-		<version>0.8.6.2</version>
+		<version>0.8.6.4</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -16,8 +16,8 @@
 		<icon>Blazorise.png</icon>
 		<dependencies>
 			<group targetFramework=".NETStandard2.0">
-				<dependency id="Blazorise" version="0.8.6.2" exclude="Build,Analyzers" />
-				<dependency id="Microsoft.AspNetCore.Components" version="3.1.0-preview1.19508.20" exclude="Build,Analyzers" />
+				<dependency id="Blazorise" version="0.8.6.4" exclude="Build,Analyzers" />
+				<dependency id="Microsoft.AspNetCore.Components" version="3.1.0-preview3.19555.2" exclude="Build,Analyzers" />
 			</group>
 		</dependencies>
 	</metadata>
