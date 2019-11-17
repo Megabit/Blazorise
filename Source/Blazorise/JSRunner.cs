@@ -154,7 +154,7 @@ namespace Blazorise
                 {
                     return default;
                 }
-            } ).Where( x => !EqualityComparer<TValue>.Default.Equals( x, default ) ).ToArray();
+            } ).Distinct().ToArray();
         }
 
         public ValueTask<bool> SetTextValue( ElementReference elementRef, object value )
