@@ -31,9 +31,9 @@ namespace Blazorise
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
-        protected override void OnInternalValueChanged( string[] value )
+        protected override Task OnInternalValueChanged( string[] value )
         {
-            PathChanged?.Invoke( value );
+            return PathChanged.InvokeAsync( value );
         }
 
         protected override async Task<ParseValue<string[]>> ParseValueFromStringAsync( string value )
@@ -87,7 +87,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the file path is changed.
         /// </summary>
-        [Parameter] public Action<string[]> PathChanged { get; set; }
+        [Parameter] public EventCallback<string[]> PathChanged { get; set; }
 
         #endregion
     }

@@ -61,10 +61,11 @@ namespace Blazorise
             return Task.FromResult( new ParseValue<bool?>( true, parsedValue, null ) );
         }
 
-        protected override void OnInternalValueChanged( bool? value )
+        protected override Task OnInternalValueChanged( bool? value )
         {
-            CheckedChanged.InvokeAsync( Checked );
-            NullableCheckedChanged.InvokeAsync( NullableChecked );
+            return Task.WhenAll(
+                CheckedChanged.InvokeAsync( Checked ),
+                NullableCheckedChanged.InvokeAsync( NullableChecked ) );
         }
 
         #endregion

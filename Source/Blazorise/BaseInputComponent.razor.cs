@@ -99,7 +99,7 @@ namespace Blazorise
         /// Raises and event that handles the edit value of Text, Date, Numeric etc.
         /// </summary>
         /// <param name="value">New edit value.</param>
-        protected abstract void OnInternalValueChanged( TValue value );
+        protected abstract Task OnInternalValueChanged( TValue value );
 
         #endregion
 
@@ -125,13 +125,19 @@ namespace Blazorise
                 if ( !EqualityComparer<TValue>.Default.Equals( value, InternalValue ) )
                 {
                     InternalValue = value;
-                    OnInternalValueChanged( value );
+                    _ = OnInternalValueChanged( value );
                 }
             }
         }
 
         protected string CurrentValueAsString
-            => FormatValueAsString( CurrentValue );
+        {
+            get => FormatValueAsString( CurrentValue );
+            set
+            {
+                _ = CurrentValueHandler( value );
+            }
+        }
 
         /// <summary>
         /// Sets the size of the input control.

@@ -65,9 +65,9 @@ namespace Blazorise
             return CurrentValueHandler( value );
         }
 
-        protected override void OnInternalValueChanged( TValue value )
+        protected override Task OnInternalValueChanged( TValue value )
         {
-            ValueChanged.InvokeAsync( value );
+            return ValueChanged.InvokeAsync( value );
         }
 
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )

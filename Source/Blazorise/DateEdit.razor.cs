@@ -47,9 +47,9 @@ namespace Blazorise
             JSRunner.ActivateDatePicker( ElementId, Utils.Parsers.InternalDateFormat );
         }
 
-        protected override void OnInternalValueChanged( DateTime? value )
+        protected override Task OnInternalValueChanged( DateTime? value )
         {
-            DateChanged.InvokeAsync( value );
+            return DateChanged.InvokeAsync( value );
         }
 
         protected override string FormatValueAsString( DateTime? value )
