@@ -46,9 +46,9 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
-        protected override void OnInternalValueChanged( string value )
+        protected override Task OnInternalValueChanged( string value )
         {
-            TextChanged.InvokeAsync( value );
+            return TextChanged.InvokeAsync( value );
         }
 
         protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )

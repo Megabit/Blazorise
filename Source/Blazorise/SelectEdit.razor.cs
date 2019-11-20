@@ -50,12 +50,12 @@ namespace Blazorise
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
-        protected override void OnInternalValueChanged( IReadOnlyList<TValue> value )
+        protected override Task OnInternalValueChanged( IReadOnlyList<TValue> value )
         {
             if ( IsMultiple )
-                SelectedValuesChanged.InvokeAsync( value );
+                return SelectedValuesChanged.InvokeAsync( value );
             else
-                SelectedValueChanged.InvokeAsync( value == null ? default : value.FirstOrDefault() );
+                return SelectedValueChanged.InvokeAsync( value == null ? default : value.FirstOrDefault() );
         }
 
         protected override object PrepareValueForValidation( IReadOnlyList<TValue> value )
@@ -91,10 +91,35 @@ namespace Blazorise
             }
         }
 
+        protected override string FormatValueAsString( IReadOnlyList<TValue> value )
+        {
+            if ( value == null || value.Count == 0 )
+                return string.Empty;
+
+            if ( IsMultiple )
+            {
+                return string.Empty;
+                //return string.Join( ",", value );
+            }
+            else
+            {
+                if ( value[0] == null )
+                    return string.Empty;
+
+                return value[0].ToString();
+            }
+        }
+
         public bool ContainsValue( TValue value )
         {
-            if ( CurrentValue != null )
-                return CurrentValue.Any( x => EqualityComparer<TValue>.Default.Equals( x, value ) );
+            var currentValue = CurrentValue;
+
+            if ( currentValue != null )
+            {
+                var result = currentValue.Any( x => EqualityComparer<TValue>.Default.Equals( x, value ) );
+
+                return result;
+            }
 
             return false;
         }
