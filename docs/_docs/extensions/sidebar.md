@@ -41,6 +41,14 @@ In your main _Imports.razor_ add:
 @using Blazorise.Sidebar
 ```
 
+### Static files
+
+Include css link into your `index.html` or `_Host.cshtml` file, depending if you're using a Blazor WebAssembly or Blazor Server side project.
+
+```html
+<link href="_content/Blazorise.Sidebar/blazorise.sidebar.css" rel="stylesheet" />
+```
+
 ## Usage
 
 When defining a sidebar structure you can chose between manual or dynamic building. Please note that you cannot combine both of them so you have to chose the one that suits you best.
