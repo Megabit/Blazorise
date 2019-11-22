@@ -681,6 +681,14 @@ namespace Blazorise
 
         string TooltipPlacement( Placement placement );
 
+        string TooltipMultiline();
+
+        string TooltipAlwaysActive();
+
+        string TooltipFade();
+
+        string TooltipInline();
+
         #endregion
 
         #region States

@@ -753,6 +753,14 @@ namespace Blazorise.Frolic
 
         public virtual string TooltipPlacement( Placement placement ) => $"b-tooltip-{ToPlacement( placement )}";
 
+        public virtual string TooltipMultiline() => "b-tooltip-multiline";
+
+        public virtual string TooltipAlwaysActive() => "b-tooltip-active";
+
+        public virtual string TooltipFade() => "b-tooltip-fade";
+
+        public virtual string TooltipInline() => "b-tooltip-inline";
+
         #endregion
 
         #region States
