@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseModalTitle
 @if ( !HasCustomRegistration )
 {
-    <h4 class="@ClassNames">
+    <h4 class="@ClassNames" @attributes="@Attributes">
         @ChildContent
     </h4>
 }

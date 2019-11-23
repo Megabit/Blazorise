@@ -2,7 +2,7 @@
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
-        <li class="@ClassNames" aria-current="@(IsActive ? "page" : null)">
+        <li class="@ClassNames" aria-current="@(IsActive ? "page" : null)" @attributes="@Attributes">
             @ChildContent
         </li>
     </CascadingValue>

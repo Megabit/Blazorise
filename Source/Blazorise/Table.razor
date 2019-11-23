@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseTable
 @if ( !HasCustomRegistration )
 {
-    <table class="@ClassNames">
+    <table class="@ClassNames" @attributes="@Attributes">
         @ChildContent
     </table>
 }

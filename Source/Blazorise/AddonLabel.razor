@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseAddonLabel
 @if ( !HasCustomRegistration )
 {
-    <span class="@ClassNames">
+    <span class="@ClassNames" @attributes="@Attributes">
         @ChildContent
     </span>
 }

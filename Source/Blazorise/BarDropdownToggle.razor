@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseBarDropdownToggle
 @if ( !HasCustomRegistration )
 {
-    <a id="@ElementId" class="@ClassNames" role="button" @onclick="@ClickHandler">
+    <a id="@ElementId" class="@ClassNames" role="button" @onclick="@ClickHandler" @attributes="@Attributes">
         @ChildContent
     </a>
 }

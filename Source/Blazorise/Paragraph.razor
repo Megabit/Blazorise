@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseParagraph
 @if ( !HasCustomRegistration )
 {
-    <p class="@ClassNames">
+    <p class="@ClassNames" @attributes="@Attributes">
         @ChildContent
     </p>
 }
