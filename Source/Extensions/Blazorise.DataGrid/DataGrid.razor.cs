@@ -608,6 +608,12 @@ namespace Blazorise.DataGrid
         [Parameter] public Func<TItem, bool> DetailRowTrigger { get; set; }
 
         /// <summary>
+        /// Handles the selection of the clicked row.
+        /// If not set it will default to always true.
+        /// </summary>
+        [Parameter] public Func<TItem, bool> RowSelectable { get; set; }
+
+        /// <summary>
         /// Template for displaying detail or nested row.
         /// </summary>
         [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }

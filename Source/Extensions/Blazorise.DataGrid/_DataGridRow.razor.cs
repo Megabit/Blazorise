@@ -40,6 +40,11 @@ namespace Blazorise.DataGrid
 
         protected internal Task OnSelectedCommand( BLMouseEventArgs eventArgs )
         {
+            var selectable = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
+
+            if ( !selectable )
+                return Task.CompletedTask;
+
             // un-select row if the user is holding the ctrl key on already selected row
             if ( eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
                 && ParentDataGrid.SelectedRow != null
