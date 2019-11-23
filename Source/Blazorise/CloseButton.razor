@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseCloseButton
 @if ( !HasCustomRegistration )
 {
-    <button type="button" class="@ClassNames" aria-label="Close" @onclick="@ClickHandler">
+    <button type="button" class="@ClassNames" aria-label="Close" @onclick="@ClickHandler" @attributes="@Attributes">
         @ChildContent
     </button>
 }

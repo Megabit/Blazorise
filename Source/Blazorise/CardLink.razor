@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseCardLink
 @if ( !HasCustomRegistration )
 {
-    <a href="@Source" class="@ClassNames">@ChildContent</a>
+    <a href="@Source" class="@ClassNames" @attributes="@Attributes">@ChildContent</a>
 }
 else
 {

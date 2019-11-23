@@ -2,7 +2,7 @@
 @if ( !HasCustomRegistration )
 {
     <nav aria-label="breadcrumb">
-        <ol class="@ClassNames">
+        <ol class="@ClassNames" @attributes="@Attributes">
             @ChildContent
         </ol>
     </nav>

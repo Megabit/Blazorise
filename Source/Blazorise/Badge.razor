@@ -3,13 +3,13 @@
 {
     @if ( Link != null )
     {
-        <a href="@Link" class="@ClassNames">
+        <a href="@Link" class="@ClassNames" @attributes="@Attributes">
             @ChildContent
         </a>
     }
     else
     {
-        <span class="@ClassNames">
+        <span class="@ClassNames" @attributes="@Attributes">
             @ChildContent
         </span>
     }

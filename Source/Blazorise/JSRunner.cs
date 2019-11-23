@@ -28,7 +28,10 @@ namespace Blazorise
 
         public void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
         {
-            value.Dispose();
+            if ( value != null )
+            {
+                value.Dispose();
+            }
         }
 
         public ValueTask<bool> Init( ElementReference elementRef, object componentRef )

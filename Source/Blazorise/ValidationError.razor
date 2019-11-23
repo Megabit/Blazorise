@@ -3,7 +3,7 @@
 {
     @if ( ParentValidation?.Status == ValidationStatus.Error )
     {
-        <div class="@ClassNames">
+        <div class="@ClassNames" @attributes="@Attributes">
             @if ( ErrorText != null )
             {
                 @ErrorText

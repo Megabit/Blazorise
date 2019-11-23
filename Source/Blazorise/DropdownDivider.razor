@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseDropdownDivider
 @if ( !HasCustomRegistration )
 {
-    <div class="@ClassNames" />
+    <div class="@ClassNames" @attributes="@Attributes" />
 }
 else
 {

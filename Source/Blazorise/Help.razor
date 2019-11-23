@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseHelp
 @if ( !HasCustomRegistration )
 {
-    <small class="@ClassNames">
+    <small class="@ClassNames" @attributes="@Attributes">
         @ChildContent
     </small>
 }

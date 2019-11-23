@@ -347,6 +347,9 @@ namespace Blazorise
             }
         }
 
+        [Parameter( CaptureUnmatchedValues = true )]
+        public Dictionary<string, object> Attributes { get; set; }
+
         #endregion
     }
 }

@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseFigureImage
 @if ( !HasCustomRegistration )
 {
-    <img src="@Source" class="@ClassNames" alt="@AlternateText" />
+    <img src="@Source" class="@ClassNames" alt="@AlternateText" @attributes="@Attributes" />
 }
 else
 {

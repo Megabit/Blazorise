@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseFigureCaption
 @if ( !HasCustomRegistration )
 {
-    <figcaption class="@ClassNames">
+    <figcaption class="@ClassNames" @attributes="@Attributes">
         @ChildContent
     </figcaption>
 }
