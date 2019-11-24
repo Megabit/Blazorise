@@ -14,7 +14,7 @@
                         {
                             @if ( AllowEdit )
                             {
-                                <TableHeaderCell ColumnSpan="2">
+                                <TableHeaderCell width="@column.Width">
                                     @if ( AllowEdit && CanInsertNewItem && editState != DataGridEditState.New )
                                     {
                                         <_DataGridNewCommand TItem="TItem" New="@OnNewCommand" />
@@ -51,7 +51,7 @@
                             @if ( AllowEdit )
                             {
                                 // since Clear Filter is located in the command column it can be visible onle when Edit is enabled
-                                <TableHeaderCell ColumnSpan="2">
+                                <TableHeaderCell width="@column.Width">
                                     <_DataGridClearFilterCommand TItem="TItem" ClearFilter="@OnClearFilterCommand" />
                                 </TableHeaderCell>
                             }

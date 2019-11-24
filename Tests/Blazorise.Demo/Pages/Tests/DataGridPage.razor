@@ -68,7 +68,7 @@
                           IsBordered="true"
                           IsHoverable="true">
                     <ChildContent>
-                        <DataGridCommandColumn TItem="Employee">
+                        <DataGridCommandColumn TItem="Employee" Width="170px">
                             <NewCommandTemplate>
                                 <Button Color="Color.Success" Clicked="@context.Clicked">New</Button>
                             </NewCommandTemplate>
@@ -130,7 +130,7 @@
                                 </SelectEdit>
                             </EditTemplate>
                         </DataGridSelectColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" AllowEdit="true">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" AllowEdit="true" Width="120px">
                             <DisplayTemplate>
                                 @($"{( context as Employee )?.Salary} €")
                             </DisplayTemplate>

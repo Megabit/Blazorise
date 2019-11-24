@@ -7,12 +7,12 @@
         {
             @if ( ParentDataGrid.AllowEdit == true )
             {
-                <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" />
+                <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Width="@column.Width" />
             }
         }
         else
         {
-            <TableRowCell>
+            <TableRowCell width="@column.Width">
                 @if ( column.DisplayTemplate != null )
                 {
                     @column.DisplayTemplate( Item )
