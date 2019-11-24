@@ -268,7 +268,7 @@ namespace Blazorise.DataGrid
 
         protected void OnSortClicked( BaseDataGridColumn<TItem> column )
         {
-            if ( AllowSort && column.AllowSort )
+            if ( Sortable && column.Sortable )
             {
                 column.Direction = column.Direction == SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
                 sortByColumn = column;
@@ -342,7 +342,7 @@ namespace Blazorise.DataGrid
             }
 
             // just one column can be sorted for now!
-            if ( sortByColumn != null && sortByColumn.AllowSort )
+            if ( sortByColumn != null && sortByColumn.Sortable )
             {
                 if ( sortByColumn.Direction == SortDirection.Descending )
                     query = query.OrderByDescending( item => sortByColumn.GetValue( item ) );
@@ -427,12 +427,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets only columns that are available for editing.
         /// </summary>
-        protected IEnumerable<BaseDataGridColumn<TItem>> EditableColumns => Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.AllowEdit );
+        protected IEnumerable<BaseDataGridColumn<TItem>> EditableColumns => Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.Editable );
 
         /// <summary>
         /// Returns true if <see cref="Data"/> is safe to modify.
         /// </summary>
-        protected bool CanInsertNewItem => AllowEdit && Data is ICollection<TItem>;
+        protected bool CanInsertNewItem => Editable && Data is ICollection<TItem>;
 
         /// <summary>
         /// Gets the current datagrid editing state.
@@ -504,17 +504,17 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets whether users can edit datagrid rows.
         /// </summary>
-        [Parameter] public bool AllowEdit { get; set; }
+        [Parameter] public bool Editable { get; set; }
 
         /// <summary>
         /// Gets or sets whether end-users can sort data by the column's values.
         /// </summary>
-        [Parameter] public bool AllowSort { get; set; } = true;
+        [Parameter] public bool Sortable { get; set; } = true;
 
         /// <summary>
         /// Gets or sets whether users can filter rows by its cell values.
         /// </summary>
-        [Parameter] public bool AllowFilter { get; set; }
+        [Parameter] public bool Filterable { get; set; }
 
         /// <summary>
         /// Gets or sets whether user can see a column captions.

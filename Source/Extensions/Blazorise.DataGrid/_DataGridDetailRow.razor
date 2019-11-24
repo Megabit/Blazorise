@@ -4,7 +4,7 @@
     @{
         var location = CommandColumnLocation;
 
-        if ( location == "start" && ParentDataGrid.AllowEdit )
+        if ( location == "start" && ParentDataGrid.Editable )
         {
             <TableRowCell>
             </TableRowCell>
@@ -12,7 +12,7 @@
         <TableRowCell ColumnSpan="@Columns.Count">
             @ChildContent
         </TableRowCell>
-        if ( location == "end" && ParentDataGrid.AllowEdit )
+        if ( location == "end" && ParentDataGrid.Editable )
         {
             <TableRowCell>
             </TableRowCell>

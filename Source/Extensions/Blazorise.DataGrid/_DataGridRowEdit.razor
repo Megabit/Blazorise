@@ -9,7 +9,7 @@
                 @if ( column.ColumnType == DataGridColumnType.Command )
                     continue;
 
-                @if ( column.AllowEdit )
+                @if ( CellAreEditable( column ) )
                 {
                     <Column ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
                         <Field>
@@ -60,7 +60,7 @@ else if ( EditMode == DataGridEditMode.Inline )
     {
         @if ( column.ColumnType == DataGridColumnType.Command )
         {
-            @if ( ParentDataGrid?.AllowEdit == true )
+            @if ( ParentDataGrid?.Editable == true )
             {
                 <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@Save" Cancel="@Cancel" Width="@column.Width" />
             }
@@ -68,7 +68,7 @@ else if ( EditMode == DataGridEditMode.Inline )
         else
         {
             <TableRowCell width="@column.Width">
-                @if ( ParentDataGrid?.AllowEdit == true && column.AllowEdit )
+                @if ( ParentDataGrid?.Editable == true && CellAreEditable( column ) )
                 {
                     <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" />
                 }

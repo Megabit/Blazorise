@@ -3,58 +3,70 @@
 @if ( EditState == DataGridEditState.Edit )
 {
     <TableRowCell width="@Width">
-        @if ( ParentDataGrid?.CommandColumn?.SaveCommandTemplate != null )
+        @if ( ParentDataGrid?.CommandColumn?.SaveCommandAllowed == true )
         {
-            @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
+            @if ( ParentDataGrid?.CommandColumn?.SaveCommandTemplate != null )
             {
-                Clicked = Save,
-                Item = Item,
-            } )
-        }
-        else
-        {
-            <Button Color="Color.Link" Clicked="@Save">Save</Button>
-        }
-        @if ( ParentDataGrid?.CommandColumn?.CancelCommandTemplate != null )
-        {
-            @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
+                @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
+                {
+                    Clicked = Save,
+                    Item = Item,
+                } )
+            }
+            else
             {
-                Clicked = Cancel,
-                Item = Item,
-            } )
+                <Button Color="Color.Link" Clicked="@Save">Save</Button>
+            }
         }
-        else
+        @if ( ParentDataGrid?.CommandColumn?.CancelCommandAllowed == true )
         {
-            <Button Color="Color.Link" Clicked="@Cancel">Cancel</Button>
+            @if ( ParentDataGrid?.CommandColumn?.CancelCommandTemplate != null )
+            {
+                @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
+                {
+                    Clicked = Cancel,
+                    Item = Item,
+                } )
+            }
+            else
+            {
+                <Button Color="Color.Link" Clicked="@Cancel">Cancel</Button>
+            }
         }
     </TableRowCell>
 }
 else if ( EditState == DataGridEditState.None )
 {
     <TableRowCell width="@Width">
-        @if ( ParentDataGrid?.CommandColumn?.EditCommandTemplate != null )
+        @if ( ParentDataGrid?.CommandColumn?.EditCommandAllowed == true )
         {
-            @ParentDataGrid.CommandColumn.EditCommandTemplate( new CommandContext<TItem>
+            @if ( ParentDataGrid?.CommandColumn?.EditCommandTemplate != null )
             {
-                Clicked = Edit,
-                Item = Item,
-            } )
-        }
-        else
-        {
-            <Button Color="Color.Link" Clicked="@Edit">Edit</Button>
-        }
-        @if ( ParentDataGrid?.CommandColumn?.DeleteCommandTemplate != null )
-        {
-            @ParentDataGrid.CommandColumn.DeleteCommandTemplate( new CommandContext<TItem>
+                @ParentDataGrid.CommandColumn.EditCommandTemplate( new CommandContext<TItem>
+                {
+                    Clicked = Edit,
+                    Item = Item,
+                } )
+            }
+            else
             {
-                Clicked = Delete,
-                Item = Item,
-            } )
+                <Button Color="Color.Link" Clicked="@Edit">Edit</Button>
+            }
         }
-        else
+        @if ( ParentDataGrid?.CommandColumn?.DeleteCommandAllowed == true )
         {
-            <Button Color="Color.Link" Clicked="@Delete">Delete</Button>
+            @if ( ParentDataGrid?.CommandColumn?.DeleteCommandTemplate != null )
+            {
+                @ParentDataGrid.CommandColumn.DeleteCommandTemplate( new CommandContext<TItem>
+                {
+                    Clicked = Delete,
+                    Item = Item,
+                } )
+            }
+            else
+            {
+                <Button Color="Color.Link" Clicked="@Delete">Delete</Button>
+            }
         }
     </TableRowCell>
 }

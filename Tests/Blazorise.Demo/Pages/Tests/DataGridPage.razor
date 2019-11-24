@@ -12,21 +12,21 @@
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <CheckEdit @bind-Checked="@allowEdit">Allow Edit</CheckEdit>
+                            <CheckEdit @bind-Checked="@editable">Editable</CheckEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <CheckEdit @bind-Checked="@allowSort">Allow Sort</CheckEdit>
+                            <CheckEdit @bind-Checked="@sortable">Sortable</CheckEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <CheckEdit @bind-Checked="@allowFilter">Allow Filter</CheckEdit>
+                            <CheckEdit @bind-Checked="@filterable">Filterable</CheckEdit>
                         </FieldBody>
                     </Field>
                     <Field>
@@ -54,9 +54,9 @@
                 <DataGrid TItem="Employee"
                           Data="@dataModels"
                           EditMode="@editMode"
-                          AllowEdit="@allowEdit"
-                          AllowSort="@allowSort"
-                          AllowFilter="@allowFilter"
+                          Editable="@editable"
+                          Sortable="@sortable"
+                          Filterable="@filterable"
                           ShowPager="@showPager"
                           RowInserted="@OnRowInserted"
                           RowUpdated="@OnRowUpdated"
@@ -88,13 +88,13 @@
                                 <Button Color="Color.Warning" Clicked="@context.Clicked">Clear Filter</Button>
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" AllowSort="false" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" AllowEdit="true" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" AllowEdit="true" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" AllowEdit="true" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" AllowEdit="true" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" AllowEdit="true" />
-                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" Caption="Date Of Birth" AllowEdit="true">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable="true" />
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" Caption="Date Of Birth" Editable="true">
                             <DisplayTemplate>
                                 @{
                                     var date = ( context as Employee )?.DateOfBirth;
@@ -106,8 +106,8 @@
                                 }
                             </DisplayTemplate>
                         </DataGridNumericColumn>
-                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" AllowEdit="true" />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" AllowEdit="true">
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" />
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
                             <DisplayTemplate>
                                 @{
                                     var gender = ( context as Employee )?.Gender;
@@ -130,7 +130,7 @@
                                 </SelectEdit>
                             </EditTemplate>
                         </DataGridSelectColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" AllowEdit="true" Width="120px">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="120px">
                             <DisplayTemplate>
                                 @($"{( context as Employee )?.Salary} €")
                             </DisplayTemplate>
@@ -138,7 +138,7 @@
                                 <NumericEdit TValue="decimal" Value="@((decimal)( ( (CellEditContext)context ).CellValue ))" ValueChanged="@(v => ( (CellEditContext)context ).CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
-                        @*<DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" AllowEdit="true" AllowFilter="false">
+                        @*<DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
                                 <DisplayTemplate>
                                     @(( context as Employee )?.IsActive == true ? "active" : "not active")
                                 </DisplayTemplate>
@@ -150,7 +150,7 @@
 
                             <DataGrid TItem="Salary"
                                       Data="salaries"
-                                      AllowSort="false"
+                                      Sortable="false"
                                       ShowCaptions="false">
                                 <DataGridCommandColumn TItem="Salary" />
                                 <DataGridDateColumn TItem="Salary" Field="@nameof(Salary.Date)" Caption="Date" />
@@ -201,10 +201,18 @@
 </Row>
 @code{
     DataGridEditMode editMode = DataGridEditMode.Form;
-    bool allowEdit = true;
-    bool allowSort = true;
-    bool allowFilter = true;
+    bool editable = true;
+    bool sortable = true;
+    bool filterable = true;
     bool showPager = true;
+
+    // TODO: add options to control the commands
+    //bool newCommandAllowed = true;
+    //bool editCommandAllowed = true;
+    //bool saveCommandAllowed = true;
+    //bool cancelCommandAllowed = true;
+    //bool deleteCommandAllowed = true;
+    //bool clearFilterCommandAllowed = true;
 
     Employee selectedEmployee;
 
