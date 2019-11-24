@@ -2,7 +2,7 @@
 @inherits _BaseDataGridRowCommand<TItem>
 @if ( EditState == DataGridEditState.Edit )
 {
-    <TableRowCell>
+    <TableRowCell width="@Width">
         @if ( ParentDataGrid?.CommandColumn?.SaveCommandTemplate != null )
         {
             @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
@@ -15,8 +15,6 @@
         {
             <Button Color="Color.Link" Clicked="@Save">Save</Button>
         }
-    </TableRowCell>
-    <TableRowCell>
         @if ( ParentDataGrid?.CommandColumn?.CancelCommandTemplate != null )
         {
             @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
@@ -33,7 +31,7 @@
 }
 else if ( EditState == DataGridEditState.None )
 {
-    <TableRowCell>
+    <TableRowCell width="@Width">
         @if ( ParentDataGrid?.CommandColumn?.EditCommandTemplate != null )
         {
             @ParentDataGrid.CommandColumn.EditCommandTemplate( new CommandContext<TItem>
@@ -46,8 +44,6 @@ else if ( EditState == DataGridEditState.None )
         {
             <Button Color="Color.Link" Clicked="@Edit">Edit</Button>
         }
-    </TableRowCell>
-    <TableRowCell>
         @if ( ParentDataGrid?.CommandColumn?.DeleteCommandTemplate != null )
         {
             @ParentDataGrid.CommandColumn.DeleteCommandTemplate( new CommandContext<TItem>

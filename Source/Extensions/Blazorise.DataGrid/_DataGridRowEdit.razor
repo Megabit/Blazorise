@@ -2,7 +2,7 @@
 @inherits _BaseDataGridRowEdit<TItem>
 @if ( EditMode == DataGridEditMode.Form )
 {
-    <TableRowCell ColumnSpan="@(Columns.Count() + 2)">
+    <TableRowCell ColumnSpan="@(Columns.Count() + 1)">
         <Row>
             @foreach ( var column in Columns )
             {
@@ -62,12 +62,12 @@ else if ( EditMode == DataGridEditMode.Inline )
         {
             @if ( ParentDataGrid?.AllowEdit == true )
             {
-                <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@Save" Cancel="@Cancel" />
+                <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@Save" Cancel="@Cancel" Width="@column.Width" />
             }
         }
         else
         {
-            <TableRowCell>
+            <TableRowCell width="@column.Width">
                 @if ( ParentDataGrid?.AllowEdit == true && column.AllowEdit )
                 {
                     <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" />
