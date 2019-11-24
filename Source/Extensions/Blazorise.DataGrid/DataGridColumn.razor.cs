@@ -109,12 +109,22 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets whether users can edit cell values under this column.
         /// </summary>
-        [Parameter] public bool AllowEdit { get; set; }
+        [Parameter] public bool Editable { get; set; }
+
+        /// <summary>
+        /// Allows the cell values to be entered while the grid is in the new-item state.
+        /// </summary>
+        [Parameter] public bool CellsEditableOnNewCommand { get; set; } = true;
+
+        /// <summary>
+        /// Allows the cell values to be entered while the grid is in the edit-item state.
+        /// </summary>
+        [Parameter] public bool CellsEditableOnEditCommand { get; set; } = true;
 
         /// <summary>
         /// Gets or sets whether end-users can sort data by the column's values.
         /// </summary>
-        [Parameter] public bool AllowSort { get; set; } = true;
+        [Parameter] public bool Sortable { get; set; } = true;
 
         /// <summary>
         /// Gets or sets whether end-users are prevented from editing the column's cell values.
@@ -129,7 +139,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets whether users can filter rows by its cell values.
         /// </summary>
-        [Parameter] public bool AllowFilter { get; set; } = true;
+        [Parameter] public bool Filterable { get; set; } = true;
 
         /// <summary>
         /// The width of the column.

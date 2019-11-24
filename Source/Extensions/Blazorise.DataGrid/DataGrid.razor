@@ -12,10 +12,10 @@
                     {
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {
-                            @if ( AllowEdit )
+                            @if ( Editable )
                             {
                                 <TableHeaderCell width="@column.Width">
-                                    @if ( AllowEdit && CanInsertNewItem && editState != DataGridEditState.New )
+                                    @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                     {
                                         <_DataGridNewCommand TItem="TItem" New="@OnNewCommand" />
                                     }
@@ -24,12 +24,12 @@
                         }
                         else
                         {
-                            <TableHeaderCell Style="cursor: pointer" Clicked="@(() => OnSortClicked( column ) )">
+                            <TableHeaderCell Style="cursor: pointer" Clicked="@(() => OnSortClicked( column ) )" width="@column.Width">
                                 @if ( column.ShowCaption )
                                 {
                                     @column.Caption
                                 }
-                                @if ( AllowSort && column.AllowSort )
+                                @if ( Sortable && column.Sortable )
                                 {
                                     <Icon Name="@(column.Direction == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
                                 }
@@ -38,17 +38,17 @@
                     }
                 </TableRow>
             }
-            @if ( AllowFilter )
+            @if ( Filterable )
             {
                 <TableRow>
                     @foreach ( var column in Columns )
                     {
-                        @if ( !column.AllowFilter )
+                        @if ( !column.Filterable )
                             continue;
 
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {
-                            @if ( AllowEdit )
+                            @if ( Editable )
                             {
                                 // since Clear Filter is located in the command column it can be visible onle when Edit is enabled
                                 <TableHeaderCell width="@column.Width">
@@ -58,7 +58,7 @@
                         }
                         else
                         {
-                            <TableHeaderCell>
+                            <TableHeaderCell width="@column.Width">
                                 <TextEdit Text="@column.Filter.SearchValue" TextChanged="@(( newValue ) => OnFilterChanged( column, newValue))" />
                             </TableHeaderCell>
                         }
@@ -67,13 +67,13 @@
             }
         </TableHeader>
         <TableBody>
-            @if ( AllowEdit && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup )
+            @if ( Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup )
             {
                 <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
             }
             @foreach ( var item in DisplayData )
             {
-                @if ( AllowEdit && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && (object)item == (object)editItem )
+                @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && (object)item == (object)editItem )
                 {
                     <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
                 }

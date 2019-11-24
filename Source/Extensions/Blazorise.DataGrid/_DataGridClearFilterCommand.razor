@@ -1,13 +1,16 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridClearFilterCommand<TItem>
-@if ( ParentDataGrid?.CommandColumn?.ClearFilterCommandTemplate != null )
+@if ( ParentDataGrid?.CommandColumn?.ClearFilterCommandAllowed == true )
 {
-    @ParentDataGrid.CommandColumn.ClearFilterCommandTemplate( new CommandContext<TItem>
+    @if ( ParentDataGrid?.CommandColumn?.ClearFilterCommandTemplate != null )
     {
-        Clicked = ClearFilter,
-    } )
-}
-else
-{
-    <Button Color="Color.Link" Clicked="@ClearFilter">Clear Filter</Button>
+        @ParentDataGrid.CommandColumn.ClearFilterCommandTemplate( new CommandContext<TItem>
+        {
+            Clicked = ClearFilter,
+        } )
+    }
+    else
+    {
+        <Button Color="Color.Link" Clicked="@ClearFilter">Clear Filter</Button>
+    }
 }
