@@ -20,7 +20,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( IconProvider.Icon() );
+            builder.Append( IconProvider.Icon( Name ) );
 
             if ( !IconProvider.IconNameAsContent && Name != null && Name is IconName )
                 builder.Append( IconProvider.Get( (IconName)Name ) );
