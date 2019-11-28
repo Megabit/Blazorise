@@ -152,18 +152,19 @@ public void ConfigureServices( IServiceCollection services )
 
 ## Attributes
 
-| Name        | Type                                                                | Default | Description                                                                                          |
-|-------------|---------------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
-| Role        | TextRole                                                            | `Text`  | The role of the input text.                                                                          |
-| Text        | string                                                              |         | Input value.                                                                                         |
-| TextChanged | event                                                               |         | Occurs after text has changed.                                                                       |
-| IsPlaintext | boolean                                                             | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
-| IsReadonly  | boolean                                                             | false   | Prevents modification of the input’s value.                                                          |
-| IsDisabled  | boolean                                                             | false   | Prevents user interactions and make it appear lighter.                                               |
-| MaxLength   | int?                                                                | null    | Specifies the maximum number of characters allowed in the input element.                             |
-| Placeholder | string                                                              |         | Sets the placeholder for the empty text.                                                             |
-| Pattern     | string                                                              |         | Specifies a regular expression that the input element's value is checked against on form validation. |
-| Color       | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})        | `None`  | Component visual or contextual style variants.                                                       |
-| Size        | [Sizes]({{ "/docs/helpers/sizes/#size" | relative_url }})           | `None`  | Component size variations.                                                                           |
-| EditMask    | string                                                              |         | A string representing a edit mask expression.                                                        |
-| MaskType    | [MaskType]({{ "/docs/helpers/enums/#masktype" | relative_url }})    | `None`  | Specify the mask type used by the editor.                                                            |
+| Name              | Type                                                                | Default | Description                                                                                          |
+|-------------------|---------------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
+| Role              | TextRole                                                            | `Text`  | The role of the input text.                                                                          |
+| Text              | string                                                              |         | Input value.                                                                                         |
+| TextChanged       | event                                                               |         | Occurs after text has changed.                                                                       |
+| IsPlaintext       | boolean                                                             | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
+| IsReadonly        | boolean                                                             | false   | Prevents modification of the input’s value.                                                          |
+| IsDisabled        | boolean                                                             | false   | Prevents user interactions and make it appear lighter.                                               |
+| MaxLength         | int?                                                                | null    | Specifies the maximum number of characters allowed in the input element.                             |
+| Placeholder       | string                                                              |         | Sets the placeholder for the empty text.                                                             |
+| Pattern           | string                                                              |         | Specifies a regular expression that the input element's value is checked against on form validation. |
+| Color             | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})        | `None`  | Component visual or contextual style variants.                                                       |
+| Size              | [Sizes]({{ "/docs/helpers/sizes/#size" | relative_url }})           | `None`  | Component size variations.                                                                           |
+| EditMask          | string                                                              |         | A string representing a edit mask expression.                                                        |
+| MaskType          | [MaskType]({{ "/docs/helpers/enums/#masktype" | relative_url }})    | `None`  | Specify the mask type used by the editor.                                                            |
+| VisibleCharacters | int?                                                                |  null   | Specifies the visible width, in characters, of an <input> element.                                   |

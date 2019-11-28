@@ -6,6 +6,42 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.7
+
+### Breaking changes
+
+- Renamed DataGrid attributes
+
+  | Old name       | New name      |
+  |----------------|---------------|
+  | AllowEdit      | Editable      |
+  | AllowSort      | Sortable      |
+  | AllowFilter    | Filterable    |
+
+### Enhancements
+
+- Refactoring input fields
+- [#120](https://github.com/stsrki/Blazorise/issues/120) Data Annotations Validator support
+- [#236](https://github.com/stsrki/Blazorise/issues/236) Attributes splattering for all components
+- [#236](https://github.com/stsrki/Blazorise/issues/236) VisibleCharacters attribute on TextEdit
+- [#234](https://github.com/stsrki/Blazorise/issues/234) Control over Edit and New command on DataGrid
+- Ability to handle the editing of cell values by `CellsEditableOnNewCommand` and `CellsEditableOnEditCommand`
+- Ability to handle visibility of command buttons by `NewCommandAllowed`, `EditCommandAllowed`, etc.
+- Ability to control `DataGrid` row select state
+
+### Bug Fixes
+
+ - [#251](https://github.com/stsrki/Blazorise/issues/251) Fixed two-way binding issue on `SelectEdit`
+ - [#263](https://github.com/stsrki/Blazorise/issues/263) Fixed `Tooltip`
+ - [#290](https://github.com/stsrki/Blazorise/issues/290) `DataGridCommandColumn` attribute `Width` was unused
+ - [#295](https://github.com/stsrki/Blazorise/issues/295) Remove lock from CreateDotNetObjectRef
+ - [#342](https://github.com/stsrki/Blazorise/issues/342) `SelectEdit` int valued items ignores 0 when IsMultiple is true
+ - [#320](https://github.com/stsrki/Blazorise/issues/320) Validation not updating after reference is changed
+ - [#285](https://github.com/stsrki/Blazorise/issues/285) Autocomplete
+ - [#267](https://github.com/stsrki/Blazorise/issues/267) `DataGridNumericColumn` does not sort numerically
+
+For detail description of changes please look at [v0.8.7 release page]({{ "/docs/release-notes/release087/" | relative_url }})
+
 ## 0.8.6.4
 
 ### Breaking changes

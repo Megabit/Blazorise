@@ -44,11 +44,11 @@ In your main _Imports.razor_ add:
 
 ### Sorting
 
-All columns can be sorted automatically if the option  `AllowSort` is enabled on the column.
+All columns can be sorted automatically if the option  `Sortable` is enabled on the column.
 
 ### Filtering
 
-Use an attribute `AllowFilter` to enable or disable automatic filtering in grid component.
+Use an attribute `Filterable` to enable or disable automatic filtering in grid component.
 
 Default method for filtering is `Contains`. If you want to change it you can set the `FilterMethod` attribute on data grid. Supported methods are:
 
@@ -68,7 +68,7 @@ Paging is handled automatically by the DataGrid. You also have some additional a
 
 ### Editing
 
-The grid can perform some basic CRUD operations on the supplied `Data` collection. To enable editing on datagrid just set the `AllowEdit` attribute to **true**.
+The grid can perform some basic CRUD operations on the supplied `Data` collection. To enable editing on datagrid just set the `Editable` attribute to **true**.
 
 By default every time the `Item` is saved it will be automatically handled by the datagrid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the `UseInternalEditing` to **false**.
 
@@ -77,6 +77,19 @@ The grid can work in two different editing modes that can provide different user
 - `Form` editing is done in the internal DataGrid form
 - `Inline` editing is done in the current row
 - `Popup` editing is done in the the modal dialog
+
+### Selecting
+
+If you need to control how and when the grid row will be selected you can use a `RowSelectable` event handler. A simple example is:
+
+```html
+<DataGrid TItem="Employee"
+        Data="@employeeList"
+        @bind-SelectedRow="@selectedEmployee"
+        RowSelectable=@((item)=>item.FirstName != "John")>
+    ...
+</DataGrid>
+```
 
 ## Usage
 
@@ -105,14 +118,14 @@ Field attribute also supports nested fields. You can define a column with field 
         Data="@employeeList"
         @bind-SelectedRow="@selectedEmployee">
     <DataGridCommandColumn TItem="Employee" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" AllowSort="false" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" AllowEdit="true" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.LastName)" Caption="Last Name" AllowEdit="true" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.EMail)" Caption="EMail" AllowEdit="true" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.City)" Caption="City" AllowEdit="true" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Zip)" Caption="Zip" AllowEdit="true" />
-    <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.Childrens)" Caption="Childrens" AllowEdit="true" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" AllowEdit="true">
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.LastName)" Caption="Last Name" Editable="true" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.EMail)" Caption="EMail" Editable="true" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.City)" Caption="City" Editable="true" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Zip)" Caption="Zip" Editable="true" />
+    <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.Childrens)" Caption="Childrens" Editable="true" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
         <DisplayTemplate>
             @($"{( context as Employee )?.Salary} €")
         </DisplayTemplate>
@@ -134,7 +147,7 @@ Both templates have a special `context` attribute that is used to give access to
 Display template is using `TItem` as a context value. 
 
 ```html
-<DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" AllowEdit="true">
+<DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" Editable="true">
     <DisplayTemplate>
         @{
             var date = ( context as Employee )?.DateOfBirth;
@@ -153,7 +166,7 @@ Display template is using `TItem` as a context value.
 Edit template will give you a way to handle the editing of grid cell values. For this template `CellEditContext` is used as a `context` value. Use it to get or set the cell values.
 
 ```html
-<DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" AllowEdit="true">
+<DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
     <DisplayTemplate>
         @($"{( context as Employee )?.Salary} €")
     </DisplayTemplate>
@@ -176,7 +189,7 @@ For this template the `context` value is the item from the parent grid.
 
         <DataGrid TItem="Salary"
                   Data="salaries"
-                  AllowSort="false"
+                  Sortable="false"
                   ShowCaptions="false">
             <DataGridCommandColumn TItem="Salary" />
             <DataGridDateColumn TItem="Salary" Field="@nameof(Salary.Date)" Caption="Date" />
@@ -227,9 +240,9 @@ If you want to change default buttons you can use following templates
 | Data                  | IEnumerable<TItem>                                                  |         | Grid data-source.                                                                                     |
 | EditMode              | [EditMode]({{ "/docs/extensions/datagrid/#editmode" | relative_url }})| `Form`  | Specifies the grid editing modes.                                                                      |
 | UseInternalEditing    | boolean                                                             | true    | Specifies the behavior of DataGrid editing.                                                          |
-| AllowEdit             | boolean                                                             | false   | Whether users can edit DataGrid rows.                                                                 |
-| AllowSort             | boolean                                                             | true    | Whether end-users can sort data by the column's values.                                               |
-| AllowFilter           | boolean                                                             | false   | Whether users can filter rows by its cell values.                                                     |
+| Editable              | boolean                                                             | false   | Whether users can edit DataGrid rows.                                                                 |
+| Sortable              | boolean                                                             | true    | Whether end-users can sort data by the column's values.                                               |
+| Filterable            | boolean                                                             | false   | Whether users can filter rows by its cell values.                                                     |
 | ShowPager             | boolean                                                             | false   | Whether users can navigate DataGrid by using pagination controls.                                     |
 | CurrentPage           | boolean                                                             | 1       | Current page number.                                                                                  |
 | PageSize              | int                                                                 | 5       | Maximum number of items for each page.                                                                |
