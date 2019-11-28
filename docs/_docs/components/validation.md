@@ -103,6 +103,105 @@ If you want to validate input by using regular expression instead of `Validator`
 </Validation>
 ```
 
+## Data Annotations
+
+To use data annotations with Blazorise you must combine both `Validation` and the `Validations` components. The `Validations` component will act as a group for a fields used inside of `Validation` component. To make it all work you must meet two requirements:
+
+1. `Validations` component must contain reference to the validated POCO through the `Model` attribute.
+2. Input component must bind to the model field throught the `@bind-{Value}`(ie. `@bind-Text`)
+
+After those two requirements are met the Blazorise will have enough information to know how to use data annotations.
+
+### Example
+
+```html
+<Validations Mode="ValidationMode.Auto" Model="@user">
+    <Field IsHorizontal="true">
+        <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is10">
+            <Validation>
+                <TextEdit Placeholder="First and last name" @bind-Text="@user.Name">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </Validation>
+        </FieldBody>
+    </Field>
+    <Field IsHorizontal="true">
+        <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is10">
+            <Validation>
+                <TextEdit Placeholder="Enter email" @bind-Text="@user.Email">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </Validation>
+        </FieldBody>
+    </Field>
+    <Field IsHorizontal="true">
+        <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is10">
+            <Validation>
+                <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@user.Password">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </Validation>
+        </FieldBody>
+    </Field>
+    <Field IsHorizontal="true">
+        <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is10">
+            <Validation>
+                <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@user.ConfirmPassword">
+                    <Feedback>
+                        <ValidationError />
+                    </Feedback>
+                </TextEdit>
+            </Validation>
+        </FieldBody>
+    </Field>
+</Validations>
+```
+
+### Model
+
+```cs
+public class User
+{
+    [Required]
+    [StringLength( 10, ErrorMessage = "Name is too long." )]
+    public string Name { get; set; }
+
+    [Required]
+    [EmailAddress( ErrorMessage = "Invalid email." )]
+    public string Email { get; set; }
+
+    [Required( ErrorMessage = "Password is required" )]
+    [StringLength( 8, ErrorMessage = "Must be between 5 and 8 characters", MinimumLength = 5 )]
+    [DataType( DataType.Password )]
+    public string Password { get; set; }
+
+    [Required( ErrorMessage = "Confirm Password is required" )]
+    [StringLength( 8, ErrorMessage = "Must be between 5 and 8 characters", MinimumLength = 5 )]
+    [DataType( DataType.Password )]
+    [Compare( "Password" )]
+    public string ConfirmPassword { get; set; }
+
+    [Required]
+    public string Title { get; set; }
+
+    [Range( typeof( bool ), "true", "true", ErrorMessage = "You gotta tick the box!" )]
+    public bool TermsAndConditions { get; set; }
+}
+```
+
+**Note:** For a full source code you can look at the [validation page](https://github.com/stsrki/Blazorise/blob/master/Tests/Blazorise.Demo/Pages/Tests/ValidationsPage.razor) inside of a demo application.
+{: .notice--info}
+
 ## Validation rules
 
 In Blazorise you can use some of the predefined validation rules. eg
