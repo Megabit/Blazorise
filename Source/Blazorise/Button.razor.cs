@@ -62,11 +62,14 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        public override void Dispose()
+        protected override void Dispose( bool disposing )
         {
-            JSRunner.DestroyButton( ElementId );
+            if ( disposing )
+            {
+                JSRunner.DestroyButton( ElementId );
+            }
 
-            base.Dispose();
+            base.Dispose( disposing );
         }
 
         #endregion

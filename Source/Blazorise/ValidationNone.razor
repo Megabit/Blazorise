@@ -3,7 +3,7 @@
 {
     @if ( ParentValidation?.Status == ValidationStatus.None )
     {
-        <small class="@ClassNames">
+        <small class="@ClassNames" @attributes="@Attributes">
             @ChildContent
         </small>
     }

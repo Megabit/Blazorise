@@ -1,7 +1,7 @@
 @inherits Blazorise.BaseSelectGroup
 @if ( !HasCustomRegistration )
 {
-    <optgroup class="@ClassNames" label="@Label">
+    <optgroup class="@ClassNames" label="@Label" @attributes="@Attributes">
         @ChildContent
     </optgroup>
 }

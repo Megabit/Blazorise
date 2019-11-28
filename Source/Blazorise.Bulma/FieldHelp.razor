@@ -2,14 +2,14 @@
 @if ( ParentIsFieldBody )
 {
     <div class="field">
-        <small class="@ClassNames">
+        <small class="@ClassNames" @attributes="@Attributes">
             @ChildContent
         </small>
     </div>
 }
 else
 {
-    <small class="@ClassNames">
+    <small class="@ClassNames" @attributes="@Attributes">
         @ChildContent
     </small>
 }

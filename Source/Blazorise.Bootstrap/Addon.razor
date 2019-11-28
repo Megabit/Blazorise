@@ -1,7 +1,7 @@
 ﻿@inherits BaseAddon
 @if ( AddonType != AddonType.Body )
 {
-    <div class="@ClassNames">
+    <div class="@ClassNames" @attributes="@Attributes">
         @ChildContent
     </div>
 }

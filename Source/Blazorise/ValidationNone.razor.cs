@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseValidationNone : BaseComponent
+    public abstract class BaseValidationNone : BaseValidationSummary
     {
         #region Members
 
@@ -26,10 +26,6 @@ namespace Blazorise
         #endregion
 
         #region Properties
-
-        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

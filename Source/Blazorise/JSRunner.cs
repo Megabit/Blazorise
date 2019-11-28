@@ -16,8 +16,6 @@ namespace Blazorise
 
         protected const string BLAZORISE_NAMESPACE = "blazorise";
 
-        private static object CreateDotNetObjectRefSyncObj = new object();
-
         public JSRunner( IJSRuntime runtime )
         {
             this.runtime = runtime;
@@ -25,20 +23,14 @@ namespace Blazorise
 
         public DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
         {
-            lock ( CreateDotNetObjectRefSyncObj )
-            {
-                return DotNetObjectReference.Create( value );
-            }
+            return DotNetObjectReference.Create( value );
         }
 
         public void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
         {
             if ( value != null )
             {
-                lock ( CreateDotNetObjectRefSyncObj )
-                {
-                    value.Dispose();
-                }
+                value.Dispose();
             }
         }
 
@@ -154,7 +146,7 @@ namespace Blazorise
                 {
                     return default;
                 }
-            } ).Where( x => !EqualityComparer<TValue>.Default.Equals( x, default ) ).ToArray();
+            } ).Distinct().ToArray();
         }
 
         public ValueTask<bool> SetTextValue( ElementReference elementRef, object value )

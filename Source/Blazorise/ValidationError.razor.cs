@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseValidationError : BaseComponent, IDisposable
+    public abstract class BaseValidationError : BaseValidationSummary
     {
         #region Members
 
@@ -17,6 +17,13 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            ErrorText = ParentValidation?.LastErrorMessage;
+
+            base.OnInitialized();
+        }
 
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -28,28 +35,12 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected override void OnInitialized()
+        protected override void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
         {
-            if ( ParentValidation != null )
+            if ( eventArgs.Status == ValidationStatus.Error )
             {
-                ParentValidation.Validated += OnValidated;
+                ErrorText = eventArgs.Message;
             }
-
-            base.OnInitialized();
-        }
-
-        public void Dispose()
-        {
-            if ( ParentValidation != null )
-            {
-                // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-                ParentValidation.Validated -= OnValidated;
-            }
-        }
-
-        private void OnValidated( ValidatedEventArgs e )
-        {
-            ErrorText = e.ErrorText;
         }
 
         #endregion
@@ -75,10 +66,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-
-        [CascadingParameter] public BaseValidation ParentValidation { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

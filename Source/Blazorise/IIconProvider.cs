@@ -14,7 +14,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="name">Icon name.</param>
         /// <returns></returns>
-        string Icon();
+        string Icon( object name );
 
         /// <summary>
         /// Gets the icon name by predefined icon type.

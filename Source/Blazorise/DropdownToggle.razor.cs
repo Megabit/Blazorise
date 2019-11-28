@@ -9,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
-    public abstract class BaseDropdownToggle : BaseComponent, ICloseActivator, IDisposable
+    public abstract class BaseDropdownToggle : BaseComponent, ICloseActivator
     {
         #region Members
 
@@ -51,16 +51,21 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        public void Dispose()
+        protected override void Dispose( bool disposing )
         {
-            // make sure to unregister listener
-            if ( isRegistered )
+            if ( disposing )
             {
-                isRegistered = false;
+                // make sure to unregister listener
+                if ( isRegistered )
+                {
+                    isRegistered = false;
 
-                JSRunner.UnregisterClosableComponent( this );
-                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                    JSRunner.UnregisterClosableComponent( this );
+                    JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                }
             }
+
+            base.Dispose( disposing );
         }
 
         protected void ClickHandler()

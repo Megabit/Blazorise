@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseTab
 @if ( !HasCustomRegistration )
 {
-    <li class="@ClassNames">
+    <li class="@ClassNames" @attributes="@Attributes">
         <a class="@LinkClassNames" @onclick="@ClickHandler">@ChildContent</a>
     </li>
 }

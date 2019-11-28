@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -22,6 +23,19 @@ namespace Blazorise
 
         #region Methods
 
+        protected override void OnInitialized()
+        {
+            if ( ParentValidation != null )
+            {
+                if ( CheckedExpression != null )
+                    ParentValidation.InitializeInputExpression( CheckedExpression );
+                else if ( NullableCheckedExpression != null )
+                    ParentValidation.InitializeInputExpression( NullableCheckedExpression );
+            }
+
+            base.OnInitialized();
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             if ( RadioGroup != null )
@@ -35,11 +49,23 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void HandleCheckedChanged( ChangeEventArgs e )
+        protected Task OnChangeHandler( ChangeEventArgs e )
         {
-            InternalValue = e.Value?.ToString().ToLowerInvariant() == ( RadioGroup != null ? "on" : "true" );
-            CheckedChanged.InvokeAsync( Checked );
-            NullableCheckedChanged.InvokeAsync( NullableChecked );
+            return CurrentValueHandler( e?.Value?.ToString() );
+        }
+
+        protected override Task<ParseValue<bool?>> ParseValueFromStringAsync( string value )
+        {
+            var parsedValue = value?.ToLowerInvariant() == ( RadioGroup != null ? "on" : "true" );
+
+            return Task.FromResult( new ParseValue<bool?>( true, parsedValue, null ) );
+        }
+
+        protected override Task OnInternalValueChanged( bool? value )
+        {
+            return Task.WhenAll(
+                CheckedChanged.InvokeAsync( Checked ),
+                NullableCheckedChanged.InvokeAsync( NullableChecked ) );
         }
 
         #endregion
@@ -50,15 +76,17 @@ namespace Blazorise
 
         protected string Type => RadioGroup != null ? "radio" : "checkbox";
 
+        protected override bool? InternalValue { get => Checked; set => Checked = value ?? false; }
+
         /// <summary>
         /// Gets or sets the checked flag.
         /// </summary>
-        [Parameter] public bool Checked { get => InternalValue ?? false; set => InternalValue = value; }
+        [Parameter] public bool Checked { get; set; }
 
         /// <summary>
         /// Gets or sets the nullable value for checked flag.
         /// </summary>
-        [Parameter] public bool? NullableChecked { get => InternalValue; set => InternalValue = value; }
+        [Parameter] public bool? NullableChecked { get; set; }
 
         /// <summary>
         /// Occurs when the check state is changed.
@@ -70,6 +98,16 @@ namespace Blazorise
         /// </summary>
         [Obsolete( "This parameter is only temporary until the issue with generic componnets is fixed. see http://git.travelsoft.hr/Travelsoft/_git/Adriagate/pullrequest/59?_a=overview" )]
         [Parameter] public EventCallback<bool?> NullableCheckedChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the checked value.
+        /// </summary>
+        [Parameter] public Expression<Func<bool>> CheckedExpression { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the nullable checked value.
+        /// </summary>
+        [Parameter] public Expression<Func<bool?>> NullableCheckedExpression { get; set; }
 
         /// <summary>
         /// Sets the radio group name.

@@ -268,7 +268,7 @@ namespace Blazorise.DataGrid
 
         protected void OnSortClicked( BaseDataGridColumn<TItem> column )
         {
-            if ( AllowSort && column.AllowSort )
+            if ( Sortable && column.Sortable )
             {
                 column.Direction = column.Direction == SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
                 sortByColumn = column;
@@ -341,38 +341,14 @@ namespace Blazorise.DataGrid
                 return;
             }
 
-            //IOrderedQueryable<TItem> orderedQuery = null;
-
             // just one column can be sorted for now!
-            if ( sortByColumn != null && sortByColumn.AllowSort )
+            if ( sortByColumn != null && sortByColumn.Sortable )
             {
-                //if ( sortByColumn.Direction == "desc" )
-                //    orderedQuery = query.OrderByDescending( item => sortByColumn.Field( item ) );
-                //else
-                //    orderedQuery = query.OrderBy( item => sortByColumn.Field( item ), string.Compare( ) );
-                query = query.OrderBy( item => sortByColumn.GetValue( item ),
-                    sortByColumn.Direction == SortDirection.Descending ? new MyComparer<object>() : new MyReverseComparer<object>() );
+                if ( sortByColumn.Direction == SortDirection.Descending )
+                    query = query.OrderByDescending( item => sortByColumn.GetValue( item ) );
+                else
+                    query = query.OrderBy( item => sortByColumn.GetValue( item ) );
             }
-
-            // Sorting by multiple columns is not ready yet because of bug in Mono runtime.
-            // issue https://github.com/aspnet/AspNetCore/issues/11371
-            //foreach ( var column in dataGridColumns.Values )
-            //{
-            //    if ( orderedQuery == null )
-            //    {
-            //        if ( column.Direction == "desc" )
-            //            orderedQuery = query.OrderByDescending( x => column.Field( x ) );
-            //        else
-            //            orderedQuery = query.OrderBy( x => column.Field( x ) );
-            //    }
-            //    else
-            //    {
-            //        if ( column.Direction == "desc" )
-            //            orderedQuery = orderedQuery.ThenByDescending( x => column.Field( x ) );
-            //        else
-            //            orderedQuery = orderedQuery.ThenBy( x => column.Field( x ) );
-            //    }
-            //}
 
             foreach ( var column in Columns )
             {
@@ -392,11 +368,6 @@ namespace Blazorise.DataGrid
             filteredData = query.ToList();
 
             dirtyFilter = false;
-
-            //return query.Skip( ( CurrentPage - 1 ) * PageSize ).ToList();
-            //return orderedQuery == null
-            //    ? query?.ToList()
-            //    : orderedQuery?.ToList();
         }
 
         private bool CompareFilterValues( string searchValue, string compareTo )
@@ -456,12 +427,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets only columns that are available for editing.
         /// </summary>
-        protected IEnumerable<BaseDataGridColumn<TItem>> EditableColumns => Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.AllowEdit );
+        protected IEnumerable<BaseDataGridColumn<TItem>> EditableColumns => Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.Editable );
 
         /// <summary>
         /// Returns true if <see cref="Data"/> is safe to modify.
         /// </summary>
-        protected bool CanInsertNewItem => AllowEdit && Data is ICollection<TItem>;
+        protected bool CanInsertNewItem => Editable && Data is ICollection<TItem>;
 
         /// <summary>
         /// Gets the current datagrid editing state.
@@ -533,17 +504,17 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets whether users can edit datagrid rows.
         /// </summary>
-        [Parameter] public bool AllowEdit { get; set; }
+        [Parameter] public bool Editable { get; set; }
 
         /// <summary>
         /// Gets or sets whether end-users can sort data by the column's values.
         /// </summary>
-        [Parameter] public bool AllowSort { get; set; } = true;
+        [Parameter] public bool Sortable { get; set; } = true;
 
         /// <summary>
         /// Gets or sets whether users can filter rows by its cell values.
         /// </summary>
-        [Parameter] public bool AllowFilter { get; set; }
+        [Parameter] public bool Filterable { get; set; }
 
         /// <summary>
         /// Gets or sets whether user can see a column captions.
@@ -637,6 +608,12 @@ namespace Blazorise.DataGrid
         [Parameter] public Func<TItem, bool> DetailRowTrigger { get; set; }
 
         /// <summary>
+        /// Handles the selection of the clicked row.
+        /// If not set it will default to always true.
+        /// </summary>
+        [Parameter] public Func<TItem, bool> RowSelectable { get; set; }
+
+        /// <summary>
         /// Template for displaying detail or nested row.
         /// </summary>
         [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
@@ -667,30 +644,6 @@ namespace Blazorise.DataGrid
         [Parameter] public bool IsNarrow { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
-
-        #endregion
-
-        #region Helpers
-
-        /// <summary>
-        /// This is just a temporary solutions until the bug for OrderByDescending in Mono is fixed
-        /// https://github.com/aspnet/AspNetCore/issues/11371
-        /// </summary>
-        class MyComparer<T> : IComparer<T>
-        {
-            public virtual int Compare( T x, T y )
-            {
-                return Convert.ToString( x ).CompareTo( Convert.ToString( y ) );
-            }
-        }
-
-        class MyReverseComparer<T> : MyComparer<T>
-        {
-            public override int Compare( T x, T y )
-            {
-                return base.Compare( y, x );
-            }
-        }
 
         #endregion
     }

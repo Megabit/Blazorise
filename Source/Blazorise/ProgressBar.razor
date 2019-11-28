@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseProgressBar
 @if ( !HasCustomRegistration )
 {
-    <div class="@ClassNames" style="@StyleNames" role="progressbar" aria-valuenow="@Value " aria-valuemin="@Min" aria-valuemax="@Max">
+    <div class="@ClassNames" style="@StyleNames" role="progressbar" aria-valuenow="@Value " aria-valuemin="@Min" aria-valuemax="@Max" @attributes="@Attributes">
         @ChildContent
     </div>
 }

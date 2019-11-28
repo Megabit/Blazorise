@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseModalBody
 @if ( !HasCustomRegistration )
 {
-    <div class="@ClassNames" style="@StyleNames">
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </div>
 }

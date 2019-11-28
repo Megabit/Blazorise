@@ -83,7 +83,7 @@ namespace Blazorise.Components
             CurrentSearch = null;
             dropdownRef.Close();
 
-            var item = Data.FirstOrDefault( x => ValueField( x ) == value );
+            var item = Data.FirstOrDefault( x => EqualityComparer<object>.Default.Equals( ValueField( x ), value ) );
 
             SelectedText = item != null ? TextField?.Invoke( item ) : string.Empty;
             SelectedValue = value;
@@ -245,7 +245,7 @@ namespace Blazorise.Components
                 selectedValue = value;
 
                 var item = Data != null
-                    ? Data.FirstOrDefault( x => ValueField( x ) == value )
+                    ? Data.FirstOrDefault( x => EqualityComparer<object>.Default.Equals( ValueField( x ), value ) )
                     : default;
 
                 SelectedText = item != null

@@ -22,7 +22,7 @@ namespace Blazorise.Providers
 
         #region Methods
 
-        public abstract string Icon();
+        public abstract string Icon( object name );
 
         public string Get( string customName )
         {

@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BaseDisplayHeading
 @if ( !HasCustomRegistration )
 {
-    <h1 class="@ClassNames">
+    <h1 class="@ClassNames" @attributes="@Attributes">
         @ChildContent
     </h1>
 }

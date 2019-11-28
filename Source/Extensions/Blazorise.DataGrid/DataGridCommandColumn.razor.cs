@@ -52,6 +52,36 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<CommandContext> ClearFilterCommandTemplate { get; set; }
 
+        /// <summary>
+        /// Handles the visibility of new command button.
+        /// </summary>
+        [Parameter] public bool NewCommandAllowed { get; set; } = true;
+
+        /// <summary>
+        /// Handles the visibility of edit command button.
+        /// </summary>
+        [Parameter] public bool EditCommandAllowed { get; set; } = true;
+
+        /// <summary>
+        /// Handles the visibility of save command button.
+        /// </summary>
+        [Parameter] public bool SaveCommandAllowed { get; set; } = true;
+
+        /// <summary>
+        /// Handles the visibility of cancel command button.
+        /// </summary>
+        [Parameter] public bool CancelCommandAllowed { get; set; } = true;
+
+        /// <summary>
+        /// Handles the visibility of delete command button.
+        /// </summary>
+        [Parameter] public bool DeleteCommandAllowed { get; set; } = true;
+
+        /// <summary>
+        /// Handles the visibility of clear-filter command button.
+        /// </summary>
+        [Parameter] public bool ClearFilterCommandAllowed { get; set; } = true;
+
         #endregion
     }
 }

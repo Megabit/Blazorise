@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseComponent : ComponentBase
+    public abstract class BaseComponent : ComponentBase, IDisposable
     {
         #region Members
 
@@ -17,8 +17,6 @@ namespace Blazorise
         private string customClass;
 
         private string customStyle;
-
-        private IStyleProvider styleProvider;
 
         private IComponentMapper componentMapper;
 
@@ -50,6 +48,19 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        public void Dispose()
+        {
+            Dispose( true );
+        }
+
+        protected virtual void Dispose( bool disposing )
+        {
+            if ( !Disposed )
+            {
+                Disposed = true;
+            }
+        }
 
         protected void ExecuteAfterRender( Func<Task> action )
         {
@@ -162,6 +173,8 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        protected bool Disposed { get; private set; }
 
         /// <summary>
         /// Gets the reference to the rendered element.
@@ -333,6 +346,9 @@ namespace Blazorise
                 DirtyStyles();
             }
         }
+
+        [Parameter( CaptureUnmatchedValues = true )]
+        public Dictionary<string, object> Attributes { get; set; }
 
         #endregion
     }

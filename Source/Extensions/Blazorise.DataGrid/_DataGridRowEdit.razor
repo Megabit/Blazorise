@@ -2,14 +2,14 @@
 @inherits _BaseDataGridRowEdit<TItem>
 @if ( EditMode == DataGridEditMode.Form )
 {
-    <TableRowCell ColumnSpan="@(Columns.Count() + 2)">
+    <TableRowCell ColumnSpan="@(Columns.Count() + 1)">
         <Row>
             @foreach ( var column in Columns )
             {
                 @if ( column.ColumnType == DataGridColumnType.Command )
                     continue;
 
-                @if ( column.AllowEdit )
+                @if ( CellAreEditable( column ) )
                 {
                     <Column ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
                         <Field>
@@ -60,15 +60,15 @@ else if ( EditMode == DataGridEditMode.Inline )
     {
         @if ( column.ColumnType == DataGridColumnType.Command )
         {
-            @if ( ParentDataGrid?.AllowEdit == true )
+            @if ( ParentDataGrid?.Editable == true )
             {
-                <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@Save" Cancel="@Cancel" />
+                <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@Save" Cancel="@Cancel" Width="@column.Width" />
             }
         }
         else
         {
-            <TableRowCell>
-                @if ( ParentDataGrid?.AllowEdit == true && column.AllowEdit )
+            <TableRowCell width="@column.Width">
+                @if ( ParentDataGrid?.Editable == true && CellAreEditable( column ) )
                 {
                     <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" />
                 }

@@ -1,11 +1,16 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
 namespace Blazorise
@@ -15,9 +20,14 @@ namespace Blazorise
         #region Members
 
         /// <summary>
+        /// Reference to the validation input.
+        /// </summary>
+        private IValidationInput inputComponent;
+
+        /// <summary>
         /// Holds the last input value.
         /// </summary>
-        private object value;
+        private object lastKnownValue;
 
         /// <summary>
         /// Regex pattern used to override the validator handler.
@@ -25,21 +35,24 @@ namespace Blazorise
         private Regex patternRegex;
 
         /// <summary>
+        /// Field identifier for the bound value.
+        /// </summary>
+        private FieldIdentifier fieldIdentifier;
+
+        /// <summary>
+        /// Flag that indicates field value has being bound.
+        /// </summary>
+        private bool hasFieldIdentifier;
+
+        /// <summary>
         /// Raises an event that the validation has started.
         /// </summary>
         public event ValidatingEventHandler Validating;
 
         /// <summary>
-        /// Raises an event after the validation has passes successfully.
+        /// Raises every time a validation state has changed.
         /// </summary>
-        public event ValidationSucceededEventHandler ValidationSucceeded;
-
-        /// <summary>
-        /// Raises an event after the validation has failed.
-        /// </summary>
-        public event ValidationFailedEventHandler ValidationFailed;
-
-        internal event ValidatedEventHandler Validated;
+        public event EventHandler<ValidationStatusChangedEventArgs> ValidationStatusChanged;
 
         #endregion
 
@@ -66,28 +79,44 @@ namespace Blazorise
             }
         }
 
-        internal void InitInputValue( object value )
+        internal void InitializeInput( IValidationInput inputComponent )
         {
+            this.inputComponent = inputComponent;
+
             // save the input value
-            this.value = value;
+            lastKnownValue = inputComponent.ValidationValue;
 
             if ( Mode == ValidationMode.Auto )
                 Validate();
         }
 
-        internal void InitInputPattern( string pattern )
+        internal void InitializeInputPattern( string pattern )
         {
             if ( !string.IsNullOrEmpty( pattern ) )
                 this.patternRegex = new Regex( pattern );
         }
 
-        internal void UpdateInputValue( object value )
+        internal void InitializeInputExpression<T>( Expression<Func<T>> expression )
         {
-            if ( value is Array )
+            if ( expression == null )
+                return;
+
+            fieldIdentifier = FieldIdentifier.Create( expression );
+            hasFieldIdentifier = true;
+        }
+
+        internal void NotifyInputChanged()
+        {
+            if ( inputComponent.ValidationValue is Array )
             {
-                if ( !Comparers.AreEqual( this.value as Array, value as Array ) )
+                if ( !Comparers.AreEqual( this.lastKnownValue as Array, inputComponent.ValidationValue as Array ) )
                 {
-                    this.value = value;
+                    this.lastKnownValue = inputComponent.ValidationValue;
+
+                    if ( EditContext != null && hasFieldIdentifier )
+                    {
+                        EditContext.NotifyFieldChanged( fieldIdentifier );
+                    }
 
                     if ( Mode == ValidationMode.Auto )
                         Validate();
@@ -95,9 +124,14 @@ namespace Blazorise
             }
             else
             {
-                if ( this.value != value )
+                if ( this.lastKnownValue != inputComponent.ValidationValue )
                 {
-                    this.value = value;
+                    this.lastKnownValue = inputComponent.ValidationValue;
+
+                    if ( EditContext != null && hasFieldIdentifier )
+                    {
+                        EditContext.NotifyFieldChanged( fieldIdentifier );
+                    }
 
                     if ( Mode == ValidationMode.Auto )
                         Validate();
@@ -122,7 +156,7 @@ namespace Blazorise
         {
             if ( UsePattern && patternRegex != null )
             {
-                var matchStatus = patternRegex.IsMatch( value?.ToString() ?? string.Empty )
+                var matchStatus = patternRegex.IsMatch( inputComponent.ValidationValue?.ToString() ?? string.Empty )
                     ? ValidationStatus.Success
                     : ValidationStatus.Error;
 
@@ -130,40 +164,40 @@ namespace Blazorise
                 {
                     Status = matchStatus;
 
-                    if ( matchStatus == ValidationStatus.Success )
-                        ValidationSucceeded?.Invoke( new ValidationSucceededEventArgs() );
-                    else if ( matchStatus == ValidationStatus.Error )
-                        ValidationFailed?.Invoke( new ValidationFailedEventArgs( null ) );
-
-                    Validated?.Invoke( new ValidatedEventArgs( Status, null ) );
-
-                    StateHasChanged();
+                    ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status ) );
                 }
+            }
+            else if ( EditContext != null && hasFieldIdentifier )
+            {
+                Validating?.Invoke();
+
+                var messages = new ValidationMessageStore( EditContext );
+
+                EditContext.ValidateField( messages, fieldIdentifier );
+
+                Status = messages[fieldIdentifier].Any() ? ValidationStatus.Error : ValidationStatus.Success;
+                LastErrorMessage = Status == ValidationStatus.Error ? string.Join( "; ", messages[fieldIdentifier] ) : null;
+
+                ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status, LastErrorMessage ) );
             }
             else
             {
-                var handler = Validator;
+                var validatorHandler = Validator;
 
-                if ( handler != null )
+                if ( validatorHandler != null )
                 {
                     Validating?.Invoke();
 
-                    var args = new ValidatorEventArgs( value );
+                    var validatorEventArgs = new ValidatorEventArgs( inputComponent.ValidationValue );
 
-                    handler( args );
+                    validatorHandler( validatorEventArgs );
 
-                    if ( Status != args.Status )
+                    if ( Status != validatorEventArgs.Status )
                     {
-                        Status = args.Status;
+                        Status = validatorEventArgs.Status;
+                        LastErrorMessage = Status == ValidationStatus.Error ? validatorEventArgs.ErrorText : null;
 
-                        if ( args.Status == ValidationStatus.Success )
-                            ValidationSucceeded?.Invoke( new ValidationSucceededEventArgs() );
-                        else if ( args.Status == ValidationStatus.Error )
-                            ValidationFailed?.Invoke( new ValidationFailedEventArgs( args.ErrorText ) );
-
-                        Validated?.Invoke( new ValidatedEventArgs( Status, args.ErrorText ) );
-
-                        StateHasChanged();
+                        ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status, LastErrorMessage ) );
                     }
                 }
             }
@@ -177,9 +211,7 @@ namespace Blazorise
         public void Clear()
         {
             Status = ValidationStatus.None;
-            Validated?.Invoke( new ValidatedEventArgs( Status, string.Empty ) );
-
-            StateHasChanged();
+            ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status ) );
         }
 
         #endregion
@@ -197,6 +229,11 @@ namespace Blazorise
         [Parameter] public ValidationStatus Status { get; set; }
 
         /// <summary>
+        /// Gets the last error message.
+        /// </summary>
+        public string LastErrorMessage { get; private set; }
+
+        /// <summary>
         /// Validates the input value after it has being changed.
         /// </summary>
         [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
@@ -211,8 +248,22 @@ namespace Blazorise
         /// </summary>
         [CascadingParameter] public BaseValidations ParentValidations { get; set; }
 
+        [CascadingParameter] public EditContext EditContext { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
+    }
+
+    public interface IValidationInput
+    {
+        /// <summary>
+        /// Gets the input value prepared for the validation check.
+        /// </summary>
+        /// <remarks>
+        /// This is mostly used to handle special inputs where there can be more than one
+        /// value types. For example a Select component can have single-value and multi-value.
+        /// </remarks>
+        object ValidationValue { get; }
     }
 }

@@ -30,23 +30,28 @@ namespace Blazorise.Utils
             "o", // a string representing UTC
         };
 
-        public static DateTime? TryParseDate( string value )
+        public static bool TryParseDate( string value, out DateTime? result )
         {
             if ( string.IsNullOrWhiteSpace( value ) )
-                return null;
+            {
+                result = null;
+                return false;
+            }
 
             if ( DateTime.TryParseExact( value, SupportedDateFormats, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var dt ) )
-                return dt;
+            {
+                result = dt;
+                return true;
+            }
 
             if ( DateTimeOffset.TryParse( value, out var dto ) )
             {
-                //Console.WriteLine( $"Failsafe parse: {dto}" );
-                return dto.DateTime;
+                result = dto.DateTime;
+                return true;
             }
 
-            //Console.WriteLine( $"Date format is not supported: {value}" );
-
-            return null;
+            result = null;
+            return false;
         }
     }
 }

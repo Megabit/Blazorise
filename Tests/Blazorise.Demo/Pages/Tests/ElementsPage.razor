@@ -1,5 +1,40 @@
 ﻿@page "/tests/elements";
 <Row>
+    <Column ColumnSize="ColumnSize.Is12">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>TOOLTIP</CardTitle>
+                <CardSubtitle>Display a tooltip attached to any kind of element with different positioning.</CardSubtitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is6">
+                        <Tooltip Text="Hello tooltip">
+                            <Button Color="Color.Primary">Tooltip</Button>
+                        </Tooltip>
+                        <Tooltip Text="Tooltip with a long Text. So we use IsMultiline modifier to force multiline display." IsMultiline="true">
+                            <Button Color="Color.Primary">Multiline Tooltip</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello faded tooltip" IsFade="true">
+                            <Button Color="Color.Primary">Fade Tooltip</Button>
+                        </Tooltip>
+                        <Tooltip Text="Tooltip text" IsAlwaysActive="true">
+                            <Button Color="Color.Primary">Always Active</Button>
+                        </Tooltip>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Field>
+                            <Tooltip Text="Hello tooltip">
+                                <TextEdit></TextEdit>
+                            </Tooltip>
+                        </Field>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
     <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
