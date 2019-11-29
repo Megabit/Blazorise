@@ -38,6 +38,7 @@ namespace Blazorise.Components
         protected void HandleTextChanged( string text )
         {
             CurrentSearch = text ?? string.Empty;
+            SelectedText = CurrentSearch;
             dirtyFilter = true;
 
             if ( text?.Length >= MinLength && FilteredData.Any() )
