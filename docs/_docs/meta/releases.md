@@ -6,6 +6,15 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.7.1
+
+## Bug Fixes
+
+ - [#384](https://github.com/stsrki/Blazorise/issues/384) Fix favicon in demo apps
+ - [#395](https://github.com/stsrki/Blazorise/issues/395) Autocomplete no longer works in 0.8.7
+
+For detail description of changes please look at [v0.8.7.1 release page]({{ "/docs/release-notes/release0871/" | relative_url }})
+
 ## 0.8.7
 
 ### Breaking changes
