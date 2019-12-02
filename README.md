@@ -33,7 +33,7 @@ Note: This project is still experimental so it's possible that some components w
 
 ## Prerequisites
 
-Before you continue please make sure you have upgraded your project for the latest version of [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/client). Please look at the [official](https://devblogs.microsoft.com/aspnet/blazor-now-in-official-preview/) blog post to find all the required steps.
+Before you continue, please make sure you have upgraded your project for the latest version of [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/client). Please look at the [official](https://devblogs.microsoft.com/aspnet/blazor-now-in-official-preview/) blog post to find all the required steps.
 
 ## Installations
 
@@ -112,7 +112,7 @@ public void ConfigureServices( IServiceCollection services )
 }
 ```
 
-### 4.a Blazor WebAssembly
+#### 4.a Blazor WebAssembly
 
 ```cs
 public void Configure( IComponentsApplicationBuilder app )
@@ -125,7 +125,7 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-### 4.b Blazor Server
+#### 4.b Blazor Server
 
 ```cs
 public void Configure( IComponentsApplicationBuilder app )
@@ -183,4 +183,4 @@ The final step is mandatory for all Blazor project types. Unlike in previous ver
 
 ## Other frameworks
 
-To setup Blazorise for other css frameworks please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
+To setup Blazorise for other css frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
