@@ -527,10 +527,10 @@ namespace Blazorise.DataGrid
             if ( LastPage < VisibleLinkPage )
                 return 1;
 
-            if ( CurrentPage + VisibleLinkPage < LastPage && LastPage - CurrentPage >= 5 )
+            if ( CurrentPage + VisibleLinkPage < LastPage && LastPage - CurrentPage >= VisibleLinkPage )
                 return CurrentPage;
             else
-                return LastPage - 5;
+                return LastPage - VisibleLinkPage;
         }
 
         protected int EndVisibleLinkPage()
