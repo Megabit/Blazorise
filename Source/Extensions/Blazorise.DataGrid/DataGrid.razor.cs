@@ -524,10 +524,10 @@ namespace Blazorise.DataGrid
 
         protected int InitialVisibleLinkPage()
         {
-            if ( LastPage < VisibelLinkPage )
+            if ( LastPage < VisibleLinkPage )
                 return 1;
 
-            if ( CurrentPage + VisibelLinkPage < LastPage && LastPage - CurrentPage >= 5 )
+            if ( CurrentPage + VisibleLinkPage < LastPage && LastPage - CurrentPage >= 5 )
                 return CurrentPage;
             else
                 return LastPage - 5;
@@ -535,8 +535,8 @@ namespace Blazorise.DataGrid
 
         protected int EndVisibleLinkPage()
         {
-            if ( CurrentPage + VisibelLinkPage <= LastPage )
-                return CurrentPage + VisibelLinkPage;
+            if ( CurrentPage + VisibleLinkPage <= LastPage )
+                return CurrentPage + VisibleLinkPage;
             else
                 return LastPage;
         }
@@ -701,7 +701,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public Action<NeedDataEventArgs<TItem>> NeedData { get; set; }
 
-        [Parameter] public int VisibelLinkPage { get; set; } = 5;
+        [Parameter] public int VisibleLinkPage { get; set; } = 5;
         #endregion
     }
 }
