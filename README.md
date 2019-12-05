@@ -33,7 +33,7 @@ Note: This project is still experimental so it's possible that some components w
 
 ## Prerequisites
 
-Before you continue please make sure you have upgraded your project for the latest version of [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/client). Please look at the [official](https://devblogs.microsoft.com/aspnet/blazor-now-in-official-preview/) blog post to find all the required steps.
+Before you continue, please make sure you have upgraded your project for the latest version of [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/client). Please look at the [official](https://devblogs.microsoft.com/aspnet/blazor-now-in-official-preview/) blog post to find all the required steps.
 
 ## Installations
 
@@ -93,7 +93,7 @@ In your main _Imports.razor add:
 
 ### 4. Registrations
 
-Finally in the Startup.cs you must tell the Blazor to register Bootstrap provider and extensions:
+Finally in the **Startup.cs** you must tell the Blazor to register Bootstrap provider and extensions:
 
 ```cs
 using Blazorise;
@@ -112,7 +112,16 @@ public void ConfigureServices( IServiceCollection services )
 }
 ```
 
-### 4.a Blazor WebAssembly
+---
+Depending on the hosting model of your Blazor project you only need to apply either step **4.a** or **4.b**. You should not include both of them as that is generally not supported.
+
+To Learn more about the different project types you can go to the official [documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-3.0).
+
+---
+
+#### 4.a Blazor WebAssembly
+
+This step is mandatory for **Blazor WebAssembly**(client-side) and for **ASP.NET Core hosted** project types. You should place the code into the **client** project.
 
 ```cs
 public void Configure( IComponentsApplicationBuilder app )
@@ -125,7 +134,9 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-### 4.b Blazor Server
+#### 4.b Blazor Server
+
+This step is going only into the **Startup.cs** of your **Blazor Server** project.
 
 ```cs
 public void Configure( IComponentsApplicationBuilder app )
@@ -183,4 +194,4 @@ The final step is mandatory for all Blazor project types. Unlike in previous ver
 
 ## Other frameworks
 
-To setup Blazorise for other css frameworks please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
+To setup Blazorise for other css frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
