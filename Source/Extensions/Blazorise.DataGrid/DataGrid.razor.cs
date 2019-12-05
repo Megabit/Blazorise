@@ -393,15 +393,7 @@ namespace Blazorise.DataGrid
             if ( dirtyFilter )
                 FilterData();
 
-            // Again!, the Mono runtime is giving me trouble with Skip().Take() so I had to do it this way...
-            // NOTE: report bug with Take()
-            for ( int i = ( CurrentPage - 1 ) * PageSize, j = 0; i < filteredData.Count(); ++i, ++j )
-            {
-                if ( j >= PageSize )
-                    break;
-
-                yield return filteredData[i];
-            }
+            return filteredData.Skip( CurrentPage - 1 ).Take( PageSize );
         }
 
         public Task SelectRow( TItem item )
