@@ -54,3 +54,19 @@ table.table tbody tr.selected {
 .figure-is-512x512 {
     height: 512px;
     width: 512px; }
+
+.btn-group > .b-tooltip:not(:last-child) > .btn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+
+.btn-group > .b-tooltip:not(:first-child) > .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
+
+.btn-group-vertical > .b-tooltip:not(:last-child) > .btn {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0; }
+
+.btn-group-vertical > .b-tooltip:not(:first-child) > .btn {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; }

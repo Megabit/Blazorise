@@ -1,4 +1,6 @@
-﻿.navbar-nav .nav-item:hover {
+﻿@import "mixins";
+
+.navbar-nav .nav-item:hover {
     cursor: pointer;
 }
 
@@ -31,5 +33,25 @@ $dimensions: 16 24 32 48 64 96 128 256 512 !default
     &.figure-is-#{$dimension}x#{$dimension} {
         height: $dimension * 1px;
         width: $dimension * 1px;
+    }
+}
+
+.btn-group {
+    > .b-tooltip:not(:last-child) > .btn {
+        @include border-right-radius(0);
+    }
+
+    > .b-tooltip:not(:first-child) > .btn {
+        @include border-left-radius(0);
+    }
+}
+
+.btn-group-vertical {
+    > .b-tooltip:not(:last-child) > .btn {
+        @include border-bottom-radius(0);
+    }
+
+    > .b-tooltip:not(:first-child) > .btn {
+        @include border-top-radius(0);
     }
 }
