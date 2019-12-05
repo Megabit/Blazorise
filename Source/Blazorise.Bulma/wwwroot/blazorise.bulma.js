@@ -18,5 +18,15 @@ window.blazoriseBulma = {
     },
     activateDatePicker: (elementId) => {
         return true;
+    },
+    modal: {
+        open: (element, elementId) => {
+            element.querySelector('.modal-card-body').scrollTop = 0;
+
+            return true;
+        },
+        close: (element, elementId) => {
+            return true;
+        }
     }
 };

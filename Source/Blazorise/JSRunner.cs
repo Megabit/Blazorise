@@ -154,6 +154,10 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
         }
 
+        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
+
+        public abstract ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
+
         public ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, string elementId )
         {
             return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", elementId, dotNetObjectRef );

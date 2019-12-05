@@ -92,14 +92,14 @@ namespace Blazorise
             {
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.AddClassToBody( "modal-open" );
+                    await JSRunner.OpenModal( ElementRef, ElementId );
                 } );
             }
             else
             {
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.RemoveClassFromBody( "modal-open" );
+                    await JSRunner.CloseModal( ElementRef, ElementId );
                 } );
             }
 
