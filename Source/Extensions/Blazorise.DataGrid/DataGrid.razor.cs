@@ -665,8 +665,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Makes the table more compact by cutting cell padding in half.
         /// </summary>
-        [Parameter]
-        public bool IsNarrow { get; set; }
+        [Parameter] public bool IsNarrow { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
