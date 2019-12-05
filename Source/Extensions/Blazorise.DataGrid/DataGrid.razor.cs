@@ -530,38 +530,32 @@ namespace Blazorise.DataGrid
         /// <remarks>
         /// Disabling this option will send all changes to the RowInserted and RowUpdated but nothing will be saved unless the user manually update the item values.
         /// </remarks>
-        [Parameter]
-        public bool UseInternalEditing { get; set; } = true;
+        [Parameter] public bool UseInternalEditing { get; set; } = true;
 
         /// <summary>
         /// Gets or sets whether users can edit datagrid rows.
         /// </summary>
-        [Parameter]
-        public bool Editable { get; set; }
+        [Parameter] public bool Editable { get; set; }
 
         /// <summary>
         /// Gets or sets whether end-users can sort data by the column's values.
         /// </summary>
-        [Parameter]
-        public bool Sortable { get; set; } = true;
+        [Parameter] public bool Sortable { get; set; } = true;
 
         /// <summary>
         /// Gets or sets whether users can filter rows by its cell values.
         /// </summary>
-        [Parameter]
-        public bool Filterable { get; set; }
+        [Parameter] public bool Filterable { get; set; }
 
         /// <summary>
         /// Gets or sets whether user can see a column captions.
         /// </summary>
-        [Parameter]
-        public bool ShowCaptions { get; set; } = true;
+        [Parameter] public bool ShowCaptions { get; set; } = true;
 
         /// <summary>
         /// Gets or sets whether users can navigate datagrid by using pagination controls.
         /// </summary>
-        [Parameter]
-        public bool ShowPager { get; set; }
+        [Parameter] public bool ShowPager { get; set; }
 
         /// <summary>
         /// Gets or sets the current page number.
@@ -588,111 +582,93 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets the maximum number of items for each page.
         /// </summary>
-        [Parameter]
-        public int PageSize { get; set; } = 5;
+        [Parameter] public int PageSize { get; set; } = 5;
 
         /// <summary>
         /// Defines the filter method when searching the cell values.
         /// </summary>
-        [Parameter]
-        public DataGridFilterMethod FilterMethod { get; set; } = DataGridFilterMethod.Contains;
+        [Parameter] public DataGridFilterMethod FilterMethod { get; set; } = DataGridFilterMethod.Contains;
 
         /// <summary>
         /// Gets or sets currently selected row.
         /// </summary>
-        [Parameter]
-        public TItem SelectedRow { get; set; }
+        [Parameter] public TItem SelectedRow { get; set; }
 
         /// <summary>
         /// Occurs after the selected row has changed.
         /// </summary>
-        [Parameter]
-        public EventCallback<TItem> SelectedRowChanged { get; set; }
+        [Parameter] public EventCallback<TItem> SelectedRowChanged { get; set; }
 
         /// <summary>
         /// Cancelable event called before the row is inserted or updated.
         /// </summary>
-        [Parameter]
-        public Action<CancellableRowChange<TItem, Dictionary<string, object>>> RowSaving { get; set; }
+        [Parameter] public Action<CancellableRowChange<TItem, Dictionary<string, object>>> RowSaving { get; set; }
 
         /// <summary>
         /// Cancelable event called before the row is removed.
         /// </summary>
-        [Parameter]
-        public Action<CancellableRowChange<TItem>> RowRemoving { get; set; }
+        [Parameter] public Action<CancellableRowChange<TItem>> RowRemoving { get; set; }
 
         /// <summary>
         /// Event called after the row is inserted.
         /// </summary>
-        [Parameter]
-        public EventCallback<SavedRowItem<TItem, Dictionary<string, object>>> RowInserted { get; set; }
+        [Parameter] public EventCallback<SavedRowItem<TItem, Dictionary<string, object>>> RowInserted { get; set; }
 
         /// <summary>
         /// Event called after the row is updated.
         /// </summary>
-        [Parameter]
-        public EventCallback<SavedRowItem<TItem, Dictionary<string, object>>> RowUpdated { get; set; }
+        [Parameter] public EventCallback<SavedRowItem<TItem, Dictionary<string, object>>> RowUpdated { get; set; }
 
         /// <summary>
         /// Event called after the row is removed.
         /// </summary>
-        [Parameter]
-        public EventCallback<TItem> RowRemoved { get; set; }
+        [Parameter] public EventCallback<TItem> RowRemoved { get; set; }
 
         /// <summary>
         /// Occurs after the selected page has changed.
         /// </summary>
-        [Parameter]
-        public Action<string> PageChanged { get; set; }
+        [Parameter] public Action<string> PageChanged { get; set; }
 
         /// <summary>
         /// Specifes the grid editing modes.
         /// </summary>
-        [Parameter]
-        public DataGridEditMode EditMode { get; set; } = DataGridEditMode.Form;
+        [Parameter] public DataGridEditMode EditMode { get; set; } = DataGridEditMode.Form;
 
         /// <summary>
         /// A trigger function used to handle the visibility of detail row.
         /// </summary>
-        [Parameter]
-        public Func<TItem, bool> DetailRowTrigger { get; set; }
+        [Parameter] public Func<TItem, bool> DetailRowTrigger { get; set; }
 
         /// <summary>
         /// Handles the selection of the clicked row.
         /// If not set it will default to always true.
         /// </summary>
-        [Parameter]
-        public Func<TItem, bool> RowSelectable { get; set; }
+        [Parameter] public Func<TItem, bool> RowSelectable { get; set; }
 
         /// <summary>
         /// Template for displaying detail or nested row.
         /// </summary>
-        [Parameter]
-        public RenderFragment<TItem> DetailRowTemplate { get; set; }
+        [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
 
         /// <summary>
         /// Adds stripes to the table.
         /// </summary>
-        [Parameter]
-        public bool IsStriped { get; set; }
+        [Parameter] public bool IsStriped { get; set; }
 
         /// <summary>
         /// Adds borders to all the cells.
         /// </summary>
-        [Parameter]
-        public bool IsBordered { get; set; }
+        [Parameter] public bool IsBordered { get; set; }
 
         /// <summary>
         /// Makes the table without any borders.
         /// </summary>
-        [Parameter]
-        public bool IsBorderless { get; set; }
+        [Parameter] public bool IsBorderless { get; set; }
 
         /// <summary>
         /// Adds a hover effect when mousing over rows.
         /// </summary>
-        [Parameter]
-        public bool IsHoverable { get; set; }
+        [Parameter] public bool IsHoverable { get; set; }
 
         /// <summary>
         /// Makes the table more compact by cutting cell padding in half.
