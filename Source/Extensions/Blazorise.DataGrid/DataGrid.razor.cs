@@ -164,11 +164,11 @@ namespace Blazorise.DataGrid
                         if ( data.Contains( item ) )
                             data.Remove( item );
                     }
+
+                    await RowRemoved.InvokeAsync( item );
+
+                    dirtyFilter = dirtyView = true;
                 }
-
-                await RowRemoved.InvokeAsync( item );
-
-                dirtyFilter = dirtyView = true;
             }
         }
 
