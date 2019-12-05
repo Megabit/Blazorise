@@ -103,7 +103,7 @@ namespace Blazorise.DataGrid
 
         #endregion
 
-        #region
+        #region Control Navigation
 
         protected int InitialVisibleLinkPage()
         {
@@ -202,8 +202,7 @@ namespace Blazorise.DataGrid
             {
                 // get the list of edited values
                 var editedCellValues = EditableColumns
-                    .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } )
-                    .ToDictionary( x => x.Field, x => x.CellValue );
+                    .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
 
                 if ( IsSafeToProceed( RowSaving, editItem, editedCellValues ) )
                 {
@@ -224,13 +223,11 @@ namespace Blazorise.DataGrid
 
                     if ( editState == DataGridEditState.New )
                     {
-                        await RowInserted.InvokeAsync(
-                            new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
+                        await RowInserted.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
                         dirtyFilter = dirtyView = true;
                     }
                     else
-                        await RowUpdated.InvokeAsync(
-                            new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
+                        await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
 
                     editState = DataGridEditState.None;
 
@@ -249,8 +246,7 @@ namespace Blazorise.DataGrid
         }
 
         // this is to give user a way to stop save if necessary
-        internal bool IsSafeToProceed<TValues>( Action<CancellableRowChange<TItem, TValues>> handler, TItem item,
-            TValues editedCellValues )
+        internal bool IsSafeToProceed<TValues>( Action<CancellableRowChange<TItem, TValues>> handler, TItem item, TValues editedCellValues )
         {
             if ( handler != null )
             {
@@ -425,7 +421,7 @@ namespace Blazorise.DataGrid
 
             // Again!, the Mono runtime is giving me trouble with Skip().Take() so I had to do it this way...
             // NOTE: report bug with Take()
-            for ( int i = (CurrentPage - 1) * PageSize, j = 0; i < filteredData.Count(); ++i, ++j )
+            for ( int i = ( CurrentPage - 1 ) * PageSize, j = 0; i < filteredData.Count(); ++i, ++j )
             {
                 if ( j >= PageSize )
                     break;
@@ -457,8 +453,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets only columns that are available for editing.
         /// </summary>
-        protected IEnumerable<BaseDataGridColumn<TItem>> EditableColumns =>
-            Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.Editable );
+        protected IEnumerable<BaseDataGridColumn<TItem>> EditableColumns => Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.Editable );
 
         /// <summary>
         /// Returns true if <see cref="Data"/> is safe to modify.
