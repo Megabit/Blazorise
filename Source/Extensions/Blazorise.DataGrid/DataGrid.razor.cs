@@ -294,9 +294,7 @@ namespace Blazorise.DataGrid
         {
             if ( Sortable && column.Sortable )
             {
-                column.Direction = column.Direction == SortDirection.Descending
-                    ? SortDirection.Ascending
-                    : SortDirection.Descending;
+                column.Direction = column.Direction == SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
                 sortByColumn = column;
 
                 // just one column can be sorted for now!
@@ -555,8 +553,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets the current page number.
         /// </summary>
-        [Parameter]
-        public int CurrentPage { get; set; } = 1;
+        [Parameter] public int CurrentPage { get; set; } = 1;
 
         /// <summary>
         /// Gets the last page number.
@@ -565,7 +562,7 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                var lastPage = Math.Max( (int)Math.Ceiling( (FilteredData?.Count() ?? 0) / (double)PageSize ), 1 );
+                var lastPage = Math.Max( (int)Math.Ceiling( ( FilteredData?.Count() ?? 0 ) / (double)PageSize ), 1 );
 
                 if ( CurrentPage > lastPage )
                     CurrentPage = lastPage;
