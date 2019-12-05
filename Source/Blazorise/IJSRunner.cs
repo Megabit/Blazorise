@@ -51,6 +51,10 @@ namespace Blazorise
 
         ValueTask<bool> SetTextValue( ElementReference elementRef, object value );
 
+        ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
+
+        ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
+
         /// <summary>
         /// Handles the closing of the components that can be toggled.
         /// </summary>

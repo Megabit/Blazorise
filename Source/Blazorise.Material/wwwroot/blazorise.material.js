@@ -32,6 +32,20 @@ window.blazoriseMaterial = {
             }
         });
         return true;
+    },
+    modal: {
+        open: (element, elementId) => {
+            window.blazorise.addClassToBody("modal-open");
+
+            element.querySelector('.modal-body').scrollTop = 0;
+
+            return true;
+        },
+        close: (element, elementId) => {
+            window.blazorise.removeClassFromBody("modal-open");
+
+            return true;
+        }
     }
 };
 

@@ -19,6 +19,16 @@ namespace Blazorise.Bootstrap
             return runtime.InvokeAsync<bool>( $"blazoriseBootstrap.tooltip.initialize", elementId, elementRef );
         }
 
+        public override ValueTask<bool> OpenModal( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"blazoriseBootstrap.modal.open", elementRef, elementId );
+        }
+
+        public override ValueTask<bool> CloseModal( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"blazoriseBootstrap.modal.close", elementRef, elementId );
+        }
+
         //public override Task<bool> ActivateDatePicker( string elementId )
         //{
         //    return JSRuntime.Current.InvokeAsync<bool>( $"blazoriseBootstrap.activateDatePicker", elementId );

@@ -20,6 +20,16 @@ namespace Blazorise.Bulma
             return runtime.InvokeAsync<bool>( $"blazoriseBulma.tooltip.initialize", elementId, elementRef );
         }
 
+        public override ValueTask<bool> OpenModal( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"blazoriseBulma.modal.open", elementRef, elementId );
+        }
+
+        public override ValueTask<bool> CloseModal( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"blazoriseBulma.modal.close", elementRef, elementId );
+        }
+
         //public override Task<bool> ActivateDatePicker( string elementId, string formatSubmit )
         //{
         //    Console.WriteLine( "Bulma date not implemented." );

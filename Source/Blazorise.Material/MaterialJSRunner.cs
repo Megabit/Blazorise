@@ -22,5 +22,15 @@ namespace Blazorise.Material
         {
             return runtime.InvokeAsync<bool>( $"blazoriseMaterial.activateDatePicker", elementId, formatSubmit );
         }
+
+        public override ValueTask<bool> OpenModal( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"blazoriseMaterial.modal.open", elementRef, elementId );
+        }
+
+        public override ValueTask<bool> CloseModal( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"blazoriseMaterial.modal.close", elementRef, elementId );
+        }
     }
 }

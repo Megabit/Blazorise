@@ -12,5 +12,15 @@ window.blazoriseFrolic = {
 
             return true;
         }
+    },
+    modal: {
+        open: (element, elementId) => {
+            element.querySelector('.e-modal-body').scrollTop = 0;
+
+            return true;
+        },
+        close: (element, elementId) => {
+            return true;
+        }
     }
 };
