@@ -6,6 +6,14 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.7.2
+
+## Changes
+
+ - [#408](https://github.com/stsrki/Blazorise/issues/408) Upgrade to .Net Core 3.1
+
+For detail description of changes please look at [v0.8.7.2 release page]({{ "/docs/release-notes/release0872/" | relative_url }})
+
 ## 0.8.7.1
 
 ## Bug Fixes
