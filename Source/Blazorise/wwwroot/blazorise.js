@@ -3,6 +3,15 @@ if (!window.blazorise) {
 }
 
 window.blazorise = {
+    utils: {
+        getRequiredElement: (element, elementId) => {
+            if (element)
+                return element;
+
+            return document.getElementById(elementId);
+        }
+    },
+
     init: (element, componentReference) => {
         return true;
     },
@@ -147,6 +156,17 @@ window.blazorise = {
                     }
                 });
         }
+    },
+    focus: (element, elementId, scrollToElement) => {
+        element = window.blazorise.utils.getRequiredElement(element, elementId);
+
+        if (element) {
+            element.focus({
+                preventScroll: !scrollToElement
+            });
+        }
+
+        return true;
     },
     tooltip: {
         initialize: (elementId, element) => {
