@@ -106,7 +106,7 @@
                     Prev
                 </PaginationLink>
             </PaginationItem>
-            @for ( int i = InitialVisibleLinkPage(); i <= EndVisibleLinkPage(); ++i )
+            @for ( int i = FirstVisiblePage; i <= LastVisiblePage; ++i )
             {
                 var pageName = i.ToString();
 

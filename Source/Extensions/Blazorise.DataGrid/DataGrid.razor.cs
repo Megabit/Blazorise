@@ -103,28 +103,6 @@ namespace Blazorise.DataGrid
 
         #endregion
 
-        #region Control Navigation
-
-        protected int InitialVisibleLinkPage()
-        {
-            if ( LastPage < VisibleLinkPage )
-                return 1;
-
-            if ( CurrentPage + VisibleLinkPage < LastPage && LastPage - CurrentPage >= VisibleLinkPage )
-                return CurrentPage;
-            else
-                return LastPage - VisibleLinkPage;
-        }
-
-        protected int EndVisibleLinkPage()
-        {
-            if ( CurrentPage + VisibleLinkPage <= LastPage )
-                return CurrentPage + VisibleLinkPage;
-            else
-                return LastPage;
-        }
-        #endregion
-
         #region Editing
 
         /// <summary>
@@ -417,7 +395,7 @@ namespace Blazorise.DataGrid
             if ( dirtyFilter )
                 FilterData();
 
-            return filteredData.Skip( CurrentPage - 1 ).Take( PageSize );
+            return filteredData.Skip( ( CurrentPage - 1 ) * PageSize ).Take( PageSize );
         }
 
         public Task SelectRow( TItem item )
@@ -564,9 +542,50 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
+        /// Gets the number of the first page that can be clicked in a large dataset.
+        /// </summary>
+        protected int FirstVisiblePage
+        {
+            get
+            {
+                int firstVisiblePage = CurrentPage - (int)Math.Floor( MaxPaginationLinks / 2d );
+
+                if ( firstVisiblePage < 1 )
+                    firstVisiblePage = 1;
+
+                return firstVisiblePage;
+            }
+        }
+
+        /// <summary>
+        /// Gets the number of the last page that can be clicked in a large dataset.
+        /// </summary>
+        protected int LastVisiblePage
+        {
+            get
+            {
+                var firstVisiblePage = FirstVisiblePage;
+                var lastVisiblePage = CurrentPage + (int)Math.Floor( MaxPaginationLinks / 2d );
+
+                if ( ( lastVisiblePage - firstVisiblePage ) < MaxPaginationLinks )
+                    lastVisiblePage = firstVisiblePage + MaxPaginationLinks - 1;
+
+                if ( lastVisiblePage > LastPage )
+                    lastVisiblePage = LastPage;
+
+                return lastVisiblePage;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the maximum number of items for each page.
         /// </summary>
         [Parameter] public int PageSize { get; set; } = 5;
+
+        /// <summary>
+        /// Gets or sets the maximum number of visible pagination links.
+        /// </summary>
+        [Parameter] public int MaxPaginationLinks { get; set; } = 5;
 
         /// <summary>
         /// Defines the filter method when searching the cell values.
@@ -660,8 +679,6 @@ namespace Blazorise.DataGrid
         [Parameter] public bool IsNarrow { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
-
-        [Parameter] public int VisibleLinkPage { get; set; } = 5;
 
         #endregion
     }
