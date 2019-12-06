@@ -158,9 +158,9 @@ namespace Blazorise
 
         public abstract ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
 
-        public ValueTask<bool> Focus( string elementId, bool scrollToElement )
+        public ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.focus", elementId, scrollToElement );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.focus", elementRef, elementId, scrollToElement );
         }
 
         public ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, string elementId )

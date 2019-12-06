@@ -12,6 +12,8 @@ namespace Blazorise
     {
         #region Members
 
+        private ElementReference elementRef;
+
         private string elementId;
 
         private string customClass;
@@ -162,18 +164,21 @@ namespace Blazorise
         {
             builder.OpenComponent( 0, ComponentMapper.GetImplementation( this ) );
 
-
-
             foreach ( var parameter in parameters )
             {
                 builder.AddAttribute( 1, parameter.Key, parameter.Value );
             }
 
-            builder.AddComponentReferenceCapture( 2, ( o ) =>
+            // since we're rendering custom component instead of this one, we need
+            // to get the ID of the rendered component. Then that ID will be used 
+            // and sent to java script when needed.
+            builder.AddComponentReferenceCapture( 2, ( otherComponent ) =>
             {
-                if ( o is BaseComponent baseComponent )
+                if ( otherComponent is BaseComponent baseComponent )
                 {
-                    Console.WriteLine( o );
+                    // getting the ElementRef directly is not possible so as a workaround we need to
+                    // get it through the function
+                    GetCustomElementRef = () => baseComponent.ElementRef;
 
                     ElementId = baseComponent.ElementId;
                 }
@@ -189,9 +194,21 @@ namespace Blazorise
         protected bool Disposed { get; private set; }
 
         /// <summary>
-        /// Gets the reference to the rendered element.
+        /// Gets or sets the reference to the rendered element.
         /// </summary>
-        public ElementReference ElementRef { get; protected set; }
+        public ElementReference ElementRef
+        {
+            get
+            {
+                return GetCustomElementRef != null ? GetCustomElementRef() : elementRef;
+            }
+            protected set => elementRef = value;
+        }
+
+        /// <summary>
+        /// Used to get the element reference from custom compomenent implementation.
+        /// </summary>
+        private Func<ElementReference> GetCustomElementRef { get; set; }
 
         /// <summary>
         /// Gets the unique id of the element.

@@ -78,7 +78,7 @@ namespace Blazorise
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
         public void Focus( bool scrollToElement = true )
         {
-            _ = JSRunner.Focus( ElementId, scrollToElement );
+            _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
         }
 
         #endregion
