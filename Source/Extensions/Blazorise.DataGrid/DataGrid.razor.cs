@@ -1,4 +1,5 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise.DataGrid
@@ -99,6 +101,28 @@ namespace Blazorise.DataGrid
             return base.OnFirstAfterRenderAsync();
         }
 
+        #endregion
+
+        #region Control Navigation
+
+        protected int InitialVisibleLinkPage()
+        {
+            if ( LastPage < VisibleLinkPage )
+                return 1;
+
+            if ( CurrentPage + VisibleLinkPage < LastPage && LastPage - CurrentPage >= VisibleLinkPage )
+                return CurrentPage;
+            else
+                return LastPage - VisibleLinkPage;
+        }
+
+        protected int EndVisibleLinkPage()
+        {
+            if ( CurrentPage + VisibleLinkPage <= LastPage )
+                return CurrentPage + VisibleLinkPage;
+            else
+                return LastPage;
+        }
         #endregion
 
         #region Editing
@@ -636,6 +660,8 @@ namespace Blazorise.DataGrid
         [Parameter] public bool IsNarrow { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        [Parameter] public int VisibleLinkPage { get; set; } = 5;
 
         #endregion
     }
