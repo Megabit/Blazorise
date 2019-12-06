@@ -8,6 +8,11 @@
                 <CardSubtitle>Most common form control, text-based input fields. Includes support for most of HTML5 types: text, password, date, number, email, url.</CardSubtitle>
             </CardHeader>
             <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>txt1.Focus())">txt</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>txt2.Focus(false))">PRIMARY</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>btn1.Focus())">PRIMARY</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>chk1.Focus())">PRIMARY</Button>
+
                 <Field IsHorizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
@@ -251,12 +256,12 @@
             <CardBody>
                 <Field>
                     <FieldLabel>Email address</FieldLabel>
-                    <TextEdit Placeholder="Enter email" />
+                    <TextEdit Placeholder="Enter email" @ref="txt1" />
                     <FieldHelp>We'll never share your email with anyone else.</FieldHelp>
                 </Field>
                 <Field>
                     <FieldLabel>Password</FieldLabel>
-                    <TextEdit Role="TextRole.Password" Placeholder="Password" />
+                    <TextEdit Role="TextRole.Password" Placeholder="Password" @ref="txt2" />
                 </Field>
                 <Field>
                     <CheckEdit>Check me out</CheckEdit>
@@ -396,16 +401,21 @@
                     </Field>
                 </Fields>
                 <Field>
-                    <CheckEdit>Remember me</CheckEdit>
+                    <CheckEdit @ref="chk1">Remember me</CheckEdit>
                 </Field>
                 <Field>
-                    <Button Color="Color.Primary">Sign in</Button>
+                    <Button Color="Color.Primary" @ref="btn1">Sign in</Button>
                 </Field>
             </CardBody>
         </Card>
     </Column>
 </Row>
 @code{
+    TextEdit txt1;
+    TextEdit txt2;
+    Button btn1;
+    CheckEdit chk1;
+
     int[] numbers = { 1, 3, 4 };
 
     private DaysInWeek DaysInWeekLocal { get; set; } = DaysInWeek.Mon;

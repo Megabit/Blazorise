@@ -148,6 +148,17 @@ window.blazorise = {
                 });
         }
     },
+    focus: (elementId, scroll) => {
+        const element = document.getElementById(elementId);
+
+        if (element) {
+            element.focus({
+                preventScroll: !scroll
+            });
+        }
+
+        return true;
+    },
     tooltip: {
         initialize: (elementId, element) => {
             // implementation is in the providers

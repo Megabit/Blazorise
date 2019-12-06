@@ -55,6 +55,8 @@ namespace Blazorise
 
         ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
 
+        ValueTask<bool> Focus( string elementId, bool scrollToElement );
+
         /// <summary>
         /// Handles the closing of the components that can be toggled.
         /// </summary>

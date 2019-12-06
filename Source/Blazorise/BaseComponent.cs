@@ -162,10 +162,22 @@ namespace Blazorise
         {
             builder.OpenComponent( 0, ComponentMapper.GetImplementation( this ) );
 
+
+
             foreach ( var parameter in parameters )
             {
                 builder.AddAttribute( 1, parameter.Key, parameter.Value );
             }
+
+            builder.AddComponentReferenceCapture( 2, ( o ) =>
+            {
+                if ( o is BaseComponent baseComponent )
+                {
+                    Console.WriteLine( o );
+
+                    ElementId = baseComponent.ElementId;
+                }
+            } );
 
             builder.CloseComponent();
         };
@@ -197,6 +209,10 @@ namespace Blazorise
                     elementId = Utils.IDGenerator.Instance.Generate;
 
                 return elementId;
+            }
+            private set
+            {
+                elementId = value;
             }
         }
 
