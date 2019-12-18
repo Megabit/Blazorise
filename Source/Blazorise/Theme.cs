@@ -93,6 +93,11 @@ namespace Blazorise
     public class BasicOptions
     {
         public string BorderRadius { get; set; } = ".25rem";
+
+        public virtual bool HasOptions()
+        {
+            return !string.IsNullOrEmpty( BorderRadius );
+        }
     }
 
     public class ThemeButtonOptions : BasicOptions
@@ -125,6 +130,15 @@ namespace Blazorise
     public class ThemeInputOptions : BasicOptions
     {
         public string Color { get; set; }
+
+        public string CheckColor { get; set; }
+
+        public override bool HasOptions()
+        {
+            return !string.IsNullOrEmpty( Color )
+                || !string.IsNullOrEmpty( CheckColor )
+                || base.HasOptions();
+        }
     }
 
     public class ThemeCardOptions : BasicOptions

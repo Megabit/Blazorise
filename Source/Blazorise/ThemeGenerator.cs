@@ -186,7 +186,7 @@ namespace Blazorise
             if ( theme.DropdownOptions != null )
                 GenerateDropdownStyles( sb, theme, theme.DropdownOptions );
 
-            if ( theme.InputOptions != null )
+            if ( theme.InputOptions != null && theme.InputOptions.HasOptions() )
                 GenerateInputStyles( sb, theme, theme.InputOptions );
 
             if ( theme.CardOptions != null )

@@ -211,6 +211,25 @@ namespace Blazorise.Bootstrap
                     .Append( $"color: {options.Color};" )
                     .AppendLine( "}" );
             }
+
+            if ( !string.IsNullOrEmpty( options.CheckColor ) )
+            {
+                GenerateInputCheckEditStyles( sb, theme, options );
+            }
+        }
+
+        protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+        {
+            sb
+                .Append( $".custom-checkbox .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( $"background-color: {options.CheckColor};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( $"color: {options.Color};" )
+                .Append( $"background-color: {options.CheckColor};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor )
