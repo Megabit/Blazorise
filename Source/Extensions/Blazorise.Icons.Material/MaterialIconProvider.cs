@@ -48,18 +48,32 @@ namespace Blazorise.Icons.Material
 
         #region Methods
 
-        public override string Icon( object name ) => "material-icons";
-
-        public override string Get( IconName iconName )
+        public override string GetIconName( IconName iconName )
         {
             names.TryGetValue( iconName, out var value );
 
             return value;
         }
 
-        public override void Set( IconName name, string newName )
+        public override void SetIconName( IconName name, string newName )
         {
             names[name] = newName;
+        }
+
+        public override string GetStyleName( IconStyle iconStyle )
+        {
+            switch ( iconStyle )
+            {
+                case IconStyle.Regular:
+                    return "material-icons-outlined";
+                case IconStyle.Light:
+                    return "material-icons-sharp"; // TODO: probably not correct
+                case IconStyle.DuoTone:
+                    return "material-icons-two-tone";
+                case IconStyle.Solid:
+                default:
+                    return "material-icons";
+            }
         }
 
         #endregion

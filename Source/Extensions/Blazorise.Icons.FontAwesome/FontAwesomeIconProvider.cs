@@ -48,28 +48,32 @@ namespace Blazorise.Icons.FontAwesome
 
         #region Methods
 
-        public override string Icon( object name )
-        {
-            if (name != null && name is IconName)
-            {
-                return "fas";
-            }
-            else
-            {
-                return String.Empty;
-            }
-        }
-
-        public override string Get( IconName iconName )
+        public override string GetIconName( IconName iconName )
         {
             names.TryGetValue( iconName, out var name );
 
             return name;
         }
 
-        public override void Set( IconName name, string newName )
+        public override void SetIconName( IconName name, string newName )
         {
             names[name] = newName;
+        }
+
+        public override string GetStyleName( IconStyle iconStyle )
+        {
+            switch ( iconStyle )
+            {
+                case IconStyle.Regular:
+                    return "far";
+                case IconStyle.Light:
+                    return "fal";
+                case IconStyle.DuoTone:
+                    return "fad";
+                case IconStyle.Solid:
+                default:
+                    return "fas";
+            }
         }
 
         #endregion

@@ -1137,6 +1137,17 @@ namespace Blazorise
         SortDown,
     }
 
+    public enum IconStyle
+    {
+        Solid = 0,
+
+        Regular = 1,
+
+        Light = 2,
+
+        DuoTone = 4,
+    }
+
     public enum FormatType
     {
         None = 0,
