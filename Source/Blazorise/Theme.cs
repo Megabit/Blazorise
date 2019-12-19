@@ -271,6 +271,52 @@ namespace Blazorise
         public string ButtonHoverColor { get; set; }
     }
 
+    public static class ThemeVariables
+    {
+        public const string White = "--b-theme-white";
+        public const string Black = "--b-theme-black";
+
+        public const string BorderRadius = "--b-border-radius";
+        public const string BorderRadiusLarge = "--b-border-radius-lg";
+        public const string BorderRadiusSmall = "--b-border-radius-sm";
+
+        /// <summary>
+        /// Gets the theme color variable name.
+        /// </summary>
+        /// <param name="variant">Color variant name.</param>
+        /// <returns></returns>
+        public static string Color( string variant ) => $"--b-theme-{variant}";
+
+        /// <summary>
+        /// Gets the theme background color variable name.
+        /// </summary>
+        /// <param name="variant">Color variant name.</param>
+        /// <returns></returns>
+        public static string BackgroundColor( string variant ) => $"--b-theme-background-{variant}";
+
+        public static string ButtonBackgrund( string variant ) => $"--b-button-{variant}-background";
+        public static string ButtonBorder( string variant ) => $"--b-button-{variant}-border";
+        public static string ButtonHoverBackground( string variant ) => $"--b-button-{variant}-hover-background";
+        public static string ButtonHoverBorder( string variant ) => $"--b-button-{variant}-hover-border";
+        public static string ButtonActiveBackground( string variant ) => $"--b-button-{variant}-active-background";
+        public static string ButtonActiveBorder( string variant ) => $"--b-button-{variant}-active-border";
+        public static string ButtonYiqBackground( string variant ) => $"--b-button-{variant}-yiq-background";
+        public static string ButtonYiqHoverBackground( string variant ) => $"--b-button-{variant}-yiq-hover-background";
+        public static string ButtonYiqActiveBackground( string variant ) => $"--b-button-{variant}-yiq-active-background";
+        public static string ButtonBoxShadow( string variant ) => $"--b-button-{variant}-box-shadow";
+
+        public static string OutlineButtonColor( string variant ) => $"--b-outline-button-{variant}-color";
+        public static string OutlineButtonYiqColor( string variant ) => $"--b-outline-button-{variant}-yiq-shadow";
+        public static string OutlineButtonBoxShadowColor( string variant ) => $"--b-outline-button-{variant}-box-shadow";
+
+        public const string SidebarBackground = "--b-sidebar-background";
+        public const string SidebarColor = "--b-sidebar-color";
+
+        public const string SnackbarBackground = "--b-snackbar-background";
+        public const string SnackbarButtonColor = "--b-snackbar-button-color";
+        public const string SnackbarButtonHoverColor = "--b-snackbar-button-hover-color";
+    }
+
     /// <summary>
     /// Default theme colors. 
     /// </summary>
