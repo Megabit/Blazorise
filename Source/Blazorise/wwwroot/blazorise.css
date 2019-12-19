@@ -139,3 +139,14 @@
 
 .b-tooltip-inline {
     display: inline-block; }
+
+.b-character-casing-lower {
+    text-transform: lowercase; }
+
+.b-character-casing-upper {
+    text-transform: uppercase; }
+
+.b-character-casing-title {
+    text-transform: lowercase; }
+    .b-character-casing-title::first-letter {
+        text-transform: uppercase; }
