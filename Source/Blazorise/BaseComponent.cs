@@ -30,6 +30,8 @@ namespace Blazorise
 
         private Visibility visibility = Visibility.Default;
 
+        private CharacterCasing characterCasing = CharacterCasing.Normal;
+
         private Dictionary<string, object> parameters;
 
         /// <summary>
@@ -114,6 +116,9 @@ namespace Blazorise
 
             if ( Float != Float.None )
                 builder.Append( ClassProvider.ToFloat( Float ) );
+
+            if ( Casing != CharacterCasing.Normal )
+                builder.Append( ClassProvider.Casing( Casing ) );
         }
 
         protected virtual void BuildStyles( StyleBuilder builder )
@@ -377,6 +382,21 @@ namespace Blazorise
                 visibility = value;
 
                 DirtyStyles();
+            }
+        }
+
+        /// <summary>
+        /// Changes the character casing of a element.
+        /// </summary>
+        [Parameter]
+        public CharacterCasing Casing
+        {
+            get => characterCasing;
+            set
+            {
+                characterCasing = value;
+
+                DirtyClasses();
             }
         }
 

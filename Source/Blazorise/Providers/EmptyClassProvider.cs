@@ -726,6 +726,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Custom
+
+        public string Casing( CharacterCasing characterCasing ) => null;
+
+        #endregion
+
         #region Enums
 
         public string ToSize( Size size ) => null;
@@ -771,6 +777,8 @@ namespace Blazorise.Providers
         public string ToPlacement( Placement placement ) => null;
 
         public string ToFigureSize( FigureSize figureSize ) => null;
+
+        public string ToCharacterCasing( CharacterCasing characterCasing ) => null;
 
         #endregion
 

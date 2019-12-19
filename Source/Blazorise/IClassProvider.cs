@@ -719,6 +719,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Custom
+
+        string Casing( CharacterCasing characterCasing );
+
+        #endregion
+
         #region Enums
 
         /* 
@@ -769,6 +775,8 @@ namespace Blazorise
         string ToPlacement( Placement placement );
 
         string ToFigureSize( FigureSize figureSize );
+
+        string ToCharacterCasing( CharacterCasing characterCasing );
 
         #endregion
 
