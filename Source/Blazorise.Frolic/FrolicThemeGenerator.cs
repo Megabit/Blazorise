@@ -10,36 +10,44 @@ namespace Blazorise.Frolic
     {
         #region Methods
 
+        public override void GenerateVariables( StringBuilder sb, Theme theme )
+        {
+            variables["--b-frolic-btn-padding-sm"] = "0.27rem 0.85rem";
+            variables["--b-frolic-btn-padding-lg"] = "0.75rem 2rem";
+
+            base.GenerateVariables( sb, theme );
+        }
+
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
         {
             sb.Append( $".bg-{variant}" ).Append( "{" )
-                .Append( $"background-color: {Var( $"--b-theme-background-{variant}" )};" )
+                .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
-            var background = Var( $"--b-button-{variant}-background" );
-            var border = Var( $"--b-button-{variant}-border" );
-            var hoverBackground = Var( $"--b-button-{variant}-hover-background" );
-            var hoverBorder = Var( $"--b-button-{variant}-hover-border" );
-            var activeBackground = Var( $"--b-button-{variant}-active-background" );
-            var activeBorder = Var( $"--b-button-{variant}-active-border" );
-            var yiqBackground = Var( $"--b-button-{variant}-yiq-background" );
-            var yiqHoverBackground = Var( $"--b-button-{variant}-yiq-hover-background" );
-            var yiqActiveBackground = Var( $"--b-button-{variant}-yiq-active-background" );
-            var boxShadow = Var( $"--b-button-{variant}-box-shadow" );
+            var background = Var( ThemeVariables.ButtonBackgrund( variant ) );
+            var border = Var( ThemeVariables.ButtonBorder( variant ) );
+            var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
+            //var hoverBorder = Var( ThemeVariables.ButtonHoverBorder( variant ) );
+            //var activeBackground = Var( ThemeVariables.ButtonActiveBackground( variant ) );
+            //var activeBorder = Var( ThemeVariables.ButtonActiveBorder( variant ) );
+            var yiqBackground = Var( ThemeVariables.ButtonYiqBackground( variant ) );
+            //var yiqHoverBackground = Var( ThemeVariables.ButtonYiqHoverBackground( variant ) );
+            //var yiqActiveBackground = Var( ThemeVariables.ButtonYiqActiveBackground( variant ) );
+            var boxShadow = Var( ThemeVariables.ButtonBoxShadow( variant ) );
 
             sb.Append( $".e-btn.{variant}" ).Append( "{" )
                 .Append( $"color: {yiqBackground};" )
-                .Append( GradientBg( theme, background ) )
+                .Append( GetGradientBg( theme, background ) )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
             sb.Append( $".e-btn.{variant}:hover," )
                 .Append( $".e-btn.{variant}:focus" )
                 .Append( "{" )
-                .Append( GradientBg( theme, hoverBackground ) )
+                .Append( GetGradientBg( theme, hoverBackground ) )
                 .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
                 .AppendLine( "}" );
 
@@ -78,9 +86,9 @@ namespace Blazorise.Frolic
 
         protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions buttonOptions )
         {
-            var color = Var( $"--b-outline-button-{variant}-color" );
-            var yiqColor = Var( $"--b-outline-button-{variant}-yiq-color" );
-            var boxShadow = Var( $"--b-outline-button-{variant}-box-shadow" );
+            var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
+            //var yiqColor = Var( ThemeVariables.OutlineButtonYiqColor( variant ) );
+            //var boxShadow = Var( ThemeVariables.OutlineButtonBoxShadowColor( variant ) );
 
             sb.Append( $".e-btn.outlined.{variant}" ).Append( "{" )
                 .Append( $"color: {color};" )
@@ -122,18 +130,18 @@ namespace Blazorise.Frolic
         protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
         {
             sb.Append( $".e-btn" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             sb.Append( $".e-btn.small" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( "--b-frolic-btn-padding-sm" ) )};" )
                 .AppendLine( "}" );
 
             sb.Append( $".e-btn.plus" ).Append( "{" )
-                .Append( $"padding: {GetBorderRadius( theme, options?.LargeBorderRadius )};" )
+                .Append( $"padding: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( "--b-frolic-btn-padding-lg" ) )};" )
                 .AppendLine( "}" );
 
-            if ( !string.IsNullOrEmpty( options.Margin ) )
+            if ( !string.IsNullOrEmpty( options?.Margin ) )
                 sb.Append( $".e-btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
                     .AppendLine( "}" );
@@ -142,7 +150,7 @@ namespace Blazorise.Frolic
         protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
         {
             sb.Append( $".drop-items" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
@@ -155,7 +163,7 @@ namespace Blazorise.Frolic
 
                     sb.Append( $".drop-item:hover" )
                         .Append( "{" )
-                        .Append( GradientBg( theme, background ) )
+                        .Append( GetGradientBg( theme, background ) )
                         .AppendLine( "}" );
                 }
             }
@@ -164,18 +172,18 @@ namespace Blazorise.Frolic
         protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
             sb.Append( $".e-control" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             sb.Append( $".e-control-helper" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             sb.Append( $".e-select" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            if ( !string.IsNullOrEmpty( options.Color ) )
+            if ( !string.IsNullOrEmpty( options?.Color ) )
             {
                 sb.Append( $".e-control" ).Append( "{" )
                     .Append( $"color: {options.Color};" )
@@ -224,7 +232,7 @@ namespace Blazorise.Frolic
 
             sb.Append( $".e-alert.{variant}" ).Append( "{" )
                 .Append( $"color: {text};" )
-                .Append( GradientBg( theme, background ) )
+                .Append( GetGradientBg( theme, background ) )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
@@ -250,60 +258,60 @@ namespace Blazorise.Frolic
         protected override void GenerateCardStyles( StringBuilder sb, Theme theme, ThemeCardOptions options )
         {
             sb.Append( $".e-card" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
         {
             sb.Append( $".e-modal-content" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
         {
             sb.Append( $".e-tabs" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
         {
             sb.Append( $".e-progress" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
         {
             sb.Append( $".e-alert" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
         {
             sb.Append( $".e-breadcrumb" ).Append( "{" )
-                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                  .AppendLine( "}" );
 
             //sb.Append( $".breadcrumb a" ).Append( "{" )
-            //    .Append( $"color: {Var( "--b-theme-primary" )};" )
+            //    .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )};" )
             //    .AppendLine( "}" );
         }
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
             sb.Append( $".e-tag" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
         {
             sb.Append( $".e-page-item" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
