@@ -128,12 +128,12 @@ namespace Blazorise.Bulma
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
                 .AppendLine( "}" );
 
-            if ( !string.IsNullOrEmpty( options.Padding ) )
+            if ( !string.IsNullOrEmpty( options?.Padding ) )
                 sb.Append( $".button" ).Append( "{" )
                     .Append( $"padding: {options.Padding};" )
                     .AppendLine( "}" );
 
-            if ( !string.IsNullOrEmpty( options.Margin ) )
+            if ( !string.IsNullOrEmpty( options?.Margin ) )
                 sb.Append( $".button" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
                     .AppendLine( "}" );
@@ -252,7 +252,7 @@ namespace Blazorise.Bulma
 
         protected override void GenerateModalStyles( StringBuilder sb, Theme theme, ThemeModalOptions options )
         {
-            if ( !string.IsNullOrEmpty( options.BorderRadius ) )
+            if ( !string.IsNullOrEmpty( options?.BorderRadius ) )
             {
                 sb.Append( $".modal-card-head" ).Append( "{" )
                     .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
