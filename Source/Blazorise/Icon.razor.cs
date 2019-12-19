@@ -14,19 +14,15 @@ namespace Blazorise
 
         private object name;
 
+        private IconStyle iconStyle = IconStyle.Solid;
+
         #endregion
 
         #region Methods
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( IconProvider.Icon( Name ) );
-
-            if ( !IconProvider.IconNameAsContent && Name != null && Name is IconName )
-                builder.Append( IconProvider.Get( (IconName)Name ) );
-
-            if ( !IconProvider.IconNameAsContent && Name != null && Name is string )
-                builder.Append( IconProvider.Get( (string)Name ) );
+            builder.Append( IconProvider.Icon( Name, IconStyle ) );
 
             base.BuildClasses( builder );
         }
@@ -38,6 +34,9 @@ namespace Blazorise
         [Inject]
         protected IIconProvider IconProvider { get; set; }
 
+        /// <summary>
+        /// Icon name.
+        /// </summary>
         [Parameter]
         public object Name
         {
@@ -45,6 +44,21 @@ namespace Blazorise
             set
             {
                 name = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Suggested icon style.
+        /// </summary>
+        [Parameter]
+        public IconStyle IconStyle
+        {
+            get => iconStyle;
+            set
+            {
+                iconStyle = value;
 
                 DirtyClasses();
             }
