@@ -133,7 +133,7 @@
                             </Row>
                             <Row>
                                 <Container IsFluid="true">
-                                    <ThemeColorSelector Value="@Theme.ColorOptions.Primary" ValueChanged="@OnThemeColorChanged"></ThemeColorSelector>
+                                    <ThemeColorSelector Value="@Theme.ColorOptions?.Primary" ValueChanged="@OnThemeColorChanged"></ThemeColorSelector>
                                 </Container>
                             </Row>
                         </BarDropdownMenu>
@@ -206,11 +206,14 @@
 
     void OnThemeColorChanged( string value )
     {
-        if ( Theme?.ColorOptions != null )
-            Theme.ColorOptions.Primary = value;
+        if ( Theme.ColorOptions == null )
+            Theme.ColorOptions = new ThemeColorOptions();
 
-        if ( Theme?.BackgroundOptions != null )
-            Theme.BackgroundOptions.Primary = value;
+        if ( Theme.BackgroundOptions == null )
+            Theme.BackgroundOptions = new ThemeBackgroundOptions();
+
+        Theme.ColorOptions.Primary = value;
+        Theme.BackgroundOptions.Primary = value;
 
         Theme.ThemeHasChanged();
     }

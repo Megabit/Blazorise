@@ -13,38 +13,38 @@ namespace Blazorise.Bulma
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
         {
             sb.Append( $".has-background-{variant}" ).Append( "{" )
-                .Append( $"background-color: {Var( $"--b-theme-background-{variant}" )} !important;" )
+                .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
-            var background = Var( $"--b-button-{variant}-background" );
-            var border = Var( $"--b-button-{variant}-border" );
-            var hoverBackground = Var( $"--b-button-{variant}-hover-background" );
-            var hoverBorder = Var( $"--b-button-{variant}-hover-border" );
-            var activeBackground = Var( $"--b-button-{variant}-active-background" );
-            var activeBorder = Var( $"--b-button-{variant}-active-border" );
-            var yiqBackground = Var( $"--b-button-{variant}-yiq-background" );
-            var yiqHoverBackground = Var( $"--b-button-{variant}-yiq-hover-background" );
-            var yiqActiveBackground = Var( $"--b-button-{variant}-yiq-active-background" );
-            var boxShadow = Var( $"--b-button-{variant}-box-shadow" );
+            var background = Var( ThemeVariables.ButtonBackgrund( variant ) );
+            var border = Var( ThemeVariables.ButtonBorder( variant ) );
+            var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
+            var hoverBorder = Var( ThemeVariables.ButtonHoverBorder( variant ) );
+            var activeBackground = Var( ThemeVariables.ButtonActiveBackground( variant ) );
+            var activeBorder = Var( ThemeVariables.ButtonActiveBorder( variant ) );
+            var yiqBackground = Var( ThemeVariables.ButtonYiqBackground( variant ) );
+            var yiqHoverBackground = Var( ThemeVariables.ButtonYiqHoverBackground( variant ) );
+            var yiqActiveBackground = Var( ThemeVariables.ButtonYiqActiveBackground( variant ) );
+            var boxShadow = Var( ThemeVariables.ButtonBoxShadow( variant ) );
 
             sb.Append( $".button.is-{variant}" ).Append( "{" )
                 //.Append( $"color: {yiqBackground};" )
-                .Append( GradientBg( theme, background ) )
+                .Append( GetGradientBg( theme, background ) )
                 .Append( $"border-color: transparent;" )
                 .AppendLine( "}" );
 
             sb.Append( $".button.is-{variant}:hover," ).Append( $".button.is-{variant}.is-hovered" ).Append( "{" )
                 .Append( $"color: {yiqHoverBackground};" )
-                .Append( GradientBg( theme, hoverBackground ) )
+                .Append( GetGradientBg( theme, hoverBackground ) )
                 .Append( $"border-color: {hoverBorder};" )
                 .AppendLine( "}" );
 
             sb.Append( $".button.is-{variant}:focus," ).Append( $".button.is-{variant}.is-focused" ).Append( "{" )
                 .Append( $"color: {yiqHoverBackground};" )
-                .Append( GradientBg( theme, hoverBackground ) )
+                .Append( GetGradientBg( theme, hoverBackground ) )
                 .Append( $"border-color: transparent;" )
                 .AppendLine( "}" );
 
@@ -82,9 +82,9 @@ namespace Blazorise.Bulma
 
         protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions buttonOptions )
         {
-            var color = Var( $"--b-outline-button-{variant}-color" );
-            var yiqColor = Var( $"--b-outline-button-{variant}-yiq-color" );
-            //var boxShadow = Var( $"--b-outline-button-{variant}-box-shadow" );
+            var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
+            var yiqColor = Var( ThemeVariables.OutlineButtonYiqColor( variant ) );
+            //var boxShadow = Var( ThemeVariables.OutlineButtonBoxShadowColor( variant ) );
 
             sb.Append( $".button.is-{variant}.is-outlined" ).Append( "{" )
                 .Append( $"color: {color};" )
@@ -117,15 +117,15 @@ namespace Blazorise.Bulma
         protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
         {
             sb.Append( $".button" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             sb.Append( $".button.is-small" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
                 .AppendLine( "}" );
 
             sb.Append( $".button.is-large" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options.Padding ) )
@@ -142,22 +142,22 @@ namespace Blazorise.Bulma
         protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
         {
             sb.Append( $".dropdown-content" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
             sb.Append( $".input" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             sb.Append( $".select select" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             sb.Append( $".textarea" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
@@ -194,7 +194,7 @@ namespace Blazorise.Bulma
 
             sb.Append( $".notification-{variant}" ).Append( "{" )
                 .Append( $"color: {text};" )
-                .Append( GradientBg( theme, background ) )
+                .Append( GetGradientBg( theme, background ) )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
         }
@@ -255,13 +255,13 @@ namespace Blazorise.Bulma
             if ( !string.IsNullOrEmpty( options.BorderRadius ) )
             {
                 sb.Append( $".modal-card-head" ).Append( "{" )
-                    .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
-                    .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                    .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                    .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                     .AppendLine( "}" );
 
                 sb.Append( $".modal-card-foot" ).Append( "{" )
-                   .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
-                   .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                   .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                   .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                    .AppendLine( "}" );
             }
         }
@@ -273,7 +273,7 @@ namespace Blazorise.Bulma
                 sb
                     .Append( $".tabs.is-toggle li.is-active a" )
                     .Append( "{" )
-                    .Append( $"background-color: {Var( "--b-theme-primary" )};" )
+                    .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
             }
         }
@@ -281,14 +281,14 @@ namespace Blazorise.Bulma
         protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
         {
             sb.Append( $".progress" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
         {
             sb.Append( $".notification" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
@@ -297,7 +297,7 @@ namespace Blazorise.Bulma
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
                 sb.Append( $".breadcrumb a" ).Append( "{" )
-                .Append( $"color: {Var( "--b-theme-primary" )};" )
+                .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )};" )
                 .AppendLine( "}" );
             }
         }
@@ -305,25 +305,25 @@ namespace Blazorise.Bulma
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
             sb.Append( $".tag:not(body)" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
         {
             sb.Append( $".pagination-link,.pagination-previous,.pagination-next" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             sb.Append( $".pagination.is-large .pagination-link,.pagination-previous,.pagination-next" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius )};" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
                 sb.Append( $".pagination-link.is-current,.pagination-previous.is-current,.pagination-next.is-current" ).Append( "{" )
-                    .Append( $"background-color: {Var( "--b-theme-primary" )};" )
-                    .Append( $"border-color: {Var( "--b-theme-primary" )};" )
+                    .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                    .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
             }
         }
