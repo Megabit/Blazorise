@@ -15,7 +15,7 @@ namespace Blazorise.Icons.Material
         private static Dictionary<IconName, string> names = new Dictionary<IconName, string>
         {
             { IconName.New, "add" },
-            { IconName.Edit, "create" }, // wtf google!? create??
+            { IconName.Edit, "create" },
             { IconName.Save, "save" },
             { IconName.Cancel, "cancel" },
             { IconName.Delete, "delete" },
@@ -40,6 +40,14 @@ namespace Blazorise.Icons.Material
             { IconName.SortDown, "arrow_drop_down" },
         };
 
+        private static Dictionary<IconStyle, string> styles = new Dictionary<IconStyle, string>
+        {
+            { IconStyle.Solid, "material-icons" },
+            { IconStyle.Regular, "material-icons-outlined" },
+            { IconStyle.Light, "material-icons-sharp" }, // TODO: probably not correct
+            { IconStyle.DuoTone, "material-icons-two-tone" },
+        };
+
         #endregion
 
         #region Constructors
@@ -62,18 +70,15 @@ namespace Blazorise.Icons.Material
 
         public override string GetStyleName( IconStyle iconStyle )
         {
-            switch ( iconStyle )
-            {
-                case IconStyle.Regular:
-                    return "material-icons-outlined";
-                case IconStyle.Light:
-                    return "material-icons-sharp"; // TODO: probably not correct
-                case IconStyle.DuoTone:
-                    return "material-icons-two-tone";
-                case IconStyle.Solid:
-                default:
-                    return "material-icons";
-            }
+            if ( styles.TryGetValue( iconStyle, out var style ) )
+                return style;
+
+            return null;
+        }
+
+        protected override bool ContainsStyleName( string iconName )
+        {
+            return iconName.Split( ' ' ).Any( x => styles.Values.Contains( x ) || new string[] { "material-icons-round" }.Contains( x ) );
         }
 
         #endregion

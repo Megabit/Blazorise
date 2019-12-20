@@ -31,16 +31,22 @@ namespace Blazorise.Providers
             if ( IconNameAsContent || name == null )
                 return iconStyle;
 
-            // Icon name can be either IconName(enum) or string type.
-            var iconName = name is IconName ? GetIconName( (IconName)name ) : (string)name;
-
-            // Sometimes icon style can be defined with the icon name. In those cases we need to remove it.
-            if ( iconName.StartsWith( iconStyle ) )
+            if ( name is IconName iconEnum )
             {
-                iconName = iconName.Remove( 0, iconStyle.Length + 1 );
+                return $"{iconStyle} {GetIconName( iconEnum )}".Trim();
+            }
+            else if ( name is string iconName )
+            {
+                // Sometimes icon style can be defined with the icon name. In those cases we need to remove it.
+                //iconName = StripStyleName( iconName );
+
+                if ( ContainsStyleName( iconName ) )
+                    return iconName;
+
+                return $"{iconStyle} {iconName}".Trim();
             }
 
-            return $"{iconStyle} {iconName}";
+            return iconStyle;
         }
 
         public abstract string GetIconName( IconName name );
@@ -53,6 +59,8 @@ namespace Blazorise.Providers
         }
 
         public abstract string GetStyleName( IconStyle iconStyle );
+
+        protected abstract bool ContainsStyleName( string iconName );
 
         #endregion
 
