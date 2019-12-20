@@ -37,9 +37,6 @@ namespace Blazorise.Providers
             }
             else if ( name is string iconName )
             {
-                // Sometimes icon style can be defined with the icon name. In those cases we need to remove it.
-                //iconName = StripStyleName( iconName );
-
                 if ( ContainsStyleName( iconName ) )
                     return iconName;
 
