@@ -32,13 +32,13 @@ namespace Blazorise.Bootstrap
 
             sb.Append( $".btn-{variant}" ).Append( "{" )
                 .Append( $"color: {yiqBackground};" )
-                .Append( GetGradientBg( theme, background ) )
+                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
             sb.Append( $".btn-{variant}:hover" ).Append( "{" )
                 .Append( $"color: {yiqHoverBackground};" )
-                .Append( GetGradientBg( theme, hoverBackground ) )
+                .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: {hoverBorder};" )
                 .AppendLine( "}" );
 
@@ -46,7 +46,7 @@ namespace Blazorise.Bootstrap
                 .Append( $".btn-{variant}.focus" )
                 .Append( "{" )
                 .Append( $"color: {yiqHoverBackground};" )
-                .Append( GetGradientBg( theme, hoverBackground ) )
+                .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: {hoverBorder};" )
                 .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
                 .AppendLine( "}" );
@@ -169,7 +169,7 @@ namespace Blazorise.Bootstrap
 
                     sb.Append( $".dropdown-item.active," )
                         .Append( $".dropdown-item:active" ).Append( "{" )
-                        .Append( GetGradientBg( theme, background ) )
+                        .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
                         .AppendLine( "}" );
                 }
             }
@@ -250,7 +250,7 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
         }
 
-        protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor )
+        protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
         {
             var backgroundColor = ParseColor( inBackgroundColor );
             var borderColor = ParseColor( inBorderColor );
@@ -265,7 +265,7 @@ namespace Blazorise.Bootstrap
 
             sb.Append( $".alert-{variant}" ).Append( "{" )
                 .Append( $"color: {text};" )
-                .Append( GetGradientBg( theme, background ) )
+                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
