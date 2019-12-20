@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,13 +41,13 @@ namespace Blazorise
         /// Gets the valid variant colors.
         /// </summary>
         public IEnumerable<(string name, string color)> ValidColors
-            => ColorOptions?.ColorMap?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+            => ColorOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
         /// Gets the valid background colors.
         /// </summary>
         public IEnumerable<(string name, string color)> ValidBackgroundColors
-            => BackgroundOptions?.ColorMap?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+            => BackgroundOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
         /// Used to override default theme colors.
@@ -198,9 +199,9 @@ namespace Blazorise
     {
     }
 
-    public class ThemeColorOptions
+    public class ThemeColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
     {
-        public Dictionary<string, Func<string>> ColorMap => new Dictionary<string, Func<string>> {
+        private Dictionary<string, Func<string>> colorMap => new Dictionary<string, Func<string>> {
             { "primary", () => Primary },
             { "secondary", () => Secondary },
             { "success", () => Success },
@@ -210,6 +211,23 @@ namespace Blazorise
             { "light", () => Light },
             { "dark", () => Dark }
         };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the color handler associated with the specified color key.
+        /// </summary>
+        /// <param name="key">Color key</param>
+        /// <returns>Return the color getter.</returns>
+        public Func<string> this[string key] => colorMap[key];
 
         public string Primary { get; set; } = ThemeColors.Blue.Shades["400"].Value;
 
@@ -228,9 +246,9 @@ namespace Blazorise
         public string Dark { get; set; } = ThemeColors.Gray.Shades["800"].Value;
     }
 
-    public class ThemeBackgroundOptions
+    public class ThemeBackgroundOptions : IEnumerable<KeyValuePair<string, Func<string>>>
     {
-        public Dictionary<string, Func<string>> ColorMap => new Dictionary<string, Func<string>> {
+        private Dictionary<string, Func<string>> colorMap => new Dictionary<string, Func<string>> {
             { "primary", () => Primary },
             { "secondary", () => Secondary },
             { "success", () => Success },
@@ -242,6 +260,23 @@ namespace Blazorise
             { "body", () => Body },
             { "muted", () => Muted }
         };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the color handler associated with the specified color key.
+        /// </summary>
+        /// <param name="key">Color key</param>
+        /// <returns>Return the color getter.</returns>
+        public Func<string> this[string key] => colorMap[key];
 
         public string Primary { get; set; } = ThemeColors.Blue.Shades["400"].Value;
 
