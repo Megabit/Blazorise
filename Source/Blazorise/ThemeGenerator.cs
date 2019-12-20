@@ -137,7 +137,10 @@ namespace Blazorise
             if ( backgroundColor.IsEmpty )
                 return;
 
+            var backgroundYiqColor = Contrast( backgroundColor );
+
             variables[ThemeVariables.BackgroundColor( variant )] = ToHex( backgroundColor );
+            variables[ThemeVariables.BackgroundYiqColor( variant )] = ToHex( backgroundYiqColor );
         }
 
         protected virtual void GenerateSidebarVariables( ThemeSidebarOptions sidebarOptions )
@@ -206,6 +209,8 @@ namespace Blazorise
             GenerateBadgeStyles( sb, theme, theme.BadgeOptions );
 
             GeneratePaginationStyles( sb, theme, theme.PaginationOptions );
+
+            GenerateBarStyles( sb, theme, theme.BarOptions );
         }
 
         /// <summary>
@@ -270,6 +275,8 @@ namespace Blazorise
         protected abstract void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options );
 
         protected abstract void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options );
+
+        protected abstract void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options );
 
         #endregion
 

@@ -323,6 +323,10 @@ namespace Blazorise.Frolic
             }
         }
 
+        protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
+        {
+        }
+
         #endregion
     }
 }
