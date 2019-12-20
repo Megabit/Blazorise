@@ -40,6 +40,14 @@ namespace Blazorise.Icons.FontAwesome
             { IconName.SortDown, "fa-sort-down" },
         };
 
+        private static Dictionary<IconStyle, string> styles = new Dictionary<IconStyle, string>
+        {
+            { IconStyle.Solid, "fas" },
+            { IconStyle.Regular, "far" },
+            { IconStyle.Light, "fal" },
+            { IconStyle.DuoTone, "fad" },
+        };
+
         #endregion
 
         #region Constructors
@@ -62,18 +70,15 @@ namespace Blazorise.Icons.FontAwesome
 
         public override string GetStyleName( IconStyle iconStyle )
         {
-            switch ( iconStyle )
-            {
-                case IconStyle.Regular:
-                    return "far";
-                case IconStyle.Light:
-                    return "fal";
-                case IconStyle.DuoTone:
-                    return "fad";
-                case IconStyle.Solid:
-                default:
-                    return "fas";
-            }
+            if ( styles.TryGetValue( iconStyle, out var style ) )
+                return style;
+
+            return null;
+        }
+
+        protected override bool ContainsStyleName( string iconName )
+        {
+            return iconName.Split( ' ' ).Any( x => styles.Values.Contains( x ) || new string[] { "fab" }.Contains( x ) );
         }
 
         #endregion
