@@ -88,6 +88,8 @@ namespace Blazorise
         public ThemeSidebarOptions SidebarOptions { get; set; }
 
         public ThemeSnackbarOptions SnackbarOptions { get; set; }
+
+        public ThemeBarOptions BarOptions { get; set; }
     }
 
     public class BasicOptions
@@ -192,10 +194,12 @@ namespace Blazorise
         public string LargeBorderRadius { get; set; } = ".3rem";
     }
 
+    public class ThemeBarOptions
+    {
+    }
+
     public class ThemeColorOptions
     {
-
-
         public Dictionary<string, Func<string>> ColorMap => new Dictionary<string, Func<string>> {
             { "primary", () => Primary },
             { "secondary", () => Secondary },
@@ -298,6 +302,7 @@ namespace Blazorise
         /// <param name="variant">Color variant name.</param>
         /// <returns></returns>
         public static string BackgroundColor( string variant ) => $"--b-theme-background-{variant}";
+        public static string BackgroundYiqColor( string variant ) => $"--b-theme-background-{variant}-yiq";
 
         public static string ButtonBackgrund( string variant ) => $"--b-button-{variant}-background";
         public static string ButtonBorder( string variant ) => $"--b-button-{variant}-border";

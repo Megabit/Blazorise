@@ -427,6 +427,21 @@ namespace Blazorise.Bootstrap
             }
         }
 
+        protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
+        {
+            foreach ( var (variant, _) in theme.ValidBackgroundColors )
+            {
+                var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
+
+                if ( string.IsNullOrEmpty( yiqColor ) )
+                    continue;
+
+                sb.Append( $".navbar.bg-{variant} .navbar-brand .nav-item .nav-link" ).Append( "{" )
+                    .Append( $"color: {yiqColor};" )
+                    .AppendLine( "}" );
+            }
+        }
+
         #endregion
     }
 }

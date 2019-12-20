@@ -328,6 +328,21 @@ namespace Blazorise.Bulma
             }
         }
 
+        protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
+        {
+            foreach ( var (variant, _) in theme.ValidBackgroundColors )
+            {
+                var yiqColor = Var( ThemeVariables.BackgroundYiqColor( variant ) );
+
+                if ( string.IsNullOrEmpty( yiqColor ) )
+                    continue;
+
+                sb.Append( $".navbar.has-background-{variant} .navbar-brand .navbar-item a.navbar-item" ).Append( "{" )
+                    .Append( $"color: {yiqColor};" )
+                    .AppendLine( "}" );
+            }
+        }
+
         #endregion
     }
 }
