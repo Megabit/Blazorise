@@ -224,7 +224,8 @@ namespace Blazorise
             GenerateAlertVariantStyles( sb, theme, variant,
                 ThemeColorLevel( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
                 ThemeColorLevel( theme, color, theme.AlertOptions?.BorderLevel ?? -9 ),
-                ThemeColorLevel( theme, color, theme.AlertOptions?.ColorLevel ?? 6 ) );
+                ThemeColorLevel( theme, color, theme.AlertOptions?.ColorLevel ?? 6 ),
+                theme.AlertOptions );
 
             GenerateTableVariantStyles( sb, theme, variant,
                 ThemeColorLevel( theme, color, theme.TableOptions?.BackgroundLevel ?? -9 ),
@@ -250,7 +251,7 @@ namespace Blazorise
 
         protected abstract void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor );
 
-        protected abstract void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor );
+        protected abstract void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options );
 
         protected abstract void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor );
 
@@ -287,10 +288,10 @@ namespace Blazorise
             return "0rem";
         }
 
-        protected virtual string GetGradientBg( Theme theme, string color )
+        protected virtual string GetGradientBg( Theme theme, string color, float? percentage )
         {
             return theme.IsGradient
-                ? $"background: {color} linear-gradient(180deg, {ToHex( Blend( System.Drawing.Color.White, ParseColor( color ), 15 ) )}, {color}) repeat-x;"
+                ? $"background: {color} linear-gradient(180deg, {ToHex( Blend( System.Drawing.Color.White, ParseColor( color ), percentage ?? 15f ) )}, {color}) repeat-x;"
                 : $"background-color: {color};";
         }
 

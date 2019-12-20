@@ -32,19 +32,19 @@ namespace Blazorise.Bulma
 
             sb.Append( $".button.is-{variant}" ).Append( "{" )
                 //.Append( $"color: {yiqBackground};" )
-                .Append( GetGradientBg( theme, background ) )
+                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: transparent;" )
                 .AppendLine( "}" );
 
             sb.Append( $".button.is-{variant}:hover," ).Append( $".button.is-{variant}.is-hovered" ).Append( "{" )
                 .Append( $"color: {yiqHoverBackground};" )
-                .Append( GetGradientBg( theme, hoverBackground ) )
+                .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: {hoverBorder};" )
                 .AppendLine( "}" );
 
             sb.Append( $".button.is-{variant}:focus," ).Append( $".button.is-{variant}.is-focused" ).Append( "{" )
                 .Append( $"color: {yiqHoverBackground};" )
-                .Append( GetGradientBg( theme, hoverBackground ) )
+                .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: transparent;" )
                 .AppendLine( "}" );
 
@@ -179,7 +179,7 @@ namespace Blazorise.Bulma
                 .AppendLine( "}" );
         }
 
-        protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor )
+        protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
         {
             var backgroundColor = ParseColor( inBackgroundColor );
             var borderColor = ParseColor( inBorderColor );
@@ -194,7 +194,7 @@ namespace Blazorise.Bulma
 
             sb.Append( $".notification-{variant}" ).Append( "{" )
                 .Append( $"color: {text};" )
-                .Append( GetGradientBg( theme, background ) )
+                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
         }

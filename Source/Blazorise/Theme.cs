@@ -121,10 +121,13 @@ namespace Blazorise
         public string LargeBorderRadius { get; set; } = ".3rem";
 
         public string SmallBorderRadius { get; set; } = ".2rem";
+
+        public float GradientBlendPercentage { get; set; } = 15f;
     }
 
     public class ThemeDropdownOptions : BasicOptions
     {
+        public float GradientBlendPercentage { get; set; } = 15f;
     }
 
     public class ThemeInputOptions : BasicOptions
@@ -165,6 +168,8 @@ namespace Blazorise
         public int BorderLevel { get; set; } = -9;
 
         public int ColorLevel { get; set; } = 6;
+
+        public float GradientBlendPercentage { get; set; } = 15f;
     }
 
     public class ThemeTableOptions : BasicOptions
