@@ -25,12 +25,13 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            // link to the parent component
-            ParentModal?.Hook( this );
-
-            // initialize backdrop in case that modal is already set to visible
             if ( ParentModal != null )
+            {
+                // initialize backdrop in case that modal is already set to visible
                 IsOpen = ParentModal.IsOpen;
+
+                ParentModal.StateChanged += OnModalStateChanged;
+            }
 
             base.OnInitialized();
         }
@@ -79,6 +80,11 @@ namespace Blazorise
             ParentModal?.Hide();
         }
 
+        private void OnModalStateChanged( object sender, ModalStateEventArgs e )
+        {
+            IsOpen = e.Opened;
+        }
+
         #endregion
 
         #region Properties
@@ -95,6 +101,9 @@ namespace Blazorise
             get => isOpen;
             set
             {
+                if ( value == isOpen )
+                    return;
+
                 isOpen = value;
 
                 if ( isOpen )

@@ -177,4 +177,20 @@ namespace Blazorise
         /// </summary>
         public bool AltKey { get; }
     }
+
+    /// <summary>
+    /// Supplies the information about the modal visiblity state.
+    /// </summary>
+    public class ModalStateEventArgs : EventArgs
+    {
+        public ModalStateEventArgs( bool opened )
+        {
+            Opened = opened;
+        }
+
+        /// <summary>
+        /// Gets that flag that indicates if the modal is opened.
+        /// </summary>
+        public bool Opened { get; }
+    }
 }
