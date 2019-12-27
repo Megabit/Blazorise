@@ -123,7 +123,7 @@
             </PaginationItem>
         </Pagination>
     }
-    @if ( editItem != null && EditMode == DataGridEditMode.Popup && EditState != DataGridEditState.None )
+    @if ( editItem != null && EditMode == DataGridEditMode.Popup )
     {
         <_DataGridModal TItem="TItem"
                         EditItem="@editItem"

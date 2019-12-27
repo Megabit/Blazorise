@@ -15,7 +15,7 @@ namespace Blazorise
 
         private bool isOpen;
 
-        private BaseModalBackdrop modalBackdrop;
+        public event EventHandler<ModalStateEventArgs> StateChanged;
 
         #endregion
 
@@ -82,13 +82,10 @@ namespace Blazorise
             return safeToClose;
         }
 
-        private void HandleOpenState( bool isOpen )
+        private void HandleOpenState( bool opened )
         {
-            if ( modalBackdrop != null )
-                modalBackdrop.IsOpen = isOpen;
-
             // TODO: find a way to remove javascript
-            if ( isOpen )
+            if ( opened )
             {
                 ExecuteAfterRender( async () =>
                 {
@@ -103,13 +100,10 @@ namespace Blazorise
                 } );
             }
 
+            StateChanged?.Invoke( this, new ModalStateEventArgs( opened ) );
+
             DirtyClasses();
             DirtyStyles();
-        }
-
-        internal void Hook( BaseModalBackdrop modalBackdrop )
-        {
-            this.modalBackdrop = modalBackdrop;
         }
 
         #endregion
@@ -125,6 +119,10 @@ namespace Blazorise
             get => isOpen;
             set
             {
+                // prevent modal from calling the same code multiple times
+                if ( value == isOpen )
+                    return;
+
                 if ( value == true )
                 {
                     isOpen = true;
