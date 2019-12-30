@@ -182,7 +182,9 @@ namespace Blazorise.DataGrid
                 var editedCellValues = EditableColumns
                     .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
 
-                if ( IsSafeToProceed( RowSaving, editItem, editedCellValues ) )
+                var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
+
+                if ( IsSafeToProceed( rowSavingHandler, editItem, editedCellValues ) )
                 {
                     if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem )
                     {
@@ -603,9 +605,14 @@ namespace Blazorise.DataGrid
         [Parameter] public EventCallback<TItem> SelectedRowChanged { get; set; }
 
         /// <summary>
-        /// Cancelable event called before the row is inserted or updated.
+        /// Cancelable event called before the row is inserted.
         /// </summary>
-        [Parameter] public Action<CancellableRowChange<TItem, Dictionary<string, object>>> RowSaving { get; set; }
+        [Parameter] public Action<CancellableRowChange<TItem, Dictionary<string, object>>> RowInserting { get; set; }
+
+        /// <summary>
+        /// Cancelable event called before the row is updated.
+        /// </summary>
+        [Parameter] public Action<CancellableRowChange<TItem, Dictionary<string, object>>> RowUpdating { get; set; }
 
         /// <summary>
         /// Cancelable event called before the row is removed.
