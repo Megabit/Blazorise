@@ -584,6 +584,8 @@ namespace Blazorise
 
         public abstract string TableRowTextColor( TextColor textColor );
 
+        public abstract string TableRowHoverCursor();
+
         public abstract string TableRowIsSelected();
 
         public abstract string TableRowHeader();

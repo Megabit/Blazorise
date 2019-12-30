@@ -19,6 +19,9 @@ table.table tbody tr.selected {
 .custom-checkbox > .custom-control-label.custom-control-label-pointer {
     cursor: pointer; }
 
+.selectable-row:hover {
+    cursor: pointer; }
+
 .figure-is-16x16 {
     height: 16px;
     width: 16px; }

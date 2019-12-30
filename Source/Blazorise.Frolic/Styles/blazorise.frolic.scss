@@ -189,6 +189,10 @@ select.e-select {
     border-radius: 0.25rem !important;
 }
 
+.selectable-row:hover {
+    cursor: pointer;
+}
+
 $dimensions: 16 24 32 48 64 96 128 256 512 !default
 
 @each $dimension in $dimensions {

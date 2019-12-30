@@ -1388,6 +1388,9 @@ table.is-borderless tr {
     .accordion > .card .card-header {
         margin-bottom: 1px; }
 
+.selectable-row:hover, .selectable-row.is-hovered {
+    cursor: pointer; }
+
 .is-256x256 {
     height: 256px;
     width: 256px; }

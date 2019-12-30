@@ -453,6 +453,13 @@ $grid-breakpoints: ( xs: 0, mobile: 576px, tablet: $tablet, desktop: $desktop, w
     }
 }
 
+.selectable-row {
+
+    &:hover, &.is-hovered {
+        cursor: pointer;
+    }
+}
+
 $dimensions: 256 512 !default
 
 @each $dimension in $dimensions {

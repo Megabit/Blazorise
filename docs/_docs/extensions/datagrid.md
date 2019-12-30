@@ -235,33 +235,34 @@ If you want to change default buttons you can use following templates
 
 ## Attributes
 
-| Name                  | Type                                                                | Default | Description                                                                                           |
-|-----------------------|---------------------------------------------------------------------|---------|-------------------------------------------------------------------------------------------------------|
-| Data                  | IEnumerable<TItem>                                                  |         | Grid data-source.                                                                                     |
-| EditMode              | [EditMode]({{ "/docs/extensions/datagrid/#editmode" | relative_url }})| `Form` | Specifies the grid editing modes.                                                                    |
-| UseInternalEditing    | boolean                                                             | `true`  | Specifies the behavior of DataGrid editing.                                                           |
-| Editable              | boolean                                                             | `false` | Whether users can edit DataGrid rows.                                                                 |
-| Sortable              | boolean                                                             | `true`  | Whether end-users can sort data by the column's values.                                               |
-| ShowCaptions          | boolean                                                             | `true`  | Gets or sets whether user can see a column captions.                                                  |
-| Filterable            | boolean                                                             | `false` | Whether users can filter rows by its cell values.                                                     |
-| ShowPager             | boolean                                                             | `false` | Whether users can navigate DataGrid by using pagination controls.                                     |
-| CurrentPage           | boolean                                                             | `1`     | Current page number.                                                                                  |
-| PageSize              | int                                                                 | `5`     | Maximum number of items for each page.                                                                |
-| IsStriped             | boolean                                                             | `false` | Adds stripes to the table.                                                                            |
-| IsBordered            | boolean                                                             | `false` | Adds borders to all the cells.                                                                        |
-| IsBorderless          | boolean                                                             | `false` | Makes the table without any borders.                                                                  |
-| IsHoverable           | boolean                                                             | `false` | Adds a hover effect when mousing over rows.                                                           |
-| IsNarrow              | boolean                                                             | `false` | Makes the table more compact by cutting cell padding in half.                                         |
-| SelectedRow           | TItem                                                               |         | Currently selected row.                                                                               |
-| SelectedRowChanged    | EventCallback                                                       |         | Occurs after the selected row has changed.                                                            |
-| RowSelectable         | Func<TItem,bool>                                                    |         | Handles the selection of the clicked row. If not set it will default to always true.                  |
-| DetailRowTrigger      | Func<TItem,bool>                                                    |         | A trigger function used to handle the visibility of detail row.                                       |
-| RowSaving             | Action                                                              |         | Cancelable event called before the row is inserted or updated.                                        |
-| RowInserted           | EventCallback                                                       |         | Event called after the row is inserted.                                                               |
-| RowUpdated            | EventCallback                                                       |         | Event called after the row is updated.                                                                |
-| RowRemoving           | Action                                                              |         | Cancelable event called before the row is removed.                                                    |
-| RowRemoved            | EventCallback                                                       |         | Event called after the row is removed.                                                                |
-| PageChanged           | Action                                                              |         | Occurs after the selected page has changed.                                                           |
+| Name                   | Type                                                                | Default | Description                                                                                                 |
+|------------------------|---------------------------------------------------------------------|---------|-------------------------------------------------------------------------------------------------------------|
+| Data                   | IEnumerable<TItem>                                                  |         | Grid data-source.                                                                                           |
+| EditMode               | [EditMode]({{ "/docs/extensions/datagrid/#editmode" | relative_url }})| `Form` | Specifies the grid editing modes.                                                                          |
+| UseInternalEditing     | boolean                                                             | `true`  | Specifies the behavior of DataGrid editing.                                                                 |
+| Editable               | boolean                                                             | `false` | Whether users can edit DataGrid rows.                                                                       |
+| Sortable               | boolean                                                             | `true`  | Whether end-users can sort data by the column's values.                                                     |
+| ShowCaptions           | boolean                                                             | `true`  | Gets or sets whether user can see a column captions.                                                        |
+| Filterable             | boolean                                                             | `false` | Whether users can filter rows by its cell values.                                                           |
+| ShowPager              | boolean                                                             | `false` | Whether users can navigate DataGrid by using pagination controls.                                           |
+| CurrentPage            | boolean                                                             | `1`     | Current page number.                                                                                        |
+| PageSize               | int                                                                 | `5`     | Maximum number of items for each page.                                                                      |
+| IsStriped              | boolean                                                             | `false` | Adds stripes to the table.                                                                                  |
+| IsBordered             | boolean                                                             | `false` | Adds borders to all the cells.                                                                              |
+| IsBorderless           | boolean                                                             | `false` | Makes the table without any borders.                                                                        |
+| IsHoverable            | boolean                                                             | `false` | Adds a hover effect when mousing over rows.                                                                 |
+| IsNarrow               | boolean                                                             | `false` | Makes the table more compact by cutting cell padding in half.                                               |
+| SelectedRow            | TItem                                                               |         | Currently selected row.                                                                                     |
+| SelectedRowChanged     | EventCallback                                                       |         | Occurs after the selected row has changed.                                                                  |
+| RowSelectable          | Func<TItem,bool>                                                    |         | Handles the selection of the clicked row. If not set it will default to always true.                        |
+| RowHoverCursorSelector | Func<TItem,Blazorise.Cursor>                                        |         | Handles the selection of the cursor for a hovered row. If not set, `Blazorise.Cursor.Pointer` will be used. |
+| DetailRowTrigger       | Func<TItem,bool>                                                    |         | A trigger function used to handle the visibility of detail row.                                             |
+| RowSaving              | Action                                                              |         | Cancelable event called before the row is inserted or updated.                                              |
+| RowInserted            | EventCallback                                                       |         | Event called after the row is inserted.                                                                     |
+| RowUpdated             | EventCallback                                                       |         | Event called after the row is updated.                                                                      |
+| RowRemoving            | Action                                                              |         | Cancelable event called before the row is removed.                                                          |
+| RowRemoved             | EventCallback                                                       |         | Event called after the row is removed.                                                                      |
+| PageChanged            | Action                                                              |         | Occurs after the selected page has changed.                                                                 |
 
 ### EditMode
 
