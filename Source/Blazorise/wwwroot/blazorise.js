@@ -252,7 +252,9 @@ window.blazorise = {
         keyPress: (validator, e) => {
             var currentValue = String.fromCharCode(e.which);
 
-            return validator.isValid(currentValue) || e.preventDefault();
+            return e.which === 13 // still need to allow ENTER key so that we don't preventDefault on form submit
+                || validator.isValid(currentValue)
+                || e.preventDefault();
         },
         paste: (validator, e) => {
             return validator.isValid(e.clipboardData.getData("text/plain")) || e.preventDefault();
