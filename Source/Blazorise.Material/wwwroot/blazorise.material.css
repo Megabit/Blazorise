@@ -85,6 +85,10 @@ table.table tbody tr.selected {
     cursor: pointer;
 }
 
+tr.table-row-selectable:hover {
+    cursor: pointer;
+}
+
 h1.card-title,
 .h1.card-title {
     font-size: 2.5rem;
