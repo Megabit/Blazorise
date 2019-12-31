@@ -453,8 +453,7 @@ $grid-breakpoints: ( xs: 0, mobile: 576px, tablet: $tablet, desktop: $desktop, w
     }
 }
 
-.selectable-row {
-
+tr.table-row-selectable {
     &:hover, &.is-hovered {
         cursor: pointer;
     }

@@ -658,7 +658,7 @@ namespace Blazorise.Bulma
 
         public override string TableRowTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
 
-        public override string TableRowHoverCursor() => "selectable-row";
+        public override string TableRowHoverCursor() => "table-row-selectable";
 
         public override string TableRowIsSelected() => "is-selected";
 

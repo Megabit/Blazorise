@@ -142,7 +142,7 @@ select.e-select {
 .e-rounded {
     border-radius: 0.25rem !important; }
 
-.selectable-row:hover {
+tr.table-row-selectable:hover {
     cursor: pointer; }
 
 .e-figure-is-16x16 {

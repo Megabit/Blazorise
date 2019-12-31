@@ -660,7 +660,7 @@ namespace Blazorise.Bootstrap
 
         public override string TableRowTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
-        public override string TableRowHoverCursor() => "selectable-row";
+        public override string TableRowHoverCursor() => "table-row-selectable";
 
         public override string TableRowIsSelected() => "selected";
 
