@@ -577,6 +577,8 @@ namespace Blazorise
 
         string TableRowTextColor( TextColor textColor );
 
+        string TableRowHoverCursor();
+
         string TableRowIsSelected();
 
         string TableRowHeader();

@@ -656,6 +656,12 @@ namespace Blazorise.DataGrid
         [Parameter] public Func<TItem, bool> RowSelectable { get; set; }
 
         /// <summary>
+        /// Handles the selection of the cursor for a hovered row.
+        /// If not set, <see cref="Cursor.Default"/> will be used.
+        /// </summary>
+        [Parameter] public Func<TItem, Cursor> RowHoverCursor { get; set; }
+
+        /// <summary>
         /// Template for displaying detail or nested row.
         /// </summary>
         [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }

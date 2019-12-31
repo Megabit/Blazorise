@@ -117,6 +117,12 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public EventCallback Cancel { get; set; }
 
+        /// <summary>
+        /// Gets or sets the applied cursor when the row is hovered over.
+        /// </summary>
+        [Parameter]
+        public Cursor HoverCursor { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
