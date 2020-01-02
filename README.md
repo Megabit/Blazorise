@@ -87,7 +87,7 @@ In this step we're also going to define the links for Blazorise content files th
 
 ---
 **NOTE**
- When Blazor project is created it will also include it's own **Bootstrap** and **FontAwesome** files that can sometime be of older versions. To ensure we're using the appropriate bootstrap and FontAwesome files, you need remove them or replace them with the links from above. If you forget to remove them it's possible that some components will not work as expected.
+ When Blazor project is created it will also include it's own **Bootstrap** and **FontAwesome** files that can sometime be of older versions. To ensure we're using the appropriate Bootstrap and FontAwesome files, you need to remove them or replace them with the links from above. If you forget to remove them it's possible that some of components will not work as expected.
 
 ---
 
