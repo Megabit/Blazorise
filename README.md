@@ -29,7 +29,7 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 Note: This project is still experimental so it's possible that some components will be removed or refactored.
 ```
 
-[Releases](https://blazorise.com/docs/releases/) and [Roadmap](https://github.com/stsrki/Blazorise/issues/88)
+[Releases](https://blazorise.com/docs/releases/) and [Roadmap](https://github.com/stsrki/Blazorise/issues/304)
 
 ## Prerequisites
 
