@@ -64,12 +64,12 @@ The card component comprises several elements that you can mix and match:
 
 | Name          | Type                                                                       | Default          | Description                                                                                 |
 |---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| Source        | string                                                                     | null             | Link url.                                                                                   |
+| Source        | string                                                                     | null             | Link URL.                                                                                   |
 | Alt           | string                                                                     | null             | Alternative link text.                                                                      |
 
 ### CardImage
 
 | Name          | Type                                                                       | Default          | Description                                                                                 |
 |---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| Source        | string                                                                     | null             | Image url.                                                                                  |
+| Source        | string                                                                     | null             | Image URL.                                                                                  |
 | Alt           | string                                                                     | null             | Alternative image text.                                                                     |

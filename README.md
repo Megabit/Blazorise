@@ -29,24 +29,24 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 Note: This project is still experimental so it's possible that some components will be removed or refactored.
 ```
 
-[Releases](https://blazorise.com/docs/releases/) and [Roadmap](https://github.com/stsrki/Blazorise/issues/88)
+[Releases](https://blazorise.com/docs/releases/) and [Roadmap](https://github.com/stsrki/Blazorise/issues/304)
 
 ## Prerequisites
 
-Before you continue, please make sure you have upgraded your project for the latest version of [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/client). Please look at the [official](https://devblogs.microsoft.com/aspnet/blazor-now-in-official-preview/) blog post to find all the required steps.
+Before you continue, please make sure you have the latest version of Visual Studio and .Net Core installed. Visit an official [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/client) site to learn more.
 
 ## Installations
 
-There are 4 diferent NuGet packages for each of the supported CSS frameworks. Available packages are:
+There are currently 4 different NuGet packages for each of the supported CSS frameworks. Available packages are:
 
 ```
-Install-Package Blazorise.Bootstrap
-Install-Package Blazorise.Bulma
-Install-Package Blazorise.Material
-Install-Package Blazorise.Frolic
+- Blazorise.Bootstrap
+- Blazorise.Bulma
+- Blazorise.Material
+- Blazorise.Frolic
 ```
 
-Choose one of them and modify your source files and your code accordingly. This guide will show you how to setup Blazorise with **Bootstrap** provider and FontAwesome icons.
+This guide will show you how to setup Blazorise with **Bootstrap** and **FontAwesome** icons.
 
 ### 1. NuGet packages
 
@@ -56,7 +56,7 @@ First step is to install a Bootstrap provider for Blazorise:
 Install-Package Blazorise.Bootstrap
 ```
 
-You also need to install the icon package:
+And FontAwesome icon package:
 
 ```
 Install-Package Blazorise.Icons.FontAwesome
@@ -64,28 +64,36 @@ Install-Package Blazorise.Icons.FontAwesome
 
 ### 2. Source files
 
-The next step is to change your `index.html` file located in the _wwwroot_folder and include the following css and js source files:
+The next step is to define links to Bootstrap and FontAwesome _CSS_ or _JS_ files. If you're using **Blazor WebAssembly** project template, those links will go to the `index.html` located inside of `wwwroot` folder. Otherwise, if you're using a **Blazor Server** project template you will place the links into the `_Host.cshtml`.
+
+In this step we're also going to define the links for Blazorise content files that comes with nuget packages. You must follow the naming convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. 
 
 ```html
 <!-- inside of head section -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
 
+<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
+
 <!-- inside of body section and after the <app> tag  -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="_content/Blazorise/blazorise.js"></script>
+<script src="_content/Blazorise.Bootstrap/blazorise.bootstrap.js"></script>
 ```
 
 ---
 **NOTE**
- Don't forget to remove default **bootstrap** css and js files that comes with the Blazor/RC project template. If you forget to remove them it's possible that some of component will not work as they should be.
+ When Blazor project is created it will also include it's own **Bootstrap** and **FontAwesome** files that can sometime be of older versions. To ensure we're using the appropriate Bootstrap and FontAwesome files, you need to remove them or replace them with the links from above. If you forget to remove them it's possible that some of components will not work as expected.
 
 ---
 
-### 3. Usings
+### 3. Using's
 
-In your main _Imports.razor add:
+In your main `_Imports.razor` add:
 
 ```cs
 @using Blazorise
@@ -121,7 +129,7 @@ To Learn more about the different project types you can go to the official [docu
 
 #### 4.a Blazor WebAssembly
 
-This step is mandatory for **Blazor WebAssembly**(client-side) and for **ASP.NET Core hosted** project types. You should place the code into the **client** project.
+This step is mandatory for **Blazor WebAssembly**(client-side) and also for **ASP.NET Core hosted** project types. You should place the code into the **Startup.cs** of your **client** project.
 
 ```cs
 public void Configure( IComponentsApplicationBuilder app )
@@ -157,20 +165,6 @@ public void Configure( IComponentsApplicationBuilder app )
 }
 ```
 
-### 5. Static files
-
-The final step is mandatory for all Blazor project types. Unlike in previous versions of Blazorise from now on you must set the path for static file manually. When consuming nuget packages that contains static files you must follow the convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. So for this guide the required files are:
-
-```html
-<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
-<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
-
-<script src="_content/Blazorise/blazorise.js"></script>
-<script src="_content/Blazorise.Bootstrap/blazorise.bootstrap.js"></script>
-```
-
-> If you want to learn more about the reason behind this decision please look at the [oficial Blazor documentation.](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/ui-class?view=aspnetcore-3.0&tabs=visual-studio#consume-content-from-a-referenced-rcl)
-
 ## Usage
 
 ```html
@@ -194,4 +188,4 @@ The final step is mandatory for all Blazor project types. Unlike in previous ver
 
 ## Other frameworks
 
-To setup Blazorise for other css frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
+To setup Blazorise for other CSS frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.

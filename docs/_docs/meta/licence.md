@@ -1,7 +1,7 @@
 ---
 title: "Licence"
 permalink: /docs/licence/
-excerpt: "The Blazorise is releases as an open source software and it comes with an MIT licence which means you can use it however you want."
+excerpt: "The Blazorise is releases as an open source software and it comes with an MIT license which means you can use it however you want."
 ---
 
 MIT License

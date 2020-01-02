@@ -62,4 +62,4 @@ For radio control you must set the `RadioGroup` attribute.
 | NullableCheckedChanged  | event                                                                      |              | Occurs when the check state of nullable value is changed. **[WILL BE REMOVED]**       |
 | RadioGroup              | string                                                                     | null         | Sets the radio group name.                                                            |
 | IsInline                | boolean                                                                    | false        | Group checkboxes or radios on the same horizontal row.                                |
-| Cursor                  | [Cursor]({{ "/docs/helpers/enums/#cursor" | relative_url }})               | `Default`    | Defines the mouse cursor based on the behaviour by the current css framework.         |
+| Cursor                  | [Cursor]({{ "/docs/helpers/enums/#cursor" | relative_url }})               | `Default`    | Defines the mouse cursor based on the behavior by the current CSS framework.         |

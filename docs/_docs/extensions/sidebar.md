@@ -43,7 +43,7 @@ In your main _Imports.razor_ add:
 
 ### Static files
 
-Include css link into your `index.html` or `_Host.cshtml` file, depending if you're using a Blazor WebAssembly or Blazor Server side project.
+Include CSS link into your `index.html` or `_Host.cshtml` file, depending if you're using a Blazor WebAssembly or Blazor Server side project.
 
 ```html
 <link href="_content/Blazorise.Sidebar/blazorise.sidebar.css" rel="stylesheet" />

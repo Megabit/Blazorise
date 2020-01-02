@@ -68,9 +68,9 @@ Paging is handled automatically by the DataGrid. You also have some additional a
 
 ### Editing
 
-The grid can perform some basic CRUD operations on the supplied `Data` collection. To enable editing on datagrid just set the `Editable` attribute to **true**.
+The grid can perform some basic CRUD operations on the supplied `Data` collection. To enable editing on data-grid just set the `Editable` attribute to **true**.
 
-By default every time the `Item` is saved it will be automatically handled by the datagrid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the `UseInternalEditing` to **false**.
+By default every time the `Item` is saved it will be automatically handled by the data-grid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the `UseInternalEditing` to **false**.
 
 The grid can work in two different editing modes that can provide different user experiences.
 
@@ -250,7 +250,7 @@ If you want to change default buttons you can use following templates
 | IsStriped              | boolean                                                             | `false` | Adds stripes to the table.                                                                                  |
 | IsBordered             | boolean                                                             | `false` | Adds borders to all the cells.                                                                              |
 | IsBorderless           | boolean                                                             | `false` | Makes the table without any borders.                                                                        |
-| IsHoverable            | boolean                                                             | `false` | Adds a hover effect when mousing over rows.                                                                 |
+| IsHoverable            | boolean                                                             | `false` | Adds a hover effect when moussing over rows.                                                                 |
 | IsNarrow               | boolean                                                             | `false` | Makes the table more compact by cutting cell padding in half.                                               |
 | SelectedRow            | TItem                                                               |         | Currently selected row.                                                                                     |
 | SelectedRowChanged     | EventCallback                                                       |         | Occurs after the selected row has changed.                                                                  |
