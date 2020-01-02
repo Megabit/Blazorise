@@ -1,7 +1,7 @@
 ---
 title: "Enums"
 permalink: /docs/helpers/enums/
-excerpt: "Blazorise have it's own set of enums that you can use instead of manually writing css classnames."
+excerpt: "Blazorise have it's own set of enums that you can use instead of manually writing CSS class-names."
 toc: true
 toc_label: "Enums"
 ---
@@ -34,7 +34,7 @@ Modifies the URL matching behavior for a link.
 
 ## ButtonType
 
-Defines the button type and behaviour.
+Defines the button type and behavior.
 
 - `Button` The button is a clickable button.
 - `Submit` The button is a submit button (submits form-data).
@@ -44,7 +44,7 @@ Defines the button type and behaviour.
 
 Defines the mouse cursor.
 
-- `Default` Default behaviour, nothing will be changed.
+- `Default` Default behavior, nothing will be changed.
 - `Pointer` The cursor is a pointer and indicates a link.
 
 ## Direction
@@ -52,7 +52,7 @@ Defines the mouse cursor.
 Direction of an dropdown menu.
 
 - `None` Same as `Down`.
-- `Down` Trigger dropdown menus bellow an element (default behaviour).
+- `Down` Trigger dropdown menus bellow an element (default behavior).
 - `Up` Trigger dropdown menus above an element.
 - `Right` Trigger dropdown menus to the right of an element.
 - `Left` Trigger dropdown menus to the left of an element.

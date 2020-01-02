@@ -1,7 +1,7 @@
 ---
 title: "Components"
 permalink: /docs/components/
-excerpt: "Blazorise component are categorises into different groups of components that act and behave differently."
+excerpt: "Blazorise component are categorised into different groups of components that act and behave differently."
 toc: true
 toc_label: "Components"
 redirect_from: /components/

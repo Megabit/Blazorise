@@ -18,7 +18,7 @@ Use NumericEdit to have a field for any kind if numeric values. All basic types 
 
 ## Rules
 
-Since NumericEdit is a generic component you will have to specify the exact data type for the value. Most of the time it will be recognized automatically when you set the `Value` attribute, but if not you will just use the `TValue` attibute and define the type manually eg.
+Since NumericEdit is a generic component you will have to specify the exact data type for the value. Most of the time it will be recognized automatically when you set the `Value` attribute, but if not you will just use the `TValue` attribute and define the type manually eg.
 
 ```html
 <NumericEdit TValue="int?" />
