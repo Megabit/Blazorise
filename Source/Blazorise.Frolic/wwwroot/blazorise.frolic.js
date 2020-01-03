@@ -4,7 +4,7 @@ if (!window.blazoriseFrolic) {
 
 window.blazoriseFrolic = {
     tooltip: {
-        initialize: (elementId, element) => {
+        initialize: (element, elementId) => {
 
             if (element.querySelector(".e-btn")) {
                 element.classList.add("b-tooltip-inline");

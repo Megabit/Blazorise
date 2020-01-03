@@ -14,9 +14,9 @@ namespace Blazorise.Frolic
         {
         }
 
-        public override ValueTask<bool> InitializeTooltip( string elementId, ElementReference elementRef )
+        public override ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId )
         {
-            return runtime.InvokeAsync<bool>( $"blazoriseFrolic.tooltip.initialize", elementId, elementRef );
+            return runtime.InvokeAsync<bool>( $"blazoriseFrolic.tooltip.initialize", elementRef, elementId );
         }
 
         public override ValueTask<bool> OpenModal( ElementReference elementRef, string elementId )

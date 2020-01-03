@@ -31,7 +31,7 @@ namespace Blazorise
 
         protected async override Task OnFirstAfterRenderAsync()
         {
-            await JSRunner.InitializeTextEdit( ElementId, ElementRef, MaskType.ToMaskTypeString(), EditMask );
+            await JSRunner.InitializeTextEdit( ElementRef, ElementId, MaskType.ToMaskTypeString(), EditMask );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -40,7 +40,7 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                JSRunner.DestroyTextEdit( ElementId, ElementRef );
+                JSRunner.DestroyTextEdit( ElementRef, ElementId );
             }
 
             base.Dispose( disposing );

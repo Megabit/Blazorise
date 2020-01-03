@@ -4,7 +4,7 @@ if (!window.blazoriseBulma) {
 
 window.blazoriseBulma = {
     tooltip: {
-        initialize: (elementId, element) => {
+        initialize: (element, elementId) => {
             if (element.querySelector(".checkbox,.button")) {
                 element.classList.add("b-tooltip-inline");
             }
