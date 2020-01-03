@@ -457,7 +457,9 @@ namespace Blazorise
 
         string AlertDismisable();
 
-        //string AlertShow();
+        string AlertFade();
+
+        string AlertShow();
 
         #endregion
 

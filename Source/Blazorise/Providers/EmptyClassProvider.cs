@@ -466,6 +466,10 @@ namespace Blazorise.Providers
 
         public string AlertDismisable() => null;
 
+        public string AlertFade() => null;
+
+        public string AlertShow() => null;
+
         #endregion
 
         #region Modal

@@ -529,7 +529,9 @@ namespace Blazorise.Frolic
 
         public override string AlertDismisable() => null;
 
-        //public override string AlertShow( bool show ) => $"alert-dismissible {Fade()} {( show ? Show() : null )}";
+        public override string AlertFade() => Fade();
+
+        public override string AlertShow() => Show();
 
         #endregion
 

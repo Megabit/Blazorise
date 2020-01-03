@@ -14,7 +14,7 @@ namespace Blazorise
     {
         protected readonly IJSRuntime runtime;
 
-        protected const string BLAZORISE_NAMESPACE = "blazorise";
+        private const string BLAZORISE_NAMESPACE = "blazorise";
 
         public JSRunner( IJSRuntime runtime )
         {
