@@ -464,7 +464,9 @@ namespace Blazorise
 
         public abstract string AlertDismisable();
 
-        //public abstract string AlertShow( bool show );
+        public abstract string AlertFade();
+
+        public abstract string AlertShow();
 
         #endregion
 

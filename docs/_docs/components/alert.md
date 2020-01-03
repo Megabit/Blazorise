@@ -27,7 +27,7 @@ You can also add a close button.
 </Alert>
 ```
 
-<iframe class="frame" src="/examples/elements/alert-close/" frameborder="0" scrolling="no" style="width:100%;height:60px;"></iframe>
+<iframe class="frame" src="/examples/elements/alert-close/" frameborder="0" scrolling="no" style="width:100%;height:100px;"></iframe>
 
 ### With content
 
@@ -49,7 +49,7 @@ You can also add a close button.
 </Alert>
 ```
 
-<iframe class="frame" src="/examples/elements/alert-close-big/" frameborder="0" scrolling="no" style="width:100%;height:215px;"></iframe>
+<iframe class="frame" src="/examples/elements/alert-close-big/" frameborder="0" scrolling="no" style="width:100%;height:265px;"></iframe>
 
 ### How to use
 

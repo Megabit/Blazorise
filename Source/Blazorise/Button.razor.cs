@@ -56,7 +56,7 @@ namespace Blazorise
 
             ExecuteAfterRender( async () =>
             {
-                await JSRunner.InitializeButton( ElementId, ElementRef, PreventDefaultOnSubmit );
+                await JSRunner.InitializeButton( ElementRef, ElementId, PreventDefaultOnSubmit );
             } );
 
             base.OnInitialized();
