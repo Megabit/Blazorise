@@ -4,7 +4,7 @@ if (!window.blazoriseBootstrap) {
 
 window.blazoriseBootstrap = {
     tooltip: {
-        initialize: (elementId, element) => {
+        initialize: (element, elementId) => {
             if (element.querySelector(".custom-control-input,.btn")) {
                 element.classList.add("b-tooltip-inline");
             }

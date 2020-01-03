@@ -45,7 +45,7 @@ namespace Blazorise
         protected override async Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new NumericEditAdapter( this ) );
-            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementId, ElementRef, Decimals, DecimalsSeparator, Step );
+            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementRef, ElementId, Decimals, DecimalsSeparator, Step );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -54,7 +54,7 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                JSRunner.DestroyNumericEdit( ElementId, ElementRef );
+                JSRunner.DestroyNumericEdit( ElementRef, ElementId );
                 JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
             }
 

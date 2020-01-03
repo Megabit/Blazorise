@@ -45,7 +45,7 @@ namespace Blazorise
                 // try to detect if inline is needed
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.InitializeTooltip( ElementId, ElementRef );
+                    await JSRunner.InitializeTooltip( ElementRef, ElementId );
                 } );
             }
 
