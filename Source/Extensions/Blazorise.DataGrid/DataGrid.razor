@@ -24,7 +24,7 @@
                         }
                         else
                         {
-                            <TableHeaderCell Style="@(Sortable ? "cursor: pointer" : "")" Clicked="@(() => OnSortClicked( column ) )" width="@column.Width">
+                            <TableHeaderCell Style="@(Sortable ? "cursor: pointer" : "")" Clicked="@(async () => await OnSortClicked( column ) )" width="@column.Width">
                                 @if ( column.ShowCaption )
                                 {
                                     @column.Caption
@@ -59,7 +59,7 @@
                         else
                         {
                             <TableHeaderCell width="@column.Width">
-                                <TextEdit Text="@column.Filter.SearchValue" TextChanged="@(( newValue ) => OnFilterChanged( column, newValue))" />
+                                <TextEdit Text="@column.Filter.SearchValue" TextChanged="@(async ( newValue ) => await OnFilterChanged( column, newValue))" />
                             </TableHeaderCell>
                         }
                     }
@@ -93,9 +93,6 @@
                     }
                 }
             }
-
-
-
         </TableBody>
     </Table>
     @if ( ShowPager )

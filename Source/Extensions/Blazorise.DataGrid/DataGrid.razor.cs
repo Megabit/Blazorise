@@ -79,7 +79,7 @@ namespace Blazorise.DataGrid
         #region Initialisation
 
         /// <summary>
-        /// Links the column with this datagrid.
+        /// Links the child column with this datagrid.
         /// </summary>
         /// <param name="column">Column to link with this datagrid.</param>
         internal void Hook( BaseDataGridColumn<TItem> column )
@@ -95,6 +95,9 @@ namespace Blazorise.DataGrid
 
         protected override Task OnFirstAfterRenderAsync()
         {
+            if ( ReadData.HasDelegate )
+                return HandleReadData();
+
             // after all the columns have being "hooked" we need to resfresh the grid
             StateHasChanged();
 
@@ -270,7 +273,12 @@ namespace Blazorise.DataGrid
 
         #region Filtering
 
-        protected void OnSortClicked( BaseDataGridColumn<TItem> column )
+        protected Task HandleReadData()
+        {
+            return ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns ) );
+        }
+
+        protected Task OnSortClicked( BaseDataGridColumn<TItem> column )
         {
             if ( Sortable && column.Sortable )
             {
@@ -288,16 +296,26 @@ namespace Blazorise.DataGrid
                 }
 
                 dirtyFilter = dirtyView = true;
+
+                if ( ReadData.HasDelegate )
+                    return HandleReadData();
             }
+
+            return Task.CompletedTask;
         }
 
-        protected void OnFilterChanged( BaseDataGridColumn<TItem> column, string value )
+        protected Task OnFilterChanged( BaseDataGridColumn<TItem> column, string value )
         {
             column.Filter.SearchValue = value;
             dirtyFilter = dirtyView = true;
+
+            if ( ReadData.HasDelegate )
+                return HandleReadData();
+
+            return Task.CompletedTask;
         }
 
-        protected void OnClearFilterCommand()
+        protected Task OnClearFilterCommand()
         {
             foreach ( var column in Columns )
             {
@@ -305,9 +323,14 @@ namespace Blazorise.DataGrid
             }
 
             dirtyFilter = dirtyView = true;
+
+            if ( ReadData.HasDelegate )
+                return HandleReadData();
+
+            return Task.CompletedTask;
         }
 
-        protected void OnPaginationItemClick( string pageName )
+        protected async Task OnPaginationItemClick( string pageName )
         {
             if ( int.TryParse( pageName, out var pageNumber ) )
                 CurrentPage = pageNumber;
@@ -329,7 +352,10 @@ namespace Blazorise.DataGrid
                 }
             }
 
-            PageChanged?.Invoke( CurrentPage.ToString() );
+            await PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( CurrentPage, PageSize ) );
+
+            if ( ReadData.HasDelegate )
+                await HandleReadData();
         }
 
         private void FilterData()
@@ -345,28 +371,32 @@ namespace Blazorise.DataGrid
                 return;
             }
 
-            // just one column can be sorted for now!
-            if ( sortByColumn != null && sortByColumn.Sortable )
+            // only use internal filtering if we're not using custom data loading
+            if ( !ReadData.HasDelegate )
             {
-                if ( sortByColumn.Direction == SortDirection.Descending )
-                    query = query.OrderByDescending( item => sortByColumn.GetValue( item ) );
-                else
-                    query = query.OrderBy( item => sortByColumn.GetValue( item ) );
-            }
+                // just one column can be sorted for now!
+                if ( sortByColumn != null && sortByColumn.Sortable )
+                {
+                    if ( sortByColumn.Direction == SortDirection.Descending )
+                        query = query.OrderByDescending( item => sortByColumn.GetValue( item ) );
+                    else
+                        query = query.OrderBy( item => sortByColumn.GetValue( item ) );
+                }
 
-            foreach ( var column in Columns )
-            {
-                if ( column.ColumnType == DataGridColumnType.Command )
-                    continue;
+                foreach ( var column in Columns )
+                {
+                    if ( column.ColumnType == DataGridColumnType.Command )
+                        continue;
 
-                if ( string.IsNullOrEmpty( column.Filter.SearchValue ) )
-                    continue;
+                    if ( string.IsNullOrEmpty( column.Filter.SearchValue ) )
+                        continue;
 
-                query = from q in query
-                        let cellRealValue = column.GetValue( q )
-                        let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                        where CompareFilterValues( cellStringValue, column.Filter.SearchValue )
-                        select q;
+                    query = from q in query
+                            let cellRealValue = column.GetValue( q )
+                            let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
+                            where CompareFilterValues( cellStringValue, column.Filter.SearchValue )
+                            select q;
+                }
             }
 
             filteredData = query.ToList();
@@ -397,7 +427,11 @@ namespace Blazorise.DataGrid
             if ( dirtyFilter )
                 FilterData();
 
-            return filteredData.Skip( ( CurrentPage - 1 ) * PageSize ).Take( PageSize );
+            // only use pagination if the custom data loading is not used
+            if ( !ReadData.HasDelegate )
+                return filteredData.Skip( ( CurrentPage - 1 ) * PageSize ).Take( PageSize );
+
+            return filteredData;
         }
 
         public Task SelectRow( TItem item )
@@ -460,6 +494,14 @@ namespace Blazorise.DataGrid
                 dirtyFilter = dirtyView = true;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the total number of items. Used only when <see cref="ReadData"/> is used to load the data.
+        /// </summary>
+        /// <remarks>
+        /// This field must be set only when <see cref="ReadData"/> is used to load the data.
+        /// </remarks>
+        [Parameter] public int? TotalItems { get; set; }
 
         /// <summary>
         /// Gets the data after all of the filters have being applied.
@@ -534,7 +576,10 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                var lastPage = Math.Max( (int)Math.Ceiling( ( FilteredData?.Count() ?? 0 ) / (double)PageSize ), 1 );
+                // if we're using ReadData than TotalItems must be set so we can know how many items are available
+                var totalItems = ( ReadData.HasDelegate ? TotalItems : FilteredData?.Count() ) ?? 0;
+
+                var lastPage = Math.Max( (int)Math.Ceiling( totalItems / (double)PageSize ), 1 );
 
                 if ( CurrentPage > lastPage )
                     CurrentPage = lastPage;
@@ -637,7 +682,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Occurs after the selected page has changed.
         /// </summary>
-        [Parameter] public Action<string> PageChanged { get; set; }
+        [Parameter] public EventCallback<DataGridPageChangedEventArgs> PageChanged { get; set; }
+
+        /// <summary>
+        /// Event handler used to load data manually based on the current page and filter data settings.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridReadDataEventArgs<TItem>> ReadData { get; set; }
 
         /// <summary>
         /// Specifes the grid editing modes.
