@@ -762,6 +762,9 @@ namespace Blazorise
         Justified
     }
 
+    /// <summary>
+    /// Defines the text transformation.
+    /// </summary>
     public enum TextTransform
     {
         /// <summary>
@@ -785,6 +788,9 @@ namespace Blazorise
         Capitalize,
     }
 
+    /// <summary>
+    /// Defines the text weight.
+    /// </summary>
     public enum TextWeight
     {
         /// <summary>
