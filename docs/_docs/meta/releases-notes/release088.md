@@ -8,7 +8,7 @@ toc_label: "Features"
 
 ## Overview
 
-Now that the holidays are over I'm pleased to announce the finished Blazorise **0.8.8**. This release comes packed with many new features and bug fixes.
+Happy new year! After a brief holiday I'm pleased to announce the finished Blazorise **0.8.8**. This release comes packed with many new features and bug fixes.
 
 ## Features
 
@@ -76,7 +76,7 @@ Big thanks to all the contributors!
 
 ## Closing notes
 
-That leaves us with v0.8.8. From now on, all my effort will be put to the next [0.9 milestone](https://github.com/stsrki/Blazorise/milestone/23). It will be be a biggest release in awhile that will bring many new components, new CSS provider(s) and refactoring. Right now I don't have plan to work on **0.8.x** unless there are some major bugs that cannot be waited for 0.9.
+That leaves us with **0.8.8**. From now on, all my effort will be put to the next [0.9 milestone](https://github.com/stsrki/Blazorise/milestone/23). It will be the biggest release in awhile, and will bring many new components, new CSS provider(s) and a lot of refactoring. Right now I don't have plan to work on any 0.8.**x** unless there are some major bugs that cannot be waited until 0.9.
 
 And as always if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/stsrki/Blazorise) or click on the star-badge bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic)!
 
