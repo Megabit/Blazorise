@@ -108,7 +108,7 @@ If you want to validate input by using regular expression instead of `Validator`
 To use data annotations with Blazorise you must combine both `Validation` and the `Validations` components. The `Validations` component will act as a group for a fields used inside of `Validation` component. To make it all work you must meet two requirements:
 
 1. `Validations` component must contain reference to the validated POCO through the `Model` attribute.
-2. Input component must bind to the model field throught the `@bind-{Value}`(ie. `@bind-Text`)
+2. Input component must bind to the model field through the `@bind-{Value}`(i.e. `@bind-Text`)
 
 After those two requirements are met the Blazorise will have enough information to know how to use data annotations.
 

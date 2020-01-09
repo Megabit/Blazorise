@@ -768,7 +768,7 @@ namespace Blazorise
     public enum TextTransform
     {
         /// <summary>
-        /// No capitalization. The text renders as it is. This is default
+        /// No capitalization. The text renders as it is. This is default.
         /// </summary>
         None,
 
@@ -783,7 +783,7 @@ namespace Blazorise
         Uppercase,
 
         /// <summary>
-        /// Transforms the first character of each word to uppercase
+        /// Transforms the first character of each word to uppercase.
         /// </summary>
         Capitalize,
     }
@@ -804,7 +804,7 @@ namespace Blazorise
         Normal,
 
         /// <summary>
-        /// 	Defines thick characters.
+        /// Defines thick characters.
         /// </summary>
         Bold,
 

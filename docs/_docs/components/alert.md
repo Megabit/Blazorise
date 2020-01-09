@@ -61,7 +61,7 @@ To show alert just set `IsShow` attribute to true.
 </Alert>
 ```
 
-or programatically
+or programmatically
 
 ```cs
 <Alert @ref="myAlert" Color="Color.Success">
@@ -93,5 +93,5 @@ or programatically
 | Name         | Type                                                         | Default          | Description                                                                                 |
 |--------------|--------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
 | IsDismisable | boolean                                                      | false            | Enables the alert to be closed by placing the padding for close button.                     |
-| IsShow       | boolean                                                      | false            | Sets the alert visibilty.                                                                   |
+| IsShow       | boolean                                                      | false            | Sets the alert visibility.                                                                   |
 | Color        | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }}) | `None`           | Component visual or contextual style variants.                                              |

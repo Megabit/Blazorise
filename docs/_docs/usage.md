@@ -6,7 +6,7 @@ toc: true
 toc_label: "Guide"
 ---
 
-## Suppported CSS Providers
+## Supported CSS Providers
 
 - [Bootstrap]({{ "/docs/usage/bootstrap/" | relative_url }})
 - [Bulma]({{ "/docs/usage/bulma/" | relative_url }})
