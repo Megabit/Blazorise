@@ -3,7 +3,7 @@
 	<metadata>
 		<id>Blazorise.DataGrid</id>
 		<title>Blazorise.DataGrid</title>
-		<version>0.8.7.2</version>
+		<version>0.8.8</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -15,12 +15,8 @@
 		<repository url="https://github.com/stsrki/Blazorise" />
 		<icon>Blazorise.png</icon>
 		<dependencies>
-			<group targetFramework=".NETStandard2.0">
-				<dependency id="Blazorise" version="0.8.7.2" exclude="Build,Analyzers" />
-				<dependency id="Microsoft.AspNetCore.Components" version="3.1.0" exclude="Build,Analyzers" />
-			</group>
 			<group targetFramework=".NETStandard2.1">
-				<dependency id="Blazorise" version="0.8.7.2" exclude="Build,Analyzers" />
+				<dependency id="Blazorise" version="0.8.8" exclude="Build,Analyzers" />
 				<dependency id="Microsoft.AspNetCore.Components" version="3.1.0" exclude="Build,Analyzers" />
 			</group>
 		</dependencies>
