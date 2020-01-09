@@ -14,7 +14,7 @@ namespace Blazorise
     {
         protected readonly IJSRuntime runtime;
 
-        protected const string BLAZORISE_NAMESPACE = "blazorise";
+        private const string BLAZORISE_NAMESPACE = "blazorise";
 
         public JSRunner( IJSRuntime runtime )
         {
@@ -34,39 +34,34 @@ namespace Blazorise
             }
         }
 
-        public ValueTask<bool> Init( ElementReference elementRef, object componentRef )
+        public ValueTask<bool> InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.init", elementRef, DotNetObjectReference.Create( componentRef ) );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementRef, elementId, maskType, editMask );
         }
 
-        public ValueTask<bool> InitializeTextEdit( string elementId, ElementReference elementRef, string maskType, string editMask )
+        public ValueTask<bool> DestroyTextEdit( ElementReference elementRef, string elementId )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementId, elementRef, maskType, editMask );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementRef, elementId );
         }
 
-        public ValueTask<bool> DestroyTextEdit( string elementId, ElementReference elementRef )
+        public ValueTask<bool> InitializeNumericEdit( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, int decimals, string decimalsSeparator, decimal? step )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementId, elementRef );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementRef, elementId, decimals, decimalsSeparator, step );
         }
 
-        public ValueTask<bool> InitializeNumericEdit( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, string elementId, ElementReference elementRef, int decimals, string decimalsSeparator, decimal? step )
+        public ValueTask<bool> DestroyNumericEdit( ElementReference elementRef, string elementId )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementId, elementRef, decimals, decimalsSeparator, step );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementRef, elementId );
         }
 
-        public ValueTask<bool> DestroyNumericEdit( string elementId, ElementReference elementRef )
+        public virtual ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementId, elementRef );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementRef, elementId );
         }
 
-        public virtual ValueTask<bool> InitializeTooltip( string elementId, ElementReference elementRef )
+        public virtual ValueTask<bool> InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementId, elementRef );
-        }
-
-        public virtual ValueTask<bool> InitializeButton( string elementId, ElementReference elementRef, bool preventDefaultSubmit )
-        {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.button.initialize", elementId, elementRef, preventDefaultSubmit );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.button.initialize", elementRef, elementId, preventDefaultSubmit );
         }
 
         public ValueTask<bool> DestroyButton( string elementId )
@@ -152,6 +147,15 @@ namespace Blazorise
         public ValueTask<bool> SetTextValue( ElementReference elementRef, object value )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
+        }
+
+        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
+
+        public abstract ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
+
+        public ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.focus", elementRef, elementId, scrollToElement );
         }
 
         public ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, string elementId )

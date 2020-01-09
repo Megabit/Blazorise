@@ -68,6 +68,12 @@ namespace Blazorise.Sidebar
         public string To { get; set; }
 
         /// <summary>
+        /// Whether the item and all sub-items are shown.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public bool IsShow { get; set; }
+
+        /// <summary>
         /// Collection of item sub-items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]

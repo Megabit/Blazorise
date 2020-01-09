@@ -4,10 +4,24 @@ if (!window.blazoriseBootstrap) {
 
 window.blazoriseBootstrap = {
     tooltip: {
-        initialize: (elementId, element) => {
+        initialize: (element, elementId) => {
             if (element.querySelector(".custom-control-input,.btn")) {
                 element.classList.add("b-tooltip-inline");
             }
+
+            return true;
+        }
+    },
+    modal: {
+        open: (element, elementId) => {
+            window.blazorise.addClassToBody("modal-open");
+
+            element.querySelector('.modal-body').scrollTop = 0;
+
+            return true;
+        },
+        close: (element, elementId) => {
+            window.blazorise.removeClassFromBody("modal-open");
 
             return true;
         }

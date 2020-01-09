@@ -101,6 +101,15 @@ namespace Blazorise
         /// <param name="value">New edit value.</param>
         protected abstract Task OnInternalValueChanged( TValue value );
 
+        /// <summary>
+        /// Sets focus on the input element, if it can be focused.
+        /// </summary>
+        /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
+        public void Focus( bool scrollToElement = true )
+        {
+            _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
+        }
+
         #endregion
 
         #region Properties

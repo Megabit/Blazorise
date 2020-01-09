@@ -1,12 +1,12 @@
 ---
 title: "Material"
 permalink: /docs/usage/material/
-excerpt: "Learn all the steps on how to quickly install and setup Blazorise for Material css framework and material icons."
+excerpt: "Learn all the steps on how to quickly install and setup Blazorise for Material CSS framework and material icons."
 toc: true
 toc_label: "Steps"
 ---
 
-Since Material CSS is based on a Bootstrap you only need to change the css and js sources. The code in _Imports.razor_ will stay the same as in the [Bootstrap]({{ "/docs/usage/bootstrap/" | relative_url }}).
+Since Material CSS is based on a Bootstrap you only need to change the CSS and JS sources. The code in _Imports.razor_ will stay the same as in the [Bootstrap]({{ "/docs/usage/bootstrap/" | relative_url }}).
 
 ## Installations
 
@@ -26,7 +26,7 @@ Install-Package Blazorise.Icons.Material
 
 ### 2. Download CSS
 
-Material css is not available through the cdn so you must download it yourself from [daemonite](http://daemonite.github.io/material/) web page. After the download is finished just must extract the _css_ and _js_ to the **wwwrooot** folder inside of you Blazor project.
+Material CSS is not available through the CDN so you must download it yourself from [daemonite](http://daemonite.github.io/material/) web page. After the download is finished just must extract the _CSS_ and _JS_ to the **wwwroot** folder inside of you Blazor project.
 
 The folder structure should be:
 
@@ -39,7 +39,7 @@ blazorproject.client/
 
 ### 3. Source files
 
-The next step is to change your `index.html` file and include the css and js source files:
+The next step is to change your `index.html` or `_Host.cshtml` file and include the css and js source files:
 
 ```html
 <!-- Material CSS -->
@@ -49,18 +49,24 @@ The next step is to change your `index.html` file and include the css and js sou
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+<link href="_content/Blazorise.Material/blazorise.material.css" rel="stylesheet" />
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Material JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="js/material.min.js"></script>
+
+<script src="_content/Blazorise/blazorise.js"></script>
+<script src="_content/Blazorise.Material/blazorise.material.js"></script>
 ```
 
-**Note:** Don't forget to remove default **bootstrap** css and js files that comes with the Blazor/RC project template. If you forget to remove them it's possible that some of component will not work as they should be.
+**Note:** When Blazor project is created it will also include it's own **Bootstrap** and **FontAwesome** files that can sometime be of older versions. To ensure we're using the appropriate bootstrap and FontAwesome files, you need remove them or replace them with the links from above. If you forget to remove them it's possible that some components will not work as expected.
 {: .notice--info}
 
-### 4. Usings
+### 4. Using's
 
 In your main _Imports.razor add:
 
@@ -120,16 +126,4 @@ public void Configure( IComponentsApplicationBuilder app )
       endpoints.MapFallbackToPage( "/_Host" );
   } );
 }
-```
-
-### 6. Static files
-
-The final step is mandatory for all Blazor project types. Unlike in previous versions of Blazorise from now on you must set the path for static file manually. When consuming nuget packages that contains static files you must follow the convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. So for this guide the required files are:
-
-```html
-<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
-<link href="_content/Blazorise.Material/blazorise.material.css" rel="stylesheet" />
-
-<script src="_content/Blazorise/blazorise.js"></script>
-<script src="_content/Blazorise.Material/blazorise.material.js"></script>
 ```

@@ -1,7 +1,7 @@
 ---
 title: "Start"
 permalink: /docs/start/
-excerpt: "Learn how to quickly install and setup Blazorise using Bootstrap css framework and FontAwesome icons extension."
+excerpt: "Learn how to quickly install and setup Blazorise using Bootstrap CSS framework and FontAwesome icons extension."
 redirect_from:
   - /theme-setup/
 toc: true
@@ -12,9 +12,9 @@ redirect_from: /docs/quick-start/
 **Note:** Before continuing please make sure that you already have a Blazor project created. If not please go to the [official Blazor site](https://blazor.net/docs/get-started.html){:target="_blank"} and learn how to create one.
 {: .notice--info}
 
-Blazorise is designed to work with different css frameworks. Each of the supported css framework is defined by a different nuget package. Please see the [usage page]({{ "/docs/usage/" | relative_url }}) to find a list of supported frameworks and how to use them.
+Blazorise is designed to work with different CSS frameworks. Each of the supported CSS framework is defined by a different nuget package. Please see the [usage page]({{ "/docs/usage/" | relative_url }}) to find a list of supported frameworks and how to use them.
 
-The setup process is simillar for all of the supported frameworks, you will just replace Bootstrap sources with the one you need.
+The setup process is similar for all of the supported frameworks, you will just replace Bootstrap sources with the one you need.
 
 ## Installations
 
@@ -34,23 +34,29 @@ Install-Package Blazorise.Icons.FontAwesome
 
 ### 2. Source files
 
-The next step is to change your `index.html` file and include the css and js source files:
+The next step is to change your `index.html` or `_Host.cshtml` file and include the CSS and JS source files:
 
 ```html
 <!-- inside of head section -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+
+<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
 
 <!-- inside of body section and after the <app> tag  -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="_content/Blazorise/blazorise.js"></script>
+<script src="_content/Blazorise.Bootstrap/blazorise.bootstrap.js"></script>
 ```
 
-**Note:** Don't forget to remove default **bootstrap** css and js files that comes with the Blazor/RC project template. If you forget to remove them it's possible that some of component will not work as they should be.
+**Note:**  When Blazor project is created it will also include it's own **Bootstrap** and **FontAwesome** files that can sometime be of older versions. To ensure we're using the appropriate bootstrap and FontAwesome files, you need remove them or replace them with the links from above. If you forget to remove them it's possible that some components will not work as expected.
 {: .notice--info}
 
-### 3. Usings
+### 3. Using's
 
 In your main _Imports.razor add:
 
@@ -110,16 +116,4 @@ public void Configure( IComponentsApplicationBuilder app )
       endpoints.MapFallbackToPage( "/_Host" );
   } );
 }
-```
-
-### 5. Static files
-
-The final step is mandatory for all Blazor project types. Unlike in previous versions of Blazorise from now on you must set the path for static file manually. When consuming nuget packages that contains static files you must follow the convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. So for this guide the required files are:
-
-```html
-<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
-<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
-
-<script src="_content/Blazorise/blazorise.js"></script>
-<script src="_content/Blazorise.Bootstrap/blazorise.bootstrap.js"></script>
 ```

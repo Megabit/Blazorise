@@ -119,5 +119,45 @@ namespace Blazorise.UnitTests
             numeric.SendKeys( Keys.Down );
             WaitAssert.Equal( "4", () => result.Text );
         }
+
+        [Fact]
+        public void CanTypeNumberWithDotDecimalSeparator()
+        {
+            var paragraph = Browser.FindElement( By.Id( "decimal-separator-with-dot" ) );
+            var numeric = paragraph.FindElement( By.TagName( "input" ) );
+            var result = paragraph.FindElement( By.Id( "decimal-separator-with-dot-result" ) );
+
+            WaitAssert.Equal( "42.5", () => result.Text );
+
+            numeric.SendKeys( "6" );
+            WaitAssert.Equal( "42.56", () => result.Text );
+
+            numeric.SendKeys( Keys.Backspace );
+            numeric.SendKeys( Keys.Backspace );
+            WaitAssert.Equal( "42", () => result.Text );
+
+            numeric.SendKeys( ".3" );
+            WaitAssert.Equal( "42.3", () => result.Text );
+        }
+
+        [Fact]
+        public void CanTypeNumberWithCommaDecimalSeparator()
+        {
+            var paragraph = Browser.FindElement( By.Id( "decimal-separator-with-comma" ) );
+            var numeric = paragraph.FindElement( By.TagName( "input" ) );
+            var result = paragraph.FindElement( By.Id( "decimal-separator-with-comma-result" ) );
+
+            WaitAssert.Equal( "42,5", () => result.Text );
+
+            numeric.SendKeys( "6" );
+            WaitAssert.Equal( "42,56", () => result.Text );
+
+            numeric.SendKeys( Keys.Backspace );
+            numeric.SendKeys( Keys.Backspace );
+            WaitAssert.Equal( "42", () => result.Text );
+
+            numeric.SendKeys( ",3" );
+            WaitAssert.Equal( "42,3", () => result.Text );
+        }
     }
 }

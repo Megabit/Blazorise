@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,13 +41,13 @@ namespace Blazorise
         /// Gets the valid variant colors.
         /// </summary>
         public IEnumerable<(string name, string color)> ValidColors
-            => ColorOptions?.ColorMap?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+            => ColorOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
         /// Gets the valid background colors.
         /// </summary>
         public IEnumerable<(string name, string color)> ValidBackgroundColors
-            => BackgroundOptions?.ColorMap?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+            => BackgroundOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
         /// Used to override default theme colors.
@@ -88,11 +89,18 @@ namespace Blazorise
         public ThemeSidebarOptions SidebarOptions { get; set; }
 
         public ThemeSnackbarOptions SnackbarOptions { get; set; }
+
+        public ThemeBarOptions BarOptions { get; set; }
     }
 
     public class BasicOptions
     {
         public string BorderRadius { get; set; } = ".25rem";
+
+        public virtual bool HasOptions()
+        {
+            return !string.IsNullOrEmpty( BorderRadius );
+        }
     }
 
     public class ThemeButtonOptions : BasicOptions
@@ -116,15 +124,27 @@ namespace Blazorise
         public string LargeBorderRadius { get; set; } = ".3rem";
 
         public string SmallBorderRadius { get; set; } = ".2rem";
+
+        public float GradientBlendPercentage { get; set; } = 15f;
     }
 
     public class ThemeDropdownOptions : BasicOptions
     {
+        public float GradientBlendPercentage { get; set; } = 15f;
     }
 
     public class ThemeInputOptions : BasicOptions
     {
         public string Color { get; set; }
+
+        public string CheckColor { get; set; }
+
+        public override bool HasOptions()
+        {
+            return !string.IsNullOrEmpty( Color )
+                || !string.IsNullOrEmpty( CheckColor )
+                || base.HasOptions();
+        }
     }
 
     public class ThemeCardOptions : BasicOptions
@@ -151,6 +171,8 @@ namespace Blazorise
         public int BorderLevel { get; set; } = -9;
 
         public int ColorLevel { get; set; } = 6;
+
+        public float GradientBlendPercentage { get; set; } = 15f;
     }
 
     public class ThemeTableOptions : BasicOptions
@@ -173,11 +195,13 @@ namespace Blazorise
         public string LargeBorderRadius { get; set; } = ".3rem";
     }
 
-    public class ThemeColorOptions
+    public class ThemeBarOptions
     {
+    }
 
-
-        public Dictionary<string, Func<string>> ColorMap => new Dictionary<string, Func<string>> {
+    public class ThemeColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    {
+        private Dictionary<string, Func<string>> colorMap => new Dictionary<string, Func<string>> {
             { "primary", () => Primary },
             { "secondary", () => Secondary },
             { "success", () => Success },
@@ -187,6 +211,23 @@ namespace Blazorise
             { "light", () => Light },
             { "dark", () => Dark }
         };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the color handler associated with the specified color key.
+        /// </summary>
+        /// <param name="key">Color key</param>
+        /// <returns>Return the color getter.</returns>
+        public Func<string> this[string key] => colorMap[key];
 
         public string Primary { get; set; } = ThemeColors.Blue.Shades["400"].Value;
 
@@ -205,9 +246,9 @@ namespace Blazorise
         public string Dark { get; set; } = ThemeColors.Gray.Shades["800"].Value;
     }
 
-    public class ThemeBackgroundOptions
+    public class ThemeBackgroundOptions : IEnumerable<KeyValuePair<string, Func<string>>>
     {
-        public Dictionary<string, Func<string>> ColorMap => new Dictionary<string, Func<string>> {
+        private Dictionary<string, Func<string>> colorMap => new Dictionary<string, Func<string>> {
             { "primary", () => Primary },
             { "secondary", () => Secondary },
             { "success", () => Success },
@@ -219,6 +260,23 @@ namespace Blazorise
             { "body", () => Body },
             { "muted", () => Muted }
         };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the color handler associated with the specified color key.
+        /// </summary>
+        /// <param name="key">Color key</param>
+        /// <returns>Return the color getter.</returns>
+        public Func<string> this[string key] => colorMap[key];
 
         public string Primary { get; set; } = ThemeColors.Blue.Shades["400"].Value;
 
@@ -255,6 +313,53 @@ namespace Blazorise
         public string ButtonColor { get; set; }
 
         public string ButtonHoverColor { get; set; }
+    }
+
+    public static class ThemeVariables
+    {
+        public const string White = "--b-theme-white";
+        public const string Black = "--b-theme-black";
+
+        public const string BorderRadius = "--b-border-radius";
+        public const string BorderRadiusLarge = "--b-border-radius-lg";
+        public const string BorderRadiusSmall = "--b-border-radius-sm";
+
+        /// <summary>
+        /// Gets the theme color variable name.
+        /// </summary>
+        /// <param name="variant">Color variant name.</param>
+        /// <returns></returns>
+        public static string Color( string variant ) => $"--b-theme-{variant}";
+
+        /// <summary>
+        /// Gets the theme background color variable name.
+        /// </summary>
+        /// <param name="variant">Color variant name.</param>
+        /// <returns></returns>
+        public static string BackgroundColor( string variant ) => $"--b-theme-background-{variant}";
+        public static string BackgroundYiqColor( string variant ) => $"--b-theme-background-{variant}-yiq";
+
+        public static string ButtonBackgrund( string variant ) => $"--b-button-{variant}-background";
+        public static string ButtonBorder( string variant ) => $"--b-button-{variant}-border";
+        public static string ButtonHoverBackground( string variant ) => $"--b-button-{variant}-hover-background";
+        public static string ButtonHoverBorder( string variant ) => $"--b-button-{variant}-hover-border";
+        public static string ButtonActiveBackground( string variant ) => $"--b-button-{variant}-active-background";
+        public static string ButtonActiveBorder( string variant ) => $"--b-button-{variant}-active-border";
+        public static string ButtonYiqBackground( string variant ) => $"--b-button-{variant}-yiq-background";
+        public static string ButtonYiqHoverBackground( string variant ) => $"--b-button-{variant}-yiq-hover-background";
+        public static string ButtonYiqActiveBackground( string variant ) => $"--b-button-{variant}-yiq-active-background";
+        public static string ButtonBoxShadow( string variant ) => $"--b-button-{variant}-box-shadow";
+
+        public static string OutlineButtonColor( string variant ) => $"--b-outline-button-{variant}-color";
+        public static string OutlineButtonYiqColor( string variant ) => $"--b-outline-button-{variant}-yiq-shadow";
+        public static string OutlineButtonBoxShadowColor( string variant ) => $"--b-outline-button-{variant}-box-shadow";
+
+        public const string SidebarBackground = "--b-sidebar-background";
+        public const string SidebarColor = "--b-sidebar-color";
+
+        public const string SnackbarBackground = "--b-snackbar-background";
+        public const string SnackbarButtonColor = "--b-snackbar-button-color";
+        public const string SnackbarButtonHoverColor = "--b-snackbar-button-hover-color";
     }
 
     /// <summary>

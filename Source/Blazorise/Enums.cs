@@ -762,10 +762,13 @@ namespace Blazorise
         Justified
     }
 
+    /// <summary>
+    /// Defines the text transformation.
+    /// </summary>
     public enum TextTransform
     {
         /// <summary>
-        /// No capitalization. The text renders as it is. This is default
+        /// No capitalization. The text renders as it is. This is default.
         /// </summary>
         None,
 
@@ -780,11 +783,14 @@ namespace Blazorise
         Uppercase,
 
         /// <summary>
-        /// Transforms the first character of each word to uppercase
+        /// Transforms the first character of each word to uppercase.
         /// </summary>
         Capitalize,
     }
 
+    /// <summary>
+    /// Defines the text weight.
+    /// </summary>
     public enum TextWeight
     {
         /// <summary>
@@ -798,7 +804,7 @@ namespace Blazorise
         Normal,
 
         /// <summary>
-        /// 	Defines thick characters.
+        /// Defines thick characters.
         /// </summary>
         Bold,
 
@@ -1137,6 +1143,17 @@ namespace Blazorise
         SortDown,
     }
 
+    public enum IconStyle
+    {
+        Solid = 0,
+
+        Regular = 1,
+
+        Light = 2,
+
+        DuoTone = 4,
+    }
+
     public enum FormatType
     {
         None = 0,
@@ -1248,5 +1265,31 @@ namespace Blazorise
         /// 512x512px
         /// </summary>
         Is512x512 = 9,
+    }
+
+    /// <summary>
+    /// Specifies the case of characters in an element.
+    /// </summary>
+    public enum CharacterCasing
+    {
+        /// <summary>
+        /// The case of characters is left unchanged.
+        /// </summary>
+        Normal = 0,
+
+        /// <summary>
+        /// Converts all characters to uppercase.
+        /// </summary>
+        Upper = 1,
+
+        /// <summary>
+        /// Converts all characters to lowercase.
+        /// </summary>
+        Lower = 2,
+
+        /// <summary>
+        /// Convert first character to uppercase and all other to lowercase.
+        /// </summary>
+        Title = 3,
     }
 }

@@ -8,11 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseParagraph : BaseComponent
+    public abstract class BaseParagraph : BaseTextComponent
     {
         #region Members
-
-        private TextColor color = TextColor.None;
 
         #endregion
 
@@ -21,7 +19,6 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Paragraph() );
-            builder.Append( ClassProvider.ParagraphColor( Color ), Color != TextColor.None );
 
             base.BuildClasses( builder );
         }
@@ -29,20 +26,6 @@ namespace Blazorise
         #endregion
 
         #region Properties
-
-        [Parameter]
-        public TextColor Color
-        {
-            get => color;
-            set
-            {
-                color = value;
-
-                DirtyClasses();
-            }
-        }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

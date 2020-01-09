@@ -116,7 +116,7 @@ You should always define `TItem` data type.
 
 ### Events
 
-It is possible to use `Clicked` and `Hovered` events to interact with chart. The usage is pretty straighforward. The only thing to keep in mind is the `Model` field that needs to be casted to the right chart-model type. The available model types are:
+It is possible to use `Clicked` and `Hovered` events to interact with chart. The usage is pretty straightforward. The only thing to keep in mind is the `Model` field that needs to be casted to the right chart-model type. The available model types are:
 
 - `LineChartModel`
 - `BarChartModel`

@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 #endregion
@@ -20,7 +21,7 @@ namespace Blazorise.Utils
             return (TValue)Convert.ChangeType( o, conversionType );
         }
 
-        public static bool TryChangeType<TValue>( object value, out TValue result )
+        public static bool TryChangeType<TValue>( object value, out TValue result, CultureInfo cultureInfo = null )
         {
             try
             {
@@ -31,7 +32,7 @@ namespace Blazorise.Utils
                 else if ( conversionType == typeof( Guid ) )
                     result = (TValue)Convert.ChangeType( Guid.Parse( value.ToString() ), conversionType );
                 else
-                    result = (TValue)Convert.ChangeType( value, conversionType );
+                    result = (TValue)Convert.ChangeType( value, conversionType, cultureInfo ?? CultureInfo.InvariantCulture );
 
                 return true;
             }

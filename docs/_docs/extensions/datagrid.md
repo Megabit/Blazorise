@@ -68,9 +68,9 @@ Paging is handled automatically by the DataGrid. You also have some additional a
 
 ### Editing
 
-The grid can perform some basic CRUD operations on the supplied `Data` collection. To enable editing on datagrid just set the `Editable` attribute to **true**.
+The grid can perform some basic CRUD operations on the supplied `Data` collection. To enable editing on data-grid just set the `Editable` attribute to **true**.
 
-By default every time the `Item` is saved it will be automatically handled by the datagrid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the `UseInternalEditing` to **false**.
+By default every time the `Item` is saved it will be automatically handled by the data-grid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the `UseInternalEditing` to **false**.
 
 The grid can work in two different editing modes that can provide different user experiences.
 
@@ -90,6 +90,15 @@ If you need to control how and when the grid row will be selected you can use a 
     ...
 </DataGrid>
 ```
+
+### Large Data
+
+By default, DataGrid will load everything in memory and it will perform the necessary operations like paging, sorting and filtering. For large datasets this is impractical and so for these scenarios it is advised to load data page-by-page. This is accomplished with the use of `ReadData` event handler and `TotalItems` attribute. When you define the usage of `ReadData` the DataGrid will automatically switch to manual mode and every interaction with the grid will be proxied through the `ReadData`. This means that you as a developer will be responsible for all the loading, filtering and sorting of the data.
+
+- `ReadData` event handler used to handle the loading of data
+- `TotalItems` total number of items in the source data-set
+
+Bellow you can find a [basic example]({{ "/docs/extensions/datagrid/#large-data-example" | relative_url }}) of how to load large data and apply it to the DataGrid.
 
 ## Usage
 
@@ -111,7 +120,7 @@ Next you must set the Columns that you want to see in the grid. When defining th
 
 Field attribute also supports nested fields. You can define a column with field name like `"City.Country.Name"` and it will work. Just keep in mind that when editing nested fields they must be initialized first or otherwise they will raise an exception.
 
-### Example
+### Basic Example
 
 ```html
 <DataGrid TItem="Employee"
@@ -134,6 +143,54 @@ Field attribute also supports nested fields. You can define a column with field 
         </EditTemplate>
     </DataGridColumn>
 </DataGrid>
+```
+
+### Large Data Example
+
+Just as in the previous example everything is the same except that now we must define the attribute `ReadData` and `TotalItems`. They're used to handle all of the loading, filtering and sorting of an actual data.
+
+```html
+<DataGrid TItem="Employee"
+        Data="@employeeList"
+        ReadData="@OnReadData"
+        TotalItems="@totalEmployees">
+    <DataGridCommandColumn TItem="Employee" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.FirstName)" Caption="First Name" Editable="true" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.LastName)" Caption="Last Name" Editable="true" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.EMail)" Caption="EMail" Editable="true" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.City)" Caption="City" Editable="true" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Zip)" Caption="Zip" Editable="true" />
+    <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.Childrens)" Caption="Childrens" Editable="true" />
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
+        <DisplayTemplate>
+            @($"{( context as Employee )?.Salary} €")
+        </DisplayTemplate>
+        <EditTemplate>
+            <NumericEdit TValue="decimal" Value="@((decimal)(((CellEditContext)context).CellValue))" ValueChanged="@(v=>((CellEditContext)context).CellValue=v)" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+```
+
+```cs
+@code
+{
+    Employee[] employeeList;
+    int totalEmployees;
+
+    async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    {
+        // this can be call to anything, in this case we're calling a fictional api
+        var response = await Http.GetJsonAsync<Employee[]>( $"some-api/employees?page={e.Page}&pageSize={e.PageSize}" );
+
+        employeeList = response.Data; // an actual data for the current page
+        totalEmployees = response.Total; // this is used to tell datagrid how many items are available so that pagination will work
+
+        // always call StateHasChanged!
+        StateHasChanged();
+    }
+}
 ```
 
 ## Templates
@@ -235,25 +292,36 @@ If you want to change default buttons you can use following templates
 
 ## Attributes
 
-| Name                  | Type                                                                | Default | Description                                                                                           |
-|-----------------------|---------------------------------------------------------------------|---------|-------------------------------------------------------------------------------------------------------|
-| Data                  | IEnumerable<TItem>                                                  |         | Grid data-source.                                                                                     |
-| EditMode              | [EditMode]({{ "/docs/extensions/datagrid/#editmode" | relative_url }})| `Form`  | Specifies the grid editing modes.                                                                      |
-| UseInternalEditing    | boolean                                                             | true    | Specifies the behavior of DataGrid editing.                                                          |
-| Editable              | boolean                                                             | false   | Whether users can edit DataGrid rows.                                                                 |
-| Sortable              | boolean                                                             | true    | Whether end-users can sort data by the column's values.                                               |
-| Filterable            | boolean                                                             | false   | Whether users can filter rows by its cell values.                                                     |
-| ShowPager             | boolean                                                             | false   | Whether users can navigate DataGrid by using pagination controls.                                     |
-| CurrentPage           | boolean                                                             | 1       | Current page number.                                                                                  |
-| PageSize              | int                                                                 | 5       | Maximum number of items for each page.                                                                |
-| SelectedRow           | TItem                                                               |         | Currently selected row.                                                                               |
-| SelectedRowChanged    | EventCallback                                                       |         | Occurs after the selected row has changed.                                                            |
-| RowSaving             | Action                                                              |         | Cancelable event called before the row is inserted or updated.                                        |
-| RowInserted           | EventCallback                                                       |         | Event called after the row is inserted.                                                               |
-| RowUpdated            | EventCallback                                                       |         | Event called after the row is updated.                                                                |
-| RowRemoving           | Action                                                              |         | Cancelable event called before the row is removed.                                                    |
-| RowRemoved            | EventCallback                                                       |         | Event called after the row is removed.                                                                |
-| PageChanged           | Action                                                              |         | Occurs after the selected page has changed.                                                           |
+| Name                   | Type                                                                | Default | Description                                                                                                 |
+|------------------------|---------------------------------------------------------------------|---------|-------------------------------------------------------------------------------------------------------------|
+| Data                   | IEnumerable<TItem>                                                  |         | Grid data-source.                                                                                           |
+| EditMode               | [EditMode]({{ "/docs/extensions/datagrid/#editmode" | relative_url }})| `Form` | Specifies the grid editing modes.                                                                          |
+| UseInternalEditing     | boolean                                                             | `true`  | Specifies the behavior of DataGrid editing.                                                                 |
+| Editable               | boolean                                                             | `false` | Whether users can edit DataGrid rows.                                                                       |
+| Sortable               | boolean                                                             | `true`  | Whether end-users can sort data by the column's values.                                                     |
+| ShowCaptions           | boolean                                                             | `true`  | Gets or sets whether user can see a column captions.                                                        |
+| Filterable             | boolean                                                             | `false` | Whether users can filter rows by its cell values.                                                           |
+| ShowPager              | boolean                                                             | `false` | Whether users can navigate DataGrid by using pagination controls.                                           |
+| CurrentPage            | boolean                                                             | `1`     | Current page number.                                                                                        |
+| PageSize               | int                                                                 | `5`     | Maximum number of items for each page.                                                                      |
+| IsStriped              | boolean                                                             | `false` | Adds stripes to the table.                                                                                  |
+| IsBordered             | boolean                                                             | `false` | Adds borders to all the cells.                                                                              |
+| IsBorderless           | boolean                                                             | `false` | Makes the table without any borders.                                                                        |
+| IsHoverable            | boolean                                                             | `false` | Adds a hover effect when moussing over rows.                                                                |
+| IsNarrow               | boolean                                                             | `false` | Makes the table more compact by cutting cell padding in half.                                               |
+| ReadData               | EventCallback                                                       |         | Handles the manual loading of large data sets.                                                              |
+| SelectedRow            | TItem                                                               |         | Currently selected row.                                                                                     |
+| SelectedRowChanged     | EventCallback                                                       |         | Occurs after the selected row has changed.                                                                  |
+| RowSelectable          | Func<TItem,bool>                                                    |         | Handles the selection of the clicked row. If not set it will default to always true.                        |
+| RowHoverCursorSelector | Func<TItem,Blazorise.Cursor>                                        |         | Handles the selection of the cursor for a hovered row. If not set, `Blazorise.Cursor.Pointer` will be used. |
+| DetailRowTrigger       | Func<TItem,bool>                                                    |         | A trigger function used to handle the visibility of detail row.                                             |
+| RowInserting           | Action                                                              |         | Cancelable event called before the row is inserted.                                              |
+| RowUpdating            | Action                                                              |         | Cancelable event called before the row is updated.                                              |
+| RowInserted            | EventCallback                                                       |         | Event called after the row is inserted.                                                                     |
+| RowUpdated             | EventCallback                                                       |         | Event called after the row is updated.                                                                      |
+| RowRemoving            | Action                                                              |         | Cancelable event called before the row is removed.                                                          |
+| RowRemoved             | EventCallback                                                       |         | Event called after the row is removed.                                                                      |
+| PageChanged            | EventCallback                                                       |         | Occurs after the selected page has changed.                                                                 |
 
 ### EditMode
 

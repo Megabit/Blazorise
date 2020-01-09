@@ -18,6 +18,8 @@ namespace Blazorise
 
         private Color color = Color.None;
 
+        public event EventHandler<AlertStateEventArgs> StateChanged;
+
         #endregion
 
         #region Methods
@@ -27,8 +29,8 @@ namespace Blazorise
             builder.Append( ClassProvider.Alert() );
             builder.Append( ClassProvider.AlertColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.AlertDismisable(), IsDismisable );
-            builder.Append( ClassProvider.Fade(), IsDismisable );
-            builder.Append( ClassProvider.Show(), IsDismisable && IsShow );
+            builder.Append( ClassProvider.AlertFade(), IsDismisable );
+            builder.Append( ClassProvider.AlertShow(), IsDismisable && IsShow );
 
             base.BuildClasses( builder );
         }
@@ -49,6 +51,13 @@ namespace Blazorise
         {
             IsShow = !IsShow;
             StateHasChanged();
+        }
+
+        private void HandleVisibilityState( bool active )
+        {
+            Visibility = active ? Visibility.Always : Visibility.Never;
+
+            StateChanged?.Invoke( this, new AlertStateEventArgs( active ) );
         }
 
         #endregion
@@ -79,12 +88,21 @@ namespace Blazorise
             get => isShow;
             set
             {
+                // prevent alert from calling the same code multiple times
+                if ( value == isShow )
+                    return;
+
                 isShow = value;
+
+                HandleVisibilityState( value );
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Gets or sets the alert color.
+        /// </summary>
         [Parameter]
         public Color Color
         {

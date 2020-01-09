@@ -82,4 +82,66 @@ namespace Blazorise.DataGrid
         /// </summary>
         public TValues Values { get; }
     }
+
+    /// <summary>
+    /// Provides the data for datagrid page change.
+    /// </summary>
+    public class DataGridPageChangedEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of page changed event argument.
+        /// </summary>
+        /// <param name="page">Page number at the moment of initialization.</param>
+        /// <param name="pageSize">Maximum number of items per page.</param>
+        public DataGridPageChangedEventArgs( int page, int pageSize )
+        {
+            Page = page;
+            PageSize = pageSize;
+        }
+
+        /// <summary>
+        /// Gets the requested page number.
+        /// </summary>
+        public int Page { get; }
+
+        /// <summary>
+        /// Gets the max number of items requested by page.
+        /// </summary>
+        public int PageSize { get; }
+    }
+
+    /// <summary>
+    /// Provides all the information for loading the datagrid data manually.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    public class DataGridReadDataEventArgs<TItem> : EventArgs
+    {
+        /// <summary>
+        /// Initializes a new instance of read-data event argument.
+        /// </summary>
+        /// <param name="page">Page number at the moment of initialization.</param>
+        /// <param name="pageSize">Maximum number of items per page.</param>
+        /// <param name="columns">List of all the columns in the grid.</param>
+        public DataGridReadDataEventArgs( int page, int pageSize, IEnumerable<BaseDataGridColumn<TItem>> columns )
+        {
+            Page = page;
+            PageSize = pageSize;
+            Columns = columns?.Select( x => new DataGridColumnInfo( x.Field, x.Filter?.SearchValue, x.Direction ) );
+        }
+
+        /// <summary>
+        /// Gets the requested page number.
+        /// </summary>
+        public int Page { get; }
+
+        /// <summary>
+        /// Gets the max number of items requested by page.
+        /// </summary>
+        public int PageSize { get; }
+
+        /// <summary>
+        /// Gets the list of columns.
+        /// </summary>
+        public IEnumerable<DataGridColumnInfo> Columns { get; }
+    }
 }

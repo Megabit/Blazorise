@@ -8,7 +8,7 @@ toc_label: "Guide"
 
 ## Basic Memo
 
-MemoEdit is used to create multiline text input (textarea).
+MemoEdit is used to create multiline text input (text-area).
 
 ```html
 <MemoEdit Rows="5" />
