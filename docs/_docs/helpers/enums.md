@@ -129,3 +129,51 @@ Defines the placement of an element.
 - `EndsWith` search only the ending
 - `Equals` search must match the entire value
 - `NotEquals` opposite of Equals
+
+## TextAlignment
+
+Defines the alignment of an text within element.
+
+- `None` No alignment will be applied.
+- `Start` Aligns the text to the left.
+- `Center` Centers the text.
+- `End` Aligns the text to the right.
+- `Justified` Stretches the lines so that each line has equal width.
+
+## TextTransform
+
+Defines the text transformation.
+
+- `None` No capitalization. The text renders as it is. This is default.
+- `Lowercase` Transforms all characters to lowercase.
+- `Uppercase` Transforms all characters to uppercase.
+- `Capitalize` Transforms the first character of each word to uppercase.
+
+## TextWeight
+
+Defines the text weight.
+
+- `None` No weight will be applied.
+- `Normal` Defines normal characters. This is default.
+- `Bold` Defines thick characters.
+- `Light` Defines lighter characters.
+
+## HeadingSize
+
+Defines the heading size.
+
+- `Is1` Heading 1
+- `Is2` Heading 2
+- `Is3` Heading 3
+- `Is4` Heading 4
+- `Is5` Heading 5
+- `Is6` Heading 6
+
+## DisplayHeadingSize
+
+Defines the display heading size.
+
+- `Is1` Heading 1
+- `Is2` Heading 2
+- `Is3` Heading 3
+- `Is4` Heading 4
