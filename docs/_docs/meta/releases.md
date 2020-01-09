@@ -6,6 +6,42 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.8
+
+### Breaking changes
+
+- [#478](https://github.com/stsrki/Blazorise/issues/478) Refactor DataGrid PageChanged event
+- [#441](https://github.com/stsrki/Blazorise/issues/441) RowInserting and RowUpdating event handlers
+
+### Features
+
+- [#477](https://github.com/stsrki/Blazorise/issues/477) DataGrid loading for large data-source
+- [#343](https://github.com/stsrki/Blazorise/issues/343) Better support for icons styles
+- [#345](https://github.com/stsrki/Blazorise/issues/345) Control Gradient Colors in Theme generator
+- [#446](https://github.com/stsrki/Blazorise/issues/446) Support for character casing
+- [#332](https://github.com/stsrki/Blazorise/issues/332) Added Focus() for input component
+- [#481](https://github.com/stsrki/Blazorise/issues/481) Text attributes for text-based components
+
+### Bug Fixes
+
+- [#433](https://github.com/stsrki/Blazorise/issues/433) Modal default button for ENTER
+- [#328](https://github.com/stsrki/Blazorise/issues/328) Implement Skip().Take() on DataGrid
+- [#296](https://github.com/stsrki/Blazorise/issues/296) DataGrid no longer scrolls after Popup
+- [#352](https://github.com/stsrki/Blazorise/issues/352) BarBrand theme color
+- [#368](https://github.com/stsrki/Blazorise/issues/368) Outlined Button Color after click
+- [#337](https://github.com/stsrki/Blazorise/issues/337) Fixed IsRounded in theme generator
+- [#346](https://github.com/stsrki/Blazorise/issues/346) Checkbox component color (material)
+- [#357](https://github.com/stsrki/Blazorise/issues/357) Snackbar Location offset
+- [#307](https://github.com/stsrki/Blazorise/issues/307) Tooltip on Button in ButtonGroup breaks ButtonGroup
+- [#326](https://github.com/stsrki/Blazorise/issues/326) RowRemoved EventCallback still called if RowRemoving Action is cancelled
+- [#344](https://github.com/stsrki/Blazorise/issues/344) ModalBody with MaxHeight vertical scroll position is not reset on 2nd show
+- [#360](https://github.com/stsrki/Blazorise/issues/360) NumericEdit not working with @bind-Value
+- [#300](https://github.com/stsrki/Blazorise/issues/300) Autocomplete not calling SelectedValueChanged
+- [#471](https://github.com/stsrki/Blazorise/issues/471) Alert Close Button
+- [#329](https://github.com/stsrki/Blazorise/issues/329) Better handling of DataGrid pagination links
+
+For detail description of changes please look at [v0.8.8 release page]({{ "/docs/release-notes/release088/" | relative_url }})
+
 ## 0.8.7.2
 
 ## Changes

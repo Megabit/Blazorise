@@ -6,8 +6,6 @@ toc: true
 toc_label: "Guide"
 ---
 
-
-
 ## Text
 
 Use TextEdit to have a basic input.
