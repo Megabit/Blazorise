@@ -89,16 +89,28 @@ namespace Blazorise
             {
                 case null:
                     return null;
+                case byte @byte:
+                    return Converters.FormatValue( @byte, CurrentCultureInfo );
+                case short @short:
+                    return Converters.FormatValue( @short, CurrentCultureInfo );
                 case int @int:
-                    return BindConverter.FormatValue( @int, CurrentCultureInfo );
+                    return Converters.FormatValue( @int, CurrentCultureInfo );
                 case long @long:
-                    return BindConverter.FormatValue( @long, CurrentCultureInfo );
+                    return Converters.FormatValue( @long, CurrentCultureInfo );
                 case float @float:
-                    return BindConverter.FormatValue( @float, CurrentCultureInfo );
+                    return Converters.FormatValue( @float, CurrentCultureInfo );
                 case double @double:
-                    return BindConverter.FormatValue( @double, CurrentCultureInfo );
+                    return Converters.FormatValue( @double, CurrentCultureInfo );
                 case decimal @decimal:
-                    return BindConverter.FormatValue( @decimal, CurrentCultureInfo );
+                    return Converters.FormatValue( @decimal, CurrentCultureInfo );
+                case sbyte @sbyte:
+                    return Converters.FormatValue( @sbyte, CurrentCultureInfo );
+                case ushort @ushort:
+                    return Converters.FormatValue( @ushort, CurrentCultureInfo );
+                case uint @uint:
+                    return Converters.FormatValue( @uint, CurrentCultureInfo );
+                case ulong @ulong:
+                    return Converters.FormatValue( @ulong, CurrentCultureInfo );
                 default:
                     throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
             }
