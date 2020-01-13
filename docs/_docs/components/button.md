@@ -138,7 +138,7 @@ To attach buttons together use a Toolbar role.
 
 ### Submit button
 
-When using a submit button inside of `<Form>` element the browser will automatically try to post the page. This is the default browser behaviour. Because of this a new attribute is introduced to the `<Button>` element, called `PreventDefaultOnSubmit`. Basically it prevents a default browser behaviour when clicking the submit button. So instead of posting the page it will stop it and just call the `Clicked` event handler. Pressing the `Enter` key will still work just as it's supposed to do.
+When using a submit button inside of `<Form>` element the browser will automatically try to post the page. This is the default browser behavior. Because of this a new attribute is introduced to the `<Button>` element, called `PreventDefaultOnSubmit`. Basically it prevents a default browser behavior when clicking the submit button. So instead of posting the page it will stop it and just call the `Clicked` event handler. Pressing the `Enter` key will still work just as it's supposed to do.
 
 ```html
 <Form>
@@ -165,4 +165,4 @@ When using a submit button inside of `<Form>` element the browser will automatic
 | IsActive   | boolean                                                                 | false    | Makes the button to appear as pressed.               |
 | IsBlock    | boolean                                                                 | false    | Makes the button to span the full width of a parent. |
 | IsLoading  | boolean                                                                 | false    | Shows the loading spinner.                           |
-| PreventDefaultOnSubmit  | boolean                                                    | false    | Prevents the button from submiting the form.         |
+| PreventDefaultOnSubmit  | boolean                                                    | false    | Prevents the button from submitting the form.         |

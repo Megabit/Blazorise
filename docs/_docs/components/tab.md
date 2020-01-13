@@ -89,6 +89,6 @@ Put it all together, and we get this:
 
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
-| Name                | string                                                                     | null             | Defines the panel name that must match the coresponding tab name.                                     |
+| Name                | string                                                                     | null             | Defines the panel name that must match the corresponding tab name.                                     |
 | IsActive            | boolean                                                                    | false            | Sets the active panel.                                                                                |
 

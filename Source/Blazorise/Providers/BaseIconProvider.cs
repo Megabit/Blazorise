@@ -22,16 +22,42 @@ namespace Blazorise.Providers
 
         #region Methods
 
-        public abstract string Icon( object name );
+        public virtual string Icon( object name, IconStyle style )
+        {
+            var iconStyle = GetStyleName( style );
 
-        public string Get( string customName )
+            // Some icons must be placed inside of an icon tag element so just return 
+            // the style name. The actual icon name will be defined in the Icon.razor file.
+            if ( IconNameAsContent || name == null )
+                return iconStyle;
+
+            if ( name is IconName iconEnum )
+            {
+                return $"{iconStyle} {GetIconName( iconEnum )}".Trim();
+            }
+            else if ( name is string iconName )
+            {
+                if ( ContainsStyleName( iconName ) )
+                    return iconName;
+
+                return $"{iconStyle} {iconName}".Trim();
+            }
+
+            return iconStyle;
+        }
+
+        public abstract string GetIconName( IconName name );
+
+        public abstract void SetIconName( IconName name, string newName );
+
+        public string GetIconName( string customName )
         {
             return customIcons.GetOrAdd( customName, customName );
         }
 
-        public abstract string Get( IconName name );
+        public abstract string GetStyleName( IconStyle iconStyle );
 
-        public abstract void Set( IconName name, string newName );
+        protected abstract bool ContainsStyleName( string iconName );
 
         #endregion
 

@@ -3,8 +3,13 @@ if (!window.blazorise) {
 }
 
 window.blazorise = {
-    init: (element, componentReference) => {
-        return true;
+    utils: {
+        getRequiredElement: (element, elementId) => {
+            if (element)
+                return element;
+
+            return document.getElementById(elementId);
+        }
     },
 
     // adds a classname to the specified element
@@ -148,8 +153,19 @@ window.blazorise = {
                 });
         }
     },
+    focus: (element, elementId, scrollToElement) => {
+        element = window.blazorise.utils.getRequiredElement(element, elementId);
+
+        if (element) {
+            element.focus({
+                preventScroll: !scrollToElement
+            });
+        }
+
+        return true;
+    },
     tooltip: {
-        initialize: (elementId, element) => {
+        initialize: (element, elementId) => {
             // implementation is in the providers
             return true;
         }
@@ -157,17 +173,17 @@ window.blazorise = {
     textEdit: {
         _instances: [],
 
-        initialize: (elementId, element, maskType, editMask) => {
+        initialize: (element, elementId, maskType, editMask) => {
             var instances = window.blazorise.textEdit._instances = window.blazorise.textEdit._instances || {};
 
             if (maskType === "numeric") {
-                instances[elementId] = new window.blazorise.NumericMaskValidator(elementId, element);
+                instances[elementId] = new window.blazorise.NumericMaskValidator(element, elementId);
             }
             else if (maskType === "datetime") {
-                instances[elementId] = new window.blazorise.DateTimeMaskValidator(elementId, element);
+                instances[elementId] = new window.blazorise.DateTimeMaskValidator(element, elementId);
             }
             else if (maskType === "regex") {
-                instances[elementId] = new window.blazorise.RegExMaskValidator(elementId, element, editMask);
+                instances[elementId] = new window.blazorise.RegExMaskValidator(element, elementId, editMask);
             }
             else {
                 instances[elementId] = new window.blazorise.NoValidator();
@@ -183,7 +199,7 @@ window.blazorise = {
 
             return true;
         },
-        destroy: (elementId, element) => {
+        destroy: (element, elementId) => {
             var instances = window.blazorise.textEdit._instances || {};
             delete instances[elementId];
             return true;
@@ -200,8 +216,8 @@ window.blazorise = {
     numericEdit: {
         _instances: [],
 
-        initialize: (dotnetAdapter, elementId, element, decimals, separator, step) => {
-            window.blazorise.numericEdit._instances[elementId] = new window.blazorise.NumericMaskValidator(dotnetAdapter, elementId, element, decimals, separator, step);
+        initialize: (dotnetAdapter, element, elementId, decimals, separator, step) => {
+            window.blazorise.numericEdit._instances[elementId] = new window.blazorise.NumericMaskValidator(dotnetAdapter, element, elementId, decimals, separator, step);
 
             element.addEventListener("keypress", (e) => {
                 window.blazorise.numericEdit.keyPress(window.blazorise.numericEdit._instances[elementId], e);
@@ -216,7 +232,7 @@ window.blazorise = {
             });
             return true;
         },
-        destroy: (elementId, element) => {
+        destroy: (element, elementId) => {
             var instances = window.blazorise.numericEdit._instances || {};
             delete instances[elementId];
             return true;
@@ -232,7 +248,9 @@ window.blazorise = {
         keyPress: (validator, e) => {
             var currentValue = String.fromCharCode(e.which);
 
-            return validator.isValid(currentValue) || e.preventDefault();
+            return e.which === 13 // still need to allow ENTER key so that we don't preventDefault on form submit
+                || validator.isValid(currentValue)
+                || e.preventDefault();
         },
         paste: (validator, e) => {
             return validator.isValid(e.clipboardData.getData("text/plain")) || e.preventDefault();
@@ -243,7 +261,7 @@ window.blazorise = {
             return true;
         };
     },
-    NumericMaskValidator: function (dotnetAdapter, elementId, element, decimals, separator, step) {
+    NumericMaskValidator: function (dotnetAdapter, element, elementId, decimals, separator, step) {
         this.dotnetAdapter = dotnetAdapter;
         this.elementId = elementId;
         this.element = element;
@@ -275,7 +293,7 @@ window.blazorise = {
             this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
         };
     },
-    DateTimeMaskValidator: function (elementId, element) {
+    DateTimeMaskValidator: function (element, elementId) {
         this.elementId = elementId;
         this.element = element;
         this.regex = function () {
@@ -291,7 +309,7 @@ window.blazorise = {
             return value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value);
         };
     },
-    RegExMaskValidator: function (elementId, element, editMask) {
+    RegExMaskValidator: function (element, elementId, editMask) {
         this.elementId = elementId;
         this.element = element;
         this.editMask = editMask;
@@ -311,8 +329,8 @@ window.blazorise = {
     button: {
         _instances: [],
 
-        initialize: (elementId, element, preventDefaultOnSubmit) => {
-            window.blazorise.button._instances[elementId] = new window.blazorise.ButtonInfo(elementId, element, preventDefaultOnSubmit);
+        initialize: (element, elementId, preventDefaultOnSubmit) => {
+            window.blazorise.button._instances[elementId] = new window.blazorise.ButtonInfo(element, elementId, preventDefaultOnSubmit);
 
             if (element.type === "submit") {
                 element.addEventListener("click", (e) => {
@@ -333,7 +351,7 @@ window.blazorise = {
             }
         }
     },
-    ButtonInfo: function (elementId, element, preventDefaultOnSubmit) {
+    ButtonInfo: function (element, elementId, preventDefaultOnSubmit) {
         this.elementId = elementId;
         this.element = element;
         this.preventDefaultOnSubmit = preventDefaultOnSubmit;

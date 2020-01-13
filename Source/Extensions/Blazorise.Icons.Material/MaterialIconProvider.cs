@@ -15,7 +15,7 @@ namespace Blazorise.Icons.Material
         private static Dictionary<IconName, string> names = new Dictionary<IconName, string>
         {
             { IconName.New, "add" },
-            { IconName.Edit, "create" }, // wtf google!? create??
+            { IconName.Edit, "create" },
             { IconName.Save, "save" },
             { IconName.Cancel, "cancel" },
             { IconName.Delete, "delete" },
@@ -40,6 +40,14 @@ namespace Blazorise.Icons.Material
             { IconName.SortDown, "arrow_drop_down" },
         };
 
+        private static Dictionary<IconStyle, string> styles = new Dictionary<IconStyle, string>
+        {
+            { IconStyle.Solid, "material-icons" },
+            { IconStyle.Regular, "material-icons-outlined" },
+            { IconStyle.Light, "material-icons-sharp" }, // TODO: probably not correct
+            { IconStyle.DuoTone, "material-icons-two-tone" },
+        };
+
         #endregion
 
         #region Constructors
@@ -48,18 +56,29 @@ namespace Blazorise.Icons.Material
 
         #region Methods
 
-        public override string Icon( object name ) => "material-icons";
-
-        public override string Get( IconName iconName )
+        public override string GetIconName( IconName iconName )
         {
             names.TryGetValue( iconName, out var value );
 
             return value;
         }
 
-        public override void Set( IconName name, string newName )
+        public override void SetIconName( IconName name, string newName )
         {
             names[name] = newName;
+        }
+
+        public override string GetStyleName( IconStyle iconStyle )
+        {
+            if ( styles.TryGetValue( iconStyle, out var style ) )
+                return style;
+
+            return null;
+        }
+
+        protected override bool ContainsStyleName( string iconName )
+        {
+            return iconName.Split( ' ' ).Any( x => styles.Values.Contains( x ) || new string[] { "material-icons-round" }.Contains( x ) );
         }
 
         #endregion

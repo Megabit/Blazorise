@@ -17,7 +17,7 @@ The Field is a container for `Text`, `Select`, `Date`, `Check`, `Memo`, and opti
   - `FieldHelp` small text bellow the field
 - `Fields` container used to group several `Field` components
 
-It is recomended to always place input components inside of a field. That way you will keep the right spacing and arangement between input controls.
+It is recommended to always place input components inside of a field. That way you will keep the right spacing and arrangement between input controls.
 
 ### Basic example
 

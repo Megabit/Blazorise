@@ -457,7 +457,9 @@ namespace Blazorise
 
         string AlertDismisable();
 
-        //string AlertShow();
+        string AlertFade();
+
+        string AlertShow();
 
         #endregion
 
@@ -576,6 +578,8 @@ namespace Blazorise
         string TableRowBackground( Background background );
 
         string TableRowTextColor( TextColor textColor );
+
+        string TableRowHoverCursor();
 
         string TableRowIsSelected();
 
@@ -719,6 +723,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Custom
+
+        string Casing( CharacterCasing characterCasing );
+
+        #endregion
+
         #region Enums
 
         /* 
@@ -769,6 +779,8 @@ namespace Blazorise
         string ToPlacement( Placement placement );
 
         string ToFigureSize( FigureSize figureSize );
+
+        string ToCharacterCasing( CharacterCasing characterCasing );
 
         #endregion
 

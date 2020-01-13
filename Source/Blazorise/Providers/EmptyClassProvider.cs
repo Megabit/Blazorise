@@ -466,6 +466,10 @@ namespace Blazorise.Providers
 
         public string AlertDismisable() => null;
 
+        public string AlertFade() => null;
+
+        public string AlertShow() => null;
+
         #endregion
 
         #region Modal
@@ -583,6 +587,8 @@ namespace Blazorise.Providers
         public string TableRowBackground( Background background ) => null;
 
         public string TableRowTextColor( TextColor textColor ) => null;
+
+        public string TableRowHoverCursor() => null;
 
         public string TableRowIsSelected() => null;
 
@@ -726,6 +732,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Custom
+
+        public string Casing( CharacterCasing characterCasing ) => null;
+
+        #endregion
+
         #region Enums
 
         public string ToSize( Size size ) => null;
@@ -771,6 +783,8 @@ namespace Blazorise.Providers
         public string ToPlacement( Placement placement ) => null;
 
         public string ToFigureSize( FigureSize figureSize ) => null;
+
+        public string ToCharacterCasing( CharacterCasing characterCasing ) => null;
 
         #endregion
 

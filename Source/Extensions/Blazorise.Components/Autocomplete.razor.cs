@@ -35,7 +35,7 @@ namespace Blazorise.Components
 
         #region Methods
 
-        protected void HandleTextChanged( string text )
+        protected async Task HandleTextChanged( string text )
         {
             CurrentSearch = text ?? string.Empty;
             SelectedText = CurrentSearch;
@@ -45,6 +45,10 @@ namespace Blazorise.Components
                 dropdownRef.Open();
             else
                 dropdownRef.Close();
+
+            //If input field is empty, clear current SelectedValue.
+            if ( string.IsNullOrEmpty( text ) )
+                await Clear();
         }
 
         protected async Task HandleTextKeyDown( KeyboardEventArgs e )

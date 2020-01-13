@@ -15,19 +15,17 @@ namespace Blazorise
 
         void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class;
 
-        ValueTask<bool> Init( ElementReference elementRef, object componentRef );
+        ValueTask<bool> InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask );
 
-        ValueTask<bool> InitializeTextEdit( string elementId, ElementReference elementRef, string maskType, string editMask );
+        ValueTask<bool> DestroyTextEdit( ElementReference elementRef, string elementId );
 
-        ValueTask<bool> DestroyTextEdit( string elementId, ElementReference elementRef );
+        ValueTask<bool> InitializeNumericEdit( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, int decimals, string decimalsSeparator, decimal? step );
 
-        ValueTask<bool> InitializeNumericEdit( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, string elementId, ElementReference elementRef, int decimals, string decimalsSeparator, decimal? step );
+        ValueTask<bool> DestroyNumericEdit( ElementReference elementRef, string elementId );
 
-        ValueTask<bool> DestroyNumericEdit( string elementId, ElementReference elementRef );
+        ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId );
 
-        ValueTask<bool> InitializeTooltip( string elementId, ElementReference elementRef );
-
-        ValueTask<bool> InitializeButton( string elementId, ElementReference elementRef, bool preventDefaultSubmit );
+        ValueTask<bool> InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit );
 
         ValueTask<bool> DestroyButton( string elementId );
 
@@ -50,6 +48,12 @@ namespace Blazorise
         ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
 
         ValueTask<bool> SetTextValue( ElementReference elementRef, object value );
+
+        ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
+
+        ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
+
+        ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement );
 
         /// <summary>
         /// Handles the closing of the components that can be toggled.

@@ -4,7 +4,7 @@ if (!window.blazoriseBulma) {
 
 window.blazoriseBulma = {
     tooltip: {
-        initialize: (elementId, element) => {
+        initialize: (element, elementId) => {
             if (element.querySelector(".checkbox,.button")) {
                 element.classList.add("b-tooltip-inline");
             }
@@ -18,5 +18,15 @@ window.blazoriseBulma = {
     },
     activateDatePicker: (elementId) => {
         return true;
+    },
+    modal: {
+        open: (element, elementId) => {
+            element.querySelector('.modal-card-body').scrollTop = 0;
+
+            return true;
+        },
+        close: (element, elementId) => {
+            return true;
+        }
     }
 };

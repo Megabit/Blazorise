@@ -6,8 +6,6 @@ toc: true
 toc_label: "Guide"
 ---
 
-
-
 ## Text
 
 Use TextEdit to have a basic input.
@@ -48,7 +46,7 @@ A disabled input element is unusable and un-clickable.
 
 ### Readonly
 
-If you use the readonly attribute, the input text will look similar to a normal one, but is not editable.
+If you use the read-only attribute, the input text will look similar to a normal one, but is not editable.
 
 ```html
 <TextEdit IsReadonly="true" />

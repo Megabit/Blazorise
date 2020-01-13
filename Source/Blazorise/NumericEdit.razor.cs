@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace Blazorise
         protected override async Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new NumericEditAdapter( this ) );
-            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementId, ElementRef, Decimals, DecimalsSeparator, Step );
+            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementRef, ElementId, Decimals, DecimalsSeparator, Step );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -53,7 +54,7 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                JSRunner.DestroyNumericEdit( ElementId, ElementRef );
+                JSRunner.DestroyNumericEdit( ElementRef, ElementId );
                 JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
@@ -72,7 +73,7 @@ namespace Blazorise
 
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
-            if ( Converters.TryChangeType<TValue>( value, out var result ) )
+            if ( Converters.TryChangeType<TValue>( value, out var result, CurrentCultureInfo ) )
             {
                 return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
             }
@@ -82,11 +83,49 @@ namespace Blazorise
             }
         }
 
+        protected override string FormatValueAsString( TValue value )
+        {
+            switch ( value )
+            {
+                case null:
+                    return null;
+                case int @int:
+                    return BindConverter.FormatValue( @int, CurrentCultureInfo );
+                case long @long:
+                    return BindConverter.FormatValue( @long, CurrentCultureInfo );
+                case float @float:
+                    return BindConverter.FormatValue( @float, CurrentCultureInfo );
+                case double @double:
+                    return BindConverter.FormatValue( @double, CurrentCultureInfo );
+                case decimal @decimal:
+                    return BindConverter.FormatValue( @decimal, CurrentCultureInfo );
+                default:
+                    throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
+            }
+        }
+
         #endregion
 
         #region Properties
 
         protected override TValue InternalValue { get => Value; set => Value = value; }
+
+        /// <summary>
+        /// Gets the culture info defined on the input field.
+        /// </summary>
+        protected CultureInfo CurrentCultureInfo
+        {
+            get
+            {
+                // TODO: find the right culture based on DecimalsSeparator
+                if ( !string.IsNullOrEmpty( Culture ) )
+                {
+                    return CultureInfo.GetCultureInfo( Culture );
+                }
+
+                return CultureInfo.InvariantCulture;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the value inside the input field.
@@ -120,6 +159,15 @@ namespace Blazorise
         /// String to use as the decimal separator in numeric values.
         /// </summary>
         [Parameter] public string DecimalsSeparator { get; set; } = ".";
+
+        /// <summary>
+        /// Helps define the language of an element.
+        /// </summary>
+        /// <remarks>
+        /// https://www.w3schools.com/tags/ref_language_codes.asp
+        /// </remarks>
+        [Parameter]
+        public string Culture { get; set; }
 
         ///// <summary>
         ///// The minimum value to accept for this input.

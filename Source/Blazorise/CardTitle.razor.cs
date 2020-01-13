@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseCardTitle : BaseComponent
+    public abstract class BaseCardTitle : BaseTextComponent
     {
         #region Members
 
@@ -31,11 +31,9 @@ namespace Blazorise
         /// Number from 1 to 6 that defines the title size where the smaller number means larger text.
         /// </summary>
         /// <remarks>
-        /// todo: change to enum
+        /// TODO: change to enum
         /// </remarks>
         [Parameter] public int? Size { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

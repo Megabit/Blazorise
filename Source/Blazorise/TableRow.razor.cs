@@ -22,6 +22,8 @@ namespace Blazorise
 
         private bool selected;
 
+        private Cursor hoverCursor;
+
         #endregion
 
         #region Methods
@@ -33,6 +35,7 @@ namespace Blazorise
             builder.Append( ClassProvider.TableRowBackground( Background ), Background != Background.None );
             builder.Append( ClassProvider.TableRowTextColor( TextColor ), TextColor != TextColor.None );
             builder.Append( ClassProvider.TableRowIsSelected(), IsSelected );
+            builder.Append( ClassProvider.TableRowHoverCursor(), HoverCursor != Cursor.Default );
 
             base.BuildClasses( builder );
         }
@@ -92,6 +95,21 @@ namespace Blazorise
             set
             {
                 selected = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the applied cursor when the row is hovered over.
+        /// </summary>
+        [Parameter]
+        public Cursor HoverCursor
+        {
+            get => hoverCursor;
+            set
+            {
+                hoverCursor = value;
 
                 DirtyClasses();
             }

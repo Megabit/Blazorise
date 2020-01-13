@@ -56,7 +56,7 @@ namespace Blazorise
 
             ExecuteAfterRender( async () =>
             {
-                await JSRunner.InitializeButton( ElementId, ElementRef, PreventDefaultOnSubmit );
+                await JSRunner.InitializeButton( ElementRef, ElementId, PreventDefaultOnSubmit );
             } );
 
             base.OnInitialized();
@@ -70,6 +70,15 @@ namespace Blazorise
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <summary>
+        /// Sets focus on the button element, if it can be focused.
+        /// </summary>
+        /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
+        public void Focus( bool scrollToElement = true )
+        {
+            _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
         }
 
         #endregion

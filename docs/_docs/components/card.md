@@ -48,28 +48,48 @@ The card component comprises several elements that you can mix and match:
 | IsWhiteText   | boolean                                                                    | false            | Sets the white text when using the darker background.                                       |
 | Background    | [Background]({{ "/docs/helpers/colors/#background" | relative_url }})      | `None`           | Sets the bar background color.                                                              |
 
+### CardText
+
+| Name          | Type                                                                       | Default          | Description                                                                                 |
+|---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| Color         | [TextColor]({{ "/docs/helpers/colors/#textcolor" | relative_url }})        | `None`           | Sets the text color.                                                                        |
+| Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
+| Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
+| Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
+| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
+
 ### CardTitle
 
 | Name          | Type                                                                       | Default          | Description                                                                                 |
 |---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
 | Size          | int?                                                                       | null             | Number from 1 to 6 that defines the title size where the smaller number means larger text.  |
+| Color         | [TextColor]({{ "/docs/helpers/colors/#textcolor" | relative_url }})        | `None`           | Sets the text color.                                                                        |
+| Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
+| Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
+| Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
+| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### CardSubtitle
 
 | Name          | Type                                                                       | Default          | Description                                                                                 |
 |---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
 | Size          | int                                                                        | 6                | Number from 1 to 6 that defines the subtitle size where the smaller number means larger text.  |
+| Color         | [TextColor]({{ "/docs/helpers/colors/#textcolor" | relative_url }})        | `None`           | Sets the text color.                                                                        |
+| Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
+| Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
+| Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
+| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### CardLink
 
 | Name          | Type                                                                       | Default          | Description                                                                                 |
 |---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| Source        | string                                                                     | null             | Link url.                                                                                   |
+| Source        | string                                                                     | null             | Link URL.                                                                                   |
 | Alt           | string                                                                     | null             | Alternative link text.                                                                      |
 
 ### CardImage
 
 | Name          | Type                                                                       | Default          | Description                                                                                 |
 |---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| Source        | string                                                                     | null             | Image url.                                                                                  |
+| Source        | string                                                                     | null             | Image URL.                                                                                  |
 | Alt           | string                                                                     | null             | Alternative image text.                                                                     |

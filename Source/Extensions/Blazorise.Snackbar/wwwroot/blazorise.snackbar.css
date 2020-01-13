@@ -10,7 +10,7 @@
     opacity: 0;
     padding: 0.875rem 1.5rem;
     position: fixed;
-    bottom: 0;
+    bottom: 1.5rem;
     left: 0;
     -webkit-transform: translateY(100%);
     transform: translateY(100%);
@@ -163,8 +163,8 @@
 
         .snackbar-left.show,
         .snackbar-right.show {
-            -webkit-transform: translateY(-1.5rem);
-            transform: translateY(-1.5rem);
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
         }
 }
 

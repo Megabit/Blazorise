@@ -1,7 +1,7 @@
 ---
 title: "Bulma"
 permalink: /docs/usage/bulma/
-excerpt: "Learn all the steps on how to quickly install and setup Blazorise for Bulma css framework and FontAwesome icons."
+excerpt: "Learn all the steps on how to quickly install and setup Blazorise for Bulma CSS framework and FontAwesome icons."
 toc: true
 toc_label: "Steps"
 ---
@@ -15,7 +15,7 @@ toc_label: "Steps"
 
 ### 1. NuGet packages
 
-First step is to install a Bulm provider for Blazorise:
+First step is to install a Bulma provider for Blazorise:
 
 Install Bulma provider from nuget.
 
@@ -31,17 +31,22 @@ Install-Package Blazorise.Icons.FontAwesome
 
 ### 2. Source files
 
-The next step is to change your `index.html` file and include the css and js source files:
+The next step is to change your `index.html` or `_Host.cshtml` file and include the CSS and JS source files:
 
 ```html
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+<link href="_content/Blazorise.Bulma/blazorise.bulma.css" rel="stylesheet" />
+
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<script src="_content/Blazorise/blazorise.js"></script>
+<script src="_content/Blazorise.Bulma/blazorise.bulma.js"></script>
 ```
 
-**Note:** Don't forget to remove default **bootstrap** css and js files that comes with the Blazor/RC project template. If you forget to remove them it's possible that some of component will not work as they should be.
+**Note:** When Blazor project is created it will also include it's own **Bootstrap** and **FontAwesome** files that can sometime be of older versions. To ensure we're using the appropriate bootstrap and FontAwesome files, you need remove them or replace them with the links from above. If you forget to remove them it's possible that some components will not work as expected.
 {: .notice--info}
 
-### 3. Usings
+### 3. Using's
 
 In your main _Imports.razor_ add:
 
@@ -101,16 +106,4 @@ public void Configure( IComponentsApplicationBuilder app )
       endpoints.MapFallbackToPage( "/_Host" );
   } );
 }
-```
-
-### 5. Static files
-
-The final step is mandatory for all Blazor project types. Unlike in previous versions of Blazorise from now on you must set the path for static file manually. When consuming nuget packages that contains static files you must follow the convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. So for this guide the required files are:
-
-```html
-<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
-<link href="_content/Blazorise.Bulma/blazorise.bulma.css" rel="stylesheet" />
-
-<script src="_content/Blazorise/blazorise.js"></script>
-<script src="_content/Blazorise.Bulma/blazorise.bulma.js"></script>
 ```

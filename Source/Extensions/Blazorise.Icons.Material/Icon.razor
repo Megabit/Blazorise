@@ -2,10 +2,10 @@
 <i class="@ClassNames">
     @if ( Name is IconName )
     {
-        @IconProvider.Get( (IconName)Name );
+        @IconProvider.GetIconName( (IconName)Name );
     }
     else if ( Name is string )
     {
-        @IconProvider.Get( (string)Name );
+        @IconProvider.GetIconName( (string)Name );
     }
 </i>
