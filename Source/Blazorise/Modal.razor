@@ -3,7 +3,10 @@
 {
     <CascadingValue Value=this>
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="-1" role="dialog" @attributes="@Attributes">
-            @ChildContent
+            @if ( IsOpen )
+            {
+                @ChildContent
+            }
         </div>
     </CascadingValue>
 }
