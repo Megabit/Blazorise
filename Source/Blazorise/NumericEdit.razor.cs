@@ -85,23 +85,7 @@ namespace Blazorise
 
         protected override string FormatValueAsString( TValue value )
         {
-            switch ( value )
-            {
-                case null:
-                    return null;
-                case int @int:
-                    return BindConverter.FormatValue( @int, CurrentCultureInfo );
-                case long @long:
-                    return BindConverter.FormatValue( @long, CurrentCultureInfo );
-                case float @float:
-                    return BindConverter.FormatValue( @float, CurrentCultureInfo );
-                case double @double:
-                    return BindConverter.FormatValue( @double, CurrentCultureInfo );
-                case decimal @decimal:
-                    return BindConverter.FormatValue( @decimal, CurrentCultureInfo );
-                default:
-                    throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
-            }
+            return BindConverter.FormatValue( value, CurrentCultureInfo ) as string;
         }
 
         #endregion
