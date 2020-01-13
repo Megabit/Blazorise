@@ -282,17 +282,22 @@ namespace Blazorise.DataGrid
         {
             if ( Sortable && column.Sortable )
             {
-                column.Direction = column.Direction == SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
-                sortByColumn = column;
+                column.Direction = column.Direction.NextDirection();
 
-                // just one column can be sorted for now!
-                foreach ( var col in Columns )
+                // When using internal sorting just one column can be sorted!
+                // TODO: planned for 0.9 to enable sorting for all columns
+                if ( !ReadData.HasDelegate )
                 {
-                    if ( col.ElementId == column.ElementId )
-                        continue;
+                    sortByColumn = column;
 
-                    // reset all others
-                    col.Direction = SortDirection.Ascending;
+                    foreach ( var col in Columns )
+                    {
+                        if ( col.ElementId == column.ElementId )
+                            continue;
+
+                        // reset all others
+                        col.Direction = SortDirection.None;
+                    }
                 }
 
                 dirtyFilter = dirtyView = true;
@@ -379,7 +384,7 @@ namespace Blazorise.DataGrid
                 {
                     if ( sortByColumn.Direction == SortDirection.Descending )
                         query = query.OrderByDescending( item => sortByColumn.GetValue( item ) );
-                    else
+                    else if ( sortByColumn.Direction == SortDirection.Ascending )
                         query = query.OrderBy( item => sortByColumn.GetValue( item ) );
                 }
 

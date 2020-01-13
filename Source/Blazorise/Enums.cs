@@ -1201,14 +1201,19 @@ namespace Blazorise
     public enum SortDirection
     {
         /// <summary>
+        /// No sorting will be applied.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
         /// Sorts in ascending order.
         /// </summary>
-        Ascending = 0,
+        Ascending = 1,
 
         /// <summary>
         /// Sorts in descending order.
         /// </summary>
-        Descending = 1,
+        Descending = 2,
     }
 
     /// <summary>
