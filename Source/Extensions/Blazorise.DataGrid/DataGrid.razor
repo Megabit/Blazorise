@@ -102,7 +102,7 @@
               <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
                 @if (PrevButtonTemplate == null)
                 {
-                  <Label>Prev</Label>
+                  @("Prev")
                 }
                 else
                 {
@@ -124,7 +124,7 @@
               <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
                 @if (NextButtonTemplate == null)
                 {
-                  <Label>Next</Label>
+                  @("Next")
                 }
                 else
                 {
