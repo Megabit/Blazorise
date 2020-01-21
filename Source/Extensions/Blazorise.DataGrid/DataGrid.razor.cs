@@ -575,6 +575,16 @@ namespace Blazorise.DataGrid
         [Parameter] public int CurrentPage { get; set; } = 1;
 
         /// <summary>
+        /// Gets or sets content of previous button of pager.
+        /// </summary>
+        [Parameter] public RenderFragment PreviousButtonTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets content of next button of pager.
+        /// </summary>
+        [Parameter] public RenderFragment NextButtonTemplate { get; set; }
+
+        /// <summary>
         /// Gets the last page number.
         /// </summary>
         protected int LastPage

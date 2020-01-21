@@ -100,7 +100,14 @@
         <Pagination>
             <PaginationItem IsDisabled="@(CurrentPage <= 1)">
                 <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
-                    Prev
+                    @if ( PreviousButtonTemplate != null )
+                    {
+                        @PreviousButtonTemplate
+                    }
+                    else
+                    {
+                        @("Prev")
+                    }
                 </PaginationLink>
             </PaginationItem>
             @for ( int i = FirstVisiblePage; i <= LastVisiblePage; ++i )
@@ -115,7 +122,14 @@
             }
             <PaginationItem IsDisabled="@(CurrentPage >= LastPage)">
                 <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
-                    Next
+                    @if ( NextButtonTemplate != null )
+                    {
+                        @NextButtonTemplate
+                    }
+                    else
+                    {
+                        @("Next")
+                    }
                 </PaginationLink>
             </PaginationItem>
         </Pagination>
