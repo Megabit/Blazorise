@@ -6,6 +6,15 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.8.1 (quick fix)
+
+### Bug Fixes
+
+- [#494](https://github.com/stsrki/Blazorise/issues/494) Missing SortDirection.None
+- [#496](https://github.com/stsrki/Blazorise/issues/496) InvalidOperationException: Unsupported type System.UInt64 for NumericEdit
+
+For detail description of changes please look at [v0.8.8.1 release page]({{ "/docs/release-notes/release0881/" | relative_url }})
+
 ## 0.8.8
 
 ### Breaking changes

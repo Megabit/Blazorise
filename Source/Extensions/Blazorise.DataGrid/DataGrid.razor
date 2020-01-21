@@ -29,7 +29,7 @@
                                 {
                                     @column.Caption
                                 }
-                                @if ( Sortable && column.Sortable )
+                                @if ( Sortable && column.Sortable && column.Direction != SortDirection.None )
                                 {
                                     <Icon Name="@(column.Direction == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
                                 }

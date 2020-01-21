@@ -61,5 +61,49 @@ namespace Blazorise.Utils
             theEnum = default;
             return false;
         }
+
+        public static string FormatValue( byte value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( byte? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( short value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( short? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( int value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( int? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( long value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( long? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( float value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( float? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( double value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( double? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( decimal value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( decimal? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( sbyte value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( sbyte? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( ushort value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( ushort? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( uint value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( uint? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( ulong value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( ulong? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
     }
 }

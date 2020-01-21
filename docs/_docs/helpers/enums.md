@@ -177,3 +177,11 @@ Defines the display heading size.
 - `Is2` Heading 2
 - `Is3` Heading 3
 - `Is4` Heading 4
+
+## SortDirection
+
+Specifies the direction of a sort operation.
+
+- `None` No sorting will be applied.
+- `Ascending` Sorts in ascending order.
+- `Descending` Sorts in descending order.
