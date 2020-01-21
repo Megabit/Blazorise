@@ -100,13 +100,13 @@
         <Pagination>
             <PaginationItem IsDisabled="@(CurrentPage <= 1)">
                 <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
-                    @if (PrevButtonTemplate == null)
+                    @if ( PreviousButtonTemplate != null )
                     {
-                        @("Prev")
+                        @PreviousButtonTemplate
                     }
                     else
                     {
-                        @PrevButtonTemplate
+                        @("Prev")
                     }
                 </PaginationLink>
             </PaginationItem>
@@ -122,13 +122,13 @@
             }
             <PaginationItem IsDisabled="@(CurrentPage >= LastPage)">
                 <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
-                    @if (NextButtonTemplate == null)
+                    @if ( NextButtonTemplate != null )
                     {
-                        @("Next")
+                        @NextButtonTemplate
                     }
                     else
                     {
-                        @NextButtonTemplate
+                        @("Next")
                     }
                 </PaginationLink>
             </PaginationItem>
