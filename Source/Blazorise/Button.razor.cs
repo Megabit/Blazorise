@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -46,7 +47,14 @@ namespace Blazorise
         protected void ClickHandler()
         {
             if ( !IsDisabled )
+            {
                 Clicked.InvokeAsync( null );
+
+                if ( Command?.CanExecute( CommandParameter ) ?? false )
+                {
+                    Command.Execute( CommandParameter );
+                }
+            }
         }
 
         protected override void OnInitialized()
@@ -210,6 +218,16 @@ namespace Blazorise
         [CascadingParameter] public BaseDropdown ParentDropdown { get; set; }
 
         [CascadingParameter] public BaseButtons ParentButtons { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command to be executed when clicked on a button.
+        /// </summary>
+        [Parameter] public ICommand Command { get; set; }
+
+        /// <summary>
+        /// Reflects the parameter to pass to the CommandProperty upon execution.
+        /// </summary>
+        [Parameter] public object CommandParameter { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
