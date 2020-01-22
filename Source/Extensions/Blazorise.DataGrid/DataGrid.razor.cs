@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
@@ -42,10 +43,10 @@ namespace Blazorise.DataGrid
         /// </summary>
         private bool dirtyView = true;
 
-        // Sorting by multiple columns is not ready yet because of the bug in Mono runtime.
-        // issue https://github.com/aspnet/AspNetCore/issues/11371
-        // Until the bug is fixed only one column will be supported.
-        protected BaseDataGridColumn<TItem> sortByColumn = null;
+        /// <summary>
+        /// List of columns ready to be sorted.
+        /// </summary>
+        protected IList<BaseDataGridColumn<TItem>> sortByColumns = new List<BaseDataGridColumn<TItem>>();
 
         private readonly Lazy<Func<TItem>> newItemCreator;
 
@@ -284,20 +285,12 @@ namespace Blazorise.DataGrid
             {
                 column.Direction = column.Direction.NextDirection();
 
-                // When using internal sorting just one column can be sorted!
-                // TODO: planned for 0.9 to enable sorting for all columns
                 if ( !ReadData.HasDelegate )
                 {
-                    sortByColumn = column;
-
-                    foreach ( var col in Columns )
-                    {
-                        if ( col.ElementId == column.ElementId )
-                            continue;
-
-                        // reset all others
-                        col.Direction = SortDirection.None;
-                    }
+                    if ( !sortByColumns.Any( c => c.Field == column.Field ) )
+                        sortByColumns.Add( column );
+                    else if ( column.Direction == SortDirection.None )
+                        sortByColumns.Remove( column );
                 }
 
                 dirtyFilter = dirtyView = true;
@@ -379,13 +372,26 @@ namespace Blazorise.DataGrid
             // only use internal filtering if we're not using custom data loading
             if ( !ReadData.HasDelegate )
             {
-                // just one column can be sorted for now!
-                if ( sortByColumn != null && sortByColumn.Sortable )
+                var firstSort = true;
+
+                foreach ( var sortByColumn in sortByColumns )
                 {
-                    if ( sortByColumn.Direction == SortDirection.Descending )
-                        query = query.OrderByDescending( item => sortByColumn.GetValue( item ) );
-                    else if ( sortByColumn.Direction == SortDirection.Ascending )
-                        query = query.OrderBy( item => sortByColumn.GetValue( item ) );
+                    if ( firstSort )
+                    {
+                        if ( sortByColumn.Direction == SortDirection.Ascending )
+                            query = query.OrderBy( x => sortByColumn.GetValue( x ) );
+                        else
+                            query = query.OrderByDescending( x => sortByColumn.GetValue( x ) );
+
+                        firstSort = false;
+                    }
+                    else
+                    {
+                        if ( sortByColumn.Direction == SortDirection.Ascending )
+                            query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortByColumn.GetValue( x ) );
+                        else
+                            query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortByColumn.GetValue( x ) );
+                    }
                 }
 
                 foreach ( var column in Columns )
