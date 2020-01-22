@@ -43,9 +43,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         private bool dirtyView = true;
 
-        // Sorting by multiple columns is not ready yet because of the bug in Mono runtime.
-        // issue https://github.com/aspnet/AspNetCore/issues/11371
-        // Until the bug is fixed only one column will be supported.
+        /// <summary>
+        /// List of columns ready to be sorted.
+        /// </summary>
         protected IList<BaseDataGridColumn<TItem>> sortByColumns = new List<BaseDataGridColumn<TItem>>();
 
         private readonly Lazy<Func<TItem>> newItemCreator;
@@ -285,11 +285,9 @@ namespace Blazorise.DataGrid
             {
                 column.Direction = column.Direction.NextDirection();
 
-                // When using internal sorting just one column can be sorted!
-                // TODO: planned for 0.9 to enable sorting for all columns
                 if ( !ReadData.HasDelegate )
                 {
-                    if ( sortByColumns.Count( c => c.Field == column.Field ) == 0 )
+                    if ( !sortByColumns.Any( c => c.Field == column.Field ) )
                         sortByColumns.Add( column );
                     else if ( column.Direction == SortDirection.None )
                         sortByColumns.Remove( column );
@@ -374,27 +372,27 @@ namespace Blazorise.DataGrid
             // only use internal filtering if we're not using custom data loading
             if ( !ReadData.HasDelegate )
             {
-                var isFirtSorting = true;
+                var firstSort = true;
+
                 foreach ( var sortByColumn in sortByColumns )
                 {
-                    if ( isFirtSorting )
+                    if ( firstSort )
                     {
                         if ( sortByColumn.Direction == SortDirection.Ascending )
-                            query = query.OrderBy( x => GetField<TItem>( sortByColumn.Field ).Compile().DynamicInvoke( x ) );
+                            query = query.OrderBy( x => sortByColumn.GetValue( x ) );
                         else
-                            query = query.OrderByDescending( x => GetField<TItem>( sortByColumn.Field ).Compile().DynamicInvoke( x ) );
-                        isFirtSorting = false;
+                            query = query.OrderByDescending( x => sortByColumn.GetValue( x ) );
+
+                        firstSort = false;
                     }
                     else
                     {
                         if ( sortByColumn.Direction == SortDirection.Ascending )
-                            query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => GetField<TItem>( sortByColumn.Field ).Compile().DynamicInvoke( x ) );
+                            query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortByColumn.GetValue( x ) );
                         else
-                            query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => GetField<TItem>( sortByColumn.Field ).Compile().DynamicInvoke( x ) );
+                            query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortByColumn.GetValue( x ) );
                     }
                 }
-                // just one column can be sorted for now!
-
 
                 foreach ( var column in Columns )
                 {
@@ -415,23 +413,6 @@ namespace Blazorise.DataGrid
             filteredData = query.ToList();
 
             dirtyFilter = false;
-        }
-
-        private LambdaExpression GetField<K>( string property )
-        {
-            string[] props = property.Split( '.' );
-            Type type = typeof( K );
-            ParameterExpression arg = Expression.Parameter( type, "x" );
-            Expression expr = arg;
-            foreach ( string prop in props )
-            {
-                PropertyInfo pi = type.GetProperty( prop );
-                expr = Expression.Property( expr, pi );
-                type = pi.PropertyType;
-            }
-            Type delegateType = typeof( Func<,> ).MakeGenericType( typeof( K ), type );
-            LambdaExpression lambda = Expression.Lambda( delegateType, expr, arg );
-            return lambda;
         }
 
         private bool CompareFilterValues( string searchValue, string compareTo )
