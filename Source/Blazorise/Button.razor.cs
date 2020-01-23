@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseButton : BaseSizableComponent
+    public partial class Button : BaseSizableComponent
     {
         #region Members
 
@@ -215,9 +215,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public bool PreventDefaultOnSubmit { get; set; }
 
-        [CascadingParameter] protected BaseDropdown ParentDropdown { get; set; }
+        [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
-        [CascadingParameter] protected BaseButtons ParentButtons { get; set; }
+        [CascadingParameter] protected Buttons ParentButtons { get; set; }
 
         /// <summary>
         /// Gets or sets the command to be executed when clicked on a button.

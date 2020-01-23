@@ -1,4 +1,4 @@
-﻿@inherits BaseCheckEdit
+﻿@inherits Blazorise.CheckEdit
 <Control Role="@Role" IsInline="@IsInline">
     <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" checked="@Checked" @onchange="@OnChangeHandler" name="@RadioGroup" @attributes="@Attributes" />
     <Label IsCheck="true" For="@ElementId" Style="@Style" Cursor="@Cursor">@ChildContent</Label>

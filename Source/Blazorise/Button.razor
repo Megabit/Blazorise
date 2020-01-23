@@ -1,4 +1,4 @@
-﻿@inherits Blazorise.BaseButton
+﻿@inherits BaseSizableComponent
 @if ( !HasCustomRegistration )
 {
     <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler" @attributes="@Attributes">

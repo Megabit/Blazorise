@@ -141,7 +141,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Action<string> SelectedTabChanged { get; set; }
 
-        [CascadingParameter] protected BaseCardHeader CardHeader { get; set; }
+        [CascadingParameter] protected CardHeader CardHeader { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

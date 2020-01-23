@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBarDropdown : BaseComponent
+    public partial class BarDropdown : BaseComponent
     {
         #region Members
 
         private bool isOpen;
 
-        private BaseBarDropdownMenu barDropdownMenu;
+        private BarDropdownMenu barDropdownMenu;
 
-        private BaseBarDropdownToggle barDropdownToggler;
+        private BarDropdownToggle barDropdownToggler;
 
         #endregion
 
@@ -38,12 +38,12 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        internal void Hook( BaseBarDropdownMenu barDropdownMenu )
+        internal void Hook( BarDropdownMenu barDropdownMenu )
         {
             this.barDropdownMenu = barDropdownMenu;
         }
 
-        internal void Hook( BaseBarDropdownToggle barDropdownToggler )
+        internal void Hook( BarDropdownToggle barDropdownToggler )
         {
             this.barDropdownToggler = barDropdownToggler;
         }
@@ -110,7 +110,7 @@ namespace Blazorise
 
         [Parameter] public Action<bool> Toggled { get; set; }
 
-        [CascadingParameter] protected BaseBarItem BarItem { get; set; }
+        [CascadingParameter] protected BarItem BarItem { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
