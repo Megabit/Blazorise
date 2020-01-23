@@ -105,5 +105,44 @@ namespace Blazorise.Utils
         public static string FormatValue( ulong value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
 
         public static string FormatValue( ulong? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        /// <summary>
+        /// Gets the min and max possible value based on the supplied value type
+        /// </summary>
+        /// <typeparam name="TValue">Value data type.</typeparam>
+        /// <returns>Returns the min and max value of supplied value type.</returns>
+        /// <exception cref="System.InvalidOperationException">Throws when value type is unknown.</exception>
+        public static (object, object) GetMinMaxValueOfType<TValue>()
+        {
+            var type = typeof( TValue );
+
+            switch ( type )
+            {
+                case Type byteType when byteType == typeof( byte ) || byteType == typeof( byte? ):
+                    return (byte.MinValue, byte.MaxValue);
+                case Type shortType when shortType == typeof( short ) || shortType == typeof( short? ):
+                    return (short.MinValue, short.MaxValue);
+                case Type intType when intType == typeof( int ) || intType == typeof( int? ):
+                    return (int.MinValue, int.MaxValue);
+                case Type longType when longType == typeof( long ) || longType == typeof( long? ):
+                    return (long.MinValue, long.MaxValue);
+                case Type floatType when floatType == typeof( float ) || floatType == typeof( float? ):
+                    return (float.MinValue, float.MaxValue);
+                case Type doubleType when doubleType == typeof( double ) || doubleType == typeof( double? ):
+                    return (double.MinValue, double.MaxValue);
+                case Type decimalType when decimalType == typeof( decimal ) || decimalType == typeof( decimal? ):
+                    return (decimal.MinValue, decimal.MaxValue);
+                case Type sbyteType when sbyteType == typeof( sbyte ) || sbyteType == typeof( sbyte? ):
+                    return (sbyte.MinValue, sbyte.MaxValue);
+                case Type ushortType when ushortType == typeof( ushort ) || ushortType == typeof( ushort? ):
+                    return (ushort.MinValue, ushort.MaxValue);
+                case Type uintType when uintType == typeof( uint ) || uintType == typeof( uint? ):
+                    return (uint.MinValue, uint.MaxValue);
+                case Type ulongType when ulongType == typeof( ulong ) || ulongType == typeof( ulong? ):
+                    return (ulong.MinValue, ulong.MaxValue);
+                default:
+                    throw new InvalidOperationException( $"Unsupported type {type}" );
+            }
+        }
     }
 }

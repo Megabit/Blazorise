@@ -216,8 +216,8 @@ window.blazorise = {
     numericEdit: {
         _instances: [],
 
-        initialize: (dotnetAdapter, element, elementId, decimals, separator, step) => {
-            window.blazorise.numericEdit._instances[elementId] = new window.blazorise.NumericMaskValidator(dotnetAdapter, element, elementId, decimals, separator, step);
+        initialize: (dotnetAdapter, element, elementId, decimals, separator, step, min, max) => {
+            window.blazorise.numericEdit._instances[elementId] = new window.blazorise.NumericMaskValidator(dotnetAdapter, element, elementId, decimals, separator, step, min, max);
 
             element.addEventListener("keypress", (e) => {
                 window.blazorise.numericEdit.keyPress(window.blazorise.numericEdit._instances[elementId], e);
@@ -261,13 +261,15 @@ window.blazorise = {
             return true;
         };
     },
-    NumericMaskValidator: function (dotnetAdapter, element, elementId, decimals, separator, step) {
+    NumericMaskValidator: function (dotnetAdapter, element, elementId, decimals, separator, step, min, max) {
         this.dotnetAdapter = dotnetAdapter;
         this.elementId = elementId;
         this.element = element;
         this.decimals = decimals === null || decimals === undefined ? 2 : decimals;
         this.separator = separator || ".";
         this.step = step || 1;
+        this.min = min;
+        this.max = max;
         this.regex = function () {
             var sep = "\\" + this.separator,
                 dec = this.decimals,
@@ -282,15 +284,21 @@ window.blazorise = {
             var value = this.element.value,
                 selection = this.carret();
 
-            return value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value);
+            if (value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value)) {
+                return value = (value || "").replace(this.separator, "."), value === "-" && this.min < 0 || value >= this.min && value <= this.max;
+            }
+
+            return false;
         };
         this.stepApply = function (sign) {
             var value = (this.element.value || "").replace(this.separator, ".");
-            var number = Number(value);
-            number = number + (this.step * sign);
-            var newValue = number.toString().replace(".", this.separator);
-            this.element.value = newValue;
-            this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
+            var number = Number(value) + this.step * sign;
+
+            if (number >= this.min && number <= this.max) {
+                var newValue = number.toString().replace(".", this.separator);
+                this.element.value = newValue;
+                this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
+            }
         };
     },
     DateTimeMaskValidator: function (element, elementId) {
