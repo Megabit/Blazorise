@@ -173,7 +173,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<bool> Toggled { get; set; }
 
-        [CascadingParameter] public BaseButtons Buttons { get; set; }
+        [CascadingParameter] protected BaseButtons Buttons { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

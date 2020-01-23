@@ -65,7 +65,7 @@ namespace Blazorise
 
         #region Properties
 
-        [CascadingParameter] public BaseValidation ParentValidation { get; set; }
+        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

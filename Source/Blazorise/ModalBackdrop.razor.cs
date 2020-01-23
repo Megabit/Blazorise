@@ -123,7 +123,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] public BaseModal ParentModal { get; set; }
+        [CascadingParameter] protected BaseModal ParentModal { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

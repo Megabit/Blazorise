@@ -97,7 +97,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] public BaseFields ParentFields { get; set; }
+        [CascadingParameter] protected BaseFields ParentFields { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -96,7 +96,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
 
-        [CascadingParameter] public BaseTabs ParentTabs { get; set; }
+        [CascadingParameter] protected BaseTabs ParentTabs { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

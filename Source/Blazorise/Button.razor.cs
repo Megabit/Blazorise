@@ -215,9 +215,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public bool PreventDefaultOnSubmit { get; set; }
 
-        [CascadingParameter] public BaseDropdown ParentDropdown { get; set; }
+        [CascadingParameter] protected BaseDropdown ParentDropdown { get; set; }
 
-        [CascadingParameter] public BaseButtons ParentButtons { get; set; }
+        [CascadingParameter] protected BaseButtons ParentButtons { get; set; }
 
         /// <summary>
         /// Gets or sets the command to be executed when clicked on a button.

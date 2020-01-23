@@ -47,7 +47,7 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] public BasePaginationItem ParentPaginationItem { get; set; }
+        [CascadingParameter] protected BasePaginationItem ParentPaginationItem { get; set; }
 
         #endregion
     }
