@@ -90,7 +90,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public IEnumerable<BaseDataGridColumn<TItem>> Columns { get; set; }
 
-        [CascadingParameter] public BaseDataGrid<TItem> ParentDataGrid { get; set; }
+        [CascadingParameter] protected BaseDataGrid<TItem> ParentDataGrid { get; set; }
 
         /// <summary>
         /// Occurs after the row is selected.

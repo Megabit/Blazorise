@@ -246,9 +246,9 @@ namespace Blazorise
         /// <summary>
         /// Parent validation group.
         /// </summary>
-        [CascadingParameter] public BaseValidations ParentValidations { get; set; }
+        [CascadingParameter] protected BaseValidations ParentValidations { get; set; }
 
-        [CascadingParameter] public EditContext EditContext { get; set; }
+        [CascadingParameter] protected EditContext EditContext { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

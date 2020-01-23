@@ -63,7 +63,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
 
-        [CascadingParameter] virtual public BaseBar ParentBar { get; set; }
+        [CascadingParameter] protected BaseBar ParentBar { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

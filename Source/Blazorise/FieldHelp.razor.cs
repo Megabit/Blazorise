@@ -34,7 +34,7 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] public BaseFieldBody ParentFieldBody { get; set; }
+        [CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
 
         #endregion
     }

@@ -80,7 +80,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
 
-        [CascadingParameter] public BaseListGroup ParentListGroup { get; set; }
+        [CascadingParameter] protected BaseListGroup ParentListGroup { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -37,7 +37,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public bool IsDisabled { get; set; }
 
-        [CascadingParameter] public BaseSelect<TValue> ParentSelect { get; set; }
+        [CascadingParameter] protected BaseSelect<TValue> ParentSelect { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

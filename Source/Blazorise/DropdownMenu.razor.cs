@@ -71,7 +71,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] public BaseDropdown Dropdown { get; set; }
+        [CascadingParameter] protected BaseDropdown Dropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

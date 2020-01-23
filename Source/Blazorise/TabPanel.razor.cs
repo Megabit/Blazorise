@@ -57,7 +57,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] public BaseTabsContent ParentTabContent { get; set; }
+        [CascadingParameter] protected BaseTabsContent ParentTabContent { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
