@@ -44,9 +44,20 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementRef, elementId );
         }
 
-        public ValueTask<bool> InitializeNumericEdit( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, int decimals, string decimalsSeparator, decimal? step )
+        public ValueTask<bool> InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, int decimals, string decimalsSeparator, decimal? step, TValue min, TValue max )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementRef, elementId, decimals, decimalsSeparator, step );
+            // find the min and max possible value based on the supplied value type
+            var (minFromType, maxFromType) = Converters.GetMinMaxValueOfType<TValue>();
+
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize",
+                dotNetObjectRef,
+                elementRef,
+                elementId,
+                decimals,
+                decimalsSeparator,
+                step,
+                EqualityComparer<TValue>.Default.Equals( min, default ) ? minFromType : (object)min,
+                EqualityComparer<TValue>.Default.Equals( max, default ) ? maxFromType : (object)max );
         }
 
         public ValueTask<bool> DestroyNumericEdit( ElementReference elementRef, string elementId )
