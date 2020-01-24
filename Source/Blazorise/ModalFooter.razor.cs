@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseModalFooter : BaseComponent
+    public partial class ModalFooter : BaseComponent
     {
         #region Members
 

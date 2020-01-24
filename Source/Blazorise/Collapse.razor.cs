@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseCollapse : BaseComponent
+    public partial class Collapse : BaseComponent
     {
         #region Members
 

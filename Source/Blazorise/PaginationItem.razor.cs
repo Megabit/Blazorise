@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BasePaginationItem : BaseComponent
+    public partial class PaginationItem : BaseComponent
     {
         #region Members
 

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public abstract class BaseTableRowHeader : BaseComponent
+    public partial class TableRowHeader : BaseComponent
     {
         #region Members
 

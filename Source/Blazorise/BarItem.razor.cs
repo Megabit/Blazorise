@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBarItem : BaseComponent
+    public partial class BarItem : BaseComponent
     {
         #region Members
 
@@ -16,7 +16,7 @@ namespace Blazorise
 
         private bool isDisabled;
 
-        private BaseBarDropdown barDropdown;
+        private BarDropdown barDropdown;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Hook( BaseBarDropdown barDropdown )
+        internal void Hook( BarDropdown barDropdown )
         {
             this.barDropdown = barDropdown;
 

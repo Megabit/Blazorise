@@ -1,4 +1,4 @@
-﻿@inherits BaseCheckEdit
+﻿@inherits BaseInputComponent<bool?>
 @if ( !HasCustomRegistration )
 {
     <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@RadioGroup" @attributes="@Attributes" />

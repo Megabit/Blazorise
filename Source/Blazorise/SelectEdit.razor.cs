@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseSelect<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
+    public partial class SelectEdit<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     {
         #region Members
 

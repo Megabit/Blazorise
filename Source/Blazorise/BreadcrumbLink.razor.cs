@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBreadcrumbLink : BaseComponent
+    public partial class BreadcrumbLink : BaseComponent
     {
         #region Members
 
@@ -70,7 +70,7 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] protected BaseBreadcrumbItem ParentBreadcrumbItem { get; set; }
+        [CascadingParameter] protected BreadcrumbItem ParentBreadcrumbItem { get; set; }
 
         #endregion
     }

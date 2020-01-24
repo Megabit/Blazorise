@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseTabPanel : BaseComponent
+    public partial class TabPanel : BaseComponent
     {
         #region Members
 
@@ -57,7 +57,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected BaseTabsContent ParentTabContent { get; set; }
+        [CascadingParameter] protected TabsContent ParentTabContent { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

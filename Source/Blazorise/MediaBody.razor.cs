@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseMediaBody : BaseComponent
+    public partial class MediaBody : BaseComponent
     {
         #region Members
 

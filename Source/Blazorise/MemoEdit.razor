@@ -1,4 +1,4 @@
-﻿@inherits Blazorise.BaseMemo
+﻿@inherits BaseInputComponent<string>
 @if ( !HasCustomRegistration )
 {
     <textarea @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@IsDisabled" readonly="@IsReadonly" value="@CurrentValue" maxlength="@MaxLength" rows="@Rows" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @attributes="@Attributes" />

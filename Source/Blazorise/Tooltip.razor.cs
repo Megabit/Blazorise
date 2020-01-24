@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseTooltip : BaseComponent
+    public partial class Tooltip : BaseComponent
     {
         #region Members
 

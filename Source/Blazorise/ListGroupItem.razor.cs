@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseListGroupItem : BaseComponent
+    public partial class ListGroupItem : BaseComponent
     {
         #region Members
 
@@ -80,7 +80,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
 
-        [CascadingParameter] protected BaseListGroup ParentListGroup { get; set; }
+        [CascadingParameter] protected ListGroup ParentListGroup { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -9,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
-    public abstract class BaseModalBackdrop : BaseComponent, ICloseActivator
+    public partial class ModalBackdrop : BaseComponent, ICloseActivator
     {
         #region Members
 
@@ -123,7 +123,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected BaseModal ParentModal { get; set; }
+        [CascadingParameter] protected Modal ParentModal { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

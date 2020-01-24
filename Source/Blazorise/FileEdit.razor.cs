@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseFileEdit : BaseInputComponent<string[]>
+    public partial class FileEdit : BaseInputComponent<string[]>
     {
         #region Members
 

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseDropdown : BaseComponent
+    public partial class Dropdown : BaseComponent
     {
         #region Members
 
@@ -18,11 +18,11 @@ namespace Blazorise
 
         private Direction direction = Blazorise.Direction.Down;
 
-        private BaseDropdownMenu dropdownMenu;
+        private DropdownMenu dropdownMenu;
 
-        private BaseDropdownToggle dropdownToggle;
+        private DropdownToggle dropdownToggle;
 
-        private List<BaseButton> registeredButtons;
+        private List<Button> registeredButtons;
 
         #endregion
 
@@ -75,12 +75,12 @@ namespace Blazorise
         /// Links the dropdown-menu with this dropdown.
         /// </summary>
         /// <param name="dropdownMenu">Dropdown-menu to link.</param>
-        internal void Hook( BaseDropdownMenu dropdownMenu )
+        internal void Hook( DropdownMenu dropdownMenu )
         {
             this.dropdownMenu = dropdownMenu;
         }
 
-        internal void Hook( BaseDropdownToggle dropdownToggle )
+        internal void Hook( DropdownToggle dropdownToggle )
         {
             this.dropdownToggle = dropdownToggle;
         }
@@ -89,13 +89,13 @@ namespace Blazorise
         /// Registers a child button reference.
         /// </summary>
         /// <param name="button">Button to register.</param>
-        internal void Register( BaseButton button )
+        internal void Register( Button button )
         {
             if ( button == null )
                 return;
 
             if ( registeredButtons == null )
-                registeredButtons = new List<BaseButton>();
+                registeredButtons = new List<Button>();
 
             if ( !registeredButtons.Contains( button ) )
             {
@@ -173,7 +173,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<bool> Toggled { get; set; }
 
-        [CascadingParameter] protected BaseButtons Buttons { get; set; }
+        [CascadingParameter] protected Buttons Buttons { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

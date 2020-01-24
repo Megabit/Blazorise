@@ -21,7 +21,7 @@ namespace Blazorise
         Task SetValue( string value );
     }
 
-    public abstract class BaseNumericEdit<TValue> : BaseTextInput<TValue>, INumericEdit
+    public partial class NumericEdit<TValue> : BaseTextInput<TValue>, INumericEdit
     {
         #region Members
 

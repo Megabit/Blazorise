@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseAddons : BaseComponent
+    public partial class Addons : BaseComponent
     {
         #region Members
 
@@ -44,7 +44,7 @@ namespace Blazorise
 
         protected virtual bool ParentIsHorizontal => ParentField?.IsHorizontal == true;
 
-        [CascadingParameter] protected BaseField ParentField { get; set; }
+        [CascadingParameter] protected Field ParentField { get; set; }
 
         //protected bool IsInFieldBody => ParentFieldBody != null;
 

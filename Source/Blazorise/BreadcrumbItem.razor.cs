@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBreadcrumbItem : BaseComponent
+    public partial class BreadcrumbItem : BaseComponent
     {
         #region Members
 

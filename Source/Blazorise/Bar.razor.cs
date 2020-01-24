@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBar : BaseComponent
+    public partial class Bar : BaseComponent
     {
         #region Members
 
@@ -20,9 +20,9 @@ namespace Blazorise
 
         private Background background = Background.None;
 
-        private BaseBarToggler barToggler;
+        private BarToggler barToggler;
 
-        private BaseBarMenu barMenu;
+        private BarMenu barMenu;
 
         private bool isOpen;
 
@@ -41,12 +41,12 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Hook( BaseBarToggler barToggler )
+        internal void Hook( BarToggler barToggler )
         {
             this.barToggler = barToggler;
         }
 
-        internal void Hook( BaseBarMenu barMenu )
+        internal void Hook( BarMenu barMenu )
         {
             this.barMenu = barMenu;
         }

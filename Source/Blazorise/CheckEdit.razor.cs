@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseCheckEdit : BaseInputComponent<bool?>
+    public partial class CheckEdit : BaseInputComponent<bool?>
     {
         #region Members
 

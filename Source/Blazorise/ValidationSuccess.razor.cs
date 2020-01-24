@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseValidationSuccess : BaseValidationSummary
+    public partial class ValidationSuccess : BaseValidationSummary
     {
         #region Members
 

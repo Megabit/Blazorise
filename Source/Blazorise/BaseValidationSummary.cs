@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private BaseValidation previousParentValidation;
+        private Validation previousParentValidation;
 
         private readonly EventHandler<ValidationStatusChangedEventArgs> validationStatusChangedHandler;
 
@@ -65,7 +65,7 @@ namespace Blazorise
 
         #region Properties
 
-        [CascadingParameter] protected BaseValidation ParentValidation { get; set; }
+        [CascadingParameter] protected Validation ParentValidation { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

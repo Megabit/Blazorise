@@ -9,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
-    public abstract class BaseBarDropdownToggle : BaseComponent, ICloseActivator
+    public partial class BarDropdownToggle : BaseComponent, ICloseActivator
     {
         #region Members
 
@@ -109,7 +109,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected BaseBarDropdown BarDropdown { get; set; }
+        [CascadingParameter] protected BarDropdown BarDropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

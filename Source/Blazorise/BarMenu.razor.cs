@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBarMenu : BaseComponent
+    public partial class BarMenu : BaseComponent
     {
         #region Members
 
@@ -59,7 +59,7 @@ namespace Blazorise
 
         [Parameter] public Action<bool> Toggled { get; set; }
 
-        [CascadingParameter] protected BaseBar ParentBar { get; set; }
+        [CascadingParameter] protected Bar ParentBar { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

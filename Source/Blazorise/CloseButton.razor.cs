@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseCloseButton : BaseComponent
+    public partial class CloseButton : BaseComponent
     {
         #region Members
 

@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Blazorise
 {
-    public abstract class BaseValidation : ComponentBase
+    public partial class Validation : ComponentBase
     {
         #region Members
 
@@ -246,7 +246,7 @@ namespace Blazorise
         /// <summary>
         /// Parent validation group.
         /// </summary>
-        [CascadingParameter] protected BaseValidations ParentValidations { get; set; }
+        [CascadingParameter] protected Validations ParentValidations { get; set; }
 
         [CascadingParameter] protected EditContext EditContext { get; set; }
 

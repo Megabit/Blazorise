@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseTabsContent : BaseComponent
+    public partial class TabsContent : BaseComponent
     {
         #region Members
 
-        private List<BaseTabPanel> childPanels = new List<BaseTabPanel>();
+        private List<TabPanel> childPanels = new List<TabPanel>();
 
         private string lastSelectePanel;
 
@@ -27,7 +27,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Hook( BaseTabPanel panel )
+        internal void Hook( TabPanel panel )
         {
             childPanels.Add( panel );
         }
