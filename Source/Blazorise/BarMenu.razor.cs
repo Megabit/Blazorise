@@ -28,9 +28,27 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            ParentBar?.Hook( this );
+            if ( ParentBar != null )
+            {
+                IsOpen = ParentBar.IsOpen;
+
+                ParentBar.StateChanged += OnBarStateChanged;
+            }
 
             base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentBar != null )
+                {
+                    ParentBar.StateChanged -= OnBarStateChanged;
+                }
+            }
+
+            base.Dispose( disposing );
         }
 
         public void Toggle()
@@ -39,6 +57,11 @@ namespace Blazorise
             Toggled?.Invoke( IsOpen );
 
             StateHasChanged();
+        }
+
+        private void OnBarStateChanged( object sender, BarStateEventArgs e )
+        {
+            IsOpen = e.Opened;
         }
 
         #endregion

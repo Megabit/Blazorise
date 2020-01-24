@@ -20,11 +20,9 @@ namespace Blazorise
 
         private Background background = Background.None;
 
-        private BarToggler barToggler;
-
-        private BarMenu barMenu;
-
         private bool isOpen;
+
+        public event EventHandler<BarStateEventArgs> StateChanged;
 
         #endregion
 
@@ -39,16 +37,6 @@ namespace Blazorise
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
 
             base.BuildClasses( builder );
-        }
-
-        internal void Hook( BarToggler barToggler )
-        {
-            this.barToggler = barToggler;
-        }
-
-        internal void Hook( BarMenu barMenu )
-        {
-            this.barMenu = barMenu;
         }
 
         internal void Toggle()
@@ -71,13 +59,13 @@ namespace Blazorise
             get => isOpen;
             set
             {
+                // prevent bar from calling the same code multiple times
+                if ( value == isOpen )
+                    return;
+
                 isOpen = value;
 
-                if ( barMenu != null )
-                    barMenu.IsOpen = value;
-
-                if ( barToggler != null )
-                    barToggler.IsOpen = value;
+                StateChanged?.Invoke( this, new BarStateEventArgs( isOpen ) );
 
                 DirtyClasses();
             }
