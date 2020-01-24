@@ -1,4 +1,4 @@
-﻿@inherits BaseFileEdit
+﻿@inherits Blazorise.FileEdit
 <Control Role="ControlRole.File">
     <Label IsFile="true" For="@ElementId">
         <input id="@ElementId" type="file" class="@ClassNames" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" @onchange="@OnChangeHandler" @attributes="@Attributes" />

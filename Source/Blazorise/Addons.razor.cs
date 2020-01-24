@@ -44,7 +44,7 @@ namespace Blazorise
 
         protected virtual bool ParentIsHorizontal => ParentField?.IsHorizontal == true;
 
-        [CascadingParameter] protected BaseField ParentField { get; set; }
+        [CascadingParameter] protected Field ParentField { get; set; }
 
         //protected bool IsInFieldBody => ParentFieldBody != null;
 

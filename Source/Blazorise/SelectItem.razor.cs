@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseSelectItem<TValue> : BaseComponent
+    public partial class SelectItem<TValue> : BaseComponent
     {
         #region Members
 
@@ -37,7 +37,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public bool IsDisabled { get; set; }
 
-        [CascadingParameter] protected BaseSelect<TValue> ParentSelect { get; set; }
+        [CascadingParameter] protected SelectEdit<TValue> ParentSelect { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

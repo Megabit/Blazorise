@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseTab : BaseComponent
+    public partial class Tab : BaseComponent
     {
         #region Members
 
@@ -18,7 +18,7 @@ namespace Blazorise
 
         #region Constructors
 
-        public BaseTab()
+        public Tab()
         {
             LinkClassBuilder = new ClassBuilder( BuildLinkClasses );
         }
@@ -96,7 +96,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
 
-        [CascadingParameter] protected BaseTabs ParentTabs { get; set; }
+        [CascadingParameter] protected Tabs ParentTabs { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

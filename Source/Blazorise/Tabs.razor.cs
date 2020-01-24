@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseTabs : BaseComponent
+    public partial class Tabs : BaseComponent
     {
         #region Members
 
@@ -20,7 +20,7 @@ namespace Blazorise
 
         private bool isVertical;
 
-        private readonly List<BaseTab> childTabs = new List<BaseTab>();
+        private readonly List<Tab> childTabs = new List<Tab>();
 
         private string lastSelectedTab;
 
@@ -40,7 +40,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Hook( BaseTab tab )
+        internal void Hook( Tab tab )
         {
             childTabs.Add( tab );
         }

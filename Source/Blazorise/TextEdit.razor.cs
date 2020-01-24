@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public abstract class BaseTextEdit : BaseTextInput<string>
+    public partial class TextEdit : BaseTextInput<string>
     {
         #region Members
 

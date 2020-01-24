@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Sets the field label.
     /// </summary>
-    public abstract class BaseFieldLabel : BaseSizableComponent
+    public partial class FieldLabel : BaseSizableComponent
     {
         #region Members
 

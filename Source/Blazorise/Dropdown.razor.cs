@@ -18,9 +18,9 @@ namespace Blazorise
 
         private Direction direction = Blazorise.Direction.Down;
 
-        private BaseDropdownMenu dropdownMenu;
+        private DropdownMenu dropdownMenu;
 
-        private BaseDropdownToggle dropdownToggle;
+        private DropdownToggle dropdownToggle;
 
         private List<Button> registeredButtons;
 
@@ -75,12 +75,12 @@ namespace Blazorise
         /// Links the dropdown-menu with this dropdown.
         /// </summary>
         /// <param name="dropdownMenu">Dropdown-menu to link.</param>
-        internal void Hook( BaseDropdownMenu dropdownMenu )
+        internal void Hook( DropdownMenu dropdownMenu )
         {
             this.dropdownMenu = dropdownMenu;
         }
 
-        internal void Hook( BaseDropdownToggle dropdownToggle )
+        internal void Hook( DropdownToggle dropdownToggle )
         {
             this.dropdownToggle = dropdownToggle;
         }

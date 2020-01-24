@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseNavigationItem : BaseComponent
+    public partial class NavigationItem : BaseComponent
     {
         #region Members
 

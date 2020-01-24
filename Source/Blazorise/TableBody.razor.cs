@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseTableBody : BaseComponent
+    public partial class TableBody : BaseComponent
     {
         #region Members
 

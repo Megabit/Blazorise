@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseListGroup : BaseComponent
+    public partial class ListGroup : BaseComponent
     {
         #region Members
 
         private bool isFlush;
 
-        private readonly List<BaseListGroupItem> childItems = new List<BaseListGroupItem>();
+        private readonly List<ListGroupItem> childItems = new List<ListGroupItem>();
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void LinkItem( BaseListGroupItem listGroupItem )
+        internal void LinkItem( ListGroupItem listGroupItem )
         {
             childItems.Add( listGroupItem );
         }

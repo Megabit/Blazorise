@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Blazorise
 {
-    public abstract class BaseValidations : ComponentBase
+    public partial class Validations : ComponentBase
     {
         #region Members
 

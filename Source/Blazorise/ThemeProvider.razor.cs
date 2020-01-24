@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseThemeProvider : ComponentBase, IDisposable
+    public partial class ThemeProvider : ComponentBase, IDisposable
     {
         #region Members
 
