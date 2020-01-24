@@ -47,7 +47,7 @@ namespace Blazorise
 
         public void Register<TComponent, TImplementation>()
             where TComponent : IComponent
-            where TImplementation : IComponent
+            where TImplementation : TComponent
         {
             Register( typeof( TComponent ), typeof( TImplementation ) );
         }

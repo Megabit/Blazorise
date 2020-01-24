@@ -1,15 +1,17 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public partial class CheckEdit : BaseInputComponent<bool?>
+    public partial class CheckEdit<TValue> : BaseInputComponent<TValue>
     {
         #region Members
 
@@ -29,8 +31,6 @@ namespace Blazorise
             {
                 if ( CheckedExpression != null )
                     ParentValidation.InitializeInputExpression( CheckedExpression );
-                else if ( NullableCheckedExpression != null )
-                    ParentValidation.InitializeInputExpression( NullableCheckedExpression );
             }
 
             base.OnInitialized();
@@ -54,18 +54,24 @@ namespace Blazorise
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
-        protected override Task<ParseValue<bool?>> ParseValueFromStringAsync( string value )
+        protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
-            var parsedValue = value?.ToLowerInvariant() == ( RadioGroup != null ? "on" : "true" );
+            // radio and checkbox have diferent values so we need to convert all to "true" or "false"
+            var parsedValue = ( value?.ToLowerInvariant() == ( RadioGroup != null ? "on" : "true" ) ).ToString();
 
-            return Task.FromResult( new ParseValue<bool?>( true, parsedValue, null ) );
+            if ( Converters.TryChangeType<TValue>( parsedValue, out var result, CultureInfo.InvariantCulture ) )
+            {
+                return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
+            }
+            else
+            {
+                return Task.FromResult( ParseValue<TValue>.Empty );
+            }
         }
 
-        protected override Task OnInternalValueChanged( bool? value )
+        protected override Task OnInternalValueChanged( TValue value )
         {
-            return Task.WhenAll(
-                CheckedChanged.InvokeAsync( Checked ),
-                NullableCheckedChanged.InvokeAsync( NullableChecked ) );
+            return CheckedChanged.InvokeAsync( Checked );
         }
 
         #endregion
@@ -76,38 +82,22 @@ namespace Blazorise
 
         protected string Type => RadioGroup != null ? "radio" : "checkbox";
 
-        protected override bool? InternalValue { get => Checked; set => Checked = value ?? false; }
+        protected override TValue InternalValue { get => Checked; set => Checked = value; }
 
         /// <summary>
         /// Gets or sets the checked flag.
         /// </summary>
-        [Parameter] public bool Checked { get; set; }
-
-        /// <summary>
-        /// Gets or sets the nullable value for checked flag.
-        /// </summary>
-        [Parameter] public bool? NullableChecked { get; set; }
+        [Parameter] public TValue Checked { get; set; }
 
         /// <summary>
         /// Occurs when the check state is changed.
         /// </summary>
-        [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
-
-        /// <summary>
-        /// Occurs when the check state of nullable value is changed.
-        /// </summary>
-        [Obsolete( "This parameter is only temporary until the issue with generic componnets is fixed. see http://git.travelsoft.hr/Travelsoft/_git/Adriagate/pullrequest/59?_a=overview" )]
-        [Parameter] public EventCallback<bool?> NullableCheckedChanged { get; set; }
+        [Parameter] public EventCallback<TValue> CheckedChanged { get; set; }
 
         /// <summary>
         /// Gets or sets an expression that identifies the checked value.
         /// </summary>
-        [Parameter] public Expression<Func<bool>> CheckedExpression { get; set; }
-
-        /// <summary>
-        /// Gets or sets an expression that identifies the nullable checked value.
-        /// </summary>
-        [Parameter] public Expression<Func<bool?>> NullableCheckedExpression { get; set; }
+        [Parameter] public Expression<Func<TValue>> CheckedExpression { get; set; }
 
         /// <summary>
         /// Sets the radio group name.
