@@ -39,7 +39,7 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.Breadcrumb, Frolic.Breadcrumb>();
             componentMapper.Register<Blazorise.CardText, Frolic.CardText>();
             componentMapper.Register<Blazorise.CardTitle, Frolic.CardTitle>();
-            componentMapper.Register<Blazorise.CheckEdit, Frolic.CheckEdit>();
+            componentMapper.Register( typeof( Blazorise.CheckEdit<> ), typeof( Frolic.CheckEdit<> ) );
             componentMapper.Register<Blazorise.DisplayHeading, Frolic.DisplayHeading>();
             componentMapper.Register<Blazorise.Dropdown, Frolic.Dropdown>();
             componentMapper.Register<Blazorise.DropdownToggle, Frolic.DropdownToggle>();

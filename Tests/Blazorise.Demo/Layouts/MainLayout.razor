@@ -124,10 +124,10 @@
                             <Row>
                                 <Column Margin="Margin.Is2.FromBottom">
                                     <Field>
-                                        <CheckEdit Checked="@Theme.IsGradient" CheckedChanged="@OnGradientChanged">Gradient colors</CheckEdit>
+                                        <CheckEdit TValue="bool" Checked="@Theme.IsGradient" CheckedChanged="@OnGradientChanged">Gradient colors</CheckEdit>
                                     </Field>
                                     <Field>
-                                        <CheckEdit Checked="@Theme.IsRounded" CheckedChanged="@OnRoundedChanged">Rounded elements</CheckEdit>
+                                        <CheckEdit TValue="bool" Checked="@Theme.IsRounded" CheckedChanged="@OnRoundedChanged">Rounded elements</CheckEdit>
                                     </Field>
                                 </Column>
                             </Row>

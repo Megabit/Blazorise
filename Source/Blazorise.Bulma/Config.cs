@@ -34,7 +34,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.BreadcrumbLink, Bulma.BreadcrumbLink>();
             componentMapper.Register<Blazorise.CardImage, Bulma.CardImage>();
             componentMapper.Register<Blazorise.CardSubtitle, Bulma.CardSubtitle>();
-            componentMapper.Register<Blazorise.CheckEdit, Bulma.CheckEdit>();
+            componentMapper.Register( typeof( Blazorise.CheckEdit<> ), typeof( Bulma.CheckEdit<> ) );
             componentMapper.Register<Blazorise.DateEdit, Bulma.DateEdit>();
             componentMapper.Register<Blazorise.DropdownDivider, Bulma.DropdownDivider>();
             componentMapper.Register<Blazorise.DropdownMenu, Bulma.DropdownMenu>();
