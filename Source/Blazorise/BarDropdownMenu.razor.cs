@@ -31,10 +31,32 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            // link to the parent component
-            BarDropdown?.Hook( this );
+            if ( ParentBarDropdown != null )
+            {
+                IsOpen = ParentBarDropdown.IsOpen;
+
+                ParentBarDropdown.StateChanged += OnBarDropdownStateChanged;
+            }
 
             base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing)
+            {
+                if ( ParentBarDropdown != null )
+                {
+                    ParentBarDropdown.StateChanged -= OnBarDropdownStateChanged;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
+        private void OnBarDropdownStateChanged( object sender, BarDropdownStateEventArgs e )
+        {
+            IsOpen = e.Opened;
         }
 
         #endregion
@@ -71,7 +93,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected BarDropdown BarDropdown { get; set; }
+        [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

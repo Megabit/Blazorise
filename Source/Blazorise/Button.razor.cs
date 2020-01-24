@@ -74,6 +74,9 @@ namespace Blazorise
         {
             if ( disposing )
             {
+                // remove button from parent
+                ParentDropdown?.UnRegister( this );
+
                 JSRunner.DestroyButton( ElementId );
             }
 

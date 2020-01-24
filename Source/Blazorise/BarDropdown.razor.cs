@@ -14,9 +14,7 @@ namespace Blazorise
 
         private bool isOpen;
 
-        private BarDropdownMenu barDropdownMenu;
-
-        private BarDropdownToggle barDropdownToggler;
+        public event EventHandler<BarDropdownStateEventArgs> StateChanged;
 
         #endregion
 
@@ -36,16 +34,6 @@ namespace Blazorise
             BarItem?.Hook( this );
 
             base.OnInitialized();
-        }
-
-        internal void Hook( BarDropdownMenu barDropdownMenu )
-        {
-            this.barDropdownMenu = barDropdownMenu;
-        }
-
-        internal void Hook( BarDropdownToggle barDropdownToggler )
-        {
-            this.barDropdownToggler = barDropdownToggler;
         }
 
         public void Open()
@@ -96,13 +84,13 @@ namespace Blazorise
             get => isOpen;
             set
             {
+                // prevent dropdown from calling the same code multiple times
+                if ( value == isOpen )
+                    return;
+
                 isOpen = value;
 
-                if ( barDropdownMenu != null )
-                    barDropdownMenu.IsOpen = value;
-
-                if ( barDropdownToggler != null )
-                    barDropdownToggler.IsOpen = value;
+                StateChanged?.Invoke( this, new BarDropdownStateEventArgs( isOpen ) );
 
                 DirtyClasses();
             }
