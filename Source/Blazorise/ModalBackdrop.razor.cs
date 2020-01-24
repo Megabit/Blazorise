@@ -47,6 +47,11 @@ namespace Blazorise
         {
             if ( disposing )
             {
+                if ( ParentModal != null )
+                {
+                    ParentModal.StateChanged -= OnModalStateChanged;
+                }
+
                 // make sure to unregister listener
                 if ( isRegistered )
                 {
