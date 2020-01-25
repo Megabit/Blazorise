@@ -1,29 +1,27 @@
 ﻿<h2>Basic tabs</h2>
 <p id="basic-tabs">
-    <Tabs SelectedTabChanged="@OnSelectedTabChanged">
-        <Tab Name="1" IsActive="@(selectedTab=="1")">1</Tab>
-        <Tab Name="2" IsActive="@(selectedTab=="2")">2</Tab>
-        <Tab Name="3" IsActive="@(selectedTab=="3")">3</Tab>
+    <Tabs SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
+        <Tab Name="1">1</Tab>
+        <Tab Name="2">2</Tab>
+        <Tab Name="3">3</Tab>
     </Tabs>
-    <TabsContent @ref="tabContent">
-        <TabPanel Name="1" IsActive="@(selectedTab == "1")">
+    <TabsContent SelectedPanel="@selectedTab">
+        <TabPanel Name="1">
             First tab content
         </TabPanel>
-        <TabPanel Name="2" IsActive="@(selectedTab == "2")">
+        <TabPanel Name="2">
             Second tab content
         </TabPanel>
-        <TabPanel Name="3" IsActive="@(selectedTab == "3")">
+        <TabPanel Name="3">
             Third tab content
         </TabPanel>
     </TabsContent>
 </p>
 @code{
-    TabsContent tabContent;
     string selectedTab = "2";
 
     private void OnSelectedTabChanged( string name )
     {
         selectedTab = name;
-        tabContent.SelectPanel( name );
     }
 }
