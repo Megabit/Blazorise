@@ -18,26 +18,21 @@ There are two pieces to a tabbed interface: the tabs themselves, and the content
 
 The tabs are container for tab items. Each tab item contains a link to a tab panel. The `Name` of each tab item should match the `Name` of a tab panel.
 
-The tab content container is used to hold tab panels. Each content pane also has a unique `Name`, which is targeted by a link in the tabstrip.
+The tab content container is used to hold tab panels. Each content pane also has a unique `Name`, which is targeted by a link in the tab-strip.
 
 Put it all together, and we get this:
 
-### Tab items
+## Example
 
 ```html
-<Tabs>
-    <Tab Name="home" IsActive="true">Home</Tab>
+<Tabs SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
+    <Tab Name="home">Home</Tab>
     <Tab Name="profile">Profile</Tab>
     <Tab Name="messages">Messages</Tab>
     <Tab Name="settings">Settings</Tab>
 </Tabs>
-```
-
-### Tabs content
-
-```html
-<TabsContent>
-    <TabPanel Name="home" IsActive="true">
+<TabsContent SelectedPanel="@selectedTab">
+    <TabPanel Name="home">
         ...
     </TabPanel>
     <TabPanel Name="profile">
@@ -50,9 +45,17 @@ Put it all together, and we get this:
         ...
     </TabPanel>
 </TabsContent>
+@code{
+    string selectedTab = "2";
+
+    private void OnSelectedTabChanged( string name )
+    {
+        selectedTab = name;
+    }
+}
 ```
 
-<iframe src="/examples/tabs/basic/" frameborder="0" scrolling="no" style="width:100%;height:625px;"></iframe>
+<iframe src="/examples/tabs/basic/" frameborder="0" scrolling="no" style="width:100%;height:260px;"></iframe>
 
 ## Functions
 
@@ -77,7 +80,6 @@ Put it all together, and we get this:
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
 | Name                | string                                                                     | null             | Defines the unique tab name.                                                                          |
-| IsActive            | boolean                                                                    | false            | Sets the active tab.                                                                                  |
 
 ### TabsContent
 
@@ -89,6 +91,4 @@ Put it all together, and we get this:
 
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
-| Name                | string                                                                     | null             | Defines the panel name that must match the corresponding tab name.                                     |
-| IsActive            | boolean                                                                    | false            | Sets the active panel.                                                                                |
-
+| Name                | string                                                                     | null             | Defines the panel name that must match the corresponding tab name.                                    |
