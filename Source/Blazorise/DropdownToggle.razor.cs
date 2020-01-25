@@ -27,8 +27,12 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            // link to the parent component
-            Dropdown?.Hook( this );
+            if ( ParentDropdown != null )
+            {
+                IsOpen = ParentDropdown.IsOpen;
+
+                ParentDropdown.StateChanged += OnDropdownStateChanged;
+            }
 
             base.OnInitialized();
         }
@@ -70,7 +74,7 @@ namespace Blazorise
 
         protected void ClickHandler()
         {
-            Dropdown?.Toggle();
+            ParentDropdown?.Toggle();
         }
 
         public bool SafeToClose( string elementId, bool isEscapeKey )
@@ -80,14 +84,19 @@ namespace Blazorise
 
         public void Close()
         {
-            Dropdown?.Close();
+            ParentDropdown?.Close();
+        }
+
+        private void OnDropdownStateChanged( object sender, DropdownStateEventArgs e )
+        {
+            IsOpen = e.Opened;
         }
 
         #endregion
 
         #region Properties
 
-        protected bool IsGroup => Dropdown?.IsGroup == true;
+        protected bool IsGroup => ParentDropdown?.IsGroup == true;
 
         /// <summary>
         /// Gets or sets the dropdown color.
@@ -147,7 +156,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected Dropdown Dropdown { get; set; }
+        [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -25,8 +25,12 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            // link to the parent component
-            BarDropdown?.Hook( this );
+            if ( ParentBarDropdown != null )
+            {
+                IsOpen = ParentBarDropdown.IsOpen;
+
+                ParentBarDropdown.StateChanged += OnBarDropdownStateChanged;
+            }
 
             base.OnInitialized();
         }
@@ -49,6 +53,11 @@ namespace Blazorise
         {
             if ( disposing )
             {
+                if ( ParentBarDropdown != null )
+                {
+                    ParentBarDropdown.StateChanged -= OnBarDropdownStateChanged;
+                }
+
                 // make sure to unregister listener
                 if ( isRegistered )
                 {
@@ -64,7 +73,7 @@ namespace Blazorise
 
         protected void ClickHandler()
         {
-            BarDropdown?.Toggle();
+            ParentBarDropdown?.Toggle();
         }
 
         public bool SafeToClose( string elementId, bool isEscapeKey )
@@ -74,7 +83,12 @@ namespace Blazorise
 
         public void Close()
         {
-            BarDropdown?.Close();
+            ParentBarDropdown?.Close();
+        }
+
+        private void OnBarDropdownStateChanged( object sender, BarDropdownStateEventArgs e )
+        {
+            IsOpen = e.Opened;
         }
 
         #endregion
@@ -109,7 +123,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected BarDropdown BarDropdown { get; set; }
+        [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

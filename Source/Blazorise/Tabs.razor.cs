@@ -20,9 +20,9 @@ namespace Blazorise
 
         private bool isVertical;
 
-        private readonly List<Tab> childTabs = new List<Tab>();
+        private string selectedTab;
 
-        private string lastSelectedTab;
+        public event EventHandler<TabsStateEventArgs> StateChanged;
 
         #endregion
 
@@ -40,34 +40,15 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Hook( Tab tab )
-        {
-            childTabs.Add( tab );
-        }
-
         /// <summary>
         /// Sets the active tab by the name.
         /// </summary>
         /// <param name="tabName"></param>
         public void SelectTab( string tabName )
         {
-            if ( lastSelectedTab != tabName )
-            {
-                lastSelectedTab = tabName;
+            SelectedTab = tabName;
 
-                foreach ( var child in childTabs )
-                {
-                    child.IsActive = child.Name == tabName;
-                }
-
-                // raise the tabchanged notification
-                SelectedTabChanged?.Invoke( tabName );
-
-                // although nothing is actually changed we need to call this anyways or otherwise the rendering will not be called
-                DirtyClasses();
-
-                StateHasChanged();
-            }
+            StateHasChanged();
         }
 
         #endregion
@@ -137,9 +118,32 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Gets or sets currently selected tab name.
+        /// </summary>
+        [Parameter]
+        public string SelectedTab
+        {
+            get => selectedTab;
+            set
+            {
+                // prevent tabs from calling the same code multiple times
+                if ( value == selectedTab )
+                    return;
+
+                selectedTab = value;
+
+                // raise the tabchanged notification
+                StateChanged?.Invoke( this, new TabsStateEventArgs( selectedTab ) );
+                SelectedTabChanged.InvokeAsync( selectedTab );
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Occurs after the selected tab has changed.
         /// </summary>
-        [Parameter] public Action<string> SelectedTabChanged { get; set; }
+        [Parameter] public EventCallback<string> SelectedTabChanged { get; set; }
 
         [CascadingParameter] protected CardHeader CardHeader { get; set; }
 

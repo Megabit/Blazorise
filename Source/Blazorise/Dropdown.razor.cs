@@ -18,9 +18,7 @@ namespace Blazorise
 
         private Direction direction = Blazorise.Direction.Down;
 
-        private DropdownMenu dropdownMenu;
-
-        private DropdownToggle dropdownToggle;
+        public event EventHandler<DropdownStateEventArgs> StateChanged;
 
         private List<Button> registeredButtons;
 
@@ -72,20 +70,6 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Links the dropdown-menu with this dropdown.
-        /// </summary>
-        /// <param name="dropdownMenu">Dropdown-menu to link.</param>
-        internal void Hook( DropdownMenu dropdownMenu )
-        {
-            this.dropdownMenu = dropdownMenu;
-        }
-
-        internal void Hook( DropdownToggle dropdownToggle )
-        {
-            this.dropdownToggle = dropdownToggle;
-        }
-
-        /// <summary>
         /// Registers a child button reference.
         /// </summary>
         /// <param name="button">Button to register.</param>
@@ -108,6 +92,17 @@ namespace Blazorise
             }
         }
 
+        internal void UnRegister( Button button )
+        {
+            if ( button == null )
+                return;
+
+            if ( registeredButtons != null && registeredButtons.Contains( button ) )
+            {
+                registeredButtons.Remove( button );
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -126,13 +121,13 @@ namespace Blazorise
             get => isOpen;
             set
             {
+                // prevent dropdown from calling the same code multiple times
+                if ( value == isOpen )
+                    return;
+
                 isOpen = value;
 
-                if ( dropdownMenu != null )
-                    dropdownMenu.IsOpen = value;
-
-                if ( dropdownToggle != null )
-                    dropdownToggle.IsOpen = value;
+                StateChanged?.Invoke( this, new DropdownStateEventArgs( isOpen ) );
 
                 DirtyClasses();
             }

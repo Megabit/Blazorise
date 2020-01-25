@@ -209,4 +209,84 @@ namespace Blazorise
         /// </summary>
         public bool Visible { get; }
     }
+
+    /// <summary>
+    /// Supplies the information about the dropdown state.
+    /// </summary>
+    public class DropdownStateEventArgs : EventArgs
+    {
+        public DropdownStateEventArgs( bool opened )
+        {
+            Opened = opened;
+        }
+
+        /// <summary>
+        /// Gets that flag that indicates if the dropdown is opened.
+        /// </summary>
+        public bool Opened { get; }
+    }
+
+    /// <summary>
+    /// Supplies the information about the bar-dropdown state.
+    /// </summary>
+    public class BarDropdownStateEventArgs : EventArgs
+    {
+        public BarDropdownStateEventArgs( bool opened )
+        {
+            Opened = opened;
+        }
+
+        /// <summary>
+        /// Gets that flag that indicates if the dropdown is opened.
+        /// </summary>
+        public bool Opened { get; }
+    }
+
+    /// <summary>
+    /// Supplies the information about the bar state.
+    /// </summary>
+    public class BarStateEventArgs : EventArgs
+    {
+        public BarStateEventArgs( bool opened )
+        {
+            Opened = opened;
+        }
+
+        /// <summary>
+        /// Gets that flag that indicates if the bar is opened.
+        /// </summary>
+        public bool Opened { get; }
+    }
+
+    /// <summary>
+    /// Supplies the information about the selected tab.
+    /// </summary>
+    public class TabsStateEventArgs : EventArgs
+    {
+        public TabsStateEventArgs( string tabName )
+        {
+            TabName = tabName;
+        }
+
+        /// <summary>
+        /// Gets the selected tab name.
+        /// </summary>
+        public string TabName { get; }
+    }
+
+    /// <summary>
+    /// Supplies the information about the selected panel.
+    /// </summary>
+    public class TabsContentStateEventArgs : EventArgs
+    {
+        public TabsContentStateEventArgs( string panelName )
+        {
+            PanelName = panelName;
+        }
+
+        /// <summary>
+        /// Gets the selected panel name.
+        /// </summary>
+        public string PanelName { get; }
+    }
 }

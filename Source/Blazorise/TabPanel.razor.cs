@@ -28,9 +28,32 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            ParentTabContent?.Hook( this );
+            if ( ParentTabContent != null )
+            {
+                IsActive = Name == ParentTabContent.SelectedPanel;
+
+                ParentTabContent.StateChanged += OnTabsContentStateChanged;
+            }
 
             base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentTabContent != null )
+                {
+                    ParentTabContent.StateChanged -= OnTabsContentStateChanged;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
+        private void OnTabsContentStateChanged( object sender, TabsContentStateEventArgs e )
+        {
+            IsActive = Name == e.PanelName;
         }
 
         #endregion
@@ -38,18 +61,17 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Defines the panel name.
+        /// Defines the panel name. Must match the coresponding tab name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 
         /// <summary>
-        /// Sets the active panel.
+        /// Determines is the panel active.
         /// </summary>
-        [Parameter]
         public bool IsActive
         {
             get => isActive;
-            set
+            private set
             {
                 isActive = value;
 

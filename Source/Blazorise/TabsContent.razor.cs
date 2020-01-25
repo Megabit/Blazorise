@@ -12,9 +12,9 @@ namespace Blazorise
     {
         #region Members
 
-        private List<TabPanel> childPanels = new List<TabPanel>();
+        private string selectedPanel;
 
-        private string lastSelectePanel;
+        public event EventHandler<TabsContentStateEventArgs> StateChanged;
 
         #endregion
 
@@ -27,30 +27,11 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Hook( TabPanel panel )
-        {
-            childPanels.Add( panel );
-        }
-
         public void SelectPanel( string panelName )
         {
-            if ( lastSelectePanel != panelName )
-            {
-                lastSelectePanel = panelName;
+            SelectedPanel = panelName;
 
-                foreach ( var child in childPanels )
-                {
-                    child.IsActive = child.Name == panelName;
-                }
-
-                // raise the panelchanged notification
-                SelectedPanelChanged?.Invoke( panelName );
-
-                // although nothing is actually changed we need to call this anyways or otherwise the rendering will not be called
-                DirtyClasses();
-
-                StateHasChanged();
-            }
+            StateHasChanged();
         }
 
         #endregion
@@ -58,9 +39,32 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Gets or sets currently selected panel name.
+        /// </summary>
+        [Parameter]
+        public string SelectedPanel
+        {
+            get => selectedPanel;
+            set
+            {
+                // prevent panels from calling the same code multiple times
+                if ( value == selectedPanel )
+                    return;
+
+                selectedPanel = value;
+
+                // raise the tabchanged notification
+                StateChanged?.Invoke( this, new TabsContentStateEventArgs( selectedPanel ) );
+                SelectedPanelChanged.InvokeAsync( selectedPanel );
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Occurs after the selected panel has changed.
         /// </summary>
-        [Parameter] public Action<string> SelectedPanelChanged { get; set; }
+        [Parameter] public EventCallback<string> SelectedPanelChanged { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
