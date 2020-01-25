@@ -50,9 +50,27 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            ParentTabs?.Hook( this );
+            if ( ParentTabs != null )
+            {
+                IsActive = Name == ParentTabs.SelectedTab;
+
+                ParentTabs.StateChanged += OnTabsStateChanged;
+            }
 
             base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentTabs != null )
+                {
+                    ParentTabs.StateChanged -= OnTabsStateChanged;
+                }
+            }
+
+            base.Dispose( disposing );
         }
 
         protected void ClickHandler()
@@ -61,9 +79,15 @@ namespace Blazorise
             ParentTabs?.SelectTab( Name );
         }
 
+        private void OnTabsStateChanged( object sender, TabsStateEventArgs e )
+        {
+            IsActive = Name == e.TabName;
+        }
+
         #endregion
 
         #region Properties
+
         protected ClassBuilder LinkClassBuilder { get; private set; }
 
         /// <summary>
@@ -72,18 +96,17 @@ namespace Blazorise
         protected string LinkClassNames => LinkClassBuilder.Class;
 
         /// <summary>
-        /// Defines the tab name.
+        /// Defines the tab name. Must match the coresponding panel name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 
         /// <summary>
-        /// Sets the active tab.
+        /// Determines is the tab active.
         /// </summary>
-        [Parameter]
         public bool IsActive
         {
             get => isActive;
-            set
+            private set
             {
                 isActive = value;
 
