@@ -48,7 +48,7 @@ The same structure is for all **Edit** components(check, radio, select, etc). No
 
 ```html
 <Validation Validator="@ValidateCheck">
-    <CheckEdit>
+    <CheckEdit TValue="bool">
         <ChildContent>
             Check me out
         </ChildContent>
