@@ -97,7 +97,7 @@ You can also add a close button.
 You can also add a close button.
 
 ```html
-<Alert Color="Color.Info" IsShow="true">
+<Alert Color="Color.Info" Showed="true">
     <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
         Big one!
         <CloseButton />
@@ -116,10 +116,10 @@ You can also add a close button.
 
 ### How to use
 
-To show alert just set `IsShow` attribute to true.
+To show alert just set `Showed` attribute to true.
 
 ```html
-<Alert Color="Color.Success" IsShow="true">
+<Alert Color="Color.Success" Showed="true">
     ...
 </Alert>
 ```

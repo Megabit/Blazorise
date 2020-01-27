@@ -12,9 +12,9 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isDismisable;
+        private bool dismisable;
 
-        private bool isShow;
+        private bool showed;
 
         private Color color = Color.None;
 
@@ -28,28 +28,28 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Alert() );
             builder.Append( ClassProvider.AlertColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.AlertDismisable(), IsDismisable );
-            builder.Append( ClassProvider.AlertFade(), IsDismisable );
-            builder.Append( ClassProvider.AlertShow(), IsDismisable && IsShow );
+            builder.Append( ClassProvider.AlertDismisable(), Dismisable );
+            builder.Append( ClassProvider.AlertFade(), Dismisable );
+            builder.Append( ClassProvider.AlertShow(), Dismisable && Showed );
 
             base.BuildClasses( builder );
         }
 
         public void Show()
         {
-            IsShow = true;
+            Showed = true;
             StateHasChanged();
         }
 
         public void Hide()
         {
-            IsShow = false;
+            Showed = false;
             StateHasChanged();
         }
 
         public void Toggle()
         {
-            IsShow = !IsShow;
+            Showed = !Showed;
             StateHasChanged();
         }
 
@@ -68,12 +68,12 @@ namespace Blazorise
         /// Enables the alert to be closed by placing the padding for close button.
         /// </summary>
         [Parameter]
-        public bool IsDismisable
+        public bool Dismisable
         {
-            get => isDismisable;
+            get => dismisable;
             set
             {
-                isDismisable = value;
+                dismisable = value;
 
                 DirtyClasses();
             }
@@ -83,16 +83,16 @@ namespace Blazorise
         /// Sets the alert visibilty.
         /// </summary>
         [Parameter]
-        public bool IsShow
+        public bool Showed
         {
-            get => isShow;
+            get => showed;
             set
             {
                 // prevent alert from calling the same code multiple times
-                if ( value == isShow )
+                if ( value == showed )
                     return;
 
-                isShow = value;
+                showed = value;
 
                 HandleVisibilityState( value );
 
