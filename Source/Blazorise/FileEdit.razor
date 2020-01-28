@@ -1,7 +1,7 @@
 ﻿@inherits BaseInputComponent<string[]>
 @if ( !HasCustomRegistration )
 {
-    <input id="@ElementId" type="file" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" accept="@Filter" @onchange="@OnChangeHandler" @attributes="@Attributes" />
+    <input id="@ElementId" type="file" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" multiple="@Multiple" accept="@Filter" @onchange="@OnChangeHandler" @attributes="@Attributes" />
     @ChildContent
 }
 else

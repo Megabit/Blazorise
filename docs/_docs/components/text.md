@@ -39,7 +39,7 @@ Static text removes the background, border, shadow, and horizontal padding, whil
 A disabled input element is unusable and un-clickable.
 
 ```html
-<TextEdit IsDisabled="true" />
+<TextEdit Disabled="true" />
 ```
 
 <iframe src="/examples/forms/text-disabled/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -49,7 +49,7 @@ A disabled input element is unusable and un-clickable.
 If you use the read-only attribute, the input text will look similar to a normal one, but is not editable.
 
 ```html
-<TextEdit IsReadonly="true" />
+<TextEdit ReadOnly="true" />
 ```
 
 <iframe src="/examples/forms/text-readonly/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -156,8 +156,8 @@ public void ConfigureServices( IServiceCollection services )
 | Text              | string                                                              |         | Input value.                                                                                         |
 | TextChanged       | event                                                               |         | Occurs after text has changed.                                                                       |
 | IsPlaintext       | boolean                                                             | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
-| IsReadonly        | boolean                                                             | false   | Prevents modification of the input’s value.                                                          |
-| IsDisabled        | boolean                                                             | false   | Prevents user interactions and make it appear lighter.                                               |
+| ReadOnly          | boolean                                                             | false   | Prevents modification of the input’s value.                                                          |
+| Disabled          | boolean                                                             | false   | Prevents user interactions and make it appear lighter.                                               |
 | MaxLength         | int?                                                                | null    | Specifies the maximum number of characters allowed in the input element.                             |
 | Placeholder       | string                                                              |         | Sets the placeholder for the empty text.                                                             |
 | Pattern           | string                                                              |         | Specifies a regular expression that the input element's value is checked against on form validation. |

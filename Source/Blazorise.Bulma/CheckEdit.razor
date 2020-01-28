@@ -3,9 +3,9 @@
 @if ( ParentIsFieldBody )
 {
     <div class="field">
-        <Control Role="@Role" IsInline="@IsInline">
+        <Control Role="@Role" Inline="@Inline">
             <Label IsCheck="true" For="@ElementId" Style="@Style" Cursor="@Cursor">
-                <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@RadioGroup" @attributes="@Attributes" />
+                <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@RadioGroup" @attributes="@Attributes" />
                 @ChildContent
             </Label>
         </Control>
@@ -14,9 +14,9 @@
 }
 else
 {
-    <Control Role="@Role" IsInline="@IsInline">
+    <Control Role="@Role" Inline="@Inline">
         <Label IsCheck="true" For="@ElementId" Style="@Style" Cursor="@Cursor">
-            <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@RadioGroup" @attributes="@Attributes" />
+            <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@RadioGroup" @attributes="@Attributes" />
             @ChildContent
         </Label>
     </Control>

@@ -3,7 +3,7 @@
 @inherits BaseInputComponent<IReadOnlyList<TValue>>
 @if ( !HasCustomRegistration )
 {
-    <select @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" readonly="@IsReadonly" multiple="@IsMultiple" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @attributes="@Attributes">
+    <select @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" multiple="@Multiple" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @attributes="@Attributes">
         <CascadingValue Value=this>
             @ChildContent
         </CascadingValue>

@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isInline;
+        private bool inline;
 
         private ControlRole role = ControlRole.None;
 
@@ -26,7 +26,7 @@ namespace Blazorise
             builder.Append( ClassProvider.ControlRadio(), Role == ControlRole.Radio );
             builder.Append( ClassProvider.ControlFile(), Role == ControlRole.File );
             builder.Append( ClassProvider.ControlText(), Role == ControlRole.Text );
-            builder.Append( ClassProvider.CheckEditInline(), IsInline );
+            builder.Append( ClassProvider.CheckEditInline(), Inline );
 
             base.BuildClasses( builder );
         }
@@ -39,12 +39,12 @@ namespace Blazorise
         /// Determines if the check or radio control will be inlined.
         /// </summary>
         [Parameter]
-        public bool IsInline
+        public bool Inline
         {
-            get => isInline;
+            get => inline;
             set
             {
-                isInline = value;
+                inline = value;
 
                 DirtyClasses();
             }

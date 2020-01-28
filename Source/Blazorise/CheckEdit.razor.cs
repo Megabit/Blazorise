@@ -17,7 +17,7 @@ namespace Blazorise
 
         private string radioGroup;
 
-        private bool isInline;
+        private bool inline;
 
         private Cursor cursor;
 
@@ -118,12 +118,12 @@ namespace Blazorise
         /// Group checkboxes or radios on the same horizontal row.
         /// </summary>
         [Parameter]
-        public bool IsInline
+        public bool Inline
         {
-            get => isInline;
+            get => inline;
             set
             {
-                isInline = value;
+                inline = value;
 
                 DirtyClasses();
             }

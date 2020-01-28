@@ -54,8 +54,8 @@ When using the event `TextChanged`, you also must define the `Text` value attrib
 | Text        | string                                                       |         | Input value.                                                                                         |
 | TextChanged | event                                                        |         | Occurs after text has changed.                                                                       |
 | IsPlaintext | boolean                                                      | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
-| IsReadonly  | boolean                                                      | false   | Prevents modification of the input’s value.                                                          |
-| IsDisabled  | boolean                                                      | false   | Prevents user interactions and make it appear lighter.                                               |
+| Readonly    | boolean                                                      | false   | Prevents modification of the input’s value.                                                          |
+| Disabled    | boolean                                                      | false   | Prevents user interactions and make it appear lighter.                                               |
 | MaxLength   | int?                                                         | null    | Specifies the maximum number of characters allowed in the input element.                             |
 | Placeholder | string                                                       |         | Sets the placeholder for the empty text.                                                             |
 | Rows        | int?                                                         | null    | Specifies the number lines in the input element.                                                     |

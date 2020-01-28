@@ -20,7 +20,7 @@ namespace Blazorise
 
         #region Properties
 
-        protected bool IsSelected => ParentSelect?.ContainsValue( Value ) == true;
+        protected bool Selected => ParentSelect?.ContainsValue( Value ) == true;
 
         /// <summary>
         /// Convert the value to string because option tags are working with string internally. Otherwise some datatypes like booleans will not work as expected.
@@ -35,7 +35,7 @@ namespace Blazorise
         /// <summary>
         /// Disable the item from mouse click.
         /// </summary>
-        [Parameter] public bool IsDisabled { get; set; }
+        [Parameter] public bool Disabled { get; set; }
 
         [CascadingParameter] protected SelectEdit<TValue> ParentSelect { get; set; }
 
