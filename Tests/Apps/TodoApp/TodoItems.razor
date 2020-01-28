@@ -29,7 +29,7 @@
                 </Fields>
             </CardBody>
             <CardBody Padding="Padding.Is0.OnY">
-                <ListGroup IsFlush="true">
+                <ListGroup Flush="true">
                     @foreach ( var todo in Todos )
                     {
                         <TodoItem Todo="@todo" StatusChanged="@OnTodoStatusChanged" />
