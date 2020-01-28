@@ -231,15 +231,15 @@ namespace Blazorise
     /// </summary>
     public class BarDropdownStateEventArgs : EventArgs
     {
-        public BarDropdownStateEventArgs( bool opened )
+        public BarDropdownStateEventArgs( bool visible )
         {
-            Opened = opened;
+            Visible = visible;
         }
 
         /// <summary>
         /// Gets that flag that indicates if the dropdown is opened.
         /// </summary>
-        public bool Opened { get; }
+        public bool Visible { get; }
     }
 
     /// <summary>

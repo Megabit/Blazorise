@@ -28,7 +28,7 @@ namespace Blazorise
             builder.Append( ClassProvider.BarItemActive(), IsActive );
             builder.Append( ClassProvider.BarItemDisabled(), IsDisabled );
             builder.Append( ClassProvider.BarItemHasDropdown(), IsDropdown );
-            builder.Append( ClassProvider.BarItemHasDropdownShow(), IsDropdown && barDropdown?.IsOpen == true );
+            builder.Append( ClassProvider.BarItemHasDropdownShow(), IsDropdown && barDropdown?.Visible == true );
 
             base.BuildClasses( builder );
         }

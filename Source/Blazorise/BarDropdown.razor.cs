@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
         public event EventHandler<BarDropdownStateEventArgs> StateChanged;
 
@@ -23,7 +23,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdown() );
-            builder.Append( ClassProvider.BarDropdownShow(), IsOpen );
+            builder.Append( ClassProvider.BarDropdownShow(), Visible );
 
             base.BuildClasses( builder );
         }
@@ -38,12 +38,12 @@ namespace Blazorise
 
         public void Open()
         {
-            var temp = IsOpen;
+            var temp = Visible;
 
-            IsOpen = true;
+            Visible = true;
 
-            if ( temp != IsOpen ) // used to prevent toggle event call if Open() is called multiple times
-                Toggled?.Invoke( IsOpen );
+            if ( temp != Visible ) // used to prevent toggle event call if Open() is called multiple times
+                Toggled?.Invoke( Visible );
 
             BarItem?.MenuChanged();
 
@@ -52,12 +52,12 @@ namespace Blazorise
 
         public void Close()
         {
-            var temp = IsOpen;
+            var temp = Visible;
 
-            IsOpen = false;
+            Visible = false;
 
-            if ( temp != IsOpen ) // used to prevent toggle event call if Close() is called multiple times
-                Toggled?.Invoke( IsOpen );
+            if ( temp != Visible ) // used to prevent toggle event call if Close() is called multiple times
+                Toggled?.Invoke( Visible );
 
             BarItem?.MenuChanged();
 
@@ -66,8 +66,8 @@ namespace Blazorise
 
         public void Toggle()
         {
-            IsOpen = !IsOpen;
-            Toggled?.Invoke( IsOpen );
+            Visible = !Visible;
+            Toggled?.Invoke( Visible );
 
             BarItem?.MenuChanged();
 
@@ -78,19 +78,22 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the control and all its child controls are displayed.
+        /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
                 // prevent dropdown from calling the same code multiple times
-                if ( value == isOpen )
+                if ( value == visible )
                     return;
 
-                isOpen = value;
+                visible = value;
 
-                StateChanged?.Invoke( this, new BarDropdownStateEventArgs( isOpen ) );
+                StateChanged?.Invoke( this, new BarDropdownStateEventArgs( visible ) );
 
                 DirtyClasses();
             }
