@@ -13,11 +13,11 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
-        private bool isSplit;
+        private bool split;
 
-        private bool isRegistered;
+        private bool jsRegistered;
 
         private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
@@ -29,7 +29,7 @@ namespace Blazorise
         {
             if ( ParentDropdown != null )
             {
-                IsOpen = ParentDropdown.IsOpen;
+                Visible = ParentDropdown.Visible;
 
                 ParentDropdown.StateChanged += OnDropdownStateChanged;
             }
@@ -47,10 +47,10 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DropdownToggle() );
-            builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !IsOutline );
-            builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && IsOutline );
+            builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !Outline );
+            builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
             builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != ButtonSize.None );
-            builder.Append( ClassProvider.DropdownToggleSplit(), IsSplit );
+            builder.Append( ClassProvider.DropdownToggleSplit(), Split );
 
             base.BuildClasses( builder );
         }
@@ -60,9 +60,9 @@ namespace Blazorise
             if ( disposing )
             {
                 // make sure to unregister listener
-                if ( isRegistered )
+                if ( jsRegistered )
                 {
-                    isRegistered = false;
+                    jsRegistered = false;
 
                     JSRunner.UnregisterClosableComponent( this );
                     JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
@@ -89,7 +89,7 @@ namespace Blazorise
 
         private void OnDropdownStateChanged( object sender, DropdownStateEventArgs e )
         {
-            IsOpen = e.Opened;
+            Visible = e.Visible;
         }
 
         #endregion
@@ -112,22 +112,22 @@ namespace Blazorise
         /// Handles the visibility of dropdown toggle.
         /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
 
-                if ( isOpen )
+                if ( visible )
                 {
-                    isRegistered = true;
+                    jsRegistered = true;
 
                     JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
                 }
                 else
                 {
-                    isRegistered = false;
+                    jsRegistered = false;
 
                     JSRunner.UnregisterClosableComponent( this );
                 }
@@ -139,18 +139,18 @@ namespace Blazorise
         /// <summary>
         /// Button outline.
         /// </summary>
-        [Parameter] public bool IsOutline { get; set; }
+        [Parameter] public bool Outline { get; set; }
 
         /// <summary>
         /// Handles the visibility of split button.
         /// </summary>
         [Parameter]
-        public bool IsSplit
+        public bool Split
         {
-            get => isSplit;
+            get => split;
             set
             {
-                isSplit = value;
+                split = value;
 
                 DirtyClasses();
             }
