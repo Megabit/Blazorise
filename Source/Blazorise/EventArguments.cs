@@ -183,15 +183,15 @@ namespace Blazorise
     /// </summary>
     public class ModalStateEventArgs : EventArgs
     {
-        public ModalStateEventArgs( bool opened )
+        public ModalStateEventArgs( bool visible )
         {
-            Opened = opened;
+            Visible = visible;
         }
 
         /// <summary>
         /// Gets that flag that indicates if the modal is opened.
         /// </summary>
-        public bool Opened { get; }
+        public bool Visible { get; }
     }
 
     /// <summary>
