@@ -69,10 +69,11 @@ Put it all together, and we get this:
 
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
-| IsPills             | boolean                                                                    | false            | Makes the tab items to appear as pills.                                                               |
-| IsFullWidth         | boolean                                                                    | false            | Makes the tab items to extend the full available width.                                               |
-| IsJustified         | boolean                                                                    | false            | Makes the tab items to extend the full available width, but every item will be the same width.        |
-| IsVertical          | boolean                                                                    | false            | Stack the navigation items by changing the flex item direction.                                       |
+| Pills               | boolean                                                                    | false            | Makes the tab items to appear as pills.                                                               |
+| FullWidth           | boolean                                                                    | false            | Makes the tab items to extend the full available width.                                               |
+| Justified           | boolean                                                                    | false            | Makes the tab items to extend the full available width, but every item will be the same width.        |
+| Vertical            | boolean                                                                    | false            | Stack the navigation items by changing the flex item direction.                                       |
+| SelectedTab         | string                                                                     |                  | Currently selected tab name.                                                                          |
 | SelectedTabChanged  | event                                                                      |                  | Occurs after the selected tab has changed.                                                            |
 
 ### Tab
@@ -85,6 +86,7 @@ Put it all together, and we get this:
 
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
+| SelectedPanel       | string                                                                     |                  | Currently selected panel name.                                                                        |
 | SelectedPanelChanged | event                                                                     |                  | Occurs after the selected panel has changed.                                                          |
 
 ### TabPanel
