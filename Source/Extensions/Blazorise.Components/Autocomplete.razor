@@ -12,7 +12,7 @@
                 var text = TextField?.Invoke( item );
                 var value = ValueField?.Invoke( item );
 
-                <DropdownItem IsActive="@(i == ActiveItemIndex)" Value="@value" Clicked="@HandleDropdownItemClicked">@text</DropdownItem>
+                <DropdownItem Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@HandleDropdownItemClicked">@text</DropdownItem>
             }
         }
     </DropdownMenu>
