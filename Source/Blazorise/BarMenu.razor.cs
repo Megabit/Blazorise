@@ -61,7 +61,7 @@ namespace Blazorise
 
         private void OnBarStateChanged( object sender, BarStateEventArgs e )
         {
-            Visible = e.Opened;
+            Visible = e.Visible;
         }
 
         #endregion
