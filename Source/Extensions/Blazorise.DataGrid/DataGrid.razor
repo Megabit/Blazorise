@@ -98,7 +98,7 @@
     @if ( ShowPager )
     {
         <Pagination>
-            <PaginationItem IsDisabled="@(CurrentPage <= 1)">
+            <PaginationItem Disabled="@(CurrentPage <= 1)">
                 <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
                     @if ( PreviousButtonTemplate != null )
                     {
@@ -114,13 +114,13 @@
             {
                 var pageName = i.ToString();
 
-                <PaginationItem IsDisabled="@(i == CurrentPage)" IsActive="@(i == CurrentPage)">
+                <PaginationItem Disabled="@(i == CurrentPage)" Active="@(i == CurrentPage)">
                     <PaginationLink Page="@pageName" Clicked="@OnPaginationItemClick">
                         @pageName
                     </PaginationLink>
                 </PaginationItem>
             }
-            <PaginationItem IsDisabled="@(CurrentPage >= LastPage)">
+            <PaginationItem Disabled="@(CurrentPage >= LastPage)">
                 <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
                     @if ( NextButtonTemplate != null )
                     {

@@ -20,7 +20,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.PaginationLink() );
-            builder.Append( ClassProvider.PaginationLinkActive(), ParentPaginationItem?.IsActive == true );
+            builder.Append( ClassProvider.PaginationLinkActive(), ParentPaginationItem?.Active == true );
 
             base.BuildClasses( builder );
         }
