@@ -64,9 +64,9 @@
                           UseInternalEditing="true"
                           @bind-SelectedRow="@selectedEmployee"
                           DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
-                          IsStriped="true"
-                          IsBordered="true"
-                          IsHoverable="true">
+                          Striped="true"
+                          Bordered="true"
+                          Hoverable="true">
                     <ChildContent>
                         <DataGridCommandColumn TItem="Employee" Width="170px">
                             <NewCommandTemplate>

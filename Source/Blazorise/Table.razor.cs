@@ -12,17 +12,17 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isFullWidth = true;
+        private bool fullWidth = true;
 
-        private bool isStriped;
+        private bool striped;
 
-        private bool isBordered;
+        private bool bordered;
 
-        private bool isHoverable;
+        private bool hoverable;
 
-        private bool isNarrow;
+        private bool narrow;
 
-        private bool isBorderless;
+        private bool borderless;
 
         #endregion
 
@@ -31,12 +31,12 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Table() );
-            builder.Append( ClassProvider.TableFullWidth(), IsFullWidth );
-            builder.Append( ClassProvider.TableStriped(), IsStriped );
-            builder.Append( ClassProvider.TableBordered(), IsBordered );
-            builder.Append( ClassProvider.TableHoverable(), IsHoverable );
-            builder.Append( ClassProvider.TableNarrow(), IsNarrow );
-            builder.Append( ClassProvider.TableBorderless(), IsBorderless );
+            builder.Append( ClassProvider.TableFullWidth(), FullWidth );
+            builder.Append( ClassProvider.TableStriped(), Striped );
+            builder.Append( ClassProvider.TableBordered(), Bordered );
+            builder.Append( ClassProvider.TableHoverable(), Hoverable );
+            builder.Append( ClassProvider.TableNarrow(), Narrow );
+            builder.Append( ClassProvider.TableBorderless(), Borderless );
 
             base.BuildClasses( builder );
         }
@@ -49,12 +49,12 @@ namespace Blazorise
         /// Makes the table to fill entire horizontal space.
         /// </summary>
         [Parameter]
-        public bool IsFullWidth
+        public bool FullWidth
         {
-            get => isFullWidth;
+            get => fullWidth;
             set
             {
-                isFullWidth = value;
+                fullWidth = value;
 
                 DirtyClasses();
             }
@@ -64,12 +64,12 @@ namespace Blazorise
         /// Adds stripes to the table.
         /// </summary>
         [Parameter]
-        public bool IsStriped
+        public bool Striped
         {
-            get => isStriped;
+            get => striped;
             set
             {
-                isStriped = value;
+                striped = value;
 
                 DirtyClasses();
             }
@@ -79,12 +79,12 @@ namespace Blazorise
         /// Adds borders to all the cells.
         /// </summary>
         [Parameter]
-        public bool IsBordered
+        public bool Bordered
         {
-            get => isBordered;
+            get => bordered;
             set
             {
-                isBordered = value;
+                bordered = value;
 
                 DirtyClasses();
             }
@@ -94,12 +94,12 @@ namespace Blazorise
         /// Adds a hover effect when mousing over rows.
         /// </summary>
         [Parameter]
-        public bool IsHoverable
+        public bool Hoverable
         {
-            get => isHoverable;
+            get => hoverable;
             set
             {
-                isHoverable = value;
+                hoverable = value;
 
                 DirtyClasses();
             }
@@ -109,12 +109,12 @@ namespace Blazorise
         /// Makes the table more compact by cutting cell padding in half.
         /// </summary>
         [Parameter]
-        public bool IsNarrow
+        public bool Narrow
         {
-            get => isNarrow;
+            get => narrow;
             set
             {
-                isNarrow = value;
+                narrow = value;
 
                 DirtyClasses();
             }
@@ -124,12 +124,12 @@ namespace Blazorise
         /// Makes the table without any borders.
         /// </summary>
         [Parameter]
-        public bool IsBorderless
+        public bool Borderless
         {
-            get => isBorderless;
+            get => borderless;
             set
             {
-                isBorderless = value;
+                borderless = value;
 
                 DirtyClasses();
             }

@@ -34,7 +34,7 @@ namespace Blazorise
             builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.TableRowBackground( Background ), Background != Background.None );
             builder.Append( ClassProvider.TableRowTextColor( TextColor ), TextColor != TextColor.None );
-            builder.Append( ClassProvider.TableRowIsSelected(), IsSelected );
+            builder.Append( ClassProvider.TableRowIsSelected(), Selected );
             builder.Append( ClassProvider.TableRowHoverCursor(), HoverCursor != Cursor.Default );
 
             base.BuildClasses( builder );
@@ -89,7 +89,7 @@ namespace Blazorise
         /// Sets a table row as selected by appending "selected" modifier on a <tr>.
         /// </summary>
         [Parameter]
-        public bool IsSelected
+        public bool Selected
         {
             get => selected;
             set
