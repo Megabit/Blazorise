@@ -13,7 +13,7 @@ namespace Blazorise.Snackbar
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
         private bool isMultiline;
 
@@ -43,7 +43,7 @@ namespace Blazorise.Snackbar
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "snackbar" );
-            builder.Append( "show", IsOpen );
+            builder.Append( "show", Visible );
             builder.Append( "snackbar-multi-line", IsMultiline );
             builder.Append( GetSnackbarLocation( Location ), Location != SnackbarLocation.None );
 
@@ -83,7 +83,7 @@ namespace Blazorise.Snackbar
         {
             timer?.Start();
 
-            IsOpen = true;
+            Visible = true;
             StateHasChanged();
 
             timer.Start();
@@ -91,7 +91,7 @@ namespace Blazorise.Snackbar
 
         public void Hide()
         {
-            IsOpen = false;
+            Visible = false;
             StateHasChanged();
         }
 
@@ -105,12 +105,12 @@ namespace Blazorise.Snackbar
         #region Properties
 
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
 
                 DirtyClasses();
             }
