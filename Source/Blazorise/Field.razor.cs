@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isHorizontal;
+        private bool horizontal;
 
         private IFluentColumn columnSize;
 
@@ -27,7 +27,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Field() );
-            builder.Append( ClassProvider.FieldHorizontal(), IsHorizontal );
+            builder.Append( ClassProvider.FieldHorizontal(), Horizontal );
             builder.Append( ClassProvider.ToJustifyContent( JustifyContent ), JustifyContent != JustifyContent.None );
 
             base.BuildClasses( builder );
@@ -54,12 +54,12 @@ namespace Blazorise
         /// Aligns the controls for horizontal form.
         /// </summary>
         [Parameter]
-        public bool IsHorizontal
+        public bool Horizontal
         {
-            get => isHorizontal;
+            get => horizontal;
             set
             {
-                isHorizontal = value;
+                horizontal = value;
 
                 hookables?.ForEach( x => x.DirtyClasses() );
 

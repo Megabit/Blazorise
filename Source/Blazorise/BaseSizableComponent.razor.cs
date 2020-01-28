@@ -45,7 +45,7 @@ namespace Blazorise
 
         #region Properties
 
-        protected virtual bool ParentIsHorizontal => ParentField?.IsHorizontal == true;
+        protected virtual bool ParentIsHorizontal => ParentField?.Horizontal == true;
 
         protected virtual bool ParentIsField => ParentField != null;
 

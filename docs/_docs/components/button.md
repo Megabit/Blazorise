@@ -142,7 +142,7 @@ When using a submit button inside of `<Form>` element the browser will automatic
 
 ```html
 <Form>
-    <Field IsHorizontal="true">
+    <Field Horizontal="true">
         <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is10">
             <TextEdit Placeholder="Some text value..." />
