@@ -193,7 +193,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Prevents a user from entering a value to the search field.
         /// </summary>
-        [Parameter] public bool IsDisabled { get; set; }
+        [Parameter] public bool Disabled { get; set; }
 
         /// <summary>
         /// Gets or sets the autocomplete data-source.
