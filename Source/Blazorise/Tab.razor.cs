@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isActive;
+        private bool active;
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabItem() );
-            builder.Append( ClassProvider.TabItemActive(), IsActive );
+            builder.Append( ClassProvider.TabItemActive(), Active );
 
             base.BuildClasses( builder );
         }
@@ -38,7 +38,7 @@ namespace Blazorise
         private void BuildLinkClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabLink() );
-            builder.Append( ClassProvider.TabLinkActive(), IsActive );
+            builder.Append( ClassProvider.TabLinkActive(), Active );
         }
 
         internal protected override void DirtyClasses()
@@ -52,7 +52,7 @@ namespace Blazorise
         {
             if ( ParentTabs != null )
             {
-                IsActive = Name == ParentTabs.SelectedTab;
+                Active = Name == ParentTabs.SelectedTab;
 
                 ParentTabs.StateChanged += OnTabsStateChanged;
             }
@@ -81,7 +81,7 @@ namespace Blazorise
 
         private void OnTabsStateChanged( object sender, TabsStateEventArgs e )
         {
-            IsActive = Name == e.TabName;
+            Active = Name == e.TabName;
         }
 
         #endregion
@@ -103,12 +103,12 @@ namespace Blazorise
         /// <summary>
         /// Determines is the tab active.
         /// </summary>
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
+            get => active;
             private set
             {
-                isActive = value;
+                active = value;
 
                 DirtyClasses();
             }
