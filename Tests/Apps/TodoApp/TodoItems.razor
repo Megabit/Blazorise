@@ -40,9 +40,9 @@
                 <Field Horizontal="true">
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Buttons Role="ButtonsRole.Addons">
-                            <Button Color="Color.Info" Clicked="@(() => SetFilter( Filter.All ))" IsActive="@(filter == Filter.All)">All</Button>
-                            <Button Color="Color.Info" Clicked="@(() => SetFilter( Filter.Active ))" IsActive="@(filter == Filter.Active)">Active</Button>
-                            <Button Color="Color.Info" Clicked="@(() => SetFilter( Filter.Completed ))" IsActive="@(filter == Filter.Completed)">Completed</Button>
+                            <Button Color="Color.Info" Clicked="@(() => SetFilter( Filter.All ))" Active="@(filter == Filter.All)">All</Button>
+                            <Button Color="Color.Info" Clicked="@(() => SetFilter( Filter.Active ))" Active="@(filter == Filter.Active)">Active</Button>
+                            <Button Color="Color.Info" Clicked="@(() => SetFilter( Filter.Completed ))" Active="@(filter == Filter.Completed)">Completed</Button>
                         </Buttons>
                     </FieldBody>
                     <FieldBody ColumnSize="ColumnSize.Is2">
