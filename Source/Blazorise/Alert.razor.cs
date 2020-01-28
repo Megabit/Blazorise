@@ -14,7 +14,7 @@ namespace Blazorise
 
         private bool dismisable;
 
-        private bool showed;
+        private bool visible;
 
         private Color color = Color.None;
 
@@ -30,26 +30,35 @@ namespace Blazorise
             builder.Append( ClassProvider.AlertColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.AlertDismisable(), Dismisable );
             builder.Append( ClassProvider.AlertFade(), Dismisable );
-            builder.Append( ClassProvider.AlertShow(), Dismisable && Showed );
+            builder.Append( ClassProvider.AlertShow(), Dismisable && Visible );
 
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Displays the alert to the user.
+        /// </summary>
         public void Show()
         {
-            Showed = true;
+            Visible = true;
             StateHasChanged();
         }
 
+        /// <summary>
+        /// Conceals the alert from the user.
+        /// </summary>
         public void Hide()
         {
-            Showed = false;
+            Visible = false;
             StateHasChanged();
         }
 
+        /// <summary>
+        /// Toggles the visibility of the alert.
+        /// </summary>
         public void Toggle()
         {
-            Showed = !Showed;
+            Visible = !Visible;
             StateHasChanged();
         }
 
@@ -83,16 +92,16 @@ namespace Blazorise
         /// Sets the alert visibilty.
         /// </summary>
         [Parameter]
-        public bool Showed
+        public bool Visible
         {
-            get => showed;
+            get => visible;
             set
             {
                 // prevent alert from calling the same code multiple times
-                if ( value == showed )
+                if ( value == visible )
                     return;
 
-                showed = value;
+                visible = value;
 
                 HandleVisibilityState( value );
 
