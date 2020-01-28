@@ -61,7 +61,7 @@ Simply set the Color attribute and you're good to go.
     <BreadcrumbItem>
         <BreadcrumbLink To="#">Library</BreadcrumbLink>
     </BreadcrumbItem>
-    <BreadcrumbItem IsActive="true">
+    <BreadcrumbItem Active="true">
         <BreadcrumbLink To="#">Data</BreadcrumbLink>
     </BreadcrumbItem>
 </Breadcrumb>

@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isDisabled;
+        private bool disabled;
 
         #endregion
 
@@ -34,15 +34,15 @@ namespace Blazorise
 
         #region Properties
 
-        protected bool IsParentBreadcrumbItemActive => ParentBreadcrumbItem?.IsActive == true;
+        protected bool IsParentBreadcrumbItemActive => ParentBreadcrumbItem?.Active == true;
 
         [Parameter]
-        public bool IsDisabled
+        public bool Disabled
         {
-            get => isDisabled;
+            get => disabled;
             set
             {
-                isDisabled = value;
+                disabled = value;
 
                 DirtyClasses();
             }
