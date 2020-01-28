@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarToggler() );
-            builder.Append( ClassProvider.BarTogglerCollapsed( IsOpen ) );
+            builder.Append( ClassProvider.BarTogglerCollapsed( Visible ) );
 
             base.BuildClasses( builder );
         }
@@ -39,7 +39,7 @@ namespace Blazorise
         {
             if ( ParentBar != null )
             {
-                IsOpen = ParentBar.IsOpen;
+                Visible = ParentBar.Visible;
 
                 ParentBar.StateChanged += OnBarStateChanged;
             }
@@ -62,7 +62,7 @@ namespace Blazorise
 
         private void OnBarStateChanged( object sender, BarStateEventArgs e )
         {
-            IsOpen = e.Opened;
+            Visible = e.Opened;
         }
 
         #endregion
@@ -70,12 +70,12 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
 
                 DirtyClasses();
             }
