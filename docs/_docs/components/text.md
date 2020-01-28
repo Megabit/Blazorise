@@ -29,7 +29,7 @@ Use TextEdit to have a basic input.
 Static text removes the background, border, shadow, and horizontal padding, while maintaining the vertical spacing so you can easily align the input in any context, like a horizontal form.
 
 ```html
-<TextEdit IsPlaintext="true" />
+<TextEdit Plaintext="true" />
 ```
 
 <iframe src="/examples/forms/text-plain/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -155,7 +155,7 @@ public void ConfigureServices( IServiceCollection services )
 | Role              | TextRole                                                            | `Text`  | The role of the input text.                                                                          |
 | Text              | string                                                              |         | Input value.                                                                                         |
 | TextChanged       | event                                                               |         | Occurs after text has changed.                                                                       |
-| IsPlaintext       | boolean                                                             | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
+| Plaintext         | boolean                                                             | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
 | ReadOnly          | boolean                                                             | false   | Prevents modification of the input’s value.                                                          |
 | Disabled          | boolean                                                             | false   | Prevents user interactions and make it appear lighter.                                               |
 | MaxLength         | int?                                                                | null    | Specifies the maximum number of characters allowed in the input element.                             |
