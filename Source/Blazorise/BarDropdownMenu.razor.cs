@@ -14,7 +14,7 @@ namespace Blazorise
 
         private bool visible;
 
-        private bool isRightAligned;
+        private bool rightAligned;
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.BarDropdownMenu() );
             builder.Append( ClassProvider.BarDropdownMenuShow(), Visible );
-            builder.Append( ClassProvider.BarDropdownMenuRight(), IsRightAligned );
+            builder.Append( ClassProvider.BarDropdownMenuRight(), RightAligned );
 
             base.BuildClasses( builder );
         }
@@ -82,12 +82,12 @@ namespace Blazorise
         /// Right aligned dropdown menu.
         /// </summary>
         [Parameter]
-        public bool IsRightAligned
+        public bool RightAligned
         {
-            get => isRightAligned;
+            get => rightAligned;
             set
             {
-                isRightAligned = value;
+                rightAligned = value;
 
                 DirtyClasses();
             }
