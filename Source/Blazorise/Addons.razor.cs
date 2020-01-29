@@ -38,11 +38,10 @@ namespace Blazorise
                 columnSize = value;
 
                 DirtyClasses();
-                DirtyClasses();
             }
         }
 
-        protected virtual bool ParentIsHorizontal => ParentField?.IsHorizontal == true;
+        protected virtual bool ParentIsHorizontal => ParentField?.Horizontal == true;
 
         [CascadingParameter] protected Field ParentField { get; set; }
 

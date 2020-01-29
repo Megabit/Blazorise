@@ -71,4 +71,4 @@ Install-Package Blazorise.Components
 | Placeholder          | string             |            | Placeholder for the empty search field.               |
 | MinLength            | int                | 1          | Minimum number of character needed to start search.   |
 | Filter               | enum               | StartsWith | Filter method used to search the data.                |
-| IsDisabled           | boolean            | false      | Disable the input field.                              |
+| Disabled             | boolean            | false      | Disable the input field.                              |

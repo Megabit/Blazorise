@@ -12,9 +12,9 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isActive;
+        private bool active;
 
-        private bool isDisabled;
+        private bool disabled;
 
         #endregion
 
@@ -23,8 +23,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ListGroupItem() );
-            builder.Append( ClassProvider.ListGroupItemActive(), IsActive );
-            builder.Append( ClassProvider.ListGroupItemDisabled(), IsDisabled );
+            builder.Append( ClassProvider.ListGroupItemActive(), Active );
+            builder.Append( ClassProvider.ListGroupItemDisabled(), Disabled );
 
             base.BuildClasses( builder );
         }
@@ -52,24 +52,24 @@ namespace Blazorise
         [Parameter] public string Name { get; set; }
 
         [Parameter]
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
+            get => active;
             set
             {
-                isActive = value;
+                active = value;
 
                 DirtyClasses();
             }
         }
 
         [Parameter]
-        public bool IsDisabled
+        public bool Disabled
         {
-            get => isDisabled;
+            get => disabled;
             set
             {
-                isDisabled = value;
+                disabled = value;
 
                 DirtyClasses();
             }

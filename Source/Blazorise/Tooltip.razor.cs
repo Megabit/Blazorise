@@ -14,13 +14,13 @@ namespace Blazorise
 
         private Placement placement = Placement.Top;
 
-        private bool isMultiline;
+        private bool multiline;
 
-        private bool isAlwaysActive;
+        private bool alwaysActive;
 
-        private bool isInlined;
+        private bool inline;
 
-        private bool isFade;
+        private bool fade;
 
         #endregion
 
@@ -30,17 +30,17 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Tooltip() );
             builder.Append( ClassProvider.TooltipPlacement( Placement ) );
-            builder.Append( ClassProvider.TooltipMultiline(), IsMultiline );
-            builder.Append( ClassProvider.TooltipAlwaysActive(), IsAlwaysActive );
-            builder.Append( ClassProvider.TooltipInline(), IsInline );
-            builder.Append( ClassProvider.TooltipFade(), IsFade );
+            builder.Append( ClassProvider.TooltipMultiline(), Multiline );
+            builder.Append( ClassProvider.TooltipAlwaysActive(), AlwaysActive );
+            builder.Append( ClassProvider.TooltipInline(), Inline );
+            builder.Append( ClassProvider.TooltipFade(), Fade );
 
             base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
         {
-            if ( !IsInline )
+            if ( !Inline )
             {
                 // try to detect if inline is needed
                 ExecuteAfterRender( async () =>
@@ -80,12 +80,12 @@ namespace Blazorise
         /// Force the multiline display.
         /// </summary>
         [Parameter]
-        public bool IsMultiline
+        public bool Multiline
         {
-            get => isMultiline;
+            get => multiline;
             set
             {
-                isMultiline = value;
+                multiline = value;
 
                 DirtyClasses();
             }
@@ -95,12 +95,12 @@ namespace Blazorise
         /// Always show tooltip, instead of just when hovering over the element.
         /// </summary>
         [Parameter]
-        public bool IsAlwaysActive
+        public bool AlwaysActive
         {
-            get => isAlwaysActive;
+            get => alwaysActive;
             set
             {
-                isAlwaysActive = value;
+                alwaysActive = value;
 
                 DirtyClasses();
             }
@@ -110,24 +110,24 @@ namespace Blazorise
         /// Force inline block instead of trying to detect the element block.
         /// </summary>
         [Parameter]
-        public bool IsInline
+        public bool Inline
         {
-            get => isInlined;
+            get => inline;
             set
             {
-                isInlined = value;
+                inline = value;
 
                 DirtyClasses();
             }
         }
 
         [Parameter]
-        public bool IsFade
+        public bool Fade
         {
-            get => isFade;
+            get => fade;
             set
             {
-                isFade = value;
+                fade = value;
 
                 DirtyClasses();
             }

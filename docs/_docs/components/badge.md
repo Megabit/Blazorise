@@ -21,6 +21,6 @@ Simply set the Color attribute and you're good to go.
 
 | Name         | Type                                                         | Default          | Description                                                                                 |
 |--------------|--------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| IsPill       | boolean                                                      | false            | Makes badges more rounded.                                                                  |
+| Pill         | boolean                                                      | false            | Makes badges more rounded.                                                                  |
 | Link         | string                                                       | null             | Create a badge link and provide actionable badges with hover and focus states.              |
 | Color        | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }}) | `None`           | Component visual or contextual style variants.                                              |

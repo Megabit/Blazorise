@@ -12,13 +12,13 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isPills;
+        private bool pills;
 
-        private bool isFullWidth;
+        private bool fullWidth;
 
-        private bool isJustified;
+        private bool justified;
 
-        private bool isVertical;
+        private bool vertical;
 
         private string selectedTab;
 
@@ -32,10 +32,10 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Tabs() );
             builder.Append( ClassProvider.TabsCards(), IsCards );
-            builder.Append( ClassProvider.TabsPills(), IsPills );
-            builder.Append( ClassProvider.TabsFullWidth(), IsFullWidth );
-            builder.Append( ClassProvider.TabsJustified(), IsJustified );
-            builder.Append( ClassProvider.TabsVertical(), IsVertical );
+            builder.Append( ClassProvider.TabsPills(), Pills );
+            builder.Append( ClassProvider.TabsFullWidth(), FullWidth );
+            builder.Append( ClassProvider.TabsJustified(), Justified );
+            builder.Append( ClassProvider.TabsVertical(), Vertical );
 
             base.BuildClasses( builder );
         }
@@ -61,12 +61,12 @@ namespace Blazorise
         /// Makes the tab items to appear as pills.
         /// </summary>
         [Parameter]
-        public bool IsPills
+        public bool Pills
         {
-            get => isPills;
+            get => pills;
             set
             {
-                isPills = value;
+                pills = value;
 
                 DirtyClasses();
             }
@@ -76,12 +76,12 @@ namespace Blazorise
         /// Makes the tab items to extend the full available width.
         /// </summary>
         [Parameter]
-        public bool IsFullWidth
+        public bool FullWidth
         {
-            get => isFullWidth;
+            get => fullWidth;
             set
             {
-                isFullWidth = value;
+                fullWidth = value;
 
                 DirtyClasses();
             }
@@ -91,12 +91,12 @@ namespace Blazorise
         /// Makes the tab items to extend the full available width, but every item will be the same width.
         /// </summary>
         [Parameter]
-        public bool IsJustified
+        public bool Justified
         {
-            get => isJustified;
+            get => justified;
             set
             {
-                isJustified = value;
+                justified = value;
 
                 DirtyClasses();
             }
@@ -106,12 +106,12 @@ namespace Blazorise
         /// Stack the navigation items by changing the flex item direction.
         /// </summary>
         [Parameter]
-        public bool IsVertical
+        public bool Vertical
         {
-            get => isVertical;
+            get => vertical;
             set
             {
-                isVertical = value;
+                vertical = value;
 
                 DirtyClasses();
             }

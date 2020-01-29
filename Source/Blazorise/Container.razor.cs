@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isFluid;
+        private bool fluid;
 
         #endregion
 
@@ -20,7 +20,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            if ( IsFluid )
+            if ( Fluid )
                 builder.Append( ClassProvider.ContainerFluid() );
             else
                 builder.Append( ClassProvider.Container() );
@@ -33,12 +33,12 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        public bool IsFluid
+        public bool Fluid
         {
-            get => isFluid;
+            get => fluid;
             set
             {
-                isFluid = value;
+                fluid = value;
 
                 DirtyClasses();
             }

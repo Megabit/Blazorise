@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isPill;
+        private bool pill;
 
         private Color color = Color.None;
 
@@ -26,7 +26,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Badge() );
             builder.Append( ClassProvider.BadgeColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.BadgePill(), IsPill );
+            builder.Append( ClassProvider.BadgePill(), Pill );
 
             base.BuildClasses( builder );
         }
@@ -39,12 +39,12 @@ namespace Blazorise
         /// Make the badge more rounded.
         /// </summary>
         [Parameter]
-        public bool IsPill
+        public bool Pill
         {
-            get => isPill;
+            get => pill;
             set
             {
-                isPill = value;
+                pill = value;
 
                 DirtyClasses();
             }

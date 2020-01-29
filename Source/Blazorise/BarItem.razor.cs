@@ -12,9 +12,9 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isActive;
+        private bool active;
 
-        private bool isDisabled;
+        private bool disabled;
 
         private BarDropdown barDropdown;
 
@@ -25,10 +25,10 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarItem() );
-            builder.Append( ClassProvider.BarItemActive(), IsActive );
-            builder.Append( ClassProvider.BarItemDisabled(), IsDisabled );
-            builder.Append( ClassProvider.BarItemHasDropdown(), IsDropdown );
-            builder.Append( ClassProvider.BarItemHasDropdownShow(), IsDropdown && barDropdown?.IsOpen == true );
+            builder.Append( ClassProvider.BarItemActive(), Active );
+            builder.Append( ClassProvider.BarItemDisabled(), Disabled );
+            builder.Append( ClassProvider.BarItemHasDropdown(), HasDropdown );
+            builder.Append( ClassProvider.BarItemHasDropdownShow(), HasDropdown && barDropdown?.Visible == true );
 
             base.BuildClasses( builder );
         }
@@ -51,27 +51,27 @@ namespace Blazorise
 
         #region Properties
 
-        protected bool IsDropdown => barDropdown != null;
+        protected bool HasDropdown => barDropdown != null;
 
         [Parameter]
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
+            get => active;
             set
             {
-                isActive = value;
+                active = value;
 
                 DirtyClasses();
             }
         }
 
         [Parameter]
-        public bool IsDisabled
+        public bool Disabled
         {
-            get => isDisabled;
+            get => disabled;
             set
             {
-                isDisabled = value;
+                disabled = value;
 
                 DirtyClasses();
             }

@@ -473,7 +473,7 @@ namespace Blazorise
 
         string ModalBackdrop();
 
-        string ModalContent( bool isForm );
+        string ModalContent( bool dialog );
 
         string ModalContentCentered();
 

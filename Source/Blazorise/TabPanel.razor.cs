@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isActive;
+        private bool active;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabPanel() );
-            builder.Append( ClassProvider.TabPanelActive(), IsActive );
+            builder.Append( ClassProvider.TabPanelActive(), Active );
 
             base.BuildClasses( builder );
         }
@@ -30,7 +30,7 @@ namespace Blazorise
         {
             if ( ParentTabContent != null )
             {
-                IsActive = Name == ParentTabContent.SelectedPanel;
+                Active = Name == ParentTabContent.SelectedPanel;
 
                 ParentTabContent.StateChanged += OnTabsContentStateChanged;
             }
@@ -53,7 +53,7 @@ namespace Blazorise
 
         private void OnTabsContentStateChanged( object sender, TabsContentStateEventArgs e )
         {
-            IsActive = Name == e.PanelName;
+            Active = Name == e.PanelName;
         }
 
         #endregion
@@ -68,12 +68,12 @@ namespace Blazorise
         /// <summary>
         /// Determines is the panel active.
         /// </summary>
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
+            get => active;
             private set
             {
-                isActive = value;
+                active = value;
 
                 DirtyClasses();
             }

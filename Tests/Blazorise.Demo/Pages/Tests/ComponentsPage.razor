@@ -7,7 +7,7 @@
                 <CardSubtitle></CardSubtitle>
             </CardHeader>
             <CardBody>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <SelectList Data="@myDdlData"
@@ -17,7 +17,7 @@
                                     SelectedValueChanged="@MyListValueChangedHandler" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         Selected value: @selectedListValue
@@ -33,7 +33,7 @@
                 <CardSubtitle></CardSubtitle>
             </CardHeader>
             <CardBody>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Autocomplete Data="@myDdlData"
@@ -44,7 +44,7 @@
                                       Placeholder="Search..." Filter="AutocompleteFilter.StartsWith" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         Selected search value: @selectedSearchValue
@@ -62,7 +62,7 @@
                 <CardSubtitle></CardSubtitle>
             </CardHeader>
             <CardBody>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <DropdownList Data="@myDdlData"
@@ -75,7 +75,7 @@
                         </DropdownList>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         Selected value: @selectedDropValue

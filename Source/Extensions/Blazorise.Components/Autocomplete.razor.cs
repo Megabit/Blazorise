@@ -42,9 +42,9 @@ namespace Blazorise.Components
             dirtyFilter = true;
 
             if ( text?.Length >= MinLength && FilteredData.Any() )
-                dropdownRef.Open();
+                dropdownRef.Show();
             else
-                dropdownRef.Close();
+                dropdownRef.Hide();
 
             //If input field is empty, clear current SelectedValue.
             if ( string.IsNullOrEmpty( text ) )
@@ -86,7 +86,7 @@ namespace Blazorise.Components
         protected Task HandleDropdownItemClicked( object value )
         {
             CurrentSearch = null;
-            dropdownRef.Close();
+            dropdownRef.Hide();
 
             var item = Data.FirstOrDefault( x => EqualityComparer<object>.Default.Equals( ValueField( x ), value ) );
 
@@ -138,7 +138,7 @@ namespace Blazorise.Components
         public Task Clear()
         {
             CurrentSearch = null;
-            dropdownRef.Close();
+            dropdownRef.Hide();
 
             SelectedText = string.Empty;
             SelectedValue = null;
@@ -193,7 +193,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Prevents a user from entering a value to the search field.
         /// </summary>
-        [Parameter] public bool IsDisabled { get; set; }
+        [Parameter] public bool Disabled { get; set; }
 
         /// <summary>
         /// Gets or sets the autocomplete data-source.

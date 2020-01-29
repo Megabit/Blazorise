@@ -554,7 +554,7 @@ namespace Blazorise.Bulma
 
         public override string ModalBackdrop() => "modal-background";
 
-        public override string ModalContent( bool isForm ) => isForm ? "modal-card" : "modal-content";
+        public override string ModalContent( bool dialog ) => dialog ? "modal-card" : "modal-content";
 
         public override string ModalContentCentered() => null;
 

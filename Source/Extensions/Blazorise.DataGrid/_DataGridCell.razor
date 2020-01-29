@@ -16,6 +16,6 @@ else
     }
     else
     {
-        <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@(( v ) => CellEditContext.CellValue = v)" IsReadonly="@Column.Readonly" />
+        <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@(( v ) => CellEditContext.CellValue = v)" ReadOnly="@Column.Readonly" />
     }
 }

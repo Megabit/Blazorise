@@ -34,10 +34,10 @@ SelectEdit and SelectItem are generic components and they support all of the bas
 
 ## Multiple Select
 
-Add the `IsMultiple` attribute to allow more than one option to be selected.
+Add the `Multiple` attribute to allow more than one option to be selected.
 
 ```html
-<SelectEdit TValue="int" IsMultiple="true">
+<SelectEdit TValue="int" Multiple="true">
     <SelectItem Value="1">1</SelectItem>
     <SelectItem Value="2">2</SelectItem>
     <SelectItem Value="3">3</SelectItem>
@@ -68,7 +68,7 @@ You can also group items into categories for better user experience.
 
 ## Usage
 
-The process is basically the same for the single and for multiple select. The only difference is that `SelectedValue` attribute is used for single select mode, and `SelectedValues` attribute is used for multi-selection. Keep in mind that `IsMultiple` must be set to **true** for multi-selection to work properly.
+The process is basically the same for the single and for multiple select. The only difference is that `SelectedValue` attribute is used for single select mode, and `SelectedValues` attribute is used for multi-selection. Keep in mind that `Multiple` must be set to **true** for multi-selection to work properly.
 
 **Note:** The `Value` attribute is required on the `SelectItem`. Otherwise the `SelectEdit` will not behave as expected.
 {: .notice--info}
@@ -119,18 +119,18 @@ When using the event `SelectedValueChanged`, you also must define the `SelectedV
 
 | Name                  | Type      | Default | Description                                                                                  |
 |-----------------------|-----------|---------|----------------------------------------------------------------------------------------------|
-| IsMultiple            | boolean   | false   | Specifies that multiple items can be selected.                                               |
+| Multiple              | boolean   | false   | Specifies that multiple items can be selected.                                               |
 | SelectedValue         | generic   |         | Selected item value when in single edit mode.                                                |
 | SelectedValues        | generic[] |         | Selected item value when in multi edit mode.                                                 |
 | SelectedValueChanged  | action    |         | Occurs when the selected item value has changed.                                             |
-| SelectedValuesChanged | action    |         | Occurs when the selected items value has changed (only when IsMultiple==true).               |
+| SelectedValuesChanged | action    |         | Occurs when the selected items value has changed (only when Multiple==true).               |
 
 ### SelectItem
 
 | Name                  | Type      | Default | Description                                                                                  |
 |-----------------------|-----------|---------|----------------------------------------------------------------------------------------------|
 | Value                 | generic   |         | Gets or sets the item value.                                                                 |
-| IsDisabled            | boolean   | false   | Disable the item from mouse click.                                                           |
+| Disabled              | boolean   | false   | Disable the item from mouse click.                                                           |
 
 ### SelectGroup
 

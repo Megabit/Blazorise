@@ -12,11 +12,11 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
-        private bool isRightAligned;
+        private bool rightAligned;
 
-        private Direction direction = Blazorise.Direction.Down;
+        private Direction direction = Direction.Down;
 
         public event EventHandler<DropdownStateEventArgs> StateChanged;
 
@@ -30,41 +30,41 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Dropdown() );
             builder.Append( ClassProvider.DropdownGroup(), IsGroup );
-            builder.Append( ClassProvider.DropdownShow(), IsOpen );
-            builder.Append( ClassProvider.DropdownRight(), IsRightAligned );
+            builder.Append( ClassProvider.DropdownShow(), Visible );
+            builder.Append( ClassProvider.DropdownRight(), RightAligned );
             builder.Append( ClassProvider.DropdownDirection( Direction ), Direction != Direction.Down );
 
             base.BuildClasses( builder );
         }
 
-        public void Open()
+        public void Show()
         {
             // used to prevent toggle event call if Open() is called multiple times
-            if ( IsOpen )
+            if ( Visible )
                 return;
 
-            IsOpen = true;
-            Toggled.InvokeAsync( IsOpen );
+            Visible = true;
+            Toggled.InvokeAsync( Visible );
 
             StateHasChanged();
         }
 
-        public void Close()
+        public void Hide()
         {
             // used to prevent toggle event call if Close() is called multiple times
-            if ( !IsOpen )
+            if ( !Visible )
                 return;
 
-            IsOpen = false;
-            Toggled.InvokeAsync( IsOpen );
+            Visible = false;
+            Toggled.InvokeAsync( Visible );
 
             StateHasChanged();
         }
 
         public void Toggle()
         {
-            IsOpen = !IsOpen;
-            Toggled.InvokeAsync( IsOpen );
+            Visible = !Visible;
+            Toggled.InvokeAsync( Visible );
 
             StateHasChanged();
         }
@@ -116,18 +116,18 @@ namespace Blazorise
         /// Handles the visibility of dropdown menu.
         /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
                 // prevent dropdown from calling the same code multiple times
-                if ( value == isOpen )
+                if ( value == visible )
                     return;
 
-                isOpen = value;
+                visible = value;
 
-                StateChanged?.Invoke( this, new DropdownStateEventArgs( isOpen ) );
+                StateChanged?.Invoke( this, new DropdownStateEventArgs( visible ) );
 
                 DirtyClasses();
             }
@@ -137,12 +137,12 @@ namespace Blazorise
         /// Right aligned dropdown menu.
         /// </summary>
         [Parameter]
-        public bool IsRightAligned
+        public bool RightAligned
         {
-            get => isRightAligned;
+            get => rightAligned;
             set
             {
-                isRightAligned = value;
+                rightAligned = value;
 
                 DirtyClasses();
             }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blazorise.Bootstrap
 {
-    public partial class BootstrapField : Blazorise.Field
+    public partial class Field : Blazorise.Field
     {
         #region Members
 

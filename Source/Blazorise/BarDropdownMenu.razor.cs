@@ -12,9 +12,9 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
-        private bool isRightAligned;
+        private bool rightAligned;
 
         #endregion
 
@@ -23,8 +23,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdownMenu() );
-            builder.Append( ClassProvider.BarDropdownMenuShow(), IsOpen );
-            builder.Append( ClassProvider.BarDropdownMenuRight(), IsRightAligned );
+            builder.Append( ClassProvider.BarDropdownMenuShow(), Visible );
+            builder.Append( ClassProvider.BarDropdownMenuRight(), RightAligned );
 
             base.BuildClasses( builder );
         }
@@ -33,7 +33,7 @@ namespace Blazorise
         {
             if ( ParentBarDropdown != null )
             {
-                IsOpen = ParentBarDropdown.IsOpen;
+                Visible = ParentBarDropdown.Visible;
 
                 ParentBarDropdown.StateChanged += OnBarDropdownStateChanged;
             }
@@ -56,7 +56,7 @@ namespace Blazorise
 
         private void OnBarDropdownStateChanged( object sender, BarDropdownStateEventArgs e )
         {
-            IsOpen = e.Opened;
+            Visible = e.Visible;
         }
 
         #endregion
@@ -67,12 +67,12 @@ namespace Blazorise
         /// Handles the visibility of dropdown menu.
         /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
 
                 DirtyClasses();
             }
@@ -82,12 +82,12 @@ namespace Blazorise
         /// Right aligned dropdown menu.
         /// </summary>
         [Parameter]
-        public bool IsRightAligned
+        public bool RightAligned
         {
-            get => isRightAligned;
+            get => rightAligned;
             set
             {
-                isRightAligned = value;
+                rightAligned = value;
 
                 DirtyClasses();
             }

@@ -20,7 +20,7 @@ namespace Blazorise
 
         private Background background = Background.None;
 
-        private bool isOpen;
+        private bool visible;
 
         public event EventHandler<BarStateEventArgs> StateChanged;
 
@@ -41,7 +41,7 @@ namespace Blazorise
 
         internal void Toggle()
         {
-            IsOpen = !IsOpen;
+            Visible = !Visible;
 
             StateHasChanged();
         }
@@ -54,18 +54,18 @@ namespace Blazorise
         /// Controlls the state of toggler and the menu.
         /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
                 // prevent bar from calling the same code multiple times
-                if ( value == isOpen )
+                if ( value == visible )
                     return;
 
-                isOpen = value;
+                visible = value;
 
-                StateChanged?.Invoke( this, new BarStateEventArgs( isOpen ) );
+                StateChanged?.Invoke( this, new BarStateEventArgs( visible ) );
 
                 DirtyClasses();
             }

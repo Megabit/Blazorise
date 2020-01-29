@@ -12,13 +12,13 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isTabs;
+        private bool tabs;
 
-        private bool isCards;
+        private bool cards;
 
-        private bool isPills;
+        private bool pills;
 
-        private bool isVertical;
+        private bool vertical;
 
         private NavFillType fill;
 
@@ -29,10 +29,10 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Nav() );
-            builder.Append( ClassProvider.NavTabs(), IsTabs );
-            builder.Append( ClassProvider.NavCards(), IsCards );
-            builder.Append( ClassProvider.NavPills(), IsPills );
-            builder.Append( ClassProvider.NavVertical(), IsVertical );
+            builder.Append( ClassProvider.NavTabs(), Tabs );
+            builder.Append( ClassProvider.NavCards(), Cards );
+            builder.Append( ClassProvider.NavPills(), Pills );
+            builder.Append( ClassProvider.NavVertical(), Vertical );
             builder.Append( ClassProvider.NavFill( Fill ), Fill != NavFillType.None );
 
             base.BuildClasses( builder );
@@ -43,48 +43,48 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        public bool IsTabs
+        public bool Tabs
         {
-            get => isTabs;
+            get => tabs;
             set
             {
-                isTabs = value;
+                tabs = value;
 
                 DirtyClasses();
             }
         }
 
         [Parameter]
-        public bool IsCards
+        public bool Cards
         {
-            get => isCards;
+            get => cards;
             set
             {
-                isCards = value;
+                cards = value;
 
                 DirtyClasses();
             }
         }
 
         [Parameter]
-        public bool IsPills
+        public bool Pills
         {
-            get => isPills;
+            get => pills;
             set
             {
-                isPills = value;
+                pills = value;
 
                 DirtyClasses();
             }
         }
 
         [Parameter]
-        public bool IsVertical
+        public bool Vertical
         {
-            get => isVertical;
+            get => vertical;
             set
             {
-                isVertical = value;
+                vertical = value;
 
                 DirtyClasses();
             }

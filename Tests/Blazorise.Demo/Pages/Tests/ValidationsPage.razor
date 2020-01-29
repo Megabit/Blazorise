@@ -7,7 +7,7 @@
                 <CardSubtitle>Example on how to validate input fields by using the <code>Validator</code> handlers.</CardSubtitle>
             </CardHeader>
             <CardBody>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidationRule.IsNotEmpty">
@@ -19,7 +19,7 @@
                         </Validation>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidationRule.IsEmail">
@@ -32,7 +32,7 @@
                         </Validation>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidatePassword">
@@ -44,7 +44,7 @@
                         </Validation>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidatePassword2">
@@ -56,7 +56,7 @@
                         </Validation>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidateSelect">
@@ -75,7 +75,7 @@
                         </Validation>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidateDateOfBirth">
@@ -87,7 +87,7 @@
                         </Validation>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Pattern</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation UsePattern="true">
@@ -99,7 +99,7 @@
                         </Validation>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidateCheck">
@@ -114,7 +114,7 @@
                         </Validation>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Button Color="Color.Primary">Submit</Button>
@@ -131,7 +131,7 @@
             </CardHeader>
             <CardBody>
                 <Validations @ref="validations" Mode="ValidationMode.Manual">
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidationRule.IsNotEmpty">
@@ -143,7 +143,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidationRule.IsEmail">
@@ -156,7 +156,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidatePassword">
@@ -168,7 +168,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidatePassword2">
@@ -180,7 +180,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidateSelect">
@@ -199,7 +199,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidateDateOfBirth">
@@ -211,7 +211,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Pattern</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation UsePattern="true">
@@ -223,7 +223,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidateCheck">
@@ -238,7 +238,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Button Color="Color.Primary" Clicked="@Submit">Submit</Button>
@@ -258,7 +258,7 @@
             </CardHeader>
             <CardBody>
                 <Validations Mode="ValidationMode.Auto" Model="@user">
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -270,7 +270,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -282,7 +282,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -294,7 +294,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -306,7 +306,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -323,7 +323,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -338,7 +338,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Button Color="Color.Primary">Submit</Button>
@@ -356,7 +356,7 @@
             </CardHeader>
             <CardBody>
                 <Validations @ref="annotationsValidations" Mode="ValidationMode.Manual" Model="@manualUser">
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -368,7 +368,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -380,7 +380,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -392,7 +392,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -404,7 +404,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true">
+                    <Field Horizontal="true">
                         <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -421,7 +421,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
@@ -436,7 +436,7 @@
                             </Validation>
                         </FieldBody>
                     </Field>
-                    <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Button Color="Color.Primary" Clicked="@AnnotationsSubmit">Submit</Button>

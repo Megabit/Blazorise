@@ -17,15 +17,15 @@ namespace Blazorise
 
         private ButtonSize size = ButtonSize.None;
 
-        private bool isOutline;
+        private bool outline;
 
-        private bool isDisabled;
+        private bool disabled;
 
-        private bool isActive;
+        private bool active;
 
-        private bool isBlock;
+        private bool block;
 
-        private bool isLoading;
+        private bool loading;
 
         #endregion
 
@@ -34,19 +34,19 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Button() );
-            builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.None && !IsOutline );
-            builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.None && IsOutline );
+            builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.None && !Outline );
+            builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.None && Outline );
             builder.Append( ClassProvider.ButtonSize( Size ), Size != ButtonSize.None );
-            builder.Append( ClassProvider.ButtonBlock(), IsBlock );
-            builder.Append( ClassProvider.ButtonActive(), IsActive );
-            builder.Append( ClassProvider.ButtonLoading(), IsLoading );
+            builder.Append( ClassProvider.ButtonBlock(), Block );
+            builder.Append( ClassProvider.ButtonActive(), Active );
+            builder.Append( ClassProvider.ButtonLoading(), Loading );
 
             base.BuildClasses( builder );
         }
 
         protected void ClickHandler()
         {
-            if ( !IsDisabled )
+            if ( !Disabled )
             {
                 Clicked.InvokeAsync( null );
 
@@ -142,12 +142,12 @@ namespace Blazorise
         /// Makes the button to have the outlines.
         /// </summary>
         [Parameter]
-        public bool IsOutline
+        public bool Outline
         {
-            get => isOutline;
+            get => outline;
             set
             {
-                isOutline = value;
+                outline = value;
 
                 DirtyClasses();
             }
@@ -157,12 +157,12 @@ namespace Blazorise
         /// Makes button look inactive.
         /// </summary>
         [Parameter]
-        public bool IsDisabled
+        public bool Disabled
         {
-            get => isDisabled;
+            get => disabled;
             set
             {
-                isDisabled = value;
+                disabled = value;
 
                 DirtyClasses();
             }
@@ -172,12 +172,12 @@ namespace Blazorise
         /// Makes the button to appear as pressed.
         /// </summary>
         [Parameter]
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
+            get => active;
             set
             {
-                isActive = value;
+                active = value;
 
                 DirtyClasses();
             }
@@ -187,12 +187,12 @@ namespace Blazorise
         /// Makes the button to span the full width of a parent.
         /// </summary>
         [Parameter]
-        public bool IsBlock
+        public bool Block
         {
-            get => isBlock;
+            get => block;
             set
             {
-                isBlock = value;
+                block = value;
 
                 DirtyClasses();
             }
@@ -202,12 +202,12 @@ namespace Blazorise
         /// Shows the loading spinner.
         /// </summary>
         [Parameter]
-        public bool IsLoading
+        public bool Loading
         {
-            get => isLoading;
+            get => loading;
             set
             {
-                isLoading = value;
+                loading = value;
 
                 DirtyClasses();
             }

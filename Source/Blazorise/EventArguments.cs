@@ -183,15 +183,15 @@ namespace Blazorise
     /// </summary>
     public class ModalStateEventArgs : EventArgs
     {
-        public ModalStateEventArgs( bool opened )
+        public ModalStateEventArgs( bool visible )
         {
-            Opened = opened;
+            Visible = visible;
         }
 
         /// <summary>
         /// Gets that flag that indicates if the modal is opened.
         /// </summary>
-        public bool Opened { get; }
+        public bool Visible { get; }
     }
 
     /// <summary>
@@ -215,15 +215,15 @@ namespace Blazorise
     /// </summary>
     public class DropdownStateEventArgs : EventArgs
     {
-        public DropdownStateEventArgs( bool opened )
+        public DropdownStateEventArgs( bool visible )
         {
-            Opened = opened;
+            Visible = visible;
         }
 
         /// <summary>
         /// Gets that flag that indicates if the dropdown is opened.
         /// </summary>
-        public bool Opened { get; }
+        public bool Visible { get; }
     }
 
     /// <summary>
@@ -231,15 +231,15 @@ namespace Blazorise
     /// </summary>
     public class BarDropdownStateEventArgs : EventArgs
     {
-        public BarDropdownStateEventArgs( bool opened )
+        public BarDropdownStateEventArgs( bool visible )
         {
-            Opened = opened;
+            Visible = visible;
         }
 
         /// <summary>
         /// Gets that flag that indicates if the dropdown is opened.
         /// </summary>
-        public bool Opened { get; }
+        public bool Visible { get; }
     }
 
     /// <summary>
@@ -247,15 +247,15 @@ namespace Blazorise
     /// </summary>
     public class BarStateEventArgs : EventArgs
     {
-        public BarStateEventArgs( bool opened )
+        public BarStateEventArgs( bool visible )
         {
-            Opened = opened;
+            Visible = visible;
         }
 
         /// <summary>
         /// Gets that flag that indicates if the bar is opened.
         /// </summary>
-        public bool Opened { get; }
+        public bool Visible { get; }
     }
 
     /// <summary>

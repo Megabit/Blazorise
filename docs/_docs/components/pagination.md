@@ -60,8 +60,8 @@ toc_label: "Guide"
 
 | Name          | Type                                                                       | Default          | Description                                                                                 |
 |---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| IsActive      | boolean                                                                    | false            | Indicate the currently active page.                                                         |
-| IsDisabled    | boolean                                                                    | false            | Used for links that appear un-clickable.                                                    |
+| Active        | boolean                                                                    | false            | Indicate the currently active page.                                                         |
+| Disabled      | boolean                                                                    | false            | Used for links that appear un-clickable.                                                    |
 
 ### PaginationLink
 

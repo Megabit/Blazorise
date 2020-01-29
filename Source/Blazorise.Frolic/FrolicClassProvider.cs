@@ -545,7 +545,7 @@ namespace Blazorise.Frolic
 
         public override string ModalBackdrop() => "e-modal-backdrop";
 
-        public override string ModalContent( bool isForm ) => "e-modal-content";
+        public override string ModalContent( bool dialog ) => "e-modal-content";
 
         public override string ModalContentCentered() => "modal-dialog-centered";
 

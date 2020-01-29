@@ -34,7 +34,7 @@ namespace Blazorise.Bootstrap
         private void BuildDialogClasses( ClassBuilder builder )
         {
             builder.Append( $"modal-dialog {ClassProvider.ToModalSize( Size )}" );
-            builder.Append( ClassProvider.ModalContentCentered(), IsCentered );
+            builder.Append( ClassProvider.ModalContentCentered(), Centered );
         }
 
         #endregion

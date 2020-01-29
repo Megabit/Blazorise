@@ -8,55 +8,55 @@
                 <CardSubtitle>Most common form control, text-based input fields. Includes support for most of HTML5 types: text, password, date, number, email, url.</CardSubtitle>
             </CardHeader>
             <CardBody>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <TextEdit Placeholder="Some text value..." />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <TextEdit Role="TextRole.Email" Placeholder="email" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <TextEdit Role="TextRole.Password" Text="password" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Placeholder</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <TextEdit Placeholder="placeholder" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Text area</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <MemoEdit Rows="5" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Readonly</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <TextEdit Text="Readonly value" IsReadonly="true" />
+                        <TextEdit Text="Readonly value" ReadOnly="true" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Disabled</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <TextEdit Text="Disabled value" IsDisabled="true" />
+                        <TextEdit Text="Disabled value" Disabled="true" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Static control</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <TextEdit Text="email@example.com" IsPlaintext="true" />
+                        <TextEdit Text="email@example.com" Plaintext="true" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Helping text</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <TextEdit Placeholder="Helping text">
@@ -64,7 +64,7 @@
                         </TextEdit>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <SelectEdit SelectedValue="3">
@@ -75,10 +75,10 @@
                         </SelectEdit>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Multiple Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <SelectEdit TValue="int" IsMultiple="true">
+                        <SelectEdit TValue="int" Multiple="true">
                             <SelectItem Value="1">1</SelectItem>
                             <SelectItem Value="2">2</SelectItem>
                             <SelectItem Value="3">3</SelectItem>
@@ -86,7 +86,7 @@
                         </SelectEdit>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Input Select With Group</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <SelectEdit SelectedValue="3">
@@ -101,25 +101,25 @@
                         </SelectEdit>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Default file input</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <FileEdit />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <DateEdit />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Number</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <NumericEdit TValue="decimal?" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Url</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <TextEdit Role="TextRole.Url" />
@@ -137,25 +137,25 @@
                 <CardSubtitle>Set heights using enums like Size="Size.Large", and set widths using grid column builder like ColumnSize="ColumnSize.Is*".</CardSubtitle>
             </CardHeader>
             <CardBody>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Small</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <TextEdit Size="Size.Small" Placeholder=".small" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Normal</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <TextEdit Placeholder="Normal" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Large</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <TextEdit Size="Size.Large" Placeholder=".large" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Static</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Addons>
@@ -168,7 +168,7 @@
                         </Addons>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Static 2</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Addons>
@@ -184,7 +184,7 @@
                         </Addons>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Multiple addons</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Addons>
@@ -203,7 +203,7 @@
                         </Addons>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Dropdowns</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Addons>
@@ -225,7 +225,7 @@
                         </Addons>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Buttons</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Addons>
@@ -271,31 +271,31 @@
                 <CardTitle>HORIZONTAL FORM</CardTitle>
             </CardHeader>
             <CardBody>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is3">Email address</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is9">
                         <TextEdit Placeholder="Email" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is3">Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is9">
                         <TextEdit Role="TextRole.Password" Placeholder="Password" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true">
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is3">Re Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is9">
                         <TextEdit Role="TextRole.Password" Placeholder="Retype password" />
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is3"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is9">
                         <CheckEdit TValue="bool">Check me out</CheckEdit>
                     </FieldBody>
                 </Field>
-                <Field IsHorizontal="true" JustifyContent="JustifyContent.End">
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is3"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is9">
                         <Button Color="Color.Primary">Submit</Button>

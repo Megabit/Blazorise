@@ -6,7 +6,7 @@ toc: true
 toc_label: "Guide"
 ---
 
-Breadcrumbs are used to indicate the current page's location. Add `IsActive` attribute to active `BreadcrumbItem`.
+Breadcrumbs are used to indicate the current page's location. Add `Active` attribute to active `BreadcrumbItem`.
 
 ## Structure
 
@@ -24,7 +24,7 @@ Breadcrumbs are used to indicate the current page's location. Add `IsActive` att
     <BreadcrumbItem>
         <BreadcrumbLink To="#">Library</BreadcrumbLink>
     </BreadcrumbItem>
-    <BreadcrumbItem IsActive="true">
+    <BreadcrumbItem Active="true">
         <BreadcrumbLink To="#">Data</BreadcrumbLink>
     </BreadcrumbItem>
 </Breadcrumb>
@@ -43,7 +43,7 @@ Breadcrumbs are used to indicate the current page's location. Add `IsActive` att
 
 | Name     | Type    | Default | Description                                     |
 |----------|---------|---------|-------------------------------------------------|
-| IsActive | boolean | false   | If set to true, renders  `span` instead of  `a` |
+| Active | boolean | false   | If set to true, renders  `span` instead of  `a` |
 
 ### BreadcrumbLink
 

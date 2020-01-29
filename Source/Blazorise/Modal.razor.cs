@@ -13,7 +13,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
         public event EventHandler<ModalStateEventArgs> StateChanged;
 
@@ -25,14 +25,14 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Modal() );
             builder.Append( ClassProvider.ModalFade() );
-            builder.Append( ClassProvider.ModalShow(), IsOpen );
+            builder.Append( ClassProvider.ModalShow(), Visible );
 
             base.BuildClasses( builder );
         }
 
         protected override void BuildStyles( StyleBuilder builder )
         {
-            builder.Append( StyleProvider.ModalShow(), IsOpen );
+            builder.Append( StyleProvider.ModalShow(), Visible );
 
             base.BuildStyles( builder );
         }
@@ -42,7 +42,7 @@ namespace Blazorise
         /// </summary>
         public void Show()
         {
-            IsOpen = true;
+            Visible = true;
 
             StateHasChanged();
         }
@@ -52,7 +52,7 @@ namespace Blazorise
         /// </summary>
         public void Hide()
         {
-            IsOpen = false;
+            Visible = false;
             Closed.InvokeAsync( null );
 
             StateHasChanged();
@@ -114,24 +114,24 @@ namespace Blazorise
         /// Defines the visibility of modal dialog.
         /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
                 // prevent modal from calling the same code multiple times
-                if ( value == isOpen )
+                if ( value == visible )
                     return;
 
                 if ( value == true )
                 {
-                    isOpen = true;
+                    visible = true;
 
                     HandleOpenState( true );
                 }
                 else if ( value == false && IsSafeToClose() )
                 {
-                    isOpen = false;
+                    visible = false;
 
                     HandleOpenState( false );
 

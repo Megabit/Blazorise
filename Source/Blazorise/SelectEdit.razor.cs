@@ -23,7 +23,7 @@ namespace Blazorise
         {
             if ( ParentValidation != null )
             {
-                if ( IsMultiple )
+                if ( Multiple )
                 {
                     ParentValidation.InitializeInputExpression( SelectedValuesExpression );
                 }
@@ -52,7 +52,7 @@ namespace Blazorise
 
         protected override Task OnInternalValueChanged( IReadOnlyList<TValue> value )
         {
-            if ( IsMultiple )
+            if ( Multiple )
                 return SelectedValuesChanged.InvokeAsync( value );
             else
                 return SelectedValueChanged.InvokeAsync( value == null ? default : value.FirstOrDefault() );
@@ -60,7 +60,7 @@ namespace Blazorise
 
         protected override object PrepareValueForValidation( IReadOnlyList<TValue> value )
         {
-            if ( IsMultiple )
+            if ( Multiple )
                 return value;
             else
                 return value == null ? default : value.FirstOrDefault();
@@ -71,7 +71,7 @@ namespace Blazorise
             if ( string.IsNullOrEmpty( value ) )
                 return ParseValue<IReadOnlyList<TValue>>.Empty;
 
-            if ( IsMultiple )
+            if ( Multiple )
             {
                 // when multiple selection is enabled we need to use javascript to get the list of selected items
                 var multipleValues = await JSRunner.GetSelectedOptions<TValue>( ElementId );
@@ -96,7 +96,7 @@ namespace Blazorise
             if ( value == null || value.Count == 0 )
                 return string.Empty;
 
-            if ( IsMultiple )
+            if ( Multiple )
             {
                 return string.Empty;
                 //return string.Join( ",", value );
@@ -132,7 +132,7 @@ namespace Blazorise
         {
             get
             {
-                if ( IsMultiple )
+                if ( Multiple )
                     return InternalValue;
                 else
                     return InternalValue == null ? default : InternalValue.FirstOrDefault();
@@ -141,10 +141,10 @@ namespace Blazorise
 
         protected override IReadOnlyList<TValue> InternalValue
         {
-            get => IsMultiple ? SelectedValues : new TValue[] { SelectedValue };
+            get => Multiple ? SelectedValues : new TValue[] { SelectedValue };
             set
             {
-                if ( IsMultiple )
+                if ( Multiple )
                 {
                     SelectedValues = value;
                 }
@@ -158,7 +158,7 @@ namespace Blazorise
         /// <summary>
         /// Specifies that multiple items can be selected.
         /// </summary>
-        [Parameter] public bool IsMultiple { get; set; }
+        [Parameter] public bool Multiple { get; set; }
 
         /// <summary>
         /// Gets or sets the selected item value.
@@ -178,7 +178,7 @@ namespace Blazorise
         [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
 
         /// <summary>
-        /// Occurs when the selected items value has changed (only when <see cref="IsMultiple"/>==true).
+        /// Occurs when the selected items value has changed (only when <see cref="Multiple"/>==true).
         /// </summary>
         [Parameter] public EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
 

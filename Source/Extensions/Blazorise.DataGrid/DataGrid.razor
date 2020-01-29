@@ -3,7 +3,7 @@
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
 <CascadingValue Value=this>
-    <Table Class="@Class" Margin="@Margin" Padding="@Padding" IsStriped="@IsStriped" IsBordered="@IsBordered" IsBorderless="@IsBorderless" IsHoverable="@IsHoverable" IsNarrow="@IsNarrow">
+    <Table Class="@Class" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow">
         <TableHeader>
             @if ( ShowCaptions )
             {
@@ -98,7 +98,7 @@
     @if ( ShowPager )
     {
         <Pagination>
-            <PaginationItem IsDisabled="@(CurrentPage <= 1)">
+            <PaginationItem Disabled="@(CurrentPage <= 1)">
                 <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
                     @if ( PreviousButtonTemplate != null )
                     {
@@ -114,13 +114,13 @@
             {
                 var pageName = i.ToString();
 
-                <PaginationItem IsDisabled="@(i == CurrentPage)" IsActive="@(i == CurrentPage)">
+                <PaginationItem Disabled="@(i == CurrentPage)" Active="@(i == CurrentPage)">
                     <PaginationLink Page="@pageName" Clicked="@OnPaginationItemClick">
                         @pageName
                     </PaginationLink>
                 </PaginationItem>
             }
-            <PaginationItem IsDisabled="@(CurrentPage >= LastPage)">
+            <PaginationItem Disabled="@(CurrentPage >= LastPage)">
                 <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
                     @if ( NextButtonTemplate != null )
                     {

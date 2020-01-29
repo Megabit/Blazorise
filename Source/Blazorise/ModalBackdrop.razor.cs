@@ -13,7 +13,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
         private bool isRegistered;
 
@@ -28,7 +28,7 @@ namespace Blazorise
             if ( ParentModal != null )
             {
                 // initialize backdrop in case that modal is already set to visible
-                IsOpen = ParentModal.IsOpen;
+                Visible = ParentModal.Visible;
 
                 ParentModal.StateChanged += OnModalStateChanged;
             }
@@ -69,7 +69,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.ModalBackdrop() );
             builder.Append( ClassProvider.ModalFade() );
-            builder.Append( ClassProvider.ModalShow(), IsOpen );
+            builder.Append( ClassProvider.ModalShow(), Visible );
 
             base.BuildClasses( builder );
         }
@@ -87,7 +87,7 @@ namespace Blazorise
 
         private void OnModalStateChanged( object sender, ModalStateEventArgs e )
         {
-            IsOpen = e.Opened;
+            Visible = e.Visible;
         }
 
         #endregion
@@ -101,17 +101,17 @@ namespace Blazorise
         /// Use this only when backdrop is placed outside of modal.
         /// </remarks>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                if ( value == isOpen )
+                if ( value == visible )
                     return;
 
-                isOpen = value;
+                visible = value;
 
-                if ( isOpen )
+                if ( visible )
                 {
                     isRegistered = true;
 

@@ -15,10 +15,6 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isCheck;
-
-        private bool isFile;
-
         private Screenreader screenreader = Screenreader.Always;
 
         #endregion
@@ -39,36 +35,6 @@ namespace Blazorise
         #region Properties
 
         [Parameter] public string For { get; set; }
-
-        /// <summary>
-        /// Label is used by the checkbox.
-        /// </summary>
-        [Parameter]
-        public bool IsCheck
-        {
-            get => isCheck;
-            set
-            {
-                isCheck = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Label is used by the file input.
-        /// </summary>
-        [Parameter]
-        public bool IsFile
-        {
-            get => isFile;
-            set
-            {
-                isFile = value;
-
-                DirtyClasses();
-            }
-        }
 
         /// <summary>
         /// Defines the visibility for screen readers.

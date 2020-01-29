@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isMultiple;
+        private bool multiple;
 
         #endregion
 
@@ -38,7 +38,7 @@ namespace Blazorise
 
         protected override async Task<ParseValue<string[]>> ParseValueFromStringAsync( string value )
         {
-            if ( IsMultiple )
+            if ( Multiple )
             {
                 var multipleValues = await JSRunner.GetFilePaths( ElementRef );
 
@@ -67,12 +67,12 @@ namespace Blazorise
         /// Enables the multiple file selection.
         /// </summary>
         [Parameter]
-        public bool IsMultiple
+        public bool Multiple
         {
-            get => isMultiple;
+            get => multiple;
             set
             {
-                isMultiple = value;
+                multiple = value;
 
                 DirtyClasses();
             }

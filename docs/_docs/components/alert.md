@@ -34,7 +34,7 @@ You can also add a close button.
 You can also add a close button.
 
 ```html
-<Alert Color="Color.Info" IsShow="true">
+<Alert Color="Color.Info" Visible="true">
     <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
         Big one!
         <CloseButton />
@@ -53,10 +53,10 @@ You can also add a close button.
 
 ### How to use
 
-To show alert just set `IsShow` attribute to true.
+To show alert just set `Visible` attribute to true.
 
 ```html
-<Alert Color="Color.Success" IsShow="true">
+<Alert Color="Color.Success" Visible="true">
     ...
 </Alert>
 ```
@@ -93,5 +93,5 @@ or programmatically
 | Name         | Type                                                         | Default          | Description                                                                                 |
 |--------------|--------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
 | IsDismisable | boolean                                                      | false            | Enables the alert to be closed by placing the padding for close button.                     |
-| IsShow       | boolean                                                      | false            | Sets the alert visibility.                                                                   |
+| Visible      | boolean                                                      | false            | Sets the alert visibility.                                                                   |
 | Color        | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }}) | `None`           | Component visual or contextual style variants.                                              |

@@ -1297,4 +1297,25 @@ namespace Blazorise
         /// </summary>
         Title = 3,
     }
+
+    /// <summary>
+    /// Defines the styling of a label for the component it belongs to.
+    /// </summary>
+    public enum LabelType
+    {
+        /// <summary>
+        /// No additional styling is applied.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Style for check box will be applied.
+        /// </summary>
+        Check,
+
+        /// <summary>
+        /// Style for file input will be applied.
+        /// </summary>
+        File,
+    }
 }

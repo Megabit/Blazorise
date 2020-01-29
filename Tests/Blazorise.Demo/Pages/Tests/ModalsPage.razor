@@ -44,7 +44,7 @@
 </Row>
 <Modal @ref="modalRef">
     <ModalBackdrop />
-    <ModalContent Size="@modalSize" IsCentered="@isCentered">
+    <ModalContent Size="@modalSize" Centered="@centered">
         <ModalHeader>
             <ModalTitle>
                 <Icon Name="IconName.Edit" />
@@ -74,13 +74,13 @@
 </Modal>
 @code{
     private Modal modalRef;
-    private bool isCentered = false;
+    private bool centered = false;
     private ModalSize modalSize = ModalSize.Default;
     private int? maxHeight = null;
 
-    private void ShowModal( ModalSize modalSize, int? maxHeight = null, bool isCentered = false )
+    private void ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false )
     {
-        this.isCentered = isCentered;
+        this.centered = centered;
         this.modalSize = modalSize;
         this.maxHeight = maxHeight;
 

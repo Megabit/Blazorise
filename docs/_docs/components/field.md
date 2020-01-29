@@ -57,7 +57,7 @@ It is recommended to always place input components inside of a field. That way y
 When using horizontal field you must place input controls inside of the `FieldBody` tag.
 
 ```html
-<Field IsHorizontal="true">
+<Field Horizontal="true">
     <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
     <FieldBody ColumnSize="ColumnSize.Is10">
         <TextEdit Placeholder="Some text value..." />
@@ -107,7 +107,7 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
 
 | Name            | Type                                                                              | Default   | Description                                                                                                             |
 |-----------------|-----------------------------------------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------|
-| IsHorizontal    | boolean                                                                           | false     | Aligns the controls for horizontal form.                                                                                |
+| Horizontal      | boolean                                                                           | false     | Aligns the controls for horizontal form.                                                                                |
 | ColumnSize      | [ColumnSize]({{ "/docs/helpers/utilities/#columnsize" | relative_url }})          | null      | Determines how much space will be used by the field inside of the grid row.                                             |
 | JustifyContent  | [JustifyContent]({{ "/docs/helpers/enums/#justifycontent" | relative_url }})      | `None`    | Aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally).    |
 

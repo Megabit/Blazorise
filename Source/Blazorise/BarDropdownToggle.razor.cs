@@ -13,7 +13,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
         private bool isRegistered;
 
@@ -27,7 +27,7 @@ namespace Blazorise
         {
             if ( ParentBarDropdown != null )
             {
-                IsOpen = ParentBarDropdown.IsOpen;
+                Visible = ParentBarDropdown.Visible;
 
                 ParentBarDropdown.StateChanged += OnBarDropdownStateChanged;
             }
@@ -83,12 +83,12 @@ namespace Blazorise
 
         public void Close()
         {
-            ParentBarDropdown?.Close();
+            ParentBarDropdown?.Hide();
         }
 
         private void OnBarDropdownStateChanged( object sender, BarDropdownStateEventArgs e )
         {
-            IsOpen = e.Opened;
+            Visible = e.Visible;
         }
 
         #endregion
@@ -99,14 +99,14 @@ namespace Blazorise
         /// Handles the visibility of dropdown toggle.
         /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
 
-                if ( isOpen )
+                if ( visible )
                 {
                     isRegistered = true;
 

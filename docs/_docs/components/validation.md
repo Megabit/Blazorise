@@ -116,7 +116,7 @@ After those two requirements are met the Blazorise will have enough information 
 
 ```html
 <Validations Mode="ValidationMode.Auto" Model="@user">
-    <Field IsHorizontal="true">
+    <Field Horizontal="true">
         <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is10">
             <Validation>
@@ -128,7 +128,7 @@ After those two requirements are met the Blazorise will have enough information 
             </Validation>
         </FieldBody>
     </Field>
-    <Field IsHorizontal="true">
+    <Field Horizontal="true">
         <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is10">
             <Validation>
@@ -140,7 +140,7 @@ After those two requirements are met the Blazorise will have enough information 
             </Validation>
         </FieldBody>
     </Field>
-    <Field IsHorizontal="true">
+    <Field Horizontal="true">
         <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is10">
             <Validation>
@@ -152,7 +152,7 @@ After those two requirements are met the Blazorise will have enough information 
             </Validation>
         </FieldBody>
     </Field>
-    <Field IsHorizontal="true">
+    <Field Horizontal="true">
         <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
         <FieldBody ColumnSize="ColumnSize.Is10">
             <Validation>

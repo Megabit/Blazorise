@@ -23,7 +23,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Card() );
-            builder.Append( ClassProvider.CardWhiteText(), IsWhiteText );
+            builder.Append( ClassProvider.CardWhiteText(), WhiteText );
             builder.Append( ClassProvider.CardBackground( Background ), Background != Background.None );
 
             base.BuildClasses( builder );
@@ -37,7 +37,7 @@ namespace Blazorise
         /// Sets the white text when using the darker background.
         /// </summary>
         [Parameter]
-        public bool IsWhiteText
+        public bool WhiteText
         {
             get => isWhiteText;
             set
