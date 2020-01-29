@@ -46,7 +46,7 @@ There are currently 4 different NuGet packages for each of the supported CSS fra
 - Blazorise.Frolic
 ```
 
-This guide will show you how to setup Blazorise with **Bootstrap** and **FontAwesome** icons.
+This guide will show you how to setup Blazorise with **Bootstrap** and **FontAwesome** icons. To setup Blazorise for other CSS frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
 
 ### 1. NuGet packages
 
@@ -185,7 +185,3 @@ public void Configure( IComponentsApplicationBuilder app )
     }
 }
 ```
-
-## Other frameworks
-
-To setup Blazorise for other CSS frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.

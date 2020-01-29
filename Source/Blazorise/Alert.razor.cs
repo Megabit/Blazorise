@@ -35,6 +35,13 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        protected override void OnInitialized()
+        {
+            HandleVisibilityState( IsShow );
+
+            base.OnInitialized();
+        }
+
         public void Show()
         {
             IsShow = true;
@@ -56,8 +63,6 @@ namespace Blazorise
         private void HandleVisibilityState( bool active )
         {
             Visibility = active ? Visibility.Always : Visibility.Never;
-
-            StateChanged?.Invoke( this, new AlertStateEventArgs( active ) );
         }
 
         #endregion
@@ -95,6 +100,8 @@ namespace Blazorise
                 isShow = value;
 
                 HandleVisibilityState( value );
+
+                StateChanged?.Invoke( this, new AlertStateEventArgs( isShow ) );
 
                 DirtyClasses();
             }
