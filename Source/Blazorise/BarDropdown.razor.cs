@@ -36,7 +36,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        public void Open()
+        public void Show()
         {
             var temp = Visible;
 
@@ -50,7 +50,7 @@ namespace Blazorise
             StateHasChanged();
         }
 
-        public void Close()
+        public void Hide()
         {
             var temp = Visible;
 

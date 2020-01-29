@@ -84,7 +84,7 @@ namespace Blazorise
 
         public void Close()
         {
-            ParentDropdown?.Close();
+            ParentDropdown?.Hide();
         }
 
         private void OnDropdownStateChanged( object sender, DropdownStateEventArgs e )

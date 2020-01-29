@@ -37,7 +37,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        public void Open()
+        public void Show()
         {
             // used to prevent toggle event call if Open() is called multiple times
             if ( Visible )
@@ -49,7 +49,7 @@ namespace Blazorise
             StateHasChanged();
         }
 
-        public void Close()
+        public void Hide()
         {
             // used to prevent toggle event call if Close() is called multiple times
             if ( !Visible )
