@@ -29,9 +29,9 @@
                                 {
                                     @column.Caption
                                 }
-                                @if ( Sortable && column.Sortable && column.Direction != SortDirection.None )
+                                @if ( Sortable && column.Sortable && column.CurrentDirection != SortDirection.None )
                                 {
-                                    <Icon Name="@(column.Direction == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                                    <Icon Name="@(column.CurrentDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
                                 }
                             </TableHeaderCell>
                         }

@@ -283,13 +283,13 @@ namespace Blazorise.DataGrid
         {
             if ( Sortable && column.Sortable )
             {
-                column.Direction = column.Direction.NextDirection();
+                column.CurrentDirection = column.CurrentDirection.NextDirection();
 
                 if ( !ReadData.HasDelegate )
                 {
                     if ( !sortByColumns.Any( c => c.Field == column.Field ) )
                         sortByColumns.Add( column );
-                    else if ( column.Direction == SortDirection.None )
+                    else if ( column.CurrentDirection == SortDirection.None )
                         sortByColumns.Remove( column );
                 }
 
@@ -378,7 +378,7 @@ namespace Blazorise.DataGrid
                 {
                     if ( firstSort )
                     {
-                        if ( sortByColumn.Direction == SortDirection.Ascending )
+                        if ( sortByColumn.CurrentDirection == SortDirection.Ascending )
                             query = query.OrderBy( x => sortByColumn.GetValue( x ) );
                         else
                             query = query.OrderByDescending( x => sortByColumn.GetValue( x ) );
@@ -387,7 +387,7 @@ namespace Blazorise.DataGrid
                     }
                     else
                     {
-                        if ( sortByColumn.Direction == SortDirection.Ascending )
+                        if ( sortByColumn.CurrentDirection == SortDirection.Ascending )
                             query = ( query as IOrderedQueryable<TItem> ).ThenBy( x => sortByColumn.GetValue( x ) );
                         else
                             query = ( query as IOrderedQueryable<TItem> ).ThenByDescending( x => sortByColumn.GetValue( x ) );
