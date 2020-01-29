@@ -6,6 +6,15 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.8.2 (quick fix)
+
+### Bug Fixes
+
+- [#518](https://github.com/stsrki/Blazorise/issues/518) Alerts are always visible
+- [#517](https://github.com/stsrki/Blazorise/issues/517) Style missing from Table components
+
+For detail description of changes please look at [v0.8.8.2 release page]({{ "/docs/release-notes/release0882/" | relative_url }})
+
 ## 0.8.8.1 (quick fix)
 
 ### Bug Fixes
