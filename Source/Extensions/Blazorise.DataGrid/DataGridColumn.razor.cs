@@ -41,6 +41,9 @@ namespace Blazorise.DataGrid
             // connect column to the parent datagrid
             ParentDataGrid?.Hook( this );
 
+            // initialize temporary variables
+            CurrentDirection = Direction;
+
             base.OnInitialized();
         }
 
@@ -79,6 +82,15 @@ namespace Blazorise.DataGrid
         #region Properties
 
         /// <summary>
+        /// Gets or sets the current sort direction.
+        /// </summary>
+        /// <remarks>
+        /// The reason for this field is that <see cref="Direction"/> is reseted every
+        /// time when the grid is refreshed by the user.
+        /// </remarks>
+        internal SortDirection CurrentDirection { get; set; }
+
+        /// <summary>
         /// Gets the type of column editor.
         /// </summary>
         public abstract DataGridColumnType ColumnType { get; }
@@ -99,7 +111,7 @@ namespace Blazorise.DataGrid
         [Parameter] public FilterContext Filter { get; set; } = new FilterContext();
 
         /// <summary>
-        /// Gets or sets the column's sort direction.
+        /// Gets or sets the column initial sort direction.
         /// </summary>
         /// <remarks>
         /// Currently only one column can be sorted becaouse of the bug in Mono runtime.
