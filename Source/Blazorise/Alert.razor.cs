@@ -37,7 +37,7 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            HandleVisibilityState( IsShow );
+            HandleVisibilityState( Visible );
 
             base.OnInitialized();
         }
@@ -110,7 +110,7 @@ namespace Blazorise
 
                 HandleVisibilityState( value );
 
-                StateChanged?.Invoke( this, new AlertStateEventArgs( isShow ) );
+                StateChanged?.Invoke( this, new AlertStateEventArgs( visible ) );
 
                 DirtyClasses();
             }
