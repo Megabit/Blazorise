@@ -46,7 +46,6 @@ namespace Blazorise
                 isForm = value;
 
                 DirtyClasses();
-                DirtyClasses();
             }
         }
 
@@ -62,7 +61,6 @@ namespace Blazorise
                 isCentered = value;
 
                 DirtyClasses();
-                DirtyClasses();
             }
         }
 
@@ -77,7 +75,6 @@ namespace Blazorise
             {
                 modalSize = value;
 
-                DirtyClasses();
                 DirtyClasses();
             }
         }
