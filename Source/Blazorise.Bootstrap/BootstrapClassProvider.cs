@@ -556,7 +556,7 @@ namespace Blazorise.Bootstrap
 
         public override string ModalBackdrop() => "modal-backdrop";
 
-        public override string ModalContent( bool isForm ) => "modal-content";
+        public override string ModalContent( bool dialog ) => "modal-content";
 
         public override string ModalContentCentered() => "modal-dialog-centered";
 

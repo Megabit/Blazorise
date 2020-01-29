@@ -12,9 +12,9 @@ namespace Blazorise
     {
         #region Members
 
-        private bool isForm;
+        private bool dialog;
 
-        private bool isCentered;
+        private bool centered;
 
         private ModalSize modalSize = ModalSize.Default;
 
@@ -24,7 +24,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.ModalContent( IsForm ) );
+            builder.Append( ClassProvider.ModalContent( Dialog ) );
             builder.Append( ClassProvider.ToModalSize( Size ), Size != ModalSize.None );
 
             base.BuildClasses( builder );
@@ -38,12 +38,12 @@ namespace Blazorise
         /// Makes the modal as classic dialog with header, body and footer. Used only by bulma https://bulma.io/documentation/components/modal/
         /// </summary>
         [Parameter]
-        public bool IsForm
+        public bool Dialog
         {
-            get => isForm;
+            get => dialog;
             set
             {
-                isForm = value;
+                dialog = value;
 
                 DirtyClasses();
             }
@@ -53,12 +53,12 @@ namespace Blazorise
         /// Centers the modal vertically.
         /// </summary>
         [Parameter]
-        public bool IsCentered
+        public bool Centered
         {
-            get => isCentered;
+            get => centered;
             set
             {
-                isCentered = value;
+                centered = value;
 
                 DirtyClasses();
             }

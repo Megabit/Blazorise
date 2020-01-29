@@ -480,7 +480,7 @@ namespace Blazorise
 
         public abstract string ModalBackdrop();
 
-        public abstract string ModalContent( bool isForm );
+        public abstract string ModalContent( bool dialog );
 
         public abstract string ModalContentCentered();
 

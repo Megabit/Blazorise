@@ -482,7 +482,7 @@ namespace Blazorise.Providers
 
         public string ModalBackdrop() => null;
 
-        public string ModalContent( bool isForm ) => null;
+        public string ModalContent( bool dialog ) => null;
 
         public string ModalContentCentered() => null;
 
