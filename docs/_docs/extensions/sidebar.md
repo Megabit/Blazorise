@@ -88,7 +88,7 @@ When building your sidebar manually you have full control of it's content and na
                 <SidebarLink Toggled="(isOpen)=> appsSidebarSubItems.Toggle(isOpen)" IsShow="true">
                     <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
                 </SidebarLink>
-                <SidebarSubItem @ref="appsSidebarSubItems" @ref:suppressField IsShow="true">
+                <SidebarSubItem @ref="appsSidebarSubItems" IsShow="true">
                     <SidebarItem>
                         <SidebarLink To="apps/todo">Todo List</SidebarLink>
                     </SidebarItem>
