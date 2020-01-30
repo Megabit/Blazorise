@@ -363,6 +363,18 @@ window.blazorise = {
         this.elementId = elementId;
         this.element = element;
         this.preventDefaultOnSubmit = preventDefaultOnSubmit;
+    },
+    link: {
+        scrollIntoView: (elementId) => {
+            var element = document.getElementById(elementId);
+
+            if (element) {
+                element.scrollIntoView();
+                window.location.hash = elementId;
+            }
+
+            return true;
+        }
     }
 };
 

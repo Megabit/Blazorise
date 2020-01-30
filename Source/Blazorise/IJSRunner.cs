@@ -63,5 +63,7 @@ namespace Blazorise
         ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, string elementId );
 
         ValueTask<object> UnregisterClosableComponent( ICloseActivator component );
+
+        ValueTask<bool> ScrollIntoView( string anchorTarget );
     }
 }
