@@ -12,7 +12,8 @@ using Microsoft.AspNetCore.Components.Routing;
 namespace Blazorise
 {
     /// <summary>
-    /// Component for generating a standard <a> link.
+    /// A component that renders an anchor tag, automatically toggling its 'active'
+    /// class based on whether its 'href' matches the current URI.
     /// </summary>
     public partial class Link : BaseComponent
     {
