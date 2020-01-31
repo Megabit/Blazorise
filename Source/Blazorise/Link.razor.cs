@@ -56,15 +56,17 @@ namespace Blazorise
         private void OnLocationChanged( object sender, LocationChangedEventArgs args )
         {
             // We could just re-render always, but for this component we know the
-            // only relevant state change is to the _isActive property.
+            // only relevant state change is to the active property.
             var shouldBeActiveNow = ShouldMatch( args.Location );
 
             if ( shouldBeActiveNow != active )
             {
                 active = shouldBeActiveNow;
-            }
 
-            DirtyClasses();
+                DirtyClasses();
+
+                StateHasChanged();
+            }
         }
 
         protected override void OnParametersSet()
@@ -131,7 +133,7 @@ namespace Blazorise
                 // which in turn is because it's common for servers to return the same page
                 // for http://host/vdir as they do for host://host/vdir/ as it's no
                 // good to display a blank page in that case.
-                if ( absoluteUri[absoluteUri.Length - 1] == '/'
+                if ( absoluteUri[^1] == '/'
                     && absoluteUri.StartsWith( currentUriAbsolute, StringComparison.Ordinal ) )
                 {
                     return true;
