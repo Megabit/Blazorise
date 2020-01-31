@@ -9,12 +9,26 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A classic modal overlay, in which you can include any content you want.
+    /// </summary>
     public partial class Modal : BaseComponent
     {
         #region Members
 
+        /// <summary>
+        /// Flag that indicates if modal is visible.
+        /// </summary>
         private bool visible;
 
+        /// <summary>
+        /// Holds the last received reason for modal closure.
+        /// </summary>
+        private CloseReason closeReason = CloseReason.None;
+
+        /// <summary>
+        /// Occurs when the <see cref="Visible"/> property value changes.
+        /// </summary>
         public event EventHandler<ModalStateEventArgs> StateChanged;
 
         #endregion
@@ -38,24 +52,45 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Open the modal dialog.
+        /// Opens the modal dialog.
         /// </summary>
         public void Show()
         {
+            if ( Visible )
+                return;
+
             Visible = true;
 
             StateHasChanged();
         }
 
         /// <summary>
-        /// Close the modal dialog.
+        /// Fires the modal dialog closure process.
         /// </summary>
         public void Hide()
         {
-            Visible = false;
-            Closed.InvokeAsync( null );
+            Hide( CloseReason.UserClosing );
+        }
 
-            StateHasChanged();
+        internal void Hide( CloseReason closeReason )
+        {
+            if ( !Visible )
+                return;
+
+            this.closeReason = closeReason;
+
+            if ( IsSafeToClose() )
+            {
+                visible = false;
+
+                HandleVisibilityStyles( false );
+                RaiseEvents( false );
+
+                // finally reset close reason so it doesn't interfere with internal closing by Visible property
+                this.closeReason = CloseReason.None;
+
+                StateHasChanged();
+            }
         }
 
         private bool IsSafeToClose()
@@ -66,9 +101,9 @@ namespace Blazorise
 
             if ( handler != null )
             {
-                var args = new CancelEventArgs( false );
+                var args = new ModalClosingEventArgs( false, closeReason );
 
-                foreach ( Action<CancelEventArgs> subHandler in handler?.GetInvocationList() )
+                foreach ( Action<ModalClosingEventArgs> subHandler in handler?.GetInvocationList() )
                 {
                     subHandler( args );
 
@@ -82,10 +117,9 @@ namespace Blazorise
             return safeToClose;
         }
 
-        private void HandleOpenState( bool opened )
+        private void HandleVisibilityStyles( bool visible )
         {
-            // TODO: find a way to remove javascript
-            if ( opened )
+            if ( visible )
             {
                 ExecuteAfterRender( async () =>
                 {
@@ -100,10 +134,18 @@ namespace Blazorise
                 } );
             }
 
-            StateChanged?.Invoke( this, new ModalStateEventArgs( opened ) );
-
             DirtyClasses();
             DirtyStyles();
+        }
+
+        private void RaiseEvents( bool visible )
+        {
+            StateChanged?.Invoke( this, new ModalStateEventArgs( visible ) );
+
+            if ( !visible )
+            {
+                Closed.InvokeAsync( null );
+            }
         }
 
         #endregion
@@ -127,15 +169,15 @@ namespace Blazorise
                 {
                     visible = true;
 
-                    HandleOpenState( true );
+                    HandleVisibilityStyles( true );
+                    RaiseEvents( true );
                 }
                 else if ( value == false && IsSafeToClose() )
                 {
                     visible = false;
 
-                    HandleOpenState( false );
-
-                    Closed.InvokeAsync( null );
+                    HandleVisibilityStyles( false );
+                    RaiseEvents( false );
                 }
             }
         }
@@ -143,7 +185,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs before the modal is closed.
         /// </summary>
-        [Parameter] public Action<CancelEventArgs> Closing { get; set; }
+        [Parameter] public Action<ModalClosingEventArgs> Closing { get; set; }
 
         /// <summary>
         /// Occurs after the modal has closed.

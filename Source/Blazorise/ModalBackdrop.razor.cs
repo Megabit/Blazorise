@@ -74,15 +74,14 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        public bool SafeToClose( string elementId, bool isEscapeKey )
+        public bool IsSafeToClose( string elementId, CloseReason closeReason )
         {
-            // TODO: ask for parent modal is it OK to close it
             return ElementId == elementId;
         }
 
-        public void Close()
+        public void Close( CloseReason closeReason )
         {
-            ParentModal?.Hide();
+            ParentModal?.Hide( closeReason );
         }
 
         private void OnModalStateChanged( object sender, ModalStateEventArgs e )

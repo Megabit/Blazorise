@@ -9,24 +9,21 @@ using System.Threading.Tasks;
 
 namespace Blazorise
 {
-    public class ChangingEventArgs : CancelEventArgs
+    /// <summary>
+    /// Provides data for the <see cref="Modal.Closing"/> event.
+    /// </summary>
+    public class ModalClosingEventArgs : CancelEventArgs
     {
-        public ChangingEventArgs( string oldValue, string newValue )
+        public ModalClosingEventArgs( bool cancel, CloseReason closeReason )
+            : base( cancel )
         {
-            OldValue = oldValue;
-            NewValue = newValue;
+            CloseReason = closeReason;
         }
 
-        public ChangingEventArgs( string oldValue, string newValue, bool cancel )
-        {
-            OldValue = oldValue;
-            NewValue = newValue;
-            Cancel = cancel;
-        }
-
-        public string OldValue { get; set; }
-
-        public string NewValue { get; set; }
+        /// <summary>
+        /// Gets a value that indicates why the modal is being closed.
+        /// </summary>
+        public CloseReason CloseReason { get; }
     }
 
     public class ValidatingAllEventArgs : CancelEventArgs
