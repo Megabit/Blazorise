@@ -136,7 +136,7 @@ window.blazorise = {
 
     tryClose: (closable, targetElementId, isEscapeKey) => {
         let request = new Promise((resolve, reject) => {
-            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', targetElementId, isEscapeKey)
+            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', targetElementId, isEscapeKey ? 'escape' : 'leave')
                 .then((result) => resolve({ elementId: closable.elementId, dotnetAdapter: closable.dotnetAdapter, status: result === true ? 'ok' : 'cancelled' }))
                 .catch(() => resolve({ elementId: closable.elementId, status: 'error' }));
         });
@@ -145,7 +145,7 @@ window.blazorise = {
             request
                 .then((response) => {
                     if (response.status === 'ok') {
-                        response.dotnetAdapter.invokeMethodAsync('Close')
+                        response.dotnetAdapter.invokeMethodAsync('Close', isEscapeKey ? 'escape' : 'leave')
                             // If the user navigates to another page then it will raise exception because the reference to the component cannot be found.
                             // In that case just remove the elementId from the list.
                             .catch(() => window.blazorise.unregisterClosableComponent(response.elementId));

@@ -76,12 +76,12 @@ namespace Blazorise
             ParentBarDropdown?.Toggle();
         }
 
-        public bool SafeToClose( string elementId, bool isEscapeKey )
+        public bool IsSafeToClose( string elementId, CloseReason closeReason )
         {
-            return isEscapeKey || elementId != ElementId;
+            return closeReason == CloseReason.EscapeClosing || elementId != ElementId;
         }
 
-        public void Close()
+        public void Close( CloseReason closeReason )
         {
             ParentBarDropdown?.Hide();
         }

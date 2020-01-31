@@ -21,12 +21,14 @@ namespace Blazorise
         /// Finds if the closable component is ready to be closed.
         /// </summary>
         /// <param name="elementId">Currently clicked element id.</param>
+        /// <param name="closeReason">The reason for closing the component.</param>
         /// <returns>Returns true if the closable component is ready to be closed.</returns>
-        bool SafeToClose( string elementId, bool isEscapeKey );
+        bool IsSafeToClose( string elementId, CloseReason closeReason );
 
         /// <summary>
         /// Triggers the closable component to be closed.
         /// </summary>
-        void Close();
+        /// <param name="closeReason">The reason for closing the component.</param>
+        void Close( CloseReason closeReason );
     }
 }
