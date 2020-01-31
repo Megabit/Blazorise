@@ -178,5 +178,10 @@ namespace Blazorise
         {
             return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementId );
         }
+
+        public ValueTask<bool> ScrollIntoView( string anchorTarget )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.link.scrollIntoView", anchorTarget );
+        }
     }
 }

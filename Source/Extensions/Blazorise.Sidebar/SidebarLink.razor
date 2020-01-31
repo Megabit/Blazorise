@@ -1,9 +1,9 @@
 ﻿@inherits BaseSidebarLink
 @if ( To != null )
 {
-    <LinkBase TagName="a" class="@ClassNames" href="@To" title="@Title" Match="@Match">
+    <Blazorise.Link Class="@ClassNames" To="@To" Title="@Title" Match="@Match">
         @ChildContent
-    </LinkBase>
+    </Blazorise.Link>
 }
 else
 {
