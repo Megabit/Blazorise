@@ -39,14 +39,14 @@ namespace Blazorise.Demo.Bulma.Server
             }
 
             app.UseStaticFiles();
-            app.UseClientSideBlazorFiles<Bulma.Startup>();
+            app.UseClientSideBlazorFiles<Bulma.Program>();
 
             app.UseRouting();
 
             app.UseEndpoints( endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-                endpoints.MapFallbackToClientSideBlazor<Bulma.Startup>( "index.html" );
+                endpoints.MapFallbackToClientSideBlazor<Bulma.Program>( "index.html" );
             } );
         }
     }

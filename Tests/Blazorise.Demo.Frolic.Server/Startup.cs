@@ -39,14 +39,14 @@ namespace Blazorise.Demo.Frolic.Server
             }
 
             app.UseStaticFiles();
-            app.UseClientSideBlazorFiles<Frolic.Startup>();
+            app.UseClientSideBlazorFiles<Frolic.Program>();
 
             app.UseRouting();
 
             app.UseEndpoints( endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-                endpoints.MapFallbackToClientSideBlazor<Frolic.Startup>( "index.html" );
+                endpoints.MapFallbackToClientSideBlazor<Frolic.Program>( "index.html" );
             } );
         }
     }

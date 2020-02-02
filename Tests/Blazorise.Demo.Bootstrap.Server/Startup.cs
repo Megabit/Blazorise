@@ -39,14 +39,14 @@ namespace Blazorise.Demo.Bootstrap.Server
             }
 
             app.UseStaticFiles();
-            app.UseClientSideBlazorFiles<Bootstrap.Startup>();
+            app.UseClientSideBlazorFiles<Bootstrap.Program>();
 
             app.UseRouting();
 
             app.UseEndpoints( endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
-                endpoints.MapFallbackToClientSideBlazor<Bootstrap.Startup>( "index.html" );
+                endpoints.MapFallbackToClientSideBlazor<Bootstrap.Program>( "index.html" );
             } );
         }
     }
