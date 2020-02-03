@@ -30,13 +30,13 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region SelectEdit
+        #region Select
 
-        public override string SelectEdit() => "e-select";
+        public override string Select() => "e-select";
 
-        public override string SelectEditSize( Size size ) => $"{SelectEdit()}-{ToSize( size )}";
+        public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
 
-        public override string SelectEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 

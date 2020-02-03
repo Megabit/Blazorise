@@ -60,7 +60,7 @@
                     <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <Validation Validator="@ValidateSelect">
-                            <SelectEdit TValue="int?">
+                            <Select TValue="int?">
                                 <ChildContent>
                                     <SelectItem Value="@((int?)null)"></SelectItem>
                                     <SelectItem Value="@((int?)1)">1</SelectItem>
@@ -71,7 +71,7 @@
                                 <Feedback>
                                     <ValidationError>Select one value!</ValidationError>
                                 </Feedback>
-                            </SelectEdit>
+                            </Select>
                         </Validation>
                     </FieldBody>
                 </Field>
@@ -184,7 +184,7 @@
                         <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation Validator="@ValidateSelect">
-                                <SelectEdit TValue="int?">
+                                <Select TValue="int?">
                                     <ChildContent>
                                         <SelectItem Value="@((int?)null)"></SelectItem>
                                         <SelectItem Value="@((int?)1)">1</SelectItem>
@@ -195,7 +195,7 @@
                                     <Feedback>
                                         <ValidationError>Select one value!</ValidationError>
                                     </Feedback>
-                                </SelectEdit>
+                                </Select>
                             </Validation>
                         </FieldBody>
                     </Field>
@@ -310,7 +310,7 @@
                         <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
-                                <SelectEdit TValue="string" @bind-SelectedValue="@user.Title">
+                                <Select TValue="string" @bind-SelectedValue="@user.Title">
                                     <ChildContent>
                                         <SelectItem Value="@(string.Empty)"></SelectItem>
                                         <SelectItem Value="@("Mr")">Mr.</SelectItem>
@@ -319,7 +319,7 @@
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
-                                </SelectEdit>
+                                </Select>
                             </Validation>
                         </FieldBody>
                     </Field>
@@ -408,7 +408,7 @@
                         <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
                             <Validation>
-                                <SelectEdit TValue="string" @bind-SelectedValue="@manualUser.Title">
+                                <Select TValue="string" @bind-SelectedValue="@manualUser.Title">
                                     <ChildContent>
                                         <SelectItem Value="@(string.Empty)"></SelectItem>
                                         <SelectItem Value="@("Mr")">Mr.</SelectItem>
@@ -417,7 +417,7 @@
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
-                                </SelectEdit>
+                                </Select>
                             </Validation>
                         </FieldBody>
                     </Field>

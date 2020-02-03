@@ -32,13 +32,13 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region SelectEdit
+        #region Select
 
-        public string SelectEdit() => null;
+        public string Select() => null;
 
-        public string SelectEditSize( Size size ) => null;
+        public string SelectSize( Size size ) => null;
 
-        public string SelectEditValidation( ValidationStatus validationStatus ) => null;
+        public string SelectValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 

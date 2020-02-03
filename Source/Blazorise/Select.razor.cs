@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class SelectEdit<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
+    public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     {
         #region Members
 
@@ -38,9 +38,9 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.SelectEdit() );
-            builder.Append( ClassProvider.SelectEditSize( Size ), Size != Size.None );
-            builder.Append( ClassProvider.SelectEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.Select() );
+            builder.Append( ClassProvider.SelectSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.SelectValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }

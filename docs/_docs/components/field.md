@@ -89,8 +89,9 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
     </Field>
     <Field ColumnSize="ColumnSize.Is4.OnDesktop">
         <FieldLabel>State</FieldLabel>
-        <SelectEdit>
-        </SelectEdit>
+        <Select>
+            ...
+        </Select>
     </Field>
     <Field ColumnSize="ColumnSize.Is2.OnDesktop">
         <FieldLabel>Zip</FieldLabel>

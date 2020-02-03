@@ -46,7 +46,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.Fields, Bulma.Fields>();
             componentMapper.Register<Blazorise.FileEdit, Bulma.FileEdit>();
             componentMapper.Register<Blazorise.MemoEdit, Bulma.MemoEdit>();
-            componentMapper.Register( typeof( Blazorise.SelectEdit<> ), typeof( Bulma.SelectEdit<> ) );
+            componentMapper.Register( typeof( Blazorise.Select<> ), typeof( Bulma.Select<> ) );
             componentMapper.Register<Blazorise.Button, Bulma.Button>();
             componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();
             componentMapper.Register<Blazorise.TextEdit, Bulma.TextEdit>();
