@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @inherits BaseSelectList<TItem>
-<SelectEdit TValue="object" SelectedValue="@SelectedValue" SelectedValueChanged="@HandleSelectedValueChanged">
+<Select TValue="object" SelectedValue="@SelectedValue" SelectedValueChanged="@HandleSelectedValueChanged">
     @if ( Data != null )
     {
         foreach ( var item in Data )
@@ -12,4 +12,4 @@
         }
     }
     @ChildContent
-</SelectEdit>
+</Select>

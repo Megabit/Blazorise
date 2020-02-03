@@ -29,13 +29,13 @@ namespace Blazorise
 
         #endregion
 
-        #region SelectEdit
+        #region Select
 
-        string SelectEdit();
+        string Select();
 
-        string SelectEditSize( Size size );
+        string SelectSize( Size size );
 
-        string SelectEditValidation( ValidationStatus validationStatus );
+        string SelectValidation( ValidationStatus validationStatus );
 
         #endregion
 

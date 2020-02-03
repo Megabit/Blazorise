@@ -30,13 +30,13 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        #region SelectEdit
+        #region Select
 
-        public override string SelectEdit() => "select is-fullwidth";
+        public override string Select() => "select is-fullwidth";
 
-        public override string SelectEditSize( Size size ) => $"{ToSize( size )}";
+        public override string SelectSize( Size size ) => $"{ToSize( size )}";
 
-        public override string SelectEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
