@@ -41,11 +41,11 @@
                             Edit Mode
                         </FieldLabel>
                         <FieldBody>
-                            <SelectEdit @bind-SelectedValue="@editMode">
+                            <Select @bind-SelectedValue="@editMode">
                                 <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
                                 <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
                                 <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
-                            </SelectEdit>
+                            </Select>
                         </FieldBody>
                     </Field>
                 </Fields>
@@ -123,11 +123,11 @@
                                 }
                             </DisplayTemplate>
                             <EditTemplate>
-                                <SelectEdit TValue="string" SelectedValue="@((string)( ( (CellEditContext)context ).CellValue ))" SelectedValueChanged="@(( v ) => ( (CellEditContext)context ).CellValue = v)">
+                                <Select TValue="string" SelectedValue="@((string)( ( (CellEditContext)context ).CellValue ))" SelectedValueChanged="@(( v ) => ( (CellEditContext)context ).CellValue = v)">
                                     <SelectItem TValue="string" Value="null"></SelectItem>
                                     <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
                                     <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
-                                </SelectEdit>
+                                </Select>
                             </EditTemplate>
                         </DataGridSelectColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="120px">

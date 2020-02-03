@@ -1,72 +1,72 @@
 ﻿<h2>Select string</h2>
 <p id="select-string-initially-blank">
     Initially blank:
-    <SelectEdit TValue="string" SelectedValue="@nameInitiallyBlank" SelectedValueChanged="@((v)=> { nameInitiallyBlank = v; })">
+    <Select TValue="string" SelectedValue="@nameInitiallyBlank" SelectedValueChanged="@((v)=> { nameInitiallyBlank = v; })">
         <SelectItem Value="string.Empty"></SelectItem>
         <SelectItem Value="@("Oliver")">Oliver</SelectItem>
         <SelectItem Value="@("Harry")">Harry</SelectItem>
         <SelectItem Value="@("Jack")">Jack</SelectItem>
         <SelectItem Value="@("George")">George</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-string-initially-blank-result">@nameInitiallyBlank</span>
 </p>
 <p id="select-string-initially-selected">
     Initially populated:
-    <SelectEdit TValue="string" SelectedValue="@nameInitiallySelected" SelectedValueChanged="@((v)=> { nameInitiallySelected = v; })">
+    <Select TValue="string" SelectedValue="@nameInitiallySelected" SelectedValueChanged="@((v)=> { nameInitiallySelected = v; })">
         <SelectItem Value="string.Empty"></SelectItem>
         <SelectItem Value="@("Oliver")">Oliver</SelectItem>
         <SelectItem Value="@("Harry")">Harry</SelectItem>
         <SelectItem Value="@("Jack")">Jack</SelectItem>
         <SelectItem Value="@("George")">George</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-string-initially-selected-result">@nameInitiallySelected</span>
 </p>
 
 <h2>Select int:</h2>
 <p id="select-int-initially-blank">
     Initially blank:
-    <SelectEdit TValue="int" SelectedValue="@intInitiallyBlank" SelectedValueChanged="@((v)=> { intInitiallyBlank = v; })">
+    <Select TValue="int" SelectedValue="@intInitiallyBlank" SelectedValueChanged="@((v)=> { intInitiallyBlank = v; })">
         <SelectItem Value="0"></SelectItem>
         <SelectItem Value="1">1</SelectItem>
         <SelectItem Value="2">2</SelectItem>
         <SelectItem Value="3">3</SelectItem>
         <SelectItem Value="4">4</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-int-initially-blank-result">@intInitiallyBlank</span>
 </p>
 <p id="select-int-initially-selected">
     Initially selected:
-    <SelectEdit TValue="int" SelectedValue="@intInitiallySelected" SelectedValueChanged="@((v)=> { intInitiallySelected = v; })">
+    <Select TValue="int" SelectedValue="@intInitiallySelected" SelectedValueChanged="@((v)=> { intInitiallySelected = v; })">
         <SelectItem Value="0"></SelectItem>
         <SelectItem Value="1">1</SelectItem>
         <SelectItem Value="2">2</SelectItem>
         <SelectItem Value="3">3</SelectItem>
         <SelectItem Value="4">4</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-int-initially-selected-result">@intInitiallySelected</span>
 </p>
 
 <h2>Select nullable int:</h2>
 <p id="select-nullable-int-initially-blank">
     Initially blank:
-    <SelectEdit TValue="int?" SelectedValue="@nullableIntInitiallyBlank" SelectedValueChanged="@((v)=> { nullableIntInitiallyBlank = v; })">
+    <Select TValue="int?" SelectedValue="@nullableIntInitiallyBlank" SelectedValueChanged="@((v)=> { nullableIntInitiallyBlank = v; })">
         <SelectItem Value="@((int?)null)"></SelectItem>
         <SelectItem Value="@((int?)1)">1</SelectItem>
         <SelectItem Value="@((int?)2)">2</SelectItem>
         <SelectItem Value="@((int?)3)">3</SelectItem>
         <SelectItem Value="@((int?)4)">4</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-nullable-int-initially-blank-result">@nullableIntInitiallyBlank</span>
 </p>
 <p id="select-nullable-int-initially-selected">
     Initially selected:
-    <SelectEdit TValue="int?" SelectedValue="@nullableIntInitiallySelected" SelectedValueChanged="@((v)=> { nullableIntInitiallySelected = v; })">
+    <Select TValue="int?" SelectedValue="@nullableIntInitiallySelected" SelectedValueChanged="@((v)=> { nullableIntInitiallySelected = v; })">
         <SelectItem Value="@((int?)null)"></SelectItem>
         <SelectItem Value="@((int?)1)">1</SelectItem>
         <SelectItem Value="@((int?)2)">2</SelectItem>
         <SelectItem Value="@((int?)3)">3</SelectItem>
         <SelectItem Value="@((int?)4)">4</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-nullable-int-initially-selected-result">@nullableIntInitiallySelected</span>
 </p>
 
@@ -74,48 +74,48 @@
 <h2>Select guid:</h2>
 <p id="select-guid-initially-blank">
     Initially blank:
-    <SelectEdit TValue="Guid" SelectedValue="@guidInitiallyBlank" SelectedValueChanged="@((v)=> { guidInitiallyBlank = v; })">
+    <Select TValue="Guid" SelectedValue="@guidInitiallyBlank" SelectedValueChanged="@((v)=> { guidInitiallyBlank = v; })">
         <SelectItem Value="Guid.Empty"></SelectItem>
         <SelectItem Value="@(Guid.Parse("413a7c18-b190-4f58-a967-338cd1566e97"))">g1</SelectItem>
         <SelectItem Value="@(Guid.Parse("00cd0391-5e22-4729-855a-fec86267722c"))">g2</SelectItem>
         <SelectItem Value="@(Guid.Parse("bca8ef46-abb7-4aec-b700-90b2b730a382"))">g3</SelectItem>
         <SelectItem Value="@(Guid.Parse("71faf98c-286d-429e-854c-7877b7559f06"))">g4</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-guid-initially-blank-result">@guidInitiallyBlank</span>
 </p>
 <p id="select-guid-initially-selected">
     Initially selected:
-    <SelectEdit TValue="Guid" SelectedValue="@guidInitiallySelected" SelectedValueChanged="@((v)=> { guidInitiallySelected = v; })">
+    <Select TValue="Guid" SelectedValue="@guidInitiallySelected" SelectedValueChanged="@((v)=> { guidInitiallySelected = v; })">
         <SelectItem Value="Guid.Empty"></SelectItem>
         <SelectItem Value="@(Guid.Parse("413a7c18-b190-4f58-a967-338cd1566e97"))">g1</SelectItem>
         <SelectItem Value="@(Guid.Parse("00cd0391-5e22-4729-855a-fec86267722c"))">g2</SelectItem>
         <SelectItem Value="@(Guid.Parse("bca8ef46-abb7-4aec-b700-90b2b730a382"))">g3</SelectItem>
         <SelectItem Value="@(Guid.Parse("71faf98c-286d-429e-854c-7877b7559f06"))">g4</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-guid-initially-selected-result">@guidInitiallySelected</span>
 </p>
 
 <h2>Select nullable guid:</h2>
 <p id="select-nullable-guid-initially-blank">
     Initially blank:
-    <SelectEdit TValue="Guid?" SelectedValue="@nullableGuidInitiallyBlank" SelectedValueChanged="@((v)=> { nullableGuidInitiallyBlank = v; })">
+    <Select TValue="Guid?" SelectedValue="@nullableGuidInitiallyBlank" SelectedValueChanged="@((v)=> { nullableGuidInitiallyBlank = v; })">
         <SelectItem Value="@((Guid?)null)"></SelectItem>
         <SelectItem Value="@((Guid?)Guid.Parse("413a7c18-b190-4f58-a967-338cd1566e97"))">g1</SelectItem>
         <SelectItem Value="@((Guid?)Guid.Parse("00cd0391-5e22-4729-855a-fec86267722c"))">g2</SelectItem>
         <SelectItem Value="@((Guid?)Guid.Parse("bca8ef46-abb7-4aec-b700-90b2b730a382"))">g3</SelectItem>
         <SelectItem Value="@((Guid?)Guid.Parse("71faf98c-286d-429e-854c-7877b7559f06"))">g4</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-nullable-guid-initially-blank-result">@nullableGuidInitiallyBlank</span>
 </p>
 <p id="select-nullable-guid-initially-selected">
     Initially selected:
-    <SelectEdit TValue="Guid?" SelectedValue="@nullableGuidInitiallySelected" SelectedValueChanged="@((v)=> { nullableGuidInitiallySelected = v; })">
+    <Select TValue="Guid?" SelectedValue="@nullableGuidInitiallySelected" SelectedValueChanged="@((v)=> { nullableGuidInitiallySelected = v; })">
         <SelectItem Value="@((Guid?)null)"></SelectItem>
         <SelectItem Value="@((Guid?)Guid.Parse("413a7c18-b190-4f58-a967-338cd1566e97"))">g1</SelectItem>
         <SelectItem Value="@((Guid?)Guid.Parse("00cd0391-5e22-4729-855a-fec86267722c"))">g2</SelectItem>
         <SelectItem Value="@((Guid?)Guid.Parse("bca8ef46-abb7-4aec-b700-90b2b730a382"))">g3</SelectItem>
         <SelectItem Value="@((Guid?)Guid.Parse("71faf98c-286d-429e-854c-7877b7559f06"))">g4</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-nullable-guid-initially-selected-result">@nullableGuidInitiallySelected</span>
 </p>
 
@@ -123,45 +123,45 @@
 <h2>Select bool:</h2>
 <p id="select-bool-initially-blank">
     Initially blank:
-    <SelectEdit TValue="bool" SelectedValue="@boolInitiallyBlank" SelectedValueChanged="@((v)=> { boolInitiallyBlank = v; })">
+    <Select TValue="bool" SelectedValue="@boolInitiallyBlank" SelectedValueChanged="@((v)=> { boolInitiallyBlank = v; })">
         <SelectItem Value="@true">True Value</SelectItem>
         <SelectItem Value="@false">False Value</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-bool-initially-blank-result">@boolInitiallyBlank</span>
 </p>
 <p id="select-bool-initially-selected">
     Initially selected:
-    <SelectEdit TValue="bool" SelectedValue="@boolInitiallySelected" SelectedValueChanged="@((v)=> { boolInitiallySelected = v; })">
+    <Select TValue="bool" SelectedValue="@boolInitiallySelected" SelectedValueChanged="@((v)=> { boolInitiallySelected = v; })">
         <SelectItem Value="@true">True Value</SelectItem>
         <SelectItem Value="@false">False Value</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-bool-initially-selected-result">@boolInitiallySelected</span>
 </p>
 
 <h2>Select nullable bool:</h2>
 <p id="select-nullable-bool-initially-blank">
     Initially blank:
-    <SelectEdit TValue="bool?" SelectedValue="@nullableBoolInitiallyBlank" SelectedValueChanged="@((v)=> { nullableBoolInitiallyBlank = v; })">
+    <Select TValue="bool?" SelectedValue="@nullableBoolInitiallyBlank" SelectedValueChanged="@((v)=> { nullableBoolInitiallyBlank = v; })">
         <SelectItem Value="@((bool?)null)"></SelectItem>
         <SelectItem Value="@((bool?)true)">True Value</SelectItem>
         <SelectItem Value="@((bool?)false)">False Value</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-nullable-bool-initially-blank-result">@nullableBoolInitiallyBlank</span>
 </p>
 <p id="select-nullable-bool-initially-selected">
     Initially selected:
-    <SelectEdit TValue="bool?" SelectedValue="@nullableBoolInitiallySelected" SelectedValueChanged="@((v)=> { nullableBoolInitiallySelected = v; })">
+    <Select TValue="bool?" SelectedValue="@nullableBoolInitiallySelected" SelectedValueChanged="@((v)=> { nullableBoolInitiallySelected = v; })">
         <SelectItem Value="@((bool?)null)"></SelectItem>
         <SelectItem Value="@((bool?)true)">True Value</SelectItem>
         <SelectItem Value="@((bool?)false)">False Value</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-nullable-bool-initially-selected-result">@nullableBoolInitiallySelected</span>
 </p>
 
 <h2>Select enum:</h2>
 <p id="select-enum-initially-selected">
     Initially selected:
-    <SelectEdit TValue="DaysInWeek" SelectedValue="@enumInitiallySelected" SelectedValueChanged="@((v)=> { enumInitiallySelected = v; })">
+    <Select TValue="DaysInWeek" SelectedValue="@enumInitiallySelected" SelectedValueChanged="@((v)=> { enumInitiallySelected = v; })">
         <SelectItem Value="@DaysInWeek.Mon">Mon</SelectItem>
         <SelectItem Value="@DaysInWeek.Tue">Tue</SelectItem>
         <SelectItem Value="@DaysInWeek.Wen">Wen</SelectItem>
@@ -169,14 +169,14 @@
         <SelectItem Value="@DaysInWeek.Fri">Fri</SelectItem>
         <SelectItem Value="@DaysInWeek.Sat">Sat</SelectItem>
         <SelectItem Value="@DaysInWeek.Sun">Sun</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-enum-initially-selected-result">@enumInitiallySelected</span>
 </p>
 
 <h2>Select nullable enum:</h2>
 <p id="select-nullable-enum-initially-blank">
     Initially blank:
-    <SelectEdit TValue="DaysInWeek?" SelectedValue="@nullableEnumInitiallyBlank" SelectedValueChanged="@((v)=> { nullableEnumInitiallyBlank = v; })">
+    <Select TValue="DaysInWeek?" SelectedValue="@nullableEnumInitiallyBlank" SelectedValueChanged="@((v)=> { nullableEnumInitiallyBlank = v; })">
         <SelectItem Value="@((DaysInWeek?)null)"></SelectItem>
         <SelectItem Value="@DaysInWeek.Mon">Mon</SelectItem>
         <SelectItem Value="@DaysInWeek.Tue">Tue</SelectItem>
@@ -185,12 +185,12 @@
         <SelectItem Value="@DaysInWeek.Fri">Fri</SelectItem>
         <SelectItem Value="@DaysInWeek.Sat">Sat</SelectItem>
         <SelectItem Value="@DaysInWeek.Sun">Sun</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-nullable-enum-initially-blank-result">@nullableEnumInitiallyBlank</span>
 </p>
 <p id="select-nullable-enum-initially-selected">
     Initially selected:
-    <SelectEdit TValue="DaysInWeek?" SelectedValue="@nullableEnumInitiallySelected" SelectedValueChanged="@((v)=> { nullableEnumInitiallySelected = v; })">
+    <Select TValue="DaysInWeek?" SelectedValue="@nullableEnumInitiallySelected" SelectedValueChanged="@((v)=> { nullableEnumInitiallySelected = v; })">
         <SelectItem Value="@((DaysInWeek?)null)"></SelectItem>
         <SelectItem Value="@((DaysInWeek?)DaysInWeek.Mon)">Mon</SelectItem>
         <SelectItem Value="@((DaysInWeek?)DaysInWeek.Tue)">Tue</SelectItem>
@@ -199,7 +199,7 @@
         <SelectItem Value="@((DaysInWeek?)DaysInWeek.Fri)">Fri</SelectItem>
         <SelectItem Value="@((DaysInWeek?)DaysInWeek.Sat)">Sat</SelectItem>
         <SelectItem Value="@((DaysInWeek?)DaysInWeek.Sun)">Sun</SelectItem>
-    </SelectEdit>
+    </Select>
     <span id="select-nullable-enum-initially-selected-result">@nullableEnumInitiallySelected</span>
 </p>
 
