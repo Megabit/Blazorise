@@ -6,28 +6,28 @@ toc: true
 toc_label: "Guide"
 ---
 
-Use SelectEdit to combine many choices into one menu.
+Use Select to combine many choices into one menu.
 
-- `<SelectEdit>`
+- `<Select>`
   - `<SelectItem>`
   - `<SelectGroup>` Optional tag used to group select items
     - `<SelectItem>`
 
-SelectEdit and SelectItem are generic components and they support all of the basic value types line int, string, enum, etc. Nullable types are also supported. Since they are generic component they also come with some special rules that must be followed:
+`Select` and `SelectItem` are generic components and they support all of the basic value types line int, string, enum, etc. Nullable types are also supported. Since they are generic component they also come with some special rules that must be followed:
 
 - Value type must be known. When using member variable on `bind-*` or `SelectedValue` attributes, the value type will be recognized automatically. Otherwise you must use TValue to define it eg (TValue="int").
-- Value type must be the **same** in both `SelectEdit` and `SelectItem`.
+- Value type must be the **same** in both `Select` and `SelectItem`.
 - String values must be defined with special syntax eg. "**@("hello")**", see [#7785](https://github.com/aspnet/AspNetCore/issues/7785).
 
 ## Basic Select
 
 ```html
-<SelectEdit TValue="int">
+<Select TValue="int">
     <SelectItem Value="1">1</SelectItem>
     <SelectItem Value="2">2</SelectItem>
     <SelectItem Value="3">3</SelectItem>
     <SelectItem Value="4">4</SelectItem>
-</SelectEdit>
+</Select>
 ```
 
 <iframe src="/examples/forms/select-basic/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -37,12 +37,12 @@ SelectEdit and SelectItem are generic components and they support all of the bas
 Add the `Multiple` attribute to allow more than one option to be selected.
 
 ```html
-<SelectEdit TValue="int" Multiple="true">
+<Select TValue="int" Multiple="true">
     <SelectItem Value="1">1</SelectItem>
     <SelectItem Value="2">2</SelectItem>
     <SelectItem Value="3">3</SelectItem>
     <SelectItem Value="4">4</SelectItem>
-</SelectEdit>
+</Select>
 ```
 
 <iframe src="/examples/forms/select-multiple/" frameborder="0" scrolling="no" style="width:100%;height:112px;"></iframe>
@@ -52,7 +52,7 @@ Add the `Multiple` attribute to allow more than one option to be selected.
 You can also group items into categories for better user experience.
 
 ```html
-<SelectEdit TValue="int">
+<Select TValue="int">
     <SelectGroup Label="Group 1">
         <SelectItem Value="1">1</SelectItem>
         <SelectItem Value="2">2</SelectItem>
@@ -61,7 +61,7 @@ You can also group items into categories for better user experience.
         <SelectItem Value="3">3</SelectItem>
         <SelectItem Value="4">4</SelectItem>
     </SelectGroup>
-</SelectEdit>
+</Select>
 ```
 
 <iframe src="/examples/forms/select-group/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -70,7 +70,7 @@ You can also group items into categories for better user experience.
 
 The process is basically the same for the single and for multiple select. The only difference is that `SelectedValue` attribute is used for single select mode, and `SelectedValues` attribute is used for multi-selection. Keep in mind that `Multiple` must be set to **true** for multi-selection to work properly.
 
-**Note:** The `Value` attribute is required on the `SelectItem`. Otherwise the `SelectEdit` will not behave as expected.
+**Note:** The `Value` attribute is required on the `SelectItem`. Otherwise the `Select` will not behave as expected.
 {: .notice--info}
 
 ### With bind attribute
@@ -78,12 +78,12 @@ The process is basically the same for the single and for multiple select. The on
 By using `bind-*` attribute the selected item value will be automatically assigned to the member variable.
 
 ```html
-<SelectEdit @bind-SelectedValue="@selectedValue">
+<Select @bind-SelectedValue="@selectedValue">
     <SelectItem Value="1">1</SelectItem>
     <SelectItem Value="2">2</SelectItem>
     <SelectItem Value="3">3</SelectItem>
     <SelectItem Value="4">4</SelectItem>
-</SelectEdit>
+</Select>
 
 @code{
     int selectedValue;
@@ -95,12 +95,12 @@ By using `bind-*` attribute the selected item value will be automatically assign
 When using the event `SelectedValueChanged`, you also must define the `SelectedValue` attribute.
 
 ```html
-<SelectEdit SelectedValue="@selectedValue" SelectedValueChanged="@OnSelectedValueChanged">
+<Select SelectedValue="@selectedValue" SelectedValueChanged="@OnSelectedValueChanged">
     <SelectItem Value="1">1</SelectItem>
     <SelectItem Value="2">2</SelectItem>
     <SelectItem Value="3">3</SelectItem>
     <SelectItem Value="4">4</SelectItem>
-</SelectEdit>
+</Select>
 
 @code{
     int selectedValue;
@@ -115,7 +115,7 @@ When using the event `SelectedValueChanged`, you also must define the `SelectedV
 
 ## Attributes
 
-### SelectEdit
+### Select
 
 | Name                  | Type      | Default | Description                                                                                  |
 |-----------------------|-----------|---------|----------------------------------------------------------------------------------------------|
