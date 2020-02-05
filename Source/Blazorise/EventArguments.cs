@@ -286,4 +286,63 @@ namespace Blazorise
         /// </summary>
         public string PanelName { get; }
     }
+
+    /// <summary>
+    /// Supplies the information about the selected files ready to be uploaded.
+    /// </summary>
+    public class FileChangedEventArgs : EventArgs
+    {
+        public FileChangedEventArgs( IFileEntry[] files )
+        {
+            Files = files;
+        }
+
+        /// <summary>
+        /// Gets the list of files ready to be uploaded.
+        /// </summary>
+        public IFileEntry[] Files { get; }
+    }
+
+    /// <summary>
+    /// Supplies the information about the data being written while uploading.
+    /// </summary>
+    public class FileWrittenEventArgs : EventArgs
+    {
+        public FileWrittenEventArgs( long position, byte[] data )
+        {
+            Position = position;
+            Data = data;
+        }
+
+        /// <summary>
+        /// Gets the current position offset based on the original data source.
+        /// </summary>
+        public long Position { get; }
+
+        /// <summary>
+        /// Gets the data buffer.
+        /// </summary>
+        public byte[] Data { get; }
+    }
+
+    /// <summary>
+    /// Provides the progress state of uploaded file.
+    /// </summary>
+    public class FileProgressedEventArgs : EventArgs
+    {
+        public FileProgressedEventArgs( double progress )
+        {
+            Progress = progress;
+        }
+
+        /// <summary>
+        /// Gets the total progress in the range from 0 to 1.
+        /// </summary>
+        public double Progress { get; }
+
+        /// <summary>
+        /// Gets the total progress in the range from 0 to 100.
+        /// </summary>
+        public double Percentage => Progress * 100d;
+    }
 }
