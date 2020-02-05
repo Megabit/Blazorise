@@ -163,7 +163,7 @@ namespace Blazorise.DataGrid
         {
             if ( Data is ICollection<TItem> data )
             {
-                if ( IsSafeToProceed( RowRemoving, item ) )
+                if ( await IsSafeToProceed( RowRemoving, item ) )
                 {
                     if ( UseInternalEditing )
                     {
@@ -188,7 +188,7 @@ namespace Blazorise.DataGrid
 
                 var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
 
-                if ( IsSafeToProceed( rowSavingHandler, editItem, editedCellValues ) )
+                if ( await IsSafeToProceed( rowSavingHandler, editItem, editedCellValues ) )
                 {
                     if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem )
                     {
@@ -230,40 +230,34 @@ namespace Blazorise.DataGrid
         }
 
         // this is to give user a way to stop save if necessary
-        internal bool IsSafeToProceed<TValues>( Action<CancellableRowChange<TItem, TValues>> handler, TItem item, TValues editedCellValues )
+        internal async Task<bool> IsSafeToProceed<TValues>( EventCallback<CancellableRowChange<TItem, TValues>> handler, TItem item, TValues editedCellValues )
         {
-            if ( handler != null )
+            if ( handler.HasDelegate )
             {
                 var args = new CancellableRowChange<TItem, TValues>( item, editedCellValues );
 
-                foreach ( Action<CancellableRowChange<TItem, TValues>> subHandler in handler?.GetInvocationList() )
-                {
-                    subHandler( args );
+                await handler.InvokeAsync( args );
 
-                    if ( args.Cancel )
-                    {
-                        return false;
-                    }
+                if ( args.Cancel )
+                {
+                    return false;
                 }
             }
 
             return true;
         }
 
-        internal bool IsSafeToProceed( Action<CancellableRowChange<TItem>> handler, TItem item )
+        internal async Task<bool> IsSafeToProceed( EventCallback<CancellableRowChange<TItem>> handler, TItem item )
         {
-            if ( handler != null )
+            if ( handler.HasDelegate )
             {
                 var args = new CancellableRowChange<TItem>( item );
 
-                foreach ( Action<CancellableRowChange<TItem>> subHandler in handler?.GetInvocationList() )
-                {
-                    subHandler( args );
+                await handler.InvokeAsync( args );
 
-                    if ( args.Cancel )
-                    {
-                        return false;
-                    }
+                if ( args.Cancel )
+                {
+                    return false;
                 }
             }
 
@@ -673,17 +667,17 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Cancelable event called before the row is inserted.
         /// </summary>
-        [Parameter] public Action<CancellableRowChange<TItem, Dictionary<string, object>>> RowInserting { get; set; }
+        [Parameter] public EventCallback<CancellableRowChange<TItem, Dictionary<string, object>>> RowInserting { get; set; }
 
         /// <summary>
         /// Cancelable event called before the row is updated.
         /// </summary>
-        [Parameter] public Action<CancellableRowChange<TItem, Dictionary<string, object>>> RowUpdating { get; set; }
+        [Parameter] public EventCallback<CancellableRowChange<TItem, Dictionary<string, object>>> RowUpdating { get; set; }
 
         /// <summary>
         /// Cancelable event called before the row is removed.
         /// </summary>
-        [Parameter] public Action<CancellableRowChange<TItem>> RowRemoving { get; set; }
+        [Parameter] public EventCallback<CancellableRowChange<TItem>> RowRemoving { get; set; }
 
         /// <summary>
         /// Event called after the row is inserted.
