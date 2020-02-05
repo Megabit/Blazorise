@@ -167,17 +167,17 @@ namespace Blazorise
         [Parameter] public int MaxBufferSize { get; set; } = 1024 * 1024;
 
         /// <summary>
-        /// Occurs every time the file(s) has changed.
+        /// Occurs every time the selected file(s) has changed.
         /// </summary>
         [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
 
         /// <summary>
-        /// Occurs every time the part of file has being uploaded.
+        /// Occurs every time the part of file has being writtent to the destination stream.
         /// </summary>
         [Parameter] public EventCallback<FileWrittenEventArgs> Written { get; set; }
 
         /// <summary>
-        /// Notifies the progress of file being uploaded.
+        /// Notifies the progress of file being writtent to the destination stream.
         /// </summary>
         [Parameter] public EventCallback<FileProgressedEventArgs> Progressed { get; set; }
 
