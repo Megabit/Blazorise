@@ -94,12 +94,12 @@ namespace Blazorise
             throw new NotImplementedException( $"{nameof( ParseValueFromStringAsync )} in {nameof( FileEdit )} should never be called." );
         }
 
-        public Task UpdateWrittenAsync( long position, byte[] data )
+        public Task UpdateWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
         {
-            return Written.InvokeAsync( new FileWrittenEventArgs( position, data ) );
+            return Written.InvokeAsync( new FileWrittenEventArgs( fileEntry, position, data ) );
         }
 
-        public async Task UpdateProgressAsync( long progressProgress, long progressBuffer, long progressTotal )
+        public async Task UpdateProgressAsync( IFileEntry fileEntry, long progressProgress, long progressBuffer, long progressTotal )
         {
             ProgressProgress += progressProgress;
             ProgressBuffer += progressBuffer;
@@ -111,7 +111,7 @@ namespace Blazorise
             {
                 Progress = progress;
 
-                await Progressed.InvokeAsync( new FileProgressedEventArgs( Progress ) );
+                await Progressed.InvokeAsync( new FileProgressedEventArgs( fileEntry, Progress ) );
             }
         }
 
@@ -162,12 +162,12 @@ namespace Blazorise
         [Parameter] public int MaxMessageSize { get; set; } = 20 * 1024;
 
         /// <summary>
-        /// Gets or sets the max message size when uploading the file.
+        /// Gets or sets the max buffer size when uploading the file.
         /// </summary>
         [Parameter] public int MaxBufferSize { get; set; } = 1024 * 1024;
 
         /// <summary>
-        /// Occures every time the file(s) has changed.
+        /// Occurs every time the file(s) has changed.
         /// </summary>
         [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
 

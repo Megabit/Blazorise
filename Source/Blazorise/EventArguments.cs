@@ -308,11 +308,17 @@ namespace Blazorise
     /// </summary>
     public class FileWrittenEventArgs : EventArgs
     {
-        public FileWrittenEventArgs( long position, byte[] data )
+        public FileWrittenEventArgs( IFileEntry file, long position, byte[] data )
         {
+            File = file;
             Position = position;
             Data = data;
         }
+
+        /// <summary>
+        /// Gets the file currently being uploaded.
+        /// </summary>
+        public IFileEntry File { get; }
 
         /// <summary>
         /// Gets the current position offset based on the original data source.
@@ -330,10 +336,16 @@ namespace Blazorise
     /// </summary>
     public class FileProgressedEventArgs : EventArgs
     {
-        public FileProgressedEventArgs( double progress )
+        public FileProgressedEventArgs( IFileEntry file, double progress )
         {
+            File = file;
             Progress = progress;
         }
+
+        /// <summary>
+        /// Gets the file currently being uploaded.
+        /// </summary>
+        public IFileEntry File { get; }
 
         /// <summary>
         /// Gets the total progress in the range from 0 to 1.

@@ -24,7 +24,7 @@ namespace Blazorise
 
         public async Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken )
         {
-            await fileEdit.UpdateProgressAsync( 0, 0, fileEntry.Size );
+            await fileEdit.UpdateProgressAsync( fileEntry, 0, 0, fileEntry.Size );
 
             long position = 0;
             long queuePosition = 0;
@@ -49,7 +49,7 @@ namespace Blazorise
                         queue.Enqueue( task );
                         queuePosition += taskSize;
 
-                        await fileEdit.UpdateProgressAsync( 0, taskSize, 0 );
+                        await fileEdit.UpdateProgressAsync( fileEntry, 0, taskSize, 0 );
                     }
 
                     cancellationToken.ThrowIfCancellationRequested();
@@ -70,13 +70,13 @@ namespace Blazorise
 
                     // notify of all the changes
                     await Task.WhenAll(
-                        fileEdit.UpdateWrittenAsync( position, buffer ),
-                        fileEdit.UpdateProgressAsync( buffer.Length, 0, 0 ) );
+                        fileEdit.UpdateWrittenAsync( fileEntry, position, buffer ),
+                        fileEdit.UpdateProgressAsync( fileEntry, buffer.Length, 0, 0 ) );
                 }
             }
             finally
             {
-                await fileEdit.UpdateProgressAsync( -position, -queuePosition, -fileEntry.Size );
+                await fileEdit.UpdateProgressAsync( fileEntry, -position, -queuePosition, -fileEntry.Size );
             }
         }
     }
