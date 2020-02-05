@@ -33,6 +33,8 @@ docs:
         url: /docs/components/numeric/
       - title: "Check"
         url: /docs/components/check/
+      - title: "File"
+        url: /docs/components/file/
       - title: "Field"
         url: /docs/components/field/
       - title: "Addon"
