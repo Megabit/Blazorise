@@ -1,4 +1,6 @@
 ﻿@page "/tests/forms"
+@using System.Diagnostics
+@using System.IO
 @using System.Runtime.Serialization
 <Row>
     <Column>
@@ -420,4 +422,45 @@
         Sat,
         Sun,
     }
+
+    //string fileContent;
+
+    //async Task OnFileChanged( FileChangedEventArgs e )
+    //{
+    //    try
+    //    {
+    //        foreach ( var file in e.Files )
+    //        {
+    //            using ( var stream = new MemoryStream() )
+    //            {
+    //                await file.WriteToStreamAsync( stream );
+
+    //                stream.Seek( 0, SeekOrigin.Begin );
+
+    //                using ( var reader = new StreamReader( stream ) )
+    //                {
+    //                    fileContent = await reader.ReadToEndAsync();
+    //                }
+    //            }
+    //        }
+    //    }
+    //    catch ( Exception exc )
+    //    {
+    //        Console.WriteLine( exc.Message );
+    //    }
+    //    finally
+    //    {
+    //        this.StateHasChanged();
+    //    }
+    //}
+
+    //void OnWritten( FileWrittenEventArgs e )
+    //{
+    //    Console.WriteLine( $"Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}" );
+    //}
+
+    //void OnProgressed( FileProgressedEventArgs e )
+    //{
+    //    Console.WriteLine( "Progress: " + e.Percentage );
+    //}
 }

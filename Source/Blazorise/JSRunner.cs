@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
@@ -111,16 +112,6 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets the fake file paths from input field.
-        /// </summary>
-        /// <param name="element">Input field.</param>
-        /// <returns>Returns an array of paths.</returns>
-        public ValueTask<string[]> GetFilePaths( ElementReference element )
-        {
-            return runtime.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getFilePaths", element );
-        }
-
-        /// <summary>
         /// Activates the date picker for a given element id.
         /// </summary>
         /// <param name="elementId">Input element id.</param>
@@ -182,6 +173,21 @@ namespace Blazorise
         public ValueTask<bool> ScrollIntoView( string anchorTarget )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.link.scrollIntoView", anchorTarget );
+        }
+
+        public ValueTask<bool> InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.fileEdit.initialize", dotNetObjectRef, elementRef, elementId );
+        }
+
+        public ValueTask<bool> DestroyFileEdit( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.fileEdit.destroy", elementRef, elementId );
+        }
+
+        public ValueTask<string> ReadDataAsync( CancellationToken cancellationToken, ElementReference elementRef, int fileEntryId, long startOffset, long count )
+        {
+            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.fileEdit.readFileData", cancellationToken, elementRef, fileEntryId, startOffset, count );
         }
     }
 }

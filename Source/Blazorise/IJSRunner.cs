@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -41,8 +42,6 @@ namespace Blazorise
 
         ValueTask<bool> ParentHasClass( ElementReference elementRef, string classaname );
 
-        ValueTask<string[]> GetFilePaths( ElementReference element );
-
         ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit );
 
         ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
@@ -65,5 +64,11 @@ namespace Blazorise
         ValueTask<object> UnregisterClosableComponent( ICloseActivator component );
 
         ValueTask<bool> ScrollIntoView( string anchorTarget );
+
+        ValueTask<bool> InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId );
+
+        ValueTask<bool> DestroyFileEdit( ElementReference elementRef, string elementId );
+
+        ValueTask<string> ReadDataAsync( CancellationToken cancellationToken, ElementReference elementRef, int fileEntryId, long startOffset, long count );
     }
 }
