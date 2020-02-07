@@ -78,6 +78,14 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Slider
+
+        public override string Slider() => "e-range";
+
+        public override string SliderColor( Color color ) => ToColor( color );
+
+        #endregion
+
         #region Label
 
         public override string Label() => "e-label";

@@ -78,6 +78,14 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Slider
+
+        public override string Slider() => "slider";
+
+        public override string SliderColor( Color color ) => $"is-{ToColor( color )}";
+
+        #endregion
+
         #region Label
 
         public override string Label() => "label";

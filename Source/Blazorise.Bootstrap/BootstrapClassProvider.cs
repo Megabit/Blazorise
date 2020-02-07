@@ -78,6 +78,14 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Slider
+
+        public override string Slider() => "form-control-range";
+
+        public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
+
+        #endregion
+
         #region Label
 
         public override string Label() => null;
