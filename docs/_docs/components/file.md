@@ -52,11 +52,19 @@ This is the main event that will be called every time a user selects a single or
 
 ### Written
 
-This event will be called on every buffer of data that has being written to the destination stream. It is directly related to the `MaxMessageSize` and `MaxBufferSize` attributes found on `FileEdit` component and will contain the information about currently processed file, it's offset and data array.
+This event will be called on every buffer of data that has being written to the destination stream. It is directly related to the `MaxMessageSize` attribute found on `FileEdit` component and will contain the information about currently processed file, it's offset and data array.
 
 ### Progressed
 
 Similar to the `Written`, this event will also be called while file is writing to the destination stream but it will contain only the progress and percentage on how much the file is being uploaded.
+
+### Started
+
+This event will be called each time one of the selected file(s) has started the upload process.
+
+### Ended
+
+This event is fired after the file has ended the upload process. If there was no error it will have `Success` property set to true.
 
 ## Full example
 
@@ -111,7 +119,7 @@ In this example you can see the usage of all events, including the `Written` and
 
     void OnProgressed( FileProgressedEventArgs e )
     {
-        Console.WriteLine( $"File: {e.File.Name} Progress: " + e.Percentage );
+        Console.WriteLine( $"File: {e.File.Name} Progress: {e.Percentage}" );
     }
 }
 ```
@@ -123,7 +131,8 @@ In this example you can see the usage of all events, including the `Written` and
 | Multiple              | boolean   | false       | Specifies that multiple files can be selected.                                               |
 | Filter                | string    | null        | Types of files that the input accepts.                                                       |
 | MaxMessageSize        | int       | 20480       | Max message size (in bytes) when uploading the file.                                         |
-| MaxBufferSize         | int       | 1048576     | Max buffer size (in bytes) when uploading the file.                                          |
 | Changed               | event     |             | Occurs every time the file(s) has changed.                                                   |
 | Written               | event     |             | Occurs every time the part of file has being uploaded.                                       |
 | Progressed            | event     |             | Notifies the progress of file being uploaded.                                                |
+| Started               | event     |             | Occurs when an individual file upload has started.                                           |
+| Ended                 | event     |             | Occurs when an individual file upload has ended.                                             |
