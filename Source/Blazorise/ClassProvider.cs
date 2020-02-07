@@ -69,6 +69,16 @@ namespace Blazorise
 
         #endregion
 
+        #region Switch
+
+        public abstract string Switch();
+
+        public abstract string SwitchCursor( Cursor cursor );
+
+        public abstract string SwitchValidation( ValidationStatus validationStatus );
+
+        #endregion
+
         #region FileEdit
 
         public abstract string FileEdit();
@@ -92,6 +102,8 @@ namespace Blazorise
         public abstract string LabelCursor( Cursor cursor );
 
         public abstract string LabelCheck();
+
+        public abstract string LabelSwitch();
 
         public abstract string LabelFile();
 
@@ -164,6 +176,8 @@ namespace Blazorise
         public abstract string ControlCheck();
 
         public abstract string ControlRadio();
+
+        public abstract string ControlSwitch();
 
         public abstract string ControlFile();
 

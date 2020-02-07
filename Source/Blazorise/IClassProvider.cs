@@ -67,6 +67,16 @@ namespace Blazorise
 
         #endregion
 
+        #region Switch
+
+        string Switch();
+
+        string SwitchCursor( Cursor cursor );
+
+        string SwitchValidation( ValidationStatus validationStatus );
+
+        #endregion
+
         #region FileEdit
 
         string FileEdit();
@@ -90,6 +100,8 @@ namespace Blazorise
         string LabelCursor( Cursor cursor );
 
         string LabelCheck();
+
+        string LabelSwitch();
 
         string LabelFile();
 
@@ -162,6 +174,8 @@ namespace Blazorise
         string ControlCheck();
 
         string ControlRadio();
+
+        string ControlSwitch();
 
         string ControlFile();
 

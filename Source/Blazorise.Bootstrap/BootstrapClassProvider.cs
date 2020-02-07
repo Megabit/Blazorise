@@ -70,6 +70,16 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Switch
+
+        public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+
+        public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
+
+        public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region FileEdit
 
         public override string FileEdit() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
@@ -93,6 +103,8 @@ namespace Blazorise.Bootstrap
         public override string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}";
 
         public override string LabelCheck() => UseCustomInputStyles ? "custom-control-label" : "form-check-label";
+
+        public override string LabelSwitch() => UseCustomInputStyles ? "custom-control-label" : "form-check-label";
 
         public override string LabelFile() => UseCustomInputStyles ? "custom-file-label" : null;
 
@@ -165,6 +177,8 @@ namespace Blazorise.Bootstrap
         public override string ControlCheck() => UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check";
 
         public override string ControlRadio() => UseCustomInputStyles ? "custom-control custom-radio" : "form-check";
+
+        public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
 
         public override string ControlFile() => UseCustomInputStyles ? "custom-control custom-file" : "form-group";
 
