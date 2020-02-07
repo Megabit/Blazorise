@@ -3,22 +3,22 @@
 	<metadata>
 		<id>Blazorise.Bulma</id>
 		<title>Blazorise.Bulma</title>
-		<version>0.8.8.2</version>
+		<version>0.9.0-preview1</version>
 		<authors>Mladen Macanovic</authors>
 		<owners>Mladen Macanovic</owners>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<license type="file">LICENSE.md</license>
 		<projectUrl>https://blazorise.com</projectUrl>
 		<description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</description>
-		<copyright>Copyright 2019 Mladen Macanovic</copyright>
+		<copyright>Copyright 2020 Mladen Macanovic</copyright>
 		<tags>blazorise blazor razor components bulma</tags>
 		<repository url="https://github.com/stsrki/Blazorise" />
 		<icon>Blazorise.png</icon>
 		<dependencies>
 			<group targetFramework=".NETStandard2.1">
-				<dependency id="Blazorise" version="0.8.8.2" exclude="Build,Analyzers" />
-				<dependency id="Microsoft.AspNetCore.Components" version="3.1.0" exclude="Build,Analyzers" />
-				<dependency id="Microsoft.AspNetCore.Components.Web" version="3.1.0" exclude="Build,Analyzers" />
+				<dependency id="Blazorise" version="0.9.0-preview1" exclude="Build,Analyzers" />
+				<dependency id="Microsoft.AspNetCore.Components" version="3.1.1" exclude="Build,Analyzers" />
+				<dependency id="Microsoft.AspNetCore.Components.Web" version="3.1.1" exclude="Build,Analyzers" />
 			</group>
 		</dependencies>
 	</metadata>

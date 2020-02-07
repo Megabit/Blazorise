@@ -10,12 +10,6 @@ namespace Blazorise
 {
     public class FileEntry : IFileEntry
     {
-        #region Members
-
-        private Stream stream;
-
-        #endregion
-
         #region Methods
 
         public void Init( FileEdit fileEdit )

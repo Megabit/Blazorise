@@ -298,7 +298,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets the list of files ready to be uploaded.
+        /// Gets the list of selected files.
         /// </summary>
         public IFileEntry[] Files { get; }
     }
@@ -356,5 +356,43 @@ namespace Blazorise
         /// Gets the total progress in the range from 0 to 100.
         /// </summary>
         public double Percentage => Progress * 100d;
+    }
+
+    /// <summary>
+    /// Provides the information about the file started to be uploaded.
+    /// </summary>
+    public class FileStartedEventArgs : EventArgs
+    {
+        public FileStartedEventArgs( IFileEntry file )
+        {
+            File = file;
+        }
+
+        /// <summary>
+        /// Gets the file currently being uploaded.
+        /// </summary>
+        public IFileEntry File { get; }
+    }
+
+    /// <summary>
+    /// Provides the information about the file ended uploading.
+    /// </summary>
+    public class FileEndedEventArgs : EventArgs
+    {
+        public FileEndedEventArgs( IFileEntry file, bool success )
+        {
+            File = file;
+            Success = success;
+        }
+
+        /// <summary>
+        /// Gets the file currently being uploaded.
+        /// </summary>
+        public IFileEntry File { get; }
+
+        /// <summary>
+        /// Gets the value indicating if file has finished successfully.
+        /// </summary>
+        public bool Success { get; }
     }
 }
