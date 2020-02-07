@@ -72,11 +72,19 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region File
+        #region FileEdit
 
         public string FileEdit() => null;
 
-        public virtual string FileEditValidation( ValidationStatus validationStatus ) => null;
+        public string FileEditValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region Slider
+
+        public string Slider() => null;
+
+        public string SliderColor( Color color ) => null;
 
         #endregion
 
@@ -398,7 +406,7 @@ namespace Blazorise.Providers
 
         public string BarToggler() => null;
 
-        public virtual string BarTogglerCollapsed( bool isShow ) => null;
+        public string BarTogglerCollapsed( bool isShow ) => null;
 
         public string BarMenu() => null;
 
@@ -420,11 +428,11 @@ namespace Blazorise.Providers
 
         public string BarTogglerIcon() => null;
 
-        public virtual string BarDropdownMenu() => null;
+        public string BarDropdownMenu() => null;
 
-        public virtual string BarDropdownMenuShow() => null;
+        public string BarDropdownMenuShow() => null;
 
-        public virtual string BarDropdownMenuRight() => null;
+        public string BarDropdownMenuRight() => null;
 
         #endregion
 
@@ -598,9 +606,9 @@ namespace Blazorise.Providers
 
         public string TableRowCellColor( Color color ) => null;
 
-        public virtual string TableRowCellBackground( Background background ) => null;
+        public string TableRowCellBackground( Background background ) => null;
 
-        public virtual string TableRowCellTextColor( TextColor textColor ) => null;
+        public string TableRowCellTextColor( TextColor textColor ) => null;
 
         #endregion
 

@@ -77,6 +77,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Slider
+
+        public abstract string Slider();
+
+        public abstract string SliderColor( Color color );
+
+        #endregion
+
         #region Label
 
         public abstract string Label();

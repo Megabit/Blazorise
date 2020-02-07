@@ -75,6 +75,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Slider
+
+        string Slider();
+
+        string SliderColor( Color color );
+
+        #endregion
+
         #region Label
 
         string Label();
