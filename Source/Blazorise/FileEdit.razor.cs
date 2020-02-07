@@ -94,16 +94,29 @@ namespace Blazorise
             throw new NotImplementedException( $"{nameof( ParseValueFromStringAsync )} in {nameof( FileEdit )} should never be called." );
         }
 
-        public Task UpdateWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
+        internal Task UpdateFileStartedAsync( IFileEntry fileEntry )
+        {
+            // reset all
+            ProgressProgress = 0;
+            ProgressTotal = fileEntry.Size;
+            Progress = 0;
+
+            return Started.InvokeAsync( new FileStartedEventArgs( fileEntry ) );
+        }
+
+        internal Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success )
+        {
+            return Ended.InvokeAsync( new FileEndedEventArgs( fileEntry, success ) );
+        }
+
+        internal Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
         {
             return Written.InvokeAsync( new FileWrittenEventArgs( fileEntry, position, data ) );
         }
 
-        public async Task UpdateProgressAsync( IFileEntry fileEntry, long progressProgress, long progressBuffer, long progressTotal )
+        internal async Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
         {
             ProgressProgress += progressProgress;
-            ProgressBuffer += progressBuffer;
-            ProgressTotal += progressTotal;
 
             var progress = Math.Round( (double)ProgressProgress / ProgressTotal, 3 );
 
@@ -115,9 +128,9 @@ namespace Blazorise
             }
         }
 
-        public async Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
+        internal async Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
         {
-            await new RemoteFileEntryStreamReader( JSRunner, ElementRef, fileEntry, this, MaxMessageSize, MaxBufferSize )
+            await new RemoteFileEntryStreamReader( JSRunner, ElementRef, fileEntry, this, MaxMessageSize )
                 .WriteToStreamAsync( stream, CancellationToken.None );
         }
 
@@ -128,8 +141,6 @@ namespace Blazorise
         protected override IFileEntry[] InternalValue { get => files; set => files = value; }
 
         protected long ProgressProgress;
-
-        protected long ProgressBuffer;
 
         protected long ProgressTotal;
 
@@ -162,22 +173,27 @@ namespace Blazorise
         [Parameter] public int MaxMessageSize { get; set; } = 20 * 1024;
 
         /// <summary>
-        /// Gets or sets the max buffer size when uploading the file.
-        /// </summary>
-        [Parameter] public int MaxBufferSize { get; set; } = 1024 * 1024;
-
-        /// <summary>
         /// Occurs every time the selected file(s) has changed.
         /// </summary>
         [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
 
         /// <summary>
-        /// Occurs every time the part of file has being writtent to the destination stream.
+        /// Occurs when an individual file upload has started.
+        /// </summary>
+        [Parameter] public EventCallback<FileStartedEventArgs> Started { get; set; }
+
+        /// <summary>
+        /// Occurs when an individual file upload has ended.
+        /// </summary>
+        [Parameter] public EventCallback<FileEndedEventArgs> Ended { get; set; }
+
+        /// <summary>
+        /// Occurs every time the part of file has being written to the destination stream.
         /// </summary>
         [Parameter] public EventCallback<FileWrittenEventArgs> Written { get; set; }
 
         /// <summary>
-        /// Notifies the progress of file being writtent to the destination stream.
+        /// Notifies the progress of file being written to the destination stream.
         /// </summary>
         [Parameter] public EventCallback<FileProgressedEventArgs> Progressed { get; set; }
 

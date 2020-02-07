@@ -24,7 +24,7 @@ namespace Blazorise
         string Name { get; }
 
         /// <summary>
-        /// Returns the size of the file in bytes
+        /// Returns the size of the file in bytes.
         /// </summary>
         long Size { get; }
 
@@ -36,7 +36,7 @@ namespace Blazorise
         /// <summary>
         /// Provides the access to the underline file through the stream.
         /// </summary>
-        /// <param name="stream"></param>
+        /// <param name="stream">Stream to which the upload process if writing.</param>
         /// <returns></returns>
         Task WriteToStreamAsync( Stream stream );
     }
