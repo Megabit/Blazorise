@@ -35,6 +35,8 @@ docs:
         url: /docs/components/check/
       - title: "File"
         url: /docs/components/file/
+      - title: "Slider"
+        url: /docs/components/slider/
       - title: "Field"
         url: /docs/components/field/
       - title: "Addon"
