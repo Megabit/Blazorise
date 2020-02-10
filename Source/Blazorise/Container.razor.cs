@@ -32,6 +32,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Makes a full width container, spanning the entire width of the viewport.
+        /// </summary>
         [Parameter]
         public bool Fluid
         {

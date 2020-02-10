@@ -12,7 +12,7 @@ namespace Blazorise.Sidebar
     {
         #region Members
 
-        private bool isShow;
+        private bool visible;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Blazorise.Sidebar
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "sidebar-subitem" );
-            builder.Append( "show", IsShow );
+            builder.Append( "show", Visible );
 
             base.BuildClasses( builder );
         }
@@ -29,10 +29,10 @@ namespace Blazorise.Sidebar
         /// <summary>
         /// Toggles the visibility of subitem.
         /// </summary>
-        /// <param name="isShow">Used to override default behaviour.</param>
-        public void Toggle( bool? isShow = null )
+        /// <param name="visible">Used to override default behaviour.</param>
+        public void Toggle( bool? visible = null )
         {
-            IsShow = isShow ?? !IsShow;
+            Visible = visible ?? !Visible;
 
             StateHasChanged();
         }
@@ -42,12 +42,12 @@ namespace Blazorise.Sidebar
         #region Properties
 
         [Parameter]
-        public bool IsShow
+        public bool Visible
         {
-            get => isShow;
+            get => visible;
             set
             {
-                isShow = value;
+                visible = value;
 
                 DirtyClasses();
             }
