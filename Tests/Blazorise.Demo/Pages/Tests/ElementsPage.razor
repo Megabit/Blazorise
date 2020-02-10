@@ -12,7 +12,7 @@
                         <Tooltip Text="Hello tooltip">
                             <Button Color="Color.Primary">Tooltip</Button>
                         </Tooltip>
-                        <Tooltip Text="Tooltip with a long Text. So we use IsMultiline modifier to force multiline display." IsMultiline="true">
+                        <Tooltip Text="Tooltip with a long Text. So we use Multiline modifier to force multiline display." Multiline="true">
                             <Button Color="Color.Primary">Multiline Tooltip</Button>
                         </Tooltip>
                         <Tooltip Text="Hello faded tooltip" IsFade="true">
@@ -299,7 +299,7 @@
     </SnackbarBody>
     <SnackbarAction Clicked="@(()=>snackbarAction.Hide())">ACTION</SnackbarAction>
 </Snackbar>
-<Snackbar @ref="snackbarMultiline" IsMultiline="true">
+<Snackbar @ref="snackbarMultiline" Multiline="true">
     <SnackbarBody>
         When I was 5 years old, my mother always told me that happiness was the key to life. When I went to school, they asked me what I wanted to be when I grew up. I wrote down ‘happy’. They told me I didn’t understand the assignment, and I told them they didn’t understand life. –John Lennon
     </SnackbarBody>

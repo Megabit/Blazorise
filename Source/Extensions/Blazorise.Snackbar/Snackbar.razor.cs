@@ -15,7 +15,7 @@ namespace Blazorise.Snackbar
 
         private bool visible;
 
-        private bool isMultiline;
+        private bool multiline;
 
         private SnackbarLocation location;
 
@@ -44,7 +44,7 @@ namespace Blazorise.Snackbar
         {
             builder.Append( "snackbar" );
             builder.Append( "show", Visible );
-            builder.Append( "snackbar-multi-line", IsMultiline );
+            builder.Append( "snackbar-multi-line", Multiline );
             builder.Append( GetSnackbarLocation( Location ), Location != SnackbarLocation.None );
 
             base.BuildClasses( builder );
@@ -117,12 +117,12 @@ namespace Blazorise.Snackbar
         }
 
         [Parameter]
-        public bool IsMultiline
+        public bool Multiline
         {
-            get => isMultiline;
+            get => multiline;
             set
             {
-                isMultiline = value;
+                multiline = value;
 
                 DirtyClasses();
             }
