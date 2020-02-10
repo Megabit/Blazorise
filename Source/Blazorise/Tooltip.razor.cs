@@ -121,6 +121,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Makes the tooltip fade transition.
+        /// </summary>
         [Parameter]
         public bool Fade
         {
