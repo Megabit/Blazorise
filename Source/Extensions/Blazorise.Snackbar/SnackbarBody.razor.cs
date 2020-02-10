@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Snackbar
 {
-    public abstract class BaseSnackbarBody : BaseComponent
+    public partial class SnackbarBody : BaseComponent
     {
         #region Members
 
