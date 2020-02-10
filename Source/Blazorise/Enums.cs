@@ -861,6 +861,7 @@ namespace Blazorise
         None,
         Check,
         Radio,
+        Switch,
         File,
         Text,
     }
@@ -1312,6 +1313,11 @@ namespace Blazorise
         /// Style for check box will be applied.
         /// </summary>
         Check,
+
+        /// <summary>
+        /// Style for switch will be applied.
+        /// </summary>
+        Switch,
 
         /// <summary>
         /// Style for file input will be applied.

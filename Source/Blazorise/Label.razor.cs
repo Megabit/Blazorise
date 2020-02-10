@@ -25,6 +25,7 @@ namespace Blazorise
             builder.Append( ClassProvider.Label(), Type == LabelType.None );
             builder.Append( ClassProvider.LabelFile(), Type == LabelType.File );
             builder.Append( ClassProvider.LabelCheck(), Type == LabelType.Check );
+            builder.Append( ClassProvider.LabelSwitch(), Type == LabelType.Switch );
             builder.Append( ClassProvider.LabelCursor( Cursor ), Cursor != Cursor.Default );
 
             base.BuildClasses( builder );

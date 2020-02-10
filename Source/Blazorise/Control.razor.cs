@@ -24,6 +24,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.ControlCheck(), Role == ControlRole.Check );
             builder.Append( ClassProvider.ControlRadio(), Role == ControlRole.Radio );
+            builder.Append( ClassProvider.ControlSwitch(), Role == ControlRole.Switch );
             builder.Append( ClassProvider.ControlFile(), Role == ControlRole.File );
             builder.Append( ClassProvider.ControlText(), Role == ControlRole.Text );
             builder.Append( ClassProvider.CheckEditInline(), Inline );

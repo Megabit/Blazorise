@@ -70,6 +70,16 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Switch
+
+        public override string Switch() => "e-switch";
+
+        public override string SwitchCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
+
+        public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region FileEdit
 
         public override string FileEdit() => "e-control";
@@ -93,6 +103,8 @@ namespace Blazorise.Frolic
         public override string LabelCursor( Cursor cursor ) => $"e-label-{ToCursor( cursor )}";
 
         public override string LabelCheck() => null;
+
+        public override string LabelSwitch() => null;
 
         public override string LabelFile() => "e-label";
 
@@ -165,6 +177,8 @@ namespace Blazorise.Frolic
         public override string ControlCheck() => UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check";
 
         public override string ControlRadio() => UseCustomInputStyles ? "custom-control custom-radio" : "form-check";
+
+        public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
 
         public override string ControlFile() => UseCustomInputStyles ? "custom-control custom-file" : "form-group";
 

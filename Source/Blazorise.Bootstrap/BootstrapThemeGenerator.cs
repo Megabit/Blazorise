@@ -228,6 +228,12 @@ namespace Blazorise.Bootstrap
             sb
                 .Append( $".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
                 .Append( $"color: {options.Color};" )
+                .Append( $"border-color: {options.CheckColor};" )
+                .Append( $"background-color: {options.CheckColor};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".custom-switch .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
         }

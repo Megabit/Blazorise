@@ -220,6 +220,11 @@
         Theme.ColorOptions.Primary = value;
         Theme.BackgroundOptions.Primary = value;
 
+        if ( Theme.InputOptions == null )
+            Theme.InputOptions = new ThemeInputOptions();
+
+        Theme.InputOptions.CheckColor = value;
+
         Theme.ThemeHasChanged();
     }
 

@@ -70,6 +70,16 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Switch
+
+        public override string Switch() => "switch";
+
+        public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
+
+        public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region FileEdit
 
         public override string FileEdit() => "file-input";
@@ -93,6 +103,8 @@ namespace Blazorise.Bulma
         public override string LabelCursor( Cursor cursor ) => $"label-{ToCursor( cursor )}";
 
         public override string LabelCheck() => "checkbox";
+
+        public override string LabelSwitch() => null;
 
         public override string LabelFile() => "file-label";
 
@@ -167,6 +179,8 @@ namespace Blazorise.Bulma
         public override string ControlCheck() => "control";
 
         public override string ControlRadio() => "control";
+
+        public override string ControlSwitch() => "control";
 
         public override string ControlFile() => "file has-name is-fullwidth";
 

@@ -72,6 +72,16 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Switch
+
+        public string Switch() => null;
+
+        public string SwitchCursor( Cursor cursor ) => null;
+
+        public string SwitchValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
         #region FileEdit
 
         public string FileEdit() => null;
@@ -95,6 +105,8 @@ namespace Blazorise.Providers
         public string LabelCursor( Cursor cursor ) => null;
 
         public string LabelCheck() => null;
+
+        public string LabelSwitch() => null;
 
         public string LabelFile() => null;
 
@@ -167,6 +179,8 @@ namespace Blazorise.Providers
         public string ControlCheck() => null;
 
         public string ControlRadio() => null;
+
+        public string ControlSwitch() => null;
 
         public string ControlFile() => null;
 
