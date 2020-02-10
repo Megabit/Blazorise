@@ -15,12 +15,12 @@
                     @foreach ( var item in Data.Items )
                     {
                         <SidebarItem @key="@item">
-                            <SidebarLink To="@item.To" Title="@item.Tooltip" IsShow="@item.IsShow" Toggled="@((isOpen)=>{item.SubItemReference?.Toggle( isOpen );})">
+                            <SidebarLink To="@item.To" Title="@item.Tooltip" Visible="@item.Visible" Toggled="@((isOpen)=>{item.SubItemReference?.Toggle( isOpen );})">
                                 @item.Text
                             </SidebarLink>
                             @if ( item.SubItems != null )
                             {
-                                <SidebarSubItem @ref="item.SubItemReference" IsShow="@item.IsShow">
+                                <SidebarSubItem @ref="item.SubItemReference" Visible="@item.Visible">
                                     @foreach ( var subItem in item.SubItems )
                                     {
                                         <SidebarItem @key="@subItem">

@@ -14,10 +14,10 @@
                 </SidebarLink>
             </SidebarItem>
             <SidebarItem>
-                <SidebarLink Toggled="(isOpen)=> sidebarSubItemTests.Toggle(isOpen)" IsShow="true">
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemTests.Toggle(isOpen)" Visible="true">
                     <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Test Pages
                 </SidebarLink>
-                <SidebarSubItem @ref="sidebarSubItemTests" IsShow="true">
+                <SidebarSubItem @ref="sidebarSubItemTests" Visible="true">
                     <SidebarItem>
                         <SidebarLink To="tests/buttons">Buttons</SidebarLink>
                     </SidebarItem>
@@ -69,10 +69,10 @@
                 </SidebarSubItem>
             </SidebarItem>
             <SidebarItem>
-                <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)" IsShow="true">
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)" Visible="true">
                     <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
                 </SidebarLink>
-                <SidebarSubItem @ref="sidebarSubItemApps" IsShow="true">
+                <SidebarSubItem @ref="sidebarSubItemApps" Visible="true">
                     <SidebarItem>
                         <SidebarLink To="apps/todo">Todo List</SidebarLink>
                     </SidebarItem>
