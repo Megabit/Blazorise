@@ -1350,4 +1350,18 @@ namespace Blazorise
         /// </summary>
         EscapeClosing,
     }
+
+    /// <summary>
+    /// Specifies divider variants.
+    /// </summary>
+    public enum DividerType
+    {
+        Solid,
+
+        Dashed,
+
+        Dotted,
+
+        TextContent,
+    }
 }

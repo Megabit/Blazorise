@@ -726,6 +726,14 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Divider
+
+        public string Divider() => null;
+
+        public string DividerType( DividerType dividerType ) => null;
+
+        #endregion
+
         #region States
 
         public string Show() => null;
