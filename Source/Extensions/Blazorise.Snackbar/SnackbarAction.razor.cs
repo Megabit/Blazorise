@@ -23,9 +23,9 @@ namespace Blazorise.Snackbar
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
-            Clicked?.Invoke();
+            return Clicked.InvokeAsync( null );
         }
 
         #endregion
@@ -35,7 +35,7 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        [Parameter] public Action Clicked { get; set; }
+        [Parameter] public EventCallback Clicked { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
