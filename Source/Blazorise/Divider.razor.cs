@@ -13,7 +13,7 @@ namespace Blazorise
     {
         #region Members       
 
-        private DividerType dividerType = DividerType.Solid;
+        private DividerType type = DividerType.Solid;
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Divider() );
-            builder.Append( ClassProvider.DividerType( DividerType ) );
+            builder.Append( ClassProvider.DividerType( Type ) );
 
             base.BuildClasses( builder );
         }
@@ -32,12 +32,12 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        public DividerType DividerType
+        public DividerType Type
         {
-            get => dividerType;
+            get => type;
             set
             {
-                dividerType = value;
+                type = value;
 
                 DirtyClasses();
             }
