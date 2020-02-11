@@ -91,6 +91,8 @@ namespace Blazorise
         public ThemeSnackbarOptions SnackbarOptions { get; set; }
 
         public ThemeBarOptions BarOptions { get; set; }
+
+        public ThemeDividerOptions DividerOptions { get; set; }
     }
 
     public class BasicOptions
@@ -197,6 +199,15 @@ namespace Blazorise
 
     public class ThemeBarOptions
     {
+    }
+
+    public class ThemeDividerOptions
+    {
+        public string Color { get; set; } = "#999999";
+
+        public string Thickness { get; set; } = "2px";
+
+        public string TextSize { get; set; } = ".85rem";
     }
 
     public class ThemeColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
@@ -360,6 +371,10 @@ namespace Blazorise
         public const string SnackbarBackground = "--b-snackbar-background";
         public const string SnackbarButtonColor = "--b-snackbar-button-color";
         public const string SnackbarButtonHoverColor = "--b-snackbar-button-hover-color";
+
+        public const string DividerColor = "--b-divider-color";
+        public const string DividerThickness = "--b-divider-thickness";
+        public const string DividerTextSize = "--b-divider-font-size";
     }
 
     /// <summary>

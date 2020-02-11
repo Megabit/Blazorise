@@ -41,6 +41,8 @@ docs:
         url: /docs/components/field/
       - title: "Addon"
         url: /docs/components/addon/
+      - title: "Divider"
+        url: /docs/components/divider/
       - title: "Validation"
         url: /docs/components/validation/
   - title: Components

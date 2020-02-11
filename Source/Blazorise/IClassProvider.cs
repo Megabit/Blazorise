@@ -717,6 +717,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Divider
+
+        string Divider();
+
+        string DividerType( DividerType dividerType );
+
+        #endregion
+
         #region States
 
         string Show();

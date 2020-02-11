@@ -789,6 +789,14 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Divider
+
+        public override string Divider() => "divider";
+
+        public override string DividerType( DividerType dividerType ) => $"{Divider()}-{ToDividerType( dividerType )}";
+
+        #endregion
+
         #region States
 
         public override string Show() => "show";

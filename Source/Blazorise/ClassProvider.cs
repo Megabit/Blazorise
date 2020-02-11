@@ -724,6 +724,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Divider
+
+        public abstract string Divider();
+
+        public abstract string DividerType( DividerType dividerType );
+
+        #endregion
+
         #region States
 
         public abstract string Show();
@@ -1239,6 +1247,22 @@ namespace Blazorise
                 case CharacterCasing.Normal:
                 default:
                     return null;
+            }
+        }
+
+        public virtual string ToDividerType( DividerType dividerType )
+        {
+            switch ( dividerType )
+            {
+                case Blazorise.DividerType.Dashed:
+                    return "dashed";
+                case Blazorise.DividerType.Dotted:
+                    return "dotted";
+                case Blazorise.DividerType.TextContent:
+                    return "text";
+                case Blazorise.DividerType.Solid:
+                default:
+                    return "solid";
             }
         }
 

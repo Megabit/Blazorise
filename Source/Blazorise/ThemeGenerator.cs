@@ -61,6 +61,9 @@ namespace Blazorise
             if ( theme.SnackbarOptions != null )
                 GenerateSnackbarVariables( theme.SnackbarOptions );
 
+            if ( theme.DividerOptions != null )
+                GenerateDividerVariables( theme.DividerOptions );
+
             // apply variables
             foreach ( var kv in variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value};" );
@@ -162,6 +165,18 @@ namespace Blazorise
 
             if ( snackbarOptions.ButtonHoverColor != null )
                 variables[ThemeVariables.SnackbarButtonHoverColor] = ToHex( ParseColor( snackbarOptions.ButtonHoverColor ) );
+        }
+
+        protected virtual void GenerateDividerVariables( ThemeDividerOptions dividerOptions )
+        {
+            if ( dividerOptions.Color != null )
+                variables[ThemeVariables.DividerColor] = ToHex( ParseColor( dividerOptions.Color ) );
+
+            if ( dividerOptions.Color != null )
+                variables[ThemeVariables.DividerThickness] = dividerOptions.Thickness;
+
+            if ( dividerOptions.Color != null )
+                variables[ThemeVariables.DividerTextSize] = dividerOptions.TextSize;
         }
 
         protected string Var( string name, string defaultValue = null )
