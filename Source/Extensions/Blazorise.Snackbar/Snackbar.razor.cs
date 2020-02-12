@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using Blazorise.Snackbar.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -19,6 +20,8 @@ namespace Blazorise.Snackbar
 
         private SnackbarLocation location;
 
+        private SnackbarColor snackbarColor = SnackbarColor.None;
+
         private Timer timer;
 
         #endregion
@@ -30,7 +33,8 @@ namespace Blazorise.Snackbar
             builder.Append( "snackbar" );
             builder.Append( "show", Visible );
             builder.Append( "snackbar-multi-line", Multiline );
-            builder.Append( GetSnackbarLocation( Location ), Location != SnackbarLocation.None );
+            builder.Append( $"snackbar-{ Location.GetName()}", Location != SnackbarLocation.None );
+            builder.Append( $"snackbar-{Color.GetName()}", Color != SnackbarColor.None );
 
             base.BuildClasses( builder );
         }
@@ -63,20 +67,6 @@ namespace Blazorise.Snackbar
             }
 
             base.Dispose( disposing );
-        }
-
-        private static string GetSnackbarLocation( SnackbarLocation snackbarLocation )
-        {
-            switch ( snackbarLocation )
-            {
-                case SnackbarLocation.Left:
-                    return "snackbar-left";
-                case SnackbarLocation.Right:
-                    return "snackbar-right";
-                case SnackbarLocation.None:
-                default:
-                    return null;
-            }
         }
 
         /// <summary>
@@ -154,6 +144,21 @@ namespace Blazorise.Snackbar
             set
             {
                 location = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Defines the snackbar color.
+        /// </summary>
+        [Parameter]
+        public SnackbarColor Color
+        {
+            get => snackbarColor;
+            set
+            {
+                snackbarColor = value;
 
                 DirtyClasses();
             }

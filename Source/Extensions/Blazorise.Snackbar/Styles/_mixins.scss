@@ -1,0 +1,213 @@
+﻿@mixin media-breakpoint-between($lower, $upper) {
+    $max: breakpoint-max($upper);
+    $min: breakpoint-min($lower);
+
+    @if $min != null and $max != null {
+        @media (min-width: $min) and (max-width: $max) {
+            @content;
+        }
+    }
+    @else if $max == null {
+        @include media-breakpoint-up($lower) {
+            @content;
+        }
+    }
+    @else if $min == null {
+        @include media-breakpoint-down($upper) {
+            @content;
+        }
+    }
+}
+
+@mixin media-breakpoint-down($name) {
+    $max: breakpoint-max($name);
+
+    @if $max {
+        @media (max-width: $max) {
+            @content;
+        }
+    }
+    @else {
+        @content;
+    }
+}
+
+@mixin media-breakpoint-only($name) {
+    $max: breakpoint-max($name);
+    $min: breakpoint-min($name);
+
+    @if $min != null and $max != null {
+        @media (min-width: $min) and (max-width: $max) {
+            @content;
+        }
+    }
+    @else if $max == null {
+        @include media-breakpoint-up($name) {
+            @content;
+        }
+    }
+    @else if $min == null {
+        @include media-breakpoint-down($name) {
+            @content;
+        }
+    }
+}
+
+@mixin media-breakpoint-up($name) {
+    $min: breakpoint-min($name);
+
+    @if $min {
+        @media (min-width: $min) {
+            @content;
+        }
+    }
+    @else {
+        @content;
+    }
+}
+
+@mixin media-moz-webkit {
+    @-moz-document url-prefix('') {
+        @content;
+    }
+    // stylelint-disable-next-line media-feature-name-no-vendor-prefix
+    @media (-webkit-min-device-pixel-ratio: 0) {
+        @content;
+    }
+}
+
+// Acceleration curve: permanently leaving the screen
+
+@mixin transition-acceleration($property...) {
+    transition-duration: $transition-duration-mobile-leaving;
+    transition-property: $property;
+    transition-timing-function: $transition-timing-function-acceleration;
+
+    @include media-breakpoint-up(sm) {
+        transition-duration: $transition-duration-tablet-leaving;
+    }
+
+    @include media-breakpoint-up(lg) {
+        transition-duration: $transition-duration-desktop-leaving;
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+// Deceleration curve: entering the screen
+
+@mixin transition-deceleration($property...) {
+    transition-duration: $transition-duration-mobile-entering;
+    transition-property: $property;
+    transition-timing-function: $transition-timing-function-deceleration;
+
+    @include media-breakpoint-up(sm) {
+        transition-duration: $transition-duration-tablet-entering;
+    }
+
+    @include media-breakpoint-up(lg) {
+        transition-duration: $transition-duration-desktop-entering;
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+// Sharp curve: temporarily leaving the screen
+
+@mixin transition-sharp($property...) {
+    transition-duration: $transition-duration-mobile-leaving;
+    transition-property: $property;
+    transition-timing-function: $transition-timing-function-sharp;
+
+    @include media-breakpoint-up(sm) {
+        transition-duration: $transition-duration-tablet-leaving;
+    }
+
+    @include media-breakpoint-up(lg) {
+        transition-duration: $transition-duration-desktop-leaving;
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+// Standard curve: relative movement
+
+@mixin transition-standard($property...) {
+    transition-duration: $transition-duration-mobile;
+    transition-property: $property;
+    transition-timing-function: $transition-timing-function-standard;
+
+    @include media-breakpoint-up(sm) {
+        transition-duration: $transition-duration-tablet;
+    }
+
+    @include media-breakpoint-up(lg) {
+        transition-duration: $transition-duration-desktop;
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+// Standard curve: relative movement - complex, full-screen, large transitions
+
+@mixin transition-standard-complex($property...) {
+    transition-duration: $transition-duration-mobile-complex;
+    transition-property: $property;
+    transition-timing-function: $transition-timing-function-standard;
+
+    @include media-breakpoint-up(sm) {
+        transition-duration: $transition-duration-tablet-complex;
+    }
+
+    @include media-breakpoint-up(lg) {
+        transition-duration: $transition-duration-desktop-complex;
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+@mixin text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin active-focus-hover {
+    &:active,
+    &:focus,
+    &:hover {
+        @content;
+    }
+}
+
+@mixin focus-hover {
+    &:focus,
+    &:hover {
+        @content;
+    }
+}
+
+@mixin hover {
+    &:hover {
+        @content;
+    }
+}
+
+@mixin plain-active-focus-hover {
+    &,
+    &:active,
+    &:focus,
+    &:hover {
+        @content;
+    }
+}

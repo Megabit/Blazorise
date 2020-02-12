@@ -73,11 +73,12 @@ namespace Blazorise
         {
             variables[ThemeVariables.Color( variant )] = value;
 
-            GenerateButtonVariables( variant, value, value, theme.ButtonOptions );
-            GenerateOutlineButtonVariables( variant, value, theme.ButtonOptions );
+            GenerateButtonColorVariables( variant, value, value, theme.ButtonOptions );
+            GenerateOutlineButtonColorVariables( variant, value, theme.ButtonOptions );
+            GenerateSnackbarColorVariables( theme, variant, value, theme.SnackbarOptions );
         }
 
-        protected virtual void GenerateButtonVariables( string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options )
+        protected virtual void GenerateButtonColorVariables( string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options )
         {
             var backgroundColor = ParseColor( inBackgroundColor );
             var borderColor = ParseColor( inBorderColor );
@@ -117,7 +118,7 @@ namespace Blazorise
             variables[ThemeVariables.ButtonBoxShadow( variant )] = boxShadow;
         }
 
-        protected virtual void GenerateOutlineButtonVariables( string variant, string inBorderColor, ThemeButtonOptions options )
+        protected virtual void GenerateOutlineButtonColorVariables( string variant, string inBorderColor, ThemeButtonOptions options )
         {
             var borderColor = ParseColor( inBorderColor );
 
@@ -131,6 +132,26 @@ namespace Blazorise
             variables[ThemeVariables.OutlineButtonColor( variant )] = color;
             variables[ThemeVariables.OutlineButtonYiqColor( variant )] = yiqColor;
             variables[ThemeVariables.OutlineButtonBoxShadowColor( variant )] = boxShadow;
+        }
+
+        protected virtual void GenerateSnackbarColorVariables( Theme theme, string variant, string inColor, ThemeSnackbarOptions options )
+        {
+            // this color variant is not supported
+            if ( variant == "link" )
+                return;
+
+            var backgroundColor = ThemeColorLevel( theme, inColor, options?.VariantBackgroundColorLevel ?? -3 );
+            var textColor = Contrast( backgroundColor );
+            var buttonColor = Darken( textColor, 40f );
+            var buttonHoverColor = Lighten( textColor, 40f );
+            //var textColor = Contrast( ThemeColorLevel( theme, inColor, options?.VariantTextColorLevel ?? 6 ) );
+            //var buttonColor = Contrast( ThemeColorLevel( theme, inColor, options?.VariantButtonColorLevel ?? 8 ) );
+            //var buttonHoverColor = ThemeColorLevel( theme, buttonColor, options?.VariantButtonHoverColorLevel ?? 4 );
+
+            variables[$"{ThemeVariables.SnackbarBackground}-{ variant }"] = ToHex( backgroundColor );
+            variables[$"{ThemeVariables.SnackbarTextColor}-{ variant }"] = ToHex( textColor );
+            variables[$"{ThemeVariables.SnackbarButtonColor}-{ variant }"] = ToHex( buttonColor );
+            variables[$"{ThemeVariables.SnackbarButtonHoverColor}-{ variant }"] = ToHex( buttonHoverColor );
         }
 
         protected virtual void GenerateBackgroundVariables( Theme theme, string variant, string inColor )
@@ -157,13 +178,16 @@ namespace Blazorise
 
         protected virtual void GenerateSnackbarVariables( ThemeSnackbarOptions snackbarOptions )
         {
-            if ( snackbarOptions.BackgroundColor != null )
+            if ( snackbarOptions?.BackgroundColor != null )
                 variables[ThemeVariables.SnackbarBackground] = ToHex( ParseColor( snackbarOptions.BackgroundColor ) );
 
-            if ( snackbarOptions.ButtonColor != null )
+            if ( snackbarOptions?.TextColor != null )
+                variables[ThemeVariables.SnackbarTextColor] = ToHex( ParseColor( snackbarOptions.TextColor ) );
+
+            if ( snackbarOptions?.ButtonColor != null )
                 variables[ThemeVariables.SnackbarButtonColor] = ToHex( ParseColor( snackbarOptions.ButtonColor ) );
 
-            if ( snackbarOptions.ButtonHoverColor != null )
+            if ( snackbarOptions?.ButtonHoverColor != null )
                 variables[ThemeVariables.SnackbarButtonHoverColor] = ToHex( ParseColor( snackbarOptions.ButtonHoverColor ) );
         }
 
@@ -242,14 +266,14 @@ namespace Blazorise
             GenerateBadgeVariantStyles( sb, theme, variant, color );
 
             GenerateAlertVariantStyles( sb, theme, variant,
-                ThemeColorLevel( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
-                ThemeColorLevel( theme, color, theme.AlertOptions?.BorderLevel ?? -9 ),
-                ThemeColorLevel( theme, color, theme.AlertOptions?.ColorLevel ?? 6 ),
+                ThemeColorLevelHex( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
+                ThemeColorLevelHex( theme, color, theme.AlertOptions?.BorderLevel ?? -9 ),
+                ThemeColorLevelHex( theme, color, theme.AlertOptions?.ColorLevel ?? 6 ),
                 theme.AlertOptions );
 
             GenerateTableVariantStyles( sb, theme, variant,
-                ThemeColorLevel( theme, color, theme.TableOptions?.BackgroundLevel ?? -9 ),
-                ThemeColorLevel( theme, color, theme.TableOptions?.BorderLevel ?? -6 ) );
+                ThemeColorLevelHex( theme, color, theme.TableOptions?.BackgroundLevel ?? -9 ),
+                ThemeColorLevelHex( theme, color, theme.TableOptions?.BorderLevel ?? -6 ) );
         }
 
         protected virtual void GenerateBackgroundStyles( StringBuilder sb, Theme theme, string variant, string color )
@@ -317,12 +341,24 @@ namespace Blazorise
                 : $"background-color: {color};";
         }
 
-        protected string ThemeColorLevel( Theme theme, string inColor, int level )
+        protected System.Drawing.Color ThemeColorLevel( Theme theme, string inColor, int level )
         {
             var color = ParseColor( inColor );
             var colorBase = level > 0 ? ParseColor( Var( ThemeVariables.Black, "#343a40" ) ) : ParseColor( Var( ThemeVariables.White, "#ffffff" ) );
             level = Math.Abs( level );
-            return ToHex( Blend( colorBase, color, level * 8f ) );
+            return Blend( colorBase, color, level * 8f );
+        }
+
+        protected System.Drawing.Color ThemeColorLevel( Theme theme, System.Drawing.Color color, int level )
+        {
+            var colorBase = level > 0 ? ParseColor( Var( ThemeVariables.Black, "#343a40" ) ) : ParseColor( Var( ThemeVariables.White, "#ffffff" ) );
+            level = Math.Abs( level );
+            return Blend( colorBase, color, level * 8f );
+        }
+
+        protected string ThemeColorLevelHex( Theme theme, string inColor, int level )
+        {
+            return ToHex( ThemeColorLevel( theme, inColor, level ) );
         }
 
         protected static System.Drawing.Color ParseColor( string value )
@@ -402,6 +438,11 @@ namespace Blazorise
         protected static System.Drawing.Color Lighten( System.Drawing.Color color, float correctionFactor )
         {
             return ChangeColorBrightness( color, correctionFactor / 100f );
+        }
+
+        protected System.Drawing.Color Invert( System.Drawing.Color color )
+        {
+            return System.Drawing.Color.FromArgb( 255 - color.R, 255 - color.G, 255 - color.B );
         }
 
         protected static System.Drawing.Color ChangeColorBrightness( System.Drawing.Color color, float correctionFactor )
