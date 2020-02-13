@@ -58,7 +58,7 @@ When defining a sidebar structure you can chose between manual or dynamic buildi
 When building your sidebar manually you have full control of it's content and navigation item. You can combine every sidebar component as you wish.
 
 ```cs
-<Sidebar @ref="sidebar" @ref:suppressField>
+<Sidebar @ref="sidebar">
     <SidebarContent>
         <SidebarBrand>
             <a href="">Blazorise Sidebar</a>
@@ -74,7 +74,7 @@ When building your sidebar manually you have full control of it's content and na
                 <SidebarLink Toggled="(isOpen)=> mailSidebarSubItems.Toggle(isOpen)" IsShow="true">
                     <Icon Name="IconName.Mail" Margin="Margin.Is3.FromRight" />Email
                 </SidebarLink>
-                <SidebarSubItem @ref="mailSidebarSubItems" @ref:suppressField IsShow="true">
+                <SidebarSubItem @ref="mailSidebarSubItems" IsShow="true">
                     <SidebarItem>
                         <SidebarLink To="email/inbox">Inbox</SidebarLink>
                     </SidebarItem>
@@ -88,7 +88,7 @@ When building your sidebar manually you have full control of it's content and na
                 <SidebarLink Toggled="(isOpen)=> appsSidebarSubItems.Toggle(isOpen)" IsShow="true">
                     <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
                 </SidebarLink>
-                <SidebarSubItem @ref="appsSidebarSubItems" @ref:suppressField IsShow="true">
+                <SidebarSubItem @ref="appsSidebarSubItems" IsShow="true">
                     <SidebarItem>
                         <SidebarLink To="apps/todo">Todo List</SidebarLink>
                     </SidebarItem>
