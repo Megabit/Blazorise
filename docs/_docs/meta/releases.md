@@ -6,6 +6,12 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.8.3 (quick fix)
+
+Reupload NuGet package.
+
+For detail description of changes please look at [v0.8.8.3 release page]({{ "/docs/release-notes/release0883/" | relative_url }})
+
 ## 0.8.8.2 (quick fix)
 
 ### Bug Fixes
