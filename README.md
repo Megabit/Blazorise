@@ -101,24 +101,7 @@ In your main `_Imports.razor` add:
 
 ### 4. Registrations
 
-Finally in the **Startup.cs** you must tell the Blazor to register Bootstrap provider and extensions:
-
-```cs
-using Blazorise;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
-
-public void ConfigureServices( IServiceCollection services )
-{
-  services
-    .AddBlazorise( options =>
-    {
-      options.ChangeTextOnKeyPress = true; // optional
-    } )
-    .AddBootstrapProviders()
-    .AddFontAwesomeIcons();
-}
-```
+Starting from **.Net Core 3.2** there was some changes regarding the setup process for **Blazor WebAssembly** project types. Specifically the **Startup.cs** file is removed and all registrations are now done in the **Program.cs**.
 
 ---
 Depending on the hosting model of your Blazor project you only need to apply either step **4.a** or **4.b**. You should not include both of them as that is generally not supported.
@@ -129,16 +112,38 @@ To Learn more about the different project types you can go to the official [docu
 
 #### 4.a Blazor WebAssembly
 
-This step is mandatory for **Blazor WebAssembly**(client-side) and also for **ASP.NET Core hosted** project types. You should place the code into the **Startup.cs** of your **client** project.
+This step is mandatory for **Blazor WebAssembly**(client-side) and also for **ASP.NET Core hosted** project types. You should place the code into the **Program.cs** of your **client** project.
 
 ```cs
-public void Configure( IComponentsApplicationBuilder app )
-{
-  app.Services
-    .UseBootstrapProviders()
-    .UseFontAwesomeIcons();
+// other usings
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 
-  app.AddComponent<App>( "app" );
+public class Program
+{
+  public static async Task Main( string[] args )
+  {
+    var builder = WebAssemblyHostBuilder.CreateDefault( args );
+
+    builder.Services
+      .AddBlazorise( options =>
+      {
+          options.ChangeTextOnKeyPress = true;
+      } )
+      .AddBootstrapProviders()
+      .AddFontAwesomeIcons();
+
+    builder.RootComponents.Add<App>( "app" );
+
+    var host = builder.Build();
+
+    host.Services
+      .UseBootstrapProviders()
+      .UseFontAwesomeIcons();
+
+    await host.RunAsync();
+  }
 }
 ```
 
@@ -147,21 +152,42 @@ public void Configure( IComponentsApplicationBuilder app )
 This step is going only into the **Startup.cs** of your **Blazor Server** project.
 
 ```cs
-public void Configure( IComponentsApplicationBuilder app )
-{
-  // other settings
-  
-  app.UseRouting();
-  
-  app.ApplicationServices
-    .UseBootstrapProviders()
-    .UseFontAwesomeIcons();
+// other usings
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 
-  app.UseEndpoints( endpoints =>
+public class Startup
+{
+  public void ConfigureServices( IServiceCollection services )
   {
-      endpoints.MapBlazorHub();
-      endpoints.MapFallbackToPage( "/_Host" );
-  } );
+    services
+      .AddBlazorise( options =>
+      {
+        options.ChangeTextOnKeyPress = true; // optional
+      } )
+      .AddBootstrapProviders()
+      .AddFontAwesomeIcons();
+
+      // other services
+  }
+
+  public void Configure( IComponentsApplicationBuilder app )
+  {
+    // other settings
+    
+    app.UseRouting();
+    
+    app.ApplicationServices
+      .UseBootstrapProviders()
+      .UseFontAwesomeIcons();
+
+    app.UseEndpoints( endpoints =>
+    {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage( "/_Host" );
+    } );
+  }
 }
 ```
 
