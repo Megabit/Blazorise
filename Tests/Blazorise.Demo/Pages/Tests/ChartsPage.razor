@@ -83,6 +83,8 @@
 
     bool isAlreadyInitialised;
 
+    Random random = new Random( DateTime.Now.Millisecond );
+
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( !isAlreadyInitialised )
@@ -102,6 +104,7 @@
     async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<TDataSet> getDataSet )
         where TDataSet : ChartDataset<TItem>
         where TOptions : ChartOptions
+        where TModel : ChartModel
     {
         chart.Clear();
 
@@ -202,8 +205,6 @@
 
     List<double> RandomizeData()
     {
-        var r = new Random( DateTime.Now.Millisecond );
-
-        return new List<double> { r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble(), r.Next( 3, 50 ) * r.NextDouble() };
+        return new List<double> { random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble(), random.Next( 3, 50 ) * random.NextDouble() };
     }
 }
