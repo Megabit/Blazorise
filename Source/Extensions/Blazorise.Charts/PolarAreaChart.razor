@@ -1,3 +1,7 @@
 ﻿@typeparam TItem
-@inherits BasePolarAreaChart<TItem>
-<canvas @ref="ElementRef" id="@ElementId" class="@ClassNames"></canvas>
+@inherits BaseChart<PolarAreaChartDataset<TItem>, TItem, PolarAreaChartOptions, PolarChartModel>
+<canvas @ref="ElementRef" id="@ElementId" class="@ClassNames">
+    <CascadingValue Value=this>
+        @ChildContent
+    </CascadingValue>
+</canvas>
