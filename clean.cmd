@@ -12,6 +12,8 @@ rd /s /q Source\Blazorise.Frolic\bin
 rd /s /q Source\Blazorise.Frolic\obj
 rd /s /q Source\Extensions\Blazorise.Charts\bin
 rd /s /q Source\Extensions\Blazorise.Charts\obj
+rd /s /q Source\Extensions\Blazorise.Charts.Streaming\bin
+rd /s /q Source\Extensions\Blazorise.Charts.Streaming\obj
 rd /s /q Source\Extensions\Blazorise.Components\bin
 rd /s /q Source\Extensions\Blazorise.Components\obj
 rd /s /q Source\Extensions\Blazorise.DataGrid\bin
