@@ -84,7 +84,12 @@ namespace Blazorise.Charts
         {
             dotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
 
-            await JS.InitializeChart( JSRuntime, dotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type, Data, Options, DataJsonString, OptionsJsonString );
+            await JS.InitializeChart( JSRuntime, dotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type,
+                Data,
+                Options,
+                DataJsonString,
+                OptionsJsonString,
+                OptionsObject );
         }
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -163,7 +168,12 @@ namespace Blazorise.Charts
             {
                 dirty = false;
 
-                await JS.UpdateChart( JSRuntime, ElementId, Data, Options, DataJsonString, OptionsJsonString );
+                await JS.UpdateChart( JSRuntime, ElementId,
+                    Data,
+                    Options,
+                    DataJsonString,
+                    OptionsJsonString,
+                    OptionsObject );
             }
         }
 
@@ -189,6 +199,7 @@ namespace Blazorise.Charts
                 case ChartType.Line:
                     return System.Text.Json.JsonSerializer.Deserialize<LineChartModel>( data );
                 case ChartType.Bar:
+                case ChartType.HorizontalBar:
                     return System.Text.Json.JsonSerializer.Deserialize<BarChartModel>( data );
                 case ChartType.Pie:
                     return System.Text.Json.JsonSerializer.Deserialize<PieChartModel>( data );
@@ -228,6 +239,12 @@ namespace Blazorise.Charts
         /// </summary>
         [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
         [Parameter] public string OptionsJsonString { get; set; }
+
+        /// <summary>
+        /// Defines the chart options that is serialized as json object.
+        /// </summary>
+        [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
+        [Parameter] public object OptionsObject { get; set; }
 
         #endregion
     }

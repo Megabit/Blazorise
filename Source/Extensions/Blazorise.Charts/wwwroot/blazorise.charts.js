@@ -1,12 +1,17 @@
 window.blazoriseCharts = {
     _instances: [],
 
-    initialize: (dotnetAdapter, hasClickEvent, hasHoverEvent, canvasId, type, data, options, dataJsonString, optionsJsonString) => {
-        if (dataJsonString)
+    initialize: (dotnetAdapter, hasClickEvent, hasHoverEvent, canvasId, type, data, options, dataJsonString, optionsJsonString, optionsObject) => {
+        if (dataJsonString) {
             data = JSON.parse(dataJsonString);
+        }
 
-        if (optionsJsonString)
+        if (optionsJsonString) {
             options = JSON.parse(optionsJsonString);
+        }
+        else if (optionsObject) {
+            options = optionsObject;
+        }
 
         // search for canvas element
         const canvas = document.getElementById(canvasId);
@@ -45,12 +50,17 @@ window.blazoriseCharts = {
         return true;
     },
 
-    update: (canvasId, data, options, dataJsonString, optionsJsonString) => {
-        if (dataJsonString)
+    update: (canvasId, data, options, dataJsonString, optionsJsonString, optionsObject) => {
+        if (dataJsonString) {
             data = JSON.parse(dataJsonString);
+        }
 
-        if (optionsJsonString)
+        if (optionsJsonString) {
             options = JSON.parse(optionsJsonString);
+        }
+        else if (optionsObject) {
+            options = optionsObject;
+        }
 
         const chart = window.blazoriseCharts.getChart(canvasId);
 

@@ -163,6 +163,12 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public bool SteppedLine { get; set; }
+
+        /// <summary>
+        /// https://www.chartjs.org/docs/latest/charts/line.html#cubicinterpolationmode
+        /// </summary>
+        [DataMember]
+        public string CubicInterpolationMode { get; set; } = "default";
     }
 
     /// <remarks>
