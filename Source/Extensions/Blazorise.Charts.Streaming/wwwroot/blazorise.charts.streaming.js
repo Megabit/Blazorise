@@ -3,29 +3,29 @@ window.blazoriseChartsStreaming = {
         const chart = window.blazoriseCharts.getChart(canvasId);
 
         if (chart) {
-            const options = Object.assign({},
-                chart.options,
-                window.blazoriseChartsStreaming.getStreamingOptions(dotNetAdapter, vertical, streamOptions));
+            const scalesOptions = window.blazoriseChartsStreaming.getStreamingOptions(dotNetAdapter, vertical, chart.options, streamOptions);
 
-            chart.options = options;
+            // merge all options
+            chart.options = { ...chart.options, ...scalesOptions };
+
             chart.update();
         }
 
         return true;
     },
 
-    updateData: (canvasId, datasetIndex, newDataSet) => {
+    updateData: (canvasId, datasetIndex, newData) => {
         const chart = window.blazoriseCharts.getChart(canvasId);
 
         if (chart) {
-            chart.data.datasets[datasetIndex].data.push(newDataSet.data[0]);
+            chart.data.datasets[datasetIndex].data.push(newData);
         }
 
         return true;
     },
 
-    getStreamingOptions: (dotNetAdapter, vertical, streamOptions) => {
-        const options = {
+    getStreamingOptions: (dotNetAdapter, vertical, chartOptions, streamOptions) => {
+        const axeOptions = {
             type: "realtime",
             realtime: {
                 duration: streamOptions.duration,
@@ -42,17 +42,32 @@ window.blazoriseChartsStreaming = {
         };
 
         if (vertical) {
-            return {
+            let verticalScalesOptions = {
                 scales: {
-                    yAxes: [options]
+                    yAxes: [axeOptions]
                 }
             };
+
+            // this is needed so that any additional axes option can be merged
+            if (chartOptions && chartOptions.scales && chartOptions.scales.xAxes) {
+                verticalScalesOptions.scales.xAxes = chartOptions.scales.xAxes;
+            }
+
+            return verticalScalesOptions;
         }
 
-        return {
+        let horizontalScalesOptions = {
             scales: {
-                xAxes: [options]
+                xAxes: [axeOptions],
+                yAxes: chartOptions.scales.yAxes,
             }
         };
+
+        // this is needed so that any additional axes option can be merged
+        if (chartOptions && chartOptions.scales && chartOptions.scales.yAxes) {
+            horizontalScalesOptions.scales.yAxes = chartOptions.scales.yAxes;
+        }
+
+        return horizontalScalesOptions;
     }
 };

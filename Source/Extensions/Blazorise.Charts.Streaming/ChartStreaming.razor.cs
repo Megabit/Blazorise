@@ -54,14 +54,14 @@ namespace Blazorise.Charts.Streaming
         {
             foreach ( var dataset in ParentChart?.Data?.Datasets ?? Enumerable.Empty<ChartDataset<TItem>>() )
             {
-                var newDataSet = new ChartDataset<TItem>();
+                var newData = new ChartStreamingData<TItem>();
 
-                await Refreshed.InvokeAsync( newDataSet );
+                await Refreshed.InvokeAsync( newData );
 
                 await JS.UpdateData( JSRuntime,
                     ParentChart.ElementId,
                     ParentChart.Data.Datasets.IndexOf( dataset ),
-                    newDataSet );
+                    newData.Value );
             }
         }
 
@@ -86,7 +86,7 @@ namespace Blazorise.Charts.Streaming
         /// <summary>
         /// Callback function that will be called at a regular interval. The callback takes one argument, a reference to the dataset object. You can update your datasets here. The chart will be automatically updated after returning.
         /// </summary>
-        [Parameter] public EventCallback<ChartDataset<TItem>> Refreshed { get; set; }
+        [Parameter] public EventCallback<ChartStreamingData<TItem>> Refreshed { get; set; }
 
         #endregion
     }
