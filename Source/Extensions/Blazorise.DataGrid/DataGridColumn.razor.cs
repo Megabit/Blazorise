@@ -142,6 +142,11 @@ namespace Blazorise.DataGrid
         [Parameter] public bool Filterable { get; set; } = true;
 
         /// <summary>
+        /// Gets or sets whether the column is visible in the grid
+        /// </summary>
+        [Parameter] public bool DisplayInGrid { get; set; } = true;
+
+        /// <summary>
         /// The width of the column.
         /// </summary>
         [Parameter] public string Width { get; set; }
