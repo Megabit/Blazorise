@@ -8,7 +8,7 @@
             @if ( ShowCaptions )
             {
                 <TableRow>
-                    @foreach ( var column in GridDisplayColumns )
+                    @foreach ( var column in VisibleColumns )
                     {
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {
@@ -41,7 +41,7 @@
             @if ( Filterable )
             {
                 <TableRow>
-                    @foreach ( var column in GridDisplayColumns )
+                    @foreach ( var column in VisibleColumns )
                     {
                         @if ( !column.Filterable )
                             continue;
@@ -79,7 +79,7 @@
                 }
                 else
                 {
-                    <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@GridDisplayColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" />
+                    <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@VisibleColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" />
                     @if ( DetailRowTemplate != null )
                     {
                         var canShow = DetailRowTrigger?.Invoke( item ) ?? true;

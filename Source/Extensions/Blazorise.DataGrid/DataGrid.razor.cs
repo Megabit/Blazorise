@@ -465,9 +465,9 @@ namespace Blazorise.DataGrid
         protected IEnumerable<BaseDataGridColumn<TItem>> EditableColumns => Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.Editable );
 
         /// <summary>
-        /// Gets only columns that are available for display in the grid.
+        /// Gets only columns that are visible in the grid.
         /// </summary>
-        protected IEnumerable<BaseDataGridColumn<TItem>> GridDisplayColumns => Columns.Where( x => x.ColumnType == DataGridColumnType.Command || x.DisplayInGrid );
+        protected IEnumerable<BaseDataGridColumn<TItem>> VisibleColumns => Columns.Where( x => x.ColumnType == DataGridColumnType.Command || x.VisibleInGrid );
 
         /// <summary>
         /// Returns true if <see cref="Data"/> is safe to modify.
