@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Charts
 {
-    public abstract class BasePolarAreaChart<TItem> : BaseChart<PolarAreaChartDataset<TItem>, TItem, PolarAreaChartOptions, PolarChartModel>
+    public partial class PolarAreaChart<TItem> : BaseChart<PolarAreaChartDataset<TItem>, TItem, PolarAreaChartOptions, PolarChartModel>
     {
         #region Members
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
-        public BasePolarAreaChart()
+        public PolarAreaChart()
         {
             Type = ChartType.PolarArea;
         }

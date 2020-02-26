@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Charts
 {
-    public partial class LineChart<TItem> : BaseChart<LineChartDataset<TItem>, TItem, LineChartOptions, LineChartModel>
+    public partial class HorizontalBarChart<TItem> : BaseChart<BarChartDataset<TItem>, TItem, BarChartOptions, BarChartModel>
     {
         #region Members
 
@@ -16,9 +16,9 @@ namespace Blazorise.Charts
 
         #region Constructors
 
-        public LineChart()
+        public HorizontalBarChart()
         {
-            Type = ChartType.Line;
+            Type = ChartType.HorizontalBar;
         }
 
         #endregion

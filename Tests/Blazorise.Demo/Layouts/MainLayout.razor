@@ -14,33 +14,33 @@
                 </SidebarLink>
             </SidebarItem>
             <SidebarItem>
-                <SidebarLink Toggled="(isOpen)=> sidebarSubItemTests.Toggle(isOpen)" Visible="true">
-                    <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Test Pages
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemUIElement.Toggle(isOpen)" Visible="true">
+                    <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />UI Elements
                 </SidebarLink>
-                <SidebarSubItem @ref="sidebarSubItemTests" Visible="true">
+                <SidebarSubItem @ref="sidebarSubItemUIElement" Visible="true">
                     <SidebarItem>
                         <SidebarLink To="tests/buttons">Buttons</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/forms">Forms</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/validations">Validations</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/collapse">Collapse</SidebarLink>
                     </SidebarItem>
                     <SidebarItem>
                         <SidebarLink To="tests/modals">Modals</SidebarLink>
                     </SidebarItem>
                     <SidebarItem>
-                        <SidebarLink To="tests/tables">Tables</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/datagrid">DataGrid</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
                         <SidebarLink To="tests/cards">Cards</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/progressbars">Progress bars</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/elements">General UI</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/typography">Typography</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/collapse">Collapse</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/tables">Tables</SidebarLink>
                     </SidebarItem>
                     <SidebarItem>
                         <SidebarLink To="tests/figures">Figures</SidebarLink>
@@ -49,16 +49,30 @@
                         <SidebarLink To="tests/tabs">Tabs</SidebarLink>
                     </SidebarItem>
                     <SidebarItem>
-                        <SidebarLink To="tests/progressbars">Progress bars</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/elements">Elements</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/typography">Typography</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
                         <SidebarLink To="tests/layout">Layout</SidebarLink>
+                    </SidebarItem>
+                </SidebarSubItem>
+            </SidebarItem>
+            <SidebarItem>
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemForms.Toggle(isOpen)">
+                    <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Forms
+                </SidebarLink>
+                <SidebarSubItem @ref="sidebarSubItemForms">
+                    <SidebarItem>
+                        <SidebarLink To="tests/forms">Forms</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/validations">Validations</SidebarLink>
+                    </SidebarItem>
+                </SidebarSubItem>
+            </SidebarItem>
+            <SidebarItem>
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemExtensions.Toggle(isOpen)">
+                    <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Extensions
+                </SidebarLink>
+                <SidebarSubItem @ref="sidebarSubItemExtensions">
+                    <SidebarItem>
+                        <SidebarLink To="tests/datagrid">DataGrid</SidebarLink>
                     </SidebarItem>
                     <SidebarItem>
                         <SidebarLink To="tests/components">Components</SidebarLink>
@@ -66,13 +80,16 @@
                     <SidebarItem>
                         <SidebarLink To="tests/charts">Charts</SidebarLink>
                     </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/livecharts">Live Charts</SidebarLink>
+                    </SidebarItem>
                 </SidebarSubItem>
             </SidebarItem>
             <SidebarItem>
-                <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)" Visible="true">
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)">
                     <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
                 </SidebarLink>
-                <SidebarSubItem @ref="sidebarSubItemApps" Visible="true">
+                <SidebarSubItem @ref="sidebarSubItemApps">
                     <SidebarItem>
                         <SidebarLink To="apps/todo">Todo List</SidebarLink>
                     </SidebarItem>
@@ -229,7 +246,9 @@
     }
 
     Sidebar sidebar;
-    SidebarSubItem sidebarSubItemTests;
+    SidebarSubItem sidebarSubItemUIElement;
+    SidebarSubItem sidebarSubItemForms;
+    SidebarSubItem sidebarSubItemExtensions;
     SidebarSubItem sidebarSubItemApps;
 
     //bool collapseNavMenu = true;

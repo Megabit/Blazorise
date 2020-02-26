@@ -1,3 +1,7 @@
 ﻿@typeparam TItem
-@inherits BaseLineChart<TItem>
-<canvas @ref="ElementRef" id="@ElementId" class="@ClassNames"></canvas>
+@inherits BaseChart<LineChartDataset<TItem>, TItem, LineChartOptions, LineChartModel>
+<canvas @ref="ElementRef" id="@ElementId" class="@ClassNames">
+    <CascadingValue Value=this>
+        @ChildContent
+    </CascadingValue>
+</canvas>
