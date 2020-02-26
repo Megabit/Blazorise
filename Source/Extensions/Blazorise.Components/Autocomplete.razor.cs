@@ -49,6 +49,8 @@ namespace Blazorise.Components
             //If input field is empty, clear current SelectedValue.
             if ( string.IsNullOrEmpty( text ) )
                 await Clear();
+
+            await SearchChanged.InvokeAsync( CurrentSearch );
         }
 
         protected async Task HandleTextKeyDown( KeyboardEventArgs e )
@@ -83,7 +85,7 @@ namespace Blazorise.Components
             }
         }
 
-        protected Task HandleDropdownItemClicked( object value )
+        protected async Task HandleDropdownItemClicked( object value )
         {
             CurrentSearch = null;
             dropdownRef.Hide();
@@ -92,7 +94,9 @@ namespace Blazorise.Components
 
             SelectedText = item != null ? TextField?.Invoke( item ) : string.Empty;
             SelectedValue = value;
-            return SelectedValueChanged.InvokeAsync( SelectedValue );
+
+            await SelectedValueChanged.InvokeAsync( SelectedValue );
+            await SearchChanged.InvokeAsync( CurrentSearch );
         }
 
         private void FilterData()
@@ -135,14 +139,16 @@ namespace Blazorise.Components
         /// <summary>
         /// Clears the selected value and the search field.
         /// </summary>
-        public Task Clear()
+        public async Task Clear()
         {
             CurrentSearch = null;
             dropdownRef.Hide();
 
             SelectedText = string.Empty;
             SelectedValue = null;
-            return SelectedValueChanged.InvokeAsync( selectedValue );
+
+            await SelectedValueChanged.InvokeAsync( selectedValue );
+            await SearchChanged.InvokeAsync( CurrentSearch );
         }
 
         private void UpdateActiveFilterIndex( int activeItemIndex )
@@ -263,6 +269,11 @@ namespace Blazorise.Components
         /// Occurs after the selected value has changed.
         /// </summary>
         [Parameter] public EventCallback<object> SelectedValueChanged { get; set; }
+
+        /// <summary>
+        /// Occurs on every search text change.
+        /// </summary>
+        [Parameter] public EventCallback<string> SearchChanged { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
