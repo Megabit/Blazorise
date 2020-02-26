@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +8,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise.DataGrid
