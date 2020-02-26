@@ -58,7 +58,7 @@ namespace Blazorise.Charts.Streaming
 
                 await Refreshed.InvokeAsync( newData );
 
-                await JS.UpdateData( JSRuntime,
+                await JS.AddData( JSRuntime,
                     ParentChart.ElementId,
                     ParentChart.Data.Datasets.IndexOf( dataset ),
                     newData.Value );

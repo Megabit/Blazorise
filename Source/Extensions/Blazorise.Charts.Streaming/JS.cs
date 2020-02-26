@@ -30,9 +30,9 @@ namespace Blazorise.Charts.Streaming
                 options );
         }
 
-        public static ValueTask<bool> UpdateData( IJSRuntime runtime, string canvasId, int datasetIndex, object data )
+        public static ValueTask<bool> AddData( IJSRuntime runtime, string canvasId, int datasetIndex, object data )
         {
-            return runtime.InvokeAsync<bool>( "window.blazoriseChartsStreaming.updateData", canvasId, datasetIndex, data );
+            return runtime.InvokeAsync<bool>( "window.blazoriseChartsStreaming.addData", canvasId, datasetIndex, data );
         }
     }
 }

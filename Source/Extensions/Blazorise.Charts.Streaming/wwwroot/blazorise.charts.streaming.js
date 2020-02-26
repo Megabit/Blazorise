@@ -14,7 +14,7 @@ window.blazoriseChartsStreaming = {
         return true;
     },
 
-    updateData: (canvasId, datasetIndex, newData) => {
+    addData: (canvasId, datasetIndex, newData) => {
         const chart = window.blazoriseCharts.getChart(canvasId);
 
         if (chart) {
