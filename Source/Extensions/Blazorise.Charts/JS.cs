@@ -29,7 +29,7 @@ namespace Blazorise.Charts
             }
         }
 
-        public static ValueTask<bool> InitializeChart<TItem, TOptions>( IJSRuntime runtime, DotNetObjectReference<ChartAdapter> dotNetObjectReference, bool hasClickEvent, bool hasHoverEvent, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject )
+        public static ValueTask<bool> Initialize<TItem, TOptions>( IJSRuntime runtime, DotNetObjectReference<ChartAdapter> dotNetObjectReference, bool hasClickEvent, bool hasHoverEvent, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject )
         {
             return runtime.InvokeAsync<bool>( "blazoriseCharts.initialize",
                 dotNetObjectReference,
@@ -44,19 +44,39 @@ namespace Blazorise.Charts
                 optionsObject );
         }
 
-        public static ValueTask<bool> Destroy( IJSRuntime runtime, string id )
+        public static ValueTask<bool> Destroy( IJSRuntime runtime, string canvasId )
         {
-            return runtime.InvokeAsync<bool>( "blazoriseCharts.destroy", id );
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.destroy", canvasId );
         }
 
-        public static ValueTask<bool> UpdateChart<TItem, TOptions>( IJSRuntime runtime, string canvasId, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject )
+        public static ValueTask<bool> SetOptions<TOptions>( IJSRuntime runtime, string canvasId, TOptions options, string optionsJsonString, object optionsObject )
         {
-            return runtime.InvokeAsync<bool>( "blazoriseCharts.update",
-                canvasId, ToChartDataSet( data ),
-                options,
-                dataJsonString,
-                optionsJsonString,
-                optionsObject );
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.setOptions", canvasId, options, optionsJsonString, optionsObject );
+        }
+
+        public static ValueTask<bool> Update( IJSRuntime runtime, string canvasId )
+        {
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.update", canvasId );
+        }
+
+        public static ValueTask<bool> Clear( IJSRuntime runtime, string canvasId )
+        {
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.clear", canvasId );
+        }
+
+        public static ValueTask<bool> AddLabel( IJSRuntime runtime, string canvasId, params string[] labels )
+        {
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.addLabel", canvasId, labels );
+        }
+
+        public static ValueTask<bool> AddDataSet( IJSRuntime runtime, string canvasId, params object[] newDataSet )
+        {
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.addDataset", canvasId, newDataSet );
+        }
+
+        public static ValueTask<bool> AddData<TItem>( IJSRuntime runtime, string canvasId, int dataSetIndex, params TItem[] newData )
+        {
+            return runtime.InvokeAsync<bool>( "blazoriseCharts.addData", canvasId, dataSetIndex, newData );
         }
 
         public static string ToChartTypeString( ChartType type )
@@ -85,8 +105,8 @@ namespace Blazorise.Charts
         {
             return new
             {
-                data.Labels,
-                Datasets = data.Datasets.ToList<object>()
+                data?.Labels,
+                Datasets = data?.Datasets?.ToList<object>()
             };
         }
     }

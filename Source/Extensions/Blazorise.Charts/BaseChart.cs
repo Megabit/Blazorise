@@ -66,9 +66,9 @@ namespace Blazorise.Charts
     }
 
     public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IBaseChart
-        where TDataSet : ChartDataset<TItem>
-        where TOptions : ChartOptions
-        where TModel : ChartModel
+    where TDataSet : ChartDataset<TItem>
+    where TOptions : ChartOptions
+    where TModel : ChartModel
     {
         #region Members
 
@@ -79,18 +79,6 @@ namespace Blazorise.Charts
         #endregion
 
         #region Methods
-
-        private async Task Initialize()
-        {
-            dotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
-
-            await JS.InitializeChart( JSRuntime, dotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type,
-                Data,
-                Options,
-                DataJsonString,
-                OptionsJsonString,
-                OptionsObject );
-        }
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
@@ -107,21 +95,24 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
-        /// Clears all the data from the chart.
+        /// Clears all the labels and data from the chart.
         /// </summary>
-        public void Clear()
+        public async Task Clear()
         {
             dirty = true;
 
             Data?.Labels?.Clear();
             Data?.Datasets?.Clear();
+
+            if ( initialized )
+                await JS.Clear( JSRuntime, ElementId );
         }
 
         /// <summary>
         /// Adds a new label to the chart.
         /// </summary>
-        /// <param name="label"></param>
-        public void AddLabel( params string[] label )
+        /// <param name="label">Label name(s).</param>
+        public async Task AddLabel( params string[] label )
         {
             dirty = true;
 
@@ -132,13 +123,16 @@ namespace Blazorise.Charts
                 Data.Labels = new List<string>();
 
             Data.Labels.AddRange( label );
+
+            if ( initialized )
+                await JS.AddLabel( JSRuntime, ElementId, label );
         }
 
         /// <summary>
         /// Adds a new dataset to the chart.
         /// </summary>
-        /// <param name="dataSet"></param>
-        public void AddDataSet( params TDataSet[] dataSet )
+        /// <param name="dataSet">Data set(s).</param>
+        public async Task AddDataSet( params TDataSet[] dataSet )
         {
             dirty = true;
 
@@ -149,13 +143,61 @@ namespace Blazorise.Charts
                 Data.Datasets = new List<ChartDataset<TItem>>();
 
             Data.Datasets.AddRange( dataSet );
+
+            if ( initialized )
+                await JS.AddDataSet( JSRuntime, ElementId, dataSet );
         }
 
-        public void SetOptions( TOptions options )
+        /// <summary>
+        /// Adds the new data point to the specified dataset.
+        /// </summary>
+        /// <param name="dataSetIndex">Dataset index to which we add the data point.</param>
+        /// <param name="data">Data point(s) to add.</param>
+        /// <returns></returns>
+        public async Task AddData( int dataSetIndex, params TItem[] data )
+        {
+            dirty = true;
+
+            if ( Data == null )
+                Data = new ChartData<TItem>();
+
+            if ( Data.Datasets == null )
+                Data.Datasets = new List<ChartDataset<TItem>>();
+
+            if ( Data.Datasets[dataSetIndex].Data == null )
+                Data.Datasets[dataSetIndex].Data = new List<TItem>();
+
+            Data.Datasets[dataSetIndex].Data.AddRange( data );
+
+            if ( initialized )
+                await JS.AddData( JSRuntime, ElementId, dataSetIndex, data );
+        }
+
+        /// <summary>
+        /// Sets the charts options manually. Must call 
+        /// </summary>
+        /// <param name="options">New chart options.</param>
+        /// <returns></returns>
+        public async Task SetOptions( TOptions options )
         {
             dirty = true;
 
             Options = options;
+
+            if ( initialized )
+                await JS.SetOptions( JSRuntime, ElementId, Options, OptionsJsonString, OptionsObject );
+        }
+
+        private async Task Initialize()
+        {
+            dotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
+
+            await JS.Initialize( JSRuntime, dotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type,
+                Data,
+                Options,
+                DataJsonString,
+                OptionsJsonString,
+                OptionsObject );
         }
 
         /// <summary>
@@ -168,12 +210,7 @@ namespace Blazorise.Charts
             {
                 dirty = false;
 
-                await JS.UpdateChart( JSRuntime, ElementId,
-                    Data,
-                    Options,
-                    DataJsonString,
-                    OptionsJsonString,
-                    OptionsObject );
+                await JS.Update( JSRuntime, ElementId );
             }
         }
 
@@ -194,7 +231,7 @@ namespace Blazorise.Charts
         // TODO: this is just temporary until System.Text.Json implements serialization of the inheriter fields.
         private object Serialize( string data )
         {
-            switch ( this.Type )
+            switch ( Type )
             {
                 case ChartType.Line:
                     return System.Text.Json.JsonSerializer.Deserialize<LineChartModel>( data );
