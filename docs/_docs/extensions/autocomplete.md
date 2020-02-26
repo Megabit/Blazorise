@@ -68,6 +68,7 @@ Install-Package Blazorise.Components
 | ValueField           | Func               |            | Selector for the value field.                         |
 | SelectedValue        | object             |            | Currently selected value.                             |
 | SelectedValueChanged | event              |            | Raises an event after the selected value has changed. |
+| SearchChanged        | event              |            | Occurs on every search text change.                   |
 | Placeholder          | string             |            | Placeholder for the empty search field.               |
 | MinLength            | int                | 1          | Minimum number of character needed to start search.   |
 | Filter               | enum               | StartsWith | Filter method used to search the data.                |
