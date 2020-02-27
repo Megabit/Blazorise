@@ -38,22 +38,29 @@ namespace Blazorise.DataGrid
             return base.OnFirstAfterRenderAsync();
         }
 
-        protected internal Task OnSelectedCommand( BLMouseEventArgs eventArgs )
+        protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
         {
+            await Clicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
+
             var selectable = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
 
             if ( !selectable )
-                return Task.CompletedTask;
+                return;
 
             // un-select row if the user is holding the ctrl key on already selected row
             if ( eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
                 && ParentDataGrid.SelectedRow != null
                 && (object)Item == (object)ParentDataGrid.SelectedRow )
             {
-                return Selected.InvokeAsync( default );
+                await Selected.InvokeAsync( default );
             }
 
-            return Selected.InvokeAsync( Item );
+            await Selected.InvokeAsync( Item );
+        }
+
+        protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
+        {
+            return DoubleClicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
         }
 
         protected internal Task OnEditCommand()
@@ -96,6 +103,16 @@ namespace Blazorise.DataGrid
         /// Occurs after the row is selected.
         /// </summary>
         [Parameter] public EventCallback<TItem> Selected { get; set; }
+
+        /// <summary>
+        /// Occurs after the row is clicked.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> Clicked { get; set; }
+
+        /// <summary>
+        /// Occurs after the row is double clicked.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> DoubleClicked { get; set; }
 
         /// <summary>
         /// Activates the edit command for current item.
