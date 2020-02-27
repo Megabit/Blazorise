@@ -1,6 +1,7 @@
 @typeparam TItem
 @inherits _BaseDataGridRow<TItem>
-<TableRow Clicked="@OnSelectedCommand"
+<TableRow Clicked="@HandleClick"
+          DoubleClicked="@HandleDoubleClick"
           Background="@(ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item ? Background.Primary : Background.None)"
           HoverCursor="@HoverCursor">
     @foreach ( var column in Columns )

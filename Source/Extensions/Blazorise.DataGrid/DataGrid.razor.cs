@@ -137,6 +137,16 @@ namespace Blazorise.DataGrid
             return SelectRow( item );
         }
 
+        protected Task OnRowClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+        {
+            return RowClicked.InvokeAsync( eventArgs );
+        }
+
+        protected Task OnRowDoubleClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+        {
+            return RowDoubleClicked.InvokeAsync( eventArgs );
+        }
+
         protected void OnNewCommand()
         {
             InitEditItem( CreateNewItem() );
@@ -691,6 +701,16 @@ namespace Blazorise.DataGrid
         /// Event called after the row is removed.
         /// </summary>
         [Parameter] public EventCallback<TItem> RowRemoved { get; set; }
+
+        /// <summary>
+        /// Event called after the row is clicked.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowClicked { get; set; }
+
+        /// <summary>
+        /// Event called after the row is double clicked.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowDoubleClicked { get; set; }
 
         /// <summary>
         /// Occurs after the selected page has changed.
