@@ -62,7 +62,7 @@ namespace Blazorise.Components
 
             var activeItemIndex = ActiveItemIndex;
 
-            if ( ( e.Code == "Enter" || e.Code == "NumpadEnter" ) )
+            if ( ( e.Code == "Enter" || e.Code == "NumpadEnter" || e.Code == "Tab" ) )
             {
                 var item = FilteredData.ElementAtOrDefault( activeItemIndex );
 
