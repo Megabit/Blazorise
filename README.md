@@ -211,3 +211,18 @@ public class Startup
     }
 }
 ```
+
+## Try Preview
+
+If you're willing to try preview versions of Blazorise all you need to do is to setup Visual Studio so it knows how to use Blazorise [MyGet feed](https://www.myget.org/feed/Details/blazorise). The easies way to do this is to create `NuGet.config` file and place it into your solution root folder. Then you copy the following content and paste it to the `NuGet.config`.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <add key="BlazoriseMyGet" value="https://www.myget.org/F/blazorise/api/v3/index.json" />
+  </packageSources>
+</configuration>
+```
+
+Now you will be able to get preview versions of Blazorise with the latest changes and bug fixes.
