@@ -1024,33 +1024,33 @@ namespace Blazorise
             switch ( columnWidth )
             {
                 case Blazorise.ColumnWidth.Is1:
-                    return "1";
-                case Blazorise.ColumnWidth.Is2:
                     return "2";
+                case Blazorise.ColumnWidth.Is2:
+                    return "4";
                 case Blazorise.ColumnWidth.Is3:
                 case Blazorise.ColumnWidth.Quarter:
-                    return "3";
+                    return "6";
                 case Blazorise.ColumnWidth.Is4:
                 case Blazorise.ColumnWidth.Third:
-                    return "4";
+                    return "8";
                 case Blazorise.ColumnWidth.Is5:
-                    return "5";
+                    return "10";
                 case Blazorise.ColumnWidth.Is6:
                 case Blazorise.ColumnWidth.Half:
-                    return "6";
+                    return "12";
                 case Blazorise.ColumnWidth.Is7:
-                    return "7";
+                    return "14";
                 case Blazorise.ColumnWidth.Is8:
-                    return "8";
+                    return "16";
                 case Blazorise.ColumnWidth.Is9:
-                    return "9";
+                    return "18";
                 case Blazorise.ColumnWidth.Is10:
-                    return "10";
+                    return "20";
                 case Blazorise.ColumnWidth.Is11:
-                    return "11";
+                    return "22";
                 case Blazorise.ColumnWidth.Is12:
                 case Blazorise.ColumnWidth.Full:
-                    return "12";
+                    return "24";
                 case Blazorise.ColumnWidth.Auto:
                     return "auto";
                 default:
