@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Components
 {
-    public abstract class BaseAutocomplete<TItem> : ComponentBase
+    public partial class Autocomplete<TItem> : ComponentBase
     {
         #region Members
 

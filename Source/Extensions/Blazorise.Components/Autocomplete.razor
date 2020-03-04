@@ -1,5 +1,4 @@
 ﻿@typeparam TItem
-@inherits BaseAutocomplete<TItem>
 <Dropdown @ref="dropdownRef">
     <TextEdit Text="@SelectedText" TextChanged="@HandleTextChanged" Placeholder="@Placeholder" Size="@Size" Disabled="@Disabled" KeyDown="@HandleTextKeyDown" />
     <DropdownMenu>

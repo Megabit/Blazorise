@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Components
 {
-    public abstract class BaseSelectList<TItem> : ComponentBase
+    public partial class SelectList<TItem> : ComponentBase
     {
         #region Members
 
