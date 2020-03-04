@@ -38,6 +38,13 @@ namespace Blazorise.Components
 
         [Parameter] public EventCallback<object> SelectedValueChanged { get; set; }
 
+        [Parameter] public string Class { get; set; }
+
+        [Parameter] public string Style { get; set; }
+
+        [Parameter( CaptureUnmatchedValues = true )]
+        public Dictionary<string, object> Attributes { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
