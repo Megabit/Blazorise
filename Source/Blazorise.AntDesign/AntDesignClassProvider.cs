@@ -780,13 +780,13 @@ namespace Blazorise.AntDesign
 
         #region Breadcrumb
 
-        public override string Breadcrumb() => "breadcrumb";
+        public override string Breadcrumb() => "ant-breadcrumb";
 
-        public override string BreadcrumbItem() => "breadcrumb-item";
+        public override string BreadcrumbItem() => null;
 
-        public override string BreadcrumbItemActive() => Active();
+        public override string BreadcrumbItemActive() => null;
 
-        public override string BreadcrumbLink() => null;
+        public override string BreadcrumbLink() => "ant-breadcrumb-link";
 
         #endregion
 
