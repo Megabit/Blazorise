@@ -9,3 +9,8 @@
     @media (min-width: 1200px) {
         .ant-modal-xl {
             width: 1140px; } }
+
+.ant-tag-pill {
+    padding-right: .6em;
+    padding-left: .6em;
+    border-radius: 10rem; }

@@ -250,7 +250,7 @@ namespace Blazorise.AntDesign
             var background = ToHex( backgroundColor );
             var yiqBackground = ToHex( yiqBackgroundColor );
 
-            sb.Append( $".badge-{variant}" ).Append( "{" )
+            sb.Append( $".ant-tag-{variant}" ).Append( "{" )
                 .Append( $"color: {yiqBackground};" )
                 .Append( $"background-color: {background};" )
                 .AppendLine( "}" );
@@ -397,7 +397,7 @@ namespace Blazorise.AntDesign
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
-            sb.Append( $".badge" ).Append( "{" )
+            sb.Append( $".ant-tag:not(.ant-tag-pill)" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }

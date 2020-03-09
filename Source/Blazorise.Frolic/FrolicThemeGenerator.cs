@@ -303,7 +303,7 @@ namespace Blazorise.Frolic
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
-            sb.Append( $".e-tag" ).Append( "{" )
+            sb.Append( $".e-tag:not(.e-tag .rounded)" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }

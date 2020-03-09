@@ -708,7 +708,7 @@ namespace Blazorise.AntDesign
 
         #region Badge
 
-        public override string Badge() => "badge";
+        public override string Badge() => "ant-tag";
 
         public override string BadgeColor( Color color ) => $"{Badge()}-{ToColor( color )}";
 

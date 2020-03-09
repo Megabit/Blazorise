@@ -397,7 +397,7 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
-            sb.Append( $".badge" ).Append( "{" )
+            sb.Append( $".badge:not(.badge-pill)" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
