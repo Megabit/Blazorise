@@ -9,7 +9,7 @@ namespace Blazorise.AntDesign
 {
     public partial class AntDesignJSRunner : JSRunner
     {
-        private const string ANTDESIGN_NAMESPACE = "antDesignBootstrap";
+        private const string ANTDESIGN_NAMESPACE = "antDesign";
 
         public AntDesignJSRunner( IJSRuntime runtime )
             : base( runtime )

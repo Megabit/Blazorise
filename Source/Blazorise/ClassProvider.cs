@@ -498,11 +498,17 @@ namespace Blazorise
 
         public abstract string ModalFade();
 
-        public abstract string ModalShow();
+        public abstract string ModalVisible( bool visible );
 
         public abstract string ModalBackdrop();
 
+        public abstract string ModalBackdropFade();
+
+        public abstract string ModalBackdropVisible( bool visible );
+
         public abstract string ModalContent( bool dialog );
+
+        public abstract string ModalContentSize( ModalSize modalSize );
 
         public abstract string ModalContentCentered();
 
@@ -1024,33 +1030,33 @@ namespace Blazorise
             switch ( columnWidth )
             {
                 case Blazorise.ColumnWidth.Is1:
-                    return "2";
+                    return "1";
                 case Blazorise.ColumnWidth.Is2:
-                    return "4";
+                    return "2";
                 case Blazorise.ColumnWidth.Is3:
                 case Blazorise.ColumnWidth.Quarter:
-                    return "6";
+                    return "3";
                 case Blazorise.ColumnWidth.Is4:
                 case Blazorise.ColumnWidth.Third:
-                    return "8";
+                    return "4";
                 case Blazorise.ColumnWidth.Is5:
-                    return "10";
+                    return "5";
                 case Blazorise.ColumnWidth.Is6:
                 case Blazorise.ColumnWidth.Half:
-                    return "12";
+                    return "6";
                 case Blazorise.ColumnWidth.Is7:
-                    return "14";
+                    return "7";
                 case Blazorise.ColumnWidth.Is8:
-                    return "16";
+                    return "8";
                 case Blazorise.ColumnWidth.Is9:
-                    return "18";
+                    return "9";
                 case Blazorise.ColumnWidth.Is10:
-                    return "20";
+                    return "10";
                 case Blazorise.ColumnWidth.Is11:
-                    return "22";
+                    return "11";
                 case Blazorise.ColumnWidth.Is12:
                 case Blazorise.ColumnWidth.Full:
-                    return "24";
+                    return "12";
                 case Blazorise.ColumnWidth.Auto:
                     return "auto";
                 default:
@@ -1063,11 +1069,11 @@ namespace Blazorise
             switch ( modalSize )
             {
                 case Blazorise.ModalSize.Small:
-                    return "modal-sm";
+                    return "sm";
                 case Blazorise.ModalSize.Large:
-                    return "modal-lg";
+                    return "lg";
                 case Blazorise.ModalSize.ExtraLarge:
-                    return "modal-xl";
+                    return "xl";
                 case Blazorise.ModalSize.Default:
                 default:
                     return null;

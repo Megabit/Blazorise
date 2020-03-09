@@ -500,11 +500,17 @@ namespace Blazorise.Providers
 
         public string ModalFade() => null;
 
-        public string ModalShow() => null;
+        public string ModalVisible( bool visible ) => null;
 
         public string ModalBackdrop() => null;
 
+        public string ModalBackdropFade() => null;
+
+        public string ModalBackdropVisible( bool visible ) => null;
+
         public string ModalContent( bool dialog ) => null;
+
+        public string ModalContentSize( ModalSize modalSize ) => null;
 
         public string ModalContentCentered() => null;
 

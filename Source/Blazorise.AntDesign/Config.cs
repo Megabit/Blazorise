@@ -35,6 +35,8 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.CardHeader, AntDesign.CardHeader>();
             componentMapper.Register<Blazorise.DropdownMenu, AntDesign.DropdownMenu>();
             componentMapper.Register<Blazorise.DropdownItem, AntDesign.DropdownItem>();
+            componentMapper.Register<Blazorise.ModalBackdrop, AntDesign.ModalBackdrop>();
+            componentMapper.Register<Blazorise.ModalContent, AntDesign.ModalContent>();
             componentMapper.Register<Blazorise.Progress, AntDesign.Progress>();
             componentMapper.Register( typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) );
         }

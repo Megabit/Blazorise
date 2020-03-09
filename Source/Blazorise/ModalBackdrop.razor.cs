@@ -68,8 +68,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ModalBackdrop() );
-            builder.Append( ClassProvider.ModalFade() );
-            builder.Append( ClassProvider.ModalShow(), Visible );
+            builder.Append( ClassProvider.ModalBackdropFade() );
+            builder.Append( ClassProvider.ModalBackdropVisible( Visible ) );
 
             base.BuildClasses( builder );
         }

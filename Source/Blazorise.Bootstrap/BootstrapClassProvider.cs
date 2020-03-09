@@ -572,13 +572,19 @@ namespace Blazorise.Bootstrap
 
         public override string Modal() => "modal";
 
-        public override string ModalFade() => $"{Fade()}";
+        public override string ModalFade() => Fade();
 
-        public override string ModalShow() => $"{Show()}";
+        public override string ModalVisible( bool visible ) => visible ? Show() : null;
 
         public override string ModalBackdrop() => "modal-backdrop";
 
+        public override string ModalBackdropFade() => Fade();
+
+        public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+
         public override string ModalContent( bool dialog ) => "modal-content";
+
+        public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
         public override string ModalContentCentered() => "modal-dialog-centered";
 

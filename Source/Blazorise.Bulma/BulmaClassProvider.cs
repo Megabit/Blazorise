@@ -572,11 +572,17 @@ namespace Blazorise.Bulma
 
         public override string ModalFade() => null;
 
-        public override string ModalShow() => $"{Active()}";
+        public override string ModalVisible( bool visible ) => visible ? Active() : null;
 
         public override string ModalBackdrop() => "modal-background";
 
+        public override string ModalBackdropFade() => Fade();
+
+        public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+
         public override string ModalContent( bool dialog ) => dialog ? "modal-card" : "modal-content";
+
+        public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
         public override string ModalContentCentered() => null;
 

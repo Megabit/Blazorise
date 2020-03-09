@@ -491,11 +491,17 @@ namespace Blazorise
 
         string ModalFade();
 
-        string ModalShow();
+        string ModalVisible( bool visible );
 
         string ModalBackdrop();
 
+        string ModalBackdropFade();
+
+        string ModalBackdropVisible( bool visible );
+
         string ModalContent( bool dialog );
+
+        string ModalContentSize( ModalSize modalSize );
 
         string ModalContentCentered();
 

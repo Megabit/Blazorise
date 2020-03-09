@@ -1,1 +1,11 @@
-﻿
+﻿.ant-modal {
+    width: 520px; }
+    @media (min-width: 576px) {
+        .ant-modal-sm {
+            width: 300px; } }
+    @media (min-width: 992px) {
+        .ant-modal-lg {
+            width: 800px; } }
+    @media (min-width: 1200px) {
+        .ant-modal-xl {
+            width: 1140px; } }

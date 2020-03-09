@@ -570,25 +570,31 @@ namespace Blazorise.AntDesign
 
         #region Modal
 
-        public override string Modal() => "modal";
+        public override string Modal() => "ant-modal-root";
 
-        public override string ModalFade() => $"{Fade()}";
+        public override string ModalFade() => null;
 
-        public override string ModalShow() => $"{Show()}";
+        public override string ModalVisible( bool visible ) => null;
 
-        public override string ModalBackdrop() => "modal-backdrop";
+        public override string ModalBackdrop() => "ant-modal-mask";
 
-        public override string ModalContent( bool dialog ) => "modal-content";
+        public override string ModalBackdropFade() => null;
 
-        public override string ModalContentCentered() => "modal-dialog-centered";
+        public override string ModalBackdropVisible( bool visible ) => visible ? null : "ant-modal-mask-hidden";
 
-        public override string ModalBody() => "modal-body";
+        public override string ModalContent( bool dialog ) => "ant-modal-content";
 
-        public override string ModalHeader() => "modal-header";
+        public override string ModalContentSize( ModalSize modalSize ) => null;
 
-        public override string ModalFooter() => "modal-footer";
+        public override string ModalContentCentered() => "ant-modal-dialog-centered";
 
-        public override string ModalTitle() => "modal-title";
+        public override string ModalBody() => "ant-modal-body";
+
+        public override string ModalHeader() => "ant-modal-header";
+
+        public override string ModalFooter() => "ant-modal-footer";
+
+        public override string ModalTitle() => "ant-modal-title";
 
         #endregion
 
@@ -840,7 +846,50 @@ namespace Blazorise.AntDesign
 
         public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
 
-        #endregion       
+        #endregion
+
+        #region Enums
+
+        public override string ToColumnWidth( ColumnWidth columnWidth )
+        {
+            switch ( columnWidth )
+            {
+                case Blazorise.ColumnWidth.Is1:
+                    return "2";
+                case Blazorise.ColumnWidth.Is2:
+                    return "4";
+                case Blazorise.ColumnWidth.Is3:
+                case Blazorise.ColumnWidth.Quarter:
+                    return "6";
+                case Blazorise.ColumnWidth.Is4:
+                case Blazorise.ColumnWidth.Third:
+                    return "8";
+                case Blazorise.ColumnWidth.Is5:
+                    return "10";
+                case Blazorise.ColumnWidth.Is6:
+                case Blazorise.ColumnWidth.Half:
+                    return "12";
+                case Blazorise.ColumnWidth.Is7:
+                    return "14";
+                case Blazorise.ColumnWidth.Is8:
+                    return "16";
+                case Blazorise.ColumnWidth.Is9:
+                    return "18";
+                case Blazorise.ColumnWidth.Is10:
+                    return "20";
+                case Blazorise.ColumnWidth.Is11:
+                    return "22";
+                case Blazorise.ColumnWidth.Is12:
+                case Blazorise.ColumnWidth.Full:
+                    return "24";
+                case Blazorise.ColumnWidth.Auto:
+                    return "auto";
+                default:
+                    return null;
+            }
+        }
+
+        #endregion
 
         public override bool UseCustomInputStyles { get; set; } = true;
 

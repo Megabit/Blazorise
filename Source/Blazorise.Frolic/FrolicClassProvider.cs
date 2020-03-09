@@ -563,11 +563,17 @@ namespace Blazorise.Frolic
 
         public override string ModalFade() => "e-modal-e";
 
-        public override string ModalShow() => "launch";
+        public override string ModalVisible( bool visible ) => visible ? "launch" : null;
 
         public override string ModalBackdrop() => "e-modal-backdrop";
 
+        public override string ModalBackdropFade() => Fade();
+
+        public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+
         public override string ModalContent( bool dialog ) => "e-modal-content";
+
+        public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
         public override string ModalContentCentered() => "modal-dialog-centered";
 
