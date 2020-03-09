@@ -600,17 +600,17 @@ namespace Blazorise.AntDesign
 
         #region Pagination
 
-        public override string Pagination() => "pagination";
+        public override string Pagination() => "ant-pagination";
 
         public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
 
-        public override string PaginationItem() => "page-item";
+        public override string PaginationItem() => "ant-pagination-item";
 
-        public override string PaginationItemActive() => Active();
+        public override string PaginationItemActive() => "ant-pagination-item-active";
 
         public override string PaginationItemDisabled() => Disabled();
 
-        public override string PaginationLink() => "page-link";
+        public override string PaginationLink() => "ant-pagination-link";
 
         public override string PaginationLinkActive() => null;
 
