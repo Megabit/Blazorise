@@ -25,6 +25,8 @@ namespace Blazorise.Frolic
 
         public string ProgressBarValue( int value ) => null/*$"height: {value}%"*/;
 
+        public string ProgressBarSize( Size size ) => null;
+
         #endregion
 
         #region Layout

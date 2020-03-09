@@ -25,6 +25,8 @@ namespace Blazorise.Bootstrap
 
         public virtual string ProgressBarValue( int value ) => $"width: {value}%";
 
+        public virtual string ProgressBarSize( Size size ) => null;
+
         #endregion
 
         #region Layout

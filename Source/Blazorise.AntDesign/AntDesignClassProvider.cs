@@ -391,7 +391,7 @@ namespace Blazorise.AntDesign
 
         public override string CardTitle() => "ant-card-head-title";
 
-        public override string CardSubtitle() => "card-subtitle";
+        public override string CardSubtitle() => "ant-card-head-subtitle";
 
         public override string CardSubtitleSize( int size ) => null;
 
@@ -614,11 +614,11 @@ namespace Blazorise.AntDesign
 
         #region Progress
 
-        public override string Progress() => "progress";
+        public override string Progress() => "ant-progress ant-progress-line";
 
         public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
 
-        public override string ProgressBar() => "progress-bar";
+        public override string ProgressBar() => "ant-progress-bg";
 
         public override string ProgressBarColor( Background background ) => BackgroundColor( background );
 
@@ -626,7 +626,7 @@ namespace Blazorise.AntDesign
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
 
-        public override string ProgressBarWidth( int width ) => $"w-{width}";
+        public override string ProgressBarWidth( int width ) => null;
 
         #endregion
 

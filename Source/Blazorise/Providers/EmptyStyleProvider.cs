@@ -25,6 +25,8 @@ namespace Blazorise.Providers
 
         public string ProgressBarValue( int value ) => null;
 
+        public string ProgressBarSize( Size size ) => null;
+
         #endregion
 
         #region Layout

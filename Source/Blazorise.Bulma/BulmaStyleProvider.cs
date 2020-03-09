@@ -25,6 +25,8 @@ namespace Blazorise.Bulma
 
         public string ProgressBarValue( int value ) => $"width: {value}%";
 
+        public string ProgressBarSize( Size size ) => null;
+
         #endregion
 
         #region Layout
