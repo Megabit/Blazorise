@@ -483,6 +483,14 @@ namespace Blazorise
 
         string AlertShow();
 
+        string AlertHasMessage();
+
+        string AlertHasDescription();
+
+        string AlertMessage();
+
+        string AlertDescription();
+
         #endregion
 
         #region Modal

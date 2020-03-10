@@ -267,7 +267,7 @@ namespace Blazorise
 
             GenerateAlertVariantStyles( sb, theme, variant,
                 ThemeColorLevelHex( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
-                ThemeColorLevelHex( theme, color, theme.AlertOptions?.BorderLevel ?? -9 ),
+                ThemeColorLevelHex( theme, color, theme.AlertOptions?.BorderLevel ?? -7 ),
                 ThemeColorLevelHex( theme, color, theme.AlertOptions?.ColorLevel ?? 6 ),
                 theme.AlertOptions );
 
@@ -344,16 +344,25 @@ namespace Blazorise
         protected System.Drawing.Color ThemeColorLevel( Theme theme, string inColor, int level )
         {
             var color = ParseColor( inColor );
-            var colorBase = level > 0 ? ParseColor( Var( ThemeVariables.Black, "#343a40" ) ) : ParseColor( Var( ThemeVariables.White, "#ffffff" ) );
+
+            var colorBase = level > 0
+                ? ParseColor( Var( ThemeVariables.Black, "#343a40" ) )
+                : ParseColor( Var( ThemeVariables.White, "#ffffff" ) );
+
             level = Math.Abs( level );
-            return Blend( colorBase, color, level * 8f );
+
+            return Blend( colorBase, color, level * theme.ThemeColorInterval );
         }
 
         protected System.Drawing.Color ThemeColorLevel( Theme theme, System.Drawing.Color color, int level )
         {
-            var colorBase = level > 0 ? ParseColor( Var( ThemeVariables.Black, "#343a40" ) ) : ParseColor( Var( ThemeVariables.White, "#ffffff" ) );
+            var colorBase = level > 0
+                ? ParseColor( Var( ThemeVariables.Black, "#343a40" ) )
+                : ParseColor( Var( ThemeVariables.White, "#ffffff" ) );
+
             level = Math.Abs( level );
-            return Blend( colorBase, color, level * 8f );
+
+            return Blend( colorBase, color, level * theme.ThemeColorInterval );
         }
 
         protected string ThemeColorLevelHex( Theme theme, string inColor, int level )
@@ -483,12 +492,12 @@ namespace Blazorise
             return System.Drawing.Color.FromArgb( d, d, d );
         }
 
-        protected static System.Drawing.Color Blend( System.Drawing.Color color, System.Drawing.Color backColor, float percentage )
+        protected static System.Drawing.Color Blend( System.Drawing.Color color, System.Drawing.Color color2, float percentage )
         {
-            var amount = percentage / 100;
-            byte r = (byte)( ( color.R * amount ) + backColor.R * ( 1 - amount ) );
-            byte g = (byte)( ( color.G * amount ) + backColor.G * ( 1 - amount ) );
-            byte b = (byte)( ( color.B * amount ) + backColor.B * ( 1 - amount ) );
+            var alpha = percentage / 100f;
+            byte r = (byte)( ( color.R * alpha ) + color2.R * ( 1f - alpha ) );
+            byte g = (byte)( ( color.G * alpha ) + color2.G * ( 1f - alpha ) );
+            byte b = (byte)( ( color.B * alpha ) + color2.B * ( 1f - alpha ) );
             return System.Drawing.Color.FromArgb( r, g, b );
         }
 

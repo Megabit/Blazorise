@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Providers
@@ -491,6 +492,14 @@ namespace Blazorise.Providers
         public string AlertFade() => null;
 
         public string AlertShow() => null;
+
+        public string AlertHasMessage() => null;
+
+        public string AlertHasDescription() => null;
+
+        public string AlertMessage() => null;
+
+        public string AlertDescription() => null;
 
         #endregion
 

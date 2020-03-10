@@ -566,6 +566,14 @@ namespace Blazorise.Bootstrap
 
         public override string AlertShow() => Show();
 
+        public override string AlertHasMessage() => null;
+
+        public override string AlertHasDescription() => null;
+
+        public override string AlertMessage() => null;
+
+        public override string AlertDescription() => null;
+
         #endregion
 
         #region Modal

@@ -60,6 +60,11 @@ namespace Blazorise
         public ThemeBackgroundOptions BackgroundOptions { get; set; }
 
         /// <summary>
+        /// Set a specific jump point for requesting color jumps
+        /// </summary>
+        public float ThemeColorInterval { get; set; } = 8f;
+
+        /// <summary>
         /// Overrides the button styles.
         /// </summary>
         public ThemeButtonOptions ButtonOptions { get; set; }
@@ -170,7 +175,7 @@ namespace Blazorise
     {
         public int BackgroundLevel { get; set; } = -10;
 
-        public int BorderLevel { get; set; } = -9;
+        public int BorderLevel { get; set; } = -7;
 
         public int ColorLevel { get; set; } = 6;
 

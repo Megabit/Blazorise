@@ -32,10 +32,13 @@ namespace Blazorise.AntDesign
 
         private static void RegisterComponents( IComponentMapper componentMapper )
         {
+            componentMapper.Register<Blazorise.AlertMessage, AntDesign.AlertMessage>();
+            componentMapper.Register<Blazorise.AlertDescription, AntDesign.AlertDescription>();
             componentMapper.Register<Blazorise.Breadcrumb, AntDesign.Breadcrumb>();
             componentMapper.Register<Blazorise.BreadcrumbItem, AntDesign.BreadcrumbItem>();
             componentMapper.Register<Blazorise.BreadcrumbLink, AntDesign.BreadcrumbLink>();
             componentMapper.Register<Blazorise.CardHeader, AntDesign.CardHeader>();
+            componentMapper.Register<Blazorise.CloseButton, AntDesign.CloseButton>();
             componentMapper.Register<Blazorise.DropdownMenu, AntDesign.DropdownMenu>();
             componentMapper.Register<Blazorise.DropdownItem, AntDesign.DropdownItem>();
             componentMapper.Register<Blazorise.ModalBackdrop, AntDesign.ModalBackdrop>();

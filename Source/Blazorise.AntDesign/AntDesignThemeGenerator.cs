@@ -269,13 +269,13 @@ namespace Blazorise.AntDesign
             var text = ToHex( textColor );
             var alertLink = ToHex( alertLinkColor );
 
-            sb.Append( $".alert-{variant}" ).Append( "{" )
+            sb.Append( $".ant-alert-{variant}" ).Append( "{" )
                 .Append( $"color: {text};" )
                 .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".alert-{variant}.alert-link" ).Append( "{" )
+            sb.Append( $".ant-alert-{variant}.alert-link" ).Append( "{" )
                 .Append( $"color: {alertLink};" )
                 .AppendLine( "}" );
         }
@@ -375,21 +375,21 @@ namespace Blazorise.AntDesign
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
         {
-            sb.Append( $".alert" ).Append( "{" )
+            sb.Append( $".ant-alert" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
 
         protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
         {
-            sb.Append( $".breadcrumb" ).Append( "{" )
+            sb.Append( $".ant-breadcrumb" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
-                sb.Append( $".breadcrumb-item>a" ).Append( "{" )
+                sb.Append( $".ant-breadcrumb-item>a" ).Append( "{" )
                     .Append( $"color: {theme.ColorOptions.Primary};" )
                     .AppendLine( "}" );
             }

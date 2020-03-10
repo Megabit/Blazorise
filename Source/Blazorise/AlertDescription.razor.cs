@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class CloseButton : BaseComponent
+    public partial class AlertDescription : BaseComponent
     {
         #region Members
 
@@ -18,24 +18,21 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.CloseButton() );
+            builder.Append( ClassProvider.AlertDescription() );
 
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected override void OnInitialized()
         {
-            Clicked.InvokeAsync( null );
+            ParentAlert?.NotifyHasDescription();
+
+            base.OnInitialized();
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Occurs when the button is clicked.
-        /// </summary>
-        [Parameter] public EventCallback Clicked { get; set; }
 
         [CascadingParameter] protected Alert ParentAlert { get; set; }
 

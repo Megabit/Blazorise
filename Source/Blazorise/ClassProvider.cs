@@ -490,6 +490,14 @@ namespace Blazorise
 
         public abstract string AlertShow();
 
+        public abstract string AlertHasMessage();
+
+        public abstract string AlertHasDescription();
+
+        public abstract string AlertMessage();
+
+        public abstract string AlertDescription();
+
         #endregion
 
         #region Modal

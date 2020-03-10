@@ -244,26 +244,39 @@
             </CardHeader>
             <CardBody>
                 <Alert Color="Color.Success" Visible="true">
-                    <strong>Well done!</strong> You successfully read this important alert message.
+                    <AlertMessage>Well done!</AlertMessage>
+                    <AlertDescription>You successfully read this important alert message.</AlertDescription>
                 </Alert>
                 <Alert Color="Color.Info" Visible="true">
-                    <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+                    <AlertMessage>Heads up!</AlertMessage>
+                    <AlertDescription>
+                        This alert needs your attention, but it's not super important.
+                    </AlertDescription>
                 </Alert>
                 <Alert Color="Color.Warning" Visible="true">
-                    <strong> Warning!</strong> Better check yourself, you're not looking too good.
+                    <AlertMessage> Warning!</AlertMessage>
+                    <AlertDescription>
+                        Better check yourself, you're not looking too good.
+                    </AlertDescription>
                 </Alert>
                 <Alert Color="Color.Danger" Visible="true">
-                    <strong>Oh snap!</strong> Change a few things up and try submitting again.
+                    <AlertMessage>Oh snap!</AlertMessage>
+                    <AlertDescription>
+                        Change a few things up and try submitting again.
+                    </AlertDescription>
                 </Alert>
                 <Alert Color="Color.Success" Visible="true">
                     <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">Big one!</Heading>
-                    <p>
-                        <strong>Well done!</strong> You successfully read this important alert message.
-                    </p>
-                    <p>
+                    <Paragraph>
+                        <AlertMessage>Well done!</AlertMessage>
+                        <AlertDescription>
+                            You successfully read this important alert message.
+                        </AlertDescription>
+                    </Paragraph>
+                    <Paragraph>
                         <Button Color="Color.Success">Wanna do this</Button>
                         <Button Color="Color.Light">Or do this</Button>
-                    </p>
+                    </Paragraph>
                 </Alert>
             </CardBody>
         </Card>
@@ -275,19 +288,37 @@
             </CardHeader>
             <CardBody>
                 <Alert Color="Color.Success" Visible="@dismisableAlert1" Dismisable="true">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Alert Link.</strong>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>
+                        Alert Link.
+                    </AlertMessage>
                     <CloseButton Clicked="@(()=>dismisableAlert1 = false)" />
                 </Alert>
                 <Alert Color="Color.Info" Visible="@dismisableAlert2" Dismisable="true">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Alert Link.</strong>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>
+                        Alert Link.
+                    </AlertMessage>
                     <CloseButton Clicked="@(()=>dismisableAlert2 = false)" />
                 </Alert>
                 <Alert Color="Color.Warning" Visible="@dismisableAlert3" Dismisable="true">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Alert Link.</strong>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>
+                        Alert Link.
+                    </AlertMessage>
                     <CloseButton Clicked="@(()=>dismisableAlert3 = false)" />
                 </Alert>
                 <Alert Color="Color.Danger" Visible="@dismisableAlert4" Dismisable="true">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Alert Link.</strong>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>Alert Link.</AlertMessage>
                     <CloseButton Clicked="@(()=>dismisableAlert4 = false)" />
                 </Alert>
                 <Alert Color="Color.Info" Visible="@dismisableAlert5" Dismisable="true">

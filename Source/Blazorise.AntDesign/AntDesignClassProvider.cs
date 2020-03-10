@@ -556,15 +556,23 @@ namespace Blazorise.AntDesign
 
         #region Alert
 
-        public override string Alert() => "alert";
+        public override string Alert() => "ant-alert ant-alert-no-icon";
 
-        public override string AlertColor( Color color ) => $"{Alert()}-{ToColor( color )}";
+        public override string AlertColor( Color color ) => $"ant-alert-{ToColor( color )}";
 
-        public override string AlertDismisable() => "alert-dismissible";
+        public override string AlertDismisable() => "ant-alert-closable";
 
         public override string AlertFade() => Fade();
 
         public override string AlertShow() => Show();
+
+        public override string AlertHasMessage() => null;
+
+        public override string AlertHasDescription() => "ant-alert-with-description";
+
+        public override string AlertMessage() => "ant-alert-message";
+
+        public override string AlertDescription() => "ant-alert-description";
 
         #endregion
 

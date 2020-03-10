@@ -20,6 +20,10 @@ namespace Blazorise
 
         public event EventHandler<AlertStateEventArgs> StateChanged;
 
+        private bool hasMessage;
+
+        private bool hasDescription;
+
         #endregion
 
         #region Methods
@@ -31,6 +35,8 @@ namespace Blazorise
             builder.Append( ClassProvider.AlertDismisable(), Dismisable );
             builder.Append( ClassProvider.AlertFade(), Dismisable );
             builder.Append( ClassProvider.AlertShow(), Dismisable && Visible );
+            builder.Append( ClassProvider.AlertHasMessage(), hasMessage );
+            builder.Append( ClassProvider.AlertHasDescription(), hasDescription );
 
             base.BuildClasses( builder );
         }
@@ -72,6 +78,22 @@ namespace Blazorise
         private void HandleVisibilityState( bool active )
         {
             Visibility = active ? Visibility.Always : Visibility.Never;
+        }
+
+        internal void NotifyHasMessage()
+        {
+            hasMessage = true;
+
+            DirtyClasses();
+            StateHasChanged();
+        }
+
+        internal void NotifyHasDescription()
+        {
+            hasDescription = true;
+
+            DirtyClasses();
+            StateHasChanged();
         }
 
         #endregion
