@@ -373,7 +373,7 @@ namespace Blazorise.AntDesign
 
         public override string CardGroup() => "card-group";
 
-        public override string Card() => "ant-card";
+        public override string Card() => "ant-card ant-card-bordered";
 
         public override string CardWhiteText() => "text-white";
 
