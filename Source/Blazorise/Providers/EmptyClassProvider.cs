@@ -299,17 +299,17 @@ namespace Blazorise.Providers
 
         public string TabItem() => null;
 
-        public string TabItemActive() => null;
+        public string TabItemActive( bool active ) => null;
 
         public string TabLink() => null;
 
-        public string TabLinkActive() => null;
+        public string TabLinkActive( bool active ) => null;
 
         public string TabsContent() => null;
 
         public string TabPanel() => null;
 
-        public string TabPanelActive() => null;
+        public string TabPanelActive( bool active ) => null;
 
         #endregion
 

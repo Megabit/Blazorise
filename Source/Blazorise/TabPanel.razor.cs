@@ -21,7 +21,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabPanel() );
-            builder.Append( ClassProvider.TabPanelActive(), Active );
+            builder.Append( ClassProvider.TabPanelActive( Active ) );
 
             base.BuildClasses( builder );
         }
@@ -30,6 +30,8 @@ namespace Blazorise
         {
             if ( ParentTabContent != null )
             {
+                ParentTabContent.Hook( Name );
+
                 Active = Name == ParentTabContent.SelectedPanel;
 
                 ParentTabContent.StateChanged += OnTabsContentStateChanged;

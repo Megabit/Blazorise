@@ -344,17 +344,17 @@ namespace Blazorise.Frolic
 
         public override string TabItem() => null;
 
-        public override string TabItemActive() => Active();
+        public override string TabItemActive( bool active ) => active ? Active() : null;
 
         public override string TabLink() => null;
 
-        public override string TabLinkActive() => null;
+        public override string TabLinkActive( bool active ) => null;
 
         public override string TabsContent() => "e-tabs-content";
 
         public override string TabPanel() => "e-tabs-panel";
 
-        public override string TabPanelActive() => Active();
+        public override string TabPanelActive( bool active ) => active ? Active() : null;
 
         #endregion
 

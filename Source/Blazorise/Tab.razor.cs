@@ -30,7 +30,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabItem() );
-            builder.Append( ClassProvider.TabItemActive(), Active );
+            builder.Append( ClassProvider.TabItemActive( Active ) );
 
             base.BuildClasses( builder );
         }
@@ -38,7 +38,7 @@ namespace Blazorise
         private void BuildLinkClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabLink() );
-            builder.Append( ClassProvider.TabLinkActive(), Active );
+            builder.Append( ClassProvider.TabLinkActive( Active ) );
         }
 
         internal protected override void DirtyClasses()

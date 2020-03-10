@@ -293,17 +293,17 @@ namespace Blazorise
 
         string TabItem();
 
-        string TabItemActive();
+        string TabItemActive( bool active );
 
         string TabLink();
 
-        string TabLinkActive();
+        string TabLinkActive( bool active );
 
         string TabsContent();
 
         string TabPanel();
 
-        string TabPanelActive();
+        string TabPanelActive( bool active );
 
         #endregion
 

@@ -295,17 +295,17 @@ namespace Blazorise
 
         public abstract string TabItem();
 
-        public abstract string TabItemActive();
+        public abstract string TabItemActive( bool active );
 
         public abstract string TabLink();
 
-        public abstract string TabLinkActive();
+        public abstract string TabLinkActive( bool active );
 
         public abstract string TabsContent();
 
         public abstract string TabPanel();
 
-        public abstract string TabPanelActive();
+        public abstract string TabPanelActive( bool active );
 
         #endregion
 

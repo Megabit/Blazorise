@@ -355,17 +355,17 @@ namespace Blazorise.Bootstrap
 
         public override string TabItem() => "nav-item";
 
-        public override string TabItemActive() => null;
+        public override string TabItemActive( bool active ) => null;
 
         public override string TabLink() => "nav-link";
 
-        public override string TabLinkActive() => $"{Active()} {Show()}";
+        public override string TabLinkActive( bool active ) => active ? $"{Active()} {Show()}" : null;
 
         public override string TabsContent() => "tab-content";
 
         public override string TabPanel() => "tab-pane";
 
-        public override string TabPanelActive() => $"{Active()} {Show()}";
+        public override string TabPanelActive( bool active ) => active ? $"{Active()} {Show()}" : null;
 
         #endregion
 

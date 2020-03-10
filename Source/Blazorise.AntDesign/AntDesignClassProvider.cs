@@ -341,9 +341,9 @@ namespace Blazorise.AntDesign
 
         #region Tab
 
-        public override string Tabs() => "nav nav-tabs";
+        public override string Tabs() => "ant-tabs ant-tabs-top ant-tabs-line";
 
-        public override string TabsCards() => "card-header-tabs";
+        public override string TabsCards() => "ant-tabs-card-bar";
 
         public override string TabsPills() => "nav-pills";
 
@@ -351,21 +351,21 @@ namespace Blazorise.AntDesign
 
         public override string TabsJustified() => "nav-justified";
 
-        public override string TabsVertical() => "flex-column";
+        public override string TabsVertical() => "ant-tabs-vertical";
 
-        public override string TabItem() => "nav-item";
+        public override string TabItem() => "ant-tabs-tab";
 
-        public override string TabItemActive() => null;
+        public override string TabItemActive( bool active ) => active ? "ant-tabs-tab-active" : null;
 
         public override string TabLink() => "nav-link";
 
-        public override string TabLinkActive() => $"{Active()} {Show()}";
+        public override string TabLinkActive( bool active ) => null;
 
-        public override string TabsContent() => "tab-content";
+        public override string TabsContent() => "ant-tabs-content ant-tabs-content-animated ant-tabs-top-content";
 
-        public override string TabPanel() => "tab-pane";
+        public override string TabPanel() => "ant-tabs-tabpane";
 
-        public override string TabPanelActive() => $"{Active()} {Show()}";
+        public override string TabPanelActive( bool active ) => active ? "ant-tabs-tabpane-active" : "ant-tabs-tabpane-inactive";
 
         #endregion
 

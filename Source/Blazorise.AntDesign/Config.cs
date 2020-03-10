@@ -45,6 +45,10 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.ModalContent, AntDesign.ModalContent>();
             componentMapper.Register<Blazorise.Progress, AntDesign.Progress>();
             componentMapper.Register( typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) );
+            componentMapper.Register<Blazorise.Tabs, AntDesign.Tabs>();
+            componentMapper.Register<Blazorise.Tab, AntDesign.Tab>();
+            componentMapper.Register<Blazorise.TabPanel, AntDesign.TabPanel>();
+            componentMapper.Register<Blazorise.TabsContent, AntDesign.TabsContent>();
         }
 
         /// <summary>
