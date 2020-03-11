@@ -152,6 +152,11 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment<TItem> DisplayTemplate { get; set; }
 
         /// <summary>
+        /// Template for custom column filter rendering
+        /// </summary>
+        [Parameter] public RenderFragment<FilterContext> FilterTemplate { get; set; }
+
+        /// <summary>
         /// Template for custom cell editing.
         /// </summary>
         [Parameter] public RenderFragment<CellEditContext> EditTemplate { get; set; }

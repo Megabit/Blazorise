@@ -59,7 +59,16 @@
                         else
                         {
                             <TableHeaderCell width="@column.Width">
-                                <TextEdit Text="@column.Filter.SearchValue" TextChanged="@(async ( newValue ) => await OnFilterChanged( column, newValue))" />
+                                @if (column.FilterTemplate != null)
+                                {
+                                    var cont = new FilterContext() { SearchValue = column.Filter.SearchValue };
+                                    cont.Subscribe(async (e) => await OnFilterChanged(column, e));
+                                    @(column.FilterTemplate(cont))
+                                }
+                                else
+                                {
+                                    <TextEdit Text="@column.Filter.SearchValue" TextChanged="@(async (newValue) => await OnFilterChanged(column, newValue))" />
+                                }
                             </TableHeaderCell>
                         }
                     }

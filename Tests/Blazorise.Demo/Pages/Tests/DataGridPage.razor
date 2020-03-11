@@ -92,7 +92,21 @@
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
+                            <FilterTemplate>
+                                <Dropdown>
+                                    <DropdownToggle Color="Color.Primary">
+                                        @(context.SearchValue == null?"Select City":context.SearchValue)
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        @foreach (var item in dataModels)
+                                        {
+                                            <DropdownItem Value="@item.City" Clicked="@(e => context.TriggerFilterEvent(e.ToString()))">@item.City</DropdownItem>
+                                        }
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </FilterTemplate>
+                        </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable="true" />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" Caption="Date Of Birth" Editable="true">
                             <DisplayTemplate>
