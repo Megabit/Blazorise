@@ -194,3 +194,12 @@ Specifies divider variants.
 - `Dashed`
 - `Dotted`
 - `TextContent`
+
+## TabPosition
+
+Specifies divider variants.
+
+- `Top` Top side.
+- `Bottom` Bottom side.
+- `Left` Left side.
+- `Right` Right side.
