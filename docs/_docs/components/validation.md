@@ -15,9 +15,12 @@ Validation component is used to provide simple form validation for Blazorise inp
       - `<ValidationError>` error message
       - `<ValidationNone>` message when nothing has happened
 
+**Notice:** Starting from **v0.9** it is advised to also surround `Field` components with `Validation` tags. This will ensure that validation will work in all scenarios!
+{: .notice--warning}
+
 ## Basic validation
 
-For the most part you will need to use just the `<Validation>` component along with `<ValidationSuccess>` and `<ValidationError>`. By default every validation will run automatically when input value changes. You must set the `Validator` event handler where you can define the validation rules and return the validation result.
+For the most part you will need to use just the `<Validation>` component along with `<ValidationSuccess>` and `<ValidationError>`. By default every validation will run automatically when input value changes. You must set the `Validator` event handler where you can define the validation rules and return the validation result.}
 
 ### Example
 
