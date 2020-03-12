@@ -51,3 +51,12 @@
         line-height: 1rem;
     }
 }
+
+.ant-tabs.ant-tabs-justified {
+    .ant-tabs-tab {
+        flex-grow: 1;
+        margin-right: 0px;
+        width: 100%;
+        text-align: center;
+    }
+}

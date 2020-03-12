@@ -52,6 +52,8 @@ namespace Blazorise
         {
             if ( ParentTabs != null )
             {
+                ParentTabs.HookTab( Name );
+
                 Active = Name == ParentTabs.SelectedTab;
 
                 ParentTabs.StateChanged += OnTabsStateChanged;

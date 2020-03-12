@@ -349,9 +349,9 @@ namespace Blazorise.AntDesign
 
         public override string TabsFullWidth() => "nav-fill";
 
-        public override string TabsJustified() => "nav-justified";
+        public override string TabsJustified() => "ant-tabs-justified";
 
-        public override string TabsVertical() => "ant-tabs-vertical";
+        public override string TabsVertical() => null;
 
         public override string TabItem() => "ant-tabs-tab";
 
@@ -361,7 +361,7 @@ namespace Blazorise.AntDesign
 
         public override string TabLinkActive( bool active ) => null;
 
-        public override string TabsContent() => "ant-tabs-content ant-tabs-content-animated ant-tabs-top-content";
+        public override string TabsContent() => "ant-tabs-content ant-tabs-content-animated";
 
         public override string TabPanel() => "ant-tabs-tabpane";
 

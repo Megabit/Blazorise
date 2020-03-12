@@ -1,18 +1,27 @@
 ﻿@inherits Blazorise.Tabs
 <CascadingValue Value=this>
-    <div class="@ClassNames" @attributes="@Attributes">
-        <div role="tablist" class="@($"ant-tabs-bar {(Vertical ? "ant-tabs-left-bar" : "ant-tabs-top-bar")}")">
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div role="tablist" class="@($"ant-tabs-bar {ItemsPositionClassNames}")">
             <div class="ant-tabs-nav-container">
                 <div class="ant-tabs-nav-wrap">
                     <div class="ant-tabs-nav-scroll">
                         <div class="ant-tabs-nav ant-tabs-nav-animated">
                             <div>
-                                @ChildContent
+                                @if ( Items != null )
+                                {
+                                    @Items
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @if ( Content != null )
+        {
+            <div class="@($"{ContentClassNames} {ContentPositionClassNames}")" @attributes="@Attributes" style="@StyleOfSelectedTab">
+                @Content
+            </div>
+        }
     </div>
 </CascadingValue>
