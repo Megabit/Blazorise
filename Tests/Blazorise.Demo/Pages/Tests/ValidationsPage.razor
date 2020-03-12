@@ -7,59 +7,60 @@
                 <CardSubtitle>Example on how to validate input fields by using the <code>Validator</code> handlers.</CardSubtitle>
             </CardHeader>
             <CardBody>
-                <Field Horizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validator="@ValidationRule.IsNotEmpty">
+                <Validation Validator="@ValidationRule.IsNotEmpty">
+                    <Field Horizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
                             <TextEdit Placeholder="First and last name">
                                 <Feedback>
                                     <ValidationError>Enter full name!</ValidationError>
                                 </Feedback>
                             </TextEdit>
-                        </Validation>
-                    </FieldBody>
-                </Field>
-                <Field Horizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validator="@ValidationRule.IsEmail">
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation Validator="@ValidationRule.IsEmail">
+                    <Field Horizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
                             <TextEdit Placeholder="Enter email">
                                 <Feedback>
                                     <ValidationSuccess>Email is good</ValidationSuccess>
                                     <ValidationError>Enter valid email!</ValidationError>
                                 </Feedback>
                             </TextEdit>
-                        </Validation>
-                    </FieldBody>
-                </Field>
-                <Field Horizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validator="@ValidatePassword">
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation Validator="@ValidatePassword">
+                    <Field Horizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
                             <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@password">
                                 <Feedback>
                                     <ValidationError>Password must be at least 6 characters long!</ValidationError>
                                 </Feedback>
                             </TextEdit>
-                        </Validation>
-                    </FieldBody>
-                </Field>
-                <Field Horizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validator="@ValidatePassword2">
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation Validator="@ValidatePassword2">
+                    <Field Horizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
+
                             <TextEdit Role="TextRole.Password" Placeholder="Retype password">
                                 <Feedback>
                                     <ValidationError>Password does not match!</ValidationError>
                                 </Feedback>
                             </TextEdit>
-                        </Validation>
-                    </FieldBody>
-                </Field>
-                <Field Horizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validator="@ValidateSelect">
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation Validator="@ValidateSelect">
+                    <Field Horizontal="true">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
                             <Select TValue="int?">
                                 <ChildContent>
                                     <SelectItem Value="@((int?)null)"></SelectItem>
@@ -72,37 +73,37 @@
                                     <ValidationError>Select one value!</ValidationError>
                                 </Feedback>
                             </Select>
-                        </Validation>
-                    </FieldBody>
-                </Field>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validator="@ValidateDateOfBirth">
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation Validator="@ValidateDateOfBirth">
+                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
                             <DateEdit>
                                 <Feedback>
                                     <ValidationError>You must enter date of birth!</ValidationError>
                                 </Feedback>
                             </DateEdit>
-                        </Validation>
-                    </FieldBody>
-                </Field>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2">Pattern</FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation UsePattern="true">
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation UsePattern="true">
+                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                        <FieldLabel ColumnSize="ColumnSize.Is2">Pattern</FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
                             <TextEdit Pattern="[A-Za-z]{3}">
                                 <Feedback>
                                     <ValidationError>Pattern [A-Za-z]{3} does not match!</ValidationError>
                                 </Feedback>
                             </TextEdit>
-                        </Validation>
-                    </FieldBody>
-                </Field>
-                <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Validation Validator="@ValidateCheck">
+                        </FieldBody>
+                    </Field>
+                </Validation>
+                <Validation Validator="@ValidateCheck">
+                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                        <FieldBody ColumnSize="ColumnSize.Is10">
                             <CheckEdit TValue="bool">
                                 <ChildContent>
                                     Check me out
@@ -111,9 +112,9 @@
                                     <ValidationError>You must check me out!</ValidationError>
                                 </Feedback>
                             </CheckEdit>
-                        </Validation>
-                    </FieldBody>
-                </Field>
+                        </FieldBody>
+                    </Field>
+                </Validation>
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
@@ -131,59 +132,59 @@
             </CardHeader>
             <CardBody>
                 <Validations @ref="validations" Mode="ValidationMode.Manual">
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validator="@ValidationRule.IsNotEmpty">
+                    <Validation Validator="@ValidationRule.IsNotEmpty">
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Placeholder="First and last name">
                                     <Feedback>
                                         <ValidationError>Enter full name!</ValidationError>
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validator="@ValidationRule.IsEmail">
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation Validator="@ValidationRule.IsEmail">
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Email address</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Placeholder="Enter email">
                                     <Feedback>
                                         <ValidationSuccess>Email is good</ValidationSuccess>
                                         <ValidationError>Enter valid email!</ValidationError>
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validator="@ValidatePassword">
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation Validator="@ValidatePassword">
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@password">
                                     <Feedback>
                                         <ValidationError>Password must be at least 6 characters long!</ValidationError>
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validator="@ValidatePassword2">
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation Validator="@ValidatePassword2">
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password">
                                     <Feedback>
                                         <ValidationError>Password does not match!</ValidationError>
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validator="@ValidateSelect">
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation Validator="@ValidateSelect">
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <Select TValue="int?">
                                     <ChildContent>
                                         <SelectItem Value="@((int?)null)"></SelectItem>
@@ -196,37 +197,37 @@
                                         <ValidationError>Select one value!</ValidationError>
                                     </Feedback>
                                 </Select>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validator="@ValidateDateOfBirth">
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation Validator="@ValidateDateOfBirth">
+                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <DateEdit>
                                     <Feedback>
                                         <ValidationError>You must enter date of birth!</ValidationError>
                                     </Feedback>
                                 </DateEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Pattern</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation UsePattern="true">
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation UsePattern="true">
+                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Pattern</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Pattern="[A-Za-z]{3}">
                                     <Feedback>
                                         <ValidationError>Pattern [A-Za-z]{3} does not match!</ValidationError>
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation Validator="@ValidateCheck">
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation Validator="@ValidateCheck">
+                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                            <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <CheckEdit TValue="bool">
                                     <ChildContent>
                                         Check me out
@@ -235,9 +236,9 @@
                                         <ValidationError>You must check me out!</ValidationError>
                                     </Feedback>
                                 </CheckEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
                     <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
@@ -258,58 +259,58 @@
             </CardHeader>
             <CardBody>
                 <Validations Mode="ValidationMode.Auto" Model="@user">
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                    <Validation>
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Placeholder="First and last name" @bind-Text="@user.Name">
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Placeholder="Enter email" @bind-Text="@user.Email">
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@user.Password">
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@user.ConfirmPassword">
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <Select TValue="string" @bind-SelectedValue="@user.Title">
                                     <ChildContent>
                                         <SelectItem Value="@(string.Empty)"></SelectItem>
@@ -320,13 +321,13 @@
                                         <ValidationError />
                                     </Feedback>
                                 </Select>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                            <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <CheckEdit @bind-Checked="@user.TermsAndConditions">
                                     <ChildContent>
                                         Terms and Conditions
@@ -335,9 +336,9 @@
                                         <ValidationError />
                                     </Feedback>
                                 </CheckEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
                     <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
@@ -356,58 +357,58 @@
             </CardHeader>
             <CardBody>
                 <Validations @ref="annotationsValidations" Mode="ValidationMode.Manual" Model="@manualUser">
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                    <Validation>
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Placeholder="First and last name" @bind-Text="@manualUser.Name">
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Placeholder="Enter email" @bind-Text="@manualUser.Email">
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@manualUser.Password">
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@manualUser.ConfirmPassword">
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
                                 </TextEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true">
-                        <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <Select TValue="string" @bind-SelectedValue="@manualUser.Title">
                                     <ChildContent>
                                         <SelectItem Value="@(string.Empty)"></SelectItem>
@@ -418,13 +419,13 @@
                                         <ValidationError />
                                     </Feedback>
                                 </Select>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
-                    <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
-                            <Validation>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                            <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is10">
                                 <CheckEdit @bind-Checked="@manualUser.TermsAndConditions">
                                     <ChildContent>
                                         Terms and Conditions
@@ -433,9 +434,9 @@
                                         <ValidationError />
                                     </Feedback>
                                 </CheckEdit>
-                            </Validation>
-                        </FieldBody>
-                    </Field>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
                     <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">

@@ -152,6 +152,8 @@ namespace Blazorise.Bulma
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
+        public override string FieldValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region FieldLabel

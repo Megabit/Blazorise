@@ -149,6 +149,8 @@ namespace Blazorise
 
         public abstract string FieldJustifyContent( JustifyContent justifyContent );
 
+        public abstract string FieldValidation( ValidationStatus validationStatus );
+
         #endregion
 
         #region FieldLabel

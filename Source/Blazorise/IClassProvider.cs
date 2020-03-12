@@ -145,6 +145,8 @@ namespace Blazorise
 
         string FieldColumn();
 
+        string FieldValidation( ValidationStatus validationStatus );
+
         string FieldJustifyContent( JustifyContent justifyContent );
 
         #endregion

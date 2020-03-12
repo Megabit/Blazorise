@@ -36,3 +36,7 @@
     margin-right: 0px;
     width: 100%;
     text-align: center; }
+
+.ant-form-item-has-success .ant-input, .ant-form-item-has-success .ant-input-affix-wrapper, .ant-form-item-has-success .ant-input:hover, .ant-form-item-has-success .ant-input-affix-wrapper:hover {
+    background-color: #fff;
+    border-color: #52c41a; }

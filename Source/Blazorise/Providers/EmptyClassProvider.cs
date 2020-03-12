@@ -153,6 +153,8 @@ namespace Blazorise.Providers
 
         public string FieldJustifyContent( JustifyContent justifyContent ) => null;
 
+        public string FieldValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region FieldLabel

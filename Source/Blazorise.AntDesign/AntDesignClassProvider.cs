@@ -122,7 +122,7 @@ namespace Blazorise.AntDesign
 
         public override string ValidationSuccessTooltip() => "valid-tooltip";
 
-        public override string ValidationError() => "invalid-feedback";
+        public override string ValidationError() => "ant-form-item-explain";
 
         public override string ValidationErrorTooltip() => "invalid-tooltip";
 
@@ -142,13 +142,26 @@ namespace Blazorise.AntDesign
 
         #region Field
 
-        public override string Field() => "form-group";
+        public override string Field() => "ant-form-item";
 
-        public override string FieldHorizontal() => "row";
+        public override string FieldHorizontal() => "ant-row";
 
-        public override string FieldColumn() => $"{Col()}";
+        public override string FieldColumn() => "ant-col";
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
+
+        public override string FieldValidation( ValidationStatus validationStatus )
+        {
+            switch ( validationStatus )
+            {
+                case ValidationStatus.Error:
+                    return "ant-form-item-has-feedback ant-form-item-has-error";
+                case ValidationStatus.Success:
+                    return "ant-form-item-has-feedback ant-form-item-has-success";
+                default:
+                    return null;
+            }
+        }
 
         #endregion
 
