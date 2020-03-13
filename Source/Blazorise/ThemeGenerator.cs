@@ -55,6 +55,9 @@ namespace Blazorise
             foreach ( var (name, color) in theme.ValidBackgroundColors )
                 GenerateBackgroundVariables( theme, name, color );
 
+            foreach ( var (name, color) in theme.ValidTextColors )
+                GenerateTextColorVariables( theme, name, color );
+
             if ( theme.SidebarOptions != null )
                 GenerateSidebarVariables( theme.SidebarOptions );
 
@@ -167,6 +170,16 @@ namespace Blazorise
             variables[ThemeVariables.BackgroundYiqColor( variant )] = ToHex( backgroundYiqColor );
         }
 
+        protected virtual void GenerateTextColorVariables( Theme theme, string variant, string inColor )
+        {
+            var color = ParseColor( inColor );
+
+            if ( color.IsEmpty )
+                return;
+
+            variables[ThemeVariables.TextColor( variant )] = ToHex( color );
+        }
+
         protected virtual void GenerateSidebarVariables( ThemeSidebarOptions sidebarOptions )
         {
             if ( sidebarOptions.BackgroundColor != null )
@@ -227,6 +240,11 @@ namespace Blazorise
                 GenerateBackgroundStyles( sb, theme, name, color );
             }
 
+            foreach ( var (name, color) in theme.ValidTextColors )
+            {
+                GenerateTypographyVariantStyles( sb, theme, name, color );
+            }
+
             GenerateButtonStyles( sb, theme, theme.ButtonOptions );
 
             GenerateDropdownStyles( sb, theme, theme.DropdownOptions );
@@ -281,6 +299,11 @@ namespace Blazorise
             GenerateBackgroundVariantStyles( sb, theme, variant );
         }
 
+        protected virtual void GenerateTypographyVariantStyles( StringBuilder sb, Theme theme, string variant, string color )
+        {
+            GenerateParagraphVariantStyles( sb, theme, variant, color );
+        }
+
         protected abstract void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant );
 
         protected abstract void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options );
@@ -316,6 +339,8 @@ namespace Blazorise
         protected abstract void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options );
 
         protected abstract void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options );
+
+        protected abstract void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string color );
 
         #endregion
 

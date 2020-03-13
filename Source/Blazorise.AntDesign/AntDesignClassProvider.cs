@@ -751,11 +751,11 @@ namespace Blazorise.AntDesign
 
         #region Text
 
-        public override string TextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+        public override string TextColor( TextColor textColor ) => $"ant-typography-{ToTextColor( textColor )}";
 
-        public override string TextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
+        public override string TextAlignment( TextAlignment textAlignment ) => $"ant-typography-{ToTextAlignment( textAlignment )}";
 
-        public override string TextTransform( TextTransform textTransform ) => $"text-{ToTextTransform( textTransform )}";
+        public override string TextTransform( TextTransform textTransform ) => $"ant-typography-{ToTextTransform( textTransform )}";
 
         public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
 
@@ -765,23 +765,23 @@ namespace Blazorise.AntDesign
 
         #region Heading
 
-        public override string HeadingSize( HeadingSize headingSize ) => $"h{ToHeadingSize( headingSize )}";
+        public override string HeadingSize( HeadingSize headingSize ) => "ant-typography";
 
-        public override string HeadingTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+        public override string HeadingTextColor( TextColor textColor ) => $"ant-typography-{ToTextColor( textColor )}";
 
         #endregion
 
         #region DisplayHeading
 
-        public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"display-{ToDisplayHeadingSize( displayHeadingSize )}";
+        public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"ant-display-{ToDisplayHeadingSize( displayHeadingSize )}";
 
         #endregion
 
         #region Paragraph
 
-        public override string Paragraph() => null;
+        public override string Paragraph() => "ant-typography";
 
-        public override string ParagraphColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+        public override string ParagraphColor( TextColor textColor ) => $"ant-typography-{ToTextColor( textColor )}";
 
         #endregion
 

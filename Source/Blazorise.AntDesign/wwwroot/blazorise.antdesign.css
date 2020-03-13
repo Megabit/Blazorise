@@ -55,6 +55,26 @@
     font-size: .875rem;
     line-height: 1rem; }
 
+.ant-display-1 {
+    font-size: 6rem;
+    font-weight: 300;
+    line-height: 1.2; }
+
+.ant-display-2 {
+    font-size: 5.5rem;
+    font-weight: 300;
+    line-height: 1.2; }
+
+.ant-display-3 {
+    font-size: 4.5rem;
+    font-weight: 300;
+    line-height: 1.2; }
+
+.ant-display-4 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1.2; }
+
 .m-xs-0 {
     margin: 0 !important; }
 

@@ -327,6 +327,18 @@ namespace Blazorise.Frolic
         {
         }
 
+        protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
+        {
+            var textColor = ParseColor( inTextColor );
+
+            var textColorHex = ToHex( textColor );
+
+            sb.Append( $".text-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {textColorHex};" )
+                .AppendLine( "}" );
+        }
+
         #endregion
     }
 }
