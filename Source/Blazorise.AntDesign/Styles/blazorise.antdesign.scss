@@ -1,67 +1,10 @@
-﻿$modal-dialog-margin: .5rem !default;
+﻿@import "variables";
+@import "functions";
+@import "mixins";
 
-.ant-modal {
-    width: 520px;
+@import "form";
+@import "modal";
+@import "tabs";
+@import "pagination";
 
-    &-sm {
-        @media (min-width: 576px) {
-            width: 300px;
-        }
-    }
-
-    &-lg {
-        @media (min-width: 992px) {
-            width: 800px;
-        }
-    }
-
-    &-xl {
-        @media (min-width: 1200px) {
-            width: 1140px;
-        }
-    }
-}
-
-.ant-tag-pill {
-    padding-right: .6em;
-    padding-left: .6em;
-    border-radius: 10rem;
-}
-
-.ant-pagination-lg {
-    .ant-pagination-item {
-        height: auto;
-    }
-
-    .ant-pagination-link {
-        padding: .75rem 1.5rem;
-        font-size: 1.25rem;
-        line-height: 1.5rem;
-    }
-}
-
-.ant-pagination-sm {
-    .ant-pagination-item {
-        height: auto;
-    }
-
-    .ant-pagination-link {
-        padding: .25rem .5rem;
-        font-size: .875rem;
-        line-height: 1rem;
-    }
-}
-
-.ant-tabs.ant-tabs-justified {
-    .ant-tabs-tab {
-        flex-grow: 1;
-        margin-right: 0px;
-        width: 100%;
-        text-align: center;
-    }
-}
-
-.ant-form-item-has-success .ant-input, .ant-form-item-has-success .ant-input-affix-wrapper, .ant-form-item-has-success .ant-input:hover, .ant-form-item-has-success .ant-input-affix-wrapper:hover {
-    background-color: #fff;
-    border-color: #52c41a;
-}
+@import "utilities";
