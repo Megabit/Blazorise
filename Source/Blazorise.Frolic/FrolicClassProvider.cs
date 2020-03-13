@@ -508,7 +508,11 @@ namespace Blazorise.Frolic
 
         public override string Collapse() => "collapse";
 
-        public override string CollapseShow() => Show();
+        public override string CollapseActive( bool active ) => active ? Show() : null;
+
+        public override string CollapseContent() => null;
+
+        public override string CollapseContentActive( bool active ) => null;
 
         #endregion
 

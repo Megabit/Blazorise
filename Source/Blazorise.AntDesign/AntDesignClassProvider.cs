@@ -522,15 +522,19 @@ namespace Blazorise.AntDesign
 
         #region Accordion
 
-        public override string Accordion() => "accordion";
+        public override string Accordion() => "ant-collapse";
 
         #endregion
 
         #region Collapse
 
-        public override string Collapse() => "collapse";
+        public override string Collapse() => "ant-collapse-item";
 
-        public override string CollapseShow() => Show();
+        public override string CollapseActive( bool active ) => active ? "ant-collapse-item-active" : null;
+
+        public override string CollapseContent() => "ant-collapse-content";
+
+        public override string CollapseContentActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
 
         #endregion
 

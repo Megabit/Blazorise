@@ -459,7 +459,11 @@ namespace Blazorise
 
         public abstract string Collapse();
 
-        public abstract string CollapseShow();
+        public abstract string CollapseActive( bool active );
+
+        public abstract string CollapseContent();
+
+        public abstract string CollapseContentActive( bool active );
 
         #endregion
 

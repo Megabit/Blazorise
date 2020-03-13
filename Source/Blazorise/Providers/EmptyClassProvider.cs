@@ -463,7 +463,11 @@ namespace Blazorise.Providers
 
         public string Collapse() => null;
 
-        public string CollapseShow() => null;
+        public string CollapseActive( bool active ) => null;
+
+        public string CollapseContent() => null;
+
+        public string CollapseContentActive( bool active ) => null;
 
         #endregion
 
