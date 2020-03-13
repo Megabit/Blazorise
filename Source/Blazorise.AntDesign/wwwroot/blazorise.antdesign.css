@@ -2,6 +2,20 @@
     background-color: #fff;
     border-color: #52c41a; }
 
+.ant-card-group > .card {
+    margin-bottom: 15px; }
+
+@media (min-width: 576px) {
+    .ant-card-group {
+        display: flex;
+        flex-flow: row wrap; }
+        .ant-card-group > .card {
+            flex: 1 0 0%;
+            margin-bottom: 0; }
+            .ant-card-group > .card + .card {
+                margin-left: 0;
+                border-left: 0; } }
+
 .ant-modal {
     width: 520px; }
     @media (min-width: 576px) {
