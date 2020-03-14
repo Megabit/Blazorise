@@ -89,6 +89,8 @@ public class Program
       .AddBulmaProviders()
       .AddFontAwesomeIcons();
 
+    builder.Services.AddBaseAddressHttpClient();
+
     builder.RootComponents.Add<App>( "app" );
 
     var host = builder.Build();

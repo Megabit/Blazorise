@@ -100,6 +100,8 @@ public class Program
       .AddMaterialProviders()
       .AddMaterialIcons();
 
+    builder.Services.AddBaseAddressHttpClient();
+
     builder.RootComponents.Add<App>( "app" );
 
     var host = builder.Build();
