@@ -1,0 +1,33 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<Version>0.9.0-preview2</Version>
+		<PackageVersion>0.9.0-preview2</PackageVersion>
+
+		<Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
+		<Authors>Mladen Macanovic</Authors>
+		<Company></Company>
+		<Copyright>Copyright 2019 Mladen Macanovic</Copyright>
+		<RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<OutputType>Library</OutputType>
+		<IsPackable>true</IsPackable>   
+		<LangVersion>8.0</LangVersion>
+
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		
+		<RestoreAdditionalProjectSources>
+			https://dotnet.myget.org/F/aspnetcore-dev/api/v3/index.json;
+			https://dotnet.myget.org/F/blazor-dev/api/v3/index.json;
+		</RestoreAdditionalProjectSources>
+
+		<RazorLangVersion>3.0</RazorLangVersion>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.2" />
+	</ItemGroup>	
+</Project>
