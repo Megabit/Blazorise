@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.AntDesign;
 using Blazorise.Icons.FontAwesome;
-using Microsoft.AspNetCore.Blazor.Hosting;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+#endregion
 
 namespace Blazorise.Demo.AntDesign
 {
@@ -18,6 +21,8 @@ namespace Blazorise.Demo.AntDesign
                 } )
                 .AddAntDesignProviders()
                 .AddFontAwesomeIcons();
+
+            builder.Services.AddBaseAddressHttpClient();
 
             builder.RootComponents.Add<App>( "app" );
 
