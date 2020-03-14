@@ -6,6 +6,12 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.8.8.4 (quick fix)
+
+- Upgrade all projects to .Net Core 3.1.2 and Blazor 3.2-preview2
+
+For detail description of changes please look at [v0.8.8.4 release page]({{ "/docs/release-notes/release0884/" | relative_url }})
+
 ## 0.8.8.3 (quick fix)
 
 Reupload NuGet package.
