@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Components
 {
-    public abstract class BaseAutocomplete<TItem> : ComponentBase
+    public partial class Autocomplete<TItem> : ComponentBase
     {
         #region Members
 
@@ -274,6 +274,13 @@ namespace Blazorise.Components
         /// Occurs on every search text change.
         /// </summary>
         [Parameter] public EventCallback<string> SearchChanged { get; set; }
+
+        [Parameter] public string Class { get; set; }
+
+        [Parameter] public string Style { get; set; }
+
+        [Parameter( CaptureUnmatchedValues = true )]
+        public Dictionary<string, object> Attributes { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
