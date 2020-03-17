@@ -27,7 +27,7 @@ namespace Blazorise.Frolic
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
-            var background = Var( ThemeVariables.ButtonBackgrund( variant ) );
+            var background = Var( ThemeVariables.ButtonBackground( variant ) );
             var border = Var( ThemeVariables.ButtonBorder( variant ) );
             var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
             //var hoverBorder = Var( ThemeVariables.ButtonHoverBorder( variant ) );

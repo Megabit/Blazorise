@@ -456,7 +456,7 @@ namespace Blazorise
 
         public static string TextColor( string variant ) => $"--b-theme-text-{variant}";
 
-        public static string ButtonBackgrund( string variant ) => $"--b-button-{variant}-background";
+        public static string ButtonBackground( string variant ) => $"--b-button-{variant}-background";
         public static string ButtonBorder( string variant ) => $"--b-button-{variant}-border";
         public static string ButtonHoverBackground( string variant ) => $"--b-button-{variant}-hover-background";
         public static string ButtonHoverBorder( string variant ) => $"--b-button-{variant}-hover-border";

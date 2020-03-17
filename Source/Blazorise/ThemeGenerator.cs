@@ -109,7 +109,7 @@ namespace Blazorise
 
             var boxShadow = ToHexRGBA( Transparency( Blend( yiqBackgroundColor, backgroundColor, 15f ), options?.BoxShadowTransparency ?? 127 ) );
 
-            variables[ThemeVariables.ButtonBackgrund( variant )] = background;
+            variables[ThemeVariables.ButtonBackground( variant )] = background;
             variables[ThemeVariables.ButtonBorder( variant )] = border;
             variables[ThemeVariables.ButtonHoverBackground( variant )] = hoverBackground;
             variables[ThemeVariables.ButtonBorder( variant )] = hoverBorder;

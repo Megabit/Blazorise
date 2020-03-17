@@ -51,6 +51,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.Tab, AntDesign.Tab>();
             componentMapper.Register<Blazorise.TabPanel, AntDesign.TabPanel>();
             componentMapper.Register<Blazorise.TabsContent, AntDesign.TabsContent>();
+            componentMapper.Register<Blazorise.Table, AntDesign.Table>();
         }
 
         /// <summary>

@@ -687,19 +687,19 @@ namespace Blazorise.AntDesign
 
         public override string TableFullWidth() => null;
 
-        public override string TableStriped() => "table-striped";
+        public override string TableStriped() => "ant-table-striped";
 
-        public override string TableHoverable() => "table-hover";
+        public override string TableHoverable() => "ant-table-hover";
 
-        public override string TableBordered() => "table-bordered";
+        public override string TableBordered() => "ant-table-bordered";
 
-        public override string TableNarrow() => "table-sm";
+        public override string TableNarrow() => "ant-table-small";
 
-        public override string TableBorderless() => "table-borderless";
+        public override string TableBorderless() => "ant-table-borderless";
 
         public override string TableHeader() => "ant-table-thead";
 
-        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"thead-{ToThemeContrast( themeContrast )}";
+        public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"ant-table-thead-{ToThemeContrast( themeContrast )}";
 
         public override string TableHeaderCell() => null;
 
@@ -707,23 +707,23 @@ namespace Blazorise.AntDesign
 
         public override string TableBody() => "ant-table-tbody";
 
-        public override string TableRow() => null;
+        public override string TableRow() => "ant-table-row";
 
-        public override string TableRowColor( Color color ) => $"table-{ToColor( color )}";
+        public override string TableRowColor( Color color ) => $"ant-table-{ToColor( color )}";
 
         public override string TableRowBackground( Background background ) => BackgroundColor( background );
 
         public override string TableRowTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
-        public override string TableRowHoverCursor() => "table-row-selectable";
+        public override string TableRowHoverCursor() => "ant-table-row-selectable";
 
         public override string TableRowIsSelected() => "selected";
 
         public override string TableRowHeader() => null;
 
-        public override string TableRowCell() => null;
+        public override string TableRowCell() => "ant-table-cell";
 
-        public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
+        public override string TableRowCellColor( Color color ) => $"ant-table-{ToColor( color )}";
 
         public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
 

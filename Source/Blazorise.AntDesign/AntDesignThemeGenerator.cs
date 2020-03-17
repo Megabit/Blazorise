@@ -19,7 +19,7 @@ namespace Blazorise.AntDesign
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
-            var background = Var( ThemeVariables.ButtonBackgrund( variant ) );
+            var background = Var( ThemeVariables.ButtonBackground( variant ) );
             var border = Var( ThemeVariables.ButtonBorder( variant ) );
             var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
             var hoverBorder = Var( ThemeVariables.ButtonHoverBorder( variant ) );
@@ -290,28 +290,28 @@ namespace Blazorise.AntDesign
             var hoverBackground = ToHex( hoverBackgroundColor );
             var border = ToHex( borderColor );
 
-            sb.Append( $".table-{variant}," )
-                .Append( $".table-{variant}>th," )
-                .Append( $".table-{variant}>td" )
+            sb.Append( $".ant-table-{variant}," )
+                .Append( $".ant-table-{variant}>th," )
+                .Append( $".ant-table-{variant}>td" )
                 .Append( "{" )
                 .Append( $"background-color: {background};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".table-{variant} th," )
-                .Append( $".table-{variant} td," )
-                .Append( $".table-{variant} thead td," )
-                .Append( $".table-{variant} tbody + tbody," )
+            sb.Append( $".ant-table-{variant} th," )
+                .Append( $".ant-table-{variant} td," )
+                .Append( $".ant-table-{variant} thead td," )
+                .Append( $".ant-table-{variant} tbody + tbody," )
                 .Append( "{" )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".table-hover table-{variant}:hover" )
+            sb.Append( $".ant-table-hover .ant-table-{variant}:hover" )
                 .Append( "{" )
                 .Append( $"background-color: {hoverBackground};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".table-hover table-{variant}:hover>td" )
-                .Append( $".table-hover table-{variant}:hover>th" )
+            sb.Append( $".ant-table-hover .ant-table-{variant}:hover>td" )
+                .Append( $".ant-table-hover .ant-table-{variant}:hover>th" )
                 .Append( "{" )
                 .Append( $"background-color: {hoverBackground};" )
                 .AppendLine( "}" );
