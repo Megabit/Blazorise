@@ -450,7 +450,6 @@ namespace Blazorise.AntDesign
 
         protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
         {
-            Console.WriteLine( "para" );
             var textColor = ParseColor( inTextColor );
 
             var textColorHex = ToHex( textColor );

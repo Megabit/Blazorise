@@ -90,9 +90,9 @@ namespace Blazorise.AntDesign
 
         #region Slider
 
-        public override string Slider() => "form-control-range";
+        public override string Slider() => "ant-slider";
 
-        public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
+        public override string SliderColor( Color color ) => $"ant-slider-{ToColor( color )}";
 
         #endregion
 
