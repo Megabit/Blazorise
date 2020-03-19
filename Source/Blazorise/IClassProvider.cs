@@ -189,6 +189,8 @@ namespace Blazorise
 
         string Addons();
 
+        string AddonsHasButton( bool hasButton );
+
         string Addon( AddonType addonType );
 
         string AddonLabel();

@@ -195,6 +195,8 @@ namespace Blazorise.Providers
 
         public string Addons() => null;
 
+        public string AddonsHasButton( bool hasButton ) => null;
+
         public string Addon( AddonType addonType ) => null;
 
         public string AddonLabel() => null;

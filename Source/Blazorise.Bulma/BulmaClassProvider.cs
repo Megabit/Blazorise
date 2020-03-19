@@ -194,6 +194,8 @@ namespace Blazorise.Bulma
 
         public override string Addons() => "field has-addons";
 
+        public override string AddonsHasButton( bool hasButton ) => null;
+
         public override string Addon( AddonType addonType )
         {
             switch ( addonType )

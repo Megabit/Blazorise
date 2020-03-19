@@ -201,16 +201,18 @@ namespace Blazorise.AntDesign
 
         #region Addons
 
-        public override string Addons() => "input-group";
+        public override string Addons() => "ant-input-group-wrapper";
+
+        public override string AddonsHasButton( bool hasButton ) => hasButton ? "ant-input-search ant-input-search-enter-button" : null;
 
         public override string Addon( AddonType addonType )
         {
             switch ( addonType )
             {
                 case AddonType.Start:
-                    return "input-group-prepend";
+                    return "ant-input-group-addon";
                 case AddonType.End:
-                    return "input-group-append";
+                    return "ant-input-group-addon";
                 default:
                     return null;
             }

@@ -192,6 +192,8 @@ namespace Blazorise.Frolic
 
         public override string Addons() => "e-form-group unified";
 
+        public override string AddonsHasButton( bool hasButton ) => null;
+
         public override string Addon( AddonType addonType ) => "e-control-helper";
 
         public override string AddonLabel() => null;

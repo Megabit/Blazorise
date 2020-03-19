@@ -32,6 +32,9 @@ namespace Blazorise.AntDesign
 
         private static void RegisterComponents( IComponentMapper componentMapper )
         {
+            componentMapper.Register<Blazorise.Addons, AntDesign.Addons>();
+            componentMapper.Register<Blazorise.Addon, AntDesign.Addon>();
+            componentMapper.Register<Blazorise.AddonLabel, AntDesign.AddonLabel>();
             componentMapper.Register<Blazorise.AlertMessage, AntDesign.AlertMessage>();
             componentMapper.Register<Blazorise.AlertDescription, AntDesign.AlertDescription>();
             componentMapper.Register<Blazorise.Breadcrumb, AntDesign.Breadcrumb>();
