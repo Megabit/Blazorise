@@ -49,6 +49,6 @@ Breadcrumbs are used to indicate the current page's location. Add `Active` attri
 
 | Name       | Type                                                        | Default | Description                                                          |
 |------------|-------------------------------------------------------------|---------|----------------------------------------------------------------------|
-| To         | string                                                      | null    | Link to the destination page.                                        |
+| To         | string                                                      | null    | Path to the destination page.                                        |
 | Match      | [Match]({{ "/docs/helpers/enums/#match" | relative_url }})  | `All`   | URL matching behavior for a link.                                    |
 | Title      | string                                                      | null    | Defines the title of a link, which appears to the user as a tooltip. |

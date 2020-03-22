@@ -2,6 +2,8 @@
 main:
   - title: "Docs"
     url: /docs/
+  - title: "Posts"
+    url: /posts/
   - title: "GitHub"
     icon: "fab fa-fw fa-github"
     url: https://github.com/stsrki/Blazorise
@@ -41,6 +43,8 @@ docs:
         url: /docs/components/field/
       - title: "Addon"
         url: /docs/components/addon/
+      - title: "Link"
+        url: /docs/components/link/
       - title: "Divider"
         url: /docs/components/divider/
       - title: "Validation"
