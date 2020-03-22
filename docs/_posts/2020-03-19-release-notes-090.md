@@ -14,6 +14,14 @@ tags:
 
 Many new components and improvements on existing components have being made.
 
+## Breaking changes
+
+Before we continue it's good to mention that with this release comes a lot of breaking changes. I know this is not a popular decision but Blazorise being still in development stage and 1.0 behind a corner I feel this is the perfect time to clean some decisions from the past and introduce some new APIs. So without further ado let us start:
+
+### Boolean properties
+
+This is by far the biggest refactor in this release and a lot of components is touched with this change. Basically this is one of the first [issues](https://github.com/stsrki/Blazorise/issues/4) created after the Blazorise was first released. Back then Blazor did not have case-sensitive support when naming components and properties. So whenever there was a clash like `button` and `Button` or `disabled` and `Disabled` it would just break. So I had to introduce prefixes to component properties like `IsDisabled` or `IsActive`. Personally I hated it but it was necessary back then. Now that Blazor has fixed this limitation it was the perfect time to also go through all of the components and remove the prefixes. As a consequence I think the API is now a lot cleaner and easier to write. Since the change is too big, listing every change in this post will not make too much sense. Instead you can go to this [PR](https://github.com/stsrki/Blazorise/pull/536) and see all changes listed.
+
 ## New Components
 
 ### Live Charts
