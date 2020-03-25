@@ -74,6 +74,8 @@ namespace Blazorise.Bulma
 
         public override string Switch() => "switch";
 
+        public override string SwitchChecked( bool @checked ) => null;
+
         public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
 
         public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );

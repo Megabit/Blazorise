@@ -74,6 +74,8 @@ namespace Blazorise.Bootstrap
 
         public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
+        public override string SwitchChecked( bool @checked ) => null;
+
         public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
 
         public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );

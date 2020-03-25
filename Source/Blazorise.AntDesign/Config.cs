@@ -51,6 +51,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.Progress, AntDesign.Progress>();
             componentMapper.Register( typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) );
             componentMapper.Register( typeof( Blazorise.Slider<> ), typeof( AntDesign.Slider<> ) );
+            componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( AntDesign.Switch<> ) );
             componentMapper.Register<Blazorise.Tabs, AntDesign.Tabs>();
             componentMapper.Register<Blazorise.Tab, AntDesign.Tab>();
             componentMapper.Register<Blazorise.TabPanel, AntDesign.TabPanel>();

@@ -74,6 +74,8 @@ namespace Blazorise.Frolic
 
         public override string Switch() => "e-switch";
 
+        public override string SwitchChecked( bool @checked ) => null;
+
         public override string SwitchCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
 
         public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );

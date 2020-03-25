@@ -73,6 +73,8 @@ namespace Blazorise
 
         public abstract string Switch();
 
+        public abstract string SwitchChecked( bool @checked );
+
         public abstract string SwitchCursor( Cursor cursor );
 
         public abstract string SwitchValidation( ValidationStatus validationStatus );

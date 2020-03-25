@@ -77,6 +77,8 @@ namespace Blazorise.Providers
 
         public string Switch() => null;
 
+        public string SwitchChecked( bool @checked ) => null;
+
         public string SwitchCursor( Cursor cursor ) => null;
 
         public string SwitchValidation( ValidationStatus validationStatus ) => null;

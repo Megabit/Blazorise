@@ -71,6 +71,8 @@ namespace Blazorise
 
         string Switch();
 
+        string SwitchChecked( bool @checked );
+
         string SwitchCursor( Cursor cursor );
 
         string SwitchValidation( ValidationStatus validationStatus );

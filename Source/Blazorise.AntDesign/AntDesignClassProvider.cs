@@ -72,7 +72,9 @@ namespace Blazorise.AntDesign
 
         #region Switch
 
-        public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+        public override string Switch() => "ant-switch";
+
+        public override string SwitchChecked( bool @checked ) => @checked ? "ant-switch-checked" : null;
 
         public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
 
