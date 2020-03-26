@@ -111,6 +111,11 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.parentHasClass", elementRef, classaname );
         }
 
+        public ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<DomElement>( $"{BLAZORISE_NAMESPACE}.getElementInfo", elementRef, elementId );
+        }
+
         /// <summary>
         /// Activates the date picker for a given element id.
         /// </summary>

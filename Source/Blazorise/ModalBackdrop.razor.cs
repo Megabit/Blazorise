@@ -74,14 +74,16 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        public bool IsSafeToClose( string elementId, CloseReason closeReason )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
         {
-            return ElementId == elementId;
+            return Task.FromResult( ElementId == elementId );
         }
 
-        public void Close( CloseReason closeReason )
+        public Task Close( CloseReason closeReason )
         {
             ParentModal?.Hide( closeReason );
+
+            return Task.CompletedTask;
         }
 
         private void OnModalStateChanged( object sender, ModalStateEventArgs e )

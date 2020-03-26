@@ -32,7 +32,7 @@ namespace Blazorise.AntDesign
 
         #region Select
 
-        public override string Select() => "ant-select";
+        public override string Select() => "ant-select-selection-search-input";
 
         public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
 
