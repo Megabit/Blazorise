@@ -1,6 +1,6 @@
 ﻿@typeparam TValue
 @inherits Blazorise.Slider<TValue>
-<div class="ant-slider">
+<div @ref="@ElementRef" id="@ElementId" class="ant-slider" @onmousedown="@OnSliderMouseDown" @onmouseup="@OnSliderMouseUp" @onmousemove="@OnSliderMouseMove">
     <div class="ant-slider-rail"></div>
     <div class="ant-slider-track" style="@TrackStyle"></div>
     <div class="ant-slider-step"></div>
@@ -9,8 +9,3 @@
 </div>
 @ChildContent
 @Feedback
-@code{
-    string TrackStyle => $"left: 0%; right: auto; width: {Value}%;";
-
-    string HandleStyle => $"left: {Value}%; right: auto; transform: translateX(-50%);";
-}
