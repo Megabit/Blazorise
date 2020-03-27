@@ -37,6 +37,17 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.AddonLabel, AntDesign.AddonLabel>();
             componentMapper.Register<Blazorise.AlertMessage, AntDesign.AlertMessage>();
             componentMapper.Register<Blazorise.AlertDescription, AntDesign.AlertDescription>();
+            componentMapper.Register<Blazorise.Bar, AntDesign.Bar>();
+            componentMapper.Register<Blazorise.BarBrand, AntDesign.BarBrand>();
+            componentMapper.Register<Blazorise.BarItem, AntDesign.BarItem>();
+            componentMapper.Register<Blazorise.BarMenu, AntDesign.BarMenu>();
+            componentMapper.Register<Blazorise.BarStart, AntDesign.BarStart>();
+            componentMapper.Register<Blazorise.BarEnd, AntDesign.BarEnd>();
+            componentMapper.Register<Blazorise.BarDropdown, AntDesign.BarDropdown>();
+            componentMapper.Register<Blazorise.BarDropdownMenu, AntDesign.BarDropdownMenu>();
+            componentMapper.Register<Blazorise.BarDropdownItem, AntDesign.BarDropdownItem>();
+            componentMapper.Register<Blazorise.BarDropdownToggle, AntDesign.BarDropdownToggle>();
+            componentMapper.Register<Blazorise.BarToggler, AntDesign.BarToggler>();
             componentMapper.Register<Blazorise.Breadcrumb, AntDesign.Breadcrumb>();
             componentMapper.Register<Blazorise.BreadcrumbItem, AntDesign.BreadcrumbItem>();
             componentMapper.Register<Blazorise.BreadcrumbLink, AntDesign.BreadcrumbLink>();

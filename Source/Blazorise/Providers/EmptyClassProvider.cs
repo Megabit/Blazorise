@@ -403,6 +403,10 @@ namespace Blazorise.Providers
 
         public string Bar() => null;
 
+        public string BarBackground( Background background ) => null;
+
+        public string BarAlignment( Alignment alignment ) => null;
+
         public string BarThemeContrast( ThemeContrast themeContrast ) => null;
 
         public string BarBreakpoint( Breakpoint breakpoint ) => null;
@@ -451,7 +455,7 @@ namespace Blazorise.Providers
 
         public string BarDropdownMenu() => null;
 
-        public string BarDropdownMenuShow() => null;
+        public string BarDropdownMenuVisible( bool visible ) => null;
 
         public string BarDropdownMenuRight() => null;
 

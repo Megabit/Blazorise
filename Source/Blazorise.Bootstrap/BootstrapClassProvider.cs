@@ -459,6 +459,10 @@ namespace Blazorise.Bootstrap
 
         public override string Bar() => "navbar";
 
+        public override string BarBackground( Background background ) => BackgroundColor( background );
+
+        public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+
         public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )}";
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
@@ -507,7 +511,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarDropdownMenu() => "dropdown-menu";
 
-        public override string BarDropdownMenuShow() => Show();
+        public override string BarDropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string BarDropdownMenuRight() => "dropdown-menu-right";
 

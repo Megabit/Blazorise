@@ -468,21 +468,25 @@ namespace Blazorise.AntDesign
 
         #region Navbar
 
-        public override string Bar() => "ant-menu";
+        public override string Bar() => "ant-menu ant-menu-root ant-menu-horizontal";
 
-        public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )}";
+        public override string BarBackground( Background background ) => BackgroundColor( background );
 
-        public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
+        public override string BarAlignment( Alignment alignment ) => $"ant-menu-{ToAlignment( alignment )}";
 
-        public override string BarItem() => "ant-menu-item";
+        public override string BarThemeContrast( ThemeContrast themeContrast ) => $"ant-menu-{ToThemeContrast( themeContrast )}";
 
-        public override string BarItemActive() => Active();
+        public override string BarBreakpoint( Breakpoint breakpoint ) => $"ant-menu-expand-{ToBreakpoint( breakpoint )}";
 
-        public override string BarItemDisabled() => Disabled();
+        public override string BarItem() => "ant-menu-item ant-menu-item-only-child";
 
-        public override string BarItemHasDropdown() => "dropdown";
+        public override string BarItemActive() => "ant-menu-item-selected";
 
-        public override string BarItemHasDropdownShow() => Show();
+        public override string BarItemDisabled() => "ant-menu-item-disabled";
+
+        public override string BarItemHasDropdown() => null;
+
+        public override string BarItemHasDropdownShow() => null;
 
         public override string BarLink() => "ant-menu-link";
 
@@ -490,37 +494,35 @@ namespace Blazorise.AntDesign
 
         //public override string BarCollapse() => "navbar-collapse";
 
-        public override string BarBrand() => "logo";
+        public override string BarBrand() => "ant-menu-item";
 
-        public override string BarToggler() => "ant-menu-toggler";
+        public override string BarToggler() => null;
 
-        public override string BarTogglerCollapsed( bool isShow ) => isShow ? null : "collapsed";
+        public override string BarTogglerCollapsed( bool isShow ) => null;
 
-        public override string BarMenu() => "collapse navbar-collapse";
+        public override string BarMenu() => null;
 
-        public override string BarMenuShow() => Show();
+        public override string BarMenuShow() => null;
 
-        public override string BarStart() => "navbar-nav mr-auto";
+        public override string BarStart() => "ant-menu-start";
 
-        public override string BarEnd() => "navbar-nav";
+        public override string BarEnd() => "ant-menu-end";
 
-        //public override string BarHasDropdown() => "dropdown";
+        public override string BarDropdown() => "ant-menu-submenu ant-menu-submenu-horizontal";
 
-        public override string BarDropdown() => null;
+        public override string BarDropdownShow() => "ant-menu-submenu-open";
 
-        public override string BarDropdownShow() => null;
+        public override string BarDropdownToggle() => "ant-menu-submenu-title";
 
-        public override string BarDropdownToggle() => "nav-link dropdown-toggle";
-
-        public override string BarDropdownItem() => "dropdown-item";
+        public override string BarDropdownItem() => "ant-menu-item ant-menu-item-only-child";
 
         public override string BarTogglerIcon() => "navbar-toggler-icon";
 
-        public override string BarDropdownMenu() => "dropdown-menu";
+        public override string BarDropdownMenu() => "ant-menu ant-menu-sub ant-menu-vertical";
 
-        public override string BarDropdownMenuShow() => Show();
+        public override string BarDropdownMenuVisible( bool visible ) => visible ? null : "ant-menu-hidden";
 
-        public override string BarDropdownMenuRight() => "dropdown-menu-right";
+        public override string BarDropdownMenuRight() => null;
 
         #endregion
 

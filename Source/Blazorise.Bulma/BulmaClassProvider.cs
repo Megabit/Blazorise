@@ -460,6 +460,10 @@ namespace Blazorise.Bulma
 
         public override string Bar() => "navbar";
 
+        public override string BarBackground( Background background ) => BackgroundColor( background );
+
+        public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+
         public override string BarThemeContrast( ThemeContrast themeContrast ) => null;
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
@@ -508,7 +512,7 @@ namespace Blazorise.Bulma
 
         public override string BarDropdownMenu() => "navbar-dropdown";
 
-        public override string BarDropdownMenuShow() => Show();
+        public override string BarDropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string BarDropdownMenuRight() => "is-right";
 

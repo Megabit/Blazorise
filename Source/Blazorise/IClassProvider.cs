@@ -397,6 +397,10 @@ namespace Blazorise
 
         string Bar();
 
+        string BarBackground( Background background );
+
+        string BarAlignment( Alignment alignment );
+
         string BarThemeContrast( ThemeContrast themeContrast );
 
         string BarBreakpoint( Breakpoint breakpoint );
@@ -443,7 +447,7 @@ namespace Blazorise
 
         string BarDropdownMenu();
 
-        string BarDropdownMenuShow();
+        string BarDropdownMenuVisible( bool visible );
 
         string BarDropdownMenuRight();
 
