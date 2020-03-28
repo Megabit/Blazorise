@@ -54,6 +54,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.CardHeader, AntDesign.CardHeader>();
             componentMapper.Register<Blazorise.CloseButton, AntDesign.CloseButton>();
             componentMapper.Register<Blazorise.Collapse, AntDesign.Collapse>();
+            componentMapper.Register<Blazorise.Dropdown, AntDesign.Dropdown>();
             componentMapper.Register<Blazorise.DropdownMenu, AntDesign.DropdownMenu>();
             componentMapper.Register<Blazorise.DropdownItem, AntDesign.DropdownItem>();
             componentMapper.Register<Blazorise.Heading, AntDesign.Heading>();

@@ -23,7 +23,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DropdownMenu() );
-            builder.Append( ClassProvider.DropdownMenuShow(), Visible );
+            builder.Append( ClassProvider.DropdownMenuVisible( Visible ) );
             builder.Append( ClassProvider.DropdownMenuRight(), RightAligned );
 
             base.BuildClasses( builder );

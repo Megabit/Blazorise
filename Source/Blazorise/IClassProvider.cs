@@ -265,7 +265,7 @@ namespace Blazorise
 
         //string DropdownMenuBody();
 
-        string DropdownMenuShow();
+        string DropdownMenuVisible( bool visible );
 
         string DropdownMenuRight();
 

@@ -302,7 +302,7 @@ namespace Blazorise.Bulma
 
         //public override string DropdownMenuBody() => "dropdown-content";
 
-        public override string DropdownMenuShow() => null;
+        public override string DropdownMenuVisible( bool visible ) => null;
 
         public override string DropdownMenuRight() => null;
 

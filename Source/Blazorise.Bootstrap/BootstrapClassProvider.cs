@@ -301,7 +301,7 @@ namespace Blazorise.Bootstrap
 
         //public override string DropdownMenuBody() => null;
 
-        public override string DropdownMenuShow() => Show();
+        public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string DropdownMenuRight() => "dropdown-menu-right";
 

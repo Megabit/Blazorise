@@ -176,6 +176,14 @@
     right: 0;
     left: auto; }
 
+.ant-dropdown-group {
+    display: inline-block;
+    white-space: nowrap; }
+
+.ant-input-group-addon.ant-input-group-addon-dropdown {
+    padding: 0;
+    border: 0; }
+
 .m-xs-0 {
     margin: 0 !important; }
 
