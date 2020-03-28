@@ -160,6 +160,11 @@ namespace Blazorise
 
         public abstract ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
 
+        public ValueTask<bool> OpenFileDialog( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.fileEdit.open", elementRef, elementId );
+        }
+
         public ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.focus", elementRef, elementId, scrollToElement );

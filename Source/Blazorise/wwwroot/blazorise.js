@@ -469,6 +469,15 @@ window.blazorise = {
             destinationUint8Array.set(sourceUint8Array, destinationOffset);
 
             return bytesToRead;
+        },
+        open: (element, elementId) => {
+            if (!element && elementId) {
+                element = document.getElementById(elementId);
+            }
+
+            if (element) {
+                element.click();
+            }
         }
     }
 };

@@ -54,6 +54,8 @@ namespace Blazorise
 
         ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
 
+        ValueTask<bool> OpenFileDialog( ElementReference elementRef, string elementId );
+
         ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement );
 
         /// <summary>

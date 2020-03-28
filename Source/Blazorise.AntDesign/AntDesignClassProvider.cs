@@ -84,7 +84,7 @@ namespace Blazorise.AntDesign
 
         #region FileEdit
 
-        public override string FileEdit() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
+        public override string FileEdit() => null;
 
         public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
