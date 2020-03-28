@@ -52,11 +52,11 @@ namespace Blazorise.AntDesign
 
         #region CheckEdit
 
-        public override string CheckEdit() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+        public override string CheckEdit() => "ant-checkbox-input";
 
-        public override string CheckEditInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+        public override string CheckEditInline() => null;
 
-        public override string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{ToCursor( cursor )}";
+        public override string CheckEditCursor( Cursor cursor ) => null;
 
         public override string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 

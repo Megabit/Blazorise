@@ -2,6 +2,11 @@
     background-color: #fff;
     border-color: #52c41a; }
 
+.ant-checkbox-wrapper {
+    cursor: default; }
+    .ant-checkbox-wrapper-pointer {
+        cursor: pointer; }
+
 .ant-card-group > .card {
     margin-bottom: 15px; }
 

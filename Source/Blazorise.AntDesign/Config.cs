@@ -51,6 +51,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.Breadcrumb, AntDesign.Breadcrumb>();
             componentMapper.Register<Blazorise.BreadcrumbItem, AntDesign.BreadcrumbItem>();
             componentMapper.Register<Blazorise.BreadcrumbLink, AntDesign.BreadcrumbLink>();
+            componentMapper.Register( typeof( Blazorise.CheckEdit<> ), typeof( AntDesign.CheckEdit<> ) );
             componentMapper.Register<Blazorise.CardHeader, AntDesign.CardHeader>();
             componentMapper.Register<Blazorise.CloseButton, AntDesign.CloseButton>();
             componentMapper.Register<Blazorise.Collapse, AntDesign.Collapse>();
