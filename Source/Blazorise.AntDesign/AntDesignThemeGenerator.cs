@@ -31,131 +31,210 @@ namespace Blazorise.AntDesign
             var boxShadow = Var( ThemeVariables.ButtonBoxShadow( variant ) );
 
             sb.Append( $".ant-btn-{variant}" ).Append( "{" )
-                .Append( $"color: {yiqBackground};" )
-                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-                .Append( $"border-color: {border};" )
+                .Append( $"color: {yiqBackground} !important;" )
+                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage, true ) )
+                .Append( $"border-color: {border} !important;" )
                 .AppendLine( "}" );
 
-            //sb.Append( $".btn-{variant}:hover" ).Append( "{" )
-            //    .Append( $"color: {yiqHoverBackground};" )
-            //    .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
-            //    .Append( $"border-color: {hoverBorder};" )
-            //    .AppendLine( "}" );
+            sb.Append( $".ant-btn-{variant} > a:only-child" ).Append( "{" )
+                .Append( $"color: currentColor !important;" )
+                .AppendLine( "}" );
 
-            //sb.Append( $".btn-{variant}:focus," )
-            //    .Append( $".btn-{variant}.focus" )
-            //    .Append( "{" )
-            //    .Append( $"color: {yiqHoverBackground};" )
-            //    .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
-            //    .Append( $"border-color: {hoverBorder};" )
-            //    .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
-            //    .AppendLine( "}" );
+            sb.Append( $".ant-btn-{variant}:hover," )
+                .Append( $".ant-btn-{variant}:focus" )
+                .Append( "{" )
+                .Append( $"color: {yiqHoverBackground} !important;" )
+                .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage, true ) )
+                .Append( $"border-color: {hoverBorder} !important;" )
+                .AppendLine( "}" );
 
-            //sb.Append( $".btn-{variant}.disabled," )
-            //    .Append( $".btn-{variant}:disabled" )
-            //    .Append( "{" )
-            //    .Append( $"color: {yiqBackground};" )
-            //    .Append( $"background-color: {background};" )
-            //    .Append( $"border-color: {border};" )
-            //    .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
-            //    .AppendLine( "}" );
+            sb.Append( $".ant-btn-{variant}:hover > a:only-child," )
+                .Append( $".ant-btn-{variant}:focus > a:only-child" )
+                .Append( "{" )
+                .Append( $"color: currentColor !important;" )
+                .AppendLine( "}" );
 
-            //sb
-            //    .Append( $".btn-{variant}:not(:disabled):not(.disabled):active," )
-            //    .Append( $".btn-{variant}:not(:disabled):not(.disabled).active," )
-            //    .Append( $".show>.btn-{variant}.dropdown-toggle" )
-            //    .Append( "{" )
-            //    .Append( $"color: {yiqActiveBackground};" )
-            //    .Append( $"background-color: {activeBackground};" )
-            //    .Append( $"border-color: {activeBorder};" )
-            //    .AppendLine( "}" );
+            sb
+                .Append( $".btn-{variant}:active," )
+                .Append( $".btn-{variant}.active," )
+                .Append( $".btn-{variant}-active" )
+                .Append( "{" )
+                .Append( $"color: {yiqActiveBackground} !important;" )
+                .Append( $"background-color: {activeBackground} !important;" )
+                .Append( $"border-color: {activeBorder} !important;" )
+                .AppendLine( "}" );
 
-            //sb
-            //    .Append( $".btn-{variant}:not(:disabled):not(.disabled):active:focus," )
-            //    .Append( $".btn-{variant}:not(:disabled):not(.disabled).active:focus," )
-            //    .Append( $".show>.btn-{variant}.dropdown-toggle:focus" )
-            //    .Append( "{" )
-            //    .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow}" )
-            //    .AppendLine( "}" );
+            sb
+                .Append( $".btn-{variant}:active > a:only-child," )
+                .Append( $".btn-{variant}.active > a:only-child," )
+                .Append( $".btn-{variant}-active > a:only-child" )
+                .Append( "{" )
+                .Append( $"color: currentColor !important;" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-btn-{variant}-disabled," )
+                .Append( $".ant-btn-{variant}.disabled," )
+                .Append( $".ant-btn-{variant}[disabled]," )
+                .Append( $".ant-btn-{variant}-disabled:hover," )
+                .Append( $".ant-btn-{variant}.disabled:hover," )
+                .Append( $".ant-btn-{variant}[disabled]:hover," )
+                .Append( $".ant-btn-{variant}-disabled:focus," )
+                .Append( $".ant-btn-{variant}.disabled:focus," )
+                .Append( $".ant-btn-{variant}[disabled]:focus," )
+                .Append( $".ant-btn-{variant}-disabled:active," )
+                .Append( $".ant-btn-{variant}.disabled:active," )
+                .Append( $".ant-btn-{variant}[disabled]:active," )
+                .Append( $".ant-btn-{variant}-disabled.active," )
+                .Append( $".ant-btn-{variant}.disabled.active," )
+                .Append( $".ant-btn-{variant}[disabled].active" )
+                .Append( $".btn-{variant}:disabled" )
+                .Append( "{" )
+                .Append( $"color: rgba(0, 0, 0, 0.25) !important;" )
+                .Append( $"background-color: #f5f5f5 !important;" )
+                .Append( $"border-color: #d9d9d9 !important;" )
+                .Append( $"text-shadow: none !important;" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-btn-{variant}-disabled > a:only-child," )
+                .Append( $".ant-btn-{variant}.disabled > a:only-child," )
+                .Append( $".ant-btn-{variant}[disabled] > a:only-child," )
+                .Append( $".ant-btn-{variant}-disabled:hover > a:only-child," )
+                .Append( $".ant-btn-{variant}.disabled:hover > a:only-child," )
+                .Append( $".ant-btn-{variant}[disabled]:hover > a:only-child," )
+                .Append( $".ant-btn-{variant}-disabled:focus > a:only-child," )
+                .Append( $".ant-btn-{variant}.disabled:focus > a:only-child," )
+                .Append( $".ant-btn-{variant}[disabled]:focus > a:only-child," )
+                .Append( $".ant-btn-{variant}-disabled:active > a:only-child," )
+                .Append( $".ant-btn-{variant}.disabled:active > a:only-child," )
+                .Append( $".ant-btn-{variant}[disabled]:active > a:only-child," )
+                .Append( $".ant-btn-{variant}-disabled.active > a:only-child," )
+                .Append( $".ant-btn-{variant}.disabled.active > a:only-child," )
+                .Append( $".ant-btn-{variant}[disabled].active" )
+                .Append( $".btn-{variant}:disabled" )
+                .Append( "{" )
+                .Append( $"color: currentColor !important;" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
             var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
-            var yiqColor = Var( ThemeVariables.OutlineButtonYiqColor( variant ) );
-            var boxShadow = Var( ThemeVariables.OutlineButtonBoxShadowColor( variant ) );
+            var hoverColor = ToHex( Lighten( color, 40f ) );
+            var activeColor = ToHex( Darken( color, 40f ) );
 
-            sb.Append( $".ant-btn-dashed-{variant}" ).Append( "{" )
-                .Append( $"color: {color};" )
-                .Append( $"border-color: {color};" )
+            sb.Append( $".ant-btn-outline-{variant}" ).Append( "{" )
+                .Append( $"color: {color} !important;" )
+                .Append( $"background: transparent !important;" )
+                .Append( $"border-color: {color} !important;" )
                 .AppendLine( "}" );
 
-            //sb.Append( $".btn-outline-{variant}:hover" ).Append( "{" )
-            //    .Append( $"color: {yiqColor};" )
-            //    .Append( $"background-color: {color};" )
-            //    .Append( $"border-color: {color};" )
-            //    .AppendLine( "}" );
+            sb.Append( $".ant-btn-outline-{variant} > a:only-child" ).Append( "{" )
+                .Append( $"color: currentColor !important;" )
+                .AppendLine( "}" );
 
-            //sb.Append( $".btn-outline-{variant}:focus," )
-            //    .Append( $".btn-outline-{variant}.focus" )
-            //    .Append( "{" )
-            //    .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
-            //    .AppendLine( "}" );
+            sb.Append( $".ant-btn-outline-{variant}:hover," )
+                .Append( $".ant-btn-outline-{variant}:focus" )
+                .Append( "{" )
+                .Append( $"color: {hoverColor} !important;" )
+                .Append( $"border-color: {hoverColor} !important;" )
+                .AppendLine( "}" );
 
-            //sb.Append( $".btn-outline-{variant}.disabled," )
-            //    .Append( $".btn-outline-{variant}:disabled" )
-            //    .Append( "{" )
-            //    .Append( $"color: {color};" )
-            //    .Append( $"background-color: transparent;" )
-            //    .AppendLine( "}" );
+            sb.Append( $".ant-btn-outline-{variant}:hover > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}:focus > a:only-child" )
+                .Append( "{" )
+                .Append( $"color: currentColor !important;" )
+                .AppendLine( "}" );
 
-            //sb
-            //    .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled):active," )
-            //    .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled).active," )
-            //    .Append( $".show>.btn-outline-{variant}.dropdown-toggle" )
-            //    .Append( "{" )
-            //    .Append( $"color: {yiqColor};" )
-            //    .Append( $"background-color: {color};" )
-            //    .Append( $"border-color: {color};" )
-            //    .AppendLine( "}" );
+            sb
+                .Append( $".ant-btn-outline-{variant}:active," )
+                .Append( $".ant-btn-outline-{variant}.active" )
+                .Append( "{" )
+                .Append( $"color: {activeColor} !important;" )
+                .Append( $"border-color: {activeColor} !important;" )
+                .AppendLine( "}" );
 
-            //sb
-            //    .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled):active:focus," )
-            //    .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled).active:focus," )
-            //    .Append( $".show>.btn-outline-{variant}.dropdown-toggle:focus" )
-            //    .Append( "{" )
-            //    .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
-            //    .AppendLine( "}" );
+            sb
+                .Append( $".ant-btn-outline-{variant}:active > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}.active > a:only-child" )
+                .Append( "{" )
+                .Append( $"color: currentColor !important;" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-btn-outline-{variant}-disabled," )
+                .Append( $".ant-btn-outline-{variant}.disabled," )
+                .Append( $".ant-btn-outline-{variant}[disabled]," )
+                .Append( $".ant-btn-outline-{variant}-disabled:hover," )
+                .Append( $".ant-btn-outline-{variant}.disabled:hover," )
+                .Append( $".ant-btn-outline-{variant}[disabled]:hover," )
+                .Append( $".ant-btn-outline-{variant}-disabled:focus," )
+                .Append( $".ant-btn-outline-{variant}.disabled:focus," )
+                .Append( $".ant-btn-outline-{variant}[disabled]:focus," )
+                .Append( $".ant-btn-outline-{variant}-disabled:active," )
+                .Append( $".ant-btn-outline-{variant}.disabled:active," )
+                .Append( $".ant-btn-outline-{variant}[disabled]:active," )
+                .Append( $".ant-btn-outline-{variant}-disabled.active," )
+                .Append( $".ant-btn-outline-{variant}.disabled.active," )
+                .Append( $".ant-btn-outline-{variant}[disabled].active" )
+                .Append( $".btn-{variant}:disabled" )
+                .Append( "{" )
+                .Append( $"color: rgba(0, 0, 0, 0.25) !important;" )
+                .Append( $"border-color: #d9d9d9 !important;" )
+                .Append( $"text-shadow: none !important;" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-btn-outline-{variant}-disabled > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}.disabled > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}[disabled] > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}-disabled:hover > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}.disabled:hover > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}[disabled]:hover > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}-disabled:focus > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}.disabled:focus > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}[disabled]:focus > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}-disabled:active > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}.disabled:active > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}[disabled]:active > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}-disabled.active > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}.disabled.active > a:only-child," )
+                .Append( $".ant-btn-outline-{variant}[disabled].active" )
+                .Append( $".btn-{variant}:disabled" )
+                .Append( "{" )
+                .Append( $"color: currentColor !important;" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateButtonStyles( StringBuilder sb, Theme theme, ThemeButtonOptions options )
         {
-            sb.Append( $".btn" ).Append( "{" )
+            sb.Append( $".ant-btn" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-sm" ).Append( "{" )
+            sb.Append( $".ant-btn-sm" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.SmallBorderRadius, Var( ThemeVariables.BorderRadiusSmall ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-lg" ).Append( "{" )
+            sb.Append( $".ant-btn-lg" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadiusLarge ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options?.Padding ) )
-                sb.Append( $".btn" ).Append( "{" )
+                sb.Append( $".ant-btn" ).Append( "{" )
                     .Append( $"padding: {options.Padding};" )
                     .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options?.Margin ) )
-                sb.Append( $".btn" ).Append( "{" )
+                sb.Append( $".ant-btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
                     .AppendLine( "}" );
         }
 
         protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
         {
-            sb.Append( $".dropdown-menu" ).Append( "{" )
+            sb.Append( $".ant-dropdown-menu" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
@@ -167,8 +246,8 @@ namespace Blazorise.AntDesign
                 {
                     var background = ToHex( backgroundColor );
 
-                    sb.Append( $".dropdown-item.active," )
-                        .Append( $".dropdown-item:active" ).Append( "{" )
+                    sb.Append( $".ant-dropdown-menu-item.active," )
+                        .Append( $".ant-dropdown-menu-item:active" ).Append( "{" )
                         .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
                         .AppendLine( "}" );
                 }

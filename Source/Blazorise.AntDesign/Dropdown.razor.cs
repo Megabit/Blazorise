@@ -38,7 +38,7 @@ namespace Blazorise.AntDesign
 
         public DomElement ElementInfo => elementInfo;
 
-        [CascadingParameter] public Addon ParentAddon { get; set; }
+        [CascadingParameter] public AntDesign.Addon ParentAddon { get; set; }
 
         #endregion
     }

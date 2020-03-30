@@ -1,4 +1,20 @@
-﻿.ant-form-item-has-success .ant-input, .ant-form-item-has-success .ant-input-affix-wrapper, .ant-form-item-has-success .ant-input:hover, .ant-form-item-has-success .ant-input-affix-wrapper:hover {
+﻿.ant-btn-group,
+.ant-btn-group-vertical {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle; }
+    .ant-btn-group > .ant-btn,
+    .ant-btn-group-vertical > .ant-btn {
+        position: relative;
+        flex: 1 1 auto; }
+        .ant-btn-group > .ant-btn:hover, .ant-btn-group > .ant-btn:focus, .ant-btn-group > .ant-btn:active, .ant-btn-group > .ant-btn.active,
+        .ant-btn-group-vertical > .ant-btn:hover,
+        .ant-btn-group-vertical > .ant-btn:focus,
+        .ant-btn-group-vertical > .ant-btn:active,
+        .ant-btn-group-vertical > .ant-btn.active {
+            z-index: 1; }
+
+.ant-form-item-has-success .ant-input, .ant-form-item-has-success .ant-input-affix-wrapper, .ant-form-item-has-success .ant-input:hover, .ant-form-item-has-success .ant-input-affix-wrapper:hover {
     background-color: #fff;
     border-color: #52c41a; }
 
@@ -182,12 +198,20 @@
     left: auto; }
 
 .ant-dropdown-group {
-    display: inline-block;
+    display: inline-flex;
     white-space: nowrap; }
 
 .ant-input-group-addon.ant-input-group-addon-dropdown {
     padding: 0;
     border: 0; }
+
+.ant-dropdown-group > .ant-btn:not(:last-child):not(.ant-dropdown-trigger) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+
+.ant-dropdown-group > .ant-btn:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
 
 .m-xs-0 {
     margin: 0 !important; }

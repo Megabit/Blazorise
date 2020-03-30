@@ -359,11 +359,11 @@ namespace Blazorise
             return "0rem";
         }
 
-        protected virtual string GetGradientBg( Theme theme, string color, float? percentage )
+        protected virtual string GetGradientBg( Theme theme, string color, float? percentage, bool important = false )
         {
             return theme.IsGradient
-                ? $"background: {color} linear-gradient(180deg, {ToHex( Blend( System.Drawing.Color.White, ParseColor( color ), percentage ?? 15f ) )}, {color}) repeat-x;"
-                : $"background-color: {color};";
+                ? $"background: {color} linear-gradient(180deg, {ToHex( Blend( System.Drawing.Color.White, ParseColor( color ), percentage ?? 15f ) )}, {color}) repeat-x{( important ? " !important" : "" )};"
+                : $"background-color: {color}{(important ? " !important" : "")};";
         }
 
         protected System.Drawing.Color ThemeColorLevel( Theme theme, string inColor, int level )
@@ -464,9 +464,23 @@ namespace Blazorise
             return System.Drawing.Color.FromArgb( A, color.R, color.G, color.B );
         }
 
+        protected static System.Drawing.Color Darken( string inColor, float correctionFactor )
+        {
+            var color = ParseColor( inColor );
+
+            return ChangeColorBrightness( color, -( correctionFactor / 100f ) );
+        }
+
         protected static System.Drawing.Color Darken( System.Drawing.Color color, float correctionFactor )
         {
             return ChangeColorBrightness( color, -( correctionFactor / 100f ) );
+        }
+
+        protected static System.Drawing.Color Lighten( string inColor, float correctionFactor )
+        {
+            var color = ParseColor( inColor );
+
+            return ChangeColorBrightness( color, correctionFactor / 100f );
         }
 
         protected static System.Drawing.Color Lighten( System.Drawing.Color color, float correctionFactor )

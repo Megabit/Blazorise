@@ -238,7 +238,7 @@ namespace Blazorise.AntDesign
 
         public override string ButtonColor( Color color ) => $"{Button()}-{ToColor( color )}";
 
-        public override string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-dashed-{ToColor( color )}" : $"{Button()}-dashed";
+        public override string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
         public override string ButtonSize( ButtonSize buttonSize )
         {
@@ -255,9 +255,9 @@ namespace Blazorise.AntDesign
 
         public override string ButtonBlock() => $"{Button()}-block";
 
-        public override string ButtonActive() => "active";
+        public override string ButtonActive() => "ant-btn-active";
 
-        public override string ButtonLoading() => null;
+        public override string ButtonLoading() => "ant-btn-loading";
 
         #endregion
 
@@ -265,7 +265,7 @@ namespace Blazorise.AntDesign
 
         //public override string Buttons() => "btn-group";
 
-        public override string ButtonsAddons() => "btn-group";
+        public override string ButtonsAddons() => "ant-btn-group";
 
         public override string ButtonsToolbar() => "btn-toolbar";
 
@@ -294,9 +294,9 @@ namespace Blazorise.AntDesign
 
         #region Dropdown
 
-        public override string Dropdown() => "ant-dropdown-group"; // custom class
+        public override string Dropdown() => "ant-dropdown-group ant-dropdown-button"; // ant-dropdown-group is custom class
 
-        public override string DropdownGroup() => "btn-group";
+        public override string DropdownGroup() => null;
 
         public override string DropdownShow() => null;
 

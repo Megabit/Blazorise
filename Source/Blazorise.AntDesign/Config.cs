@@ -52,12 +52,14 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.BreadcrumbItem, AntDesign.BreadcrumbItem>();
             componentMapper.Register<Blazorise.BreadcrumbLink, AntDesign.BreadcrumbLink>();
             componentMapper.Register( typeof( Blazorise.CheckEdit<> ), typeof( AntDesign.CheckEdit<> ) );
+            componentMapper.Register<Blazorise.Button, AntDesign.Button>();
             componentMapper.Register<Blazorise.CardHeader, AntDesign.CardHeader>();
             componentMapper.Register<Blazorise.CloseButton, AntDesign.CloseButton>();
             componentMapper.Register<Blazorise.Collapse, AntDesign.Collapse>();
             componentMapper.Register<Blazorise.Dropdown, AntDesign.Dropdown>();
             componentMapper.Register<Blazorise.DropdownMenu, AntDesign.DropdownMenu>();
             componentMapper.Register<Blazorise.DropdownItem, AntDesign.DropdownItem>();
+            componentMapper.Register<Blazorise.DropdownToggle, AntDesign.DropdownToggle>();
             componentMapper.Register<Blazorise.FieldBody, AntDesign.FieldBody>();
             componentMapper.Register<Blazorise.FieldLabel, AntDesign.FieldLabel>();
             componentMapper.Register<Blazorise.FileEdit, AntDesign.FileEdit>();
