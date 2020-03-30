@@ -20,6 +20,9 @@ namespace Blazorise.AntDesign
             if ( ParentAlert != null )
                 builder.Append( "ant-alert-close-icon" );
 
+            if ( ParentModal != null )
+                builder.Append( "ant-modal-close" );
+
             base.BuildClasses( builder );
         }
 
