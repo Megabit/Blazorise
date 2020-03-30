@@ -134,7 +134,7 @@ namespace Blazorise.AntDesign
 
         #region Fields
 
-        public override string Fields() => "form-row";
+        public override string Fields() => "ant-row";
 
         public override string FieldsBody() => null;
 
@@ -171,7 +171,7 @@ namespace Blazorise.AntDesign
 
         public override string FieldLabel() => null;
 
-        public override string FieldLabelHorizontal() => "col-form-label";
+        public override string FieldLabelHorizontal() => "ant-form-item-label";
 
         #endregion
 
@@ -220,7 +220,7 @@ namespace Blazorise.AntDesign
             }
         }
 
-        public override string AddonLabel() => "input-group-text";
+        public override string AddonLabel() => null;
 
         //public override string AddonContainer() => null;
 
@@ -228,7 +228,7 @@ namespace Blazorise.AntDesign
 
         #region Inline
 
-        public override string Inline() => "form-inline";
+        public override string Inline() => "ant-form-inline";
 
         #endregion
 
@@ -288,7 +288,7 @@ namespace Blazorise.AntDesign
 
         #region CloseButton
 
-        public override string CloseButton() => "close";
+        public override string CloseButton() => "ant-close";
 
         #endregion
 
