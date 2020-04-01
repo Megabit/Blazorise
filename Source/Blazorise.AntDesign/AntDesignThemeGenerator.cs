@@ -440,13 +440,16 @@ namespace Blazorise.AntDesign
 
         protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
         {
-            sb.Append( $".progress" ).Append( "{" )
+            sb
+                .Append( $".ant-progress-inner," )
+                .Append( $".ant-progress-bg" )
+                .Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
-                sb.Append( $".progress-bar" ).Append( "{" )
+                sb.Append( $".ant-progress-bg" ).Append( "{" )
                     .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
             }
