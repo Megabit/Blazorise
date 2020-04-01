@@ -236,8 +236,12 @@
         if ( Theme.BackgroundOptions == null )
             Theme.BackgroundOptions = new ThemeBackgroundOptions();
 
+        if ( Theme.TextColorOptions == null )
+            Theme.TextColorOptions = new ThemeTextColorOptions();
+
         Theme.ColorOptions.Primary = value;
         Theme.BackgroundOptions.Primary = value;
+        Theme.TextColorOptions.Primary = value;
 
         if ( Theme.InputOptions == null )
             Theme.InputOptions = new ThemeInputOptions();
