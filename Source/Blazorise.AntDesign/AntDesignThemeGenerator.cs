@@ -256,37 +256,43 @@ namespace Blazorise.AntDesign
 
         protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
-            sb.Append( $".form-control" ).Append( "{" )
-                    .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                    .AppendLine( "}" );
-
-            sb.Append( $".input-group-text" ).Append( "{" )
+            sb.Append( $".ant-form-item input" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".custom-select" ).Append( "{" )
+            sb.Append( $".ant-input-group-addon:first-child" ).Append( "{" )
+                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".ant-input-group-addon:last-child" ).Append( "{" )
+                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".ant-select-selector, .ant-select-selector input" ).Append( "{" )
+                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )} !important;" )
+                .AppendLine( "}" );
+
+            sb.Append( $".ant-checkbox-inner" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".custom-checkbox .custom-control-label::before" ).Append( "{" )
-                .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
-                .AppendLine( "}" );
-
-            sb.Append( $".custom-file-label" ).Append( "{" )
+            sb.Append( $".ant-upload button" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( options?.Color ) )
             {
-                sb.Append( $".form-control" ).Append( "{" )
+                sb.Append( $".ant-input" ).Append( "{" )
                     .Append( $"color: {options.Color};" )
                     .AppendLine( "}" );
 
-                sb.Append( $".input-group-text" ).Append( "{" )
-                    .Append( $"color: {options.Color};" )
-                    .AppendLine( "}" );
+                //sb.Append( $".input-group-text" ).Append( "{" )
+                //    .Append( $"color: {options.Color};" )
+                //    .AppendLine( "}" );
 
-                sb.Append( $".custom-select" ).Append( "{" )
+                sb.Append( $".ant-select-selection-search-input" ).Append( "{" )
                     .Append( $"color: {options.Color};" )
                     .AppendLine( "}" );
             }
@@ -294,6 +300,11 @@ namespace Blazorise.AntDesign
             if ( !string.IsNullOrEmpty( options?.CheckColor ) )
             {
                 GenerateInputCheckEditStyles( sb, theme, options );
+            }
+
+            if ( !string.IsNullOrEmpty( options?.SliderColor ) )
+            {
+                GenerateInputSliderStyles( sb, theme, options );
             }
         }
 
@@ -308,6 +319,28 @@ namespace Blazorise.AntDesign
             sb
                 .Append( $".ant-switch-checked" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
+                .AppendLine( "}" );
+        }
+
+        protected virtual void GenerateInputSliderStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+        {
+            sb.Append( $".ant-slider-track" ).Append( "{" )
+                .Append( $"background-color: {options.SliderColor};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".ant-slider:hover .ant-slider-track" ).Append( "{" )
+                .Append( $"background-color: {ToHex( Darken( options.SliderColor, 20f ) )};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".ant-slider-handle" ).Append( "{" )
+                .Append( $"border-color: {options.SliderColor};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-slider-handle:focus," )
+                .Append( $".ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open)" )
+                .Append( "{" )
+                .Append( $"border-color: {ToHex( Darken( options.SliderColor, 20f ) )};" )
                 .AppendLine( "}" );
         }
 

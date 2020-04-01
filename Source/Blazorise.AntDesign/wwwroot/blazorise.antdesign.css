@@ -23,6 +23,22 @@
     .ant-checkbox-wrapper-pointer {
         cursor: pointer; }
 
+.ant-input-group > .ant-input-group-addon:last-child > .ant-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
+
+.ant-input-group > .ant-input-group-addon:first-child > .ant-btn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+
+.ant-input-group > .ant-input-group-addon:last-child > .ant-dropdown-button > .ant-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
+
+.ant-input-group > .ant-input-group-addon:first-child > .ant-dropdown-button > .ant-btn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+
 .ant-card-group > .card {
     margin-bottom: 15px; }
 

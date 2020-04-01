@@ -10,3 +10,31 @@
         cursor: pointer;
     }
 }
+
+.ant-input-group {
+    > .ant-input-group-addon {
+        &:last-child > .ant-btn {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        &:first-child > .ant-btn {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+}
+
+.ant-input-group {
+    > .ant-input-group-addon {
+        &:last-child > .ant-dropdown-button > .ant-btn {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        &:first-child > .ant-dropdown-button > .ant-btn {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+}

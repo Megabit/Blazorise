@@ -157,10 +157,13 @@ namespace Blazorise
 
         public string CheckColor { get; set; }
 
+        public string SliderColor { get; set; }
+
         public override bool HasOptions()
         {
             return !string.IsNullOrEmpty( Color )
                 || !string.IsNullOrEmpty( CheckColor )
+                || !string.IsNullOrEmpty( SliderColor )
                 || base.HasOptions();
         }
     }
