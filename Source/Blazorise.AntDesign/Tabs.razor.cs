@@ -34,6 +34,9 @@ namespace Blazorise.AntDesign
 
         #region Properties
 
+        string TabsBarClassNames
+            => $"ant-tabs-bar {ItemsPositionClassNames} {( IsCards && TabPosition == TabPosition.Top || TabPosition == TabPosition.Bottom ? "ant-tabs-card-bar" : "" )}";
+
         protected string ItemsPositionClassNames
         {
             get

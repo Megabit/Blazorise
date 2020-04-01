@@ -54,11 +54,23 @@
     padding-left: .6em;
     border-radius: 10rem; }
 
-.ant-tabs.ant-tabs-justified .ant-tabs-tab {
+.ant-tabs.ant-tabs-fill .ant-tabs-tab {
     flex-grow: 1;
     margin-right: 0px;
     width: 100%;
     text-align: center; }
+
+.ant-tabs.ant-tabs-justified .ant-tabs-tab {
+    flex-basis: 0;
+    flex-grow: 1;
+    margin-right: 0px;
+    width: 100%;
+    text-align: center; }
+
+.ant-tabs-pills .ant-tabs-bar.ant-tabs-top-bar .ant-tabs-nav > div > .ant-tabs-tab,
+.ant-tabs-pills .ant-tabs-bar.ant-tabs-bottom-bar .ant-tabs-nav > div > .ant-tabs-tab {
+    padding-left: 2rem;
+    padding-right: 2rem; }
 
 .ant-pagination-lg .ant-pagination-item {
     height: auto; }

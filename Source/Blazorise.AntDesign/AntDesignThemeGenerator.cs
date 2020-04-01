@@ -418,21 +418,21 @@ namespace Blazorise.AntDesign
 
         protected override void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options )
         {
-            sb.Append( $".nav-tabs .nav-link" ).Append( "{" )
+            sb.Append( $".ant-tabs .ant-tabs-tab" ).Append( "{" )
                 .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".nav-pills .nav-link" ).Append( "{" )
+            sb.Append( $".ant-tabs-pills .ant-tabs-nav .ant-tabs-tab" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
                 sb
-                    .Append( $".nav-pills .nav-link.active," )
-                    .Append( $".nav-pills .show>.nav-link" )
+                    .Append( $".ant-tabs-pills .ant-tabs-nav .ant-tabs-tab-active" )
                     .Append( "{" )
+                    .Append( $"color: {Var( ThemeVariables.White )};" )
                     .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
             }

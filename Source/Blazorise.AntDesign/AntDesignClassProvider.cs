@@ -360,11 +360,11 @@ namespace Blazorise.AntDesign
 
         public override string Tabs() => "ant-tabs ant-tabs-top ant-tabs-line";
 
-        public override string TabsCards() => "ant-tabs-card-bar";
+        public override string TabsCards() => "ant-tabs-card";
 
-        public override string TabsPills() => "nav-pills";
+        public override string TabsPills() => "ant-tabs-pills";
 
-        public override string TabsFullWidth() => "nav-fill";
+        public override string TabsFullWidth() => "ant-tabs-fill";
 
         public override string TabsJustified() => "ant-tabs-justified";
 
@@ -374,7 +374,7 @@ namespace Blazorise.AntDesign
 
         public override string TabItemActive( bool active ) => active ? "ant-tabs-tab-active" : null;
 
-        public override string TabLink() => "nav-link";
+        public override string TabLink() => null;
 
         public override string TabLinkActive( bool active ) => null;
 
