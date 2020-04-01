@@ -483,31 +483,69 @@ namespace Blazorise.AntDesign
 
         protected override void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options )
         {
-            sb.Append( $".page-item:first-child .page-link" ).Append( "{" )
+            sb.Append( $".ant-pagination-item:first-child .ant-pagination-link" ).Append( "{" )
                 .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".page-item:last-child .page-link" ).Append( "{" )
+            sb.Append( $".ant-pagination-item:last-child .ant-pagination-link" ).Append( "{" )
                 .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".pagination-lg .page-item:first-child .page-link" ).Append( "{" )
+            sb.Append( $".ant-pagination-lg .ant-pagination-item:first-child .ant-pagination-link" ).Append( "{" )
                 .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".pagination-lg .page-item:last-child .page-link" ).Append( "{" )
+            sb.Append( $".ant-pagination-lg .ant-pagination-item:last-child .ant-pagination-link" ).Append( "{" )
                 .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.LargeBorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
             if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
-                sb.Append( $".page-item.active .page-link" ).Append( "{" )
-                    .Append( $"background-color: {theme.ColorOptions.Primary};" )
-                    .Append( $"border-color: {theme.ColorOptions.Primary};" )
+                var color = theme.ColorOptions.Primary;
+
+                sb
+                    .Append( $".ant-pagination-item:focus," )
+                    .Append( $".ant-pagination-item:hover" )
+                    .Append( "{" )
+                    .Append( $"border-color: {color};" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $".ant-pagination-item:focus a," )
+                    .Append( $".ant-pagination-item:hover a" )
+                    .Append( "{" )
+                    .Append( $"color: {color};" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $".ant-pagination-item-active" )
+                    .Append( "{" )
+                    .Append( $"border-color: {color};" )
+                    .AppendLine( "}" );
+
+                sb.Append( $".ant-pagination-item-active a" )
+                    .Append( "{" )
+                    .Append( $"color: {color};" )
+                    .AppendLine( "}" );
+
+                var hoverColor = ToHex( Lighten( color, 40f ) );
+
+                sb
+                    .Append( $".ant-pagination-item-active:focus," )
+                    .Append( $".ant-pagination-item-active:hover" )
+                    .Append( "{" )
+                    .Append( $"border-color: {hoverColor};" )
+                    .AppendLine( "}" );
+
+                sb
+                    .Append( $".ant-pagination-item-active:focus a," )
+                    .Append( $".ant-pagination-item-active:hover a" )
+                    .Append( "{" )
+                    .Append( $"color: {hoverColor};" )
                     .AppendLine( "}" );
             }
         }
