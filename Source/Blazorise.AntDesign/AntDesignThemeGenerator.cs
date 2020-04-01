@@ -300,19 +300,13 @@ namespace Blazorise.AntDesign
         protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
             sb
-                .Append( $".custom-checkbox .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( $".ant-checkbox-checked .ant-checkbox-inner" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
-                .AppendLine( "}" );
-
-            sb
-                .Append( $".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
-                .Append( $"color: {options.Color};" )
                 .Append( $"border-color: {options.CheckColor};" )
-                .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".custom-switch .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
+                .Append( $".ant-switch-checked" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
         }
