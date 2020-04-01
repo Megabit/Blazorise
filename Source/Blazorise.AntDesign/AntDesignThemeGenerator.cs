@@ -562,7 +562,10 @@ namespace Blazorise.AntDesign
                 if ( string.IsNullOrEmpty( yiqColor ) )
                     continue;
 
-                sb.Append( $".navbar.bg-{variant} .navbar-brand .nav-item .nav-link" ).Append( "{" )
+                sb
+                    .Append( $".ant-menu.bg-{variant} .ant-menu-item .ant-menu-link," )
+                    .Append( $".ant-menu.bg-{variant} .ant-menu-item .ant-menu-submenu-title span" )
+                    .Append( "{" )
                     .Append( $"color: {yiqColor};" )
                     .AppendLine( "}" );
             }
