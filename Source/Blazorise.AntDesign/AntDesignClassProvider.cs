@@ -12,7 +12,7 @@ namespace Blazorise.AntDesign
     {
         #region TextEdit
 
-        public override string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "ant-input";
+        public override string TextEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
         public override string TextEditSize( Size size ) => $"{TextEdit( false )}-{ToSize( size )}";
 
@@ -114,7 +114,7 @@ namespace Blazorise.AntDesign
 
         #region Help
 
-        public override string Help() => "form-text text-muted";
+        public override string Help() => "ant-form-item-explain";
 
         #endregion
 
@@ -128,7 +128,7 @@ namespace Blazorise.AntDesign
 
         public override string ValidationErrorTooltip() => "invalid-tooltip";
 
-        public override string ValidationNone() => "form-text text-muted";
+        public override string ValidationNone() => "ant-form-item-explain";
 
         #endregion
 
@@ -183,7 +183,7 @@ namespace Blazorise.AntDesign
 
         #region FieldHelp
 
-        public override string FieldHelp() => "form-text text-muted";
+        public override string FieldHelp() => "ant-form-item-explain";
 
         #endregion
 
