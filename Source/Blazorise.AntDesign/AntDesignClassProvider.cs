@@ -396,7 +396,7 @@ namespace Blazorise.AntDesign
 
         public override string CardBackground( Background background ) => BackgroundColor( background );
 
-        public override string CardActions() => "card-actions";
+        public override string CardActions() => "ant-card-actions";
 
         public override string CardBody() => "ant-card-body";
 
