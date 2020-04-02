@@ -355,6 +355,16 @@ namespace Blazorise.Bulma
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
+        {
+            var color = ToHex( ParseColor( inColor ) );
+
+            sb.Append( $".input.is-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {color};" )
+                .AppendLine( "}" );
+        }
+
         #endregion
     }
 }

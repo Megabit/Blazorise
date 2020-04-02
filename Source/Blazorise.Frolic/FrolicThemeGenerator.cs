@@ -339,6 +339,16 @@ namespace Blazorise.Frolic
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
+        {
+            var color = ToHex( ParseColor( inColor ) );
+
+            sb.Append( $".e-control.text-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {color};" )
+                .AppendLine( "}" );
+        }
+
         #endregion
     }
 }

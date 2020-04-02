@@ -460,6 +460,18 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
+        {
+            var color = ToHex( ParseColor( inColor ) );
+
+            sb
+                .Append( $".form-control.text-{variant}," )
+                .Append( $".form-control-plaintext.text-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {color};" )
+                .AppendLine( "}" );
+        }
+
         #endregion
     }
 }

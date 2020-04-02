@@ -16,7 +16,7 @@ namespace Blazorise.AntDesign
 
         public override string TextEditSize( Size size ) => $"{TextEdit( false )}-{ToSize( size )}";
 
-        public override string TextEditColor( Color color ) => $"text-{ToColor( color )}";
+        public override string TextEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
 
         public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -392,7 +392,7 @@ namespace Blazorise.AntDesign
 
         public override string Card() => "ant-card ant-card-bordered";
 
-        public override string CardWhiteText() => "text-white";
+        public override string CardWhiteText() => "ant-text-white";
 
         public override string CardBackground( Background background ) => BackgroundColor( background );
 
@@ -719,7 +719,7 @@ namespace Blazorise.AntDesign
 
         public override string TableRowBackground( Background background ) => BackgroundColor( background );
 
-        public override string TableRowTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+        public override string TableRowTextColor( TextColor textColor ) => $"ant-text-{ToTextColor( textColor )}";
 
         public override string TableRowHoverCursor() => "ant-table-row-selectable";
 
@@ -733,7 +733,7 @@ namespace Blazorise.AntDesign
 
         public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
 
-        public override string TableRowCellTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+        public override string TableRowCellTextColor( TextColor textColor ) => $"ant-text-{ToTextColor( textColor )}";
 
         #endregion
 

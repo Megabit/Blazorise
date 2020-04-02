@@ -598,15 +598,25 @@ namespace Blazorise.AntDesign
             }
         }
 
-        protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
+        protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
         {
-            var textColor = ParseColor( inTextColor );
-
-            var textColorHex = ToHex( textColor );
+            var color = ToHex( ParseColor( inColor ) );
 
             sb.Append( $".ant-typography-{variant}" )
                 .Append( "{" )
-                .Append( $"color: {textColorHex};" )
+                .Append( $"color: {color};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
+        {
+            var color = ToHex( ParseColor( inColor ) );
+
+            sb
+                .Append( $".ant-input.ant-form-text-{variant}," )
+                .Append( $".ant-form-text.ant-form-text-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {color};" )
                 .AppendLine( "}" );
         }
 

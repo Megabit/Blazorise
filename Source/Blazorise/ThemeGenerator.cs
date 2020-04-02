@@ -302,6 +302,7 @@ namespace Blazorise
         protected virtual void GenerateTypographyVariantStyles( StringBuilder sb, Theme theme, string variant, string color )
         {
             GenerateParagraphVariantStyles( sb, theme, variant, color );
+            GenerateInputVariantStyles( sb, theme, variant, color );
         }
 
         protected abstract void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant );
@@ -342,6 +343,8 @@ namespace Blazorise
 
         protected abstract void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string color );
 
+        protected abstract void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string color );
+
         #endregion
 
         #region Helpers
@@ -363,7 +366,7 @@ namespace Blazorise
         {
             return theme.IsGradient
                 ? $"background: {color} linear-gradient(180deg, {ToHex( Blend( System.Drawing.Color.White, ParseColor( color ), percentage ?? 15f ) )}, {color}) repeat-x{( important ? " !important" : "" )};"
-                : $"background-color: {color}{(important ? " !important" : "")};";
+                : $"background-color: {color}{( important ? " !important" : "" )};";
         }
 
         protected System.Drawing.Color ThemeColorLevel( Theme theme, string inColor, int level )
