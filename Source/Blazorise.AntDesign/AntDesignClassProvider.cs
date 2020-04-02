@@ -102,13 +102,13 @@ namespace Blazorise.AntDesign
 
         public override string Label() => null;
 
-        public override string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}";
+        public override string LabelCursor( Cursor cursor ) => null;
 
-        public override string LabelCheck() => UseCustomInputStyles ? "custom-control-label" : "form-check-label";
+        public override string LabelCheck() => null;
 
-        public override string LabelSwitch() => UseCustomInputStyles ? "custom-control-label" : "form-check-label";
+        public override string LabelSwitch() => null;
 
-        public override string LabelFile() => UseCustomInputStyles ? "custom-file-label" : null;
+        public override string LabelFile() => null;
 
         #endregion
 
