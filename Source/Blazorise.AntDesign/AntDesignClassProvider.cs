@@ -420,11 +420,11 @@ namespace Blazorise.AntDesign
 
         #region ListGroup
 
-        public override string ListGroup() => "list-group";
+        public override string ListGroup() => "ant-list ant-list-split ant-list-bordered";
 
-        public override string ListGroupFlush() => "list-group-flush";
+        public override string ListGroupFlush() => "ant-list-flush";
 
-        public override string ListGroupItem() => "list-group-item";
+        public override string ListGroupItem() => "ant-list-item ant-list-item-no-flex";
 
         public override string ListGroupItemActive() => Active();
 

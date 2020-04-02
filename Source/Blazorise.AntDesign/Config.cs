@@ -64,6 +64,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.FieldLabel, AntDesign.FieldLabel>();
             componentMapper.Register<Blazorise.FileEdit, AntDesign.FileEdit>();
             componentMapper.Register<Blazorise.Heading, AntDesign.Heading>();
+            componentMapper.Register<Blazorise.ListGroup, AntDesign.ListGroup>();
             componentMapper.Register<Blazorise.ModalBackdrop, AntDesign.ModalBackdrop>();
             componentMapper.Register<Blazorise.ModalContent, AntDesign.ModalContent>();
             componentMapper.Register<Blazorise.Progress, AntDesign.Progress>();

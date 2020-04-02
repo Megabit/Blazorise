@@ -241,6 +241,10 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0; }
 
+.ant-list.ant-list-bordered.ant-list-flush {
+    border-right: 0;
+    border-left: 0; }
+
 .m-xs-0 {
     margin: 0 !important; }
 
