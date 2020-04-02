@@ -3,7 +3,7 @@
 <label class="@WrapperClassNames">
     <span class="@CheckboxClassNames">
         <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@RadioGroup" @attributes="@Attributes" />
-        <span class="ant-checkbox-inner"></span>
+        <span class="@InnerClassNames"></span>
     </span>
     <span>
         @ChildContent
@@ -11,9 +11,15 @@
     </span>
 </label>
 @code{
-    string WrapperClassNames
-        => $"ant-checkbox-wrapper {( Cursor == Cursor.Default || Cursor == Cursor.Pointer ? "ant-checkbox-wrapper-pointer" : "" )}";
+    string WrapperClassNames => Role == ControlRole.Check
+        ? $"ant-checkbox-wrapper {( Cursor == Cursor.Default || Cursor == Cursor.Pointer ? "ant-checkbox-wrapper-pointer" : "" )}"
+        : $"ant-radio-wrapper {( Cursor == Cursor.Default || Cursor == Cursor.Pointer ? "ant-radio-wrapper-checked" : "" )}";
 
-    string CheckboxClassNames
-        => $"ant-checkbox {( Checked?.ToString() == bool.TrueString ? "ant-checkbox-checked" : "" )}";
+    string CheckboxClassNames => Role == ControlRole.Check
+        ? $"ant-checkbox {( Checked?.ToString() == bool.TrueString ? "ant-checkbox-checked" : "" )}"
+        : $"ant-radio {( Checked?.ToString() == bool.TrueString ? "ant-radio-checked" : "" )}";
+
+    string InnerClassNames => Role == ControlRole.Check
+        ? $"ant-checkbox-inner"
+        : $"ant-radio-inner";
 }

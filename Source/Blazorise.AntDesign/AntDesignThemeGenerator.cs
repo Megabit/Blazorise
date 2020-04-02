@@ -317,6 +317,20 @@ namespace Blazorise.AntDesign
                 .AppendLine( "}" );
 
             sb
+                .Append( $".ant-radio-wrapper:hover .ant-radio," )
+                .Append( $".ant-radio:hover .ant-radio-inner," )
+                .Append( $".ant-radio-input:focus + .ant-radio-inner," )
+                .Append( $".ant-radio-checked .ant-radio-inner" )
+                .Append( "{" )
+                .Append( $"border-color: {options.CheckColor};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-radio-inner::after" ).Append( "{" )
+                .Append( $"background-color: {options.CheckColor};" )
+                .AppendLine( "}" );
+
+            sb
                 .Append( $".ant-switch-checked" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );

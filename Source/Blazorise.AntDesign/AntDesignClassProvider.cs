@@ -64,9 +64,9 @@ namespace Blazorise.AntDesign
 
         #region RadioEdit
 
-        public override string RadioEdit() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+        public override string RadioEdit() => "ant-radio-input";
 
-        public override string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+        public override string RadioInline() => null;
 
         #endregion
 
