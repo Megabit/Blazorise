@@ -476,6 +476,21 @@ namespace Blazorise.AntDesign
                     .Append( $"color: {Var( ThemeVariables.White )};" )
                     .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
+
+                sb
+                    .Append( $".ant-tabs-nav .ant-tabs-tab:active," )
+                    .Append( $".ant-tabs-nav .ant-tabs-tab-active" )
+                    .Append( "{" )
+                    .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                    .AppendLine( "}" );
+
+                var hoverColor = ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 20f ) );
+
+                sb
+                    .Append( $".ant-tabs-nav .ant-tabs-tab:hover" )
+                    .Append( "{" )
+                    .Append( $"color: {hoverColor};" )
+                    .AppendLine( "}" );
             }
         }
 
