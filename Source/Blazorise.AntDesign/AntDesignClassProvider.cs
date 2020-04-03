@@ -434,9 +434,9 @@ namespace Blazorise.AntDesign
 
         #region Container
 
-        public override string Container() => "container";
+        public override string Container() => "ant-container";
 
-        public override string ContainerFluid() => "container-fluid";
+        public override string ContainerFluid() => "ant-container-fluid";
 
         #endregion
 
