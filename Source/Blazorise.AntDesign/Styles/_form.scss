@@ -38,3 +38,8 @@
         }
     }
 }
+
+// fixes colum spacing when fields are next to each other
+.ant-col.ant-form-item + .ant-col.ant-form-item {
+    margin-left: 1rem;
+}

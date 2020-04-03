@@ -61,6 +61,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.DropdownMenu, AntDesign.DropdownMenu>();
             componentMapper.Register<Blazorise.DropdownItem, AntDesign.DropdownItem>();
             componentMapper.Register<Blazorise.DropdownToggle, AntDesign.DropdownToggle>();
+            componentMapper.Register<Blazorise.Field, AntDesign.Field>();
             componentMapper.Register<Blazorise.FieldBody, AntDesign.FieldBody>();
             componentMapper.Register<Blazorise.FieldLabel, AntDesign.FieldLabel>();
             componentMapper.Register<Blazorise.FileEdit, AntDesign.FileEdit>();
