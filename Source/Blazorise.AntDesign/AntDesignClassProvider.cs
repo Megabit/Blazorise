@@ -797,15 +797,15 @@ namespace Blazorise.AntDesign
 
         #region Figure
 
-        public override string Figure() => "figure";
+        public override string Figure() => "ant-figure";
 
-        public override string FigureSize( FigureSize figureSize ) => $"figure-is-{ToFigureSize( figureSize )}";
+        public override string FigureSize( FigureSize figureSize ) => $"ant-figure-is-{ToFigureSize( figureSize )}";
 
-        public override string FigureImage() => "figure-img";
+        public override string FigureImage() => "ant-figure-img";
 
-        public override string FigureImageRounded() => "rounded";
+        public override string FigureImageRounded() => "ant-figure-rounded";
 
-        public override string FigureCaption() => "figure-caption";
+        public override string FigureCaption() => "ant-figure-caption";
 
         #endregion
 
