@@ -56,6 +56,10 @@
                 margin-left: 0;
                 border-left: 0; } }
 
+.ant-card-head-subtitle {
+    margin-top: -.375rem;
+    margin-bottom: 0; }
+
 .ant-modal {
     width: 520px; }
     @media (min-width: 576px) {
