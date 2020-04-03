@@ -5,7 +5,7 @@ if (!window.antDesign) {
 window.antDesign = {
     tooltip: {
         initialize: (element, elementId) => {
-            if (element.querySelector(".custom-control-input,.btn")) {
+            if (element.querySelector(".ant-input,.ant-btn")) {
                 element.classList.add("b-tooltip-inline");
             }
 
