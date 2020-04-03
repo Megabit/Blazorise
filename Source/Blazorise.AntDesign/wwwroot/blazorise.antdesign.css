@@ -282,6 +282,9 @@
     margin-right: auto;
     margin-left: auto; }
 
+.ant-alert {
+    margin-bottom: 1rem; }
+
 .m-xs-0 {
     margin: 0 !important; }
 
