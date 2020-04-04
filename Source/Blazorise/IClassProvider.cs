@@ -333,11 +333,13 @@ namespace Blazorise
 
         string CardImage();
 
-        string CardTitle();
+        string CardTitle( bool insideHeader );
 
-        string CardSubtitle();
+        string CardTitleSize( bool insideHeader, int? size );
 
-        string CardSubtitleSize( int size );
+        string CardSubtitle( bool insideHeader );
+
+        string CardSubtitleSize( bool insideHeader, int size );
 
         string CardText();
 

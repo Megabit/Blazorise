@@ -339,11 +339,13 @@ namespace Blazorise.Providers
 
         public string CardImage() => null;
 
-        public string CardTitle() => null;
+        public string CardTitle( bool insideHeader ) => null;
 
-        public string CardSubtitle() => null;
+        public string CardTitleSize( bool insideHeader, int? size ) => null;
 
-        public string CardSubtitleSize( int size ) => null;
+        public string CardSubtitle( bool insideHeader ) => null;
+
+        public string CardSubtitleSize( bool insideHeader, int size ) => null;
 
         public string CardText() => null;
 

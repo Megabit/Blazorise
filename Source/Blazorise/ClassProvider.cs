@@ -335,11 +335,13 @@ namespace Blazorise
 
         public abstract string CardImage();
 
-        public abstract string CardTitle();
+        public abstract string CardTitle( bool insideHeader );
 
-        public abstract string CardSubtitle();
+        public abstract string CardTitleSize( bool insideHeader, int? size );
 
-        public abstract string CardSubtitleSize( int size );
+        public abstract string CardSubtitle( bool insideHeader );
+
+        public abstract string CardSubtitleSize( bool insideHeader, int size );
 
         public abstract string CardText();
 

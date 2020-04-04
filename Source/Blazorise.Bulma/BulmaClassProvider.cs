@@ -396,11 +396,13 @@ namespace Blazorise.Bulma
 
         public override string CardImage() => "card-image";
 
-        public override string CardTitle() => "card-header-title";
+        public override string CardTitle( bool insideHeader ) => insideHeader ? "card-header-title" : "title";
 
-        public override string CardSubtitle() => "subtitle";
+        public override string CardTitleSize( bool insideHeader, int? size ) => size != null ? $"is-{size}" : null;
 
-        public override string CardSubtitleSize( int size ) => $"is-{size}";
+        public override string CardSubtitle( bool insideHeader ) => insideHeader ? "card-header-subtitle" : "subtitle";
+
+        public override string CardSubtitleSize( bool insideHeader, int size ) => $"is-{size}";
 
         public override string CardText() => "card-text";
 

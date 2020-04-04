@@ -406,11 +406,13 @@ namespace Blazorise.AntDesign
 
         public override string CardImage() => "ant-card-cover";
 
-        public override string CardTitle() => "ant-card-head-title";
+        public override string CardTitle( bool insideHeader ) => insideHeader ? "ant-card-head-title" : "ant-card-meta-title";
 
-        public override string CardSubtitle() => "ant-card-head-subtitle";
+        public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
-        public override string CardSubtitleSize( int size ) => null;
+        public override string CardSubtitle( bool insideHeader ) => insideHeader ? "ant-card-head-subtitle" : "ant-card-meta-description";
+
+        public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
         public override string CardText() => "ant-card-text";
 
