@@ -22,6 +22,7 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 - [Material Demo](https://materialdemo.blazorise.com/)
 - [Bulma Demo](https://bulmademo.blazorise.com/)
 - [eFrolic Demo](https://efrolicdemo.blazorise.com/)
+- [AntDesign Demo](https://antdesigndemo.blazorise.com/)
 
 ### Blazor Server
 
