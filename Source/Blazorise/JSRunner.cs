@@ -111,6 +111,11 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.parentHasClass", elementRef, classaname );
         }
 
+        public ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<DomElement>( $"{BLAZORISE_NAMESPACE}.getElementInfo", elementRef, elementId );
+        }
+
         /// <summary>
         /// Activates the date picker for a given element id.
         /// </summary>
@@ -154,6 +159,11 @@ namespace Blazorise
         public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
 
         public abstract ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
+
+        public ValueTask<bool> OpenFileDialog( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.fileEdit.open", elementRef, elementId );
+        }
 
         public ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement )
         {

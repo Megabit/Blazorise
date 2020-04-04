@@ -25,6 +25,8 @@ namespace Blazorise
 
         string ProgressBarValue( int value );
 
+        string ProgressBarSize( Size size );
+
         #endregion
 
         #region Layout

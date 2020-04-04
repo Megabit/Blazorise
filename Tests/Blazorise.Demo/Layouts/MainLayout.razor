@@ -138,21 +138,23 @@
                     <BarDropdown>
                         <BarDropdownToggle><Icon Name="IconName.Tint" /> Theme</BarDropdownToggle>
                         <BarDropdownMenu Style="padding: 15px; min-width:550px;" RightAligned="true">
-                            <Row>
-                                <Column Margin="Margin.Is2.FromBottom">
-                                    <Field>
-                                        <CheckEdit TValue="bool" Checked="@Theme.IsGradient" CheckedChanged="@OnGradientChanged">Gradient colors</CheckEdit>
-                                    </Field>
-                                    <Field>
-                                        <CheckEdit TValue="bool" Checked="@Theme.IsRounded" CheckedChanged="@OnRoundedChanged">Rounded elements</CheckEdit>
-                                    </Field>
-                                </Column>
-                            </Row>
-                            <Row>
-                                <Container Fluid="true">
-                                    <ThemeColorSelector Value="@Theme.ColorOptions?.Primary" ValueChanged="@OnThemeColorChanged"></ThemeColorSelector>
-                                </Container>
-                            </Row>
+                            <Container Fluid="true">
+                                <Row>
+                                    <Column Margin="Margin.Is2.FromBottom">
+                                        <Field>
+                                            <CheckEdit TValue="bool" Checked="@Theme.IsGradient" CheckedChanged="@OnGradientChanged">Gradient colors</CheckEdit>
+                                        </Field>
+                                        <Field>
+                                            <CheckEdit TValue="bool" Checked="@Theme.IsRounded" CheckedChanged="@OnRoundedChanged">Rounded elements</CheckEdit>
+                                        </Field>
+                                    </Column>
+                                </Row>
+                                <Row>
+                                    <Column>
+                                        <ThemeColorSelector Value="@Theme.ColorOptions?.Primary" ValueChanged="@OnThemeColorChanged"></ThemeColorSelector>
+                                    </Column>
+                                </Row>
+                            </Container>
                         </BarDropdownMenu>
                     </BarDropdown>
                 </BarItem>
@@ -234,13 +236,19 @@
         if ( Theme.BackgroundOptions == null )
             Theme.BackgroundOptions = new ThemeBackgroundOptions();
 
+        if ( Theme.TextColorOptions == null )
+            Theme.TextColorOptions = new ThemeTextColorOptions();
+
         Theme.ColorOptions.Primary = value;
         Theme.BackgroundOptions.Primary = value;
+        Theme.TextColorOptions.Primary = value;
 
         if ( Theme.InputOptions == null )
             Theme.InputOptions = new ThemeInputOptions();
 
+        //Theme.InputOptions.Color = value;
         Theme.InputOptions.CheckColor = value;
+        Theme.InputOptions.SliderColor = value;
 
         Theme.ThemeHasChanged();
     }

@@ -33,6 +33,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.Breadcrumb, Bulma.Breadcrumb>();
             componentMapper.Register<Blazorise.BreadcrumbLink, Bulma.BreadcrumbLink>();
             componentMapper.Register<Blazorise.CardImage, Bulma.CardImage>();
+            componentMapper.Register<Blazorise.CardTitle, Bulma.CardTitle>();
             componentMapper.Register<Blazorise.CardSubtitle, Bulma.CardSubtitle>();
             componentMapper.Register( typeof( Blazorise.CheckEdit<> ), typeof( Bulma.CheckEdit<> ) );
             componentMapper.Register<Blazorise.DateEdit, Bulma.DateEdit>();

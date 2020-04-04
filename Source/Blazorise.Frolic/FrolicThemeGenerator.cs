@@ -27,7 +27,7 @@ namespace Blazorise.Frolic
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
-            var background = Var( ThemeVariables.ButtonBackgrund( variant ) );
+            var background = Var( ThemeVariables.ButtonBackground( variant ) );
             var border = Var( ThemeVariables.ButtonBorder( variant ) );
             var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
             //var hoverBorder = Var( ThemeVariables.ButtonHoverBorder( variant ) );
@@ -303,7 +303,7 @@ namespace Blazorise.Frolic
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
-            sb.Append( $".e-tag" ).Append( "{" )
+            sb.Append( $".e-tag:not(.e-tag .rounded)" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
@@ -325,6 +325,28 @@ namespace Blazorise.Frolic
 
         protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
         {
+        }
+
+        protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
+        {
+            var textColor = ParseColor( inTextColor );
+
+            var textColorHex = ToHex( textColor );
+
+            sb.Append( $".text-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {textColorHex};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
+        {
+            var color = ToHex( ParseColor( inColor ) );
+
+            sb.Append( $".e-control.text-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {color};" )
+                .AppendLine( "}" );
         }
 
         #endregion

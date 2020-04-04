@@ -99,7 +99,6 @@ namespace Blazorise
             if ( Multiple )
             {
                 return string.Empty;
-                //return string.Join( ",", value );
             }
             else
             {

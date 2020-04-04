@@ -74,6 +74,8 @@ namespace Blazorise.Bootstrap
 
         public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
+        public override string SwitchChecked( bool @checked ) => null;
+
         public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
 
         public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
@@ -150,6 +152,8 @@ namespace Blazorise.Bootstrap
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
+        public override string FieldValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region FieldLabel
@@ -189,6 +193,8 @@ namespace Blazorise.Bootstrap
         #region Addons
 
         public override string Addons() => "input-group";
+
+        public override string AddonsHasButton( bool hasButton ) => null;
 
         public override string Addon( AddonType addonType )
         {
@@ -295,7 +301,7 @@ namespace Blazorise.Bootstrap
 
         //public override string DropdownMenuBody() => null;
 
-        public override string DropdownMenuShow() => Show();
+        public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string DropdownMenuRight() => "dropdown-menu-right";
 
@@ -355,17 +361,17 @@ namespace Blazorise.Bootstrap
 
         public override string TabItem() => "nav-item";
 
-        public override string TabItemActive() => null;
+        public override string TabItemActive( bool active ) => null;
 
         public override string TabLink() => "nav-link";
 
-        public override string TabLinkActive() => $"{Active()} {Show()}";
+        public override string TabLinkActive( bool active ) => active ? $"{Active()} {Show()}" : null;
 
         public override string TabsContent() => "tab-content";
 
         public override string TabPanel() => "tab-pane";
 
-        public override string TabPanelActive() => $"{Active()} {Show()}";
+        public override string TabPanelActive( bool active ) => active ? $"{Active()} {Show()}" : null;
 
         #endregion
 
@@ -389,11 +395,13 @@ namespace Blazorise.Bootstrap
 
         public override string CardImage() => "card-img-top";
 
-        public override string CardTitle() => "card-title";
+        public override string CardTitle( bool insideHeader ) => "card-title";
 
-        public override string CardSubtitle() => "card-subtitle";
+        public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
-        public override string CardSubtitleSize( int size ) => null;
+        public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
+
+        public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
         public override string CardText() => "card-text";
 
@@ -453,6 +461,10 @@ namespace Blazorise.Bootstrap
 
         public override string Bar() => "navbar";
 
+        public override string BarBackground( Background background ) => BackgroundColor( background );
+
+        public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+
         public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )}";
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
@@ -501,7 +513,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarDropdownMenu() => "dropdown-menu";
 
-        public override string BarDropdownMenuShow() => Show();
+        public override string BarDropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string BarDropdownMenuRight() => "dropdown-menu-right";
 
@@ -517,7 +529,11 @@ namespace Blazorise.Bootstrap
 
         public override string Collapse() => "collapse";
 
-        public override string CollapseShow() => Show();
+        public override string CollapseActive( bool active ) => active ? Show() : null;
+
+        public override string CollapseContent() => null;
+
+        public override string CollapseContentActive( bool active ) => null;
 
         #endregion
 
@@ -566,19 +582,33 @@ namespace Blazorise.Bootstrap
 
         public override string AlertShow() => Show();
 
+        public override string AlertHasMessage() => null;
+
+        public override string AlertHasDescription() => null;
+
+        public override string AlertMessage() => null;
+
+        public override string AlertDescription() => null;
+
         #endregion
 
         #region Modal
 
         public override string Modal() => "modal";
 
-        public override string ModalFade() => $"{Fade()}";
+        public override string ModalFade() => Fade();
 
-        public override string ModalShow() => $"{Show()}";
+        public override string ModalVisible( bool visible ) => visible ? Show() : null;
 
         public override string ModalBackdrop() => "modal-backdrop";
 
+        public override string ModalBackdropFade() => Fade();
+
+        public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+
         public override string ModalContent( bool dialog ) => "modal-content";
+
+        public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
         public override string ModalContentCentered() => "modal-dialog-centered";
 

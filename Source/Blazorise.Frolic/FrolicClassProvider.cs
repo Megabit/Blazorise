@@ -74,6 +74,8 @@ namespace Blazorise.Frolic
 
         public override string Switch() => "e-switch";
 
+        public override string SwitchChecked( bool @checked ) => null;
+
         public override string SwitchCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
 
         public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
@@ -150,6 +152,8 @@ namespace Blazorise.Frolic
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
+        public override string FieldValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region FieldLabel
@@ -189,6 +193,8 @@ namespace Blazorise.Frolic
         #region Addons
 
         public override string Addons() => "e-form-group unified";
+
+        public override string AddonsHasButton( bool hasButton ) => null;
 
         public override string Addon( AddonType addonType ) => "e-control-helper";
 
@@ -284,7 +290,7 @@ namespace Blazorise.Frolic
 
         //public override string DropdownMenuBody() => null;
 
-        public override string DropdownMenuShow() => Show();
+        public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string DropdownMenuRight() => null;
 
@@ -344,17 +350,17 @@ namespace Blazorise.Frolic
 
         public override string TabItem() => null;
 
-        public override string TabItemActive() => Active();
+        public override string TabItemActive( bool active ) => active ? Active() : null;
 
         public override string TabLink() => null;
 
-        public override string TabLinkActive() => null;
+        public override string TabLinkActive( bool active ) => null;
 
         public override string TabsContent() => "e-tabs-content";
 
         public override string TabPanel() => "e-tabs-panel";
 
-        public override string TabPanelActive() => Active();
+        public override string TabPanelActive( bool active ) => active ? Active() : null;
 
         #endregion
 
@@ -378,11 +384,13 @@ namespace Blazorise.Frolic
 
         public override string CardImage() => null;
 
-        public override string CardTitle() => "card-title";
+        public override string CardTitle( bool insideHeader ) => "card-title";
 
-        public override string CardSubtitle() => "card-subtitle";
+        public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
-        public override string CardSubtitleSize( int size ) => null;
+        public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
+
+        public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
         public override string CardText() => "card-text";
 
@@ -442,6 +450,10 @@ namespace Blazorise.Frolic
 
         public override string Bar() => "e-nav";
 
+        public override string BarBackground( Background background ) => BackgroundColor( background );
+
+        public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+
         public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )}";
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
@@ -490,7 +502,7 @@ namespace Blazorise.Frolic
 
         public override string BarDropdownMenu() => "drop-items";
 
-        public override string BarDropdownMenuShow() => Show();
+        public override string BarDropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string BarDropdownMenuRight() => "drop-items-right";
 
@@ -506,7 +518,11 @@ namespace Blazorise.Frolic
 
         public override string Collapse() => "collapse";
 
-        public override string CollapseShow() => Show();
+        public override string CollapseActive( bool active ) => active ? Show() : null;
+
+        public override string CollapseContent() => null;
+
+        public override string CollapseContentActive( bool active ) => null;
 
         #endregion
 
@@ -555,6 +571,14 @@ namespace Blazorise.Frolic
 
         public override string AlertShow() => Show();
 
+        public override string AlertHasMessage() => null;
+
+        public override string AlertHasDescription() => null;
+
+        public override string AlertMessage() => null;
+
+        public override string AlertDescription() => null;
+
         #endregion
 
         #region Modal
@@ -563,11 +587,17 @@ namespace Blazorise.Frolic
 
         public override string ModalFade() => "e-modal-e";
 
-        public override string ModalShow() => "launch";
+        public override string ModalVisible( bool visible ) => visible ? "launch" : null;
 
         public override string ModalBackdrop() => "e-modal-backdrop";
 
+        public override string ModalBackdropFade() => Fade();
+
+        public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+
         public override string ModalContent( bool dialog ) => "e-modal-content";
+
+        public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
         public override string ModalContentCentered() => "modal-dialog-centered";
 

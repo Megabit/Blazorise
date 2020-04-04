@@ -68,20 +68,22 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ModalBackdrop() );
-            builder.Append( ClassProvider.ModalFade() );
-            builder.Append( ClassProvider.ModalShow(), Visible );
+            builder.Append( ClassProvider.ModalBackdropFade() );
+            builder.Append( ClassProvider.ModalBackdropVisible( Visible ) );
 
             base.BuildClasses( builder );
         }
 
-        public bool IsSafeToClose( string elementId, CloseReason closeReason )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
         {
-            return ElementId == elementId;
+            return Task.FromResult( ElementId == elementId );
         }
 
-        public void Close( CloseReason closeReason )
+        public Task Close( CloseReason closeReason )
         {
             ParentModal?.Hide( closeReason );
+
+            return Task.CompletedTask;
         }
 
         private void OnModalStateChanged( object sender, ModalStateEventArgs e )

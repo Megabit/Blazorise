@@ -15,9 +15,12 @@ Validation component is used to provide simple form validation for Blazorise inp
       - `<ValidationError>` error message
       - `<ValidationNone>` message when nothing has happened
 
+**Notice:** Starting from **v0.9** it is advised to also surround `Field` components with `Validation` tags. This will ensure that validation will work in all scenarios!
+{: .notice--warning}
+
 ## Basic validation
 
-For the most part you will need to use just the `<Validation>` component along with `<ValidationSuccess>` and `<ValidationError>`. By default every validation will run automatically when input value changes. You must set the `Validator` event handler where you can define the validation rules and return the validation result.
+For the most part you will need to use just the `<Validation>` component along with `<ValidationSuccess>` and `<ValidationError>`. By default every validation will run automatically when input value changes. You must set the `Validator` event handler where you can define the validation rules and return the validation result.}
 
 ### Example
 
@@ -116,54 +119,54 @@ After those two requirements are met the Blazorise will have enough information 
 
 ```html
 <Validations Mode="ValidationMode.Auto" Model="@user">
-    <Field Horizontal="true">
-        <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is10">
-            <Validation>
+    <Validation>
+        <Field Horizontal="true">
+            <FieldLabel ColumnSize="ColumnSize.Is2">Full Name</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.Is10">
                 <TextEdit Placeholder="First and last name" @bind-Text="@user.Name">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
                 </TextEdit>
-            </Validation>
-        </FieldBody>
-    </Field>
-    <Field Horizontal="true">
-        <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is10">
-            <Validation>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field Horizontal="true">
+            <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.Is10">
                 <TextEdit Placeholder="Enter email" @bind-Text="@user.Email">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
                 </TextEdit>
-            </Validation>
-        </FieldBody>
-    </Field>
-    <Field Horizontal="true">
-        <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is10">
-            <Validation>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field Horizontal="true">
+            <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.Is10">
                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@user.Password">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
                 </TextEdit>
-            </Validation>
-        </FieldBody>
-    </Field>
-    <Field Horizontal="true">
-        <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is10">
-            <Validation>
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Validation>
+        <Field Horizontal="true">
+            <FieldLabel ColumnSize="ColumnSize.Is2">Re Password</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.Is10">
                 <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@user.ConfirmPassword">
                     <Feedback>
                         <ValidationError />
                     </Feedback>
                 </TextEdit>
-            </Validation>
-        </FieldBody>
-    </Field>
+            </FieldBody>
+        </Field>
+    </Validation>
 </Validations>
 ```
 

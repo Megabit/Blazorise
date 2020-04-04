@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Providers
@@ -75,6 +76,8 @@ namespace Blazorise.Providers
         #region Switch
 
         public string Switch() => null;
+
+        public string SwitchChecked( bool @checked ) => null;
 
         public string SwitchCursor( Cursor cursor ) => null;
 
@@ -152,6 +155,8 @@ namespace Blazorise.Providers
 
         public string FieldJustifyContent( JustifyContent justifyContent ) => null;
 
+        public string FieldValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region FieldLabel
@@ -191,6 +196,8 @@ namespace Blazorise.Providers
         #region Addons
 
         public string Addons() => null;
+
+        public string AddonsHasButton( bool hasButton ) => null;
 
         public string Addon( AddonType addonType ) => null;
 
@@ -264,7 +271,7 @@ namespace Blazorise.Providers
 
         //public string DropdownMenuBody() => null;
 
-        public string DropdownMenuShow() => null;
+        public string DropdownMenuVisible( bool visible ) => null;
 
         public string DropdownMenuRight() => null;
 
@@ -298,17 +305,17 @@ namespace Blazorise.Providers
 
         public string TabItem() => null;
 
-        public string TabItemActive() => null;
+        public string TabItemActive( bool active ) => null;
 
         public string TabLink() => null;
 
-        public string TabLinkActive() => null;
+        public string TabLinkActive( bool active ) => null;
 
         public string TabsContent() => null;
 
         public string TabPanel() => null;
 
-        public string TabPanelActive() => null;
+        public string TabPanelActive( bool active ) => null;
 
         #endregion
 
@@ -332,11 +339,13 @@ namespace Blazorise.Providers
 
         public string CardImage() => null;
 
-        public string CardTitle() => null;
+        public string CardTitle( bool insideHeader ) => null;
 
-        public string CardSubtitle() => null;
+        public string CardTitleSize( bool insideHeader, int? size ) => null;
 
-        public string CardSubtitleSize( int size ) => null;
+        public string CardSubtitle( bool insideHeader ) => null;
+
+        public string CardSubtitleSize( bool insideHeader, int size ) => null;
 
         public string CardText() => null;
 
@@ -396,6 +405,10 @@ namespace Blazorise.Providers
 
         public string Bar() => null;
 
+        public string BarBackground( Background background ) => null;
+
+        public string BarAlignment( Alignment alignment ) => null;
+
         public string BarThemeContrast( ThemeContrast themeContrast ) => null;
 
         public string BarBreakpoint( Breakpoint breakpoint ) => null;
@@ -444,7 +457,7 @@ namespace Blazorise.Providers
 
         public string BarDropdownMenu() => null;
 
-        public string BarDropdownMenuShow() => null;
+        public string BarDropdownMenuVisible( bool visible ) => null;
 
         public string BarDropdownMenuRight() => null;
 
@@ -460,7 +473,11 @@ namespace Blazorise.Providers
 
         public string Collapse() => null;
 
-        public string CollapseShow() => null;
+        public string CollapseActive( bool active ) => null;
+
+        public string CollapseContent() => null;
+
+        public string CollapseContentActive( bool active ) => null;
 
         #endregion
 
@@ -492,6 +509,14 @@ namespace Blazorise.Providers
 
         public string AlertShow() => null;
 
+        public string AlertHasMessage() => null;
+
+        public string AlertHasDescription() => null;
+
+        public string AlertMessage() => null;
+
+        public string AlertDescription() => null;
+
         #endregion
 
         #region Modal
@@ -500,11 +525,17 @@ namespace Blazorise.Providers
 
         public string ModalFade() => null;
 
-        public string ModalShow() => null;
+        public string ModalVisible( bool visible ) => null;
 
         public string ModalBackdrop() => null;
 
+        public string ModalBackdropFade() => null;
+
+        public string ModalBackdropVisible( bool visible ) => null;
+
         public string ModalContent( bool dialog ) => null;
+
+        public string ModalContentSize( ModalSize modalSize ) => null;
 
         public string ModalContentCentered() => null;
 

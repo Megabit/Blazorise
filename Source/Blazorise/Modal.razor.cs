@@ -39,7 +39,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Modal() );
             builder.Append( ClassProvider.ModalFade() );
-            builder.Append( ClassProvider.ModalShow(), Visible );
+            builder.Append( ClassProvider.ModalVisible( Visible ) );
 
             base.BuildClasses( builder );
         }

@@ -9,44 +9,52 @@ redirect_from: /docs/components/tabs/
 
 ## Basics
 
-There are two pieces to a tabbed interface: the tabs themselves, and the content for each tab. 
+There are two pieces to a tabbed interface: the tabs themselves, and the content for each tab.
 
 - `<Tabs>` container for Tab items
-  - `<Tab>` clickable tab items
-- `<TabsContent>` container for tab panels
-  - `<TabPanel>` container for tab content
+  - `<Items>` container for tab items
+    - `<Tab>` clickable tab items
+  - `<Content>` container for tab panels
+    - `<TabPanel>` container for tab content
 
 The tabs are container for tab items. Each tab item contains a link to a tab panel. The `Name` of each tab item should match the `Name` of a tab panel.
 
+- `<TabsContent>` container for tab panels
+  - `<TabPanel>` container for tab content
+
 The tab content container is used to hold tab panels. Each content pane also has a unique `Name`, which is targeted by a link in the tab-strip.
 
-Put it all together, and we get this:
+Most of the time you will only need to use `Tabs` component as it is crafted to hold both clickable tab items and tab content. Only in the advanced scenario where the content will be separated from the tab items you will need to use `<TabsContent>` component.
+
+So for a basic tabs when we put it all together, we get this:
 
 ## Example
 
 ```html
 <Tabs SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
-    <Tab Name="home">Home</Tab>
-    <Tab Name="profile">Profile</Tab>
-    <Tab Name="messages">Messages</Tab>
-    <Tab Name="settings">Settings</Tab>
+    <Items>
+        <Tab Name="home">Home</Tab>
+        <Tab Name="profile">Profile</Tab>
+        <Tab Name="messages">Messages</Tab>
+        <Tab Name="settings">Settings</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="home">
+            Content for home.
+        </TabPanel>
+        <TabPanel Name="profile">
+            Content for profile.
+        </TabPanel>
+        <TabPanel Name="messages">
+            Content for messages.
+        </TabPanel>
+        <TabPanel Name="settings">
+            Content for settings.
+        </TabPanel>
+    </Content>
 </Tabs>
-<TabsContent SelectedPanel="@selectedTab">
-    <TabPanel Name="home">
-        ...
-    </TabPanel>
-    <TabPanel Name="profile">
-        ...
-    </TabPanel>
-    <TabPanel Name="messages">
-        ...
-    </TabPanel>
-    <TabPanel Name="settings">
-        ...
-    </TabPanel>
-</TabsContent>
 @code{
-    string selectedTab = "2";
+    string selectedTab = "profile";
 
     private void OnSelectedTabChanged( string name )
     {
@@ -72,7 +80,7 @@ Put it all together, and we get this:
 | Pills               | boolean                                                                    | false            | Makes the tab items to appear as pills.                                                               |
 | FullWidth           | boolean                                                                    | false            | Makes the tab items to extend the full available width.                                               |
 | Justified           | boolean                                                                    | false            | Makes the tab items to extend the full available width, but every item will be the same width.        |
-| Vertical            | boolean                                                                    | false            | Stack the navigation items by changing the flex item direction.                                       |
+| TabPosition         | [TabPosition]({{ "/docs/helpers/enums/#tabposition" | relative_url }})     | Top              | Defines the placement of a tab items.                                                                 |
 | SelectedTab         | string                                                                     |                  | Currently selected tab name.                                                                          |
 | SelectedTabChanged  | event                                                                      |                  | Occurs after the selected tab has changed.                                                            |
 

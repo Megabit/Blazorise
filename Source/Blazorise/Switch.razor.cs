@@ -15,6 +15,8 @@ namespace Blazorise
     {
         #region Members
 
+        private TValue @checked;
+
         private bool inline;
 
         private Cursor cursor;
@@ -37,6 +39,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Switch() );
+            builder.Append( ClassProvider.SwitchChecked( Checked?.ToString() == bool.TrueString ) );
             builder.Append( ClassProvider.SwitchCursor( Cursor ), Cursor != Cursor.Default );
             builder.Append( ClassProvider.SwitchValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
@@ -76,7 +79,17 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the checked flag.
         /// </summary>
-        [Parameter] public TValue Checked { get; set; }
+        [Parameter]
+        public TValue Checked
+        {
+            get => @checked;
+            set
+            {
+                @checked = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Occurs when the check state is changed.

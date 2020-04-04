@@ -62,6 +62,9 @@ namespace Blazorise
             // notify dropdown that the button is inside of it
             ParentDropdown?.Register( this );
 
+            // notify addons that the button is inside of it
+            ParentAddons?.Register( this );
+
             ExecuteAfterRender( async () =>
             {
                 await JSRunner.InitializeButton( ElementRef, ElementId, PreventDefaultOnSubmit );
@@ -74,8 +77,9 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                // remove button from parent
+                // remove button from parents
                 ParentDropdown?.UnRegister( this );
+                ParentAddons?.UnRegister( this );
 
                 JSRunner.DestroyButton( ElementId );
             }
@@ -221,6 +225,8 @@ namespace Blazorise
         [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
         [CascadingParameter] protected Buttons ParentButtons { get; set; }
+
+        [CascadingParameter] protected Addons ParentAddons { get; set; }
 
         /// <summary>
         /// Gets or sets the command to be executed when clicked on a button.

@@ -1,21 +1,23 @@
 ﻿<h2>Basic tabs</h2>
 <p id="basic-tabs">
     <Tabs SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
-        <Tab Name="1">1</Tab>
-        <Tab Name="2">2</Tab>
-        <Tab Name="3">3</Tab>
+        <Items>
+            <Tab Name="1">1</Tab>
+            <Tab Name="2">2</Tab>
+            <Tab Name="3">3</Tab>
+        </Items>
+        <Content>
+            <TabPanel Name="1">
+                First tab content
+            </TabPanel>
+            <TabPanel Name="2">
+                Second tab content
+            </TabPanel>
+            <TabPanel Name="3">
+                Third tab content
+            </TabPanel>
+        </Content>
     </Tabs>
-    <TabsContent SelectedPanel="@selectedTab">
-        <TabPanel Name="1">
-            First tab content
-        </TabPanel>
-        <TabPanel Name="2">
-            Second tab content
-        </TabPanel>
-        <TabPanel Name="3">
-            Third tab content
-        </TabPanel>
-    </TabsContent>
 </p>
 @code{
     string selectedTab = "2";

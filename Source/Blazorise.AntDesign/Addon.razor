@@ -1,0 +1,13 @@
+﻿@inherits Blazorise.Addon
+<CascadingValue Value=this>
+    @if ( AddonType == AddonType.Body )
+    {
+        @ChildContent
+    }
+    else
+    {
+        <span class="@ClassNames" @attributes="@Attributes">
+            @ChildContent
+        </span>
+    }
+</CascadingValue>
