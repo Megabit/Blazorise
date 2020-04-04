@@ -172,6 +172,28 @@ namespace Blazorise
 
         protected bool PreventDefault { get; private set; }
 
+        protected string TargetName
+        {
+            get
+            {
+                switch ( Target )
+                {
+                    case Target.Blank:
+                        return "_blank";
+                    case Target.Parent:
+                        return "_parent";
+                    case Target.Top:
+                        return "_top";
+                    case Target.Self:
+                        return "_self";
+                    case Target.None:
+                    default:
+                        return null;
+                }
+            }
+        }
+
+
         /// <summary>
         /// Denotes the target route of the link.
         /// </summary>
@@ -181,6 +203,12 @@ namespace Blazorise
         /// URL matching behavior for a link.
         /// </summary>
         [Parameter] public Match Match { get; set; }
+
+        /// <summary>
+        /// The target attribute specifies where to open the linked document.
+        /// </summary>
+        [Parameter]
+        public Target Target { get; set; } = Target.None;
 
         /// <summary>
         /// Specify extra information about the element.
