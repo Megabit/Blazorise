@@ -57,7 +57,7 @@
                 <SidebarLink Toggled="(isOpen)=> sidebarSubItemForms.Toggle(isOpen)">
                     <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Forms
                 </SidebarLink>
-                <SidebarSubItem @ref="sidebarSubItemForms">
+                <SidebarSubItem @ref="sidebarSubItemForms" Visible="@formsSubItemVisible">
                     <SidebarItem>
                         <SidebarLink To="tests/forms">Forms</SidebarLink>
                     </SidebarItem>
@@ -258,6 +258,8 @@
     SidebarSubItem sidebarSubItemForms;
     SidebarSubItem sidebarSubItemExtensions;
     SidebarSubItem sidebarSubItemApps;
+
+    bool formsSubItemVisible = true;
 
     //bool collapseNavMenu = true;
 
