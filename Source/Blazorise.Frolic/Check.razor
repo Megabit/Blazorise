@@ -1,12 +1,7 @@
 ﻿@typeparam TValue
-@inherits BaseCheckComponent<TValue>
-@if ( !HasCustomRegistration )
-{
+@inherits Blazorise.Check<TValue>
+<Label Type="LabelType.Check" For="@ElementId" Style="@Style" Cursor="@Cursor">
     <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" @attributes="@Attributes" />
     @ChildContent
-    @Feedback
-}
-else
-{
-    @RenderCustomComponent()
-}
+</Label>
+@Feedback

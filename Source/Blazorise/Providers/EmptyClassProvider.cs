@@ -53,21 +53,21 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        public string CheckEdit() => null;
+        public string Check() => null;
 
-        public string CheckEditInline() => null;
+        public string CheckInline() => null;
 
-        public string CheckEditCursor( Cursor cursor ) => null;
+        public string CheckCursor( Cursor cursor ) => null;
 
-        public string CheckEditValidation( ValidationStatus validationStatus ) => null;
+        public string CheckValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
-        #region RadioEdit
+        #region Radio
 
-        public string RadioEdit() => null;
+        public string Radio() => null;
 
         public string RadioEditInline() => null;
 
@@ -105,13 +105,9 @@ namespace Blazorise.Providers
 
         public string Label() => null;
 
+        public string LabelType( LabelType labelType ) => null;
+
         public string LabelCursor( Cursor cursor ) => null;
-
-        public string LabelCheck() => null;
-
-        public string LabelSwitch() => null;
-
-        public string LabelFile() => null;
 
         #endregion
 

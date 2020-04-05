@@ -51,7 +51,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.Breadcrumb, AntDesign.Breadcrumb>();
             componentMapper.Register<Blazorise.BreadcrumbItem, AntDesign.BreadcrumbItem>();
             componentMapper.Register<Blazorise.BreadcrumbLink, AntDesign.BreadcrumbLink>();
-            componentMapper.Register( typeof( Blazorise.CheckEdit<> ), typeof( AntDesign.CheckEdit<> ) );
+            componentMapper.Register( typeof( Blazorise.Check<> ), typeof( AntDesign.Check<> ) );
             componentMapper.Register<Blazorise.Button, AntDesign.Button>();
             componentMapper.Register<Blazorise.CardHeader, AntDesign.CardHeader>();
             componentMapper.Register<Blazorise.CardLink, AntDesign.CardLink>();
@@ -73,6 +73,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register( typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) );
             componentMapper.Register( typeof( Blazorise.SelectItem<> ), typeof( AntDesign.SelectItem<> ) );
             componentMapper.Register<Blazorise.SelectGroup, AntDesign.SelectGroup>();
+            componentMapper.Register<Blazorise.Radio, AntDesign.Radio>();
             componentMapper.Register( typeof( Blazorise.Slider<> ), typeof( AntDesign.Slider<> ) );
             componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( AntDesign.Switch<> ) );
             componentMapper.Register<Blazorise.Tabs, AntDesign.Tabs>();

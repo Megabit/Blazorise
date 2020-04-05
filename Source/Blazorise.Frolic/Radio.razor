@@ -1,0 +1,6 @@
+﻿@inherits Blazorise.Radio
+<Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">
+    <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" value="@Value" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />
+    @ChildContent
+</Label>
+@Feedback

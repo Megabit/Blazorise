@@ -50,21 +50,21 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        public override string CheckEdit() => "checkbox";
+        public override string Check() => "checkbox";
 
-        public override string CheckEditInline() => "inline";
+        public override string CheckInline() => "inline";
 
-        public override string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{ToCursor( cursor )}";
+        public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
 
-        public override string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region Radio
 
-        public override string RadioEdit() => "radio";
+        public override string Radio() => "radio";
 
         public override string RadioInline() => "inline";
 
@@ -102,13 +102,24 @@ namespace Blazorise.Bulma
 
         public override string Label() => "label";
 
+        public override string LabelType( LabelType labelType )
+        {
+            switch ( labelType )
+            {
+                case Blazorise.LabelType.Check:
+                case Blazorise.LabelType.Radio:
+                    return "checkbox";
+                case Blazorise.LabelType.Switch:
+                    return null;
+                case Blazorise.LabelType.File:
+                    return "file-label";
+                case Blazorise.LabelType.None:
+                default:
+                    return null;
+            }
+        }
+
         public override string LabelCursor( Cursor cursor ) => $"label-{ToCursor( cursor )}";
-
-        public override string LabelCheck() => "checkbox";
-
-        public override string LabelSwitch() => null;
-
-        public override string LabelFile() => "file-label";
 
         #endregion
 

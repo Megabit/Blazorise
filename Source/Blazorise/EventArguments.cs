@@ -395,4 +395,20 @@ namespace Blazorise
         /// </summary>
         public bool Success { get; }
     }
+
+    /// <summary>
+    /// Provides the information about the currently checked radio.
+    /// </summary>
+    public class RadioCheckedChangedEventArgs : EventArgs
+    {
+        public RadioCheckedChangedEventArgs( object value )
+        {
+            Value = value;
+        }
+
+        /// <summary>
+        /// Gets the checked radio value.
+        /// </summary>
+        public object Value { get; }
+    }
 }

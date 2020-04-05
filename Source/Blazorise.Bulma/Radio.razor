@@ -1,0 +1,23 @@
+﻿@inherits Blazorise.Radio
+@if ( ParentIsFieldBody )
+{
+    <div class="field">
+        <Control Role="ControlRole.Radio" Inline="@(ParentRadioGroup?.Inline ?? Inline)">
+            <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">
+                <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />
+                @ChildContent
+            </Label>
+        </Control>
+        @Feedback
+    </div>
+}
+else
+{
+    <Control Role="ControlRole.Radio" Inline="@(ParentRadioGroup?.Inline ?? Inline)">
+        <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">
+            <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />
+            @ChildContent
+        </Label>
+    </Control>
+    @Feedback
+}

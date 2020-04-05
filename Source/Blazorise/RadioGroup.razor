@@ -1,0 +1,11 @@
+﻿@inherits BaseComponent
+@if ( !HasCustomRegistration )
+{
+    <CascadingValue Value=this>
+        @ChildContent
+    </CascadingValue>
+}
+else
+{
+    @RenderCustomComponent()
+}

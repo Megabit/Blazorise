@@ -12,10 +12,10 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Switches toggle the state of a single setting on or off.
+    /// Checkboxes allow the user to select one or more items from a set.
     /// </summary>
     /// <typeparam name="TValue">Checked value type.</typeparam>
-    public partial class Switch<TValue> : BaseCheckComponent<TValue>
+    public partial class Check<TValue> : BaseCheckComponent<TValue>
     {
         #region Members
 
@@ -25,8 +25,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.Switch() );
-            builder.Append( ClassProvider.SwitchChecked( Checked?.ToString() == bool.TrueString ) );
+            builder.Append( ClassProvider.Check() );
 
             base.BuildClasses( builder );
         }
