@@ -2,7 +2,9 @@
 @if ( !HasCustomRegistration )
 {
     <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
+        <CascadingValue Value="@Gutter">
+            @ChildContent
+        </CascadingValue>
     </div>
 }
 else
