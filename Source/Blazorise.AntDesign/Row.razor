@@ -1,0 +1,6 @@
+﻿@inherits Blazorise.Row
+<div class="@ClassNames" @attributes="@Attributes" style="@GutterStyles">
+    <CascadingValue Value="@Gutter">
+        @ChildContent
+    </CascadingValue>
+</div>

@@ -57,6 +57,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.CardLink, AntDesign.CardLink>();
             componentMapper.Register<Blazorise.CloseButton, AntDesign.CloseButton>();
             componentMapper.Register<Blazorise.Collapse, AntDesign.Collapse>();
+            componentMapper.Register<Blazorise.Column, AntDesign.Column>();
             componentMapper.Register<Blazorise.Dropdown, AntDesign.Dropdown>();
             componentMapper.Register<Blazorise.DropdownMenu, AntDesign.DropdownMenu>();
             componentMapper.Register<Blazorise.DropdownItem, AntDesign.DropdownItem>();
@@ -70,6 +71,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.ModalBackdrop, AntDesign.ModalBackdrop>();
             componentMapper.Register<Blazorise.ModalContent, AntDesign.ModalContent>();
             componentMapper.Register<Blazorise.Progress, AntDesign.Progress>();
+            componentMapper.Register<Blazorise.Row, AntDesign.Row>();
             componentMapper.Register( typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) );
             componentMapper.Register( typeof( Blazorise.SelectItem<> ), typeof( AntDesign.SelectItem<> ) );
             componentMapper.Register<Blazorise.SelectGroup, AntDesign.SelectGroup>();
