@@ -23,9 +23,21 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        protected override void BuildStyles( StyleBuilder builder )
+        {
+            builder.Append( StyleProvider.RowGutter( Gutter ), Gutter != default );
+
+            base.BuildStyles( builder );
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Row grid spacing - we recommend setting Horizontal and/or Vertical it to (16 + 8n). (n stands for natural number.)
+        /// </summary>
+        [Parameter] public (int Horizontal, int Vertical) Gutter { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

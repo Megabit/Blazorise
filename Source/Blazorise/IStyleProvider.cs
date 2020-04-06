@@ -34,5 +34,17 @@ namespace Blazorise
         string Visibility( Visibility visibility );
 
         #endregion
+
+        #region Row
+
+        string RowGutter( (int Horizontal, int Vertical) gutter );
+
+        #endregion
+
+        #region Column
+
+        string ColumnGutter( (int Horizontal, int Vertical) gutter );
+
+        #endregion
     }
 }
