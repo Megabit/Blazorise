@@ -7,31 +7,31 @@ using System.Threading.Tasks;
 
 namespace Blazorise.Bulma
 {
-    class BulmaStyleProvider : IStyleProvider
+    class BulmaStyleProvider : StyleProvider
     {
         #region Modal
 
-        public string ModalShow() => null;
+        public override string ModalShow() => null;
 
         #endregion
 
         #region ModalBody
 
-        public string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto;";
+        public override string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto;";
 
         #endregion
 
         #region ProgressBar
 
-        public string ProgressBarValue( int value ) => $"width: {value}%";
+        public override string ProgressBarValue( int value ) => $"width: {value}%";
 
-        public string ProgressBarSize( Size size ) => null;
+        public override string ProgressBarSize( Size size ) => null;
 
         #endregion
 
         #region Layout
 
-        public string Visibility( Visibility visibility ) => visibility == Blazorise.Visibility.Never ? "display: none;" : null;
+        public override string Visibility( Visibility visibility ) => visibility == Blazorise.Visibility.Never ? "display: none;" : null;
 
         #endregion
     }

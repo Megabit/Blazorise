@@ -7,31 +7,31 @@ using System.Threading.Tasks;
 
 namespace Blazorise.Bootstrap
 {
-    public class BootstrapStyleProvider : IStyleProvider
+    public class BootstrapStyleProvider : StyleProvider
     {
         #region Modal
 
-        public virtual string ModalShow() => "display: block; padding-right: 17px;";
+        public override string ModalShow() => "display: block; padding-right: 17px;";
 
         #endregion
 
         #region ModalBody
 
-        public virtual string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto;";
+        public override string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto;";
 
         #endregion
 
         #region ProgressBar
 
-        public virtual string ProgressBarValue( int value ) => $"width: {value}%";
+        public override string ProgressBarValue( int value ) => $"width: {value}%";
 
-        public virtual string ProgressBarSize( Size size ) => null;
+        public override string ProgressBarSize( Size size ) => null;
 
         #endregion
 
         #region Layout
 
-        public virtual string Visibility( Visibility visibility ) => visibility == Blazorise.Visibility.Never ? "display: none;" : null;
+        public override string Visibility( Visibility visibility ) => visibility == Blazorise.Visibility.Never ? "display: none;" : null;
 
         #endregion
     }
