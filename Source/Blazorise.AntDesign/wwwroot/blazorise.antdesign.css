@@ -253,8 +253,10 @@
     border-left: 0; }
 
 .ant-col {
-    flex-basis: 0;
     flex-grow: 1; }
+
+.ant-col.ant-form-item {
+    flex-basis: 0; }
 
 .ant-container {
     width: 100%;

@@ -1,4 +1,12 @@
-﻿.ant-container {
+﻿.ant-col {
+    flex-grow: 1;
+}
+
+.ant-col.ant-form-item {
+    flex-basis: 0;
+}
+
+.ant-container {
     width: 100%;
     padding-right: 0;
     padding-left: 0;
