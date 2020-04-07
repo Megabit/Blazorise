@@ -112,11 +112,13 @@
             </PaginationItem>
             @for ( int i = FirstVisiblePage; i <= LastVisiblePage; ++i )
             {
-                var pageName = i.ToString();
+                var pageNumber = i;
+                var pageNumberString = i.ToString();
+                var pageActive = pageNumber == CurrentPage;
 
-                <PaginationItem Disabled="@(i == CurrentPage)" Active="@(i == CurrentPage)">
-                    <PaginationLink Page="@pageName" Clicked="@OnPaginationItemClick">
-                        @pageName
+                <PaginationItem Disabled="@(pageNumber == CurrentPage)" Active="@pageActive">
+                    <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
+                        @pageNumberString
                     </PaginationLink>
                 </PaginationItem>
             }
