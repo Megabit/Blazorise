@@ -2,7 +2,7 @@
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
-        <li class="@ClassNames" @attributes="@Attributes">
+        <li class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </li>
     </CascadingValue>
