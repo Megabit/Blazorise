@@ -54,7 +54,7 @@ namespace Blazorise.Bulma
 
         public override string CheckEdit() => "checkbox";
 
-        public override string CheckEditInline() => "inline";
+        public override string CheckEditInline() => "is-inline";
 
         public override string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{ToCursor( cursor )}";
 
@@ -117,6 +117,8 @@ namespace Blazorise.Bulma
         public override string FieldsBody() => "field-body";
 
         public override string FieldsColumn() => $"{Col()}";
+
+        public override string Multiline() => "is-grouped-multiline";
 
         //public override string FieldsColumnSize( ColumnSize columnSize ) => $"is-{ColumnSize( columnSize )}";
 
@@ -994,5 +996,7 @@ namespace Blazorise.Bulma
         public override bool UseCustomInputStyles { get; set; } = false;
 
         public override string Provider => "Bulma";
+
+
     }
 }
