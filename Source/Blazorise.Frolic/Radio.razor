@@ -1,6 +1,11 @@
-﻿@inherits Blazorise.Radio
-<Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">
+﻿@typeparam TValue
+@inherits Blazorise.Radio<TValue>
+<Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor" Class="@LabelRadioButtonClassName">
     <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" value="@Value" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />
     @ChildContent
 </Label>
 @Feedback
+@code{
+    string LabelRadioButtonClassName
+        => AsButton ? $"{( AsButton ? "e-btn" : "" )}{( Checked ? " gray" : "" )}" : null;
+}

@@ -62,9 +62,17 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region RadioGroup
+
+        public override string RadioGroup( bool buttons ) => buttons ? "btn-group btn-group-toggle" : null;
+
+        public override string RadioGroupInline() => null;
+
+        #endregion
+
         #region Radio
 
-        public override string Radio() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+        public override string Radio( bool button ) => button ? null : UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
         public override string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 

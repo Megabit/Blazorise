@@ -62,9 +62,17 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region RadioGroup
+
+        public override string RadioGroup( bool buttons ) => buttons ? "e-buttons unified" : null;
+
+        public override string RadioGroupInline() => null;
+
+        #endregion
+
         #region Radio
 
-        public override string Radio() => null;
+        public override string Radio( bool button ) => null;
 
         public override string RadioInline() => null;
 

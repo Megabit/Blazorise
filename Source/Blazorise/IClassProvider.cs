@@ -61,9 +61,19 @@ namespace Blazorise
 
         #endregion
 
+        #region RadioGroup
+
+        string RadioGroup( bool buttons );
+
+        string RadioGroupInline();
+
+        #endregion
+
         #region Radio
 
-        string Radio();
+        string Radio( bool button );
+
+        string RadioInline();
 
         #endregion
 

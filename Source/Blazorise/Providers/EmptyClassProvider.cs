@@ -65,11 +65,19 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region RadioGroup
+
+        public string RadioGroup( bool buttons ) => null;
+
+        public string RadioGroupInline() => null;
+
+        #endregion
+
         #region Radio
 
-        public string Radio() => null;
+        public string Radio( bool button ) => null;
 
-        public string RadioEditInline() => null;
+        public string RadioInline() => null;
 
         #endregion
 

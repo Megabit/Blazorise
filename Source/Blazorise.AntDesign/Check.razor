@@ -12,7 +12,7 @@
 </label>
 @code{
     string WrapperClassNames
-        => $"ant-checkbox-wrapper {( Cursor == Cursor.Default || Cursor == Cursor.Pointer ? "ant-checkbox-wrapper-pointer" : "" )}";
+        => $"ant-checkbox-wrapper {( Checked?.ToString() == bool.TrueString ? "ant-checkbox-wrapper-pointer" : "" )}";
 
     string CheckboxClassNames
         => $"ant-checkbox {( Checked?.ToString() == bool.TrueString ? "ant-checkbox-checked" : "" )}";

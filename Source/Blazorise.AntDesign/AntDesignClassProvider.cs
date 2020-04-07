@@ -62,9 +62,17 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region RadioGroup
+
+        public override string RadioGroup( bool buttons ) => "ant-radio-group ant-radio-group-outline";
+
+        public override string RadioGroupInline() => null;
+
+        #endregion
+
         #region Radio
 
-        public override string Radio() => "ant-radio-input";
+        public override string Radio( bool button ) => button ? "ant-radio-button-input" : "ant-radio-input";
 
         public override string RadioInline() => null;
 

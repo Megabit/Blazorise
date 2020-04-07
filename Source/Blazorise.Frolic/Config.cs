@@ -40,7 +40,7 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.CardText, Frolic.CardText>();
             componentMapper.Register<Blazorise.CardTitle, Frolic.CardTitle>();
             componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Frolic.Check<> ) );
-            componentMapper.Register<Blazorise.Radio, Frolic.Radio>();
+            componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Frolic.Radio<> ) );
             componentMapper.Register<Blazorise.DisplayHeading, Frolic.DisplayHeading>();
             componentMapper.Register<Blazorise.Dropdown, Frolic.Dropdown>();
             componentMapper.Register<Blazorise.DropdownToggle, Frolic.DropdownToggle>();

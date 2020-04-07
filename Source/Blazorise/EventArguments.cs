@@ -399,9 +399,9 @@ namespace Blazorise
     /// <summary>
     /// Provides the information about the currently checked radio.
     /// </summary>
-    public class RadioCheckedChangedEventArgs : EventArgs
+    public class RadioCheckedChangedEventArgs<TValue> : EventArgs
     {
-        public RadioCheckedChangedEventArgs( object value )
+        public RadioCheckedChangedEventArgs( TValue value )
         {
             Value = value;
         }
@@ -409,6 +409,6 @@ namespace Blazorise
         /// <summary>
         /// Gets the checked radio value.
         /// </summary>
-        public object Value { get; }
+        public TValue Value { get; }
     }
 }

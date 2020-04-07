@@ -62,9 +62,17 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region RadioGroup
+
+        public override string RadioGroup( bool buttons ) => buttons ? "field has-addons" : "control";
+
+        public override string RadioGroupInline() => null;
+
+        #endregion
+
         #region Radio
 
-        public override string Radio() => "radio";
+        public override string Radio( bool button ) => "radio";
 
         public override string RadioInline() => "inline";
 
@@ -107,8 +115,9 @@ namespace Blazorise.Bulma
             switch ( labelType )
             {
                 case Blazorise.LabelType.Check:
-                case Blazorise.LabelType.Radio:
                     return "checkbox";
+                case Blazorise.LabelType.Radio:
+                    return "radio";
                 case Blazorise.LabelType.Switch:
                     return null;
                 case Blazorise.LabelType.File:

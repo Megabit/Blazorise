@@ -14,7 +14,7 @@ namespace Blazorise
     /// Radio buttons allow the user to select one option from a set.
     /// </summary>
     /// <typeparam name="TValue">Checked value type.</typeparam>
-    public partial class Radio : BaseCheckComponent<bool>
+    public partial class Radio<TValue> : BaseCheckComponent<bool>
     {
         #region Members
 
@@ -26,7 +26,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.Radio() );
+            builder.Append( ClassProvider.Radio( AsButton ) );
 
             base.BuildClasses( builder );
         }
@@ -35,7 +35,9 @@ namespace Blazorise
         {
             if ( ParentRadioGroup != null )
             {
-                ParentRadioGroup.RadioChanged += OnRadioChanged;
+                Checked = EqualityComparer<TValue>.Default.Equals( ParentRadioGroup.CheckedValue, Value );
+
+                ParentRadioGroup.RadioCheckedChanged += OnRadioChanged;
 
                 // Parent group name have higher priority!
                 if ( string.IsNullOrEmpty( Group ) )
@@ -53,7 +55,7 @@ namespace Blazorise
             {
                 if ( ParentRadioGroup != null )
                 {
-                    ParentRadioGroup.RadioChanged -= OnRadioChanged;
+                    ParentRadioGroup.RadioCheckedChanged -= OnRadioChanged;
                 }
             }
 
@@ -76,7 +78,7 @@ namespace Blazorise
             return base.ParseValueFromStringAsync( value );
         }
 
-        private async void OnRadioChanged( object sender, RadioCheckedChangedEventArgs e )
+        private async void OnRadioChanged( object sender, RadioCheckedChangedEventArgs<TValue> e )
         {
             await CurrentValueHandler( e?.Value?.ToString() );
 
@@ -90,6 +92,10 @@ namespace Blazorise
         #region Properties
 
         protected override string TrueValueName => Value?.ToString();
+
+        protected bool ParentIsRadioGroup => ParentRadioGroup != null;
+
+        protected bool AsButton => ParentRadioGroup?.Buttons == true;
 
         /// <summary>
         /// Sets the radio group name.
@@ -106,9 +112,9 @@ namespace Blazorise
             }
         }
 
-        [Parameter] public object Value { get; set; }
+        [Parameter] public TValue Value { get; set; }
 
-        [CascadingParameter] protected RadioGroup ParentRadioGroup { get; set; }
+        [CascadingParameter] protected RadioGroup<TValue> ParentRadioGroup { get; set; }
 
         #endregion
     }

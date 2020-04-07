@@ -1,4 +1,5 @@
-﻿@inherits Blazorise.Radio
+﻿@typeparam TValue
+@inherits Blazorise.Radio<TValue>
 <label class="@WrapperClassNames">
     <span class="@CheckboxClassNames">
         <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" value="@Value" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />
@@ -10,12 +11,15 @@
     </span>
 </label>
 @code{
-    string WrapperClassNames
-        => $"ant-radio-wrapper {( Cursor == Cursor.Default || Cursor == Cursor.Pointer ? "ant-radio-wrapper-checked" : "" )}";
+    string WrapperClassNames => AsButton == true
+        ? $"ant-radio-button-wrapper{( Checked ? " ant-radio-button-wrapper-checked" : "" )}"
+        : $"ant-radio-wrapper{( Checked ? " ant-radio-wrapper-checked" : "" )}";
 
-    string CheckboxClassNames
-        => $"ant-radio {( Checked.ToString() == bool.TrueString ? "ant-radio-checked" : "" )}";
+    string CheckboxClassNames => AsButton == true
+        ? $"ant-radio-button{( Checked ? " ant-radio-button-checked" : "" )}"
+        : $"ant-radio{( Checked ? " ant-radio-checked" : "" )}";
 
-    string InnerClassNames
-        => $"ant-radio-inner";
+    string InnerClassNames => AsButton == true
+        ? $"ant-radio-button-inner"
+        : $"ant-radio-inner";
 }

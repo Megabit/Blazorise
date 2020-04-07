@@ -1,4 +1,5 @@
-﻿@inherits BaseCheckComponent<bool>
+﻿@typeparam TValue
+@inherits BaseCheckComponent<bool>
 @if ( !HasCustomRegistration )
 {
     <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />

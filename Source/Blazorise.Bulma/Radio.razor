@@ -1,7 +1,42 @@
-﻿@inherits Blazorise.Radio
-@if ( ParentIsFieldBody )
+﻿@typeparam TValue
+@inherits Blazorise.Radio<TValue>
+@if ( ParentIsRadioGroup )
 {
-    <div class="field">
+    @if ( AsButton )
+    {
+        <Control Role="ControlRole.Radio" Inline="@(ParentRadioGroup?.Inline ?? Inline)">
+            <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor" Class="@LabelRadioButtonClassName">
+                <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />
+                @ChildContent
+            </Label>
+        </Control>
+        @Feedback
+    }
+    else
+    {
+        <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">
+            <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />
+            @ChildContent
+        </Label>
+        @Feedback
+    }
+}
+else
+{
+    @if ( ParentIsFieldBody )
+    {
+        <div class="field">
+            <Control Role="ControlRole.Radio" Inline="@(ParentRadioGroup?.Inline ?? Inline)">
+                <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">
+                    <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />
+                    @ChildContent
+                </Label>
+            </Control>
+            @Feedback
+        </div>
+    }
+    else
+    {
         <Control Role="ControlRole.Radio" Inline="@(ParentRadioGroup?.Inline ?? Inline)">
             <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">
                 <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />
@@ -9,15 +44,9 @@
             </Label>
         </Control>
         @Feedback
-    </div>
+    }
 }
-else
-{
-    <Control Role="ControlRole.Radio" Inline="@(ParentRadioGroup?.Inline ?? Inline)">
-        <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">
-            <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" name="@Group" @attributes="@Attributes" />
-            @ChildContent
-        </Label>
-    </Control>
-    @Feedback
+@code{
+    string LabelRadioButtonClassName
+        => AsButton ? $"button{( Checked ? " is-secondary" : "" )}" : null;
 }
