@@ -118,8 +118,6 @@ namespace Blazorise.Bulma
 
         public override string FieldsColumn() => $"{Col()}";
 
-        public override string Multiline() => "is-grouped-multiline";
-
         //public override string FieldsColumnSize( ColumnSize columnSize ) => $"is-{ColumnSize( columnSize )}";
 
         #endregion
@@ -996,7 +994,5 @@ namespace Blazorise.Bulma
         public override bool UseCustomInputStyles { get; set; } = false;
 
         public override string Provider => "Bulma";
-
-
     }
 }
