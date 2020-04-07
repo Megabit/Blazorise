@@ -99,10 +99,22 @@
     {
         <Pagination>
             <PaginationItem Disabled="@(CurrentPage <= 1)">
-                <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
-                    @if ( PreviousButtonTemplate != null )
+                <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
+                    @if ( FirstPageButtonTemplate != null )
                     {
-                        @PreviousButtonTemplate
+                        @FirstPageButtonTemplate
+                    }
+                    else
+                    {
+                        @("First")
+                    }
+                </PaginationLink>
+            </PaginationItem>
+            <PaginationItem Disabled="@(CurrentPage <= 1)">
+                <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
+                    @if ( PreviousPageButtonTemplate != null )
+                    {
+                        @PreviousPageButtonTemplate
                     }
                     else
                     {
@@ -112,23 +124,37 @@
             </PaginationItem>
             @for ( int i = FirstVisiblePage; i <= LastVisiblePage; ++i )
             {
-                var pageName = i.ToString();
+                var pageNumber = i;
+                var pageNumberString = i.ToString();
+                var pageActive = pageNumber == CurrentPage;
 
-                <PaginationItem Disabled="@(i == CurrentPage)" Active="@(i == CurrentPage)">
-                    <PaginationLink Page="@pageName" Clicked="@OnPaginationItemClick">
-                        @pageName
+                <PaginationItem Disabled="@(pageNumber == CurrentPage)" Active="@pageActive">
+                    <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
+                        @pageNumberString
                     </PaginationLink>
                 </PaginationItem>
             }
             <PaginationItem Disabled="@(CurrentPage >= LastPage)">
                 <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
-                    @if ( NextButtonTemplate != null )
+                    @if ( NextPageButtonTemplate != null )
                     {
-                        @NextButtonTemplate
+                        @NextPageButtonTemplate
                     }
                     else
                     {
                         @("Next")
+                    }
+                </PaginationLink>
+            </PaginationItem>
+            <PaginationItem Disabled="@(CurrentPage >= LastPage)">
+                <PaginationLink Page="last" Clicked="@OnPaginationItemClick">
+                    @if ( LastPageButtonTemplate != null )
+                    {
+                        @LastPageButtonTemplate
+                    }
+                    else
+                    {
+                        @("Last")
                     }
                 </PaginationLink>
             </PaginationItem>

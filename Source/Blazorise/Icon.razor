@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <i class="@ClassNames" @attributes="@Attributes">
+    <i class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @if ( IconProvider.IconNameAsContent && Name != null )
         {
             if ( Name is IconName )

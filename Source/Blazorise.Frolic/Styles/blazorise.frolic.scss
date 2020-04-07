@@ -1,4 +1,6 @@
-﻿.e-table.borderless {
+﻿@import "form";
+
+.e-table.borderless {
     td, th, tr {
         border: 0 !important;
     }

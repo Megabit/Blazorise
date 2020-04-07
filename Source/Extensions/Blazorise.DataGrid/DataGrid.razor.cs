@@ -350,6 +350,14 @@ namespace Blazorise.DataGrid
                     if ( CurrentPage > LastPage )
                         CurrentPage = LastPage;
                 }
+                else if ( pageName == "first" )
+                {
+                    CurrentPage = 1;
+                }
+                else if ( pageName == "last" )
+                {
+                    CurrentPage = LastPage;
+                }
             }
 
             await PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( CurrentPage, PageSize ) );
@@ -583,14 +591,24 @@ namespace Blazorise.DataGrid
         [Parameter] public int CurrentPage { get; set; } = 1;
 
         /// <summary>
+        /// Gets or sets content of first button of pager.
+        /// </summary>
+        [Parameter] public RenderFragment FirstPageButtonTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets content of last button of pager.
+        /// </summary>
+        [Parameter] public RenderFragment LastPageButtonTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets content of previous button of pager.
         /// </summary>
-        [Parameter] public RenderFragment PreviousButtonTemplate { get; set; }
+        [Parameter] public RenderFragment PreviousPageButtonTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets content of next button of pager.
         /// </summary>
-        [Parameter] public RenderFragment NextButtonTemplate { get; set; }
+        [Parameter] public RenderFragment NextPageButtonTemplate { get; set; }
 
         /// <summary>
         /// Gets the last page number.

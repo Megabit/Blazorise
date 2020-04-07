@@ -1,0 +1,24 @@
+﻿@typeparam TValue
+@inherits Blazorise.Check<TValue>
+@if ( ParentIsFieldBody )
+{
+    <div class="field">
+        <Control Role="ControlRole.Check" Inline="@Inline">
+            <Label Type="LabelType.Check" For="@ElementId" Style="@Style" Cursor="@Cursor">
+                <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" @attributes="@Attributes" />
+                @ChildContent
+            </Label>
+        </Control>
+        @Feedback
+    </div>
+}
+else
+{
+    <Control Role="ControlRole.Check" Inline="@Inline">
+        <Label Type="LabelType.Check" For="@ElementId" Style="@Style" Cursor="@Cursor">
+            <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" @onchange="@OnChangeHandler" @attributes="@Attributes" />
+            @ChildContent
+        </Label>
+    </Control>
+    @Feedback
+}

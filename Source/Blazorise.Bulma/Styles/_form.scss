@@ -1,0 +1,17 @@
+﻿label.radio.button {
+    display: flex;
+}
+
+label.radio.button {
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+
+    input[type=radio] {
+        position: absolute;
+        left: 0;
+        opacity: 0;
+        outline: none;
+        z-index: -1;
+    }
+}

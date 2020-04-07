@@ -1,4 +1,4 @@
 ﻿@inherits Blazorise.CardSubtitle
-<Dynamic TagName="@($"h{Size}")" style="@StyleNames" class="@ClassNames">
+<Dynamic TagName="@($"h{Size}")" style="@StyleNames" class="@ClassNames" @attributes="@Attributes">
     @ChildContent
 </Dynamic>

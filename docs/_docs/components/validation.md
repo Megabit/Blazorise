@@ -47,18 +47,18 @@ Here you can see the basic example for automatic validation and a custom functio
 }
 ```
 
-The same structure is for all **Edit** components(check, radio, select, etc). Note that for some components there are some special rules when defining the validation structure. For example for **CheckEdit** you must use `ChildContent` tag along with the `<Feedback>` tag. This is a limitation in Blazor, hopefully it will be fixed in the future.
+The same structure is for all **Edit** components(check, radio, select, etc). Note that for some components there are some special rules when defining the validation structure. For example for **Check** you must use `ChildContent` tag along with the `<Feedback>` tag. This is a limitation in Blazor, hopefully it will be fixed in the future.
 
 ```html
 <Validation Validator="@ValidateCheck">
-    <CheckEdit TValue="bool">
+    <Check TValue="bool">
         <ChildContent>
             Check me out
         </ChildContent>
         <Feedback>
             <ValidationError>You must check me out!</ValidationError>
         </Feedback>
-    </CheckEdit>
+    </Check>
 </Validation>
 ```
 

@@ -1,7 +1,0 @@
-﻿@typeparam TValue
-@inherits Blazorise.CheckEdit<TValue>
-<Control Role="@Role" Inline="@Inline">
-    <input @ref="@ElementRef" id="@ElementId" type="@Type" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@Checked" @onchange="@OnChangeHandler" name="@RadioGroup" @attributes="@Attributes" />
-    <Label Type="LabelType.Check" For="@ElementId" Style="@Style" Cursor="@Cursor">@ChildContent</Label>
-    @Feedback
-</Control>
