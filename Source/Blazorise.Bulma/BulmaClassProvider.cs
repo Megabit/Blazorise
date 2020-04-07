@@ -54,7 +54,7 @@ namespace Blazorise.Bulma
 
         public override string Check() => "checkbox";
 
-        public override string CheckInline() => "inline";
+        public override string CheckInline() => "is-inline";
 
         public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
 
@@ -74,7 +74,7 @@ namespace Blazorise.Bulma
 
         public override string Radio( bool button ) => "radio";
 
-        public override string RadioInline() => "inline";
+        public override string RadioInline() => "is-inline";
 
         #endregion
 
