@@ -191,44 +191,44 @@ namespace Blazorise.DataGrid
 
         protected async Task OnSaveCommand()
         {
-            if ( Data is ICollection<TItem> data )
+            if ( Data == null )
+                return;
+
+            // get the list of edited values
+            var editedCellValues = EditableColumns
+                .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
+
+            var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
+
+            if ( await IsSafeToProceed( rowSavingHandler, editItem, editedCellValues ) )
             {
-                // get the list of edited values
-                var editedCellValues = EditableColumns
-                    .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
-
-                var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
-
-                if ( await IsSafeToProceed( rowSavingHandler, editItem, editedCellValues ) )
+                if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem && Data is ICollection<TItem> data )
                 {
-                    if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem )
-                    {
-                        data.Add( editItem );
-                    }
-
-                    if ( UseInternalEditing || editState == DataGridEditState.New )
-                    {
-                        // apply edited cell values to the item
-                        // for new items it must be always be set, while for editing items it can be set only if it's enabled
-                        foreach ( var column in EditableColumns )
-                        {
-                            column.SetValue( editItem, editItemCellValues[column.ElementId].CellValue );
-                        }
-                    }
-
-                    if ( editState == DataGridEditState.New )
-                    {
-                        await RowInserted.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
-                        dirtyFilter = dirtyView = true;
-                    }
-                    else
-                        await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
-
-                    editState = DataGridEditState.None;
-
-                    if ( EditMode == DataGridEditMode.Popup )
-                        PopupVisible = false;
+                    data.Add( editItem );
                 }
+
+                if ( UseInternalEditing || editState == DataGridEditState.New )
+                {
+                    // apply edited cell values to the item
+                    // for new items it must be always be set, while for editing items it can be set only if it's enabled
+                    foreach ( var column in EditableColumns )
+                    {
+                        column.SetValue( editItem, editItemCellValues[column.ElementId].CellValue );
+                    }
+                }
+
+                if ( editState == DataGridEditState.New )
+                {
+                    await RowInserted.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
+                    dirtyFilter = dirtyView = true;
+                }
+                else
+                    await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
+
+                editState = DataGridEditState.None;
+
+                if ( EditMode == DataGridEditMode.Popup )
+                    PopupVisible = false;
             }
         }
 
