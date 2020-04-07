@@ -99,10 +99,22 @@
     {
         <Pagination>
             <PaginationItem Disabled="@(CurrentPage <= 1)">
-                <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
-                    @if ( PreviousButtonTemplate != null )
+                <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
+                    @if ( FirstPageButtonTemplate != null )
                     {
-                        @PreviousButtonTemplate
+                        @FirstPageButtonTemplate
+                    }
+                    else
+                    {
+                        @("First")
+                    }
+                </PaginationLink>
+            </PaginationItem>
+            <PaginationItem Disabled="@(CurrentPage <= 1)">
+                <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
+                    @if ( PreviousPageButtonTemplate != null )
+                    {
+                        @PreviousPageButtonTemplate
                     }
                     else
                     {
@@ -124,13 +136,25 @@
             }
             <PaginationItem Disabled="@(CurrentPage >= LastPage)">
                 <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
-                    @if ( NextButtonTemplate != null )
+                    @if ( NextPageButtonTemplate != null )
                     {
-                        @NextButtonTemplate
+                        @NextPageButtonTemplate
                     }
                     else
                     {
                         @("Next")
+                    }
+                </PaginationLink>
+            </PaginationItem>
+            <PaginationItem Disabled="@(CurrentPage >= LastPage)">
+                <PaginationLink Page="last" Clicked="@OnPaginationItemClick">
+                    @if ( LastPageButtonTemplate != null )
+                    {
+                        @LastPageButtonTemplate
+                    }
+                    else
+                    {
+                        @("Last")
                     }
                 </PaginationLink>
             </PaginationItem>
