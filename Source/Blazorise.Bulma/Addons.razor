@@ -4,7 +4,7 @@
     {
         <Blazorise.FieldBody>
             <div class="field is-expanded">
-                <div class="@ClassNames" @attributes="@Attributes">
+                <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                     @ChildContent
                 </div>
             </div>
@@ -12,7 +12,7 @@
     }
     else
     {
-        <div class="@ClassNames" @attributes="@Attributes">
+        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </div>
     }
