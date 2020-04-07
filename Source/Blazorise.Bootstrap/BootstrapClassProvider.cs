@@ -50,21 +50,29 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        public override string CheckEdit() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+        public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
-        public override string CheckEditInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+        public override string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
-        public override string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{ToCursor( cursor )}";
+        public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
 
-        public override string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region RadioGroup
 
-        public override string RadioEdit() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+        public override string RadioGroup( bool buttons ) => buttons ? "btn-group btn-group-toggle" : null;
+
+        public override string RadioGroupInline() => null;
+
+        #endregion
+
+        #region Radio
+
+        public override string Radio( bool button ) => button ? null : UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
         public override string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
@@ -102,13 +110,23 @@ namespace Blazorise.Bootstrap
 
         public override string Label() => null;
 
+        public override string LabelType( LabelType labelType )
+        {
+            switch ( labelType )
+            {
+                case Blazorise.LabelType.Check:
+                case Blazorise.LabelType.Radio:
+                case Blazorise.LabelType.Switch:
+                    return UseCustomInputStyles ? "custom-control-label" : "form-check-label";
+                case Blazorise.LabelType.File:
+                    return UseCustomInputStyles ? "custom-file-label" : null;
+                case Blazorise.LabelType.None:
+                default:
+                    return null;
+            }
+        }
+
         public override string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}";
-
-        public override string LabelCheck() => UseCustomInputStyles ? "custom-control-label" : "form-check-label";
-
-        public override string LabelSwitch() => UseCustomInputStyles ? "custom-control-label" : "form-check-label";
-
-        public override string LabelFile() => UseCustomInputStyles ? "custom-file-label" : null;
 
         #endregion
 

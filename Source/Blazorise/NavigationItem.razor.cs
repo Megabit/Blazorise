@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    [Obsolete( "This component has been deprecated. Use Bar component and it's sub-components instead." )]
     public partial class NavigationItem : BaseComponent
     {
         #region Members

@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Heading
-<Dynamic TagName="@($"h{HeadingSize(Size)}")" class="@ClassNames">
+<Dynamic TagName="@($"h{HeadingSize(Size)}")" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     @ChildContent
 </Dynamic>
 @code{

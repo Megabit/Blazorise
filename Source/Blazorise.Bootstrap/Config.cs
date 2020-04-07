@@ -38,12 +38,14 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.CardTitle, Bootstrap.CardTitle>();
             componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
             componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
-            componentMapper.Register( typeof( Blazorise.CheckEdit<> ), typeof( Bootstrap.CheckEdit<> ) );
+            componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Bootstrap.Check<> ) );
             componentMapper.Register<Blazorise.Field, Bootstrap.Field>();
             componentMapper.Register<Blazorise.FieldBody, Bootstrap.FieldBody>();
             componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
             componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
             componentMapper.Register<Blazorise.Button, Bootstrap.Button>();
+            componentMapper.Register( typeof( Blazorise.RadioGroup<> ), typeof( Bootstrap.RadioGroup<> ) );
+            componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) );
             componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( Bootstrap.Switch<> ) );
         }
 

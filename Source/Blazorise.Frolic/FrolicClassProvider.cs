@@ -50,21 +50,29 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        public override string CheckEdit() => null;
+        public override string Check() => null;
 
-        public override string CheckEditInline() => null;
+        public override string CheckInline() => null;
 
-        public override string CheckEditCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
+        public override string CheckCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
 
-        public override string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region RadioGroup
 
-        public override string RadioEdit() => null;
+        public override string RadioGroup( bool buttons ) => buttons ? "e-buttons unified" : null;
+
+        public override string RadioGroupInline() => null;
+
+        #endregion
+
+        #region Radio
+
+        public override string Radio( bool button ) => null;
 
         public override string RadioInline() => null;
 
@@ -102,13 +110,22 @@ namespace Blazorise.Frolic
 
         public override string Label() => "e-label";
 
+        public override string LabelType( LabelType labelType )
+        {
+            switch ( labelType )
+            {
+                case Blazorise.LabelType.File:
+                    return "e-label";
+                case Blazorise.LabelType.Check:
+                case Blazorise.LabelType.Radio:
+                case Blazorise.LabelType.Switch:
+                case Blazorise.LabelType.None:
+                default:
+                    return null;
+            }
+        }
+
         public override string LabelCursor( Cursor cursor ) => $"e-label-{ToCursor( cursor )}";
-
-        public override string LabelCheck() => null;
-
-        public override string LabelSwitch() => null;
-
-        public override string LabelFile() => "e-label";
 
         #endregion
 

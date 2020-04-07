@@ -50,21 +50,29 @@ namespace Blazorise.AntDesign
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        public override string CheckEdit() => "ant-checkbox-input";
+        public override string Check() => "ant-checkbox-input";
 
-        public override string CheckEditInline() => null;
+        public override string CheckInline() => null;
 
-        public override string CheckEditCursor( Cursor cursor ) => null;
+        public override string CheckCursor( Cursor cursor ) => null;
 
-        public override string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region RadioGroup
 
-        public override string RadioEdit() => "ant-radio-input";
+        public override string RadioGroup( bool buttons ) => "ant-radio-group ant-radio-group-outline";
+
+        public override string RadioGroupInline() => null;
+
+        #endregion
+
+        #region Radio
+
+        public override string Radio( bool button ) => button ? "ant-radio-button-input" : "ant-radio-input";
 
         public override string RadioInline() => null;
 
@@ -102,13 +110,9 @@ namespace Blazorise.AntDesign
 
         public override string Label() => null;
 
+        public override string LabelType( LabelType labelType ) => null;
+
         public override string LabelCursor( Cursor cursor ) => null;
-
-        public override string LabelCheck() => null;
-
-        public override string LabelSwitch() => null;
-
-        public override string LabelFile() => null;
 
         #endregion
 

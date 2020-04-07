@@ -1346,6 +1346,11 @@ namespace Blazorise
         Check,
 
         /// <summary>
+        /// Style for radio will be applied.
+        /// </summary>
+        Radio,
+
+        /// <summary>
         /// Style for switch will be applied.
         /// </summary>
         Switch,

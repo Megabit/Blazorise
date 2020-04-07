@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.ModalContent
 <div class="ant-modal-wrap" role="dialog" style="@(ParentModal?.Visible == true ? "" : "display: none;")">
     <div class="@DialogClassNames" role="document">
-        <div class="@ClassNames" @attributes="@Attributes">
+        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </div>
     </div>
