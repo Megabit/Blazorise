@@ -7,8 +7,10 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Basic Fields</CardTitle>
-                <CardSubtitle>Most common form control, text-based input fields. Includes support for most of HTML5 types: text, password, date, number, email, url.</CardSubtitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Most common form control, text-based input fields. Includes support for most of HTML5 types: <code>text</code>, <code>password</code>, <code>date</code>, <code>number</code>, <code>text</code>email, <code>url</code>.</CardText>
+            </CardBody>
             <CardBody>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
@@ -133,6 +135,26 @@
                         <Slider TValue="decimal" Value="25m" Max="100m" />
                     </FieldBody>
                 </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Radios</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <RadioGroup TValue="string" Name="colors" Inline="true" CheckedValue="@("blue")">
+                            <Radio TValue="string" Value="@("red")">Red</Radio>
+                            <Radio TValue="string" Value="@("green")">Green</Radio>
+                            <Radio TValue="string" Value="@("blue")">Blue</Radio>
+                        </RadioGroup>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Radio buttons</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <RadioGroup TValue="string" Name="colors" Inline="true" Buttons="true" CheckedValue="@("green")">
+                            <Radio TValue="string" Value="@("red")">Red</Radio>
+                            <Radio TValue="string" Value="@("green")">Green</Radio>
+                            <Radio TValue="string" Value="@("blue")">Blue</Radio>
+                        </RadioGroup>
+                    </FieldBody>
+                </Field>
             </CardBody>
         </Card>
     </Column>
@@ -141,9 +163,11 @@
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>INPUT SIZES & ADDONS</CardTitle>
-                <CardSubtitle>Set heights using enums like Size="Size.Large", and set widths using grid column builder like ColumnSize="ColumnSize.Is*".</CardSubtitle>
+                <CardTitle>Input Sizes & Addons</CardTitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Set heights using enums like <code>Size="Size.Large"</code>, and set widths using grid column builder like <code>ColumnSize="ColumnSize.Is*"</code>.</CardText>
+            </CardBody>
             <CardBody>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Small</FieldLabel>
@@ -254,7 +278,7 @@
     <Column ColumnSize="ColumnSize.Is6.OnDesktop">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>BASIC EXAMPLE</CardTitle>
+                <CardTitle>Basic Example</CardTitle>
             </CardHeader>
             <CardBody>
                 <Field>
@@ -267,7 +291,7 @@
                     <TextEdit Role="TextRole.Password" Placeholder="Password" />
                 </Field>
                 <Field>
-                    <CheckEdit TValue="bool">Check me out</CheckEdit>
+                    <Check TValue="bool">Check me out</Check>
                 </Field>
                 <Button Color="Color.Primary">Submit</Button>
             </CardBody>
@@ -276,7 +300,7 @@
     <Column ColumnSize="ColumnSize.Is6.OnDesktop">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>HORIZONTAL FORM</CardTitle>
+                <CardTitle>Horizontal Form</CardTitle>
             </CardHeader>
             <CardBody>
                 <Field Horizontal="true">
@@ -300,7 +324,7 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is3"></FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is9">
-                        <CheckEdit TValue="bool">Check me out</CheckEdit>
+                        <Check TValue="bool">Check me out</Check>
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
@@ -317,16 +341,22 @@
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>INLINE FORM</CardTitle>
-                <CardSubtitle>Add <code>&lt;Inline&gt;</code> tag to your form (which doesn't have to be a <code>&lt;form&gt;</code>) for left-aligned and inline-block controls. This only applies to forms within viewports that are at least 768px wide.</CardSubtitle>
+                <CardTitle>Inline Form</CardTitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Add <code>&lt;Inline&gt;</code> tag to your form (which doesn't have to be a <code>&lt;form&gt;</code>) for left-aligned and inline-block controls. This only applies to forms within viewports that are at least 768px wide.</CardText>
+            </CardBody>
             <CardBody>
                 <Row>
                     <Column ColumnSize="ColumnSize.Is12.OnMobile">
                         <Inline>
                             <Field>
                                 <FieldLabel>email@example.com</FieldLabel>
-                                <TextEdit Role="TextRole.Password" Placeholder="Password" Margin="Margin.Is3.OnTablet" />
+                            </Field>
+                            <Field Margin="Margin.Is3.OnX.OnTablet">
+                                <TextEdit Role="TextRole.Password" Placeholder="Password" />
+                            </Field>
+                            <Field>
                                 <Button Color="Color.Primary">Confirm identity</Button>
                             </Field>
                         </Inline>
@@ -351,7 +381,7 @@
                                 </Addons>
                             </Column>
                             <Column ColumnSize="ColumnSize.IsAuto">
-                                <CheckEdit TValue="bool">Remember me</CheckEdit>
+                                <Check TValue="bool">Remember me</Check>
                             </Column>
                             <Column ColumnSize="ColumnSize.IsAuto">
                                 <Button Color="Color.Primary">Submit</Button>
@@ -367,7 +397,7 @@
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>FORM ROW</CardTitle>
+                <CardTitle>Form Row</CardTitle>
             </CardHeader>
             <CardBody>
                 <Fields>
@@ -404,7 +434,7 @@
                     </Field>
                 </Fields>
                 <Field>
-                    <CheckEdit TValue="bool">Remember me</CheckEdit>
+                    <Switch TValue="bool">Remember me</Switch>
                 </Field>
                 <Field>
                     <Button Color="Color.Primary">Sign in</Button>

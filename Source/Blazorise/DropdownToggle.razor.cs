@@ -77,14 +77,16 @@ namespace Blazorise
             ParentDropdown?.Toggle();
         }
 
-        public bool IsSafeToClose( string elementId, CloseReason closeReason )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
         {
-            return closeReason == CloseReason.EscapeClosing || elementId != ElementId;
+            return Task.FromResult( closeReason == CloseReason.EscapeClosing || elementId != ElementId );
         }
 
-        public void Close( CloseReason closeReason )
+        public Task Close( CloseReason closeReason )
         {
             ParentDropdown?.Hide();
+
+            return Task.CompletedTask;
         }
 
         private void OnDropdownStateChanged( object sender, DropdownStateEventArgs e )

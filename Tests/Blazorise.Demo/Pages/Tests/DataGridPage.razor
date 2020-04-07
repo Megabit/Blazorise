@@ -4,36 +4,38 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Data Grid</CardTitle>
-                <CardSubtitle>Combine diferent datagrid options</CardSubtitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Combine diferent datagrid options</CardText>
+            </CardBody>
             <CardBody>
                 <Fields>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <CheckEdit @bind-Checked="@editable">Editable</CheckEdit>
+                            <Check @bind-Checked="@editable">Editable</Check>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <CheckEdit @bind-Checked="@sortable">Sortable</CheckEdit>
+                            <Check @bind-Checked="@sortable">Sortable</Check>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <CheckEdit @bind-Checked="@filterable">Filterable</CheckEdit>
+                            <Check @bind-Checked="@filterable">Filterable</Check>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <CheckEdit @bind-Checked="@showPager">Show Pager</CheckEdit>
+                            <Check @bind-Checked="@showPager">Show Pager</Check>
                         </FieldBody>
                     </Field>
                     <Field>
@@ -168,7 +170,6 @@
         <Card>
             <CardHeader>
                 <CardTitle>Selected Employee</CardTitle>
-                <CardSubtitle></CardSubtitle>
             </CardHeader>
             <CardBody>
                 <Fields>

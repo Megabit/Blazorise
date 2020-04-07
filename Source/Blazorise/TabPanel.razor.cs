@@ -21,18 +21,29 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabPanel() );
-            builder.Append( ClassProvider.TabPanelActive(), Active );
+            builder.Append( ClassProvider.TabPanelActive( Active ) );
 
             base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
         {
-            if ( ParentTabContent != null )
+            if ( ParentTabs != null )
             {
-                Active = Name == ParentTabContent.SelectedPanel;
+                ParentTabs.HookPanel( Name );
 
-                ParentTabContent.StateChanged += OnTabsContentStateChanged;
+                Active = Name == ParentTabs.SelectedTab;
+
+                ParentTabs.StateChanged += OnTabsContentStateChanged;
+            }
+
+            if ( ParentTabsContent != null )
+            {
+                ParentTabsContent.Hook( Name );
+
+                Active = Name == ParentTabsContent.SelectedPanel;
+
+                ParentTabsContent.StateChanged += OnTabsContentStateChanged;
             }
 
             base.OnInitialized();
@@ -42,13 +53,23 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentTabContent != null )
+                if ( ParentTabs != null )
                 {
-                    ParentTabContent.StateChanged -= OnTabsContentStateChanged;
+                    ParentTabs.StateChanged -= OnTabsContentStateChanged;
+                }
+
+                if ( ParentTabsContent != null )
+                {
+                    ParentTabsContent.StateChanged -= OnTabsContentStateChanged;
                 }
             }
 
             base.Dispose( disposing );
+        }
+
+        private void OnTabsContentStateChanged( object sender, TabsStateEventArgs e )
+        {
+            Active = Name == e.TabName;
         }
 
         private void OnTabsContentStateChanged( object sender, TabsContentStateEventArgs e )
@@ -79,7 +100,9 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected TabsContent ParentTabContent { get; set; }
+        [CascadingParameter] protected Tabs ParentTabs { get; set; }
+
+        [CascadingParameter] protected TabsContent ParentTabsContent { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

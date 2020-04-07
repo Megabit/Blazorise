@@ -23,7 +23,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdownMenu() );
-            builder.Append( ClassProvider.BarDropdownMenuShow(), Visible );
+            builder.Append( ClassProvider.BarDropdownMenuVisible( Visible ) );
             builder.Append( ClassProvider.BarDropdownMenuRight(), RightAligned );
 
             base.BuildClasses( builder );
@@ -43,7 +43,7 @@ namespace Blazorise
 
         protected override void Dispose( bool disposing )
         {
-            if ( disposing)
+            if ( disposing )
             {
                 if ( ParentBarDropdown != null )
                 {

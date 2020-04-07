@@ -10,6 +10,8 @@ rd /s /q Source\Blazorise.Bulma\bin
 rd /s /q Source\Blazorise.Bulma\obj
 rd /s /q Source\Blazorise.Frolic\bin
 rd /s /q Source\Blazorise.Frolic\obj
+rd /s /q Source\Blazorise.AntDesign\bin
+rd /s /q Source\Blazorise.AntDesign\obj
 rd /s /q Source\Extensions\Blazorise.Charts\bin
 rd /s /q Source\Extensions\Blazorise.Charts\obj
 rd /s /q Source\Extensions\Blazorise.Charts.Streaming\bin
@@ -31,6 +33,10 @@ rd /s /q Tests\Apps\TodoApp\bin
 rd /s /q Tests\Apps\TodoApp\obj
 rd /s /q Tests\Blazorise.Demo\bin
 rd /s /q Tests\Blazorise.Demo\obj
+rd /s /q Tests\Blazorise.Demo.AntDesign\bin
+rd /s /q Tests\Blazorise.Demo.AntDesign\obj
+rd /s /q Tests\Blazorise.Demo.AntDesign.Server\bin
+rd /s /q Tests\Blazorise.Demo.AntDesign.Server\obj
 rd /s /q Tests\Blazorise.Demo.Bootstrap\bin
 rd /s /q Tests\Blazorise.Demo.Bootstrap\obj
 rd /s /q Tests\Blazorise.Demo.Bootstrap.Server\bin

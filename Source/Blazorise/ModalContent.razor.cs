@@ -25,7 +25,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ModalContent( Dialog ) );
-            builder.Append( ClassProvider.ToModalSize( Size ), Size != ModalSize.None );
+            builder.Append( ClassProvider.ModalContentSize( Size ), Size != ModalSize.None );
 
             base.BuildClasses( builder );
         }
@@ -78,6 +78,8 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        [CascadingParameter] protected Modal ParentModal { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

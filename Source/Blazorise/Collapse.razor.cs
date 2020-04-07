@@ -21,7 +21,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Collapse() );
-            builder.Append( ClassProvider.CollapseShow(), Visible );
+            builder.Append( ClassProvider.CollapseActive( Visible ) );
 
             base.BuildClasses( builder );
         }

@@ -3,9 +3,11 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>DEFAULT BUTTONS</CardTitle>
-                <CardSubtitle>Use the color enums like <code>Color.Primary</code></CardSubtitle>
+                <CardTitle>Default Buttons</CardTitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Use the color enums like <code>Color.Primary</code></CardText>
+            </CardBody>
             <CardBody>
                 <Button Color="Color.Primary">PRIMARY</Button>
                 <Button Color="Color.Secondary">SECONDARY</Button>
@@ -25,9 +27,11 @@
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>OUTLINE BUTTONS</CardTitle>
-                <CardSubtitle>In need of a button, but not the hefty background colors they bring? Replace the default modifier classes with the <code>Outline</code> ones to remove all background images and colors on any button.</CardSubtitle>
+                <CardTitle>Outline Buttons</CardTitle>
             </CardHeader>
+            <CardBody>
+                <CardText>In need of a button, but not the hefty background colors they bring? Replace the default modifier classes with the <code>Outline</code> ones to remove all background images and colors on any button.</CardText>
+            </CardBody>
             <CardBody>
                 <Button Color="Color.Primary" Outline="true">PRIMARY</Button>
                 <Button Color="Color.Secondary" Outline="true">SECONDARY</Button>
@@ -47,9 +51,11 @@
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>SIZES</CardTitle>
-                <CardSubtitle>Add <code>ButtonSize.Small, ButtonSize.Large</code> for additional sizes.</CardSubtitle>
+                <CardTitle>Sizes</CardTitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Add <code>ButtonSize.Small, ButtonSize.Large</code> for additional sizes.</CardText>
+            </CardBody>
             <CardBody>
                 <Button Color="Color.Primary" Size="ButtonSize.Small">SMALL PRIMARY</Button>
                 <Button Color="Color.Secondary" Size="ButtonSize.Small">SMALL SECONDARY</Button>
@@ -64,8 +70,10 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Block</CardTitle>
-                <CardSubtitle>Create block level buttons by adding <code>Block="true"</code></CardSubtitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Create block level buttons by adding <code>Block="true"</code></CardText>
+            </CardBody>
             <CardBody>
                 <Button Color="Color.Primary" Block="true">BLOCK PRIMARY</Button>
                 <Button Color="Color.Secondary" Block="true">BLOCK SECONDARY</Button>
@@ -78,8 +86,10 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Active</CardTitle>
-                <CardSubtitle>Add the <code>Active</code> attribute to buttons.</CardSubtitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Add the <code>Active</code> attribute to buttons.</CardText>
+            </CardBody>
             <CardBody>
                 <Button Color="Color.Primary" Active="true">PRIMARY</Button>
                 <Button Color="Color.Link" Active="true">LINK</Button>
@@ -90,10 +100,19 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Disabled</CardTitle>
-                <CardSubtitle>Add the <code>Disabled</code> attribute to buttons.</CardSubtitle>
             </CardHeader>
             <CardBody>
+                <CardText>Add the <code>Disabled</code> attribute to buttons.</CardText>
+            </CardBody>
+            <CardBody>
                 <Button Color="Color.Primary" Disabled="true">PRIMARY</Button>
+                <Button Color="Color.Secondary" Disabled="true">SECONDARY</Button>
+                <Button Color="Color.Success" Disabled="true">SUCCESS</Button>
+                <Button Color="Color.Danger" Disabled="true">DANGER</Button>
+                <Button Color="Color.Warning" Disabled="true">WARNING</Button>
+                <Button Color="Color.Info" Disabled="true">INFO</Button>
+                <Button Color="Color.Light" Disabled="true">LIGHT</Button>
+                <Button Color="Color.Dark" Disabled="true">DARK</Button>
                 <Button Color="Color.Link" Disabled="true">LINK</Button>
             </CardBody>
         </Card>
@@ -104,8 +123,10 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Loading</CardTitle>
-                <CardSubtitle>Use <code>Loading</code> attribute to add spinners within buttons to indicate an action is currently processing or taking place.</CardSubtitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Use <code>Loading</code> attribute to add spinners within buttons to indicate an action is currently processing or taking place.</CardText>
+            </CardBody>
             <CardBody>
                 <Button Color="Color.Primary" Loading="true">PRIMARY</Button>
                 <Button Color="Color.Secondary" Loading="true">SECONDARY</Button>
@@ -125,8 +146,10 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Button Addons</CardTitle>
-                <CardSubtitle>Wrap a series of buttons with <code>Buttons</code> component.</CardSubtitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Wrap a series of buttons with <code>Buttons</code> component.</CardText>
+            </CardBody>
             <CardBody>
                 <Buttons>
                     <Button Color="Color.Secondary">LEFT</Button>
@@ -140,8 +163,10 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Nesting</CardTitle>
-                <CardSubtitle>You can also combine them with dropdown..</CardSubtitle>
             </CardHeader>
+            <CardBody>
+                <CardText>You can also combine them with dropdown..</CardText>
+            </CardBody>
             <CardBody>
                 <Buttons>
                     <Button Color="Color.Secondary">LEFT</Button>
@@ -188,8 +213,10 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Dropdown</CardTitle>
-                <CardSubtitle>Turn a button into a dropdown.</CardSubtitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Turn a button into a dropdown.</CardText>
+            </CardBody>
             <CardBody>
                 <Dropdown>
                     <DropdownToggle Color="Color.Primary">

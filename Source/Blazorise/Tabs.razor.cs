@@ -18,11 +18,24 @@ namespace Blazorise
 
         private bool justified;
 
-        private bool vertical;
-
         private string selectedTab;
 
+        private TabPosition tabPosition = TabPosition.Top;
+
         public event EventHandler<TabsStateEventArgs> StateChanged;
+
+        private List<string> tabItems = new List<string>();
+
+        private List<string> tabPanels = new List<string>();
+
+        #endregion
+
+        #region Constructors
+
+        public Tabs()
+        {
+            ContentClassBuilder = new ClassBuilder( BuildContentClasses );
+        }
 
         #endregion
 
@@ -35,9 +48,24 @@ namespace Blazorise
             builder.Append( ClassProvider.TabsPills(), Pills );
             builder.Append( ClassProvider.TabsFullWidth(), FullWidth );
             builder.Append( ClassProvider.TabsJustified(), Justified );
-            builder.Append( ClassProvider.TabsVertical(), Vertical );
+            builder.Append( ClassProvider.TabsVertical(), TabPosition == TabPosition.Left || TabPosition == TabPosition.Right );
 
             base.BuildClasses( builder );
+        }
+
+        private void BuildContentClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.TabsContent() );
+        }
+
+        internal void HookTab( string tabName )
+        {
+            tabItems.Add( tabName );
+        }
+
+        internal void HookPanel( string panelName )
+        {
+            tabPanels.Add( panelName );
         }
 
         /// <summary>
@@ -55,7 +83,20 @@ namespace Blazorise
 
         #region Properties
 
-        private bool IsCards => CardHeader != null;
+        protected bool IsCards => CardHeader != null;
+
+        protected ClassBuilder ContentClassBuilder { get; private set; }
+
+        /// <summary>
+        /// Gets the content class-names.
+        /// </summary>
+        protected string ContentClassNames => ContentClassBuilder.Class;
+
+        protected int IndexOfSelectedTab => tabItems.IndexOf( selectedTab );
+
+        protected IReadOnlyList<string> TabItems => tabItems;
+
+        protected IReadOnlyList<string> TabPanels => tabPanels;
 
         /// <summary>
         /// Makes the tab items to appear as pills.
@@ -103,15 +144,15 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Stack the navigation items by changing the flex item direction.
+        /// Position of tab items.
         /// </summary>
         [Parameter]
-        public bool Vertical
+        public TabPosition TabPosition
         {
-            get => vertical;
+            get => tabPosition;
             set
             {
-                vertical = value;
+                tabPosition = value;
 
                 DirtyClasses();
             }
@@ -146,6 +187,10 @@ namespace Blazorise
         [Parameter] public EventCallback<string> SelectedTabChanged { get; set; }
 
         [CascadingParameter] protected CardHeader CardHeader { get; set; }
+
+        [Parameter] public RenderFragment Items { get; set; }
+
+        [Parameter] public RenderFragment Content { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

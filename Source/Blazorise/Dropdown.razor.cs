@@ -37,6 +37,17 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        protected override void OnAfterRender( bool firstRender )
+        {
+            if ( firstRender && registeredButtons?.Count > 0 )
+            {
+                DirtyClasses();
+                StateHasChanged();
+            }
+
+            base.OnAfterRender( firstRender );
+        }
+
         public void Show()
         {
             // used to prevent toggle event call if Open() is called multiple times
@@ -84,11 +95,6 @@ namespace Blazorise
             if ( !registeredButtons.Contains( button ) )
             {
                 registeredButtons.Add( button );
-
-                DirtyClasses();
-
-                if ( registeredButtons?.Count >= 1 ) // must find a better way to refresh dropdown
-                    StateHasChanged();
             }
         }
 

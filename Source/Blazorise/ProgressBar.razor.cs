@@ -40,6 +40,8 @@ namespace Blazorise
             if ( Value != null )
                 builder.Append( StyleProvider.ProgressBarValue( Value ?? 0 ) );
 
+            builder.Append( StyleProvider.ProgressBarSize( ParentProgress?.Size ?? Size.None ) );
+
             base.BuildStyles( builder );
         }
 
@@ -105,6 +107,8 @@ namespace Blazorise
                 DirtyStyles();
             }
         }
+
+        [CascadingParameter] protected Progress ParentProgress { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
