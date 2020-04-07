@@ -1,4 +1,6 @@
-﻿.tab-pane {
+﻿@import "form";
+
+.tab-pane {
     display: none;
 
     &.is-active {

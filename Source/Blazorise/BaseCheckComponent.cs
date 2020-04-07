@@ -11,11 +11,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class CheckEdit<TValue> : BaseInputComponent<TValue>
+    /// <summary>
+    /// Base class for check components.
+    /// </summary>
+    /// <typeparam name="TValue">Checked value type.</typeparam>
+    public abstract class BaseCheckComponent<TValue> : BaseInputComponent<TValue>
     {
         #region Members
-
-        private string radioGroup;
 
         private bool inline;
 
@@ -38,26 +40,20 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            if ( RadioGroup != null )
-                builder.Append( ClassProvider.RadioEdit() );
-            else
-                builder.Append( ClassProvider.CheckEdit() );
-
-            builder.Append( ClassProvider.CheckEditCursor( Cursor ), Cursor != Cursor.Default );
-            builder.Append( ClassProvider.CheckEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+            builder.Append( ClassProvider.CheckCursor( Cursor ), Cursor != Cursor.Default );
+            builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }
 
-        protected Task OnChangeHandler( ChangeEventArgs e )
+        protected virtual Task OnChangeHandler( ChangeEventArgs e )
         {
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
-            // radio and checkbox have diferent values so we need to convert all to "true" or "false"
-            var parsedValue = ( value?.ToLowerInvariant() == ( RadioGroup != null ? "on" : "true" ) ).ToString();
+            var parsedValue = ( value?.ToLowerInvariant() == TrueValueName ).ToString();
 
             if ( Converters.TryChangeType<TValue>( parsedValue, out var result, CultureInfo.InvariantCulture ) )
             {
@@ -78,11 +74,12 @@ namespace Blazorise
 
         #region Properties
 
-        protected ControlRole Role => RadioGroup != null ? ControlRole.Radio : ControlRole.Check;
-
-        protected string Type => RadioGroup != null ? "radio" : "checkbox";
-
         protected override TValue InternalValue { get => Checked; set => Checked = value; }
+
+        /// <summary>
+        /// Gets the string value that represents the checked state.
+        /// </summary>
+        protected abstract string TrueValueName { get; }
 
         /// <summary>
         /// Gets or sets the checked flag.
@@ -98,21 +95,6 @@ namespace Blazorise
         /// Gets or sets an expression that identifies the checked value.
         /// </summary>
         [Parameter] public Expression<Func<TValue>> CheckedExpression { get; set; }
-
-        /// <summary>
-        /// Sets the radio group name.
-        /// </summary>
-        [Parameter]
-        public string RadioGroup
-        {
-            get => radioGroup;
-            set
-            {
-                radioGroup = value;
-
-                DirtyClasses();
-            }
-        }
 
         /// <summary>
         /// Group checkboxes or radios on the same horizontal row.

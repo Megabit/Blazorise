@@ -49,21 +49,29 @@ namespace Blazorise
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        public abstract string CheckEdit();
+        public abstract string Check();
 
-        public abstract string CheckEditInline();
+        public abstract string CheckInline();
 
-        public abstract string CheckEditCursor( Cursor cursor );
+        public abstract string CheckCursor( Cursor cursor );
 
-        public abstract string CheckEditValidation( ValidationStatus validationStatus );
+        public abstract string CheckValidation( ValidationStatus validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region RadioGroup
 
-        public abstract string RadioEdit();
+        public abstract string RadioGroup( bool buttons );
+
+        public abstract string RadioGroupInline();
+
+        #endregion
+
+        #region Radio
+
+        public abstract string Radio( bool button );
 
         public abstract string RadioInline();
 
@@ -101,13 +109,9 @@ namespace Blazorise
 
         public abstract string Label();
 
+        public abstract string LabelType( LabelType labelType );
+
         public abstract string LabelCursor( Cursor cursor );
-
-        public abstract string LabelCheck();
-
-        public abstract string LabelSwitch();
-
-        public abstract string LabelFile();
 
         #endregion
 

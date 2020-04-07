@@ -49,21 +49,31 @@ namespace Blazorise
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        string CheckEdit();
+        string Check();
 
-        string CheckEditInline();
+        string CheckInline();
 
-        string CheckEditCursor( Cursor cursor );
+        string CheckCursor( Cursor cursor );
 
-        string CheckEditValidation( ValidationStatus validationStatus );
+        string CheckValidation( ValidationStatus validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region RadioGroup
 
-        string RadioEdit();
+        string RadioGroup( bool buttons );
+
+        string RadioGroupInline();
+
+        #endregion
+
+        #region Radio
+
+        string Radio( bool button );
+
+        string RadioInline();
 
         #endregion
 
@@ -99,13 +109,9 @@ namespace Blazorise
 
         string Label();
 
+        string LabelType( LabelType labelType );
+
         string LabelCursor( Cursor cursor );
-
-        string LabelCheck();
-
-        string LabelSwitch();
-
-        string LabelFile();
 
         #endregion
 

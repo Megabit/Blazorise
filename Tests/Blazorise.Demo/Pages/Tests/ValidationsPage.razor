@@ -106,14 +106,14 @@
                     <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                         <FieldBody ColumnSize="ColumnSize.Is10">
-                            <CheckEdit TValue="bool">
+                            <Check TValue="bool">
                                 <ChildContent>
                                     Check me out
                                 </ChildContent>
                                 <Feedback>
                                     <ValidationError>You must check me out!</ValidationError>
                                 </Feedback>
-                            </CheckEdit>
+                            </Check>
                         </FieldBody>
                     </Field>
                 </Validation>
@@ -232,14 +232,14 @@
                         <Field Horizontal="true" JustifyContent="JustifyContent.End">
                             <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.Is10">
-                                <CheckEdit TValue="bool">
+                                <Check TValue="bool">
                                     <ChildContent>
                                         Check me out
                                     </ChildContent>
                                     <Feedback>
                                         <ValidationError>You must check me out!</ValidationError>
                                     </Feedback>
-                                </CheckEdit>
+                                </Check>
                             </FieldBody>
                         </Field>
                     </Validation>
@@ -334,14 +334,14 @@
                         <Field Horizontal="true" JustifyContent="JustifyContent.End">
                             <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.Is10">
-                                <CheckEdit @bind-Checked="@user.TermsAndConditions">
+                                <Check @bind-Checked="@user.TermsAndConditions">
                                     <ChildContent>
                                         Terms and Conditions
                                     </ChildContent>
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
-                                </CheckEdit>
+                                </Check>
                             </FieldBody>
                         </Field>
                     </Validation>
@@ -434,14 +434,14 @@
                         <Field Horizontal="true" JustifyContent="JustifyContent.End">
                             <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.Is10">
-                                <CheckEdit @bind-Checked="@manualUser.TermsAndConditions">
+                                <Check @bind-Checked="@manualUser.TermsAndConditions">
                                     <ChildContent>
                                         Terms and Conditions
                                     </ChildContent>
                                     <Feedback>
                                         <ValidationError />
                                     </Feedback>
-                                </CheckEdit>
+                                </Check>
                             </FieldBody>
                         </Field>
                     </Validation>
