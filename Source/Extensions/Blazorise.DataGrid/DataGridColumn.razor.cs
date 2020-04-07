@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class BaseDataGridColumn<TItem> : BaseComponent
+    public abstract class BaseDataGridColumn<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -157,6 +157,36 @@ namespace Blazorise.DataGrid
         /// The width of the column.
         /// </summary>
         [Parameter] public string Width { get; set; }
+
+        /// <summary>
+        /// Custom classname handler for cell based on the current row item.
+        /// </summary>
+        [Parameter] public Func<TItem, string> CellClass { get; set; }
+
+        /// <summary>
+        /// Custom style handler for cell based on the current row item.
+        /// </summary>
+        [Parameter] public Func<TItem, string> CellStyle { get; set; }
+
+        /// <summary>
+        /// Custom classname for header cell.
+        /// </summary>
+        [Parameter] public string HeaderCellClass { get; set; }
+
+        /// <summary>
+        /// Custom style for header cell.
+        /// </summary>
+        [Parameter] public string HeaderCellStyle { get; set; }
+
+        /// <summary>
+        /// Custom classname for filter cell.
+        /// </summary>
+        [Parameter] public string FilterCellClass { get; set; }
+
+        /// <summary>
+        /// Custom style for filter cell.
+        /// </summary>
+        [Parameter] public string FilterCellStyle { get; set; }
 
         /// <summary>
         /// Template for custom cell display formating.

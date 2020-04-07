@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class BaseDataGrid<TItem> : BaseComponent
+    public abstract class BaseDataGrid<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -92,15 +92,18 @@ namespace Blazorise.DataGrid
             }
         }
 
-        protected override Task OnFirstAfterRenderAsync()
+        protected override Task OnAfterRenderAsync( bool firstRender )
         {
-            if ( ReadData.HasDelegate )
-                return HandleReadData();
+            if ( firstRender )
+            {
+                if ( ReadData.HasDelegate )
+                    return HandleReadData();
 
-            // after all the columns have being "hooked" we need to resfresh the grid
-            StateHasChanged();
+                // after all the columns have being "hooked" we need to resfresh the grid
+                StateHasChanged();
+            }
 
-            return base.OnFirstAfterRenderAsync();
+            return base.OnAfterRenderAsync( firstRender );
         }
 
         #endregion
@@ -791,6 +794,56 @@ namespace Blazorise.DataGrid
         /// Makes the table more compact by cutting cell padding in half.
         /// </summary>
         [Parameter] public bool Narrow { get; set; }
+
+        /// <summary>
+        /// Custom css classname.
+        /// </summary>
+        [Parameter] public string Class { get; set; }
+
+        /// <summary>
+        /// Custom html style.
+        /// </summary>
+        [Parameter] public string Style { get; set; }
+
+        /// <summary>
+        /// Defines the element margin spacing.
+        /// </summary>
+        [Parameter] public IFluentSpacing Margin { get; set; }
+
+        /// <summary>
+        /// Defines the element padding spacing.
+        /// </summary>
+        [Parameter] public IFluentSpacing Padding { get; set; }
+
+        /// <summary>
+        /// Custom classname handler for current.
+        /// </summary>
+        [Parameter] public Func<TItem, string> RowClass { get; set; }
+
+        /// <summary>
+        /// Custom style handler for current row.
+        /// </summary>
+        [Parameter] public Func<TItem, string> RowStyle { get; set; }
+
+        /// <summary>
+        /// Custom classname for header row.
+        /// </summary>
+        [Parameter] public string HeaderRowClass { get; set; }
+
+        /// <summary>
+        /// Custom style for header row.
+        /// </summary>
+        [Parameter] public string HeaderRowStyle { get; set; }
+
+        /// <summary>
+        /// Custom classname for filter row.
+        /// </summary>
+        [Parameter] public string FilterRowClass { get; set; }
+
+        /// <summary>
+        /// Custom style for filter row.
+        /// </summary>
+        [Parameter] public string FilterRowStyle { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

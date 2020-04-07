@@ -25,5 +25,9 @@ namespace Blazorise.DataGrid
         [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
 
         [Parameter] public string Width { get; set; }
+
+        [Parameter] public string Class { get; set; }
+
+        [Parameter] public string Style { get; set; }
     }
 }

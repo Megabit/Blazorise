@@ -3,18 +3,18 @@
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
 <CascadingValue Value=this>
-    <Table Class="@Class" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow">
+    <Table Class="@Class" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow">
         <TableHeader>
             @if ( ShowCaptions )
             {
-                <TableRow>
+                <TableRow Class="@HeaderRowClass" Style="@HeaderRowStyle">
                     @foreach ( var column in Columns )
                     {
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {
                             @if ( Editable )
                             {
-                                <TableHeaderCell width="@column.Width">
+                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.HeaderCellStyle" width="@column.Width">
                                     @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                     {
                                         <_DataGridNewCommand TItem="TItem" New="@OnNewCommand" />
@@ -24,7 +24,7 @@
                         }
                         else
                         {
-                            <TableHeaderCell Style="@(Sortable ? "cursor: pointer" : "")" Clicked="@(async () => await OnSortClicked( column ) )" width="@column.Width">
+                            <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable ? " cursor: pointer" : "")}")" Clicked="@(async () => await OnSortClicked( column ) )" width="@column.Width">
                                 @if ( column.ShowCaption )
                                 {
                                     @column.Caption
@@ -40,7 +40,7 @@
             }
             @if ( Filterable )
             {
-                <TableRow>
+                <TableRow Class="@FilterRowClass" Style="@FilterRowStyle">
                     @foreach ( var column in Columns )
                     {
                         @if ( !column.Filterable )
@@ -51,14 +51,14 @@
                             @if ( Editable )
                             {
                                 // since Clear Filter is located in the command column it can be visible onle when Edit is enabled
-                                <TableHeaderCell width="@column.Width">
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
                                     <_DataGridClearFilterCommand TItem="TItem" ClearFilter="@OnClearFilterCommand" />
                                 </TableHeaderCell>
                             }
                         }
                         else
                         {
-                            <TableHeaderCell width="@column.Width">
+                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
                                 <TextEdit Text="@column.Filter.SearchValue" TextChanged="@(async ( newValue ) => await OnFilterChanged( column, newValue))" />
                             </TableHeaderCell>
                         }
@@ -79,7 +79,7 @@
                 }
                 else
                 {
-                    <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@Columns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" />
+                    <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@Columns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" Class="@RowClass?.Invoke(item)" Style="@RowStyle?.Invoke(item)" />
                     @if ( DetailRowTemplate != null )
                     {
                         var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
