@@ -33,6 +33,8 @@ docs:
         url: /docs/components/numeric/
       - title: "Check"
         url: /docs/components/check/
+      - title: "Radio"
+        url: /docs/components/radio/
       - title: "File"
         url: /docs/components/file/
       - title: "Slider"
