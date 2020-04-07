@@ -138,10 +138,20 @@
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Radios</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <RadioGroup Name="colors" Inline="true">
-                            <Radio Value="@("red")">Red</Radio>
-                            <Radio Value="@("green")">Green</Radio>
-                            <Radio Value="@("blue")">Blue</Radio>
+                        <RadioGroup TValue="string" Name="colors" Inline="true" CheckedValue="@("blue")">
+                            <Radio TValue="string" Value="@("red")">Red</Radio>
+                            <Radio TValue="string" Value="@("green")">Green</Radio>
+                            <Radio TValue="string" Value="@("blue")">Blue</Radio>
+                        </RadioGroup>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Radio buttons</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <RadioGroup TValue="string" Name="colors" Inline="true" Buttons="true" CheckedValue="@("green")">
+                            <Radio TValue="string" Value="@("red")">Red</Radio>
+                            <Radio TValue="string" Value="@("green")">Green</Radio>
+                            <Radio TValue="string" Value="@("blue")">Blue</Radio>
                         </RadioGroup>
                     </FieldBody>
                 </Field>
