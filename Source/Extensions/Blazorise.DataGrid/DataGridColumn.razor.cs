@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class BaseDataGridColumn<TItem> : BaseDataGridComponent
+    public abstract class BaseDataGridColumn<TItem> : BaseDataGridComponent, IDisposable
     {
         #region Members
 
@@ -38,13 +38,46 @@ namespace Blazorise.DataGrid
 
         protected override void OnInitialized()
         {
-            // connect column to the parent datagrid
-            ParentDataGrid?.Hook( this );
+            if ( ParentDataGrid != null )
+            {
+                // connect column to the parent datagrid
+                ParentDataGrid.Hook( this );
+
+                if ( FilterTemplate != null )
+                {
+                    InitializeFilterContext();
+                }
+            }
 
             // initialize temporary variables
             CurrentDirection = Direction;
 
             base.OnInitialized();
+        }
+
+        public void Dispose()
+        {
+            if ( FilterContext != null )
+            {
+                FilterContext.Unsubscribe( OnFilterValueChanged );
+
+                FilterContext = null;
+            }
+        }
+
+        private void InitializeFilterContext()
+        {
+            FilterContext = new FilterContext
+            {
+                SearchValue = Filter.SearchValue
+            };
+
+            FilterContext.Subscribe( OnFilterValueChanged );
+        }
+
+        public async void OnFilterValueChanged( string filterValue )
+        {
+            await ParentDataGrid.OnFilterChanged( this, filterValue );
         }
 
         /// <summary>
@@ -197,6 +230,8 @@ namespace Blazorise.DataGrid
         /// Template for custom column filter rendering
         /// </summary>
         [Parameter] public RenderFragment<FilterContext> FilterTemplate { get; set; }
+
+        internal FilterContext FilterContext { get; set; }
 
         /// <summary>
         /// Template for custom cell editing.

@@ -16,18 +16,23 @@ namespace Blazorise.DataGrid
         /// </summary>
         public string SearchValue { get; set; }
 
-        private event FilterTrigger Filter;
+        private event FilterChangedEventHandler FilterChanged;
 
-        public void Subscribe(FilterTrigger listener)
+        public void Subscribe( FilterChangedEventHandler listener )
         {
-            Filter += listener;
+            FilterChanged += listener;
         }
 
-        public void TriggerFilterEvent(string value )
+        public void Unsubscribe( FilterChangedEventHandler listener )
         {
-            Filter?.Invoke(value );
+            FilterChanged -= listener;
         }
 
-        public delegate void FilterTrigger( string value );
+        public void TriggerFilterChange( string value )
+        {
+            FilterChanged?.Invoke( value );
+        }
+
+        public delegate void FilterChangedEventHandler( string value );
     }
 }

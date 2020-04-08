@@ -307,7 +307,7 @@ namespace Blazorise.DataGrid
             return Task.CompletedTask;
         }
 
-        protected Task OnFilterChanged( BaseDataGridColumn<TItem> column, string value )
+        internal protected Task OnFilterChanged( BaseDataGridColumn<TItem> column, string value )
         {
             column.Filter.SearchValue = value;
             dirtyFilter = dirtyView = true;

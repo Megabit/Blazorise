@@ -58,12 +58,10 @@
                         }
                         else
                         {
-                            <TableHeaderCell width="@column.Width">
-                                @if (column.FilterTemplate != null)
+                            <TableHeaderCell Class="@FilterRowClass" Style="@FilterRowStyle" width="@column.Width">
+                                @if ( column.FilterTemplate != null )
                                 {
-                                    var cont = new FilterContext() { SearchValue = column.Filter.SearchValue };
-                                    cont.Subscribe(async (e) => await OnFilterChanged(column, e));
-                                    @(column.FilterTemplate(cont))
+                                    @(column.FilterTemplate(column.FilterContext))
                                 }
                                 else
                                 {
