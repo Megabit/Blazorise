@@ -58,8 +58,15 @@
                         }
                         else
                         {
-                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
-                                <TextEdit Text="@column.Filter.SearchValue" TextChanged="@(async ( newValue ) => await OnFilterChanged( column, newValue))" />
+                            <TableHeaderCell Class="@FilterRowClass" Style="@FilterRowStyle" width="@column.Width">
+                                @if ( column.FilterTemplate != null )
+                                {
+                                    @(column.FilterTemplate(column.FilterContext))
+                                }
+                                else
+                                {
+                                    <TextEdit Text="@column.Filter.SearchValue" TextChanged="@(async (newValue) => await OnFilterChanged(column, newValue))" />
+                                }
                             </TableHeaderCell>
                         }
                     }
