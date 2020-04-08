@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseFigureImage : BaseComponent
+    public partial class FigureImage : BaseComponent
     {
         #region Members
 
-        private bool isRounded;
+        private bool rounded;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.FigureImage() );
-            builder.Append( ClassProvider.FigureImageRounded(), IsRounded );
+            builder.Append( ClassProvider.FigureImageRounded(), Rounded );
 
             base.BuildClasses( builder );
         }
@@ -35,12 +35,12 @@ namespace Blazorise
         [Parameter] public string AlternateText { get; set; }
 
         [Parameter]
-        public bool IsRounded
+        public bool Rounded
         {
-            get => isRounded;
+            get => rounded;
             set
             {
-                isRounded = value;
+                rounded = value;
 
                 DirtyClasses();
             }

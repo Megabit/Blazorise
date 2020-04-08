@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseControl : BaseComponent
+    public partial class Control : BaseComponent
     {
         #region Members
 
-        private bool isInline;
+        private bool inline;
 
         private ControlRole role = ControlRole.None;
 
@@ -24,9 +24,10 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.ControlCheck(), Role == ControlRole.Check );
             builder.Append( ClassProvider.ControlRadio(), Role == ControlRole.Radio );
+            builder.Append( ClassProvider.ControlSwitch(), Role == ControlRole.Switch );
             builder.Append( ClassProvider.ControlFile(), Role == ControlRole.File );
             builder.Append( ClassProvider.ControlText(), Role == ControlRole.Text );
-            builder.Append( ClassProvider.CheckEditInline(), IsInline );
+            builder.Append( ClassProvider.CheckInline(), Inline );
 
             base.BuildClasses( builder );
         }
@@ -39,12 +40,12 @@ namespace Blazorise
         /// Determines if the check or radio control will be inlined.
         /// </summary>
         [Parameter]
-        public bool IsInline
+        public bool Inline
         {
-            get => isInline;
+            get => inline;
             set
             {
-                isInline = value;
+                inline = value;
 
                 DirtyClasses();
             }

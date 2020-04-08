@@ -39,12 +39,15 @@ namespace Blazorise
 
         public void Append( string value )
         {
+            if ( value == null )
+                return;
+
             builder.Append( value ).Append( Delimiter );
         }
 
         public void Append( string value, bool condition )
         {
-            if ( condition )
+            if ( condition && value != null )
                 builder.Append( value ).Append( Delimiter );
         }
 

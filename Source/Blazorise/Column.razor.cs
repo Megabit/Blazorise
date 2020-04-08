@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseColumn : BaseContainerComponent
+    public partial class Column : BaseContainerComponent
     {
         #region Members
 
@@ -23,9 +23,21 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        protected override void BuildStyles( StyleBuilder builder )
+        {
+            builder.Append( StyleProvider.ColumnGutter( Gutter ), Gutter != default );
+
+            base.BuildStyles( builder );
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Coulmn grid spacing, we recommend setting it to (16 + 8n). (n stands for natural number.)
+        /// </summary>
+        [CascadingParameter] public (int Horizontal, int Vertical) Gutter { get; set; }
 
         #endregion
     }

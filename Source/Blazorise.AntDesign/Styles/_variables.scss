@@ -1,0 +1,33 @@
+﻿$modal-dialog-margin: .5rem !default;
+
+$grid-breakpoints: ( "xs": 0, "sm": 576px, "md": 768px, "lg": 992px, "xl": 1200px ) !default;
+
+$spacer: 1rem !default;
+$spacers: () !default;
+
+$spacers: map-merge( ( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3) ), $spacers );
+
+// Cards
+
+$grid-gutter-width: 30px !default;
+
+$card-group-margin: $grid-gutter-width / 2 !default;
+
+// Typography
+
+$headings-margin-bottom: $spacer / 2 !default;
+$headings-font-family: null !default;
+$headings-font-weight: 500 !default;
+$headings-line-height: 1.2 !default;
+$headings-color: null !default;
+
+$display1-size: 6rem !default;
+$display2-size: 5.5rem !default;
+$display3-size: 4.5rem !default;
+$display4-size: 3.5rem !default;
+
+$display1-weight: 300 !default;
+$display2-weight: 300 !default;
+$display3-weight: 300 !default;
+$display4-weight: 300 !default;
+$display-line-height: $headings-line-height !default;

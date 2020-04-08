@@ -30,13 +30,13 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region SelectEdit
+        #region Select
 
-        public override string SelectEdit() => "e-select";
+        public override string Select() => "e-select";
 
-        public override string SelectEditSize( Size size ) => $"{SelectEdit()}-{ToSize( size )}";
+        public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
 
-        public override string SelectEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -50,23 +50,43 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        public override string CheckEdit() => null;
+        public override string Check() => null;
 
-        public override string CheckEditInline() => null;
+        public override string CheckInline() => null;
 
-        public override string CheckEditCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
+        public override string CheckCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
 
-        public override string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region RadioGroup
 
-        public override string RadioEdit() => null;
+        public override string RadioGroup( bool buttons ) => buttons ? "e-buttons unified" : null;
+
+        public override string RadioGroupInline() => null;
+
+        #endregion
+
+        #region Radio
+
+        public override string Radio( bool button ) => null;
 
         public override string RadioInline() => null;
+
+        #endregion
+
+        #region Switch
+
+        public override string Switch() => "e-switch";
+
+        public override string SwitchChecked( bool @checked ) => null;
+
+        public override string SwitchCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
+
+        public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -78,15 +98,34 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Slider
+
+        public override string Slider() => "e-range";
+
+        public override string SliderColor( Color color ) => ToColor( color );
+
+        #endregion
+
         #region Label
 
         public override string Label() => "e-label";
 
+        public override string LabelType( LabelType labelType )
+        {
+            switch ( labelType )
+            {
+                case Blazorise.LabelType.File:
+                    return "e-label";
+                case Blazorise.LabelType.Check:
+                case Blazorise.LabelType.Radio:
+                case Blazorise.LabelType.Switch:
+                case Blazorise.LabelType.None:
+                default:
+                    return null;
+            }
+        }
+
         public override string LabelCursor( Cursor cursor ) => $"e-label-{ToCursor( cursor )}";
-
-        public override string LabelCheck() => null;
-
-        public override string LabelFile() => "e-label";
 
         #endregion
 
@@ -130,6 +169,8 @@ namespace Blazorise.Frolic
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
+        public override string FieldValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region FieldLabel
@@ -158,6 +199,8 @@ namespace Blazorise.Frolic
 
         public override string ControlRadio() => UseCustomInputStyles ? "custom-control custom-radio" : "form-check";
 
+        public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
+
         public override string ControlFile() => UseCustomInputStyles ? "custom-control custom-file" : "form-group";
 
         public override string ControlText() => null;
@@ -167,6 +210,8 @@ namespace Blazorise.Frolic
         #region Addons
 
         public override string Addons() => "e-form-group unified";
+
+        public override string AddonsHasButton( bool hasButton ) => null;
 
         public override string Addon( AddonType addonType ) => "e-control-helper";
 
@@ -262,7 +307,7 @@ namespace Blazorise.Frolic
 
         //public override string DropdownMenuBody() => null;
 
-        public override string DropdownMenuShow() => Show();
+        public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string DropdownMenuRight() => null;
 
@@ -322,17 +367,17 @@ namespace Blazorise.Frolic
 
         public override string TabItem() => null;
 
-        public override string TabItemActive() => Active();
+        public override string TabItemActive( bool active ) => active ? Active() : null;
 
         public override string TabLink() => null;
 
-        public override string TabLinkActive() => null;
+        public override string TabLinkActive( bool active ) => null;
 
         public override string TabsContent() => "e-tabs-content";
 
         public override string TabPanel() => "e-tabs-panel";
 
-        public override string TabPanelActive() => Active();
+        public override string TabPanelActive( bool active ) => active ? Active() : null;
 
         #endregion
 
@@ -356,11 +401,13 @@ namespace Blazorise.Frolic
 
         public override string CardImage() => null;
 
-        public override string CardTitle() => "card-title";
+        public override string CardTitle( bool insideHeader ) => "card-title";
 
-        public override string CardSubtitle() => "card-subtitle";
+        public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
-        public override string CardSubtitleSize( int size ) => null;
+        public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
+
+        public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
         public override string CardText() => "card-text";
 
@@ -420,6 +467,10 @@ namespace Blazorise.Frolic
 
         public override string Bar() => "e-nav";
 
+        public override string BarBackground( Background background ) => BackgroundColor( background );
+
+        public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+
         public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )}";
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
@@ -468,7 +519,7 @@ namespace Blazorise.Frolic
 
         public override string BarDropdownMenu() => "drop-items";
 
-        public override string BarDropdownMenuShow() => Show();
+        public override string BarDropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string BarDropdownMenuRight() => "drop-items-right";
 
@@ -484,7 +535,11 @@ namespace Blazorise.Frolic
 
         public override string Collapse() => "collapse";
 
-        public override string CollapseShow() => Show();
+        public override string CollapseActive( bool active ) => active ? Show() : null;
+
+        public override string CollapseContent() => null;
+
+        public override string CollapseContentActive( bool active ) => null;
 
         #endregion
 
@@ -533,6 +588,14 @@ namespace Blazorise.Frolic
 
         public override string AlertShow() => Show();
 
+        public override string AlertHasMessage() => null;
+
+        public override string AlertHasDescription() => null;
+
+        public override string AlertMessage() => null;
+
+        public override string AlertDescription() => null;
+
         #endregion
 
         #region Modal
@@ -541,11 +604,17 @@ namespace Blazorise.Frolic
 
         public override string ModalFade() => "e-modal-e";
 
-        public override string ModalShow() => "launch";
+        public override string ModalVisible( bool visible ) => visible ? "launch" : null;
 
         public override string ModalBackdrop() => "e-modal-backdrop";
 
-        public override string ModalContent( bool isForm ) => "e-modal-content";
+        public override string ModalBackdropFade() => Fade();
+
+        public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+
+        public override string ModalContent( bool dialog ) => "e-modal-content";
+
+        public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
         public override string ModalContentCentered() => "modal-dialog-centered";
 
@@ -764,6 +833,14 @@ namespace Blazorise.Frolic
         public override string TooltipFade() => "b-tooltip-fade";
 
         public override string TooltipInline() => "b-tooltip-inline";
+
+        #endregion
+
+        #region Divider
+
+        public override string Divider() => "divider";
+
+        public override string DividerType( DividerType dividerType ) => $"{Divider()}-{ToDividerType( dividerType )}";
 
         #endregion
 

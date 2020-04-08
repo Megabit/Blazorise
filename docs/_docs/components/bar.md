@@ -91,7 +91,7 @@ The bar component is a responsive and versatile horizontal navigation bar with t
 
 | Name          | Type                                                                       | Default          | Description                                                                                 |
 |---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| IsOpen        | boolean                                                                    | false            | Controls the state of toggler and the menu.                                                |
+| Visible       | boolean                                                                    | false            | Controls the state of toggle and the menu.                                                  |
 | Breakpoint    | [Breakpoint]({{ "/docs/helpers/enums/#breakpoint" | relative_url }})       | `None`           | Defines the media breakpoint.                                                               |
 | ThemeContrast | [ThemeContrast]({{ "/docs/helpers/enums/#themecontrast" | relative_url }}) | `Light`          | Adjusts the contrast for light or dark themes.                                              |
 | Background    | [Background]({{ "/docs/helpers/colors/#background" | relative_url }})      | `None`           | Sets the bar background color.                                                              |

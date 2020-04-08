@@ -1,8 +1,8 @@
-﻿@inherits Blazorise.BaseListGroup
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
-        <ul class="@ClassNames" @attributes="@Attributes">
+        <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </ul>
     </CascadingValue>

@@ -29,13 +29,13 @@ namespace Blazorise
 
         #endregion
 
-        #region SelectEdit
+        #region Select
 
-        public abstract string SelectEdit();
+        public abstract string Select();
 
-        public abstract string SelectEditSize( Size size );
+        public abstract string SelectSize( Size size );
 
-        public abstract string SelectEditValidation( ValidationStatus validationStatus );
+        public abstract string SelectValidation( ValidationStatus validationStatus );
 
         #endregion
 
@@ -49,23 +49,43 @@ namespace Blazorise
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        public abstract string CheckEdit();
+        public abstract string Check();
 
-        public abstract string CheckEditInline();
+        public abstract string CheckInline();
 
-        public abstract string CheckEditCursor( Cursor cursor );
+        public abstract string CheckCursor( Cursor cursor );
 
-        public abstract string CheckEditValidation( ValidationStatus validationStatus );
+        public abstract string CheckValidation( ValidationStatus validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region RadioGroup
 
-        public abstract string RadioEdit();
+        public abstract string RadioGroup( bool buttons );
+
+        public abstract string RadioGroupInline();
+
+        #endregion
+
+        #region Radio
+
+        public abstract string Radio( bool button );
 
         public abstract string RadioInline();
+
+        #endregion
+
+        #region Switch
+
+        public abstract string Switch();
+
+        public abstract string SwitchChecked( bool @checked );
+
+        public abstract string SwitchCursor( Cursor cursor );
+
+        public abstract string SwitchValidation( ValidationStatus validationStatus );
 
         #endregion
 
@@ -77,15 +97,21 @@ namespace Blazorise
 
         #endregion
 
+        #region Slider
+
+        public abstract string Slider();
+
+        public abstract string SliderColor( Color color );
+
+        #endregion
+
         #region Label
 
         public abstract string Label();
 
+        public abstract string LabelType( LabelType labelType );
+
         public abstract string LabelCursor( Cursor cursor );
-
-        public abstract string LabelCheck();
-
-        public abstract string LabelFile();
 
         #endregion
 
@@ -129,6 +155,8 @@ namespace Blazorise
 
         public abstract string FieldJustifyContent( JustifyContent justifyContent );
 
+        public abstract string FieldValidation( ValidationStatus validationStatus );
+
         #endregion
 
         #region FieldLabel
@@ -157,6 +185,8 @@ namespace Blazorise
 
         public abstract string ControlRadio();
 
+        public abstract string ControlSwitch();
+
         public abstract string ControlFile();
 
         public abstract string ControlText();
@@ -166,6 +196,8 @@ namespace Blazorise
         #region Addons
 
         public abstract string Addons();
+
+        public abstract string AddonsHasButton( bool hasButton );
 
         public abstract string Addon( AddonType addonType );
 
@@ -239,7 +271,7 @@ namespace Blazorise
 
         //public abstract string DropdownMenuBody();
 
-        public abstract string DropdownMenuShow();
+        public abstract string DropdownMenuVisible( bool visible );
 
         public abstract string DropdownMenuRight();
 
@@ -273,17 +305,17 @@ namespace Blazorise
 
         public abstract string TabItem();
 
-        public abstract string TabItemActive();
+        public abstract string TabItemActive( bool active );
 
         public abstract string TabLink();
 
-        public abstract string TabLinkActive();
+        public abstract string TabLinkActive( bool active );
 
         public abstract string TabsContent();
 
         public abstract string TabPanel();
 
-        public abstract string TabPanelActive();
+        public abstract string TabPanelActive( bool active );
 
         #endregion
 
@@ -307,11 +339,13 @@ namespace Blazorise
 
         public abstract string CardImage();
 
-        public abstract string CardTitle();
+        public abstract string CardTitle( bool insideHeader );
 
-        public abstract string CardSubtitle();
+        public abstract string CardTitleSize( bool insideHeader, int? size );
 
-        public abstract string CardSubtitleSize( int size );
+        public abstract string CardSubtitle( bool insideHeader );
+
+        public abstract string CardSubtitleSize( bool insideHeader, int size );
 
         public abstract string CardText();
 
@@ -371,6 +405,10 @@ namespace Blazorise
 
         public abstract string Bar();
 
+        public abstract string BarBackground( Background background );
+
+        public abstract string BarAlignment( Alignment alignment );
+
         public abstract string BarThemeContrast( ThemeContrast themeContrast );
 
         public abstract string BarBreakpoint( Breakpoint breakpoint );
@@ -419,7 +457,7 @@ namespace Blazorise
 
         public abstract string BarDropdownMenu();
 
-        public abstract string BarDropdownMenuShow();
+        public abstract string BarDropdownMenuVisible( bool visible );
 
         public abstract string BarDropdownMenuRight();
 
@@ -435,7 +473,11 @@ namespace Blazorise
 
         public abstract string Collapse();
 
-        public abstract string CollapseShow();
+        public abstract string CollapseActive( bool active );
+
+        public abstract string CollapseContent();
+
+        public abstract string CollapseContentActive( bool active );
 
         #endregion
 
@@ -468,6 +510,14 @@ namespace Blazorise
 
         public abstract string AlertShow();
 
+        public abstract string AlertHasMessage();
+
+        public abstract string AlertHasDescription();
+
+        public abstract string AlertMessage();
+
+        public abstract string AlertDescription();
+
         #endregion
 
         #region Modal
@@ -476,11 +526,17 @@ namespace Blazorise
 
         public abstract string ModalFade();
 
-        public abstract string ModalShow();
+        public abstract string ModalVisible( bool visible );
 
         public abstract string ModalBackdrop();
 
-        public abstract string ModalContent( bool isForm );
+        public abstract string ModalBackdropFade();
+
+        public abstract string ModalBackdropVisible( bool visible );
+
+        public abstract string ModalContent( bool dialog );
+
+        public abstract string ModalContentSize( ModalSize modalSize );
 
         public abstract string ModalContentCentered();
 
@@ -699,6 +755,14 @@ namespace Blazorise
         public abstract string TooltipFade();
 
         public abstract string TooltipInline();
+
+        #endregion
+
+        #region Divider
+
+        public abstract string Divider();
+
+        public abstract string DividerType( DividerType dividerType );
 
         #endregion
 
@@ -1033,11 +1097,11 @@ namespace Blazorise
             switch ( modalSize )
             {
                 case Blazorise.ModalSize.Small:
-                    return "modal-sm";
+                    return "sm";
                 case Blazorise.ModalSize.Large:
-                    return "modal-lg";
+                    return "lg";
                 case Blazorise.ModalSize.ExtraLarge:
-                    return "modal-xl";
+                    return "xl";
                 case Blazorise.ModalSize.Default:
                 default:
                     return null;
@@ -1217,6 +1281,22 @@ namespace Blazorise
                 case CharacterCasing.Normal:
                 default:
                     return null;
+            }
+        }
+
+        public virtual string ToDividerType( DividerType dividerType )
+        {
+            switch ( dividerType )
+            {
+                case Blazorise.DividerType.Dashed:
+                    return "dashed";
+                case Blazorise.DividerType.Dotted:
+                    return "dotted";
+                case Blazorise.DividerType.TextContent:
+                    return "text";
+                case Blazorise.DividerType.Solid:
+                default:
+                    return "solid";
             }
         }
 

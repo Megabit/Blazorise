@@ -30,13 +30,13 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region SelectEdit
+        #region Select
 
-        public override string SelectEdit() => UseCustomInputStyles ? "custom-select" : "form-control";
+        public override string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
 
-        public override string SelectEditSize( Size size ) => $"{SelectEdit()}-{ToSize( size )}";
+        public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
 
-        public override string SelectEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -50,23 +50,43 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        public override string CheckEdit() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+        public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
-        public override string CheckEditInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+        public override string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
-        public override string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{ToCursor( cursor )}";
+        public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
 
-        public override string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region RadioGroup
 
-        public override string RadioEdit() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+        public override string RadioGroup( bool buttons ) => buttons ? "btn-group btn-group-toggle" : null;
+
+        public override string RadioGroupInline() => null;
+
+        #endregion
+
+        #region Radio
+
+        public override string Radio( bool button ) => button ? null : UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
         public override string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+
+        #endregion
+
+        #region Switch
+
+        public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+
+        public override string SwitchChecked( bool @checked ) => null;
+
+        public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
+
+        public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -78,15 +98,35 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Slider
+
+        public override string Slider() => "form-control-range";
+
+        public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
+
+        #endregion
+
         #region Label
 
         public override string Label() => null;
 
+        public override string LabelType( LabelType labelType )
+        {
+            switch ( labelType )
+            {
+                case Blazorise.LabelType.Check:
+                case Blazorise.LabelType.Radio:
+                case Blazorise.LabelType.Switch:
+                    return UseCustomInputStyles ? "custom-control-label" : "form-check-label";
+                case Blazorise.LabelType.File:
+                    return UseCustomInputStyles ? "custom-file-label" : null;
+                case Blazorise.LabelType.None:
+                default:
+                    return null;
+            }
+        }
+
         public override string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}";
-
-        public override string LabelCheck() => UseCustomInputStyles ? "custom-control-label" : "form-check-label";
-
-        public override string LabelFile() => UseCustomInputStyles ? "custom-file-label" : null;
 
         #endregion
 
@@ -130,6 +170,8 @@ namespace Blazorise.Bootstrap
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
+        public override string FieldValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region FieldLabel
@@ -158,6 +200,8 @@ namespace Blazorise.Bootstrap
 
         public override string ControlRadio() => UseCustomInputStyles ? "custom-control custom-radio" : "form-check";
 
+        public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
+
         public override string ControlFile() => UseCustomInputStyles ? "custom-control custom-file" : "form-group";
 
         public override string ControlText() => null;
@@ -167,6 +211,8 @@ namespace Blazorise.Bootstrap
         #region Addons
 
         public override string Addons() => "input-group";
+
+        public override string AddonsHasButton( bool hasButton ) => null;
 
         public override string Addon( AddonType addonType )
         {
@@ -273,7 +319,7 @@ namespace Blazorise.Bootstrap
 
         //public override string DropdownMenuBody() => null;
 
-        public override string DropdownMenuShow() => Show();
+        public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string DropdownMenuRight() => "dropdown-menu-right";
 
@@ -333,17 +379,17 @@ namespace Blazorise.Bootstrap
 
         public override string TabItem() => "nav-item";
 
-        public override string TabItemActive() => null;
+        public override string TabItemActive( bool active ) => null;
 
         public override string TabLink() => "nav-link";
 
-        public override string TabLinkActive() => $"{Active()} {Show()}";
+        public override string TabLinkActive( bool active ) => active ? $"{Active()} {Show()}" : null;
 
         public override string TabsContent() => "tab-content";
 
         public override string TabPanel() => "tab-pane";
 
-        public override string TabPanelActive() => $"{Active()} {Show()}";
+        public override string TabPanelActive( bool active ) => active ? $"{Active()} {Show()}" : null;
 
         #endregion
 
@@ -367,11 +413,13 @@ namespace Blazorise.Bootstrap
 
         public override string CardImage() => "card-img-top";
 
-        public override string CardTitle() => "card-title";
+        public override string CardTitle( bool insideHeader ) => "card-title";
 
-        public override string CardSubtitle() => "card-subtitle";
+        public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
-        public override string CardSubtitleSize( int size ) => null;
+        public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
+
+        public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
         public override string CardText() => "card-text";
 
@@ -431,6 +479,10 @@ namespace Blazorise.Bootstrap
 
         public override string Bar() => "navbar";
 
+        public override string BarBackground( Background background ) => BackgroundColor( background );
+
+        public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+
         public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )}";
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
@@ -479,7 +531,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarDropdownMenu() => "dropdown-menu";
 
-        public override string BarDropdownMenuShow() => Show();
+        public override string BarDropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string BarDropdownMenuRight() => "dropdown-menu-right";
 
@@ -495,7 +547,11 @@ namespace Blazorise.Bootstrap
 
         public override string Collapse() => "collapse";
 
-        public override string CollapseShow() => Show();
+        public override string CollapseActive( bool active ) => active ? Show() : null;
+
+        public override string CollapseContent() => null;
+
+        public override string CollapseContentActive( bool active ) => null;
 
         #endregion
 
@@ -544,19 +600,33 @@ namespace Blazorise.Bootstrap
 
         public override string AlertShow() => Show();
 
+        public override string AlertHasMessage() => null;
+
+        public override string AlertHasDescription() => null;
+
+        public override string AlertMessage() => null;
+
+        public override string AlertDescription() => null;
+
         #endregion
 
         #region Modal
 
         public override string Modal() => "modal";
 
-        public override string ModalFade() => $"{Fade()}";
+        public override string ModalFade() => Fade();
 
-        public override string ModalShow() => $"{Show()}";
+        public override string ModalVisible( bool visible ) => visible ? Show() : null;
 
         public override string ModalBackdrop() => "modal-backdrop";
 
-        public override string ModalContent( bool isForm ) => "modal-content";
+        public override string ModalBackdropFade() => Fade();
+
+        public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+
+        public override string ModalContent( bool dialog ) => "modal-content";
+
+        public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
         public override string ModalContentCentered() => "modal-dialog-centered";
 
@@ -775,6 +845,14 @@ namespace Blazorise.Bootstrap
         public override string TooltipFade() => "b-tooltip-fade";
 
         public override string TooltipInline() => "b-tooltip-inline";
+
+        #endregion
+
+        #region Divider
+
+        public override string Divider() => "divider";
+
+        public override string DividerType( DividerType dividerType ) => $"{Divider()}-{ToDividerType( dividerType )}";
 
         #endregion
 

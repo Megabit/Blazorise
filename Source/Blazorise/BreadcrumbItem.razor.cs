@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBreadcrumbItem : BaseComponent
+    public partial class BreadcrumbItem : BaseComponent
     {
         #region Members
 
-        private bool isActive;
+        private bool active;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BreadcrumbItem() );
-            builder.Append( ClassProvider.BreadcrumbItemActive(), IsActive );
+            builder.Append( ClassProvider.BreadcrumbItemActive(), Active );
 
             base.BuildClasses( builder );
         }
@@ -31,12 +31,12 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
+            get => active;
             set
             {
-                isActive = value;
+                active = value;
 
                 DirtyClasses();
             }

@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBarLink : BaseComponent
+    public partial class BarLink : BaseComponent
     {
         #region Members
 
-        private bool isDisabled;
+        private bool disabled;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarLink() );
-            builder.Append( ClassProvider.BarLinkDisabled(), IsDisabled );
+            builder.Append( ClassProvider.BarLinkDisabled(), Disabled );
 
             base.BuildClasses( builder );
         }
@@ -36,12 +36,12 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        public bool IsDisabled
+        public bool Disabled
         {
-            get => isDisabled;
+            get => disabled;
             set
             {
-                isDisabled = value;
+                disabled = value;
 
                 DirtyClasses();
             }

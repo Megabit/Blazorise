@@ -3,9 +3,11 @@
     <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>BASIC EXAMPLE</CardTitle>
-                <CardSubtitle>Basic table with lightly padded cells and horizontal dividers.</CardSubtitle>
+                <CardTitle>Basic Example</CardTitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Basic table with lightly padded cells and horizontal dividers.</CardText>
+            </CardBody>
             <CardBody>
                 <Table>
                     <TableHeader>
@@ -43,11 +45,13 @@
     <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>STRIPED ROWS</CardTitle>
-                <CardSubtitle>For alternating background colors on the rows, add <code>IsStriped</code> attribute.</CardSubtitle>
+                <CardTitle>Striped Rows</CardTitle>
             </CardHeader>
             <CardBody>
-                <Table IsStriped="true">
+                <CardText>For alternating background colors on the rows, add <code>Striped</code> attribute.</CardText>
+            </CardBody>
+            <CardBody>
+                <Table Striped="true">
                     <TableHeader>
                         <TableRow>
                             <TableHeaderCell>#</TableHeaderCell>
@@ -85,11 +89,13 @@
     <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>BORDERED TABLE</CardTitle>
-                <CardSubtitle>For borders all around the table, use <code>IsBordered</code> attribute.</CardSubtitle>
+                <CardTitle>Bordered Table</CardTitle>
             </CardHeader>
             <CardBody>
-                <Table IsBordered="true">
+                <CardText>For borders all around the table, use <code>Bordered</code> attribute.</CardText>
+            </CardBody>
+            <CardBody>
+                <Table Bordered="true">
                     <TableHeader>
                         <TableRow>
                             <TableHeaderCell>#</TableHeaderCell>
@@ -125,93 +131,13 @@
     <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>HOVERABLE ROWS</CardTitle>
-                <CardSubtitle>To achieve that "hover" effect when mousing over the table rows, use <code>IsHoverable</code> attribute.</CardSubtitle>
+                <CardTitle>Hoverable Rows</CardTitle>
             </CardHeader>
             <CardBody>
-                <Table IsHoverable="true">
-                    <TableHeader>
-                        <TableRow>
-                            <TableHeaderCell>#</TableHeaderCell>
-                            <TableHeaderCell>First Name</TableHeaderCell>
-                            <TableHeaderCell>Last Name</TableHeaderCell>
-                            <TableHeaderCell>Username</TableHeaderCell>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableRowHeader>1</TableRowHeader>
-                            <TableRowCell>Mark</TableRowCell>
-                            <TableRowCell>Otto</TableRowCell>
-                            <TableRowCell>@@mdo</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>2</TableRowHeader>
-                            <TableRowCell>Jacob</TableRowCell>
-                            <TableRowCell>Thornton</TableRowCell>
-                            <TableRowCell>@@fat</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>3</TableRowHeader>
-                            <TableRowCell>Larry</TableRowCell>
-                            <TableRowCell>the Bird</TableRowCell>
-                            <TableRowCell>@@twitter</TableRowCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+                <CardText>To achieve that "hover" effect when mousing over the table rows, use <code>Hoverable</code> attribute.</CardText>
             </CardBody>
-        </Card>
-    </Column>
-</Row>
-<Row>
-    <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
-        <Card Margin="Margin.Is4.FromBottom">
-            <CardHeader>
-                <CardTitle>BORDERLESS TABLE</CardTitle>
-                <CardSubtitle>For table without any borders set the <code>IsBorderless</code> attribute.</CardSubtitle>
-            </CardHeader>
             <CardBody>
-                <Table IsBorderless="true">
-                    <TableHeader>
-                        <TableRow>
-                            <TableHeaderCell>#</TableHeaderCell>
-                            <TableHeaderCell>First Name</TableHeaderCell>
-                            <TableHeaderCell>Last Name</TableHeaderCell>
-                            <TableHeaderCell>Username</TableHeaderCell>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableRowHeader>1</TableRowHeader>
-                            <TableRowCell>Mark</TableRowCell>
-                            <TableRowCell>Otto</TableRowCell>
-                            <TableRowCell>@@mdo</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>2</TableRowHeader>
-                            <TableRowCell>Jacob</TableRowCell>
-                            <TableRowCell>Thornton</TableRowCell>
-                            <TableRowCell>@@fat</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>3</TableRowHeader>
-                            <TableRowCell>Larry</TableRowCell>
-                            <TableRowCell>the Bird</TableRowCell>
-                            <TableRowCell>@@twitter</TableRowCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </CardBody>
-        </Card>
-    </Column>
-    <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
-        <Card Margin="Margin.Is4.FromBottom">
-            <CardHeader>
-                <CardTitle>SMALL TABLE</CardTitle>
-                <CardSubtitle>Add <code>IsNarrow</code> to make tables more compact by cutting cell padding in half.</CardSubtitle>
-            </CardHeader>
-            <CardBody>
-                <Table IsNarrow="true">
+                <Table Hoverable="true">
                     <TableHeader>
                         <TableRow>
                             <TableHeaderCell>#</TableHeaderCell>
@@ -249,9 +175,97 @@
     <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>LIGHT HEADER</CardTitle>
-                <CardSubtitle>Use the <code>Theme</code> attribute to make header appear light or dark gray.</CardSubtitle>
+                <CardTitle>Borderless Table</CardTitle>
             </CardHeader>
+            <CardBody>
+                <CardText>For table without any borders set the <code>Borderless</code> attribute.</CardText>
+            </CardBody>
+            <CardBody>
+                <Table Borderless="true">
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderCell>#</TableHeaderCell>
+                            <TableHeaderCell>First Name</TableHeaderCell>
+                            <TableHeaderCell>Last Name</TableHeaderCell>
+                            <TableHeaderCell>Username</TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        <TableRow>
+                            <TableRowHeader>1</TableRowHeader>
+                            <TableRowCell>Mark</TableRowCell>
+                            <TableRowCell>Otto</TableRowCell>
+                            <TableRowCell>@@mdo</TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowHeader>2</TableRowHeader>
+                            <TableRowCell>Jacob</TableRowCell>
+                            <TableRowCell>Thornton</TableRowCell>
+                            <TableRowCell>@@fat</TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowHeader>3</TableRowHeader>
+                            <TableRowCell>Larry</TableRowCell>
+                            <TableRowCell>the Bird</TableRowCell>
+                            <TableRowCell>@@twitter</TableRowCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Small Table</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Add <code>Narrow</code> to make tables more compact by cutting cell padding in half.</CardText>
+            </CardBody>
+            <CardBody>
+                <Table Narrow="true">
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderCell>#</TableHeaderCell>
+                            <TableHeaderCell>First Name</TableHeaderCell>
+                            <TableHeaderCell>Last Name</TableHeaderCell>
+                            <TableHeaderCell>Username</TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        <TableRow>
+                            <TableRowHeader>1</TableRowHeader>
+                            <TableRowCell>Mark</TableRowCell>
+                            <TableRowCell>Otto</TableRowCell>
+                            <TableRowCell>@@mdo</TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowHeader>2</TableRowHeader>
+                            <TableRowCell>Jacob</TableRowCell>
+                            <TableRowCell>Thornton</TableRowCell>
+                            <TableRowCell>@@fat</TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowHeader>3</TableRowHeader>
+                            <TableRowCell>Larry</TableRowCell>
+                            <TableRowCell>the Bird</TableRowCell>
+                            <TableRowCell>@@twitter</TableRowCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Light Header</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use the <code>Theme</code> attribute to make header appear light or dark gray.</CardText>
+            </CardBody>
             <CardBody>
                 <Table>
                     <TableHeader ThemeContrast="ThemeContrast.Light">
@@ -289,9 +303,11 @@
     <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>DARK HEADER</CardTitle>
-                <CardSubtitle>Use the <code>Theme</code> attribute to make header appear light or dark gray.</CardSubtitle>
+                <CardTitle>Dark Header</CardTitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Use the <code>Theme</code> attribute to make header appear light or dark gray.</CardText>
+            </CardBody>
             <CardBody>
                 <Table>
                     <TableHeader ThemeContrast="ThemeContrast.Dark">
@@ -331,9 +347,11 @@
     <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>CONTEXTUAL COLORS</CardTitle>
-                <CardSubtitle>Use <code>Color</code> on table rows or individual cells.</CardSubtitle>
+                <CardTitle>Contextual Colors</CardTitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Use <code>Color</code> on table rows or individual cells.</CardText>
+            </CardBody>
             <CardBody>
                 <Table>
                     <TableHeader>
@@ -407,9 +425,11 @@
     <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>CONTEXTUAL WITH BACKGROUND COLOR</CardTitle>
-                <CardSubtitle>Use <code>Background</code> and <code>TextColor</code> on table rows or individual cells.</CardSubtitle>
+                <CardTitle>Contextual With Background Color</CardTitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Use <code>Background</code> and <code>TextColor</code> on table rows or individual cells.</CardText>
+            </CardBody>
             <CardBody>
                 <Table>
                     <TableHeader>

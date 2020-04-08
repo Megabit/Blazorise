@@ -1,8 +1,8 @@
-﻿@inherits Blazorise.BaseBar
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
-        <nav class="@ClassNames" @attributes="@Attributes">
+        <nav class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </nav>
     </CascadingValue>

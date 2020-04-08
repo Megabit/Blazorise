@@ -9,50 +9,61 @@ redirect_from: /docs/components/tabs/
 
 ## Basics
 
-There are two pieces to a tabbed interface: the tabs themselves, and the content for each tab. 
+There are two pieces to a tabbed interface: the tabs themselves, and the content for each tab.
 
 - `<Tabs>` container for Tab items
-  - `<Tab>` clickable tab items
-- `<TabsContent>` container for tab panels
-  - `<TabPanel>` container for tab content
+  - `<Items>` container for tab items
+    - `<Tab>` clickable tab items
+  - `<Content>` container for tab panels
+    - `<TabPanel>` container for tab content
 
 The tabs are container for tab items. Each tab item contains a link to a tab panel. The `Name` of each tab item should match the `Name` of a tab panel.
 
-The tab content container is used to hold tab panels. Each content pane also has a unique `Name`, which is targeted by a link in the tabstrip.
+- `<TabsContent>` container for tab panels
+  - `<TabPanel>` container for tab content
 
-Put it all together, and we get this:
+The tab content container is used to hold tab panels. Each content pane also has a unique `Name`, which is targeted by a link in the tab-strip.
 
-### Tab items
+Most of the time you will only need to use `Tabs` component as it is crafted to hold both clickable tab items and tab content. Only in the advanced scenario where the content will be separated from the tab items you will need to use `<TabsContent>` component.
+
+So for a basic tabs when we put it all together, we get this:
+
+## Example
 
 ```html
-<Tabs>
-    <Tab Name="home" IsActive="true">Home</Tab>
-    <Tab Name="profile">Profile</Tab>
-    <Tab Name="messages">Messages</Tab>
-    <Tab Name="settings">Settings</Tab>
+<Tabs SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
+    <Items>
+        <Tab Name="home">Home</Tab>
+        <Tab Name="profile">Profile</Tab>
+        <Tab Name="messages">Messages</Tab>
+        <Tab Name="settings">Settings</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="home">
+            Content for home.
+        </TabPanel>
+        <TabPanel Name="profile">
+            Content for profile.
+        </TabPanel>
+        <TabPanel Name="messages">
+            Content for messages.
+        </TabPanel>
+        <TabPanel Name="settings">
+            Content for settings.
+        </TabPanel>
+    </Content>
 </Tabs>
+@code{
+    string selectedTab = "profile";
+
+    private void OnSelectedTabChanged( string name )
+    {
+        selectedTab = name;
+    }
+}
 ```
 
-### Tabs content
-
-```html
-<TabsContent>
-    <TabPanel Name="home" IsActive="true">
-        ...
-    </TabPanel>
-    <TabPanel Name="profile">
-        ...
-    </TabPanel>
-    <TabPanel Name="messages">
-        ...
-    </TabPanel>
-    <TabPanel Name="settings">
-        ...
-    </TabPanel>
-</TabsContent>
-```
-
-<iframe src="/examples/tabs/basic/" frameborder="0" scrolling="no" style="width:100%;height:625px;"></iframe>
+<iframe src="/examples/tabs/basic/" frameborder="0" scrolling="no" style="width:100%;height:260px;"></iframe>
 
 ## Functions
 
@@ -66,10 +77,11 @@ Put it all together, and we get this:
 
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
-| IsPills             | boolean                                                                    | false            | Makes the tab items to appear as pills.                                                               |
-| IsFullWidth         | boolean                                                                    | false            | Makes the tab items to extend the full available width.                                               |
-| IsJustified         | boolean                                                                    | false            | Makes the tab items to extend the full available width, but every item will be the same width.        |
-| IsVertical          | boolean                                                                    | false            | Stack the navigation items by changing the flex item direction.                                       |
+| Pills               | boolean                                                                    | false            | Makes the tab items to appear as pills.                                                               |
+| FullWidth           | boolean                                                                    | false            | Makes the tab items to extend the full available width.                                               |
+| Justified           | boolean                                                                    | false            | Makes the tab items to extend the full available width, but every item will be the same width.        |
+| TabPosition         | [TabPosition]({{ "/docs/helpers/enums/#tabposition" | relative_url }})     | Top              | Defines the placement of a tab items.                                                                 |
+| SelectedTab         | string                                                                     |                  | Currently selected tab name.                                                                          |
 | SelectedTabChanged  | event                                                                      |                  | Occurs after the selected tab has changed.                                                            |
 
 ### Tab
@@ -77,18 +89,16 @@ Put it all together, and we get this:
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
 | Name                | string                                                                     | null             | Defines the unique tab name.                                                                          |
-| IsActive            | boolean                                                                    | false            | Sets the active tab.                                                                                  |
 
 ### TabsContent
 
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
+| SelectedPanel       | string                                                                     |                  | Currently selected panel name.                                                                        |
 | SelectedPanelChanged | event                                                                     |                  | Occurs after the selected panel has changed.                                                          |
 
 ### TabPanel
 
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
-| Name                | string                                                                     | null             | Defines the panel name that must match the corresponding tab name.                                     |
-| IsActive            | boolean                                                                    | false            | Sets the active panel.                                                                                |
-
+| Name                | string                                                                     | null             | Defines the panel name that must match the corresponding tab name.                                    |

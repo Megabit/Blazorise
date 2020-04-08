@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public abstract class BasePaginationLink : BaseComponent
+    public partial class PaginationLink : BaseComponent
     {
         #region Members
 
@@ -20,7 +20,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.PaginationLink() );
-            builder.Append( ClassProvider.PaginationLinkActive(), ParentPaginationItem?.IsActive == true );
+            builder.Append( ClassProvider.PaginationLinkActive(), ParentPaginationItem?.Active == true );
 
             base.BuildClasses( builder );
         }
@@ -47,7 +47,7 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] public BasePaginationItem ParentPaginationItem { get; set; }
+        [CascadingParameter] protected PaginationItem ParentPaginationItem { get; set; }
 
         #endregion
     }

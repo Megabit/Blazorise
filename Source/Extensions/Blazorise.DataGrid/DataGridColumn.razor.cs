@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class BaseDataGridColumn<TItem> : BaseComponent
+    public abstract class BaseDataGridColumn<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -40,6 +40,9 @@ namespace Blazorise.DataGrid
         {
             // connect column to the parent datagrid
             ParentDataGrid?.Hook( this );
+
+            // initialize temporary variables
+            CurrentDirection = Direction;
 
             base.OnInitialized();
         }
@@ -79,6 +82,15 @@ namespace Blazorise.DataGrid
         #region Properties
 
         /// <summary>
+        /// Gets or sets the current sort direction.
+        /// </summary>
+        /// <remarks>
+        /// The reason for this field is that <see cref="Direction"/> is reseted every
+        /// time when the grid is refreshed by the user.
+        /// </remarks>
+        internal SortDirection CurrentDirection { get; set; }
+
+        /// <summary>
         /// Gets the type of column editor.
         /// </summary>
         public abstract DataGridColumnType ColumnType { get; }
@@ -99,7 +111,7 @@ namespace Blazorise.DataGrid
         [Parameter] public FilterContext Filter { get; set; } = new FilterContext();
 
         /// <summary>
-        /// Gets or sets the column's sort direction.
+        /// Gets or sets the column initial sort direction.
         /// </summary>
         /// <remarks>
         /// Currently only one column can be sorted becaouse of the bug in Mono runtime.
@@ -147,6 +159,36 @@ namespace Blazorise.DataGrid
         [Parameter] public string Width { get; set; }
 
         /// <summary>
+        /// Custom classname handler for cell based on the current row item.
+        /// </summary>
+        [Parameter] public Func<TItem, string> CellClass { get; set; }
+
+        /// <summary>
+        /// Custom style handler for cell based on the current row item.
+        /// </summary>
+        [Parameter] public Func<TItem, string> CellStyle { get; set; }
+
+        /// <summary>
+        /// Custom classname for header cell.
+        /// </summary>
+        [Parameter] public string HeaderCellClass { get; set; }
+
+        /// <summary>
+        /// Custom style for header cell.
+        /// </summary>
+        [Parameter] public string HeaderCellStyle { get; set; }
+
+        /// <summary>
+        /// Custom classname for filter cell.
+        /// </summary>
+        [Parameter] public string FilterCellClass { get; set; }
+
+        /// <summary>
+        /// Custom style for filter cell.
+        /// </summary>
+        [Parameter] public string FilterCellStyle { get; set; }
+
+        /// <summary>
         /// Template for custom cell display formating.
         /// </summary>
         [Parameter] public RenderFragment<TItem> DisplayTemplate { get; set; }
@@ -163,7 +205,7 @@ namespace Blazorise.DataGrid
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] public BaseDataGrid<TItem> ParentDataGrid { get; set; }
+        [CascadingParameter] protected BaseDataGrid<TItem> ParentDataGrid { get; set; }
 
         #endregion
     }

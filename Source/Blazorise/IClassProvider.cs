@@ -29,13 +29,13 @@ namespace Blazorise
 
         #endregion
 
-        #region SelectEdit
+        #region Select
 
-        string SelectEdit();
+        string Select();
 
-        string SelectEditSize( Size size );
+        string SelectSize( Size size );
 
-        string SelectEditValidation( ValidationStatus validationStatus );
+        string SelectValidation( ValidationStatus validationStatus );
 
         #endregion
 
@@ -49,21 +49,43 @@ namespace Blazorise
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        string CheckEdit();
+        string Check();
 
-        string CheckEditInline();
+        string CheckInline();
 
-        string CheckEditCursor( Cursor cursor );
+        string CheckCursor( Cursor cursor );
 
-        string CheckEditValidation( ValidationStatus validationStatus );
+        string CheckValidation( ValidationStatus validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region RadioGroup
 
-        string RadioEdit();
+        string RadioGroup( bool buttons );
+
+        string RadioGroupInline();
+
+        #endregion
+
+        #region Radio
+
+        string Radio( bool button );
+
+        string RadioInline();
+
+        #endregion
+
+        #region Switch
+
+        string Switch();
+
+        string SwitchChecked( bool @checked );
+
+        string SwitchCursor( Cursor cursor );
+
+        string SwitchValidation( ValidationStatus validationStatus );
 
         #endregion
 
@@ -75,15 +97,21 @@ namespace Blazorise
 
         #endregion
 
+        #region Slider
+
+        string Slider();
+
+        string SliderColor( Color color );
+
+        #endregion
+
         #region Label
 
         string Label();
 
+        string LabelType( LabelType labelType );
+
         string LabelCursor( Cursor cursor );
-
-        string LabelCheck();
-
-        string LabelFile();
 
         #endregion
 
@@ -125,6 +153,8 @@ namespace Blazorise
 
         string FieldColumn();
 
+        string FieldValidation( ValidationStatus validationStatus );
+
         string FieldJustifyContent( JustifyContent justifyContent );
 
         #endregion
@@ -155,6 +185,8 @@ namespace Blazorise
 
         string ControlRadio();
 
+        string ControlSwitch();
+
         string ControlFile();
 
         string ControlText();
@@ -164,6 +196,8 @@ namespace Blazorise
         #region Addons
 
         string Addons();
+
+        string AddonsHasButton( bool hasButton );
 
         string Addon( AddonType addonType );
 
@@ -237,7 +271,7 @@ namespace Blazorise
 
         //string DropdownMenuBody();
 
-        string DropdownMenuShow();
+        string DropdownMenuVisible( bool visible );
 
         string DropdownMenuRight();
 
@@ -271,17 +305,17 @@ namespace Blazorise
 
         string TabItem();
 
-        string TabItemActive();
+        string TabItemActive( bool active );
 
         string TabLink();
 
-        string TabLinkActive();
+        string TabLinkActive( bool active );
 
         string TabsContent();
 
         string TabPanel();
 
-        string TabPanelActive();
+        string TabPanelActive( bool active );
 
         #endregion
 
@@ -305,11 +339,13 @@ namespace Blazorise
 
         string CardImage();
 
-        string CardTitle();
+        string CardTitle( bool insideHeader );
 
-        string CardSubtitle();
+        string CardTitleSize( bool insideHeader, int? size );
 
-        string CardSubtitleSize( int size );
+        string CardSubtitle( bool insideHeader );
+
+        string CardSubtitleSize( bool insideHeader, int size );
 
         string CardText();
 
@@ -369,6 +405,10 @@ namespace Blazorise
 
         string Bar();
 
+        string BarBackground( Background background );
+
+        string BarAlignment( Alignment alignment );
+
         string BarThemeContrast( ThemeContrast themeContrast );
 
         string BarBreakpoint( Breakpoint breakpoint );
@@ -415,7 +455,7 @@ namespace Blazorise
 
         string BarDropdownMenu();
 
-        string BarDropdownMenuShow();
+        string BarDropdownMenuVisible( bool visible );
 
         string BarDropdownMenuRight();
 
@@ -431,7 +471,11 @@ namespace Blazorise
 
         string Collapse();
 
-        string CollapseShow();
+        string CollapseActive( bool active );
+
+        string CollapseContent();
+
+        string CollapseContentActive( bool active );
 
         #endregion
 
@@ -461,6 +505,14 @@ namespace Blazorise
 
         string AlertShow();
 
+        string AlertHasMessage();
+
+        string AlertHasDescription();
+
+        string AlertMessage();
+
+        string AlertDescription();
+
         #endregion
 
         #region Modal
@@ -469,11 +521,17 @@ namespace Blazorise
 
         string ModalFade();
 
-        string ModalShow();
+        string ModalVisible( bool visible );
 
         string ModalBackdrop();
 
-        string ModalContent( bool isForm );
+        string ModalBackdropFade();
+
+        string ModalBackdropVisible( bool visible );
+
+        string ModalContent( bool dialog );
+
+        string ModalContentSize( ModalSize modalSize );
 
         string ModalContentCentered();
 
@@ -692,6 +750,14 @@ namespace Blazorise
         string TooltipFade();
 
         string TooltipInline();
+
+        #endregion
+
+        #region Divider
+
+        string Divider();
+
+        string DividerType( DividerType dividerType );
 
         #endregion
 

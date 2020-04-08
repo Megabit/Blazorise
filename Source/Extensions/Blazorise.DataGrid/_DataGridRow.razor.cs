@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridRow<TItem> : BaseComponent
+    public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -21,39 +21,49 @@ namespace Blazorise.DataGrid
 
         #region Methods
 
-        protected override Task OnFirstAfterRenderAsync()
+        protected override Task OnAfterRenderAsync( bool firstRender )
         {
-            // initialise all internal cell values
-            foreach ( var column in Columns )
+            if ( firstRender )
             {
-                if ( column.ColumnType == DataGridColumnType.Command )
-                    continue;
-
-                cellsValues.Add( column.ElementId, new CellEditContext
+                // initialise all internal cell values
+                foreach ( var column in Columns )
                 {
-                    CellValue = column.GetValue( Item ),
-                } );
+                    if ( column.ColumnType == DataGridColumnType.Command )
+                        continue;
+
+                    cellsValues.Add( column.ElementId, new CellEditContext
+                    {
+                        CellValue = column.GetValue( Item ),
+                    } );
+                }
             }
 
-            return base.OnFirstAfterRenderAsync();
+            return base.OnAfterRenderAsync( firstRender );
         }
 
-        protected internal Task OnSelectedCommand( BLMouseEventArgs eventArgs )
+        protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
         {
+            await Clicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
+
             var selectable = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
 
             if ( !selectable )
-                return Task.CompletedTask;
+                return;
 
             // un-select row if the user is holding the ctrl key on already selected row
             if ( eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
                 && ParentDataGrid.SelectedRow != null
                 && (object)Item == (object)ParentDataGrid.SelectedRow )
             {
-                return Selected.InvokeAsync( default );
+                await Selected.InvokeAsync( default );
             }
 
-            return Selected.InvokeAsync( Item );
+            await Selected.InvokeAsync( Item );
+        }
+
+        protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
+        {
+            return DoubleClicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
         }
 
         protected internal Task OnEditCommand()
@@ -90,12 +100,22 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public IEnumerable<BaseDataGridColumn<TItem>> Columns { get; set; }
 
-        [CascadingParameter] public BaseDataGrid<TItem> ParentDataGrid { get; set; }
+        [CascadingParameter] protected BaseDataGrid<TItem> ParentDataGrid { get; set; }
 
         /// <summary>
         /// Occurs after the row is selected.
         /// </summary>
         [Parameter] public EventCallback<TItem> Selected { get; set; }
+
+        /// <summary>
+        /// Occurs after the row is clicked.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> Clicked { get; set; }
+
+        /// <summary>
+        /// Occurs after the row is double clicked.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> DoubleClicked { get; set; }
 
         /// <summary>
         /// Activates the edit command for current item.
@@ -122,6 +142,16 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter]
         public Cursor HoverCursor { get; set; }
+
+        /// <summary>
+        /// Custom css classname.
+        /// </summary>
+        [Parameter] public string Class { get; set; }
+
+        /// <summary>
+        /// Custom html style.
+        /// </summary>
+        [Parameter] public string Style { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

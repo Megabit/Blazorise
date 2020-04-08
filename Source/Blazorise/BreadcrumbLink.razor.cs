@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBreadcrumbLink : BaseComponent
+    public partial class BreadcrumbLink : BaseComponent
     {
         #region Members
 
-        private bool isDisabled;
+        private bool disabled;
 
         #endregion
 
@@ -34,15 +34,15 @@ namespace Blazorise
 
         #region Properties
 
-        protected bool IsParentBreadcrumbItemActive => ParentBreadcrumbItem?.IsActive == true;
+        protected bool IsParentBreadcrumbItemActive => ParentBreadcrumbItem?.Active == true;
 
         [Parameter]
-        public bool IsDisabled
+        public bool Disabled
         {
-            get => isDisabled;
+            get => disabled;
             set
             {
-                isDisabled = value;
+                disabled = value;
 
                 DirtyClasses();
             }
@@ -70,7 +70,7 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] public BaseBreadcrumbItem ParentBreadcrumbItem { get; set; }
+        [CascadingParameter] protected BreadcrumbItem ParentBreadcrumbItem { get; set; }
 
         #endregion
     }

@@ -1,7 +1,7 @@
-﻿@inherits BaseBarToggler
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <a role="button" class="@ClassNames" @onclick="@ClickHandler" @attributes="@Attributes">
+    <a role="button" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
         @ChildContent
     </a>
 }

@@ -14,33 +14,33 @@
                 </SidebarLink>
             </SidebarItem>
             <SidebarItem>
-                <SidebarLink Toggled="(isOpen)=> sidebarSubItemTests.Toggle(isOpen)" IsShow="true">
-                    <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Test Pages
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemUIElement.Toggle(isOpen)" Visible="true">
+                    <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />UI Elements
                 </SidebarLink>
-                <SidebarSubItem @ref="sidebarSubItemTests" IsShow="true">
+                <SidebarSubItem @ref="sidebarSubItemUIElement" Visible="true">
                     <SidebarItem>
                         <SidebarLink To="tests/buttons">Buttons</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/forms">Forms</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/validations">Validations</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/collapse">Collapse</SidebarLink>
                     </SidebarItem>
                     <SidebarItem>
                         <SidebarLink To="tests/modals">Modals</SidebarLink>
                     </SidebarItem>
                     <SidebarItem>
-                        <SidebarLink To="tests/tables">Tables</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/datagrid">DataGrid</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
                         <SidebarLink To="tests/cards">Cards</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/progressbars">Progress bars</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/elements">General UI</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/typography">Typography</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/collapse">Collapse</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/tables">Tables</SidebarLink>
                     </SidebarItem>
                     <SidebarItem>
                         <SidebarLink To="tests/figures">Figures</SidebarLink>
@@ -49,16 +49,30 @@
                         <SidebarLink To="tests/tabs">Tabs</SidebarLink>
                     </SidebarItem>
                     <SidebarItem>
-                        <SidebarLink To="tests/progressbars">Progress bars</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/elements">Elements</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <SidebarLink To="tests/typography">Typography</SidebarLink>
-                    </SidebarItem>
-                    <SidebarItem>
                         <SidebarLink To="tests/layout">Layout</SidebarLink>
+                    </SidebarItem>
+                </SidebarSubItem>
+            </SidebarItem>
+            <SidebarItem>
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemForms.Toggle(isOpen)">
+                    <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Forms
+                </SidebarLink>
+                <SidebarSubItem @ref="sidebarSubItemForms" Visible="@formsSubItemVisible">
+                    <SidebarItem>
+                        <SidebarLink To="tests/forms">Forms</SidebarLink>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/validations">Validations</SidebarLink>
+                    </SidebarItem>
+                </SidebarSubItem>
+            </SidebarItem>
+            <SidebarItem>
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemExtensions.Toggle(isOpen)">
+                    <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Extensions
+                </SidebarLink>
+                <SidebarSubItem @ref="sidebarSubItemExtensions">
+                    <SidebarItem>
+                        <SidebarLink To="tests/datagrid">DataGrid</SidebarLink>
                     </SidebarItem>
                     <SidebarItem>
                         <SidebarLink To="tests/components">Components</SidebarLink>
@@ -66,13 +80,16 @@
                     <SidebarItem>
                         <SidebarLink To="tests/charts">Charts</SidebarLink>
                     </SidebarItem>
+                    <SidebarItem>
+                        <SidebarLink To="tests/livecharts">Live Charts</SidebarLink>
+                    </SidebarItem>
                 </SidebarSubItem>
             </SidebarItem>
             <SidebarItem>
-                <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)" IsShow="true">
+                <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)">
                     <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
                 </SidebarLink>
-                <SidebarSubItem @ref="sidebarSubItemApps" IsShow="true">
+                <SidebarSubItem @ref="sidebarSubItemApps">
                     <SidebarItem>
                         <SidebarLink To="apps/todo">Todo List</SidebarLink>
                     </SidebarItem>
@@ -120,22 +137,24 @@
                 <BarItem>
                     <BarDropdown>
                         <BarDropdownToggle><Icon Name="IconName.Tint" /> Theme</BarDropdownToggle>
-                        <BarDropdownMenu Style="padding: 15px; min-width:550px;" IsRightAligned="true">
-                            <Row>
-                                <Column Margin="Margin.Is2.FromBottom">
-                                    <Field>
-                                        <CheckEdit Checked="@Theme.IsGradient" CheckedChanged="@OnGradientChanged">Gradient colors</CheckEdit>
-                                    </Field>
-                                    <Field>
-                                        <CheckEdit Checked="@Theme.IsRounded" CheckedChanged="@OnRoundedChanged">Rounded elements</CheckEdit>
-                                    </Field>
-                                </Column>
-                            </Row>
-                            <Row>
-                                <Container IsFluid="true">
-                                    <ThemeColorSelector Value="@Theme.ColorOptions?.Primary" ValueChanged="@OnThemeColorChanged"></ThemeColorSelector>
-                                </Container>
-                            </Row>
+                        <BarDropdownMenu Style="padding: 15px; min-width:550px;" RightAligned="true">
+                            <Container Fluid="true">
+                                <Row>
+                                    <Column Margin="Margin.Is2.FromBottom">
+                                        <Field>
+                                            <Check TValue="bool" Checked="@Theme.IsGradient" CheckedChanged="@OnGradientChanged">Gradient colors</Check>
+                                        </Field>
+                                        <Field>
+                                            <Check TValue="bool" Checked="@Theme.IsRounded" CheckedChanged="@OnRoundedChanged">Rounded elements</Check>
+                                        </Field>
+                                    </Column>
+                                </Row>
+                                <Row>
+                                    <Column>
+                                        <ThemeColorSelector Value="@Theme.ColorOptions?.Primary" ValueChanged="@OnThemeColorChanged"></ThemeColorSelector>
+                                    </Column>
+                                </Row>
+                            </Container>
                         </BarDropdownMenu>
                     </BarDropdown>
                 </BarItem>
@@ -217,15 +236,30 @@
         if ( Theme.BackgroundOptions == null )
             Theme.BackgroundOptions = new ThemeBackgroundOptions();
 
+        if ( Theme.TextColorOptions == null )
+            Theme.TextColorOptions = new ThemeTextColorOptions();
+
         Theme.ColorOptions.Primary = value;
         Theme.BackgroundOptions.Primary = value;
+        Theme.TextColorOptions.Primary = value;
+
+        if ( Theme.InputOptions == null )
+            Theme.InputOptions = new ThemeInputOptions();
+
+        //Theme.InputOptions.Color = value;
+        Theme.InputOptions.CheckColor = value;
+        Theme.InputOptions.SliderColor = value;
 
         Theme.ThemeHasChanged();
     }
 
     Sidebar sidebar;
-    SidebarSubItem sidebarSubItemTests;
+    SidebarSubItem sidebarSubItemUIElement;
+    SidebarSubItem sidebarSubItemForms;
+    SidebarSubItem sidebarSubItemExtensions;
     SidebarSubItem sidebarSubItemApps;
+
+    bool formsSubItemVisible = true;
 
     //bool collapseNavMenu = true;
 
@@ -234,5 +268,5 @@
         sidebar.Toggle();
     }
 
-    [CascadingParameter] public Theme Theme { get; set; }
+    [CascadingParameter] protected Theme Theme { get; set; }
 }

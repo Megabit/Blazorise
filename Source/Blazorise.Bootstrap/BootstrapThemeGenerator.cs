@@ -19,7 +19,7 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
-            var background = Var( ThemeVariables.ButtonBackgrund( variant ) );
+            var background = Var( ThemeVariables.ButtonBackground( variant ) );
             var border = Var( ThemeVariables.ButtonBorder( variant ) );
             var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
             var hoverBorder = Var( ThemeVariables.ButtonHoverBorder( variant ) );
@@ -228,6 +228,12 @@ namespace Blazorise.Bootstrap
             sb
                 .Append( $".custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
                 .Append( $"color: {options.Color};" )
+                .Append( $"border-color: {options.CheckColor};" )
+                .Append( $"background-color: {options.CheckColor};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".custom-switch .custom-control-input:checked ~ .custom-control-label::before" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
         }
@@ -391,7 +397,7 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
-            sb.Append( $".badge" ).Append( "{" )
+            sb.Append( $".badge:not(.badge-pill)" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
@@ -440,6 +446,30 @@ namespace Blazorise.Bootstrap
                     .Append( $"color: {yiqColor};" )
                     .AppendLine( "}" );
             }
+        }
+
+        protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
+        {
+            var textColor = ParseColor( inTextColor );
+
+            var textColorHex = ToHex( textColor );
+
+            sb.Append( $".text-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {textColorHex};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
+        {
+            var color = ToHex( ParseColor( inColor ) );
+
+            sb
+                .Append( $".form-control.text-{variant}," )
+                .Append( $".form-control-plaintext.text-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {color};" )
+                .AppendLine( "}" );
         }
 
         #endregion

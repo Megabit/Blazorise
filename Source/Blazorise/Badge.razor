@@ -1,15 +1,15 @@
-﻿@inherits Blazorise.BaseBadge
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
     @if ( Link != null )
     {
-        <a href="@Link" class="@ClassNames" @attributes="@Attributes">
+        <a href="@Link" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </a>
     }
     else
     {
-        <span class="@ClassNames" @attributes="@Attributes">
+        <span class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </span>
     }

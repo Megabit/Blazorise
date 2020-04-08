@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Components
 {
-    public abstract class BaseAutocomplete<TItem> : ComponentBase
+    public partial class Autocomplete<TItem> : ComponentBase
     {
         #region Members
 
@@ -42,13 +42,15 @@ namespace Blazorise.Components
             dirtyFilter = true;
 
             if ( text?.Length >= MinLength && FilteredData.Any() )
-                dropdownRef.Open();
+                dropdownRef.Show();
             else
-                dropdownRef.Close();
+                dropdownRef.Hide();
 
             //If input field is empty, clear current SelectedValue.
             if ( string.IsNullOrEmpty( text ) )
                 await Clear();
+
+            await SearchChanged.InvokeAsync( CurrentSearch );
         }
 
         protected async Task HandleTextKeyDown( KeyboardEventArgs e )
@@ -62,7 +64,7 @@ namespace Blazorise.Components
 
             var activeItemIndex = ActiveItemIndex;
 
-            if ( ( e.Code == "Enter" || e.Code == "NumpadEnter" ) )
+            if ( ( e.Code == "Enter" || e.Code == "NumpadEnter" || e.Code == "Tab" ) )
             {
                 var item = FilteredData.ElementAtOrDefault( activeItemIndex );
 
@@ -83,16 +85,18 @@ namespace Blazorise.Components
             }
         }
 
-        protected Task HandleDropdownItemClicked( object value )
+        protected async Task HandleDropdownItemClicked( object value )
         {
             CurrentSearch = null;
-            dropdownRef.Close();
+            dropdownRef.Hide();
 
             var item = Data.FirstOrDefault( x => EqualityComparer<object>.Default.Equals( ValueField( x ), value ) );
 
             SelectedText = item != null ? TextField?.Invoke( item ) : string.Empty;
             SelectedValue = value;
-            return SelectedValueChanged.InvokeAsync( SelectedValue );
+
+            await SelectedValueChanged.InvokeAsync( SelectedValue );
+            await SearchChanged.InvokeAsync( CurrentSearch );
         }
 
         private void FilterData()
@@ -135,14 +139,16 @@ namespace Blazorise.Components
         /// <summary>
         /// Clears the selected value and the search field.
         /// </summary>
-        public Task Clear()
+        public async Task Clear()
         {
             CurrentSearch = null;
-            dropdownRef.Close();
+            dropdownRef.Hide();
 
             SelectedText = string.Empty;
             SelectedValue = null;
-            return SelectedValueChanged.InvokeAsync( selectedValue );
+
+            await SelectedValueChanged.InvokeAsync( selectedValue );
+            await SearchChanged.InvokeAsync( CurrentSearch );
         }
 
         private void UpdateActiveFilterIndex( int activeItemIndex )
@@ -193,7 +199,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Prevents a user from entering a value to the search field.
         /// </summary>
-        [Parameter] public bool IsDisabled { get; set; }
+        [Parameter] public bool Disabled { get; set; }
 
         /// <summary>
         /// Gets or sets the autocomplete data-source.
@@ -263,6 +269,18 @@ namespace Blazorise.Components
         /// Occurs after the selected value has changed.
         /// </summary>
         [Parameter] public EventCallback<object> SelectedValueChanged { get; set; }
+
+        /// <summary>
+        /// Occurs on every search text change.
+        /// </summary>
+        [Parameter] public EventCallback<string> SearchChanged { get; set; }
+
+        [Parameter] public string Class { get; set; }
+
+        [Parameter] public string Style { get; set; }
+
+        [Parameter( CaptureUnmatchedValues = true )]
+        public Dictionary<string, object> Attributes { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

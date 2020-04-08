@@ -4,36 +4,38 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Data Grid</CardTitle>
-                <CardSubtitle>Combine diferent datagrid options</CardSubtitle>
             </CardHeader>
+            <CardBody>
+                <CardText>Combine diferent datagrid options</CardText>
+            </CardBody>
             <CardBody>
                 <Fields>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <CheckEdit @bind-Checked="@editable">Editable</CheckEdit>
+                            <Check @bind-Checked="@editable">Editable</Check>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <CheckEdit @bind-Checked="@sortable">Sortable</CheckEdit>
+                            <Check @bind-Checked="@sortable">Sortable</Check>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <CheckEdit @bind-Checked="@filterable">Filterable</CheckEdit>
+                            <Check @bind-Checked="@filterable">Filterable</Check>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <CheckEdit @bind-Checked="@showPager">Show Pager</CheckEdit>
+                            <Check @bind-Checked="@showPager">Show Pager</Check>
                         </FieldBody>
                     </Field>
                     <Field>
@@ -41,11 +43,11 @@
                             Edit Mode
                         </FieldLabel>
                         <FieldBody>
-                            <SelectEdit @bind-SelectedValue="@editMode">
+                            <Select @bind-SelectedValue="@editMode">
                                 <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
                                 <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
                                 <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
-                            </SelectEdit>
+                            </Select>
                         </FieldBody>
                     </Field>
                 </Fields>
@@ -64,9 +66,9 @@
                           UseInternalEditing="true"
                           @bind-SelectedRow="@selectedEmployee"
                           DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
-                          IsStriped="true"
-                          IsBordered="true"
-                          IsHoverable="true">
+                          Striped="true"
+                          Bordered="true"
+                          Hoverable="true">
                     <ChildContent>
                         <DataGridCommandColumn TItem="Employee" Width="170px">
                             <NewCommandTemplate>
@@ -137,11 +139,11 @@
                                 }
                             </DisplayTemplate>
                             <EditTemplate>
-                                <SelectEdit TValue="string" SelectedValue="@((string)( ( (CellEditContext)context ).CellValue ))" SelectedValueChanged="@(( v ) => ( (CellEditContext)context ).CellValue = v)">
+                                <Select TValue="string" SelectedValue="@((string)( ( (CellEditContext)context ).CellValue ))" SelectedValueChanged="@(( v ) => ( (CellEditContext)context ).CellValue = v)">
                                     <SelectItem TValue="string" Value="null"></SelectItem>
                                     <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
                                     <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
-                                </SelectEdit>
+                                </Select>
                             </EditTemplate>
                         </DataGridSelectColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="120px">
@@ -182,31 +184,30 @@
         <Card>
             <CardHeader>
                 <CardTitle>Selected Employee</CardTitle>
-                <CardSubtitle></CardSubtitle>
             </CardHeader>
             <CardBody>
                 <Fields>
                     <Field>
                         <FieldLabel>First Name</FieldLabel>
                         <FieldBody>
-                            <TextEdit IsReadonly="true" Text="@selectedEmployee?.FirstName"></TextEdit>
+                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.FirstName"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>Last Name</FieldLabel>
-                        <TextEdit IsReadonly="true" Text="@selectedEmployee?.LastName"></TextEdit>
+                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.LastName"></TextEdit>
                     </Field>
                 </Fields>
                 <Fields>
                     <Field>
                         <FieldLabel>Email</FieldLabel>
                         <FieldBody>
-                            <TextEdit IsReadonly="true" Text="@selectedEmployee?.EMail"></TextEdit>
+                            <TextEdit ReadOnly="true" Text="@selectedEmployee?.EMail"></TextEdit>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>City</FieldLabel>
-                        <TextEdit IsReadonly="true" Text="@selectedEmployee?.City"></TextEdit>
+                        <TextEdit ReadOnly="true" Text="@selectedEmployee?.City"></TextEdit>
                     </Field>
                 </Fields>
             </CardBody>

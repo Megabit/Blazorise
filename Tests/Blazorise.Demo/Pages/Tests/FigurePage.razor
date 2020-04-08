@@ -4,7 +4,7 @@
         <Card Margin="Margin.Is4.OnY">
             <CardBody>
                 <CardTitle>Figure</CardTitle>
-                <CardSubtitle>Because images can take a few seconds to load (or not at all), use the <code>Figure</code> container to specify a precisely sized container so that your layout isn't broken because of image loading or image errors.</CardSubtitle>
+                <CardText>Because images can take a few seconds to load (or not at all), use the <code>Figure</code> container to specify a precisely sized container so that your layout isn't broken because of image loading or image errors.</CardText>
             </CardBody>
         </Card>
     </Column>
@@ -13,9 +13,11 @@
     <Column ColumnSize="ColumnSize.IsHalf">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>Figure</CardTitle>
-                <CardSubtitle>A basic figure without any styles.</CardSubtitle>
+                <CardTitle>Basic Figure</CardTitle>
             </CardHeader>
+            <CardBody>
+                <CardText>A basic figure without any styles.</CardText>
+            </CardBody>
             <CardBody>
                 <Figure>
                     <FigureImage Source="assets/images/gallery/9.jpg" AlternateText="some text" />
@@ -28,11 +30,13 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Rounded Figure</CardTitle>
-                <CardSubtitle>Use the <code>IsRounded</code> attribute to set the round borders.</CardSubtitle>
             </CardHeader>
             <CardBody>
+                <CardText>Use the <code>IsRounded</code> attribute to set the round borders.</CardText>
+            </CardBody>
+            <CardBody>
                 <Figure>
-                    <FigureImage Source="assets/images/gallery/9.jpg" AlternateText="some text" IsRounded="true" />
+                    <FigureImage Source="assets/images/gallery/9.jpg" AlternateText="some text" Rounded="true" />
                     <FigureCaption>A caption for the above image.</FigureCaption>
                 </Figure>
             </CardBody>
@@ -44,10 +48,12 @@
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Fixed square images</CardTitle>
-                <CardSubtitle>There are multiple dimensions to choose from, useful for avatars:</CardSubtitle>
             </CardHeader>
             <CardBody>
-                <Table IsBordered="true">
+                <CardText>There are multiple dimensions to choose from, useful for avatars:</CardText>
+            </CardBody>
+            <CardBody>
+                <Table Bordered="true">
                     <TableBody>
                         <TableRow>
                             <TableRowCell>

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public abstract class BaseDateEdit : BaseTextInput<DateTime?>
+    public partial class DateEdit : BaseTextInput<DateTime?>
     {
         #region Members
 

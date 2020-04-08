@@ -8,15 +8,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBarDropdown : BaseComponent
+    public partial class BarDropdown : BaseComponent
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
-        private BaseBarDropdownMenu barDropdownMenu;
-
-        private BaseBarDropdownToggle barDropdownToggler;
+        public event EventHandler<BarDropdownStateEventArgs> StateChanged;
 
         #endregion
 
@@ -25,7 +23,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdown() );
-            builder.Append( ClassProvider.BarDropdownShow(), IsOpen );
+            builder.Append( ClassProvider.BarDropdownShow(), Visible );
 
             base.BuildClasses( builder );
         }
@@ -38,38 +36,28 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        internal void Hook( BaseBarDropdownMenu barDropdownMenu )
+        public void Show()
         {
-            this.barDropdownMenu = barDropdownMenu;
-        }
+            var temp = Visible;
 
-        internal void Hook( BaseBarDropdownToggle barDropdownToggler )
-        {
-            this.barDropdownToggler = barDropdownToggler;
-        }
+            Visible = true;
 
-        public void Open()
-        {
-            var temp = IsOpen;
-
-            IsOpen = true;
-
-            if ( temp != IsOpen ) // used to prevent toggle event call if Open() is called multiple times
-                Toggled?.Invoke( IsOpen );
+            if ( temp != Visible ) // used to prevent toggle event call if Open() is called multiple times
+                Toggled?.Invoke( Visible );
 
             BarItem?.MenuChanged();
 
             StateHasChanged();
         }
 
-        public void Close()
+        public void Hide()
         {
-            var temp = IsOpen;
+            var temp = Visible;
 
-            IsOpen = false;
+            Visible = false;
 
-            if ( temp != IsOpen ) // used to prevent toggle event call if Close() is called multiple times
-                Toggled?.Invoke( IsOpen );
+            if ( temp != Visible ) // used to prevent toggle event call if Close() is called multiple times
+                Toggled?.Invoke( Visible );
 
             BarItem?.MenuChanged();
 
@@ -78,8 +66,8 @@ namespace Blazorise
 
         public void Toggle()
         {
-            IsOpen = !IsOpen;
-            Toggled?.Invoke( IsOpen );
+            Visible = !Visible;
+            Toggled?.Invoke( Visible );
 
             BarItem?.MenuChanged();
 
@@ -90,19 +78,22 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the control and all its child controls are displayed.
+        /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                // prevent dropdown from calling the same code multiple times
+                if ( value == visible )
+                    return;
 
-                if ( barDropdownMenu != null )
-                    barDropdownMenu.IsOpen = value;
+                visible = value;
 
-                if ( barDropdownToggler != null )
-                    barDropdownToggler.IsOpen = value;
+                StateChanged?.Invoke( this, new BarDropdownStateEventArgs( visible ) );
 
                 DirtyClasses();
             }
@@ -110,7 +101,7 @@ namespace Blazorise
 
         [Parameter] public Action<bool> Toggled { get; set; }
 
-        [CascadingParameter] public BaseBarItem BarItem { get; set; }
+        [CascadingParameter] protected BarItem BarItem { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -33,10 +33,18 @@ docs:
         url: /docs/components/numeric/
       - title: "Check"
         url: /docs/components/check/
+      - title: "Radio"
+        url: /docs/components/radio/
+      - title: "File"
+        url: /docs/components/file/
+      - title: "Slider"
+        url: /docs/components/slider/
       - title: "Field"
         url: /docs/components/field/
       - title: "Addon"
         url: /docs/components/addon/
+      - title: "Divider"
+        url: /docs/components/divider/
       - title: "Validation"
         url: /docs/components/validation/
   - title: Components

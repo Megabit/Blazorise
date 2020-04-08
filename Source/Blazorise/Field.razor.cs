@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseField : BaseComponent
+    public partial class Field : BaseComponent
     {
         #region Members
 
-        private bool isHorizontal;
+        private bool horizontal;
 
         private IFluentColumn columnSize;
 
@@ -20,17 +20,82 @@ namespace Blazorise
 
         private List<BaseComponent> hookables;
 
+        private Validation previousParentValidation;
+
+        private readonly EventHandler<ValidationStatusChangedEventArgs> validationStatusChangedHandler;
+
+        private ValidationStatus previousValidationStatus;
+
+        #endregion
+
+        #region Constructors
+
+        public Field()
+        {
+            validationStatusChangedHandler += ( sender, eventArgs ) =>
+            {
+                OnValidationStatusChanged( sender, eventArgs );
+            };
+        }
+
         #endregion
 
         #region Methods
 
+        protected override void OnParametersSet()
+        {
+            if ( ParentValidation != previousParentValidation )
+            {
+                DetachValidationStatusChangedListener();
+                ParentValidation.ValidationStatusChanged += validationStatusChangedHandler;
+                previousParentValidation = ParentValidation;
+            }
+        }
+
+        protected override void OnInitialized()
+        {
+            previousValidationStatus = ParentValidation?.Status ?? ValidationStatus.None;
+
+            base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                DetachValidationStatusChangedListener();
+            }
+
+            base.Dispose( disposing );
+        }
+
+        private void DetachValidationStatusChangedListener()
+        {
+            if ( previousParentValidation != null )
+            {
+                previousParentValidation.ValidationStatusChanged -= validationStatusChangedHandler;
+            }
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Field() );
-            builder.Append( ClassProvider.FieldHorizontal(), IsHorizontal );
-            builder.Append( ClassProvider.ToJustifyContent( JustifyContent ), JustifyContent != JustifyContent.None );
+            builder.Append( ClassProvider.FieldHorizontal(), Horizontal );
+            builder.Append( ClassProvider.FieldJustifyContent( JustifyContent ), JustifyContent != JustifyContent.None );
+            builder.Append( ClassProvider.FieldValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation != null );
 
             base.BuildClasses( builder );
+        }
+
+        protected void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+        {
+            if ( previousValidationStatus != eventArgs.Status )
+            {
+                previousValidationStatus = eventArgs.Status;
+
+                DirtyClasses();
+                StateHasChanged();
+            }
         }
 
         internal void Hook( BaseComponent component )
@@ -54,12 +119,12 @@ namespace Blazorise
         /// Aligns the controls for horizontal form.
         /// </summary>
         [Parameter]
-        public bool IsHorizontal
+        public bool Horizontal
         {
-            get => isHorizontal;
+            get => horizontal;
             set
             {
-                isHorizontal = value;
+                horizontal = value;
 
                 hookables?.ForEach( x => x.DirtyClasses() );
 
@@ -97,7 +162,9 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] public BaseFields ParentFields { get; set; }
+        [CascadingParameter] protected Fields ParentFields { get; set; }
+
+        [CascadingParameter] protected Validation ParentValidation { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

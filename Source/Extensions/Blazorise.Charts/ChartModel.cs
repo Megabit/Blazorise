@@ -7,15 +7,15 @@ using System.Text.Json.Serialization;
 
 namespace Blazorise.Charts
 {
-    //[DataContract]
-    //public class ChartModel
-    //{
-    //    [JsonPropertyName( "x" )]
-    //    public double X { get; set; }
+    [DataContract]
+    public class ChartModel
+    {
+        [JsonPropertyName( "x" )]
+        public double X { get; set; }
 
-    //    [JsonPropertyName( "y" )]
-    //    public double Y { get; set; }
-    //}
+        [JsonPropertyName( "y" )]
+        public double Y { get; set; }
+    }
 
     /* ======== IMPORTANT ========
     * The reason why base ChartModel class is not used is becaoue the Blazor serializer does not support inheritance.
@@ -23,7 +23,7 @@ namespace Blazorise.Charts
     * =========================== */
 
     [DataContract]
-    public class LineChartModel
+    public class LineChartModel : ChartModel
     {
         [JsonPropertyName( "backgroundColor" )]
         public string BackgroundColor { get; set; }
@@ -64,15 +64,15 @@ namespace Blazorise.Charts
         [JsonPropertyName( "tension" )]
         public double Tension { get; set; }
 
-        [JsonPropertyName( "x" )]
-        public double X { get; set; }
+        //[JsonPropertyName( "x" )]
+        //public double X { get; set; }
 
-        [JsonPropertyName( "y" )]
-        public double Y { get; set; }
+        //[JsonPropertyName( "y" )]
+        //public double Y { get; set; }
     }
 
     [DataContract]
-    public class BarChartModel
+    public class BarChartModel : ChartModel
     {
         [JsonPropertyName( "label" )]
         public string Label { get; set; }
@@ -98,18 +98,18 @@ namespace Blazorise.Charts
         [JsonPropertyName( "horizontal" )]
         public bool Horizontal { get; set; }
 
-        [JsonPropertyName( "x" )]
-        public double X { get; set; }
+        //[JsonPropertyName( "x" )]
+        //public double X { get; set; }
 
-        [JsonPropertyName( "y" )]
-        public double Y { get; set; }
+        //[JsonPropertyName( "y" )]
+        //public double Y { get; set; }
 
         [JsonPropertyName( "width" )]
         public double Width { get; set; }
     }
 
     [DataContract]
-    public class DoughnutChartModel
+    public class DoughnutChartModel : ChartModel
     {
         [JsonPropertyName( "label" )]
         public string Label { get; set; }
@@ -138,15 +138,15 @@ namespace Blazorise.Charts
         [JsonPropertyName( "innerRadius" )]
         public double InnerRadius { get; set; }
 
-        [JsonPropertyName( "x" )]
-        public double X { get; set; }
+        //[JsonPropertyName( "x" )]
+        //public double X { get; set; }
 
-        [JsonPropertyName( "y" )]
-        public double Y { get; set; }
+        //[JsonPropertyName( "y" )]
+        //public double Y { get; set; }
     }
 
     [DataContract]
-    public class PieChartModel
+    public class PieChartModel : ChartModel
     {
         [JsonPropertyName( "label" )]
         public string Label { get; set; }
@@ -175,15 +175,15 @@ namespace Blazorise.Charts
         [JsonPropertyName( "innerRadius" )]
         public double InnerRadius { get; set; }
 
-        [JsonPropertyName( "x" )]
-        public double X { get; set; }
+        //[JsonPropertyName( "x" )]
+        //public double X { get; set; }
 
-        [JsonPropertyName( "y" )]
-        public double Y { get; set; }
+        //[JsonPropertyName( "y" )]
+        //public double Y { get; set; }
     }
 
     [DataContract]
-    public class PolarChartModel
+    public class PolarChartModel : ChartModel
     {
         [JsonPropertyName( "label" )]
         public string Label { get; set; }
@@ -206,15 +206,15 @@ namespace Blazorise.Charts
         [JsonPropertyName( "innerRadius" )]
         public double InnerRadius { get; set; }
 
-        [JsonPropertyName( "x" )]
-        public double X { get; set; }
+        //[JsonPropertyName( "x" )]
+        //public double X { get; set; }
 
-        [JsonPropertyName( "y" )]
-        public double Y { get; set; }
+        //[JsonPropertyName( "y" )]
+        //public double Y { get; set; }
     }
 
     [DataContract]
-    public class RadarChartModel
+    public class RadarChartModel : ChartModel
     {
         [JsonPropertyName( "backgroundColor" )]
         public string BackgroundColor { get; set; }
@@ -252,10 +252,10 @@ namespace Blazorise.Charts
         [JsonPropertyName( "tension" )]
         public double Tension { get; set; }
 
-        [JsonPropertyName( "x" )]
-        public double X { get; set; }
+        //[JsonPropertyName( "x" )]
+        //public double X { get; set; }
 
-        [JsonPropertyName( "y" )]
-        public double Y { get; set; }
+        //[JsonPropertyName( "y" )]
+        //public double Y { get; set; }
     }
 }

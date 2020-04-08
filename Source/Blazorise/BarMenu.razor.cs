@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBarMenu : BaseComponent
+    public partial class BarMenu : BaseComponent
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
         #endregion
 
@@ -21,24 +21,47 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarMenu() );
-            builder.Append( ClassProvider.BarMenuShow(), IsOpen );
+            builder.Append( ClassProvider.BarMenuShow(), Visible );
 
             base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
         {
-            ParentBar?.Hook( this );
+            if ( ParentBar != null )
+            {
+                Visible = ParentBar.Visible;
+
+                ParentBar.StateChanged += OnBarStateChanged;
+            }
 
             base.OnInitialized();
         }
 
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentBar != null )
+                {
+                    ParentBar.StateChanged -= OnBarStateChanged;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
         public void Toggle()
         {
-            IsOpen = !IsOpen;
-            Toggled?.Invoke( IsOpen );
+            Visible = !Visible;
+            Toggled?.Invoke( Visible );
 
             StateHasChanged();
+        }
+
+        private void OnBarStateChanged( object sender, BarStateEventArgs e )
+        {
+            Visible = e.Visible;
         }
 
         #endregion
@@ -46,12 +69,12 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
 
                 DirtyClasses();
             }
@@ -59,7 +82,7 @@ namespace Blazorise
 
         [Parameter] public Action<bool> Toggled { get; set; }
 
-        [CascadingParameter] public BaseBar ParentBar { get; set; }
+        [CascadingParameter] protected Bar ParentBar { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

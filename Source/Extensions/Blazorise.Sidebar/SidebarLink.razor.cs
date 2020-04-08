@@ -12,7 +12,7 @@ namespace Blazorise.Sidebar
     {
         #region Members
 
-        private bool isShow;
+        private bool visible;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Blazorise.Sidebar
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "sidebar-link" );
-            builder.Append( "collapsed", !IsShow );
+            builder.Append( "collapsed", !Visible );
 
             base.BuildClasses( builder );
         }
@@ -32,11 +32,11 @@ namespace Blazorise.Sidebar
 
             if ( To == null )
             {
-                IsShow = !IsShow;
+                Visible = !Visible;
 
                 StateHasChanged();
 
-                Toggled?.Invoke( IsShow );
+                Toggled?.Invoke( Visible );
             }
         }
 
@@ -45,12 +45,12 @@ namespace Blazorise.Sidebar
         #region Properties
 
         [Parameter]
-        public bool IsShow
+        public bool Visible
         {
-            get => isShow;
+            get => visible;
             set
             {
-                isShow = value;
+                visible = value;
 
                 DirtyClasses();
             }

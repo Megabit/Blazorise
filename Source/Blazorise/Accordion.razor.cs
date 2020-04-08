@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseAccordion : BaseComponent
+    public partial class Accordion : BaseComponent
     {
         #region Members
 

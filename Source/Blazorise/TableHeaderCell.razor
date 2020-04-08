@@ -1,4 +1,4 @@
-﻿@inherits Blazorise.BaseTableHeaderCell
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
     <th scope="col" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" colspan="@ColumnSpan" rowspan="@RowSpan" @attributes="@Attributes">

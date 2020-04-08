@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Charts
 {
-    public abstract class BasePieChart<TItem> : BaseChart<PieChartDataset<TItem>, TItem, PieChartOptions, PieChartModel>
+    public partial class PieChart<TItem> : BaseChart<PieChartDataset<TItem>, TItem, PieChartOptions, PieChartModel>
     {
         #region Members
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
-        public BasePieChart()
+        public PieChart()
         {
             Type = ChartType.Pie;
         }

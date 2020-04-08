@@ -55,23 +55,46 @@ window.blazorise = {
         return false;
     },
 
+    getElementInfo: (element, elementId) => {
+        if (!element) {
+            element = document.getElementById(elementId);
+        }
+
+        if (element) {
+            const position = element.getBoundingClientRect();
+
+            return {
+                boundingClientRect: {
+                    x: position.x,
+                    y: position.y,
+                    top: position.top,
+                    bottom: position.bottom,
+                    left: position.left,
+                    right: position.right,
+                    width: position.width,
+                    height: position.height
+                },
+                offsetTop: element.offsetTop,
+                offsetLeft: element.offsetLeft,
+                offsetWidth: element.offsetWidth,
+                offsetHeight: element.offsetHeight,
+                scrollTop: element.scrollTop,
+                scrollLeft: element.scrollLeft,
+                scrollWidth: element.scrollWidth,
+                scrollHeight: element.scrollHeight,
+                clientTop: element.clientTop,
+                clientLeft: element.clientLeft,
+                clientWidth: element.clientWidth,
+                clientHeight: element.clientHeight
+            };
+        }
+
+        return {};
+    },
+
     setTextValue(element, value) {
         element.value = value;
         return true;
-    },
-
-    getFilePaths: (element) => {
-        var paths = [];
-
-        if (element) {
-            var files = element.files;
-
-            for (var i = 0; i < files.length; i++) {
-                paths.push(files[i].name);
-            }
-        }
-
-        return paths;
     },
 
     getSelectedOptions: (elementId) => {
@@ -136,7 +159,7 @@ window.blazorise = {
 
     tryClose: (closable, targetElementId, isEscapeKey) => {
         let request = new Promise((resolve, reject) => {
-            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', targetElementId, isEscapeKey)
+            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', targetElementId, isEscapeKey ? 'escape' : 'leave')
                 .then((result) => resolve({ elementId: closable.elementId, dotnetAdapter: closable.dotnetAdapter, status: result === true ? 'ok' : 'cancelled' }))
                 .catch(() => resolve({ elementId: closable.elementId, status: 'error' }));
         });
@@ -145,7 +168,7 @@ window.blazorise = {
             request
                 .then((response) => {
                     if (response.status === 'ok') {
-                        response.dotnetAdapter.invokeMethodAsync('Close')
+                        response.dotnetAdapter.invokeMethodAsync('Close', isEscapeKey ? 'escape' : 'leave')
                             // If the user navigates to another page then it will raise exception because the reference to the component cannot be found.
                             // In that case just remove the elementId from the list.
                             .catch(() => window.blazorise.unregisterClosableComponent(response.elementId));
@@ -216,8 +239,8 @@ window.blazorise = {
     numericEdit: {
         _instances: [],
 
-        initialize: (dotnetAdapter, element, elementId, decimals, separator, step) => {
-            window.blazorise.numericEdit._instances[elementId] = new window.blazorise.NumericMaskValidator(dotnetAdapter, element, elementId, decimals, separator, step);
+        initialize: (dotnetAdapter, element, elementId, decimals, separator, step, min, max) => {
+            window.blazorise.numericEdit._instances[elementId] = new window.blazorise.NumericMaskValidator(dotnetAdapter, element, elementId, decimals, separator, step, min, max);
 
             element.addEventListener("keypress", (e) => {
                 window.blazorise.numericEdit.keyPress(window.blazorise.numericEdit._instances[elementId], e);
@@ -261,13 +284,15 @@ window.blazorise = {
             return true;
         };
     },
-    NumericMaskValidator: function (dotnetAdapter, element, elementId, decimals, separator, step) {
+    NumericMaskValidator: function (dotnetAdapter, element, elementId, decimals, separator, step, min, max) {
         this.dotnetAdapter = dotnetAdapter;
         this.elementId = elementId;
         this.element = element;
         this.decimals = decimals === null || decimals === undefined ? 2 : decimals;
         this.separator = separator || ".";
         this.step = step || 1;
+        this.min = min;
+        this.max = max;
         this.regex = function () {
             var sep = "\\" + this.separator,
                 dec = this.decimals,
@@ -282,15 +307,21 @@ window.blazorise = {
             var value = this.element.value,
                 selection = this.carret();
 
-            return value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value);
+            if (value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value)) {
+                return value = (value || "").replace(this.separator, "."), value === "-" && this.min < 0 || value >= this.min && value <= this.max;
+            }
+
+            return false;
         };
         this.stepApply = function (sign) {
             var value = (this.element.value || "").replace(this.separator, ".");
-            var number = Number(value);
-            number = number + (this.step * sign);
-            var newValue = number.toString().replace(".", this.separator);
-            this.element.value = newValue;
-            this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
+            var number = Number(value) + this.step * sign;
+
+            if (number >= this.min && number <= this.max) {
+                var newValue = number.toString().replace(".", this.separator);
+                this.element.value = newValue;
+                this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
+            }
         };
     },
     DateTimeMaskValidator: function (element, elementId) {
@@ -355,6 +386,99 @@ window.blazorise = {
         this.elementId = elementId;
         this.element = element;
         this.preventDefaultOnSubmit = preventDefaultOnSubmit;
+    },
+    link: {
+        scrollIntoView: (elementId) => {
+            var element = document.getElementById(elementId);
+
+            if (element) {
+                element.scrollIntoView();
+                window.location.hash = elementId;
+            }
+
+            return true;
+        }
+    },
+    fileEdit: {
+        initialize: (adapter, element, elementId) => {
+            var nextFileId = 0;
+
+            element.addEventListener('change', function handleInputFileChange(event) {
+                // Reduce to purely serializable data, plus build an index by ID
+                element._blazorFilesById = {};
+                var fileList = Array.prototype.map.call(element.files, function (file) {
+                    var result = {
+                        id: ++nextFileId,
+                        lastModified: new Date(file.lastModified).toISOString(),
+                        name: file.name,
+                        size: file.size,
+                        type: file.type
+                    };
+                    element._blazorFilesById[result.id] = result;
+
+                    // Attach the blob data itself as a non-enumerable property so it doesn't appear in the JSON
+                    Object.defineProperty(result, 'blob', { value: file });
+
+                    return result;
+                });
+
+                adapter.invokeMethodAsync('NotifyChange', fileList).then(null, function (err) {
+                    throw new Error(err);
+                });
+            });
+
+            return true;
+        },
+        destroy: (element, elementId) => {
+            // TODO:
+            return true;
+        },
+
+        readFileData: function readFileData(element, fileEntryId, position, length) {
+            var readPromise = getArrayBufferFromFileAsync(element, fileEntryId);
+
+            return readPromise.then(function (arrayBuffer) {
+                var uint8Array = new Uint8Array(arrayBuffer, position, length);
+                var base64 = uint8ToBase64(uint8Array);
+                return base64;
+            });
+        },
+
+        ensureArrayBufferReadyForSharedMemoryInterop: function ensureArrayBufferReadyForSharedMemoryInterop(elem, fileId) {
+            return getArrayBufferFromFileAsync(elem, fileId).then(function (arrayBuffer) {
+                getFileById(elem, fileId).arrayBuffer = arrayBuffer;
+            });
+        },
+
+        readFileDataSharedMemory: function readFileDataSharedMemory(readRequest) {
+            // This uses various unsupported internal APIs. Beware that if you also use them,
+            // your code could become broken by any update.
+            var inputFileElementReferenceId = Blazor.platform.readStringField(readRequest, 0);
+            var inputFileElement = document.querySelector('[_bl_' + inputFileElementReferenceId + ']');
+            var fileId = Blazor.platform.readInt32Field(readRequest, 4);
+            var sourceOffset = Blazor.platform.readUint64Field(readRequest, 8);
+            var destination = Blazor.platform.readInt32Field(readRequest, 16);
+            var destinationOffset = Blazor.platform.readInt32Field(readRequest, 20);
+            var maxBytes = Blazor.platform.readInt32Field(readRequest, 24);
+
+            var sourceArrayBuffer = getFileById(inputFileElement, fileId).arrayBuffer;
+            var bytesToRead = Math.min(maxBytes, sourceArrayBuffer.byteLength - sourceOffset);
+            var sourceUint8Array = new Uint8Array(sourceArrayBuffer, sourceOffset, bytesToRead);
+
+            var destinationUint8Array = Blazor.platform.toUint8Array(destination);
+            destinationUint8Array.set(sourceUint8Array, destinationOffset);
+
+            return bytesToRead;
+        },
+        open: (element, elementId) => {
+            if (!element && elementId) {
+                element = document.getElementById(elementId);
+            }
+
+            if (element) {
+                element.click();
+            }
+        }
     }
 };
 
@@ -402,3 +526,94 @@ function showPopper(element, tooltip, arrow, placement) {
     );
     return thePopper;
 }
+
+function getFileById(elem, fileId) {
+    var file = elem._blazorFilesById[fileId];
+    if (!file) {
+        throw new Error('There is no file with ID ' + fileId + '. The file list may have changed');
+    }
+
+    return file;
+}
+
+function getArrayBufferFromFileAsync(elem, fileId) {
+    var file = getFileById(elem, fileId);
+
+    // On the first read, convert the FileReader into a Promise<ArrayBuffer>
+    if (!file.readPromise) {
+        file.readPromise = new Promise(function (resolve, reject) {
+            var reader = new FileReader();
+            reader.onload = function () { resolve(reader.result); };
+            reader.onerror = function (err) { reject(err); };
+            reader.readAsArrayBuffer(file.blob);
+        });
+    }
+
+    return file.readPromise;
+}
+
+var uint8ToBase64 = (function () {
+    // Code from https://github.com/beatgammit/base64-js/
+    // License: MIT
+    var lookup = [];
+
+    var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    for (var i = 0, len = code.length; i < len; ++i) {
+        lookup[i] = code[i];
+    }
+
+    function tripletToBase64(num) {
+        return lookup[num >> 18 & 0x3F] +
+            lookup[num >> 12 & 0x3F] +
+            lookup[num >> 6 & 0x3F] +
+            lookup[num & 0x3F];
+    }
+
+    function encodeChunk(uint8, start, end) {
+        var tmp;
+        var output = [];
+        for (var i = start; i < end; i += 3) {
+            tmp =
+                ((uint8[i] << 16) & 0xFF0000) +
+                ((uint8[i + 1] << 8) & 0xFF00) +
+                (uint8[i + 2] & 0xFF);
+            output.push(tripletToBase64(tmp));
+        }
+        return output.join('');
+    }
+
+    return function fromByteArray(uint8) {
+        var tmp;
+        var len = uint8.length;
+        var extraBytes = len % 3; // if we have 1 byte left, pad 2 bytes
+        var parts = [];
+        var maxChunkLength = 16383; // must be multiple of 3
+
+        // go through the array every three bytes, we'll deal with trailing stuff later
+        for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+            parts.push(encodeChunk(
+                uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)
+            ));
+        }
+
+        // pad the end with zeros, but make sure to not forget the extra bytes
+        if (extraBytes === 1) {
+            tmp = uint8[len - 1];
+            parts.push(
+                lookup[tmp >> 2] +
+                lookup[(tmp << 4) & 0x3F] +
+                '=='
+            );
+        } else if (extraBytes === 2) {
+            tmp = (uint8[len - 2] << 8) + uint8[len - 1];
+            parts.push(
+                lookup[tmp >> 10] +
+                lookup[(tmp >> 4) & 0x3F] +
+                lookup[(tmp << 2) & 0x3F] +
+                '='
+            );
+        }
+
+        return parts.join('');
+    };
+})();

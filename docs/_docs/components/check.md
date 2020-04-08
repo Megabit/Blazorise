@@ -6,31 +6,25 @@ toc: true
 toc_label: "Guide"
 ---
 
+The `Check` component is another basic element for user input. You can use this to supply a way for the user to toggle an option.
+
 ## Check
 
+**Note:** As of **v0.9** it is required to define `Check` value type by settings the `TValue` attribute.
+{: .notice--warning}
+
 ```html
-<CheckEdit>Check me out</CheckEdit>
+<Check TValue="bool">Check me out</Check>
 ```
 
 <iframe src="/examples/forms/check/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
-
-## Radio
-
-For radio control you must set the `RadioGroup` attribute.
-
-```html
-<CheckEdit RadioGroup="someGroupName">Select this</CheckEdit>
-<CheckEdit RadioGroup="someGroupName">Or this</CheckEdit>
-```
-
-<iframe src="/examples/forms/radio/" frameborder="0" scrolling="no" style="width:100%;height:55px;"></iframe>
 
 ## Usage
 
 ### With bind attribute
 
 ```html
-<CheckEdit @bind-Checked="@rememberMe">Remember Me</CheckEdit>
+<Check TValue="bool" @bind-Checked="@rememberMe">Remember Me</Check>
 
 @code{
     bool rememberMe;
@@ -40,7 +34,7 @@ For radio control you must set the `RadioGroup` attribute.
 ### With event
 
 ```html
-<CheckEdit Checked="@rememberMe" CheckedChanged="@OnRememberMeChanged">Remember Me</CheckEdit>
+<Check TValue="bool" Checked="@rememberMe" CheckedChanged="@OnRememberMeChanged">Remember Me</Check>
 
 @code{
     bool rememberMe;
@@ -56,10 +50,8 @@ For radio control you must set the `RadioGroup` attribute.
 
 | Name                    | Type                                                                       | Default      | Description                                                                           |
 |-------------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| TValue                  | generic type                                                               |              | Data type of `Checked` value. Support types are `bool` and `bool?`.                   |
 | Checked                 | boolean                                                                    | false        | Gets or sets the checked flag.                                                        |
-| NullableChecked         | boolean                                                                    | false        | Gets or sets the nullable value for checked flag.    **[WILL BE REMOVED]**            |
 | CheckedChanged          | event                                                                      |              | Occurs when the check state is changed.                                               |
-| NullableCheckedChanged  | event                                                                      |              | Occurs when the check state of nullable value is changed. **[WILL BE REMOVED]**       |
-| RadioGroup              | string                                                                     | null         | Sets the radio group name.                                                            |
-| IsInline                | boolean                                                                    | false        | Group checkboxes or radios on the same horizontal row.                                |
-| Cursor                  | [Cursor]({{ "/docs/helpers/enums/#cursor" | relative_url }})               | `Default`    | Defines the mouse cursor based on the behavior by the current CSS framework.         |
+| Inline                  | boolean                                                                    | false        | Group checkboxes on the same horizontal row.                                          |
+| Cursor                  | [Cursor]({{ "/docs/helpers/enums/#cursor" | relative_url }})               | `Default`    | Defines the mouse cursor based on the behavior by the current CSS framework.          |

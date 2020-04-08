@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseValidationSuccess : BaseValidationSummary
+    public partial class ValidationSuccess : BaseValidationSummary
     {
         #region Members
 
-        private bool isTooltip;
+        private bool tooltip;
 
         #endregion
 
@@ -20,7 +20,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            if ( !IsTooltip )
+            if ( !Tooltip )
                 builder.Append( ClassProvider.ValidationSuccess() );
             else
                 builder.Append( ClassProvider.ValidationSuccessTooltip() );
@@ -36,12 +36,12 @@ namespace Blazorise
         /// Shows the tooltip instead of label.
         /// </summary>
         [Parameter]
-        public bool IsTooltip
+        public bool Tooltip
         {
-            get => isTooltip;
+            get => tooltip;
             set
             {
-                isTooltip = value;
+                tooltip = value;
 
                 DirtyClasses();
             }

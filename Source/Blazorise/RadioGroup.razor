@@ -1,0 +1,14 @@
+﻿@typeparam TValue
+@inherits BaseInputComponent<TValue>
+@if ( !HasCustomRegistration )
+{
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <CascadingValue Value=this>
+            @ChildContent
+        </CascadingValue>
+    </div>
+}
+else
+{
+    @RenderCustomComponent()
+}

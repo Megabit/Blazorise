@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseDropdownMenu : BaseComponent
+    public partial class DropdownMenu : BaseComponent
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
-        private bool isRightAligned;
+        private bool rightAligned;
 
         #endregion
 
@@ -23,18 +23,40 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DropdownMenu() );
-            builder.Append( ClassProvider.DropdownMenuShow(), IsOpen );
-            builder.Append( ClassProvider.DropdownMenuRight(), IsRightAligned );
+            builder.Append( ClassProvider.DropdownMenuVisible( Visible ) );
+            builder.Append( ClassProvider.DropdownMenuRight(), RightAligned );
 
             base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
         {
-            // link to the parent component
-            Dropdown?.Hook( this );
+            if ( ParentDropdown != null )
+            {
+                Visible = ParentDropdown.Visible;
+
+                ParentDropdown.StateChanged += OnDropdownStateChanged;
+            }
 
             base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentDropdown != null )
+                {
+                    ParentDropdown.StateChanged -= OnDropdownStateChanged;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
+        private void OnDropdownStateChanged( object sender, DropdownStateEventArgs e )
+        {
+            Visible = e.Visible;
         }
 
         #endregion
@@ -45,12 +67,12 @@ namespace Blazorise
         /// Handles the visibility of dropdown menu.
         /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
 
                 DirtyClasses();
             }
@@ -60,18 +82,18 @@ namespace Blazorise
         /// Right aligned dropdown menu.
         /// </summary>
         [Parameter]
-        public bool IsRightAligned
+        public bool RightAligned
         {
-            get => isRightAligned;
+            get => rightAligned;
             set
             {
-                isRightAligned = value;
+                rightAligned = value;
 
                 DirtyClasses();
             }
         }
 
-        [CascadingParameter] public BaseDropdown Dropdown { get; set; }
+        [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

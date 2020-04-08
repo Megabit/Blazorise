@@ -1,7 +1,7 @@
 ﻿<ListGroupItem>
-    <Field IsHorizontal="true" Padding="Padding.IsAuto.OnAll">
+    <Field Horizontal="true" Padding="Padding.IsAuto.OnAll">
         <FieldBody ColumnSize="ColumnSize.Is1">
-            <CheckEdit Checked="@Todo.Completed" CheckedChanged="@OnCheckedChanged"></CheckEdit>
+            <Check TValue="bool" Checked="@Todo.Completed" CheckedChanged="@OnCheckedChanged"></Check>
         </FieldBody>
         <FieldBody ColumnSize="ColumnSize.Is11">
             @Todo.Description

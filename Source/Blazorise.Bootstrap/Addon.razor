@@ -1,7 +1,7 @@
-﻿@inherits BaseAddon
+﻿@inherits Blazorise.Addon
 @if ( AddonType != AddonType.Body )
 {
-    <div class="@ClassNames" @attributes="@Attributes">
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </div>
 }

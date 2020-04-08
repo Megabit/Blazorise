@@ -33,8 +33,9 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.Breadcrumb, Bulma.Breadcrumb>();
             componentMapper.Register<Blazorise.BreadcrumbLink, Bulma.BreadcrumbLink>();
             componentMapper.Register<Blazorise.CardImage, Bulma.CardImage>();
+            componentMapper.Register<Blazorise.CardTitle, Bulma.CardTitle>();
             componentMapper.Register<Blazorise.CardSubtitle, Bulma.CardSubtitle>();
-            componentMapper.Register<Blazorise.CheckEdit, Bulma.CheckEdit>();
+            componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Bulma.Check<> ) );
             componentMapper.Register<Blazorise.DateEdit, Bulma.DateEdit>();
             componentMapper.Register<Blazorise.DropdownDivider, Bulma.DropdownDivider>();
             componentMapper.Register<Blazorise.DropdownMenu, Bulma.DropdownMenu>();
@@ -45,8 +46,9 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.FieldBody, Bulma.FieldBody>();
             componentMapper.Register<Blazorise.Fields, Bulma.Fields>();
             componentMapper.Register<Blazorise.FileEdit, Bulma.FileEdit>();
-            componentMapper.Register<Blazorise.MemoEdit, Bulma.MemoEdit>();
-            componentMapper.Register( typeof( Blazorise.SelectEdit<> ), typeof( Bulma.SelectEdit<> ) );
+            componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Bulma.Radio<> ) );
+            componentMapper.Register( typeof( Blazorise.Select<> ), typeof( Bulma.Select<> ) );
+            componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( Bulma.Switch<> ) );
             componentMapper.Register<Blazorise.Button, Bulma.Button>();
             componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();
             componentMapper.Register<Blazorise.TextEdit, Bulma.TextEdit>();

@@ -1,6 +1,6 @@
-﻿@inherits BaseDropdown
+﻿@inherits Blazorise.Dropdown
 <CascadingValue Value=this>
-    <div class="@ClassNames" @attributes="@Attributes">
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </div>
 </CascadingValue>
@@ -12,5 +12,5 @@
         base.OnInitialized();
     }
 
-    [CascadingParameter] public Addon ParentAddon { get; set; }
+    [CascadingParameter] protected Addon ParentAddon { get; set; }
 }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseMemo : BaseInputComponent<string>
+    public partial class MemoEdit : BaseInputComponent<string>
     {
         #region Members
 

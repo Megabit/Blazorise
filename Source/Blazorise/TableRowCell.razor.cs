@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public abstract class BaseTableRowCell : BaseComponent
+    public partial class TableRowCell : BaseComponent
     {
         #region Members
 
@@ -34,9 +34,9 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void HandleClick( MouseEventArgs e )
+        protected Task HandleClick( MouseEventArgs e )
         {
-            Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
+            return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
         }
 
         #endregion
@@ -79,8 +79,14 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Number of rows a cell should span.
+        /// </summary>
         [Parameter] public int? RowSpan { get; set; }
 
+        /// <summary>
+        /// Number of columns a cell should span.
+        /// </summary>
         [Parameter] public int? ColumnSpan { get; set; }
 
         /// <summary>

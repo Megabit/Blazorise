@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseCardGroup : BaseContainerComponent
+    public partial class CardGroup : BaseContainerComponent
     {
         #region Members
 

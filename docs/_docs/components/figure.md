@@ -43,4 +43,4 @@ A figure structure is very simple:
 |---------------|----------------------------------------------------------------------|----------|------------------------------------------------------|
 | Source        | string                                                               |          | Image URL.                                           |
 | AlternateText | string                                                               |          | Alternate text when image cannot be found.           |
-| IsRounded     | boolean                                                              | false    | Makes the figure border rounded.                     |
+| Rounded       | boolean                                                              | false    | Makes the figure border rounded.                     |

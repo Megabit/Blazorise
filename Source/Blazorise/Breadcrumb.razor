@@ -1,8 +1,8 @@
-﻿@inherits Blazorise.BaseBreadcrumb
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
     <nav aria-label="breadcrumb">
-        <ol class="@ClassNames" @attributes="@Attributes">
+        <ol class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </ol>
     </nav>

@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseTabPanel : BaseComponent
+    public partial class TabPanel : BaseComponent
     {
         #region Members
 
-        private bool isActive;
+        private bool active;
 
         #endregion
 
@@ -21,16 +21,60 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabPanel() );
-            builder.Append( ClassProvider.TabPanelActive(), IsActive );
+            builder.Append( ClassProvider.TabPanelActive( Active ) );
 
             base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
         {
-            ParentTabContent?.Hook( this );
+            if ( ParentTabs != null )
+            {
+                ParentTabs.HookPanel( Name );
+
+                Active = Name == ParentTabs.SelectedTab;
+
+                ParentTabs.StateChanged += OnTabsContentStateChanged;
+            }
+
+            if ( ParentTabsContent != null )
+            {
+                ParentTabsContent.Hook( Name );
+
+                Active = Name == ParentTabsContent.SelectedPanel;
+
+                ParentTabsContent.StateChanged += OnTabsContentStateChanged;
+            }
 
             base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentTabs != null )
+                {
+                    ParentTabs.StateChanged -= OnTabsContentStateChanged;
+                }
+
+                if ( ParentTabsContent != null )
+                {
+                    ParentTabsContent.StateChanged -= OnTabsContentStateChanged;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
+        private void OnTabsContentStateChanged( object sender, TabsStateEventArgs e )
+        {
+            Active = Name == e.TabName;
+        }
+
+        private void OnTabsContentStateChanged( object sender, TabsContentStateEventArgs e )
+        {
+            Active = Name == e.PanelName;
         }
 
         #endregion
@@ -38,26 +82,27 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Defines the panel name.
+        /// Defines the panel name. Must match the coresponding tab name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 
         /// <summary>
-        /// Sets the active panel.
+        /// Determines is the panel active.
         /// </summary>
-        [Parameter]
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
-            set
+            get => active;
+            private set
             {
-                isActive = value;
+                active = value;
 
                 DirtyClasses();
             }
         }
 
-        [CascadingParameter] public BaseTabsContent ParentTabContent { get; set; }
+        [CascadingParameter] protected Tabs ParentTabs { get; set; }
+
+        [CascadingParameter] protected TabsContent ParentTabsContent { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

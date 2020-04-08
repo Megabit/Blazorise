@@ -1,13 +1,13 @@
-﻿@inherits BaseBreadcrumbLink
+﻿@inherits Blazorise.BreadcrumbLink
 @if ( To != null )
 {
-    <LinkBase TagName="a" class="@ClassNames" href="@To" title="@Title" Match="@Match">
+    <Blazorise.Link Class="@ClassNames" Style="@StyleNames" To="@To" Title="@Title" Match="@Match">
         @ChildContent
-    </LinkBase>
+    </Blazorise.Link>
 }
 else
 {
-    <a class="@ClassNames" title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
+    <a class="@ClassNames" style="@StyleNames" title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
         @ChildContent
     </a>
 }

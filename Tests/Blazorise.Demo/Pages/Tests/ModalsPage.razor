@@ -6,6 +6,11 @@
                 <CardTitle>Modals (Default)</CardTitle>
             </CardHeader>
             <CardBody>
+                <CardText>
+                    A rendered modal with header, body, and set of actions in the footer.
+                </CardText>
+            </CardBody>
+            <CardBody>
                 <Button Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default ))">
                     Standard Modal
                 </Button>
@@ -29,6 +34,11 @@
                 <CardTitle>Modals (Sized)</CardTitle>
             </CardHeader>
             <CardBody>
+                <CardText>
+                    Examples of custom size modals.
+                </CardText>
+            </CardBody>
+            <CardBody>
                 <Button Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.ExtraLarge ))">
                     Extra Large Modal
                 </Button>
@@ -44,7 +54,7 @@
 </Row>
 <Modal @ref="modalRef">
     <ModalBackdrop />
-    <ModalContent Size="@modalSize" IsCentered="@isCentered">
+    <ModalContent Size="@modalSize" Centered="@centered">
         <ModalHeader>
             <ModalTitle>
                 <Icon Name="IconName.Edit" />
@@ -74,13 +84,13 @@
 </Modal>
 @code{
     private Modal modalRef;
-    private bool isCentered = false;
+    private bool centered = false;
     private ModalSize modalSize = ModalSize.Default;
     private int? maxHeight = null;
 
-    private void ShowModal( ModalSize modalSize, int? maxHeight = null, bool isCentered = false )
+    private void ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false )
     {
-        this.isCentered = isCentered;
+        this.centered = centered;
         this.modalSize = modalSize;
         this.maxHeight = maxHeight;
 

@@ -185,3 +185,21 @@ Specifies the direction of a sort operation.
 - `None` No sorting will be applied.
 - `Ascending` Sorts in ascending order.
 - `Descending` Sorts in descending order.
+
+## DividerType
+
+Specifies divider variants.
+
+- `Solid`
+- `Dashed`
+- `Dotted`
+- `TextContent`
+
+## TabPosition
+
+Specifies divider variants.
+
+- `Top` Top side.
+- `Bottom` Bottom side.
+- `Left` Left side.
+- `Right` Right side.

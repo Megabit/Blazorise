@@ -8,11 +8,12 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseNavigationItem : BaseComponent
+    [Obsolete( "This component has been deprecated. Use Bar component and it's sub-components instead." )]
+    public partial class NavigationItem : BaseComponent
     {
         #region Members
 
-        private bool isActive;
+        private bool active;
 
         #endregion
 
@@ -22,7 +23,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.NavItem() );
             builder.Append( ClassProvider.NavLink() );
-            builder.Append( ClassProvider.Active(), IsActive );
+            builder.Append( ClassProvider.Active(), Active );
 
             base.BuildClasses( builder );
         }
@@ -37,12 +38,12 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
+            get => active;
             set
             {
-                isActive = value;
+                active = value;
 
                 DirtyClasses();
             }

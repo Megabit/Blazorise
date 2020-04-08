@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseCollapse : BaseComponent
+    public partial class Collapse : BaseComponent
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Collapse() );
-            builder.Append( ClassProvider.CollapseShow(), IsOpen );
+            builder.Append( ClassProvider.CollapseActive( Visible ) );
 
             base.BuildClasses( builder );
         }
@@ -31,12 +31,12 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
 
                 DirtyClasses();
             }

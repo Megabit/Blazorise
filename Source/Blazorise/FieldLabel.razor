@@ -1,7 +1,7 @@
-﻿@inherits Blazorise.BaseFieldLabel
+﻿@inherits BaseSizableComponent
 @if ( !HasCustomRegistration )
 {
-    <label class="@ClassNames" for="@For" @attributes="@Attributes">
+    <label class="@ClassNames" style="@StyleNames" for="@For" @attributes="@Attributes">
         @ChildContent
     </label>
 }

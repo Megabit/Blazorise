@@ -9,11 +9,11 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
-    public abstract class BaseModalBackdrop : BaseComponent, ICloseActivator
+    public partial class ModalBackdrop : BaseComponent, ICloseActivator
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
         private bool isRegistered;
 
@@ -28,7 +28,7 @@ namespace Blazorise
             if ( ParentModal != null )
             {
                 // initialize backdrop in case that modal is already set to visible
-                IsOpen = ParentModal.IsOpen;
+                Visible = ParentModal.Visible;
 
                 ParentModal.StateChanged += OnModalStateChanged;
             }
@@ -47,6 +47,11 @@ namespace Blazorise
         {
             if ( disposing )
             {
+                if ( ParentModal != null )
+                {
+                    ParentModal.StateChanged -= OnModalStateChanged;
+                }
+
                 // make sure to unregister listener
                 if ( isRegistered )
                 {
@@ -63,26 +68,27 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ModalBackdrop() );
-            builder.Append( ClassProvider.ModalFade() );
-            builder.Append( ClassProvider.ModalShow(), IsOpen );
+            builder.Append( ClassProvider.ModalBackdropFade() );
+            builder.Append( ClassProvider.ModalBackdropVisible( Visible ) );
 
             base.BuildClasses( builder );
         }
 
-        public bool SafeToClose( string elementId, bool isEscapeKey )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
         {
-            // TODO: ask for parent modal is it OK to close it
-            return ElementId == elementId;
+            return Task.FromResult( ElementId == elementId );
         }
 
-        public void Close()
+        public Task Close( CloseReason closeReason )
         {
-            ParentModal?.Hide();
+            ParentModal?.Hide( closeReason );
+
+            return Task.CompletedTask;
         }
 
         private void OnModalStateChanged( object sender, ModalStateEventArgs e )
         {
-            IsOpen = e.Opened;
+            Visible = e.Visible;
         }
 
         #endregion
@@ -96,17 +102,17 @@ namespace Blazorise
         /// Use this only when backdrop is placed outside of modal.
         /// </remarks>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                if ( value == isOpen )
+                if ( value == visible )
                     return;
 
-                isOpen = value;
+                visible = value;
 
-                if ( isOpen )
+                if ( visible )
                 {
                     isRegistered = true;
 
@@ -123,7 +129,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] public BaseModal ParentModal { get; set; }
+        [CascadingParameter] protected Modal ParentModal { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -55,11 +55,17 @@ namespace Blazorise
             foreach ( var (name, color) in theme.ValidBackgroundColors )
                 GenerateBackgroundVariables( theme, name, color );
 
+            foreach ( var (name, color) in theme.ValidTextColors )
+                GenerateTextColorVariables( theme, name, color );
+
             if ( theme.SidebarOptions != null )
                 GenerateSidebarVariables( theme.SidebarOptions );
 
             if ( theme.SnackbarOptions != null )
                 GenerateSnackbarVariables( theme.SnackbarOptions );
+
+            if ( theme.DividerOptions != null )
+                GenerateDividerVariables( theme.DividerOptions );
 
             // apply variables
             foreach ( var kv in variables )
@@ -70,11 +76,12 @@ namespace Blazorise
         {
             variables[ThemeVariables.Color( variant )] = value;
 
-            GenerateButtonVariables( variant, value, value, theme.ButtonOptions );
-            GenerateOutlineButtonVariables( variant, value, theme.ButtonOptions );
+            GenerateButtonColorVariables( variant, value, value, theme.ButtonOptions );
+            GenerateOutlineButtonColorVariables( variant, value, theme.ButtonOptions );
+            GenerateSnackbarColorVariables( theme, variant, value, theme.SnackbarOptions );
         }
 
-        protected virtual void GenerateButtonVariables( string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options )
+        protected virtual void GenerateButtonColorVariables( string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options )
         {
             var backgroundColor = ParseColor( inBackgroundColor );
             var borderColor = ParseColor( inBorderColor );
@@ -102,7 +109,7 @@ namespace Blazorise
 
             var boxShadow = ToHexRGBA( Transparency( Blend( yiqBackgroundColor, backgroundColor, 15f ), options?.BoxShadowTransparency ?? 127 ) );
 
-            variables[ThemeVariables.ButtonBackgrund( variant )] = background;
+            variables[ThemeVariables.ButtonBackground( variant )] = background;
             variables[ThemeVariables.ButtonBorder( variant )] = border;
             variables[ThemeVariables.ButtonHoverBackground( variant )] = hoverBackground;
             variables[ThemeVariables.ButtonBorder( variant )] = hoverBorder;
@@ -114,7 +121,7 @@ namespace Blazorise
             variables[ThemeVariables.ButtonBoxShadow( variant )] = boxShadow;
         }
 
-        protected virtual void GenerateOutlineButtonVariables( string variant, string inBorderColor, ThemeButtonOptions options )
+        protected virtual void GenerateOutlineButtonColorVariables( string variant, string inBorderColor, ThemeButtonOptions options )
         {
             var borderColor = ParseColor( inBorderColor );
 
@@ -130,6 +137,26 @@ namespace Blazorise
             variables[ThemeVariables.OutlineButtonBoxShadowColor( variant )] = boxShadow;
         }
 
+        protected virtual void GenerateSnackbarColorVariables( Theme theme, string variant, string inColor, ThemeSnackbarOptions options )
+        {
+            // this color variant is not supported
+            if ( variant == "link" )
+                return;
+
+            var backgroundColor = ThemeColorLevel( theme, inColor, options?.VariantBackgroundColorLevel ?? -3 );
+            var textColor = Contrast( backgroundColor );
+            var buttonColor = Darken( textColor, 40f );
+            var buttonHoverColor = Lighten( textColor, 40f );
+            //var textColor = Contrast( ThemeColorLevel( theme, inColor, options?.VariantTextColorLevel ?? 6 ) );
+            //var buttonColor = Contrast( ThemeColorLevel( theme, inColor, options?.VariantButtonColorLevel ?? 8 ) );
+            //var buttonHoverColor = ThemeColorLevel( theme, buttonColor, options?.VariantButtonHoverColorLevel ?? 4 );
+
+            variables[$"{ThemeVariables.SnackbarBackground}-{ variant }"] = ToHex( backgroundColor );
+            variables[$"{ThemeVariables.SnackbarTextColor}-{ variant }"] = ToHex( textColor );
+            variables[$"{ThemeVariables.SnackbarButtonColor}-{ variant }"] = ToHex( buttonColor );
+            variables[$"{ThemeVariables.SnackbarButtonHoverColor}-{ variant }"] = ToHex( buttonHoverColor );
+        }
+
         protected virtual void GenerateBackgroundVariables( Theme theme, string variant, string inColor )
         {
             var backgroundColor = ParseColor( inColor );
@@ -143,6 +170,16 @@ namespace Blazorise
             variables[ThemeVariables.BackgroundYiqColor( variant )] = ToHex( backgroundYiqColor );
         }
 
+        protected virtual void GenerateTextColorVariables( Theme theme, string variant, string inColor )
+        {
+            var color = ParseColor( inColor );
+
+            if ( color.IsEmpty )
+                return;
+
+            variables[ThemeVariables.TextColor( variant )] = ToHex( color );
+        }
+
         protected virtual void GenerateSidebarVariables( ThemeSidebarOptions sidebarOptions )
         {
             if ( sidebarOptions.BackgroundColor != null )
@@ -154,14 +191,29 @@ namespace Blazorise
 
         protected virtual void GenerateSnackbarVariables( ThemeSnackbarOptions snackbarOptions )
         {
-            if ( snackbarOptions.BackgroundColor != null )
+            if ( snackbarOptions?.BackgroundColor != null )
                 variables[ThemeVariables.SnackbarBackground] = ToHex( ParseColor( snackbarOptions.BackgroundColor ) );
 
-            if ( snackbarOptions.ButtonColor != null )
+            if ( snackbarOptions?.TextColor != null )
+                variables[ThemeVariables.SnackbarTextColor] = ToHex( ParseColor( snackbarOptions.TextColor ) );
+
+            if ( snackbarOptions?.ButtonColor != null )
                 variables[ThemeVariables.SnackbarButtonColor] = ToHex( ParseColor( snackbarOptions.ButtonColor ) );
 
-            if ( snackbarOptions.ButtonHoverColor != null )
+            if ( snackbarOptions?.ButtonHoverColor != null )
                 variables[ThemeVariables.SnackbarButtonHoverColor] = ToHex( ParseColor( snackbarOptions.ButtonHoverColor ) );
+        }
+
+        protected virtual void GenerateDividerVariables( ThemeDividerOptions dividerOptions )
+        {
+            if ( dividerOptions.Color != null )
+                variables[ThemeVariables.DividerColor] = ToHex( ParseColor( dividerOptions.Color ) );
+
+            if ( dividerOptions.Color != null )
+                variables[ThemeVariables.DividerThickness] = dividerOptions.Thickness;
+
+            if ( dividerOptions.Color != null )
+                variables[ThemeVariables.DividerTextSize] = dividerOptions.TextSize;
         }
 
         protected string Var( string name, string defaultValue = null )
@@ -186,6 +238,11 @@ namespace Blazorise
             foreach ( var (name, color) in theme.ValidBackgroundColors )
             {
                 GenerateBackgroundStyles( sb, theme, name, color );
+            }
+
+            foreach ( var (name, color) in theme.ValidTextColors )
+            {
+                GenerateTypographyVariantStyles( sb, theme, name, color );
             }
 
             GenerateButtonStyles( sb, theme, theme.ButtonOptions );
@@ -227,19 +284,25 @@ namespace Blazorise
             GenerateBadgeVariantStyles( sb, theme, variant, color );
 
             GenerateAlertVariantStyles( sb, theme, variant,
-                ThemeColorLevel( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
-                ThemeColorLevel( theme, color, theme.AlertOptions?.BorderLevel ?? -9 ),
-                ThemeColorLevel( theme, color, theme.AlertOptions?.ColorLevel ?? 6 ),
+                ThemeColorLevelHex( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
+                ThemeColorLevelHex( theme, color, theme.AlertOptions?.BorderLevel ?? -7 ),
+                ThemeColorLevelHex( theme, color, theme.AlertOptions?.ColorLevel ?? 6 ),
                 theme.AlertOptions );
 
             GenerateTableVariantStyles( sb, theme, variant,
-                ThemeColorLevel( theme, color, theme.TableOptions?.BackgroundLevel ?? -9 ),
-                ThemeColorLevel( theme, color, theme.TableOptions?.BorderLevel ?? -6 ) );
+                ThemeColorLevelHex( theme, color, theme.TableOptions?.BackgroundLevel ?? -9 ),
+                ThemeColorLevelHex( theme, color, theme.TableOptions?.BorderLevel ?? -6 ) );
         }
 
         protected virtual void GenerateBackgroundStyles( StringBuilder sb, Theme theme, string variant, string color )
         {
             GenerateBackgroundVariantStyles( sb, theme, variant );
+        }
+
+        protected virtual void GenerateTypographyVariantStyles( StringBuilder sb, Theme theme, string variant, string color )
+        {
+            GenerateParagraphVariantStyles( sb, theme, variant, color );
+            GenerateInputVariantStyles( sb, theme, variant, color );
         }
 
         protected abstract void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant );
@@ -278,6 +341,10 @@ namespace Blazorise
 
         protected abstract void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options );
 
+        protected abstract void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string color );
+
+        protected abstract void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string color );
+
         #endregion
 
         #region Helpers
@@ -295,19 +362,40 @@ namespace Blazorise
             return "0rem";
         }
 
-        protected virtual string GetGradientBg( Theme theme, string color, float? percentage )
+        protected virtual string GetGradientBg( Theme theme, string color, float? percentage, bool important = false )
         {
             return theme.IsGradient
-                ? $"background: {color} linear-gradient(180deg, {ToHex( Blend( System.Drawing.Color.White, ParseColor( color ), percentage ?? 15f ) )}, {color}) repeat-x;"
-                : $"background-color: {color};";
+                ? $"background: {color} linear-gradient(180deg, {ToHex( Blend( System.Drawing.Color.White, ParseColor( color ), percentage ?? 15f ) )}, {color}) repeat-x{( important ? " !important" : "" )};"
+                : $"background-color: {color}{( important ? " !important" : "" )};";
         }
 
-        protected string ThemeColorLevel( Theme theme, string inColor, int level )
+        protected System.Drawing.Color ThemeColorLevel( Theme theme, string inColor, int level )
         {
             var color = ParseColor( inColor );
-            var colorBase = level > 0 ? ParseColor( Var( ThemeVariables.Black, "#343a40" ) ) : ParseColor( Var( ThemeVariables.White, "#ffffff" ) );
+
+            var colorBase = level > 0
+                ? ParseColor( Var( ThemeVariables.Black, "#343a40" ) )
+                : ParseColor( Var( ThemeVariables.White, "#ffffff" ) );
+
             level = Math.Abs( level );
-            return ToHex( Blend( colorBase, color, level * 8f ) );
+
+            return Blend( colorBase, color, level * theme.ThemeColorInterval );
+        }
+
+        protected System.Drawing.Color ThemeColorLevel( Theme theme, System.Drawing.Color color, int level )
+        {
+            var colorBase = level > 0
+                ? ParseColor( Var( ThemeVariables.Black, "#343a40" ) )
+                : ParseColor( Var( ThemeVariables.White, "#ffffff" ) );
+
+            level = Math.Abs( level );
+
+            return Blend( colorBase, color, level * theme.ThemeColorInterval );
+        }
+
+        protected string ThemeColorLevelHex( Theme theme, string inColor, int level )
+        {
+            return ToHex( ThemeColorLevel( theme, inColor, level ) );
         }
 
         protected static System.Drawing.Color ParseColor( string value )
@@ -379,14 +467,33 @@ namespace Blazorise
             return System.Drawing.Color.FromArgb( A, color.R, color.G, color.B );
         }
 
+        protected static System.Drawing.Color Darken( string inColor, float correctionFactor )
+        {
+            var color = ParseColor( inColor );
+
+            return ChangeColorBrightness( color, -( correctionFactor / 100f ) );
+        }
+
         protected static System.Drawing.Color Darken( System.Drawing.Color color, float correctionFactor )
         {
             return ChangeColorBrightness( color, -( correctionFactor / 100f ) );
         }
 
+        protected static System.Drawing.Color Lighten( string inColor, float correctionFactor )
+        {
+            var color = ParseColor( inColor );
+
+            return ChangeColorBrightness( color, correctionFactor / 100f );
+        }
+
         protected static System.Drawing.Color Lighten( System.Drawing.Color color, float correctionFactor )
         {
             return ChangeColorBrightness( color, correctionFactor / 100f );
+        }
+
+        protected System.Drawing.Color Invert( System.Drawing.Color color )
+        {
+            return System.Drawing.Color.FromArgb( 255 - color.R, 255 - color.G, 255 - color.B );
         }
 
         protected static System.Drawing.Color ChangeColorBrightness( System.Drawing.Color color, float correctionFactor )
@@ -427,12 +534,12 @@ namespace Blazorise
             return System.Drawing.Color.FromArgb( d, d, d );
         }
 
-        protected static System.Drawing.Color Blend( System.Drawing.Color color, System.Drawing.Color backColor, float percentage )
+        protected static System.Drawing.Color Blend( System.Drawing.Color color, System.Drawing.Color color2, float percentage )
         {
-            var amount = percentage / 100;
-            byte r = (byte)( ( color.R * amount ) + backColor.R * ( 1 - amount ) );
-            byte g = (byte)( ( color.G * amount ) + backColor.G * ( 1 - amount ) );
-            byte b = (byte)( ( color.B * amount ) + backColor.B * ( 1 - amount ) );
+            var alpha = percentage / 100f;
+            byte r = (byte)( ( color.R * alpha ) + color2.R * ( 1f - alpha ) );
+            byte g = (byte)( ( color.G * alpha ) + color2.G * ( 1f - alpha ) );
+            byte b = (byte)( ( color.B * alpha ) + color2.B * ( 1f - alpha ) );
             return System.Drawing.Color.FromArgb( r, g, b );
         }
 

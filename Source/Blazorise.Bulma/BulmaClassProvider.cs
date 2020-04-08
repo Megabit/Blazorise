@@ -30,13 +30,13 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        #region SelectEdit
+        #region Select
 
-        public override string SelectEdit() => "select is-fullwidth";
+        public override string Select() => "select is-fullwidth";
 
-        public override string SelectEditSize( Size size ) => $"{ToSize( size )}";
+        public override string SelectSize( Size size ) => $"{ToSize( size )}";
 
-        public override string SelectEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -50,23 +50,43 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        #region CheckEdit
+        #region Check
 
-        public override string CheckEdit() => "checkbox";
+        public override string Check() => "checkbox";
 
-        public override string CheckEditInline() => "inline";
+        public override string CheckInline() => "is-inline";
 
-        public override string CheckEditCursor( Cursor cursor ) => $"{CheckEdit()}-{ToCursor( cursor )}";
+        public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
 
-        public override string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region RadioGroup
 
-        public override string RadioEdit() => "radio";
+        public override string RadioGroup( bool buttons ) => buttons ? "field has-addons" : "control";
 
-        public override string RadioInline() => "inline";
+        public override string RadioGroupInline() => null;
+
+        #endregion
+
+        #region Radio
+
+        public override string Radio( bool button ) => "radio";
+
+        public override string RadioInline() => "is-inline";
+
+        #endregion
+
+        #region Switch
+
+        public override string Switch() => "switch";
+
+        public override string SwitchChecked( bool @checked ) => null;
+
+        public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
+
+        public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -78,15 +98,37 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Slider
+
+        public override string Slider() => "slider";
+
+        public override string SliderColor( Color color ) => $"is-{ToColor( color )}";
+
+        #endregion
+
         #region Label
 
         public override string Label() => "label";
 
+        public override string LabelType( LabelType labelType )
+        {
+            switch ( labelType )
+            {
+                case Blazorise.LabelType.Check:
+                    return "checkbox";
+                case Blazorise.LabelType.Radio:
+                    return "radio";
+                case Blazorise.LabelType.Switch:
+                    return null;
+                case Blazorise.LabelType.File:
+                    return "file-label";
+                case Blazorise.LabelType.None:
+                default:
+                    return null;
+            }
+        }
+
         public override string LabelCursor( Cursor cursor ) => $"label-{ToCursor( cursor )}";
-
-        public override string LabelCheck() => "checkbox";
-
-        public override string LabelFile() => "file-label";
 
         #endregion
 
@@ -132,6 +174,8 @@ namespace Blazorise.Bulma
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
+        public override string FieldValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region FieldLabel
@@ -160,6 +204,8 @@ namespace Blazorise.Bulma
 
         public override string ControlRadio() => "control";
 
+        public override string ControlSwitch() => "control";
+
         public override string ControlFile() => "file has-name is-fullwidth";
 
         public override string ControlText() => "control";
@@ -169,6 +215,8 @@ namespace Blazorise.Bulma
         #region Addons
 
         public override string Addons() => "field has-addons";
+
+        public override string AddonsHasButton( bool hasButton ) => null;
 
         public override string Addon( AddonType addonType )
         {
@@ -274,7 +322,7 @@ namespace Blazorise.Bulma
 
         //public override string DropdownMenuBody() => "dropdown-content";
 
-        public override string DropdownMenuShow() => null;
+        public override string DropdownMenuVisible( bool visible ) => null;
 
         public override string DropdownMenuRight() => null;
 
@@ -334,17 +382,17 @@ namespace Blazorise.Bulma
 
         public override string TabItem() => null;
 
-        public override string TabItemActive() => $"{Active()}";
+        public override string TabItemActive( bool active ) => active ? $"{Active()}" : null;
 
         public override string TabLink() => null;
 
-        public override string TabLinkActive() => null;
+        public override string TabLinkActive( bool active ) => null;
 
         public override string TabsContent() => "tab-content";
 
         public override string TabPanel() => "tab-pane";
 
-        public override string TabPanelActive() => $"{Active()}";
+        public override string TabPanelActive( bool active ) => active ? $"{Active()}" : null;
 
         #endregion
 
@@ -368,11 +416,13 @@ namespace Blazorise.Bulma
 
         public override string CardImage() => "card-image";
 
-        public override string CardTitle() => "card-header-title";
+        public override string CardTitle( bool insideHeader ) => insideHeader ? "card-header-title" : "title";
 
-        public override string CardSubtitle() => "subtitle";
+        public override string CardTitleSize( bool insideHeader, int? size ) => size != null ? $"is-{size}" : null;
 
-        public override string CardSubtitleSize( int size ) => $"is-{size}";
+        public override string CardSubtitle( bool insideHeader ) => insideHeader ? "card-header-subtitle" : "subtitle";
+
+        public override string CardSubtitleSize( bool insideHeader, int size ) => $"is-{size}";
 
         public override string CardText() => "card-text";
 
@@ -432,6 +482,10 @@ namespace Blazorise.Bulma
 
         public override string Bar() => "navbar";
 
+        public override string BarBackground( Background background ) => BackgroundColor( background );
+
+        public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+
         public override string BarThemeContrast( ThemeContrast themeContrast ) => null;
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
@@ -480,7 +534,7 @@ namespace Blazorise.Bulma
 
         public override string BarDropdownMenu() => "navbar-dropdown";
 
-        public override string BarDropdownMenuShow() => Show();
+        public override string BarDropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string BarDropdownMenuRight() => "is-right";
 
@@ -496,7 +550,11 @@ namespace Blazorise.Bulma
 
         public override string Collapse() => "collapse";
 
-        public override string CollapseShow() => Show();
+        public override string CollapseActive( bool active ) => active ? Show() : null;
+
+        public override string CollapseContent() => null;
+
+        public override string CollapseContentActive( bool active ) => null;
 
         #endregion
 
@@ -542,6 +600,14 @@ namespace Blazorise.Bulma
 
         public override string AlertShow() => Show();
 
+        public override string AlertHasMessage() => null;
+
+        public override string AlertHasDescription() => null;
+
+        public override string AlertMessage() => null;
+
+        public override string AlertDescription() => null;
+
         #endregion
 
         #region Modal
@@ -550,11 +616,17 @@ namespace Blazorise.Bulma
 
         public override string ModalFade() => null;
 
-        public override string ModalShow() => $"{Active()}";
+        public override string ModalVisible( bool visible ) => visible ? Active() : null;
 
         public override string ModalBackdrop() => "modal-background";
 
-        public override string ModalContent( bool isForm ) => isForm ? "modal-card" : "modal-content";
+        public override string ModalBackdropFade() => Fade();
+
+        public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+
+        public override string ModalContent( bool dialog ) => dialog ? "modal-card" : "modal-content";
+
+        public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
         public override string ModalContentCentered() => null;
 
@@ -773,6 +845,14 @@ namespace Blazorise.Bulma
         public override string TooltipFade() => "b-tooltip-fade";
 
         public override string TooltipInline() => "b-tooltip-inline";
+
+        #endregion
+
+        #region Divider
+
+        public override string Divider() => "divider";
+
+        public override string DividerType( DividerType dividerType ) => $"{Divider()}-{ToDividerType( dividerType )}";
 
         #endregion
 

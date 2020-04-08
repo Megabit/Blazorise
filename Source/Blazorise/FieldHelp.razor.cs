@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Sets the field help-text postioned bellow the field.
+    /// Sets the field help-text positioned bellow the field.
     /// </summary>
-    public abstract class BaseFieldHelp : BaseComponent
+    public partial class FieldHelp : BaseComponent
     {
         #region Members
 
@@ -34,7 +34,7 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] public BaseFieldBody ParentFieldBody { get; set; }
+        [CascadingParameter] protected FieldBody ParentFieldBody { get; set; }
 
         #endregion
     }

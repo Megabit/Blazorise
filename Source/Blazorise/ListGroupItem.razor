@@ -1,7 +1,7 @@
-﻿@inherits Blazorise.BaseListGroupItem
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <li class="@ClassNames" @attributes="@Attributes">
+    <li class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </li>
 }

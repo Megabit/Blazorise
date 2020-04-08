@@ -1,8 +1,8 @@
-﻿@inherits BaseFieldBody
+﻿@inherits Blazorise.FieldBody
 <CascadingValue Value=this>
     @if ( ParentIsHorizontal )
     {
-        <div class="@ClassNames" @attributes="@Attributes">
+        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </div>
     }

@@ -45,7 +45,7 @@ namespace Blazorise
 
         #region Properties
 
-        protected virtual bool ParentIsHorizontal => ParentField?.IsHorizontal == true;
+        protected virtual bool ParentIsHorizontal => ParentField?.Horizontal == true;
 
         protected virtual bool ParentIsField => ParentField != null;
 
@@ -68,11 +68,11 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] public BaseField ParentField { get; set; }
+        [CascadingParameter] protected Field ParentField { get; set; }
 
-        [CascadingParameter] public BaseFieldBody ParentFieldBody { get; set; }
+        [CascadingParameter] protected FieldBody ParentFieldBody { get; set; }
 
-        [CascadingParameter] public Tooltip ParentTooltip { get; set; }
+        [CascadingParameter] protected Tooltip ParentTooltip { get; set; }
 
         #endregion
     }

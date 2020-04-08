@@ -25,9 +25,9 @@
         <div>
             @foreach ( var shade in color.Shades.Values )
             {
-                <div class="demo-theme-color-item" style="background: @(shade.Value)" @onclick="@(()=>Value=shade.Value)">
+                var temp = shade.Value;
 
-                </div>
+                <div class="@(ClassNames(temp))" style="background: @temp" @onclick="@(()=>OnClick(temp))"></div>
             }
         </div>
     }
@@ -49,8 +49,18 @@
         }
     }
 
+    string ClassNames( string value )
+        => $"demo-theme-color-item{( value == Value ? " selected" : "" )}";
+
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
     private string _value;
+
+    Task OnClick( string value )
+    {
+        Value = value;
+
+        return Task.CompletedTask;
+    }
 }

@@ -92,6 +92,8 @@ public class Program
       .AddBootstrapProviders()
       .AddFontAwesomeIcons();
 
+    builder.Services.AddBaseAddressHttpClient();
+
     builder.RootComponents.Add<App>( "app" );
 
     var host = builder.Build();
