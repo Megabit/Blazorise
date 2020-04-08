@@ -73,6 +73,7 @@
 .ant-menu-end {
     justify-content: flex-end;
     margin-left: auto;
+    float: right;
 
     > .ant-menu-item,
     > .ant-menu-submenu {
@@ -102,4 +103,8 @@
 .ant-menu-sub-right {
     right: 0;
     left: auto;
+}
+
+.b-layout-header .ant-menu {
+    line-height: inherit;
 }

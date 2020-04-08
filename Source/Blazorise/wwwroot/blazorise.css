@@ -164,10 +164,9 @@
     height: 64px;
     /*padding: 0 50px;*/
     color: rgba(0, 0, 0, 0.65);
-    line-height: 64px;
-    /*background: #001529;*/ }
+    /*background: #001529;*/
+    line-height: 64px; }
     .b-layout-header-fixed {
-        position: fixed;
         z-index: 1;
         width: 100%; }
 
@@ -183,7 +182,6 @@
 
 .b-layout-sider {
     position: relative;
-    min-width: 0;
     background: #001529;
     transition: all 0.2s; }
 
