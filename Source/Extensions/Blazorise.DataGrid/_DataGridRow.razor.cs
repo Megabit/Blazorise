@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridRow<TItem> : BaseComponent
+    public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -21,21 +21,24 @@ namespace Blazorise.DataGrid
 
         #region Methods
 
-        protected override Task OnFirstAfterRenderAsync()
+        protected override Task OnAfterRenderAsync( bool firstRender )
         {
-            // initialise all internal cell values
-            foreach ( var column in Columns )
+            if ( firstRender )
             {
-                if ( column.ColumnType == DataGridColumnType.Command )
-                    continue;
-
-                cellsValues.Add( column.ElementId, new CellEditContext
+                // initialise all internal cell values
+                foreach ( var column in Columns )
                 {
-                    CellValue = column.GetValue( Item ),
-                } );
+                    if ( column.ColumnType == DataGridColumnType.Command )
+                        continue;
+
+                    cellsValues.Add( column.ElementId, new CellEditContext
+                    {
+                        CellValue = column.GetValue( Item ),
+                    } );
+                }
             }
 
-            return base.OnFirstAfterRenderAsync();
+            return base.OnAfterRenderAsync( firstRender );
         }
 
         protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
@@ -139,6 +142,16 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter]
         public Cursor HoverCursor { get; set; }
+
+        /// <summary>
+        /// Custom css classname.
+        /// </summary>
+        [Parameter] public string Class { get; set; }
+
+        /// <summary>
+        /// Custom html style.
+        /// </summary>
+        [Parameter] public string Style { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
