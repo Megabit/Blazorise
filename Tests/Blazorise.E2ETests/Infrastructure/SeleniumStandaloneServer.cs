@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 //using Microsoft.AspNetCore.Testing;
 using Microsoft.Extensions.Internal;
 
-namespace Blazorise.UnitTests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure
 {
     class SeleniumStandaloneServer
     {

@@ -2,14 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
-using Blazorise.UnitTests.Infrastructure.ServerFixtures;
+using Blazorise.E2ETests.Infrastructure.ServerFixtures;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 using Xunit.Abstractions;
 using BasicTestApp.Server;
 
-namespace Blazorise.UnitTests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure
 {
     public class BasicTestAppTestBase : ServerTestBase<ToggleExecutionModeServerFixture<Program>>
     {

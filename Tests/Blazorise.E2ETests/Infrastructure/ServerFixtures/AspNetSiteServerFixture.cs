@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Blazorise.UnitTests.Infrastructure.ServerFixtures
+namespace Blazorise.E2ETests.Infrastructure.ServerFixtures
 {
     public class AspNetSiteServerFixture : WebHostServerFixture
     {

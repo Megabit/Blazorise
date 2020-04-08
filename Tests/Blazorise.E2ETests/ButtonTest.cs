@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using BasicTestApp.Client;
-using Blazorise.UnitTests.Infrastructure;
-using Blazorise.UnitTests.Infrastructure.ServerFixtures;
+using Blazorise.E2ETests.Infrastructure;
+using Blazorise.E2ETests.Infrastructure.ServerFixtures;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
@@ -9,7 +9,7 @@ using Xunit.Abstractions;
 using DevHostServerProgram = BasicTestApp.Server.Program;
 #endregion
 
-namespace Blazorise.UnitTests
+namespace Blazorise.E2ETests
 {
     public class ButtonTest : BasicTestAppTestBase
     {

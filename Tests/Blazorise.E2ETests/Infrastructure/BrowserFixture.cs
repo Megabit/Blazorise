@@ -7,7 +7,7 @@ using OpenQA.Selenium.Remote;
 using System;
 using Xunit.Abstractions;
 
-namespace Blazorise.UnitTests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure
 {
     public class BrowserFixture : IDisposable
     {

@@ -9,7 +9,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
 
-namespace Blazorise.UnitTests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure
 {
     // XUnit assertions, but hooked into Selenium's polling mechanism
 

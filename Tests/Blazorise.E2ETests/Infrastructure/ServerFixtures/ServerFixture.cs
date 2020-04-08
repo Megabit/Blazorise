@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 
-namespace Blazorise.UnitTests.Infrastructure.ServerFixtures
+namespace Blazorise.E2ETests.Infrastructure.ServerFixtures
 {
     public abstract class ServerFixture : IDisposable
     {

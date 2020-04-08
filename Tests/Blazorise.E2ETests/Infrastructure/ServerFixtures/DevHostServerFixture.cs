@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
 using DevHostServerProgram = BasicTestApp.Server.Program;
 
-namespace Blazorise.UnitTests.Infrastructure.ServerFixtures
+namespace Blazorise.E2ETests.Infrastructure.ServerFixtures
 {
     public class DevHostServerFixture<TProgram> : WebHostServerFixture
     {

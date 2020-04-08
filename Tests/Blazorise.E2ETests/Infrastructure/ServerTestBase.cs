@@ -1,12 +1,12 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Blazorise.UnitTests.Infrastructure.ServerFixtures;
+using Blazorise.E2ETests.Infrastructure.ServerFixtures;
 using System;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Blazorise.UnitTests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure
 {
     public abstract class ServerTestBase<TServerFixture>
         : BrowserTestBase, IClassFixture<TServerFixture>

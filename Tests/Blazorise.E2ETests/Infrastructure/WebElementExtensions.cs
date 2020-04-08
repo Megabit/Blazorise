@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 
-namespace Blazorise.UnitTests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure
 {
     public static class WebElementExtensions
     {

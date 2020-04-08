@@ -8,7 +8,7 @@ using System.Reflection;
 using OpenQA.Selenium;
 using Xunit.Sdk;
 
-namespace Blazorise.UnitTests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure
 {
     // This has to use BeforeAfterTestAttribute because running the log capture
     // in the BrowserFixture.Dispose method is too late, and we can't add logging

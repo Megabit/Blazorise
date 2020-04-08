@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Blazorise.UnitTests.Infrastructure.ServerFixtures
+namespace Blazorise.E2ETests.Infrastructure.ServerFixtures
 {
     public class ToggleExecutionModeServerFixture<TClientProgram>
         : ServerFixture

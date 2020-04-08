@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Xunit;
 #endregion
 
-namespace Blazorise.UnitTests
+namespace Blazorise.E2ETests
 {
     public class FluentPaddingTest
     {

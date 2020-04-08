@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Blazorise.UnitTests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure
 {
     [CaptureSeleniumLogs]
     public class BrowserTestBase : IClassFixture<BrowserFixture>
