@@ -91,22 +91,22 @@
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true">
+                            <FilterTemplate>
+                                <TextEdit Placeholder="Search name" TextChanged="@(v=>context.TriggerFilterChange(v))" />
+                            </FilterTemplate>
+                        </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <FilterTemplate>
-                                <Dropdown>
-                                    <DropdownToggle Color="Color.Primary">
-                                        @(context.SearchValue == null?"Select City":context.SearchValue)
-                                    </DropdownToggle>
-                                    <DropdownMenu>
-                                        @foreach (var item in dataModels)
-                                        {
-                                            <DropdownItem Value="@item.City" Clicked="@(e => context.TriggerFilterEvent(e.ToString()))">@item.City</DropdownItem>
-                                        }
-                                    </DropdownMenu>
-                                </Dropdown>
+                                <Select TValue="string" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
+                                    <SelectItem Value="@("*")">All</SelectItem>
+                                    @foreach ( var item in dataModels )
+                                    {
+                                        <SelectItem Value="@item.City">@item.City</SelectItem>
+                                    }
+                                </Select>
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable="true" />
