@@ -167,6 +167,7 @@
     /*background: #001529;*/
     line-height: 64px; }
     .b-layout-header-fixed {
+        position: fixed;
         z-index: 1;
         width: 100%; }
 
@@ -179,6 +180,8 @@
 .b-layout-content {
     flex: auto;
     min-height: 0; }
+    .b-layout-content-header-fixed {
+        margin-top: 64px; }
 
 .b-layout-sider {
     position: relative;
