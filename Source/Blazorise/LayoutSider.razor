@@ -1,0 +1,11 @@
+﻿@inherits BaseComponent
+@if ( !HasCustomRegistration )
+{
+    <aside class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </aside>
+}
+else
+{
+    @RenderCustomComponent()
+}
