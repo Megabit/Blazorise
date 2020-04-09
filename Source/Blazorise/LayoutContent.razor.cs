@@ -18,7 +18,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( "b-layout-content" );
+            builder.Append( ClassProvider.LayoutContent() );
 
             base.BuildClasses( builder );
         }

@@ -18,7 +18,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( "b-layout-footer" );
+            builder.Append( ClassProvider.LayoutFooter() );
 
             base.BuildClasses( builder );
         }

@@ -14,16 +14,48 @@ namespace Blazorise
 
         private bool sider;
 
+        private bool bodyClassApplied;
+
         #endregion
 
         #region Methods
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( "b-layout" );
-            builder.Append( "b-layout-has-sider", Sider );
+            builder.Append( ClassProvider.Layout() );
+            builder.Append( ClassProvider.LayoutHasSider(), Sider );
 
             base.BuildClasses( builder );
+        }
+
+        protected override async Task OnAfterRenderAsync( bool firstRender )
+        {
+            if ( firstRender )
+            {
+                if ( ParentLayout == null )
+                {
+                    await JSRunner.AddClassToBody( ClassProvider.LayoutBody() );
+
+                    bodyClassApplied = true;
+                }
+            }
+
+            await base.OnAfterRenderAsync( firstRender );
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( bodyClassApplied )
+                {
+                    _ = JSRunner.RemoveClassFromBody( ClassProvider.LayoutBody() );
+
+                    bodyClassApplied = false;
+                }
+            }
+
+            base.Dispose( disposing );
         }
 
         #endregion
@@ -41,6 +73,8 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        [CascadingParameter] protected Layout ParentLayout { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
