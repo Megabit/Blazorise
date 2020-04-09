@@ -210,7 +210,8 @@
 
 .ant-menu-end {
     justify-content: flex-end;
-    margin-left: auto; }
+    margin-left: auto;
+    float: right; }
     .ant-menu-end > .ant-menu-item,
     .ant-menu-end > .ant-menu-submenu {
         position: relative;
@@ -231,6 +232,9 @@
 .ant-menu-sub-right {
     right: 0;
     left: auto; }
+
+.b-layout-header .ant-menu {
+    line-height: inherit; }
 
 .ant-dropdown-group {
     display: inline-flex;

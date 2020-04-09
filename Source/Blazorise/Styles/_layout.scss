@@ -1,4 +1,8 @@
-﻿.b-layout {
+﻿.b-body-layout {
+    overflow-x: hidden;
+}
+
+.b-layout {
     display: flex;
     flex: auto;
     flex-direction: column;
@@ -13,11 +17,6 @@
 .b-layout {
     &.b-layout-has-sider {
         flex-direction: row;
-
-        > .b-layout,
-        > .b-layout-content {
-            overflow-x: hidden;
-        }
     }
 }
 
@@ -30,12 +29,12 @@
     height: 64px;
     /*padding: 0 50px;*/
     color: rgba(0, 0, 0, 0.65);
-    line-height: 64px;
     /*background: #001529;*/
+    line-height: 64px;
     &-fixed {
-        position: fixed;
+        position: sticky;
         z-index: 1;
-        width: 100%;
+        top: 0;
     }
 }
 
@@ -53,7 +52,6 @@
 
 .b-layout-sider {
     position: relative;
-    min-width: 0;
     background: #001529;
     transition: all 0.2s;
 }
