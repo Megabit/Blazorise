@@ -110,18 +110,7 @@
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable="true" />
-                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" Caption="Date Of Birth" Editable="true">
-                            <DisplayTemplate>
-                                @{
-                                    var date = ( context as Employee )?.DateOfBirth;
-
-                                    if ( date != null )
-                                    {
-                                        @($"{date.Value.ToShortDateString()}, age: {( DateTime.Now.Year - date.Value.Year )}")
-                                    }
-                                }
-                            </DisplayTemplate>
-                        </DataGridNumericColumn>
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" />
                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
                             <DisplayTemplate>
@@ -256,7 +245,7 @@
 
     // generated with https://mockaroo.com/
     List<Employee> dataModels = new List<Employee> {
-        new Employee {Id = 1,FirstName = "Caro",LastName = "Nizard",EMail = "cnizard0@hc360.com",City = "Faīẕābād",Zip = null,Salary = 51724.19m,
+        new Employee {Id = 1,FirstName = "Caro",LastName = "Nizard",EMail = "cnizard0@hc360.com",City = "Faīẕābād",Zip = null,Salary = 51724.19m, DateOfBirth = new DateTime(1983,5,8),
             Salaries = new List<Salary> {
                 new Salary { Date = new DateTime(2019,1,6), Total = 6000 },
                 new Salary { Date = new DateTime(2019,2,7), Total = 5005 },
