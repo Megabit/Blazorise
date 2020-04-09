@@ -1,61 +1,12 @@
-﻿@import "mixins";
+﻿@import "variables";
+@import "mixins";
 
-.navbar-nav .nav-item:hover {
-    cursor: pointer;
-}
+@import "bar";
+@import "buttons";
+@import "figure";
+@import "form";
+@import "layout";
+@import "modal";
+@import "table";
 
-.navbar-nav .nav-link:hover {
-    cursor: pointer;
-}
-
-.nav .nav-link:hover {
-    cursor: pointer;
-}
-
-.modal-backdrop {
-    z-index: -1;
-}
-
-table.table tbody tr.selected {
-    background-color: var(--primary);
-}
-
-.form-check > .form-check-input.form-check-input-pointer,
-.form-check > .form-check-label.form-check-label-pointer,
-.custom-checkbox > .custom-control-input.custom-control-input-pointer,
-.custom-checkbox > .custom-control-label.custom-control-label-pointer {
-    cursor: pointer;
-}
-
-tr.table-row-selectable:hover {
-    cursor: pointer;
-}
-
-$dimensions: 16 24 32 48 64 96 128 256 512 !default
-
-@each $dimension in $dimensions {
-    &.figure-is-#{$dimension}x#{$dimension} {
-        height: $dimension * 1px;
-        width: $dimension * 1px;
-    }
-}
-
-.btn-group {
-    > .b-tooltip:not(:last-child) > .btn {
-        @include border-right-radius(0);
-    }
-
-    > .b-tooltip:not(:first-child) > .btn {
-        @include border-left-radius(0);
-    }
-}
-
-.btn-group-vertical {
-    > .b-tooltip:not(:last-child) > .btn {
-        @include border-bottom-radius(0);
-    }
-
-    > .b-tooltip:not(:first-child) > .btn {
-        @include border-top-radius(0);
-    }
-}
+@import "utilities";

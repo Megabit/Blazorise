@@ -210,7 +210,8 @@
 
 .ant-menu-end {
     justify-content: flex-end;
-    margin-left: auto; }
+    margin-left: auto;
+    float: right; }
     .ant-menu-end > .ant-menu-item,
     .ant-menu-end > .ant-menu-submenu {
         position: relative;
@@ -231,6 +232,9 @@
 .ant-menu-sub-right {
     right: 0;
     left: auto; }
+
+.b-layout-header .ant-menu {
+    line-height: inherit; }
 
 .ant-dropdown-group {
     display: inline-flex;
@@ -341,6 +345,9 @@
 .ant-figure-is-512x512 {
     height: 512px;
     width: 512px; }
+
+.b-layout-header {
+    line-height: 64px; }
 
 .m-xs-0 {
     margin: 0 !important; }
