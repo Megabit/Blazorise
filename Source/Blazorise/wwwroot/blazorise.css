@@ -140,6 +140,9 @@
 .b-tooltip-inline {
     display: inline-block; }
 
+body {
+    overflow-x: hidden; }
+
 .b-layout {
     display: flex;
     flex: auto;
@@ -152,9 +155,6 @@
 
 .b-layout.b-layout-has-sider {
     flex-direction: row; }
-    .b-layout.b-layout-has-sider > .b-layout,
-    .b-layout.b-layout-has-sider > .b-layout-content {
-        overflow-x: hidden; }
 
 .b-layout-header,
 .b-layout-footer {
@@ -167,9 +167,9 @@
     /*background: #001529;*/
     line-height: 64px; }
     .b-layout-header-fixed {
-        position: fixed;
+        position: sticky;
         z-index: 1;
-        width: 100%; }
+        top: 0; }
 
 .b-layout-footer {
     /*padding: 24px 50px;*/

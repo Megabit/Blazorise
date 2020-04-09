@@ -12,8 +12,6 @@ namespace Blazorise
     {
         #region Members
 
-        private bool @fixedHeader;
-
         #endregion
 
         #region Methods
@@ -21,7 +19,6 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "b-layout-content" );
-            builder.Append( "b-layout-content-header-fixed", FixedHeader );
 
             base.BuildClasses( builder );
         }
@@ -29,18 +26,6 @@ namespace Blazorise
         #endregion
 
         #region Properties
-
-        [Parameter]
-        public bool FixedHeader
-        {
-            get => @fixedHeader;
-            set
-            {
-                @fixedHeader = value;
-
-                DirtyClasses();
-            }
-        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
