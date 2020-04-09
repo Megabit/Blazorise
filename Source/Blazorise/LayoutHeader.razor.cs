@@ -20,8 +20,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( "b-layout-header" );
-            builder.Append( "b-layout-header-fixed", Fixed );
+            builder.Append( ClassProvider.LayoutHeader() );
+            builder.Append( ClassProvider.LayoutHeaderFixed(), Fixed );
 
             base.BuildClasses( builder );
         }
