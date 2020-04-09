@@ -1,43 +1,6 @@
-﻿/*@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');*/
-
-html, body {
+﻿html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-
-    body app {
-        position: relative;
-        display: flex;
-        align-items: stretch;
-    }
-
-.app-main {
-    width: 100%;
-}
-
-.app-bar {
-    height: 3.5rem;
-    display: flex;
-    align-items: center;
-    top: 0;
-    position: sticky;
-}
-
-.app-content {
-    padding-right: 1.5rem !important;
-    padding-left: 1.5rem !important;
-}
-
-/*@media (min-width:767.98px) {
-    .app-main .app-bar {
-        display: none;
-    }
-}*/
-
-/*@media (min-width:992px) {
-    .app-main {
-        margin-left: 17.5rem
-    }
-}*/
 
 .sk-cube-grid {
     width: 80px;
