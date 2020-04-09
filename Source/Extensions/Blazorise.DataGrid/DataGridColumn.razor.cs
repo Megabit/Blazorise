@@ -152,6 +152,11 @@ namespace Blazorise.DataGrid
         [Parameter] public SortDirection Direction { get; set; }
 
         /// <summary>
+        /// Defines the alignment for display cell.
+        /// </summary>
+        [Parameter] public TextAlignment TextAlignment { get; set; }
+
+        /// <summary>
         /// Gets or sets whether users can edit cell values under this column.
         /// </summary>
         [Parameter] public bool Editable { get; set; }

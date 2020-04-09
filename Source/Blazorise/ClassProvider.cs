@@ -678,6 +678,8 @@ namespace Blazorise
 
         public abstract string TableRowCellTextColor( TextColor textColor );
 
+        public abstract string TableRowCellTextAlignment( TextAlignment textAlignment );
+
         #endregion
 
         #region Badge

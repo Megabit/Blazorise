@@ -681,6 +681,8 @@ namespace Blazorise.Providers
 
         public string TableRowCellTextColor( TextColor textColor ) => null;
 
+        public string TableRowCellTextAlignment( TextAlignment textAlignment ) => null;
+
         #endregion
 
         #region Badge
