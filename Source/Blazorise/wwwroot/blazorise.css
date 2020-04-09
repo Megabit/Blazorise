@@ -166,12 +166,11 @@
     color: rgba(0, 0, 0, 0.65);
     /*background: #001529;*/
     /*line-height: 64px;*/
-    /*&-fixed {
+}
+    .b-layout-header-fixed {
         position: sticky;
         z-index: 1;
-        top: 0;
-    }
-}
+        top: 0; }
 
 .b-layout-footer {
     /*padding: 24px 50px;*/

@@ -21,6 +21,7 @@ namespace Blazorise.Sidebar
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "sidebar" );
+            builder.Append( "sidebar-scrollable" );
             builder.Append( "show", Visible );
 
             base.BuildClasses( builder );
