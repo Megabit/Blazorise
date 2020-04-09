@@ -1,0 +1,152 @@
+﻿@page "/tests/typography"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Display Headings</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Traditional heading elements are designed to work best in the meat of your page content. When you need a heading to stand out, consider using a display heading—a larger, slightly more opinionated heading style.</CardText>
+            </CardBody>
+            <CardBody>
+                <DisplayHeading Size="DisplayHeadingSize.Is1">Display 1</DisplayHeading>
+                <Paragraph>
+                    Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
+                </Paragraph>
+                <DisplayHeading Size="DisplayHeadingSize.Is2">Display 2</DisplayHeading>
+                <Paragraph>
+                    In nec rhoncus eros. Vestibulum eu mattis nisl. Quisque viverra viverra magna nec pulvinar. Maecenas pellentesque porta augue, consectetur facilisis diam porttitor sed. Suspendisse tempor est sodales augue rutrum tincidunt. Quisque a malesuada purus.
+                </Paragraph>
+                <DisplayHeading Size="DisplayHeadingSize.Is3">Display 3</DisplayHeading>
+                <Paragraph>
+                    Vestibulum auctor tincidunt semper. Phasellus ut vulputate lacus. Suspendisse ultricies mi eros, sit amet tempor nulla varius sed. Proin nisl nisi, feugiat quis bibendum vitae, dapibus in tellus.
+                </Paragraph>
+                <DisplayHeading Size="DisplayHeadingSize.Is4">Display 4</DisplayHeading>
+                <Paragraph>
+                    Nulla et mattis nunc. Curabitur scelerisque commodo condimentum. Mauris blandit, velit a consectetur egestas, diam arcu fermentum justo, eget ultrices arcu eros vel erat.
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Headings</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>All HTML headings, <code>.h1</code> through <code>.h6</code>, are available. <code>HeadingSize.Is1</code> through <code>HeadingSize.Is6</code> classes are also available, for when you want to match the font styling of a heading but still want your text to be displayed inline.</CardText>
+            </CardBody>
+            <CardBody>
+                <Heading Size="HeadingSize.Is1">This is a Heading 1</Heading>
+                <Paragraph>
+                    Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
+                </Paragraph>
+                <Heading Size="HeadingSize.Is2">This is a Heading 2</Heading>
+                <Paragraph>
+                    In nec rhoncus eros. Vestibulum eu mattis nisl. Quisque viverra viverra magna nec pulvinar. Maecenas pellentesque porta augue, consectetur facilisis diam porttitor sed. Suspendisse tempor est sodales augue rutrum tincidunt. Quisque a malesuada purus.
+                </Paragraph>
+                <Heading Size="HeadingSize.Is3">This is a Heading 3</Heading>
+                <Paragraph>
+                    Vestibulum auctor tincidunt semper. Phasellus ut vulputate lacus. Suspendisse ultricies mi eros, sit amet tempor nulla varius sed. Proin nisl nisi, feugiat quis bibendum vitae, dapibus in tellus.
+                </Paragraph>
+                <Heading Size="HeadingSize.Is4">This is a Heading 4</Heading>
+                <Paragraph>
+                    Nulla et mattis nunc. Curabitur scelerisque commodo condimentum. Mauris blandit, velit a consectetur egestas, diam arcu fermentum justo, eget ultrices arcu eros vel erat.
+                </Paragraph>
+                <Heading Size="HeadingSize.Is5">This is a Heading 5</Heading>
+                <Paragraph>
+                    Quisque nec turpis at urna dictum luctus. Suspendisse convallis dignissim eros at volutpat. In egestas mattis dui. Aliquam mattis dictum aliquet. Nulla sapien mauris, eleifend et sem ac, commodo dapibus odio. Vivamus pretium nec odio cursus elementum. Suspendisse molestie ullamcorper ornare.
+                </Paragraph>
+                <Heading Size="HeadingSize.Is6">This is a Heading 6</Heading>
+                <Paragraph>
+                    Donec ultricies, lacus id tempor condimentum, orci leo faucibus sem, a molestie libero lectus ac justo. ultricies mi eros, sit amet tempor nulla varius sed. Proin nisl nisi, feugiat quis bibendum vitae, dapibus in tellus.
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Inline Text Elements</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Your awesome text goes here.</CardText>
+            </CardBody>
+            <CardBody>
+                <Paragraph>You can use the <mark>mark</mark> tag to highlight text.</Paragraph>
+                <Paragraph>
+                    <del>
+                        This line of text is meant to be treated as deleted text.
+                    </del>
+                </Paragraph>
+                <Paragraph>
+                    <s>
+                        This line of text is meant to be treated as no longer accurate.
+                    </s>
+                </Paragraph>
+                <Paragraph>
+                    <ins>
+                        This line of text is meant to be treated as an addition to the document.
+                    </ins>
+                </Paragraph>
+                <Paragraph>
+                    <u>
+                        This line of text will render as underlined
+                    </u>
+                </Paragraph>
+                <Paragraph>
+                    <small>
+                        This line of text is meant to be treated as fine print.
+                    </small>
+                </Paragraph>
+                <Paragraph>
+                    <strong>
+                        This line rendered as bold text.
+                    </strong>
+                </Paragraph>
+                <Paragraph>
+                    <em>
+                        This line rendered as italicized text.
+                    </em>
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Contextual Text Colors</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Your awesome text goes here.</CardText>
+            </CardBody>
+            <CardBody>
+                <Paragraph Color="TextColor.Muted">
+                    Fusce dapibus, tellus ac cursus commodo, tortor mauris nibh.
+                </Paragraph>
+                <Paragraph Color="TextColor.Primary">
+                    Nullam id dolor id nibh ultricies vehicula ut id elit.
+                </Paragraph>
+                <Paragraph Color="TextColor.Success">
+                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                </Paragraph>
+                <Paragraph Color="TextColor.Info">
+                    Maecenas sed diam eget risus varius blandit sit amet non magna.
+                </Paragraph>
+                <Paragraph Color="TextColor.Warning">
+                    Etiam porta sem malesuada magna mollis euismod.
+                </Paragraph>
+                <Paragraph Color="TextColor.Danger">
+                    Donec ullamcorper nulla non metus auctor fringilla.
+                </Paragraph>
+                <Paragraph Color="TextColor.Dark">
+                    Nullam id dolor id nibh ultricies vehicula ut id elit.
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

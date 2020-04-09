@@ -42,6 +42,8 @@ namespace Blazorise
 
         ValueTask<bool> ParentHasClass( ElementReference elementRef, string classaname );
 
+        ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId );
+
         ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit );
 
         ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
@@ -51,6 +53,8 @@ namespace Blazorise
         ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
 
         ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
+
+        ValueTask<bool> OpenFileDialog( ElementReference elementRef, string elementId );
 
         ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement );
 

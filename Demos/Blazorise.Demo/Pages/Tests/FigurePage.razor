@@ -1,0 +1,154 @@
+﻿@page "/tests/figures"
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardBody>
+                <CardTitle>Figure</CardTitle>
+                <CardText>Because images can take a few seconds to load (or not at all), use the <code>Figure</code> container to specify a precisely sized container so that your layout isn't broken because of image loading or image errors.</CardText>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Basic Figure</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>A basic figure without any styles.</CardText>
+            </CardBody>
+            <CardBody>
+                <Figure>
+                    <FigureImage Source="assets/images/gallery/9.jpg" AlternateText="some text" />
+                    <FigureCaption>A caption for the above image.</FigureCaption>
+                </Figure>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Rounded Figure</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use the <code>IsRounded</code> attribute to set the round borders.</CardText>
+            </CardBody>
+            <CardBody>
+                <Figure>
+                    <FigureImage Source="assets/images/gallery/9.jpg" AlternateText="some text" Rounded="true" />
+                    <FigureCaption>A caption for the above image.</FigureCaption>
+                </Figure>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Fixed square images</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>There are multiple dimensions to choose from, useful for avatars:</CardText>
+            </CardBody>
+            <CardBody>
+                <Table Bordered="true">
+                    <TableBody>
+                        <TableRow>
+                            <TableRowCell>
+                                <code>Image is 16x16</code>
+                            </TableRowCell>
+                            <TableRowCell>
+                                <Figure Size="FigureSize.Is16x16">
+                                    <FigureImage Source="assets/images/empty/16x16.png" AlternateText="16x16" />
+                                </Figure>
+                            </TableRowCell>
+                            <TableRowCell>
+                                16x16px
+                            </TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowCell>
+                                <code>Image is 32x32</code>
+                            </TableRowCell>
+                            <TableRowCell>
+                                <Figure Size="FigureSize.Is32x32">
+                                    <FigureImage Source="assets/images/empty/32x32.png" AlternateText="16x16" />
+                                </Figure>
+                            </TableRowCell>
+                            <TableRowCell>
+                                32x32px
+                            </TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowCell>
+                                <code>Image is 48x48</code>
+                            </TableRowCell>
+                            <TableRowCell>
+                                <Figure Size="FigureSize.Is48x48">
+                                    <FigureImage Source="assets/images/empty/48x48.png" AlternateText="16x16" />
+                                </Figure>
+                            </TableRowCell>
+                            <TableRowCell>
+                                48x48px
+                            </TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowCell>
+                                <code>Image is 64x64</code>
+                            </TableRowCell>
+                            <TableRowCell>
+                                <Figure Size="FigureSize.Is64x64">
+                                    <FigureImage Source="assets/images/empty/64x64.png" AlternateText="16x16" />
+                                </Figure>
+                            </TableRowCell>
+                            <TableRowCell>
+                                64x64px
+                            </TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowCell>
+                                <code>Image is 96x96</code>
+                            </TableRowCell>
+                            <TableRowCell>
+                                <Figure Size="FigureSize.Is96x96">
+                                    <FigureImage Source="assets/images/empty/96x96.png" AlternateText="16x16" />
+                                </Figure>
+                            </TableRowCell>
+                            <TableRowCell>
+                                96x96px
+                            </TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowCell>
+                                <code>Image is 128x128</code>
+                            </TableRowCell>
+                            <TableRowCell>
+                                <Figure Size="FigureSize.Is128x128">
+                                    <FigureImage Source="assets/images/empty/128x128.png" AlternateText="16x16" />
+                                </Figure>
+                            </TableRowCell>
+                            <TableRowCell>
+                                128x128px
+                            </TableRowCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowCell>
+                                <code>Image is 256x256</code>
+                            </TableRowCell>
+                            <TableRowCell>
+                                <Figure Size="FigureSize.Is256x256">
+                                    <FigureImage Source="assets/images/empty/256x256.png" AlternateText="16x16" />
+                                </Figure>
+                            </TableRowCell>
+                            <TableRowCell>
+                                256x256px
+                            </TableRowCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

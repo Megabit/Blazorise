@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class BaseDataGrid<TItem> : BaseComponent
+    public abstract class BaseDataGrid<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -92,15 +92,18 @@ namespace Blazorise.DataGrid
             }
         }
 
-        protected override Task OnFirstAfterRenderAsync()
+        protected override Task OnAfterRenderAsync( bool firstRender )
         {
-            if ( ReadData.HasDelegate )
-                return HandleReadData();
+            if ( firstRender )
+            {
+                if ( ReadData.HasDelegate )
+                    return HandleReadData();
 
-            // after all the columns have being "hooked" we need to resfresh the grid
-            StateHasChanged();
+                // after all the columns have being "hooked" we need to resfresh the grid
+                StateHasChanged();
+            }
 
-            return base.OnFirstAfterRenderAsync();
+            return base.OnAfterRenderAsync( firstRender );
         }
 
         #endregion
@@ -188,44 +191,44 @@ namespace Blazorise.DataGrid
 
         protected async Task OnSaveCommand()
         {
-            if ( Data is ICollection<TItem> data )
+            if ( Data == null )
+                return;
+
+            // get the list of edited values
+            var editedCellValues = EditableColumns
+                .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
+
+            var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
+
+            if ( await IsSafeToProceed( rowSavingHandler, editItem, editedCellValues ) )
             {
-                // get the list of edited values
-                var editedCellValues = EditableColumns
-                    .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
-
-                var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
-
-                if ( await IsSafeToProceed( rowSavingHandler, editItem, editedCellValues ) )
+                if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem && Data is ICollection<TItem> data )
                 {
-                    if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem )
-                    {
-                        data.Add( editItem );
-                    }
-
-                    if ( UseInternalEditing || editState == DataGridEditState.New )
-                    {
-                        // apply edited cell values to the item
-                        // for new items it must be always be set, while for editing items it can be set only if it's enabled
-                        foreach ( var column in EditableColumns )
-                        {
-                            column.SetValue( editItem, editItemCellValues[column.ElementId].CellValue );
-                        }
-                    }
-
-                    if ( editState == DataGridEditState.New )
-                    {
-                        await RowInserted.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
-                        dirtyFilter = dirtyView = true;
-                    }
-                    else
-                        await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
-
-                    editState = DataGridEditState.None;
-
-                    if ( EditMode == DataGridEditMode.Popup )
-                        PopupVisible = false;
+                    data.Add( editItem );
                 }
+
+                if ( UseInternalEditing || editState == DataGridEditState.New )
+                {
+                    // apply edited cell values to the item
+                    // for new items it must be always be set, while for editing items it can be set only if it's enabled
+                    foreach ( var column in EditableColumns )
+                    {
+                        column.SetValue( editItem, editItemCellValues[column.ElementId].CellValue );
+                    }
+                }
+
+                if ( editState == DataGridEditState.New )
+                {
+                    await RowInserted.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
+                    dirtyFilter = dirtyView = true;
+                }
+                else
+                    await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
+
+                editState = DataGridEditState.None;
+
+                if ( EditMode == DataGridEditMode.Popup )
+                    PopupVisible = false;
             }
         }
 
@@ -304,7 +307,7 @@ namespace Blazorise.DataGrid
             return Task.CompletedTask;
         }
 
-        protected Task OnFilterChanged( BaseDataGridColumn<TItem> column, string value )
+        internal protected Task OnFilterChanged( BaseDataGridColumn<TItem> column, string value )
         {
             column.Filter.SearchValue = value;
             dirtyFilter = dirtyView = true;
@@ -349,6 +352,14 @@ namespace Blazorise.DataGrid
 
                     if ( CurrentPage > LastPage )
                         CurrentPage = LastPage;
+                }
+                else if ( pageName == "first" )
+                {
+                    CurrentPage = 1;
+                }
+                else if ( pageName == "last" )
+                {
+                    CurrentPage = LastPage;
                 }
             }
 
@@ -583,14 +594,24 @@ namespace Blazorise.DataGrid
         [Parameter] public int CurrentPage { get; set; } = 1;
 
         /// <summary>
+        /// Gets or sets content of first button of pager.
+        /// </summary>
+        [Parameter] public RenderFragment FirstPageButtonTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets content of last button of pager.
+        /// </summary>
+        [Parameter] public RenderFragment LastPageButtonTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets content of previous button of pager.
         /// </summary>
-        [Parameter] public RenderFragment PreviousButtonTemplate { get; set; }
+        [Parameter] public RenderFragment PreviousPageButtonTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets content of next button of pager.
         /// </summary>
-        [Parameter] public RenderFragment NextButtonTemplate { get; set; }
+        [Parameter] public RenderFragment NextPageButtonTemplate { get; set; }
 
         /// <summary>
         /// Gets the last page number.
@@ -773,6 +794,56 @@ namespace Blazorise.DataGrid
         /// Makes the table more compact by cutting cell padding in half.
         /// </summary>
         [Parameter] public bool Narrow { get; set; }
+
+        /// <summary>
+        /// Custom css classname.
+        /// </summary>
+        [Parameter] public string Class { get; set; }
+
+        /// <summary>
+        /// Custom html style.
+        /// </summary>
+        [Parameter] public string Style { get; set; }
+
+        /// <summary>
+        /// Defines the element margin spacing.
+        /// </summary>
+        [Parameter] public IFluentSpacing Margin { get; set; }
+
+        /// <summary>
+        /// Defines the element padding spacing.
+        /// </summary>
+        [Parameter] public IFluentSpacing Padding { get; set; }
+
+        /// <summary>
+        /// Custom classname handler for current.
+        /// </summary>
+        [Parameter] public Func<TItem, string> RowClass { get; set; }
+
+        /// <summary>
+        /// Custom style handler for current row.
+        /// </summary>
+        [Parameter] public Func<TItem, string> RowStyle { get; set; }
+
+        /// <summary>
+        /// Custom classname for header row.
+        /// </summary>
+        [Parameter] public string HeaderRowClass { get; set; }
+
+        /// <summary>
+        /// Custom style for header row.
+        /// </summary>
+        [Parameter] public string HeaderRowStyle { get; set; }
+
+        /// <summary>
+        /// Custom classname for filter row.
+        /// </summary>
+        [Parameter] public string FilterRowClass { get; set; }
+
+        /// <summary>
+        /// Custom style for filter row.
+        /// </summary>
+        [Parameter] public string FilterRowStyle { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

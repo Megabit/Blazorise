@@ -50,6 +50,12 @@ namespace Blazorise
             => BackgroundOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
+        /// Gets the valid text colors.
+        /// </summary>
+        public IEnumerable<(string name, string color)> ValidTextColors
+            => TextColorOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+
+        /// <summary>
         /// Used to override default theme colors.
         /// </summary>
         public ThemeColorOptions ColorOptions { get; set; }
@@ -58,6 +64,16 @@ namespace Blazorise
         /// Used to override default background colors.
         /// </summary>
         public ThemeBackgroundOptions BackgroundOptions { get; set; }
+
+        /// <summary>
+        /// Used to override default background colors.
+        /// </summary>
+        public ThemeTextColorOptions TextColorOptions { get; set; }
+
+        /// <summary>
+        /// Set a specific jump point for requesting color jumps
+        /// </summary>
+        public float ThemeColorInterval { get; set; } = 8f;
 
         /// <summary>
         /// Overrides the button styles.
@@ -141,10 +157,13 @@ namespace Blazorise
 
         public string CheckColor { get; set; }
 
+        public string SliderColor { get; set; }
+
         public override bool HasOptions()
         {
             return !string.IsNullOrEmpty( Color )
                 || !string.IsNullOrEmpty( CheckColor )
+                || !string.IsNullOrEmpty( SliderColor )
                 || base.HasOptions();
         }
     }
@@ -170,7 +189,7 @@ namespace Blazorise
     {
         public int BackgroundLevel { get; set; } = -10;
 
-        public int BorderLevel { get; set; } = -9;
+        public int BorderLevel { get; set; } = -7;
 
         public int ColorLevel { get; set; } = 6;
 
@@ -208,6 +227,10 @@ namespace Blazorise
         public string Thickness { get; set; } = "2px";
 
         public string TextSize { get; set; } = ".85rem";
+    }
+
+    public class ThemeParagraphOptions
+    {
     }
 
     public class ThemeColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
@@ -310,6 +333,68 @@ namespace Blazorise
         public string Muted { get; set; }
     }
 
+    public class ThemeTextColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    {
+        private Dictionary<string, Func<string>> colorMap => new Dictionary<string, Func<string>> {
+            { "primary", () => Primary },
+            { "secondary", () => Secondary },
+            { "success", () => Success },
+            { "info", () => Info },
+            { "warning", () => Warning },
+            { "danger", () => Danger },
+            { "light", () => Light },
+            { "dark", () => Dark },
+            { "body", () => Body },
+            { "muted", () => Muted },
+            { "white", () => White },
+            { "black50", () => Black50 },
+            { "white50", () => White50 },
+        };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the color handler associated with the specified color key.
+        /// </summary>
+        /// <param name="key">Color key</param>
+        /// <returns>Return the color getter.</returns>
+        public Func<string> this[string key] => colorMap[key];
+
+        public string Primary { get; set; } = ThemeColors.Blue.Shades["400"].Value;
+
+        public string Secondary { get; set; } = ThemeColors.Gray.Shades["600"].Value;
+
+        public string Success { get; set; } = ThemeColors.Green.Shades["500"].Value;
+
+        public string Info { get; set; } = ThemeColors.Cyan.Shades["500"].Value;
+
+        public string Warning { get; set; } = ThemeColors.Yellow.Shades["500"].Value;
+
+        public string Danger { get; set; } = ThemeColors.Red.Shades["500"].Value;
+
+        public string Light { get; set; } = ThemeColors.Gray.Shades["100"].Value;
+
+        public string Dark { get; set; } = ThemeColors.Gray.Shades["800"].Value;
+
+        public string Body { get; set; } = ThemeColors.Gray.Shades["900"].Value;
+
+        public string Muted { get; set; } = ThemeColors.Gray.Shades["600"].Value;
+
+        public string White { get; set; } = ThemeColors.Gray.Shades["50"].Value;
+
+        public string Black50 { get; set; } = "#000000";
+
+        public string White50 { get; set; } = "#FFFFFF";
+    }
+
     public class ThemeSidebarOptions
     {
         public string BackgroundColor { get; set; }
@@ -372,7 +457,9 @@ namespace Blazorise
         public static string BackgroundColor( string variant ) => $"--b-theme-background-{variant}";
         public static string BackgroundYiqColor( string variant ) => $"--b-theme-background-{variant}-yiq";
 
-        public static string ButtonBackgrund( string variant ) => $"--b-button-{variant}-background";
+        public static string TextColor( string variant ) => $"--b-theme-text-{variant}";
+
+        public static string ButtonBackground( string variant ) => $"--b-button-{variant}-background";
         public static string ButtonBorder( string variant ) => $"--b-button-{variant}-border";
         public static string ButtonHoverBackground( string variant ) => $"--b-button-{variant}-hover-background";
         public static string ButtonHoverBorder( string variant ) => $"--b-button-{variant}-hover-border";

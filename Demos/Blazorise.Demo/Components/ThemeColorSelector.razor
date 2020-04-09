@@ -1,0 +1,66 @@
+<style>
+    .demo-theme-color-item {
+        display: table-cell;
+        width: 36px;
+        height: 36px;
+        vertical-align: top;
+        text-align: center;
+        color: white;
+        cursor: pointer;
+    }
+
+        .demo-theme-color-item .material-icons {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .demo-theme-color-item.selected { /* border: 1px solid black; */
+        }
+</style>
+<div>
+    @foreach ( var color in ThemeColors.Items.Values )
+    {
+        <div>
+            @foreach ( var shade in color.Shades.Values )
+            {
+                var temp = shade.Value;
+
+                <div class="@(ClassNames(temp))" style="background: @temp" @onclick="@(()=>OnClick(temp))"></div>
+            }
+        </div>
+    }
+</div>
+@code{
+    [Parameter]
+    public string Value
+    {
+        get => _value;
+        set
+        {
+            if ( value == _value )
+            {
+                return;
+            }
+            _value = value;
+            this.StateHasChanged();
+            ValueChanged.InvokeAsync( value );
+        }
+    }
+
+    string ClassNames( string value )
+        => $"demo-theme-color-item{( value == Value ? " selected" : "" )}";
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    private string _value;
+
+    Task OnClick( string value )
+    {
+        Value = value;
+
+        return Task.CompletedTask;
+    }
+}

@@ -1,0 +1,9 @@
+﻿@inherits BaseComponent
+@if ( !HasCustomRegistration )
+{
+    @ChildContent
+}
+else
+{
+    @RenderCustomComponent()
+}

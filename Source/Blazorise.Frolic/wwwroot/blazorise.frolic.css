@@ -1,4 +1,18 @@
-﻿.e-table.borderless td, .e-table.borderless th, .e-table.borderless tr {
+﻿label.e-btn {
+    display: flex; }
+
+label.e-btn {
+    outline: none;
+    display: inline-flex;
+    align-items: center; }
+    label.e-btn input[type=radio] {
+        position: absolute;
+        left: 0;
+        opacity: 0;
+        outline: none;
+        z-index: -1; }
+
+.e-table.borderless td, .e-table.borderless th, .e-table.borderless tr {
     border: 0 !important; }
 
 .e-table.narrowed td,

@@ -37,6 +37,10 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback Clicked { get; set; }
 
+        [CascadingParameter] protected Alert ParentAlert { get; set; }
+
+        [CascadingParameter] protected Modal ParentModal { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

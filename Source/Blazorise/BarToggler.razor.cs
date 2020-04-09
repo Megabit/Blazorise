@@ -26,13 +26,15 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
             // NOTE: is this right?
             if ( Clicked == null )
                 ParentBar?.Toggle();
             else
                 Clicked?.Invoke();
+
+            return Task.CompletedTask;
         }
 
         protected override void OnInitialized()

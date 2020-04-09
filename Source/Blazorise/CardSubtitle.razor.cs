@@ -20,8 +20,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.CardSubtitle() );
-            builder.Append( ClassProvider.CardSubtitleSize( Size ) );
+            builder.Append( ClassProvider.CardSubtitle( InsideHeader ) );
+            builder.Append( ClassProvider.CardSubtitleSize( InsideHeader, Size ) );
 
             base.BuildClasses( builder );
         }
@@ -29,6 +29,11 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Indicates if the subtitle is placed inside if card header.
+        /// </summary>
+        protected bool InsideHeader => ParentCardHeader != null;
 
         /// <summary>
         /// Number from 1 to 6 that defines the subtitle size where the smaller number means larger text.
@@ -47,6 +52,8 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        [CascadingParameter] public CardHeader ParentCardHeader { get; set; }
 
         #endregion
     }

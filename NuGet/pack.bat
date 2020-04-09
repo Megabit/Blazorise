@@ -9,6 +9,7 @@ nuget pack Blazorise.nuspec
 nuget pack Blazorise.Bootstrap.nuspec
 nuget pack Blazorise.Material.nuspec
 nuget pack Blazorise.Bulma.nuspec
+nuget pack Blazorise.AntDesign.nuspec
 nuget pack Blazorise.Frolic.nuspec
 
 nuget pack Blazorise.Charts.nuspec

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class BaseDataGridColumn<TItem> : BaseComponent
+    public abstract class BaseDataGridColumn<TItem> : BaseDataGridComponent, IDisposable
     {
         #region Members
 
@@ -38,13 +38,46 @@ namespace Blazorise.DataGrid
 
         protected override void OnInitialized()
         {
-            // connect column to the parent datagrid
-            ParentDataGrid?.Hook( this );
+            if ( ParentDataGrid != null )
+            {
+                // connect column to the parent datagrid
+                ParentDataGrid.Hook( this );
+
+                if ( FilterTemplate != null )
+                {
+                    InitializeFilterContext();
+                }
+            }
 
             // initialize temporary variables
             CurrentDirection = Direction;
 
             base.OnInitialized();
+        }
+
+        public void Dispose()
+        {
+            if ( FilterContext != null )
+            {
+                FilterContext.Unsubscribe( OnFilterValueChanged );
+
+                FilterContext = null;
+            }
+        }
+
+        private void InitializeFilterContext()
+        {
+            FilterContext = new FilterContext
+            {
+                SearchValue = Filter.SearchValue
+            };
+
+            FilterContext.Subscribe( OnFilterValueChanged );
+        }
+
+        public async void OnFilterValueChanged( string filterValue )
+        {
+            await ParentDataGrid.OnFilterChanged( this, filterValue );
         }
 
         /// <summary>
@@ -159,9 +192,46 @@ namespace Blazorise.DataGrid
         [Parameter] public string Width { get; set; }
 
         /// <summary>
+        /// Custom classname handler for cell based on the current row item.
+        /// </summary>
+        [Parameter] public Func<TItem, string> CellClass { get; set; }
+
+        /// <summary>
+        /// Custom style handler for cell based on the current row item.
+        /// </summary>
+        [Parameter] public Func<TItem, string> CellStyle { get; set; }
+
+        /// <summary>
+        /// Custom classname for header cell.
+        /// </summary>
+        [Parameter] public string HeaderCellClass { get; set; }
+
+        /// <summary>
+        /// Custom style for header cell.
+        /// </summary>
+        [Parameter] public string HeaderCellStyle { get; set; }
+
+        /// <summary>
+        /// Custom classname for filter cell.
+        /// </summary>
+        [Parameter] public string FilterCellClass { get; set; }
+
+        /// <summary>
+        /// Custom style for filter cell.
+        /// </summary>
+        [Parameter] public string FilterCellStyle { get; set; }
+
+        /// <summary>
         /// Template for custom cell display formating.
         /// </summary>
         [Parameter] public RenderFragment<TItem> DisplayTemplate { get; set; }
+
+        /// <summary>
+        /// Template for custom column filter rendering
+        /// </summary>
+        [Parameter] public RenderFragment<FilterContext> FilterTemplate { get; set; }
+
+        internal FilterContext FilterContext { get; set; }
 
         /// <summary>
         /// Template for custom cell editing.

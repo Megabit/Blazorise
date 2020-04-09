@@ -1,0 +1,280 @@
+﻿@page "/tests/buttons"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Default Buttons</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use the color enums like <code>Color.Primary</code></CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary">PRIMARY</Button>
+                <Button Color="Color.Secondary">SECONDARY</Button>
+                <Button Color="Color.Success">SUCCESS</Button>
+                <Button Color="Color.Danger">DANGER</Button>
+                <Button Color="Color.Warning">WARNING</Button>
+                <Button Color="Color.Info">INFO</Button>
+                <Button Color="Color.Light">LIGHT</Button>
+                <Button Color="Color.Dark">DARK</Button>
+                <Button Color="Color.Link">LINK</Button>
+                <Button>NONE</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Outline Buttons</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>In need of a button, but not the hefty background colors they bring? Replace the default modifier classes with the <code>Outline</code> ones to remove all background images and colors on any button.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Outline="true">PRIMARY</Button>
+                <Button Color="Color.Secondary" Outline="true">SECONDARY</Button>
+                <Button Color="Color.Success" Outline="true">SUCCESS</Button>
+                <Button Color="Color.Danger" Outline="true">DANGER</Button>
+                <Button Color="Color.Warning" Outline="true">WARNING</Button>
+                <Button Color="Color.Info" Outline="true">INFO</Button>
+                <Button Color="Color.Light" Outline="true">LIGHT</Button>
+                <Button Color="Color.Dark" Outline="true">DARK</Button>
+                <Button Color="Color.Link" Outline="true">LINK</Button>
+                <Button Outline="true">NONE</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Add <code>ButtonSize.Small, ButtonSize.Large</code> for additional sizes.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Size="ButtonSize.Small">SMALL PRIMARY</Button>
+                <Button Color="Color.Secondary" Size="ButtonSize.Small">SMALL SECONDARY</Button>
+                <Button Color="Color.Primary" Size="ButtonSize.Large">LARGE PRIMARY</Button>
+                <Button Color="Color.Secondary" Size="ButtonSize.Large">LARGE SECONDARY</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Block</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Create block level buttons by adding <code>Block="true"</code></CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Block="true">BLOCK PRIMARY</Button>
+                <Button Color="Color.Secondary" Block="true">BLOCK SECONDARY</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Active</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Add the <code>Active</code> attribute to buttons.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Active="true">PRIMARY</Button>
+                <Button Color="Color.Link" Active="true">LINK</Button>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Disabled</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Add the <code>Disabled</code> attribute to buttons.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Disabled="true">PRIMARY</Button>
+                <Button Color="Color.Secondary" Disabled="true">SECONDARY</Button>
+                <Button Color="Color.Success" Disabled="true">SUCCESS</Button>
+                <Button Color="Color.Danger" Disabled="true">DANGER</Button>
+                <Button Color="Color.Warning" Disabled="true">WARNING</Button>
+                <Button Color="Color.Info" Disabled="true">INFO</Button>
+                <Button Color="Color.Light" Disabled="true">LIGHT</Button>
+                <Button Color="Color.Dark" Disabled="true">DARK</Button>
+                <Button Color="Color.Link" Disabled="true">LINK</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Loading</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use <code>Loading</code> attribute to add spinners within buttons to indicate an action is currently processing or taking place.</CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Loading="true">PRIMARY</Button>
+                <Button Color="Color.Secondary" Loading="true">SECONDARY</Button>
+                <Button Color="Color.Success" Loading="true">SUCCESS</Button>
+                <Button Color="Color.Danger" Loading="true">DANGER</Button>
+                <Button Color="Color.Warning" Loading="true">WARNING</Button>
+                <Button Color="Color.Info" Loading="true">INFO</Button>
+                <Button Color="Color.Light" Loading="true">LIGHT</Button>
+                <Button Color="Color.Dark" Loading="true">DARK</Button>
+                <Button Color="Color.Link" Loading="true">LINK</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Button Addons</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Wrap a series of buttons with <code>Buttons</code> component.</CardText>
+            </CardBody>
+            <CardBody>
+                <Buttons>
+                    <Button Color="Color.Secondary">LEFT</Button>
+                    <Button Color="Color.Secondary">CENTER</Button>
+                    <Button Color="Color.Secondary">RIGHT</Button>
+                </Buttons>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Nesting</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>You can also combine them with dropdown..</CardText>
+            </CardBody>
+            <CardBody>
+                <Buttons>
+                    <Button Color="Color.Secondary">LEFT</Button>
+                    <Button Color="Color.Secondary">CENTER</Button>
+                    <Dropdown>
+                        <DropdownToggle Color="Color.Secondary">Dropdown</DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem>Item 1</DropdownItem>
+                            <DropdownItem>Item 2</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </Buttons>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Buttons toolbar</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Buttons Role="ButtonsRole.Toolbar">
+                    <Buttons Margin="Margin.Is2.FromRight">
+                        <Button Color="Color.Primary">Primary</Button>
+                        <Button Color="Color.Secondary">Secondary</Button>
+                        <Button Color="Color.Info">Info</Button>
+                    </Buttons>
+                    <Buttons>
+                        <Button Color="Color.Danger">Danger</Button>
+                        <Button Color="Color.Warning">Warning</Button>
+                    </Buttons>
+                    <Buttons Margin="Margin.Is2.OnX">
+                        <Button Color="Color.Light">Light</Button>
+                    </Buttons>
+                </Buttons>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Dropdown</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Turn a button into a dropdown.</CardText>
+            </CardBody>
+            <CardBody>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">
+                        DROPDOWN
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Action</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem>Another Action</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown>
+                    <Button Color="Color.Secondary">SPLIT DROPDOWN</Button>
+                    <DropdownToggle Color="Color.Secondary" Split="true"></DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Action</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem>Another Action</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Dropdown direction</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Dropdown>
+                    <DropdownToggle>Down</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown Direction="Direction.Up">
+                    <DropdownToggle>Up</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown Direction="Direction.Left">
+                    <DropdownToggle>Left</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown Direction="Direction.Right">
+                    <DropdownToggle>Right</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

@@ -12,6 +12,8 @@ namespace Blazorise
     {
         #region Members
 
+        private List<string> panels = new List<string>();
+
         private string selectedPanel;
 
         public event EventHandler<TabsContentStateEventArgs> StateChanged;
@@ -27,6 +29,11 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        internal void Hook( string panelName )
+        {
+            panels.Add( panelName );
+        }
+
         public void SelectPanel( string panelName )
         {
             SelectedPanel = panelName;
@@ -37,6 +44,8 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        protected int IndexOfSelectedPanel => panels.IndexOf( selectedPanel );
 
         /// <summary>
         /// Gets or sets currently selected panel name.
