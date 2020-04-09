@@ -165,11 +165,13 @@
     /*padding: 0 50px;*/
     color: rgba(0, 0, 0, 0.65);
     /*background: #001529;*/
-    line-height: 64px; }
-    .b-layout-header-fixed {
+    /*line-height: 64px;*/
+    /*&-fixed {
         position: sticky;
         z-index: 1;
-        top: 0; }
+        top: 0;
+    }
+}
 
 .b-layout-footer {
     /*padding: 24px 50px;*/
@@ -180,8 +182,6 @@
 .b-layout-content {
     flex: auto;
     min-height: 0; }
-    .b-layout-content-header-fixed {
-        margin-top: 64px; }
 
 .b-layout-sider {
     position: relative;
