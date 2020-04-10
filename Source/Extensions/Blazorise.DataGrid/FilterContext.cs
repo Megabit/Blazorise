@@ -11,12 +11,15 @@ namespace Blazorise.DataGrid
     /// </summary>
     public class FilterContext
     {
-        /// <summary>
-        /// Gets or sets the filter value.
-        /// </summary>
-        public string SearchValue { get; set; }
+        #region Members
 
         private event FilterChangedEventHandler FilterChanged;
+
+        public delegate void FilterChangedEventHandler( string value );
+
+        #endregion
+
+        #region Methods
 
         public void Subscribe( FilterChangedEventHandler listener )
         {
@@ -33,6 +36,22 @@ namespace Blazorise.DataGrid
             FilterChanged?.Invoke( value );
         }
 
-        public delegate void FilterChangedEventHandler( string value );
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the filter value.
+        /// </summary>
+        public string SearchValue { get; set; }
+
+        #endregion
+
+
+
+
+
+
+
     }
 }

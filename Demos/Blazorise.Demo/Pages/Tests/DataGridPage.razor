@@ -50,6 +50,14 @@
                             </Select>
                         </FieldBody>
                     </Field>
+                    <Field>
+                        <FieldLabel>
+                            Custom Search
+                        </FieldLabel>
+                        <FieldBody>
+                            <TextEdit @bind-Text="@customFilterValue" />
+                        </FieldBody>
+                    </Field>
                 </Fields>
             </CardBody>
             <CardBody>
@@ -68,7 +76,8 @@
                           DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
                           Striped="true"
                           Bordered="true"
-                          Hoverable="true">
+                          Hoverable="true"
+                          CustomFilter="@OnCustomFilter">
                     <ChildContent>
                         <DataGridCommandColumn TItem="Employee" Width="170px">
                             <NewCommandTemplate>
@@ -313,5 +322,18 @@
         //{
         //    dataModels.Remove( model );
         //}
+    }
+
+    string customFilterValue;
+
+    bool OnCustomFilter( Employee model )
+    {
+        if ( string.IsNullOrEmpty( customFilterValue ) )
+            return true;
+
+        return
+            model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
+            || model.LastName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
+            || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
     }
 }

@@ -407,6 +407,14 @@ namespace Blazorise.DataGrid
                     }
                 }
 
+                if ( CustomFilter != null )
+                {
+                    query = from item in query
+                            where item != null
+                            where CustomFilter( item )
+                            select item;
+                }
+
                 foreach ( var column in Columns )
                 {
                     if ( column.ColumnType == DataGridColumnType.Command )
@@ -415,11 +423,11 @@ namespace Blazorise.DataGrid
                     if ( string.IsNullOrEmpty( column.Filter.SearchValue ) )
                         continue;
 
-                    query = from q in query
-                            let cellRealValue = column.GetValue( q )
+                    query = from item in query
+                            let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
                             where CompareFilterValues( cellStringValue, column.Filter.SearchValue )
-                            select q;
+                            select item;
                 }
             }
 
@@ -824,6 +832,11 @@ namespace Blazorise.DataGrid
         /// Custom style handler for current row.
         /// </summary>
         [Parameter] public Func<TItem, string> RowStyle { get; set; }
+
+        /// <summary>
+        /// Handler for custom filtering on datagrid item.
+        /// </summary>
+        [Parameter] public Func<TItem, bool> CustomFilter { get; set; }
 
         /// <summary>
         /// Custom classname for header row.
