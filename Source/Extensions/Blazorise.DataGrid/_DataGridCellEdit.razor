@@ -49,13 +49,21 @@ else if ( ValueType == typeof( bool? ) )
 }
 else if ( ValueType == typeof( DateTime ) )
 {
-    <DateEdit Date="@((DateTime)CellEditContext.CellValue)" DateChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
+    <DateEdit TValue="DateTime" Date="@((DateTime)CellEditContext.CellValue)" DateChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( DateTime? ) )
 {
-    <DateEdit Date="@((DateTime?)CellEditContext.CellValue)" DateChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
+    <DateEdit TValue="DateTime?" Date="@((DateTime?)CellEditContext.CellValue)" DateChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
+}
+else if ( ValueType == typeof( DateTimeOffset ) )
+{
+    <DateEdit TValue="DateTimeOffset" Date="@((DateTimeOffset)CellEditContext.CellValue)" DateChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
+}
+else if ( ValueType == typeof( DateTimeOffset? ) )
+{
+    <DateEdit TValue="DateTimeOffset?" Date="@((DateTimeOffset?)CellEditContext.CellValue)" DateChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( string ) )
 {
-<NumericEdit TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
+    <NumericEdit TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
 }

@@ -106,6 +106,14 @@ namespace Blazorise.Utils
 
         public static string FormatValue( ulong? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
 
+        public static string FormatValue( DateTime value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( DateTime? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( DateTimeOffset value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
+
+        public static string FormatValue( DateTimeOffset? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+
         /// <summary>
         /// Gets the min and max possible value based on the supplied value type
         /// </summary>
