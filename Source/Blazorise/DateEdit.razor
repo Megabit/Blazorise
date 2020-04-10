@@ -1,4 +1,5 @@
-﻿@inherits BaseTextInput<DateTime?>
+﻿@typeparam TValue
+@inherits BaseTextInput<TValue>
 @if ( !HasCustomRegistration )
 {
     <input @ref="@ElementRef" id="@ElementId" type="date" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" min="@Min?.ToString(Utils.Parsers.InternalDateFormat)" max="@Max?.ToString(Utils.Parsers.InternalDateFormat)" @attributes="@Attributes" />
