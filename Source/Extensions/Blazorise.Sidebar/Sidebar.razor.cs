@@ -14,6 +14,8 @@ namespace Blazorise.Sidebar
 
         private bool visible;
 
+        private bool scrollable = true;
+
         #endregion
 
         #region Methods
@@ -21,7 +23,7 @@ namespace Blazorise.Sidebar
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "sidebar" );
-            builder.Append( "sidebar-scrollable" );
+            builder.Append( "sidebar-scrollable", Scrollable );
             builder.Append( "show", Visible );
 
             base.BuildClasses( builder );
@@ -71,6 +73,21 @@ namespace Blazorise.Sidebar
             set
             {
                 visible = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// If true, the sidebar will have vertical scrollbar.
+        /// </summary>
+        [Parameter]
+        public bool Scrollable
+        {
+            get => scrollable;
+            set
+            {
+                scrollable = value;
 
                 DirtyClasses();
             }
