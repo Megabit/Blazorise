@@ -58,6 +58,10 @@ Default method for filtering is `Contains`. If you want to change it you can set
 - `Equals` search must match the entire value
 - `NotEquals` opposite of Equals
 
+### Custom Filtering
+
+Regular filter works on per field basis. To enable advanced search capabilities you can use an attribute `CustomFilter`. More can be found in Usage section.
+
 ### Paging
 
 Paging is handled automatically by the DataGrid. You also have some additional attributes to configure paging based on your requirements.
@@ -173,22 +177,36 @@ Just as in the previous example everything is the same except that now we must d
 </DataGrid>
 ```
 
+### Custom Filtering
+
+Filter API is fairly straightforward. All you need is to attach `CustomFilter` to a function and bind search value to `TextEdit` field. DataGrid will automatically respond to entered value.
+
+```html
+<TextEdit @bind-Text="@customFilterValue" />
+
+<DataGrid TItem="Employee"
+        Data="@employeeList"
+        CustomFilter="@OnCustomFilter">
+    ...
+</DataGrid>
+```
+
 ```cs
 @code
 {
-    Employee[] employeeList;
-    int totalEmployees;
+    string customFilterValue;
 
-    async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    bool OnCustomFilter( Employee model )
     {
-        // this can be call to anything, in this case we're calling a fictional api
-        var response = await Http.GetJsonAsync<Employee[]>( $"some-api/employees?page={e.Page}&pageSize={e.PageSize}" );
+        // We want to accept empty value as valid or otherwise
+        // datagrid will not show anything.
+        if ( string.IsNullOrEmpty( customFilterValue ) )
+            return true;
 
-        employeeList = response.Data; // an actual data for the current page
-        totalEmployees = response.Total; // this is used to tell datagrid how many items are available so that pagination will work
-
-        // always call StateHasChanged!
-        StateHasChanged();
+        return
+            model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
+            || model.LastName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
+            || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
     }
 }
 ```
