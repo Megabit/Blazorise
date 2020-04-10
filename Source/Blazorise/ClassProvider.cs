@@ -367,6 +367,28 @@ namespace Blazorise
 
         #endregion
 
+        #region Layout
+
+        public virtual string Layout() => "b-layout";
+
+        public virtual string LayoutHasSider() => "b-layout-has-sider";
+
+        public virtual string LayoutBody() => "b-body-layout";
+
+        public virtual string LayoutContent() => "b-layout-content";
+
+        public virtual string LayoutHeader() => "b-layout-header";
+
+        public virtual string LayoutHeaderFixed() => "b-layout-header-fixed";
+
+        public virtual string LayoutFooter() => "b-layout-footer";
+
+        public virtual string LayoutSider() => "b-layout-sider";
+
+        public virtual string LayoutSiderContent() => "b-layout-sider-content";
+
+        #endregion
+
         #region Container
 
         public abstract string Container();
@@ -655,6 +677,8 @@ namespace Blazorise
         public abstract string TableRowCellBackground( Background background );
 
         public abstract string TableRowCellTextColor( TextColor textColor );
+
+        public abstract string TableRowCellTextAlignment( TextAlignment textAlignment );
 
         #endregion
 

@@ -371,6 +371,28 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Layout
+
+        public string Layout() => null;
+
+        public string LayoutHasSider() => null;
+
+        public string LayoutBody() => null;
+
+        public string LayoutContent() => null;
+
+        public string LayoutHeader() => null;
+
+        public string LayoutHeaderFixed() => null;
+
+        public string LayoutFooter() => null;
+
+        public string LayoutSider() => null;
+
+        public string LayoutSiderContent() => null;
+
+        #endregion
+
         #region Container
 
         public string Container() => null;
@@ -658,6 +680,8 @@ namespace Blazorise.Providers
         public string TableRowCellBackground( Background background ) => null;
 
         public string TableRowCellTextColor( TextColor textColor ) => null;
+
+        public string TableRowCellTextAlignment( TextAlignment textAlignment ) => null;
 
         #endregion
 

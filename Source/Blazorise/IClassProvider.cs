@@ -367,6 +367,28 @@ namespace Blazorise
 
         #endregion
 
+        #region Layout
+
+        string Layout();
+
+        string LayoutHasSider();
+
+        string LayoutBody();
+
+        string LayoutContent();
+
+        string LayoutHeader();
+
+        string LayoutHeaderFixed();
+
+        string LayoutFooter();
+
+        string LayoutSider();
+
+        string LayoutSiderContent();
+
+        #endregion
+
         #region Container
 
         string Container();
@@ -650,6 +672,8 @@ namespace Blazorise
         string TableRowCellBackground( Background background );
 
         string TableRowCellTextColor( TextColor textColor );
+
+        string TableRowCellTextAlignment( TextAlignment textAlignment );
 
         #endregion
 

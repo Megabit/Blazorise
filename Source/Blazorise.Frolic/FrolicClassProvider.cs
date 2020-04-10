@@ -734,6 +734,8 @@ namespace Blazorise.Frolic
 
         public override string TableRowCellTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
+        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
+
         #endregion
 
         #region Badge

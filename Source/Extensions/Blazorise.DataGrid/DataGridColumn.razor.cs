@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -110,6 +111,21 @@ namespace Blazorise.DataGrid
         internal void SetValue( TItem item, object value )
             => valueSetter.Value( item, value );
 
+        /// <summary>
+        /// Gets the formated display value.
+        /// </summary>
+        /// <param name="item">Item the contains the value to format.</param>
+        /// <returns></returns>
+        public string FormatDisplayValue( TItem item )
+        {
+            if ( DisplayFormat != null )
+            {
+                return string.Format( DisplayCulture ?? CultureInfo.InvariantCulture, DisplayFormat, GetValue( item ) );
+            }
+
+            return GetValue( item )?.ToString();
+        }
+
         #endregion
 
         #region Properties
@@ -150,6 +166,21 @@ namespace Blazorise.DataGrid
         /// Currently only one column can be sorted becaouse of the bug in Mono runtime.
         /// </remarks>
         [Parameter] public SortDirection Direction { get; set; }
+
+        /// <summary>
+        /// Defines the alignment for display cell.
+        /// </summary>
+        [Parameter] public TextAlignment TextAlignment { get; set; }
+
+        /// <summary>
+        /// Defines the format for display value.
+        /// </summary>
+        [Parameter] public string DisplayFormat { get; set; }
+
+        /// <summary>
+        /// Defines the culture info for display value.
+        /// </summary>
+        [Parameter] public CultureInfo DisplayCulture { get; set; }
 
         /// <summary>
         /// Gets or sets whether users can edit cell values under this column.
