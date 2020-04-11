@@ -1,7 +1,9 @@
-﻿using BasicTestApp.Client;
+﻿#region Using directives
+using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
+#endregion
 
 namespace Blazorise.Tests.Components
 {

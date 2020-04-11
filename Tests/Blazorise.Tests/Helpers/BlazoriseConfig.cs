@@ -1,8 +1,10 @@
-﻿using Blazorise.Bootstrap;
+﻿#region Using directives
+using Blazorise.Bootstrap;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using Moq;
+#endregion
 
 namespace Blazorise.Tests.Helpers
 {

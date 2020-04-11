@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using Blazorise.Tests.Mocks;
 using Microsoft.AspNetCore.Components;
 using Xunit;
+#endregion
 
 namespace Blazorise.Tests
 {
@@ -69,7 +71,7 @@ namespace Blazorise.Tests
         {
             // setup
             var drop = new Dropdown();
-            var button = new MockButton(drop);
+            var button = new MockButton( drop );
 
             // test
             button.Dispose();
@@ -126,7 +128,7 @@ namespace Blazorise.Tests
             // setup
             var button = new MockButton();
             string result = null;
-            button.Command = new TestCommand(p => result = p);
+            button.Command = new TestCommand( p => result = p );
             button.CommandParameter = "foo";
 
             // test
@@ -141,7 +143,7 @@ namespace Blazorise.Tests
         {
             private readonly Action<string> callback;
 
-            public TestCommand(Action<string> callback)
+            public TestCommand( Action<string> callback )
             {
                 this.callback = callback;
             }

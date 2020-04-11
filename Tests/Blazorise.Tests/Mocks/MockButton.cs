@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿#region Using directives
+using Microsoft.AspNetCore.Components;
 using Moq;
+#endregion
 
 namespace Blazorise.Tests.Mocks
 {
