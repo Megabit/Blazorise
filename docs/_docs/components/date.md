@@ -9,7 +9,7 @@ toc_label: "Guide"
 ## Date
 
 ```html
-<DateEdit />
+<DateEdit TValue="DateTime?" />
 ```
 
 <iframe src="/examples/forms/date/" frameborder="0" scrolling="no" style="width:100%;height:55px;"></iframe>
@@ -21,7 +21,7 @@ toc_label: "Guide"
 By using `bind-*` attribute the selected date will be automatically assigned to the member variable.
 
 ```html
-<DateEdit @bind-Date="@selectedDate" />
+<DateEdit TValue="DateTime?" @bind-Date="@selectedDate" />
 
 @code{
     DateTime? selectedDate;
@@ -33,7 +33,7 @@ By using `bind-*` attribute the selected date will be automatically assigned to 
 When using the event `DateChanged`, you also must define the `Date` value attribute.
 
 ```html
-<DateEdit Date="@selectedDate" DateChanged="@OnDateChanged" />
+<DateEdit TValue="DateTime?" Date="@selectedDate" DateChanged="@OnDateChanged" />
 
 @code{
     DateTime? selectedDate;

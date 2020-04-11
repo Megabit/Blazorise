@@ -1706,3 +1706,15 @@
     .ml-xl-auto,
     .mx-xl-auto {
         margin-left: auto !important; } }
+
+.ant-text-left {
+    text-align: left !important; }
+
+.ant-text-right {
+    text-align: right !important; }
+
+.ant-text-center {
+    text-align: center !important; }
+
+.ant-text-justify {
+    text-align: justify !important; }

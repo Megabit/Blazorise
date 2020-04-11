@@ -746,6 +746,8 @@ namespace Blazorise.Bulma
 
         public override string TableRowCellTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
 
+        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"has-text-{ToTextAlignment( textAlignment )}";
+
         #endregion
 
         #region Badge
@@ -1064,6 +1066,23 @@ namespace Blazorise.Bulma
                     return "is-success";
                 case Blazorise.ValidationStatus.Error:
                     return "is-danger";
+                default:
+                    return null;
+            }
+        }
+
+        public override string ToTextAlignment( TextAlignment textAlignment )
+        {
+            switch ( textAlignment )
+            {
+                case Blazorise.TextAlignment.Left:
+                    return "left";
+                case Blazorise.TextAlignment.Center:
+                    return "centered";
+                case Blazorise.TextAlignment.Right:
+                    return "right";
+                case Blazorise.TextAlignment.Justified:
+                    return "justified";
                 default:
                     return null;
             }
