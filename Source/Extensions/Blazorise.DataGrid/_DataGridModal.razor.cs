@@ -12,7 +12,7 @@ namespace Blazorise.DataGrid
     {
         [Parameter] public TItem EditItem { get; set; }
 
-        [Parameter] public IEnumerable<BaseDataGridColumn<TItem>> Columns { get; set; }
+        [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
         [Parameter] public IReadOnlyDictionary<string, CellEditContext> EditItemCellValues { get; set; }
 

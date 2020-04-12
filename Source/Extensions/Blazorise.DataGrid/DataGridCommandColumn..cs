@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class BaseDataGridCommandColumn<TItem> : BaseDataGridColumn<TItem>
+    public partial class DataGridCommandColumn<TItem> : DataGridColumn<TItem>
     {
         #region Members
 

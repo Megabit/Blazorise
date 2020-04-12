@@ -13,12 +13,15 @@ To create a basic grid in Blazorise you need to set the _Column_ that will defin
 ### Structure
 
 - `<DataGrid>` the main **container**
-  - `<DataGridColumn>` column template for text editor
-  - `<DataGridNumericColumn>` column template for numeric values
-  - `<DataGridDateColumn>` column template for datetime values
-  - `<DataGridCheckColumn>` column template for boolean values
-  - `<DataGridSelectColumn>` column template for selectable values
-  - `<DataGridCommandColumn>` column template for editing commands like Edit, Save, Cancel, etc.
+  - `DataGridColumns` container for datagrid columns
+    - `<DataGridColumn>` column template for text editor
+    - `<DataGridNumericColumn>` column template for numeric values
+    - `<DataGridDateColumn>` column template for datetime values
+    - `<DataGridCheckColumn>` column template for boolean values
+    - `<DataGridSelectColumn>` column template for selectable values
+    - `<DataGridCommandColumn>` column template for editing commands like Edit, Save, Cancel, etc.
+  - `DataGridAggregates` container for datagrid aggregates
+    - `DataGridAggregate` defines the column and aggregation function type
 
 ## Installation
 
@@ -104,6 +107,18 @@ By default, DataGrid will load everything in memory and it will perform the nece
 
 Bellow you can find a [basic example]({{ "/docs/extensions/datagrid/#large-data-example" | relative_url }}) of how to load large data and apply it to the DataGrid.
 
+### Aggregates
+
+The DataGrid provider several built-in aggregates for column values. Supported aggregate functions are:
+
+- `Sum` Calculate total(sum) value of the collection.
+- `Average` Calculates the average of the numeric items in the collection.
+- `Min` Finds the smallest value in the collection.
+- `Max` Finds the largest value in the collection.
+- `Count`  Counts the elements in a collection.
+- `TrueCount` Counts boolean elements with true value.
+- `FalseCount` Counts boolean elements with false value.
+
 ## Usage
 
 The basic structure is pretty straightforward. You must define data and columns for the grid.
@@ -177,6 +192,83 @@ Just as in the previous example everything is the same except that now we must d
 </DataGrid>
 ```
 
+```cs
+@code
+{
+    Employee[] employeeList;
+    int totalEmployees;
+
+    async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    {
+        // this can be call to anything, in this case we're calling a fictional api
+        var response = await Http.GetJsonAsync<Employee[]>( $"some-api/employees?page={e.Page}&pageSize={e.PageSize}" );
+
+        employeeList = response.Data; // an actual data for the current page
+        totalEmployees = response.Total; // this is used to tell datagrid how many items are available so that pagination will work
+
+        // always call StateHasChanged!
+        StateHasChanged();
+    }
+}
+```
+
+### Aggregates
+
+DataGrid will automatically generate necessary group cells based on the defined `DataGridAggregate` options.
+
+```html
+<DataGrid TItem="Employee" Data="@employeeList">
+    <DataGridAggregates>
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
+            <DisplayTemplate>
+                @($"Total emails: {context.Value}")
+            </DisplayTemplate>
+        </DataGridAggregate>
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Salary )" Aggregate="DataGridAggregateType.Sum" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" />
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" Aggregate="DataGridAggregateType.TrueCount" />
+    </DataGridAggregates>
+    <DataGridColumns>
+        ...
+    </DataGridColumns>
+</DataGrid>
+```
+
+By default all aggregate operations are run on in-memory `Data`. When working with large datasets that is not possible. So just as in the previous examples for large datasets you need to work with `ReadData` and set the `AggregateData` property.
+
+```html
+<DataGrid TItem="Employee"
+        Data="@employeeList"
+        ReadData="@OnReadData"
+        TotalItems="@totalEmployees"
+        AggregateData="@employeeSummary">
+</DataGrid>
+```
+
+```cs
+@code
+{
+    Employee[] employeeList;
+    Employee[] employeeSummary;
+    int totalEmployees;
+
+    async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    {
+        // this can be call to anything, in this case we're calling a fictional api
+        var response = await Http.GetJsonAsync<Employee[]>( $"some-api/employees?page={e.Page}&pageSize={e.PageSize}" );
+        var aggregateResponse = await Http.GetJsonAsync<Employee[]>( $"some-aggregate-api/employees" );
+
+        employeeList = response.Data; // an actual data for the current page
+        totalEmployees = response.Total; // this is used to tell datagrid how many items are available so that pagination will work
+
+        employeeSummary = aggregateResponse.Data;
+
+        // always call StateHasChanged!
+        StateHasChanged();
+    }
+}
+```
+
+
 ### Custom Filtering
 
 Filter API is fairly straightforward. All you need is to attach `CustomFilter` to a function and bind search value to `TextEdit` field. DataGrid will automatically respond to entered value.
@@ -210,6 +302,7 @@ Filter API is fairly straightforward. All you need is to attach `CustomFilter` t
     }
 }
 ```
+
 
 ## Templates
 
