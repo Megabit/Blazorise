@@ -78,7 +78,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{47240431-3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.E2ETests", "Tests\Blazorise.E2ETests\Blazorise.E2ETests.csproj", "{A4218BB6-81C3-47A6-80F2-6FF6E227D142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Tests", "Tests\Blazorise.Tests\Blazorise.Tests.csproj", "{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Tests", "Tests\Blazorise.Tests\Blazorise.Tests.csproj", "{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

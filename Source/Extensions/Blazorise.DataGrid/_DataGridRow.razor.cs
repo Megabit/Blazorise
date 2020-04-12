@@ -98,9 +98,9 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// List of columns used to build this row.
         /// </summary>
-        [Parameter] public IEnumerable<BaseDataGridColumn<TItem>> Columns { get; set; }
+        [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
-        [CascadingParameter] protected BaseDataGrid<TItem> ParentDataGrid { get; set; }
+        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
 
         /// <summary>
         /// Occurs after the row is selected.

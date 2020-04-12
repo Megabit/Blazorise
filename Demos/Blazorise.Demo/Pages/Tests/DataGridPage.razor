@@ -78,7 +78,16 @@
                           Bordered="true"
                           Hoverable="true"
                           CustomFilter="@OnCustomFilter">
-                    <ChildContent>
+                    <DataGridAggregates>
+                        <DataGridAggregateColumn TItem="Employee" Field="@nameof( Employee.EMail )" AggregateType="DataGridAggregateType.Count">
+                            <DisplayTemplate>
+                                @($"Total emails: {context.Value}")
+                            </DisplayTemplate>
+                        </DataGridAggregateColumn>
+                        <DataGridAggregateColumn TItem="Employee" Field="@nameof( Employee.Salary )" AggregateType="DataGridAggregateType.Sum" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" />
+                        <DataGridAggregateColumn TItem="Employee" Field="@nameof( Employee.IsActive )" AggregateType="DataGridAggregateType.TrueCount" />
+                    </DataGridAggregates>
+                    <DataGridColumns>
                         <DataGridCommandColumn TItem="Employee" Width="170px">
                             <NewCommandTemplate>
                                 <Button Color="Color.Success" Clicked="@context.Clicked">New</Button>
@@ -99,7 +108,7 @@
                                 <Button Color="Color.Warning" Clicked="@context.Clicked">Clear Filter</Button>
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true">
                             <FilterTemplate>
                                 <TextEdit Placeholder="Search name" TextChanged="@(v=>context.TriggerFilterChange(v))" />
@@ -144,20 +153,17 @@
                                 </Select>
                             </EditTemplate>
                         </DataGridSelectColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="120px">
-                            <DisplayTemplate>
-                                @($"{( context as Employee )?.Salary} €")
-                            </DisplayTemplate>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.Right">
                             <EditTemplate>
                                 <NumericEdit TValue="decimal" Value="@((decimal)( ( (CellEditContext)context ).CellValue ))" ValueChanged="@(v => ( (CellEditContext)context ).CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
-                        @*<DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
-                                <DisplayTemplate>
-                                    @(( context as Employee )?.IsActive == true ? "active" : "not active")
-                                </DisplayTemplate>
-                            </DataGridCheckColumn>*@
-                    </ChildContent>
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
+                            <DisplayTemplate>
+                                <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
+                            </DisplayTemplate>
+                        </DataGridCheckColumn>
+                    </DataGridColumns>
                     <DetailRowTemplate>
                         @{
                             var salaries = ( context as Employee ).Salaries;
@@ -266,9 +272,9 @@
                 new Salary { Date = new DateTime(2019,2,7), Total = 4005 },
                 new Salary { Date = new DateTime(2019,3,5), Total = 8000 }
             }},
-        new Employee {Id = 4,FirstName = "Cirilo",LastName = "Douch",EMail = "cdouch3@thetimes.co.uk",City = "Wiset Chaichan",Zip = "84280",Salary = 88511.38m },
+        new Employee {Id = 4,FirstName = "Cirilo",LastName = "Douch",EMail = "cdouch3@thetimes.co.uk",City = "Wiset Chaichan",Zip = "84280",Salary = 88511.38m, IsActive = true },
         new Employee {Id = 5,FirstName = "Bibbie",LastName = "Prahm",EMail = "bprahm4@dropbox.com",City = "Nkandla",Zip = "3859",Salary = 41665.0m },
-        new Employee {Id = 6,FirstName = "Ferd",LastName = "Bizzey",EMail = "fbizzey5@vimeo.com",City = "Arroyo Seco",Zip = "5196",Salary = 58632.74m },
+        new Employee {Id = 6,FirstName = "Ferd",LastName = "Bizzey",EMail = "fbizzey5@vimeo.com",City = "Arroyo Seco",Zip = "5196",Salary = 58632.74m, IsActive = true },
         new Employee {Id = 7,FirstName = "Annalee",LastName = "Mathie",EMail = "amathie6@qq.com",City = "Qi’an",Zip = null,Salary = 38622.71m },
         new Employee {Id = 8,FirstName = "Sarajane",LastName = "Sarney",EMail = "ssarney7@phoca.cz",City = "Wagini",Zip = null,Salary = 67163.94m },
         new Employee {Id = 9,FirstName = "Lissa",LastName = "Clemenzi",EMail = "lclemenzi8@si.edu",City = "Lijiang",Zip = null,Salary = 67078.77m },
@@ -287,7 +293,7 @@
         new Employee {Id = 22,FirstName = "Israel",LastName = "Carlin",EMail = "icarlinl@washingtonpost.com",City = "Poitiers",Zip = "86042 CEDEX 9",Salary = 36875.18m },
         new Employee {Id = 23,FirstName = "Christoper",LastName = "Moorton",EMail = "cmoortonm@gizmodo.com",City = "Jambangan",Zip = null,Salary = 76787.57m },
         new Employee {Id = 24,FirstName = "Trina",LastName = "Seamen",EMail = "tseamenn@foxnews.com",City = "Song",Zip = "54120",Salary = 43598.06m },
-        new Employee {Id = 25,FirstName = "Douglass",LastName = "Amor",EMail = "damoro@house.gov",City = "Castillos",Zip = null,Salary = 49865.8m, Childrens=2 },
+        new Employee {Id = 25,FirstName = "Douglass",LastName = "Amor",EMail = "damoro@house.gov",City = "Castillos",Zip = null,Salary = 49865.8m, Childrens=2, IsActive = true },
         new Employee {Id = 26,FirstName = "Reeta",LastName = "Acom",EMail = "racomp@fc2.com",City = "Baoping",Zip = null,Salary = 61296.4m },
         new Employee {Id = 27,FirstName = "Chandler",LastName = "Franzonetti",EMail = "cfranzonettiq@archive.org",City = "Emin",Zip = null,Salary = 67458.07m, Childrens=1 }
     };
