@@ -11,7 +11,7 @@
         {
             <TableRowCell Class="@column.GroupCellClass" Style="@column.GroupCellStyle" width="@column.Width" TextAlignment="@column.TextAlignment">
                 @{
-                    var aggregateColumn = AggregateColumns.FirstOrDefault( x => x.Field == column.Field );
+                    var aggregateColumn = Aggregates.FirstOrDefault( x => x.Field == column.Field );
 
                     if ( aggregateColumn != null )
                     {

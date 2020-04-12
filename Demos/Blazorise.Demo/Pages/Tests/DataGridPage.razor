@@ -79,13 +79,13 @@
                           Hoverable="true"
                           CustomFilter="@OnCustomFilter">
                     <DataGridAggregates>
-                        <DataGridAggregateColumn TItem="Employee" Field="@nameof( Employee.EMail )" AggregateType="DataGridAggregateType.Count">
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
                             <DisplayTemplate>
                                 @($"Total emails: {context.Value}")
                             </DisplayTemplate>
-                        </DataGridAggregateColumn>
-                        <DataGridAggregateColumn TItem="Employee" Field="@nameof( Employee.Salary )" AggregateType="DataGridAggregateType.Sum" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" />
-                        <DataGridAggregateColumn TItem="Employee" Field="@nameof( Employee.IsActive )" AggregateType="DataGridAggregateType.TrueCount" />
+                        </DataGridAggregate>
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Salary )" Aggregate="DataGridAggregateType.Sum" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" />
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" Aggregate="DataGridAggregateType.TrueCount" />
                     </DataGridAggregates>
                     <DataGridColumns>
                         <DataGridCommandColumn TItem="Employee" Width="170px">

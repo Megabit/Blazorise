@@ -23,9 +23,9 @@ namespace Blazorise.DataGrid
 
         #region Methods
 
-        protected object Calculate( DataGridAggregateColumn<TItem> aggregateColumn, DataGridColumn<TItem> column )
+        protected object Calculate( DataGridAggregate<TItem> aggregate, DataGridColumn<TItem> column )
         {
-            switch ( aggregateColumn.AggregateType )
+            switch ( aggregate.Aggregate )
             {
                 case DataGridAggregateType.Sum:
                     return SumOf( column );
@@ -128,7 +128,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// List of aggregate columns used to build this row.
         /// </summary>
-        [Parameter] public IEnumerable<DataGridAggregateColumn<TItem>> AggregateColumns { get; set; }
+        [Parameter] public IEnumerable<DataGridAggregate<TItem>> Aggregates { get; set; }
 
         /// <summary>
         /// Custom css classname.

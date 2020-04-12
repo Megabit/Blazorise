@@ -101,9 +101,9 @@ namespace Blazorise.DataGrid
         /// Links the child column with this datagrid.
         /// </summary>
         /// <param name="column">Column to link with this datagrid.</param>
-        internal void Hook( DataGridAggregateColumn<TItem> aggregateColumn )
+        internal void Hook( DataGridAggregate<TItem> aggregate )
         {
-            AggregateColumns.Add( aggregateColumn );
+            Aggregates.Add( aggregate );
         }
 
         protected override Task OnAfterRenderAsync( bool firstRender )
@@ -503,7 +503,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// List of all the aggregate columns associated with this datagrid.
         /// </summary>
-        protected List<DataGridAggregateColumn<TItem>> AggregateColumns { get; } = new List<DataGridAggregateColumn<TItem>>();
+        protected List<DataGridAggregate<TItem>> Aggregates { get; } = new List<DataGridAggregate<TItem>>();
 
         /// <summary>
         /// Gets only columns that are available for editing.
@@ -518,7 +518,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Returns true if any aggregate is defines on columns.
         /// </summary>
-        protected bool HasAggregates => AggregateColumns.Count > 0;
+        protected bool HasAggregates => Aggregates.Count > 0;
 
         /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.

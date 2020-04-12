@@ -3,30 +3,36 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.DataGrid
 {
-    public class BaseDataGridColumn<TItem> : BaseDataGridComponent
+    public class DataGridAggregate<TItem> : BaseDataGridComponent
     {
         #region Members
 
         #endregion
 
-        #region Constructors
-
-        #endregion
-
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            if ( ParentDataGrid != null )
+            {
+                // connect column to the parent datagrid
+                ParentDataGrid.Hook( this );
+            }
+
+            base.OnInitialized();
+        }
 
         /// <summary>
         /// Gets the formated display value.
         /// </summary>
         /// <param name="item">Item the contains the value to format.</param>
         /// <returns></returns>
-        public string FormatDisplayValue( object value )
+        internal string FormatDisplayValue( object value )
         {
             if ( DisplayFormat != null )
             {
@@ -44,6 +50,16 @@ namespace Blazorise.DataGrid
         /// To bind a column to a data source field, set this property to the required data field name.
         /// </summary>
         [Parameter] public string Field { get; set; }
+
+        /// <summary>
+        /// Type of aggregate calculation.
+        /// </summary>
+        [Parameter] public DataGridAggregateType Aggregate { get; set; }
+
+        /// <summary>
+        /// Optional display template for aggregate values.
+        /// </summary>
+        [Parameter] public RenderFragment<AggregateContext> DisplayTemplate { get; set; }
 
         /// <summary>
         /// Defines the format for display value.
