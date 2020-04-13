@@ -11,11 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Base class for field and input components that can be sized in grid layout.
     /// </summary>
-    /// <remarks>
-    /// TODO: Currently this class is inherited by the input components. This is problematic because the sizing of
-    /// input components is done by the FieldBody. See if there is a need for this class to be used by the input components!!
-    /// </remarks>
-    public abstract class BaseSizableComponent : BaseComponent
+    public abstract class BaseSizableFieldComponent : BaseComponent
     {
         #region Members
 
@@ -27,7 +23,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            if ( ColumnSize != null && UseColumnSizes )
+            if ( ColumnSize != null && ColumnSizeSupported )
                 builder.Append( ColumnSize.Class( ClassProvider ) );
 
             base.BuildClasses( builder );
@@ -45,17 +41,24 @@ namespace Blazorise
 
         #region Properties
 
-        protected virtual bool ParentIsHorizontal => ParentField?.Horizontal == true;
+        /// <summary>
+        /// True if component is inside of a <see cref="Field"/> marked as horizontal.
+        /// </summary>
+        protected virtual bool IsHorizontal => ParentField?.Horizontal == true;
 
-        protected virtual bool ParentIsField => ParentField != null;
-
-        protected virtual bool ParentIsFieldBody => ParentFieldBody != null;
+        /// <summary>
+        /// True if component is inside of a <see cref="Field"/>.
+        /// </summary>
+        protected virtual bool IsInsideField => ParentField != null;
 
         /// <summary>
         /// Used to override the use of column sizes by some of the providers.
         /// </summary>
-        protected virtual bool UseColumnSizes => true;
+        protected virtual bool ColumnSizeSupported => true;
 
+        /// <summary>
+        /// Defines the column size inside of a <see cref="Field"/> component.
+        /// </summary>
         [Parameter]
         public IFluentColumn ColumnSize
         {
@@ -69,10 +72,6 @@ namespace Blazorise
         }
 
         [CascadingParameter] protected Field ParentField { get; set; }
-
-        [CascadingParameter] protected FieldBody ParentFieldBody { get; set; }
-
-        [CascadingParameter] protected Tooltip ParentTooltip { get; set; }
 
         #endregion
     }

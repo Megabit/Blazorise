@@ -1,4 +1,4 @@
-﻿@inherits BaseSizableComponent
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
     <button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@ClassNames" style="@StyleNames" disabled="@Disabled" aria-pressed="@Active" @onclick="@ClickHandler" @attributes="@Attributes">

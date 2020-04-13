@@ -11,7 +11,7 @@ namespace Blazorise
     /// <summary>
     /// Base component for all the input component types.
     /// </summary>
-    public abstract class BaseInputComponent<TValue> : BaseSizableComponent, IValidationInput
+    public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInput
     {
         #region Members
 
@@ -117,6 +117,8 @@ namespace Blazorise
         /// <inheritdoc/>
         public virtual object ValidationValue => InternalValue;
 
+        protected bool ParentIsFieldBody => ParentFieldBody != null;
+
         /// <summary>
         /// Gets or sets the internal edit value.
         /// </summary>
@@ -207,6 +209,8 @@ namespace Blazorise
         /// Parent validation container.
         /// </summary>
         [CascadingParameter] protected Validation ParentValidation { get; set; }
+
+        [CascadingParameter] protected FieldBody ParentFieldBody { get; set; }
 
         #endregion
     }

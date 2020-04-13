@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Sets the field label.
+    /// Label for a <see cref="Field"/> component.
     /// </summary>
-    public partial class FieldLabel : BaseSizableComponent
+    public partial class FieldLabel : BaseSizableFieldComponent
     {
         #region Members
 
@@ -24,7 +24,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.FieldLabel() );
-            builder.Append( ClassProvider.FieldLabelHorizontal(), ParentIsHorizontal );
+            builder.Append( ClassProvider.FieldLabelHorizontal(), IsHorizontal );
             builder.Append( ClassProvider.ToScreenreader( Screenreader ), Screenreader != Screenreader.Always );
 
             base.BuildClasses( builder );
@@ -34,6 +34,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the ID of an element that this label belongs to.
+        /// </summary>
         [Parameter] public string For { get; set; }
 
         /// <summary>
