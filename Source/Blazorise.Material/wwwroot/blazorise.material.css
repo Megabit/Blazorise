@@ -1,4 +1,8 @@
-﻿.modal-backdrop {
+﻿.b-body-layout {
+    overflow-x: hidden;
+}
+
+.modal-backdrop {
     z-index: -1;
 }
 

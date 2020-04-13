@@ -12,6 +12,9 @@ label.e-btn {
         outline: none;
         z-index: -1; }
 
+.b-body-layout {
+    overflow-x: hidden; }
+
 .e-table.borderless td, .e-table.borderless th, .e-table.borderless tr {
     border: 0 !important; }
 

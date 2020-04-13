@@ -349,6 +349,9 @@
 .b-layout-header {
     line-height: 64px; }
 
+.b-body-layout {
+    overflow-x: hidden; }
+
 .m-xs-0 {
     margin: 0 !important; }
 
