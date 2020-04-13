@@ -1,0 +1,7 @@
+﻿table.table tbody tr.selected {
+    background-color: var(--primary);
+}
+
+tr.table-row-selectable:hover {
+    cursor: pointer;
+}
