@@ -15,11 +15,14 @@ jobs:
       with:
         dotnet-version: 3.1.200
 
-    - name: Install dependencies
+    - name: Restore NuGet Packages
       run: dotnet restore
       
-    - name: Build
+    - name: Build - Release
       run: dotnet build --configuration Release --no-restore
       
-    - name: Test
+    - name: Run Unit Tests - Release
       run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
+
+    - name: Publish - Release
+      run: dotnet publish --configuration Release --no-restore --no-build
