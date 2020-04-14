@@ -1,0 +1,91 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+name: $(majorMinorVersion).$(semanticVersion)   # this is the magic field that makes pack byBuildNumber work correctly.
+
+trigger:
+- '*'
+
+# all of the variables used by this pipeline and dependent templates.
+variables:
+  buildConfiguration: 'Release'
+  dotnetSdkVersion: '3.1.200'
+  releaseBranchName: 'master'
+
+  # semanticVersion counter is automatically incremented by one in each execution of pipeline
+  # second parameter is seed value to reset to every time the referenced majorMinorVersion is changed
+  majorMinorVersion: 0.9
+  semanticVersion: $[counter(variables['majorMinorVersion'], 0)]
+
+# define the image to use for the whole pipline... can be overridden by specific jobs.
+pool:
+    vmImage: 'ubuntu-latest'
+
+stages:
+# Build
+- stage: 'Build'
+  displayName: 'Build library'
+  jobs: 
+  - job: 'Build'
+    displayName: 'Build job'
+
+    steps:
+    # ensure the right version of .NET Core is installed -- defaults to 3.1.
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
+      inputs:
+        version: '$(dotnetSdkVersion)'
+
+    # restore NuGet packages used by the projects.
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore project dependencies'
+      inputs:
+        command: 'restore'
+        projects: '**/*.sln'
+
+    # build all projects in this repo... defined by folders with .csproj files.
+    - task: DotNetCoreCLI@2
+      displayName: 'Build the project - $(buildConfiguration)'
+      inputs:
+        command: 'build'
+        arguments: '--no-restore --configuration $(buildConfiguration)'
+        projects: '**/*.csproj'
+
+    # publish all artifacts from the builds.
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish the project - $(buildConfiguration)'
+      inputs:
+        command: 'publish'
+        projects: '**/*.csproj'
+        publishWebProjects: false
+        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+        zipAfterPublish: true
+
+    # runs tests for all projects in this repo... defined by folders with .csproj files.
+    - task: DotNetCoreCLI@2
+      displayName: 'Run unit tests - $(buildConfiguration)'
+      inputs:
+        command: 'test'
+        arguments: '--no-build --no-restore --configuration $(buildConfiguration)'
+        # publish the test pass/fail results to the pipeline, so that they are available in the Azure DevOps pipeline dashboard.
+        publishTestResults: true
+        projects: '**/*.Tests.csproj'
+
+    # package all projects in this repo... defined by folders with .csproj files.
+    - task: DotNetCoreCLI@2
+      displayName: 'Package NuGet - $(buildConfiguration)'
+      inputs:
+        command: 'pack'
+        arguments: '--no-restore --no-build --configuration $(buildConfiguration)'
+        projects: '**/*.csproj;!**/*.*Tests.csproj'
+        # publishes them to the drop/packages folder.
+        outputDir: '$(Build.ArtifactStagingDirectory)/packages'
+        # uses the build number in the pipeline's name as the package version number.
+        versioningScheme: byBuildNumber
+
+    # publish the artifacts created by this build in the drop location.
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      condition: succeeded()
