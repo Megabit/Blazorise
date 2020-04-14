@@ -8,7 +8,7 @@
             @if ( ShowCaptions )
             {
                 <TableRow Class="@HeaderRowClass" Style="@HeaderRowStyle">
-                    @foreach ( var column in Columns )
+                    @foreach ( var column in DisplayableColumns )
                     {
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {
@@ -41,7 +41,7 @@
             @if ( Filterable )
             {
                 <TableRow Class="@FilterRowClass" Style="@FilterRowStyle">
-                    @foreach ( var column in Columns )
+                    @foreach ( var column in DisplayableColumns )
                     {
                         @if ( !column.Filterable )
                             continue;
@@ -86,7 +86,7 @@
                 }
                 else
                 {
-                    <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@Columns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" Class="@RowClass?.Invoke(item)" Style="@RowStyle?.Invoke(item)" />
+                    <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" Class="@RowClass?.Invoke(item)" Style="@RowStyle?.Invoke(item)" />
                     @if ( DetailRowTemplate != null )
                     {
                         var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
@@ -104,7 +104,7 @@
         @if ( HasAggregates )
         {
             <TableFooter>
-                <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@Columns" Class="@GroupRowClass" Style="@GroupRowStyle" />
+                <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowClass" Style="@GroupRowStyle" />
             </TableFooter>
         }
     </Table>

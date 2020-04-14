@@ -163,6 +163,11 @@ namespace Blazorise.DataGrid
         [Parameter] public bool Editable { get; set; }
 
         /// <summary>
+        /// Gets or sets whether column can be displayed on a grid.
+        /// </summary>
+        [Parameter] public bool Displayable { get; set; } = true;
+
+        /// <summary>
         /// Allows the cell values to be entered while the grid is in the new-item state.
         /// </summary>
         [Parameter] public bool CellsEditableOnNewCommand { get; set; } = true;
