@@ -1,6 +1,6 @@
 ﻿@mixin tooltip-fade {
     &::before,
     &::after {
-        transition: opacity 0.3s linear, visibility 0.3s linear;
+        transition: opacity $tooltip-fade-time linear, visibility $tooltip-fade-time linear;
     }
 }

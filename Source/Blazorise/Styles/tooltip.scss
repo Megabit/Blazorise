@@ -7,7 +7,7 @@
         content: "";
         border-style: solid;
         border-width: $tooltip-arrow-size;
-        border-color: rgba($tooltip-background-color, $tooltip-background-opacity) transparent transparent transparent;
+        border-color: #{"rgba("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"} transparent transparent transparent;
         margin-bottom: $tooltip-arrow-size * -1 + 1;
     }
 
@@ -16,7 +16,7 @@
 
 @mixin tooltip-box {
     &::before {
-        background: rgba($tooltip-background-color, $tooltip-background-opacity);
+        background: #{"rgba("}#{$tooltip-background-color-r}, #{$tooltip-background-color-g}, #{$tooltip-background-color-b}, #{$tooltip-background-opacity}#{")"};
         border-radius: $tooltip-radius;
         content: attr(data-tooltip);
         padding: $tooltip-padding;

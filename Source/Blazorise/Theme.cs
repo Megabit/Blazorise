@@ -109,6 +109,8 @@ namespace Blazorise
         public ThemeBarOptions BarOptions { get; set; }
 
         public ThemeDividerOptions DividerOptions { get; set; }
+
+        public ThemeTooltipOptions TooltipOptions { get; set; }
     }
 
     public class BasicOptions
@@ -231,6 +233,25 @@ namespace Blazorise
 
     public class ThemeParagraphOptions
     {
+    }
+
+    public class ThemeTooltipOptions : BasicOptions
+    {
+        public string BackgroundColor { get; set; } = "#808080";
+
+        public float? BackgroundOpacity { get; set; } = 90f;
+
+        public string Color { get; set; } = "#ffffff";
+
+        public string FontSize { get; set; } = ".875rem";
+
+        public string FadeTime { get; set; } = "0.3s";
+
+        public string MaxWidth { get; set; } = "15rem";
+
+        public string Padding { get; set; } = ".5rem 1rem";
+
+        public string ZIndex { get; set; } = "1020";
     }
 
     public class ThemeColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
@@ -485,6 +506,18 @@ namespace Blazorise
         public const string DividerColor = "--b-divider-color";
         public const string DividerThickness = "--b-divider-thickness";
         public const string DividerTextSize = "--b-divider-font-size";
+
+        public const string TooltipBackgroundColorR = "--b-tooltip-background-color-r";
+        public const string TooltipBackgroundColorG = "--b-tooltip-background-color-g";
+        public const string TooltipBackgroundColorB = "--b-tooltip-background-color-b";
+        public const string TooltipBackgroundOpacity = "--b-tooltip-background-opacity";
+        public const string TooltipColor = "--b-tooltip-color";
+        public const string TooltipFontSize = "--b-tooltip-font-size";
+        public const string TooltipBorderRadius = "--b-tooltip-border-radius";
+        public const string TooltipFadeTime = "--b-tooltip-fade-time";
+        public const string TooltipMaxWidth = "--b-tooltip-maxwidth";
+        public const string TooltipPadding = "--b-tooltip-padding";
+        public const string TooltipZIndex = "--b-tooltip-z-index";
     }
 
     /// <summary>
