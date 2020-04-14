@@ -127,6 +127,17 @@ namespace Blazorise
             return new ValueTask<bool>( true );
         }
 
+        /// <summary>
+        /// Activates the time picker for a given element id.
+        /// </summary>
+        /// <param name="elementId">Input element id.</param>
+        /// <param name="formatSubmit">Date format to submit.</param>
+        public virtual ValueTask<bool> ActivateTimePicker( string elementId, string formatSubmit )
+        {
+            // must be implemented by a framework provider!
+            return new ValueTask<bool>( true );
+        }
+
         public async ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId )
         {
             // All of this is because Blazor is not serializing types as it should! In this case nullable types

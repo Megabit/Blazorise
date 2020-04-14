@@ -53,6 +53,16 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region TimeEdit
+
+        public string TimeEdit() => null;
+
+        public string TimeEditSize( Size size ) => null;
+
+        public string TimeEditValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
         #region Check
 
         public string Check() => null;

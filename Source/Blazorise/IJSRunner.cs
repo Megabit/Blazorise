@@ -46,6 +46,8 @@ namespace Blazorise
 
         ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit );
 
+        ValueTask<bool> ActivateTimePicker( string elementId, string formatSubmit );
+
         ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
 
         ValueTask<bool> SetTextValue( ElementReference elementRef, object value );

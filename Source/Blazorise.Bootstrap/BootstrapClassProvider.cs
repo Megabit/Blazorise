@@ -50,6 +50,16 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region TimeEdit
+
+        public override string TimeEdit() => "form-control";
+
+        public override string TimeEditSize( Size size ) => $"{TimeEdit()}-{ToSize( size )}";
+
+        public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region Check
 
         public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
