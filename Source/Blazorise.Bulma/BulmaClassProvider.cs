@@ -50,6 +50,16 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region TimeEdit
+
+        public override string TimeEdit() => "input";
+
+        public override string TimeEditSize( Size size ) => $"{ToSize( size )}";
+
+        public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region Check
 
         public override string Check() => "checkbox";

@@ -118,6 +118,12 @@
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Time</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TimeEdit TValue="TimeSpan?" TimeChanged="@((v)=>Console.WriteLine(v))" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Number</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
                         <NumericEdit TValue="decimal?" />

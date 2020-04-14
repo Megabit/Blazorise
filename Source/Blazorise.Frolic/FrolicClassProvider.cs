@@ -50,6 +50,16 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region TimeEdit
+
+        public override string TimeEdit() => "e-control";
+
+        public override string TimeEditSize( Size size ) => $"{TimeEdit()}-{ToSize( size )}";
+
+        public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region Check
 
         public override string Check() => null;
