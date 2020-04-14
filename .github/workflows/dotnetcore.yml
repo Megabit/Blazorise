@@ -26,3 +26,6 @@ jobs:
 
     - name: Publish - Release
       run: dotnet publish --configuration Release --no-restore --no-build
+
+    - name: Upload Artifacts
+      uses: actions/publish
