@@ -28,7 +28,7 @@ jobs:
       run: dotnet publish --configuration Release --no-restore --no-build
 
     - name: Upload Artifacts
-      uses: actions/upload-artifact
+      uses: actions/upload-artifact@v1
       with:
         name: Blazorise.zip
         path: ./**
