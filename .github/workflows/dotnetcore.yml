@@ -37,31 +37,31 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: Blazorise.Components.zip, 
-        path: ./Source/Blazorise.Components/bin/Release/netstandard2.1/publish/
+        path: ./Source/Extensions/Blazorise.Components/bin/Release/netstandard2.1/publish/
 
     - name: Upload Blazorise.DataGrid
       uses: actions/upload-artifact@v1
       with:
         name: Blazorise.DataGrid.zip
-        path: ./Source/Blazorise.DataGrid/bin/Release/netstandard2.1/publish/
+        path: ./Source/Extensions/Blazorise.DataGrid/bin/Release/netstandard2.1/publish/
 
     - name: Upload Blazorise.Sidebar
       uses: actions/upload-artifact@v1
       with:
         name: Blazorise.Sidebar.zip
-        path: ./Source/Blazorise.Sidebar/bin/Release/netstandard2.1/publish/
+        path: ./Source/Extensions/Blazorise.Sidebar/bin/Release/netstandard2.1/publish/
 
     - name: Upload Blazorise.Charts
       uses: actions/upload-artifact@v1
       with:
         name: Blazorise.Charts.zip
-        path: ./Source/Blazorise.Charts/bin/Release/netstandard2.1/publish/
+        path: ./Source/Extensions/Blazorise.Charts/bin/Release/netstandard2.1/publish/
 
     - name: Upload Blazorise.Snackbar
       uses: actions/upload-artifact@v1
       with:
         name: Blazorise.Snackbar.zip
-        path: ./Source/Blazorise.Snackbar/bin/Release/netstandard2.1/publish/
+        path: ./Source/Extensions/Blazorise.Snackbar/bin/Release/netstandard2.1/publish/
 
     - name: Upload Blazorise.Frolic
       uses: actions/upload-artifact@v1
@@ -85,13 +85,13 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: Blazorise.Icons.FontAwesome.zip
-        path: ./Source/Blazorise.Icons.FontAwesome/bin/Release/netstandard2.1/publish/
+        path: ./Source/Extensions/Blazorise.Icons.FontAwesome/bin/Release/netstandard2.1/publish/
 
     - name: Upload Blazorise.Icons.Material
       uses: actions/upload-artifact@v1
       with:
         name: Blazorise.Icons.Material.zip
-        path: ./Source/Blazorise.Icons.Material/bin/Release/netstandard2.1/publish/
+        path: ./Source/Extensions/Blazorise.Icons.Material/bin/Release/netstandard2.1/publish/
 
     - name: Upload Blazorise.Material
       uses: actions/upload-artifact@v1
@@ -109,4 +109,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: Blazorise.Charts.Streaming.zip
-        path: ./Source/Blazorise.Charts.Streaming/bin/Release/netstandard2.1/publish/
+        path: ./Source/Extensions/Blazorise.Charts.Streaming/bin/Release/netstandard2.1/publish/
