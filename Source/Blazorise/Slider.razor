@@ -2,7 +2,7 @@
 @inherits Blazorise.BaseInputComponent<TValue>
 @if ( !HasCustomRegistration )
 {
-    <input type="range" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" step="@Step" value="@CurrentValueAsString" min="@Min" max="@Max" @onchange="@OnChangeHandler" @attributes="@Attributes">
+    <input type="range" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" step="@Step" min="@Min" max="@Max" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @attributes="@Attributes">
     @ChildContent
     @Feedback
 }
