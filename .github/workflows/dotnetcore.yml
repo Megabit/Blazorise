@@ -28,4 +28,4 @@ jobs:
       run: dotnet publish --configuration Release --no-restore --no-build
 
     - name: Upload Artifacts
-      uses: actions/publish
+      uses: actions/publish ./Blazorise.sln
