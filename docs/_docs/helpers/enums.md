@@ -203,3 +203,10 @@ Specifies divider variants.
 - `Bottom` Bottom side.
 - `Left` Left side.
 - `Right` Right side.
+
+## BreadcrumbMode
+
+Defines the breadcrumb activation mode.
+
+- `None` No activation will be applied.
+- `Auto` Breadcrumb items will be activated based on current navigation.
