@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Blazorise.Tests.Mocks;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Microsoft.AspNetCore.Components;
 using Xunit;
 

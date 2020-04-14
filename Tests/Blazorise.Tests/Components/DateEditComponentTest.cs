@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using AngleSharp.Text;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
@@ -17,10 +19,11 @@ namespace Blazorise.Tests.Components
         public void RenderDateTimeTest()
         {
             // setup
+            var defDate = new DateTime();
             var dateOpen = "<input";
             var dateClose = "</input>";
             var dateType = @"type=""date""";
-            var dateOutput = @"<span id=""date-event-initially-undefined-result"">1/1/0001 12:00:00 AM</span>";
+            var dateOutput = @"<span id=""date-event-initially-undefined-result"">" + defDate.ToString() + "</span>";
             var nullableOutput = @"<span id=""nullable-date-event-initially-null-result""></span>";
 
             // test
@@ -45,10 +48,11 @@ namespace Blazorise.Tests.Components
         public void RenderDateTimeOffsetTest()
         {
             // setup
+            var defDate = new DateTimeOffset();
             var dateOpen = "<input";
             var dateClose = "</input>";
             var dateType = @"type=""date""";
-            var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">1/1/0001 12:00:00 AM &#x2B;00:00</span>";
+            var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + defDate.ToString().Replace("+", "&#x2B;" ) + "</span>";
             var nullableOutput = @"<span id=""nullable-date-offset-event-initially-null-result""></span>";
 
             // test
@@ -73,7 +77,7 @@ namespace Blazorise.Tests.Components
         public void SetDateTime()
         {
             // setup
-            var dateOutput = @"<span id=""date-event-initially-undefined-result"">5/3/1970 12:00:00 AM</span>";
+            var dateOutput = @"<span id=""date-event-initially-undefined-result"">" + new DateTime( 1970, 5, 3 ).ToString() + "</span>";
             var comp = RenderComponent<DateEditComponent>();
 
             // test
@@ -88,7 +92,7 @@ namespace Blazorise.Tests.Components
         public void SetNullableDateTime()
         {
             // setup
-            var dateOutput = @"<span id=""nullable-date-event-initially-null-result"">5/3/1970 12:00:00 AM</span>";
+            var dateOutput = @"<span id=""nullable-date-event-initially-null-result"">" + new DateTime( 1970, 5, 3 ).ToString()  + "</span>";
             var comp = RenderComponent<DateEditComponent>();
 
             // test
@@ -103,11 +107,12 @@ namespace Blazorise.Tests.Components
         public void SetDateTimeOffset()
         {
             // setup
-            var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">4/13/2020 12:00:00 AM &#x2B;00:00</span>";
+            var offset = new DateTimeOffset( new DateTime( 2020, 4, 13 ), new TimeSpan( 0, 0, 0 ) );
+            var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + offset.ToString().Replace( "+", "&#x2B;" ) + "</span>";
             var comp = RenderComponent<DateEditComponent>();
 
             // test
-            comp.Instance.OffsetValue = new DateTimeOffset( new DateTime( 2020, 4, 13 ), new TimeSpan( 0, 0, 0 ) );
+            comp.Instance.OffsetValue = offset;
             comp.Render();
 
             // validate
@@ -118,11 +123,12 @@ namespace Blazorise.Tests.Components
         public void SetNullableDateTimeOffset()
         {
             // setup
-            var dateOutput = @"<span id=""nullable-date-offset-event-initially-null-result"">4/13/2020 12:00:00 AM &#x2B;00:00</span>";
+            var offset = new DateTimeOffset( new DateTime( 2020, 4, 13 ), new TimeSpan( 0, 0, 0 ) );
+            var dateOutput = @"<span id=""nullable-date-offset-event-initially-null-result"">" + offset.ToString().Replace( "+", "&#x2B;" ) + "</span>";
             var comp = RenderComponent<DateEditComponent>();
 
             // test
-            comp.Instance.NullableOffsetValue = new DateTimeOffset( new DateTime( 2020, 4, 13 ), new TimeSpan( 0, 0, 0 ) );
+            comp.Instance.NullableOffsetValue = offset;
             comp.Render();
 
             // validate
