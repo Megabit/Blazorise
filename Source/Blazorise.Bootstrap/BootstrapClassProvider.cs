@@ -60,6 +60,12 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region ColorEdit
+
+        public override string ColorEdit() => "form-control";
+
+        #endregion
+
         #region Check
 
         public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";

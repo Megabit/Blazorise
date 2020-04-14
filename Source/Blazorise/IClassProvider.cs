@@ -59,6 +59,12 @@ namespace Blazorise
 
         #endregion
 
+        #region ColorEdit
+
+        string ColorEdit();
+
+        #endregion
+
         #region Check
 
         string Check();

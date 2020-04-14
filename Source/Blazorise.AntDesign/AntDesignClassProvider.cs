@@ -60,6 +60,12 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region ColorEdit
+
+        public override string ColorEdit() => "ant-input";
+
+        #endregion
+
         #region Check
 
         public override string Check() => "ant-checkbox-input";

@@ -60,6 +60,12 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region ColorEdit
+
+        public override string ColorEdit() => "input";
+
+        #endregion
+
         #region Check
 
         public override string Check() => "checkbox";
