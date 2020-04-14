@@ -511,6 +511,11 @@ namespace Blazorise.DataGrid
         protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.Editable );
 
         /// <summary>
+        /// Gets only columns that are available for display in the grid.
+        /// </summary>
+        protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns => Columns.Where( x => x.ColumnType == DataGridColumnType.Command || x.Displayable );
+
+        /// <summary>
         /// Returns true if <see cref="Data"/> is safe to modify.
         /// </summary>
         protected bool CanInsertNewItem => Editable && Data is ICollection<TItem>;
