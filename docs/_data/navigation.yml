@@ -39,6 +39,8 @@ docs:
         url: /docs/components/check/
       - title: "Radio"
         url: /docs/components/radio/
+      - title: "Switch"
+        url: /docs/components/switch/
       - title: "File"
         url: /docs/components/file/
       - title: "Slider"
