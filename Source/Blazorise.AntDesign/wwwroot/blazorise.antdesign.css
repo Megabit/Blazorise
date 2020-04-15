@@ -352,6 +352,9 @@
 .b-body-layout {
     overflow-x: hidden; }
 
+.ant-progress-inner {
+    display: inline-flex; }
+
 .m-xs-0 {
     margin: 0 !important; }
 
