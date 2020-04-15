@@ -90,6 +90,8 @@ docs:
         url: /docs/components/figure/
       - title: "Typography"
         url: /docs/components/typography/
+      - title: "Layout"
+        url: /docs/components/layout/
   - title: Extensions
     url: /docs/extensions/
     children:

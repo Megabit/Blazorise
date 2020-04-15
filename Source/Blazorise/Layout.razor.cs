@@ -62,6 +62,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Indicates that layout will contain sider.
+        /// </summary>
         [Parameter]
         public bool Sider
         {
