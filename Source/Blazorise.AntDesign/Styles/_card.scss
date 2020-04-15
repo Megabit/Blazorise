@@ -27,5 +27,13 @@
 img.ant-card-cover {
     display: block;
     width: 100%;
-    border-radius: 2px 2px 0 0;
+    margin-left: 0px;
+
+    &:first-child {
+        border-radius: .25rem .25rem 0 0;
+    }
+
+    &:last-child {
+        border-radius: 0 0 .25rem .25rem;
+    }
 }
