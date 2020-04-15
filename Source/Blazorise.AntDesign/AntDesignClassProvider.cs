@@ -671,7 +671,7 @@ namespace Blazorise.AntDesign
 
         public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
 
-        public override string ProgressBar() => "ant-progress-bg";
+        public override string ProgressBar() => "ant-progress-bg b-ant-progress-text";
 
         public override string ProgressBarColor( Background background ) => BackgroundColor( background );
 

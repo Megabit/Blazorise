@@ -357,6 +357,16 @@
 .b-body-layout {
     overflow-x: hidden; }
 
+.ant-progress-inner {
+    display: inline-flex; }
+
+.b-ant-progress-text {
+    text-align: center;
+    display: flex;
+    color: #fff;
+    justify-content: center;
+    flex-direction: column; }
+
 .m-xs-0 {
     margin: 0 !important; }
 
