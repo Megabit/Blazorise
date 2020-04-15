@@ -8,6 +8,8 @@ toc_label: "Guide"
 
 ## Date
 
+A native date field example with `type="date"`.
+
 ```html
 <DateEdit TValue="DateTime?" />
 ```

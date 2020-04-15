@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class BaseDataGrid<TItem> : BaseDataGridComponent
+    public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -20,6 +20,11 @@ namespace Blazorise.DataGrid
         /// Original data-source.
         /// </summary>
         private IEnumerable<TItem> data;
+
+        /// <summary>
+        /// Optional aggregate data.
+        /// </summary>
+        private IEnumerable<TItem> aggregateData;
 
         /// <summary>
         /// Holds the filtered data based on the filter.
@@ -44,7 +49,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// List of columns ready to be sorted.
         /// </summary>
-        protected IList<BaseDataGridColumn<TItem>> sortByColumns = new List<BaseDataGridColumn<TItem>>();
+        protected IList<DataGridColumn<TItem>> sortByColumns = new List<DataGridColumn<TItem>>();
 
         private readonly Lazy<Func<TItem>> newItemCreator;
 
@@ -66,7 +71,7 @@ namespace Blazorise.DataGrid
 
         #region Constructors
 
-        public BaseDataGrid()
+        public DataGrid()
         {
             newItemCreator = new Lazy<Func<TItem>>( () => FunctionCompiler.CreateNewItem<TItem>() );
         }
@@ -81,7 +86,7 @@ namespace Blazorise.DataGrid
         /// Links the child column with this datagrid.
         /// </summary>
         /// <param name="column">Column to link with this datagrid.</param>
-        internal void Hook( BaseDataGridColumn<TItem> column )
+        internal void Hook( DataGridColumn<TItem> column )
         {
             Columns.Add( column );
 
@@ -92,11 +97,20 @@ namespace Blazorise.DataGrid
             }
         }
 
+        /// <summary>
+        /// Links the child column with this datagrid.
+        /// </summary>
+        /// <param name="column">Column to link with this datagrid.</param>
+        internal void Hook( DataGridAggregate<TItem> aggregate )
+        {
+            Aggregates.Add( aggregate );
+        }
+
         protected override Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
             {
-                if ( ReadData.HasDelegate )
+                if ( ManualReadMode )
                     return HandleReadData();
 
                 // after all the columns have being "hooked" we need to resfresh the grid
@@ -284,13 +298,13 @@ namespace Blazorise.DataGrid
             return ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns ) );
         }
 
-        protected Task OnSortClicked( BaseDataGridColumn<TItem> column )
+        protected Task OnSortClicked( DataGridColumn<TItem> column )
         {
             if ( Sortable && column.Sortable )
             {
                 column.CurrentDirection = column.CurrentDirection.NextDirection();
 
-                if ( !ReadData.HasDelegate )
+                if ( !ManualReadMode )
                 {
                     if ( !sortByColumns.Any( c => c.Field == column.Field ) )
                         sortByColumns.Add( column );
@@ -300,19 +314,19 @@ namespace Blazorise.DataGrid
 
                 dirtyFilter = dirtyView = true;
 
-                if ( ReadData.HasDelegate )
+                if ( ManualReadMode )
                     return HandleReadData();
             }
 
             return Task.CompletedTask;
         }
 
-        internal protected Task OnFilterChanged( BaseDataGridColumn<TItem> column, string value )
+        internal protected Task OnFilterChanged( DataGridColumn<TItem> column, string value )
         {
             column.Filter.SearchValue = value;
             dirtyFilter = dirtyView = true;
 
-            if ( ReadData.HasDelegate )
+            if ( ManualReadMode )
                 return HandleReadData();
 
             return Task.CompletedTask;
@@ -327,7 +341,7 @@ namespace Blazorise.DataGrid
 
             dirtyFilter = dirtyView = true;
 
-            if ( ReadData.HasDelegate )
+            if ( ManualReadMode )
                 return HandleReadData();
 
             return Task.CompletedTask;
@@ -365,7 +379,7 @@ namespace Blazorise.DataGrid
 
             await PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( CurrentPage, PageSize ) );
 
-            if ( ReadData.HasDelegate )
+            if ( ManualReadMode )
                 await HandleReadData();
         }
 
@@ -383,7 +397,7 @@ namespace Blazorise.DataGrid
             }
 
             // only use internal filtering if we're not using custom data loading
-            if ( !ReadData.HasDelegate )
+            if ( !ManualReadMode )
             {
                 var firstSort = true;
 
@@ -460,7 +474,7 @@ namespace Blazorise.DataGrid
                 FilterData();
 
             // only use pagination if the custom data loading is not used
-            if ( !ReadData.HasDelegate )
+            if ( !ManualReadMode )
                 return filteredData.Skip( ( CurrentPage - 1 ) * PageSize ).Take( PageSize );
 
             return filteredData;
@@ -484,17 +498,37 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// List of all the columns associated with this datagrid.
         /// </summary>
-        protected List<BaseDataGridColumn<TItem>> Columns { get; } = new List<BaseDataGridColumn<TItem>>();
+        protected List<DataGridColumn<TItem>> Columns { get; } = new List<DataGridColumn<TItem>>();
+
+        /// <summary>
+        /// List of all the aggregate columns associated with this datagrid.
+        /// </summary>
+        protected List<DataGridAggregate<TItem>> Aggregates { get; } = new List<DataGridAggregate<TItem>>();
 
         /// <summary>
         /// Gets only columns that are available for editing.
         /// </summary>
-        protected IEnumerable<BaseDataGridColumn<TItem>> EditableColumns => Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.Editable );
+        protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.Editable );
+
+        /// <summary>
+        /// Gets only columns that are available for display in the grid.
+        /// </summary>
+        protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns => Columns.Where( x => x.ColumnType == DataGridColumnType.Command || x.Displayable );
 
         /// <summary>
         /// Returns true if <see cref="Data"/> is safe to modify.
         /// </summary>
         protected bool CanInsertNewItem => Editable && Data is ICollection<TItem>;
+
+        /// <summary>
+        /// Returns true if any aggregate is defines on columns.
+        /// </summary>
+        protected bool HasAggregates => Aggregates.Count > 0;
+
+        /// <summary>
+        /// True if user is using <see cref="ReadData"/> for loading the data.
+        /// </summary>
+        public bool ManualReadMode => ReadData.HasDelegate;
 
         /// <summary>
         /// Gets the current datagrid editing state.
@@ -525,6 +559,19 @@ namespace Blazorise.DataGrid
                 // make sure everything is recalculated
                 dirtyFilter = dirtyView = true;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the clalculated aggregate data.
+        /// </summary>
+        /// <remarks>
+        /// Used only in manual mode along with the <see cref="ReadData"/> handler.
+        /// </remarks>
+        [Parameter]
+        public IEnumerable<TItem> AggregateData
+        {
+            get { return aggregateData; }
+            set { aggregateData = value; }
         }
 
         /// <summary>
@@ -629,7 +676,7 @@ namespace Blazorise.DataGrid
             get
             {
                 // if we're using ReadData than TotalItems must be set so we can know how many items are available
-                var totalItems = ( ReadData.HasDelegate ? TotalItems : FilteredData?.Count() ) ?? 0;
+                var totalItems = ( ManualReadMode ? TotalItems : FilteredData?.Count() ) ?? 0;
 
                 var lastPage = Math.Max( (int)Math.Ceiling( totalItems / (double)PageSize ), 1 );
 
@@ -854,9 +901,29 @@ namespace Blazorise.DataGrid
         [Parameter] public string FilterRowClass { get; set; }
 
         /// <summary>
+        /// Custom style for group row.
+        /// </summary>
+        [Parameter] public string GroupRowStyle { get; set; }
+
+        /// <summary>
+        /// Custom classname for group row.
+        /// </summary>
+        [Parameter] public string GroupRowClass { get; set; }
+
+        /// <summary>
         /// Custom style for filter row.
         /// </summary>
         [Parameter] public string FilterRowStyle { get; set; }
+
+        /// <summary>
+        /// Template for holding the datagrid columns.
+        /// </summary>
+        [Parameter] public RenderFragment DataGridColumns { get; set; }
+
+        /// <summary>
+        /// Template for holding the datagrid aggregate columns.
+        /// </summary>
+        [Parameter] public RenderFragment DataGridAggregates { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

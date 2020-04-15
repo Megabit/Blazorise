@@ -52,6 +52,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.Button, Bulma.Button>();
             componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();
             componentMapper.Register<Blazorise.TextEdit, Bulma.TextEdit>();
+            componentMapper.Register( typeof( Blazorise.TimeEdit<> ), typeof( Bulma.TimeEdit<> ) );
             componentMapper.Register( typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) );
             componentMapper.Register<Blazorise.Pagination, Bulma.Pagination>();
         }

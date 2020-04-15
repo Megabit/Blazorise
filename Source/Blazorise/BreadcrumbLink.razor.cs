@@ -25,16 +25,26 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected override void OnInitialized()
         {
-            Clicked?.Invoke();
+            if ( ParentBreadcrumbItem != null )
+            {
+                ParentBreadcrumbItem.NotifyRelativeUriChanged( To );
+            }
+
+            base.OnInitialized();
+        }
+
+        protected Task ClickHandler()
+        {
+            return Clicked.InvokeAsync( null );
         }
 
         #endregion
 
         #region Properties
 
-        protected bool IsParentBreadcrumbItemActive => ParentBreadcrumbItem?.Active == true;
+        protected bool IsActive => ParentBreadcrumbItem?.Active == true;
 
         [Parameter]
         public bool Disabled
@@ -51,7 +61,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] public Action Clicked { get; set; }
+        [Parameter] public EventCallback Clicked { get; set; }
 
         /// <summary>
         /// Link to the destination page.

@@ -31,6 +31,8 @@ docs:
         url: /docs/components/select/
       - title: "Date"
         url: /docs/components/date/
+      - title: "Time"
+        url: /docs/components/time/
       - title: "Numeric"
         url: /docs/components/numeric/
       - title: "Check"
@@ -41,6 +43,8 @@ docs:
         url: /docs/components/file/
       - title: "Slider"
         url: /docs/components/slider/
+      - title: "Color"
+        url: /docs/components/color/
       - title: "Field"
         url: /docs/components/field/
       - title: "Addon"

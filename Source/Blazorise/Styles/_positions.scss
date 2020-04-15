@@ -19,7 +19,7 @@
         margin-right: auto;
         margin-bottom: auto;
         margin-left: $tooltip-arrow-size * -1 + 1;
-        border-color: rgba($tooltip-background-color, $tooltip-background-opacity) transparent transparent transparent;
+        border-color: #{"rgba("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"} transparent transparent transparent;
     }
 }
 
@@ -51,7 +51,7 @@
         margin-right: auto;
         margin-bottom: $tooltip-arrow-size * -1 + 1;
         margin-left: $tooltip-arrow-size * -1 + 1;
-        border-color: transparent transparent rgba($tooltip-background-color, $tooltip-background-opacity) transparent;
+        border-color: transparent transparent #{"rgba("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"} transparent;
     }
 }
 
@@ -82,7 +82,7 @@
         margin-right: auto;
         margin-bottom: $tooltip-arrow-size * -1;
         margin-left: $tooltip-arrow-size * -2 + 1;
-        border-color: transparent transparent transparent rgba($tooltip-background-color, $tooltip-background-opacity);
+        border-color: transparent transparent transparent #{"rgba("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"};
     }
 }
 
@@ -111,7 +111,7 @@
         margin-right: $tooltip-arrow-size * -2 + 1;
         margin-bottom: $tooltip-arrow-size * -1;
         margin-left: auto;
-        border-color: transparent rgba($tooltip-background-color, $tooltip-background-opacity) transparent transparent;
+        border-color: transparent #{"rgba("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"} transparent transparent;
     }
 }
 

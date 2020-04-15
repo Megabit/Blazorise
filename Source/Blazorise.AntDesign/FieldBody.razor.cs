@@ -49,7 +49,7 @@ namespace Blazorise.AntDesign
 
         #region Properties
 
-        protected override bool UseColumnSizes => false; // disable column-size on the body, as we're going to add it on container
+        protected override bool ColumnSizeSupported => false; // disable column-size on the body, as we're going to add it on container
 
         protected string ContainerClassNames => containerClassBuilder.Class;
 

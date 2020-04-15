@@ -15,7 +15,10 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Blazorise
 {
-    public partial class Validation : ComponentBase
+    /// <summary>
+    /// Container for input component that can check for different kind of validations.
+    /// </summary>
+    public partial class Validation : ComponentBase, IValidation
     {
         #region Members
 
@@ -64,6 +67,8 @@ namespace Blazorise
             {
                 ParentValidations.ValidatingAll += OnValidatingAll;
                 ParentValidations.ClearingAll += OnClearingAll;
+
+                ParentValidations.NotifyValidationInitialized( this );
             }
 
             base.OnInitialized();
@@ -164,7 +169,7 @@ namespace Blazorise
                 {
                     Status = matchStatus;
 
-                    ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status ) );
+                    NotifyValidationStatusChanged( Status );
                 }
             }
             else if ( EditContext != null && hasFieldIdentifier )
@@ -178,7 +183,7 @@ namespace Blazorise
                 Status = messages[fieldIdentifier].Any() ? ValidationStatus.Error : ValidationStatus.Success;
                 LastErrorMessage = Status == ValidationStatus.Error ? string.Join( "; ", messages[fieldIdentifier] ) : null;
 
-                ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status, LastErrorMessage ) );
+                NotifyValidationStatusChanged( Status, LastErrorMessage );
             }
             else
             {
@@ -197,7 +202,7 @@ namespace Blazorise
                         Status = validatorEventArgs.Status;
                         LastErrorMessage = Status == ValidationStatus.Error ? validatorEventArgs.ErrorText : null;
 
-                        ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status, LastErrorMessage ) );
+                        NotifyValidationStatusChanged( Status, LastErrorMessage );
                     }
                 }
             }
@@ -211,7 +216,14 @@ namespace Blazorise
         public void Clear()
         {
             Status = ValidationStatus.None;
-            ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( Status ) );
+            NotifyValidationStatusChanged( Status );
+        }
+
+        private void NotifyValidationStatusChanged( ValidationStatus status, string message = null )
+        {
+            ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, message ) );
+
+            ParentValidations?.NotifyValidationStatusChanged();
         }
 
         #endregion

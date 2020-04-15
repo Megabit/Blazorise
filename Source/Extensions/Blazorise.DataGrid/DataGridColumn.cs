@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class BaseDataGridColumn<TItem> : BaseDataGridComponent, IDisposable
+    public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>, IDisposable
     {
         #region Members
 
@@ -24,7 +24,7 @@ namespace Blazorise.DataGrid
 
         #region Constructors
 
-        public BaseDataGridColumn()
+        public DataGridColumn()
         {
             // TODO: move this to cached FunctionCompiler so it doesn't get compiled every time
             valueTypeGetter = new Lazy<Func<Type>>( () => FunctionCompiler.CreateValueTypeGetter<TItem>( Field ) );
@@ -111,19 +111,9 @@ namespace Blazorise.DataGrid
         internal void SetValue( TItem item, object value )
             => valueSetter.Value( item, value );
 
-        /// <summary>
-        /// Gets the formated display value.
-        /// </summary>
-        /// <param name="item">Item the contains the value to format.</param>
-        /// <returns></returns>
         public string FormatDisplayValue( TItem item )
         {
-            if ( DisplayFormat != null )
-            {
-                return string.Format( DisplayCulture ?? CultureInfo.InvariantCulture, DisplayFormat, GetValue( item ) );
-            }
-
-            return GetValue( item )?.ToString();
+            return FormatDisplayValue( GetValue( item ) );
         }
 
         #endregion
@@ -142,12 +132,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the type of column editor.
         /// </summary>
-        public abstract DataGridColumnType ColumnType { get; }
-
-        /// <summary>
-        /// To bind a column to a data source field, set this property to the required data field name.
-        /// </summary>
-        [Parameter] public string Field { get; set; }
+        public virtual DataGridColumnType ColumnType { get; } = DataGridColumnType.Text;
 
         /// <summary>
         /// Gets or sets the column's display caption
@@ -173,19 +158,14 @@ namespace Blazorise.DataGrid
         [Parameter] public TextAlignment TextAlignment { get; set; }
 
         /// <summary>
-        /// Defines the format for display value.
-        /// </summary>
-        [Parameter] public string DisplayFormat { get; set; }
-
-        /// <summary>
-        /// Defines the culture info for display value.
-        /// </summary>
-        [Parameter] public CultureInfo DisplayCulture { get; set; }
-
-        /// <summary>
         /// Gets or sets whether users can edit cell values under this column.
         /// </summary>
         [Parameter] public bool Editable { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether column can be displayed on a grid.
+        /// </summary>
+        [Parameter] public bool Displayable { get; set; } = true;
 
         /// <summary>
         /// Allows the cell values to be entered while the grid is in the new-item state.
@@ -253,6 +233,16 @@ namespace Blazorise.DataGrid
         [Parameter] public string FilterCellStyle { get; set; }
 
         /// <summary>
+        /// Custom classname for group cell.
+        /// </summary>
+        [Parameter] public string GroupCellClass { get; set; }
+
+        /// <summary>
+        /// Custom style for group cell.
+        /// </summary>
+        [Parameter] public string GroupCellStyle { get; set; }
+
+        /// <summary>
         /// Template for custom cell display formating.
         /// </summary>
         [Parameter] public RenderFragment<TItem> DisplayTemplate { get; set; }
@@ -268,10 +258,6 @@ namespace Blazorise.DataGrid
         /// Template for custom cell editing.
         /// </summary>
         [Parameter] public RenderFragment<CellEditContext> EditTemplate { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        [CascadingParameter] protected BaseDataGrid<TItem> ParentDataGrid { get; set; }
 
         #endregion
     }

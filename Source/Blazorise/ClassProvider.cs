@@ -49,6 +49,22 @@ namespace Blazorise
 
         #endregion
 
+        #region TimeEdit
+
+        public abstract string TimeEdit();
+
+        public abstract string TimeEditSize( Size size );
+
+        public abstract string TimeEditValidation( ValidationStatus validationStatus );
+
+        #endregion
+
+        #region ColorEdit
+
+        public abstract string ColorEdit();
+
+        #endregion
+
         #region Check
 
         public abstract string Check();

@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -66,6 +67,8 @@ namespace Blazorise
 
             if ( theme.DividerOptions != null )
                 GenerateDividerVariables( theme.DividerOptions );
+
+            GenerateTooltipVariables( theme, theme.TooltipOptions );
 
             // apply variables
             foreach ( var kv in variables )
@@ -214,6 +217,55 @@ namespace Blazorise
 
             if ( dividerOptions.Color != null )
                 variables[ThemeVariables.DividerTextSize] = dividerOptions.TextSize;
+        }
+
+        protected virtual void GenerateTooltipVariables( Theme theme, ThemeTooltipOptions tooltipOptions )
+        {
+            if ( tooltipOptions?.BackgroundColor != null )
+            {
+                var backgroundColor = ParseColor( tooltipOptions.BackgroundColor );
+
+                variables[ThemeVariables.TooltipBackgroundColorR] = backgroundColor.R.ToString( CultureInfo.InvariantCulture );
+                variables[ThemeVariables.TooltipBackgroundColorG] = backgroundColor.G.ToString( CultureInfo.InvariantCulture );
+                variables[ThemeVariables.TooltipBackgroundColorB] = backgroundColor.B.ToString( CultureInfo.InvariantCulture );
+            }
+
+            if ( tooltipOptions?.BackgroundOpacity != null )
+            {
+                variables[ThemeVariables.TooltipBackgroundOpacity] = tooltipOptions.BackgroundOpacity.Value.ToString( CultureInfo.InvariantCulture );
+            }
+
+            if ( tooltipOptions?.Color != null )
+            {
+                variables[ThemeVariables.TooltipColor] = tooltipOptions.Color;
+            }
+
+            if ( tooltipOptions?.FontSize != null )
+            {
+                variables[ThemeVariables.TooltipFontSize] = tooltipOptions.FontSize;
+            }
+
+            variables[ThemeVariables.TooltipBorderRadius] = GetBorderRadius( theme, tooltipOptions?.BorderRadius, Var( ThemeVariables.BorderRadius ) );
+
+            if ( tooltipOptions?.FadeTime != null )
+            {
+                variables[ThemeVariables.TooltipFadeTime] = tooltipOptions.FadeTime;
+            }
+
+            if ( tooltipOptions?.MaxWidth != null )
+            {
+                variables[ThemeVariables.TooltipMaxWidth] = tooltipOptions.MaxWidth;
+            }
+
+            if ( tooltipOptions?.Padding != null )
+            {
+                variables[ThemeVariables.TooltipPadding] = tooltipOptions.Padding;
+            }
+
+            if ( tooltipOptions?.ZIndex != null )
+            {
+                variables[ThemeVariables.TooltipZIndex] = tooltipOptions.ZIndex;
+            }
         }
 
         protected string Var( string name, string defaultValue = null )

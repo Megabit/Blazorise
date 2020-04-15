@@ -50,6 +50,22 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region TimeEdit
+
+        public override string TimeEdit() => "ant-input";
+
+        public override string TimeEditSize( Size size ) => $"{TimeEdit()}-{ToSize( size )}";
+
+        public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region ColorEdit
+
+        public override string ColorEdit() => "ant-input";
+
+        #endregion
+
         #region Check
 
         public override string Check() => "ant-checkbox-input";
@@ -661,7 +677,7 @@ namespace Blazorise.AntDesign
 
         public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
 
-        public override string ProgressBar() => "ant-progress-bg";
+        public override string ProgressBar() => "ant-progress-bg b-ant-progress-text";
 
         public override string ProgressBarColor( Background background ) => BackgroundColor( background );
 

@@ -65,6 +65,9 @@
 .custom-checkbox > .custom-control-label.custom-control-label-pointer {
     cursor: pointer; }
 
+.b-body-layout {
+    overflow-x: hidden; }
+
 .modal-backdrop {
     z-index: -1; }
 

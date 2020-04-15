@@ -1,0 +1,20 @@
+﻿@typeparam TValue
+@inherits Blazorise.TimeEdit<TValue>
+@if ( ParentIsFieldBody )
+{
+    <div class="field">
+        <div class="control">
+            <input @ref="@ElementRef" id="@ElementId" type="time" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" @attributes="@Attributes" />
+            @ChildContent
+        </div>
+        @Feedback
+    </div>
+}
+else
+{
+    <div class="control">
+        <input @ref="@ElementRef" id="@ElementId" type="time" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" @attributes="@Attributes" />
+        @ChildContent
+    </div>
+    @Feedback
+}

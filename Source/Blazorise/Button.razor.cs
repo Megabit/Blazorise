@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class Button : BaseSizableComponent
+    public partial class Button : BaseComponent
     {
         #region Members
 
@@ -100,7 +100,15 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// True if button is part of an addons or dropdown group.
+        /// </summary>
         protected bool IsAddons => ParentButtons?.Role == ButtonsRole.Addons || ParentDropdown?.IsGroup == true;
+
+        /// <summary>
+        /// True if button is placed inside of a <see cref="Field"/>.
+        /// </summary>
+        protected bool ParentIsField => ParentField != null;
 
         /// <summary>
         /// Occurs when the button is clicked.
@@ -227,6 +235,8 @@ namespace Blazorise
         [CascadingParameter] protected Buttons ParentButtons { get; set; }
 
         [CascadingParameter] protected Addons ParentAddons { get; set; }
+
+        [CascadingParameter] protected Field ParentField { get; set; }
 
         /// <summary>
         /// Gets or sets the command to be executed when clicked on a button.
