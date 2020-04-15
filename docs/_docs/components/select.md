@@ -95,7 +95,7 @@ By using `bind-*` attribute the selected item value will be automatically assign
 When using the event `SelectedValueChanged`, you also must define the `SelectedValue` attribute.
 
 ```html
-<Select SelectedValue="@selectedValue" SelectedValueChanged="@OnSelectedValueChanged">
+<Select TValue="int" SelectedValue="@selectedValue" SelectedValueChanged="@OnSelectedValueChanged">
     <SelectItem Value="1">1</SelectItem>
     <SelectItem Value="2">2</SelectItem>
     <SelectItem Value="3">3</SelectItem>
