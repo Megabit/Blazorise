@@ -6,7 +6,7 @@ toc: true
 toc_label: "Guide"
 ---
 
-A slider to select a value from a given range
+Slider allow users to make selections from a range of values.
 
 ## Example
 
