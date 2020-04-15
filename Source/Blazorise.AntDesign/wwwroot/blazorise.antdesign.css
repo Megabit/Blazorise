@@ -60,14 +60,10 @@
     margin-top: -.375rem;
     margin-bottom: 0; }
 
-img.ant-card-cover {
+.ant-card-cover {
     display: block;
     width: 100%;
     margin-left: 0px; }
-    img.ant-card-cover:first-child {
-        border-radius: .25rem .25rem 0 0; }
-    img.ant-card-cover:last-child {
-        border-radius: 0 0 .25rem .25rem; }
 
 .ant-modal {
     width: 520px; }
