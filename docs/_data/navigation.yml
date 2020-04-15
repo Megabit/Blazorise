@@ -103,6 +103,8 @@ docs:
         url: /docs/extensions/dropdownlist/
       - title: "Sidebar"
         url: /docs/extensions/sidebar/
+      - title: "Icons"
+        url: /docs/extensions/icons/
   - title: Helpers
     url: /docs/helpers/
     children:

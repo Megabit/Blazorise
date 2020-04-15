@@ -210,3 +210,10 @@ Defines the breadcrumb activation mode.
 
 - `None` No activation will be applied.
 - `Auto` Breadcrumb items will be activated based on current navigation.
+
+## IconStyle
+
+- `Solid`
+- `Regular`
+- `Light`
+- `DuoTone`
