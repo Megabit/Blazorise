@@ -60,6 +60,12 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region ColorEdit
+
+        public override string ColorEdit() => "e-control";
+
+        #endregion
+
         #region Check
 
         public override string Check() => null;

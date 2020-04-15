@@ -63,6 +63,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region ColorEdit
+
+        public string ColorEdit() => null;
+
+        #endregion
+
         #region Check
 
         public string Check() => null;
