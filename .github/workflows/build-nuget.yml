@@ -2,7 +2,8 @@ name: NuGet Build
 
 on:
   create:
-    tags: v0.9.*, v1.*
+    tags: 0.9.*, 1.*
+    branches-ignore: '*'
 
 jobs:
   build:
@@ -12,5 +13,31 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
-    - name: Echo - Version Tag
-      run: echo 'The tag was ${{ GITHUB_REF }}.'
+    - name: Echo - Latest Version Tag
+      run: echo TAG=$(git describe --tags $(git rev-list --tags --max-count=1)) 
+      
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.200
+
+    - name: Restore NuGet Packages
+      run: dotnet restore
+      
+    - name: Build - Release
+      run: dotnet build --configuration Release --no-restore
+      
+    - name: Run Unit Tests - Release
+      run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
+
+    - name: Publish - Release
+      run: dotnet publish --configuration Release --no-restore --no-build
+
+    - name: Pack - Release
+      run: dotnet pack --configuration Release --no-restore -o ./Packages /p:PackageVersion=$(git describe --tags $(git rev-list --tags --max-count=1))
+
+    - name: Upload Blazorise.Components
+      uses: actions/upload-artifact@v1
+      with:
+        name: Blazorise-Packages, 
+        path: ./Packages/
