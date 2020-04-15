@@ -39,5 +39,5 @@ jobs:
     - name: Upload Blazorise.Components
       uses: actions/upload-artifact@v1
       with:
-        name: Blazorise-Packages, 
+        name: Blazorise-Packages
         path: ./Packages/
