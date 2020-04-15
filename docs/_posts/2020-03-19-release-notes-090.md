@@ -16,11 +16,39 @@ Many new components and improvements on existing components have being made.
 
 ## Breaking changes
 
-Before we continue it's good to mention that with this release comes a lot of breaking changes. I know this is not a popular decision but Blazorise being still in development stage and 1.0 behind a corner I feel this is the perfect time to clean some decisions from the past and introduce some new APIs. So without further ado let us start:
+Before we continue it's good to mention that with this release comes a lot of breaking changes. I know this is not a popular decision but Blazorise being still in development stage and **1.0** behind a corner I feel this is the perfect time to clean some decisions from the past and introduce some new APIs. So without further ado let us start:
 
-### Boolean properties
+### Renamed properties
 
-This is by far the biggest refactor in this release and a lot of components is touched with this change. Basically this is one of the first [issues](https://github.com/stsrki/Blazorise/issues/4) created after the Blazorise was first released. Back then Blazor did not have case-sensitive support when naming components and properties. So whenever there was a clash like `button` and `Button` or `disabled` and `Disabled` it would just break. So I had to introduce prefixes to component properties like `IsDisabled` or `IsActive`. Personally I hated it but it was necessary back then. Now that Blazor has fixed this limitation it was the perfect time to also go through all of the components and remove the prefixes. As a consequence I think the API is now a lot cleaner and easier to write. Since the change is too big, listing every change in this post will not make too much sense. Instead you can go to this [PR](https://github.com/stsrki/Blazorise/pull/536) and see all changes listed.
+This is by far the largest refactor in this release and a lot of components is touched with this change. Basically this is one of the first [issues](https://github.com/stsrki/Blazorise/issues/4) created after the Blazorise was first released. Back then Blazor did not have case-sensitive support when naming components and properties. So whenever there was a clash like `button` and `Button` or `disabled` and `Disabled` it would just break. So I had to introduce prefixes to component properties like `IsDisabled` or `IsActive`. Personally I hated it but it was necessary back then. Now that Blazor has fixed this limitation it was the perfect time to also go through all of the components and remove the prefixes. As a consequence I think the API is now a lot cleaner and easier to write. Since the change is too big, listing every change in this post will not make too much sense. Instead you can go to this [PR](https://github.com/stsrki/Blazorise/pull/536) and see all changes listed.
+
+### Refactored components
+
+- `SelectEdit` component is renamed to `Select`.
+- `CheckEdit` component is renamed to `Check` to be more in line with new `Radio` and `Switch` components. It is also converted to generic component so existing properties like `NullableChecked` and `NullableCheckedChanged` are removed as they we're not needed any more.
+- Property `ColumnSize` is removed from all input components(TextEdit, NumericEdit, Select, etc.). From now on column sizes must be defined on the container components like `Field` and `FieldBody`.
+- `Tabs` component now uses new template parameters(`Items` and `Content`). While old examples will still work, it is advised to convert your tabs to the [new structure]({{ "/docs/components/tab/#example" | relative_url }}) as it's much easier to define and handle.
+
+  ```html
+  <Tabs>
+    <Items>
+      ..
+    </Items>
+    <Content>
+      ...
+    </Content>
+  </Tabs>
+  ```
+
+- It's now preferred to place `Field` component inside of `Validation` container.
+
+  ```html
+  <Validation Validator="@ValidationRule.IsEmail">
+    <Field Horizontal="true">
+    ...
+    </Field>
+  </Validation>
+  ```
 
 ## New Components
 
@@ -48,3 +76,21 @@ To learn more about file component please look at the [documentation]({{ "/docs/
 Another component that is made by the help of [community post](https://mikaberglund.com/2019/12/28/creating-anchor-links-in-blazor-applications/) is the new `Link` component. The new component is used for any navigation on your SPA and also for anchor links on landing pages. The old `LinkBase` is removed and replaced with `Link` component. Please read the [documentation]({{ "/docs/components/link/" | relative_url }}) to learn more.
 
 There is also a great landing page theme made by [richbryant](https://github.com/richbryant) that can be found on [GitHub](https://github.com/richbryant/SinglePage) and that is using a Blazorise Link component to make it work.
+
+### Layout
+
+Originally this was not going to part of a **v0.9**. While I was working on provider for AntDesign I liked how they had special layout component(s) to structure the page. I wanted to see how it would translate to Blazorise so I can use it instead of current custom structure in the demo app. It worked quite good, but I didn't want to loose too much time working on it, so I just stashed it until later. At the same time [@MitchellNZ](https://github.com/MitchellNZ) opened new [ticket](https://github.com/stsrki/Blazorise/issues/700) with the request for the very same component(s). So instead we both agreed for him to join me and to finish the Layout component. I must admit without his help this feature would be laying around for a long time. As a result it's now part of a **v0.9** and as a bonus with it the entire demo app is structured fully by Blazorise components without any help of native elements or custom CSS.
+
+### Radio and Switch
+
+The new `Radio` and `Switch` components are based on the existing `Check` component. But since both of them have their own specific use cases I have decided to split them up. This allowed me to have more flexibility when defining specific features and styles.
+
+[Radio]({{ "/docs/components/radio" | relative_url }}) components is used to select one of multiple choices, so I have also introduced new `RadioGroup` component. The change is not just cosmetics as now the new group can act as a container for radios and it also supports validation.
+
+[Switch]({{ "/docs/components/switch" | relative_url }}) component was requested many times to be created. It is similar to `Check` component but is more suited to toggle the state of a single setting on or off.
+
+### Other components
+
+## Contributors
+
+## Closing notes
