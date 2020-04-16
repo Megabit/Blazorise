@@ -101,6 +101,18 @@ The new `Radio` and `Switch` components are based on the existing `Check` compon
 
 [Divider]({{ "/docs/components/divider" | relative_url }}) is a thin line that groups content in lists and layouts.
 
+## Features
+
+### DataGrid
+
+Just as in previous releases, DataGrid has received many new features. Without going into too many detail I will just mention some of the larger ones.
+
+- The first one to mention is the ability to sort multiple columns at once. Previously this was not possible due the limitations in mono runtime(used by web assembly).
+- Next on the list is the support for [aggregate columns]({{ "/docs/extensions/datagrid#aggregates-1" | relative_url }}). It has all of the standard functions like Sum, Average, Min, Max, and Count. Full list of supported functions with the usage example can be found on the [DataGrid]({{ "/docs/extensions/datagrid" | relative_url }}) page.
+- Added some new templates for previous and next pagination buttons.
+- New styling properties to allow custom classes and styles for rows, cells, header and filter.
+- Option to define [custom filtering]({{ "/docs/extensions/datagrid#custom-filtering-1" | relative_url }}) across multiple columns.
+
 ## List of Features and Bug Fixes
 
 - [#612](https://github.com/stsrki/Blazorise/issues/612) Make BaseAutocomplete.CurrentSearch
