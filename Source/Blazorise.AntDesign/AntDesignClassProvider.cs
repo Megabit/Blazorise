@@ -394,9 +394,13 @@ namespace Blazorise.AntDesign
 
         public override string TabItemActive( bool active ) => active ? "ant-tabs-tab-active" : null;
 
+        public override string TabItemDisabled( bool disabled ) => disabled ? "ant-tabs-tab-disabled" : null;
+
         public override string TabLink() => null;
 
         public override string TabLinkActive( bool active ) => null;
+
+        public override string TabLinkDisabled( bool disabled ) => null;
 
         public override string TabsContent() => "ant-tabs-content ant-tabs-content-animated";
 

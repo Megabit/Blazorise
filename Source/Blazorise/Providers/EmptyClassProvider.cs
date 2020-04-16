@@ -327,9 +327,13 @@ namespace Blazorise.Providers
 
         public string TabItemActive( bool active ) => null;
 
+        public string TabItemDisabled( bool disabled ) => null;
+
         public string TabLink() => null;
 
         public string TabLinkActive( bool active ) => null;
+
+        public string TabLinkDisabled( bool disabled ) => null;
 
         public string TabsContent() => null;
 
