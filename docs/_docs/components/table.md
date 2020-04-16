@@ -113,7 +113,10 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Light header
 
 ```html
-<Table Theme="Theme.Light">
+<Table>
+  <TableHeader ThemeContrast="ThemeContrast.Light">
+     ...
+  </TableHeader>
     ...
 </Table>
 ```
@@ -122,7 +125,10 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Dark header
 
 ```html
-<Table Theme="Theme.Dark">
+<Table>
+  <TableHeader ThemeContrast="ThemeContrast.Dark">
+     ...
+  </TableHeader>
     ...
 </Table>
 ```
