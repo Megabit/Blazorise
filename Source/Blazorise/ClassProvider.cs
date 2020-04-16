@@ -323,9 +323,13 @@ namespace Blazorise
 
         public abstract string TabItemActive( bool active );
 
+        public abstract string TabItemDisabled( bool disabled );
+
         public abstract string TabLink();
 
         public abstract string TabLinkActive( bool active );
+
+        public abstract string TabLinkDisabled( bool disabled );
 
         public abstract string TabsContent();
 

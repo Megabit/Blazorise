@@ -397,9 +397,13 @@ namespace Blazorise.Bootstrap
 
         public override string TabItemActive( bool active ) => null;
 
+        public override string TabItemDisabled( bool disabled ) => null;
+
         public override string TabLink() => "nav-link";
 
         public override string TabLinkActive( bool active ) => active ? $"{Active()} {Show()}" : null;
+
+        public override string TabLinkDisabled( bool disabled ) => disabled ? "disabled" : null;
 
         public override string TabsContent() => "tab-content";
 

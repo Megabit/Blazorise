@@ -400,6 +400,10 @@ namespace Blazorise.Bulma
 
         public override string TabItemActive( bool active ) => active ? $"{Active()}" : null;
 
+        public override string TabItemDisabled( bool disabled ) => null;
+
+        public override string TabLinkDisabled( bool disabled ) => disabled ? "is-disabled" : null;
+
         public override string TabLink() => null;
 
         public override string TabLinkActive( bool active ) => null;
