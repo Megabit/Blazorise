@@ -217,3 +217,9 @@ Defines the breadcrumb activation mode.
 - `Regular`
 - `Light`
 - `DuoTone`
+
+## SnackbarLocation
+
+- `None` Default behavior.
+- `Left` Show the snackbar on the left side of the screen.
+- `Right` Show the snackbar on the right side of the screen.

@@ -109,6 +109,8 @@ docs:
         url: /docs/extensions/selectlist/
       - title: "Sidebar"
         url: /docs/extensions/sidebar/
+      - title: "Snackbar"
+        url: /docs/extensions/snackbar/
   - title: Helpers
     url: /docs/helpers/
     children:
