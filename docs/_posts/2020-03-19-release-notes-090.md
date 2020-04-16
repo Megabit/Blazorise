@@ -149,7 +149,28 @@ Just as in previous releases, DataGrid has received many new features. Without g
 - [#627](https://github.com/stsrki/Blazorise/issues/627) DataGrid Filter box placement #742
 - [#575](https://github.com/stsrki/Blazorise/issues/575) Adding `@attributes` to Blazorise.Components such as SelectList
 
-
 ## Contributors
+
+I must mention [@DarthPedro](https://github.com/DarthPedro) and all of his work. This guy has restructured Blazorise solution, written new unit tests, helped clean existing E2E tests and on top of that, he has done full CI/CD integration. I must admit, I consider him not as a contributor but as a part of a team. Pedro, thank you from the bottom of my heart!
+
+I already mentioned [@MitchellNZ](https://github.com/MitchellNZ) and his help with AntDesign and polishing of many small details in new provider.
+
+Many new contributors helped with this release.
+
+- [#623](https://github.com/stsrki/Blazorise/pull/623) Use Tab key for Autocomplete selection
+- [#685](https://github.com/stsrki/Blazorise/pull/685) Grid/Row Gutter
+- [#639](https://github.com/stsrki/Blazorise/pull/639) DataGridColumn Filter Template
+- [#699](https://github.com/stsrki/Blazorise/pull/699) Fixed minor issues in RadioGroup tests so that they pass
+- [#702](https://github.com/stsrki/Blazorise/pull/702) Refactoring the Tests folder into Tests & Demos
+- [#703](https://github.com/stsrki/Blazorise/pull/703) Layout additions and fixes
+- [#713](https://github.com/stsrki/Blazorise/pull/713) fix: add back sticky header & scrollable sidebar
+- [#727](https://github.com/stsrki/Blazorise/pull/727) Fix slider initial value ignoring max
+- [#615](https://github.com/stsrki/Blazorise/pull/615) Add DisplayGridColumns parameter (#730)
+- [#726](https://github.com/stsrki/Blazorise/pull/726) Added DateEdit tests
+- [#736](https://github.com/stsrki/Blazorise/pull/736) [AntDesign] fix: ant card image/cover
+- [#737](https://github.com/stsrki/Blazorise/pull/737) [AntDesign] fix: progress bar
+- [#742](https://github.com/stsrki/Blazorise/pull/742) fix: insert empty cell when DataGridColumn Filterable is False
+- [#688](https://github.com/stsrki/Blazorise/pull/688) Updated contributing doc to include steps to setup development and testing environment.
+- [#719](https://github.com/stsrki/Blazorise/pull/719) Added unit test project for Blazorise
 
 ## Closing notes
