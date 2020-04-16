@@ -62,4 +62,4 @@ Blazorise also supports automatic binding via `bind-*` attribute to keep it all 
 }
 ```
 
-If you want to learn more about binding please go to the [official Blazor site](https://blazor.net/docs/components/index.html#data-binding).
+If you want to learn more about binding please go to the [official Blazor site](https://docs.microsoft.com/en-us/aspnet/core/blazor/data-binding).
