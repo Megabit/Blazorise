@@ -751,7 +751,7 @@ namespace Blazorise.AntDesign
 
         public override string TableRowIsSelected() => "selected";
 
-        public override string TableRowHeader() => null;
+        public override string TableRowHeader() => "ant-table-cell b-ant-row-header";
 
         public override string TableRowCell() => "ant-table-cell";
 

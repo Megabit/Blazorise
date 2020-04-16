@@ -165,6 +165,9 @@
     background-color: var(--b-table-thead-light-background, #e9ecef);
     border-color: var(--b-table-thead-light-border, #e9ecef); }
 
+.b-ant-row-header {
+    font-weight: bold; }
+
 .ant-menu-submenu-horizontal > .ant-menu-submenu-title .ant-menu-submenu-arrow {
     position: absolute;
     top: 50%;
