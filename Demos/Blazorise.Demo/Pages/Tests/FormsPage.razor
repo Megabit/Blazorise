@@ -154,11 +154,17 @@
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Radio buttons</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <RadioGroup TValue="string" Name="colors" Inline="true" Buttons="true" CheckedValue="@("green")">
+                        <RadioGroup TValue="string" Name="colors2" Inline="true" Buttons="true" CheckedValue="@("green")">
                             <Radio TValue="string" Value="@("red")">Red</Radio>
                             <Radio TValue="string" Value="@("green")">Green</Radio>
                             <Radio TValue="string" Value="@("blue")">Blue</Radio>
                         </RadioGroup>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Color</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <ColorEdit ColorChanged="@(c=>Console.WriteLine(c))" />
                     </FieldBody>
                 </Field>
             </CardBody>

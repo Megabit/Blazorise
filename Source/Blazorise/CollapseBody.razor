@@ -2,9 +2,9 @@
 @if ( !HasCustomRegistration )
 {
     <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        <CascadingValue Value="@Visible" Name="Collapse">
+        <div class="@ContentClassNames">
             @ChildContent
-        </CascadingValue>
+        </div>
     </div>
 }
 else

@@ -60,6 +60,12 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region ColorEdit
+
+        public override string ColorEdit() => "ant-input";
+
+        #endregion
+
         #region Check
 
         public override string Check() => "ant-checkbox-input";
@@ -388,9 +394,13 @@ namespace Blazorise.AntDesign
 
         public override string TabItemActive( bool active ) => active ? "ant-tabs-tab-active" : null;
 
+        public override string TabItemDisabled( bool disabled ) => disabled ? "ant-tabs-tab-disabled" : null;
+
         public override string TabLink() => null;
 
         public override string TabLinkActive( bool active ) => null;
+
+        public override string TabLinkDisabled( bool disabled ) => null;
 
         public override string TabsContent() => "ant-tabs-content ant-tabs-content-animated";
 
@@ -554,9 +564,13 @@ namespace Blazorise.AntDesign
 
         public override string CollapseActive( bool active ) => active ? "ant-collapse-item-active" : null;
 
-        public override string CollapseContent() => "ant-collapse-content";
+        public override string CollapseHeader() => "ant-collapse-header";
 
-        public override string CollapseContentActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
+        public override string CollapseBody() => "ant-collapse-content";
+
+        public override string CollapseBodyActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
+
+        public override string CollapseBodyContent() => "ant-collapse-content-box";
 
         #endregion
 
@@ -671,7 +685,7 @@ namespace Blazorise.AntDesign
 
         public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
 
-        public override string ProgressBar() => "ant-progress-bg";
+        public override string ProgressBar() => "ant-progress-bg b-ant-progress-text";
 
         public override string ProgressBarColor( Background background ) => BackgroundColor( background );
 
@@ -741,7 +755,7 @@ namespace Blazorise.AntDesign
 
         public override string TableRowIsSelected() => "selected";
 
-        public override string TableRowHeader() => null;
+        public override string TableRowHeader() => "ant-table-cell ant-table-row-header";
 
         public override string TableRowCell() => "ant-table-cell";
 

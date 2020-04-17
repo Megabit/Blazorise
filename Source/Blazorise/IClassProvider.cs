@@ -59,6 +59,12 @@ namespace Blazorise
 
         #endregion
 
+        #region ColorEdit
+
+        string ColorEdit();
+
+        #endregion
+
         #region Check
 
         string Check();
@@ -317,9 +323,13 @@ namespace Blazorise
 
         string TabItemActive( bool active );
 
+        string TabItemDisabled( bool disabled );
+
         string TabLink();
 
         string TabLinkActive( bool active );
+
+        string TabLinkDisabled( bool disabled );
 
         string TabsContent();
 
@@ -505,9 +515,13 @@ namespace Blazorise
 
         string CollapseActive( bool active );
 
-        string CollapseContent();
+        string CollapseHeader();
 
-        string CollapseContentActive( bool active );
+        string CollapseBody();
+
+        string CollapseBodyActive( bool active );
+
+        string CollapseBodyContent();
 
         #endregion
 
