@@ -25,10 +25,10 @@ jobs:
       run: dotnet restore
       
     - name: Build - Release
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release --no-restore /p:Version=$(git describe --tags $(git rev-list --tags --max-count=1))
       
     - name: Run Unit Tests - Release
-      run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal /p:Version=$(git describe --tags $(git rev-list --tags --max-count=1))
+      run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
 
     - name: Publish - Release
       run: dotnet publish --configuration Release --no-restore --no-build
