@@ -14,6 +14,14 @@ To get the development and test environment set up on your local machine, you ne
 
 You are now ready to build and test Blazorise:
 
+### Running documentation
+
+1. Start a command prompt and navigate to the docs folder under Blazorise root.
+2. Run command: `bundle exec jekyll serve`.
+3. Wait for build to finish and theno open your browser and navigate to http://localhost:4000/
+
+### Testing
+
 1. Start a command prompt and run: selenium-standalone start. Note: this service needs to be running before you start Visual Studio, or test runs may fail.
 2. Open the Blazorise solution at the root folder (Blazorise.sln).
 3. Select Build > Build Solution on main menu. All of the projects should build sucessfully.
