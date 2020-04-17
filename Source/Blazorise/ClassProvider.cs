@@ -519,11 +519,11 @@ namespace Blazorise
 
         public abstract string CollapseHeader();
 
-        public abstract string CollapseContent();
+        public abstract string CollapseBody();
 
-        public abstract string CollapseContentBody();
+        public abstract string CollapseBodyActive( bool active );
 
-        public abstract string CollapseContentActive( bool active );
+        public abstract string CollapseBodyContent();
 
         #endregion
 

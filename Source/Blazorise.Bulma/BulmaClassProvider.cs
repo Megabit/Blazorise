@@ -574,11 +574,11 @@ namespace Blazorise.Bulma
 
         public override string CollapseHeader() => "card-header";
 
-        public override string CollapseContent() => "collapse";
+        public override string CollapseBody() => "collapse";
 
-        public override string CollapseContentBody() => "card-content";
+        public override string CollapseBodyActive( bool active ) => active ? Show() : null;
 
-        public override string CollapseContentActive( bool active ) => active ? Show() : null;
+        public override string CollapseBodyContent() => "card-content";
 
         #endregion
 

@@ -523,11 +523,11 @@ namespace Blazorise.Providers
 
         public string CollapseHeader() => null;
 
-        public string CollapseContent() => null;
+        public string CollapseBody() => null;
 
-        public string CollapseContentBody() => null;
+        public string CollapseBodyActive( bool active ) => null;
 
-        public string CollapseContentActive( bool active ) => null;
+        public string CollapseBodyContent() => null;
 
         #endregion
 

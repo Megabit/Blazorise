@@ -559,11 +559,11 @@ namespace Blazorise.Frolic
 
         public override string CollapseHeader() => "card-body";
 
-        public override string CollapseContent() => "collapse";
+        public override string CollapseBody() => "collapse";
 
-        public override string CollapseContentBody() => "card-body";
+        public override string CollapseBodyActive( bool active ) => active ? Show() : null;
 
-        public override string CollapseContentActive( bool active ) => active ? Show() : null;
+        public override string CollapseBodyContent() => "card-body";
 
         #endregion
 

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class CollapseContent : BaseComponent
+    public partial class CollapseBody : BaseComponent
     {
         #region Members
 
@@ -18,9 +18,9 @@ namespace Blazorise
 
         #region Constructors
 
-        public CollapseContent()
+        public CollapseBody()
         {
-            BodyClassBuilder = new ClassBuilder( BuildBodyClasses );
+            ContentClassBuilder = new ClassBuilder( BuildBodyClasses );
         }
 
         #endregion
@@ -29,20 +29,20 @@ namespace Blazorise
 
         protected internal override void DirtyClasses()
         {
-            BodyClassBuilder.Dirty();
+            ContentClassBuilder.Dirty();
 
             base.DirtyClasses();
         }
 
         private void BuildBodyClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.CollapseContentBody() );
+            builder.Append( ClassProvider.CollapseBodyContent() );
         }
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.CollapseContent() );
-            builder.Append( ClassProvider.CollapseContentActive( Visible ) );
+            builder.Append( ClassProvider.CollapseBody() );
+            builder.Append( ClassProvider.CollapseBodyActive( Visible ) );
 
             base.BuildClasses( builder );
         }
@@ -51,12 +51,12 @@ namespace Blazorise
 
         #region Properties
 
-        protected ClassBuilder BodyClassBuilder { get; private set; }
+        protected ClassBuilder ContentClassBuilder { get; private set; }
 
         /// <summary>
         /// Gets dialog container class-names.
         /// </summary>
-        protected string BodyClassNames => BodyClassBuilder.Class;
+        protected string ContentClassNames => ContentClassBuilder.Class;
 
         /// <summary>
         /// Gets or sets the content visibility.

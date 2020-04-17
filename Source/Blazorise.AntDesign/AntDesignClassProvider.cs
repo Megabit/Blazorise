@@ -566,11 +566,11 @@ namespace Blazorise.AntDesign
 
         public override string CollapseHeader() => "ant-collapse-header";
 
-        public override string CollapseContent() => "ant-collapse-content";
+        public override string CollapseBody() => "ant-collapse-content";
 
-        public override string CollapseContentBody() => "ant-collapse-content-box";
+        public override string CollapseBodyActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
 
-        public override string CollapseContentActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
+        public override string CollapseBodyContent() => "ant-collapse-content-box";
 
         #endregion
 
