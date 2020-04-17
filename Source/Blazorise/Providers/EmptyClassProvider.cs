@@ -521,7 +521,11 @@ namespace Blazorise.Providers
 
         public string CollapseActive( bool active ) => null;
 
+        public string CollapseHeader() => null;
+
         public string CollapseContent() => null;
+
+        public string CollapseContentBody() => null;
 
         public string CollapseContentActive( bool active ) => null;
 

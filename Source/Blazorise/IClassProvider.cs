@@ -515,7 +515,11 @@ namespace Blazorise
 
         string CollapseActive( bool active );
 
+        string CollapseHeader();
+
         string CollapseContent();
+
+        string CollapseContentBody();
 
         string CollapseContentActive( bool active );
 

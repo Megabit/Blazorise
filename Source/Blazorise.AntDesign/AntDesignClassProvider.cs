@@ -564,7 +564,11 @@ namespace Blazorise.AntDesign
 
         public override string CollapseActive( bool active ) => active ? "ant-collapse-item-active" : null;
 
+        public override string CollapseHeader() => "ant-collapse-header";
+
         public override string CollapseContent() => "ant-collapse-content";
+
+        public override string CollapseContentBody() => "ant-collapse-content-box";
 
         public override string CollapseContentActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
 

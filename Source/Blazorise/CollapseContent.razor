@@ -1,10 +1,10 @@
 ﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
+@if (!HasCustomRegistration)
 {
     <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        <CascadingValue Value="@Visible">
+        <div class="@BodyClassNames">
             @ChildContent
-        </CascadingValue>
+        </div>
     </div>
 }
 else
