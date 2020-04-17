@@ -37,7 +37,7 @@ jobs:
       run: dotnet publish --configuration Release --no-restore --no-build
 
     - name: Pack - Release
-      run: dotnet pack --configuration Release --no-restore -o ./Packages /p:Version=$VERSION
+      run: dotnet pack --configuration Release --no-restore -o ./Packages /p:Version=$VERSION /p:PackageVersion=$VERSION
       env:
         VERSION: ${{ steps.latest_tag.outputs.VERSION }}
 
