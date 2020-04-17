@@ -2,7 +2,7 @@
 @if ( !HasCustomRegistration )
 {
     <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        <CascadingValue Value="@Visible">
+        <CascadingValue Value="@Visible" Name="Collapse">
             @ChildContent
         </CascadingValue>
     </div>

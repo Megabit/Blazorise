@@ -51,7 +51,17 @@ namespace Blazorise
 
         #region Properties
 
-        [CascadingParameter]
+        protected ClassBuilder BodyClassBuilder { get; private set; }
+
+        /// <summary>
+        /// Gets dialog container class-names.
+        /// </summary>
+        protected string BodyClassNames => BodyClassBuilder.Class;
+
+        /// <summary>
+        /// Gets or sets the content visibility.
+        /// </summary>
+        [CascadingParameter( Name = "Collapse" )]
         public bool Visible
         {
             get => visible;
@@ -64,13 +74,6 @@ namespace Blazorise
         }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
-
-        protected ClassBuilder BodyClassBuilder { get; private set; }
-
-        /// <summary>
-        /// Gets dialog container class-names.
-        /// </summary>
-        protected string BodyClassNames => BodyClassBuilder.Class;
 
         #endregion
     }
