@@ -54,7 +54,19 @@ This is by far the largest refactor in this release and a lot of components is t
   </Validation>
   ```
 
-## New Components
+## Major new Features
+
+## AntDesign provider
+
+The last CSS provider for Blazorise was implemented almost a year ago. In that time many people requested for new provider but I didn't want to do it as it would be too difficult to maintain additional provider considering the state of Blazor and Blazorise back then. A lot of things needed to be refactored and cleaned. So starting from v0.8 and up to 0.9, the main plan was to clean and refactor most of the things without breaking the API too much. The plan worked really well and I felt now was the perfect time to introduce new provider.
+
+When I started working on AntDesign provider I quickly realized that I could not rely on their prebuilt java-script file as it was built with React in mind. So I scratched it completely and focused only on CSS part. Slowly I added components one by one and it started to make shape. Pretty soon I hit the next wall. Dynamic components like select, dropdown, slider, etc. are natively handled by java-script but since I could not use it I had to code them from scratch using only C#.
+
+I have to admit the process was not easy. It was hard and it was stressful. But after many months and weeks I can finally say that we have new provider to choose. Was it all worth it? I must say it was, as I have also learned a lot in the process and also fixed and cleaned Blazorise API even further. Some of the components are now even easier to use than before.
+
+I must also mention [@MitchellNZ](https://github.com/MitchellNZ) and all of his help in the last few weeks where he fixed many bugs within AntDesign and polished it before final release.
+
+The setup for new CSS provider can be found on [usage page]({{ "/docs/usage/ant-design/" | relative_url }}).
 
 ### Live Charts
 
@@ -65,13 +77,13 @@ This one took me a long time to build. I had to come up with a way to handle thi
 - `void AddDataSet()` > `Task AddDataSet()`
 - `void Update()` > `Task Update()`
 
-This change allowed me better control over the chart data and it's options. But that was just the beginning. Most of the things are done under the hood to allow dynamic changes on the chart data. Also it's now easier to add custom plugins for chartjs. First plugin I decided to add is the [chartjs-plugin-streaming](https://nagix.github.io/chartjs-plugin-streaming/). With the help of this plugin your data can now be animated while data is coming or streaming.
+This change allowed me better control over the chart data and it's options. But that was just the beginning. Most of the things are done under the hood to allow dynamic changes on the chart data. Also it's now easier to add custom plugins for ChartJS. First plugin I decided to add is the [chartjs-plugin-streaming](https://nagix.github.io/chartjs-plugin-streaming/). With the help of this plugin your data can now be animated while data is coming or streaming.
 
-It has it's own NuGet package named `Blazorise.Charts.Streaming`, available [here](https://www.myget.org/feed/blazorise/package/nuget/Blazorise.Charts.Streaming). The streaming API is fairly simple to use and you see an example in the documentation on [chart page]({{ "/docs/extensions/chart/#streaming" | relative_url }}).
+It has it's own NuGet package named `Blazorise.Charts.Streaming`, available [here](https://www.nuget.org/packages/Blazorise.Charts.Streaming). The streaming API is fairly simple to use and you can found an example in the documentation on [chart page]({{ "/docs/extensions/chart/#streaming" | relative_url }}).
 
 ### File Upload
 
-FileEdit component was created long time ago but I must admit it wasn't used at all. After Steve Sanderson has posted [file upload](https://blog.stevensanderson.com/2019/09/13/blazor-inputfile/) implementation on his blog I decided to give it a shot and include it into FileEdit. This component is based on his implementation but it isn't a full copy. While Steve's component worked on most of the files it broke randomly on files larger than 25MB, or so. I had to make some tweaks here and there and I managed to create a component that is capable of uploading files of any size. I must also give my thanks to [iberisoft](https://github.com/iberisoft) for testing the component after my changes!
+FileEdit component was created long time ago but I must admit it wasn't usable at all. After Steve Sanderson has posted [file upload](https://blog.stevensanderson.com/2019/09/13/blazor-inputfile/) implementation on his blog I decided to give it a shot and include it into FileEdit. This component is based on his implementation but it isn't a full copy. While Steve's component worked on most of the files it broke randomly on files larger than 25MB, or so. I had to make some tweaks here and there and I managed to create a component that is capable of uploading files of any size. I must also give my thanks to [iberisoft](https://github.com/iberisoft) for testing the component after my changes!
 
 To learn more about file component please look at the [documentation]({{ "/docs/components/file/" | relative_url }}).
 
@@ -101,8 +113,6 @@ The new `Radio` and `Switch` components are based on the existing `Check` compon
 
 [Divider]({{ "/docs/components/divider" | relative_url }}) is a thin line that groups content in lists and layouts.
 
-## Features
-
 ### DataGrid
 
 Just as in previous releases, DataGrid has received many new features. Without going into too many detail I will just mention some of the larger ones.
@@ -124,7 +134,7 @@ Just as in previous releases, DataGrid has received many new features. Without g
 - [#493](https://github.com/stsrki/Blazorise/issues/493) DataGrid multi sorting
 - [#539](https://github.com/stsrki/Blazorise/issues/539) DataGrid sorting icon
 - [#509](https://github.com/stsrki/Blazorise/issues/509) Limit NumericEdit max and min based on it's value type
-- [#516](https://github.com/stsrki/Blazorise/issues/516) DataGrid prev and next templates
+- [#516](https://github.com/stsrki/Blazorise/issues/516) DataGrid previous and next templates
 - [#506](https://github.com/stsrki/Blazorise/issues/506) Support for MVVM with ICommand
 - [#617](https://github.com/stsrki/Blazorise/issues/617) DataGrid Row click events
 - [#681](https://github.com/stsrki/Blazorise/issues/681) Some Components can not be styled
@@ -144,7 +154,7 @@ Just as in previous releases, DataGrid has received many new features. Without g
 - [#722](https://github.com/stsrki/Blazorise/issues/722) `.b-body-layout` is not working Bulma
 - [#571](https://github.com/stsrki/Blazorise/issues/571) Prevent users from injecting their own components
 - [#677](https://github.com/stsrki/Blazorise/issues/677) Slider component not initializing as expected with values over 100 (#727)
-- [#351](https://github.com/stsrki/Blazorise/issues/351) Automatically set Breadcrumb active state based on navigation url
+- [#351](https://github.com/stsrki/Blazorise/issues/351) Automatically set Breadcrumb active state based on navigation URL
 - [#605](https://github.com/stsrki/Blazorise/issues/605) Option to control data-grid column visibility in display mode
 - [#627](https://github.com/stsrki/Blazorise/issues/627) DataGrid Filter box placement #742
 - [#575](https://github.com/stsrki/Blazorise/issues/575) Adding `@attributes` to Blazorise.Components such as SelectList
