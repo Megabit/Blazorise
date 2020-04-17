@@ -356,6 +356,12 @@ namespace Blazorise.Bootstrap
                     .Append( "{" )
                     .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
+
+                sb
+                    .Append( $".nav.nav-tabs .nav-item a.nav-link:not(.active)" )
+                    .Append( "{" )
+                    .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                    .AppendLine( "}" );
             }
         }
 

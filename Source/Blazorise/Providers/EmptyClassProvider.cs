@@ -327,9 +327,13 @@ namespace Blazorise.Providers
 
         public string TabItemActive( bool active ) => null;
 
+        public string TabItemDisabled( bool disabled ) => null;
+
         public string TabLink() => null;
 
         public string TabLinkActive( bool active ) => null;
+
+        public string TabLinkDisabled( bool disabled ) => null;
 
         public string TabsContent() => null;
 
@@ -517,9 +521,13 @@ namespace Blazorise.Providers
 
         public string CollapseActive( bool active ) => null;
 
-        public string CollapseContent() => null;
+        public string CollapseHeader() => null;
 
-        public string CollapseContentActive( bool active ) => null;
+        public string CollapseBody() => null;
+
+        public string CollapseBodyActive( bool active ) => null;
+
+        public string CollapseBodyContent() => null;
 
         #endregion
 

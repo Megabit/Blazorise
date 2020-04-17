@@ -385,9 +385,13 @@ namespace Blazorise.Frolic
 
         public override string TabItemActive( bool active ) => active ? Active() : null;
 
+        public override string TabItemDisabled( bool disabled ) => null;
+
         public override string TabLink() => null;
 
         public override string TabLinkActive( bool active ) => null;
+
+        public override string TabLinkDisabled( bool disabled ) => null;
 
         public override string TabsContent() => "e-tabs-content";
 
@@ -549,13 +553,17 @@ namespace Blazorise.Frolic
 
         #region Collapse
 
-        public override string Collapse() => "collapse";
+        public override string Collapse() => "e-card";
 
-        public override string CollapseActive( bool active ) => active ? Show() : null;
+        public override string CollapseActive( bool active ) => null;
 
-        public override string CollapseContent() => null;
+        public override string CollapseHeader() => "card-body";
 
-        public override string CollapseContentActive( bool active ) => null;
+        public override string CollapseBody() => "collapse";
+
+        public override string CollapseBodyActive( bool active ) => active ? Show() : null;
+
+        public override string CollapseBodyContent() => "card-body";
 
         #endregion
 

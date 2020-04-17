@@ -397,9 +397,13 @@ namespace Blazorise.Bootstrap
 
         public override string TabItemActive( bool active ) => null;
 
+        public override string TabItemDisabled( bool disabled ) => null;
+
         public override string TabLink() => "nav-link";
 
         public override string TabLinkActive( bool active ) => active ? $"{Active()} {Show()}" : null;
+
+        public override string TabLinkDisabled( bool disabled ) => disabled ? "disabled" : null;
 
         public override string TabsContent() => "tab-content";
 
@@ -561,13 +565,17 @@ namespace Blazorise.Bootstrap
 
         #region Collapse
 
-        public override string Collapse() => "collapse";
+        public override string Collapse() => "card";
 
-        public override string CollapseActive( bool active ) => active ? Show() : null;
+        public override string CollapseActive( bool active ) => null;
 
-        public override string CollapseContent() => null;
+        public override string CollapseHeader() => "card-header";
 
-        public override string CollapseContentActive( bool active ) => null;
+        public override string CollapseBody() => "collapse";
+
+        public override string CollapseBodyActive( bool active ) => active ? Show() : null;
+
+        public override string CollapseBodyContent() => "card-body";
 
         #endregion
 

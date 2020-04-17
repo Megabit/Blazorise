@@ -323,9 +323,13 @@ namespace Blazorise
 
         public abstract string TabItemActive( bool active );
 
+        public abstract string TabItemDisabled( bool disabled );
+
         public abstract string TabLink();
 
         public abstract string TabLinkActive( bool active );
+
+        public abstract string TabLinkDisabled( bool disabled );
 
         public abstract string TabsContent();
 
@@ -513,9 +517,13 @@ namespace Blazorise
 
         public abstract string CollapseActive( bool active );
 
-        public abstract string CollapseContent();
+        public abstract string CollapseHeader();
 
-        public abstract string CollapseContentActive( bool active );
+        public abstract string CollapseBody();
+
+        public abstract string CollapseBodyActive( bool active );
+
+        public abstract string CollapseBodyContent();
 
         #endregion
 
