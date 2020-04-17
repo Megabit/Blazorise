@@ -44,7 +44,10 @@
                     @foreach ( var column in DisplayableColumns )
                     {
                         @if ( !column.Filterable )
+                        {
+                            <TableHeaderCell Class="@FilterRowClass" Style="@FilterRowStyle" width="@column.Width"></TableHeaderCell>
                             continue;
+                        }
 
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {

@@ -443,6 +443,16 @@ namespace Blazorise.AntDesign
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
 
+            sb.Append( $".ant-card-cover:first-child" ).Append( "{" )
+                .Append( $"border-top-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-top-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+
+            sb.Append( $".ant-card-cover:last-child" ).Append( "{" )
+                .Append( $"border-bottom-left-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .Append( $"border-bottom-right-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                .AppendLine( "}" );
+
             if ( !string.IsNullOrEmpty( options?.ImageTopRadius ) )
                 sb.Append( $".ant-card-cover" ).Append( "{" )
                     .Append( $"border-top-left-radius: {options.ImageTopRadius};" )
