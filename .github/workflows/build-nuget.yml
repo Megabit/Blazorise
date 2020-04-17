@@ -14,9 +14,8 @@ jobs:
     - uses: actions/checkout@v2
           
     - name: Echo - Latest Version Tag
-      env:
-        VERSION_TAG: $(git describe --tags $(git rev-list --tags --max-count=1))
-      run: echo TAG=$VERSION_TAG
+      id: latest_tag
+      run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
       
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
@@ -27,7 +26,9 @@ jobs:
       run: dotnet restore
       
     - name: Build - Release
-      run: dotnet build --configuration Release --no-restore /p:Version=$VERSION_TAG
+      run: dotnet build --configuration Release --no-restore /p:Version=$VERSION
+      env:
+        VERSION: ${{ steps.latest_tag.outputs.VERSION }}
       
     - name: Run Unit Tests - Release
       run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
@@ -36,7 +37,9 @@ jobs:
       run: dotnet publish --configuration Release --no-restore --no-build
 
     - name: Pack - Release
-      run: dotnet pack --configuration Release --no-restore -o ./Packages /p:Version=$VERSION_TAG
+      run: dotnet pack --configuration Release --no-restore -o ./Packages /p:Version=$VERSION
+      env:
+        VERSION: ${{ steps.latest_tag.outputs.VERSION }}
 
     - name: Upload Blazorise.Components
       uses: actions/upload-artifact@v1
