@@ -25,7 +25,7 @@ jobs:
       run: dotnet restore
       
     - name: Build - Release
-      run: dotnet build --configuration Release --no-restore /p:Version=1.2.3.4
+      run: dotnet build --configuration Release --no-restore --version-prefix 1.2.3.4 --version-suffix preview
       
     - name: Run Unit Tests - Release
       run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
