@@ -1,5 +1,6 @@
 ---
 title: "Blazorise 0.9 release notes"
+permalink: /news/release-notes/090/
 classes: wide
 categories:
   - Release Notes
