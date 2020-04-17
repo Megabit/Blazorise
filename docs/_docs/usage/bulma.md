@@ -89,7 +89,10 @@ public class Program
       .AddBulmaProviders()
       .AddFontAwesomeIcons();
 
-    builder.Services.AddBaseAddressHttpClient();
+    builder.Services.AddSingleton( new HttpClient
+    {
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
 
     builder.RootComponents.Add<App>( "app" );
 
@@ -120,7 +123,7 @@ public class Startup
       .AddBlazorise( options =>
       {
         options.ChangeTextOnKeyPress = true;
-      } ) // from v0.6.0-preview4
+      } )
       .AddBulmaProviders()
       .AddFontAwesomeIcons();
 

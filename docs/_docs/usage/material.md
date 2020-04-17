@@ -100,7 +100,10 @@ public class Program
       .AddMaterialProviders()
       .AddMaterialIcons();
 
-    builder.Services.AddBaseAddressHttpClient();
+    builder.Services.AddSingleton( new HttpClient
+    {
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
 
     builder.RootComponents.Add<App>( "app" );
 
