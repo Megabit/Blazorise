@@ -6,6 +6,8 @@ toc: true
 toc_label: "Guide"
 ---
 
+A content area which can be collapsed and expanded.
+
 ## Basics
 
 The `Accordion` and `Collapse` structure is very simple:
@@ -58,3 +60,11 @@ Here is an example of how to use the `Accordion` with the `Collapse` components.
     bool collapse3Visible = false;
 }
 ```
+
+## Attributes
+
+### Collapse
+
+| Name         | Type                                                         | Default          | Description                                                                                 |
+|--------------|--------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| Visible      | boolean                                                      | false            | Sets the collapse visibility.                                                               |
