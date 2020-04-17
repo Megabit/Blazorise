@@ -25,7 +25,7 @@ jobs:
       run: dotnet restore
       
     - name: Build - Release
-      run: dotnet build --configuration Release --no-restore /p:Version=$(git describe --tags $(git rev-list --tags --max-count=1))
+      run: dotnet build --configuration Release --no-restore -p:Version=$(git describe --tags $(git rev-list --tags --max-count=1))
       
     - name: Run Unit Tests - Release
       run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
@@ -34,7 +34,7 @@ jobs:
       run: dotnet publish --configuration Release --no-restore --no-build
 
     - name: Pack - Release
-      run: dotnet pack --configuration Release --no-restore -o ./Packages /p:PackageVersion=$(git describe --tags $(git rev-list --tags --max-count=1))
+      run: dotnet pack --configuration Release --no-restore -o ./Packages -p:PackageVersion=$(git describe --tags $(git rev-list --tags --max-count=1))
 
     - name: Upload Blazorise.Components
       uses: actions/upload-artifact@v1
