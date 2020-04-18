@@ -119,3 +119,23 @@ If you don't want to have a maximum width but want to keep the some margin on th
     </Alert>
 </Container>
 ```
+
+## Attributes
+
+### Row
+
+| Name              | Type          | Default | Description                                                                                                                     |
+|-------------------|---------------|---------|---------------------------------------------------------------------------------------------------------------------------------|
+| Gutter            | (int, int)    |         | Row grid spacing - we recommend setting Horizontal and/or Vertical it to (16 + 8n). (n stands for natural number.)              |
+
+### Column
+
+| Name              | Type          | Default | Description                                                                                                                     |
+|-------------------|---------------|---------|---------------------------------------------------------------------------------------------------------------------------------|
+| Gutter            | (int, int)    |         | Column grid spacing, we recommend setting it to (16 + 8n). (n stands for natural number.)                                       |
+
+### Container
+
+| Name              | Type          | Default | Description                                                                                                                     |
+|-------------------|---------------|---------|---------------------------------------------------------------------------------------------------------------------------------|
+| Fluid             | bool          | false   | Makes a full width container, spanning the entire width of the viewport.                                                        |

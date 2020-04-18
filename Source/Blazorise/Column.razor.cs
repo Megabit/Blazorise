@@ -35,7 +35,7 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Coulmn grid spacing, we recommend setting it to (16 + 8n). (n stands for natural number.)
+        /// Column grid spacing, we recommend setting it to (16 + 8n). (n stands for natural number.)
         /// </summary>
         [CascadingParameter] public (int Horizontal, int Vertical) Gutter { get; set; }
 
