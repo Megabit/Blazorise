@@ -22,6 +22,7 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 - [Material Demo](https://materialdemo.blazorise.com/)
 - [Bulma Demo](https://bulmademo.blazorise.com/)
 - [eFrolic Demo](https://efrolicdemo.blazorise.com/)
+- [AntDesign Demo](https://antdesigndemo.blazorise.com/)
 
 ### Blazor Server
 
@@ -33,18 +34,25 @@ Note: This project is still experimental so it's possible that some components w
 
 [Releases](https://blazorise.com/docs/releases/) and [Roadmap](https://github.com/stsrki/Blazorise/issues/304)
 
+## Documentation
+
+For full documentation, please visit the [Blazorise official documentation page](https://blazorise.com/docs/).
+
+Continuing reading below for a quick start guide.
+
 ## Prerequisites
 
 Before you continue, please make sure you have the latest version of Visual Studio and .Net Core installed. Visit an official [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/client) site to learn more.
 
 ## Installations
 
-There are currently 4 different NuGet packages for each of the supported CSS frameworks. Available packages are:
+There are currently 5 different NuGet packages for each of the supported CSS frameworks. Available packages are:
 
 ```
 - Blazorise.Bootstrap
 - Blazorise.Bulma
 - Blazorise.Material
+- Blazorise.AntDesign
 - Blazorise.Frolic
 ```
 
@@ -136,7 +144,10 @@ public class Program
       .AddBootstrapProviders()
       .AddFontAwesomeIcons();
 
-    builder.Services.AddBaseAddressHttpClient();
+    builder.Services.AddSingleton( new HttpClient
+    {
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
 
     builder.RootComponents.Add<App>( "app" );
 

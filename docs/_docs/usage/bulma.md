@@ -61,7 +61,7 @@ Starting from **.Net Core 3.2** there was some changes regarding the setup proce
 ---
 Depending on the hosting model of your Blazor project you only need to apply either step **4.a** or **4.b**. You should not include both of them as that is generally not supported.
 
-To Learn more about the different project types you can go to the official [documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-3.0).
+To Learn more about the different project types you can go to the official [documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models).
 
 ---
 
@@ -89,7 +89,10 @@ public class Program
       .AddBulmaProviders()
       .AddFontAwesomeIcons();
 
-    builder.Services.AddBaseAddressHttpClient();
+    builder.Services.AddSingleton( new HttpClient
+    {
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
 
     builder.RootComponents.Add<App>( "app" );
 
@@ -120,7 +123,7 @@ public class Startup
       .AddBlazorise( options =>
       {
         options.ChangeTextOnKeyPress = true;
-      } ) // from v0.6.0-preview4
+      } )
       .AddBulmaProviders()
       .AddFontAwesomeIcons();
 

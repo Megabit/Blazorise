@@ -60,6 +60,11 @@
     margin-top: -.375rem;
     margin-bottom: 0; }
 
+.ant-card-cover {
+    display: block;
+    width: 100%;
+    margin-left: 0px; }
+
 .ant-modal {
     width: 520px; }
     @media (min-width: 576px) {
@@ -159,6 +164,9 @@
     color: var(--b-table-thead-light-color, #495057);
     background-color: var(--b-table-thead-light-background, #e9ecef);
     border-color: var(--b-table-thead-light-border, #e9ecef); }
+
+.ant-table-row-header {
+    font-weight: bold; }
 
 .ant-menu-submenu-horizontal > .ant-menu-submenu-title .ant-menu-submenu-arrow {
     position: absolute;
@@ -351,6 +359,16 @@
 
 .b-body-layout {
     overflow-x: hidden; }
+
+.ant-progress-inner {
+    display: inline-flex; }
+
+.b-ant-progress-text {
+    text-align: center;
+    display: flex;
+    color: #fff;
+    justify-content: center;
+    flex-direction: column; }
 
 .m-xs-0 {
     margin: 0 !important; }

@@ -104,7 +104,7 @@ analytics:
 author:
   name             : *name # *name is a YAML reference pointing to the &anchor earlier
   avatar           : "/assets/images/strki.jpg"
-  bio              : "Senior Developer @ Travelsoft"
+  bio              : "Senior Developer @ Hattrick PSK"
   location         : "Split, Croatia"
   links:
     # - label: "Mladen Macanovic"
@@ -213,8 +213,8 @@ defaults:
       path: ""
       type: posts
     values:
-      layout: single
-      author_profile: true
+      layout: single-wide
+      author_profile: false
       read_time: true
       comments: true
       share: true

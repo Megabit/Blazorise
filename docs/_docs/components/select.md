@@ -95,7 +95,7 @@ By using `bind-*` attribute the selected item value will be automatically assign
 When using the event `SelectedValueChanged`, you also must define the `SelectedValue` attribute.
 
 ```html
-<Select SelectedValue="@selectedValue" SelectedValueChanged="@OnSelectedValueChanged">
+<Select TValue="int" SelectedValue="@selectedValue" SelectedValueChanged="@OnSelectedValueChanged">
     <SelectItem Value="1">1</SelectItem>
     <SelectItem Value="2">2</SelectItem>
     <SelectItem Value="3">3</SelectItem>
@@ -123,7 +123,8 @@ When using the event `SelectedValueChanged`, you also must define the `SelectedV
 | SelectedValue         | generic   |         | Selected item value when in single edit mode.                                                |
 | SelectedValues        | generic[] |         | Selected item value when in multi edit mode.                                                 |
 | SelectedValueChanged  | action    |         | Occurs when the selected item value has changed.                                             |
-| SelectedValuesChanged | action    |         | Occurs when the selected items value has changed (only when Multiple==true).               |
+| SelectedValuesChanged | action    |         | Occurs when the selected items value has changed (only when Multiple==true).                 |
+| MaxVisibleItems       | int?      | null    | Specifies how many options should be shown at once..                                         |
 
 ### SelectItem
 

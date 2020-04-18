@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.Bootstrap;
@@ -23,7 +25,10 @@ namespace BasicTestApp.Client
                 .AddBootstrapProviders()
                 .AddFontAwesomeIcons();
 
-            builder.Services.AddBaseAddressHttpClient();
+            builder.Services.AddSingleton( new HttpClient
+            {
+                BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+            } );
 
             builder.RootComponents.Add<Index>( "root" );
 

@@ -14,6 +14,8 @@ namespace Blazorise
 
         private bool active;
 
+        private bool disabled;
+
         #endregion
 
         #region Constructors
@@ -31,6 +33,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.TabItem() );
             builder.Append( ClassProvider.TabItemActive( Active ) );
+            builder.Append( ClassProvider.TabItemDisabled( Disabled ) );
 
             base.BuildClasses( builder );
         }
@@ -39,6 +42,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.TabLink() );
             builder.Append( ClassProvider.TabLinkActive( Active ) );
+            builder.Append( ClassProvider.TabLinkDisabled( Disabled ) );
         }
 
         internal protected override void DirtyClasses()
@@ -111,6 +115,21 @@ namespace Blazorise
             private set
             {
                 active = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Determines is the tab is disabled.
+        /// </summary>
+        [Parameter]
+        public bool Disabled
+        {
+            get => disabled;
+            set
+            {
+                disabled = value;
 
                 DirtyClasses();
             }

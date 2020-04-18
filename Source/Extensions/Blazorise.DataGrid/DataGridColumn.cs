@@ -147,8 +147,6 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets the column initial sort direction.
         /// </summary>
-        /// <remarks>
-        /// Currently only one column can be sorted becaouse of the bug in Mono runtime.
         /// </remarks>
         [Parameter] public SortDirection Direction { get; set; }
 
@@ -248,7 +246,7 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment<TItem> DisplayTemplate { get; set; }
 
         /// <summary>
-        /// Template for custom column filter rendering
+        /// Template for custom column filter rendering.
         /// </summary>
         [Parameter] public RenderFragment<FilterContext> FilterTemplate { get; set; }
 

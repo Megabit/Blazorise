@@ -13,4 +13,7 @@
     <ProjectReference Include="..\Apps\TodoApp\TodoApp.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
 </Project>

@@ -30,6 +30,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// If true header will be fixed to the top of the page.
+        /// </summary>
         [Parameter]
         public bool Fixed
         {
