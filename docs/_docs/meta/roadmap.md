@@ -16,3 +16,7 @@ toc_label: "On this page"
 ### Long term
 
 - Completely remove JavaScript
+
+## Progress
+
+You can check out the latest development pipeline and track its progress [on GitHub](https://github.com/stsrki/Blazorise/projects/8).

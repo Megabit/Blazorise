@@ -34,4 +34,6 @@ See the Blazorise in action:
 
 - [Bootstrap Demo](https://bootstrapdemo.blazorise.com)
 - [Material Demo](https://materialdemo.blazorise.com)
-- [Bulma Demo](https://bulmademo.blazorise.com) (PREVIEW)
+- [Ant Design Demo](https://antdesigndemo.blazorise.com)
+- [Bulma Demo](https://bulmademo.blazorise.com)
+- [eFrolic Demo](https://efrolicdemo.blazorise.com)
