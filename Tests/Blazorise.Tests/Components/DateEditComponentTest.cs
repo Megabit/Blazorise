@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using AngleSharp.Text;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
