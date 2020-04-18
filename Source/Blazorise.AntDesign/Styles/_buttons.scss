@@ -1,0 +1,18 @@
+﻿.ant-btn-group,
+.ant-btn-group-vertical {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+
+    > .ant-btn {
+        position: relative;
+        flex: 1 1 auto;
+
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+            z-index: 1;
+        }
+    }
+}

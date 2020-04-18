@@ -9,11 +9,11 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
-    public abstract class BaseBarDropdownToggle : BaseComponent, ICloseActivator
+    public partial class BarDropdownToggle : BaseComponent, ICloseActivator
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
         private bool isRegistered;
 
@@ -25,8 +25,12 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            // link to the parent component
-            BarDropdown?.Hook( this );
+            if ( ParentBarDropdown != null )
+            {
+                Visible = ParentBarDropdown.Visible;
+
+                ParentBarDropdown.StateChanged += OnBarDropdownStateChanged;
+            }
 
             base.OnInitialized();
         }
@@ -49,14 +53,20 @@ namespace Blazorise
         {
             if ( disposing )
             {
+                if ( ParentBarDropdown != null )
+                {
+                    ParentBarDropdown.StateChanged -= OnBarDropdownStateChanged;
+                }
+
                 // make sure to unregister listener
                 if ( isRegistered )
                 {
                     isRegistered = false;
 
-                    JSRunner.UnregisterClosableComponent( this );
-                    JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                    _ = JSRunner.UnregisterClosableComponent( this );
                 }
+
+                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
             base.Dispose( disposing );
@@ -64,17 +74,24 @@ namespace Blazorise
 
         protected void ClickHandler()
         {
-            BarDropdown?.Toggle();
+            ParentBarDropdown?.Toggle();
         }
 
-        public bool SafeToClose( string elementId, bool isEscapeKey )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
         {
-            return isEscapeKey || elementId != ElementId;
+            return Task.FromResult( closeReason == CloseReason.EscapeClosing || elementId != ElementId );
         }
 
-        public void Close()
+        public Task Close( CloseReason closeReason )
         {
-            BarDropdown?.Close();
+            ParentBarDropdown?.Hide();
+
+            return Task.CompletedTask;
+        }
+
+        private void OnBarDropdownStateChanged( object sender, BarDropdownStateEventArgs e )
+        {
+            Visible = e.Visible;
         }
 
         #endregion
@@ -85,14 +102,14 @@ namespace Blazorise
         /// Handles the visibility of dropdown toggle.
         /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
 
-                if ( isOpen )
+                if ( visible )
                 {
                     isRegistered = true;
 
@@ -109,7 +126,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] public BaseBarDropdown BarDropdown { get; set; }
+        [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

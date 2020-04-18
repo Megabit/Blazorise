@@ -12,7 +12,9 @@ namespace Blazorise.Sidebar
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
+
+        private bool scrollable = true;
 
         #endregion
 
@@ -21,7 +23,8 @@ namespace Blazorise.Sidebar
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "sidebar" );
-            builder.Append( "show", IsOpen );
+            builder.Append( "sidebar-scrollable", Scrollable );
+            builder.Append( "show", Visible );
 
             base.BuildClasses( builder );
         }
@@ -31,7 +34,7 @@ namespace Blazorise.Sidebar
         /// </summary>
         public void Open()
         {
-            IsOpen = true;
+            Visible = true;
 
             StateHasChanged();
         }
@@ -41,7 +44,7 @@ namespace Blazorise.Sidebar
         /// </summary>
         public void Close()
         {
-            IsOpen = false;
+            Visible = false;
 
             StateHasChanged();
         }
@@ -51,7 +54,7 @@ namespace Blazorise.Sidebar
         /// </summary>
         public void Toggle()
         {
-            IsOpen = !IsOpen;
+            Visible = !Visible;
 
             StateHasChanged();
         }
@@ -64,12 +67,27 @@ namespace Blazorise.Sidebar
         /// Gets or sets the sidebar visibility state.
         /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// If true, the sidebar will have vertical scrollbar.
+        /// </summary>
+        [Parameter]
+        public bool Scrollable
+        {
+            get => scrollable;
+            set
+            {
+                scrollable = value;
 
                 DirtyClasses();
             }

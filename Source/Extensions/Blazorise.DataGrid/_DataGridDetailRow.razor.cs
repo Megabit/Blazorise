@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridDetailRow<TItem> : BaseComponent
+    public abstract class _BaseDataGridDetailRow<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -46,9 +46,9 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// List of columns used to build this row.
         /// </summary>
-        [Parameter] public IReadOnlyList<BaseDataGridColumn<TItem>> Columns { get; set; }
+        [Parameter] public IReadOnlyList<DataGridColumn<TItem>> Columns { get; set; }
 
-        [CascadingParameter] public BaseDataGrid<TItem> ParentDataGrid { get; set; }
+        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

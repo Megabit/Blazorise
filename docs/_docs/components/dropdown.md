@@ -92,8 +92,8 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
 
 | Name           | Type                                                                   | Default   | Description                                                                                                                    |
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
-| IsOpen         | boolean                                                                | false     | Handles the visibility of dropdown menu.                                                                                       |
-| IsRightAligned | boolean                                                                | false     | Right aligned dropdown menu.                                                                                                   |
+| Visible        | boolean                                                                | false     | Handles the visibility of dropdown menu.                                                                                       |
+| RightAligned   | boolean                                                                | false     | Right aligned dropdown menu.                                                                                                   |
 | Direction      | [Direction]({{ "/docs/helpers/enums/#direction" | relative_url }})     | `Down`    | Direction of an dropdown menu.                                                                                                 |
 | Toggled        | event                                                                  |           | Occurs after the dropdown menu visibility has changed.                                                                         |
 
@@ -101,7 +101,7 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
 
 | Name           | Type                                                                   | Default   | Description                                                                                                                    |
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
-| IsRightAligned | boolean                                                                | false     | Right aligned dropdown menu.                                                                                                   |
+| RightAligned   | boolean                                                                | false     | Right aligned dropdown menu.                                                                                                   |
 
 ### DropdownItem
 
@@ -116,5 +116,5 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
 | Color          | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})           | `None`    | Component visual or contextual style variants.                                                                                 |
 | Size           | [ButtonSize]({{ "/docs/helpers/sizes/#buttonsize" | relative_url }})   | `None`    | Button size variations.                                                                                                        |
-| IsSplit        | boolean                                                                | false     | Handles the visibility of split button.                                                                                        |
-| IsOutline      | boolean                                                                | false     | Outlined button                                                                                                                |
+| Split          | boolean                                                                | false     | Handles the visibility of split button.                                                                                        |
+| Outline        | boolean                                                                | false     | Outlined button                                                                                                                |

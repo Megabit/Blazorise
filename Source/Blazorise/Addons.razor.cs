@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseAddons : BaseComponent
+    public partial class Addons : BaseComponent
     {
         #region Members
 
         private IFluentColumn columnSize;
+
+        private List<Button> registeredButtons;
 
         #endregion
 
@@ -21,8 +23,45 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Addons() );
+            builder.Append( ClassProvider.AddonsHasButton( registeredButtons?.Count > 0 ) );
 
             base.BuildClasses( builder );
+        }
+
+        protected override void OnAfterRender( bool firstRender )
+        {
+            if ( firstRender && registeredButtons?.Count > 0 )
+            {
+                DirtyClasses();
+                StateHasChanged();
+            }
+
+            base.OnAfterRender( firstRender );
+        }
+
+        internal void Register( Button button )
+        {
+            if ( button == null )
+                return;
+
+            if ( registeredButtons == null )
+                registeredButtons = new List<Button>();
+
+            if ( !registeredButtons.Contains( button ) )
+            {
+                registeredButtons.Add( button );
+            }
+        }
+
+        internal void UnRegister( Button button )
+        {
+            if ( button == null )
+                return;
+
+            if ( registeredButtons != null && registeredButtons.Contains( button ) )
+            {
+                registeredButtons.Remove( button );
+            }
         }
 
         #endregion
@@ -38,19 +77,18 @@ namespace Blazorise
                 columnSize = value;
 
                 DirtyClasses();
-                DirtyClasses();
             }
         }
 
-        protected virtual bool ParentIsHorizontal => ParentField?.IsHorizontal == true;
+        protected virtual bool ParentIsHorizontal => ParentField?.Horizontal == true;
 
-        [CascadingParameter] public BaseField ParentField { get; set; }
+        [CascadingParameter] protected Field ParentField { get; set; }
 
         //protected bool IsInFieldBody => ParentFieldBody != null;
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        //[CascadingParameter] public BaseFieldBody ParentFieldBody { get; set; }
+        //[CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
 
         #endregion
     }

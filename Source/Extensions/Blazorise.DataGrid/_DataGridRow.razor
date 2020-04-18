@@ -1,27 +1,30 @@
 @typeparam TItem
 @inherits _BaseDataGridRow<TItem>
-<TableRow Clicked="@OnSelectedCommand"
+<TableRow Clicked="@HandleClick"
+          DoubleClicked="@HandleDoubleClick"
           Background="@(ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item ? Background.Primary : Background.None)"
-          HoverCursor="@HoverCursor">
+          HoverCursor="@HoverCursor"
+          Class="@Class"
+          Style="@Style">
     @foreach ( var column in Columns )
     {
         @if ( column.ColumnType == DataGridColumnType.Command )
         {
             @if ( ParentDataGrid.Editable == true )
             {
-                <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Width="@column.Width" />
+                <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" />
             }
         }
         else
         {
-            <TableRowCell width="@column.Width">
+            <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" width="@column.Width" TextAlignment="@column.TextAlignment">
                 @if ( column.DisplayTemplate != null )
                 {
                     @column.DisplayTemplate( Item )
                 }
                 else
                 {
-                    @column.GetValue( Item )
+                    @column.FormatDisplayValue( Item )
                 }
             </TableRowCell>
         }

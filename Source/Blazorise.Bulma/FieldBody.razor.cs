@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Bulma.BulmaBase
+namespace Blazorise.Bulma
 {
-    public abstract class BaseBulmaFieldBody : BaseFieldBody
+    public partial class FieldBody : Blazorise.FieldBody
     {
         #region Members
 
@@ -20,7 +20,7 @@ namespace Blazorise.Bulma.BulmaBase
 
         #region Properties
 
-        protected override bool UseColumnSizes => false; // Bulma does not support column sizes on fields.
+        protected override bool ColumnSizeSupported => false; // Bulma does not support column sizes on fields.
 
         #endregion
     }

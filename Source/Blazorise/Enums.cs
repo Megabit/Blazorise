@@ -833,6 +833,37 @@ namespace Blazorise
     }
 
     /// <summary>
+    /// The target attribute specifies where to open the linked document.
+    /// </summary>
+    public enum Target
+    {
+        /// <summary>
+        /// No target will be applied. Usually this is the same as <see cref="Target.Self"/>.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Opens the linked document in the same frame as it was clicked (this is default)
+        /// </summary>
+        Self,
+
+        /// <summary>
+        /// Opens the linked document in a new window or tab.
+        /// </summary>
+        Blank,
+
+        /// <summary>
+        /// Opens the linked document in the parent frame.
+        /// </summary>
+        Parent,
+
+        /// <summary>
+        /// Opens the linked document in the full body of the window.
+        /// </summary>
+        Top,
+    }
+
+    /// <summary>
     /// Addon element type.
     /// </summary>
     public enum AddonType
@@ -861,6 +892,7 @@ namespace Blazorise
         None,
         Check,
         Radio,
+        Switch,
         File,
         Text,
     }
@@ -1296,5 +1328,130 @@ namespace Blazorise
         /// Convert first character to uppercase and all other to lowercase.
         /// </summary>
         Title = 3,
+    }
+
+    /// <summary>
+    /// Defines the styling of a label for the component it belongs to.
+    /// </summary>
+    public enum LabelType
+    {
+        /// <summary>
+        /// No additional styling is applied.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Style for check box will be applied.
+        /// </summary>
+        Check,
+
+        /// <summary>
+        /// Style for radio will be applied.
+        /// </summary>
+        Radio,
+
+        /// <summary>
+        /// Style for switch will be applied.
+        /// </summary>
+        Switch,
+
+        /// <summary>
+        /// Style for file input will be applied.
+        /// </summary>
+        File,
+    }
+
+    /// <summary>
+    /// Specifies the reason that a component was closed.
+    /// </summary>
+    public enum CloseReason
+    {
+        /// <summary>
+        /// The cause of the closure was not defined or could not be determined.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// The user is closing the component through the user interface.
+        /// </summary>
+        UserClosing,
+
+        /// <summary>
+        /// The component has lost focus or user has gone out of bounds.
+        /// </summary>
+        FocusLostClosing,
+
+        /// <summary>
+        /// Pressing the escape key is closing the component.
+        /// </summary>
+        EscapeClosing,
+    }
+
+    /// <summary>
+    /// Specifies horizontal line style variants.
+    /// </summary>
+    public enum DividerType
+    {
+        /// <summary>
+        /// Horizontal line will be solid.
+        /// </summary>
+        Solid,
+
+        /// <summary>
+        /// Horizontal line will be dashed.
+        /// </summary>
+        Dashed,
+
+        /// <summary>
+        /// Horizontal line will be dotted.
+        /// </summary>
+        Dotted,
+
+        /// <summary>
+        /// Horizontal line be separated by text.
+        /// </summary>
+        TextContent,
+    }
+
+    /// <summary>
+    /// Defines the placement of a tab items.
+    /// </summary>
+    public enum TabPosition
+    {
+        /// <summary>
+        /// Top side.
+        /// </summary>
+        Top,
+
+        /// <summary>
+        /// Bottom side.
+        /// </summary>
+        Bottom,
+
+        /// <summary>
+        /// Left side.
+        /// </summary>
+        Left,
+
+        /// <summary>
+        /// Right side.
+        /// </summary>
+        Right,
+    }
+
+    /// <summary>
+    /// Defines the breadcrumb activation mode.
+    /// </summary>
+    public enum BreadcrumbMode
+    {
+        /// <summary>
+        /// No activation will be applied, meaning it must be applied manually by setting the <see cref="BreadcrumbItem.Active"/> property.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Breadcrumb items will be activated based on current navigation.
+        /// </summary>
+        Auto,
     }
 }

@@ -1,11 +1,13 @@
-﻿@inherits Blazorise.BaseBreadcrumb
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <nav aria-label="breadcrumb">
-        <ol class="@ClassNames" @attributes="@Attributes">
-            @ChildContent
-        </ol>
-    </nav>
+    <CascadingValue Value=this>
+        <nav aria-label="breadcrumb">
+            <ol class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @ChildContent
+            </ol>
+        </nav>
+    </CascadingValue>
 }
 else
 {

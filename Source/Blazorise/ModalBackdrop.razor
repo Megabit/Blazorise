@@ -1,7 +1,7 @@
-﻿@inherits Blazorise.BaseModalBackdrop
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <div id="@ElementId" class="@ClassNames" @attributes="@Attributes">
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </div>
 }

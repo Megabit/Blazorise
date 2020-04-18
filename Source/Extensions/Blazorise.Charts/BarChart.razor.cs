@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Charts
 {
-    public abstract class BaseBarChart<TItem> : BaseChart<BarChartDataset<TItem>, TItem, BarChartOptions, BarChartModel>
+    public partial class BarChart<TItem> : BaseChart<BarChartDataset<TItem>, TItem, BarChartOptions, BarChartModel>
     {
         #region Members
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
-        public BaseBarChart()
+        public BarChart()
         {
             Type = ChartType.Bar;
         }

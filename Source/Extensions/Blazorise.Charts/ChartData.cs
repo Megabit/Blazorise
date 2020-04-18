@@ -69,13 +69,13 @@ namespace Blazorise.Charts
         ///List of background colors for each of the data items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> BackgroundColor { get; set; }
+        public object BackgroundColor { get; set; }
 
         /// <summary>
         /// List of border colors for each of the data items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> BorderColor { get; set; }
+        public object BorderColor { get; set; }
 
         /// <summary>
         /// Defines the border width.
@@ -163,6 +163,12 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public bool SteppedLine { get; set; }
+
+        /// <summary>
+        /// https://www.chartjs.org/docs/latest/charts/line.html#cubicinterpolationmode
+        /// </summary>
+        [DataMember]
+        public string CubicInterpolationMode { get; set; } = "default";
     }
 
     /// <remarks>

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public abstract class BaseTableRowCell : BaseComponent
+    public partial class TableRowCell : BaseComponent
     {
         #region Members
 
@@ -19,6 +19,8 @@ namespace Blazorise
         private Background background = Background.None;
 
         private TextColor textColor = TextColor.None;
+
+        private TextAlignment textAlignment = TextAlignment.None;
 
         #endregion
 
@@ -30,13 +32,14 @@ namespace Blazorise
             builder.Append( ClassProvider.TableRowCellColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.TableRowCellBackground( Background ), Background != Background.None );
             builder.Append( ClassProvider.TableRowCellTextColor( TextColor ), TextColor != TextColor.None );
+            builder.Append( ClassProvider.TableRowCellTextAlignment( TextAlignment ), TextAlignment != TextAlignment.None );
 
             base.BuildClasses( builder );
         }
 
-        protected void HandleClick( MouseEventArgs e )
+        protected Task HandleClick( MouseEventArgs e )
         {
-            Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
+            return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
         }
 
         #endregion
@@ -79,8 +82,26 @@ namespace Blazorise
             }
         }
 
+        [Parameter]
+        public TextAlignment TextAlignment
+        {
+            get => textAlignment;
+            set
+            {
+                textAlignment = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Number of rows a cell should span.
+        /// </summary>
         [Parameter] public int? RowSpan { get; set; }
 
+        /// <summary>
+        /// Number of columns a cell should span.
+        /// </summary>
         [Parameter] public int? ColumnSpan { get; set; }
 
         /// <summary>

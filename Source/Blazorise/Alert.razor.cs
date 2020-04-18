@@ -8,17 +8,21 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseAlert : BaseComponent
+    public partial class Alert : BaseComponent
     {
         #region Members
 
-        private bool isDismisable;
+        private bool dismisable;
 
-        private bool isShow;
+        private bool visible;
 
         private Color color = Color.None;
 
         public event EventHandler<AlertStateEventArgs> StateChanged;
+
+        private bool hasMessage;
+
+        private bool hasDescription;
 
         #endregion
 
@@ -28,41 +32,68 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Alert() );
             builder.Append( ClassProvider.AlertColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.AlertDismisable(), IsDismisable );
-            builder.Append( ClassProvider.AlertFade(), IsDismisable );
-            builder.Append( ClassProvider.AlertShow(), IsDismisable && IsShow );
+            builder.Append( ClassProvider.AlertDismisable(), Dismisable );
+            builder.Append( ClassProvider.AlertFade(), Dismisable );
+            builder.Append( ClassProvider.AlertShow(), Dismisable && Visible );
+            builder.Append( ClassProvider.AlertHasMessage(), hasMessage );
+            builder.Append( ClassProvider.AlertHasDescription(), hasDescription );
 
             base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
         {
-            HandleVisibilityState( IsShow );
+            HandleVisibilityState( Visible );
 
             base.OnInitialized();
         }
 
+        /// <summary>
+        /// Displays the alert to the user.
+        /// </summary>
         public void Show()
         {
-            IsShow = true;
+            Visible = true;
             StateHasChanged();
         }
 
+        /// <summary>
+        /// Conceals the alert from the user.
+        /// </summary>
         public void Hide()
         {
-            IsShow = false;
+            Visible = false;
             StateHasChanged();
         }
 
+        /// <summary>
+        /// Toggles the visibility of the alert.
+        /// </summary>
         public void Toggle()
         {
-            IsShow = !IsShow;
+            Visible = !Visible;
             StateHasChanged();
         }
 
         private void HandleVisibilityState( bool active )
         {
             Visibility = active ? Visibility.Always : Visibility.Never;
+        }
+
+        internal void NotifyHasMessage()
+        {
+            hasMessage = true;
+
+            DirtyClasses();
+            StateHasChanged();
+        }
+
+        internal void NotifyHasDescription()
+        {
+            hasDescription = true;
+
+            DirtyClasses();
+            StateHasChanged();
         }
 
         #endregion
@@ -73,12 +104,12 @@ namespace Blazorise
         /// Enables the alert to be closed by placing the padding for close button.
         /// </summary>
         [Parameter]
-        public bool IsDismisable
+        public bool Dismisable
         {
-            get => isDismisable;
+            get => dismisable;
             set
             {
-                isDismisable = value;
+                dismisable = value;
 
                 DirtyClasses();
             }
@@ -88,20 +119,20 @@ namespace Blazorise
         /// Sets the alert visibilty.
         /// </summary>
         [Parameter]
-        public bool IsShow
+        public bool Visible
         {
-            get => isShow;
+            get => visible;
             set
             {
                 // prevent alert from calling the same code multiple times
-                if ( value == isShow )
+                if ( value == visible )
                     return;
 
-                isShow = value;
+                visible = value;
 
                 HandleVisibilityState( value );
 
-                StateChanged?.Invoke( this, new AlertStateEventArgs( isShow ) );
+                StateChanged?.Invoke( this, new AlertStateEventArgs( visible ) );
 
                 DirtyClasses();
             }

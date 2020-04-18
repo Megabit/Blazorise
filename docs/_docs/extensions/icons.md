@@ -6,5 +6,79 @@ toc: true
 toc_label: "Guide"
 ---
 
-## List
+## Overview
 
+Icons extension is used to have a strongly typed list of icons.
+
+## Installation
+
+### NuGet
+
+Install sidebar extension from NuGet.
+
+```
+Install-Package Blazorise.Icons.FontAwesome
+```
+
+### CSS
+
+Include CSS link into your `index.html` or `_Host.cshtml` file, depending if you're using a Blazor WebAssembly or Blazor Server side project.
+
+```html
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+```
+
+### Registrations
+
+```diff
+builder.Services
+  .AddBlazorise()
+  .AddBootstrapProviders()
++  .AddFontAwesomeIcons();
+```
+
+and
+
+```diff
+host.Services
+  .UseBootstrapProviders()
++  .UseFontAwesomeIcons();
+```
+
+## Usage
+
+### Basic
+
+To define an icon it's simple as this.
+
+```html
+<Icon Name="IconName.Mail" />
+```
+
+### Custom
+
+You can also use a real icon name instead of predefined enum.
+
+```html
+<Icon Name="fa-phone" />
+```
+
+### Style
+
+By default all icons will have `Solid` style. To change it you can use one of the supported styles:
+
+- `Solid`
+- `Regular`
+- `Light`
+- `DuoTone`
+
+```html
+<Icon Name="IconName.Mail" IconStyle="IconStyle.Light" />
+```
+
+## Attributes
+
+| Name              | Type                                                                    | Default  | Description                                                                   |
+|-------------------|-------------------------------------------------------------------------|----------|-------------------------------------------------------------------------------|
+| Name              | object                                                                  | null     | Icon name.                                                                    |
+| IconStyle         | [IconStyle]({{ "/docs/helpers/enums/#iconstyle" | relative_url }})      | `Solid`  | Suggested icon style.                                                         |

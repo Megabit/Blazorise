@@ -1,0 +1,34 @@
+﻿@page "/test/"
+@page "/test/{ParameterValue}"
+@inject NavigationManager NavigationManager
+<h2>Select string</h2>
+<p id="select-value-initialy-selected">
+    Initially blank:
+    <Select TValue="string"
+                Class="my-5"
+                SelectedValue="@(model.GetValue())"
+                SelectedValueChanged="@((e) => model.SetValue(e))">
+        <SelectItem TValue="string" Value="@("one")">One</SelectItem>
+        <SelectItem TValue="string" Value="@("two")">Two</SelectItem>
+        <SelectItem TValue="string" Value="@("three")">Three</SelectItem>
+    </Select>
+    <span id="select-value-initialy-selected-result">@model.Value</span>
+    <Button Color="Color.Primary" Clicked="@(() => model.SetValue("one"))">Go to One</Button>
+    <Button Color="Color.Secondary" Clicked="@(() => model.SetValue("two"))">Go to Two</Button>
+</p>
+@code{
+    [Parameter] public string ParameterValue { get; set; }
+    Model model = new Model
+    {
+        Value = "two"
+    };
+
+    public class Model
+    {
+        public string Value { get; set; }
+
+        public string GetValue() => Value;
+
+        public string SetValue( string value ) => Value = value;
+    }
+}

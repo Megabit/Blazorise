@@ -1,0 +1,30 @@
+﻿@typeparam TValue
+@inherits Blazorise.Select<TValue>
+@if ( ParentIsFieldBody )
+{
+    <div class="field">
+        <div class="control">
+            <div class="@ClassNames" style="@StyleNames">
+                <select @ref="@ElementRef" id="@ElementId" disabled="@Disabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" @onchange="@OnChangeHandler" @attributes="@Attributes">
+                    <CascadingValue Value=this>
+                        @ChildContent
+                    </CascadingValue>
+                </select>
+            </div>
+        </div>
+        @Feedback
+    </div>
+}
+else
+{
+    <div class="control">
+        <div class="@ClassNames" style="@StyleNames">
+            <select @ref="@ElementRef" id="@ElementId" disabled="@Disabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" @onchange="@OnChangeHandler" @attributes="@Attributes">
+                <CascadingValue Value=this>
+                    @ChildContent
+                </CascadingValue>
+            </select>
+        </div>
+    </div>
+    @Feedback
+}

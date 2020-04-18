@@ -1,8 +1,10 @@
-﻿@inherits Blazorise.BaseCollapse
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <div class="@ClassNames" @attributes="@Attributes">
-        @ChildContent
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <CascadingValue Value="@Visible" Name="Collapse">
+            @ChildContent
+        </CascadingValue>
     </div>
 }
 else

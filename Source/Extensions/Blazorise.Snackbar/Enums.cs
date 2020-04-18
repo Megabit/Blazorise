@@ -13,7 +13,7 @@ namespace Blazorise.Snackbar
     public enum SnackbarLocation
     {
         /// <summary>
-        /// Default behaviour.
+        /// Default behavior.
         /// </summary>
         None,
 
@@ -26,5 +26,56 @@ namespace Blazorise.Snackbar
         /// Show the snackbar on the right side of the screen.
         /// </summary>
         Right,
+    }
+
+    /// <summary>
+    /// Predefined set of contextual colors.
+    /// </summary>
+    public enum SnackbarColor
+    {
+        /// <summary>
+        /// No color will be applied to an element.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Primary color.
+        /// </summary>
+        Primary,
+
+        /// <summary>
+        /// Secondary color.
+        /// </summary>
+        Secondary,
+
+        /// <summary>
+        /// Success color.
+        /// </summary>
+        Success,
+
+        /// <summary>
+        /// Danger color.
+        /// </summary>
+        Danger,
+
+        /// <summary>
+        /// Warning color.
+        /// </summary>
+        Warning,
+
+        /// <summary>
+        /// Info color.
+        /// </summary>
+        Info,
+
+        /// <summary>
+        /// Light color.
+        /// </summary>
+        Light,
+
+        /// <summary>
+        /// Dark color.
+        /// </summary>
+        Dark,
     }
 }

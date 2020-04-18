@@ -15,6 +15,11 @@
     background: var(--bsb-dark);
 }
 
+.sidebar-scrollable {
+    height: 100vh;
+    overflow-y: auto;
+}
+
 .sidebar-sticky .sidebar-nav {
     padding-bottom: 0;
 }

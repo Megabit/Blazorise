@@ -122,11 +122,11 @@ namespace Blazorise.DataGrid
         /// <param name="page">Page number at the moment of initialization.</param>
         /// <param name="pageSize">Maximum number of items per page.</param>
         /// <param name="columns">List of all the columns in the grid.</param>
-        public DataGridReadDataEventArgs( int page, int pageSize, IEnumerable<BaseDataGridColumn<TItem>> columns )
+        public DataGridReadDataEventArgs( int page, int pageSize, IEnumerable<DataGridColumn<TItem>> columns )
         {
             Page = page;
             PageSize = pageSize;
-            Columns = columns?.Select( x => new DataGridColumnInfo( x.Field, x.Filter?.SearchValue, x.Direction ) );
+            Columns = columns?.Select( x => new DataGridColumnInfo( x.Field, x.Filter?.SearchValue, x.CurrentDirection ) );
         }
 
         /// <summary>
@@ -143,5 +143,28 @@ namespace Blazorise.DataGrid
         /// Gets the list of columns.
         /// </summary>
         public IEnumerable<DataGridColumnInfo> Columns { get; }
+    }
+
+    /// <summary>
+    /// Provides all the information about the clicked event on datagrid row.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    public class DataGridRowMouseEventArgs<TItem> : EventArgs
+    {
+        public DataGridRowMouseEventArgs( TItem item, BLMouseEventArgs mouseEventArgs )
+        {
+            Item = item;
+            MouseEventArgs = mouseEventArgs;
+        }
+
+        /// <summary>
+        /// Gets the model.
+        /// </summary>
+        public TItem Item { get; }
+
+        /// <summary>
+        /// Gets the mouse event details.
+        /// </summary>
+        public BLMouseEventArgs MouseEventArgs { get; }
     }
 }

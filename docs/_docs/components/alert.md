@@ -6,11 +6,27 @@ toc: true
 toc_label: "Guide"
 ---
 
-## Alert
+## Overview
+
+Alert component for feedback.
+
+- `Alert` main container.
+  - `AlertMessage` content of Alert.
+  - `AlertDescription` additional content of Alert.
+
+### When to use
+
+- When you need to show alert messages to users.
+- When you need a persistent static container which is closable by user actions.
+
+## Examples
+
+### Basic usage
 
 ```html
 <Alert Color="Color.Success">
-    <strong>Well done!</strong> You successfully read this important alert message.
+    <AlertMessage>Well done!</AlertMessage>
+    <AlertDescription>You successfully read this important alert message.</AlertDescription>
 </Alert>
 ```
 
@@ -22,7 +38,12 @@ You can also add a close button.
 
 ```html
 <Alert Color="Color.Success">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Alert Link.</strong>
+    <AlertDescription>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    </AlertDescription>
+    <AlertMessage>
+        Alert Link.
+    </AlertMessage>
     <CloseButton />
 </Alert>
 ```
@@ -34,7 +55,7 @@ You can also add a close button.
 You can also add a close button.
 
 ```html
-<Alert Color="Color.Info" IsShow="true">
+<Alert Color="Color.Info" Visible="true">
     <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
         Big one!
         <CloseButton />
@@ -53,10 +74,10 @@ You can also add a close button.
 
 ### How to use
 
-To show alert just set `IsShow` attribute to true.
+To show alert just set `Visible` attribute to true.
 
 ```html
-<Alert Color="Color.Success" IsShow="true">
+<Alert Color="Color.Success" Visible="true">
     ...
 </Alert>
 ```
@@ -92,6 +113,6 @@ or programmatically
 
 | Name         | Type                                                         | Default          | Description                                                                                 |
 |--------------|--------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| IsDismisable | boolean                                                      | false            | Enables the alert to be closed by placing the padding for close button.                     |
-| IsShow       | boolean                                                      | false            | Sets the alert visibility.                                                                   |
+| Dismisable   | boolean                                                      | false            | Enables the alert to be closed by placing the padding for close button.                     |
+| Visible      | boolean                                                      | false            | Sets the alert visibility.                                                                   |
 | Color        | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }}) | `None`           | Component visual or contextual style variants.                                              |

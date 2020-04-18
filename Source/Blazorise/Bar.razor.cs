@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBar : BaseComponent
+    public partial class Bar : BaseComponent
     {
         #region Members
 
@@ -20,11 +20,9 @@ namespace Blazorise
 
         private Background background = Background.None;
 
-        private BaseBarToggler barToggler;
+        private bool visible;
 
-        private BaseBarMenu barMenu;
-
-        private bool isOpen;
+        public event EventHandler<BarStateEventArgs> StateChanged;
 
         #endregion
 
@@ -33,7 +31,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Bar() );
-            builder.Append( ClassProvider.BackgroundColor( Background ), Background != Background.None );
+            builder.Append( ClassProvider.BarBackground( Background ), Background != Background.None );
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
@@ -41,19 +39,9 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Hook( BaseBarToggler barToggler )
-        {
-            this.barToggler = barToggler;
-        }
-
-        internal void Hook( BaseBarMenu barMenu )
-        {
-            this.barMenu = barMenu;
-        }
-
         internal void Toggle()
         {
-            IsOpen = !IsOpen;
+            Visible = !Visible;
 
             StateHasChanged();
         }
@@ -66,18 +54,18 @@ namespace Blazorise
         /// Controlls the state of toggler and the menu.
         /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                // prevent bar from calling the same code multiple times
+                if ( value == visible )
+                    return;
 
-                if ( barMenu != null )
-                    barMenu.IsOpen = value;
+                visible = value;
 
-                if ( barToggler != null )
-                    barToggler.IsOpen = value;
+                StateChanged?.Invoke( this, new BarStateEventArgs( visible ) );
 
                 DirtyClasses();
             }

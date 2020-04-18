@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseDropdownDivider : BaseComponent
+    public partial class DropdownDivider : BaseComponent
     {
         #region Members
 

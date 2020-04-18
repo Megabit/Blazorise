@@ -1,7 +1,9 @@
 # main links
 main:
-  - title: "Docs"
+  - title: "Documentation"
     url: /docs/
+  - title: "News"
+    url: /news/
   - title: "GitHub"
     icon: "fab fa-fw fa-github"
     url: https://github.com/stsrki/Blazorise
@@ -21,83 +23,107 @@ docs:
   - title: Form
     url: /docs/forms/
     children:
-      - title: "Text"
-        url: /docs/components/text/
-      - title: "Memo"
-        url: /docs/components/memo/
-      - title: "Select"
-        url: /docs/components/select/
-      - title: "Date"
-        url: /docs/components/date/
-      - title: "Numeric"
-        url: /docs/components/numeric/
-      - title: "Check"
-        url: /docs/components/check/
-      - title: "Field"
-        url: /docs/components/field/
       - title: "Addon"
         url: /docs/components/addon/
+      - title: "Check"
+        url: /docs/components/check/
+      - title: "Color"
+        url: /docs/components/color/
+      - title: "Date"
+        url: /docs/components/date/
+      - title: "Divider"
+        url: /docs/components/divider/
+      - title: "Field"
+        url: /docs/components/field/
+      - title: "File"
+        url: /docs/components/file/
+      - title: "Link"
+        url: /docs/components/link/
+      - title: "Memo"
+        url: /docs/components/memo/
+      - title: "Numeric"
+        url: /docs/components/numeric/
+      - title: "Radio"
+        url: /docs/components/radio/
+      - title: "Select"
+        url: /docs/components/select/
+      - title: "Slider"
+        url: /docs/components/slider/
+      - title: "Switch"
+        url: /docs/components/switch/
+      - title: "Text"
+        url: /docs/components/text/
+      - title: "Time"
+        url: /docs/components/time/
       - title: "Validation"
         url: /docs/components/validation/
   - title: Components
     url: /docs/components/
     children:
-      - title: "Button"
-        url: /docs/components/button/
-      - title: "Dropdown"
-        url: /docs/components/dropdown/
-      - title: "Card"
-        url: /docs/components/card/
-      - title: "Tab"
-        url: /docs/components/tab/
-      - title: "Bar"
-        url: /docs/components/bar/
-      - title: "Modal"
-        url: /docs/components/modal/
-      - title: "Table"
-        url: /docs/components/table/
-      - title: "Badge"
-        url: /docs/components/badge/
-      - title: "Pagination"
-        url: /docs/components/pagination/
-      - title: "Breadcrumb"
-        url: /docs/components/breadcrumb/
-      - title: "Alert"
-        url: /docs/components/alert/
       - title: "Accordion"
         url: /docs/components/accordion/
-      - title: "Tooltip"
-        url: /docs/components/tooltip/
+      - title: "Alert"
+        url: /docs/components/alert/
+      - title: "Badge"
+        url: /docs/components/badge/
+      - title: "Bar"
+        url: /docs/components/bar/
+      - title: "Breadcrumb"
+        url: /docs/components/breadcrumb/
+      - title: "Button"
+        url: /docs/components/button/
+      - title: "Card"
+        url: /docs/components/card/
+      - title: "Dropdown"
+        url: /docs/components/dropdown/
       - title: "Figure"
         url: /docs/components/figure/
+      - title: "Grid"
+        url: /docs/components/grid/
+      - title: "Layout"
+        url: /docs/components/layout/
+      - title: "Modal"
+        url: /docs/components/modal/
+      - title: "Pagination"
+        url: /docs/components/pagination/
+      - title: "Tab"
+        url: /docs/components/tab/
+      - title: "Table"
+        url: /docs/components/table/
+      - title: "Tooltip"
+        url: /docs/components/tooltip/
       - title: "Typography"
         url: /docs/components/typography/
   - title: Extensions
     url: /docs/extensions/
     children:
+      - title: "Autocomplete"
+        url: /docs/extensions/autocomplete/
       - title: "Chart"
         url: /docs/extensions/chart/
       - title: "DataGrid"
         url: /docs/extensions/datagrid/
-      - title: "Autocomplete"
-        url: /docs/extensions/autocomplete/
-      - title: "SelectList"
-        url: /docs/extensions/selectlist/
       - title: "DropdownList"
         url: /docs/extensions/dropdownlist/
+      - title: "Icons"
+        url: /docs/extensions/icons/
+      - title: "SelectList"
+        url: /docs/extensions/selectlist/
       - title: "Sidebar"
         url: /docs/extensions/sidebar/
+      - title: "Snackbar"
+        url: /docs/extensions/snackbar/
   - title: Helpers
     url: /docs/helpers/
     children:
       - title: "Colors"
         url: /docs/helpers/colors/
+      - title: "Enums"
+        url: /docs/helpers/enums/
       - title: "Sizes"
         url: /docs/helpers/sizes/
       - title: "Utilities"
         url: /docs/helpers/utilities/
-      - title: "Enums"
-        url: /docs/helpers/enums/
   - title: Meta
     children:
       - title: "Releases"

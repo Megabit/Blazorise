@@ -1,9 +1,9 @@
-﻿@inherits Blazorise.BaseValidationNone
+﻿@inherits BaseValidationSummary
 @if ( !HasCustomRegistration )
 {
     @if ( ParentValidation?.Status == ValidationStatus.None )
     {
-        <small class="@ClassNames" @attributes="@Attributes">
+        <small class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </small>
     }

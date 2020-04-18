@@ -10,7 +10,10 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Blazorise
 {
-    public abstract class BaseValidations : ComponentBase
+    /// <summary>
+    /// Container for multiple validations.
+    /// </summary>
+    public partial class Validations : ComponentBase
     {
         #region Members
 
@@ -19,9 +22,12 @@ namespace Blazorise
         /// </summary>
         public event ValidatingAllEventHandler ValidatingAll;
 
-        public event ValidatedAllEventHandler ValidatedAll;
-
         public event ClearAllValidatinaEventHandler ClearingAll;
+
+        /// <summary>
+        /// List of validations placed inside of this container.
+        /// </summary>
+        private List<IValidation> validations = new List<IValidation>();
 
         #endregion
 
@@ -46,7 +52,7 @@ namespace Blazorise
 
             if ( result )
             {
-                ValidatedAll?.Invoke();
+                ValidatedAll.InvokeAsync( null );
             }
 
             return result;
@@ -84,9 +90,28 @@ namespace Blazorise
             return validated;
         }
 
+        internal void NotifyValidationInitialized( IValidation validation )
+        {
+            if ( !validations.Contains( validation ) )
+            {
+                validations.Add( validation );
+            }
+        }
+
+        internal void NotifyValidationStatusChanged()
+        {
+            if ( Mode == ValidationMode.Manual )
+                return;
+
+            if ( validations.All( x => x.Status == ValidationStatus.Success ) )
+            {
+                ValidatedAll.InvokeAsync( null );
+            }
+        }
+
         #endregion
 
-        #region Properties        
+        #region Properties
 
         protected EditContext EditContext { get; set; }
 
@@ -99,6 +124,8 @@ namespace Blazorise
         /// Specifies the top-level model object for the form. An edit context will be constructed for this model.
         /// </summary>
         [Parameter] public object Model { get; set; }
+
+        [Parameter] public EventCallback ValidatedAll { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

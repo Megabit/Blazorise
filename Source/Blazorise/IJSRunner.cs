@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -19,7 +20,7 @@ namespace Blazorise
 
         ValueTask<bool> DestroyTextEdit( ElementReference elementRef, string elementId );
 
-        ValueTask<bool> InitializeNumericEdit( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, int decimals, string decimalsSeparator, decimal? step );
+        ValueTask<bool> InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, int decimals, string decimalsSeparator, decimal? step, TValue min, TValue max );
 
         ValueTask<bool> DestroyNumericEdit( ElementReference elementRef, string elementId );
 
@@ -41,9 +42,11 @@ namespace Blazorise
 
         ValueTask<bool> ParentHasClass( ElementReference elementRef, string classaname );
 
-        ValueTask<string[]> GetFilePaths( ElementReference element );
+        ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId );
 
         ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit );
+
+        ValueTask<bool> ActivateTimePicker( string elementId, string formatSubmit );
 
         ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
 
@@ -52,6 +55,8 @@ namespace Blazorise
         ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
 
         ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
+
+        ValueTask<bool> OpenFileDialog( ElementReference elementRef, string elementId );
 
         ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement );
 
@@ -63,5 +68,13 @@ namespace Blazorise
         ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, string elementId );
 
         ValueTask<object> UnregisterClosableComponent( ICloseActivator component );
+
+        ValueTask<bool> ScrollIntoView( string anchorTarget );
+
+        ValueTask<bool> InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId );
+
+        ValueTask<bool> DestroyFileEdit( ElementReference elementRef, string elementId );
+
+        ValueTask<string> ReadDataAsync( CancellationToken cancellationToken, ElementReference elementRef, int fileEntryId, long position, long length );
     }
 }

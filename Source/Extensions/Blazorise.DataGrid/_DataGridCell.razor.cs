@@ -10,7 +10,7 @@ namespace Blazorise.DataGrid
 {
     public abstract class _BaseDataGridCell<TItem> : ComponentBase
     {
-        [Parameter] public BaseDataGridColumn<TItem> Column { get; set; }
+        [Parameter] public DataGridColumn<TItem> Column { get; set; }
 
         [Parameter] public TItem Item { get; set; }
 

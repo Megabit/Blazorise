@@ -1,0 +1,13 @@
+﻿@inherits BaseComponent
+@if ( !HasCustomRegistration )
+{
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div class="@ContentClassNames">
+            @ChildContent
+        </div>
+    </div>
+}
+else
+{
+    @RenderCustomComponent()
+}

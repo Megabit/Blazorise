@@ -1,7 +1,7 @@
-﻿@inherits Blazorise.BaseCardGroup
+﻿@inherits BaseContainerComponent
 @if ( !HasCustomRegistration )
 {
-    <div class="@ClassNames" @attributes="@Attributes">
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </div>
 }

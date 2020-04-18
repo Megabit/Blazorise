@@ -1,8 +1,10 @@
-﻿@inherits BaseSnackbar
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
     <div class="@ClassNames">
-        @ChildContent
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
     </div>
 }
 else

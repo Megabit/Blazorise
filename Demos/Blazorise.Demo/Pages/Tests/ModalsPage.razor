@@ -1,0 +1,104 @@
+﻿@page "/tests/modals";
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Modals (Default)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    A rendered modal with header, body, and set of actions in the footer.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default ))">
+                    Standard Modal
+                </Button>
+                <Button Color="Color.Success" Clicked="@(()=>ShowModal( ModalSize.Small ))">
+                    Small Modal
+                </Button>
+                <Button Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.Large ))">
+                    Large Modal
+                </Button>
+                <Button Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default, null, true ))">
+                    Centered Modal
+                </Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Modals (Sized)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Examples of custom size modals.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Info" Clicked="@(()=>ShowModal( ModalSize.ExtraLarge ))">
+                    Extra Large Modal
+                </Button>
+                <Button Color="Color.Primary" Clicked="@(()=>ShowModal( ModalSize.Default, 50 ))">
+                    Sized Modal (Body Height 50%)
+                </Button>
+                <Button Color="Color.Secondary" Clicked="@(()=>ShowModal( ModalSize.Default, 20 ))">
+                    Sized Modal (Body Height 20%)
+                </Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Modal @ref="modalRef">
+    <ModalBackdrop />
+    <ModalContent Size="@modalSize" Centered="@centered">
+        <ModalHeader>
+            <ModalTitle>
+                <Icon Name="IconName.Edit" />
+                Employee edit
+            </ModalTitle>
+            <CloseButton Clicked="@HideModal" />
+        </ModalHeader>
+        <ModalBody MaxHeight="@maxHeight">
+            <Field>
+                <FieldLabel>Name</FieldLabel>
+                <TextEdit Placeholder="Enter name..." />
+            </Field>
+            <Field>
+                <FieldLabel>Surname</FieldLabel>
+                <TextEdit Placeholder="Enter surname..." />
+            </Field>
+            <Field>
+                <FieldLabel>Date of birth</FieldLabel>
+                <DateEdit TValue="DateTime?" Placeholder="Pick a date" />
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Close</Button>
+            <Button Color="Color.Primary" Clicked="@HideModal">Save Changes</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+@code{
+    private Modal modalRef;
+    private bool centered = false;
+    private ModalSize modalSize = ModalSize.Default;
+    private int? maxHeight = null;
+
+    private void ShowModal( ModalSize modalSize, int? maxHeight = null, bool centered = false )
+    {
+        this.centered = centered;
+        this.modalSize = modalSize;
+        this.maxHeight = maxHeight;
+
+        modalRef.Show();
+    }
+
+    private void HideModal()
+    {
+        modalRef.Hide();
+    }
+}

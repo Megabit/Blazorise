@@ -8,21 +8,19 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseDropdown : BaseComponent
+    public partial class Dropdown : BaseComponent
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
-        private bool isRightAligned;
+        private bool rightAligned;
 
-        private Direction direction = Blazorise.Direction.Down;
+        private Direction direction = Direction.Down;
 
-        private BaseDropdownMenu dropdownMenu;
+        public event EventHandler<DropdownStateEventArgs> StateChanged;
 
-        private BaseDropdownToggle dropdownToggle;
-
-        private List<BaseButton> registeredButtons;
+        private List<Button> registeredButtons;
 
         #endregion
 
@@ -32,79 +30,82 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Dropdown() );
             builder.Append( ClassProvider.DropdownGroup(), IsGroup );
-            builder.Append( ClassProvider.DropdownShow(), IsOpen );
-            builder.Append( ClassProvider.DropdownRight(), IsRightAligned );
+            builder.Append( ClassProvider.DropdownShow(), Visible );
+            builder.Append( ClassProvider.DropdownRight(), RightAligned );
             builder.Append( ClassProvider.DropdownDirection( Direction ), Direction != Direction.Down );
 
             base.BuildClasses( builder );
         }
 
-        public void Open()
+        protected override void OnAfterRender( bool firstRender )
+        {
+            if ( firstRender && registeredButtons?.Count > 0 )
+            {
+                DirtyClasses();
+                StateHasChanged();
+            }
+
+            base.OnAfterRender( firstRender );
+        }
+
+        public void Show()
         {
             // used to prevent toggle event call if Open() is called multiple times
-            if ( IsOpen )
+            if ( Visible )
                 return;
 
-            IsOpen = true;
-            Toggled.InvokeAsync( IsOpen );
+            Visible = true;
+            Toggled.InvokeAsync( Visible );
 
             StateHasChanged();
         }
 
-        public void Close()
+        public void Hide()
         {
             // used to prevent toggle event call if Close() is called multiple times
-            if ( !IsOpen )
+            if ( !Visible )
                 return;
 
-            IsOpen = false;
-            Toggled.InvokeAsync( IsOpen );
+            Visible = false;
+            Toggled.InvokeAsync( Visible );
 
             StateHasChanged();
         }
 
         public void Toggle()
         {
-            IsOpen = !IsOpen;
-            Toggled.InvokeAsync( IsOpen );
+            Visible = !Visible;
+            Toggled.InvokeAsync( Visible );
 
             StateHasChanged();
-        }
-
-        /// <summary>
-        /// Links the dropdown-menu with this dropdown.
-        /// </summary>
-        /// <param name="dropdownMenu">Dropdown-menu to link.</param>
-        internal void Hook( BaseDropdownMenu dropdownMenu )
-        {
-            this.dropdownMenu = dropdownMenu;
-        }
-
-        internal void Hook( BaseDropdownToggle dropdownToggle )
-        {
-            this.dropdownToggle = dropdownToggle;
         }
 
         /// <summary>
         /// Registers a child button reference.
         /// </summary>
         /// <param name="button">Button to register.</param>
-        internal void Register( BaseButton button )
+        internal void Register( Button button )
         {
             if ( button == null )
                 return;
 
             if ( registeredButtons == null )
-                registeredButtons = new List<BaseButton>();
+                registeredButtons = new List<Button>();
 
             if ( !registeredButtons.Contains( button ) )
             {
                 registeredButtons.Add( button );
+            }
+        }
 
-                DirtyClasses();
+        internal void UnRegister( Button button )
+        {
+            if ( button == null )
+                return;
 
-                if ( registeredButtons?.Count >= 1 ) // must find a better way to refresh dropdown
-                    StateHasChanged();
+            if ( registeredButtons != null && registeredButtons.Contains( button ) )
+            {
+                registeredButtons.Remove( button );
             }
         }
 
@@ -121,18 +122,18 @@ namespace Blazorise
         /// Handles the visibility of dropdown menu.
         /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                // prevent dropdown from calling the same code multiple times
+                if ( value == visible )
+                    return;
 
-                if ( dropdownMenu != null )
-                    dropdownMenu.IsOpen = value;
+                visible = value;
 
-                if ( dropdownToggle != null )
-                    dropdownToggle.IsOpen = value;
+                StateChanged?.Invoke( this, new DropdownStateEventArgs( visible ) );
 
                 DirtyClasses();
             }
@@ -142,12 +143,12 @@ namespace Blazorise
         /// Right aligned dropdown menu.
         /// </summary>
         [Parameter]
-        public bool IsRightAligned
+        public bool RightAligned
         {
-            get => isRightAligned;
+            get => rightAligned;
             set
             {
-                isRightAligned = value;
+                rightAligned = value;
 
                 DirtyClasses();
             }
@@ -173,7 +174,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<bool> Toggled { get; set; }
 
-        [CascadingParameter] public BaseButtons Buttons { get; set; }
+        [CascadingParameter] protected Buttons Buttons { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

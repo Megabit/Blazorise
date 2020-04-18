@@ -1,5 +1,5 @@
-﻿@inherits BaseCloseButton
-<button type="button" class="@ClassNames" aria-label="Close" @onclick="@ClickHandler" @attributes="@Attributes">
+﻿@inherits Blazorise.CloseButton
+<button type="button" class="@ClassNames" style="@StyleNames" aria-label="Close" @onclick="@ClickHandler" @attributes="@Attributes">
     <span aria-hidden="true">&times;</span>
     @ChildContent
 </button>

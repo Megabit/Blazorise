@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBreadcrumb : BaseComponent
+    /// <summary>
+    /// Breadcrumbs allow users to make selections from a range of values.
+    /// </summary>
+    public partial class Breadcrumb : BaseComponent
     {
         #region Members
 
@@ -26,6 +29,11 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Defines the breadcrumb activation mode.
+        /// </summary>
+        [Parameter] public BreadcrumbMode Mode { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

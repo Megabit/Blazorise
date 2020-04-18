@@ -1,16 +1,18 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseDateEdit : BaseTextInput<DateTime?>
+    public partial class DateEdit<TValue> : BaseTextInput<TValue>
     {
         #region Members
 
@@ -47,23 +49,35 @@ namespace Blazorise
             JSRunner.ActivateDatePicker( ElementId, Utils.Parsers.InternalDateFormat );
         }
 
-        protected override Task OnInternalValueChanged( DateTime? value )
+        protected override Task OnInternalValueChanged( TValue value )
         {
             return DateChanged.InvokeAsync( value );
         }
 
-        protected override string FormatValueAsString( DateTime? value )
-            => value?.ToString( Utils.Parsers.InternalDateFormat );
-
-        protected override Task<ParseValue<DateTime?>> ParseValueFromStringAsync( string value )
+        protected override string FormatValueAsString( TValue value )
         {
-            if ( Utils.Parsers.TryParseDate( value, out var result ) )
+            switch ( value )
             {
-                return Task.FromResult( new ParseValue<DateTime?>( true, result, null ) );
+                case null:
+                    return null;
+                case DateTime datetime:
+                    return datetime.ToString( Parsers.InternalDateFormat );
+                case DateTimeOffset datetimeOffset:
+                    return datetimeOffset.ToString( Parsers.InternalDateFormat );
+                default:
+                    throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
+            }
+        }
+
+        protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
+        {
+            if ( Parsers.TryParseDate<TValue>( value, out var result ) )
+            {
+                return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
             }
             else
             {
-                return Task.FromResult( new ParseValue<DateTime?>( false, default, null ) );
+                return Task.FromResult( new ParseValue<TValue>( false, default, null ) );
             }
         }
 
@@ -71,23 +85,23 @@ namespace Blazorise
 
         #region Properties
 
-        protected override DateTime? InternalValue { get => Date; set => Date = value; }
+        protected override TValue InternalValue { get => Date; set => Date = value; }
 
         /// <summary>
         /// Gets or sets the input date value.
         /// </summary>
         [Parameter]
-        public DateTime? Date { get; set; }
+        public TValue Date { get; set; }
 
         /// <summary>
         /// Occurs when the date has changed.
         /// </summary>
-        [Parameter] public EventCallback<DateTime?> DateChanged { get; set; }
+        [Parameter] public EventCallback<TValue> DateChanged { get; set; }
 
         /// <summary>
         /// Gets or sets an expression that identifies the date value.
         /// </summary>
-        [Parameter] public Expression<Func<DateTime?>> DateExpression { get; set; }
+        [Parameter] public Expression<Func<TValue>> DateExpression { get; set; }
 
         /// <summary>
         /// The earliest date to accept.

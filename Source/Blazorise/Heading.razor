@@ -1,7 +1,7 @@
-﻿@inherits Blazorise.BaseHeading
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <p class="@ClassNames" @attributes="@Attributes">
+    <p class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </p>
 }

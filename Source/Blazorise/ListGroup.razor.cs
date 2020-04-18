@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseListGroup : BaseComponent
+    public partial class ListGroup : BaseComponent
     {
         #region Members
 
-        private bool isFlush;
+        private bool flush;
 
-        private readonly List<BaseListGroupItem> childItems = new List<BaseListGroupItem>();
+        private readonly List<ListGroupItem> childItems = new List<ListGroupItem>();
 
         #endregion
 
@@ -23,12 +23,12 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ListGroup() );
-            builder.Append( ClassProvider.ListGroupFlush(), IsFlush );
+            builder.Append( ClassProvider.ListGroupFlush(), Flush );
 
             base.BuildClasses( builder );
         }
 
-        internal void LinkItem( BaseListGroupItem listGroupItem )
+        internal void LinkItem( ListGroupItem listGroupItem )
         {
             childItems.Add( listGroupItem );
         }
@@ -37,7 +37,8 @@ namespace Blazorise
         {
             foreach ( var child in childItems )
             {
-                child.IsActive = child.Name == name;
+                // TODO: clean this to not use child attributes directly
+                child.Active = child.Name == name;
             }
 
             SelectedItemChanged?.Invoke( name );
@@ -52,12 +53,12 @@ namespace Blazorise
         /// Remove some borders and rounded corners to render list group items edge-to-edge in a parent container (e.g., cards).
         /// </summary>
         [Parameter]
-        public bool IsFlush
+        public bool Flush
         {
-            get => isFlush;
+            get => flush;
             set
             {
-                isFlush = value;
+                flush = value;
 
                 DirtyClasses();
             }

@@ -1,6 +1,6 @@
-﻿@inherits BaseButton
-<button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@ClassNames" style="@StyleNames" disabled="@IsDisabled" aria-pressed="@IsActive" @onclick="@ClickHandler" @attributes="@Attributes">
-    @if ( IsLoading )
+﻿@inherits Blazorise.Button
+<button @ref="@ElementRef" id="@ElementId" type="@Type.ToButtonTypeString()" class="@ClassNames" style="@StyleNames" disabled="@Disabled" aria-pressed="@Active" @onclick="@ClickHandler" @attributes="@Attributes">
+    @if ( Loading )
     {
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
     }

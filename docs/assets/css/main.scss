@@ -24,24 +24,28 @@ $base0f: #d33682;
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
-:not(pre) > code{
-    background-color: #f5f5f5;
-    color: #ff3860;
-    font-weight: 400;
+:not(pre) > code {
+  background-color: #f5f5f5;
+  color: #ff3860;
+  font-weight: 400;
 }
 
-@media (min-width: 64em){
-    .sidebar.sticky {
-        overflow-y: hidden;
-        height: calc(100vh - 2em - 2em);
-    }
+@media (min-width: 64em) {
+  .sidebar.sticky {
+    overflow-y: hidden;
+    height: calc(100vh - 2em - 2em);
+  }
 
-    .sidebar.sticky:hover {
-        overflow-y: scroll;
-    }
+  .sidebar.sticky:hover {
+    overflow-y: scroll;
+  }
 }
 
 // hide revoke cookie tab on the page bottom
 .cc-revoke {
-    display: none !important;
+  display: none !important;
+}
+
+.page-wide {
+  width: 100%;
 }

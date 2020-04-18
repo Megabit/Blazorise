@@ -27,15 +27,28 @@ namespace Blazorise
         }
 
         [JSInvokable()]
-        public bool SafeToClose( string elementId, bool isEscapeKey )
+        public Task<bool> SafeToClose( string elementId, string reason )
         {
-            return component.SafeToClose( elementId, isEscapeKey );
+            return component.IsSafeToClose( elementId, GetCloseReason( reason ) );
         }
 
         [JSInvokable()]
-        public void Close()
+        public Task Close( string reason )
         {
-            component.Close();
+            return component.Close( GetCloseReason( reason ) );
+        }
+
+        private static CloseReason GetCloseReason( string reason )
+        {
+            switch ( reason )
+            {
+                case "leave":
+                    return CloseReason.FocusLostClosing;
+                case "escape":
+                    return CloseReason.EscapeClosing;
+                default:
+                    return CloseReason.None;
+            }
         }
     }
 }

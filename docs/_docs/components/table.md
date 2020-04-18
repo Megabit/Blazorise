@@ -65,7 +65,7 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Striped
 
 ```html
-<Table IsStriped="true">
+<Table Striped="true">
     ...
 </Table>
 ```
@@ -75,7 +75,7 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Hoverable
 
 ```html
-<Table IsHoverable="true">
+<Table Hoverable="true">
     ...
 </Table>
 ```
@@ -85,7 +85,7 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Bordered
 
 ```html
-<Table IsBordered="true">
+<Table Bordered="true">
     ...
 </Table>
 ```
@@ -95,7 +95,7 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Borderless
 
 ```html
-<Table IsBorderless="true">
+<Table Borderless="true">
     ...
 </Table>
 ```
@@ -104,7 +104,7 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Small table
 
 ```html
-<Table IsNarrow="true">
+<Table Narrow="true">
     ...
 </Table>
 ```
@@ -113,7 +113,10 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Light header
 
 ```html
-<Table Theme="Theme.Light">
+<Table>
+  <TableHeader ThemeContrast="ThemeContrast.Light">
+     ...
+  </TableHeader>
     ...
 </Table>
 ```
@@ -122,7 +125,10 @@ Table displays information in a way that’s easy to scan, so that users can loo
 ### Dark header
 
 ```html
-<Table Theme="Theme.Dark">
+<Table>
+  <TableHeader ThemeContrast="ThemeContrast.Dark">
+     ...
+  </TableHeader>
     ...
 </Table>
 ```
@@ -132,9 +138,9 @@ Table displays information in a way that’s easy to scan, so that users can loo
 
 | Name         | Type    | Default | Description                                                   |
 |--------------|---------|---------|---------------------------------------------------------------|
-| IsFullWidth  | boolean | false   | Makes the table to fill entire horizontal space.              |
-| IsStriped    | boolean | false   | Adds stripes to the table.                                    |
-| IsBordered   | boolean | false   | Adds borders to all the cells.                                |
-| IsHoverable  | boolean | false   | Adds a hover effect on each row.                              |
-| IsBorderless | boolean | false   | Table without any borders.                                    |
-| IsNarrow     | boolean | false   | Makes the table more compact by cutting cell padding in half. |
+| FullWidth    | boolean | false   | Makes the table to fill entire horizontal space.              |
+| Striped      | boolean | false   | Adds stripes to the table.                                    |
+| Bordered     | boolean | false   | Adds borders to all the cells.                                |
+| Hoverable    | boolean | false   | Adds a hover effect on each row.                              |
+| Borderless   | boolean | false   | Table without any borders.                                    |
+| Narrow       | boolean | false   | Makes the table more compact by cutting cell padding in half. |

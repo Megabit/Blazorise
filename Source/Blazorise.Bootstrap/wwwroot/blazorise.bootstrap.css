@@ -7,20 +7,21 @@
 .nav .nav-link:hover {
     cursor: pointer; }
 
-.modal-backdrop {
-    z-index: -1; }
+.btn-group > .b-tooltip:not(:last-child) > .btn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
 
-table.table tbody tr.selected {
-    background-color: var(--primary); }
+.btn-group > .b-tooltip:not(:first-child) > .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
 
-.form-check > .form-check-input.form-check-input-pointer,
-.form-check > .form-check-label.form-check-label-pointer,
-.custom-checkbox > .custom-control-input.custom-control-input-pointer,
-.custom-checkbox > .custom-control-label.custom-control-label-pointer {
-    cursor: pointer; }
+.btn-group-vertical > .b-tooltip:not(:last-child) > .btn {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0; }
 
-tr.table-row-selectable:hover {
-    cursor: pointer; }
+.btn-group-vertical > .b-tooltip:not(:first-child) > .btn {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0; }
 
 .figure-is-16x16 {
     height: 16px;
@@ -58,18 +59,20 @@ tr.table-row-selectable:hover {
     height: 512px;
     width: 512px; }
 
-.btn-group > .b-tooltip:not(:last-child) > .btn {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0; }
+.form-check > .form-check-input.form-check-input-pointer,
+.form-check > .form-check-label.form-check-label-pointer,
+.custom-checkbox > .custom-control-input.custom-control-input-pointer,
+.custom-checkbox > .custom-control-label.custom-control-label-pointer {
+    cursor: pointer; }
 
-.btn-group > .b-tooltip:not(:first-child) > .btn {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0; }
+.b-body-layout {
+    overflow-x: hidden; }
 
-.btn-group-vertical > .b-tooltip:not(:last-child) > .btn {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0; }
+.modal-backdrop {
+    z-index: -1; }
 
-.btn-group-vertical > .b-tooltip:not(:first-child) > .btn {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0; }
+table.table tbody tr.selected {
+    background-color: var(--primary); }
+
+tr.table-row-selectable:hover {
+    cursor: pointer; }

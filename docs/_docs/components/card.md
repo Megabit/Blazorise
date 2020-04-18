@@ -45,7 +45,7 @@ The card component comprises several elements that you can mix and match:
 
 | Name          | Type                                                                       | Default          | Description                                                                                 |
 |---------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| IsWhiteText   | boolean                                                                    | false            | Sets the white text when using the darker background.                                       |
+| WhiteText     | boolean                                                                    | false            | Sets the white text when using the darker background.                                       |
 | Background    | [Background]({{ "/docs/helpers/colors/#background" | relative_url }})      | `None`           | Sets the bar background color.                                                              |
 
 ### CardText

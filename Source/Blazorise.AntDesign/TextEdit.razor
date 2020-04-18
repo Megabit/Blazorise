@@ -1,0 +1,18 @@
+﻿@inherits Blazorise.TextEdit
+@if ( Plaintext )
+{
+    <span @ref="ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @Text
+    </span>
+    @ChildContent
+    @Feedback
+}
+else
+{
+    <input @ref="ElementRef" id="@ElementId" type="@Type" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" value="@CurrentValue" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@KeyDown" @onkeypress="@KeyPress" @onkeyup="KeyUp" @attributes="@Attributes" />
+    @ChildContent
+    @Feedback
+}
+@code{
+    string GroupClassNames => $"{ClassNames} ant-select-item ant-select-item-group";
+}

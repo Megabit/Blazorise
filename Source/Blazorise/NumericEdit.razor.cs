@@ -21,7 +21,7 @@ namespace Blazorise
         Task SetValue( string value );
     }
 
-    public abstract class BaseNumericEdit<TValue> : BaseTextInput<TValue>, INumericEdit
+    public partial class NumericEdit<TValue> : BaseTextInput<TValue>, INumericEdit
     {
         #region Members
 
@@ -45,7 +45,8 @@ namespace Blazorise
         protected override async Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new NumericEditAdapter( this ) );
-            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementRef, ElementId, Decimals, DecimalsSeparator, Step );
+
+            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementRef, ElementId, Decimals, DecimalsSeparator, Step, Min, Max );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -181,15 +182,15 @@ namespace Blazorise
         [Parameter]
         public string Culture { get; set; }
 
-        ///// <summary>
-        ///// The minimum value to accept for this input.
-        ///// </summary>
-        //[Parameter] public TValue? Min { get; set; }
+        /// <summary>
+        /// The minimum value to accept for this input.
+        /// </summary>
+        [Parameter] public TValue Min { get; set; }
 
-        ///// <summary>
-        ///// The maximum value to accept for this input.
-        ///// </summary>
-        //[Parameter] public TValue? Max { get; set; }
+        /// <summary>
+        /// The maximum value to accept for this input.
+        /// </summary>
+        [Parameter] public TValue Max { get; set; }
 
         #endregion
     }

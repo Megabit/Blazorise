@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseProgressBar : BaseComponent
+    public partial class ProgressBar : BaseComponent
     {
         #region Members
 
         private Background background = Background.None;
 
-        private bool isStriped;
+        private bool striped;
 
-        private bool isAnimated;
+        private bool animated;
 
         private int? @value;
 
@@ -29,8 +29,8 @@ namespace Blazorise
             builder.Append( ClassProvider.ProgressBar() );
             builder.Append( ClassProvider.ProgressBarWidth( Value ?? 0 ) );
             builder.Append( ClassProvider.ProgressBarColor( Background ), Background != Background.None );
-            builder.Append( ClassProvider.ProgressBarStriped(), IsStriped );
-            builder.Append( ClassProvider.ProgressBarAnimated(), IsAnimated );
+            builder.Append( ClassProvider.ProgressBarStriped(), Striped );
+            builder.Append( ClassProvider.ProgressBarAnimated(), Animated );
 
             base.BuildClasses( builder );
         }
@@ -40,12 +40,14 @@ namespace Blazorise
             if ( Value != null )
                 builder.Append( StyleProvider.ProgressBarValue( Value ?? 0 ) );
 
+            builder.Append( StyleProvider.ProgressBarSize( ParentProgress?.Size ?? Size.None ) );
+
             base.BuildStyles( builder );
         }
 
-        public void Animate( bool isAnimated )
+        public void Animate( bool animated )
         {
-            IsAnimated = isAnimated;
+            Animated = animated;
             StateHasChanged();
         }
 
@@ -66,24 +68,24 @@ namespace Blazorise
         }
 
         [Parameter]
-        public bool IsStriped
+        public bool Striped
         {
-            get => isStriped;
+            get => striped;
             set
             {
-                isStriped = value;
+                striped = value;
 
                 DirtyClasses();
             }
         }
 
         [Parameter]
-        public bool IsAnimated
+        public bool Animated
         {
-            get => isAnimated;
+            get => animated;
             set
             {
-                isAnimated = value;
+                animated = value;
 
                 DirtyClasses();
             }
@@ -105,6 +107,8 @@ namespace Blazorise
                 DirtyStyles();
             }
         }
+
+        [CascadingParameter] protected Progress ParentProgress { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

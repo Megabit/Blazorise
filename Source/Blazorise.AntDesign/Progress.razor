@@ -1,0 +1,10 @@
+﻿@inherits Blazorise.Progress
+<CascadingValue Value=this>
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div class="ant-progress-outer">
+            <div class="ant-progress-inner">
+                @ChildContent
+            </div>
+        </div>
+    </div>
+</CascadingValue>

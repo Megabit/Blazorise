@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public abstract class BaseTableRow : BaseComponent
+    public partial class TableRow : BaseComponent
     {
         #region Members
 
@@ -34,15 +34,20 @@ namespace Blazorise
             builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.TableRowBackground( Background ), Background != Background.None );
             builder.Append( ClassProvider.TableRowTextColor( TextColor ), TextColor != TextColor.None );
-            builder.Append( ClassProvider.TableRowIsSelected(), IsSelected );
+            builder.Append( ClassProvider.TableRowIsSelected(), Selected );
             builder.Append( ClassProvider.TableRowHoverCursor(), HoverCursor != Cursor.Default );
 
             base.BuildClasses( builder );
         }
 
-        protected void HandleClick( MouseEventArgs e )
+        protected async Task HandleClick( MouseEventArgs e )
         {
-            Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
+            // https://stackoverflow.com/questions/5497073/how-to-differentiate-single-click-event-and-double-click-event
+            // works good enough. Click is still called before the double click, but it is advise to not use both events anyway.
+            if ( e.Detail == 1 )
+                await Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
+            else if ( e.Detail == 2 )
+                await DoubleClicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
         }
 
         #endregion
@@ -89,7 +94,7 @@ namespace Blazorise
         /// Sets a table row as selected by appending "selected" modifier on a <tr>.
         /// </summary>
         [Parameter]
-        public bool IsSelected
+        public bool Selected
         {
             get => selected;
             set
@@ -119,6 +124,11 @@ namespace Blazorise
         /// Occurs when the row is clicked.
         /// </summary>
         [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }
+
+        /// <summary>
+        /// Occurs when the row is double clicked.
+        /// </summary>
+        [Parameter] public EventCallback<BLMouseEventArgs> DoubleClicked { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

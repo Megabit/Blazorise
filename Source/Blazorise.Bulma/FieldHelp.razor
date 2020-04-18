@@ -1,15 +1,15 @@
-﻿@inherits BaseFieldHelp
+﻿@inherits Blazorise.FieldHelp
 @if ( ParentIsFieldBody )
 {
     <div class="field">
-        <small class="@ClassNames" @attributes="@Attributes">
+        <small class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </small>
     </div>
 }
 else
 {
-    <small class="@ClassNames" @attributes="@Attributes">
+    <small class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </small>
 }

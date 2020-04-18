@@ -4,20 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using Blazorise.Snackbar.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Snackbar
 {
-    public abstract class BaseSnackbar : BaseComponent
+    public partial class Snackbar : BaseComponent
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
 
-        private bool isMultiline;
+        private bool multiline;
 
         private SnackbarLocation location;
+
+        private SnackbarColor snackbarColor = SnackbarColor.None;
 
         private Timer timer;
 
@@ -25,43 +28,15 @@ namespace Blazorise.Snackbar
 
         #region Methods
 
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( timer != null )
-                {
-                    timer.Elapsed -= Timer_Elapsed;
-                    timer.Dispose();
-                    timer = null;
-                }
-            }
-
-            base.Dispose( disposing );
-        }
-
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "snackbar" );
-            builder.Append( "show", IsOpen );
-            builder.Append( "snackbar-multi-line", IsMultiline );
-            builder.Append( GetSnackbarLocation( Location ), Location != SnackbarLocation.None );
+            builder.Append( "show", Visible );
+            builder.Append( "snackbar-multi-line", Multiline );
+            builder.Append( $"snackbar-{ Location.GetName()}", Location != SnackbarLocation.None );
+            builder.Append( $"snackbar-{Color.GetName()}", Color != SnackbarColor.None );
 
             base.BuildClasses( builder );
-        }
-
-        private static string GetSnackbarLocation( SnackbarLocation snackbarLocation )
-        {
-            switch ( snackbarLocation )
-            {
-                case SnackbarLocation.Left:
-                    return "snackbar-left";
-                case SnackbarLocation.Right:
-                    return "snackbar-right";
-                case SnackbarLocation.None:
-                default:
-                    return null;
-            }
         }
 
         protected override void OnInitialized()
@@ -79,24 +54,49 @@ namespace Blazorise.Snackbar
             base.OnInitialized();
         }
 
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( timer != null )
+                {
+                    timer.Elapsed -= Timer_Elapsed;
+                    timer.Dispose();
+                    timer = null;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
+        /// <summary>
+        /// Shows the snackbar.
+        /// </summary>
         public void Show()
         {
             timer?.Start();
 
-            IsOpen = true;
+            Visible = true;
             StateHasChanged();
 
             timer.Start();
         }
 
+        /// <summary>
+        /// Hides the snackbar.
+        /// </summary>
         public void Hide()
         {
-            IsOpen = false;
+            Visible = false;
+
+            _ = Closed.InvokeAsync( null );
+
             StateHasChanged();
         }
 
         private void Timer_Elapsed( object sender, ElapsedEventArgs e )
         {
+            // InvokeAsync is used to prevent from blocking threads
             InvokeAsync( () => Hide() );
         }
 
@@ -104,30 +104,39 @@ namespace Blazorise.Snackbar
 
         #region Properties
 
+        /// <summary>
+        /// Defines the visibility of snackbar.
+        /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Allow snackbar to show multiple lines of text.
+        /// </summary>
         [Parameter]
-        public bool IsMultiline
+        public bool Multiline
         {
-            get => isMultiline;
+            get => multiline;
             set
             {
-                isMultiline = value;
+                multiline = value;
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Defines the snackbar location.
+        /// </summary>
         [Parameter]
         public SnackbarLocation Location
         {
@@ -140,7 +149,30 @@ namespace Blazorise.Snackbar
             }
         }
 
+        /// <summary>
+        /// Defines the snackbar color.
+        /// </summary>
+        [Parameter]
+        public SnackbarColor Color
+        {
+            get => snackbarColor;
+            set
+            {
+                snackbarColor = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Defines the interval(in milliseconds) after which the snackbar will be automatically closed.
+        /// </summary>
         [Parameter] public double Interval { get; set; } = 3000;
+
+        /// <summary>
+        /// Occurs after the snackbar has closed.
+        /// </summary>
+        [Parameter] public EventCallback Closed { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

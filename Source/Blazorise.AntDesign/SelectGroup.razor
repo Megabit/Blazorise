@@ -1,0 +1,8 @@
+﻿@inherits Blazorise.SelectGroup
+<div class="@GroupClassNames" style="@StyleNames" @attributes="@Attributes">
+    @Label
+</div>
+@ChildContent
+@code{
+    string GroupClassNames => $"{ClassNames} ant-select-item ant-select-item-group";
+}

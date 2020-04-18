@@ -11,15 +11,15 @@ namespace Blazorise
     /// <summary>
     /// Base component for all the input component types.
     /// </summary>
-    public abstract class BaseInputComponent<TValue> : BaseSizableComponent, IValidationInput
+    public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInput
     {
         #region Members
 
         private Size size = Size.None;
 
-        private bool isReadonly;
+        private bool readOnly;
 
-        private bool isDisabled;
+        private bool disabled;
 
         #endregion
 
@@ -117,6 +117,8 @@ namespace Blazorise
         /// <inheritdoc/>
         public virtual object ValidationValue => InternalValue;
 
+        protected bool ParentIsFieldBody => ParentFieldBody != null;
+
         /// <summary>
         /// Gets or sets the internal edit value.
         /// </summary>
@@ -167,12 +169,12 @@ namespace Blazorise
         /// Add the readonly boolean attribute on an input to prevent modification of the input’s value.
         /// </summary>
         [Parameter]
-        public bool IsReadonly
+        public bool ReadOnly
         {
-            get => isReadonly;
+            get => readOnly;
             set
             {
-                isReadonly = value;
+                readOnly = value;
 
                 DirtyClasses();
             }
@@ -182,12 +184,12 @@ namespace Blazorise
         /// Add the disabled boolean attribute on an input to prevent user interactions and make it appear lighter.
         /// </summary>
         [Parameter]
-        public bool IsDisabled
+        public bool Disabled
         {
-            get => isDisabled;
+            get => disabled;
             set
             {
-                isDisabled = value;
+                disabled = value;
 
                 DirtyClasses();
             }
@@ -206,7 +208,9 @@ namespace Blazorise
         /// <summary>
         /// Parent validation container.
         /// </summary>
-        [CascadingParameter] public BaseValidation ParentValidation { get; set; }
+        [CascadingParameter] protected Validation ParentValidation { get; set; }
+
+        [CascadingParameter] protected FieldBody ParentFieldBody { get; set; }
 
         #endregion
     }

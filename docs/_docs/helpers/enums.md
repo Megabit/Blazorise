@@ -185,3 +185,41 @@ Specifies the direction of a sort operation.
 - `None` No sorting will be applied.
 - `Ascending` Sorts in ascending order.
 - `Descending` Sorts in descending order.
+
+## DividerType
+
+Specifies divider variants.
+
+- `Solid`
+- `Dashed`
+- `Dotted`
+- `TextContent`
+
+## TabPosition
+
+Specifies divider variants.
+
+- `Top` Top side.
+- `Bottom` Bottom side.
+- `Left` Left side.
+- `Right` Right side.
+
+## BreadcrumbMode
+
+Defines the breadcrumb activation mode.
+
+- `None` No activation will be applied.
+- `Auto` Breadcrumb items will be activated based on current navigation.
+
+## IconStyle
+
+- `Solid`
+- `Regular`
+- `Light`
+- `DuoTone`
+
+## SnackbarLocation
+
+- `None` Default behavior.
+- `Left` Show the snackbar on the left side of the screen.
+- `Right` Show the snackbar on the right side of the screen.
