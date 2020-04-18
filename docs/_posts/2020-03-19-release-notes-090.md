@@ -173,9 +173,9 @@ Just as in previous releases, DataGrid has received many new features. Without g
 
 I must mention [@DarthPedro](https://github.com/DarthPedro) and all of his work. This guy has restructured Blazorise solution, written new unit tests, helped clean existing E2E tests and on top of that, he has done full CI/CD integration. I must admit, I consider him not as a contributor but as a part of a team. Pedro, thank you from the bottom of my heart!
 
-I already mentioned [@MitchellNZ](https://github.com/MitchellNZ) and his help with AntDesign and polishing of many small details in new provider.
+I already mentioned [@MitchellNZ](https://github.com/MitchellNZ) and his help with AntDesign and documentation. This guy learned Blazorise internals really fast and just blew my mind with how good his work is.
 
-Many new contributors helped with this release.
+Many new contributors also helped with this release. Big thanks to all of you guys!
 
 - [#623](https://github.com/stsrki/Blazorise/pull/623) Use Tab key for Autocomplete selection
 - [#685](https://github.com/stsrki/Blazorise/pull/685) Grid/Row Gutter
@@ -192,6 +192,6 @@ Many new contributors helped with this release.
 - [#742](https://github.com/stsrki/Blazorise/pull/742) fix: insert empty cell when DataGridColumn Filterable is False
 - [#688](https://github.com/stsrki/Blazorise/pull/688) Updated contributing doc to include steps to setup development and testing environment.
 - [#719](https://github.com/stsrki/Blazorise/pull/719) Added unit test project for Blazorise
-- [#748](https://github.com/stsrki/Blazorise/pull/748) fix: Ant Desgin TableRowHeader
+- [#748](https://github.com/stsrki/Blazorise/pull/748) fix: Ant Design TableRowHeader
 - [#749](https://github.com/stsrki/Blazorise/pull/749) refactor: Collapse component away from Card dependency
 - [#752](https://github.com/stsrki/Blazorise/pull/752) docs: small changes & added grid docs
