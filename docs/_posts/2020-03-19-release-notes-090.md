@@ -114,6 +114,8 @@ The new `Radio` and `Switch` components are based on the existing `Check` compon
 
 [ColorEdit]({{ "/docs/components/color" | relative_url }}) is a simple component around native element `input type="color"`. For now it just shows default color dialog. In the future the plan is to expand on it and implement custom dialog instead of native (and ugly) one.
 
+[Slider]({{ "/docs/components/slider" | relative_url }}) reflect a range of values along a bar, from which users may select a single value. They are ideal for adjusting settings such as volume, brightness, or applying image filters.
+
 [Divider]({{ "/docs/components/divider" | relative_url }}) is a thin line that groups content in lists and layouts.
 
 ### DataGrid
