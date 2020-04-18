@@ -19,12 +19,12 @@ Before we continue it's good to mention that with this release comes a lot of br
 
 ### Renamed properties
 
-This is by far the largest refactor in this release and a lot of components is touched with this change. Basically this is one of the first [issues](https://github.com/stsrki/Blazorise/issues/4) created after the Blazorise was first released. Back then Blazor did not have case-sensitive support when naming components and properties. So whenever there was a clash like `button` and `Button` or `disabled` and `Disabled` it would just break. So I had to introduce prefixes to component properties like `IsDisabled` or `IsActive`. Personally I hated it but it was necessary back then. Now that Blazor has fixed this limitation it was the perfect time to also go through all of the components and remove the prefixes. As a consequence I think the API is now a lot cleaner and easier to write. Since the change is too big, listing every change in this post will not make too much sense. Instead you can go to this [PR](https://github.com/stsrki/Blazorise/pull/536) and see all changes listed.
+This is by far the largest refactor in this release and a lot of components are touched with this release. Basically this is one of the first [issues](https://github.com/stsrki/Blazorise/issues/4) created after the Blazorise was first released. Back then Blazor did not have case-sensitive support when naming components and properties. So whenever there was a clash like `button` and `Button` or `disabled` and `Disabled` it would just break. So I had to introduce prefixes to component properties like `IsDisabled` or `IsActive`. Personally I hated it but it was necessary back then. Now that Blazor has fixed this limitation it was the perfect time to also go through all of the components and remove the prefixes. As a consequence I think the API is now a lot cleaner and easier to write. Since the change is too big, listing every change in this post will not make too much sense. Instead you can go to this [PR](https://github.com/stsrki/Blazorise/pull/536) and see all changes listed.
 
 ### Refactored components
 
 - `SelectEdit` component is renamed to `Select`.
-- `CheckEdit` component is renamed to `Check` to be more in line with new `Radio` and `Switch` components. It is also converted to generic component so existing properties like `NullableChecked` and `NullableCheckedChanged` are removed as they we're not needed any more.
+- `CheckEdit` component is renamed to `Check` to be more in line with new `Radio` and `Switch` components. It is also converted to generic component so existing properties like `NullableChecked` and `NullableCheckedChanged` are removed as they were not needed any more.
 - Property `ColumnSize` is removed from all input components(TextEdit, NumericEdit, Select, etc.). From now on column sizes must be defined on the container components like `Field` and `FieldBody`.
 - `DateEdit` is converted to generic component. Until now it was accepting only nullable `DateTime?` as a value. From now valid types are `DateTime` and `DateTimeOffset`, including nullable types. To upgrade all you need is to add `TValue` parameter, eg.
 
@@ -59,11 +59,11 @@ This is by far the largest refactor in this release and a lot of components is t
 
 ## AntDesign provider
 
-The last CSS provider for Blazorise was implemented almost a year ago. In that time many people requested for new provider but I didn't want to do it as it would be too difficult to maintain additional provider considering the state of Blazor and Blazorise back then. A lot of things needed to be refactored and cleaned. So starting from v0.8 and up to 0.9, the main plan was to clean and refactor most of the things without breaking the API too much. The plan worked really well and I felt now was the perfect time to introduce new provider.
+The last CSS provider for Blazorise was implemented almost a year ago. In that time many people requested a new provider, but I didn't want to do it as it would be too difficult to maintain additional provider considering the state of Blazor and Blazorise back then. A lot of things needed to be refactored and cleaned. So starting from v0.8 and up to v0.9, the main plan was to clean and refactor most of the things without breaking the API too much. The plan worked really well and I felt now was the perfect time to introduce new provider.
 
-When I started working on AntDesign provider I quickly realized that I could not rely on their prebuilt java-script file as it was built with React in mind. So I scratched it completely and focused only on CSS part. Slowly I added components one by one and it started to make shape. Pretty soon I hit the next wall. Dynamic components like select, dropdown, slider, etc. are natively handled by java-script but since I could not use it I had to code them from scratch using only C#.
+When I started working on AntDesign provider I quickly realized that I could not rely on their prebuilt JavaScript file as it was built with React in mind. So I scratched it completely and focused only on CSS part. Slowly I added components one by one and it started to make shape. Pretty soon I hit the next wall. Dynamic components like select, dropdown, slider, etc. are natively handled by JavaScript but since I could not use it I had to code them from scratch using only C#.
 
-I have to admit the process was not easy. It was hard and it was stressful. But after many months and weeks I can finally say that we have new provider to choose. Was it all worth it? I must say it was, as I have also learned a lot in the process and also fixed and cleaned Blazorise API even further. Some of the components are now even easier to use than before.
+I have to admit the process was not easy, it was hard and it was stressful. But after many months and weeks I can finally say that we have new provider to choose. Was it all worth it? I must say it was, as I have also learned a lot in the process and also fixed and cleaned Blazorise API even further. Some of the components are now even easier to use than before.
 
 I must also mention [@MitchellNZ](https://github.com/MitchellNZ) and all of his help in the last few weeks where he fixed many bugs within AntDesign and polished it before final release.
 
@@ -84,7 +84,7 @@ It has it's own NuGet package named `Blazorise.Charts.Streaming`, available [her
 
 ### File Upload
 
-FileEdit component was created long time ago but I must admit it wasn't usable at all. After Steve Sanderson has posted [file upload](https://blog.stevensanderson.com/2019/09/13/blazor-inputfile/) implementation on his blog I decided to give it a shot and include it into FileEdit. This component is based on his implementation but it isn't a full copy. While Steve's component worked on most of the files it broke randomly on files larger than 25MB, or so. I had to make some tweaks here and there and I managed to create a component that is capable of uploading files of any size. I must also give my thanks to [iberisoft](https://github.com/iberisoft) for testing the component after my changes!
+`FileEdit` component was created long time ago, but it wasn't usable at all. After Steve Sanderson has posted [file upload](https://blog.stevensanderson.com/2019/09/13/blazor-inputfile/) implementation on his blog I decided to give it a shot and include it into `FileEdit`. This component is based on his implementation but it isn't a full copy. While Steve's component worked on most of the files, it broke randomly on files larger than 25MB or so. I had to make some tweaks here and there and I managed to create a component that is capable of uploading files of any size. I must also give my thanks to [@iberisoft](https://github.com/iberisoft) for testing the component after my changes!
 
 To learn more about file component please look at the [documentation]({{ "/docs/components/file/" | relative_url }}).
 
@@ -92,25 +92,27 @@ To learn more about file component please look at the [documentation]({{ "/docs/
 
 Another component that is made by the help of [community post](https://mikaberglund.com/2019/12/28/creating-anchor-links-in-blazor-applications/) is the new `Link` component. The new component is used for any navigation on your SPA and also for anchor links on landing pages. The old `LinkBase` is removed and replaced with `Link` component. Please read the [documentation]({{ "/docs/components/link/" | relative_url }}) to learn more.
 
-There is also a great landing page theme made by [richbryant](https://github.com/richbryant) that can be found on [GitHub](https://github.com/richbryant/SinglePage) and that is using a Blazorise Link component to make it work.
+There is also a great landing page theme made by [@richbryant](https://github.com/richbryant) that can be found on [GitHub](https://github.com/richbryant/SinglePage) and that is using a Blazorise Link component to make it work.
 
 ### Layout
 
-Originally this was not going to part of a **v0.9**. While I was working on provider for AntDesign I liked how they had special layout component(s) to structure the page. I wanted to see how it would translate to Blazorise so I can use it instead of current custom structure in the demo app. It worked quite good, but I didn't want to loose too much time working on it, so I just stashed it until later. At the same time [@MitchellNZ](https://github.com/MitchellNZ) opened new [ticket](https://github.com/stsrki/Blazorise/issues/700) with the request for the very same component(s). So instead we both agreed for him to join me and to finish the Layout component. I must admit without his help this feature would be laying around for a long time. As a result it's now part of a **v0.9** and as a bonus with it the entire demo app is structured fully by Blazorise components without any help of native elements or custom CSS.
+Originally this was not going to a part of **v0.9**. While I was working on provider for AntDesign, I liked how they had special layout component(s) to structure the page. I wanted to see how it would translate to Blazorise so I can use it instead of current custom structure in the demo app. It worked quite good, but I didn't want to loose too much time working on it, so I just stashed it until later. At the same time [@MitchellNZ](https://github.com/MitchellNZ) opened new [ticket](https://github.com/stsrki/Blazorise/issues/700) with the request for the very same component(s). So instead, we both agreed for him to join me and to finish the Layout component. I must admit without his help this feature would be laying around for a long time. As a result it's now part of a **v0.9** and as a bonus with it the entire demo app is structured fully by Blazorise components without any help of native elements or custom CSS.
+
+You can read more about how to implement the new `Layout` component system on its [documentation page](/docs/components/layout).
 
 ### Radio and Switch
 
 The new `Radio` and `Switch` components are based on the existing `Check` component. But since both of them have their own specific use cases I have decided to split them up. This allowed me to have more flexibility when defining specific features and styles.
 
-[Radio]({{ "/docs/components/radio" | relative_url }}) components is used to select one of multiple choices, so I have also introduced new `RadioGroup` component. The change is not just cosmetics as now the new group can act as a container for radios and it also supports validation.
+[Radio]({{ "/docs/components/radio" | relative_url }}) components are used to select one of multiple choices, so I have also introduced new `RadioGroup` component. The change is not just cosmetic as now the new group can act as a container for radios and it also supports validation.
 
 [Switch]({{ "/docs/components/switch" | relative_url }}) component was requested many times to be created. It is similar to `Check` component but is more suited to toggle the state of a single setting on or off.
 
 ### Other components
 
-[TimeEdit]({{ "/docs/components/time" | relative_url }}) is similar to [DateEdit]({{ "/docs/components/date" | relative_url }}) but is limited to only accept time as a value. Just like DateEdit it is also a generic component.
+[TimeEdit]({{ "/docs/components/time" | relative_url }}) is similar to [DateEdit]({{ "/docs/components/date" | relative_url }}) but is limited to only accept time as a value. Just like `DateEdit` it is also a generic component.
 
-[ColorEdit]({{ "/docs/components/color" | relative_url }}) is a simple component around native element `input type="color"`. For now it just shows default color dialog. In the future the plan is to expand on it and implement custom dialog instead of native(and ugly) one.
+[ColorEdit]({{ "/docs/components/color" | relative_url }}) is a simple component around native element `input type="color"`. For now it just shows default color dialog. In the future the plan is to expand on it and implement custom dialog instead of native (and ugly) one.
 
 [Divider]({{ "/docs/components/divider" | relative_url }}) is a thin line that groups content in lists and layouts.
 
@@ -159,6 +161,13 @@ Just as in previous releases, DataGrid has received many new features. Without g
 - [#605](https://github.com/stsrki/Blazorise/issues/605) Option to control data-grid column visibility in display mode
 - [#627](https://github.com/stsrki/Blazorise/issues/627) DataGrid Filter box placement #742
 - [#575](https://github.com/stsrki/Blazorise/issues/575) Adding `@attributes` to Blazorise.Components such as SelectList
+- [#514](https://github.com/stsrki/Blazorise/issues/514) [Clean] CascadingParameter access modifiers
+- [#522](https://github.com/stsrki/Blazorise/issues/522) [Refactor] Convert all components to partial classes
+- [#424](https://github.com/stsrki/Blazorise/issues/424) Tabs documentation doesn't match Tabs Demo (documentation solution doesn't work)
+- [#521](https://github.com/stsrki/Blazorise/issues/521) [Clean] DropdownToggle and BarDropdownToggle
+- [#507](https://github.com/stsrki/Blazorise/issues/507) BootStrap Alert Close Button
+- [#259](https://github.com/stsrki/Blazorise/issues/259) Tab not work with blazor preview 9
+- [#744](https://github.com/stsrki/Blazorise/issues/744) Feature Request: Ability to disable tabs
 
 ## Contributors
 
@@ -183,5 +192,6 @@ Many new contributors helped with this release.
 - [#742](https://github.com/stsrki/Blazorise/pull/742) fix: insert empty cell when DataGridColumn Filterable is False
 - [#688](https://github.com/stsrki/Blazorise/pull/688) Updated contributing doc to include steps to setup development and testing environment.
 - [#719](https://github.com/stsrki/Blazorise/pull/719) Added unit test project for Blazorise
-
-## Closing notes
+- [#748](https://github.com/stsrki/Blazorise/pull/748) fix: Ant Desgin TableRowHeader
+- [#749](https://github.com/stsrki/Blazorise/pull/749) refactor: Collapse component away from Card dependency
+- [#752](https://github.com/stsrki/Blazorise/pull/752) docs: small changes & added grid docs

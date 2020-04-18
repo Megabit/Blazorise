@@ -78,6 +78,8 @@ docs:
         url: /docs/components/dropdown/
       - title: "Figure"
         url: /docs/components/figure/
+      - title: "Grid"
+        url: /docs/components/grid/
       - title: "Layout"
         url: /docs/components/layout/
       - title: "Modal"

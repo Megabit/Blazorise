@@ -33,4 +33,4 @@ To try Blazorise please check out our [quick start]({{ "/docs/start/" | relative
 
 Of course. Any help is welcome. You can start by reading [contributing](https://github.com/stsrki/Blazorise/blob/master/CONTRIBUTING.md) guide and by browsing [GitHub issues](https://github.com/stsrki/Blazorise/issues) to see where you can start.
 
-And you can always contact me on official [Gitter](https://gitter.im/stsrki/Blazorise) channel or send me PM on email(can be found on my GitHub account).
+And you can always contact me on official [Gitter](https://gitter.im/stsrki/Blazorise) channel or send me PM via email (can be found on my [GitHub account](https://github.com/stsrki)).
