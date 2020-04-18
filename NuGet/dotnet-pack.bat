@@ -8,7 +8,7 @@ dotnet pack ../Source/Blazorise.AntDesign/Blazorise.AntDesign.csproj --force -o 
 dotnet pack ../Source/Blazorise.Frolic/Blazorise.Frolic.csproj --force -o . -c Release
 
 dotnet pack ../Source/Extensions/Blazorise.Charts/Blazorise.Charts.csproj --force -o . -c Release
-dotnet pack ../Source/Extensions/Blazorise.Charts/Blazorise.Charts.Streaming.csproj --force -o . -c Release
+dotnet pack ../Source/Extensions/Blazorise.Charts.Streaming/Blazorise.Charts.Streaming.csproj --force -o . -c Release
 dotnet pack ../Source/Extensions/Blazorise.DataGrid/Blazorise.DataGrid.csproj --force -o . -c Release
 dotnet pack ../Source/Extensions/Blazorise.Sidebar/Blazorise.Sidebar.csproj --force -o . -c Release
 dotnet pack ../Source/Extensions/Blazorise.Snackbar/Blazorise.Snackbar.csproj --force -o . -c Release
