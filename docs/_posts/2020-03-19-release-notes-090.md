@@ -195,3 +195,13 @@ Many new contributors also helped with this release. Big thanks to all of you gu
 - [#748](https://github.com/stsrki/Blazorise/pull/748) fix: Ant Design TableRowHeader
 - [#749](https://github.com/stsrki/Blazorise/pull/749) refactor: Collapse component away from Card dependency
 - [#752](https://github.com/stsrki/Blazorise/pull/752) docs: small changes & added grid docs
+
+## Closing Notes
+
+What's comes next. For start, I will rest for a few days. Play with my son. Maybe turn on Switch and play some LoZ: Breath of the Wild. Read some book. I need to clear my head from Blazorise a little :) After that I will slowly start planning for the next release. Obviously there will be new bugs introduced with this one. So, yeah a lot of work is ahead.
+
+Anyways, this post is already too long so I don't want to make it any longer. Go, download Blazorise, fix all the breaking changes, report any new bug to me. Also ask for help if anything is not clear.
+
+And as always if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/stsrki/Blazorise) or click on the star-badge bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic)!
+
+Big thanks to everyone who come this far!
