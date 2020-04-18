@@ -3,7 +3,9 @@ name: NuGet Build
 on:
   create:
     tags: 0.9.*, 1.*
-    branches-ignore: '*'
+    branches:
+      - master
+      - dev090
 
 jobs:
   build:
