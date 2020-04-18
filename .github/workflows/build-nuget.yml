@@ -20,7 +20,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.200
+        dotnet-version: 3.1.201
 
     - name: Restore NuGet Packages
       run: dotnet restore
@@ -42,7 +42,7 @@ jobs:
         VERSION: ${{ steps.latest_tag.outputs.VERSION }}
     
     - name: Push - Release
-      run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorisetest/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
+      run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorise/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
 
     - name: Upload Blazorise.Components
       uses: actions/upload-artifact@v1
