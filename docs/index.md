@@ -3,7 +3,7 @@ layout: splash
 permalink: /
 header:
   overlay_color: "#5e616c"
-  overlay_image: /assets/images/low-poly-1239778_1280.jpg
+  overlay_image: /assets/images/texture_03.jpeg
   actions:
     - label: "<i class='fas fa-book'></i> Get started now"
       url: "/docs/"
