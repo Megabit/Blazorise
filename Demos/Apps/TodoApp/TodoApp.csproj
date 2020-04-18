@@ -13,4 +13,7 @@
     <ProjectReference Include="..\..\..\Source\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
 </Project>
