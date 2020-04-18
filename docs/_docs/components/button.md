@@ -154,15 +154,17 @@ When using a submit button inside of `<Form>` element the browser will automatic
 
 ## Attributes
 
-| Name       | Type                                                                    | Default  | Description                                          |
-|------------|-------------------------------------------------------------------------|----------|------------------------------------------------------|
-| Color      | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})            | `None`   | Component visual or contextual style variants        |
-| Size       | [ButtonSize]({{ "/docs/helpers/sizes/#buttonsize" | relative_url }})    | `None`   | Button size variations.                              |
-| Type       | [ButtonType]({{ "/docs/helpers/enums/#buttontype" | relative_url }})    | `Button` | Defines the button type.                              |
-| Clicked    | event                                                                   |          | Occurs when the button is clicked.                   |
-| Outline    | boolean                                                                 | false    | Outlined button.                                      |
-| Disabled   | boolean                                                                 | false    | Makes button look inactive.                          |
-| Active     | boolean                                                                 | false    | Makes the button to appear as pressed.               |
-| Block      | boolean                                                                 | false    | Makes the button to span the full width of a parent. |
-| Loading    | boolean                                                                 | false    | Shows the loading spinner.                           |
-| PreventDefaultOnSubmit  | boolean                                                    | false    | Prevents the button from submitting the form.         |
+| Name                      | Type                                                                    | Default  | Description                                                                  |
+|---------------------------|-------------------------------------------------------------------------|----------|------------------------------------------------------------------------------|
+| Color                     | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})            | `None`   | Component visual or contextual style variants                                |
+| Size                      | [ButtonSize]({{ "/docs/helpers/sizes/#buttonsize" | relative_url }})    | `None`   | Button size variations.                                                      |
+| Type                      | [ButtonType]({{ "/docs/helpers/enums/#buttontype" | relative_url }})    | `Button` | Defines the button type.                                                     |
+| Clicked                   | event                                                                   |          | Occurs when the button is clicked.                                           |
+| Outline                   | boolean                                                                 | false    | Outlined button.                                                             |
+| Disabled                  | boolean                                                                 | false    | Makes button look inactive.                                                  |
+| Active                    | boolean                                                                 | false    | Makes the button to appear as pressed.                                       |
+| Block                     | boolean                                                                 | false    | Makes the button to span the full width of a parent.                         |
+| Loading                   | boolean                                                                 | false    | Shows the loading spinner.                                                   |
+| Command                   | ICommand                                                                | null     | Command to be executed when clicked on a button.                             |
+| CommandParameter          | object                                                                  | null     | Reflects the parameter to pass to the CommandProperty upon execution.        |
+| PreventDefaultOnSubmit    | boolean                                                                 | false    | Prevents the button from submitting the form.                                |

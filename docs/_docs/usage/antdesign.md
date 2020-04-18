@@ -1,26 +1,21 @@
 ---
-title: "Bulma"
-permalink: /docs/usage/bulma/
-excerpt: "Learn all the steps on how to quickly install and setup Blazorise for Bulma CSS framework and FontAwesome icons."
+title: "AntDesign"
+permalink: /docs/usage/ant-design/
+excerpt: "Learn all the steps on how to quickly install and setup Blazorise for AntDesign CSS framework and FontAwesome icons."
 toc: true
 toc_label: "Steps"
----
-
-**Note:** Bulma provider is still work in progress so some of the features may not work.
-{: .notice--warning}
-
 ---
 
 ## Installations
 
 ### 1. NuGet packages
 
-First step is to install a Bulma provider for Blazorise:
+First step is to install a AntDesign provider for Blazorise:
 
-Install Bulma provider from nuget.
+Install AntDesign provider from NuGet.
 
 ```
-Install-Package Blazorise.Bulma
+Install-Package Blazorise.AntDesign
 ```
 
 You also need to install the icon package:
@@ -34,17 +29,14 @@ Install-Package Blazorise.Icons.FontAwesome
 The next step is to change your `index.html` or `_Host.cshtml` file and include the CSS and JS source files:
 
 ```html
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/4.0.0/antd.css" integrity="sha256-nzhI/tsi9npc5ir08wCgBpg43SEIrc7crRJLsHE0/60=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+
 <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
-<link href="_content/Blazorise.Bulma/blazorise.bulma.css" rel="stylesheet" />
 
-<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 <script src="_content/Blazorise/blazorise.js"></script>
-<script src="_content/Blazorise.Bulma/blazorise.bulma.js"></script>
+<script src="_content/Blazorise.AntDesign/blazorise.antdesign.js"></script>
 ```
-
-**Note:** When Blazor project is created it will also include it's own **Bootstrap** and **FontAwesome** files that can sometime be of older versions. To ensure we're using the appropriate bootstrap and FontAwesome files, you need remove them or replace them with the links from above. If you forget to remove them it's possible that some components will not work as expected.
-{: .notice--info}
 
 ### 3. Using's
 
@@ -72,7 +64,7 @@ This step is mandatory for **Blazor WebAssembly**(client-side) and also for **AS
 ```cs
 // other usings
 using Blazorise;
-using Blazorise.Bulma;
+using Blazorise.AntDesign;
 using Blazorise.Icons.FontAwesome;
 
 public class Program
@@ -86,7 +78,7 @@ public class Program
       {
           options.ChangeTextOnKeyPress = true;
       } )
-      .AddBulmaProviders()
+      .AddAntDesignProviders()
       .AddFontAwesomeIcons();
 
     builder.Services.AddSingleton( new HttpClient
@@ -99,7 +91,7 @@ public class Program
     var host = builder.Build();
 
     host.Services
-      .UseBulmaProviders()
+      .UseAntDesignProviders()
       .UseFontAwesomeIcons();
 
     await host.RunAsync();
@@ -112,7 +104,7 @@ public class Program
 ```cs
 // other usings
 using Blazorise;
-using Blazorise.Bulma;
+using Blazorise.AntDesign;
 using Blazorise.Icons.FontAwesome;
 
 public class Startup
@@ -124,7 +116,7 @@ public class Startup
       {
         options.ChangeTextOnKeyPress = true;
       } )
-      .AddBulmaProviders()
+      .AddAntDesignProviders()
       .AddFontAwesomeIcons();
 
     // other services
@@ -137,7 +129,7 @@ public class Startup
     app.UseRouting();
     
     app.ApplicationServices
-      .UseBulmaProviders()
+      .UseAntDesignProviders()
       .UseFontAwesomeIcons();
 
     app.UseEndpoints( endpoints =>

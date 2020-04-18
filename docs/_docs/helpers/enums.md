@@ -210,3 +210,16 @@ Defines the breadcrumb activation mode.
 
 - `None` No activation will be applied.
 - `Auto` Breadcrumb items will be activated based on current navigation.
+
+## IconStyle
+
+- `Solid`
+- `Regular`
+- `Light`
+- `DuoTone`
+
+## SnackbarLocation
+
+- `None` Default behavior.
+- `Left` Show the snackbar on the left side of the screen.
+- `Right` Show the snackbar on the right side of the screen.

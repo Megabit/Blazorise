@@ -13,7 +13,7 @@ namespace Blazorise.Snackbar
     public enum SnackbarLocation
     {
         /// <summary>
-        /// Default behaviour.
+        /// Default behavior.
         /// </summary>
         None,
 

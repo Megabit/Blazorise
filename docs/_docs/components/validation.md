@@ -79,7 +79,7 @@ In this example you can see how the `<Validations>` component is used to enclose
         ...
     </Validation>
     <Button Color="Color.Primary" Clicked="@Submit">Submit</Button>
-</Validation>
+</Validations>
 @code{
     Validations validations;
 

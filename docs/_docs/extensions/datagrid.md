@@ -308,7 +308,7 @@ Filter API is fairly straightforward. All you need is to attach `CustomFilter` t
 
 For extra customization DataGrid will provide you with two additional templates that you can use to extend it's default behavior. A display template is used to customize display cells and an edit template is used to customize cell editors. You can place anything inside of the templates, be it a Blazorise components, regular html tags or your own components.
 
-Both templates have a special `context` attribute that is used to give access to the underline cell value. To learn more about `context` please go to official Blazor [documentation](https://docs.microsoft.com/hr-hr/aspnet/core/blazor/components?view=aspnetcore-3.0#template-context-parameters).
+Both templates have a special `context` attribute that is used to give access to the underline cell value. To learn more about `context` please go to official Blazor [documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/templated-components).
 
 ### DisplayTemplate
 
@@ -403,6 +403,8 @@ If you want to change default buttons you can use following templates
 
 ## Attributes
 
+### DataGrid
+
 | Name                   | Type                                                                | Default | Description                                                                                                 |
 |------------------------|---------------------------------------------------------------------|---------|-------------------------------------------------------------------------------------------------------------|
 | Data                   | IEnumerable<TItem>                                                  |         | Grid data-source.                                                                                           |
@@ -441,3 +443,33 @@ Specifies the grid editing modes.
 - `Form` editing is done in the internal DataGrid form
 - `Inline` editing is done in the current row
 - `Popup` editing is done in the the modal dialog
+
+### DataGridColumn
+
+| Name                      | Type                                                                | Default | Description                                                                                                   |
+|---------------------------|---------------------------------------------------------------------|---------|---------------------------------------------------------------------------------------------------------------|
+| Field                     | string                                                              |         | TItem data field name.                                                                                        |
+| Caption                   | string                                                              |         | Column's display caption.                                                                                     |
+| Filter                    | FilterContext                                                       |         | Filter value for this column.                                                                                 |
+| Direction                 | SortDirection                                                       | `None`  | Column initial sort direction.                                                                                |
+| TextAlignment             | TextAlignment                                                       | `None`  | Defines the alignment for display cell.                                                                       |
+| Editable                  | bool                                                                | false   | Whether users can edit cell values under this column.                                                         |
+| Displayable               | bool                                                                | true    | Whether column can be displayed on a grid.                                                                    |
+| Sortable                  | bool                                                                | true    | Whether end-users can sort data by the column's values.                                                       |
+| Readonly                  | bool                                                                | false   | whether end-users are prevented from editing the column's cell values.                                        |
+| ShowCaption               | bool                                                                | true    | whether the column's caption is displayed within the column header.                                           |
+| Filterable                | bool                                                                | true    | Whether users can filter rows by its cell values.                                                             |
+| Width                     | string                                                              | null    | The width of the column.                                                                                      |
+| DisplayFormat             | string                                                              |         | Defines the format for display value.                                                                         |
+| DisplayFormatProvider     | IFormatProvider                                                     |         | Defines the format provider info for display value.                                                           |
+| CellClass                 | `Func<TItem, string>`                                               |         | Custom classname handler for cell based on the current row item.                                              |
+| CellStyle                 | `Func<TItem, string>`                                               |         | Custom style handler for cell based on the current row item.                                                  |
+| HeaderCellClass           | string                                                              |         | Custom classname for header cell.                                                                             |
+| HeaderCellStyle           | string                                                              |         | Custom style for header cell.                                                                                 |
+| FilterCellClass           | string                                                              |         | Custom classname for filter cell.                                                                             |
+| FilterCellStyle           | string                                                              |         | Custom style for filter cell.                                                                                 |
+| GroupCellClass            | string                                                              |         | Custom classname for group cell.                                                                              |
+| GroupCellStyle            | string                                                              |         | Custom style for group cell.                                                                                  |
+| DisplayTemplate           | `RenderFragment<TItem>`                                             |         | Template for custom cell display formating.                                                                   |
+| EditTemplate              | `RenderFragment<CellEditContext>`                                   |         | Template for custom cell editing.                                                                             |
+| FilterTemplate            | `RenderFragment<FilterContext>`                                     |         | Template for custom column filter rendering.                                                                  |
