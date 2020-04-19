@@ -154,9 +154,11 @@
                                         </Column>
                                     </Row>
                                     <Row>
-                                        <Container Fluid="true">
-                                            <ThemeColorSelector Value="@Theme.ColorOptions?.Primary" ValueChanged="@OnThemeColorChanged"></ThemeColorSelector>
-                                        </Container>
+                                        <Column>
+                                            <Container Fluid="true">
+                                                <ThemeColorSelector Value="@Theme.ColorOptions?.Primary" ValueChanged="@OnThemeColorChanged"></ThemeColorSelector>
+                                            </Container>
+                                        </Column>
                                     </Row>
                                 </BarDropdownMenu>
                             </BarDropdown>
