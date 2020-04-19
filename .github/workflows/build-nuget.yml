@@ -6,7 +6,6 @@ on:
       - '0.9.*'
       - '1.*'
     branches:
-      - 'master'
       - 'dev09*'
 
 jobs:
