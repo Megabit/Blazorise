@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using AngleSharp.Dom;
-using BasicTestApp.Client;
+﻿using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
@@ -46,7 +41,7 @@ namespace Blazorise.Tests.Components
             var numeric = comp.Find( "#int-nullable-numeric" );
             var result = comp.Find( "#nullable-int-event-initially-null-result" );
 
-            Assert.Equal( "", result.InnerHtml );
+            Assert.Equal( string.Empty, result.InnerHtml );
 
             // test 1
             numeric.Input( "100" );
@@ -86,7 +81,7 @@ namespace Blazorise.Tests.Components
             var numeric = comp.Find( "#decimal-nullable-numeric" );
             var result = comp.Find( "#nullable-decimal-event-initially-null-result" );
 
-            Assert.Equal( "", result.InnerHtml );
+            Assert.Equal( string.Empty, result.InnerHtml );
 
             // test 1
             numeric.Input( "1000" );

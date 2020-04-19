@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BasicTestApp.Client;
+﻿using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
@@ -30,7 +27,7 @@ namespace Blazorise.Tests.Components
             Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
             // test 2
-            edit.Input( "" );
+            edit.Input( string.Empty );
             Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
         }
 
@@ -45,7 +42,7 @@ namespace Blazorise.Tests.Components
             Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
             // test 1
-            edit.Input( "" );
+            edit.Input( string.Empty );
             Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
             // test 2
@@ -68,7 +65,7 @@ namespace Blazorise.Tests.Components
             Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
             // test 2
-            edit.Input( "" );
+            edit.Input( string.Empty );
             Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
         }
 
@@ -83,7 +80,7 @@ namespace Blazorise.Tests.Components
             Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
             // test 1
-            edit.Input( "" );
+            edit.Input( string.Empty );
             Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
             // test 2
@@ -106,7 +103,7 @@ namespace Blazorise.Tests.Components
             Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
             // test 2
-            edit.Input( "" );
+            edit.Input( string.Empty );
             Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
         }
 
@@ -121,7 +118,7 @@ namespace Blazorise.Tests.Components
             Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
             // test 1
-            edit.Input( "" );
+            edit.Input( string.Empty );
             Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
             // test 2
@@ -148,7 +145,7 @@ namespace Blazorise.Tests.Components
             Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
             // test 3
-            edit.Input( "" );
+            edit.Input( string.Empty );
             Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
         }
 
@@ -163,7 +160,7 @@ namespace Blazorise.Tests.Components
             Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
             // test 1
-            edit.Input( "" );
+            edit.Input( string.Empty );
             Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
             // test 2
