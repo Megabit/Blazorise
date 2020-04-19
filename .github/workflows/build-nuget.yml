@@ -1,11 +1,13 @@
 name: NuGet Build
 
 on:
-  create:
-    tags: 0.9.*, 1.*
+  push:
+    tags:
+      - '0.9.*'
+      - '1.*'
     branches:
-      - master
-      - dev090
+      - 'master'
+      - 'dev09*'
 
 jobs:
   build:
