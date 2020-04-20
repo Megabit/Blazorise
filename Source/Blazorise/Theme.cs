@@ -207,7 +207,6 @@ namespace Blazorise
 
     public class ThemeBreadcrumbOptions : BasicOptions
     {
-        public string Color { get; set; } = ThemeColors.Blue.Shades["400"].Value;
     }
 
     public class ThemeBadgeOptions : BasicOptions
@@ -519,8 +518,6 @@ namespace Blazorise
         public const string TooltipMaxWidth = "--b-tooltip-maxwidth";
         public const string TooltipPadding = "--b-tooltip-padding";
         public const string TooltipZIndex = "--b-tooltip-z-index";
-
-        public const string BreadcrumbColor = "--b-breadcrumb-color";
     }
 
     /// <summary>

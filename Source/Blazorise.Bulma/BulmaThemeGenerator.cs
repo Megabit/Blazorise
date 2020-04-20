@@ -294,10 +294,10 @@ namespace Blazorise.Bulma
 
         protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
         {
-            if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
                 sb.Append( $".breadcrumb a" ).Append( "{" )
-                .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
+                .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )};" )
                 .AppendLine( "}" );
             }
         }

@@ -535,10 +535,10 @@ namespace Blazorise.AntDesign
                 .AppendLine( "}" );
 
 
-            if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
             {
-                sb.Append( $".ant-breadcrumb-link>a" ).Append( "{" )
-                    .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
+                sb.Append( $".ant-breadcrumb-item>a" ).Append( "{" )
+                    .Append( $"color: {theme.ColorOptions.Primary};" )
                     .AppendLine( "}" );
             }
         }
