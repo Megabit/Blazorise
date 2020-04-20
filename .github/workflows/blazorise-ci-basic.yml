@@ -23,6 +23,3 @@ jobs:
       
     - name: Run Unit Tests - Release
       run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
-
-    - name: Publish - Release
-      run: dotnet publish --configuration Release --no-restore --no-build
