@@ -1,10 +1,13 @@
 name: NuGet Build
 
 on:
-  create:
-    tags: 0.9.*, 1.*
-    branches-ignore:
-      - 'features/**'
+  push:
+    tags:
+      - '0.9.*'
+      - '1.*'
+    branches:
+      - 'dev09*'
+
 jobs:
   build:
 
