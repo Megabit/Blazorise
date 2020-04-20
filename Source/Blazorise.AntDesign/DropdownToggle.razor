@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.DropdownToggle
-<button id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @attributes="@Attributes">
+<button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @attributes="@Attributes">
     @if ( Split )
     {
         <span role="img" aria-label="ellipsis" class="anticon anticon-ellipsis"><svg viewBox="64 64 896 896" focusable="false" class="" data-icon="ellipsis" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"></path></svg></span>

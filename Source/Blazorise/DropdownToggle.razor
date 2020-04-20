@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <button id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @attributes="@Attributes">
+    <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @attributes="@Attributes">
         @ChildContent
     </button>
 }
