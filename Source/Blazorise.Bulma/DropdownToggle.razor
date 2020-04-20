@@ -3,7 +3,7 @@
     @if ( IsGroup )
     {
         <div class="control">
-            <button id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+            <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
                 @if ( @ChildContent != null )
                 {
                     <span>@ChildContent</span>
@@ -16,7 +16,7 @@
     }
     else
     {
-        <button id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+        <button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
             @if ( @ChildContent != null )
             {
                 <span>@ChildContent</span>
