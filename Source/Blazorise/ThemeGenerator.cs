@@ -70,8 +70,6 @@ namespace Blazorise
 
             GenerateTooltipVariables( theme, theme.TooltipOptions );
 
-            GenerateBreadcrumbVariables( theme, theme.BreadcrumbOptions );
-
             // apply variables
             foreach ( var kv in variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value};" );
@@ -267,14 +265,6 @@ namespace Blazorise
             if ( tooltipOptions?.ZIndex != null )
             {
                 variables[ThemeVariables.TooltipZIndex] = tooltipOptions.ZIndex;
-            }
-        }
-
-        protected virtual void GenerateBreadcrumbVariables( Theme theme, ThemeBreadcrumbOptions breadcrumbOptions )
-        {
-            if ( FirstNotEmpty( out var color, breadcrumbOptions?.Color, theme.ColorOptions?.Primary ) )
-            {
-                variables[ThemeVariables.BreadcrumbColor] = color;
             }
         }
 
@@ -603,13 +593,6 @@ namespace Blazorise
             byte g = (byte)( ( color.G * alpha ) + color2.G * ( 1f - alpha ) );
             byte b = (byte)( ( color.B * alpha ) + color2.B * ( 1f - alpha ) );
             return System.Drawing.Color.FromArgb( r, g, b );
-        }
-
-        protected bool FirstNotEmpty( out string first, params string[] values )
-        {
-            first = values?.FirstOrDefault( x => !string.IsNullOrEmpty( x ) );
-
-            return first != null;
         }
 
         #endregion
