@@ -393,10 +393,10 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
 
 
-            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
             {
                 sb.Append( $".breadcrumb-item>a" ).Append( "{" )
-                    .Append( $"color: {theme.ColorOptions.Primary};" )
+                    .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
                     .AppendLine( "}" );
             }
         }
