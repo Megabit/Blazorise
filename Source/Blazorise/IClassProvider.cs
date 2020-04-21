@@ -417,27 +417,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Nav
-
-        string Nav();
-
-        string NavItem();
-
-        string NavLink();
-
-        string NavTabs();
-
-        string NavCards();
-
-        string NavPills();
-
-        string NavFill( NavFillType fillType );
-
-        string NavVertical();
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         string Bar();
 
