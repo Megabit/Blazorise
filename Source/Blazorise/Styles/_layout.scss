@@ -13,6 +13,10 @@
 .b-layout {
     &.b-layout-has-sider {
         flex-direction: row;
+
+        .b-layout {
+            overflow-x: hidden;
+        }
     }
 }
 
