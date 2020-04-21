@@ -421,12 +421,6 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Panel
-
-        public string Panel() => null;
-
-        #endregion
-
         #region Nav
 
         public string Nav() => null;

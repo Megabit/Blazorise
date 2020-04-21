@@ -457,12 +457,6 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region Panel
-
-        public override string Panel() => null;
-
-        #endregion
-
         #region Nav
 
         public override string Nav() => "nav";

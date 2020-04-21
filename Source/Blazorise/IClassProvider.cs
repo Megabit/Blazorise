@@ -417,12 +417,6 @@ namespace Blazorise
 
         #endregion
 
-        #region Panel
-
-        string Panel();
-
-        #endregion
-
         #region Nav
 
         string Nav();
