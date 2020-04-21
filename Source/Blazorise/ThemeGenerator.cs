@@ -123,7 +123,7 @@ namespace Blazorise
             variables[ThemeVariables.ButtonBackground( variant )] = background;
             variables[ThemeVariables.ButtonBorder( variant )] = border;
             variables[ThemeVariables.ButtonHoverBackground( variant )] = hoverBackground;
-            variables[ThemeVariables.ButtonBorder( variant )] = hoverBorder;
+            variables[ThemeVariables.ButtonHoverBorder( variant )] = hoverBorder;
             variables[ThemeVariables.ButtonActiveBackground( variant )] = activeBackground;
             variables[ThemeVariables.ButtonActiveBorder( variant )] = activeBorder;
             variables[ThemeVariables.ButtonYiqBackground( variant )] = yiqBackground;
@@ -290,6 +290,11 @@ namespace Blazorise
 
         public virtual void GenerateStyles( StringBuilder sb, Theme theme )
         {
+            foreach ( var (name, size) in theme.ValidBreakpoints )
+            {
+                GenerateBreakpointStyles( sb, theme, name, size );
+            }
+
             foreach ( var (name, color) in theme.ValidColors )
             {
                 GenerateColorStyles( sb, theme, name, color );
@@ -328,6 +333,10 @@ namespace Blazorise
             GeneratePaginationStyles( sb, theme, theme.PaginationOptions );
 
             GenerateBarStyles( sb, theme, theme.BarOptions );
+        }
+
+        protected virtual void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpoint, string value )
+        {
         }
 
         /// <summary>
@@ -601,6 +610,18 @@ namespace Blazorise
             byte g = (byte)( ( color.G * alpha ) + color2.G * ( 1f - alpha ) );
             byte b = (byte)( ( color.B * alpha ) + color2.B * ( 1f - alpha ) );
             return System.Drawing.Color.FromArgb( r, g, b );
+        }
+
+        protected static string MediaBreakpointUp( string size, string content )
+        {
+            if ( !string.IsNullOrEmpty( size ) )
+            {
+                return $"@media (min-width: {size}) {{{content}}}";
+            }
+            else
+            {
+                return $"{content}";
+            }
         }
 
         #endregion
