@@ -22,3 +22,14 @@ table.e-table tbody tr.selected {
 tr.table-row-selectable:hover {
     cursor: pointer;
 }
+
+.e-table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.e-table-responsive > .bordered {
+    border: 0;
+}

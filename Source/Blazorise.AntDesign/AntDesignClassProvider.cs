@@ -754,6 +754,8 @@ namespace Blazorise.AntDesign
 
         public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"ant-text-{ToTextAlignment( textAlignment )}";
 
+        public override string TableResponsive() => "ant-table-responsive";
+
         #endregion
 
         #region Badge

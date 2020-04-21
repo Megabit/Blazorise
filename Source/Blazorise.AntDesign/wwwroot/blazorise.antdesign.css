@@ -168,6 +168,15 @@
 .ant-table-row-header {
     font-weight: bold; }
 
+.ant-table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; }
+
+.ant-table-responsive > .ant-table-bordered {
+    border: 0; }
+
 .ant-menu-submenu-horizontal > .ant-menu-submenu-title .ant-menu-submenu-arrow {
     position: absolute;
     top: 50%;

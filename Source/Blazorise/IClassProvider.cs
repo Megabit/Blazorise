@@ -681,6 +681,8 @@ namespace Blazorise
 
         string TableRowCellTextAlignment( TextAlignment textAlignment );
 
+        string TableResponsive();
+
         #endregion
 
         #region Badge

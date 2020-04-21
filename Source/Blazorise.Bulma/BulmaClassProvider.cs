@@ -762,6 +762,8 @@ namespace Blazorise.Bulma
 
         public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"has-text-{ToTextAlignment( textAlignment )}";
 
+        public override string TableResponsive() => "table-container";
+
         #endregion
 
         #region Badge

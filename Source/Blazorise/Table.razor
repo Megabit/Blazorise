@@ -1,9 +1,20 @@
 ﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </table>
+    @if ( Responsive )
+    {
+        <div class="@ResponsiveClassNames">
+            <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @ChildContent
+            </table>
+        </div>
+    }
+    else
+    {
+        <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </table>
+    }
 }
 else
 {
