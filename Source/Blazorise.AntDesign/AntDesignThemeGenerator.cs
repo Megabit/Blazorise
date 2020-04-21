@@ -420,7 +420,7 @@ namespace Blazorise.AntDesign
             sb.Append( $".ant-table-{variant} th," )
                 .Append( $".ant-table-{variant} td," )
                 .Append( $".ant-table-{variant} thead td," )
-                .Append( $".ant-table-{variant} tbody + tbody," )
+                .Append( $".ant-table-{variant} tbody + tbody" )
                 .Append( "{" )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );

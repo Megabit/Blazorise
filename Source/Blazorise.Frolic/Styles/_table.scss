@@ -1,0 +1,24 @@
+﻿.e-table.borderless {
+    td, th, tr {
+        border: 0 !important;
+    }
+}
+
+.e-table.narrowed {
+    td,
+    th {
+        padding: .25em .5em;
+    }
+}
+
+.e-thead.light {
+    background: #e9ecef;
+}
+
+table.e-table tbody tr.selected {
+    background-color: #1da1f2;
+}
+
+tr.table-row-selectable:hover {
+    cursor: pointer;
+}

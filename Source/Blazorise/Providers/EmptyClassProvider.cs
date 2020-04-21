@@ -537,13 +537,21 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public string Col() => null;
+        public string Column() => null;
 
-        public string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
+        public string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
 
-        private string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+        private string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+
+        #endregion
+
+        #region Display
+
+        public string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction ) => null;
+
+        public string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules ) => null;
 
         #endregion
 
@@ -880,6 +888,10 @@ namespace Blazorise.Providers
         public string ToTextWeight( TextWeight textWeight ) => null;
 
         public string ToColumnWidth( ColumnWidth columnWidth ) => null;
+
+        public string ToDisplayType( DisplayType displayType ) => null;
+
+        public string ToDisplayDirection( DisplayDirection displayDirection ) => null;
 
         public string ToModalSize( ModalSize modalSize ) => null;
 

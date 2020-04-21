@@ -38,6 +38,18 @@ namespace Blazorise
         public bool IsRounded { get; set; } = true;
 
         /// <summary>
+        /// Gets the valid breakpoints.
+        /// </summary>
+        public IEnumerable<(string name, string color)> ValidBreakpoints
+            => BreakpointOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+
+        /// <summary>
+        /// Gets the valid sizes for container.
+        /// </summary>
+        public IEnumerable<(string name, string color)> ValidContainerMaxWidths
+            => ContainerMaxWidthOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+
+        /// <summary>
         /// Gets the valid variant colors.
         /// </summary>
         public IEnumerable<(string name, string color)> ValidColors
@@ -54,6 +66,16 @@ namespace Blazorise
         /// </summary>
         public IEnumerable<(string name, string color)> ValidTextColors
             => TextColorOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+
+        /// <summary>
+        /// Global options for media breakpoints.
+        /// </summary>
+        public ThemeBreakpointOptions BreakpointOptions { get; set; }
+
+        /// <summary>
+        /// Define the maximum width of container for different screen sizes.
+        /// </summary>
+        public ThemeContanerMaxWidthOptions ContainerMaxWidthOptions { get; set; }
 
         /// <summary>
         /// Used to override default theme colors.
@@ -121,6 +143,72 @@ namespace Blazorise
         {
             return !string.IsNullOrEmpty( BorderRadius );
         }
+    }
+
+    public class ThemeBreakpointOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    {
+        private Dictionary<string, Func<string>> breakpointMap => new Dictionary<string, Func<string>> {
+            { "mobile", () => Mobile },
+            { "tablet", () => Tablet },
+            { "desktop", () => Desktop },
+            { "widescreen", () => Widescreen },
+            { "fullhd", () => FullHD },
+        };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        public Func<string> this[string key] => breakpointMap[key];
+
+        public string Mobile { get; set; } = "576px";
+
+        public string Tablet { get; set; } = "768px";
+
+        public string Desktop { get; set; } = "992px";
+
+        public string Widescreen { get; set; } = "1200px";
+
+        public string FullHD { get; set; } = "1400px";
+    }
+
+    public class ThemeContanerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    {
+        private Dictionary<string, Func<string>> breakpointMap => new Dictionary<string, Func<string>> {
+            { "mobile", () => Mobile },
+            { "tablet", () => Tablet },
+            { "desktop", () => Desktop },
+            { "widescreen", () => Widescreen },
+            { "fullhd", () => FullHD },
+        };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        public Func<string> this[string key] => breakpointMap[key];
+
+        public string Mobile { get; set; } = "540px";
+
+        public string Tablet { get; set; } = "720px";
+
+        public string Desktop { get; set; } = "960px";
+
+        public string Widescreen { get; set; } = "1140px";
+
+        public string FullHD { get; set; } = "1320px";
     }
 
     public class ThemeButtonOptions : BasicOptions
@@ -470,6 +558,13 @@ namespace Blazorise
         /// <param name="variant">Color variant name.</param>
         /// <returns></returns>
         public static string Color( string variant ) => $"--b-theme-{variant}";
+
+        /// <summary>
+        /// Gets the breakpoint variable name.
+        /// </summary>
+        /// <param name="name">Breakpoint name.</param>
+        /// <returns></returns>
+        public static string Breakpoint( string name ) => $"--b-theme-breakpoint-{name}";
 
         /// <summary>
         /// Gets the theme background color variable name.

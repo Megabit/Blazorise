@@ -1,0 +1,13 @@
+﻿table {
+    &.is-borderless td,
+    &.is-borderless th,
+    &.is-borderless tr {
+        border: 0 !important;
+    }
+}
+
+tr.table-row-selectable {
+    &:hover, &.is-hovered {
+        cursor: pointer;
+    }
+}

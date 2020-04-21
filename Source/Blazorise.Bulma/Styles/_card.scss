@@ -1,0 +1,82 @@
+﻿.card-group {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+
+    & > .card {
+        margin-bottom: 15px;
+    }
+}
+
+
+@media (min-width: 768px) {
+    .card-group {
+        -ms-flex-flow: row wrap;
+        flex-flow: row wrap;
+    }
+
+    .card-group > .card {
+        -ms-flex: 1 0 0%;
+        flex: 1 0 0%;
+        margin-bottom: 0;
+    }
+
+    .card-group > .card + .card {
+        margin-left: 0;
+        border-left: 0;
+    }
+
+    .card-group > .card:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .card-group > .card:first-child .card-image,
+    .card-group > .card:first-child .card-header {
+        border-top-right-radius: 0;
+    }
+
+    .card-group > .card:first-child .card-footer {
+        border-bottom-right-radius: 0;
+    }
+
+    .card-group > .card:last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .card-group > .card:last-child .card-image,
+    .card-group > .card:last-child .card-header {
+        border-top-left-radius: 0;
+    }
+
+    .card-group > .card:last-child .card-footer {
+        border-bottom-left-radius: 0;
+    }
+
+    .card-group > .card:only-child {
+        border-radius: 0.25rem;
+    }
+
+    .card-group > .card:only-child .card-image,
+    .card-group > .card:only-child .card-header {
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+    }
+
+    .card-group > .card:only-child .card-footer {
+        border-bottom-right-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+    }
+
+    .card-group > .card:not(:first-child):not(:last-child):not(:only-child) {
+        border-radius: 0;
+    }
+
+    .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-image,
+    .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-header,
+    .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-footer {
+        border-radius: 0;
+    }
+}

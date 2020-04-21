@@ -50,6 +50,9 @@ namespace Blazorise
             variables[ThemeVariables.BorderRadiusLarge] = ".3rem";
             variables[ThemeVariables.BorderRadiusSmall] = ".2rem";
 
+            foreach ( var (name, size) in theme.ValidBreakpoints )
+                GenerateBreakpointVariables( theme, name, size );
+
             foreach ( var (name, color) in theme.ValidColors )
                 GenerateColorVariables( theme, name, color );
 
@@ -75,6 +78,11 @@ namespace Blazorise
             // apply variables
             foreach ( var kv in variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value};" );
+        }
+
+        protected virtual void GenerateBreakpointVariables( Theme theme, string name, string size )
+        {
+            variables[ThemeVariables.Breakpoint( name )] = size;
         }
 
         protected virtual void GenerateColorVariables( Theme theme, string variant, string value )
@@ -117,7 +125,7 @@ namespace Blazorise
             variables[ThemeVariables.ButtonBackground( variant )] = background;
             variables[ThemeVariables.ButtonBorder( variant )] = border;
             variables[ThemeVariables.ButtonHoverBackground( variant )] = hoverBackground;
-            variables[ThemeVariables.ButtonBorder( variant )] = hoverBorder;
+            variables[ThemeVariables.ButtonHoverBorder( variant )] = hoverBorder;
             variables[ThemeVariables.ButtonActiveBackground( variant )] = activeBackground;
             variables[ThemeVariables.ButtonActiveBorder( variant )] = activeBorder;
             variables[ThemeVariables.ButtonYiqBackground( variant )] = yiqBackground;
@@ -292,6 +300,11 @@ namespace Blazorise
 
         public virtual void GenerateStyles( StringBuilder sb, Theme theme )
         {
+            foreach ( var (name, size) in theme.ValidBreakpoints )
+            {
+                GenerateBreakpointStyles( sb, theme, name, size );
+            }
+
             foreach ( var (name, color) in theme.ValidColors )
             {
                 GenerateColorStyles( sb, theme, name, color );
@@ -330,6 +343,10 @@ namespace Blazorise
             GeneratePaginationStyles( sb, theme, theme.PaginationOptions );
 
             GenerateBarStyles( sb, theme, theme.BarOptions );
+        }
+
+        protected virtual void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpoint, string value )
+        {
         }
 
         /// <summary>
@@ -610,6 +627,18 @@ namespace Blazorise
             first = values?.FirstOrDefault( x => !string.IsNullOrEmpty( x ) );
 
             return first != null;
+        }
+
+        protected static string MediaBreakpointUp( string size, string content )
+        {
+            if ( !string.IsNullOrEmpty( size ) )
+            {
+                return $"@media (min-width: {size}) {{{content}}}";
+            }
+            else
+            {
+                return $"{content}";
+            }
         }
 
         #endregion
