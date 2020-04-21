@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Base class for components that are containers for other components.
+    /// Base component with support for display property.
     /// </summary>
-    public abstract class BaseContainerComponent : BaseDisplayComponent
+    public abstract class BaseDisplayComponent : BaseComponent
     {
         #region Members
 
-        private IFluentColumn columnSize;
+        private IFluentDisplay display;
 
         #endregion
 
@@ -23,8 +23,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            if ( ColumnSize != null )
-                builder.Append( ColumnSize.Class( ClassProvider ) );
+            if ( Display != null )
+                builder.Append( Display.Class( ClassProvider ) );
 
             base.BuildClasses( builder );
         }
@@ -34,21 +34,19 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Defines the column sizes.
+        /// Specifies the display behavior of an element.
         /// </summary>
         [Parameter]
-        public IFluentColumn ColumnSize
+        public IFluentDisplay Display
         {
-            get => columnSize;
+            get => display;
             set
             {
-                columnSize = value;
+                display = value;
 
                 DirtyClasses();
             }
         }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

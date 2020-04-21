@@ -50,6 +50,9 @@ namespace Blazorise
             variables[ThemeVariables.BorderRadiusLarge] = ".3rem";
             variables[ThemeVariables.BorderRadiusSmall] = ".2rem";
 
+            foreach ( var (name, size) in theme.ValidBreakpoints )
+                GenerateBreakpointVariables( theme, name, size );
+
             foreach ( var (name, color) in theme.ValidColors )
                 GenerateColorVariables( theme, name, color );
 
@@ -73,6 +76,11 @@ namespace Blazorise
             // apply variables
             foreach ( var kv in variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value};" );
+        }
+
+        protected virtual void GenerateBreakpointVariables( Theme theme, string name, string size )
+        {
+            variables[ThemeVariables.Breakpoint( name )] = size;
         }
 
         protected virtual void GenerateColorVariables( Theme theme, string variant, string value )

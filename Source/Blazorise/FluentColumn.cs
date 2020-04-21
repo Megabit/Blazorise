@@ -11,11 +11,16 @@ namespace Blazorise
         string Class( IClassProvider classProvider );
     }
 
-    public interface IFluentColumnOnBreakpointWithOffsetAndSize : IFluentColumn, IFluentColumnOnBreakpoint, IFluentColumnWithOffset, IFluentColumnWithSize
+    public interface IFluentColumnOnBreakpointWithOffsetAndSize :
+        IFluentColumn,
+        IFluentColumnOnBreakpoint,
+        IFluentColumnWithOffset,
+        IFluentColumnWithSize
     {
     }
 
-    public interface IFluentColumnOnBreakpoint : IFluentColumn
+    public interface IFluentColumnOnBreakpoint :
+        IFluentColumn
     {
         /// <summary>
         /// Valid on all devices. (extra small)
@@ -43,7 +48,8 @@ namespace Blazorise
         IFluentColumnWithSize OnFullHD { get; }
     }
 
-    public interface IFluentColumnWithOffset : IFluentColumn
+    public interface IFluentColumnWithOffset :
+        IFluentColumn
     {
         /// <summary>
         /// Move columns to the right.
@@ -51,7 +57,8 @@ namespace Blazorise
         IFluentColumnOnBreakpoint WithOffset { get; }
     }
 
-    public interface IFluentColumnWithSize : IFluentColumn
+    public interface IFluentColumnWithSize :
+        IFluentColumn
     {
         /// <summary>
         /// One column width.
@@ -145,7 +152,12 @@ namespace Blazorise
         IFluentColumnWithSize Is( string value );
     }
 
-    public class FluentColumn : IFluentColumn, IFluentColumnOnBreakpointWithOffsetAndSize, IFluentColumnOnBreakpoint, IFluentColumnWithSize, IFluentColumnWithOffset
+    public class FluentColumn :
+        IFluentColumn,
+        IFluentColumnOnBreakpointWithOffsetAndSize,
+        IFluentColumnOnBreakpoint,
+        IFluentColumnWithSize,
+        IFluentColumnWithOffset
     {
         #region Members
 
@@ -177,7 +189,7 @@ namespace Blazorise
                 void BuildClasses( ClassBuilder builder )
                 {
                     if ( rules.Count( x => x.Key != ColumnWidth.None ) > 0 )
-                        builder.Append( rules.Select( r => classProvider.Col( r.Key, r.Value.Select( v => (v.Breakpoint, v.Offset) ) ) ) );
+                        builder.Append( rules.Select( r => classProvider.Column( r.Key, r.Value.Select( v => (v.Breakpoint, v.Offset) ) ) ) );
 
                     if ( customRules?.Count > 0 )
                         builder.Append( customRules );

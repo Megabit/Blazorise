@@ -1,4 +1,13 @@
 ﻿/*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
+.is-table {
+    display: table !important; }
+
+.is-table-row {
+    display: table-row !important; }
+
+.is-table-cell {
+    display: table-cell !important; }
+
 .is-flex-row {
     flex-direction: row !important; }
 
@@ -261,6 +270,15 @@
 .is-mx-auto {
     margin-left: auto !important; }
 
+.is-table {
+    display: table !important; }
+
+.is-table-row {
+    display: table-row !important; }
+
+.is-table-cell {
+    display: table-cell !important; }
+
 @media (min-width: 576px) {
     .is-m-mobile-0 {
         margin: 0 !important; }
@@ -443,7 +461,13 @@
         margin-bottom: auto !important; }
     .is-ml-mobile-auto,
     .is-mx-mobile-auto {
-        margin-left: auto !important; } }
+        margin-left: auto !important; }
+    .is-table-mobile {
+        display: table !important; }
+    .is-table-row-mobile {
+        display: table-row !important; }
+    .is-table-cell-mobile {
+        display: table-cell !important; } }
 
 @media (min-width: 1023px) {
     .is-m-tablet-0 {
@@ -627,7 +651,13 @@
         margin-bottom: auto !important; }
     .is-ml-tablet-auto,
     .is-mx-tablet-auto {
-        margin-left: auto !important; } }
+        margin-left: auto !important; }
+    .is-table-tablet {
+        display: table !important; }
+    .is-table-row-tablet {
+        display: table-row !important; }
+    .is-table-cell-tablet {
+        display: table-cell !important; } }
 
 @media (min-width: 1215px) {
     .is-m-desktop-0 {
@@ -811,7 +841,13 @@
         margin-bottom: auto !important; }
     .is-ml-desktop-auto,
     .is-mx-desktop-auto {
-        margin-left: auto !important; } }
+        margin-left: auto !important; }
+    .is-table-desktop {
+        display: table !important; }
+    .is-table-row-desktop {
+        display: table-row !important; }
+    .is-table-cell-desktop {
+        display: table-cell !important; } }
 
 @media (min-width: 1407px) {
     .is-m-widescreen-0 {
@@ -995,7 +1031,13 @@
         margin-bottom: auto !important; }
     .is-ml-widescreen-auto,
     .is-mx-widescreen-auto {
-        margin-left: auto !important; } }
+        margin-left: auto !important; }
+    .is-table-widescreen {
+        display: table !important; }
+    .is-table-row-widescreen {
+        display: table-row !important; }
+    .is-table-cell-widescreen {
+        display: table-cell !important; } }
 
 @media (min-width: 1907px) {
     .is-m-hd-0 {
@@ -1179,7 +1221,13 @@
         margin-bottom: auto !important; }
     .is-ml-hd-auto,
     .is-mx-hd-auto {
-        margin-left: auto !important; } }
+        margin-left: auto !important; }
+    .is-table-hd {
+        display: table !important; }
+    .is-table-row-hd {
+        display: table-row !important; }
+    .is-table-cell-hd {
+        display: table-cell !important; } }
 
 .is-256x256 {
     height: 256px;

@@ -79,6 +79,18 @@ $dimensions: 16 24 32 48 64 96 128 256 512 !default
     display: inline-flex !important;
 }
 
+.e-is-table {
+    display: table !important;
+}
+
+.e-is-table-row {
+    display: table-row !important;
+}
+
+.e-is-table-cell {
+    display: table-cell !important;
+}
+
 .e-is-flex-row {
     flex-direction: row !important;
 }

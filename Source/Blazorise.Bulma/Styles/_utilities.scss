@@ -1,4 +1,16 @@
-﻿.is-flex-row {
+﻿.is-table {
+    display: table !important;
+}
+
+.is-table-row {
+    display: table-row !important;
+}
+
+.is-table-cell {
+    display: table-cell !important;
+}
+
+.is-flex-row {
     flex-direction: row !important;
 }
 
@@ -73,6 +85,18 @@
         .is-ml#{$infix}-auto,
         .is-mx#{$infix}-auto {
             margin-left: auto !important;
+        }
+
+        .is-table#{$infix} {
+            display: table !important;
+        }
+
+        .is-table-row#{$infix} {
+            display: table-row !important;
+        }
+
+        .is-table-cell#{$infix} {
+            display: table-cell !important;
         }
     }
 }

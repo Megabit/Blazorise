@@ -531,11 +531,19 @@ namespace Blazorise
 
         #endregion
 
-        #region Col
+        #region Column
 
-        string Col();
+        string Column();
 
-        string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules );
+        string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules );
+
+        #endregion
+
+        #region Display
+
+        string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction );
+
+        string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules );
 
         #endregion
 
@@ -877,6 +885,10 @@ namespace Blazorise
         string ToTextWeight( TextWeight textWeight );
 
         string ToColumnWidth( ColumnWidth columnWidth );
+
+        string ToDisplayType( DisplayType displayType );
+
+        string ToDisplayDirection( DisplayDirection displayDirection );
 
         string ToModalSize( ModalSize modalSize );
 
