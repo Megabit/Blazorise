@@ -417,33 +417,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Panel
-
-        public abstract string Panel();
-
-        #endregion
-
-        #region Nav
-
-        public abstract string Nav();
-
-        public abstract string NavItem();
-
-        public abstract string NavLink();
-
-        public abstract string NavTabs();
-
-        public abstract string NavCards();
-
-        public abstract string NavPills();
-
-        public abstract string NavFill( NavFillType fillType );
-
-        public abstract string NavVertical();
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public abstract string Bar();
 
