@@ -613,8 +613,6 @@ namespace Blazorise.Bootstrap
 
         public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
         {
-            Console.WriteLine( $"{displayType} {breakpoint} {direction}" );
-
             var baseClass = breakpoint != Breakpoint.None
                 ? $"d-{ToBreakpoint( breakpoint )}-{ToDisplayType( displayType )}"
                 : $"d-{ToDisplayType( displayType )}";
