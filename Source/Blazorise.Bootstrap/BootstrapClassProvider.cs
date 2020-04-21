@@ -529,7 +529,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarTogglerCollapsed( bool isShow ) => isShow ? null : "collapsed";
 
-        public override string BarMenu() => "navbar-collapse";
+        public override string BarMenu() => "collapse navbar-collapse";
 
         public override string BarMenuShow() => Show();
 

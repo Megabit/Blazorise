@@ -1,16 +1,18 @@
 ﻿.navbar-inline,
 .navabar-vertical {
-    display: inline-block;
+    display: inline-block !important;
     position: sticky;
     top: 0;
     padding: 0;
     min-width: 220px;
     max-width: 220px;
-    transition: margin .2s ease-in-out;
+    width: 220px;
+    /*transition: margin .2s ease-in-out;*/
+    transition: display .2s ease-in-out;
     box-shadow: 2px 0 6px rgba(0,21,41,.35);
-    /* for scrolling */
     height: 100vh;
     overflow-y: auto;
+    overflow-x: hidden;
 
     .navbar-brand {
         width: inherit;
@@ -18,15 +20,21 @@
         height: 64px;
     }
 
+    .navbar-nav {
+        flex-direction: column !important;
+        flex-grow: 1;
+    }
+
     .dropdown-menu {
+        position: relative !important;
         background: inherit;
         color: inherit;
         border: none;
+        border-radius: 0;
 
         .dropdown-item {
             color: inherit;
-            display: block;
-            padding: .5rem 3rem;
+            padding: .5rem 3rem !important;
             transition: background .1s ease-in-out,color .1s ease-in-out;
             position: relative;
             text-decoration: none;
@@ -45,7 +53,7 @@
     }
 
     .nav-link {
-        padding-left: 1.5rem;
+        padding-left: 1.5rem !important;
 
         i {
             margin-right: 0.3rem;
@@ -55,8 +63,9 @@
         Theming
     */
     &.navbar-dark {
-        background: var(--b-sidebar-background);
+        /*background: var(--b-sidebar-background);*/
         /*color: var(--b-sidebar-color);*/
+        background: #001529;
         color: rgba(255,255,255, 0.5);
 
         .navbar-brand {
@@ -93,7 +102,7 @@
         .nav-link {
             &.active {
                 color: #fff;
-                background: #0288D1;
+                background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */
             }
 
             &:hover {
@@ -104,5 +113,51 @@
     }
 
     &.navbar-light {
+        /*background: var(--b-sidebar-background);*/
+        /*color: var(--b-sidebar-color);*/
+        background: #fff;
+        color: rgba(0,0,0,.5);
+
+        .navbar-brand {
+            .nav-link {
+                color: #000;
+
+                &.active {
+                    color: #000;
+                    background: #fff;
+                }
+
+                &:hover {
+                    color: #000;
+                    background: inherit;
+                }
+            }
+        }
+
+        .dropdown-menu {
+            background: rgba(0,0,0,0.05);
+
+            .dropdown-item {
+                &.active {
+                    color: #000;
+                }
+
+                &:hover {
+                    color: #000;
+                }
+            }
+        }
+
+        .nav-link {
+            &.active {
+                color: #000;
+                background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */
+            }
+
+            &:hover {
+                color: #000;
+                background: rgba(0,0,0,0.3);
+            }
+        }
     }
 }

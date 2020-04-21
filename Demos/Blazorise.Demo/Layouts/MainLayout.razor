@@ -4,7 +4,7 @@
 <Layout Sider="true">
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar @ref="sider" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.Inline">
+            <Bar @ref="sider" Breakpoint="Breakpoint.Desktop" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.Inline">
                 <BarBrand>
                     <BarItem>
                         <BarLink To="">
@@ -276,17 +276,15 @@
         Theme.ThemeHasChanged();
     }
 
-    Sidebar sidebar;
     Bar sider;
 
     bool formsSubItemVisible = true;
-    bool isShowing = true;
 
     //bool collapseNavMenu = true;
 
     void ToggleSidebar()
     {
-        //sidebar.Toggle();
+        sider.Toggle();
     }
 
     [CascadingParameter] protected Theme Theme { get; set; }

@@ -42,7 +42,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Toggle()
+        public void Toggle()
         {
             Visible = !Visible;
 
