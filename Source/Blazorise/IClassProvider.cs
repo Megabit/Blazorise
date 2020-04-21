@@ -503,6 +503,8 @@ namespace Blazorise
 
         string BarDropdownMenuRight();
 
+        string BarVerticalCollapsed( BarVisibleMode barVisibleMode );
+
         #endregion
 
         #region Accordion

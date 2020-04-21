@@ -31,7 +31,7 @@ namespace Blazorise
         protected override void OnInitialized()
         {
             // link to the parent component
-            BarItem?.Hook( this );
+            ParentBarItem?.Hook( this );
 
             base.OnInitialized();
         }
@@ -45,7 +45,7 @@ namespace Blazorise
             if ( temp != Visible ) // used to prevent toggle event call if Open() is called multiple times
                 Toggled?.Invoke( Visible );
 
-            BarItem?.MenuChanged();
+            ParentBarItem?.MenuChanged();
 
             StateHasChanged();
         }
@@ -59,7 +59,7 @@ namespace Blazorise
             if ( temp != Visible ) // used to prevent toggle event call if Close() is called multiple times
                 Toggled?.Invoke( Visible );
 
-            BarItem?.MenuChanged();
+            ParentBarItem?.MenuChanged();
 
             StateHasChanged();
         }
@@ -69,7 +69,7 @@ namespace Blazorise
             Visible = !Visible;
             Toggled?.Invoke( Visible );
 
-            BarItem?.MenuChanged();
+            ParentBarItem?.MenuChanged();
 
             StateHasChanged();
         }
@@ -101,7 +101,9 @@ namespace Blazorise
 
         [Parameter] public Action<bool> Toggled { get; set; }
 
-        [CascadingParameter] protected BarItem BarItem { get; set; }
+        [CascadingParameter] protected BarItem ParentBarItem { get; set; }
+
+        [CascadingParameter( Name = "IconName" )] protected object IconName { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

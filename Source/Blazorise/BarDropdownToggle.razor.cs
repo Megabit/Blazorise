@@ -128,6 +128,8 @@ namespace Blazorise
 
         [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
+        [CascadingParameter( Name = "IconName" )] protected object IconName { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

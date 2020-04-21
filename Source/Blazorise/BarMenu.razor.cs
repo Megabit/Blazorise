@@ -20,7 +20,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarMenu() );
+            builder.Append( ClassProvider.BarMenu(), ParentBar.Mode == BarMode.Horizontal );
             builder.Append( ClassProvider.BarMenuShow(), Visible );
 
             base.BuildClasses( builder );
@@ -28,7 +28,7 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            if ( ParentBar != null )
+            if ( ParentBar != null && ParentBar.Mode == BarMode.Horizontal )
             {
                 Visible = ParentBar.Visible;
 

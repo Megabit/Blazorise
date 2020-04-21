@@ -77,6 +77,11 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Icon name.
+        /// </summary>
+        [Parameter] public object IconName { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

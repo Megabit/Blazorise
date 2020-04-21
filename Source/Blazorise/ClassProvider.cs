@@ -505,6 +505,8 @@ namespace Blazorise
 
         public abstract string BarDropdownMenuRight();
 
+        public abstract string BarVerticalCollapsed( BarVisibleMode barVisibleMode );
+
         #endregion
 
         #region Accordion

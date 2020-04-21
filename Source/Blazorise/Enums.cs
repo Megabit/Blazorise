@@ -1475,4 +1475,11 @@ namespace Blazorise
         /// </summary>
         Inline,
     }
+
+    public enum BarVisibleMode
+    {
+        None,
+
+        Small
+    }
 }

@@ -61,6 +61,10 @@ namespace Blazorise
 
         [Parameter] public string Title { get; set; }
 
+        [CascadingParameter] protected BarItem ParentBarItem { get; set; }
+
+        [CascadingParameter( Name = "IconName" )] protected object IconName { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

@@ -509,6 +509,8 @@ namespace Blazorise.Providers
 
         public string BarDropdownMenuRight() => null;
 
+        public string BarVerticalCollapsed( BarVisibleMode barVisibleMode ) => null;
+
         #endregion
 
         #region Accordion

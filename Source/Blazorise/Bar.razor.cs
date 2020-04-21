@@ -20,6 +20,8 @@ namespace Blazorise
 
         private BarMode mode = BarMode.Horizontal;
 
+        private BarVisibleMode visibleMode = BarVisibleMode.None;
+
         private Background background = Background.None;
 
         private bool visible;
@@ -30,6 +32,14 @@ namespace Blazorise
 
         #region Methods
 
+        protected override void OnInitialized()
+        {
+            // Set vertical style bars to visible by default
+            visible = Mode != BarMode.Horizontal;
+
+            base.OnInitialized();
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Bar() );
@@ -37,6 +47,7 @@ namespace Blazorise
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
+            builder.Append( ClassProvider.BarVerticalCollapsed( VisibleMode ), !Visible && Mode != BarMode.Horizontal );
             builder.Append( ClassProvider.BarMode( Mode ) );
 
             base.BuildClasses( builder );
@@ -141,6 +152,18 @@ namespace Blazorise
             set
             {
                 mode = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [Parameter]
+        public BarVisibleMode VisibleMode
+        {
+            get => visibleMode;
+            set
+            {
+                visibleMode = value;
 
                 DirtyClasses();
             }

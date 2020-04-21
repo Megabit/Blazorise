@@ -4,7 +4,7 @@
 <Layout Sider="true">
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar @ref="sider" Breakpoint="Breakpoint.Desktop" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.Inline">
+            <Bar @ref="sider" Breakpoint="Breakpoint.Desktop" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.Inline" VisibleMode="BarVisibleMode.Small">
                 <BarBrand>
                     <BarItem>
                         <BarLink To="">
@@ -14,15 +14,15 @@
                 </BarBrand>
                 <BarMenu>
                     <BarStart>
-                        <BarItem>
+                        <BarItem IconName="IconName.Dashboard">
                             <BarLink To="">
-                                <Icon Name="IconName.Dashboard" />Dashboard
+                                Dashboard
                             </BarLink>
                         </BarItem>
-                        <BarItem>
+                        <BarItem IconName="IconName.Edit">
                             <BarDropdown Visible="true">
                                 <BarDropdownToggle>
-                                    <Icon Name="IconName.Edit" />UI Elements
+                                    UI Elements
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="tests/buttons">
@@ -61,10 +61,10 @@
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
-                        <BarItem>
+                        <BarItem IconName="IconName.Save">
                             <BarDropdown>
                                 <BarDropdownToggle>
-                                    <Icon Name="IconName.Save" />Forms
+                                    Forms
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="tests/forms">
@@ -76,10 +76,10 @@
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
-                        <BarItem>
+                        <BarItem IconName="IconName.New">
                             <BarDropdown>
                                 <BarDropdownToggle>
-                                    <Icon Name="IconName.New" />Extensions
+                                    Extensions
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="tests/datagrid">
@@ -99,10 +99,10 @@
                         </BarItem>
                     </BarStart>
                     <BarEnd>
-                        <BarItem>
+                        <BarItem IconName="IconName.Phone">
                             <BarDropdown>
                                 <BarDropdownToggle>
-                                    <Icon Name="IconName.Phone" />Apps
+                                    Apps
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="apps/todo">

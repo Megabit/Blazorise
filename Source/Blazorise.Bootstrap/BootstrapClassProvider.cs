@@ -553,6 +553,8 @@ namespace Blazorise.Bootstrap
 
         public override string BarDropdownMenuRight() => "dropdown-menu-right";
 
+        public override string BarVerticalCollapsed( BarVisibleMode barVisibleMode ) => barVisibleMode == BarVisibleMode.Small ? "navbar-collapsed-small" : "navbar-collapsed";
+
         #endregion
 
         #region Accordion

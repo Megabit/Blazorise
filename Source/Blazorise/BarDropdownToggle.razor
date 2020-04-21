@@ -2,7 +2,11 @@
 @if ( !HasCustomRegistration )
 {
     <a id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" @onclick="@ClickHandler" @attributes="@Attributes">
-        @ChildContent
+        @if ( IconName != null )
+        {
+            <Icon Name="@IconName" />
+        }
+        <span>@ChildContent</span>
     </a>
 }
 else

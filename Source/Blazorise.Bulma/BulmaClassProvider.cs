@@ -560,6 +560,8 @@ namespace Blazorise.Bulma
 
         public override string BarDropdownMenuRight() => "is-right";
 
+        public override string BarVerticalCollapsed( BarVisibleMode barVisibleMode ) => null;
+
         #endregion
 
         #region Accordion

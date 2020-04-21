@@ -1,5 +1,5 @@
 ﻿.navbar-inline,
-.navabar-vertical {
+.navbar-vertical {
     display: inline-block !important;
     position: sticky;
     top: 0;
@@ -7,12 +7,57 @@
     min-width: 220px;
     max-width: 220px;
     width: 220px;
-    /*transition: margin .2s ease-in-out;*/
-    transition: display .2s ease-in-out;
+    transition: width .2s ease-in-out, min-width .2s ease-in-out;
     box-shadow: 2px 0 6px rgba(0,21,41,.35);
     height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+
+    &.navbar-collapsed {
+        width: 0px !important;
+        min-width: 0px !important;
+        transition: width .2s ease-in-out, min-width .2s ease-in-out;
+    }
+
+    &.navbar-collapsed-small {
+        width: 64px !important;
+        min-width: 64px !important;
+        transition: width .2s ease-in-out, min-width .2s ease-in-out;
+
+        .dropdown {
+            &:hover {
+                .dropdown-menu {
+                    display: block !important;
+                }
+            }
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute !important;
+            left: 64px;
+            margin-left: 5px;
+            top: -5px;
+            z-index: 100;
+            box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
+
+            .dropdown-item {
+                padding: .5rem 1.5rem !important;
+            }
+
+            &:hover {
+                display: block !important;
+            }
+        }
+
+        .nav-link {
+            span {
+                display: none;
+            }
+
+            &:after {
+                display: none;
+            }
+        }
+    }
 
     .navbar-brand {
         width: inherit;
@@ -25,38 +70,37 @@
         flex-grow: 1;
     }
 
+    .navbar-end {
+        padding-bottom: 1rem;
+        width: 100%;
+        bottom: 0;
+        position: absolute;
+    }
+
+    .nav-link {
+        white-space: nowrap;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 1.5rem !important;
+
+        i {
+            margin-right: 0.3rem;
+        }
+    }
+
     .dropdown-menu {
-        position: relative !important;
         background: inherit;
         color: inherit;
-        border: none;
-        border-radius: 0;
 
         .dropdown-item {
-            color: inherit;
-            padding: .5rem 3rem !important;
-            transition: background .1s ease-in-out,color .1s ease-in-out;
             position: relative;
+            color: inherit;
+            transition: background .1s ease-in-out,color .1s ease-in-out;
             text-decoration: none;
 
             i {
                 margin-right: 0.3rem;
             }
-        }
-    }
-
-    .navbar-end {
-        padding-bottom: 1rem;
-        width: inherit;
-        bottom: 0;
-        position: fixed;
-    }
-
-    .nav-link {
-        padding-left: 1.5rem !important;
-
-        i {
-            margin-right: 0.3rem;
         }
     }
     /* 
@@ -158,6 +202,49 @@
                 color: #000;
                 background: rgba(0,0,0,0.3);
             }
+        }
+    }
+}
+
+.navbar-inline:not(.navbar-collapsed-small) {
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .dropdown-menu {
+        position: relative !important;
+        border: none;
+        border-radius: 0;
+
+        .dropdown-item {
+            padding: .5rem 3rem !important;
+        }
+    }
+} 
+
+.navbar-vertical {
+    .dropdown {
+        &:hover {
+            .dropdown-menu {
+                display: block !important;
+            }
+        }
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute !important;
+        left: 220px;
+        margin-left: 5px;
+        top: -5px;
+        z-index: 100;
+        box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
+
+        .dropdown-item {
+            padding: .5rem 1.5rem !important;
+        }
+
+        &:hover {
+            display: block !important;
         }
     }
 }
