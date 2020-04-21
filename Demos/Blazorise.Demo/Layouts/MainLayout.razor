@@ -4,103 +4,119 @@
 <Layout Sider="true">
     <LayoutSider>
         <LayoutSiderContent>
-            <Sidebar @ref="sidebar">
-                <SidebarContent>
-                    <SidebarBrand>
-                        <a href="">Blazorise Demo</a>
-                    </SidebarBrand>
-                    <SidebarNavigation>
-                        <SidebarLabel>Main</SidebarLabel>
-                        <SidebarItem>
-                            <SidebarLink To="" Title="Show dashboard">
-                                <Icon Name="IconName.Dashboard" Margin="Margin.Is3.FromRight" />Dashboard
-                            </SidebarLink>
-                        </SidebarItem>
-                        <SidebarItem>
-                            <SidebarLink Toggled="(isOpen)=> sidebarSubItemUIElement.Toggle(isOpen)" Visible="true">
-                                <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />UI Elements
-                            </SidebarLink>
-                            <SidebarSubItem @ref="sidebarSubItemUIElement" Visible="true">
-                                <SidebarItem>
-                                    <SidebarLink To="tests/buttons">Buttons</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/modals">Modals</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/cards">Cards</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/progressbars">Progress bars</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/elements">General UI</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/typography">Typography</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/collapse">Collapse</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/tables">Tables</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/figures">Figures</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/tabs">Tabs</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/layout">Layout</SidebarLink>
-                                </SidebarItem>
-                            </SidebarSubItem>
-                        </SidebarItem>
-                        <SidebarItem>
-                            <SidebarLink Toggled="(isOpen)=> sidebarSubItemForms.Toggle(isOpen)">
-                                <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Forms
-                            </SidebarLink>
-                            <SidebarSubItem @ref="sidebarSubItemForms" Visible="@formsSubItemVisible">
-                                <SidebarItem>
-                                    <SidebarLink To="tests/forms">Forms</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/validations">Validations</SidebarLink>
-                                </SidebarItem>
-                            </SidebarSubItem>
-                        </SidebarItem>
-                        <SidebarItem>
-                            <SidebarLink Toggled="(isOpen)=> sidebarSubItemExtensions.Toggle(isOpen)">
-                                <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Extensions
-                            </SidebarLink>
-                            <SidebarSubItem @ref="sidebarSubItemExtensions">
-                                <SidebarItem>
-                                    <SidebarLink To="tests/datagrid">DataGrid</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/components">Components</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/charts">Charts</SidebarLink>
-                                </SidebarItem>
-                                <SidebarItem>
-                                    <SidebarLink To="tests/livecharts">Live Charts</SidebarLink>
-                                </SidebarItem>
-                            </SidebarSubItem>
-                        </SidebarItem>
-                        <SidebarItem>
-                            <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)">
-                                <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
-                            </SidebarLink>
-                            <SidebarSubItem @ref="sidebarSubItemApps">
-                                <SidebarItem>
-                                    <SidebarLink To="apps/todo">Todo List</SidebarLink>
-                                </SidebarItem>
-                            </SidebarSubItem>
-                        </SidebarItem>
-                    </SidebarNavigation>
-                </SidebarContent>
-            </Sidebar>
+            <Bar @ref="sider" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.Inline">
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To="">
+                            Blazorise Demo
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarMenu>
+                    <BarStart>
+                        <BarItem>
+                            <BarLink To="">
+                                <Icon Name="IconName.Dashboard" />Dashboard
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown Visible="true">
+                                <BarDropdownToggle>
+                                    <Icon Name="IconName.Edit" />UI Elements
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="tests/buttons">
+                                        Buttons
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/modals">
+                                        Modals
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/cards">
+                                        Cards
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/progressbars">
+                                        Progress bars
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/elements">
+                                        General UI
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/typography">
+                                        Typography
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/collapse">
+                                        Collapse
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/tables">
+                                        Tables
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/figures">
+                                        Figures
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/tabs">
+                                        Tabs
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/layout">
+                                        Layout
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <Icon Name="IconName.Save" />Forms
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="tests/forms">
+                                        Forms
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/validations">
+                                        Validations
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <Icon Name="IconName.New" />Extensions
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="tests/datagrid">
+                                        Data Grid
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/components">
+                                        Components
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/charts">
+                                        Charts
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="tests/livecharts">
+                                        Live Charts
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                    </BarStart>
+                    <BarEnd>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <Icon Name="IconName.Phone" />Apps
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="apps/todo">
+                                        Todo
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="tests/cards">Cards</BarLink>
+                        </BarItem>
+                    </BarEnd>
+                </BarMenu>
+            </Bar>
         </LayoutSiderContent>
     </LayoutSider>
     <Layout>
@@ -261,18 +277,16 @@
     }
 
     Sidebar sidebar;
-    SidebarSubItem sidebarSubItemUIElement;
-    SidebarSubItem sidebarSubItemForms;
-    SidebarSubItem sidebarSubItemExtensions;
-    SidebarSubItem sidebarSubItemApps;
+    Bar sider;
 
     bool formsSubItemVisible = true;
+    bool isShowing = true;
 
     //bool collapseNavMenu = true;
 
     void ToggleSidebar()
     {
-        sidebar.Toggle();
+        //sidebar.Toggle();
     }
 
     [CascadingParameter] protected Theme Theme { get; set; }

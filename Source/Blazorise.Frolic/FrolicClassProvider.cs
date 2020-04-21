@@ -495,6 +495,8 @@ namespace Blazorise.Frolic
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
 
+        public override string BarMode( BarMode mode ) => $"navbar-{ToBarMode( mode )}";
+
         public override string BarItem() => null;
 
         public override string BarItemActive() => null;

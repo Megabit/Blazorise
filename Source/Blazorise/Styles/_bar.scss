@@ -1,0 +1,108 @@
+﻿.navbar-inline,
+.navabar-vertical {
+    display: inline-block;
+    position: sticky;
+    top: 0;
+    padding: 0;
+    min-width: 220px;
+    max-width: 220px;
+    transition: margin .2s ease-in-out;
+    box-shadow: 2px 0 6px rgba(0,21,41,.35);
+    /* for scrolling */
+    height: 100vh;
+    overflow-y: auto;
+
+    .navbar-brand {
+        width: inherit;
+        margin: 0;
+        height: 64px;
+    }
+
+    .dropdown-menu {
+        background: inherit;
+        color: inherit;
+        border: none;
+
+        .dropdown-item {
+            color: inherit;
+            display: block;
+            padding: .5rem 3rem;
+            transition: background .1s ease-in-out,color .1s ease-in-out;
+            position: relative;
+            text-decoration: none;
+
+            i {
+                margin-right: 0.3rem;
+            }
+        }
+    }
+
+    .navbar-end {
+        padding-bottom: 1rem;
+        width: inherit;
+        bottom: 0;
+        position: fixed;
+    }
+
+    .nav-link {
+        padding-left: 1.5rem;
+
+        i {
+            margin-right: 0.3rem;
+        }
+    }
+    /* 
+        Theming
+    */
+    &.navbar-dark {
+        background: var(--b-sidebar-background);
+        /*color: var(--b-sidebar-color);*/
+        color: rgba(255,255,255, 0.5);
+
+        .navbar-brand {
+            .nav-link {
+                color: #fff;
+
+                &.active {
+                    color: #fff;
+                    background: inherit;
+                }
+
+                &:hover {
+                    color: #fff;
+                    background: inherit;
+                }
+            }
+        }
+
+        .dropdown-menu {
+            background: #000c17;
+
+            .dropdown-item {
+                &.active {
+                    color: #fff;
+                }
+
+                &:hover {
+                    color: #fff;
+                    background: rgba(255,255,255,0.3);
+                }
+            }
+        }
+
+        .nav-link {
+            &.active {
+                color: #fff;
+                background: #0288D1;
+            }
+
+            &:hover {
+                color: #fff;
+                background: rgba(255,255,255,0.3);
+            }
+        }
+    }
+
+    &.navbar-light {
+    }
+}

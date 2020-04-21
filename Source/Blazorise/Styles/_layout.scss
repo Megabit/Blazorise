@@ -49,13 +49,13 @@
 .b-layout-sider {
     position: relative;
     background: #001529;
-    transition: all 0.2s;
 }
 
 .b-layout-sider-content {
-    height: 100%;
-    margin-top: -0.1px;
-    padding-top: 0.1px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 .b-layout-header .navbar {

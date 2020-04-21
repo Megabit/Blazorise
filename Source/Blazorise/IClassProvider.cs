@@ -455,6 +455,8 @@ namespace Blazorise
 
         string BarBreakpoint( Breakpoint breakpoint );
 
+        string BarMode( BarMode mode );
+
         string BarItem();
 
         string BarItemActive();

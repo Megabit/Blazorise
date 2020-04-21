@@ -507,6 +507,8 @@ namespace Blazorise.Bootstrap
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
 
+        public override string BarMode( BarMode mode ) => $"navbar-{ToBarMode( mode )}";
+
         public override string BarItem() => "nav-item";
 
         public override string BarItemActive() => Active();
@@ -521,23 +523,19 @@ namespace Blazorise.Bootstrap
 
         public override string BarLinkDisabled() => Disabled();
 
-        //public override string BarCollapse() => "navbar-collapse";
-
         public override string BarBrand() => "navbar-brand";
 
         public override string BarToggler() => "navbar-toggler";
 
         public override string BarTogglerCollapsed( bool isShow ) => isShow ? null : "collapsed";
 
-        public override string BarMenu() => "collapse navbar-collapse";
+        public override string BarMenu() => "navbar-collapse";
 
         public override string BarMenuShow() => Show();
 
         public override string BarStart() => "navbar-nav mr-auto";
 
-        public override string BarEnd() => "navbar-nav";
-
-        //public override string BarHasDropdown() => "dropdown";
+        public override string BarEnd() => "navbar-nav navbar-end";
 
         public override string BarDropdown() => null;
 

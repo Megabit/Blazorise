@@ -510,6 +510,8 @@ namespace Blazorise.Bulma
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
 
+        public override string BarMode( BarMode mode ) => $"navbar-{ToBarMode( mode )}";
+
         public override string BarItem() => "navbar-item";
 
         public override string BarItemActive() => Active();

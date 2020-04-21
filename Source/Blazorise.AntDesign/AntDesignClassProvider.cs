@@ -494,7 +494,7 @@ namespace Blazorise.AntDesign
 
         #region Navbar
 
-        public override string Bar() => "ant-menu ant-menu-root ant-menu-horizontal";
+        public override string Bar() => "ant-menu ant-menu-root";
 
         public override string BarBackground( Background background ) => BackgroundColor( background );
 
@@ -503,6 +503,8 @@ namespace Blazorise.AntDesign
         public override string BarThemeContrast( ThemeContrast themeContrast ) => $"ant-menu-{ToThemeContrast( themeContrast )}";
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"ant-menu-expand-{ToBreakpoint( breakpoint )}";
+
+        public override string BarMode( BarMode mode ) => $"ant-menu-{ToBarMode( mode )}";
 
         public override string BarItem() => "ant-menu-item ant-menu-item-only-child";
 
@@ -534,7 +536,7 @@ namespace Blazorise.AntDesign
 
         public override string BarEnd() => "ant-menu-end";
 
-        public override string BarDropdown() => "ant-menu-submenu ant-menu-submenu-horizontal";
+        public override string BarDropdown() => $"ant-menu-submenu";
 
         public override string BarDropdownShow() => "ant-menu-submenu-open";
 

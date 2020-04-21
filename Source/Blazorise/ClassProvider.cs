@@ -455,6 +455,8 @@ namespace Blazorise
 
         public abstract string BarBreakpoint( Breakpoint breakpoint );
 
+        public abstract string BarMode( BarMode mode );
+
         public abstract string BarItem();
 
         public abstract string BarItemActive();
@@ -1345,6 +1347,21 @@ namespace Blazorise
                 case Blazorise.DividerType.Solid:
                 default:
                     return "solid";
+            }
+        }
+
+        public virtual string ToBarMode( BarMode mode )
+        {
+            switch ( mode )
+            {
+                case Blazorise.BarMode.Horizontal:
+                    return "horizontal";
+                case Blazorise.BarMode.Vertical:
+                    return "vertical";
+                case Blazorise.BarMode.Inline:
+                    return "inline";
+                default:
+                    return null;
             }
         }
 

@@ -18,6 +18,8 @@ namespace Blazorise
 
         private Alignment alignment = Alignment.None;
 
+        private BarMode mode = BarMode.Horizontal;
+
         private Background background = Background.None;
 
         private bool visible;
@@ -35,6 +37,7 @@ namespace Blazorise
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
+            builder.Append( ClassProvider.BarMode( Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -123,6 +126,21 @@ namespace Blazorise
             set
             {
                 background = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Defines the Orientation for the bar. Vertical is required when using inside Sidebar.
+        /// </summary>
+        [Parameter]
+        public BarMode Mode
+        {
+            get => mode;
+            set
+            {
+                mode = value;
 
                 DirtyClasses();
             }

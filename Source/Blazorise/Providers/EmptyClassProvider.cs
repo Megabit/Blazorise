@@ -459,6 +459,8 @@ namespace Blazorise.Providers
 
         public string BarBreakpoint( Breakpoint breakpoint ) => null;
 
+        public string BarMode( BarMode mode ) => null;
+
         public string BarItem() => null;
 
         public string BarItemActive() => null;

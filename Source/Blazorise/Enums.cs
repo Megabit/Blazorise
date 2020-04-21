@@ -1454,4 +1454,25 @@ namespace Blazorise
         /// </summary>
         Auto,
     }
+
+    /// <summary>
+    /// Bar orientation and menu display.
+    /// </summary>
+    public enum BarMode
+    {
+        /// <summary>
+        /// Horizontal navbar with dropdown menus.
+        /// </summary>
+        Horizontal,
+
+        /// <summary>
+        /// Vertical navbar with pop-out menus.
+        /// </summary>
+        Vertical,
+
+        /// <summary>
+        /// Vertical navbar with inline dropdown menus.
+        /// </summary>
+        Inline,
+    }
 }
