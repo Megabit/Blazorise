@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar
 {
-    public abstract class BaseSidebarItem : BaseComponent
+    public partial class SidebarItem : BaseComponent
     {
         #region Members
 
