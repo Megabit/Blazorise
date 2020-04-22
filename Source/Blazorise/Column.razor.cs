@@ -18,7 +18,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.Col() );
+            builder.Append( ClassProvider.Column() );
 
             base.BuildClasses( builder );
         }

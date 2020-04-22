@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 #endregion
 
@@ -393,8 +394,6 @@ namespace Blazorise
 
         public virtual string LayoutHasSider() => "b-layout-has-sider";
 
-        public virtual string LayoutBody() => "b-body-layout";
-
         public virtual string LayoutContent() => "b-layout-content";
 
         public virtual string LayoutHeader() => "b-layout-header";
@@ -417,33 +416,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Panel
-
-        public abstract string Panel();
-
-        #endregion
-
-        #region Nav
-
-        public abstract string Nav();
-
-        public abstract string NavItem();
-
-        public abstract string NavLink();
-
-        public abstract string NavTabs();
-
-        public abstract string NavCards();
-
-        public abstract string NavPills();
-
-        public abstract string NavFill( NavFillType fillType );
-
-        public abstract string NavVertical();
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public abstract string Bar();
 
@@ -537,14 +510,23 @@ namespace Blazorise
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public abstract string Col();
+        public abstract string Column();
 
-        public abstract string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
+        public abstract string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 
-        public virtual string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-            string.Join( " ", rules.Select( r => Col( columnWidth, r.breakpoint, r.offset ) ) );
+        public virtual string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
+            string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+
+        #endregion
+
+        #region Display
+
+        public abstract string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction );
+
+        public virtual string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules )
+            => string.Join( " ", rules.Select( r => Display( displayType, r.breakpoint, r.direction ) ) );
 
         #endregion
 
@@ -707,6 +689,8 @@ namespace Blazorise
         public abstract string TableRowCellTextColor( TextColor textColor );
 
         public abstract string TableRowCellTextAlignment( TextAlignment textAlignment );
+
+        public abstract string TableResponsive();
 
         #endregion
 
@@ -1139,6 +1123,48 @@ namespace Blazorise
                     return "12";
                 case Blazorise.ColumnWidth.Auto:
                     return "auto";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ToDisplayType( DisplayType displayType )
+        {
+            switch ( displayType )
+            {
+                case Blazorise.DisplayType.Block:
+                    return "block";
+                case Blazorise.DisplayType.Inline:
+                    return "inline";
+                case Blazorise.DisplayType.InlineBlock:
+                    return "inline-block";
+                case Blazorise.DisplayType.Flex:
+                    return "flex";
+                case Blazorise.DisplayType.InlineFlex:
+                    return "inline-flex";
+                case Blazorise.DisplayType.Table:
+                    return "table";
+                case Blazorise.DisplayType.TableRow:
+                    return "table-row";
+                case Blazorise.DisplayType.TableCell:
+                    return "table-cell";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ToDisplayDirection( DisplayDirection displayDirection )
+        {
+            switch ( displayDirection )
+            {
+                case DisplayDirection.Row:
+                    return "row";
+                case DisplayDirection.Column:
+                    return "column";
+                case DisplayDirection.ReverseRow:
+                    return "row-reverse";
+                case DisplayDirection.ReverseColumn:
+                    return "column-reverse";
                 default:
                     return null;
             }

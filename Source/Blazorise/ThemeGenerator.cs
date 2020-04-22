@@ -50,6 +50,9 @@ namespace Blazorise
             variables[ThemeVariables.BorderRadiusLarge] = ".3rem";
             variables[ThemeVariables.BorderRadiusSmall] = ".2rem";
 
+            foreach ( var (name, size) in theme.ValidBreakpoints )
+                GenerateBreakpointVariables( theme, name, size );
+
             foreach ( var (name, color) in theme.ValidColors )
                 GenerateColorVariables( theme, name, color );
 
@@ -70,9 +73,16 @@ namespace Blazorise
 
             GenerateTooltipVariables( theme, theme.TooltipOptions );
 
+            GenerateBreadcrumbVariables( theme, theme.BreadcrumbOptions );
+
             // apply variables
             foreach ( var kv in variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value};" );
+        }
+
+        protected virtual void GenerateBreakpointVariables( Theme theme, string name, string size )
+        {
+            variables[ThemeVariables.Breakpoint( name )] = size;
         }
 
         protected virtual void GenerateColorVariables( Theme theme, string variant, string value )
@@ -115,7 +125,7 @@ namespace Blazorise
             variables[ThemeVariables.ButtonBackground( variant )] = background;
             variables[ThemeVariables.ButtonBorder( variant )] = border;
             variables[ThemeVariables.ButtonHoverBackground( variant )] = hoverBackground;
-            variables[ThemeVariables.ButtonBorder( variant )] = hoverBorder;
+            variables[ThemeVariables.ButtonHoverBorder( variant )] = hoverBorder;
             variables[ThemeVariables.ButtonActiveBackground( variant )] = activeBackground;
             variables[ThemeVariables.ButtonActiveBorder( variant )] = activeBorder;
             variables[ThemeVariables.ButtonYiqBackground( variant )] = yiqBackground;
@@ -185,6 +195,9 @@ namespace Blazorise
 
         protected virtual void GenerateSidebarVariables( ThemeSidebarOptions sidebarOptions )
         {
+            if ( sidebarOptions.Width != null )
+                variables[ThemeVariables.SidebarWidth] = sidebarOptions.Width;
+
             if ( sidebarOptions.BackgroundColor != null )
                 variables[ThemeVariables.SidebarBackground] = ToHex( ParseColor( sidebarOptions.BackgroundColor ) );
 
@@ -268,6 +281,14 @@ namespace Blazorise
             }
         }
 
+        protected virtual void GenerateBreadcrumbVariables( Theme theme, ThemeBreadcrumbOptions breadcrumbOptions )
+        {
+            if ( FirstNotEmpty( out var color, breadcrumbOptions?.Color, theme.ColorOptions?.Primary ) )
+            {
+                variables[ThemeVariables.BreadcrumbColor] = color;
+            }
+        }
+
         protected string Var( string name, string defaultValue = null )
         {
             if ( variables.TryGetValue( name, out var value ) )
@@ -282,6 +303,11 @@ namespace Blazorise
 
         public virtual void GenerateStyles( StringBuilder sb, Theme theme )
         {
+            foreach ( var (name, size) in theme.ValidBreakpoints )
+            {
+                GenerateBreakpointStyles( sb, theme, name, size );
+            }
+
             foreach ( var (name, color) in theme.ValidColors )
             {
                 GenerateColorStyles( sb, theme, name, color );
@@ -320,6 +346,10 @@ namespace Blazorise
             GeneratePaginationStyles( sb, theme, theme.PaginationOptions );
 
             GenerateBarStyles( sb, theme, theme.BarOptions );
+        }
+
+        protected virtual void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpoint, string value )
+        {
         }
 
         /// <summary>
@@ -593,6 +623,25 @@ namespace Blazorise
             byte g = (byte)( ( color.G * alpha ) + color2.G * ( 1f - alpha ) );
             byte b = (byte)( ( color.B * alpha ) + color2.B * ( 1f - alpha ) );
             return System.Drawing.Color.FromArgb( r, g, b );
+        }
+
+        protected bool FirstNotEmpty( out string first, params string[] values )
+        {
+            first = values?.FirstOrDefault( x => !string.IsNullOrEmpty( x ) );
+
+            return first != null;
+        }
+
+        protected static string MediaBreakpointUp( string size, string content )
+        {
+            if ( !string.IsNullOrEmpty( size ) )
+            {
+                return $"@media (min-width: {size}) {{{content}}}";
+            }
+            else
+            {
+                return $"{content}";
+            }
         }
 
         #endregion

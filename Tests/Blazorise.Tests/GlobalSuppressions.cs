@@ -19,3 +19,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage( "Usage", "BL0005:Component parameter should not be set outside of its component.", Justification = "<Pending>", Scope = "member", Target = "~M:Blazorise.Tests.DateEditTest.MinMaxRange_After" )]
 [assembly: SuppressMessage( "Usage", "BL0005:Component parameter should not be set outside of its component.", Justification = "<Pending>", Scope = "member", Target = "~M:Blazorise.Tests.DateEditTest.MinMaxRange_Before" )]
 [assembly: SuppressMessage( "Usage", "BL0005:Component parameter should not be set outside of its component.", Justification = "<Pending>", Scope = "member", Target = "~M:Blazorise.Tests.DateEditTest.MinMaxRange_Within" )]
+[assembly: SuppressMessage( "Usage", "BL0005:Component parameter should not be set outside of its component.", Justification = "<Pending>", Scope = "member", Target = "~M:Blazorise.Tests.Components.ValidateSelectComponentTest.CanValidateMultiString_InitiallyBlank" )]

@@ -1,0 +1,151 @@
+﻿@-webkit-keyframes spinner-border {
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinner-border {
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spinner-grow {
+    0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes spinner-grow {
+    0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.e-rounded {
+    border-radius: 0.25rem !important;
+}
+
+$dimensions: 16 24 32 48 64 96 128 256 512 !default
+
+@each $dimension in $dimensions {
+    &.e-figure-is-#{$dimension}x#{$dimension} {
+        height: $dimension * 1px;
+        width: $dimension * 1px;
+    }
+}
+
+.e-is-inline {
+    display: inline !important;
+}
+
+.e-is-inline-block {
+    display: inline-block !important;
+}
+
+.e-is-block {
+    display: block !important;
+}
+
+.e-is-table {
+    display: table !important;
+}
+
+.e-is-table-row {
+    display: table-row !important;
+}
+
+.e-is-table-cell {
+    display: table-cell !important;
+}
+
+.e-is-flex {
+    display: flex !important;
+}
+
+.e-is-inline-flex {
+    display: inline-flex !important;
+}
+
+.e-is-table {
+    display: table !important;
+}
+
+.e-is-table-row {
+    display: table-row !important;
+}
+
+.e-is-table-cell {
+    display: table-cell !important;
+}
+
+.e-is-flex-row {
+    flex-direction: row !important;
+}
+
+.e-is-flex-column {
+    flex-direction: column !important;
+}
+
+.e-is-flex-row-reverse {
+    flex-direction: row-reverse !important;
+}
+
+.e-is-flex-column-reverse {
+    flex-direction: column-reverse !important;
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+
+        .d#{$infix}-inline {
+            display: inline !important;
+        }
+
+        .d#{$infix}-inline-block {
+            display: inline-block !important;
+        }
+
+        .d#{$infix}-block {
+            display: block !important;
+        }
+
+        .d#{$infix}-flex {
+            display: flex !important;
+        }
+
+        .d#{$infix}-inline-flex {
+            display: inline-flex !important;
+        }
+
+        .flex#{$infix}-row {
+            flex-direction: row !important;
+        }
+
+        .flex#{$infix}-column {
+            flex-direction: column !important;
+        }
+
+        .flex#{$infix}-row-reverse {
+            flex-direction: row-reverse !important;
+        }
+
+        .flex#{$infix}-column-reverse {
+            flex-direction: column-reverse !important;
+        }
+    }
+}

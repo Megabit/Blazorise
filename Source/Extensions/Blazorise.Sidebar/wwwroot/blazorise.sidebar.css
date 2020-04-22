@@ -1,9 +1,13 @@
-﻿.sidebar {
+﻿:root {
+    --b-sidebar-width: 220px;
+}
+
+.sidebar {
     --bsb-dark: var(--b-sidebar-background, #343a40);
     --bsb-dark-dark: var(--b-sidebar-background, #343a40);
     --bsb-dark-light: var(--b-sidebar-color, #ced4da);
-    min-width: 220px;
-    max-width: 220px;
+    min-width: var(--b-sidebar-width, 220px);
+    max-width: var(--b-sidebar-width, 220px);
     min-height: 100vh;
     transition: margin .4s ease-in-out;
     z-index: 2;
@@ -30,7 +34,7 @@
     position: fixed;
     top: 0;
     z-index: 2;
-    width: 220px;
+    width: var(--b-sidebar-width, 220px);
 }
 
 .sidebar-nav {
@@ -141,11 +145,11 @@
 }
 
 .sidebar:not(.sidebar-collapsed).show {
-    margin-left: -220px;
+    margin-left: -var(--b-sidebar-width, 220px);
 }
 
 .sidebar-collapsed.show {
-    margin-left: -220px;
+    margin-left: -var(--b-sidebar-width, 220px);
 }
 
 html[data-useragent*="MSIE 10.0"] .show.sidebar-collapsed {
@@ -166,8 +170,8 @@ html[data-useragent*="MSIE 10.0"] .show.sidebar-collapsed {
     bottom: 0;
     position: fixed;
     background: var(--bsb-dark-dark);
-    min-width: 220px;
-    max-width: 220px;
+    min-width: var(--b-sidebar-width, 220px);
+    max-width: var(--b-sidebar-width, 220px);
     color: #e9ecef;
     z-index: 3;
 }
@@ -188,7 +192,7 @@ html[data-useragent*="MSIE 10.0"] .show.sidebar-collapsed {
 
 @media (min-width:1px) and (max-width:767.98px) {
     .sidebar:not(.sidebar-collapsed) {
-        margin-left: -220px;
+        margin-left: -var(--b-sidebar-width, 220px);
     }
 
         .sidebar:not(.sidebar-collapsed).show {

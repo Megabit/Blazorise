@@ -51,3 +51,14 @@
 .ant-table-row-header {
     font-weight: bold;
 }
+
+.ant-table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ant-table-responsive > .ant-table-bordered {
+    border: 0;
+}

@@ -421,33 +421,7 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Panel
-
-        public string Panel() => null;
-
-        #endregion
-
-        #region Nav
-
-        public string Nav() => null;
-
-        public string NavItem() => null;
-
-        public string NavLink() => null;
-
-        public string NavTabs() => null;
-
-        public string NavCards() => null;
-
-        public string NavPills() => null;
-
-        public string NavFill( NavFillType fillType ) => null;
-
-        public string NavVertical() => null;
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public string Bar() => null;
 
@@ -541,13 +515,21 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public string Col() => null;
+        public string Column() => null;
 
-        public string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
+        public string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
 
-        private string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+        private string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+
+        #endregion
+
+        #region Display
+
+        public string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction ) => null;
+
+        public string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules ) => null;
 
         #endregion
 
@@ -710,6 +692,8 @@ namespace Blazorise.Providers
         public string TableRowCellTextColor( TextColor textColor ) => null;
 
         public string TableRowCellTextAlignment( TextAlignment textAlignment ) => null;
+
+        public string TableResponsive() => null;
 
         #endregion
 
@@ -884,6 +868,10 @@ namespace Blazorise.Providers
         public string ToTextWeight( TextWeight textWeight ) => null;
 
         public string ToColumnWidth( ColumnWidth columnWidth ) => null;
+
+        public string ToDisplayType( DisplayType displayType ) => null;
+
+        public string ToDisplayDirection( DisplayDirection displayDirection ) => null;
 
         public string ToModalSize( ModalSize modalSize ) => null;
 

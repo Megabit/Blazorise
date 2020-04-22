@@ -420,7 +420,7 @@ namespace Blazorise.AntDesign
             sb.Append( $".ant-table-{variant} th," )
                 .Append( $".ant-table-{variant} td," )
                 .Append( $".ant-table-{variant} thead td," )
-                .Append( $".ant-table-{variant} tbody + tbody," )
+                .Append( $".ant-table-{variant} tbody + tbody" )
                 .Append( "{" )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
@@ -535,10 +535,10 @@ namespace Blazorise.AntDesign
                 .AppendLine( "}" );
 
 
-            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
             {
-                sb.Append( $".ant-breadcrumb-item>a" ).Append( "{" )
-                    .Append( $"color: {theme.ColorOptions.Primary};" )
+                sb.Append( $".ant-breadcrumb-link>a" ).Append( "{" )
+                    .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
                     .AppendLine( "}" );
             }
         }

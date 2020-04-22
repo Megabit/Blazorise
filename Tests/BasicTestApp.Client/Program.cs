@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BasicTestApp.Client
 {
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         public static async Task Main( string[] args )

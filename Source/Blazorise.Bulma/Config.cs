@@ -50,6 +50,7 @@ namespace Blazorise.Bulma
             componentMapper.Register( typeof( Blazorise.Select<> ), typeof( Bulma.Select<> ) );
             componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( Bulma.Switch<> ) );
             componentMapper.Register<Blazorise.Button, Bulma.Button>();
+            componentMapper.Register<Blazorise.Table, Bulma.Table>();
             componentMapper.Register<Blazorise.Tabs, Bulma.Tabs>();
             componentMapper.Register<Blazorise.TextEdit, Bulma.TextEdit>();
             componentMapper.Register( typeof( Blazorise.TimeEdit<> ), typeof( Bulma.TimeEdit<> ) );

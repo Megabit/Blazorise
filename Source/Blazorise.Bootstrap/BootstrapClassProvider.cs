@@ -172,7 +172,7 @@ namespace Blazorise.Bootstrap
 
         public override string FieldsBody() => null;
 
-        public override string FieldsColumn() => $"{Col()}";
+        public override string FieldsColumn() => $"{Column()}";
 
         #endregion
 
@@ -182,7 +182,7 @@ namespace Blazorise.Bootstrap
 
         public override string FieldHorizontal() => "row";
 
-        public override string FieldColumn() => $"{Col()}";
+        public override string FieldColumn() => $"{Column()}";
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -469,33 +469,7 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region Panel
-
-        public override string Panel() => null;
-
-        #endregion
-
-        #region Nav
-
-        public override string Nav() => "nav";
-
-        public override string NavItem() => "nav-item";
-
-        public override string NavLink() => "nav-link";
-
-        public override string NavTabs() => "nav-tabs";
-
-        public override string NavCards() => "nav-cards";
-
-        public override string NavPills() => "nav-pills";
-
-        public override string NavFill( NavFillType fillType ) => fillType == NavFillType.Justified ? "nav-justified" : "nav-fill";
-
-        public override string NavVertical() => "flex-column";
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public override string Bar() => "navbar";
 
@@ -585,13 +559,13 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public override string Col() => "col";
+        public override string Column() => "col";
 
-        public override string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+        public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var baseClass = offset ? "offset" : Col();
+            var baseClass = offset ? "offset" : Column();
 
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
@@ -601,14 +575,27 @@ namespace Blazorise.Bootstrap
                 return $"{baseClass}-{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
             }
 
-            //if ( columnWidth == Blazorise.ColumnWidth.Auto )
-            //    return $"{baseClass}";
-
             return $"{baseClass}-{ToColumnWidth( columnWidth )}";
         }
 
-        public override string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-            string.Join( " ", rules.Select( r => Col( columnWidth, r.breakpoint, r.offset ) ) );
+        public override string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules )
+            => string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+
+        #endregion
+
+        #region Display
+
+        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        {
+            var baseClass = breakpoint != Breakpoint.None
+                ? $"d-{ToBreakpoint( breakpoint )}-{ToDisplayType( displayType )}"
+                : $"d-{ToDisplayType( displayType )}";
+
+            if ( direction != DisplayDirection.None )
+                return $"{baseClass} flex-{ToDisplayDirection( direction )}";
+
+            return baseClass;
+        }
 
         #endregion
 
@@ -771,6 +758,8 @@ namespace Blazorise.Bootstrap
         public override string TableRowCellTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
         public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
+
+        public override string TableResponsive() => "table-responsive";
 
         #endregion
 

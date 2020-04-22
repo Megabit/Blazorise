@@ -147,7 +147,7 @@
 <p id="validate-multi-string-initially-blank">
     Initially blank:
     <Validation Validator="@ValidateMultiStringSelect">
-        <Select TValue="string" Multiple="true">
+        <Select @ref="selectMultipleStrings" TValue="string" Multiple="true">
             <ChildContent>
                 <SelectItem Value="@("Oliver")">Oliver</SelectItem>
                 <SelectItem Value="@("Harry")">Harry</SelectItem>
@@ -244,6 +244,8 @@
 
     int intWithBindInitiallyBlank;
     int intWithBindInitiallySelected = 1;
+
+    public Select<string> selectMultipleStrings;
 
     enum SelectableValues { None, First, Second, Last };
     SelectableValues enumWithBindInitiallyBlank;
