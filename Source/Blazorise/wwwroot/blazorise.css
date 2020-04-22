@@ -210,7 +210,8 @@
     .navbar-vertical.navbar-collapsed {
         width: 0px !important;
         min-width: 0px !important;
-        transition: width .2s ease-in-out, min-width .2s ease-in-out; }
+        transition: width .2s ease-in-out, min-width .2s ease-in-out, visibility .1s;
+        visibility: hidden; }
     .navbar-inline.navbar-collapsed-small,
     .navbar-vertical.navbar-collapsed-small {
         width: 64px !important;
@@ -240,21 +241,29 @@
         .navbar-inline.navbar-collapsed-small .nav-link:after,
         .navbar-vertical.navbar-collapsed-small .nav-link:after {
             display: none; }
+    .navbar-inline .navbar-menu,
+    .navbar-vertical .navbar-menu {
+        height: calc(100% - 64px);
+        /* TODO: only if there is a brand or a header */
+        justify-content: space-between;
+        flex-direction: column;
+        display: flex !important; }
     .navbar-inline .navbar-brand,
     .navbar-vertical .navbar-brand {
-        width: inherit;
+        width: 100%;
+        display: inline-block;
         margin: 0;
         height: 64px; }
     .navbar-inline .navbar-nav,
     .navbar-vertical .navbar-nav {
-        flex-direction: column !important;
-        flex-grow: 1; }
+        width: 100%;
+        display: inline-block; }
     .navbar-inline .navbar-end,
     .navbar-vertical .navbar-end {
         padding-bottom: 1rem;
         width: 100%;
-        bottom: 0;
-        position: absolute; }
+        padding-top: 1rem;
+        display: inline-block; }
     .navbar-inline .nav-link,
     .navbar-vertical .nav-link {
         white-space: nowrap;

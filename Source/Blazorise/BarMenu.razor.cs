@@ -20,7 +20,10 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
+            // TODO: consolidate
             builder.Append( ClassProvider.BarMenu(), ParentBar.Mode == BarMode.Horizontal );
+            builder.Append( "navbar-menu", ParentBar.Mode != BarMode.Horizontal );
+
             builder.Append( ClassProvider.BarMenuShow(), Visible );
 
             base.BuildClasses( builder );

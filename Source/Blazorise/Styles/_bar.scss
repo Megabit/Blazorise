@@ -14,7 +14,8 @@
     &.navbar-collapsed {
         width: 0px !important;
         min-width: 0px !important;
-        transition: width .2s ease-in-out, min-width .2s ease-in-out;
+        transition: width .2s ease-in-out, min-width .2s ease-in-out, visibility .1s;
+        visibility: hidden;
     }
 
     &.navbar-collapsed-small {
@@ -59,22 +60,30 @@
         }
     }
 
+    .navbar-menu {
+        height: calc(100% - 64px); /* TODO: only if there is a brand or a header */
+        justify-content: space-between;
+        flex-direction: column;
+        display: flex !important;
+    }
+
     .navbar-brand {
-        width: inherit;
+        width: 100%;
+        display: inline-block;
         margin: 0;
         height: 64px;
     }
 
     .navbar-nav {
-        flex-direction: column !important;
-        flex-grow: 1;
+        width: 100%;
+        display: inline-block;
     }
 
     .navbar-end {
         padding-bottom: 1rem;
         width: 100%;
-        bottom: 0;
-        position: absolute;
+        padding-top: 1rem;
+        display: inline-block;
     }
 
     .nav-link {
