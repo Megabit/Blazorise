@@ -323,6 +323,10 @@
     margin-bottom: .5rem;
     line-height: 1; }
 
+.ant-figure-img-fluid {
+    width: 100%;
+    height: auto; }
+
 .ant-figure-caption {
     font-size: 90%;
     color: #6c757d; }
@@ -365,9 +369,6 @@
 
 .b-layout-header {
     line-height: 64px; }
-
-.b-body-layout {
-    overflow-x: hidden; }
 
 .ant-progress-inner {
     display: inline-flex; }

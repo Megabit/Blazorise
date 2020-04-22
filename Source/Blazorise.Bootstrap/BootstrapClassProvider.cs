@@ -827,7 +827,7 @@ namespace Blazorise.Bootstrap
 
         public override string FigureSize( FigureSize figureSize ) => $"figure-is-{ToFigureSize( figureSize )}";
 
-        public override string FigureImage() => "figure-img";
+        public override string FigureImage() => "figure-img img-fluid";
 
         public override string FigureImageRounded() => "rounded";
 

@@ -822,7 +822,7 @@ namespace Blazorise.AntDesign
 
         public override string FigureSize( FigureSize figureSize ) => $"ant-figure-is-{ToFigureSize( figureSize )}";
 
-        public override string FigureImage() => "ant-figure-img";
+        public override string FigureImage() => "ant-figure-img ant-figure-img-fluid";
 
         public override string FigureImageRounded() => "ant-figure-rounded";
 
