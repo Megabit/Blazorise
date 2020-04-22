@@ -24,6 +24,17 @@ namespace Blazorise
 
         private bool borderless;
 
+        private bool responsive;
+
+        #endregion
+
+        #region Constructors
+
+        public Table()
+        {
+            ResponsiveClassBuilder = new ClassBuilder( BuildResponsiveClasses );
+        }
+
         #endregion
 
         #region Methods
@@ -41,9 +52,18 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        private void BuildResponsiveClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.TableResponsive() );
+        }
+
         #endregion
 
         #region Properties
+
+        protected ClassBuilder ResponsiveClassBuilder { get; private set; }
+
+        protected string ResponsiveClassNames => ResponsiveClassBuilder.Class;
 
         /// <summary>
         /// Makes the table to fill entire horizontal space.
@@ -130,6 +150,21 @@ namespace Blazorise
             set
             {
                 borderless = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Makes table responsive by adding the horizontal scroll bar.
+        /// </summary>
+        [Parameter]
+        public bool Responsive
+        {
+            get => responsive;
+            set
+            {
+                responsive = value;
 
                 DirtyClasses();
             }

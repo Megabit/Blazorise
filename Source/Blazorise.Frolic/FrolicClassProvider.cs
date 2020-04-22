@@ -747,6 +747,8 @@ namespace Blazorise.Frolic
 
         public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
 
+        public override string TableResponsive() => "e-table-responsive";
+
         #endregion
 
         #region Badge

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 #endregion
 
@@ -393,8 +394,6 @@ namespace Blazorise
 
         public virtual string LayoutHasSider() => "b-layout-has-sider";
 
-        public virtual string LayoutBody() => "b-body-layout";
-
         public virtual string LayoutContent() => "b-layout-content";
 
         public virtual string LayoutHeader() => "b-layout-header";
@@ -686,6 +685,8 @@ namespace Blazorise
         public abstract string TableRowCellTextColor( TextColor textColor );
 
         public abstract string TableRowCellTextAlignment( TextAlignment textAlignment );
+
+        public abstract string TableResponsive();
 
         #endregion
 

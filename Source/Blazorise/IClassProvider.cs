@@ -393,8 +393,6 @@ namespace Blazorise
 
         string LayoutHasSider();
 
-        string LayoutBody();
-
         string LayoutContent();
 
         string LayoutHeader();
@@ -680,6 +678,8 @@ namespace Blazorise
         string TableRowCellTextColor( TextColor textColor );
 
         string TableRowCellTextAlignment( TextAlignment textAlignment );
+
+        string TableResponsive();
 
         #endregion
 

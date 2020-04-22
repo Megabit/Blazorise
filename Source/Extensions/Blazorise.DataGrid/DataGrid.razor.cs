@@ -851,6 +851,11 @@ namespace Blazorise.DataGrid
         [Parameter] public bool Narrow { get; set; }
 
         /// <summary>
+        /// Makes table responsive by adding the horizontal scroll bar.
+        /// </summary>
+        [Parameter] public bool Responsive { get; set; }
+
+        /// <summary>
         /// Custom css classname.
         /// </summary>
         [Parameter] public string Class { get; set; }
