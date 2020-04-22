@@ -7,7 +7,7 @@
 }
 else
 {
-    <a class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" data-toggle="sidebar-collapse" aria-expanded="@Visible" title="@Title" @attributes="@Attributes">
+    <a class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" data-toggle="@DataToggle" aria-expanded="@AriaExpanded" title="@Title" @attributes="@Attributes">
         @ChildContent
     </a>
 }
