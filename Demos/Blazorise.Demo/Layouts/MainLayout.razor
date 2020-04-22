@@ -17,10 +17,10 @@
                             </SidebarLink>
                         </SidebarItem>
                         <SidebarItem>
-                            <SidebarLink Toggled="(isOpen)=> sidebarSubItemUIElement.Toggle(isOpen)" Visible="true">
+                            <SidebarLink Toggled="@((isOpen)=> uiElementsSubItemVisible = isOpen)" Visible="@uiElementsSubItemVisible">
                                 <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />UI Elements
                             </SidebarLink>
-                            <SidebarSubItem @ref="sidebarSubItemUIElement" Visible="true">
+                            <SidebarSubItem Visible="@uiElementsSubItemVisible">
                                 <SidebarItem>
                                     <SidebarLink To="tests/buttons">Buttons</SidebarLink>
                                 </SidebarItem>
@@ -57,10 +57,10 @@
                             </SidebarSubItem>
                         </SidebarItem>
                         <SidebarItem>
-                            <SidebarLink Toggled="(isOpen)=> sidebarSubItemForms.Toggle(isOpen)">
+                            <SidebarLink Toggled="@((isOpen)=> formsSubItemVisible = isOpen)" Visible="@formsSubItemVisible">
                                 <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Forms
                             </SidebarLink>
-                            <SidebarSubItem @ref="sidebarSubItemForms" Visible="@formsSubItemVisible">
+                            <SidebarSubItem Visible="@formsSubItemVisible">
                                 <SidebarItem>
                                     <SidebarLink To="tests/forms">Forms</SidebarLink>
                                 </SidebarItem>
@@ -70,10 +70,10 @@
                             </SidebarSubItem>
                         </SidebarItem>
                         <SidebarItem>
-                            <SidebarLink Toggled="(isOpen)=> sidebarSubItemExtensions.Toggle(isOpen)">
+                            <SidebarLink Toggled="@((isOpen)=> extensionsSubItemVisible = isOpen)" Visible="@extensionsSubItemVisible">
                                 <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Extensions
                             </SidebarLink>
-                            <SidebarSubItem @ref="sidebarSubItemExtensions">
+                            <SidebarSubItem Visible="@extensionsSubItemVisible">
                                 <SidebarItem>
                                     <SidebarLink To="tests/datagrid">DataGrid</SidebarLink>
                                 </SidebarItem>
@@ -89,10 +89,10 @@
                             </SidebarSubItem>
                         </SidebarItem>
                         <SidebarItem>
-                            <SidebarLink Toggled="(isOpen)=> sidebarSubItemApps.Toggle(isOpen)">
+                            <SidebarLink Toggled="@((isOpen)=> appsSubItemVisible = isOpen)" Visible="@appsSubItemVisible">
                                 <Icon Name="IconName.Smartphone" Margin="Margin.Is3.FromRight" />Apps
                             </SidebarLink>
-                            <SidebarSubItem @ref="sidebarSubItemApps">
+                            <SidebarSubItem Visible="@appsSubItemVisible">
                                 <SidebarItem>
                                     <SidebarLink To="apps/todo">Todo List</SidebarLink>
                                 </SidebarItem>
@@ -265,12 +265,11 @@
     }
 
     Sidebar sidebar;
-    SidebarSubItem sidebarSubItemUIElement;
-    SidebarSubItem sidebarSubItemForms;
-    SidebarSubItem sidebarSubItemExtensions;
-    SidebarSubItem sidebarSubItemApps;
 
+    bool uiElementsSubItemVisible = true;
     bool formsSubItemVisible = true;
+    bool extensionsSubItemVisible = false;
+    bool appsSubItemVisible = false;
 
     //bool collapseNavMenu = true;
 
