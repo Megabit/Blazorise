@@ -1,0 +1,8 @@
+﻿@typeparam TValue
+@inherits Blazorise.Switch<TValue>
+<Control Role="@ControlRole.Switch" Inline="@Inline">
+    <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@Checked" @onchange="@OnChangeHandler" @attributes="@Attributes" />
+    <span class="custom-control-track"></span>
+    <Label Type="LabelType.Switch" For="@ElementId" Style="@Style" Cursor="@Cursor">@ChildContent</Label>
+    @Feedback
+</Control>

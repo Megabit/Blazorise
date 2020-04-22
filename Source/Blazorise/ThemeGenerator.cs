@@ -544,14 +544,21 @@ namespace Blazorise
             return $"#{color.R.ToString( "X2" )}{color.G.ToString( "X2" )}{color.B.ToString( "X2" )}{color.A.ToString( "X2" )}";
         }
 
+        protected static System.Drawing.Color Transparency( string hexColor, int A )
+        {
+            var color = ParseColor( hexColor );
+
+            return System.Drawing.Color.FromArgb( A, color.R, color.G, color.B );
+        }
+
         protected static System.Drawing.Color Transparency( System.Drawing.Color color, int A )
         {
             return System.Drawing.Color.FromArgb( A, color.R, color.G, color.B );
         }
 
-        protected static System.Drawing.Color Darken( string inColor, float correctionFactor )
+        protected static System.Drawing.Color Darken( string hexColor, float correctionFactor )
         {
-            var color = ParseColor( inColor );
+            var color = ParseColor( hexColor );
 
             return ChangeColorBrightness( color, -( correctionFactor / 100f ) );
         }
@@ -561,9 +568,9 @@ namespace Blazorise
             return ChangeColorBrightness( color, -( correctionFactor / 100f ) );
         }
 
-        protected static System.Drawing.Color Lighten( string inColor, float correctionFactor )
+        protected static System.Drawing.Color Lighten( string hexColor, float correctionFactor )
         {
-            var color = ParseColor( inColor );
+            var color = ParseColor( hexColor );
 
             return ChangeColorBrightness( color, correctionFactor / 100f );
         }
