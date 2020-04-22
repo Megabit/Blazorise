@@ -28,36 +28,6 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected override async Task OnAfterRenderAsync( bool firstRender )
-        {
-            if ( firstRender )
-            {
-                if ( ParentLayout == null )
-                {
-                    await JSRunner.AddClassToBody( ClassProvider.LayoutBody() );
-
-                    bodyClassApplied = true;
-                }
-            }
-
-            await base.OnAfterRenderAsync( firstRender );
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( bodyClassApplied )
-                {
-                    _ = JSRunner.RemoveClassFromBody( ClassProvider.LayoutBody() );
-
-                    bodyClassApplied = false;
-                }
-            }
-
-            base.Dispose( disposing );
-        }
-
         #endregion
 
         #region Properties

@@ -16,6 +16,7 @@
 
         .b-layout {
             overflow-x: hidden;
+            margin-top: 64px;
         }
     }
 }
@@ -32,9 +33,14 @@
     /*background: #001529;*/
     /*line-height: 64px;*/
     &-fixed {
-        position: sticky;
+        position: fixed;
         z-index: 1;
         top: 0;
+        width: calc(100% - 220px);
+
+        @media (min-width:1px) and (max-width:767.98px) {
+            width: 100%;
+        }
     }
 }
 

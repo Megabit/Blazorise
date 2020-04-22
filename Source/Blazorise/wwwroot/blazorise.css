@@ -153,7 +153,8 @@
 .b-layout.b-layout-has-sider {
     flex-direction: row; }
     .b-layout.b-layout-has-sider .b-layout {
-        overflow-x: hidden; }
+        overflow-x: hidden;
+        margin-top: 64px; }
 
 .b-layout-header,
 .b-layout-footer {
@@ -166,9 +167,13 @@
     /*background: #001529;*/
     /*line-height: 64px;*/ }
     .b-layout-header-fixed {
-        position: sticky;
+        position: fixed;
         z-index: 1;
-        top: 0; }
+        top: 0;
+        width: calc(100% - 220px); }
+        @media (min-width: 1px) and (max-width: 767.98px) {
+            .b-layout-header-fixed {
+                width: 100%; } }
 
 .b-layout-footer {
     /*padding: 24px 50px;*/
