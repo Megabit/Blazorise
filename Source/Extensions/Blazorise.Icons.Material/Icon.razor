@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.Icon
-<i class="@ClassNames">
+<i class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     @if ( Name is IconName )
     {
         @IconProvider.GetIconName( (IconName)Name );
