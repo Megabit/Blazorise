@@ -195,6 +195,9 @@ namespace Blazorise
 
         protected virtual void GenerateSidebarVariables( ThemeSidebarOptions sidebarOptions )
         {
+            if ( sidebarOptions.Width != null )
+                variables[ThemeVariables.SidebarWidth] = sidebarOptions.Width;
+
             if ( sidebarOptions.BackgroundColor != null )
                 variables[ThemeVariables.SidebarBackground] = ToHex( ParseColor( sidebarOptions.BackgroundColor ) );
 
