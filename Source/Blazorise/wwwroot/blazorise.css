@@ -153,8 +153,7 @@
 .b-layout.b-layout-has-sider {
     flex-direction: row; }
     .b-layout.b-layout-has-sider .b-layout {
-        overflow-x: hidden;
-        margin-top: 64px; }
+        overflow-x: hidden; }
 
 .b-layout-header,
 .b-layout-footer {
