@@ -1,12 +1,18 @@
-﻿.navbar-inline,
+﻿:root {
+    --b-sidebar-width: 220px;
+    --b-sidebar-small-width: 64px;
+    --b-sidebar-brand-height: 64px;
+}
+
+.navbar-inline,
 .navbar-vertical {
     display: inline-block !important;
     position: sticky;
     top: 0;
     padding: 0;
-    min-width: 220px;
-    max-width: 220px;
-    width: 220px;
+    min-width: var(--b-sidebar-width, 220px);
+    max-width: var(--b-sidebar-width, 220px);
+    width: var(--b-sidebar-width, 220px);
     transition: width .2s ease-in-out, min-width .2s ease-in-out;
     box-shadow: 2px 0 6px rgba(0,21,41,.35);
     height: 100vh;
@@ -19,8 +25,8 @@
     }
 
     &.navbar-collapsed-small {
-        width: 64px !important;
-        min-width: 64px !important;
+        width: var(--b-sidebar-small-width, 64px) !important;
+        min-width: var(--b-sidebar-small-width, 64px) !important;
         transition: width .2s ease-in-out, min-width .2s ease-in-out;
 
         .dropdown {
@@ -34,7 +40,7 @@
         .dropdown-menu {
             display: none;
             position: absolute !important;
-            left: 64px;
+            left: var(--b-sidebar-small-width, 64px);
             margin-left: 5px;
             top: -5px;
             z-index: 100;
@@ -50,6 +56,10 @@
         }
 
         .nav-link {
+            text-align: center;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+
             span {
                 display: none;
             }
@@ -61,7 +71,7 @@
     }
 
     .navbar-menu {
-        height: calc(100% - 64px); /* TODO: only if there is a brand or a header */
+        height: calc(100% - var(--b-sidebar-brand-height, 64px));
         justify-content: space-between;
         flex-direction: column;
         display: flex !important;
@@ -71,7 +81,7 @@
         width: 100%;
         display: inline-block;
         margin: 0;
-        height: 64px;
+        height: var(--b-sidebar-brand-height, 64px);
     }
 
     .navbar-nav {
@@ -228,7 +238,7 @@
             padding: .5rem 3rem !important;
         }
     }
-} 
+}
 
 .navbar-vertical {
     .dropdown {
@@ -242,7 +252,7 @@
     .dropdown-menu {
         display: none;
         position: absolute !important;
-        left: 220px;
+        left: var(--b-sidebar-width, 220px);
         margin-left: 5px;
         top: -5px;
         z-index: 100;
