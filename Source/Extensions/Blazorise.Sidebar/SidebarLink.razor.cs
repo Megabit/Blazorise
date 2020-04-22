@@ -46,7 +46,7 @@ namespace Blazorise.Sidebar
 
                 StateHasChanged();
 
-                Toggled?.Invoke( Visible );
+                await Toggled.InvokeAsync( Visible );
             }
         }
 
@@ -83,7 +83,7 @@ namespace Blazorise.Sidebar
         /// </summary>
         [Parameter] public EventCallback Click { get; set; }
 
-        [Parameter] public Action<bool> Toggled { get; set; }
+        [Parameter] public EventCallback<bool> Toggled { get; set; }
 
         [CascadingParameter] public SidebarItem ParentSidebarItem { get; set; }
 
