@@ -393,8 +393,6 @@ namespace Blazorise
 
         string LayoutHasSider();
 
-        string LayoutBody();
-
         string LayoutContent();
 
         string LayoutHeader();

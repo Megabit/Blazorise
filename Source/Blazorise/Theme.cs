@@ -507,9 +507,11 @@ namespace Blazorise
 
     public class ThemeSidebarOptions
     {
-        public string BackgroundColor { get; set; }
+        public string Width { get; set; } = "220px";
 
-        public string Color { get; set; }
+        public string BackgroundColor { get; set; } = "#343a40";
+
+        public string Color { get; set; } = "#ced4da";
     }
 
     public class ThemeSnackbarOptions
@@ -591,6 +593,7 @@ namespace Blazorise
         public static string OutlineButtonYiqColor( string variant ) => $"--b-outline-button-{variant}-yiq-shadow";
         public static string OutlineButtonBoxShadowColor( string variant ) => $"--b-outline-button-{variant}-box-shadow";
 
+        public const string SidebarWidth = "--b-sidebar-width";
         public const string SidebarBackground = "--b-sidebar-background";
         public const string SidebarColor = "--b-sidebar-color";
 

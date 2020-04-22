@@ -394,8 +394,6 @@ namespace Blazorise
 
         public virtual string LayoutHasSider() => "b-layout-has-sider";
 
-        public virtual string LayoutBody() => "b-body-layout";
-
         public virtual string LayoutContent() => "b-layout-content";
 
         public virtual string LayoutHeader() => "b-layout-header";
