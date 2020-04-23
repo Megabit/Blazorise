@@ -165,4 +165,4 @@ public void ConfigureServices( IServiceCollection services )
 | Size              | [Sizes]({{ "/docs/helpers/sizes/#size" | relative_url }})           | `None`  | Component size variations.                                                                           |
 | EditMask          | string                                                              |         | A string representing a edit mask expression.                                                        |
 | MaskType          | [MaskType]({{ "/docs/helpers/enums/#masktype" | relative_url }})    | `None`  | Specify the mask type used by the editor.                                                            |
-| VisibleCharacters | int?                                                                |  null   | Specifies the visible width, in characters, of an <input> element.                                   |
+| VisibleCharacters | int?                                                                |  null   | Specifies the visible width, in characters, of an `<input>` element.                                   |
