@@ -90,6 +90,12 @@ namespace Blazorise.DataGrid
         {
             Columns.Add( column );
 
+            // initialize sort in case it's predefined
+            if ( column.Direction != SortDirection.None )
+            {
+                sortByColumns.Add( column );
+            }
+
             // save command column reference for later
             if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
             {
