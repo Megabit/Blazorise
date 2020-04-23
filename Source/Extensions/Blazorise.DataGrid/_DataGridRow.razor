@@ -1,32 +1,47 @@
 @typeparam TItem
 @inherits _BaseDataGridRow<TItem>
-<TableRow Clicked="@HandleClick"
-          DoubleClicked="@HandleDoubleClick"
-          Background="@(ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item ? Background.Primary : Background.None)"
-          HoverCursor="@HoverCursor"
-          Class="@Class"
-          Style="@Style">
-    @foreach ( var column in Columns )
+@{
+    var styling = new DataGridRowStyling();
+    var selectedStyling = new DataGridRowStyling { Background = Blazorise.Background.Primary };
+
+    @if ( IsSelected )
     {
-        @if ( column.ColumnType == DataGridColumnType.Command )
+        ParentDataGrid.SelectedRowStyling?.Invoke( Item, selectedStyling );
+    }
+    else
+    {
+        ParentDataGrid.RowStyling?.Invoke( Item, styling );
+    }
+
+    <TableRow Clicked="@HandleClick"
+              DoubleClicked="@HandleDoubleClick"
+              Background="@GetBackground(styling, selectedStyling)"
+              Color="@GetColor(styling, selectedStyling)"
+              Class="@GetClass(styling, selectedStyling)"
+              Style="@GetStyle(styling, selectedStyling)"
+              HoverCursor="@HoverCursor">
+        @foreach ( var column in Columns )
         {
-            @if ( ParentDataGrid.Editable == true )
+            @if ( column.ColumnType == DataGridColumnType.Command )
             {
-                <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" />
+                @if ( ParentDataGrid.Editable == true )
+                {
+                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" />
+                }
+            }
+            else
+            {
+                <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" width="@column.Width" TextAlignment="@column.TextAlignment">
+                    @if ( column.DisplayTemplate != null )
+                    {
+                        @column.DisplayTemplate( Item )
+                    }
+                    else
+                    {
+                        @column.FormatDisplayValue( Item )
+                    }
+                </TableRowCell>
             }
         }
-        else
-        {
-            <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" width="@column.Width" TextAlignment="@column.TextAlignment">
-                @if ( column.DisplayTemplate != null )
-                {
-                    @column.DisplayTemplate( Item )
-                }
-                else
-                {
-                    @column.FormatDisplayValue( Item )
-                }
-            </TableRowCell>
-        }
-    }
-</TableRow>
+    </TableRow>
+}
