@@ -20,7 +20,7 @@ namespace Blazorise
 
         private BarMode mode = BarMode.Horizontal;
 
-        private BarVisibleMode visibleMode = BarVisibleMode.None;
+        private BarCollapseMode collapseMode = BarCollapseMode.Hide;
 
         private Background background = Background.None;
 
@@ -47,7 +47,7 @@ namespace Blazorise
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
-            builder.Append( ClassProvider.BarCollapsed( Mode, VisibleMode ), !Visible );
+            builder.Append( ClassProvider.BarCollapsed( Mode, CollapseMode ), !Visible );
             builder.Append( ClassProvider.BarMode( Mode ) );
 
             base.BuildClasses( builder );
@@ -158,12 +158,12 @@ namespace Blazorise
         }
 
         [Parameter]
-        public BarVisibleMode VisibleMode
+        public BarCollapseMode CollapseMode
         {
-            get => visibleMode;
+            get => collapseMode;
             set
             {
-                visibleMode = value;
+                collapseMode = value;
 
                 DirtyClasses();
             }

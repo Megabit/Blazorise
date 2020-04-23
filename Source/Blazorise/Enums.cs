@@ -1564,12 +1564,17 @@ namespace Blazorise
         /// <summary>
         /// Vertical navbar with inline dropdown menus.
         /// </summary>
-        Inline,
+        VerticalInline,
+
+        /// <summary>
+        /// Small vertical navbar with pop-out menus.
+        /// </summary>
+        VerticalSmall,
     }
 
-    public enum BarVisibleMode
+    public enum BarCollapseMode
     {
-        None,
+        Hide,
 
         Small
     }

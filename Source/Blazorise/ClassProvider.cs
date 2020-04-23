@@ -478,7 +478,7 @@ namespace Blazorise
 
         public abstract string BarDropdownMenuRight( BarMode mode );
 
-        public abstract string BarCollapsed( BarMode mode, BarVisibleMode barVisibleMode );
+        public abstract string BarCollapsed( BarMode mode, BarCollapseMode barVisibleMode );
 
         #endregion
 
@@ -1386,8 +1386,23 @@ namespace Blazorise
                     return "horizontal";
                 case Blazorise.BarMode.Vertical:
                     return "vertical";
-                case Blazorise.BarMode.Inline:
-                    return "inline";
+                case Blazorise.BarMode.VerticalInline:
+                    return "vertical-inline";
+                case Blazorise.BarMode.VerticalSmall:
+                    return "vertical-small";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ToBarCollapsedMode( BarCollapseMode collapseMode )
+        {
+            switch ( collapseMode )
+            {
+                case BarCollapseMode.Hide:
+                    return "hide";
+                case BarCollapseMode.Small:
+                    return "small";
                 default:
                     return null;
             }

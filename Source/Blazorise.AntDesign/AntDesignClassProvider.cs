@@ -526,7 +526,7 @@ namespace Blazorise.AntDesign
 
         public override string BarDropdownMenuRight( BarMode mode ) => null;
 
-        public override string BarCollapsed( BarMode mode, BarVisibleMode barVisibleMode ) => null;
+        public override string BarCollapsed( BarMode mode, BarCollapseMode barVisibleMode ) => null;
 
         #endregion
 

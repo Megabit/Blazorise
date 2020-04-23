@@ -4,7 +4,7 @@
 <Layout Sider="true">
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar @ref="sider" Breakpoint="Breakpoint.Desktop" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.Inline" VisibleMode="BarVisibleMode.Small">
+            <Bar @ref="sider" Breakpoint="Breakpoint.Desktop" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small">
                 <BarBrand>
                     <BarItem IconName="@("fab fa-bootstrap")">
                         <BarLink To="">
@@ -20,7 +20,7 @@
                             </BarLink>
                         </BarItem>
                         <BarItem IconName="IconName.Edit">
-                            <BarDropdown Visible="true">
+                            <BarDropdown Visible="formsSubItemVisible">
                                 <BarDropdownToggle>
                                     UI Elements
                                 </BarDropdownToggle>

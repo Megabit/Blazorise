@@ -475,7 +475,7 @@ namespace Blazorise
 
         string BarDropdownMenuRight( BarMode mode );
 
-        string BarCollapsed( BarMode mode, BarVisibleMode barVisibleMode );
+        string BarCollapsed( BarMode mode, BarCollapseMode barVisibleMode );
 
         #endregion
 
