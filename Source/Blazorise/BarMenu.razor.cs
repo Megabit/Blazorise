@@ -20,11 +20,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            // TODO: consolidate
-            builder.Append( ClassProvider.BarMenu(), ParentBar.Mode == BarMode.Horizontal );
-            builder.Append( "navbar-menu", ParentBar.Mode != BarMode.Horizontal );
-
-            builder.Append( ClassProvider.BarMenuShow(), Visible );
+            builder.Append( ClassProvider.BarMenu( Mode ));
+            builder.Append( ClassProvider.BarMenuShow( Mode ), Visible );
 
             base.BuildClasses( builder );
         }
@@ -86,6 +83,8 @@ namespace Blazorise
         [Parameter] public Action<bool> Toggled { get; set; }
 
         [CascadingParameter] protected Bar ParentBar { get; set; }
+
+        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

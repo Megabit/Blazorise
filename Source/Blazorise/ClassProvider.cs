@@ -430,55 +430,55 @@ namespace Blazorise
 
         public abstract string BarMode( BarMode mode );
 
-        public abstract string BarItem();
+        public abstract string BarItem( BarMode mode );
 
-        public abstract string BarItemActive();
+        public abstract string BarItemActive( BarMode mode );
 
-        public abstract string BarItemDisabled();
+        public abstract string BarItemDisabled( BarMode mode );
 
-        public abstract string BarItemHasDropdown();
+        public abstract string BarItemHasDropdown( BarMode mode );
 
-        public abstract string BarItemHasDropdownShow();
+        public abstract string BarItemHasDropdownShow( BarMode mode );
 
-        public abstract string BarLink();
+        public abstract string BarLink( BarMode mode );
 
-        public abstract string BarLinkDisabled();
+        public abstract string BarLinkDisabled( BarMode mode );
 
         //public abstract string BarCollapse();
 
-        public abstract string BarBrand();
+        public abstract string BarBrand( BarMode mode );
 
-        public abstract string BarToggler();
+        public abstract string BarToggler( BarMode mode );
 
-        public abstract string BarTogglerCollapsed( bool isShow );
+        public abstract string BarTogglerCollapsed( BarMode mode, bool isShow );
 
-        public abstract string BarMenu();
+        public abstract string BarMenu( BarMode mode );
 
-        public abstract string BarMenuShow();
+        public abstract string BarMenuShow( BarMode mode );
 
-        public abstract string BarStart();
+        public abstract string BarStart( BarMode mode );
 
-        public abstract string BarEnd();
+        public abstract string BarEnd( BarMode mode );
 
         //public abstract string BarHasDropdown();
 
-        public abstract string BarDropdown();
+        public abstract string BarDropdown( BarMode mode );
 
-        public abstract string BarDropdownShow();
+        public abstract string BarDropdownShow( BarMode mode );
 
-        public abstract string BarDropdownToggle();
+        public abstract string BarDropdownToggle( BarMode mode );
 
-        public abstract string BarDropdownItem();
+        public abstract string BarDropdownItem( BarMode mode );
 
-        public abstract string BarTogglerIcon();
+        public abstract string BarTogglerIcon( BarMode mode );
 
-        public abstract string BarDropdownMenu();
+        public abstract string BarDropdownMenu( BarMode mode );
 
-        public abstract string BarDropdownMenuVisible( bool visible );
+        public abstract string BarDropdownMenuVisible( BarMode mode, bool visible );
 
-        public abstract string BarDropdownMenuRight();
+        public abstract string BarDropdownMenuRight( BarMode mode );
 
-        public abstract string BarVerticalCollapsed( BarVisibleMode barVisibleMode );
+        public abstract string BarCollapsed( BarMode mode, BarVisibleMode barVisibleMode );
 
         #endregion
 

@@ -18,7 +18,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownItem() );
+            builder.Append( ClassProvider.BarDropdownItem( Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -44,6 +44,8 @@ namespace Blazorise
         [Parameter] public Match Match { get; set; } = Match.All;
 
         [Parameter] public string Title { get; set; }
+
+        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
 
         #endregion
     }

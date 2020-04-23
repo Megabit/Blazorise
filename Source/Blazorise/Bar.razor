@@ -2,9 +2,11 @@
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
-        <nav class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-            @ChildContent
-        </nav>
+        <CascadingValue Value="@Mode" Name="Mode">
+            <nav class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @ChildContent
+            </nav>
+        </CascadingValue>
     </CascadingValue>
 }
 else

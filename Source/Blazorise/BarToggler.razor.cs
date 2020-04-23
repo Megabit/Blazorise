@@ -20,8 +20,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarToggler() );
-            builder.Append( ClassProvider.BarTogglerCollapsed( Visible ) );
+            builder.Append( ClassProvider.BarToggler( Mode ) );
+            builder.Append( ClassProvider.BarTogglerCollapsed( Mode, Visible ) );
 
             base.BuildClasses( builder );
         }
@@ -89,6 +89,8 @@ namespace Blazorise
         [Parameter] public Action Clicked { get; set; }
 
         [CascadingParameter] protected Bar ParentBar { get; set; }
+
+        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

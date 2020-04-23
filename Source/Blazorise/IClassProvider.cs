@@ -429,53 +429,53 @@ namespace Blazorise
 
         string BarMode( BarMode mode );
 
-        string BarItem();
+        string BarItem( BarMode mode );
 
-        string BarItemActive();
+        string BarItemActive( BarMode mode );
 
-        string BarItemDisabled();
+        string BarItemDisabled( BarMode mode );
 
-        string BarItemHasDropdown();
+        string BarItemHasDropdown( BarMode mode );
 
-        string BarItemHasDropdownShow();
+        string BarItemHasDropdownShow( BarMode mode );
 
-        string BarLink();
+        string BarLink( BarMode mode );
 
-        string BarLinkDisabled();
+        string BarLinkDisabled( BarMode mode );
 
-        string BarBrand();
+        string BarBrand( BarMode mode );
 
-        string BarToggler();
+        string BarToggler( BarMode mode );
 
-        string BarTogglerCollapsed( bool isShow );
+        string BarTogglerCollapsed( BarMode mode, bool isShow );
 
-        string BarMenu();
+        string BarMenu( BarMode mode );
 
-        string BarMenuShow();
+        string BarMenuShow( BarMode mode );
 
-        string BarStart();
+        string BarStart( BarMode mode );
 
-        string BarEnd();
+        string BarEnd( BarMode mode );
 
         //string BarHasDropdown();
 
-        string BarDropdown();
+        string BarDropdown( BarMode mode );
 
-        string BarDropdownShow();
+        string BarDropdownShow( BarMode mode );
 
-        string BarDropdownToggle();
+        string BarDropdownToggle( BarMode mode );
 
-        string BarDropdownItem();
+        string BarDropdownItem( BarMode mode );
 
-        string BarTogglerIcon();
+        string BarTogglerIcon( BarMode mode );
 
-        string BarDropdownMenu();
+        string BarDropdownMenu( BarMode mode );
 
-        string BarDropdownMenuVisible( bool visible );
+        string BarDropdownMenuVisible( BarMode mode, bool visible );
 
-        string BarDropdownMenuRight();
+        string BarDropdownMenuRight( BarMode mode );
 
-        string BarVerticalCollapsed( BarVisibleMode barVisibleMode );
+        string BarCollapsed( BarMode mode, BarVisibleMode barVisibleMode );
 
         #endregion
 

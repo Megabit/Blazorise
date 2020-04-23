@@ -486,55 +486,55 @@ namespace Blazorise.Bulma
 
         public override string BarMode( BarMode mode ) => $"navbar-{ToBarMode( mode )}";
 
-        public override string BarItem() => "navbar-item";
+        public override string BarItem( BarMode mode ) => "navbar-item";
 
-        public override string BarItemActive() => Active();
+        public override string BarItemActive( BarMode mode ) => Active();
 
-        public override string BarItemDisabled() => Disabled();
+        public override string BarItemDisabled( BarMode mode ) => Disabled();
 
-        public override string BarItemHasDropdown() => "has-dropdown";
+        public override string BarItemHasDropdown( BarMode mode ) => "has-dropdown";
 
-        public override string BarItemHasDropdownShow() => Active();
+        public override string BarItemHasDropdownShow( BarMode mode ) => Active();
 
-        public override string BarLink() => "navbar-item";
+        public override string BarLink( BarMode mode ) => "navbar-item";
 
-        public override string BarLinkDisabled() => Disabled();
+        public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
         //public override string BarCollapse() => "navbar-menu";
 
-        public override string BarBrand() => "navbar-brand";
+        public override string BarBrand( BarMode mode ) => "navbar-brand";
 
-        public override string BarToggler() => "navbar-burger";
+        public override string BarToggler( BarMode mode ) => "navbar-burger";
 
-        public override string BarTogglerCollapsed( bool isShow ) => isShow ? Active() : null;
+        public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => isShow ? Active() : null;
 
-        public override string BarMenu() => "navbar-menu";
+        public override string BarMenu( BarMode mode ) => "navbar-menu";
 
-        public override string BarMenuShow() => Active();
+        public override string BarMenuShow( BarMode mode ) => Active();
 
-        public override string BarStart() => "navbar-start";
+        public override string BarStart( BarMode mode ) => "navbar-start";
 
-        public override string BarEnd() => "navbar-end";
+        public override string BarEnd( BarMode mode ) => "navbar-end";
 
         //public override string BarHasDropdown() => "has-dropdown";
 
-        public override string BarDropdown() => null;
+        public override string BarDropdown( BarMode mode ) => null;
 
-        public override string BarDropdownShow() => null;
+        public override string BarDropdownShow( BarMode mode ) => null;
 
-        public override string BarDropdownToggle() => "navbar-link";
+        public override string BarDropdownToggle( BarMode mode ) => "navbar-link";
 
-        public override string BarDropdownItem() => "navbar-item";
+        public override string BarDropdownItem( BarMode mode ) => "navbar-item";
 
-        public override string BarTogglerIcon() => null;
+        public override string BarTogglerIcon( BarMode mode ) => null;
 
-        public override string BarDropdownMenu() => "navbar-dropdown";
+        public override string BarDropdownMenu( BarMode mode ) => "navbar-dropdown";
 
-        public override string BarDropdownMenuVisible( bool visible ) => visible ? Show() : null;
+        public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
-        public override string BarDropdownMenuRight() => "is-right";
+        public override string BarDropdownMenuRight( BarMode mode ) => "is-right";
 
-        public override string BarVerticalCollapsed( BarVisibleMode barVisibleMode ) => null;
+        public override string BarCollapsed( BarMode mode, BarVisibleMode barVisibleMode ) => null;
 
         #endregion
 

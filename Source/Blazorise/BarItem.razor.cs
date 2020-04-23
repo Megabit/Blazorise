@@ -24,11 +24,11 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarItem() );
-            builder.Append( ClassProvider.BarItemActive(), Active );
-            builder.Append( ClassProvider.BarItemDisabled(), Disabled );
-            builder.Append( ClassProvider.BarItemHasDropdown(), HasDropdown );
-            builder.Append( ClassProvider.BarItemHasDropdownShow(), HasDropdown && barDropdown?.Visible == true );
+            builder.Append( ClassProvider.BarItem( Mode ) );
+            builder.Append( ClassProvider.BarItemActive( Mode ), Active );
+            builder.Append( ClassProvider.BarItemDisabled( Mode ), Disabled );
+            builder.Append( ClassProvider.BarItemHasDropdown( Mode ), HasDropdown );
+            builder.Append( ClassProvider.BarItemHasDropdownShow( Mode ), HasDropdown && barDropdown?.Visible == true );
 
             base.BuildClasses( builder );
         }
@@ -81,6 +81,8 @@ namespace Blazorise
         /// Icon name.
         /// </summary>
         [Parameter] public object IconName { get; set; }
+
+        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

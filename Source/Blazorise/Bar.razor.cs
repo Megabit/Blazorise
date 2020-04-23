@@ -47,7 +47,7 @@ namespace Blazorise
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
-            builder.Append( ClassProvider.BarVerticalCollapsed( VisibleMode ), !Visible && Mode != BarMode.Horizontal );
+            builder.Append( ClassProvider.BarCollapsed( Mode, VisibleMode ), !Visible );
             builder.Append( ClassProvider.BarMode( Mode ) );
 
             base.BuildClasses( builder );

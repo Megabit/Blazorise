@@ -18,7 +18,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarStart() );
+            builder.Append( ClassProvider.BarStart( Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -26,6 +26,8 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

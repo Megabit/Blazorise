@@ -20,8 +20,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarLink() );
-            builder.Append( ClassProvider.BarLinkDisabled(), Disabled );
+            builder.Append( ClassProvider.BarLink( Mode ) );
+            builder.Append( ClassProvider.BarLinkDisabled( Mode ), Disabled );
 
             base.BuildClasses( builder );
         }
@@ -64,6 +64,8 @@ namespace Blazorise
         [CascadingParameter] protected BarItem ParentBarItem { get; set; }
 
         [CascadingParameter( Name = "IconName" )] protected object IconName { get; set; }
+
+        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

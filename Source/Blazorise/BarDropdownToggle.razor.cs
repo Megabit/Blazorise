@@ -44,7 +44,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownToggle() );
+            builder.Append( ClassProvider.BarDropdownToggle( Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -129,6 +129,8 @@ namespace Blazorise
         [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
         [CascadingParameter( Name = "IconName" )] protected object IconName { get; set; }
+
+        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

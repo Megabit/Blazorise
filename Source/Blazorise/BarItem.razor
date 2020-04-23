@@ -1,11 +1,13 @@
 ﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
+@if (!HasCustomRegistration)
 {
     <CascadingValue Value=this>
-        <CascadingValue Value="@IconName" Name="IconName">
-            <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                @ChildContent
-            </div>
+        <CascadingValue Value="@Mode" Name="Mode">
+            <CascadingValue Value="@IconName" Name="IconName">
+                <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                    @ChildContent
+                </div>
+            </CascadingValue>
         </CascadingValue>
     </CascadingValue>
 }

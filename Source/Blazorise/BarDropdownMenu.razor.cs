@@ -22,9 +22,9 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownMenu() );
-            builder.Append( ClassProvider.BarDropdownMenuVisible( Visible ) );
-            builder.Append( ClassProvider.BarDropdownMenuRight(), RightAligned );
+            builder.Append( ClassProvider.BarDropdownMenu( Mode ) );
+            builder.Append( ClassProvider.BarDropdownMenuVisible( Mode, Visible ) );
+            builder.Append( ClassProvider.BarDropdownMenuRight( Mode ), RightAligned );
 
             base.BuildClasses( builder );
         }
@@ -94,6 +94,8 @@ namespace Blazorise
         }
 
         [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
+
+        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

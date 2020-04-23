@@ -471,55 +471,55 @@ namespace Blazorise.Frolic
 
         public override string BarMode( BarMode mode ) => $"navbar-{ToBarMode( mode )}";
 
-        public override string BarItem() => null;
+        public override string BarItem( BarMode mode ) => null;
 
-        public override string BarItemActive() => null;
+        public override string BarItemActive( BarMode mode ) => null;
 
-        public override string BarItemDisabled() => Disabled();
+        public override string BarItemDisabled( BarMode mode ) => Disabled();
 
-        public override string BarItemHasDropdown() => "dropdown";
+        public override string BarItemHasDropdown( BarMode mode ) => "dropdown";
 
-        public override string BarItemHasDropdownShow() => Show();
+        public override string BarItemHasDropdownShow( BarMode mode ) => Show();
 
-        public override string BarLink() => "e-menu-item";
+        public override string BarLink( BarMode mode ) => "e-menu-item";
 
-        public override string BarLinkDisabled() => Disabled();
+        public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
         //public override string BarCollapse() => "navbar-collapse";
 
-        public override string BarBrand() => "navbar-brand";
+        public override string BarBrand( BarMode mode ) => "navbar-brand";
 
-        public override string BarToggler() => "e-btn no-shadow no-desktop";
+        public override string BarToggler( BarMode mode ) => "e-btn no-shadow no-desktop";
 
-        public override string BarTogglerCollapsed( bool isShow ) => isShow ? Show() : null;
+        public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => isShow ? Show() : null;
 
-        public override string BarMenu() => "e-menu";
+        public override string BarMenu( BarMode mode ) => "e-menu";
 
-        public override string BarMenuShow() => Show();
+        public override string BarMenuShow( BarMode mode ) => Show();
 
-        public override string BarStart() => "e-distribution";
+        public override string BarStart( BarMode mode ) => "e-distribution";
 
-        public override string BarEnd() => "e-distribution";
+        public override string BarEnd( BarMode mode ) => "e-distribution";
 
         //public override string BarHasDropdown() => "dropdown";
 
-        public override string BarDropdown() => "e-dropdown";
+        public override string BarDropdown( BarMode mode ) => "e-dropdown";
 
-        public override string BarDropdownShow() => null;
+        public override string BarDropdownShow( BarMode mode ) => null;
 
-        public override string BarDropdownToggle() => null;
+        public override string BarDropdownToggle( BarMode mode ) => null;
 
-        public override string BarDropdownItem() => "drop-item";
+        public override string BarDropdownItem( BarMode mode ) => "drop-item";
 
-        public override string BarTogglerIcon() => "navbar-toggler-icon";
+        public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
 
-        public override string BarDropdownMenu() => "drop-items";
+        public override string BarDropdownMenu( BarMode mode ) => "drop-items";
 
-        public override string BarDropdownMenuVisible( bool visible ) => visible ? Show() : null;
+        public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
-        public override string BarDropdownMenuRight() => "drop-items-right";
+        public override string BarDropdownMenuRight( BarMode mode ) => "drop-items-right";
 
-        public override string BarVerticalCollapsed( BarVisibleMode barVisibleMode ) => null;
+        public override string BarCollapsed( BarMode mode, BarVisibleMode barVisibleMode ) => null;
 
         #endregion
 
