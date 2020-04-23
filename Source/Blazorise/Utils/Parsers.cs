@@ -64,9 +64,15 @@ namespace Blazorise.Utils
                 return true;
             }
 
-            if ( type == typeof( DateTimeOffset ) && DateTimeOffset.TryParse( value, out var dto ) )
+            if ( type == typeof( DateTime ) && DateTimeOffset.TryParse( value, out var dto ) )
             {
-                result = (TValue)(object)dto;
+                result = (TValue)(object)dto.DateTime;
+                return true;
+            }
+
+            if ( type == typeof( DateTimeOffset ) && DateTimeOffset.TryParse( value, out var dto2 ) )
+            {
+                result = (TValue)(object)dto2;
                 return true;
             }
 
