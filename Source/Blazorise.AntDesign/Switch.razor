@@ -5,10 +5,12 @@
     <div class="ant-click-animating-node"></div>
 </button>
 @code {
-    Task HandleButtonClick()
+    async Task HandleButtonClick()
     {
-        return CurrentValueHandler( CurrentValueAsString == bool.FalseString
+        await CurrentValueHandler( CurrentValueAsString == bool.FalseString
             ? bool.TrueString
             : bool.FalseString );
+
+        DirtyClasses();
     }
 }
