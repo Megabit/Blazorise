@@ -89,7 +89,9 @@
     }
 
     .b-bar-item {
+        display: block;
         margin: auto;
+        padding: 0;
     }
 
     .b-bar-start {
@@ -105,6 +107,7 @@
     }
 
     .b-bar-link {
+        width: 100%;
         white-space: nowrap;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -143,7 +146,7 @@
     /* 
         Theming
     */
-    &.navbar-dark {
+    &.b-bar-dark {
         /*background: var(--b-sidebar-background);*/
         /*color: var(--b-sidebar-color);*/
         background: #001529;
@@ -196,7 +199,7 @@
         }
     }
 
-    &.navbar-light {
+    &.b-bar-light {
         /*background: var(--b-sidebar-background);*/
         /*color: var(--b-sidebar-color);*/
         background: #fff;
@@ -254,6 +257,7 @@
         position: relative !important;
         border: none;
         border-radius: 0;
+        box-shadow: none;
 
         .b-bar-dropdown-item {
             padding: .5rem 3rem !important;

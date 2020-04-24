@@ -477,7 +477,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 
-        public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )}";
+        public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
 
