@@ -1,11 +1,13 @@
 ﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        <CascadingValue Value="@Visible" Name="Collapse">
-            @ChildContent
-        </CascadingValue>
-    </div>
+    <CascadingValue Value=this>
+        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <CascadingValue Value="@Visible" Name="CollapseVisible">
+                @ChildContent
+            </CascadingValue>
+        </div>
+    </CascadingValue>
 }
 else
 {
