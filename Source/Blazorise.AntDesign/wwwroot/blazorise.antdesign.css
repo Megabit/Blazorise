@@ -260,6 +260,9 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0; }
 
+.ant-dropdown-group.ant-dropdown-button.b-is-autocomplete {
+    width: 100%; }
+
 .ant-list.ant-list-bordered.ant-list-flush {
     border-right: 0;
     border-left: 0; }
