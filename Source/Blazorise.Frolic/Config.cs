@@ -46,6 +46,8 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.DropdownToggle, Frolic.DropdownToggle>();
             componentMapper.Register<Blazorise.Field, Frolic.Field>();
             componentMapper.Register<Blazorise.Heading, Frolic.Heading>();
+            componentMapper.Register<Blazorise.Jumbotron, Frolic.Jumbotron>();
+            componentMapper.Register<Blazorise.JumbotronSubtitle, Frolic.JumbotronSubtitle>();
             componentMapper.Register<Blazorise.Pagination, Frolic.Pagination>();
             componentMapper.Register<Blazorise.ProgressBar, Frolic.ProgressBar>();
             componentMapper.Register<Blazorise.Progress, Frolic.Progress>();

@@ -608,6 +608,13 @@ namespace Blazorise
             return System.Drawing.Color.FromArgb( color.A, (int)red, (int)green, (int)blue );
         }
 
+        protected static System.Drawing.Color Contrast( string hexColor )
+        {
+            var color = ParseColor( hexColor );
+
+            return Contrast( color );
+        }
+
         protected static System.Drawing.Color Contrast( System.Drawing.Color color )
         {
             int d = 0;

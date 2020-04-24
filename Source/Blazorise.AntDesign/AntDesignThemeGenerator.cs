@@ -15,6 +15,11 @@ namespace Blazorise.AntDesign
             sb.Append( $".bg-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
+
+            sb.Append( $".ant-hero-{variant}" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .Append( $"color: {ToHex( Contrast( Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )

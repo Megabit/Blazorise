@@ -410,6 +410,18 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Jumbotron
+
+        public override string Jumbotron() => "ant-hero";
+
+        public override string JumbotronBackground( Background background ) => $"ant-hero-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"ant-display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "ant-hero-subtitle";
+
+        #endregion
+
         #region Card
 
         public override string CardGroup() => "ant-card-group";

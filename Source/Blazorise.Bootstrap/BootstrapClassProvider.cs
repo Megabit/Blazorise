@@ -413,6 +413,18 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Jumbotron
+
+        public override string Jumbotron() => "jumbotron";
+
+        public override string JumbotronBackground( Background background ) => $"jumbotron-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "lead";
+
+        #endregion
+
         #region Card
 
         public override string CardGroup() => "card-group";

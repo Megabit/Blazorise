@@ -340,6 +340,18 @@ namespace Blazorise
 
         #endregion
 
+        #region Jumbotron
+
+        public abstract string Jumbotron();
+
+        public abstract string JumbotronBackground( Background background );
+
+        public abstract string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize );
+
+        public abstract string JumbotronSubtitle();
+
+        #endregion
+
         #region Card
 
         public abstract string CardGroup();
@@ -1269,6 +1281,23 @@ namespace Blazorise
                 case Blazorise.DisplayHeadingSize.Is3:
                     return "3";
                 case Blazorise.DisplayHeadingSize.Is4:
+                    return "4";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize )
+        {
+            switch ( jumbotronTitleSize )
+            {
+                case Blazorise.JumbotronTitleSize.Is1:
+                    return "1";
+                case Blazorise.JumbotronTitleSize.Is2:
+                    return "2";
+                case Blazorise.JumbotronTitleSize.Is3:
+                    return "3";
+                case Blazorise.JumbotronTitleSize.Is4:
                     return "4";
                 default:
                     return null;

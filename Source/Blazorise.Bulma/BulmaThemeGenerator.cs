@@ -15,6 +15,11 @@ namespace Blazorise.Bulma
             sb.Append( $".has-background-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
+
+            sb.Append( $".hero-{variant}" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .Append( $"color: {ToHex( Contrast( Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )

@@ -401,6 +401,18 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Jumbotron
+
+        public override string Jumbotron() => "e-face";
+
+        public override string JumbotronBackground( Background background ) => $"e-face-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"e-title size-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "e-face-subtitle";
+
+        #endregion
+
         #region Card
 
         public override string CardGroup() => "e-cards unified";

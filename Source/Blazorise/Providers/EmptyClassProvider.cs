@@ -343,6 +343,18 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Jumbotron
+
+        public string Jumbotron() => null;
+
+        public string JumbotronBackground( Background background ) => null;
+
+        public string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => null;
+
+        public string JumbotronSubtitle() => null;
+
+        #endregion
+
         #region Card
 
         public string CardGroup() => null;
@@ -880,6 +892,8 @@ namespace Blazorise.Providers
         public string ToHeadingSize( HeadingSize headingSize ) => null;
 
         public string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
+
+        public string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize ) => null;
 
         public string ToPlacement( Placement placement ) => null;
 

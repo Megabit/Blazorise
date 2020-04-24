@@ -339,6 +339,18 @@ namespace Blazorise
 
         #endregion
 
+        #region Jumbotron
+
+        string Jumbotron();
+
+        string JumbotronBackground( Background background );
+
+        string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize );
+
+        string JumbotronSubtitle();
+
+        #endregion
+
         #region Card
 
         string CardGroup();
@@ -875,6 +887,8 @@ namespace Blazorise
         string ToHeadingSize( HeadingSize headingSize );
 
         string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
+
+        string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize );
 
         string ToPlacement( Placement placement );
 

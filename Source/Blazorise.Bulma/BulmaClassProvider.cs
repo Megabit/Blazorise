@@ -416,6 +416,18 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Jumbotron
+
+        public override string Jumbotron() => "hero";
+
+        public override string JumbotronBackground( Background background ) => $"hero-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"title is-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "subtitle";
+
+        #endregion
+
         #region Card
 
         public override string CardGroup() => "card-group";
@@ -700,7 +712,7 @@ namespace Blazorise.Bulma
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"{ToBackground( color )}";
+        public override string BackgroundColor( Background color ) => $"has-background-{ToBackground( color )}";
 
         #endregion
 
@@ -952,23 +964,23 @@ namespace Blazorise.Bulma
             switch ( color )
             {
                 case Blazorise.Background.Primary:
-                    return "has-background-primary";
+                    return "primary";
                 case Blazorise.Background.Secondary:
-                    return "has-background-light";
+                    return "light";
                 case Blazorise.Background.Success:
-                    return "has-background-success";
+                    return "success";
                 case Blazorise.Background.Danger:
-                    return "has-background-danger";
+                    return "danger";
                 case Blazorise.Background.Warning:
-                    return "has-background-warning";
+                    return "warning";
                 case Blazorise.Background.Info:
-                    return "has-background-info";
+                    return "info";
                 case Blazorise.Background.Light:
-                    return "has-background-light";
+                    return "light";
                 case Blazorise.Background.Dark:
-                    return "has-background-dark";
+                    return "dark";
                 case Blazorise.Background.White:
-                    return "has-background-white";
+                    return "white";
                 case Blazorise.Background.Transparent:
                     return "transparent";
                 default:
