@@ -18,6 +18,12 @@ namespace Blazorise
 
         #region Methods
 
+        public void Toggle()
+        {
+            Visible = !Visible;
+            StateHasChanged();
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Collapse() );
