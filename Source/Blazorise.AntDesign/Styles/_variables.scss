@@ -1,4 +1,27 @@
-﻿$mobile: 576px;
+﻿$white: #fff !default;
+$black: #000 !default;
+
+$text-light: #fff !default;
+$text-dark: #212529 !default;
+
+$yiq-text-light: $text-light !default;
+$yiq-text-dark: $text-dark !default;
+
+// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+$yiq-contrasted-threshold: 150 !default;
+
+$primary: #1890ff !default;
+$secondary: #6c757d !default;
+$success: #28a745 !default;
+$info: #17a2b8 !default;
+$warning: #ffc107 !default;
+$danger: #ff4d4f !default;
+$light: #f8f9fa !default;
+$dark: #343a40 !default;
+
+$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark);
+
+$mobile: 576px;
 $tablet: 768px;
 $desktop: 992px;
 $widescreen: 1200px;

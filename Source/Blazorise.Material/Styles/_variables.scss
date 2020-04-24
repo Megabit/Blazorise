@@ -10,15 +10,13 @@ $yiq-text-dark: $text-dark !default;
 // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
 $yiq-contrasted-threshold: 150 !default;
 
-$primary: #007bff !default;
-$secondary: #6c757d !default;
-$success: #28a745 !default;
-$info: #17a2b8 !default;
-$warning: #ffc107 !default;
-$danger: #dc3545 !default;
-$light: #f8f9fa !default;
-$dark: #343a40 !default;
+$primary: #9c27b0 !default;
+$secondary: #ff4081 !default;
+$success: #4caf50 !default;
+$info: #2196f3 !default;
+$warning: #ff9800 !default;
+$danger: #f44336 !default;
+$light: #f5f5f5 !default;
+$dark: #424242 !default;
 
 $theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark);
-
-$figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
