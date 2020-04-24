@@ -30,6 +30,10 @@
         transition: width .2s ease-in-out, min-width .2s ease-in-out;
 
         .b-bar-dropdown {
+            &:before {
+                display: none;
+            }
+
             &:hover {
                 .b-bar-dropdown-menu {
                     visibility: visible;
@@ -39,15 +43,18 @@
         }
 
         .b-bar-dropdown-menu {
-            display: block;
+            display: block !important;
             visibility: hidden;
             position: absolute !important;
             left: var(--b-sidebar-small-width, 64px);
             margin-left: 5px;
-            top: -5px;
+            margin-top: -40px;
             z-index: 100;
             box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
             transition: visibility 0s linear .1s;
+            border-radius: 3px;
+            min-width: 180px;
+            max-width: 180px;
 
             .b-bar-dropdown-item {
                 padding: .5rem 1.5rem !important;
@@ -89,9 +96,7 @@
     }
 
     .b-bar-item {
-        display: block;
         margin: auto;
-        padding: 0;
     }
 
     .b-bar-start {
@@ -107,40 +112,71 @@
     }
 
     .b-bar-link {
+        display: block;
         width: 100%;
-        white-space: nowrap;
-        padding-top: 10px;
-        padding-bottom: 10px;
         padding-left: 1.5rem !important;
+        text-decoration: none;
+        padding: .5rem;
+        cursor: pointer;
+        white-space: nowrap;
 
         i {
             margin-right: 0.3rem;
         }
-
-        &:after {
-            float: right;
-        }
     }
 
-    .b-bar-dropdown-menu {
-        background: inherit;
-        color: inherit;
-        float: none;
-
-        .b-bar-dropdown-item {
+    .b-bar-dropdown {
+        &:before {
+            content: " ";
+            border: solid;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 2px;
+            -webkit-transform: rotate(-135deg);
+            transform: rotate(-135deg);
+            top: 1.2rem;
+            right: 1.25rem;
+            transition: all .2s ease-out;
+            float: right;
             position: relative;
-            color: inherit;
-            transition: background .1s ease-in-out,color .1s ease-in-out;
-            text-decoration: none;
+        }
 
-            i {
-                margin-right: 0.3rem;
+        &:not(.show):before {
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+            top: 1rem;
+        }
+
+        &.show {
+            .b-bar-dropdown-menu {
+                display: block !important;
             }
         }
 
-        &:before {
+        .b-bar-dropdown-menu {
+            display: none;
             background: inherit;
-            box-shadow: none;
+            color: inherit;
+            float: none;
+            padding: 5px 0px;
+
+            .b-bar-dropdown-item {
+                position: relative;
+                color: inherit;
+                transition: background .1s ease-in-out,color .1s ease-in-out;
+                text-decoration: none;
+                display: block;
+                width: 100%;
+
+                i {
+                    margin-right: 0.3rem;
+                }
+            }
+
+            &:before {
+                background: inherit;
+                box-shadow: none;
+            }
         }
     }
     /* 
