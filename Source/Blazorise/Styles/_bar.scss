@@ -39,6 +39,7 @@
         }
 
         .b-bar-dropdown-menu {
+            display: block;
             visibility: hidden;
             position: absolute !important;
             left: var(--b-sidebar-small-width, 64px);
@@ -82,9 +83,13 @@
 
     .b-bar-brand {
         width: 100%;
-        display: inline-block;
+        display: flex;
         margin: 0;
         height: var(--b-sidebar-brand-height, 64px);
+    }
+
+    .b-bar-item {
+        margin: auto;
     }
 
     .b-bar-start {
@@ -108,6 +113,10 @@
         i {
             margin-right: 0.3rem;
         }
+
+        &:after {
+            float: right;
+        }
     }
 
     .b-bar-dropdown-menu {
@@ -124,6 +133,11 @@
             i {
                 margin-right: 0.3rem;
             }
+        }
+
+        &:before {
+            background: inherit;
+            box-shadow: none;
         }
     }
     /* 

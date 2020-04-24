@@ -483,7 +483,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
 
-        public override string BarItem( BarMode mode ) => "nav-item";
+        public override string BarItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-item" : "nav-item b-bar-item";
 
         public override string BarItemActive( BarMode mode ) => Active();
 
