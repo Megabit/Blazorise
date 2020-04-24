@@ -586,13 +586,16 @@ namespace Blazorise.AntDesign
 
         public override string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var sb = new StringBuilder();
-            sb.Append( Col() );
+            var sb = new StringBuilder( Col() );
+
             if ( breakpoint != Blazorise.Breakpoint.None )
                 sb.Append( $"-{ToBreakpoint( breakpoint )}" );
+
             if ( offset )
                 sb.Append( "-offset" );
+
             sb.Append( $"-{ToColumnWidth( columnWidth )}" );
+
             return sb.ToString();
         }
 
