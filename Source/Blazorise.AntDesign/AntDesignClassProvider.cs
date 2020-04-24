@@ -560,7 +560,7 @@ namespace Blazorise.AntDesign
 
         public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var sb = new StringBuilder( Col() );
+            var sb = new StringBuilder( Column() );
 
             if ( breakpoint != Blazorise.Breakpoint.None )
                 sb.Append( $"-{ToBreakpoint( breakpoint )}" );
