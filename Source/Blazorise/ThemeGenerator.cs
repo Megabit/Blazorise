@@ -613,9 +613,10 @@ namespace Blazorise
             int d = 0;
 
             // Counting the perceptive luminance - human eye favors green color... 
-            double luminance = ( 0.299 * color.R + 0.587 * color.G + 0.114 * color.B ) / 255;
+            double luminance = ( 299 * color.R + 587 * color.G + 114 * color.B ) / 1000d;
 
-            if ( luminance > 0.5 )
+            // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+            if ( luminance > 150 )
                 d = 0; // bright colors - black font
             else
                 d = 255; // dark colors - white font
