@@ -263,6 +263,10 @@ namespace Blazorise
         public string ImageTopRadius { get; set; } = "calc(.25rem - 1px)";
     }
 
+    public class ThemeJumbotronOptions : BasicOptions
+    {
+    }
+
     public class ThemeModalOptions : BasicOptions
     {
     }

@@ -106,6 +106,9 @@
 .e-is-flex-column-reverse {
     flex-direction: column-reverse !important; }
 
+.e-alert {
+    margin-bottom: 1rem; }
+
 .collapse:not(.show) {
     display: none; }
 
@@ -200,8 +203,41 @@ select.e-select {
 .e-form-group > .e-label-pointer > .e-check-pointer {
     cursor: pointer; }
 
-.b-body-layout {
-    overflow-x: hidden; }
+.e-face-subtitle {
+    font-size: 1.25rem;
+    font-weight: 300; }
+
+.e-face.e-face-primary {
+    background-color: #1da1f2;
+    color: #fff; }
+
+.e-face.e-face-secondary {
+    background-color: #6c757d;
+    color: #fff; }
+
+.e-face.e-face-success {
+    background-color: #4fd69c;
+    color: #212529; }
+
+.e-face.e-face-info {
+    background-color: #54c7ec;
+    color: #212529; }
+
+.e-face.e-face-warning {
+    background-color: #ffdd57;
+    color: #212529; }
+
+.e-face.e-face-danger {
+    background-color: #f64669;
+    color: #fff; }
+
+.e-face.e-face-light {
+    background-color: #f5f5f5;
+    color: #212529; }
+
+.e-face.e-face-dark {
+    background-color: #343a40;
+    color: #fff; }
 
 .e-table.borderless td, .e-table.borderless th, .e-table.borderless tr {
     border: 0 !important; }
