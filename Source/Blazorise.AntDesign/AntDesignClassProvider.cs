@@ -586,20 +586,17 @@ namespace Blazorise.AntDesign
 
         public override string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var baseClass = offset ? "offset" : Col();
+            var sb = new StringBuilder( Col() );
 
             if ( breakpoint != Blazorise.Breakpoint.None )
-            {
-                if ( columnWidth == Blazorise.ColumnWidth.None )
-                    return $"{baseClass}-{ToBreakpoint( breakpoint )}";
+                sb.Append( $"-{ToBreakpoint( breakpoint )}" );
 
-                return $"{baseClass}-{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
-            }
+            if ( offset )
+                sb.Append( "-offset" );
 
-            //if ( columnWidth == Blazorise.ColumnWidth.Auto )
-            //    return $"{baseClass}";
+            sb.Append( $"-{ToColumnWidth( columnWidth )}" );
 
-            return $"{baseClass}-{ToColumnWidth( columnWidth )}";
+            return sb.ToString();
         }
 
         public override string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
