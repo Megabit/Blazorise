@@ -89,7 +89,8 @@ namespace Blazorise.Bulma
         {
             var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
             var yiqColor = Var( ThemeVariables.OutlineButtonYiqColor( variant ) );
-            //var boxShadow = Var( ThemeVariables.OutlineButtonBoxShadowColor( variant ) );
+            //var hoverColor = Var( ThemeVariables.OutlineButtonHoverColor( variant ) );
+            //var activeColor = Var( ThemeVariables.OutlineButtonActiveColor( variant ) );
 
             sb.Append( $".button.is-{variant}.is-outlined" ).Append( "{" )
                 .Append( $"color: {color};" )
@@ -103,7 +104,7 @@ namespace Blazorise.Bulma
                 .Append( $".button.is-{variant}.is-outlined:focus," )
                 .Append( $".button.is-{variant}.is-outlined.is-focused" ).Append( "{" )
                 .Append( $"color: {yiqColor};" )
-                .Append( $"background-color: white;" )
+                .Append( $"background-color: {color};" )
                 .Append( $"border-color: {color};" )
                 .AppendLine( "}" );
 

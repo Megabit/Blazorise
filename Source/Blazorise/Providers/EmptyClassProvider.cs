@@ -37,6 +37,8 @@ namespace Blazorise.Providers
 
         public string Select() => null;
 
+        public string SelectMultiple() => null;
+
         public string SelectSize( Size size ) => null;
 
         public string SelectValidation( ValidationStatus validationStatus ) => null;

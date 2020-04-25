@@ -34,6 +34,8 @@ namespace Blazorise.Bulma
 
         public override string Select() => "select is-fullwidth";
 
+        public override string SelectMultiple() => "is-multiple";
+
         public override string SelectSize( Size size ) => $"{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );

@@ -3,6 +3,9 @@ $black: #000 !default;
 
 $text-light: #fff !default;
 $text-dark: #212529 !default;
+$text-muted: #6c757d !default;
+
+$body-color: #212529 !default;
 
 $yiq-text-light: $text-light !default;
 $yiq-text-dark: $text-dark !default;
@@ -12,14 +15,37 @@ $yiq-contrasted-threshold: 150 !default;
 
 $primary: #1890ff !default;
 $secondary: #6c757d !default;
-$success: #28a745 !default;
-$info: #17a2b8 !default;
-$warning: #ffc107 !default;
+$success: #35c613 !default;
+$info: #60b6f4 !default;
+$warning: #f7c12a !default;
 $danger: #ff4d4f !default;
-$light: #f8f9fa !default;
+$light: #fafafa !default;
 $dark: #343a40 !default;
 
-$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark);
+$theme-colors: () !default;
+$theme-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark), $theme-colors);
+
+// Set a specific jump point for requesting color jumps
+$theme-color-interval: 8% !default;
+
+// Buttons
+$button-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark), ("link": #007bff));
+$unsuported-button-colors: map-merge(( "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "light": $light, "dark": $dark), ("link": #007bff));
+
+$button-hover-lighten: 15%;
+$button-active-darken: 15%;
+
+// Alerts
+
+$alert-color-level: 6 !default;
+$alert-background-level: -10 !default;
+$alert-border-level: -9 !default;
+
+// Tables
+
+$table-background-level: -9 !default;
+$table-border-level: -6 !default;
+
 
 $mobile: 576px;
 $tablet: 768px;

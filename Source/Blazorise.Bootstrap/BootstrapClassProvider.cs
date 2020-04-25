@@ -34,6 +34,8 @@ namespace Blazorise.Bootstrap
 
         public override string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
 
+        public override string SelectMultiple() => null;
+
         public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );

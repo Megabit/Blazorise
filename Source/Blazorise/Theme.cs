@@ -221,13 +221,13 @@ namespace Blazorise
 
         public byte BoxShadowTransparency { get; set; } = 127;
 
-        public float HoverDarkenColor { get; set; } = 7.5f;
+        public float HoverDarkenColor { get; set; } = 15f;
 
-        public float HoverLightenColor { get; set; } = 10f;
+        public float HoverLightenColor { get; set; } = 20f;
 
-        public float ActiveDarkenColor { get; set; } = 10f;
+        public float ActiveDarkenColor { get; set; } = 20f;
 
-        public float ActiveLightenColor { get; set; } = 12.5f;
+        public float ActiveLightenColor { get; set; } = 25f;
 
         public string LargeBorderRadius { get; set; } = ".3rem";
 
@@ -596,6 +596,8 @@ namespace Blazorise
         public static string OutlineButtonColor( string variant ) => $"--b-outline-button-{variant}-color";
         public static string OutlineButtonYiqColor( string variant ) => $"--b-outline-button-{variant}-yiq-shadow";
         public static string OutlineButtonBoxShadowColor( string variant ) => $"--b-outline-button-{variant}-box-shadow";
+        public static string OutlineButtonHoverColor( string variant ) => $"--b-outline-button-{variant}-hover-color";
+        public static string OutlineButtonActiveColor( string variant ) => $"--b-outline-button-{variant}-active-color";
 
         public const string SidebarWidth = "--b-sidebar-width";
         public const string SidebarBackground = "--b-sidebar-background";
