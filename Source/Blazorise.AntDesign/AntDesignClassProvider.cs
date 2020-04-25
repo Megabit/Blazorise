@@ -154,7 +154,7 @@ namespace Blazorise.AntDesign
 
         #region Fields
 
-        public override string Fields() => "ant-row";
+        public override string Fields() => "ant-row ant-form-row";
 
         public override string FieldsBody() => null;
 
