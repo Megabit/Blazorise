@@ -1,5 +1,12 @@
-﻿.ant-col {
+﻿.ant-row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.ant-col {
     flex-grow: 1;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .ant-col.ant-form-item {
