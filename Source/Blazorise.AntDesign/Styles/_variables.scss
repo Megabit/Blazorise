@@ -12,6 +12,7 @@ $spacers: map-merge( ( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 
 $grid-gutter-width: 30px !default;
 
 $card-group-margin: $grid-gutter-width / 2 !default;
+$form-grid-gutter-width: 10px !default;
 
 // Typography
 
