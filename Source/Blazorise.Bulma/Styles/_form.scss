@@ -33,3 +33,9 @@ label.radio.button {
         }
     }
 }
+
+.field-body {
+    .slider[type="range"] {
+        width: 100%;
+    }
+}

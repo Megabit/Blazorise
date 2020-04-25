@@ -1488,6 +1488,9 @@ label.radio.button {
 .field-body .switch[type="checkbox"] + label {
     margin-top: .375em; }
 
+.field-body .slider[type="range"] {
+    width: 100%; }
+
 .hero.hero-primary {
     background-color: #00d1b2;
     color: #fff; }
@@ -1519,6 +1522,9 @@ label.radio.button {
 .hero.hero-dark {
     background-color: #363636;
     color: #fff; }
+
+.b-layout.b-layout-has-sider .b-layout {
+    overflow-x: initial; }
 
 .list-group {
     display: -ms-flexbox;

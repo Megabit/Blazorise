@@ -126,8 +126,8 @@ namespace Blazorise.AntDesign
         protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
             var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
-            var hoverColor = ToHex( Lighten( color, 40f ) );
-            var activeColor = ToHex( Darken( color, 40f ) );
+            var hoverColor = Var( ThemeVariables.OutlineButtonHoverColor( variant ) );
+            var activeColor = Var( ThemeVariables.OutlineButtonActiveColor( variant ) );
 
             sb.Append( $".ant-btn-outline-{variant}" ).Append( "{" )
                 .Append( $"color: {color} !important;" )

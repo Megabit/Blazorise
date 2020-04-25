@@ -33,6 +33,8 @@ namespace Blazorise
 
         string Select();
 
+        string SelectMultiple();
+
         string SelectSize( Size size );
 
         string SelectValidation( ValidationStatus validationStatus );

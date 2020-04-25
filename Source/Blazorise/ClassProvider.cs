@@ -34,6 +34,8 @@ namespace Blazorise
 
         public abstract string Select();
 
+        public abstract string SelectMultiple();
+
         public abstract string SelectSize( Size size );
 
         public abstract string SelectValidation( ValidationStatus validationStatus );
