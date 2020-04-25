@@ -382,8 +382,7 @@
             .b-bar-vertical-inline.b-bar-dark .b-bar-link.active,
             .b-bar-vertical.b-bar-dark .b-bar-link.active {
                 color: #fff;
-                background: #0288D1;
-                /* TODO: CHANGE THIS TO BE GENERATED */ }
+                /*background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */ }
             .b-bar-vertical-inline.b-bar-dark .b-bar-link:hover,
             .b-bar-vertical.b-bar-dark .b-bar-link:hover {
                 color: #fff;

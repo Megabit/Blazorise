@@ -495,7 +495,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-link" : "b-bar-link";
 
-        public override string BarLinkDisabled( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? Disabled() : null;
+        public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
         public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
 
