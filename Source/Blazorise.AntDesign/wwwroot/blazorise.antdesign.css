@@ -253,6 +253,16 @@
 .b-layout-header .ant-menu {
     line-height: inherit; }
 
+.ant-menu.ant-menu-root.ant-menu-inline {
+    min-width: var(--b-sidebar-width);
+    max-width: var(--b-sidebar-width); }
+    .ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item {
+        padding-left: 24px; }
+    .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
+        padding-left: 24px; }
+    .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item {
+        padding-left: 48px; }
+
 .ant-dropdown-group {
     display: inline-flex;
     white-space: nowrap; }
@@ -365,9 +375,6 @@
 
 .b-layout-header {
     line-height: 64px; }
-
-.b-body-layout {
-    overflow-x: hidden; }
 
 .ant-progress-inner {
     display: inline-flex; }

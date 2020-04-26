@@ -1,2 +1,4 @@
 ﻿@inherits Blazorise.BarStart
-@ChildContent
+<CascadingValue Value="@Mode" Name="Mode">
+    @ChildContent
+</CascadingValue>

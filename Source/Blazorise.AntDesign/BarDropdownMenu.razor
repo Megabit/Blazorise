@@ -1,15 +1,26 @@
 ﻿@inherits Blazorise.BarDropdownMenu
 <CascadingValue Value=this>
-    <div class="@MenuClass">
-        <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
-            @ChildContent
-        </ul>
-    </div>
+    <CascadingValue Value="@Mode" Name="Mode">
+        @if ( Mode == BarMode.Horizontal )
+        {
+            <div class="@HorizontalMenuClass">
+                <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
+                    @ChildContent
+                </ul>
+            </div>
+
+        }
+        else
+        {
+            <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
+                @ChildContent
+            </ul>
+        }
+    </CascadingValue>
 </CascadingValue>
 @code{
-    string MenuClass
+    string HorizontalMenuClass
         => $"ant-menu-submenu ant-menu-submenu-popup ant-menu-light ant-menu-submenu-placement-bottomLeft {( Visible ? "" : "ant-menu-submenu-hidden" )} {( RightAligned ? "ant-menu-sub-right" : "" )}";
-
 
     [CascadingParameter( Name = "SubMenuId" )] string SubMenuId { get; set; }
 }
