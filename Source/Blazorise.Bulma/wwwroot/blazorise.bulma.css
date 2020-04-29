@@ -1570,3 +1570,7 @@ tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
 
 .tabs.is-vertical li > a {
     border: none; }
+
+.b-bar-vertical-inline.b-bar-dark .is-active,
+.b-bar-vertical.b-bar-dark .is-active {
+    color: #fff !important; }
