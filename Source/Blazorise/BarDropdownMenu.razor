@@ -2,7 +2,7 @@
 @if (!HasCustomRegistration)
 {
     <CascadingValue Value=this>
-        <CascadingValue Value="@Mode" Name="Mode">
+        <CascadingValue Value="@Mode" Name="Mode" IsFixed="true">
             <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                 @ChildContent
             </div>

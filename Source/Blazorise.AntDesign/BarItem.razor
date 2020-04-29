@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.BarItem
 <CascadingValue Value=this>
-    <CascadingValue Value="@Mode" Name="Mode">
+    <CascadingValue Value="@Mode" Name="Mode" IsFixed="true">
         <CascadingValue Value="@IconName" Name="IconName">
             @if (HasDropdown && Mode != BarMode.Horizontal)
             {
