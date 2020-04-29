@@ -44,6 +44,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.BarStart, AntDesign.BarStart>();
             componentMapper.Register<Blazorise.BarEnd, AntDesign.BarEnd>();
             componentMapper.Register<Blazorise.BarDropdown, AntDesign.BarDropdown>();
+            componentMapper.Register<Blazorise.BarLink, AntDesign.BarLink>();
             componentMapper.Register<Blazorise.BarDropdownMenu, AntDesign.BarDropdownMenu>();
             componentMapper.Register<Blazorise.BarDropdownItem, AntDesign.BarDropdownItem>();
             componentMapper.Register<Blazorise.BarDropdownToggle, AntDesign.BarDropdownToggle>();

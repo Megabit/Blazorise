@@ -115,6 +115,10 @@
 
     > .ant-menu-item {
         padding-left: 24px;
+
+        a {
+            color: inherit;
+        }
     }
 
     .ant-menu-submenu.ant-menu-submenu-inline {

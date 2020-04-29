@@ -20,7 +20,7 @@
                             </BarLink>
                         </BarItem>
                         <BarItem IconName="IconName.Edit">
-                            <BarDropdown Visible="formsSubItemVisible">
+                            <BarDropdown Toggled="( isOpen ) => uiElementsVisible = isOpen" Visible="@uiElementsVisible">
                                 <BarDropdownToggle>
                                     UI Elements
                                 </BarDropdownToggle>
@@ -278,7 +278,7 @@
 
     Bar sider;
 
-    bool formsSubItemVisible = true;
+    bool uiElementsVisible = true;
 
     //bool collapseNavMenu = true;
 

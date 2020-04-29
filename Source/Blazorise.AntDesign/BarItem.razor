@@ -4,12 +4,17 @@
         <CascadingValue Value="@IconName" Name="IconName">
             @if (HasDropdown && Mode != BarMode.Horizontal)
             {
-
                 @ChildContent
             }
             else
             {
                 <li class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@Disabled.ToString().ToLowerInvariant()" @attributes="@Attributes">
+                    @if (IconName != null)
+                    {
+                        <span class="anticon">
+                            <Icon Name="@IconName" />
+                        </span>
+                    }
                     <span>@ChildContent</span>
                 </li>
             }
