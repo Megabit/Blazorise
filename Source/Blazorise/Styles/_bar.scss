@@ -146,6 +146,8 @@
         padding: .5rem;
         cursor: pointer;
         white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow-x: hidden;
 
         i {
             margin-right: 0.3rem;
@@ -194,6 +196,9 @@
                 text-decoration: none;
                 display: block;
                 width: 100%;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow-x: hidden;
 
                 i {
                     margin-right: 0.3rem;

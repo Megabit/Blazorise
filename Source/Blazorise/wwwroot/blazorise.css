@@ -301,7 +301,9 @@
         text-decoration: none;
         padding: .5rem;
         cursor: pointer;
-        white-space: nowrap; }
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow-x: hidden; }
         .b-bar-vertical-inline .b-bar-link i,
         .b-bar-vertical .b-bar-link i {
             margin-right: 0.3rem; }
@@ -341,7 +343,10 @@
             transition: background .1s ease-in-out,color .1s ease-in-out;
             text-decoration: none;
             display: block;
-            width: 100%; }
+            width: 100%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow-x: hidden; }
             .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu .b-bar-dropdown-item i,
             .b-bar-vertical .b-bar-dropdown .b-bar-dropdown-menu .b-bar-dropdown-item i {
                 margin-right: 0.3rem; }
