@@ -483,7 +483,7 @@ namespace Blazorise.Providers
 
         public string BarDropdownMenuRight( BarMode mode ) => null;
 
-        public string BarCollapsed( BarMode mode, BarCollapseMode barVisibleMode ) => null;
+        public string BarCollapsed( BarMode mode, BarCollapseMode collapseMode ) => null;
 
         #endregion
 
@@ -890,6 +890,10 @@ namespace Blazorise.Providers
         public string ToFigureSize( FigureSize figureSize ) => null;
 
         public string ToCharacterCasing( CharacterCasing characterCasing ) => null;
+
+        public string ToBarMode( BarMode mode ) => null;
+
+        public string ToBarCollapsedMode( BarCollapseMode collapseMode ) => null;
 
         #endregion
 

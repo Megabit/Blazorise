@@ -4,6 +4,87 @@
     --b-sidebar-brand-height: 64px;
 }
 
+@mixin smallBar {
+    width: var(--b-sidebar-small-width, 64px);
+    min-width: var(--b-sidebar-small-width, 64px);
+    transition: width .2s ease-in-out, min-width .2s ease-in-out;
+
+    .b-bar-dropdown {
+        &:before {
+            display: none;
+        }
+
+        &:hover {
+            .b-bar-dropdown-menu {
+                visibility: visible;
+                transition: visibility 0s linear .1s;
+            }
+        }
+    }
+
+    .b-bar-dropdown-menu {
+        display: block !important;
+        visibility: hidden;
+        position: absolute !important;
+        left: var(--b-sidebar-small-width, 64px);
+        margin-left: 5px;
+        margin-top: -40px;
+        z-index: 100;
+        box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
+        transition: visibility 0s linear .1s;
+        border-radius: 3px;
+        min-width: 180px;
+        max-width: 180px;
+
+        .b-bar-dropdown-item {
+            padding: .5rem 1.5rem !important;
+        }
+
+        &:hover {
+            visibility: visible;
+            transition: visibility 0s linear .1s;
+        }
+    }
+
+    .b-bar-link {
+        text-align: center;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+
+        span {
+            display: none;
+        }
+
+        &:after {
+            display: none;
+        }
+    }
+}
+
+@mixin hiddenBar {
+    width: 0px;
+    min-width: 0px;
+    transition: width .2s ease-in-out, min-width .2s ease-in-out, visibility .1s;
+    visibility: hidden;
+}
+
+
+@mixin inlineNotCollapsed {
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .b-bar-dropdown-menu {
+        position: relative !important;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+        .b-bar-dropdown-item {
+            padding: .5rem 3rem !important;
+        }
+    }
+}
+
 .b-bar-vertical-inline,
 .b-bar-vertical {
     display: inline-block !important;
@@ -17,67 +98,13 @@
     box-shadow: 2px 0 6px rgba(0,21,41,.35);
     height: 100vh;
 
-    &.b-bar-collapsed-hide {
-        width: 0px !important;
-        min-width: 0px !important;
-        transition: width .2s ease-in-out, min-width .2s ease-in-out, visibility .1s;
-        visibility: hidden;
-    }
-
-    &.b-bar-collapsed-small {
-        width: var(--b-sidebar-small-width, 64px) !important;
-        min-width: var(--b-sidebar-small-width, 64px) !important;
-        transition: width .2s ease-in-out, min-width .2s ease-in-out;
-
-        .b-bar-dropdown {
-            &:before {
-                display: none;
-            }
-
-            &:hover {
-                .b-bar-dropdown-menu {
-                    visibility: visible;
-                    transition: visibility 0s linear .1s;
-                }
-            }
+    @media only screen and (min-width:768px) {
+        &[data-collapse="hide"].b-bar-collapsed-hide {
+            @include hiddenBar;
         }
 
-        .b-bar-dropdown-menu {
-            display: block !important;
-            visibility: hidden;
-            position: absolute !important;
-            left: var(--b-sidebar-small-width, 64px);
-            margin-left: 5px;
-            margin-top: -40px;
-            z-index: 100;
-            box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
-            transition: visibility 0s linear .1s;
-            border-radius: 3px;
-            min-width: 180px;
-            max-width: 180px;
-
-            .b-bar-dropdown-item {
-                padding: .5rem 1.5rem !important;
-            }
-
-            &:hover {
-                visibility: visible;
-                transition: visibility 0s linear .1s;
-            }
-        }
-
-        .b-bar-link {
-            text-align: center;
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-
-            span {
-                display: none;
-            }
-
-            &:after {
-                display: none;
-            }
+        &[data-collapse="small"].b-bar-collapsed-small {
+            @include smallBar;
         }
     }
 
@@ -177,6 +204,16 @@
                 background: inherit;
                 box-shadow: none;
             }
+        }
+    }
+
+    @media only screen and (max-width:768px) {
+        &[data-collapse="small"]:not(.b-bar-collapsed-small) {
+            @include smallBar;
+        }
+
+        &[data-collapse="hide"]:not(.b-bar-collapsed-hide) {
+            @include hiddenBar;
         }
     }
     /* 
@@ -285,46 +322,43 @@
     }
 }
 
-.b-bar-vertical-inline:not(.b-bar-collapsed-small) {
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    .b-bar-dropdown-menu {
-        position: relative !important;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-
-        .b-bar-dropdown-item {
-            padding: .5rem 3rem !important;
-        }
+@media only screen and (min-width:768px) {
+    .b-bar-vertical-inline:not(.b-bar-collapsed-small):not(.b-bar-collapsed-hide) {
+        @include inlineNotCollapsed;
     }
-}
 
-.b-bar-vertical {
-    .b-bar-dropdown {
-        &:hover {
-            .b-bar-dropdown-menu {
+    .b-bar-vertical {
+        .b-bar-dropdown {
+            &:hover {
+                .b-bar-dropdown-menu {
+                    display: block !important;
+                }
+            }
+        }
+
+        .b-bar-dropdown-menu {
+            display: none;
+            position: absolute !important;
+            left: var(--b-sidebar-width, 220px);
+            margin-left: 5px;
+            top: -5px;
+            z-index: 100;
+            box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
+
+            .b-bar-dropdown-item {
+                padding: .5rem 1.5rem !important;
+            }
+
+            &:hover {
                 display: block !important;
             }
         }
     }
+}
 
-    .b-bar-dropdown-menu {
-        display: none;
-        position: absolute !important;
-        left: var(--b-sidebar-width, 220px);
-        margin-left: 5px;
-        top: -5px;
-        z-index: 100;
-        box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
-
-        .b-bar-dropdown-item {
-            padding: .5rem 1.5rem !important;
-        }
-
-        &:hover {
-            display: block !important;
-        }
+@media only screen and (max-width:768px) {
+    .b-bar-vertical-inline.b-bar-collapsed-small,
+    .b-bar-vertical-inline.b-bar-collapsed-hide {
+        @include inlineNotCollapsed;
     }
 }

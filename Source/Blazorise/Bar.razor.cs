@@ -64,6 +64,8 @@ namespace Blazorise
 
         #region Properties
 
+        protected string CollapseModeString => ClassProvider.ToBarCollapsedMode( CollapseMode );
+
         /// <summary>
         /// Controlls the state of toggler and the menu.
         /// </summary>

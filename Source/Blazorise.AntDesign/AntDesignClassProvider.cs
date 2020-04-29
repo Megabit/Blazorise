@@ -526,7 +526,7 @@ namespace Blazorise.AntDesign
 
         public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "";
 
-        public override string BarCollapsed( BarMode mode, BarCollapseMode barVisibleMode ) => mode == Blazorise.BarMode.Horizontal ? null : "ant-menu-inline-collapsed";
+        public override string BarCollapsed( BarMode mode, BarCollapseMode collapseMode ) => mode == Blazorise.BarMode.Horizontal ? null : "ant-menu-inline-collapsed";
 
         #endregion
 
