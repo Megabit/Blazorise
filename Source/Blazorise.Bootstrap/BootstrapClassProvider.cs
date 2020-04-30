@@ -499,9 +499,9 @@ namespace Blazorise.Bootstrap
 
         public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
 
-        public override string BarToggler( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler" : null;
+        public override string BarToggler( BarMode mode ) => "navbar-toggler";
 
-        public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => mode == Blazorise.BarMode.Horizontal ? isShow ? null : "collapsed" : null;
+        public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => isShow ? null : "collapsed";
 
         public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "collapse navbar-collapse" : "b-bar-menu";
 
@@ -519,7 +519,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 
-        public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler-icon" : null;
+        public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
 
         public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu" : "b-bar-dropdown-menu";
 
