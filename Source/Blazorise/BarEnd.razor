@@ -1,5 +1,5 @@
 ﻿@inherits BaseComponent
-@if (!HasCustomRegistration)
+@if ( !HasCustomRegistration )
 {
     <CascadingValue Value="@Mode" Name="Mode" IsFixed="true">
         <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">

@@ -28,12 +28,10 @@ namespace Blazorise.Frolic
         private static void RegisterComponents( IComponentMapper componentMapper )
         {
             componentMapper.Register<Blazorise.Addon, Frolic.Addon>();
-            componentMapper.Register<Blazorise.Bar, Frolic.Bar>();
             componentMapper.Register<Blazorise.BarBrand, Frolic.BarBrand>();
             componentMapper.Register<Blazorise.BarDropdownToggle, Frolic.BarDropdownToggle>();
             componentMapper.Register<Blazorise.BarEnd, Frolic.BarEnd>();
             componentMapper.Register<Blazorise.BarItem, Frolic.BarItem>();
-            componentMapper.Register<Blazorise.BarMenu, Frolic.BarMenu>();
             componentMapper.Register<Blazorise.BarStart, Frolic.BarStart>();
             componentMapper.Register<Blazorise.BarToggler, Frolic.BarToggler>();
             componentMapper.Register<Blazorise.Breadcrumb, Frolic.Breadcrumb>();
