@@ -253,18 +253,26 @@
 .b-layout-header .ant-menu {
     line-height: inherit; }
 
-.ant-menu.ant-menu-root.ant-menu-inline {
+.ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) {
     min-width: var(--b-sidebar-width);
-    max-width: var(--b-sidebar-width); }
-    .ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item {
+    max-width: var(--b-sidebar-width);
+    width: var(--b-sidebar-width); }
+    .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) > .ant-menu-item {
         padding-left: 24px; }
-        .ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item a {
+        .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) > .ant-menu-item a {
             color: inherit; }
-    .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
+    .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
         padding-left: 24px; }
-    .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item {
+    .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item {
         padding-left: 48px; }
 
+/*
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed {
+    min-width: var(--b-sidebar-small-width);
+    max-width: var(--b-sidebar-small-width);
+    width: var(--b-sidebar-small-width);
+}
+*/
 .ant-dropdown-group {
     display: inline-flex;
     white-space: nowrap; }

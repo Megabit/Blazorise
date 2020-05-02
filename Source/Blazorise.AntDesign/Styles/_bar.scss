@@ -109,9 +109,10 @@
     line-height: inherit;
 }
 
-.ant-menu.ant-menu-root.ant-menu-inline {
+.ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) {
     min-width: var(--b-sidebar-width);
     max-width: var(--b-sidebar-width);
+    width: var(--b-sidebar-width);
 
     > .ant-menu-item {
         padding-left: 24px;
@@ -133,3 +134,11 @@
         }
     }
 }
+
+/*
+.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed {
+    min-width: var(--b-sidebar-small-width);
+    max-width: var(--b-sidebar-small-width);
+    width: var(--b-sidebar-small-width);
+}
+*/
