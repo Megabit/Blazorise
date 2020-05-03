@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
 {
-    public partial class Bar : BaseComponent
+    public partial class Bar : BaseComponent, IBreakpointActivator
     {
         #region Members
 
@@ -18,7 +19,9 @@ namespace Blazorise
 
         private Alignment alignment = Alignment.None;
 
-        private BarMode mode = BarMode.Horizontal;
+        private BarMode currentMode = BarMode.Horizontal;
+
+        private BarMode initialMode = BarMode.Horizontal;
 
         private BarCollapseMode collapseMode = BarCollapseMode.Hide;
 
@@ -26,18 +29,23 @@ namespace Blazorise
 
         private bool visible;
 
+        private bool initialModeSet;
+
         public event EventHandler<BarStateEventArgs> StateChanged;
+
+        private DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef;
 
         #endregion
 
         #region Methods
 
-        protected override void OnInitialized()
+        protected override async Task OnFirstAfterRenderAsync()
         {
-            // Set vertical style bars to visible by default
-            visible = Mode != BarMode.Horizontal;
+            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
 
-            base.OnInitialized();
+            _ = JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+
+            await base.OnFirstAfterRenderAsync();
         }
 
         protected override void BuildClasses( ClassBuilder builder )
@@ -60,11 +68,33 @@ namespace Blazorise
             StateHasChanged();
         }
 
+        public Task TriggerBreakpoint( Breakpoint breakpoint)
+        {
+            Console.WriteLine( $"Breakpoint triggered: {breakpoint}!" );
+
+            return Task.CompletedTask;
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                // make sure to unregister listener
+                _ = JSRunner.UnregisterBreakpointComponent( this );
+
+                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+            }
+
+            base.Dispose( disposing );
+        }
+
         #endregion
 
         #region Properties
 
         protected string CollapseModeString => ClassProvider.ToBarCollapsedMode( CollapseMode );
+
+        protected string ModeString => ClassProvider.ToBarMode( initialMode );
 
         /// <summary>
         /// Controlls the state of toggler and the menu.
@@ -80,6 +110,14 @@ namespace Blazorise
                     return;
 
                 visible = value;
+
+                // Vertical bars need to manage their currentMode on Visible toggling
+                if ( currentMode != BarMode.Horizontal )
+                {
+                    currentMode = !visible && collapseMode == BarCollapseMode.Small ?
+                        BarMode.VerticalSmall :
+                        initialMode;
+                }
 
                 StateChanged?.Invoke( this, new BarStateEventArgs( visible ) );
 
@@ -150,10 +188,16 @@ namespace Blazorise
         [Parameter]
         public BarMode Mode
         {
-            get => mode;
+            get => currentMode;
             set
             {
-                mode = value;
+                currentMode = value;
+
+                if ( !initialModeSet )
+                {
+                    initialMode = value;
+                    initialModeSet = true;
+                }
 
                 DirtyClasses();
             }

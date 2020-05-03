@@ -1,4 +1,25 @@
-﻿.progress.progress-xs {
+﻿body:before {
+    content: "mobile";
+    display: none;
+    visibility: hidden; }
+
+@media (min-width: 768px) {
+    body:before {
+        content: "tablet"; } }
+
+@media (min-width: 992px) {
+    body:before {
+        content: "desktop"; } }
+
+@media (min-width: 1200px) {
+    body:before {
+        content: "widescreen"; } }
+
+@media (min-width: 1400px) {
+    body:before {
+        content: "fullhd"; } }
+
+.progress.progress-xs {
     height: .25rem; }
 
 .progress.progress-sm {

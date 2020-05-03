@@ -479,6 +479,53 @@ window.blazorise = {
                 element.click();
             }
         }
+  },
+
+    // Get the current breakpoint
+    getBreakpoint: function () {
+        return window.getComputedStyle(document.body, ':before').content.replace(/\"/g, '');
+    },
+
+    // holds the list of components that are triggers to breakpoint
+    breakpointComponents: [],
+
+    lastBreakpoint: null,
+
+    addBreakpointComponent: (elementId, dotnetAdapter, breakpoint) => {
+        window.blazorise.breakpointComponents.push({ elementId: elementId, dotnetAdapter: dotnetAdapter, breakpoint: breakpoint });
+    },
+
+    findBreakpointComponentIndex: (elementId) => {
+        for (index = 0; index < window.blazorise.breakpointComponents.length; ++index) {
+            if (window.blazorise.breakpointComponents[index].elementId === elementId)
+                return index;
+        }
+        return -1;
+    },
+
+    isBreakpointComponent: (elementId) => {
+        for (index = 0; index < window.blazorise.breakpointComponents.length; ++index) {
+            if (window.blazorise.breakpointComponents[index].elementId === elementId)
+                return true;
+        }
+        return false;
+    },
+
+    registerBreakpointComponent: (elementId, dotnetAdapter, breakpoint) => {
+        if (window.blazorise.isBreakpointComponent(elementId) !== true) {
+            window.blazorise.addBreakpointComponent(elementId, dotnetAdapter, breakpoint);
+        }
+    },
+
+    unregisterBreakpointComponent: (elementId) => {
+        const index = window.blazorise.findBreakpointComponentIndex(elementId);
+        if (index !== -1) {
+            window.blazorise.breakpointComponents.splice(index, 1);
+        }
+    },
+
+    triggerBreakpoint: (component, currentBreakpoint) => {
+        component.dotnetAdapter.invokeMethodAsync('TriggerBreakpoint', currentBreakpoint);
     }
 };
 
@@ -498,6 +545,21 @@ document.addEventListener('keyup', function handler(evt) {
 
         if (lastClosable) {
             window.blazorise.tryClose(lastClosable, lastClosable.elementId, true);
+        }
+    }
+});
+
+// Recalculate breakpoint on resize
+window.addEventListener('resize', function () {
+    if (window.blazorise.breakpointComponents && window.blazorise.breakpointComponents.length > 0) {
+        var currentBreakpoint = window.blazorise.getBreakpoint();
+
+        if (window.blazorise.lastBreakpoint != currentBreakpoint) {
+            window.blazorise.lastBreakpoint = currentBreakpoint;
+
+            for (index = 0; index < window.blazorise.breakpointComponents.length; ++index) {
+                window.blazorise.triggerBreakpoint(window.blazorise.breakpointComponents[index], currentBreakpoint);
+            }
         }
     }
 });

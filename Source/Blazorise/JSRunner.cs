@@ -191,6 +191,16 @@ namespace Blazorise
             return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementId );
         }
 
+        public ValueTask<object> RegisterBreakpointComponent( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId )
+        {
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerBreakpointComponent", elementId, dotNetObjectRef );
+        }
+
+        public ValueTask<object> UnregisterBreakpointComponent( IBreakpointActivator component )
+        {
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterBreakpointComponent", component.ElementId );
+        }
+
         public ValueTask<bool> ScrollIntoView( string anchorTarget )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.link.scrollIntoView", anchorTarget );
