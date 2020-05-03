@@ -491,8 +491,8 @@ window.blazorise = {
 
     lastBreakpoint: null,
 
-    addBreakpointComponent: (elementId, dotnetAdapter, breakpoint) => {
-        window.blazorise.breakpointComponents.push({ elementId: elementId, dotnetAdapter: dotnetAdapter, breakpoint: breakpoint });
+    addBreakpointComponent: (elementId, dotnetAdapter) => {
+        window.blazorise.breakpointComponents.push({ elementId: elementId, dotnetAdapter: dotnetAdapter });
     },
 
     findBreakpointComponentIndex: (elementId) => {
@@ -511,9 +511,10 @@ window.blazorise = {
         return false;
     },
 
-    registerBreakpointComponent: (elementId, dotnetAdapter, breakpoint) => {
+    registerBreakpointComponent: (elementId, dotnetAdapter) => {
         if (window.blazorise.isBreakpointComponent(elementId) !== true) {
-            window.blazorise.addBreakpointComponent(elementId, dotnetAdapter, breakpoint);
+            window.blazorise.addBreakpointComponent(elementId, dotnetAdapter);
+            window.blazorise.triggerBreakpoint(dotnetAdapter, window.blazorise.getBreakpoint());
         }
     },
 
@@ -524,8 +525,8 @@ window.blazorise = {
         }
     },
 
-    triggerBreakpoint: (component, currentBreakpoint) => {
-        component.dotnetAdapter.invokeMethodAsync('TriggerBreakpoint', currentBreakpoint);
+    triggerBreakpoint: (dotnetAdapter, currentBreakpoint) => {
+        dotnetAdapter.invokeMethodAsync('TriggerBreakpoint', currentBreakpoint);
     }
 };
 
@@ -558,11 +559,14 @@ window.addEventListener('resize', function () {
             window.blazorise.lastBreakpoint = currentBreakpoint;
 
             for (index = 0; index < window.blazorise.breakpointComponents.length; ++index) {
-                window.blazorise.triggerBreakpoint(window.blazorise.breakpointComponents[index], currentBreakpoint);
+                window.blazorise.triggerBreakpoint(window.blazorise.breakpointComponents[index].dotnetAdapter, currentBreakpoint);
             }
         }
     }
 });
+
+// Set initial breakpoint
+window.blazorise.lastBreakpoint = window.blazorise.getBreakpoint();
 
 function showPopper(element, tooltip, arrow, placement) {
     var thePopper = new Popper(element, tooltip,
