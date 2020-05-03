@@ -1559,7 +1559,7 @@ namespace Blazorise
         /// <summary>
         /// Vertical navbar with pop-out menus.
         /// </summary>
-        Vertical,
+        VerticalPopout,
 
         /// <summary>
         /// Vertical navbar with inline dropdown menus.

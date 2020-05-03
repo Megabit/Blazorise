@@ -1384,8 +1384,8 @@ namespace Blazorise
             {
                 case Blazorise.BarMode.Horizontal:
                     return "horizontal";
-                case Blazorise.BarMode.Vertical:
-                    return "vertical";
+                case Blazorise.BarMode.VerticalPopout:
+                    return "vertical-popout";
                 case Blazorise.BarMode.VerticalInline:
                     return "vertical-inline";
                 case Blazorise.BarMode.VerticalSmall:

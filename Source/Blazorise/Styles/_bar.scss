@@ -85,7 +85,7 @@
 }
 
 .b-bar-vertical-inline,
-.b-bar-vertical {
+.b-bar-vertical-popout {
     display: inline-block !important;
     position: sticky;
     top: 0;
@@ -97,6 +97,7 @@
     box-shadow: 2px 0 6px rgba(0,21,41,.35);
     height: 100vh;
 
+    /* Desktop & above */
     @media only screen and (min-width:768px) {
         &[data-collapse="hide"].b-bar-collapsed-hide {
             @include hiddenBar;
@@ -217,7 +218,7 @@
         margin: auto;
         display: none;
     }
-
+    /* Tablet & below */
     @media only screen and (max-width:768px) {
         &[data-collapse="small"]:not(.b-bar-collapsed-small) {
             @include smallBar;
@@ -343,12 +344,18 @@
     }
 }
 
+
+.b-bar-vertical-small {
+    @include smallBar;
+}
+
+/* Desktop & above */
 @media only screen and (min-width:768px) {
     .b-bar-vertical-inline:not(.b-bar-collapsed-small):not(.b-bar-collapsed-hide) {
         @include inlineNotCollapsed;
     }
 
-    .b-bar-vertical {
+    .b-bar-vertical-popout {
         .b-bar-dropdown {
             &:hover {
                 .b-bar-dropdown-menu {
@@ -377,6 +384,7 @@
     }
 }
 
+/* Tablet & below */
 @media only screen and (max-width:768px) {
     .b-bar-vertical-inline.b-bar-collapsed-small,
     .b-bar-vertical-inline.b-bar-collapsed-hide {
@@ -384,6 +392,7 @@
     }
 }
 
+/* Mobile & below */
 @media only screen and (max-width:576px) {
     .b-bar-vertical-inline.b-bar-collapsed-small,
     .b-bar-vertical-inline.b-bar-collapsed-hide {
