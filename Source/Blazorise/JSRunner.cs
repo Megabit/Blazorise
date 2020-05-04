@@ -201,6 +201,11 @@ namespace Blazorise
             return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterBreakpointComponent", component.ElementId );
         }
 
+        public ValueTask<string> GetBreakpoint()
+        {
+            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.getBreakpoint" );
+        }
+
         public ValueTask<bool> ScrollIntoView( string anchorTarget )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.link.scrollIntoView", anchorTarget );

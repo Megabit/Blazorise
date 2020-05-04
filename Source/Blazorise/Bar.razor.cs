@@ -29,8 +29,6 @@ namespace Blazorise
 
         private bool visible;
 
-        private bool initialModeSet;
-
         public event EventHandler<BarStateEventArgs> StateChanged;
 
         private DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef;
@@ -38,6 +36,19 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override async Task OnInitializedAsync()
+        {
+            if ( Mode != BarMode.Horizontal )
+            {
+                Visible = !BreakpointActivatorAdapter.IsBroken( this, await JSRunner.GetBreakpoint() );
+                ToggleMode();
+                DirtyClasses();
+            }
+                
+
+            await base.OnInitializedAsync();
+        }
 
         protected override async Task OnFirstAfterRenderAsync()
         {
@@ -55,8 +66,8 @@ namespace Blazorise
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
-            builder.Append( ClassProvider.BarCollapsed( Mode, CollapseMode ), !Visible );
-            builder.Append( ClassProvider.BarMode( Mode ) );
+            builder.Append( ClassProvider.BarCollapsed( currentMode, CollapseMode ), !Visible );
+            builder.Append( ClassProvider.BarMode( currentMode ) );
 
             base.BuildClasses( builder );
         }
@@ -68,9 +79,12 @@ namespace Blazorise
             StateHasChanged();
         }
 
-        public Task TriggerBreakpoint( Breakpoint breakpoint)
+        public Task OnBreakpoint( bool broken )
         {
-            Console.WriteLine( $"Breakpoint triggered: {breakpoint}!" );
+            Console.WriteLine( $"Broken: {broken}" );
+            Visible = !broken;
+            
+            StateHasChanged();
 
             return Task.CompletedTask;
         }
@@ -86,6 +100,16 @@ namespace Blazorise
             }
 
             base.Dispose( disposing );
+        }
+
+        private void ToggleMode()
+        {
+            if ( currentMode == BarMode.Horizontal )
+                return;
+
+            currentMode = !Visible && collapseMode == BarCollapseMode.Small ?
+                BarMode.VerticalSmall :
+                initialMode;
         }
 
         #endregion
@@ -112,12 +136,7 @@ namespace Blazorise
                 visible = value;
 
                 // Vertical bars need to manage their currentMode on Visible toggling
-                if ( currentMode != BarMode.Horizontal )
-                {
-                    currentMode = !visible && collapseMode == BarCollapseMode.Small ?
-                        BarMode.VerticalSmall :
-                        initialMode;
-                }
+                ToggleMode();
 
                 StateChanged?.Invoke( this, new BarStateEventArgs( visible ) );
 
@@ -188,16 +207,14 @@ namespace Blazorise
         [Parameter]
         public BarMode Mode
         {
-            get => currentMode;
+            get => initialMode;
             set
             {
-                currentMode = value;
+                if ( initialMode == value )
+                    return;
 
-                if ( !initialModeSet )
-                {
-                    initialMode = value;
-                    initialModeSet = true;
-                }
+                currentMode = value;
+                initialMode = value;
 
                 DirtyClasses();
             }

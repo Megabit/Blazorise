@@ -73,6 +73,8 @@ namespace Blazorise
 
         ValueTask<object> UnregisterBreakpointComponent( IBreakpointActivator component );
 
+        ValueTask<string> GetBreakpoint();
+
         ValueTask<bool> ScrollIntoView( string anchorTarget );
 
         ValueTask<bool> InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId );

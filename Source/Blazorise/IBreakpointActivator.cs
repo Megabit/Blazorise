@@ -17,10 +17,12 @@ namespace Blazorise
         /// </summary>
         string ElementId { get; }
 
+        Breakpoint Breakpoint { get; }
+
         /// <summary>
         /// Triggers the component to activate breakpoint
         /// </summary>
         /// <param name="closeReason">The reason for closing the component.</param>
-        Task TriggerBreakpoint( Breakpoint breakpoint );
+        Task OnBreakpoint( bool broken );
     }
 }

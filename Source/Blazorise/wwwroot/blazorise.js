@@ -514,7 +514,6 @@ window.blazorise = {
     registerBreakpointComponent: (elementId, dotnetAdapter) => {
         if (window.blazorise.isBreakpointComponent(elementId) !== true) {
             window.blazorise.addBreakpointComponent(elementId, dotnetAdapter);
-            window.blazorise.triggerBreakpoint(dotnetAdapter, window.blazorise.getBreakpoint());
         }
     },
 
