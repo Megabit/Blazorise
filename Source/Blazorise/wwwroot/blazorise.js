@@ -525,7 +525,7 @@ window.blazorise = {
     },
 
     triggerBreakpoint: (dotnetAdapter, currentBreakpoint) => {
-        dotnetAdapter.invokeMethodAsync('TriggerBreakpoint', currentBreakpoint);
+        dotnetAdapter.invokeMethodAsync('OnBreakpoint', currentBreakpoint);
     }
 };
 

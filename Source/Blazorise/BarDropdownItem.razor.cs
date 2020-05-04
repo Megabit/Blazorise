@@ -12,6 +12,8 @@ namespace Blazorise
     {
         #region Members
 
+        private BarMode mode;
+
         #endregion
 
         #region Methods
@@ -45,7 +47,16 @@ namespace Blazorise
 
         [Parameter] public string Title { get; set; }
 
-        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
+        [CascadingParameter( Name = "Mode" )] protected BarMode Mode
+        {
+            get => mode;
+            set
+            {
+                mode = value;
+
+                DirtyClasses();
+            }
+        }
 
         #endregion
     }

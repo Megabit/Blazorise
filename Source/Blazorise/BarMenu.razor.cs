@@ -14,6 +14,8 @@ namespace Blazorise
 
         private bool visible;
 
+        private BarMode mode;
+
         #endregion
 
         #region Methods
@@ -84,7 +86,16 @@ namespace Blazorise
 
         [CascadingParameter] protected Bar ParentBar { get; set; }
 
-        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
+        [CascadingParameter( Name = "Mode" )] protected BarMode Mode
+        {
+            get => mode;
+            set
+            {
+                mode = value;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

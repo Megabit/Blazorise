@@ -43,9 +43,7 @@ namespace Blazorise
             {
                 Visible = !BreakpointActivatorAdapter.IsBroken( this, await JSRunner.GetBreakpoint() );
                 ToggleMode();
-                DirtyClasses();
             }
-                
 
             await base.OnInitializedAsync();
         }
@@ -66,8 +64,8 @@ namespace Blazorise
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
-            builder.Append( ClassProvider.BarCollapsed( currentMode, CollapseMode ), !Visible );
-            builder.Append( ClassProvider.BarMode( currentMode ) );
+            builder.Append( ClassProvider.BarCollapsed( CurrentMode, CollapseMode ), !Visible );
+            builder.Append( ClassProvider.BarMode( CurrentMode ) );
 
             base.BuildClasses( builder );
         }
@@ -81,7 +79,6 @@ namespace Blazorise
 
         public Task OnBreakpoint( bool broken )
         {
-            Console.WriteLine( $"Broken: {broken}" );
             Visible = !broken;
             
             StateHasChanged();
@@ -104,10 +101,10 @@ namespace Blazorise
 
         private void ToggleMode()
         {
-            if ( currentMode == BarMode.Horizontal )
+            if ( CurrentMode == BarMode.Horizontal )
                 return;
 
-            currentMode = !Visible && collapseMode == BarCollapseMode.Small ?
+            CurrentMode = !Visible && collapseMode == BarCollapseMode.Small ?
                 BarMode.VerticalSmall :
                 initialMode;
         }
@@ -119,6 +116,17 @@ namespace Blazorise
         protected string CollapseModeString => ClassProvider.ToBarCollapsedMode( CollapseMode );
 
         protected string ModeString => ClassProvider.ToBarMode( initialMode );
+
+        protected BarMode CurrentMode
+        {
+            get => currentMode;
+            set
+            {
+                currentMode = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Controlls the state of toggler and the menu.
@@ -135,10 +143,10 @@ namespace Blazorise
 
                 visible = value;
 
+                StateChanged?.Invoke( this, new BarStateEventArgs( visible ) );
+
                 // Vertical bars need to manage their currentMode on Visible toggling
                 ToggleMode();
-
-                StateChanged?.Invoke( this, new BarStateEventArgs( visible ) );
 
                 DirtyClasses();
             }

@@ -16,6 +16,8 @@ namespace Blazorise
 
         private bool rightAligned;
 
+        private BarMode mode;
+
         #endregion
 
         #region Methods
@@ -95,7 +97,16 @@ namespace Blazorise
 
         [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
-        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
+        [CascadingParameter( Name = "Mode" )] protected BarMode Mode
+        {
+            get => mode;
+            set
+            {
+                mode = value;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
