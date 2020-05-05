@@ -688,7 +688,7 @@ namespace Blazorise.Bulma
 
         public override string PaginationLinkActive() => "is-current";
 
-        public override string PaginationLinkDisabled() => "disabled";
+        public override string PaginationLinkDisabled() => "is-disabled";
 
         #endregion
 
