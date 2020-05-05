@@ -13,6 +13,8 @@ namespace Blazorise
     {
         #region Members
 
+        private bool active;
+
         #endregion
 
         #region Methods
@@ -20,7 +22,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.PaginationLink() );
-            builder.Append( ClassProvider.PaginationLinkActive(), ParentPaginationItem?.Active == true );
+            builder.Append( ClassProvider.PaginationLinkActive(), Active );
 
             base.BuildClasses( builder );
         }
@@ -37,8 +39,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the page name.
         /// </summary>
-        [Parameter]
-        public string Page { get; set; }
+        [Parameter] public string Page { get; set; }
 
         /// <summary>
         /// Occurs when the item link is clicked.
@@ -47,7 +48,17 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] protected PaginationItem ParentPaginationItem { get; set; }
+        [CascadingParameter( Name = "PaginationItemActive" )]
+        protected bool Active
+        {
+            get => active;
+            set
+            {
+                active = value;
+
+                DirtyClasses();
+            }
+        }
 
         #endregion
     }
