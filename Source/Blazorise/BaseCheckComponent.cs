@@ -53,7 +53,7 @@ namespace Blazorise
 
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
-            var parsedValue = ( value?.ToLowerInvariant() == TrueValueName ).ToString();
+            var parsedValue = ( value?.ToLowerInvariant() == TrueValueName?.ToLowerInvariant() ).ToString();
 
             if ( Converters.TryChangeType<TValue>( parsedValue, out var result, CultureInfo.InvariantCulture ) )
             {
