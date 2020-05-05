@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseValidationSummary : BaseComponent
+    public abstract class BaseValidationResult : BaseComponent
     {
         #region Members
 
@@ -20,7 +20,7 @@ namespace Blazorise
 
         #region Methods
 
-        public BaseValidationSummary()
+        public BaseValidationResult()
         {
             validationStatusChangedHandler += ( sender, eventArgs ) =>
             {

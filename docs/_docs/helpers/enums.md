@@ -223,3 +223,10 @@ Defines the breadcrumb activation mode.
 - `None` Default behavior.
 - `Left` Show the snackbar on the left side of the screen.
 - `Right` Show the snackbar on the right side of the screen.
+
+## ValidationMode
+
+Defines the validation execution mode.
+
+- `Auto` Validation will execute on every input change.
+- `Manual` Validation will run only when explicitly called.

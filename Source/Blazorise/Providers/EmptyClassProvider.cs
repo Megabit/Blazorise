@@ -155,6 +155,10 @@ namespace Blazorise.Providers
 
         public string ValidationNone() => null;
 
+        public string ValidationSummary() => null;
+
+        public string ValidationSummaryError() => null;
+
         #endregion
 
         #region Fields
