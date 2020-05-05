@@ -27,7 +27,7 @@ namespace Blazorise
         /// <summary>
         /// Event is fired whenever there is a change in validation status.
         /// </summary>
-        public event ValidationsStatusChangedEventHandler StatusChanged;
+        internal event ValidationsStatusChangedEventHandler _StatusChanged;
 
         /// <summary>
         /// List of validations placed inside of this container.
@@ -139,7 +139,9 @@ namespace Blazorise
 
         private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages )
         {
-            StatusChanged?.Invoke( new ValidationsStatusChangedEventArgs( status, messages ) );
+            _StatusChanged?.Invoke( new ValidationsStatusChangedEventArgs( status, messages ) );
+
+            StatusChanged.InvokeAsync( new ValidationsStatusChangedEventArgs( status, messages ) );
         }
 
         #endregion
@@ -167,6 +169,11 @@ namespace Blazorise
         /// Event is fired only after all of the validation are successful.
         /// </summary>
         [Parameter] public EventCallback ValidatedAll { get; set; }
+
+        /// <summary>
+        /// Event is fired whenever there is a change in validation status.
+        /// </summary>
+        [Parameter] public EventCallback<ValidationsStatusChangedEventArgs> StatusChanged { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

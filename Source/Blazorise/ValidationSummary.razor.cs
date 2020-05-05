@@ -68,7 +68,7 @@ namespace Blazorise
             {
                 DetachAllListener();
 
-                ParentValidations.StatusChanged += validationsStatusChangedEventHandler;
+                ParentValidations._StatusChanged += validationsStatusChangedEventHandler;
 
                 previousParentValidations = ParentValidations;
             }
@@ -78,7 +78,7 @@ namespace Blazorise
         {
             if ( previousParentValidations != null )
             {
-                previousParentValidations.StatusChanged -= validationsStatusChangedEventHandler;
+                previousParentValidations._StatusChanged -= validationsStatusChangedEventHandler;
             }
         }
 
