@@ -15,7 +15,7 @@
                     @foreach ( var item in Data.Items )
                     {
                         <SidebarItem @key="@item">
-                            <SidebarLink To="@item.To" Title="@item.Tooltip" Visible="@item.Visible" Toggled="@((isOpen)=>{item.SubItemReference?.Toggle( isOpen );})">
+                            <SidebarLink To="@item.To" Title="@item.Tooltip" Visible="@item.Visible" Toggled="@(( isOpen ) => { item.Visible = isOpen; })">
                                 @item.Text
                             </SidebarLink>
                             @if ( item.SubItems != null )
