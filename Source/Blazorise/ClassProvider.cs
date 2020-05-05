@@ -152,6 +152,10 @@ namespace Blazorise
 
         public abstract string ValidationNone();
 
+        public abstract string ValidationSummary();
+
+        public abstract string ValidationSummaryError();
+
         #endregion
 
         #region Fields

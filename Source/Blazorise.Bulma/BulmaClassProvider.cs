@@ -166,6 +166,10 @@ namespace Blazorise.Bulma
 
         public override string ValidationNone() => "help";
 
+        public override string ValidationSummary() => "has-text-danger";
+
+        public override string ValidationSummaryError() => "has-text-danger";
+
         #endregion
 
         #endregion

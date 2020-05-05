@@ -165,6 +165,10 @@ namespace Blazorise.Frolic
 
         public override string ValidationNone() => "e-form-info text-muted";
 
+        public override string ValidationSummary() => "text-danger";
+
+        public override string ValidationSummaryError() => "text-danger";
+
         #endregion
 
         #region Fields

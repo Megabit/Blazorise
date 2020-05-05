@@ -50,7 +50,7 @@ namespace Blazorise
         /// <summary>
         /// Raises an event that the validation has started.
         /// </summary>
-        public event ValidatingEventHandler Validating;
+        public event ValidationStartedEventHandler ValidationStarted;
 
         /// <summary>
         /// Raises every time a validation state has changed.
@@ -174,7 +174,7 @@ namespace Blazorise
             }
             else if ( EditContext != null && hasFieldIdentifier )
             {
-                Validating?.Invoke();
+                ValidationStarted?.Invoke();
 
                 var messages = new ValidationMessageStore( EditContext );
 
@@ -191,7 +191,7 @@ namespace Blazorise
 
                 if ( validatorHandler != null )
                 {
-                    Validating?.Invoke();
+                    ValidationStarted?.Invoke();
 
                     var validatorEventArgs = new ValidatorEventArgs( inputComponent.ValidationValue );
 
@@ -223,7 +223,7 @@ namespace Blazorise
         {
             ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, message ) );
 
-            ParentValidations?.NotifyValidationStatusChanged();
+            ParentValidations?.NotifyValidationStatusChanged( this );
         }
 
         #endregion

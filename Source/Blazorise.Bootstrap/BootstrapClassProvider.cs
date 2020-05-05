@@ -166,6 +166,10 @@ namespace Blazorise.Bootstrap
 
         public override string ValidationNone() => "form-text text-muted";
 
+        public override string ValidationSummary() => "text-danger";
+
+        public override string ValidationSummaryError() => "text-danger";
+
         #endregion
 
         #region Fields

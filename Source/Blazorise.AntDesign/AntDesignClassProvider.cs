@@ -152,6 +152,10 @@ namespace Blazorise.AntDesign
 
         public override string ValidationNone() => "ant-form-item-explain";
 
+        public override string ValidationSummary() => "ant-typography-danger";
+
+        public override string ValidationSummaryError() => "ant-typography-danger";
+
         #endregion
 
         #region Fields
