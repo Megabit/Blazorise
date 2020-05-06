@@ -479,53 +479,55 @@ window.blazorise = {
                 element.click();
             }
         }
-  },
-
-    // Get the current breakpoint
-    getBreakpoint: function () {
-        return window.getComputedStyle(document.body, ':before').content.replace(/\"/g, '');
     },
 
-    // holds the list of components that are triggers to breakpoint
-    breakpointComponents: [],
+    breakpoint: {
+        // Get the current breakpoint
+        getBreakpoint: function () {
+            return window.getComputedStyle(document.body, ':before').content.replace(/\"/g, '');
+        },
 
-    lastBreakpoint: null,
+        // holds the list of components that are triggers to breakpoint
+        breakpointComponents: [],
 
-    addBreakpointComponent: (elementId, dotnetAdapter) => {
-        window.blazorise.breakpointComponents.push({ elementId: elementId, dotnetAdapter: dotnetAdapter });
-    },
+        lastBreakpoint: null,
 
-    findBreakpointComponentIndex: (elementId) => {
-        for (index = 0; index < window.blazorise.breakpointComponents.length; ++index) {
-            if (window.blazorise.breakpointComponents[index].elementId === elementId)
-                return index;
+        addBreakpointComponent: (elementId, dotnetAdapter) => {
+            window.blazorise.breakpoint.breakpointComponents.push({ elementId: elementId, dotnetAdapter: dotnetAdapter });
+        },
+
+        findBreakpointComponentIndex: (elementId) => {
+            for (index = 0; index < window.blazorise.breakpoint.breakpointComponents.length; ++index) {
+                if (window.blazorise.breakpoint.breakpointComponents[index].elementId === elementId)
+                    return index;
+            }
+            return -1;
+        },
+
+        isBreakpointComponent: (elementId) => {
+            for (index = 0; index < window.blazorise.breakpoint.breakpointComponents.length; ++index) {
+                if (window.blazorise.breakpoint.breakpointComponents[index].elementId === elementId)
+                    return true;
+            }
+            return false;
+        },
+
+        registerBreakpointComponent: (elementId, dotnetAdapter) => {
+            if (window.blazorise.breakpoint.isBreakpointComponent(elementId) !== true) {
+                window.blazorise.breakpoint.addBreakpointComponent(elementId, dotnetAdapter);
+            }
+        },
+
+        unregisterBreakpointComponent: (elementId) => {
+            const index = window.blazorise.breakpoint.findBreakpointComponentIndex(elementId);
+            if (index !== -1) {
+                window.blazorise.breakpoint.breakpointComponents.splice(index, 1);
+            }
+        },
+
+        onBreakpoint: (dotnetAdapter, currentBreakpoint) => {
+            dotnetAdapter.invokeMethodAsync('OnBreakpoint', currentBreakpoint);
         }
-        return -1;
-    },
-
-    isBreakpointComponent: (elementId) => {
-        for (index = 0; index < window.blazorise.breakpointComponents.length; ++index) {
-            if (window.blazorise.breakpointComponents[index].elementId === elementId)
-                return true;
-        }
-        return false;
-    },
-
-    registerBreakpointComponent: (elementId, dotnetAdapter) => {
-        if (window.blazorise.isBreakpointComponent(elementId) !== true) {
-            window.blazorise.addBreakpointComponent(elementId, dotnetAdapter);
-        }
-    },
-
-    unregisterBreakpointComponent: (elementId) => {
-        const index = window.blazorise.findBreakpointComponentIndex(elementId);
-        if (index !== -1) {
-            window.blazorise.breakpointComponents.splice(index, 1);
-        }
-    },
-
-    triggerBreakpoint: (dotnetAdapter, currentBreakpoint) => {
-        dotnetAdapter.invokeMethodAsync('OnBreakpoint', currentBreakpoint);
     }
 };
 
@@ -551,21 +553,21 @@ document.addEventListener('keyup', function handler(evt) {
 
 // Recalculate breakpoint on resize
 window.addEventListener('resize', function () {
-    if (window.blazorise.breakpointComponents && window.blazorise.breakpointComponents.length > 0) {
-        var currentBreakpoint = window.blazorise.getBreakpoint();
+    if (window.blazorise.breakpoint.breakpointComponents && window.blazorise.breakpoint.breakpointComponents.length > 0) {
+        var currentBreakpoint = window.blazorise.breakpoint.getBreakpoint();
 
-        if (window.blazorise.lastBreakpoint != currentBreakpoint) {
-            window.blazorise.lastBreakpoint = currentBreakpoint;
+        if (window.blazorise.breakpoint.lastBreakpoint !== currentBreakpoint) {
+            window.blazorise.breakpoint.lastBreakpoint = currentBreakpoint;
 
-            for (index = 0; index < window.blazorise.breakpointComponents.length; ++index) {
-                window.blazorise.triggerBreakpoint(window.blazorise.breakpointComponents[index].dotnetAdapter, currentBreakpoint);
+            for (index = 0; index < window.blazorise.breakpoint.breakpointComponents.length; ++index) {
+                window.blazorise.breakpoint.onBreakpoint(window.blazorise.breakpoint.breakpointComponents[index].dotnetAdapter, currentBreakpoint);
             }
         }
     }
 });
 
 // Set initial breakpoint
-window.blazorise.lastBreakpoint = window.blazorise.getBreakpoint();
+window.blazorise.breakpoint.lastBreakpoint = window.blazorise.breakpoint.getBreakpoint();
 
 function showPopper(element, tooltip, arrow, placement) {
     var thePopper = new Popper(element, tooltip,
