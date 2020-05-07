@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,11 +13,10 @@ namespace Blazorise
     {
         #region Members
 
-        private bool visible;
-
-        private bool rightAligned;
-
-        private Direction direction = Direction.Down;
+        private DropdownStore store = new DropdownStore
+        {
+            Direction = Direction.Down,
+        };
 
         public event EventHandler<DropdownStateEventArgs> StateChanged;
 
@@ -113,6 +113,8 @@ namespace Blazorise
 
         #region Properties
 
+        protected DropdownStore Store => store;
+
         /// <summary>
         /// Makes the drop down to behave as a group for buttons(used for the split-button behaviour).
         /// </summary>
@@ -124,16 +126,16 @@ namespace Blazorise
         [Parameter]
         public bool Visible
         {
-            get => visible;
+            get => store.Visible;
             set
             {
                 // prevent dropdown from calling the same code multiple times
-                if ( value == visible )
+                if ( value == store.Visible )
                     return;
 
-                visible = value;
+                store.Visible = value;
 
-                StateChanged?.Invoke( this, new DropdownStateEventArgs( visible ) );
+                StateChanged?.Invoke( this, new DropdownStateEventArgs( store.Visible ) );
 
                 DirtyClasses();
             }
@@ -145,10 +147,10 @@ namespace Blazorise
         [Parameter]
         public bool RightAligned
         {
-            get => rightAligned;
+            get => store.RightAligned;
             set
             {
-                rightAligned = value;
+                store.RightAligned = value;
 
                 DirtyClasses();
             }
@@ -160,10 +162,10 @@ namespace Blazorise
         [Parameter]
         public Direction Direction
         {
-            get => direction;
+            get => store.Direction;
             set
             {
-                direction = value;
+                store.Direction = value;
 
                 DirtyClasses();
             }
