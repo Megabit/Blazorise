@@ -127,10 +127,6 @@ namespace Blazorise
             get => store.Visible;
             set
             {
-                // prevent dropdown from calling the same code multiple times
-                if ( value == store.Visible )
-                    return;
-
                 store.Visible = value;
 
                 DirtyClasses();
