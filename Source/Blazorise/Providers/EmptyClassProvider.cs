@@ -37,6 +37,8 @@ namespace Blazorise.Providers
 
         public string Select() => null;
 
+        public string SelectMultiple() => null;
+
         public string SelectSize( Size size ) => null;
 
         public string SelectValidation( ValidationStatus validationStatus ) => null;
@@ -152,6 +154,10 @@ namespace Blazorise.Providers
         public string ValidationErrorTooltip() => null;
 
         public string ValidationNone() => null;
+
+        public string ValidationSummary() => null;
+
+        public string ValidationSummaryError() => null;
 
         #endregion
 
@@ -340,6 +346,18 @@ namespace Blazorise.Providers
         public string TabPanel() => null;
 
         public string TabPanelActive( bool active ) => null;
+
+        #endregion
+
+        #region Jumbotron
+
+        public string Jumbotron() => null;
+
+        public string JumbotronBackground( Background background ) => null;
+
+        public string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => null;
+
+        public string JumbotronSubtitle() => null;
 
         #endregion
 
@@ -884,6 +902,8 @@ namespace Blazorise.Providers
         public string ToHeadingSize( HeadingSize headingSize ) => null;
 
         public string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
+
+        public string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize ) => null;
 
         public string ToPlacement( Placement placement ) => null;
 

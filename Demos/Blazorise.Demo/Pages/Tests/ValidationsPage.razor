@@ -104,8 +104,7 @@
                 </Validation>
                 <Validation Validator="@ValidateCheck">
                     <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
+                        <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                             <Check TValue="bool">
                                 <ChildContent>
                                     Check me out
@@ -118,8 +117,7 @@
                     </Field>
                 </Validation>
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is10">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                         <Button Color="Color.Primary">Submit</Button>
                     </FieldBody>
                 </Field>
@@ -230,8 +228,7 @@
                     </Validation>
                     <Validation Validator="@ValidateCheck">
                         <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                            <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                            <FieldBody ColumnSize="ColumnSize.Is10">
+                            <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                                 <Check TValue="bool">
                                     <ChildContent>
                                         Check me out
@@ -244,8 +241,7 @@
                         </Field>
                     </Validation>
                     <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
+                        <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                             <Button Color="Color.Primary" Clicked="@Submit">Submit</Button>
                         </FieldBody>
                     </Field>
@@ -332,8 +328,7 @@
                     </Validation>
                     <Validation>
                         <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                            <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                            <FieldBody ColumnSize="ColumnSize.Is10">
+                            <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                                 <Check @bind-Checked="@user.TermsAndConditions">
                                     <ChildContent>
                                         Terms and Conditions
@@ -346,8 +341,7 @@
                         </Field>
                     </Validation>
                     <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
+                        <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                             <Button Color="Color.Primary">Submit</Button>
                         </FieldBody>
                     </Field>
@@ -432,8 +426,7 @@
                     </Validation>
                     <Validation>
                         <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                            <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                            <FieldBody ColumnSize="ColumnSize.Is10">
+                            <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                                 <Check @bind-Checked="@manualUser.TermsAndConditions">
                                     <ChildContent>
                                         Terms and Conditions
@@ -446,8 +439,7 @@
                         </Field>
                     </Validation>
                     <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                        <FieldLabel ColumnSize="ColumnSize.Is2"></FieldLabel>
-                        <FieldBody ColumnSize="ColumnSize.Is10">
+                        <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                             <Button Color="Color.Primary" Clicked="@AnnotationsSubmit">Submit</Button>
                         </FieldBody>
                     </Field>

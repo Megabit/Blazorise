@@ -49,6 +49,16 @@ namespace Blazorise.Material
                 .Append( $".custom-switch .custom-control-input:checked ~ .custom-control-label::after" ).Append( "{" )
                 .Append( $"background-color: {options.CheckColor};" )
                 .AppendLine( "}" );
+
+            var trackColor = ToHex( Lighten( options.CheckColor, 50f ) );
+
+            if ( !string.IsNullOrEmpty( trackColor ) )
+            {
+                sb
+                    .Append( $".custom-switch .custom-control-input:checked~.custom-control-track" ).Append( "{" )
+                    .Append( $"background-color: {trackColor};" )
+                    .AppendLine( "}" );
+            }
         }
     }
 }

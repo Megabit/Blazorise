@@ -62,11 +62,42 @@
 .form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .custom-checkbox > .custom-control-input.custom-control-input-pointer,
-.custom-checkbox > .custom-control-label.custom-control-label-pointer {
+.custom-checkbox > .custom-control-label.custom-control-label-pointer,
+.custom-switch > .custom-control-input.custom-control-input-pointer,
+.custom-switch > .custom-control-label.custom-control-label-pointer {
     cursor: pointer; }
 
-.b-body-layout {
-    overflow-x: hidden; }
+.jumbotron.jumbotron-primary {
+    background-color: #007bff;
+    color: #fff; }
+
+.jumbotron.jumbotron-secondary {
+    background-color: #6c757d;
+    color: #fff; }
+
+.jumbotron.jumbotron-success {
+    background-color: #28a745;
+    color: #fff; }
+
+.jumbotron.jumbotron-info {
+    background-color: #17a2b8;
+    color: #fff; }
+
+.jumbotron.jumbotron-warning {
+    background-color: #ffc107;
+    color: #212529; }
+
+.jumbotron.jumbotron-danger {
+    background-color: #dc3545;
+    color: #fff; }
+
+.jumbotron.jumbotron-light {
+    background-color: #f8f9fa;
+    color: #212529; }
+
+.jumbotron.jumbotron-dark {
+    background-color: #343a40;
+    color: #fff; }
 
 .modal-backdrop {
     z-index: -1; }

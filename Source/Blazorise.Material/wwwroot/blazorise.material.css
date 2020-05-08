@@ -4,8 +4,37 @@
 .custom-checkbox > .custom-control-label.custom-control-label-pointer {
     cursor: pointer; }
 
-.b-body-layout {
-    overflow-x: hidden; }
+.jumbotron.jumbotron-primary {
+    background-color: #9c27b0;
+    color: #fff; }
+
+.jumbotron.jumbotron-secondary {
+    background-color: #ff4081;
+    color: #fff; }
+
+.jumbotron.jumbotron-success {
+    background-color: #4caf50;
+    color: #fff; }
+
+.jumbotron.jumbotron-info {
+    background-color: #2196f3;
+    color: #fff; }
+
+.jumbotron.jumbotron-warning {
+    background-color: #ff9800;
+    color: #212529; }
+
+.jumbotron.jumbotron-danger {
+    background-color: #f44336;
+    color: #fff; }
+
+.jumbotron.jumbotron-light {
+    background-color: #f5f5f5;
+    color: #212529; }
+
+.jumbotron.jumbotron-dark {
+    background-color: #424242;
+    color: #fff; }
 
 .modal-backdrop {
     z-index: -1; }

@@ -34,6 +34,8 @@ namespace Blazorise.Bootstrap
 
         public override string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
 
+        public override string SelectMultiple() => null;
+
         public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
@@ -163,6 +165,10 @@ namespace Blazorise.Bootstrap
         public override string ValidationErrorTooltip() => "invalid-tooltip";
 
         public override string ValidationNone() => "form-text text-muted";
+
+        public override string ValidationSummary() => "text-danger";
+
+        public override string ValidationSummaryError() => "text-danger";
 
         #endregion
 
@@ -410,6 +416,18 @@ namespace Blazorise.Bootstrap
         public override string TabPanel() => "tab-pane";
 
         public override string TabPanelActive( bool active ) => active ? $"{Active()} {Show()}" : null;
+
+        #endregion
+
+        #region Jumbotron
+
+        public override string Jumbotron() => "jumbotron";
+
+        public override string JumbotronBackground( Background background ) => $"jumbotron-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "lead";
 
         #endregion
 
@@ -827,7 +845,7 @@ namespace Blazorise.Bootstrap
 
         public override string FigureSize( FigureSize figureSize ) => $"figure-is-{ToFigureSize( figureSize )}";
 
-        public override string FigureImage() => "figure-img";
+        public override string FigureImage() => "figure-img img-fluid";
 
         public override string FigureImageRounded() => "rounded";
 

@@ -33,6 +33,8 @@ namespace Blazorise
 
         string Select();
 
+        string SelectMultiple();
+
         string SelectSize( Size size );
 
         string SelectValidation( ValidationStatus validationStatus );
@@ -148,6 +150,10 @@ namespace Blazorise
         string ValidationErrorTooltip();
 
         string ValidationNone();
+
+        string ValidationSummary();
+
+        string ValidationSummaryError();
 
         #endregion
 
@@ -336,6 +342,18 @@ namespace Blazorise
         string TabPanel();
 
         string TabPanelActive( bool active );
+
+        #endregion
+
+        #region Jumbotron
+
+        string Jumbotron();
+
+        string JumbotronBackground( Background background );
+
+        string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize );
+
+        string JumbotronSubtitle();
 
         #endregion
 
@@ -879,6 +897,8 @@ namespace Blazorise
         string ToHeadingSize( HeadingSize headingSize );
 
         string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
+
+        string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize );
 
         string ToPlacement( Placement placement );
 

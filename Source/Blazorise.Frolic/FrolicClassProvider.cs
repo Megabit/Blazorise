@@ -34,6 +34,8 @@ namespace Blazorise.Frolic
 
         public override string Select() => "e-select";
 
+        public override string SelectMultiple() => null;
+
         public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
@@ -162,6 +164,10 @@ namespace Blazorise.Frolic
         public override string ValidationErrorTooltip() => "e-form-info text-danger";
 
         public override string ValidationNone() => "e-form-info text-muted";
+
+        public override string ValidationSummary() => "text-danger";
+
+        public override string ValidationSummaryError() => "text-danger";
 
         #endregion
 
@@ -398,6 +404,18 @@ namespace Blazorise.Frolic
         public override string TabPanel() => "e-tabs-panel";
 
         public override string TabPanelActive( bool active ) => active ? Active() : null;
+
+        #endregion
+
+        #region Jumbotron
+
+        public override string Jumbotron() => "e-face";
+
+        public override string JumbotronBackground( Background background ) => $"e-face-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"e-title size-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "e-face-subtitle";
 
         #endregion
 

@@ -303,6 +303,36 @@ Filter API is fairly straightforward. All you need is to attach `CustomFilter` t
 }
 ```
 
+### Custom Row Colors
+
+You have full control over appearance of each row, including the selected rows.
+
+```html
+<DataGrid TItem="Employee"
+        Data="@employeeList"
+        CustomFilter="@OnCustomFilter"
+        RowStyling="@OnRowStyling"
+        SelectedRowStyling="@OnSelectedRowStyling">
+    ...
+</DataGrid>
+```
+
+```cs
+@code
+{
+    void OnRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        if ( !employee.IsActive )
+            styling.Style = "color: red;";
+    }
+
+    void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        styling.Background = Background.Info;
+    }
+}
+```
+
 
 ## Templates
 
@@ -425,9 +455,9 @@ If you want to change default buttons you can use following templates
 | ReadData               | EventCallback                                                       |         | Handles the manual loading of large data sets.                                                              |
 | SelectedRow            | TItem                                                               |         | Currently selected row.                                                                                     |
 | SelectedRowChanged     | EventCallback                                                       |         | Occurs after the selected row has changed.                                                                  |
-| RowSelectable          | Func<TItem,bool>                                                    |         | Handles the selection of the clicked row. If not set it will default to always true.                        |
-| RowHoverCursorSelector | Func<TItem,Blazorise.Cursor>                                        |         | Handles the selection of the cursor for a hovered row. If not set, `Blazorise.Cursor.Pointer` will be used. |
-| DetailRowTrigger       | Func<TItem,bool>                                                    |         | A trigger function used to handle the visibility of detail row.                                             |
+| RowSelectable          | `Func<TItem,bool>`                                                  |         | Handles the selection of the clicked row. If not set it will default to always true.                        |
+| RowHoverCursor         |` Func<TItem,Blazorise.Cursor>`                                      |         | Handles the selection of the cursor for a hovered row. If not set, `Blazorise.Cursor.Pointer` will be used. |
+| DetailRowTrigger       | `Func<TItem,bool>`                                                  |         | A trigger function used to handle the visibility of detail row.                                             |
 | RowInserting           | Action                                                              |         | Cancelable event called before the row is inserted.                                              |
 | RowUpdating            | Action                                                              |         | Cancelable event called before the row is updated.                                              |
 | RowInserted            | EventCallback                                                       |         | Event called after the row is inserted.                                                                     |

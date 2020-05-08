@@ -2,9 +2,11 @@
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
-        <li class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-            @ChildContent
-        </li>
+        <CascadingValue Value="@Active" Name="PaginationItemActive">
+            <li class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @ChildContent
+            </li>
+        </CascadingValue>
     </CascadingValue>
 }
 else

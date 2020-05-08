@@ -24,7 +24,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.PaginationItem() );
             builder.Append( ClassProvider.PaginationItemActive(), Active );
-            builder.Append( ClassProvider.Disabled(), Disabled );
+            builder.Append( ClassProvider.PaginationItemDisabled(), Disabled );
 
             base.BuildClasses( builder );
         }

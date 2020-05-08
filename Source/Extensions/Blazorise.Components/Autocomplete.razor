@@ -1,5 +1,5 @@
 ﻿@typeparam TItem
-<Dropdown @ref="dropdownRef" Class="@Class" Style="@Style" Attributes="@Attributes">
+<Dropdown @ref="dropdownRef" Class="@DropdownClassNames" Style="@Style" Attributes="@Attributes" Visible="@DropdownVisible">
     <TextEdit @ref="@textEdit" Text="@SelectedText" TextChanged="@HandleTextChanged" Placeholder="@Placeholder" Size="@Size" Disabled="@Disabled" KeyDown="@HandleTextKeyDown" />
     <DropdownMenu>
         @if ( DropdownVisible )

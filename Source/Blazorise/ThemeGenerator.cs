@@ -102,10 +102,10 @@ namespace Blazorise
             if ( backgroundColor.IsEmpty )
                 return;
 
-            var hoverBackgroundColor = Darken( backgroundColor, options?.HoverDarkenColor ?? 7.5f );
-            var hoverBorderColor = Lighten( borderColor, options?.HoverLightenColor ?? 10f );
-            var activeBackgroundColor = Darken( backgroundColor, options?.ActiveDarkenColor ?? 10f );
-            var activeBorderColor = Lighten( borderColor, options?.ActiveLightenColor ?? 12.5f );
+            var hoverBackgroundColor = Darken( backgroundColor, options?.HoverDarkenColor ?? 15f );
+            var hoverBorderColor = Lighten( borderColor, options?.HoverLightenColor ?? 20f );
+            var activeBackgroundColor = Darken( backgroundColor, options?.ActiveDarkenColor ?? 20f );
+            var activeBorderColor = Lighten( borderColor, options?.ActiveLightenColor ?? 25f );
             var yiqBackgroundColor = Contrast( backgroundColor );
             var yiqHoverBackgroundColor = Contrast( hoverBackgroundColor );
             var yiqActiveBackgroundColor = Contrast( activeBackgroundColor );
@@ -144,10 +144,14 @@ namespace Blazorise
             var color = ToHex( borderColor );
             var yiqColor = ToHex( Contrast( borderColor ) );
             var boxShadow = ToHexRGBA( Transparency( borderColor, 127 ) );
+            var hoverColor = ToHex( Lighten( borderColor, options?.HoverLightenColor ?? 20f ) );
+            var activeColor = ToHex( Darken( borderColor, options?.ActiveDarkenColor ?? 20f ) );
 
             variables[ThemeVariables.OutlineButtonColor( variant )] = color;
             variables[ThemeVariables.OutlineButtonYiqColor( variant )] = yiqColor;
             variables[ThemeVariables.OutlineButtonBoxShadowColor( variant )] = boxShadow;
+            variables[ThemeVariables.OutlineButtonHoverColor( variant )] = hoverColor;
+            variables[ThemeVariables.OutlineButtonActiveColor( variant )] = activeColor;
         }
 
         protected virtual void GenerateSnackbarColorVariables( Theme theme, string variant, string inColor, ThemeSnackbarOptions options )
@@ -544,33 +548,40 @@ namespace Blazorise
             return $"#{color.R.ToString( "X2" )}{color.G.ToString( "X2" )}{color.B.ToString( "X2" )}{color.A.ToString( "X2" )}";
         }
 
+        protected static System.Drawing.Color Transparency( string hexColor, int A )
+        {
+            var color = ParseColor( hexColor );
+
+            return System.Drawing.Color.FromArgb( A, color.R, color.G, color.B );
+        }
+
         protected static System.Drawing.Color Transparency( System.Drawing.Color color, int A )
         {
             return System.Drawing.Color.FromArgb( A, color.R, color.G, color.B );
         }
 
-        protected static System.Drawing.Color Darken( string inColor, float correctionFactor )
+        protected static System.Drawing.Color Darken( string hexColor, float percentage )
         {
-            var color = ParseColor( inColor );
+            var color = ParseColor( hexColor );
 
-            return ChangeColorBrightness( color, -( correctionFactor / 100f ) );
+            return Darken( color, percentage );
         }
 
-        protected static System.Drawing.Color Darken( System.Drawing.Color color, float correctionFactor )
+        protected static System.Drawing.Color Darken( System.Drawing.Color color, float percentage )
         {
-            return ChangeColorBrightness( color, -( correctionFactor / 100f ) );
+            return ChangeColorBrightness( color, -1 * percentage / 100f );
         }
 
-        protected static System.Drawing.Color Lighten( string inColor, float correctionFactor )
+        protected static System.Drawing.Color Lighten( string hexColor, float percentage )
         {
-            var color = ParseColor( inColor );
+            var color = ParseColor( hexColor );
 
-            return ChangeColorBrightness( color, correctionFactor / 100f );
+            return Lighten( color, percentage );
         }
 
-        protected static System.Drawing.Color Lighten( System.Drawing.Color color, float correctionFactor )
+        protected static System.Drawing.Color Lighten( System.Drawing.Color color, float percentage )
         {
-            return ChangeColorBrightness( color, correctionFactor / 100f );
+            return ChangeColorBrightness( color, percentage / 100f );
         }
 
         protected System.Drawing.Color Invert( System.Drawing.Color color )
@@ -601,14 +612,22 @@ namespace Blazorise
             return System.Drawing.Color.FromArgb( color.A, (int)red, (int)green, (int)blue );
         }
 
+        protected static System.Drawing.Color Contrast( string hexColor )
+        {
+            var color = ParseColor( hexColor );
+
+            return Contrast( color );
+        }
+
         protected static System.Drawing.Color Contrast( System.Drawing.Color color )
         {
             int d = 0;
 
             // Counting the perceptive luminance - human eye favors green color... 
-            double luminance = ( 0.299 * color.R + 0.587 * color.G + 0.114 * color.B ) / 255;
+            double luminance = ( 299 * color.R + 587 * color.G + 114 * color.B ) / 1000d;
 
-            if ( luminance > 0.5 )
+            // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+            if ( luminance > 150 )
                 d = 0; // bright colors - black font
             else
                 d = 255; // dark colors - white font

@@ -34,6 +34,8 @@ namespace Blazorise.AntDesign
 
         public override string Select() => "ant-select-selection-search-input";
 
+        public override string SelectMultiple() => null;
+
         public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
@@ -150,11 +152,15 @@ namespace Blazorise.AntDesign
 
         public override string ValidationNone() => "ant-form-item-explain";
 
+        public override string ValidationSummary() => "ant-typography-danger";
+
+        public override string ValidationSummaryError() => "ant-typography-danger";
+
         #endregion
 
         #region Fields
 
-        public override string Fields() => "ant-row";
+        public override string Fields() => "ant-row ant-form-row";
 
         public override string FieldsBody() => null;
 
@@ -410,6 +416,18 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Jumbotron
+
+        public override string Jumbotron() => "ant-hero";
+
+        public override string JumbotronBackground( Background background ) => $"ant-hero-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"ant-display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "ant-hero-subtitle";
+
+        #endregion
+
         #region Card
 
         public override string CardGroup() => "ant-card-group";
@@ -564,17 +582,17 @@ namespace Blazorise.AntDesign
 
         public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var baseClass = offset ? "offset" : Column();
+            var sb = new StringBuilder( Column() );
 
             if ( breakpoint != Blazorise.Breakpoint.None )
-            {
-                if ( columnWidth == Blazorise.ColumnWidth.None )
-                    return $"{baseClass}-{ToBreakpoint( breakpoint )}";
+                sb.Append( $"-{ToBreakpoint( breakpoint )}" );
 
-                return $"{baseClass}-{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
-            }
+            if ( offset )
+                sb.Append( "-offset" );
 
-            return $"{baseClass}-{ToColumnWidth( columnWidth )}";
+            sb.Append( $"-{ToColumnWidth( columnWidth )}" );
+
+            return sb.ToString();
         }
 
         public override string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
@@ -826,7 +844,7 @@ namespace Blazorise.AntDesign
 
         public override string FigureSize( FigureSize figureSize ) => $"ant-figure-is-{ToFigureSize( figureSize )}";
 
-        public override string FigureImage() => "ant-figure-img";
+        public override string FigureImage() => "ant-figure-img ant-figure-img-fluid";
 
         public override string FigureImageRounded() => "ant-figure-rounded";
 

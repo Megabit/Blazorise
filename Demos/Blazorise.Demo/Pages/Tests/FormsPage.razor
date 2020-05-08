@@ -9,7 +9,7 @@
                 <CardTitle>Basic Fields</CardTitle>
             </CardHeader>
             <CardBody>
-                <CardText>Most common form control, text-based input fields. Includes support for most of HTML5 types: <code>text</code>, <code>password</code>, <code>date</code>, <code>number</code>, <code>text</code>email, <code>url</code>.</CardText>
+                <CardText>Most common form control, text-based input fields. Includes support for most of HTML5 types: <code>text</code>, <code>password</code>, <code>date</code>, <code>number</code>, <code>text</code>, <code>email</code>, <code>url</code>.</CardText>
             </CardBody>
             <CardBody>
                 <Field Horizontal="true">
@@ -334,14 +334,12 @@
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is3"></FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is9">
+                    <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
                         <Check TValue="bool">Check me out</Check>
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
-                    <FieldLabel ColumnSize="ColumnSize.Is3"></FieldLabel>
-                    <FieldBody ColumnSize="ColumnSize.Is9">
+                    <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
                         <Button Color="Color.Primary">Submit</Button>
                     </FieldBody>
                 </Field>
@@ -446,7 +444,7 @@
                     </Field>
                 </Fields>
                 <Field>
-                    <Switch TValue="bool">Remember me</Switch>
+                    <Switch TValue="bool" Cursor="Cursor.Pointer">Remember me</Switch>
                 </Field>
                 <Field>
                     <Button Color="Color.Primary">Sign in</Button>

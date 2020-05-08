@@ -15,6 +15,11 @@ namespace Blazorise.AntDesign
             sb.Append( $".bg-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
+
+            sb.Append( $".ant-hero-{variant}" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .Append( $"color: {ToHex( Contrast( Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
@@ -121,8 +126,8 @@ namespace Blazorise.AntDesign
         protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
             var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
-            var hoverColor = ToHex( Lighten( color, 40f ) );
-            var activeColor = ToHex( Darken( color, 40f ) );
+            var hoverColor = Var( ThemeVariables.OutlineButtonHoverColor( variant ) );
+            var activeColor = Var( ThemeVariables.OutlineButtonActiveColor( variant ) );
 
             sb.Append( $".ant-btn-outline-{variant}" ).Append( "{" )
                 .Append( $"color: {color} !important;" )

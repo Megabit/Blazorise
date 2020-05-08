@@ -34,6 +34,8 @@ namespace Blazorise.Bulma
 
         public override string Select() => "select is-fullwidth";
 
+        public override string SelectMultiple() => "is-multiple";
+
         public override string SelectSize( Size size ) => $"{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
@@ -163,6 +165,10 @@ namespace Blazorise.Bulma
         public override string ValidationErrorTooltip() => "help is-danger"; // TODO
 
         public override string ValidationNone() => "help";
+
+        public override string ValidationSummary() => "has-text-danger";
+
+        public override string ValidationSummaryError() => "has-text-danger";
 
         #endregion
 
@@ -413,6 +419,18 @@ namespace Blazorise.Bulma
         public override string TabPanel() => "tab-pane";
 
         public override string TabPanelActive( bool active ) => active ? $"{Active()}" : null;
+
+        #endregion
+
+        #region Jumbotron
+
+        public override string Jumbotron() => "hero";
+
+        public override string JumbotronBackground( Background background ) => $"hero-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"title is-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "subtitle";
 
         #endregion
 
@@ -674,7 +692,7 @@ namespace Blazorise.Bulma
 
         public override string PaginationLinkActive() => "is-current";
 
-        public override string PaginationLinkDisabled() => "disabled";
+        public override string PaginationLinkDisabled() => "is-disabled";
 
         #endregion
 
@@ -704,7 +722,7 @@ namespace Blazorise.Bulma
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"{ToBackground( color )}";
+        public override string BackgroundColor( Background color ) => $"has-background-{ToBackground( color )}";
 
         #endregion
 
@@ -956,23 +974,23 @@ namespace Blazorise.Bulma
             switch ( color )
             {
                 case Blazorise.Background.Primary:
-                    return "has-background-primary";
+                    return "primary";
                 case Blazorise.Background.Secondary:
-                    return "has-background-light";
+                    return "light";
                 case Blazorise.Background.Success:
-                    return "has-background-success";
+                    return "success";
                 case Blazorise.Background.Danger:
-                    return "has-background-danger";
+                    return "danger";
                 case Blazorise.Background.Warning:
-                    return "has-background-warning";
+                    return "warning";
                 case Blazorise.Background.Info:
-                    return "has-background-info";
+                    return "info";
                 case Blazorise.Background.Light:
-                    return "has-background-light";
+                    return "light";
                 case Blazorise.Background.Dark:
-                    return "has-background-dark";
+                    return "dark";
                 case Blazorise.Background.White:
-                    return "has-background-white";
+                    return "white";
                 case Blazorise.Background.Transparent:
                     return "transparent";
                 default:

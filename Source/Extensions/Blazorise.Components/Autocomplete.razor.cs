@@ -187,6 +187,9 @@ namespace Blazorise.Components
 
         protected bool DropdownVisible => Data != null && TextField != null && CurrentSearch?.Length >= MinLength;
 
+        protected string DropdownClassNames
+            => $"{Class} b-is-autocomplete";
+
         /// <summary>
         /// Defines the method by which the search will be done.
         /// </summary>

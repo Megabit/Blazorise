@@ -26,6 +26,12 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        public void Toggle()
+        {
+            Visible = !Visible;
+            StateHasChanged();
+        }
+
         #endregion
 
         #region Properties
