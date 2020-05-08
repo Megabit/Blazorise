@@ -18,8 +18,6 @@ namespace Blazorise
             Direction = Direction.Down,
         };
 
-        public event EventHandler<DropdownStateEventArgs> StateChanged;
-
         private List<Button> registeredButtons;
 
         #endregion
@@ -134,8 +132,6 @@ namespace Blazorise
                     return;
 
                 store.Visible = value;
-
-                StateChanged?.Invoke( this, new DropdownStateEventArgs( store.Visible ) );
 
                 DirtyClasses();
             }
