@@ -2,12 +2,10 @@
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
-        <CascadingValue Value="@Mode" Name="Mode">
-            <CascadingValue Value="@IconName" Name="IconName">
-                <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                    @ChildContent
-                </div>
-            </CascadingValue>
+        <CascadingValue Value="@Store">
+            <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @ChildContent
+            </div>
         </CascadingValue>
     </CascadingValue>
 }

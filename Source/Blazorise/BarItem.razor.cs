@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,13 +13,11 @@ namespace Blazorise
     {
         #region Members
 
-        private bool active;
+        private BarStore parentStore;
 
-        private bool disabled;
+        private BarItemStore store;
 
         private BarDropdown barDropdown;
-
-        private BarMode mode;
 
         #endregion
 
@@ -26,11 +25,11 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarItem( Mode ) );
-            builder.Append( ClassProvider.BarItemActive( Mode ), Active );
-            builder.Append( ClassProvider.BarItemDisabled( Mode ), Disabled );
-            builder.Append( ClassProvider.BarItemHasDropdown( Mode ), HasDropdown );
-            builder.Append( ClassProvider.BarItemHasDropdownShow( Mode ), HasDropdown && barDropdown?.Visible == true );
+            builder.Append( ClassProvider.BarItem( Store.Mode ) );
+            builder.Append( ClassProvider.BarItemActive( Store.Mode ), Store.Active );
+            builder.Append( ClassProvider.BarItemDisabled( Store.Mode ), Store.Disabled );
+            builder.Append( ClassProvider.BarItemHasDropdown( Store.Mode ), HasDropdown );
+            builder.Append( ClassProvider.BarItemHasDropdownShow( Store.Mode ), HasDropdown && barDropdown?.Visible == true );
 
             base.BuildClasses( builder );
         }
@@ -53,15 +52,17 @@ namespace Blazorise
 
         #region Properties
 
+        protected BarItemStore Store => store;
+
         protected bool HasDropdown => barDropdown != null;
 
         [Parameter]
         public bool Active
         {
-            get => active;
+            get => store.Active;
             set
             {
-                active = value;
+                store.Active = value;
 
                 DirtyClasses();
             }
@@ -70,26 +71,39 @@ namespace Blazorise
         [Parameter]
         public bool Disabled
         {
-            get => disabled;
+            get => store.Disabled;
             set
             {
-                disabled = value;
+                store.Disabled = value;
 
                 DirtyClasses();
             }
         }
 
-        /// <summary>
-        /// Icon name.
-        /// </summary>
-        [Parameter] public object IconName { get; set; }
-
-        [CascadingParameter( Name = "Mode" )] protected BarMode Mode
+        [Parameter]
+        public object IconName
         {
-            get => mode;
+            get => store.IconName;
             set
             {
-                mode = value;
+                store.IconName = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [CascadingParameter] 
+        protected BarStore ParentStore
+        {
+            get => parentStore;
+            set
+            {
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
+
+                store.Mode = parentStore.Mode;
 
                 DirtyClasses();
             }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,7 +13,7 @@ namespace Blazorise
     {
         #region Members
 
-        private BarMode mode;
+        private BarDropdownStore parentStore;
 
         #endregion
 
@@ -20,7 +21,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownItem( Mode ) );
+            builder.Append( ClassProvider.BarDropdownItem( ParentStore.Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -47,12 +48,16 @@ namespace Blazorise
 
         [Parameter] public string Title { get; set; }
 
-        [CascadingParameter( Name = "Mode" )] protected BarMode Mode
+        [CascadingParameter] 
+        protected BarDropdownStore ParentStore
         {
-            get => mode;
+            get => parentStore;
             set
             {
-                mode = value;
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
 
                 DirtyClasses();
             }

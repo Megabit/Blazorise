@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,11 +13,9 @@ namespace Blazorise
     {
         #region Members
 
-        private bool visible;
+        private BarItemStore parentStore;
 
-        private BarMode mode;
-
-        public event EventHandler<BarDropdownStateEventArgs> StateChanged;
+        private BarDropdownStore store;
 
         #endregion
 
@@ -24,8 +23,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdown( Mode ) );
-            builder.Append( ClassProvider.BarDropdownShow( Mode ), Visible );
+            builder.Append( ClassProvider.BarDropdown( Store.Mode ) );
+            builder.Append( ClassProvider.BarDropdownShow( Store.Mode ), Store.Visible );
 
             base.BuildClasses( builder );
         }
@@ -80,22 +79,22 @@ namespace Blazorise
 
         #region Properties
 
+        protected BarDropdownStore Store => store;
+
         /// <summary>
         /// Gets or sets a value indicating whether the control and all its child controls are displayed.
         /// </summary>
         [Parameter]
         public bool Visible
         {
-            get => visible;
+            get => store.Visible;
             set
             {
                 // prevent dropdown from calling the same code multiple times
-                if ( value == visible )
+                if ( value == store.Visible )
                     return;
 
-                visible = value;
-
-                StateChanged?.Invoke( this, new BarDropdownStateEventArgs( visible ) );
+                store.Visible = value;
 
                 DirtyClasses();
             }
@@ -105,14 +104,19 @@ namespace Blazorise
 
         [CascadingParameter] protected BarItem ParentBarItem { get; set; }
 
-        [CascadingParameter( Name = "IconName" )] protected object IconName { get; set; }
-
-        [CascadingParameter( Name = "Mode" )] protected BarMode Mode
+        [CascadingParameter] 
+        protected BarItemStore ParentStore
         {
-            get => mode;
+            get => parentStore;
             set
             {
-                mode = value;
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
+
+                store.Mode = parentStore.Mode;
+                store.IconName = parentStore.IconName;
 
                 DirtyClasses();
             }

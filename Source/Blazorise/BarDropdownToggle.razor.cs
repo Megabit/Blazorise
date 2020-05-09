@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -13,7 +14,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool visible;
+        private BarDropdownStore parentStore;
 
         private bool isRegistered;
 
@@ -22,18 +23,6 @@ namespace Blazorise
         #endregion
 
         #region Methods
-
-        protected override void OnInitialized()
-        {
-            if ( ParentBarDropdown != null )
-            {
-                Visible = ParentBarDropdown.Visible;
-
-                ParentBarDropdown.StateChanged += OnBarDropdownStateChanged;
-            }
-
-            base.OnInitialized();
-        }
 
         protected override async Task OnFirstAfterRenderAsync()
         {
@@ -44,7 +33,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownToggle( Mode ) );
+            builder.Append( ClassProvider.BarDropdownToggle( ParentStore.Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -53,11 +42,6 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentBarDropdown != null )
-                {
-                    ParentBarDropdown.StateChanged -= OnBarDropdownStateChanged;
-                }
-
                 // make sure to unregister listener
                 if ( isRegistered )
                 {
@@ -89,29 +73,24 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        private void OnBarDropdownStateChanged( object sender, BarDropdownStateEventArgs e )
-        {
-            Visible = e.Visible;
-        }
-
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Handles the visibility of dropdown toggle.
-        /// </summary>
-        [Parameter]
-        public bool Visible
+        [CascadingParameter]
+        public BarDropdownStore ParentStore
         {
-            get => visible;
+            get => parentStore;
             set
             {
-                visible = value;
+                if ( parentStore == value )
+                    return;
 
-                if ( Mode == BarMode.Horizontal )
+                parentStore = value;
+
+                if ( parentStore.Mode == BarMode.Horizontal )
                 {
-                    if ( visible )
+                    if ( parentStore.Visible )
                     {
                         isRegistered = true;
 
@@ -130,10 +109,6 @@ namespace Blazorise
         }
 
         [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
-
-        [CascadingParameter( Name = "IconName" )] protected object IconName { get; set; }
-
-        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

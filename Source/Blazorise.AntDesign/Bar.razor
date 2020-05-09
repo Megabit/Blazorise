@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.Bar
 <CascadingValue Value=this>
-    <CascadingValue Value="@CurrentMode" Name="Mode">
+    <CascadingValue Value="@Store">
         <ul class="@ClassNames" style="@StyleNames" direction="ltr" role="menu" @attributes="@Attributes">
             @ChildContent
         </ul>

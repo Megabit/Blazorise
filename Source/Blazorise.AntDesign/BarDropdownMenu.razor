@@ -1,26 +1,24 @@
 ﻿@inherits Blazorise.BarDropdownMenu
-<CascadingValue Value=this>
-    <CascadingValue Value="@Mode" Name="Mode">
-        @if ( Mode != BarMode.VerticalInline )
-        {
-            <div class="@HorizontalMenuClass">
-                <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
-                    @ChildContent
-                </ul>
-            </div>
-
-        }
-        else
-        {
+<CascadingValue Value="@ParentStore">
+    @if ( ParentStore.Mode != BarMode.VerticalInline )
+    {
+        <div class="@HorizontalMenuClass">
             <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
                 @ChildContent
             </ul>
-        }
-    </CascadingValue>
+        </div>
+
+    }
+    else
+    {
+        <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
+            @ChildContent
+        </ul>
+    }
 </CascadingValue>
 @code{
     string HorizontalMenuClass
-        => $"ant-menu-submenu ant-menu-submenu-popup ant-menu-light {( Mode == BarMode.Horizontal ? "ant-menu-submenu-placement-bottomLeft" : "ant-menu-submenu-placement-rightTop" )} {( Visible ? "" : "ant-menu-submenu-hidden" )} {( RightAligned ? "ant-menu-sub-right" : "" )}";
+        => $"ant-menu-submenu ant-menu-submenu-popup ant-menu-light {( ParentStore.Mode == BarMode.Horizontal ? "ant-menu-submenu-placement-bottomLeft" : "ant-menu-submenu-placement-rightTop" )} {( ParentStore.Visible ? "" : "ant-menu-submenu-hidden" )} {( ParentStore.RightAligned ? "ant-menu-sub-right" : "" )}";
 
     [CascadingParameter( Name = "SubMenuId" )] string SubMenuId { get; set; }
 }

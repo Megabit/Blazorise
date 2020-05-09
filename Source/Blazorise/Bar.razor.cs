@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -19,19 +21,18 @@ namespace Blazorise
 
         private Alignment alignment = Alignment.None;
 
-        private BarMode currentMode = BarMode.Horizontal;
-
         private BarMode initialMode = BarMode.Horizontal;
 
         private BarCollapseMode collapseMode = BarCollapseMode.Hide;
 
         private Background background = Background.None;
 
-        private bool visible;
-
-        public event EventHandler<BarStateEventArgs> StateChanged;
-
         private DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef;
+
+        private BarStore store = new BarStore
+        {
+            Mode = BarMode.Horizontal
+        };
 
         #endregion
 
@@ -113,16 +114,18 @@ namespace Blazorise
 
         #region Properties
 
+        protected BarStore Store => store;
+
         protected string CollapseModeString => ClassProvider.ToBarCollapsedMode( CollapseMode );
 
         protected string ModeString => ClassProvider.ToBarMode( initialMode );
 
         protected BarMode CurrentMode
         {
-            get => currentMode;
+            get => store.Mode;
             set
             {
-                currentMode = value;
+                store.Mode = value;
 
                 DirtyClasses();
             }
@@ -134,16 +137,14 @@ namespace Blazorise
         [Parameter]
         public bool Visible
         {
-            get => visible;
+            get => store.Visible;
             set
             {
                 // prevent bar from calling the same code multiple times
-                if ( value == visible )
+                if ( value == store.Visible )
                     return;
 
-                visible = value;
-
-                StateChanged?.Invoke( this, new BarStateEventArgs( visible ) );
+                store.Visible = value;
 
                 // Vertical bars need to manage their currentMode on Visible toggling
                 ToggleMode();
@@ -221,7 +222,7 @@ namespace Blazorise
                 if ( initialMode == value )
                     return;
 
-                currentMode = value;
+                store.Mode = value;
                 initialMode = value;
 
                 DirtyClasses();

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,7 +13,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool disabled;
+        private BarItemStore parentStore;
 
         #endregion
 
@@ -20,8 +21,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarLink( Mode ) );
-            builder.Append( ClassProvider.BarLinkDisabled( Mode ), Disabled );
+            builder.Append( ClassProvider.BarLink( ParentStore.Mode ) );
+            builder.Append( ClassProvider.BarLinkDisabled( ParentStore.Mode ), ParentStore.Disabled );
 
             base.BuildClasses( builder );
         }
@@ -34,18 +35,6 @@ namespace Blazorise
         #endregion
 
         #region Properties
-
-        [Parameter]
-        public bool Disabled
-        {
-            get => disabled;
-            set
-            {
-                disabled = value;
-
-                DirtyClasses();
-            }
-        }
 
         /// <summary>
         /// Occurs when the item is clicked.
@@ -61,11 +50,20 @@ namespace Blazorise
 
         [Parameter] public string Title { get; set; }
 
-        [CascadingParameter] protected BarItem ParentBarItem { get; set; }
+        [CascadingParameter]
+        protected BarItemStore ParentStore
+        {
+            get => parentStore;
+            set
+            {
+                if ( parentStore == value )
+                    return;
 
-        [CascadingParameter( Name = "IconName" )] protected object IconName { get; set; }
+                parentStore = value;
 
-        [CascadingParameter( Name = "Mode" )] protected BarMode Mode { get; set; }
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

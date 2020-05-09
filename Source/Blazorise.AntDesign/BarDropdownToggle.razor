@@ -1,10 +1,10 @@
 ﻿@inherits Blazorise.BarDropdownToggle
-<div @onclick="@ClickHandler" class="ant-menu-submenu-title" role="button" aria-expanded="@Visible.ToString().ToLowerInvariant()" aria-haspopup="true" style="padding-left: 24px;" aria-owns="@SubMenuId">
+<div @onclick="@ClickHandler" class="ant-menu-submenu-title" role="button" aria-expanded="@ParentStore.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" style="padding-left: 24px;" aria-owns="@SubMenuId">
     <span>
-        @if (IconName != null)
+        @if ( ParentStore.IconName != null )
         {
             <span class="anticon">
-                <Icon Name="@IconName" />
+                <Icon Name="@ParentStore.IconName" />
             </span>
         }
         <span>@ChildContent</span>

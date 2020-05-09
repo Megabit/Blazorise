@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -14,7 +15,7 @@ namespace Blazorise
 
         private bool visible;
 
-        private BarMode mode;
+        private BarStore parentStore;
 
         #endregion
 
@@ -22,35 +23,10 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarMenu( Mode ));
-            builder.Append( ClassProvider.BarMenuShow( Mode ), Visible );
+            builder.Append( ClassProvider.BarMenu( ParentStore.Mode ));
+            builder.Append( ClassProvider.BarMenuShow( ParentStore.Mode ), Visible && ParentStore.Visible );
 
             base.BuildClasses( builder );
-        }
-
-        protected override void OnInitialized()
-        {
-            if ( ParentBar != null && ParentBar.Mode == BarMode.Horizontal )
-            {
-                Visible = ParentBar.Visible;
-
-                ParentBar.StateChanged += OnBarStateChanged;
-            }
-
-            base.OnInitialized();
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( ParentBar != null )
-                {
-                    ParentBar.StateChanged -= OnBarStateChanged;
-                }
-            }
-
-            base.Dispose( disposing );
         }
 
         public void Toggle()
@@ -59,11 +35,6 @@ namespace Blazorise
             Toggled?.Invoke( Visible );
 
             StateHasChanged();
-        }
-
-        private void OnBarStateChanged( object sender, BarStateEventArgs e )
-        {
-            Visible = e.Visible;
         }
 
         #endregion
@@ -84,14 +55,16 @@ namespace Blazorise
 
         [Parameter] public Action<bool> Toggled { get; set; }
 
-        [CascadingParameter] protected Bar ParentBar { get; set; }
-
-        [CascadingParameter( Name = "Mode" )] protected BarMode Mode
+        [CascadingParameter] 
+        protected BarStore ParentStore
         {
-            get => mode;
+            get => parentStore;
             set
             {
-                mode = value;
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
 
                 DirtyClasses();
             }

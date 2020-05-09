@@ -2,7 +2,7 @@
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
-        <CascadingValue Value="@CurrentMode" Name="Mode">
+        <CascadingValue Value="@Store">
             <nav class="@ClassNames" style="@StyleNames" data-mode="@ModeString" data-collapse="@CollapseModeString" @attributes="@Attributes">
                 @ChildContent
             </nav>
