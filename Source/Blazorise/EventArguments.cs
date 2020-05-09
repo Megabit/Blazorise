@@ -206,38 +206,6 @@ namespace Blazorise
     }
 
     /// <summary>
-    /// Supplies the information about the selected tab.
-    /// </summary>
-    public class TabsStateEventArgs : EventArgs
-    {
-        public TabsStateEventArgs( string tabName )
-        {
-            TabName = tabName;
-        }
-
-        /// <summary>
-        /// Gets the selected tab name.
-        /// </summary>
-        public string TabName { get; }
-    }
-
-    /// <summary>
-    /// Supplies the information about the selected panel.
-    /// </summary>
-    public class TabsContentStateEventArgs : EventArgs
-    {
-        public TabsContentStateEventArgs( string panelName )
-        {
-            PanelName = panelName;
-        }
-
-        /// <summary>
-        /// Gets the selected panel name.
-        /// </summary>
-        public string PanelName { get; }
-    }
-
-    /// <summary>
     /// Supplies the information about the selected files ready to be uploaded.
     /// </summary>
     public class FileChangedEventArgs : EventArgs
