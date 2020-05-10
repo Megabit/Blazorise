@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -13,29 +14,17 @@ namespace Blazorise
     {
         #region Members
 
-        private bool visible;
-
         private bool split;
 
         private bool jsRegistered;
 
         private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
+        private DropdownStore parentDropdownStore;
+
         #endregion
 
         #region Methods
-
-        protected override void OnInitialized()
-        {
-            if ( ParentDropdown != null )
-            {
-                Visible = ParentDropdown.Visible;
-
-                ParentDropdown.StateChanged += OnDropdownStateChanged;
-            }
-
-            base.OnInitialized();
-        }
 
         protected override async Task OnFirstAfterRenderAsync()
         {
@@ -90,11 +79,6 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        private void OnDropdownStateChanged( object sender, DropdownStateEventArgs e )
-        {
-            Visible = e.Visible;
-        }
-
         /// <summary>
         /// Sets focus on the input element, if it can be focused.
         /// </summary>
@@ -121,34 +105,6 @@ namespace Blazorise
         [Parameter] public ButtonSize Size { get; set; } = ButtonSize.None;
 
         /// <summary>
-        /// Handles the visibility of dropdown toggle.
-        /// </summary>
-        [Parameter]
-        public bool Visible
-        {
-            get => visible;
-            set
-            {
-                visible = value;
-
-                if ( visible )
-                {
-                    jsRegistered = true;
-
-                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
-                }
-                else
-                {
-                    jsRegistered = false;
-
-                    JSRunner.UnregisterClosableComponent( this );
-                }
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
         /// Button outline.
         /// </summary>
         [Parameter] public bool Outline { get; set; }
@@ -163,6 +119,34 @@ namespace Blazorise
             set
             {
                 split = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [CascadingParameter]
+        protected DropdownStore ParentDropdownStore
+        {
+            get => parentDropdownStore;
+            set
+            {
+                if ( parentDropdownStore == value )
+                    return;
+
+                parentDropdownStore = value;
+
+                if ( parentDropdownStore.Visible )
+                {
+                    jsRegistered = true;
+
+                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                }
+                else
+                {
+                    jsRegistered = false;
+
+                    JSRunner.UnregisterClosableComponent( this );
+                }
 
                 DirtyClasses();
             }

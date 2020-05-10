@@ -1,12 +1,10 @@
 ﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <CascadingValue Value=this>
-        <CascadingValue Value="@Active" Name="PaginationItemActive">
-            <li class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                @ChildContent
-            </li>
-        </CascadingValue>
+    <CascadingValue Value="@store" >
+        <li class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </li>
     </CascadingValue>
 }
 else

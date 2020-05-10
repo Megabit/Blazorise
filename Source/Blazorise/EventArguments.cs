@@ -174,54 +174,6 @@ namespace Blazorise
     }
 
     /// <summary>
-    /// Supplies the information about the modal visiblity state.
-    /// </summary>
-    public class ModalStateEventArgs : EventArgs
-    {
-        public ModalStateEventArgs( bool visible )
-        {
-            Visible = visible;
-        }
-
-        /// <summary>
-        /// Gets that flag that indicates if the modal is opened.
-        /// </summary>
-        public bool Visible { get; }
-    }
-
-    /// <summary>
-    /// Supplies the information about the alert visiblity state.
-    /// </summary>
-    public class AlertStateEventArgs : EventArgs
-    {
-        public AlertStateEventArgs( bool visible )
-        {
-            Visible = visible;
-        }
-
-        /// <summary>
-        /// Gets that flag that indicates if the alert is visible.
-        /// </summary>
-        public bool Visible { get; }
-    }
-
-    /// <summary>
-    /// Supplies the information about the dropdown state.
-    /// </summary>
-    public class DropdownStateEventArgs : EventArgs
-    {
-        public DropdownStateEventArgs( bool visible )
-        {
-            Visible = visible;
-        }
-
-        /// <summary>
-        /// Gets that flag that indicates if the dropdown is opened.
-        /// </summary>
-        public bool Visible { get; }
-    }
-
-    /// <summary>
     /// Supplies the information about the bar-dropdown state.
     /// </summary>
     public class BarDropdownStateEventArgs : EventArgs
@@ -251,38 +203,6 @@ namespace Blazorise
         /// Gets that flag that indicates if the bar is opened.
         /// </summary>
         public bool Visible { get; }
-    }
-
-    /// <summary>
-    /// Supplies the information about the selected tab.
-    /// </summary>
-    public class TabsStateEventArgs : EventArgs
-    {
-        public TabsStateEventArgs( string tabName )
-        {
-            TabName = tabName;
-        }
-
-        /// <summary>
-        /// Gets the selected tab name.
-        /// </summary>
-        public string TabName { get; }
-    }
-
-    /// <summary>
-    /// Supplies the information about the selected panel.
-    /// </summary>
-    public class TabsContentStateEventArgs : EventArgs
-    {
-        public TabsContentStateEventArgs( string panelName )
-        {
-            PanelName = panelName;
-        }
-
-        /// <summary>
-        /// Gets the selected panel name.
-        /// </summary>
-        public string PanelName { get; }
     }
 
     /// <summary>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,7 +13,9 @@ namespace Blazorise
     {
         #region Members
 
-        private bool active;
+        private TabsStore parentTabsStore;
+
+        private TabsContentStore parentTabsContentStore;
 
         #endregion
 
@@ -31,70 +34,52 @@ namespace Blazorise
             if ( ParentTabs != null )
             {
                 ParentTabs.HookPanel( Name );
-
-                Active = Name == ParentTabs.SelectedTab;
-
-                ParentTabs.StateChanged += OnTabsContentStateChanged;
             }
 
             if ( ParentTabsContent != null )
             {
                 ParentTabsContent.Hook( Name );
-
-                Active = Name == ParentTabsContent.SelectedPanel;
-
-                ParentTabsContent.StateChanged += OnTabsContentStateChanged;
             }
 
             base.OnInitialized();
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( ParentTabs != null )
-                {
-                    ParentTabs.StateChanged -= OnTabsContentStateChanged;
-                }
-
-                if ( ParentTabsContent != null )
-                {
-                    ParentTabsContent.StateChanged -= OnTabsContentStateChanged;
-                }
-            }
-
-            base.Dispose( disposing );
-        }
-
-        private void OnTabsContentStateChanged( object sender, TabsStateEventArgs e )
-        {
-            Active = Name == e.TabName;
-        }
-
-        private void OnTabsContentStateChanged( object sender, TabsContentStateEventArgs e )
-        {
-            Active = Name == e.PanelName;
         }
 
         #endregion
 
         #region Properties
 
+        protected bool Active => parentTabsStore.SelectedTab == Name || parentTabsContentStore.SelectedPanel == Name;
+
         /// <summary>
         /// Defines the panel name. Must match the coresponding tab name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 
-        /// <summary>
-        /// Determines is the panel active.
-        /// </summary>
-        public bool Active
+        [CascadingParameter]
+        protected TabsStore ParentTabsStore
         {
-            get => active;
-            private set
+            get => parentTabsStore;
+            set
             {
-                active = value;
+                if ( parentTabsStore == value )
+                    return;
+
+                parentTabsStore = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [CascadingParameter]
+        protected TabsContentStore ParentTabsContentStore
+        {
+            get => parentTabsContentStore;
+            set
+            {
+                if ( parentTabsContentStore == value )
+                    return;
+
+                parentTabsContentStore = value;
 
                 DirtyClasses();
             }
