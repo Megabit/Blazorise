@@ -37,7 +37,6 @@ namespace Blazorise.Charts
     [DataContract]
     public class ChartDataset<T>
     {
-
         public ChartDataset() { }
 
         protected ChartDataset(
