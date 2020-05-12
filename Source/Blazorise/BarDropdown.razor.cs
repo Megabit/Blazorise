@@ -39,12 +39,7 @@ namespace Blazorise
 
         public void Show()
         {
-            var temp = Visible;
-
             Visible = true;
-
-            if ( temp != Visible ) // used to prevent toggle event call if Open() is called multiple times
-                Toggled?.Invoke( Visible );
 
             ParentBarItem?.MenuChanged();
 
@@ -53,12 +48,7 @@ namespace Blazorise
 
         public void Hide()
         {
-            var temp = Visible;
-
             Visible = false;
-
-            if ( temp != Visible ) // used to prevent toggle event call if Close() is called multiple times
-                Toggled?.Invoke( Visible );
 
             ParentBarItem?.MenuChanged();
 
@@ -68,7 +58,6 @@ namespace Blazorise
         public void Toggle()
         {
             Visible = !Visible;
-            Toggled?.Invoke( Visible );
 
             ParentBarItem?.MenuChanged();
 
@@ -95,12 +84,13 @@ namespace Blazorise
                     return;
 
                 store.Visible = value;
+                VisibleChanged.InvokeAsync( value );
 
                 DirtyClasses();
             }
         }
 
-        [Parameter] public Action<bool> Toggled { get; set; }
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         [CascadingParameter] protected BarItem ParentBarItem { get; set; }
 

@@ -20,7 +20,7 @@
                             </BarLink>
                         </BarItem>
                         <BarItem IconName="IconName.Edit">
-                            <BarDropdown Toggled="( isOpen ) => uiElementsVisible = isOpen" Visible="@uiElementsVisible">
+                            <BarDropdown @bind-Visible="@uiElementsVisible">
                                 <BarDropdownToggle>
                                     UI Elements
                                 </BarDropdownToggle>
