@@ -145,11 +145,11 @@
 }
 
 .sidebar:not(.sidebar-collapsed).show {
-    margin-left: -var(--b-sidebar-width, 220px);
+    margin-left: calc(var(--b-sidebar-width, 220px) * -1);
 }
 
 .sidebar-collapsed.show {
-    margin-left: -var(--b-sidebar-width, 220px);
+    margin-left: calc(var(--b-sidebar-width, 220px) * -1);
 }
 
 html[data-useragent*="MSIE 10.0"] .show.sidebar-collapsed {
@@ -192,7 +192,7 @@ html[data-useragent*="MSIE 10.0"] .show.sidebar-collapsed {
 
 @media (min-width:1px) and (max-width:767.98px) {
     .sidebar:not(.sidebar-collapsed) {
-        margin-left: -var(--b-sidebar-width, 220px);
+        margin-left: calc(var(--b-sidebar-width, 220px) * -1);
     }
 
         .sidebar:not(.sidebar-collapsed).show {
