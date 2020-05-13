@@ -523,7 +523,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "collapse navbar-collapse" : "b-bar-menu";
 
-        public override string BarMenuShow( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? Show() : null;
+        public override string BarMenuShow( BarMode mode ) => Show();
 
         public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav mr-auto" : "b-bar-start";
 
@@ -541,7 +541,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu" : "b-bar-dropdown-menu";
 
-        public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => mode == Blazorise.BarMode.Horizontal ? visible ? Show() : null : null;
+        public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
         public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-right" : null;
 

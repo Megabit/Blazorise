@@ -84,7 +84,6 @@ namespace Blazorise
                     return;
 
                 store.Visible = value;
-                VisibleChanged.InvokeAsync( value );
 
                 DirtyClasses();
             }

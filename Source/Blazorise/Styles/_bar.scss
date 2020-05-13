@@ -154,7 +154,7 @@
             padding: 2px;
             -webkit-transform: rotate(-135deg);
             transform: rotate(-135deg);
-            top: 1.2rem;
+            top: 1.5rem;
             right: 1.25rem;
             transition: all .2s ease-out;
             float: right;
@@ -164,13 +164,7 @@
         &:not(.show):before {
             -webkit-transform: rotate(45deg);
             transform: rotate(45deg);
-            top: 1rem;
-        }
-
-        &.show {
-            .b-bar-dropdown-menu {
-                display: block !important;
-            }
+            top: 1.3rem;
         }
 
         .b-bar-dropdown-menu {
@@ -179,6 +173,10 @@
             color: inherit;
             float: none;
             padding: 5px 0px;
+
+            &.show {
+                display: block !important;
+            }
 
             .b-bar-dropdown-item {
                 position: relative;
@@ -354,7 +352,6 @@
 .b-bar-hidden {
     @include hiddenBar;
 }
-
 /* Mobile & below */
 @media only screen and (max-width:576px) {
     .b-bar-vertical-inline,
