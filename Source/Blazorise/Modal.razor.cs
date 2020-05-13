@@ -47,6 +47,21 @@ namespace Blazorise
             base.BuildStyles( builder );
         }
 
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                // TODO: implement IAsyncDisposable once it is supported by Blazor!
+                //
+                // Sometimes user can navigates to another page based on the action runned on modal. The problem is 
+                // that for providers like Bootstrap, some classnames can be left behind. So to cover those situation
+                // we need to close modal and dispose of any claassnames in case there is any left. 
+                _ = JSRunner.CloseModal( ElementRef, ElementId );
+            }
+
+            base.Dispose( disposing );
+        }
+
         /// <summary>
         /// Opens the modal dialog.
         /// </summary>
