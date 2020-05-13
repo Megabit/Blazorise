@@ -41,8 +41,6 @@ namespace Blazorise
         {
             Visible = true;
 
-            ParentBarItem?.MenuChanged();
-
             StateHasChanged();
         }
 
@@ -50,16 +48,12 @@ namespace Blazorise
         {
             Visible = false;
 
-            ParentBarItem?.MenuChanged();
-
             StateHasChanged();
         }
 
         public void Toggle()
         {
             Visible = !Visible;
-
-            ParentBarItem?.MenuChanged();
 
             StateHasChanged();
         }
