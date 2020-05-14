@@ -167,7 +167,7 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
         }
 
-        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
+        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop );
 
         public abstract ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
 
