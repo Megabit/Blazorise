@@ -13,7 +13,11 @@ window.antDesign = {
         }
     },
     modal: {
-        open: (element, elementId) => {
+        open: (element, elementId, scrollToTop) => {
+            if (scrollToTop) {
+                element.querySelector('.ant-modal-body').scrollTop = 0;
+            }
+
             return true;
         },
         close: (element, elementId) => {

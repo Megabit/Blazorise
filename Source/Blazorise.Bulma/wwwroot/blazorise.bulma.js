@@ -20,8 +20,10 @@ window.blazoriseBulma = {
         return true;
     },
     modal: {
-        open: (element, elementId) => {
-            element.querySelector('.modal-card-body').scrollTop = 0;
+        open: (element, elementId, scrollToTop) => {
+            if (scrollToTop) {
+                element.querySelector('.modal-card-body').scrollTop = 0;
+            }
 
             return true;
         },

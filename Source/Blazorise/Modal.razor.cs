@@ -134,7 +134,7 @@ namespace Blazorise
             {
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.OpenModal( ElementRef, ElementId );
+                    await JSRunner.OpenModal( ElementRef, ElementId, ScrollToTop );
                 } );
             }
             else
@@ -190,6 +190,11 @@ namespace Blazorise
                 }
             }
         }
+
+        /// <summary>
+        /// If true modal will scroll to top when opened.
+        /// </summary>
+        [Parameter] public bool ScrollToTop { get; set; } = true;
 
         /// <summary>
         /// Occurs before the modal is closed.

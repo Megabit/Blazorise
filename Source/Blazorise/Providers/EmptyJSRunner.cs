@@ -17,7 +17,7 @@ namespace Blazorise.Providers
 
         }
 
-        public override ValueTask<bool> OpenModal( ElementReference elementRef, string elementId )
+        public override ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop )
         {
             throw new NotImplementedException();
         }
