@@ -24,7 +24,7 @@ namespace Blazorise.DataGrid
             => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
 
         protected int ColumnSpan
-            => Columns.Count;
+            => Columns.Count - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
 
         /// <summary>
         /// Item associated with the data set.
