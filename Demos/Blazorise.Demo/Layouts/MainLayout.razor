@@ -146,6 +146,13 @@
                                     <Row>
                                         <Column Margin="Margin.Is2.FromBottom">
                                             <Field>
+                                                <Switch TValue="bool" Checked="@(Theme?.Enabled == true)" CheckedChanged="@OnThemeEnabledChanged">Theme enabled</Switch>
+                                            </Field>
+                                        </Column>
+                                    </Row>
+                                    <Row>
+                                        <Column Margin="Margin.Is2.FromBottom">
+                                            <Field>
                                                 <Check TValue="bool" Checked="@(Theme?.IsGradient == true)" CheckedChanged="@OnGradientChanged">Gradient colors</Check>
                                             </Field>
                                             <Field>
@@ -177,6 +184,16 @@
 </Layout>
 
 @code{
+    void OnThemeEnabledChanged( bool value )
+    {
+        if ( Theme == null )
+            return;
+
+        Theme.Enabled = value;
+
+        Theme.ThemeHasChanged();
+    }
+
     void OnGradientChanged( bool value )
     {
         if ( Theme == null )
