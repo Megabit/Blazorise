@@ -6,7 +6,7 @@
         <Blazorise.Link Class="@ClassNames" Style="@StyleNames" To="@To" Title="@Title" Match="@Match">
             @if ( ParentStore.IconName != null )
             {
-                <Icon Name="@ParentStore.IconName" />
+                <BarIcon IconName="ParentStore.IconName" />
             }
             <span>@ChildContent</span>
         </Blazorise.Link>
@@ -16,7 +16,7 @@
         <a class="@ClassNames" style="@StyleNames" title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
             @if ( ParentStore.IconName != null )
             {
-                <Icon Name="@ParentStore.IconName" />
+                <BarIcon IconName="ParentStore.IconName" />
             }
             <span>@ChildContent</span>
         </a>

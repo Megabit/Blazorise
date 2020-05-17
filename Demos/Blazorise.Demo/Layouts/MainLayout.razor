@@ -6,7 +6,7 @@
         <LayoutSiderContent>
             <Bar Breakpoint="Breakpoint.Desktop" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small" @bind-Visible="siderVisible">
                 <BarBrand>
-                    <BarItem IconName="IconName.Dashboard">
+                    <BarItem IconName="customIcon">
                         <BarLink To="">
                             Blazorise Demo
                         </BarLink>
@@ -246,6 +246,7 @@
 
     bool uiElementsVisible = true;
     bool siderVisible = true;
+    RenderFragment customIcon = @<img src="/brand-logo.png" width="32" height="32" />;
 
     void ToggleSidebar()
     {

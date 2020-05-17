@@ -1,0 +1,12 @@
+﻿@if ( IconName is string || IconName is IconName )
+{
+    <Icon Name="@IconName" />
+}
+else
+{
+    @( IconName as RenderFragment )
+}
+
+@code {
+    [Parameter] public object IconName { get; set; }
+}
