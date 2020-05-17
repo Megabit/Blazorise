@@ -71,7 +71,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        public void Toggle()
+        internal void Toggle()
         {
             Visible = !Visible;
 
@@ -152,6 +152,8 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         /// <summary>
         /// Used for responsive collapsing.

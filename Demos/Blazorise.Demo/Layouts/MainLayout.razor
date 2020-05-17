@@ -4,7 +4,7 @@
 <Layout Sider="true">
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar @ref="sider" Breakpoint="Breakpoint.Desktop" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small">
+            <Bar Breakpoint="Breakpoint.Desktop" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small" @bind-Visible="siderVisible">
                 <BarBrand>
                     <BarItem IconName="IconName.Dashboard">
                         <BarLink To="">
@@ -243,18 +243,14 @@
         Theme.ThemeHasChanged();
     }
 
-    Bar sider;
 
     bool uiElementsVisible = true;
-
-    //bool collapseNavMenu = true;
     bool siderVisible = true;
 
     void ToggleSidebar()
     {
-        sider.Toggle();
-        //siderVisible = !siderVisible;
-        //StateHasChanged();
+        siderVisible = !siderVisible;
+        StateHasChanged();
     }
 
     [CascadingParameter] protected Theme Theme { get; set; }

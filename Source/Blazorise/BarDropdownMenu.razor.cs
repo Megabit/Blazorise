@@ -13,6 +13,8 @@ namespace Blazorise
     {
         #region Members
 
+        private bool rightAligned;
+
         private BarDropdownStore parentStore;
 
         #endregion
@@ -23,7 +25,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.BarDropdownMenu( ParentStore.Mode ) );
             builder.Append( ClassProvider.BarDropdownMenuVisible( ParentStore.Mode, ParentStore.Visible ) );
-            builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), ParentStore.RightAligned );
+            builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), RightAligned );
 
             base.BuildClasses( builder );
         }
@@ -31,6 +33,18 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        [Parameter]
+        public bool RightAligned
+        {
+            get => rightAligned;
+            set
+            {
+                rightAligned = value;
+
+                DirtyClasses();
+            }
+        }
 
         [CascadingParameter]
         protected BarDropdownStore ParentStore

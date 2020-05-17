@@ -37,21 +37,21 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        public void Show()
+        internal void Show()
         {
             Visible = true;
 
             StateHasChanged();
         }
 
-        public void Hide()
+        internal void Hide()
         {
             Visible = false;
 
             StateHasChanged();
         }
 
-        public void Toggle()
+        internal void Toggle()
         {
             Visible = !Visible;
 

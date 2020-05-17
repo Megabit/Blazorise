@@ -17,7 +17,6 @@ namespace Blazorise.Stores
         public bool Equals( BarDropdownStore other )
         {
             return Visible == other.Visible
-                && RightAligned == other.RightAligned
                 && Mode == other.Mode;
         }
 
@@ -26,8 +25,7 @@ namespace Blazorise.Stores
             // Use a different bit for bool fields: bool.GetHashCode() will return 0 (false) or 1 (true). So we would
             // end up having the same hash code for e.g. two instances where one has only noCache set and the other
             // only noStore.
-            var result = Visible.GetHashCode()
-                ^ ( RightAligned.GetHashCode() << 1 ); // increase shift by one for every bool field
+            var result = Visible.GetHashCode();
 
             result = result
                 ^ ( Mode.GetHashCode() ^ 1 ); // power of two for every other field(^1, ^2, ^4, ^8, ^16, ...)
@@ -50,8 +48,6 @@ namespace Blazorise.Stores
         #region Properties
 
         public bool Visible { readonly get; set; }
-
-        public bool RightAligned { readonly get; set; }
 
         public object IconName { get; set; }
 
