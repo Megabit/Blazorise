@@ -1,10 +1,10 @@
-﻿@if ( IconName is string || IconName is IconName )
+﻿@if ( IconName is RenderFragment )
 {
-    <Icon Name="@IconName" />
+    @( IconName as RenderFragment )
 }
 else
 {
-    @( IconName as RenderFragment )
+    <Icon Name="@IconName" />
 }
 
 @code {
