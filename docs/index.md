@@ -10,7 +10,7 @@ header:
     - label: "<i class='fas fa-desktop'></i> See it in action"
       url: "https://bootstrapdemo.blazorise.com"
 excerpt: >
-  Blazorise is a frontend components library built on top of Blazor and CSS frameworks like Bootstrap, Bulma, AntDesign and Material.<br />
+  Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Bulma, AntDesign and Material.<br />
   <small><a href="https://github.com/stsrki/Blazorise">View it on GitHub</a></small>
 feature_row:
   - image_path: /assets/images/web_02_500_333.jpeg
