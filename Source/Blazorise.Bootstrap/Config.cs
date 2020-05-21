@@ -44,7 +44,6 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
             componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
             componentMapper.Register<Blazorise.Button, Bootstrap.Button>();
-            componentMapper.Register( typeof( Blazorise.RadioGroup<> ), typeof( Bootstrap.RadioGroup<> ) );
             componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) );
             componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( Bootstrap.Switch<> ) );
         }
