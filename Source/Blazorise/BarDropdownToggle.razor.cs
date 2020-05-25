@@ -63,10 +63,16 @@ namespace Blazorise
                 {
                     isRegistered = false;
 
-                    _ = JSRunner.UnregisterClosableComponent( this );
+                    if ( IsRendered )
+                    {
+                        _ = JSRunner.UnregisterClosableComponent( this );
+                    }
                 }
 
-                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                if ( IsRendered )
+                {
+                    JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                }
             }
 
             base.Dispose( disposing );

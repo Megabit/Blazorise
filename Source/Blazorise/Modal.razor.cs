@@ -49,7 +49,7 @@ namespace Blazorise
 
         protected override void Dispose( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && IsRendered )
             {
                 // TODO: implement IAsyncDisposable once it is supported by Blazor!
                 //

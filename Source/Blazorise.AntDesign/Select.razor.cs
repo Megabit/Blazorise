@@ -42,7 +42,7 @@ namespace Blazorise.AntDesign
 
         protected override void Dispose( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && IsRendered )
             {
                 // TODO: switch to IAsyncDisposable
                 _ = JSRunner.UnregisterClosableComponent( this );

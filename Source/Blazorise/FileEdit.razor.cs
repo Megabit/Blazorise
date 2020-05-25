@@ -53,7 +53,7 @@ namespace Blazorise
 
         protected override void Dispose( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && IsRendered )
             {
                 JSRunner.DestroyFileEdit( ElementRef, ElementId );
                 JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );

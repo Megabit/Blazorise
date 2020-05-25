@@ -20,6 +20,8 @@ namespace Blazorise
 
         private string customStyle;
 
+        private bool isRendered;
+
         private IComponentMapper componentMapper;
 
         private Float @float = Float.None;
@@ -76,6 +78,8 @@ namespace Blazorise
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
+            isRendered = true;
+
             // If the component has custom implementation we need to postpone the initialisation
             // until the custom component is rendered!
             if ( !HasCustomRegistration )
@@ -247,6 +251,11 @@ namespace Blazorise
         /// Gets the built class-names based on all the rules set by the component parameters.
         /// </summary>
         protected string ClassNames => ClassBuilder.Class;
+
+        /// <summary>
+        /// Indicates if component has been rendered in the browser.
+        /// </summary>
+        protected bool IsRendered => isRendered;
 
         /// <summary>
         /// Gets the style mapper.
