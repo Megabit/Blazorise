@@ -537,8 +537,6 @@ namespace Blazorise.Frolic
 
         public override string BarDropdownMenuRight( BarMode mode ) => "drop-items-right";
 
-        public override string BarCollapsed( BarMode mode, BarCollapseMode collapseMode ) => mode == Blazorise.BarMode.Horizontal ? null : $"b-bar-collapsed-{ToBarCollapsedMode( collapseMode )}";
-
         #endregion
 
         #region Accordion

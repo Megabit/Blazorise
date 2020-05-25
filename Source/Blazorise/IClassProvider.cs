@@ -493,8 +493,6 @@ namespace Blazorise
 
         string BarDropdownMenuRight( BarMode mode );
 
-        string BarCollapsed( BarMode mode, BarCollapseMode collapseMode );
-
         #endregion
 
         #region Accordion

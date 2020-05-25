@@ -23,8 +23,6 @@ namespace Blazorise
 
         private Alignment alignment = Alignment.None;
 
-        private BarMode initialMode = BarMode.Horizontal;
-
         private BarCollapseMode collapseMode = BarCollapseMode.Hide;
 
         private Background background = Background.None;
@@ -46,7 +44,6 @@ namespace Blazorise
             {
                 lastBrokenState = BreakpointActivatorAdapter.IsBroken( this, await JSRunner.GetBreakpoint() );
                 Visible = !lastBrokenState;
-                ToggleMode();
             }
 
             await base.OnInitializedAsync();
@@ -68,8 +65,7 @@ namespace Blazorise
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
-            builder.Append( ClassProvider.BarCollapsed( CurrentMode, CollapseMode ), !Visible );
-            builder.Append( ClassProvider.BarMode( CurrentMode ) );
+            builder.Append( ClassProvider.BarMode( Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -107,34 +103,20 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
-        private void ToggleMode()
-        {
-            if ( CurrentMode == BarMode.Horizontal )
-                return;
-
-            CurrentMode = !Visible && collapseMode == BarCollapseMode.Small ?
-                BarMode.VerticalSmall :
-                initialMode;
-        }
-
         #endregion
 
         #region Properties
 
         protected BarStore Store => store;
 
-        protected string CollapseModeString => ClassProvider.ToBarCollapsedMode( CollapseMode );
-
-        protected string ModeString => ClassProvider.ToBarMode( initialMode );
-
-        protected BarMode CurrentMode
+        protected string CollapseModeString
         {
-            get => store.Mode;
-            set
+            get
             {
-                store.Mode = value;
+                if ( Visible )
+                    return null;
 
-                DirtyClasses();
+                return ClassProvider.ToBarCollapsedMode( CollapseMode );
             }
         }
 
@@ -153,9 +135,6 @@ namespace Blazorise
 
                 store.Visible = value;
                 VisibleChanged.InvokeAsync( value );
-
-                // Vertical bars need to manage their currentMode on Visible toggling
-                ToggleMode();
 
                 DirtyClasses();
             }
@@ -226,14 +205,13 @@ namespace Blazorise
         [Parameter]
         public BarMode Mode
         {
-            get => initialMode;
+            get => store.Mode;
             set
             {
-                if ( initialMode == value )
+                if ( store.Mode == value )
                     return;
 
                 store.Mode = value;
-                initialMode = value;
 
                 DirtyClasses();
             }

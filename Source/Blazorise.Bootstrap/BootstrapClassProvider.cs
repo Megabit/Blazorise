@@ -489,7 +489,7 @@ namespace Blazorise.Bootstrap
 
         #region Bar
 
-        public override string Bar() => "navbar";
+        public override string Bar() => "navbar b-bar";
 
         public override string BarBackground( Background background ) => BackgroundColor( background );
 
@@ -544,8 +544,6 @@ namespace Blazorise.Bootstrap
         public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
         public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-right" : null;
-
-        public override string BarCollapsed( BarMode mode, BarCollapseMode collapseMode ) => mode == Blazorise.BarMode.Horizontal ? null : $"b-bar-collapsed-{ToBarCollapsedMode( collapseMode )}";
 
         #endregion
 
