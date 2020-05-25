@@ -53,6 +53,9 @@ namespace Blazorise
 
         internal void Toggle()
         {
+            if ( Store.Mode == BarMode.VerticalSmall )
+                return;
+
             Visible = !Visible;
 
             StateHasChanged();
@@ -78,6 +81,7 @@ namespace Blazorise
                     return;
 
                 store.Visible = value;
+                VisibleChanged.InvokeAsync( value );
 
                 DirtyClasses();
             }

@@ -15,6 +15,8 @@ namespace Blazorise
     {
         #region Members
 
+        private bool lastBrokenState;
+
         private Breakpoint breakpoint = Breakpoint.None;
 
         private ThemeContrast themeContrast = ThemeContrast.Light;
@@ -42,7 +44,8 @@ namespace Blazorise
         {
             if ( Mode != BarMode.Horizontal )
             {
-                Visible = !BreakpointActivatorAdapter.IsBroken( this, await JSRunner.GetBreakpoint() );
+                lastBrokenState = BreakpointActivatorAdapter.IsBroken( this, await JSRunner.GetBreakpoint() );
+                Visible = !lastBrokenState;
                 ToggleMode();
             }
 
@@ -80,7 +83,11 @@ namespace Blazorise
 
         public Task OnBreakpoint( bool broken )
         {
-            Visible = !broken;
+            if ( lastBrokenState == broken )
+                return Task.CompletedTask;
+
+            lastBrokenState = broken;
+            Visible = !lastBrokenState;
             
             StateHasChanged();
 
@@ -145,6 +152,7 @@ namespace Blazorise
                     return;
 
                 store.Visible = value;
+                VisibleChanged.InvokeAsync( value );
 
                 // Vertical bars need to manage their currentMode on Visible toggling
                 ToggleMode();
