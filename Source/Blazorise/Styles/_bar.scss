@@ -132,14 +132,16 @@
         }
 
         .b-bar-dropdown-menu {
-            display: none;
+            display: block;
+            margin-top: -100%;
+            transition: margin 200ms ease-in-out;
             background: inherit;
             color: inherit;
             float: none;
             padding: 5px 0px;
 
             &.show {
-                display: block !important;
+                margin-top: 0;
             }
 
             .b-bar-dropdown-item {

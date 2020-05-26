@@ -317,7 +317,9 @@
     .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu,
     .b-bar-vertical-popout .b-bar-dropdown .b-bar-dropdown-menu,
     .b-bar-vertical-small .b-bar-dropdown .b-bar-dropdown-menu {
-        display: none;
+        display: block;
+        margin-top: -100%;
+        transition: margin 200ms ease-in-out;
         background: inherit;
         color: inherit;
         float: none;
@@ -325,7 +327,7 @@
         .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu.show,
         .b-bar-vertical-popout .b-bar-dropdown .b-bar-dropdown-menu.show,
         .b-bar-vertical-small .b-bar-dropdown .b-bar-dropdown-menu.show {
-            display: block !important; }
+            margin-top: 0; }
         .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu .b-bar-dropdown-item,
         .b-bar-vertical-popout .b-bar-dropdown .b-bar-dropdown-menu .b-bar-dropdown-item,
         .b-bar-vertical-small .b-bar-dropdown .b-bar-dropdown-menu .b-bar-dropdown-item {
