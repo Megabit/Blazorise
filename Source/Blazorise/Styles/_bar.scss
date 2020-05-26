@@ -110,6 +110,13 @@
         }
     }
 
+    .b-bar-label {
+        background: transparent;
+        color: #adb5bd;
+        padding: .375rem 1.25rem;
+        font-size: .75rem;
+    }
+
     .b-bar-dropdown {
         &:before {
             @include b-bar-dropdown-arrow;

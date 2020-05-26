@@ -286,6 +286,13 @@
         .b-bar-vertical-popout .b-bar-link i,
         .b-bar-vertical-small .b-bar-link i {
             margin-right: 0.3rem; }
+    .b-bar-vertical-inline .b-bar-label,
+    .b-bar-vertical-popout .b-bar-label,
+    .b-bar-vertical-small .b-bar-label {
+        background: transparent;
+        color: #adb5bd;
+        padding: .375rem 1.25rem;
+        font-size: .75rem; }
     .b-bar-vertical-inline .b-bar-dropdown:before,
     .b-bar-vertical-popout .b-bar-dropdown:before,
     .b-bar-vertical-small .b-bar-dropdown:before {
