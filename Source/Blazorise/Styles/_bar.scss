@@ -4,6 +4,51 @@
     --b-sidebar-brand-height: 64px;
 }
 
+@mixin b-bar-popout-menu {
+    display: block !important;
+    visibility: hidden;
+    position: absolute !important;
+    margin-left: 5px;
+    margin-top: -45px;
+    z-index: 100;
+    box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
+    border-radius: 3px;
+    min-width: 180px;
+    max-width: 180px;
+
+    .b-bar-dropdown-item {
+        padding: .5rem 1.5rem !important;
+    }
+
+    &:hover, &:focus, &active {
+        visibility: visible;
+    }
+
+    &:before {
+        position: absolute;
+        top: 0;
+        left: -7px;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        opacity: .0001;
+        content: ' ';
+    }
+}
+
+@mixin b-bar-dropdown-arrow {
+    content: " ";
+    border: solid;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 2px;
+    right: 1.25rem;
+    transition: all 200ms ease-out;
+    float: right;
+    position: relative;
+}
+
 .b-bar-vertical-inline,
 .b-bar-vertical-popout,
 .b-bar-vertical-small {
@@ -67,18 +112,10 @@
 
     .b-bar-dropdown {
         &:before {
-            content: " ";
-            border: solid;
-            border-width: 0 2px 2px 0;
-            display: inline-block;
-            padding: 2px;
+            @include b-bar-dropdown-arrow;
             -webkit-transform: rotate(-135deg);
             transform: rotate(-135deg);
             top: 1.5rem;
-            right: 1.25rem;
-            transition: all 200ms ease-out;
-            float: right;
-            position: relative;
         }
 
         &:not(.show):before {
@@ -158,6 +195,7 @@
             .b-bar-dropdown-item {
                 &.active {
                     color: #fff;
+                    background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */
                 }
 
                 &:hover {
@@ -172,7 +210,7 @@
 
             &.active {
                 color: #fff;
-                /*background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */
+                background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */
             }
 
             &:hover {
@@ -234,7 +272,7 @@
 
 .b-bar-vertical-small,
 .b-bar-vertical-inline[data-collapse=small],
-.b-bar-vertical-popout[data-collapse=snall] {
+.b-bar-vertical-popout[data-collapse=small] {
     width: var(--b-sidebar-small-width, 64px);
     min-width: var(--b-sidebar-small-width, 64px);
     transition: width 200ms ease-in-out, min-width 200ms ease-in-out;
@@ -252,37 +290,8 @@
     }
 
     .b-bar-dropdown-menu {
-        display: block !important;
-        visibility: hidden;
-        position: absolute !important;
+        @include b-bar-popout-menu;
         left: var(--b-sidebar-small-width, 64px);
-        margin-left: 5px;
-        margin-top: -45px;
-        z-index: 100;
-        box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
-        border-radius: 3px;
-        min-width: 180px;
-        max-width: 180px;
-
-        .b-bar-dropdown-item {
-            padding: .5rem 1.5rem !important;
-        }
-
-        &:hover, &:focus, &active {
-            visibility: visible;
-        }
-
-        &:before {
-            position: absolute;
-            top: 0;
-            left: -7px;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            opacity: .0001;
-            content: ' ';
-        }
     }
 
     @keyframes b-bar-link-small {
@@ -325,29 +334,23 @@
 
 .b-bar-vertical-popout:not([data-collapse]) {
     .b-bar-dropdown {
-        &:hover {
+        &:before {
+            @include b-bar-dropdown-arrow;
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+            top: 1.45rem;
+        }
+
+        &:hover, &:focus, &active {
             .b-bar-dropdown-menu {
-                display: block !important;
+                visibility: visible;
             }
         }
     }
 
     .b-bar-dropdown-menu {
-        display: none;
-        position: absolute !important;
+        @include b-bar-popout-menu;
         left: var(--b-sidebar-width, 220px);
-        margin-left: 5px;
-        top: -5px;
-        z-index: 100;
-        box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
-
-        .b-bar-dropdown-item {
-            padding: .5rem 1.5rem !important;
-        }
-
-        &:hover {
-            display: block !important;
-        }
     }
 }
 
