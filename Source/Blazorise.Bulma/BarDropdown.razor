@@ -1,6 +1,15 @@
 ﻿@inherits Blazorise.BarDropdown
 <CascadingValue Value=this>
     <CascadingValue Value="@Store">
-        @ChildContent
+        @if (Store.Mode == BarMode.Horizontal)
+        {
+            @ChildContent
+        }
+        else
+        {
+            <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @ChildContent
+            </div>
+        }
     </CascadingValue>
 </CascadingValue>

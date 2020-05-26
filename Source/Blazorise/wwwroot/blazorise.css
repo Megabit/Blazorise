@@ -233,7 +233,7 @@
     min-width: var(--b-sidebar-width, 220px);
     max-width: var(--b-sidebar-width, 220px);
     width: var(--b-sidebar-width, 220px);
-    transition: width .2s ease-in-out, min-width .2s ease-in-out;
+    transition: width 200ms ease-in-out, min-width 200ms ease-in-out;
     box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
     height: 100vh;
     /* 
@@ -298,7 +298,7 @@
         transform: rotate(-135deg);
         top: 1.5rem;
         right: 1.25rem;
-        transition: all .2s ease-out;
+        transition: all 200ms ease-out;
         float: right;
         position: relative; }
     .b-bar-vertical-inline .b-bar-dropdown:not(.show):before,
@@ -324,7 +324,7 @@
         .b-bar-vertical-small .b-bar-dropdown .b-bar-dropdown-menu .b-bar-dropdown-item {
             position: relative;
             color: inherit;
-            transition: background .1s ease-in-out,color .1s ease-in-out;
+            transition: background 100ms ease-in-out,color 100ms ease-in-out;
             text-decoration: none;
             display: block;
             width: 100%;
@@ -445,7 +445,7 @@
 .b-bar-vertical-popout[data-collapse=snall] {
     width: var(--b-sidebar-small-width, 64px);
     min-width: var(--b-sidebar-small-width, 64px);
-    transition: width .2s ease-in-out, min-width .2s ease-in-out; }
+    transition: width 200ms ease-in-out, min-width 200ms ease-in-out; }
     .b-bar-vertical-small .b-bar-dropdown:before,
     .b-bar-vertical-inline[data-collapse=small] .b-bar-dropdown:before,
     .b-bar-vertical-popout[data-collapse=snall] .b-bar-dropdown:before {
@@ -496,12 +496,17 @@
             height: 100%;
             opacity: .0001;
             content: ' '; }
+
+@keyframes b-bar-link-small {
+    to {
+        text-align: center;
+        padding-left: 0px;
+        padding-right: 0px; } }
     .b-bar-vertical-small .b-bar-link,
     .b-bar-vertical-inline[data-collapse=small] .b-bar-link,
     .b-bar-vertical-popout[data-collapse=snall] .b-bar-link {
-        text-align: center;
-        padding-left: 0 !important;
-        padding-right: 0 !important; }
+        animation: b-bar-link-small forwards;
+        animation-delay: 170ms; }
         .b-bar-vertical-small .b-bar-link span,
         .b-bar-vertical-inline[data-collapse=small] .b-bar-link span,
         .b-bar-vertical-popout[data-collapse=snall] .b-bar-link span {
@@ -543,7 +548,7 @@
 .b-bar-vertical-small[data-collapse=hide] {
     width: 0px;
     min-width: 0px;
-    transition: width .2s ease-in-out, min-width .2s ease-in-out, visibility .1s;
+    transition: width 200ms ease-in-out, min-width 200ms ease-in-out, visibility 100ms;
     visibility: hidden; }
 
 /* Mobile & below */

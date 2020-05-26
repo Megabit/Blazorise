@@ -489,7 +489,7 @@ namespace Blazorise.Bootstrap
 
         #region Bar
 
-        public override string Bar() => "navbar b-bar";
+        public override string Bar() => "navbar";
 
         public override string BarBackground( Background background ) => BackgroundColor( background );
 

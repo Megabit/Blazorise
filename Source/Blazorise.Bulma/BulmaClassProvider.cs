@@ -510,7 +510,7 @@ namespace Blazorise.Bulma
 
         public override string BarItemDisabled( BarMode mode ) => Disabled();
 
-        public override string BarItemHasDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "has-dropdown" : "b-bar-dropdown";
+        public override string BarItemHasDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "has-dropdown" : null;
 
         public override string BarItemHasDropdownShow( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? Active() : Show();
 
@@ -536,7 +536,7 @@ namespace Blazorise.Bulma
 
         //public override string BarHasDropdown() => "has-dropdown";
 
-        public override string BarDropdown( BarMode mode ) => null;
+        public override string BarDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown";
 
         public override string BarDropdownShow( BarMode mode ) => null;
 
@@ -550,7 +550,7 @@ namespace Blazorise.Bulma
 
         public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
-        public override string BarDropdownMenuRight( BarMode mode ) => "is-right";
+        public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "is-right" : null;
 
         #endregion
 
