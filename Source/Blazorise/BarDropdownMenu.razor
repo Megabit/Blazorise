@@ -2,10 +2,8 @@
 @if (!HasCustomRegistration)
 {
     <CascadingValue Value="@ParentStore">
-        <div style="overflow: hidden">
-            <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                @ChildContent
-            </div>
+        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
         </div>
     </CascadingValue>
 }
