@@ -413,44 +413,52 @@
         /*background: var(--b-sidebar-background);*/
         /*color: var(--b-sidebar-color);*/
         background: #fff;
-        color: rgba(0, 0, 0, 0.5); }
-        .b-bar-vertical-inline.b-bar-light .b-bar-brand .b-bar-link,
-        .b-bar-vertical-popout.b-bar-light .b-bar-brand .b-bar-link,
-        .b-bar-vertical-small.b-bar-light .b-bar-brand .b-bar-link {
-            color: #000; }
-            .b-bar-vertical-inline.b-bar-light .b-bar-brand .b-bar-link.active,
-            .b-bar-vertical-popout.b-bar-light .b-bar-brand .b-bar-link.active,
-            .b-bar-vertical-small.b-bar-light .b-bar-brand .b-bar-link.active {
-                color: #000;
-                background: #fff; }
-            .b-bar-vertical-inline.b-bar-light .b-bar-brand .b-bar-link:hover,
-            .b-bar-vertical-popout.b-bar-light .b-bar-brand .b-bar-link:hover,
-            .b-bar-vertical-small.b-bar-light .b-bar-brand .b-bar-link:hover {
-                color: #000;
-                background: inherit; }
+        color: rgba(0, 0, 0, 0.7); }
+        .b-bar-vertical-inline.b-bar-light .b-bar-brand,
+        .b-bar-vertical-popout.b-bar-light .b-bar-brand,
+        .b-bar-vertical-small.b-bar-light .b-bar-brand {
+            background: rgba(0, 0, 0, 0.025); }
+            .b-bar-vertical-inline.b-bar-light .b-bar-brand .b-bar-link,
+            .b-bar-vertical-popout.b-bar-light .b-bar-brand .b-bar-link,
+            .b-bar-vertical-small.b-bar-light .b-bar-brand .b-bar-link {
+                color: #000; }
+                .b-bar-vertical-inline.b-bar-light .b-bar-brand .b-bar-link.active,
+                .b-bar-vertical-popout.b-bar-light .b-bar-brand .b-bar-link.active,
+                .b-bar-vertical-small.b-bar-light .b-bar-brand .b-bar-link.active {
+                    background: inherit; }
+                .b-bar-vertical-inline.b-bar-light .b-bar-brand .b-bar-link:hover,
+                .b-bar-vertical-popout.b-bar-light .b-bar-brand .b-bar-link:hover,
+                .b-bar-vertical-small.b-bar-light .b-bar-brand .b-bar-link:hover {
+                    background: inherit; }
         .b-bar-vertical-inline.b-bar-light .b-bar-dropdown-menu,
         .b-bar-vertical-popout.b-bar-light .b-bar-dropdown-menu,
         .b-bar-vertical-small.b-bar-light .b-bar-dropdown-menu {
-            background: rgba(0, 0, 0, 0.05); }
+            background: #f2f2f2; }
             .b-bar-vertical-inline.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item.active,
             .b-bar-vertical-popout.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item.active,
             .b-bar-vertical-small.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item.active {
-                color: #000; }
+                color: #000;
+                background: #0288D1;
+                /* TODO: CHANGE THIS TO BE GENERATED */ }
             .b-bar-vertical-inline.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item:hover,
             .b-bar-vertical-popout.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item:hover,
             .b-bar-vertical-small.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item:hover {
                 color: #000; }
-        .b-bar-vertical-inline.b-bar-light .b-bar-link.active,
-        .b-bar-vertical-popout.b-bar-light .b-bar-link.active,
-        .b-bar-vertical-small.b-bar-light .b-bar-link.active {
-            color: #000;
-            background: #0288D1;
-            /* TODO: CHANGE THIS TO BE GENERATED */ }
-        .b-bar-vertical-inline.b-bar-light .b-bar-link:hover,
-        .b-bar-vertical-popout.b-bar-light .b-bar-link:hover,
-        .b-bar-vertical-small.b-bar-light .b-bar-link:hover {
-            color: #000;
-            background: rgba(0, 0, 0, 0.3); }
+        .b-bar-vertical-inline.b-bar-light .b-bar-link,
+        .b-bar-vertical-popout.b-bar-light .b-bar-link,
+        .b-bar-vertical-small.b-bar-light .b-bar-link {
+            color: inherit; }
+            .b-bar-vertical-inline.b-bar-light .b-bar-link.active,
+            .b-bar-vertical-popout.b-bar-light .b-bar-link.active,
+            .b-bar-vertical-small.b-bar-light .b-bar-link.active {
+                color: #000;
+                background: #0288D1;
+                /* TODO: CHANGE THIS TO BE GENERATED */ }
+            .b-bar-vertical-inline.b-bar-light .b-bar-link:hover,
+            .b-bar-vertical-popout.b-bar-light .b-bar-link:hover,
+            .b-bar-vertical-small.b-bar-light .b-bar-link:hover {
+                color: #000;
+                background: rgba(0, 0, 0, 0.3); }
 
 .b-bar-vertical-small,
 .b-bar-vertical-inline[data-collapse=small],

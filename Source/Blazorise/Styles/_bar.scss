@@ -233,30 +233,31 @@
         /*background: var(--b-sidebar-background);*/
         /*color: var(--b-sidebar-color);*/
         background: #fff;
-        color: rgba(0,0,0,.5);
+        color: rgba(0,0,0,0.7);
 
         .b-bar-brand {
+            background: rgba(0,0,0,0.025);
+
             .b-bar-link {
                 color: #000;
 
                 &.active {
-                    color: #000;
-                    background: #fff;
+                    background: inherit;
                 }
 
                 &:hover {
-                    color: #000;
                     background: inherit;
                 }
             }
         }
 
         .b-bar-dropdown-menu {
-            background: rgba(0,0,0,0.05);
+            background: #f2f2f2;
 
             .b-bar-dropdown-item {
                 &.active {
                     color: #000;
+                    background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */
                 }
 
                 &:hover {
@@ -266,6 +267,8 @@
         }
 
         .b-bar-link {
+            color: inherit;
+
             &.active {
                 color: #000;
                 background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */
