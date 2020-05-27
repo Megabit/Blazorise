@@ -28,6 +28,7 @@ namespace Blazorise
             builder.Append( ClassProvider.BarItem( Store.Mode ) );
             builder.Append( ClassProvider.BarItemActive( Store.Mode ), Store.Active );
             builder.Append( ClassProvider.BarItemDisabled( Store.Mode ), Store.Disabled );
+            builder.Append( ClassProvider.BarItemHasDropdown( Store.Mode ), HasDropdown );
 
             base.BuildClasses( builder );
         }
@@ -35,6 +36,8 @@ namespace Blazorise
         internal void Hook( BarDropdown barDropdown )
         {
             this.barDropdown = barDropdown;
+
+            DirtyClasses();
 
             StateHasChanged();
         }
