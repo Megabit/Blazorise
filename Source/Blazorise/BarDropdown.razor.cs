@@ -34,6 +34,8 @@ namespace Blazorise
             // link to the parent component
             ParentBarItem?.Hook( this );
 
+            Visible = Open;
+
             base.OnInitialized();
         }
 
@@ -68,9 +70,11 @@ namespace Blazorise
         protected BarDropdownStore Store => store;
 
         /// <summary>
-        /// Gets or sets a value indicating whether the control and all its child controls are displayed.
+        /// Sets a value indicating whether the control and all its child controls are displayed by default
         /// </summary>
         [Parameter]
+        public bool Open { get; set; }
+
         public bool Visible
         {
             get => store.Visible;
@@ -81,13 +85,10 @@ namespace Blazorise
                     return;
 
                 store.Visible = value;
-                VisibleChanged.InvokeAsync( value );
 
                 DirtyClasses();
             }
         }
-
-        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         [CascadingParameter] protected BarItem ParentBarItem { get; set; }
 
