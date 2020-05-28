@@ -8,8 +8,7 @@
     display: block !important;
     visibility: hidden;
     position: absolute !important;
-    margin-left: 5px;
-    margin-top: -45px;
+    margin: -45px 5px 0px 5px;
     z-index: 100;
     box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
     border-radius: 3px;
@@ -34,6 +33,13 @@
         height: 100%;
         opacity: .0001;
         content: ' ';
+    }
+
+    &.b-bar-right {
+        &:before {
+            left: unset;
+            right: -7px;
+        }
     }
 }
 
@@ -303,6 +309,11 @@
     .b-bar-dropdown-menu {
         @include b-bar-popout-menu;
         left: var(--b-sidebar-small-width, 64px);
+
+        &.b-bar-right {
+            right: var(--b-sidebar-small-width, 64px);
+            left: unset;
+        }
     }
 
     @keyframes b-bar-link-small {
@@ -362,6 +373,11 @@
     .b-bar-dropdown-menu {
         @include b-bar-popout-menu;
         left: var(--b-sidebar-width, 220px);
+
+        &.b-bar-right {
+            right: var(--b-sidebar-small-width, 220px);
+            left: unset;
+        }
     }
 }
 
