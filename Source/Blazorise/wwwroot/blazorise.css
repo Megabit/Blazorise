@@ -269,9 +269,8 @@
     .b-bar-vertical-small .b-bar-link {
         display: block;
         width: 100%;
-        padding-left: 1.5rem !important;
         text-decoration: none;
-        padding: .5rem;
+        padding: .5rem .5rem .5rem 1.5rem;
         cursor: pointer;
         white-space: nowrap;
         text-overflow: ellipsis;
