@@ -1,22 +1,3 @@
-﻿@inject IClassProvider ClassProvider;
-
-<span class="@classNames">
+﻿<span class="@classNames">
     @ChildContent
 </span>
-
-@code {
-    [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public Float Float { get; set; }
-
-    private string classNames;
-
-    protected override void OnParametersSet()
-    {
-        classNames = "ql-formats";
-
-        if (Float != Float.None)
-        {
-            classNames += " " + ClassProvider.ToFloat(Float);
-        }
-    }
-}

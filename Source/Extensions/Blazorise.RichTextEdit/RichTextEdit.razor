@@ -1,110 +1,23 @@
-﻿@using Blazorise.Utils
-@using Microsoft.AspNetCore.Components.Web
-@using Microsoft.JSInterop
-
-@inherits BaseComponent
-
-@inject IJSRuntime JSRuntime;
+﻿@inherits BaseComponent
 
 <div @ref="ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+
     @if (ToolbarContent != null && ToolbarPosition != Placement.Bottom)
     {
-        <div @ref="@ToolbarRef">
+        <div @ref="@toolbarRef">
             @ToolbarContent
         </div>
     }
 
-    <div @ref="@EditorRef">
+    <div @ref="@editorRef">
         @EditorContent
     </div>
 
     @if (ToolbarContent != null && ToolbarPosition == Placement.Bottom)
     {
-        <div @ref="@ToolbarRef" style="border-top: 0">
+        <div @ref="@toolbarRef" style="border-top: 0">
             @ToolbarContent
         </div>
     }
+
 </div>
-
-@code {
-    [Parameter] public RenderFragment ToolbarContent { get; set; }
-    [Parameter] public RenderFragment EditorContent { get; set; }
-
-    [Parameter]
-    public bool ReadOnly
-
-    {
-        get => readOnly;
-        set
-        {
-            readOnly = value;
-            SetReadOnly(value);
-        }
-    }
-
-    [Parameter] public RichTextEditTheme Theme { get; set; } = RichTextEditTheme.Snow;
-    [Parameter] public string PlaceHolder { get; set; }
-    [Parameter] public EventCallback<string> ContentChanged { get; set; }
-    [Parameter] public Placement ToolbarPosition { get; set; } = Placement.Top;
-    [Parameter] public bool SubmitOnEnter { get; set; }
-    [Parameter] public EventCallback EnterPressed { get; set; }
-
-    private readonly CompositeDisposable cleanup = new CompositeDisposable();
-
-    private ElementReference ToolbarRef;
-    private ElementReference EditorRef;
-    private bool readOnly;
-    private bool initialized;
-
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-
-        Destroy();
-        cleanup.Dispose();
-    }
-
-    protected override async Task OnFirstAfterRenderAsync()
-    {
-        var dotNetRef = DotNetObjectReference.Create(this).DisposeWith(cleanup);
-
-        await JSRuntime.InvokeVoidAsync("blazoriseRichTextEdit.initialize",
-            dotNetRef,
-            EditorRef,
-            ToolbarContent != null ? ToolbarRef : default,
-            ReadOnly,
-            PlaceHolder,
-            Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
-            nameof(OnContentChanged),
-            SubmitOnEnter,
-            nameof(OnEnter));
-
-        initialized = true;
-
-        if (EditorContent != null)
-        {
-            var initialContent = await GetContentAsync();
-            OnContentChanged(initialContent);
-        }
-    }
-
-    private async void Destroy()
-    {
-        await JSRuntime.InvokeVoidAsync("blazoriseRichTextEdit.destroy", EditorRef);
-    }
-
-    public ValueTask SetContentAsync(string html) => JSRuntime.InvokeVoidAsync("blazoriseRichTextEdit.setContent", EditorRef, html);
-    public ValueTask<string> GetContentAsync() => JSRuntime.InvokeAsync<string>("blazoriseRichTextEdit.getContent", EditorRef);
-    public ValueTask ClearAsync() => JSRuntime.InvokeVoidAsync("blazoriseRichTextEdit.clearContent", EditorRef);
-
-    [JSInvokable] public Task OnContentChanged(string html) => ContentChanged.InvokeAsync(html);
-    [JSInvokable] public Task OnEnter() => EnterPressed.InvokeAsync(true);
-
-    private async void SetReadOnly(bool value)
-    {
-        if (initialized)
-        {
-            await JSRuntime.InvokeVoidAsync("blazoriseRichTextEdit.setReadOnly", EditorRef, value);
-        }
-    }
-}

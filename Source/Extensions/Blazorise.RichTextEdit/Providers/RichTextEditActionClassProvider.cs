@@ -1,7 +1,13 @@
 ﻿namespace Blazorise.RichTextEdit.Providers
 {
+    /// <summary>
+    /// Class provider for <see cref="RichTextEditAction"/>
+    /// </summary>
     public sealed class RichTextEditActionClassProvider
     {
+        /// <summary>
+        /// Get the QuillJS class for the specified action.
+        /// </summary>
         public static string Class( RichTextEditAction? action ) =>
             action switch
             {

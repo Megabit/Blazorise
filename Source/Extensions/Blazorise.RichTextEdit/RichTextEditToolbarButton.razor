@@ -1,34 +1,5 @@
-﻿@using Blazorise.RichTextEdit.Providers
-@inherits BaseComponent
+﻿@inherits BaseComponent
 
 <button class="@ClassNames" style="@StyleNames" value="@Value" @attributes="@Attributes">
     @ChildContent
 </button>
-
-@code {
-    private RichTextEditAction? action;
-
-    [Parameter] public RenderFragment ChildContent { get; set; }
-    [Parameter] public string Value { get; set; }
-
-    [Parameter]
-    public RichTextEditAction? Action
-    {
-        get => action;
-        set
-        {
-            action = value;
-            DirtyClasses();
-        }
-    }
-
-    protected override void BuildClasses(ClassBuilder builder)
-    {
-        base.BuildClasses(builder);
-
-        if (Action.HasValue)
-        {
-            builder.Append(RichTextEditActionClassProvider.Class(action));
-        }
-    }
-}
