@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Blazorise.Providers;
 #endregion
 
@@ -38,6 +37,26 @@ namespace Blazorise.Icons.FontAwesome
             { IconName.Palette, "fa-palette" },
             { IconName.SortUp, "fa-sort-up" },
             { IconName.SortDown, "fa-sort-down" },
+            { IconName.Bold, "fa-bold" },
+            { IconName.Italic, "fa-italic" },
+            { IconName.Underline, "fa-underline" },
+            { IconName.StrikeThrough, "fa-strikethrough" },
+            { IconName.Quote, "fa-quote-right" },
+            { IconName.Code, "fa-code" },
+            { IconName.Heading, "fa-heading" },
+            { IconName.Indent, "fa-indent" },
+            { IconName.FontSize, "fa-text-height" },
+            { IconName.AlignLeft, "fa-align-left" },
+            { IconName.AlignRight, "fa-align-right" },
+            { IconName.AlignCenter, "fa-align-center" },
+            { IconName.RemoveFormat, "fa-remove-format" },
+            { IconName.SuperScript, "fa-superscript" },
+            { IconName.SubScript, "fa-subscript" },
+            { IconName.Image, "fa-image" },
+            { IconName.Link, "fa-link" },
+            { IconName.UnorderedList, "fa-list-ul" },
+            { IconName.OrderedList, "fa-list-ol" },
+            { IconName.Help, "fa-question" },
         };
 
         private static Dictionary<IconStyle, string> styles = new Dictionary<IconStyle, string>

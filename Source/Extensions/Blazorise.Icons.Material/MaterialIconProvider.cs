@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Blazorise.Providers;
 #endregion
 
@@ -38,6 +37,26 @@ namespace Blazorise.Icons.Material
             { IconName.Palette, "palette" },
             { IconName.SortUp, "arrow_drop_up" },
             { IconName.SortDown, "arrow_drop_down" },
+            { IconName.Bold, "format_bold" },
+            { IconName.Italic, "format_italic" },
+            { IconName.Underline, "format_underline" },
+            { IconName.StrikeThrough, "format_strikethrough" },
+            { IconName.Quote, "format_quote" },
+            { IconName.Code, "code" },
+            { IconName.Heading, "title" },
+            { IconName.Indent, "format_indent_increase" },
+            { IconName.FontSize, "format_size" },
+            { IconName.AlignLeft, "format_align_left" },
+            { IconName.AlignRight, "format_align_right" },
+            { IconName.AlignCenter, "format_align_center" },
+            { IconName.RemoveFormat, "format_clear" },
+            { IconName.SuperScript, "superscript" },
+            { IconName.SubScript, "subscript" },
+            { IconName.Image, "insert_photo" },
+            { IconName.Link, "link" },
+            { IconName.UnorderedList, "format_list_bulleted" },
+            { IconName.OrderedList, "format_list_numbered" },
+            { IconName.Help, "help" },
         };
 
         private static Dictionary<IconStyle, string> styles = new Dictionary<IconStyle, string>

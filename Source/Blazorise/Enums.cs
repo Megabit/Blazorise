@@ -1,8 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise
@@ -1173,6 +1169,29 @@ namespace Blazorise
         Palette,
         SortUp,
         SortDown,
+        Help,
+
+        Bold,
+        Italic,
+        Underline,
+        StrikeThrough,
+        Quote,
+        Code,
+        Heading,
+        OrderedList,
+        UnorderedList,
+        Script,
+        Indent,
+        FontSize,
+        Background,
+        AlignLeft,
+        AlignRight,
+        AlignCenter,
+        RemoveFormat,
+        SuperScript,
+        SubScript,
+        Image,
+        Link
     }
 
     public enum IconStyle

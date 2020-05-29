@@ -1,0 +1,33 @@
+﻿@using Blazorise.RichTextEdit.Providers
+@inherits BaseComponent
+
+<select class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    @ChildContent
+</select>
+
+@code {
+    private RichTextEditAction? action;
+
+    [Parameter]
+    public RichTextEditAction? Action
+    {
+        get => action;
+        set
+        {
+            action = value;
+            DirtyClasses();
+        }
+    }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    protected override void BuildClasses(ClassBuilder builder)
+    {
+        base.BuildClasses(builder);
+
+        if (Action.HasValue)
+        {
+            builder.Append(RichTextEditActionClassProvider.Class(action));
+        }
+    }
+}

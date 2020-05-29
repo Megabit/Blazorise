@@ -1,0 +1,142 @@
+﻿@page "/tests/richtextedit"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Rich Text Editor</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Based on: <a href="https://quilljs.com/">QuillJs</a></CardText>
+            </CardBody>
+            <CardBody>
+                <Fields>
+                    <Field>
+                        <FieldLabel>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@readOnly">Read only</Check>
+                        </FieldBody>
+                    </Field>
+                </Fields>
+            </CardBody>
+            <CardBody>
+                <RichTextEdit @ref="richTextEditRef" 
+                               ContentChanged="@OnContentChanged" 
+                               PlaceHolder="Type your post here..."
+                               ReadOnly="@readOnly" 
+                               SubmitOnEnter="true"
+                               EnterPressed="@OnSave"
+                               ToolbarPosition="Placement.Bottom">
+                    <EditorContent>
+                        <p><b>Hello </b><i>world</i>!</p>
+                        <p><br></p>
+                        <p>
+                            based on: <a href="https://quilljs.com/">Quill</a>
+                        </p>
+                    </EditorContent>
+                    <ToolbarContent>
+                        <RichTextEditToolbarGroup>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Bold"><Icon Name="IconName.Bold" /></RichTextEditToolbarButton>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Italic"><Icon Name="IconName.Italic" /></RichTextEditToolbarButton>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Underline"><Icon Name="IconName.Underline" /></RichTextEditToolbarButton>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Strike"><Icon Name="IconName.StrikeThrough" /></RichTextEditToolbarButton>
+                        </RichTextEditToolbarGroup>
+                        <RichTextEditToolbarGroup>
+                            <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                                <RichTextEditToolbarSelectItem Value="small" />
+                                <RichTextEditToolbarSelectItem IsSelected="true" />
+                                <RichTextEditToolbarSelectItem Value="large" />
+                                <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+                            </RichTextEditToolbarSelect>
+                        </RichTextEditToolbarGroup>
+                        <RichTextEditToolbarGroup>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered"><Icon Name="IconName.OrderedList" /></RichTextEditToolbarButton>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet"><Icon Name="IconName.UnorderedList" /></RichTextEditToolbarButton>
+                        </RichTextEditToolbarGroup>
+                        <RichTextEditToolbarGroup>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Blockquote"><Icon Name="IconName.Quote" /></RichTextEditToolbarButton>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock"><Icon Name="IconName.Code" /></RichTextEditToolbarButton>
+                        </RichTextEditToolbarGroup>
+                        <RichTextEditToolbarGroup>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="sub"><Icon Name="IconName.SubScript" /></RichTextEditToolbarButton>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="super"><Icon Name="IconName.SuperScript" /></RichTextEditToolbarButton>
+                        </RichTextEditToolbarGroup>
+                        <RichTextEditToolbarGroup>
+                            <RichTextEditToolbarSelect Action="RichTextEditAction.Color" />
+                            <RichTextEditToolbarSelect Action="RichTextEditAction.Background" />
+                        </RichTextEditToolbarGroup>
+                        <RichTextEditToolbarGroup Float="Float.Right">
+                            <Button onClick="window.open('https://www.quilljs.com/','quilljs')"><Icon Name="IconName.Help" /></Button>
+                            <Button Clicked="@OnSave"><Icon Name="IconName.Save" /></Button>
+                        </RichTextEditToolbarGroup>
+                    </ToolbarContent>
+                </RichTextEdit>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>Content Preview</CardHeader>
+            <CardBody>@((MarkupString) content)</CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>Bubble theme</CardHeader>
+            <CardBody>
+                <Alert Visible="true">
+                    <AlertMessage>Note:</AlertMessage>
+                    <AlertDescription>Start typing and change format by key bindings or by selecting the text</AlertDescription>
+                </Alert>
+                <RichTextEdit Style="border: 1px solid" Theme="RichTextEditTheme.Bubble" PlaceHolder="My message" />
+            </CardBody>
+        </Card>
+    </Column>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>Snow theme</CardHeader>
+            <CardBody>
+                <RichTextEdit />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Modal @ref="modalRef">
+    <ModalBackdrop />
+    <ModalContent Size="ModalSize.Default" Centered="true">
+        <ModalHeader>
+            <ModalTitle>Saved content</ModalTitle>
+            <CloseButton Clicked="@(() => modalRef.Hide())" />
+        </ModalHeader>
+        <ModalBody>
+            @((MarkupString) savedContent)
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Primary" Clicked="(() => modalRef.Hide())">Ok</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code {
+    private Modal modalRef;
+    private RichTextEdit richTextEditRef;
+    private bool readOnly;
+    private string content;
+    private string savedContent;
+
+    public void OnContentChanged(string html)
+    {
+        content = html;
+        StateHasChanged();
+    }
+
+    public async Task OnSave()
+    {
+        savedContent = await richTextEditRef.GetContentAsync();
+        modalRef.Show();
+        await richTextEditRef.ClearAsync();
+    }
+}
