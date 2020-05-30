@@ -84,8 +84,10 @@
 </Row>
 <Row>
     <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>Bubble theme</CardHeader>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                Bubble theme
+            </CardHeader>
             <CardBody>
                 <Alert Visible="true">
                     <AlertMessage>Note:</AlertMessage>
@@ -96,8 +98,10 @@
         </Card>
     </Column>
     <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>Snow theme</CardHeader>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                Snow theme
+            </CardHeader>
             <CardBody>
                 <RichTextEdit />
             </CardBody>
@@ -127,10 +131,11 @@
     private string content;
     private string savedContent;
 
-    public void OnContentChanged( string html )
+    public Task OnContentChanged( string html )
     {
         content = html;
-        StateHasChanged();
+
+        return Task.CompletedTask;
     }
 
     public async Task OnSave()
