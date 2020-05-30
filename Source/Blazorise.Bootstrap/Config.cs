@@ -37,6 +37,7 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.BarDropdown, Bootstrap.BarDropdown>();
             componentMapper.Register<Blazorise.CardTitle, Bootstrap.CardTitle>();
             componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
+            componentMapper.Register<Blazorise.Carousel, Bootstrap.Carousel>();
             componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
             componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Bootstrap.Check<> ) );
             componentMapper.Register<Blazorise.Field, Bootstrap.Field>();
