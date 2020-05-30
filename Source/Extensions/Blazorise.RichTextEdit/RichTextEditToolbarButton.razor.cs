@@ -1,36 +1,23 @@
-﻿using Blazorise.RichTextEdit.Providers;
+﻿#region Using directives
+using Blazorise.RichTextEdit.Providers;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.RichTextEdit
 {
     public partial class RichTextEditToolbarButton : BaseComponent
     {
-        #region Members        
-        /// <summary>The toolbar action</summary>
+        #region Members
+
+        /// <summary>
+        /// The toolbar action.
+        /// </summary>
         private RichTextEditAction? action;
+
         #endregion
 
-        #region Members                
-        /// <summary>Gets or sets the child content.</summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
+        #region Methods
 
-        /// <summary>Gets or sets the value corresponding to the action.</summary>
-        [Parameter] public string Value { get; set; }
-
-        /// <summary>Gets or sets the toolbar action.</summary>
-        [Parameter]
-        public RichTextEditAction? Action
-        {
-            get => action;
-            set
-            {
-                action = value;
-                DirtyClasses();
-            }
-        }
-        #endregion
-
-        #region Methods        
         /// <summary>
         /// Builds the classes.
         /// </summary>
@@ -44,6 +31,35 @@ namespace Blazorise.RichTextEdit
 
             base.BuildClasses( builder );
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the child content.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value corresponding to the action.
+        /// </summary>
+        [Parameter] public string Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets the toolbar action.
+        /// </summary>
+        [Parameter]
+        public RichTextEditAction? Action
+        {
+            get => action;
+            set
+            {
+                action = value;
+                DirtyClasses();
+            }
+        }
+
         #endregion
     }
 }

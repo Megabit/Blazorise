@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿#region Using directives
+using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.RichTextEdit
 {
     public partial class RichTextEditToolbarGroup : BaseComponent
     {
-        #region Properties        
-        /// <summary>Gets or sets the child content.</summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-        #endregion
+        #region Methods
 
-        #region Methods        
         /// <summary>
         /// Builds the classes.
         /// </summary>
@@ -20,6 +18,16 @@ namespace Blazorise.RichTextEdit
 
             base.BuildClasses( builder );
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the child content.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
         #endregion
     }
 }

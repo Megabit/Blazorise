@@ -3,7 +3,7 @@
         if (!editorRef) return false;
 
         const options = {
-            modules: { },
+            modules: {},
             placeholder: placeholder,
             readOnly: readOnly,
             theme: theme
@@ -66,14 +66,14 @@
     },
     setContent: (editorRef, html) => {
         var editor = editorRef.quill;
-        if (!editor) return; 
+        if (!editor) return;
 
         var delta = editor.clipboard.convert(html);
         editor.setContents(delta);
     },
     clearContent: (editorRef) => {
         var editor = editorRef.quill;
-        if (!editor) return; 
+        if (!editor) return;
 
         editor.setContents([]);
     }

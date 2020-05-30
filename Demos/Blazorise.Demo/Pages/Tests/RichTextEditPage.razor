@@ -21,13 +21,13 @@
                 </Fields>
             </CardBody>
             <CardBody>
-                <RichTextEdit @ref="richTextEditRef" 
-                               ContentChanged="@OnContentChanged" 
-                               PlaceHolder="Type your post here..."
-                               ReadOnly="@readOnly" 
-                               SubmitOnEnter="true"
-                               EnterPressed="@OnSave"
-                               ToolbarPosition="Placement.Bottom">
+                <RichTextEdit @ref="richTextEditRef"
+                              ContentChanged="@OnContentChanged"
+                              PlaceHolder="Type your post here..."
+                              ReadOnly="@readOnly"
+                              SubmitOnEnter="true"
+                              EnterPressed="@OnSave"
+                              ToolbarPosition="Placement.Bottom">
                     <EditorContent>
                         <p><b>Hello </b><i>world</i>!</p>
                         <p><br></p>
@@ -127,7 +127,7 @@
     private string content;
     private string savedContent;
 
-    public void OnContentChanged(string html)
+    public void OnContentChanged( string html )
     {
         content = html;
         StateHasChanged();

@@ -1,22 +1,36 @@
-﻿using System;
+﻿#region Using directives
+using System;
+#endregion
 
 namespace Blazorise.Utils
 {
     internal sealed class Disposable : IDisposable
     {
+        #region Members
+
         private Action action;
 
-        private Disposable(Action action)
+        #endregion
+
+        #region Constructors
+
+        private Disposable( Action action )
         {
-            this.action = action ?? throw new ArgumentNullException(nameof(action));
+            this.action = action ?? throw new ArgumentNullException( nameof( action ) );
         }
 
-        public static IDisposable Create(Action action) => new Disposable(action);
+        #endregion
+
+        #region Methods
+
+        public static IDisposable Create( Action action ) => new Disposable( action );
 
         public void Dispose()
         {
             action?.Invoke();
             action = null;
         }
+
+        #endregion
     }
 }

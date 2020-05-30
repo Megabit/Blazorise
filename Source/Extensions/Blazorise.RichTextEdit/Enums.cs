@@ -1,6 +1,8 @@
 ﻿namespace Blazorise.RichTextEdit
 {
-    /// <summary>QuillJS toolbar actions</summary>
+    /// <summary>
+    /// QuillJS toolbar actions
+    /// </summary>
     /// <seealso href="https://quilljs.com/docs/modules/toolbar/"/>
     public enum RichTextEditAction
     {
@@ -23,7 +25,9 @@
         Clean
     }
 
-    /// <summary>QuillJS themes</summary>
+    /// <summary>
+    /// QuillJS themes
+    /// </summary>
     /// <seealso href="https://quilljs.com/docs/themes/"/>
     public enum RichTextEditTheme
     {
