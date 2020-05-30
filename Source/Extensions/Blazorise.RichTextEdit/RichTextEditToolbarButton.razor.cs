@@ -37,11 +37,6 @@ namespace Blazorise.RichTextEdit
         #region Properties
 
         /// <summary>
-        /// Gets or sets the child content.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        /// <summary>
         /// Gets or sets the value corresponding to the action.
         /// </summary>
         [Parameter] public string Value { get; set; }

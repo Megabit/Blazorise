@@ -3,7 +3,9 @@
         if (!editorRef) return false;
 
         const options = {
-            modules: {},
+            modules: {
+                toolbar: toolbarRef
+            },
             placeholder: placeholder,
             readOnly: readOnly,
             theme: theme
@@ -26,16 +28,11 @@
             };
         }
 
-        if (toolbarRef) {
-            options.modules.toolbar = toolbarRef;
-        }
-
         const quill = new Quill(editorRef, options);
 
         quill.on('text-change', (delta, oldDelta, source) => {
             if (source === 'user') {
-                const html = quill.root.innerHTML;
-                dotnetAdapter.invokeMethodAsync(onContentChanged, html);
+                dotnetAdapter.invokeMethodAsync(onContentChanged);
             }
         });
 
@@ -58,18 +55,42 @@
         else
             editor.enable();
     },
-    getContent: (editorRef) => {
+    getHtml: (editorRef) => {
         var editor = editorRef.quill;
         if (!editor) return undefined;
 
         return editor.root.innerHTML;
     },
-    setContent: (editorRef, html) => {
+    setHtml: (editorRef, html) => {
         var editor = editorRef.quill;
         if (!editor) return;
 
         var delta = editor.clipboard.convert(html);
         editor.setContents(delta);
+    },
+    getDelta: (editorRef) => {
+        var editor = editorRef.quill;
+        if (!editor) return undefined;
+
+        return JSON.stringify(editor.getContents());
+    },
+    setDelta: (editorRef, delta) => {
+        var editor = editorRef.quill;
+        if (!editor) return;
+
+        editor.setContents(delta);
+    },
+    getText: (editorRef) => {
+        var editor = editorRef.quill;
+        if (!editor) return undefined;
+
+        return editor.getText();
+    },
+    setText: (editorRef, txt) => {
+        var editor = editorRef.quill;
+        if (!editor) return;
+
+        editor.setText(txt);
     },
     clearContent: (editorRef) => {
         var editor = editorRef.quill;

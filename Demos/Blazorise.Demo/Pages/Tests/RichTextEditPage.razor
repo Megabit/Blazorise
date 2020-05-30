@@ -28,19 +28,19 @@
                               SubmitOnEnter="false"
                               EnterPressed="@OnSave"
                               ToolbarPosition="Placement.Bottom">
-                    <EditorContent>
+                    <Editor>
                         <p><b>Hello </b><i>world</i>!</p>
                         <p><br></p>
                         <p>
                             based on: <a href="https://quilljs.com/">Quill</a>
                         </p>
-                    </EditorContent>
-                    <ToolbarContent>
+                    </Editor>
+                    <Toolbar>
                         <RichTextEditToolbarGroup>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Bold"><Icon Name="IconName.Bold" /></RichTextEditToolbarButton>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Italic"><Icon Name="IconName.Italic" /></RichTextEditToolbarButton>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Underline"><Icon Name="IconName.Underline" /></RichTextEditToolbarButton>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Strike"><Icon Name="IconName.Strikethrough" /></RichTextEditToolbarButton>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Underline" />
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Strike" />
                         </RichTextEditToolbarGroup>
                         <RichTextEditToolbarGroup>
                             <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
@@ -51,16 +51,16 @@
                             </RichTextEditToolbarSelect>
                         </RichTextEditToolbarGroup>
                         <RichTextEditToolbarGroup>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered"><Icon Name="IconName.ListOl" /></RichTextEditToolbarButton>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet"><Icon Name="IconName.ListUl" /></RichTextEditToolbarButton>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+                            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
                         </RichTextEditToolbarGroup>
                         <RichTextEditToolbarGroup>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Blockquote"><Icon Name="IconName.QuoteRight" /></RichTextEditToolbarButton>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock"><Icon Name="IconName.Code" /></RichTextEditToolbarButton>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Blockquote" />
+                            <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
                         </RichTextEditToolbarGroup>
                         <RichTextEditToolbarGroup>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="sub"><Icon Name="IconName.Subscript" /></RichTextEditToolbarButton>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="super"><Icon Name="IconName.Superscript" /></RichTextEditToolbarButton>
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="sub" />
+                            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="super" />
                         </RichTextEditToolbarGroup>
                         <RichTextEditToolbarGroup>
                             <RichTextEditToolbarSelect Action="RichTextEditAction.Color" />
@@ -70,15 +70,29 @@
                             <Button onClick="window.open('https://www.quilljs.com/','quilljs')"><Icon Name="IconName.QuestionCircle" /></Button>
                             <Button Clicked="@OnSave"><Icon Name="IconName.Save" /></Button>
                         </RichTextEditToolbarGroup>
-                    </ToolbarContent>
+                    </Toolbar>
                 </RichTextEdit>
             </CardBody>
         </Card>
     </Column>
+</Row>
+<Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
-            <CardHeader>Content Preview</CardHeader>
-            <CardBody>@((MarkupString) content)</CardBody>
+            <CardHeader>Html Content Preview</CardHeader>
+            <CardBody>@((MarkupString) contentAsHtml)</CardBody>
+        </Card>
+    </Column>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>Delta Content Preview</CardHeader>
+            <CardBody><code>@contentAsDeltaJson</code></CardBody>
+        </Card>
+    </Column>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>Text Content Preview</CardHeader>
+            <CardBody><text>@contentAsText</text></CardBody>
         </Card>
     </Column>
 </Row>
@@ -128,19 +142,21 @@
     private Modal modalRef;
     private RichTextEdit richTextEditRef;
     private bool readOnly;
-    private string content;
+    private string contentAsHtml;
+    private string contentAsDeltaJson;
+    private string contentAsText;
     private string savedContent;
 
-    public Task OnContentChanged( string html )
+    public async Task OnContentChanged()
     {
-        content = html;
-
-        return Task.CompletedTask;
+        contentAsHtml = await richTextEditRef.GetHtmlAsync();
+        contentAsDeltaJson = await richTextEditRef.GetDeltaAsync();
+        contentAsText = await richTextEditRef.GetTextAsync();
     }
 
     public async Task OnSave()
     {
-        savedContent = await richTextEditRef.GetContentAsync();
+        savedContent = await richTextEditRef.GetHtmlAsync();
         modalRef.Show();
         await richTextEditRef.ClearAsync();
     }

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
@@ -65,7 +66,7 @@ namespace Blazorise.RichTextEdit
             await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.initialize",
                 dotNetRef,
                 editorRef,
-                ToolbarContent != null ? toolbarRef : default,
+                Toolbar != null ? toolbarRef : default,
                 ReadOnly,
                 PlaceHolder,
                 Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
@@ -75,37 +76,93 @@ namespace Blazorise.RichTextEdit
 
             initialized = true;
 
-            if ( EditorContent != null )
+            if ( Editor != null )
             {
-                var initialContent = await GetContentAsync();
-                await OnContentChanged( initialContent );
+                await OnContentChanged();
             }
         }
 
-        /// <summary>
-        /// Sets the editor content asynchronous.
-        /// </summary>
-        public ValueTask SetContentAsync( string html )
-            => JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setContent", editorRef, html );
 
         /// <summary>
-        /// Gets the editor content asynchronous.
+        /// Sets the editor content as html asynchronous.
         /// </summary>
-        public ValueTask<string> GetContentAsync()
-            => JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getContent", editorRef );
+        public async ValueTask SetHtmlAsync( string html )
+        {
+            if ( !initialized )
+                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setHtml", editorRef, html );
+        }
+
+        /// <summary>
+        /// Gets the editor content as html asynchronous.
+        /// </summary>
+        public async ValueTask<string> GetHtmlAsync()
+        {
+            if ( !initialized )
+                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getHtml", editorRef );
+        }
+
+        /// <summary>
+        /// Sets the editor content as Quill delta json asynchronous.
+        /// </summary>
+        /// <seealso href="https://quilljs.com/docs/delta/"/>
+        public async ValueTask SetDeltaAsync( string deltaJson )
+        {
+            if ( !initialized )
+                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setDelta", editorRef, deltaJson );
+        }
+
+        /// <summary>
+        /// Gets the editor content as Quill delta asynchronous.
+        /// </summary>
+        /// <seealso href="https://quilljs.com/docs/delta/"/>
+        public async ValueTask<string> GetDeltaAsync()
+        {
+            if ( !initialized )
+                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getDelta", editorRef );
+        }
+
+        /// <summary>
+        /// Sets the editor plain text asynchronous.
+        /// </summary>
+        public async ValueTask SetTextAsync( string text )
+        {
+            if ( !initialized )
+                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setText", editorRef, text );
+        }
+
+        /// <summary>
+        /// Gets the editor plain text asynchronous.
+        /// </summary>
+        /// <seealso href="https://quilljs.com/docs/delta/"/>
+        public async ValueTask<string> GetTextAsync()
+        {
+            if ( !initialized )
+                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getText", editorRef );
+        }
 
         /// <summary>
         /// Clears the editor content asynchronous.
         /// </summary>
-        public ValueTask ClearAsync()
-            => JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.clearContent", editorRef );
+        public async ValueTask ClearAsync()
+        {
+            if ( !initialized )
+                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.clearContent", editorRef );
+            await OnContentChanged();
+        }
 
         /// <summary>
         /// Javascript callback for when content changes.
         /// </summary>
         [JSInvokable]
-        public Task OnContentChanged( string html )
-            => ContentChanged.InvokeAsync( html );
+        public Task OnContentChanged()
+            => ContentChanged.InvokeAsync( true );
 
         /// <summary>
         /// Javascript callback for when enter is pressed.
@@ -134,12 +191,12 @@ namespace Blazorise.RichTextEdit
         /// <summary>
         /// [Optional] Gets or sets the content of the toolbar.
         /// </summary>
-        [Parameter] public RenderFragment ToolbarContent { get; set; }
+        [Parameter] public RenderFragment Toolbar { get; set; }
 
         /// <summary>
         /// [Optional] Gets or sets the content visible in the editor.
         /// </summary>
-        [Parameter] public RenderFragment EditorContent { get; set; }
+        [Parameter] public RenderFragment Editor { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the editor is ReadOnly.
@@ -179,7 +236,7 @@ namespace Blazorise.RichTextEdit
         /// <summary>
         /// Occurs when the content changes.
         /// </summary>
-        [Parameter] public EventCallback<string> ContentChanged { get; set; }
+        [Parameter] public EventCallback ContentChanged { get; set; }
 
         /// <summary>
         /// Occurs when the enter key is pressed.
