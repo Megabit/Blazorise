@@ -246,7 +246,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the built class-names based on all the rules set by the component parameters.
         /// </summary>
-        protected string ClassNames => ClassBuilder.Class;
+        public string ClassNames => ClassBuilder.Class;
 
         /// <summary>
         /// Gets the style mapper.
@@ -256,7 +256,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the built styles based on all the rules set by the component parameters.
         /// </summary>
-        protected string StyleNames => StyleBuilder.Styles;
+        public string StyleNames => StyleBuilder.Styles;
 
         /// <summary>
         /// Gets or sets the custom components mapper.
