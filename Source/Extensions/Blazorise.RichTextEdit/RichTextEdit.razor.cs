@@ -174,7 +174,7 @@ namespace Blazorise.RichTextEdit
         /// <summary>
         /// Call <see cref="EnterPressed"/> event when user presses the ENTER key.
         /// </summary>
-        [Parameter] public bool SubmitOnEnter { get; set; }
+        [Parameter] public bool SubmitOnEnter { get; set; } = false;
 
         /// <summary>
         /// Occurs when the content changes.
