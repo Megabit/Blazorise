@@ -47,13 +47,14 @@ namespace Blazorise.RichTextEdit
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected override void Dispose( bool disposing )
         {
-            base.Dispose( disposing );
-
-            if ( initialized )
+            if ( disposing && initialized && Rendered )
             {
-                JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.destroy", editorRef );
+                _ = JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.destroy", editorRef );
+
                 cleanup.Dispose();
             }
+
+            base.Dispose( disposing );
         }
 
         /// <summary>
