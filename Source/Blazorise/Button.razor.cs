@@ -81,7 +81,7 @@ namespace Blazorise
                 ParentDropdown?.UnRegister( this );
                 ParentAddons?.UnRegister( this );
 
-                if ( IsRendered )
+                if ( Rendered )
                 {
                     JSRunner.DestroyButton( ElementId );
                 }

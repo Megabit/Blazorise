@@ -38,7 +38,7 @@ namespace Blazorise
 
         protected override void Dispose( bool disposing )
         {
-            if ( disposing && IsRendered )
+            if ( disposing && Rendered )
             {
                 JSRunner.DestroyTextEdit( ElementRef, ElementId );
             }
