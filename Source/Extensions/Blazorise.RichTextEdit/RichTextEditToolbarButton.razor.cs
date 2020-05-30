@@ -37,12 +37,12 @@ namespace Blazorise.RichTextEdit
         /// <param name="builder">The builder.</param>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            base.BuildClasses( builder );
-
             if ( Action.HasValue )
             {
                 builder.Append( RichTextEditActionClassProvider.Class( action ) );
             }
+
+            base.BuildClasses( builder );
         }
         #endregion
     }

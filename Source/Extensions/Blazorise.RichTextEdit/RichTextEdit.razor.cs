@@ -107,7 +107,7 @@ namespace Blazorise.RichTextEdit
             if ( EditorContent != null )
             {
                 var initialContent = await GetContentAsync();
-                OnContentChanged( initialContent );
+                await OnContentChanged( initialContent );
             }
         }
 
