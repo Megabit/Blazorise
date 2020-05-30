@@ -247,7 +247,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Occurs after the selected tab has changed.
+        /// Occurs after the selected slide has changed.
         /// </summary>
         [Parameter] public EventCallback<string> SelectedSlideChanged { get; set; }
 
