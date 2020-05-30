@@ -76,6 +76,8 @@ namespace Blazorise
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
+            Rendered = true;
+
             // If the component has custom implementation we need to postpone the initialisation
             // until the custom component is rendered!
             if ( !HasCustomRegistration )
@@ -247,6 +249,11 @@ namespace Blazorise
         /// Gets the built class-names based on all the rules set by the component parameters.
         /// </summary>
         public string ClassNames => ClassBuilder.Class;
+
+        /// <summary>
+        /// Indicates if component has been rendered in the browser.
+        /// </summary>
+        protected bool Rendered { get; private set; }
 
         /// <summary>
         /// Gets the style mapper.
