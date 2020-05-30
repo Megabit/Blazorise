@@ -1,0 +1,41 @@
+﻿@inherits Blazorise.Carousel
+<CascadingValue Value=this>
+    <CascadingValue Value="@Store">
+        @ChildContent
+
+        <div class="@ClassNames" style="@StyleNames" data-ride="carousel" @attributes="@Attributes">
+            @if ( ShowIndicators )
+            {
+                <ol class="@IndicatorsClassNames">
+                    @for ( int i = 0; i < carouselSlides.Count; ++i )
+                    {
+                        int index = i;
+                        <li @onclick="@carouselSlides[index].Activate" class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames"></li>
+                    }
+                </ol>
+            }
+
+            <div class="@SlidesClassNames">
+                @for ( int i = 0; i < carouselSlides.Count; ++i )
+                {
+                    int index = i;
+                    <div class="@carouselSlides[index].ClassNames" style="@carouselSlides[index].StyleNames" @attributes="@carouselSlides[index].Attributes">
+                        @carouselSlides[index].ChildContent
+                    </div>
+                }
+            </div>
+
+            @if ( ShowControls )
+            {
+                <a class="carousel-control-prev" @onclick="@SelectPrevious" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" @onclick="@SelectNext" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            }
+        </div>
+    </CascadingValue>
+</CascadingValue>
