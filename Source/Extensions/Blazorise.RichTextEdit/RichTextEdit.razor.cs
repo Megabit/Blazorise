@@ -12,7 +12,9 @@ namespace Blazorise.RichTextEdit
     {
         #region Members
 
-        /// <summary>The disposables to cleanup</summary>
+        /// <summary>
+        /// The disposables to cleanup.
+        /// </summary>
         private readonly CompositeDisposable cleanup = new CompositeDisposable();
 
         /// <summary>
@@ -82,14 +84,19 @@ namespace Blazorise.RichTextEdit
             }
         }
 
+        void InitializationCheck()
+        {
+            if ( !initialized )
+                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+        }
 
         /// <summary>
         /// Sets the editor content as html asynchronous.
         /// </summary>
         public async ValueTask SetHtmlAsync( string html )
         {
-            if ( !initialized )
-                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            InitializationCheck();
+
             await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setHtml", editorRef, html );
         }
 
@@ -98,8 +105,8 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask<string> GetHtmlAsync()
         {
-            if ( !initialized )
-                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            InitializationCheck();
+
             return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getHtml", editorRef );
         }
 
@@ -109,8 +116,8 @@ namespace Blazorise.RichTextEdit
         /// <seealso href="https://quilljs.com/docs/delta/"/>
         public async ValueTask SetDeltaAsync( string deltaJson )
         {
-            if ( !initialized )
-                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            InitializationCheck();
+
             await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setDelta", editorRef, deltaJson );
         }
 
@@ -120,8 +127,8 @@ namespace Blazorise.RichTextEdit
         /// <seealso href="https://quilljs.com/docs/delta/"/>
         public async ValueTask<string> GetDeltaAsync()
         {
-            if ( !initialized )
-                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            InitializationCheck();
+
             return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getDelta", editorRef );
         }
 
@@ -130,8 +137,8 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask SetTextAsync( string text )
         {
-            if ( !initialized )
-                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            InitializationCheck();
+
             await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setText", editorRef, text );
         }
 
@@ -141,8 +148,8 @@ namespace Blazorise.RichTextEdit
         /// <seealso href="https://quilljs.com/docs/delta/"/>
         public async ValueTask<string> GetTextAsync()
         {
-            if ( !initialized )
-                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            InitializationCheck();
+
             return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getText", editorRef );
         }
 
@@ -151,9 +158,10 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask ClearAsync()
         {
-            if ( !initialized )
-                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
+            InitializationCheck();
+
             await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.clearContent", editorRef );
+
             await OnContentChanged();
         }
 
