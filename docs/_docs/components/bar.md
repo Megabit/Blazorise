@@ -27,7 +27,7 @@ The bar component is a responsive and versatile horizontal navigation bar with t
 ### Basic Bar
 
 ```html
-<Bar Breakpoint="Breakpoint.Desktop" Background="Background.Light" Theme="Theme.Light">
+<Bar Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
     <BarBrand>
         Brandname
     </BarBrand>
@@ -57,7 +57,7 @@ The bar component is a responsive and versatile horizontal navigation bar with t
 ### With dropdown
 
 ```html
-<Bar Breakpoint="Breakpoint.Desktop" Background="Background.Light" Theme="Theme.Light">
+<Bar Breakpoint="Breakpoint.Desktop" Background="Background.Light" ThemeContrast="ThemeContrast.Light">
     <BarBrand>
         Brandname
     </BarBrand>

@@ -13,6 +13,14 @@ namespace Blazorise
     /// </summary>
     public class Theme
     {
+        /// <summary>
+        /// Globaly enable or disable the theme.
+        /// </summary>
+        public bool Enabled { get; set; } = true;
+
+        /// <summary>
+        /// Event raised after the theme options has changed.
+        /// </summary>
         public event EventHandler<EventArgs> Changed;
 
         /// <summary>

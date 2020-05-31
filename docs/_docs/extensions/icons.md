@@ -63,6 +63,16 @@ You can also use a real icon name instead of predefined enum.
 <Icon Name="fa-phone" />
 ```
 
+### Icon Names
+
+Preferred way to define icon is to use an enum `IconName`. That way every icon will be applied automatically based on the icon package that you're using.
+
+In case you cannot find an icon in the provided enum, you can also use prebuilt list of icon names that comes with every icon package. For example for font-awesome you would use `FontAwesomeIcons`, while for material that would be `MaterialIcons`.
+
+```html
+<Icon Name="FontAwesomeIcons.Announcement" />
+```
+
 ### Style
 
 By default all icons will have `Solid` style. To change it you can use one of the supported styles:

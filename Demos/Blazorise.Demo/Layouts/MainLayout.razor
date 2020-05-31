@@ -13,12 +13,12 @@
                         <SidebarLabel>Main</SidebarLabel>
                         <SidebarItem>
                             <SidebarLink To="" Title="Show dashboard">
-                                <Icon Name="IconName.Dashboard" Margin="Margin.Is3.FromRight" />Dashboard
+                                <Icon Name="IconName.Home" Margin="Margin.Is3.FromRight" />Dashboard
                             </SidebarLink>
                         </SidebarItem>
                         <SidebarItem>
                             <SidebarLink Toggled="@((isOpen)=> uiElementsSubItemVisible = isOpen)" Visible="@uiElementsSubItemVisible">
-                                <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />UI Elements
+                                <Icon Name="IconName.Wrench" Margin="Margin.Is3.FromRight" />UI Elements
                             </SidebarLink>
                             <SidebarSubItem Visible="@uiElementsSubItemVisible">
                                 <SidebarItem>
@@ -52,6 +52,9 @@
                                     <SidebarLink To="tests/tabs">Tabs</SidebarLink>
                                 </SidebarItem>
                                 <SidebarItem>
+                                    <SidebarLink To="tests/carousel">Carousel</SidebarLink>
+                                </SidebarItem>
+                                <SidebarItem>
                                     <SidebarLink To="tests/layout">Layout</SidebarLink>
                                 </SidebarItem>
                             </SidebarSubItem>
@@ -71,7 +74,7 @@
                         </SidebarItem>
                         <SidebarItem>
                             <SidebarLink Toggled="@((isOpen)=> extensionsSubItemVisible = isOpen)" Visible="@extensionsSubItemVisible">
-                                <Icon Name="IconName.Edit" Margin="Margin.Is3.FromRight" />Extensions
+                                <Icon Name="IconName.PuzzlePiece" Margin="Margin.Is3.FromRight" />Extensions
                             </SidebarLink>
                             <SidebarSubItem Visible="@extensionsSubItemVisible">
                                 <SidebarItem>
@@ -146,6 +149,13 @@
                                     <Row>
                                         <Column Margin="Margin.Is2.FromBottom">
                                             <Field>
+                                                <Switch TValue="bool" Checked="@(Theme?.Enabled == true)" CheckedChanged="@OnThemeEnabledChanged">Theme enabled</Switch>
+                                            </Field>
+                                        </Column>
+                                    </Row>
+                                    <Row>
+                                        <Column Margin="Margin.Is2.FromBottom">
+                                            <Field>
                                                 <Check TValue="bool" Checked="@(Theme?.IsGradient == true)" CheckedChanged="@OnGradientChanged">Gradient colors</Check>
                                             </Field>
                                             <Field>
@@ -177,6 +187,16 @@
 </Layout>
 
 @code{
+    void OnThemeEnabledChanged( bool value )
+    {
+        if ( Theme == null )
+            return;
+
+        Theme.Enabled = value;
+
+        Theme.ThemeHasChanged();
+    }
+
     void OnGradientChanged( bool value )
     {
         if ( Theme == null )

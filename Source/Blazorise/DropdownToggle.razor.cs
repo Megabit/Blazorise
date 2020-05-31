@@ -53,10 +53,15 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    _ = JSRunner.UnregisterClosableComponent( this );
+                    if ( Rendered )
+                    {
+                        _ = JSRunner.UnregisterClosableComponent( this );
+                    }
                 }
-
-                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                if ( Rendered )
+                {
+                    JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                }
             }
 
             base.Dispose( disposing );
@@ -139,13 +144,19 @@ namespace Blazorise
                 {
                     jsRegistered = true;
 
-                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                    if ( Rendered )
+                    {
+                        JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                    }
                 }
                 else
                 {
                     jsRegistered = false;
 
-                    JSRunner.UnregisterClosableComponent( this );
+                    if ( Rendered )
+                    {
+                        JSRunner.UnregisterClosableComponent( this );
+                    }
                 }
 
                 DirtyClasses();
