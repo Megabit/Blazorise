@@ -98,4 +98,4 @@
 
         editor.setContents([]);
     }
-}
+};
