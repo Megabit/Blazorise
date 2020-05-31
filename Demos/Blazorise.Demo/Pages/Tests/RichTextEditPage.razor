@@ -4,103 +4,114 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Rich Text Editor</CardTitle>
+                <CardTitle>Rich Text Editor (based on <Blazorise.Link To="https://quilljs.com/">QuillJs</Blazorise.Link>)</CardTitle>
             </CardHeader>
             <CardBody>
-                <CardText>Based on: <a href="https://quilljs.com/">QuillJs</a></CardText>
-            </CardBody>
-            <CardBody>
-                <Fields>
-                    <Field>
-                        <FieldLabel>
-                        </FieldLabel>
-                        <FieldBody>
-                            <Check @bind-Checked="@readOnly">Read only</Check>
-                        </FieldBody>
-                    </Field>
-                </Fields>
-            </CardBody>
-            <CardBody>
-                <RichTextEdit @ref="richTextEditRef"
-                              ContentChanged="@OnContentChanged"
-                              PlaceHolder="Type your post here..."
-                              ReadOnly="@readOnly"
-                              SubmitOnEnter="false"
-                              EnterPressed="@OnSave"
-                              ToolbarPosition="Placement.Bottom">
-                    <Editor>
-                        <p><b>Hello </b><i>world</i>!</p>
-                        <p><br></p>
-                        <p>
-                            based on: <a href="https://quilljs.com/">Quill</a>
-                        </p>
-                    </Editor>
-                    <Toolbar>
-                        <RichTextEditToolbarGroup>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Underline" />
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Strike" />
-                        </RichTextEditToolbarGroup>
-                        <RichTextEditToolbarGroup>
-                            <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
-                                <RichTextEditToolbarSelectItem Value="small" />
-                                <RichTextEditToolbarSelectItem IsSelected="true" />
-                                <RichTextEditToolbarSelectItem Value="large" />
-                                <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
-                            </RichTextEditToolbarSelect>
-                        </RichTextEditToolbarGroup>
-                        <RichTextEditToolbarGroup>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
-                            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
-                        </RichTextEditToolbarGroup>
-                        <RichTextEditToolbarGroup>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Blockquote" />
-                            <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
-                        </RichTextEditToolbarGroup>
-                        <RichTextEditToolbarGroup>
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="sub" />
-                            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="super" />
-                        </RichTextEditToolbarGroup>
-                        <RichTextEditToolbarGroup>
-                            <RichTextEditToolbarSelect Action="RichTextEditAction.Color" />
-                            <RichTextEditToolbarSelect Action="RichTextEditAction.Background" />
-                        </RichTextEditToolbarGroup>
-                        <RichTextEditToolbarGroup Float="Float.Right">
-                            <Button onClick="window.open('https://www.quilljs.com/','quilljs')"><Icon Name="IconName.QuestionCircle" /></Button>
-                            <Button Clicked="@OnSave"><Icon Name="IconName.Save" /></Button>
-                        </RichTextEditToolbarGroup>
-                    </Toolbar>
-                </RichTextEdit>
+                <CardBody>
+                    <Fields>
+                        <Field>
+                            <FieldLabel>
+                            </FieldLabel>
+                            <FieldBody>
+                                <Switch @bind-Checked="@readOnly">Read only</Switch>
+                            </FieldBody>
+                        </Field>
+                    </Fields>
+                </CardBody>
+                <CardBody Padding="Padding.Is0.OnAll">
+                    <RichTextEdit @ref="richTextEditRef"
+                                  ContentChanged="@OnContentChanged"
+                                  PlaceHolder="Type your post here..."
+                                  ReadOnly="@readOnly"
+                                  SubmitOnEnter="false"
+                                  EnterPressed="@OnSave"
+                                  ToolbarPosition="Placement.Bottom">
+                        <Editor>
+                            <p><b>Hello </b><i>world</i>!</p>
+                            <p><br></p>
+                            <p>
+                                based on: <a href="https://quilljs.com/">Quill</a>
+                            </p>
+                        </Editor>
+                        <Toolbar>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Underline" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Strike" />
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                                    <RichTextEditToolbarSelectItem Value="small" />
+                                    <RichTextEditToolbarSelectItem IsSelected="true" />
+                                    <RichTextEditToolbarSelectItem Value="large" />
+                                    <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+                                </RichTextEditToolbarSelect>
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Blockquote" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="sub" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="super" />
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarSelect Action="RichTextEditAction.Color" />
+                                <RichTextEditToolbarSelect Action="RichTextEditAction.Background" />
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup Float="Float.Right">
+                                <Button onClick="window.open('https://www.quilljs.com/','quilljs')"><Icon Name="IconName.QuestionCircle" /></Button>
+                                <Button Clicked="@OnSave"><Icon Name="IconName.Save" /></Button>
+                            </RichTextEditToolbarGroup>
+                        </Toolbar>
+                    </RichTextEdit>
+                </CardBody>
             </CardBody>
         </Card>
     </Column>
 </Row>
 <Row>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>Html Content Preview</CardHeader>
-            <CardBody>@((MarkupString) contentAsHtml)</CardBody>
-        </Card>
-    </Column>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>Delta Content Preview</CardHeader>
-            <CardBody><code>@contentAsDeltaJson</code></CardBody>
-        </Card>
-    </Column>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>Text Content Preview</CardHeader>
-            <CardBody><text>@contentAsText</text></CardBody>
-        </Card>
-    </Column>
-</Row>
-<Row>
-    <Column>
+    <Column ColumnSize="ColumnSize.IsThird">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                Bubble theme
+                <CardTitle>Html Content Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                @((MarkupString) contentAsHtml)
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsThird">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Delta Content Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <code>@contentAsDeltaJson</code>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsThird">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Text Content Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <text>@contentAsText</text>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Bubble theme</CardTitle>
             </CardHeader>
             <CardBody>
                 <Alert Visible="true">
@@ -111,10 +122,10 @@
             </CardBody>
         </Card>
     </Column>
-    <Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                Snow theme
+                <CardTitle>Snow theme</CardTitle>
             </CardHeader>
             <CardBody>
                 <RichTextEdit />
