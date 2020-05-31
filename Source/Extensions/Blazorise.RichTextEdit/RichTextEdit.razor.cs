@@ -183,7 +183,7 @@ namespace Blazorise.RichTextEdit
         /// <summary>
         /// Toggles the readonly state
         /// </summary>
-        private async void SetReadOnly( bool value )
+        private async Task SetReadOnly( bool value )
         {
             if ( initialized )
             {
@@ -218,7 +218,10 @@ namespace Blazorise.RichTextEdit
             {
                 readOnly = value;
 
-                SetReadOnly( value );
+                ExecuteAfterRender( async () =>
+                {
+                    await SetReadOnly( value );
+                } );
             }
         }
 
