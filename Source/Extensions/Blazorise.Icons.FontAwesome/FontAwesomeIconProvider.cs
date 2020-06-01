@@ -128,6 +128,7 @@ namespace Blazorise.Icons.FontAwesome
             { IconName.Fingerprint, "fa-fingerprint" },
             { IconName.Fire, "fa-fire" },
             { IconName.Flag, "fa-flag" },
+            { IconName.Flask, "fa-flask" },
             { IconName.Folder, "fa-folder" },
             { IconName.FolderOpen, "fa-folder-open" },
             { IconName.FolderPlus, "fa-folder-plus" },
