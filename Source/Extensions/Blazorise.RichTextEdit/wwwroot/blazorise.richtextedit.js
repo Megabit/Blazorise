@@ -1,8 +1,8 @@
 ﻿window.blazoriseRichTextEdit = {
-    initialize: (dotnetAdapter, editorRef, toolbarRef, readOnly, placeholder, theme, onContentChanged, bindEnter, onEnter) => {
+    initialize: (dotnetAdapter, editorRef, toolbarRef, readOnly, placeholder, theme, onContentChanged, bindEnter, onEnter, configure) => {
         if (!editorRef) return false;
 
-        const options = {
+        var options = {
             modules: {
                 toolbar: toolbarRef
             },
@@ -26,6 +26,27 @@
                     }
                 }
             };
+        }
+
+        function executeFunctionByName(functionName, context /*, args */) {
+            const args = Array.prototype.slice.call(arguments, 2);
+            const namespaces = functionName.split(".");
+            const func = namespaces.pop();
+            for (let i = 0; i < namespaces.length; i++) {
+                context = context[namespaces[i]];
+            }
+            return context[func].apply(context, args);
+        };
+
+        if (configure) {
+            try {
+                const updatedOptions = executeFunctionByName(configure, window, options);
+                if (updatedOptions) {
+                    options = updatedOptions;
+                }
+            } catch (err) {
+                console.error(err);
+            } 
         }
 
         const quill = new Quill(editorRef, options);

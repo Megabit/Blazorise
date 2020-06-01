@@ -65,7 +65,8 @@ namespace Blazorise.RichTextEdit
                 Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
                 nameof( OnContentChanged ),
                 SubmitOnEnter,
-                nameof( OnEnter ) );
+                nameof( OnEnter ),
+                ConfigureQuillJsMethod);
 
             initialized = true;
 
@@ -257,6 +258,25 @@ namespace Blazorise.RichTextEdit
         /// The editor element reference.
         /// </summary>
         public ElementReference EditorRef { get; protected set; }
+
+        /// <summary>
+        /// [Optional] The javascript method to call to configure additional QuillJs modules and or add custom bindings.
+        /// </summary>
+        /// <example>
+        /// ConfigureQuillJsMethod = "myNamespace.configureQuillJs"
+        ///
+        /// JS:
+        /// window.myNamespace {
+        ///    configureQuillJs: (options) => {
+        ///        Quill.register('modules/blotFormatter', QuillBlotFormatter.default);
+        ///        options.debug = "log";
+        ///        options.modules.blotFormatter = { };
+        ///        return options;
+        ///    }
+        /// };
+        /// </example>
+        /// <seealso href="https://github.com/quilljs/awesome-quill"/>
+        [Parameter] public string ConfigureQuillJsMethod { get; set; }
         #endregion
     }
 }
