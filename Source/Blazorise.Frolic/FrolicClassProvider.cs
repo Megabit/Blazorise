@@ -537,6 +537,10 @@ namespace Blazorise.Frolic
 
         public override string BarDropdownMenuRight( BarMode mode ) => "drop-items-right";
 
+        public override string BarCollapsed( BarMode mode ) => null;
+
+        public override string BarLabel() => "b-bar-label";
+
         #endregion
 
         #region Accordion

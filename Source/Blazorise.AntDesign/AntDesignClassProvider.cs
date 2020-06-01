@@ -538,11 +538,15 @@ namespace Blazorise.AntDesign
 
         public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler-icon" : "navbar-toggler-icon";
 
-        public override string BarDropdownMenu( BarMode mode ) => $"ant-menu ant-menu-sub ant-menu-{ToBarMode( mode )}";
+        public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? $"ant-menu ant-menu-sub ant-menu-vertical" : $"ant-menu ant-menu-sub ant-menu-{ToBarMode( mode )}";
 
         public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? null : "ant-menu-hidden";
 
         public override string BarDropdownMenuRight( BarMode mode ) => null;
+
+        public override string BarCollapsed( BarMode mode ) => $"ant-menu-{ToBarMode( mode )}-collapsed";
+
+        public override string BarLabel() => "ant-menu-label";
 
         #endregion
 

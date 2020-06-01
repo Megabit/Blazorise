@@ -18,7 +18,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( "b-bar-label" );
+            builder.Append( ClassProvider.BarLabel() );
 
             base.BuildClasses( builder );
         }

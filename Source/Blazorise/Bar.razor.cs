@@ -124,7 +124,7 @@ namespace Blazorise
         /// Controlls the state of toggler and the menu.
         /// </summary>
         [Parameter]
-        public bool Visible
+        public virtual bool Visible
         {
             get => store.Visible;
             set
@@ -203,7 +203,7 @@ namespace Blazorise
         /// Defines the Orientation for the bar. Vertical is required when using inside Sidebar.
         /// </summary>
         [Parameter]
-        public BarMode Mode
+        public virtual BarMode Mode
         {
             get => store.Mode;
             set

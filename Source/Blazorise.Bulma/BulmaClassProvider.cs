@@ -552,6 +552,11 @@ namespace Blazorise.Bulma
 
         public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "is-right" : null;
 
+        public override string BarCollapsed( BarMode mode ) => null;
+
+        public override string BarLabel() => "b-bar-label";
+        
+
         #endregion
 
         #region Accordion

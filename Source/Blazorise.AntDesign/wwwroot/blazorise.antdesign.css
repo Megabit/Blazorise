@@ -114,11 +114,26 @@
 .b-layout-header .ant-menu {
     line-height: inherit; }
 
+/* *** Vertical menu *** */
+.ant-menu.ant-menu-root.ant-menu-inline, .ant-menu.ant-menu-root.ant-menu-vertical {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+    overflow-y: auto; }
+    .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-label, .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-label {
+        background: transparent;
+        color: #adb5bd;
+        padding: .375rem 1.25rem;
+        font-size: .75rem;
+        text-overflow: ellipsis;
+        overflow: hidden; }
+
 .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) {
     min-width: var(--b-sidebar-width);
     max-width: var(--b-sidebar-width);
     width: var(--b-sidebar-width); }
     .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) > .ant-menu-item {
+        min-height: 40px;
         padding-left: 24px; }
         .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) > .ant-menu-item a {
             color: inherit; }
@@ -127,13 +142,6 @@
     .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item {
         padding-left: 48px; }
 
-/*
-.ant-menu.ant-menu-root.ant-menu-inline.ant-menu-inline-collapsed {
-    min-width: var(--b-sidebar-small-width);
-    max-width: var(--b-sidebar-small-width);
-    width: var(--b-sidebar-small-width);
-}
-*/
 .ant-btn-secondary {
     color: #fff;
     background-color: #6c757d;

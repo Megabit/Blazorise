@@ -501,7 +501,9 @@ namespace Blazorise.Providers
 
         public string BarDropdownMenuRight( BarMode mode ) => null;
 
-        public string BarCollapsed( BarMode mode, BarCollapseMode collapseMode ) => null;
+        public string BarCollapsed( BarMode mode ) => null;
+
+        public string BarLabel() => null;
 
         #endregion
 
