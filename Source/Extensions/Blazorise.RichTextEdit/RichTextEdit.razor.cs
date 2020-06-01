@@ -18,16 +18,6 @@ namespace Blazorise.RichTextEdit
         private readonly CompositeDisposable cleanup = new CompositeDisposable();
 
         /// <summary>
-        /// The toolbar element reference.
-        /// </summary>
-        private ElementReference toolbarRef;
-
-        /// <summary>
-        /// The editor element reference.
-        /// </summary>
-        private ElementReference editorRef;
-
-        /// <summary>
         /// ReadOnly state.
         /// </summary>
         private bool readOnly;
@@ -49,7 +39,7 @@ namespace Blazorise.RichTextEdit
         {
             if ( disposing && initialized && Rendered )
             {
-                _ = JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.destroy", editorRef );
+                _ = JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.destroy", EditorRef );
 
                 cleanup.Dispose();
             }
@@ -68,8 +58,8 @@ namespace Blazorise.RichTextEdit
 
             await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.initialize",
                 dotNetRef,
-                editorRef,
-                Toolbar != null ? toolbarRef : default,
+                EditorRef,
+                Toolbar != null ? ToolbarRef : default,
                 ReadOnly,
                 PlaceHolder,
                 Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
@@ -98,7 +88,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setHtml", editorRef, html );
+            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setHtml", EditorRef, html );
         }
 
         /// <summary>
@@ -108,7 +98,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getHtml", editorRef );
+            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getHtml", EditorRef );
         }
 
         /// <summary>
@@ -119,7 +109,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setDelta", editorRef, deltaJson );
+            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setDelta", EditorRef, deltaJson );
         }
 
         /// <summary>
@@ -130,7 +120,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getDelta", editorRef );
+            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getDelta", EditorRef );
         }
 
         /// <summary>
@@ -140,7 +130,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setText", editorRef, text );
+            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setText", EditorRef, text );
         }
 
         /// <summary>
@@ -151,7 +141,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getText", editorRef );
+            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getText", EditorRef );
         }
 
         /// <summary>
@@ -161,7 +151,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.clearContent", editorRef );
+            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.clearContent", EditorRef );
 
             await OnContentChanged();
         }
@@ -187,7 +177,7 @@ namespace Blazorise.RichTextEdit
         {
             if ( initialized )
             {
-                await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setReadOnly", editorRef, value );
+                await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setReadOnly", EditorRef, value );
             }
         }
 
@@ -258,6 +248,15 @@ namespace Blazorise.RichTextEdit
         /// </remarks>
         [Parameter] public EventCallback EnterPressed { get; set; }
 
+        /// <summary>
+        /// The toolbar element reference.
+        /// </summary>
+        public ElementReference ToolbarRef { get; protected set; }
+
+        /// <summary>
+        /// The editor element reference.
+        /// </summary>
+        public ElementReference EditorRef { get; protected set; }
         #endregion
     }
 }
