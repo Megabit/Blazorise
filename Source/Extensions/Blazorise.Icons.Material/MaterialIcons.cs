@@ -739,7 +739,6 @@ namespace Blazorise.Icons.Material
         public static readonly string Scanner = "scanner";
         public static readonly string Schedule = "schedule";
         public static readonly string School = "school";
-        public static readonly string Science = "science";
         public static readonly string ScreenLockLandscape = "screen_lock_landscape";
         public static readonly string ScreenLockPortrait = "screen_lock_portrait";
         public static readonly string ScreenLockRotation = "screen_lock_rotation";
