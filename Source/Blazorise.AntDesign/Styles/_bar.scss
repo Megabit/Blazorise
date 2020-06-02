@@ -129,6 +129,23 @@
             font-size: .75rem;
             text-overflow: ellipsis;
             overflow: hidden;
+            margin: 5px;
+        }
+
+        .ant-bar-brand {
+            margin: 0;
+            height: var(--b-sidebar-brand-height, 64px);
+            padding: 0 !important;
+
+            > .ant-menu-item {
+                height: 100%;
+                display: flex;
+                margin: auto;
+
+                > span {
+                    margin: auto;
+                }
+            }
         }
     }
 

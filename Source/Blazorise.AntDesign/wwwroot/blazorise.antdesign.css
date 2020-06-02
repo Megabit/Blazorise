@@ -129,7 +129,18 @@
         padding: .375rem 1.25rem;
         font-size: .75rem;
         text-overflow: ellipsis;
-        overflow: hidden; }
+        overflow: hidden;
+        margin: 5px; }
+    .ant-menu.ant-menu-root.ant-menu-inline .ant-bar-brand, .ant-menu.ant-menu-root.ant-menu-vertical .ant-bar-brand {
+        margin: 0;
+        height: var(--b-sidebar-brand-height, 64px);
+        padding: 0 !important; }
+        .ant-menu.ant-menu-root.ant-menu-inline .ant-bar-brand > .ant-menu-item, .ant-menu.ant-menu-root.ant-menu-vertical .ant-bar-brand > .ant-menu-item {
+            height: 100%;
+            display: flex;
+            margin: auto; }
+            .ant-menu.ant-menu-root.ant-menu-inline .ant-bar-brand > .ant-menu-item > span, .ant-menu.ant-menu-root.ant-menu-vertical .ant-bar-brand > .ant-menu-item > span {
+                margin: auto; }
 
 .ant-menu.ant-menu-root.ant-menu-inline {
     min-width: var(--b-sidebar-width, 220px);

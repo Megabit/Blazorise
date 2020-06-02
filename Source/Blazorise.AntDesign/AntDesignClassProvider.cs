@@ -514,7 +514,7 @@ namespace Blazorise.AntDesign
 
         //public override string BarCollapse() => "navbar-collapse";
 
-        public override string BarBrand( BarMode mode ) => "ant-menu-item";
+        public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-item" : "ant-menu-item ant-bar-brand";
 
         public override string BarToggler( BarMode mode ) => null;
 
