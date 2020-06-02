@@ -1,4 +1,8 @@
-﻿.ant-menu-submenu-horizontal > .ant-menu-submenu-title {
+﻿:root {
+    --b-sidebar-small-width: 80px;
+}
+
+.ant-menu-submenu-horizontal > .ant-menu-submenu-title {
     .ant-menu-submenu-arrow {
         position: absolute;
         top: 50%;
@@ -128,10 +132,10 @@
         }
     }
 
-    &.ant-menu-inline:not(.ant-menu-inline-collapsed) {
-        min-width: var(--b-sidebar-width);
-        max-width: var(--b-sidebar-width);
-        width: var(--b-sidebar-width);
+    &.ant-menu-inline {
+        min-width: var(--b-sidebar-width, 220px);
+        max-width: var(--b-sidebar-width, 220px);
+        width: var(--b-sidebar-width, 220px);
 
         > .ant-menu-item {
             min-height: 40px;
@@ -153,5 +157,37 @@
                 }
             }
         }
+    }
+
+    &.ant-menu-vertical {
+        min-width: var(--b-sidebar-small-width, 80px);
+        max-width: var(--b-sidebar-small-width, 80px);
+        width: var(--b-sidebar-small-width, 80px);
+
+        .ant-menu-submenu.ant-menu-submenu-vertical {
+            &:hover {
+                > .ant-menu-submenu.ant-menu-submenu-popup {
+                    > .ant-menu.ant-menu-sub.ant-menu-vertical {
+                        display: block !important;
+                    }
+                }
+            }
+
+            .ant-menu-submenu.ant-menu-submenu-popup {
+                left: var(--b-sidebar-small-width, 80px);
+                margin: -45px 5px 0px 5px;
+
+                &:hover {
+                    > .ant-menu.ant-menu-sub.ant-menu-vertical {
+                        display: block !important;
+                    }
+                }
+            }
+        }
+    }
+
+    .ant-menu-submenu-placement-rightTop::before {
+        top: 0;
+        left: -7px;
     }
 }

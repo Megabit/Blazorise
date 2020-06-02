@@ -38,6 +38,9 @@
     padding-left: .6em;
     border-radius: 10rem; }
 
+:root {
+    --b-sidebar-small-width: 80px; }
+
 .ant-menu-submenu-horizontal > .ant-menu-submenu-title .ant-menu-submenu-arrow {
     position: absolute;
     top: 50%;
@@ -128,19 +131,35 @@
         text-overflow: ellipsis;
         overflow: hidden; }
 
-.ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) {
-    min-width: var(--b-sidebar-width);
-    max-width: var(--b-sidebar-width);
-    width: var(--b-sidebar-width); }
-    .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) > .ant-menu-item {
+.ant-menu.ant-menu-root.ant-menu-inline {
+    min-width: var(--b-sidebar-width, 220px);
+    max-width: var(--b-sidebar-width, 220px);
+    width: var(--b-sidebar-width, 220px); }
+    .ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item {
         min-height: 40px;
         padding-left: 24px; }
-        .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) > .ant-menu-item a {
+        .ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item a {
             color: inherit; }
-    .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
+    .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
         padding-left: 24px; }
-    .ant-menu.ant-menu-root.ant-menu-inline:not(.ant-menu-inline-collapsed) .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item {
+    .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item {
         padding-left: 48px; }
+
+.ant-menu.ant-menu-root.ant-menu-vertical {
+    min-width: var(--b-sidebar-small-width, 80px);
+    max-width: var(--b-sidebar-small-width, 80px);
+    width: var(--b-sidebar-small-width, 80px); }
+    .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical:hover > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical {
+        display: block !important; }
+    .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup {
+        left: var(--b-sidebar-small-width, 80px);
+        margin: -45px 5px 0px 5px; }
+        .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup:hover > .ant-menu.ant-menu-sub.ant-menu-vertical {
+            display: block !important; }
+
+.ant-menu.ant-menu-root .ant-menu-submenu-placement-rightTop::before {
+    top: 0;
+    left: -7px; }
 
 .ant-btn-secondary {
     color: #fff;
