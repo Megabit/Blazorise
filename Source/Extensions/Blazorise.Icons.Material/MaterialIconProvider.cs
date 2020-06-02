@@ -128,6 +128,7 @@ namespace Blazorise.Icons.Material
             { IconName.Fingerprint, "fingerprint" },
             { IconName.Fire, "whatshot" },
             { IconName.Flag, "flag" },
+            { IconName.Flask, "science" },
             { IconName.Folder, "folder" },
             { IconName.FolderOpen, "folder_open" },
             { IconName.FolderPlus, "create_new_folder" },
