@@ -346,6 +346,7 @@ namespace Blazorise.Icons.Material
         public static readonly string FitnessCenter = "fitness_center";
         public static readonly string Flag = "flag";
         public static readonly string Flare = "flare";
+        public static readonly string Flask = "science";
         public static readonly string FlashAuto = "flash_auto";
         public static readonly string FlashOff = "flash_off";
         public static readonly string FlashOn = "flash_on";
@@ -738,6 +739,7 @@ namespace Blazorise.Icons.Material
         public static readonly string Scanner = "scanner";
         public static readonly string Schedule = "schedule";
         public static readonly string School = "school";
+        public static readonly string Science = "science";
         public static readonly string ScreenLockLandscape = "screen_lock_landscape";
         public static readonly string ScreenLockPortrait = "screen_lock_portrait";
         public static readonly string ScreenLockRotation = "screen_lock_rotation";
