@@ -5,7 +5,10 @@
     {
         @if ( column.ColumnType == DataGridColumnType.Command )
         {
-            <TableRowCell></TableRowCell>
+            @if ( ParentDataGrid.Editable == true )
+            {
+                <TableRowCell></TableRowCell>
+            }
         }
         else
         {

@@ -1364,6 +1364,7 @@ namespace Blazorise
         Fingerprint,
         Fire,
         Flag,
+        Flask,
         Folder,
         FolderOpen,
         FolderPlus,
