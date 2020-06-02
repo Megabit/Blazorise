@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
 #endregion
 
@@ -18,6 +19,8 @@ namespace Blazorise
         private bool lastBrokenState;
 
         private Breakpoint breakpoint = Breakpoint.None;
+
+        private Breakpoint navigationBreakpoint = Breakpoint.None;
 
         private ThemeContrast themeContrast = ThemeContrast.Light;
 
@@ -42,9 +45,12 @@ namespace Blazorise
         {
             if ( Mode != BarMode.Horizontal )
             {
-                lastBrokenState = BreakpointActivatorAdapter.IsBroken( this, await JSRunner.GetBreakpoint() );
+                lastBrokenState = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
                 Visible = !lastBrokenState;
             }
+
+            if ( NavigationBreakpoint != Breakpoint.None )
+                NavigationManager.LocationChanged += OnLocationChanged;
 
             await base.OnInitializedAsync();
         }
@@ -103,6 +109,13 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
+        private async void OnLocationChanged( object sender, LocationChangedEventArgs args )
+        {
+            // Collapse the bar automatically
+            if ( Visible && BreakpointActivatorAdapter.IsBroken( NavigationBreakpoint, await JSRunner.GetBreakpoint() ) )
+                Toggle();
+        }
+
         #endregion
 
         #region Properties
@@ -152,6 +165,22 @@ namespace Blazorise
             set
             {
                 breakpoint = value;
+
+                DirtyClasses();
+            }
+        }
+
+
+        /// <summary>
+        /// Used for responsive collapsing after Navigation
+        /// </summary>
+        [Parameter]
+        public Breakpoint NavigationBreakpoint
+        {
+            get => navigationBreakpoint;
+            set
+            {
+                navigationBreakpoint = value;
 
                 DirtyClasses();
             }
@@ -230,6 +259,8 @@ namespace Blazorise
         }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        [Inject] protected NavigationManager NavigationManager { get; set; }
 
         #endregion
     }

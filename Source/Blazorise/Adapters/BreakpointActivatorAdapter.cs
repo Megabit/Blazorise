@@ -29,12 +29,12 @@ namespace Blazorise
         [JSInvokable()]
         public Task OnBreakpoint( string breakpoint )
         {
-            return component.OnBreakpoint( IsBroken( component, breakpoint ) );
+            return component.OnBreakpoint( IsBroken( component.Breakpoint, breakpoint ) );
         }
 
-        public static bool IsBroken( IBreakpointActivator component, string breakpoint )
+        public static bool IsBroken( Breakpoint checkBreakpoint, string currentBreakpointString )
         {
-            return component.Breakpoint > GetBreakpoint( breakpoint );
+            return checkBreakpoint > GetBreakpoint( currentBreakpointString );
         }
 
         private static Breakpoint GetBreakpoint( string breakpoint )
