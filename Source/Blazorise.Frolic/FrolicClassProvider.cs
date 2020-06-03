@@ -517,7 +517,7 @@ namespace Blazorise.Frolic
 
         public override string BarItemDisabled( BarMode mode ) => Disabled();
 
-        public override string BarItemHasDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : "b-bar-dropdown";
+        public override string BarItemHasDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : null;
 
         public override string BarItemHasDropdownShow( BarMode mode ) => Show();
 

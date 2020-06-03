@@ -7,10 +7,6 @@
 else
 {
     <a id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" @onclick="@ClickHandler" @attributes="@Attributes">
-        @if (ParentStore.IconName != null)
-        {
-            <BarIcon IconName="ParentStore.IconName" />
-        }
         <span>@ChildContent</span>
     </a>
 }
