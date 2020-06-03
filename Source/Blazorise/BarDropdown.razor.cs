@@ -104,8 +104,6 @@ namespace Blazorise
                 parentStore = value;
 
                 store.Mode = parentStore.Mode;
-                store.IconName = parentStore.IconName;
-
 
                 // Hack for AntDesign..
                 if ( store.Mode == BarMode.VerticalSmall )

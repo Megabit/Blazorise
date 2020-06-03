@@ -1,12 +1,16 @@
-﻿@if ( IconName is RenderFragment )
+﻿@inherits BaseComponent
+@if (!HasCustomRegistration)
 {
-    @( IconName as RenderFragment )
+    @if (IconName is RenderFragment)
+    {
+        @( IconName as RenderFragment )
+    }
+    else
+    {
+        <Icon Name="@IconName" Class="b-bar-icon" />
+    }
 }
 else
 {
-    <Icon Name="@IconName" />
-}
-
-@code {
-    [Parameter] public object IconName { get; set; }
+    @RenderCustomComponent()
 }

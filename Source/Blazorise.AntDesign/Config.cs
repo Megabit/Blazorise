@@ -39,6 +39,7 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.AlertDescription, AntDesign.AlertDescription>();
             componentMapper.Register<Blazorise.Bar, AntDesign.Bar>();
             componentMapper.Register<Blazorise.BarBrand, AntDesign.BarBrand>();
+            componentMapper.Register<Blazorise.BarIcon, AntDesign.BarIcon>();
             componentMapper.Register<Blazorise.BarItem, AntDesign.BarItem>();
             componentMapper.Register<Blazorise.BarMenu, AntDesign.BarMenu>();
             componentMapper.Register<Blazorise.BarStart, AntDesign.BarStart>();

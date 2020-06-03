@@ -86,6 +86,12 @@
     .b-bar-item {
         margin: auto;
         flex-grow: 1;
+        min-height: 40px;
+
+        .b-bar-icon {
+            font-size: 18px;
+            margin: 3px;
+        }
     }
 
     .b-bar-start {
@@ -109,10 +115,6 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow-x: hidden;
-
-        i {
-            margin-right: 0.3rem;
-        }
     }
 
     .b-bar-label {
@@ -327,14 +329,15 @@
     .b-bar-link {
         animation: b-bar-link-small forwards;
         animation-delay: 170ms;
-
-        span {
-            display: none;
-        }
+        font-size: 0px;
 
         &:after {
             display: none;
         }
+    }
+
+    .b-bar-label {
+        text-align: center;
     }
 }
 

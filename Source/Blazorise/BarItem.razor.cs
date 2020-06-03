@@ -74,18 +74,6 @@ namespace Blazorise
             }
         }
 
-        [Parameter]
-        public object IconName
-        {
-            get => store.IconName;
-            set
-            {
-                store.IconName = value;
-
-                DirtyClasses();
-            }
-        }
-
         [CascadingParameter] 
         protected BarStore ParentStore
         {

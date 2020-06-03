@@ -8,13 +8,7 @@
             else
             {
                 <li class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@Store.Disabled.ToString().ToLowerInvariant()" @attributes="@Attributes">
-                    @if ( Store.IconName != null )
-                    {
-                        <span class="anticon">
-                            <BarIcon IconName="@Store.IconName" />
-                        </span>
-                    }
-                    <span>@ChildContent</span>
+                    @ChildContent
                 </li>
             }
     </CascadingValue>

@@ -18,7 +18,6 @@ namespace Blazorise.Stores
         {
             return Active == other.Active
                 && Disabled == other.Disabled
-                && IconName == other.IconName
                 && Mode == other.Mode;
         }
 
@@ -32,9 +31,6 @@ namespace Blazorise.Stores
 
             result = result
                 ^ ( Mode.GetHashCode() ^ 1 ); // power of two for every other field(^1, ^2, ^4, ^8, ^16, ...)
-
-            result = result
-                ^ ( IconName.GetHashCode() ^ 2 ); // power of two for every other field(^1, ^2, ^4, ^8, ^16, ...)
 
             return result;
         }
@@ -56,8 +52,6 @@ namespace Blazorise.Stores
         public bool Active { readonly get; set; }
 
         public bool Disabled { readonly get; set; }
-
-        public object IconName { readonly get; set; }
 
         public BarMode Mode { readonly get; set; }
 

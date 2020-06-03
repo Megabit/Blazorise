@@ -59,7 +59,10 @@ namespace Blazorise
         {
             dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
 
-            _ = JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+            if ( Rendered )
+            {
+                _ = JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+            }
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -101,9 +104,12 @@ namespace Blazorise
             if ( disposing )
             {
                 // make sure to unregister listener
-                _ = JSRunner.UnregisterBreakpointComponent( this );
+                if ( Rendered )
+                {
+                    _ = JSRunner.UnregisterBreakpointComponent( this );
 
-                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                    JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                }
             }
 
             base.Dispose( disposing );

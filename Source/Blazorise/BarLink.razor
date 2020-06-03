@@ -4,21 +4,13 @@
     @if ( To != null )
     {
         <Blazorise.Link Class="@ClassNames" Style="@StyleNames" To="@To" Title="@Title" Match="@Match">
-            @if ( ParentStore.IconName != null )
-            {
-                <BarIcon IconName="ParentStore.IconName" />
-            }
-            <span>@ChildContent</span>
+            @ChildContent
         </Blazorise.Link>
     }
     else
     {
         <a class="@ClassNames" style="@StyleNames" title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
-            @if ( ParentStore.IconName != null )
-            {
-                <BarIcon IconName="ParentStore.IconName" />
-            }
-            <span>@ChildContent</span>
+            @ChildContent
         </a>
     }
 }

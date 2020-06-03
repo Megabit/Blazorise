@@ -6,8 +6,9 @@
         <LayoutSiderContent>
             <Bar Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small" @bind-Visible="siderVisible">
                 <BarBrand>
-                    <BarItem IconName="customIcon">
+                    <BarItem>
                         <BarLink To="">
+                            <BarIcon IconName="customIcon" />
                             Blazorise Demo
                         </BarLink>
                     </BarItem>
@@ -15,14 +16,16 @@
                 <BarMenu>
                     <BarStart>
                         <BarLabel>Main</BarLabel>
-                        <BarItem IconName="IconName.Dashboard">
+                        <BarItem>
                             <BarLink To="">
+                                <BarIcon IconName="IconName.Dashboard" />
                                 Dashboard
                             </BarLink>
                         </BarItem>
-                        <BarItem IconName="IconName.Wrench">
+                        <BarItem>
                             <BarDropdown Open="true">
                                 <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Wrench" />
                                     UI Elements
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
@@ -65,9 +68,10 @@
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
-                        <BarItem IconName="IconName.Edit">
+                        <BarItem>
                             <BarDropdown>
                                 <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Edit" />
                                     Forms
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
@@ -80,9 +84,10 @@
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
-                        <BarItem IconName="IconName.PuzzlePiece">
+                        <BarItem>
                             <BarDropdown>
                                 <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.PuzzlePiece" />
                                     Extensions
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
@@ -103,9 +108,10 @@
                         </BarItem>
                     </BarStart>
                     <BarEnd>
-                        <BarItem IconName="IconName.Smartphone">
+                        <BarItem>
                             <BarDropdown>
                                 <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Smartphone" />
                                     Apps
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
@@ -126,13 +132,12 @@
                 <BarBrand>
                     <BarItem>
                         <BarLink To="">
-                            <Icon Name="IconName.Dashboard" />
+                            <BarIcon IconName="IconName.Edit" />
                             Blazorise Demo
                         </BarLink>
                     </BarItem>
                 </BarBrand>
-                <BarToggler Clicked="@ToggleSidebar">
-                </BarToggler>
+                <BarToggler Clicked="@ToggleSidebar" />
                 <BarMenu>
                     <BarStart>
                         <BarItem>

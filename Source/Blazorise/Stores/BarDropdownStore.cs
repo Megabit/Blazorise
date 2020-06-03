@@ -49,8 +49,6 @@ namespace Blazorise.Stores
 
         public bool Visible { readonly get; set; }
 
-        public object IconName { get; set; }
-
         public BarMode Mode { readonly get; set; }
 
         #endregion

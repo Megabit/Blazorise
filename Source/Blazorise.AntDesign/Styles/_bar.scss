@@ -135,6 +135,7 @@
         .ant-bar-brand {
             margin: 0;
             height: var(--b-sidebar-brand-height, 64px);
+            min-height: var(--b-sidebar-brand-height, 64px) !important;
             padding: 0 !important;
 
             > .ant-menu-item {
@@ -142,7 +143,7 @@
                 display: flex;
                 margin: auto;
 
-                > span {
+                > a {
                     margin: auto;
                 }
             }
@@ -198,6 +199,20 @@
                     > .ant-menu.ant-menu-sub.ant-menu-vertical {
                         display: block !important;
                     }
+                }
+            }
+        }
+
+        .ant-menu-submenu-title {
+            > span {
+                font-size: 0px;
+            }
+        }
+
+        .ant-menu-item {
+            > a {
+                > span {
+                    font-size: 0px;
                 }
             }
         }
