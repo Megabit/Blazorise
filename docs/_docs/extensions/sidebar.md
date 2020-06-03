@@ -132,6 +132,7 @@ You can also build sidebar dynamically by using the `Data` attribute and the `Si
             new SidebarItemInfo
             {
                 Text = "Email",
+                Icon = IconName.Mail,
                 SubItems = new List<SidebarItemInfo>
                 {
                     new SidebarItemInfo { To = "email/inbox", Text = "Inbox" },

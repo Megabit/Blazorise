@@ -20,7 +20,7 @@
                                 Dashboard
                             </BarLink>
                         </BarItem>
-                        <BarItem IconName="IconName.Edit">
+                        <BarItem IconName="IconName.Wrench">
                             <BarDropdown Open="true">
                                 <BarDropdownToggle>
                                     UI Elements
@@ -56,13 +56,16 @@
                                     <BarDropdownItem To="tests/tabs">
                                         Tabs
                                     </BarDropdownItem>
+                                    <BarDropdownItem To="tests/carousel">
+                                        Carousel
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="tests/layout">
                                         Layout
                                     </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
-                        <BarItem IconName="IconName.Save">
+                        <BarItem IconName="IconName.Edit">
                             <BarDropdown>
                                 <BarDropdownToggle>
                                     Forms
@@ -77,7 +80,7 @@
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
-                        <BarItem IconName="IconName.New">
+                        <BarItem IconName="IconName.PuzzlePiece">
                             <BarDropdown>
                                 <BarDropdownToggle>
                                     Extensions
@@ -100,7 +103,7 @@
                         </BarItem>
                     </BarStart>
                     <BarEnd>
-                        <BarItem IconName="IconName.Phone">
+                        <BarItem IconName="IconName.Smartphone">
                             <BarDropdown>
                                 <BarDropdownToggle>
                                     Apps
@@ -160,6 +163,13 @@
                                     <Row>
                                         <Column Margin="Margin.Is2.FromBottom">
                                             <Field>
+                                                <Switch TValue="bool" Checked="@(Theme?.Enabled == true)" CheckedChanged="@OnThemeEnabledChanged">Theme enabled</Switch>
+                                            </Field>
+                                        </Column>
+                                    </Row>
+                                    <Row>
+                                        <Column Margin="Margin.Is2.FromBottom">
+                                            <Field>
                                                 <Check TValue="bool" Checked="@(Theme?.IsGradient == true)" CheckedChanged="@OnGradientChanged">Gradient colors</Check>
                                             </Field>
                                             <Field>
@@ -191,6 +201,16 @@
 </Layout>
 
 @code{
+    void OnThemeEnabledChanged( bool value )
+    {
+        if ( Theme == null )
+            return;
+
+        Theme.Enabled = value;
+
+        Theme.ThemeHasChanged();
+    }
+
     void OnGradientChanged( bool value )
     {
         if ( Theme == null )

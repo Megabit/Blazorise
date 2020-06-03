@@ -1,66 +1,68 @@
 ﻿@inherits Blazorise.Tabs
 <CascadingValue Value=this>
-    @if ( TabPosition == TabPosition.Top )
-    {
-        @if ( Items != null )
+    <CascadingValue Value="@Store">
+        @if ( TabPosition == TabPosition.Top )
         {
-            <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                <ul>
-                    @Items
-                </ul>
-            </div>
+            @if ( Items != null )
+            {
+                <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                    <ul>
+                        @Items
+                    </ul>
+                </div>
+            }
+            @if ( Content != null )
+            {
+                <div class="@ContentClassNames" @attributes="@Attributes">
+                    @Content
+                </div>
+            }
         }
-        @if ( Content != null )
+        else if ( TabPosition == TabPosition.Left )
         {
-            <div class="@ContentClassNames" @attributes="@Attributes">
-                @Content
-            </div>
+            <Row>
+                <Column ColumnSize="ColumnSize.Is2">
+                    @if ( Items != null )
+                    {
+                        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                            <ul>
+                                @Items
+                            </ul>
+                        </div>
+                    }
+                </Column>
+                <Column ColumnSize="ColumnSize.Is10">
+                    @if ( Content != null )
+                    {
+                        <div class="@ContentClassNames" @attributes="@Attributes">
+                            @Content
+                        </div>
+                    }
+                </Column>
+            </Row>
         }
-    }
-    else if ( TabPosition == TabPosition.Left )
-    {
-        <Row>
-            <Column ColumnSize="ColumnSize.Is2">
-                @if ( Items != null )
-                {
-                    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                        <ul>
-                            @Items
-                        </ul>
-                    </div>
-                }
-            </Column>
-            <Column ColumnSize="ColumnSize.Is10">
-                @if ( Content != null )
-                {
-                    <div class="@ContentClassNames" @attributes="@Attributes">
-                        @Content
-                    </div>
-                }
-            </Column>
-        </Row>
-    }
-    else if ( TabPosition == TabPosition.Right )
-    {
-        <Row>
-            <Column ColumnSize="ColumnSize.Is10">
-                @if ( Content != null )
-                {
-                    <div class="@ContentClassNames" @attributes="@Attributes">
-                        @Content
-                    </div>
-                }
-            </Column>
-            <Column ColumnSize="ColumnSize.Is2">
-                @if ( Items != null )
-                {
-                    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                        <ul>
-                            @Items
-                        </ul>
-                    </div>
-                }
-            </Column>
-        </Row>
-    }
+        else if ( TabPosition == TabPosition.Right )
+        {
+            <Row>
+                <Column ColumnSize="ColumnSize.Is10">
+                    @if ( Content != null )
+                    {
+                        <div class="@ContentClassNames" @attributes="@Attributes">
+                            @Content
+                        </div>
+                    }
+                </Column>
+                <Column ColumnSize="ColumnSize.Is2">
+                    @if ( Items != null )
+                    {
+                        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                            <ul>
+                                @Items
+                            </ul>
+                        </div>
+                    }
+                </Column>
+            </Row>
+        }
+    </CascadingValue>
 </CascadingValue>

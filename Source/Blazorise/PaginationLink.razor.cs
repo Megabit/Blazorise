@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -13,7 +14,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool active;
+        private PaginationItemStore paginationItemStore;
 
         #endregion
 
@@ -22,7 +23,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.PaginationLink() );
-            builder.Append( ClassProvider.PaginationLinkActive(), Active );
+            builder.Append( ClassProvider.PaginationLinkActive(), PaginationItemStore.Active );
 
             base.BuildClasses( builder );
         }
@@ -48,13 +49,16 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter( Name = "PaginationItemActive" )]
-        protected bool Active
+        [CascadingParameter]
+        protected PaginationItemStore PaginationItemStore
         {
-            get => active;
+            get => paginationItemStore;
             set
             {
-                active = value;
+                if ( paginationItemStore == value )
+                    return;
+
+                paginationItemStore = value;
 
                 DirtyClasses();
             }

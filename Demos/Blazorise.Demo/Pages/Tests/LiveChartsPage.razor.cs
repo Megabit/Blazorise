@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Charts;
@@ -172,21 +173,14 @@ namespace Blazorise.Demo.Pages.Tests
         {
             await chart.Clear();
 
-            await chart.AddLabel( Labels );
-
-            foreach ( var getDataSet in getDataSets )
-            {
-                await chart.AddDataSet( getDataSet() );
-            }
-
-            await chart.Update();
+            await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSets.Select( x => x.Invoke() ).ToArray() );
         }
 
         async Task AddNewHorizontalLineDataSet()
         {
             var colorIndex = horizontalLineChart.Data.Datasets.Count % backgroundColors.Count;
 
-            await horizontalLineChart.AddDataSet( new LineChartDataset<LiveDataPoint>
+            await horizontalLineChart.AddDatasetsAndUpdate( new LineChartDataset<LiveDataPoint>
             {
                 Data = new List<LiveDataPoint>(),
                 Label = $"Dataset {horizontalLineChart.Data.Datasets.Count + 1}",
@@ -195,8 +189,6 @@ namespace Blazorise.Demo.Pages.Tests
                 Fill = false,
                 LineTension = 0,
             } );
-
-            await horizontalLineChart.Update();
         }
 
         async Task AddNewHorizontalLineData()
@@ -217,7 +209,7 @@ namespace Blazorise.Demo.Pages.Tests
         {
             var colorIndex = verticalLineChart.Data.Datasets.Count % backgroundColors.Count;
 
-            await verticalLineChart.AddDataSet( new LineChartDataset<LiveDataPoint>
+            await verticalLineChart.AddDatasetsAndUpdate( new LineChartDataset<LiveDataPoint>
             {
                 Data = new List<LiveDataPoint>(),
                 Label = $"Dataset {verticalLineChart.Data.Datasets.Count + 1}",
@@ -226,8 +218,6 @@ namespace Blazorise.Demo.Pages.Tests
                 Fill = false,
                 LineTension = 0,
             } );
-
-            await verticalLineChart.Update();
         }
 
         async Task AddNewVerticalLineData()
@@ -248,15 +238,13 @@ namespace Blazorise.Demo.Pages.Tests
         {
             var colorIndex = horizontalBarChart.Data.Datasets.Count % backgroundColors.Count;
 
-            await horizontalBarChart.AddDataSet( new BarChartDataset<LiveDataPoint>
+            await horizontalBarChart.AddDatasetsAndUpdate( new BarChartDataset<LiveDataPoint>
             {
                 Data = new List<LiveDataPoint>(),
                 Label = $"Dataset {horizontalBarChart.Data.Datasets.Count + 1}",
                 BackgroundColor = backgroundColors[colorIndex],
                 BorderColor = borderColors[colorIndex],
             } );
-
-            await horizontalBarChart.Update();
         }
 
         async Task AddNewHorizontalBarData()
@@ -277,15 +265,13 @@ namespace Blazorise.Demo.Pages.Tests
         {
             var colorIndex = verticalBarChart.Data.Datasets.Count % backgroundColors.Count;
 
-            await verticalBarChart.AddDataSet( new BarChartDataset<LiveDataPoint>
+            await verticalBarChart.AddDatasetsAndUpdate( new BarChartDataset<LiveDataPoint>
             {
                 Data = new List<LiveDataPoint>(),
                 Label = $"Dataset {verticalBarChart.Data.Datasets.Count + 1}",
                 BackgroundColor = backgroundColors[colorIndex],
                 BorderColor = borderColors[colorIndex],
             } );
-
-            await verticalBarChart.Update();
         }
 
         async Task AddNewVerticalBarData()

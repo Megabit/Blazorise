@@ -74,6 +74,8 @@ docs:
         url: /docs/components/button/
       - title: "Card"
         url: /docs/components/card/
+      - title: "Carousel"
+        url: /docs/components/carousel/
       - title: "Dropdown"
         url: /docs/components/dropdown/
       - title: "Figure"

@@ -345,6 +345,28 @@ namespace Blazorise
 
         #endregion
 
+        #region Carousel
+
+        string Carousel();
+
+        string CarouselSlides();
+
+        string CarouselSlide();
+
+        string CarouselSlideActive( bool active );
+
+        string CarouselIndicators();
+
+        string CarouselIndicator();
+
+        string CarouselIndicatorActive( bool active );
+
+        string CarouselFade( bool fade );
+
+        string CarouselCaption();
+
+        #endregion
+
         #region Jumbotron
 
         string Jumbotron();

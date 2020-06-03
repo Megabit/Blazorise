@@ -52,7 +52,7 @@ namespace Blazorise
 
         ValueTask<bool> SetTextValue( ElementReference elementRef, object value );
 
-        ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
+        ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop );
 
         ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
 

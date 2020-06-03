@@ -153,7 +153,12 @@ namespace Blazorise
         /// <summary>
         /// Defines the validation mode for validations inside of this container.
         /// </summary>
-        [Parameter] public ValidationMode Mode { get; set; }
+        [Parameter] public ValidationMode Mode { get; set; } = ValidationMode.Auto;
+
+        /// <summary>
+        /// If set to true, and <see cref="Mode"/> is set to <see cref="ValidationMode.Auto"/>, validation will run on page load.
+        /// </summary>
+        [Parameter] public bool ValidateOnLoad { get; set; } = true;
 
         /// <summary>
         /// Specifies the top-level model object for the form. An edit context will be constructed for this model.

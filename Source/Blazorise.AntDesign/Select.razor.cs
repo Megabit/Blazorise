@@ -42,7 +42,7 @@ namespace Blazorise.AntDesign
 
         protected override void Dispose( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
                 // TODO: switch to IAsyncDisposable
                 _ = JSRunner.UnregisterClosableComponent( this );
@@ -191,7 +191,7 @@ namespace Blazorise.AntDesign
             $"width: {(int)elementInfo.BoundingClientRect.Width}px; left: {(int)elementInfo.OffsetLeft}px; top: {(int)( elementInfo.OffsetTop + elementInfo.BoundingClientRect.Height )}px;";
 
         string DropdownInnerStyleNames
-            => $"max-height: {(MaxVisibleItems == null ? 256 : MaxVisibleItems * 32)}px; overflow-y: auto; overflow-anchor: none;";
+            => $"max-height: {( MaxVisibleItems == null ? 256 : MaxVisibleItems * 32 )}px; overflow-y: auto; overflow-anchor: none;";
 
         #endregion
     }

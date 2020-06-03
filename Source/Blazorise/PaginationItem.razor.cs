@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,9 +13,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool active;
-
-        private bool disabled;
+        private PaginationItemStore store = new PaginationItemStore();
 
         #endregion
 
@@ -39,10 +38,10 @@ namespace Blazorise
         [Parameter]
         public bool Active
         {
-            get => active;
+            get => store.Active;
             set
             {
-                active = value;
+                store.Active = value;
 
                 DirtyClasses();
             }
@@ -54,10 +53,10 @@ namespace Blazorise
         [Parameter]
         public bool Disabled
         {
-            get => disabled;
+            get => store.Disabled;
             set
             {
-                disabled = value;
+                store.Disabled = value;
 
                 DirtyClasses();
             }

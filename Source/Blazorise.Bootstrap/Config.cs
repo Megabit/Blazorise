@@ -37,6 +37,7 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.BarDropdown, Bootstrap.BarDropdown>();
             componentMapper.Register<Blazorise.CardTitle, Bootstrap.CardTitle>();
             componentMapper.Register<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
+            componentMapper.Register<Blazorise.Carousel, Bootstrap.Carousel>();
             componentMapper.Register<Blazorise.CloseButton, Bootstrap.CloseButton>();
             componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Bootstrap.Check<> ) );
             componentMapper.Register<Blazorise.Field, Bootstrap.Field>();
@@ -44,7 +45,6 @@ namespace Blazorise.Bootstrap
             componentMapper.Register<Blazorise.FileEdit, Bootstrap.FileEdit>();
             componentMapper.Register<Blazorise.ModalContent, Bootstrap.ModalContent>();
             componentMapper.Register<Blazorise.Button, Bootstrap.Button>();
-            componentMapper.Register( typeof( Blazorise.RadioGroup<> ), typeof( Bootstrap.RadioGroup<> ) );
             componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) );
             componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( Bootstrap.Switch<> ) );
         }

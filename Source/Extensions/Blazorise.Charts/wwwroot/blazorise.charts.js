@@ -32,8 +32,6 @@ window.blazoriseCharts = {
 
             window.blazoriseCharts.wireEvents(dotnetAdapter, hasClickEvent, hasHoverEvent, canvas, chart);
         }
-
-        return true;
     },
 
     destroy: (canvasId) => {
@@ -46,8 +44,6 @@ window.blazoriseCharts = {
         }
 
         delete instances[canvasId];
-
-        return true;
     },
 
     setOptions: (canvasId, options, optionsJsonString, optionsObject) => {
@@ -63,8 +59,6 @@ window.blazoriseCharts = {
         if (chart) {
             chart.options = options;
         }
-
-        return true;
     },
 
     update: (canvasId) => {
@@ -73,8 +67,6 @@ window.blazoriseCharts = {
         if (chart) {
             chart.update();
         }
-
-        return true;
     },
 
     clear: (canvasId) => {
@@ -85,8 +77,6 @@ window.blazoriseCharts = {
             chart.data.datasets = [];
             chart.update();
         }
-
-        return true;
     },
 
     addLabel: (canvasId, newLabels) => {
@@ -97,20 +87,15 @@ window.blazoriseCharts = {
                 chart.data.labels.push(label);
             });
         }
-
-        return true;
     },
 
     addDataset: (canvasId, newDatasets) => {
         const chart = window.blazoriseCharts.getChart(canvasId);
-
         if (chart) {
             newDatasets.forEach((dataset, index) => {
                 chart.data.datasets.push(dataset);
             });
         }
-
-        return true;
     },
 
     addData: (canvasId, datasetIndex, newData) => {
@@ -121,8 +106,34 @@ window.blazoriseCharts = {
                 chart.data.datasets[datasetIndex].data.push(data);
             });
         }
+    },
 
-        return true;
+    addDatasetsAndUpdate: (canvasId, newDatasets) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
+
+        if (chart) {
+            newDatasets.forEach((dataset, index) => {
+                chart.data.datasets.push(dataset);
+            });
+
+            chart.update();
+        }
+    },
+
+    addLabelsDatasetsAndUpdate: (canvasId, newLabels, newDatasets) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
+
+        if (chart) {
+            newLabels.forEach((label, index) => {
+                chart.data.labels.push(label);
+            });
+
+            newDatasets.forEach((dataset, index) => {
+                chart.data.datasets.push(dataset);
+            });
+
+            chart.update();
+        }
     },
 
     wireEvents: (dotnetAdapter, hasClickEvent, hasHoverEvent, canvas, chart) => {

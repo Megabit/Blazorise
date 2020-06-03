@@ -20,9 +20,9 @@ namespace Blazorise.Bulma
             return runtime.InvokeAsync<bool>( $"blazoriseBulma.tooltip.initialize", elementRef, elementId );
         }
 
-        public override ValueTask<bool> OpenModal( ElementReference elementRef, string elementId )
+        public override ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop )
         {
-            return runtime.InvokeAsync<bool>( $"blazoriseBulma.modal.open", elementRef, elementId );
+            return runtime.InvokeAsync<bool>( $"blazoriseBulma.modal.open", elementRef, elementId, scrollToTop );
         }
 
         public override ValueTask<bool> CloseModal( ElementReference elementRef, string elementId )

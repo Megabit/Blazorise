@@ -13,10 +13,12 @@ window.blazoriseBootstrap = {
         }
     },
     modal: {
-        open: (element, elementId) => {
+        open: (element, elementId, scrollToTop) => {
             window.blazorise.addClassToBody("modal-open");
 
-            element.querySelector('.modal-body').scrollTop = 0;
+            if (scrollToTop) {
+                element.querySelector('.modal-body').scrollTop = 0;
+            }
 
             return true;
         },

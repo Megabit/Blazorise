@@ -407,6 +407,28 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Carousel
+
+        public override string Carousel() => "carousel";
+
+        public override string CarouselSlides() => "carousel-items";
+
+        public override string CarouselSlide() => "carousel-item";
+
+        public override string CarouselSlideActive( bool active ) => active ? null : "carousel-item-hidden";
+
+        public override string CarouselIndicators() => "carousel-indicator is-inside is-bottom";
+
+        public override string CarouselIndicator() => "indicator-item";
+
+        public override string CarouselIndicatorActive( bool active ) => active ? "is-active" : null;
+
+        public override string CarouselFade( bool fade ) => null;
+
+        public override string CarouselCaption() => null;
+
+        #endregion
+
         #region Jumbotron
 
         public override string Jumbotron() => "e-face";
