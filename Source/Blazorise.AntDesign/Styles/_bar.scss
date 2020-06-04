@@ -178,9 +178,11 @@
     }
 
     &.ant-menu-vertical {
-        min-width: var(--b-sidebar-small-width, 80px);
-        max-width: var(--b-sidebar-small-width, 80px);
-        width: var(--b-sidebar-small-width, 80px);
+        &.ant-menu-inline-collapsed:not(.ant-menu-vertical-collapsed) {
+            min-width: var(--b-sidebar-small-width, 80px);
+            max-width: var(--b-sidebar-small-width, 80px);
+            width: var(--b-sidebar-small-width, 80px);
+        }
 
         .ant-menu-submenu.ant-menu-submenu-vertical {
             &:hover {
@@ -235,8 +237,7 @@
         }
     }
 
-    &.ant-menu-inline-collapsed:not(ant-menu-vertical),
-    &.ant-menu-vertical-collapsed {
+    &.ant-menu-inline-collapsed:not(.ant-menu-vertical), &.ant-menu-vertical-collapsed {
         width: 0px;
         min-width: 0px;
         transition: width 200ms ease-in-out, min-width 200ms ease-in-out, visibility 100ms;

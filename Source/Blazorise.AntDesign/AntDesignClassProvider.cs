@@ -518,7 +518,7 @@ namespace Blazorise.AntDesign
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"ant-menu-expand-{ToBreakpoint( breakpoint )}";
 
-        public override string BarMode( BarMode mode ) => $"ant-menu-{ToBarMode( mode )}";
+        public override string BarMode( BarMode mode ) => $"ant-menu-{ToBarMode( mode )} {( mode == Blazorise.BarMode.VerticalSmall ? "ant-menu-inline-collapsed" : null )}";
 
         public override string BarItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-item ant-menu-item-only-child" : "ant-menu-item";
 

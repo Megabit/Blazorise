@@ -34,7 +34,8 @@ namespace Blazorise
             // link to the parent component
             ParentBarItem?.Hook( this );
 
-            Visible = Open;
+            if ( parentStore.Mode != BarMode.VerticalSmall )
+                Visible = Open;
 
             base.OnInitialized();
         }
