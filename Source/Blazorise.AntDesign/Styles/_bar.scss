@@ -234,4 +234,12 @@
             }
         }
     }
+
+    &.ant-menu-inline-collapsed:not(ant-menu-vertical),
+    &.ant-menu-vertical-collapsed {
+        width: 0px;
+        min-width: 0px;
+        transition: width 200ms ease-in-out, min-width 200ms ease-in-out, visibility 100ms;
+        visibility: hidden;
+    }
 }
