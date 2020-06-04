@@ -110,7 +110,7 @@
         height: 0;
         content: '\20'; }
 
-.ant-menu-sub-right {
+.ant-menu-submenu-placement-bottomRight {
     right: 0;
     left: auto; }
 
@@ -164,18 +164,23 @@
     .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical:hover > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical {
         display: block !important; }
     .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup {
-        left: var(--b-sidebar-small-width, 80px);
         margin: -45px 5px 0px 5px; }
+        .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop {
+            left: var(--b-sidebar-small-width, 80px); }
+            .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop::before {
+                top: 0;
+                left: -7px; }
+        .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop {
+            right: var(--b-sidebar-small-width, 80px); }
+            .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop::before {
+                top: 0;
+                right: -7px; }
         .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup:hover > .ant-menu.ant-menu-sub.ant-menu-vertical {
             display: block !important; }
     .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu-title > span {
         font-size: 0px; }
     .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-item > a > span {
         font-size: 0px; }
-
-.ant-menu.ant-menu-root .ant-menu-submenu-placement-rightTop::before {
-    top: 0;
-    left: -7px; }
 
 .ant-btn-secondary {
     color: #fff;
