@@ -20,7 +20,12 @@
                         metaKey: false,
                         ctrlKey: false,
                         altKey: false,
-                        handler: () => {
+                        handler: (range, context) => {
+                            if (context.format.list) {
+                                editorRef.quill.insertText(range.index, '\n');
+                                return;
+                            }
+
                             dotnetAdapter.invokeMethodAsync(onEnter);
                         }
                     }
