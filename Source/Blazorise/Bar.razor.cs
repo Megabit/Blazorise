@@ -110,6 +110,9 @@ namespace Blazorise
 
                     JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
                 }
+
+                if ( NavigationBreakpoint != Breakpoint.None )
+                    NavigationManager.LocationChanged -= OnLocationChanged;
             }
 
             base.Dispose( disposing );
