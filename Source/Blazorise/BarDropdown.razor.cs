@@ -29,15 +29,24 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected override void OnInitialized()
+        protected override Task OnInitializedAsync()
         {
             // link to the parent component
             ParentBarItem?.Hook( this );
 
-            if ( parentStore.Mode != BarMode.VerticalSmall )
-                Visible = Open;
+            return base.OnInitializedAsync();
+        }
 
-            base.OnInitialized();
+        public override Task SetParametersAsync( ParameterView parameters )
+        {
+            // This is needed for the two-way binding to work properly.
+            // Otherwise the internal value would not be set in the right order.
+            if ( parameters.TryGetValue<bool>( nameof( Visible ), out var newVisible ) )
+            {
+                store.Visible = newVisible;
+            }
+
+            return base.SetParametersAsync( parameters );
         }
 
         internal void Show()
@@ -71,11 +80,9 @@ namespace Blazorise
         protected BarDropdownStore Store => store;
 
         /// <summary>
-        /// Sets a value indicating whether the control and all its child controls are displayed by default
+        /// Sets a value indicating whether the dropdown menu and all its child controls are visible.
         /// </summary>
         [Parameter]
-        public bool Open { get; set; }
-
         public bool Visible
         {
             get => store.Visible;
@@ -87,13 +94,20 @@ namespace Blazorise
 
                 store.Visible = value;
 
+                VisibleChanged.InvokeAsync( value );
+
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Occurs when the component visibility changes.
+        /// </summary>
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+
         [CascadingParameter] protected BarItem ParentBarItem { get; set; }
 
-        [CascadingParameter] 
+        [CascadingParameter]
         protected BarItemStore ParentStore
         {
             get => parentStore;

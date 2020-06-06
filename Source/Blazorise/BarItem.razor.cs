@@ -33,13 +33,24 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        protected override Task OnAfterRenderAsync( bool firstRender )
+        {
+            if ( firstRender )
+            {
+                if ( HasDropdown )
+                {
+                    DirtyClasses();
+
+                    StateHasChanged();
+                }
+            }
+
+            return base.OnAfterRenderAsync( firstRender );
+        }
+
         internal void Hook( BarDropdown barDropdown )
         {
             this.barDropdown = barDropdown;
-
-            DirtyClasses();
-
-            StateHasChanged();
         }
 
         #endregion
@@ -74,7 +85,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] 
+        [CascadingParameter]
         protected BarStore ParentStore
         {
             get => parentStore;
