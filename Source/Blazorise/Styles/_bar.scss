@@ -183,12 +183,12 @@
         Theming
     */
     &.b-bar-dark {
-        /*background: var(--b-sidebar-background);*/
-        /*color: var(--b-sidebar-color);*/
-        background: #001529;
-        color: rgba(255,255,255, 0.5);
+        background: var(--b-bar-dark-background, #001529);
+        color: var(--b-bar-dark-color, rgba(255,255,255, 0.5));
 
         .b-bar-brand {
+            background: var(--b-bar-brand-dark-background, rgba(255,255,255,0.025));
+
             .b-bar-link {
                 color: #fff;
 
@@ -205,18 +205,17 @@
         }
 
         .b-bar-dropdown-menu {
-            /*background: rgba(0,0,0,0.5);*/
-            background: #000c17;
+            background: var(--b-bar-dropdown-dark-background, #000c17);
 
             .b-bar-dropdown-item {
                 &.active {
-                    color: #fff;
-                    background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */
+                    color: var(--b-bar-item-dark-active-color, #fff);
+                    background: var(--b-bar-item-dark-active-background, #0288D1);
                 }
 
                 &:hover {
-                    color: #fff;
-                    background: rgba(255,255,255,0.3);
+                    color: var(--b-bar-item-dark-hover-color, #fff);
+                    background: var(--b-bar-item-dark-hover-background, rgba(255,255,255,0.3));
                 }
             }
         }
@@ -225,25 +224,23 @@
             color: inherit;
 
             &.active {
-                color: #fff;
-                background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */
+                color: var(--b-bar-item-dark-active-color, #fff);
+                background: var(--b-bar-item-dark-active-background, #0288D1);
             }
 
             &:hover {
-                color: #fff;
-                background: rgba(255,255,255,0.3);
+                color: var(--b-bar-item-dark-hover-color, #fff);
+                background: var(--b-bar-item-dark-hover-background, rgba(255,255,255,0.3));
             }
         }
     }
 
     &.b-bar-light {
-        /*background: var(--b-sidebar-background);*/
-        /*color: var(--b-sidebar-color);*/
-        background: #fff;
-        color: rgba(0,0,0,0.7);
+        background: var(--b-bar-light-background, #fff);
+        color: var(--b-bar-light-color, rgba(0,0,0,0.7));
 
         .b-bar-brand {
-            background: rgba(0,0,0,0.025);
+            background: var(--b-bar-brand-light-background, rgba(0,0,0,0.025));
 
             .b-bar-link {
                 color: #000;
@@ -259,16 +256,17 @@
         }
 
         .b-bar-dropdown-menu {
-            background: #f2f2f2;
+            background: var(--b-bar-dropdown-light-background, #f2f2f2);
 
             .b-bar-dropdown-item {
                 &.active {
-                    color: #000;
-                    background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */
+                    color: var(--b-bar-item-light-active-color, #000);
+                    background: var(--b-bar-item-light-active-background, #0288D1);
                 }
 
                 &:hover {
-                    color: #000;
+                    color: var(--b-bar-item-dark-hover-color, #000);
+                    background: var(--b-bar-item-dark-hover-background, rgba(0,0,0,0.3));
                 }
             }
         }
@@ -277,13 +275,13 @@
             color: inherit;
 
             &.active {
-                color: #000;
-                background: #0288D1; /* TODO: CHANGE THIS TO BE GENERATED */
+                color: var(--b-bar-item-light-active-color, #000);
+                background: var(--b-bar-item-light-active-background, #0288D1);
             }
 
             &:hover {
-                color: #000;
-                background: rgba(0,0,0,0.3);
+                color: var(--b-bar-item-dark-hover-color, #000);
+                background: var(--b-bar-item-dark-hover-background, rgba(0,0,0,0.3));
             }
         }
     }

@@ -321,6 +321,43 @@ namespace Blazorise
 
     public class ThemeBarOptions
     {
+        public ThemeBarColorOptions DarkColors { get; set; }
+
+        public ThemeBarColorOptions LightColors { get; set; }
+    }
+
+    public class ThemeBarColorOptions
+    {
+        public string BackgroundColor { get; set; }
+
+        public string Color { get; set; }
+
+        public ThemeBarItemColorOptions ItemColorOptions { get; set; }
+
+        public ThemeBarDropdownColorOptions DropdownColorOptions { get; set; }
+
+        public ThemeBarBrandColorOptions BrandColorOptions { get; set; }
+    }
+
+    public class ThemeBarItemColorOptions
+    {
+        public string ActiveBackgroundColor { get; set; }
+
+        public string ActiveColor { get; set; }
+
+        public string HoverBackgroundColor { get; set; }
+
+        public string HoverColor { get; set; }
+    }
+
+    public class ThemeBarDropdownColorOptions
+    {
+        public string BackgroundColor { get; set; }
+    }
+
+    public class ThemeBarBrandColorOptions
+    {
+        public string BackgroundColor { get; set; }
     }
 
     public class ThemeDividerOptions
@@ -610,6 +647,28 @@ namespace Blazorise
         public const string SidebarWidth = "--b-sidebar-width";
         public const string SidebarBackground = "--b-sidebar-background";
         public const string SidebarColor = "--b-sidebar-color";
+
+        public const string BarVerticalWidth = "--b-bar-vertical-width";
+        public const string BarVerticalSmallWidth = "--b-bar-vertical-small-width";
+        public const string BarBrandHeight = "--b-bar-brand-height";
+
+        public const string BarDarkBackground = "--b-bar-dark-background";
+        public const string BarDarkColor = "--b-bar-dark-color";
+        public const string BarItemDarkActiveBackground = "--b-bar-item-dark-active-background";
+        public const string BarItemDarkActiveColor = "--b-bar-item-dark-active-color";
+        public const string BarItemDarkHoverBackground = "--b-bar-item-dark-hover-background";
+        public const string BarItemDarkHoverColor = "--b-bar-item-dark-hover-color";
+        public const string BarDropdownDarkBackground = "--b-bar-dropdown-dark-background";
+        public const string BarBrandDarkBackground = "--b-bar-brand-dark-background";
+
+        public const string BarLightBackground = "--b-bar-light-background";
+        public const string BarLightColor = "--b-bar-light-color";
+        public const string BarItemLightActiveBackground = "--b-bar-item-light-active-background";
+        public const string BarItemLightActiveColor = "--b-bar-item-light-active-color";
+        public const string BarItemLightHoverBackground = "--b-bar-item-light-hover-background";
+        public const string BarItemLightHoverColor = "--b-bar-item-light-hover-color";
+        public const string BarDropdownLightBackground = "--b-bar-dropdown-light-background";
+        public const string BarBrandLightBackground = "--b-bar-brand-light-background";
 
         public const string SnackbarBackground = "--b-snackbar-background";
         public const string SnackbarTextColor = "--b-snackbar-text";
