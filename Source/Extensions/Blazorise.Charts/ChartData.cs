@@ -376,7 +376,7 @@ namespace Blazorise.Charts
         /// </summary>
         /// <param name="code">The HTML color code to parse</param>
         /// <returns><see cref="ChartColor"/></returns>
-        public static ChartColor FromHtmlColorCode( string code )
+        public static ChartColor FromHTMLColorCode( string code )
         {
             if ( code == null )
             {
