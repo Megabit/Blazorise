@@ -13,15 +13,17 @@ namespace Blazorise.Bootstrap
 
         protected override void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpointName, string breakpointSize )
         {
-            if ( string.IsNullOrEmpty( breakpointSize ) )
-                return;
-
-            if ( !string.IsNullOrEmpty( theme?.ContainerMaxWidthOptions?[breakpointName]?.Invoke() ) )
+            if ( !string.IsNullOrEmpty( breakpointSize ) )
             {
-                var containerSize = theme.ContainerMaxWidthOptions[breakpointName].Invoke();
+                if ( !string.IsNullOrEmpty( theme?.ContainerMaxWidthOptions?[breakpointName]?.Invoke() ) )
+                {
+                    var containerSize = theme.ContainerMaxWidthOptions[breakpointName].Invoke();
 
-                sb.Append( MediaBreakpointUp( breakpointName, $".container{{max-width: {containerSize};}}" ) );
+                    sb.Append( MediaBreakpointUp( breakpointName, $".container{{max-width: {containerSize};}}" ) );
+                }
             }
+
+            base.GenerateBreakpointStyles( sb, theme, breakpointName, breakpointSize );
         }
 
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )

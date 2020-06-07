@@ -419,6 +419,17 @@ namespace Blazorise
 
         protected virtual void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpoint, string value )
         {
+            if ( string.IsNullOrEmpty( value ) )
+                return;
+
+            // mobile is configured diferently from other breakpoints
+            if ( breakpoint != "mobile" )
+            {
+                sb.Append( $"@media (min-width: {value})" ).Append( "{" )
+                    .Append( $"body:before" ).Append( "{" )
+                        .Append( $"content: \"{breakpoint}\";" ).Append( "}" )
+                    .AppendLine( "}" );
+            }
         }
 
         /// <summary>
