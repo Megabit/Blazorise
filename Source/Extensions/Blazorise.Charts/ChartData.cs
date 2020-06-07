@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using Blazorise.Utils;
 
 #endregion
 
@@ -318,12 +319,6 @@ namespace Blazorise.Charts
     [DataContract]
     public struct ChartColor
     {
-        #region Constants
-
-        private static readonly Regex HtmlColorRegex = new Regex( @"^#((?'R'[0-9a-f]{2})(?'G'[0-9a-f]{2})(?'B'[0-9a-f]{2}))|((?'R'[0-9a-f])(?'G'[0-9a-f])(?'B'[0-9a-f]))$", RegexOptions.Compiled | RegexOptions.IgnoreCase );
-
-        #endregion
-
         #region Constructors
 
         public ChartColor( byte red, byte green, byte blue )
@@ -373,24 +368,23 @@ namespace Blazorise.Charts
         public static ChartColor FromRgba( byte red, byte green, byte blue, float alpha ) => new ChartColor( red, green, blue, alpha );
 
         /// <summary>
-        /// Creates a new color based on the supplied HTML hexadecimal color code.
+        /// Creates a new color based on the supplied HTML color code.
         /// </summary>
-        /// <param name="hexColorCode"></param>
-        /// <returns></returns>
-        public static ChartColor FromHexString( string hexColorCode )
+        /// <param name="code">The HTML color code to parse</param>
+        /// <returns><see cref="ChartColor"/></returns>
+        public static ChartColor FromHtmlColorCode( string code )
         {
-            if ( hexColorCode == null )
+            if ( code == null )
             {
-                throw new ArgumentNullException( nameof( hexColorCode ) );
+                throw new ArgumentNullException( nameof( code ) );
             }
 
-            var match = HtmlColorRegex.Match( hexColorCode );
-            if ( !match.Success )
+            if ( HTMLColorCodeParser.TryParse( code, out var red, out var green, out var blue ) )
             {
-                throw new ArgumentException( $"The string \"{hexColorCode}\" doesn't represent a valid HTML hexadecimal color code.", nameof( hexColorCode ) );
+                return new ChartColor( red, green, blue );
             }
 
-            return new ChartColor( ParseHexValueAsByte( match.Groups["R"].Value ), ParseHexValueAsByte( match.Groups["G"].Value ), ParseHexValueAsByte( match.Groups["B"].Value ) );
+            throw new ArgumentException( $"The \"{code}\" doesn't represent a valid HTML color code.", nameof( code ) );
         }
 
         private static byte ParseHexValueAsByte( string value )
