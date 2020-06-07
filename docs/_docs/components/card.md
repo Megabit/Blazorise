@@ -56,7 +56,7 @@ The card component comprises several elements that you can mix and match:
 | Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
 | Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
 | Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### CardTitle
 
@@ -67,7 +67,7 @@ The card component comprises several elements that you can mix and match:
 | Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
 | Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
 | Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### CardSubtitle
 
@@ -78,7 +78,7 @@ The card component comprises several elements that you can mix and match:
 | Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
 | Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
 | Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### CardLink
 
