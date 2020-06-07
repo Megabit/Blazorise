@@ -1,10 +1,4 @@
-﻿:root {
-    --b-sidebar-width: 220px;
-    --b-sidebar-small-width: 64px;
-    --b-sidebar-brand-height: 64px;
-}
-
-@mixin b-bar-popout-menu {
+﻿@mixin b-bar-popout-menu {
     display: block !important;
     visibility: hidden;
     position: absolute !important;
@@ -62,15 +56,15 @@
     position: sticky;
     top: 0;
     padding: 0;
-    min-width: var(--b-sidebar-width, 220px);
-    max-width: var(--b-sidebar-width, 220px);
-    width: var(--b-sidebar-width, 220px);
+    min-width: var(--b-vertical-bar-width, 220px);
+    max-width: var(--b-vertical-bar-width, 220px);
+    width: var(--b-vertical-bar-width, 220px);
     transition: width 200ms ease-in-out, min-width 200ms ease-in-out;
     box-shadow: 2px 0 6px rgba(0,21,41,.35);
     height: 100vh;
 
     .b-bar-menu {
-        height: calc(100% - var(--b-sidebar-brand-height, 64px));
+        height: calc(100% - var(--b-vertical-bar-brand-height, 64px));
         justify-content: space-between;
         flex-direction: column;
         display: flex !important;
@@ -80,7 +74,7 @@
         width: 100%;
         display: flex;
         margin: 0;
-        height: var(--b-sidebar-brand-height, 64px);
+        height: var(--b-vertical-bar-brand-height, 64px);
     }
 
     .b-bar-item {
@@ -290,8 +284,8 @@
 .b-bar-vertical-small,
 .b-bar-vertical-inline[data-collapse=small],
 .b-bar-vertical-popout[data-collapse=small] {
-    width: var(--b-sidebar-small-width, 64px);
-    min-width: var(--b-sidebar-small-width, 64px);
+    width: var(--b-vertical-bar-small-width, 64px);
+    min-width: var(--b-vertical-bar-small-width, 64px);
     transition: width 200ms ease-in-out, min-width 200ms ease-in-out;
 
     .b-bar-dropdown {
@@ -308,10 +302,10 @@
 
     .b-bar-dropdown-menu {
         @include b-bar-popout-menu;
-        left: var(--b-sidebar-small-width, 64px);
+        left: var(--b-vertical-bar-small-width, 64px);
 
         &.b-bar-right {
-            right: var(--b-sidebar-small-width, 64px);
+            right: var(--b-vertical-bar-small-width, 64px);
             left: unset;
         }
     }
@@ -373,10 +367,10 @@
 
     .b-bar-dropdown-menu {
         @include b-bar-popout-menu;
-        left: var(--b-sidebar-width, 220px);
+        left: var(--b-vertical-bar-width, 220px);
 
         &.b-bar-right {
-            right: var(--b-sidebar-small-width, 220px);
+            right: var(--b-vertical-bar-small-width, 220px);
             left: unset;
         }
     }

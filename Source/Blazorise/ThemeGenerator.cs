@@ -214,6 +214,15 @@ namespace Blazorise
 
         protected virtual void GenerateBarVariables( ThemeBarOptions barOptions )
         {
+            if ( !string.IsNullOrEmpty( barOptions.VerticalWidth ) )
+                variables[ThemeVariables.VerticalBarWidth] = barOptions.VerticalWidth;
+
+            if ( !string.IsNullOrEmpty( barOptions.VerticalSmallWidth ) )
+                variables[ThemeVariables.VerticalBarSmallWidth] = barOptions.VerticalSmallWidth;
+
+            if ( !string.IsNullOrEmpty( barOptions.VerticalBrandHeight ) )
+                variables[ThemeVariables.VerticalBarBrandHeight] = barOptions.VerticalBrandHeight;
+
             if ( barOptions?.DarkColors != null )
             {
                 variables[ThemeVariables.BarDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BackgroundColor ) );

@@ -321,6 +321,12 @@ namespace Blazorise
 
     public class ThemeBarOptions
     {
+        public string VerticalWidth { get; set; } = "220px";
+
+        public string VerticalSmallWidth { get; set; } = "64px";
+
+        public string VerticalBrandHeight { get; set; } = "64px";
+
         public ThemeBarColorOptions DarkColors { get; set; }
 
         public ThemeBarColorOptions LightColors { get; set; }
@@ -648,9 +654,9 @@ namespace Blazorise
         public const string SidebarBackground = "--b-sidebar-background";
         public const string SidebarColor = "--b-sidebar-color";
 
-        public const string BarVerticalWidth = "--b-bar-vertical-width";
-        public const string BarVerticalSmallWidth = "--b-bar-vertical-small-width";
-        public const string BarBrandHeight = "--b-bar-brand-height";
+        public const string VerticalBarWidth = "--b-vertical-bar-width";
+        public const string VerticalBarSmallWidth = "--b-vertical-bar-small-width";
+        public const string VerticalBarBrandHeight = "--b-vertical-bar-brand-height";
 
         public const string BarDarkBackground = "--b-bar-dark-background";
         public const string BarDarkColor = "--b-bar-dark-color";
