@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
 using Blazorise.Utils;
 
 #endregion
@@ -42,7 +41,6 @@ namespace Blazorise.Charts
     [DataContract]
     public class ChartDataset<T>
     {
-
         public ChartDataset() { }
 
         protected ChartDataset(
@@ -358,7 +356,7 @@ namespace Blazorise.Charts
         public static implicit operator string( ChartColor color ) => color.ToJsRgba();
 
         /// <summary>
-        /// Creates a new color based on the supplied color component values.
+        /// Creates the new color based on the supplied color component values.
         /// </summary>
         /// <param name="red"></param>
         /// <param name="green"></param>
@@ -366,6 +364,12 @@ namespace Blazorise.Charts
         /// <param name="alpha"></param>
         /// <returns></returns>
         public static ChartColor FromRgba( byte red, byte green, byte blue, float alpha ) => new ChartColor( red, green, blue, alpha );
+
+        /// <summary>
+        /// Converts the color to the js function call.
+        /// </summary>
+        /// <returns></returns>
+        public string ToJsRgba() => $"rgba({R},{G},{B},{A.ToString( CultureInfo.InvariantCulture )})";
 
         /// <summary>
         /// Creates a new color based on the supplied HTML color code.
@@ -386,17 +390,6 @@ namespace Blazorise.Charts
 
             throw new ArgumentException( $"The \"{code}\" doesn't represent a valid HTML color code.", nameof( code ) );
         }
-
-        private static byte ParseHexValueAsByte( string value )
-        {
-            return byte.Parse( value, NumberStyles.AllowHexSpecifier );
-        }
-
-        /// <summary>
-        /// Converts the color to the js function call.
-        /// </summary>
-        /// <returns></returns>
-        public string ToJsRgba() => $"rgba({R},{G},{B},{A.ToString( CultureInfo.InvariantCulture )})";
 
         #endregion
 

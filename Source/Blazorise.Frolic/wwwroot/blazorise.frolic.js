@@ -14,8 +14,10 @@ window.blazoriseFrolic = {
         }
     },
     modal: {
-        open: (element, elementId) => {
-            element.querySelector('.e-modal-body').scrollTop = 0;
+        open: (element, elementId, scrollToTop) => {
+            if (scrollToTop) {
+                element.querySelector('.e-modal-body').scrollTop = 0;
+            }
 
             return true;
         },

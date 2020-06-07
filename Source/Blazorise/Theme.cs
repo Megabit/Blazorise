@@ -13,6 +13,14 @@ namespace Blazorise
     /// </summary>
     public class Theme
     {
+        /// <summary>
+        /// Globaly enable or disable the theme.
+        /// </summary>
+        public bool Enabled { get; set; } = true;
+
+        /// <summary>
+        /// Event raised after the theme options has changed.
+        /// </summary>
         public event EventHandler<EventArgs> Changed;
 
         /// <summary>
@@ -38,6 +46,18 @@ namespace Blazorise
         public bool IsRounded { get; set; } = true;
 
         /// <summary>
+        /// Gets the valid breakpoints.
+        /// </summary>
+        public IEnumerable<(string name, string color)> ValidBreakpoints
+            => BreakpointOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+
+        /// <summary>
+        /// Gets the valid sizes for container.
+        /// </summary>
+        public IEnumerable<(string name, string color)> ValidContainerMaxWidths
+            => ContainerMaxWidthOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+
+        /// <summary>
         /// Gets the valid variant colors.
         /// </summary>
         public IEnumerable<(string name, string color)> ValidColors
@@ -54,6 +74,16 @@ namespace Blazorise
         /// </summary>
         public IEnumerable<(string name, string color)> ValidTextColors
             => TextColorOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+
+        /// <summary>
+        /// Global options for media breakpoints.
+        /// </summary>
+        public ThemeBreakpointOptions BreakpointOptions { get; set; }
+
+        /// <summary>
+        /// Define the maximum width of container for different screen sizes.
+        /// </summary>
+        public ThemeContanerMaxWidthOptions ContainerMaxWidthOptions { get; set; }
 
         /// <summary>
         /// Used to override default theme colors.
@@ -123,6 +153,72 @@ namespace Blazorise
         }
     }
 
+    public class ThemeBreakpointOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    {
+        private Dictionary<string, Func<string>> breakpointMap => new Dictionary<string, Func<string>> {
+            { "mobile", () => Mobile },
+            { "tablet", () => Tablet },
+            { "desktop", () => Desktop },
+            { "widescreen", () => Widescreen },
+            { "fullhd", () => FullHD },
+        };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        public Func<string> this[string key] => breakpointMap[key];
+
+        public string Mobile { get; set; } = "576px";
+
+        public string Tablet { get; set; } = "768px";
+
+        public string Desktop { get; set; } = "992px";
+
+        public string Widescreen { get; set; } = "1200px";
+
+        public string FullHD { get; set; } = "1400px";
+    }
+
+    public class ThemeContanerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    {
+        private Dictionary<string, Func<string>> breakpointMap => new Dictionary<string, Func<string>> {
+            { "mobile", () => Mobile },
+            { "tablet", () => Tablet },
+            { "desktop", () => Desktop },
+            { "widescreen", () => Widescreen },
+            { "fullhd", () => FullHD },
+        };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        public Func<string> this[string key] => breakpointMap[key];
+
+        public string Mobile { get; set; } = "540px";
+
+        public string Tablet { get; set; } = "720px";
+
+        public string Desktop { get; set; } = "960px";
+
+        public string Widescreen { get; set; } = "1140px";
+
+        public string FullHD { get; set; } = "1320px";
+    }
+
     public class ThemeButtonOptions : BasicOptions
     {
         public string Padding { get; set; }
@@ -133,13 +229,13 @@ namespace Blazorise
 
         public byte BoxShadowTransparency { get; set; } = 127;
 
-        public float HoverDarkenColor { get; set; } = 7.5f;
+        public float HoverDarkenColor { get; set; } = 15f;
 
-        public float HoverLightenColor { get; set; } = 10f;
+        public float HoverLightenColor { get; set; } = 20f;
 
-        public float ActiveDarkenColor { get; set; } = 10f;
+        public float ActiveDarkenColor { get; set; } = 20f;
 
-        public float ActiveLightenColor { get; set; } = 12.5f;
+        public float ActiveLightenColor { get; set; } = 25f;
 
         public string LargeBorderRadius { get; set; } = ".3rem";
 
@@ -175,6 +271,10 @@ namespace Blazorise
         public string ImageTopRadius { get; set; } = "calc(.25rem - 1px)";
     }
 
+    public class ThemeJumbotronOptions : BasicOptions
+    {
+    }
+
     public class ThemeModalOptions : BasicOptions
     {
     }
@@ -207,6 +307,7 @@ namespace Blazorise
 
     public class ThemeBreadcrumbOptions : BasicOptions
     {
+        public string Color { get; set; } = ThemeColors.Blue.Shades["400"].Value;
     }
 
     public class ThemeBadgeOptions : BasicOptions
@@ -418,9 +519,11 @@ namespace Blazorise
 
     public class ThemeSidebarOptions
     {
-        public string BackgroundColor { get; set; }
+        public string Width { get; set; } = "220px";
 
-        public string Color { get; set; }
+        public string BackgroundColor { get; set; } = "#343a40";
+
+        public string Color { get; set; } = "#ced4da";
     }
 
     public class ThemeSnackbarOptions
@@ -471,6 +574,13 @@ namespace Blazorise
         public static string Color( string variant ) => $"--b-theme-{variant}";
 
         /// <summary>
+        /// Gets the breakpoint variable name.
+        /// </summary>
+        /// <param name="name">Breakpoint name.</param>
+        /// <returns></returns>
+        public static string Breakpoint( string name ) => $"--b-theme-breakpoint-{name}";
+
+        /// <summary>
         /// Gets the theme background color variable name.
         /// </summary>
         /// <param name="variant">Color variant name.</param>
@@ -494,7 +604,10 @@ namespace Blazorise
         public static string OutlineButtonColor( string variant ) => $"--b-outline-button-{variant}-color";
         public static string OutlineButtonYiqColor( string variant ) => $"--b-outline-button-{variant}-yiq-shadow";
         public static string OutlineButtonBoxShadowColor( string variant ) => $"--b-outline-button-{variant}-box-shadow";
+        public static string OutlineButtonHoverColor( string variant ) => $"--b-outline-button-{variant}-hover-color";
+        public static string OutlineButtonActiveColor( string variant ) => $"--b-outline-button-{variant}-active-color";
 
+        public const string SidebarWidth = "--b-sidebar-width";
         public const string SidebarBackground = "--b-sidebar-background";
         public const string SidebarColor = "--b-sidebar-color";
 
@@ -518,6 +631,8 @@ namespace Blazorise
         public const string TooltipMaxWidth = "--b-tooltip-maxwidth";
         public const string TooltipPadding = "--b-tooltip-padding";
         public const string TooltipZIndex = "--b-tooltip-z-index";
+
+        public const string BreadcrumbColor = "--b-breadcrumb-color";
     }
 
     /// <summary>

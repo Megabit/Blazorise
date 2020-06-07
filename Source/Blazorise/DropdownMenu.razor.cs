@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,9 +13,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool visible;
-
-        private bool rightAligned;
+        private DropdownStore parentDropdownStore;
 
         #endregion
 
@@ -23,71 +22,26 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DropdownMenu() );
-            builder.Append( ClassProvider.DropdownMenuVisible( Visible ) );
-            builder.Append( ClassProvider.DropdownMenuRight(), RightAligned );
+            builder.Append( ClassProvider.DropdownMenuVisible( ParentDropdownStore.Visible ) );
+            builder.Append( ClassProvider.DropdownMenuRight(), ParentDropdownStore.RightAligned );
 
             base.BuildClasses( builder );
-        }
-
-        protected override void OnInitialized()
-        {
-            if ( ParentDropdown != null )
-            {
-                Visible = ParentDropdown.Visible;
-
-                ParentDropdown.StateChanged += OnDropdownStateChanged;
-            }
-
-            base.OnInitialized();
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( ParentDropdown != null )
-                {
-                    ParentDropdown.StateChanged -= OnDropdownStateChanged;
-                }
-            }
-
-            base.Dispose( disposing );
-        }
-
-        private void OnDropdownStateChanged( object sender, DropdownStateEventArgs e )
-        {
-            Visible = e.Visible;
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Handles the visibility of dropdown menu.
-        /// </summary>
-        [Parameter]
-        public bool Visible
+        [CascadingParameter]
+        protected DropdownStore ParentDropdownStore
         {
-            get => visible;
+            get => parentDropdownStore;
             set
             {
-                visible = value;
+                if ( parentDropdownStore == value )
+                    return;
 
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Right aligned dropdown menu.
-        /// </summary>
-        [Parameter]
-        public bool RightAligned
-        {
-            get => rightAligned;
-            set
-            {
-                rightAligned = value;
+                parentDropdownStore = value;
 
                 DirtyClasses();
             }

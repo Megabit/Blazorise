@@ -37,6 +37,8 @@ namespace Blazorise.Providers
 
         public string Select() => null;
 
+        public string SelectMultiple() => null;
+
         public string SelectSize( Size size ) => null;
 
         public string SelectValidation( ValidationStatus validationStatus ) => null;
@@ -152,6 +154,10 @@ namespace Blazorise.Providers
         public string ValidationErrorTooltip() => null;
 
         public string ValidationNone() => null;
+
+        public string ValidationSummary() => null;
+
+        public string ValidationSummaryError() => null;
 
         #endregion
 
@@ -343,6 +349,40 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Carousel
+
+        public string Carousel() => null;
+
+        public string CarouselSlides() => null;
+
+        public string CarouselSlide() => null;
+
+        public string CarouselSlideActive( bool active ) => null;
+
+        public string CarouselIndicators() => null;
+
+        public string CarouselIndicator() => null;
+
+        public string CarouselIndicatorActive( bool active ) => null;
+
+        public string CarouselFade( bool fade ) => null;
+
+        public string CarouselCaption() => null;
+
+        #endregion
+
+        #region Jumbotron
+
+        public string Jumbotron() => null;
+
+        public string JumbotronBackground( Background background ) => null;
+
+        public string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => null;
+
+        public string JumbotronSubtitle() => null;
+
+        #endregion
+
         #region Card
 
         public string CardGroup() => null;
@@ -421,33 +461,7 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Panel
-
-        public string Panel() => null;
-
-        #endregion
-
-        #region Nav
-
-        public string Nav() => null;
-
-        public string NavItem() => null;
-
-        public string NavLink() => null;
-
-        public string NavTabs() => null;
-
-        public string NavCards() => null;
-
-        public string NavPills() => null;
-
-        public string NavFill( NavFillType fillType ) => null;
-
-        public string NavVertical() => null;
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public string Bar() => null;
 
@@ -537,13 +551,21 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public string Col() => null;
+        public string Column() => null;
 
-        public string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
+        public string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
 
-        private string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+        private string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+
+        #endregion
+
+        #region Display
+
+        public string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction ) => null;
+
+        public string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules ) => null;
 
         #endregion
 
@@ -706,6 +728,8 @@ namespace Blazorise.Providers
         public string TableRowCellTextColor( TextColor textColor ) => null;
 
         public string TableRowCellTextAlignment( TextAlignment textAlignment ) => null;
+
+        public string TableResponsive() => null;
 
         #endregion
 
@@ -881,6 +905,10 @@ namespace Blazorise.Providers
 
         public string ToColumnWidth( ColumnWidth columnWidth ) => null;
 
+        public string ToDisplayType( DisplayType displayType ) => null;
+
+        public string ToDisplayDirection( DisplayDirection displayDirection ) => null;
+
         public string ToModalSize( ModalSize modalSize ) => null;
 
         public string ToSpacingSize( SpacingSize spacingSize ) => null;
@@ -892,6 +920,8 @@ namespace Blazorise.Providers
         public string ToHeadingSize( HeadingSize headingSize ) => null;
 
         public string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
+
+        public string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize ) => null;
 
         public string ToPlacement( Placement placement ) => null;
 

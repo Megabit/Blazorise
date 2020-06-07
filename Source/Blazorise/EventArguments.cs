@@ -57,47 +57,24 @@ namespace Blazorise
         public string ErrorText { get; set; }
     }
 
-    public class ValidationSucceededEventArgs : EventArgs
+    public class FailedValidationsEventArgs : EventArgs
     {
-    }
-
-    public class ValidationFailedEventArgs : EventArgs
-    {
-        public ValidationFailedEventArgs( string errorText )
+        public FailedValidationsEventArgs( IReadOnlyList<string> errorMessages )
         {
-            ErrorText = errorText;
+            ErrorMessages = errorMessages;
         }
 
         /// <summary>
-        /// Gets the custom validation error message.
+        /// Gets the list of all error messages.
         /// </summary>
-        public string ErrorText { get; }
+        public IReadOnlyList<string> ErrorMessages { get; }
     }
 
-    public class ValidatedEventArgs : EventArgs
+    public class ClearedValidationsEventArgs : EventArgs
     {
-        public ValidatedEventArgs( ValidationStatus status, string errorText )
-        {
-            Status = status;
-            ErrorText = errorText;
-        }
+        public static new readonly ClearedValidationsEventArgs Empty = new ClearedValidationsEventArgs();
 
-        /// <summary>
-        /// Gets the validation result.
-        /// </summary>
-        public ValidationStatus Status { get; set; }
-
-        /// <summary>
-        /// Gets the custom validation error message.
-        /// </summary>
-        public string ErrorText { get; }
-    }
-
-    public class ValidationStartedEventArgs : EventArgs
-    {
-        public static new readonly ValidationStartedEventArgs Empty = new ValidationStartedEventArgs();
-
-        public ValidationStartedEventArgs()
+        public ClearedValidationsEventArgs()
         {
         }
     }
@@ -121,6 +98,27 @@ namespace Blazorise
         /// Gets the custom validation message.
         /// </summary>
         public string Message { get; }
+    }
+
+    public class ValidationsStatusChangedEventArgs : EventArgs
+    {
+        public static new readonly ValidationsStatusChangedEventArgs Empty = new ValidationsStatusChangedEventArgs( ValidationStatus.None, null );
+
+        public ValidationsStatusChangedEventArgs( ValidationStatus status, IReadOnlyCollection<string> messages )
+        {
+            Status = status;
+            Messages = messages;
+        }
+
+        /// <summary>
+        /// Gets the validation result.
+        /// </summary>
+        public ValidationStatus Status { get; set; }
+
+        /// <summary>
+        /// Gets the custom validation message.
+        /// </summary>
+        public IReadOnlyCollection<string> Messages { get; }
     }
 
     /// <summary>
@@ -176,54 +174,6 @@ namespace Blazorise
     }
 
     /// <summary>
-    /// Supplies the information about the modal visiblity state.
-    /// </summary>
-    public class ModalStateEventArgs : EventArgs
-    {
-        public ModalStateEventArgs( bool visible )
-        {
-            Visible = visible;
-        }
-
-        /// <summary>
-        /// Gets that flag that indicates if the modal is opened.
-        /// </summary>
-        public bool Visible { get; }
-    }
-
-    /// <summary>
-    /// Supplies the information about the alert visiblity state.
-    /// </summary>
-    public class AlertStateEventArgs : EventArgs
-    {
-        public AlertStateEventArgs( bool visible )
-        {
-            Visible = visible;
-        }
-
-        /// <summary>
-        /// Gets that flag that indicates if the alert is visible.
-        /// </summary>
-        public bool Visible { get; }
-    }
-
-    /// <summary>
-    /// Supplies the information about the dropdown state.
-    /// </summary>
-    public class DropdownStateEventArgs : EventArgs
-    {
-        public DropdownStateEventArgs( bool visible )
-        {
-            Visible = visible;
-        }
-
-        /// <summary>
-        /// Gets that flag that indicates if the dropdown is opened.
-        /// </summary>
-        public bool Visible { get; }
-    }
-
-    /// <summary>
     /// Supplies the information about the bar-dropdown state.
     /// </summary>
     public class BarDropdownStateEventArgs : EventArgs
@@ -253,38 +203,6 @@ namespace Blazorise
         /// Gets that flag that indicates if the bar is opened.
         /// </summary>
         public bool Visible { get; }
-    }
-
-    /// <summary>
-    /// Supplies the information about the selected tab.
-    /// </summary>
-    public class TabsStateEventArgs : EventArgs
-    {
-        public TabsStateEventArgs( string tabName )
-        {
-            TabName = tabName;
-        }
-
-        /// <summary>
-        /// Gets the selected tab name.
-        /// </summary>
-        public string TabName { get; }
-    }
-
-    /// <summary>
-    /// Supplies the information about the selected panel.
-    /// </summary>
-    public class TabsContentStateEventArgs : EventArgs
-    {
-        public TabsContentStateEventArgs( string panelName )
-        {
-            PanelName = panelName;
-        }
-
-        /// <summary>
-        /// Gets the selected panel name.
-        /// </summary>
-        public string PanelName { get; }
     }
 
     /// <summary>

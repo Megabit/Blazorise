@@ -1,0 +1,70 @@
+﻿@inherits Blazorise.Carousel
+<CascadingValue Value=this>
+    <CascadingValue Value="@Store">
+        @ChildContent
+
+        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <div class="slick-slider slick-initialized" dir="ltr">
+                <div @ref="@slickListElementRef" class="@SlidesClassNames">
+                    <div class="slick-track" style="@SlickTrackStyle">
+                        @if ( carouselSlides.Count > 0 )
+                        {
+                            <div data-index="-1" class="slick-slide slick-cloned" tabindex="-1" aria-hidden="true" style="@SlickClonedStyle">
+                                <div>
+                                    <div tabindex="-1" style="width: 100%; display: inline-block;">
+                                        @carouselSlides.Last().ChildContent
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @for ( int i = 0; i < carouselSlides.Count; i++ )
+                        {
+                            int index = i;
+                            <div data-index="@index" class="@carouselSlides[index].ClassNames" tabindex="-1" aria-hidden="@((!carouselSlides[index].Active).ToString().ToLowerInvariant())" style="@SlickStyle">
+                                <div>
+                                    <div tabindex="-1" style="width: 100%; display: inline-block;">
+                                        @carouselSlides[index].ChildContent
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @for ( int i = 0; i < carouselSlides.Count; i++ )
+                        {
+                            int index = i;
+                            <div data-index="@(i+carouselSlides.Count)" class="slick-slide slick-cloned" tabindex="-1" aria-hidden="true" style="@SlickClonedStyle">
+                                <div>
+                                    <div tabindex="-1" style="width: 100%; display: inline-block;">
+                                        @carouselSlides[index].ChildContent
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                @if ( ShowIndicators )
+                {
+                    <ul class="@IndicatorsClassNames" style="display: block;">
+                        @for ( int i = 0; i < carouselSlides.Count; i++ )
+                        {
+                            int index = i;
+                            <li class="@carouselSlides[index].IndicatorClassNames">
+                                <button @onclick="carouselSlides[index].Activate">@(index + 1)</button>
+                            </li>
+                        }
+                    </ul>
+                }
+
+                @if ( ShowControls )
+                {
+                    <button @onclick="@SelectPrevious" type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button" style="display: block;">
+                        Previous
+                    </button>
+                    <button @onclick="@SelectNext" type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button" style="display: block;">
+                        Next
+                    </button>
+                }
+            </div>
+        </div>
+    </CascadingValue>
+</CascadingValue>

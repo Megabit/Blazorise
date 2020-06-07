@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar
 {
-    public abstract class BaseSidebarSubItem : BaseComponent
+    public partial class SidebarSubItem : BaseComponent
     {
         #region Members
 
@@ -24,6 +25,16 @@ namespace Blazorise.Sidebar
             builder.Append( "show", Visible );
 
             base.BuildClasses( builder );
+        }
+
+        protected override void OnInitialized()
+        {
+            if ( ParentSidebarItem != null )
+            {
+                ParentSidebarItem.NotifyHasSidebarSubItem();
+            }
+
+            base.OnInitialized();
         }
 
         /// <summary>
@@ -52,6 +63,8 @@ namespace Blazorise.Sidebar
                 DirtyClasses();
             }
         }
+
+        [CascadingParameter] public SidebarItem ParentSidebarItem { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

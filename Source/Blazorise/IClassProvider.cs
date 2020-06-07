@@ -33,6 +33,8 @@ namespace Blazorise
 
         string Select();
 
+        string SelectMultiple();
+
         string SelectSize( Size size );
 
         string SelectValidation( ValidationStatus validationStatus );
@@ -148,6 +150,10 @@ namespace Blazorise
         string ValidationErrorTooltip();
 
         string ValidationNone();
+
+        string ValidationSummary();
+
+        string ValidationSummaryError();
 
         #endregion
 
@@ -339,6 +345,40 @@ namespace Blazorise
 
         #endregion
 
+        #region Carousel
+
+        string Carousel();
+
+        string CarouselSlides();
+
+        string CarouselSlide();
+
+        string CarouselSlideActive( bool active );
+
+        string CarouselIndicators();
+
+        string CarouselIndicator();
+
+        string CarouselIndicatorActive( bool active );
+
+        string CarouselFade( bool fade );
+
+        string CarouselCaption();
+
+        #endregion
+
+        #region Jumbotron
+
+        string Jumbotron();
+
+        string JumbotronBackground( Background background );
+
+        string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize );
+
+        string JumbotronSubtitle();
+
+        #endregion
+
         #region Card
 
         string CardGroup();
@@ -393,8 +433,6 @@ namespace Blazorise
 
         string LayoutHasSider();
 
-        string LayoutBody();
-
         string LayoutContent();
 
         string LayoutHeader();
@@ -417,33 +455,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Panel
-
-        string Panel();
-
-        #endregion
-
-        #region Nav
-
-        string Nav();
-
-        string NavItem();
-
-        string NavLink();
-
-        string NavTabs();
-
-        string NavCards();
-
-        string NavPills();
-
-        string NavFill( NavFillType fillType );
-
-        string NavVertical();
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         string Bar();
 
@@ -531,11 +543,19 @@ namespace Blazorise
 
         #endregion
 
-        #region Col
+        #region Column
 
-        string Col();
+        string Column();
 
-        string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules );
+        string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules );
+
+        #endregion
+
+        #region Display
+
+        string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction );
+
+        string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules );
 
         #endregion
 
@@ -698,6 +718,8 @@ namespace Blazorise
         string TableRowCellTextColor( TextColor textColor );
 
         string TableRowCellTextAlignment( TextAlignment textAlignment );
+
+        string TableResponsive();
 
         #endregion
 
@@ -878,6 +900,10 @@ namespace Blazorise
 
         string ToColumnWidth( ColumnWidth columnWidth );
 
+        string ToDisplayType( DisplayType displayType );
+
+        string ToDisplayDirection( DisplayDirection displayDirection );
+
         string ToModalSize( ModalSize modalSize );
 
         string ToSpacingSize( SpacingSize spacingSize );
@@ -889,6 +915,8 @@ namespace Blazorise
         string ToHeadingSize( HeadingSize headingSize );
 
         string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
+
+        string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize );
 
         string ToPlacement( Placement placement );
 

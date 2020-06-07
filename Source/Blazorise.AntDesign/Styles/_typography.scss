@@ -21,3 +21,29 @@
     font-weight: $display4-weight;
     line-height: $display-line-height;
 }
+
+.ant-typography-white {
+    color: $white !important;
+}
+
+@each $name, $value in $theme-colors {
+    .ant-typography-#{$name} {
+        color: $value !important;
+    }
+}
+
+.ant-typography-body {
+    color: $body-color !important;
+}
+
+.ant-typography-muted {
+    color: $text-muted !important;
+}
+
+.ant-typography-black-50 {
+    color: rgba($black, .5) !important;
+}
+
+.ant-typography-white-50 {
+    color: rgba($white, .5) !important;
+}

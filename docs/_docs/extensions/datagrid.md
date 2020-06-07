@@ -303,6 +303,36 @@ Filter API is fairly straightforward. All you need is to attach `CustomFilter` t
 }
 ```
 
+### Custom Row Colors
+
+You have full control over appearance of each row, including the selected rows.
+
+```html
+<DataGrid TItem="Employee"
+        Data="@employeeList"
+        CustomFilter="@OnCustomFilter"
+        RowStyling="@OnRowStyling"
+        SelectedRowStyling="@OnSelectedRowStyling">
+    ...
+</DataGrid>
+```
+
+```cs
+@code
+{
+    void OnRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        if ( !employee.IsActive )
+            styling.Style = "color: red;";
+    }
+
+    void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        styling.Background = Background.Info;
+    }
+}
+```
+
 
 ## Templates
 

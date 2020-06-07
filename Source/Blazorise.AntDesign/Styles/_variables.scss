@@ -1,17 +1,73 @@
-﻿$modal-dialog-margin: .5rem !default;
+﻿$white: #fff !default;
+$black: #000 !default;
 
-$grid-breakpoints: ( "xs": 0, "sm": 576px, "md": 768px, "lg": 992px, "xl": 1200px ) !default;
+$text-light: #fff !default;
+$text-dark: #212529 !default;
+$text-muted: #6c757d !default;
+
+$body-color: #212529 !default;
+
+$yiq-text-light: $text-light !default;
+$yiq-text-dark: $text-dark !default;
+
+// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+$yiq-contrasted-threshold: 150 !default;
+
+$primary: #1890ff !default;
+$secondary: #6c757d !default;
+$success: #35c613 !default;
+$info: #60b6f4 !default;
+$warning: #f7c12a !default;
+$danger: #ff4d4f !default;
+$light: #fafafa !default;
+$dark: #343a40 !default;
+
+$theme-colors: () !default;
+$theme-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark), $theme-colors);
+
+// Set a specific jump point for requesting color jumps
+$theme-color-interval: 8% !default;
+
+// Buttons
+$button-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark), ("link": #007bff));
+$unsuported-button-colors: map-merge(( "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "light": $light, "dark": $dark), ("link": #007bff));
+
+$button-hover-lighten: 15%;
+$button-active-darken: 15%;
+
+// Alerts
+
+$alert-color-level: 6 !default;
+$alert-background-level: -10 !default;
+$alert-border-level: -9 !default;
+
+// Tables
+
+$table-background-level: -9 !default;
+$table-border-level: -6 !default;
+
+
+$mobile: 576px;
+$tablet: 768px;
+$desktop: 992px;
+$widescreen: 1200px;
+$fullhd: 1600px;
 
 $spacer: 1rem !default;
 $spacers: () !default;
 
 $spacers: map-merge( ( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3) ), $spacers );
 
+$grid-breakpoints: ( "xxs": 0, "xs": $mobile, "sm": $tablet, "md": $desktop, "lg": $widescreen, "xl": $fullhd ) !default;
+
+$modal-dialog-margin: .5rem !default;
+
 // Cards
 
 $grid-gutter-width: 30px !default;
 
 $card-group-margin: $grid-gutter-width / 2 !default;
+$form-grid-gutter-width: 10px !default;
 
 // Typography
 

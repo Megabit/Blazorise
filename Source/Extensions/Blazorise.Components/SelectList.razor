@@ -1,5 +1,5 @@
 ﻿@typeparam TItem
-<Select TValue="object" SelectedValue="@SelectedValue" SelectedValueChanged="@HandleSelectedValueChanged" Class="@Class" Style="@Style" Attributes="@Attributes">
+<Select @ref="@select" TValue="object" SelectedValue="@SelectedValue" SelectedValueChanged="@HandleSelectedValueChanged" Class="@Class" Style="@Style" Attributes="@Attributes">
     @if ( Data != null )
     {
         foreach ( var item in Data )

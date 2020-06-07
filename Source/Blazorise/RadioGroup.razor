@@ -2,11 +2,11 @@
 @inherits BaseInputComponent<TValue>
 @if ( !HasCustomRegistration )
 {
-    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        <CascadingValue Value=this>
+    <CascadingValue Value=this>
+        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
-        </CascadingValue>
-    </div>
+        </div>
+    </CascadingValue>
 }
 else
 {

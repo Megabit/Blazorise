@@ -1,0 +1,28 @@
+﻿@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+    $min: map-get($breakpoints, $name);
+    @return if($min != 0, $min, null);
+}
+
+@function breakpoint-infix($name, $breakpoints: $grid-breakpoints) {
+    @return if(breakpoint-min($name, $breakpoints) == null, "", "-#{$name}");
+}
+
+@function breakpoint-next($name, $breakpoints: $grid-breakpoints, $breakpoint-names: map-keys($breakpoints)) {
+    $n: index($breakpoint-names, $name);
+    @return if($n < length($breakpoint-names), nth($breakpoint-names, $n + 1), null);
+}
+
+@function color-yiq($color, $dark: $yiq-text-dark, $light: $yiq-text-light) {
+    $r: red($color);
+    $g: green($color);
+    $b: blue($color);
+
+    $yiq: (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+
+    @if ($yiq >= $yiq-contrasted-threshold) {
+        @return $dark;
+    }
+    @else {
+        @return $light;
+    }
+}

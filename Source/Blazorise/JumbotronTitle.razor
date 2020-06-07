@@ -1,9 +1,9 @@
 ﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <a class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+    <h1 class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
-    </a>
+    </h1>
 }
 else
 {

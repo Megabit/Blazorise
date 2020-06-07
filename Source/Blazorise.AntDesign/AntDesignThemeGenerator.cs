@@ -15,6 +15,11 @@ namespace Blazorise.AntDesign
             sb.Append( $".bg-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
+
+            sb.Append( $".ant-hero-{variant}" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .Append( $"color: {ToHex( Contrast( Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
@@ -121,8 +126,8 @@ namespace Blazorise.AntDesign
         protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
             var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
-            var hoverColor = ToHex( Lighten( color, 40f ) );
-            var activeColor = ToHex( Darken( color, 40f ) );
+            var hoverColor = Var( ThemeVariables.OutlineButtonHoverColor( variant ) );
+            var activeColor = Var( ThemeVariables.OutlineButtonActiveColor( variant ) );
 
             sb.Append( $".ant-btn-outline-{variant}" ).Append( "{" )
                 .Append( $"color: {color} !important;" )
@@ -420,7 +425,7 @@ namespace Blazorise.AntDesign
             sb.Append( $".ant-table-{variant} th," )
                 .Append( $".ant-table-{variant} td," )
                 .Append( $".ant-table-{variant} thead td," )
-                .Append( $".ant-table-{variant} tbody + tbody," )
+                .Append( $".ant-table-{variant} tbody + tbody" )
                 .Append( "{" )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
@@ -535,10 +540,10 @@ namespace Blazorise.AntDesign
                 .AppendLine( "}" );
 
 
-            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
             {
-                sb.Append( $".ant-breadcrumb-item>a" ).Append( "{" )
-                    .Append( $"color: {theme.ColorOptions.Primary};" )
+                sb.Append( $".ant-breadcrumb-link>a" ).Append( "{" )
+                    .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
                     .AppendLine( "}" );
             }
         }

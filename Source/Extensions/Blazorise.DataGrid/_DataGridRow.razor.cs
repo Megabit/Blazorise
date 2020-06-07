@@ -91,6 +91,39 @@ namespace Blazorise.DataGrid
         #region Properties
 
         /// <summary>
+        /// Indicates if the row is selected.
+        /// </summary>
+        protected bool IsSelected => ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item;
+
+        /// <summary>
+        /// Gets the row background color.
+        /// </summary>
+        protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => IsSelected
+            ? ( selectedStyling?.Background ?? Blazorise.Background.Primary )
+            : ( styling?.Background ?? Blazorise.Background.None );
+
+        /// <summary>
+        /// Gets the row color.
+        /// </summary>
+        protected Color GetColor( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
+            ? selectedStyling?.Color
+            : styling?.Color ) ?? Blazorise.Color.None;
+
+        /// <summary>
+        /// Gets the row classnames.
+        /// </summary>
+        protected string GetClass( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => IsSelected
+           ? selectedStyling?.Class
+           : styling?.Class;
+
+        /// <summary>
+        /// Gets the row styles.
+        /// </summary>
+        protected string GetStyle( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => IsSelected
+           ? selectedStyling?.Style
+           : styling?.Style;
+
+        /// <summary>
         /// Item associated with the data set.
         /// </summary>
         [Parameter] public TItem Item { get; set; }
@@ -142,16 +175,6 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter]
         public Cursor HoverCursor { get; set; }
-
-        /// <summary>
-        /// Custom css classname.
-        /// </summary>
-        [Parameter] public string Class { get; set; }
-
-        /// <summary>
-        /// Custom html style.
-        /// </summary>
-        [Parameter] public string Style { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

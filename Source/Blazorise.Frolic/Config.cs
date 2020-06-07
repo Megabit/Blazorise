@@ -39,6 +39,7 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.Breadcrumb, Frolic.Breadcrumb>();
             componentMapper.Register<Blazorise.CardText, Frolic.CardText>();
             componentMapper.Register<Blazorise.CardTitle, Frolic.CardTitle>();
+            componentMapper.Register<Blazorise.Carousel, Frolic.Carousel>();
             componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Frolic.Check<> ) );
             componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Frolic.Radio<> ) );
             componentMapper.Register<Blazorise.DisplayHeading, Frolic.DisplayHeading>();
@@ -46,6 +47,8 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.DropdownToggle, Frolic.DropdownToggle>();
             componentMapper.Register<Blazorise.Field, Frolic.Field>();
             componentMapper.Register<Blazorise.Heading, Frolic.Heading>();
+            componentMapper.Register<Blazorise.Jumbotron, Frolic.Jumbotron>();
+            componentMapper.Register<Blazorise.JumbotronSubtitle, Frolic.JumbotronSubtitle>();
             componentMapper.Register<Blazorise.Pagination, Frolic.Pagination>();
             componentMapper.Register<Blazorise.ProgressBar, Frolic.ProgressBar>();
             componentMapper.Register<Blazorise.Progress, Frolic.Progress>();

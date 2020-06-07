@@ -23,6 +23,11 @@ namespace Blazorise.Frolic
             sb.Append( $".bg-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )};" )
                 .AppendLine( "}" );
+
+            sb.Append( $".e-face-{variant}" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .Append( $"color: {ToHex( Contrast( Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
@@ -296,9 +301,12 @@ namespace Blazorise.Frolic
                  .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                  .AppendLine( "}" );
 
-            //sb.Append( $".breadcrumb a" ).Append( "{" )
-            //    .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )};" )
-            //    .AppendLine( "}" );
+            if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
+            {
+                sb.Append( $".e-breadcrumb a" ).Append( "{" )
+                    .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
+                    .AppendLine( "}" );
+            }
         }
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )

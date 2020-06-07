@@ -34,6 +34,8 @@ namespace Blazorise.Bulma
 
         public override string Select() => "select is-fullwidth";
 
+        public override string SelectMultiple() => "is-multiple";
+
         public override string SelectSize( Size size ) => $"{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
@@ -164,6 +166,10 @@ namespace Blazorise.Bulma
 
         public override string ValidationNone() => "help";
 
+        public override string ValidationSummary() => "has-text-danger";
+
+        public override string ValidationSummaryError() => "has-text-danger";
+
         #endregion
 
         #endregion
@@ -174,7 +180,7 @@ namespace Blazorise.Bulma
 
         public override string FieldsBody() => "field-body";
 
-        public override string FieldsColumn() => $"{Col()}";
+        public override string FieldsColumn() => $"{Column()}";
 
         //public override string FieldsColumnSize( ColumnSize columnSize ) => $"is-{ColumnSize( columnSize )}";
 
@@ -186,7 +192,7 @@ namespace Blazorise.Bulma
 
         public override string FieldHorizontal() => "is-horizontal";
 
-        public override string FieldColumn() => $"{Col()}";
+        public override string FieldColumn() => $"{Column()}";
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -416,6 +422,40 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Carousel
+
+        public override string Carousel() => "carousel";
+
+        public override string CarouselSlides() => "carousel-items";
+
+        public override string CarouselSlide() => "carousel-item";
+
+        public override string CarouselSlideActive( bool active ) => active ? null : "carousel-item-hidden";
+
+        public override string CarouselIndicators() => "carousel-indicator is-inside is-bottom";
+
+        public override string CarouselIndicator() => "indicator-item";
+
+        public override string CarouselIndicatorActive( bool active ) => active ? Active() : null;
+
+        public override string CarouselFade( bool fade ) => null;
+
+        public override string CarouselCaption() => null;
+
+        #endregion
+
+        #region Jumbotron
+
+        public override string Jumbotron() => "hero";
+
+        public override string JumbotronBackground( Background background ) => $"hero-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"title is-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "subtitle";
+
+        #endregion
+
         #region Card
 
         public override string CardGroup() => "card-group";
@@ -472,33 +512,7 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        #region Panel
-
-        public override string Panel() => null;
-
-        #endregion
-
-        #region Nav
-
-        public override string Nav() => "nav";
-
-        public override string NavItem() => "nav-item";
-
-        public override string NavLink() => "nav-link";
-
-        public override string NavTabs() => "nav-tabs";
-
-        public override string NavCards() => "nav-cards";
-
-        public override string NavPills() => "nav-pills";
-
-        public override string NavFill( NavFillType fillType ) => fillType == NavFillType.Justified ? "nav-justified" : "nav-fill";
-
-        public override string NavVertical() => "flex-column";
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public override string Bar() => "navbar";
 
@@ -588,27 +602,43 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public override string Col() => "column";
+        public override string Column() => "column";
 
-        public override string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+        public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
             var baseClass = offset ? "offset-" : null;
 
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
                 if ( columnWidth == Blazorise.ColumnWidth.None )
-                    return $"{Col()} is-{baseClass}{ToBreakpoint( breakpoint )}";
+                    return $"{Column()} is-{baseClass}{ToBreakpoint( breakpoint )}";
 
-                return $"{Col()} is-{baseClass}{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
+                return $"{Column()} is-{baseClass}{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
             }
 
-            return $"{Col()} is-{baseClass}{ToColumnWidth( columnWidth )}";
+            return $"{Column()} is-{baseClass}{ToColumnWidth( columnWidth )}";
         }
 
-        public override string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-              string.Join( " ", rules.Select( r => Col( columnWidth, r.breakpoint, r.offset ) ) );
+        public override string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
+              string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+
+        #endregion
+
+        #region Display
+
+        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        {
+            var baseClass = breakpoint != Breakpoint.None
+                ? $"is-{ToDisplayType( displayType )}-{ToBreakpoint( breakpoint )}"
+                : $"is-{ToDisplayType( displayType )}";
+
+            if ( direction != DisplayDirection.None )
+                return $"{baseClass} is-flex-{ToDisplayDirection( direction )}";
+
+            return baseClass;
+        }
 
         #endregion
 
@@ -680,7 +710,7 @@ namespace Blazorise.Bulma
 
         public override string PaginationLinkActive() => "is-current";
 
-        public override string PaginationLinkDisabled() => "disabled";
+        public override string PaginationLinkDisabled() => "is-disabled";
 
         #endregion
 
@@ -710,7 +740,7 @@ namespace Blazorise.Bulma
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"{ToBackground( color )}";
+        public override string BackgroundColor( Background color ) => $"has-background-{ToBackground( color )}";
 
         #endregion
 
@@ -771,6 +801,8 @@ namespace Blazorise.Bulma
         public override string TableRowCellTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
 
         public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"has-text-{ToTextAlignment( textAlignment )}";
+
+        public override string TableResponsive() => "table-container";
 
         #endregion
 
@@ -960,23 +992,23 @@ namespace Blazorise.Bulma
             switch ( color )
             {
                 case Blazorise.Background.Primary:
-                    return "has-background-primary";
+                    return "primary";
                 case Blazorise.Background.Secondary:
-                    return "has-background-light";
+                    return "light";
                 case Blazorise.Background.Success:
-                    return "has-background-success";
+                    return "success";
                 case Blazorise.Background.Danger:
-                    return "has-background-danger";
+                    return "danger";
                 case Blazorise.Background.Warning:
-                    return "has-background-warning";
+                    return "warning";
                 case Blazorise.Background.Info:
-                    return "has-background-info";
+                    return "info";
                 case Blazorise.Background.Light:
-                    return "has-background-light";
+                    return "light";
                 case Blazorise.Background.Dark:
-                    return "has-background-dark";
+                    return "dark";
                 case Blazorise.Background.White:
-                    return "has-background-white";
+                    return "white";
                 case Blazorise.Background.Transparent:
                     return "transparent";
                 default:

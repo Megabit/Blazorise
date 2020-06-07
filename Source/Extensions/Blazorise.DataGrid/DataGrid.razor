@@ -3,11 +3,11 @@
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
 <CascadingValue Value=this>
-    <Table Class="@Class" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow">
+    <Table Class="@Class" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive">
         <TableHeader>
             @if ( ShowCaptions )
             {
-                <TableRow Class="@HeaderRowClass" Style="@HeaderRowStyle">
+                <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.None)" Color="@(HeaderRowStyling?.Color ?? Color.None)">
                     @foreach ( var column in DisplayableColumns )
                     {
                         @if ( column.ColumnType == DataGridColumnType.Command )
@@ -40,12 +40,12 @@
             }
             @if ( Filterable )
             {
-                <TableRow Class="@FilterRowClass" Style="@FilterRowStyle">
+                <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.None)" Color="@(FilterRowStyling?.Color ?? Color.None)">
                     @foreach ( var column in DisplayableColumns )
                     {
                         @if ( !column.Filterable )
                         {
-                            <TableHeaderCell Class="@FilterRowClass" Style="@FilterRowStyle" width="@column.Width"></TableHeaderCell>
+                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width"></TableHeaderCell>
                             continue;
                         }
 
@@ -61,7 +61,7 @@
                         }
                         else
                         {
-                            <TableHeaderCell Class="@FilterRowClass" Style="@FilterRowStyle" width="@column.Width">
+                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
                                 @if ( column.FilterTemplate != null )
                                 {
                                     @(column.FilterTemplate(column.FilterContext))
@@ -89,7 +89,7 @@
                 }
                 else
                 {
-                    <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" Class="@RowClass?.Invoke(item)" Style="@RowStyle?.Invoke(item)" />
+                    <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" />
                     @if ( DetailRowTemplate != null )
                     {
                         var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
@@ -107,7 +107,7 @@
         @if ( HasAggregates )
         {
             <TableFooter>
-                <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowClass" Style="@GroupRowStyle" />
+                <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.None)" Color="@(GroupRowStyling?.Color ?? Color.None)" />
             </TableFooter>
         }
     </Table>

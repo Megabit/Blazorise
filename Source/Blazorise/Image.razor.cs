@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class Panel : BaseContainerComponent
+    public partial class Image : BaseDisplayComponent
     {
         #region Members
 
@@ -18,14 +18,22 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.Panel() );
-
             base.BuildClasses( builder );
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// The absolute or relative URL of the image.
+        /// </summary>
+        [Parameter] public string Source { get; set; }
+
+        /// <summary>
+        /// Alternate text for an image.
+        /// </summary>
+        [Parameter] public string Text { get; set; }
 
         #endregion
     }

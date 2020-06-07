@@ -1,4 +1,194 @@
-﻿.ant-btn-group,
+﻿.ant-btn {
+    @each $name, $value in $unsuported-button-colors {
+        $color: $value;
+        $color-invert: color-yiq($value);
+
+        &-#{$name} {
+            color: $color-invert;
+            background-color: $color;
+            border-color: $color;
+
+            > a:only-child {
+                color: currentColor;
+            }
+
+            &:hover,
+            &:focus {
+                color: $color-invert;
+                background-color: lighten($color, $button-hover-lighten);
+                border-color: lighten($color, $button-hover-lighten);
+
+                > a:only-child,
+                > a:only-child {
+                    color: currentColor;
+                }
+            }
+
+            &:active,
+            &.active {
+                color: $color-invert;
+                background-color: darken($color, $button-active-darken);
+                border-color: darken($color, $button-active-darken);
+
+                > a:only-child,
+                > a:only-child {
+                    color: currentColor;
+                }
+            }
+
+            &-disabled,
+            &.disabled,
+            &[disabled],
+            &-disabled:hover,
+            &.disabled:hover,
+            &[disabled]:hover,
+            &-disabled:focus,
+            &.disabled:focus,
+            &[disabled]:focus,
+            &-disabled:active,
+            &.disabled:active,
+            &[disabled]:active,
+            &-disabled.active,
+            &.disabled.active,
+            &[disabled].active {
+                color: rgba(0, 0, 0, 0.25);
+                background-color: #f5f5f5;
+                border-color: #d9d9d9;
+                text-shadow: none;
+                -webkit-box-shadow: none;
+                box-shadow: none;
+
+                > a:only-child {
+                    color: currentColor;
+                }
+
+                > a:only-child::after {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    background: transparent;
+                    content: '';
+                }
+            }
+        }
+    }
+}
+
+.ant-btn-group {
+    @each $name, $value in $button-colors {
+        $color: $value;
+        $color-invert: color-yiq($value);
+
+        .ant-btn {
+            &-primary:not(:first-child):not(:last-child) {
+                border-right-color: $color;
+                border-left-color: $color;
+            }
+
+            &-primary:not(:first-child):not(:last-child):disabled {
+                border-color: #d9d9d9;
+            }
+
+            &-btn-primary:first-child:not(:last-child) {
+                border-right-color: $color;
+            }
+
+            &-primary:first-child:not(:last-child)[disabled] {
+                border-right-color: #d9d9d9;
+            }
+
+            &-primary:last-child:not(:first-child),
+            &-primary + &-primary {
+                border-left-color: $color;
+            }
+
+            &-primary:last-child:not(:first-child)[disabled],
+            &-primary + &-primary[disabled] {
+                border-left-color: #d9d9d9;
+            }
+        }
+    }
+}
+
+.ant-btn-outline {
+    @each $name, $value in $button-colors {
+        $color: $value;
+        $color-invert: color-yiq($value);
+
+        &-#{$name} {
+            color: $color;
+            background-color: transparent;
+            border-color: $color;
+
+            > a:only-child {
+                color: currentColor;
+            }
+
+            &:hover,
+            &:focus {
+                color: lighten($color, $button-hover-lighten);
+                border-color: lighten($color, $button-hover-lighten);
+
+                > a:only-child,
+                > a:only-child {
+                    color: currentColor;
+                }
+            }
+
+            &:active,
+            &.active {
+                color: darken($color, $button-active-darken);
+                border-color: darken($color, $button-active-darken);
+
+                > a:only-child,
+                > a:only-child {
+                    color: currentColor;
+                }
+            }
+
+            &-disabled,
+            &.disabled,
+            &[disabled],
+            &-disabled:hover,
+            &.disabled:hover,
+            &[disabled]:hover,
+            &-disabled:focus,
+            &.disabled:focus,
+            &[disabled]:focus,
+            &-disabled:active,
+            &.disabled:active,
+            &[disabled]:active,
+            &-disabled.active,
+            &.disabled.active,
+            &[disabled].active {
+                color: rgba(0, 0, 0, 0.25);
+                background-color: transparent;
+                border-color: #d9d9d9;
+                text-shadow: none;
+                -webkit-box-shadow: none;
+                box-shadow: none;
+
+                > a:only-child {
+                    color: currentColor;
+                }
+
+                > a:only-child::after {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    background: transparent;
+                    content: '';
+                }
+            }
+        }
+    }
+}
+
+.ant-btn-group,
 .ant-btn-group-vertical {
     position: relative;
     display: inline-flex;

@@ -851,6 +851,11 @@ namespace Blazorise.DataGrid
         [Parameter] public bool Narrow { get; set; }
 
         /// <summary>
+        /// Makes table responsive by adding the horizontal scroll bar.
+        /// </summary>
+        [Parameter] public bool Responsive { get; set; }
+
+        /// <summary>
         /// Custom css classname.
         /// </summary>
         [Parameter] public string Class { get; set; }
@@ -871,14 +876,14 @@ namespace Blazorise.DataGrid
         [Parameter] public IFluentSpacing Padding { get; set; }
 
         /// <summary>
-        /// Custom classname handler for current.
+        /// Custom handler for each row in the datagrid.
         /// </summary>
-        [Parameter] public Func<TItem, string> RowClass { get; set; }
+        [Parameter] public Action<TItem, DataGridRowStyling> RowStyling { get; set; }
 
         /// <summary>
-        /// Custom style handler for current row.
+        /// Custom handler for currently selected row.
         /// </summary>
-        [Parameter] public Func<TItem, string> RowStyle { get; set; }
+        [Parameter] public Action<TItem, DataGridRowStyling> SelectedRowStyling { get; set; }
 
         /// <summary>
         /// Handler for custom filtering on datagrid item.
@@ -886,34 +891,19 @@ namespace Blazorise.DataGrid
         [Parameter] public Func<TItem, bool> CustomFilter { get; set; }
 
         /// <summary>
-        /// Custom classname for header row.
+        /// Custom styles for header row.
         /// </summary>
-        [Parameter] public string HeaderRowClass { get; set; }
+        [Parameter] public DataGridRowStyling HeaderRowStyling { get; set; }
 
         /// <summary>
-        /// Custom style for header row.
+        /// Custom styles for filter row.
         /// </summary>
-        [Parameter] public string HeaderRowStyle { get; set; }
+        [Parameter] public DataGridRowStyling FilterRowStyling { get; set; }
 
         /// <summary>
-        /// Custom classname for filter row.
+        /// Custom styles for group row.
         /// </summary>
-        [Parameter] public string FilterRowClass { get; set; }
-
-        /// <summary>
-        /// Custom style for group row.
-        /// </summary>
-        [Parameter] public string GroupRowStyle { get; set; }
-
-        /// <summary>
-        /// Custom classname for group row.
-        /// </summary>
-        [Parameter] public string GroupRowClass { get; set; }
-
-        /// <summary>
-        /// Custom style for filter row.
-        /// </summary>
-        [Parameter] public string FilterRowStyle { get; set; }
+        [Parameter] public DataGridRowStyling GroupRowStyling { get; set; }
 
         /// <summary>
         /// Template for holding the datagrid columns.

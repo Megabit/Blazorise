@@ -45,6 +45,13 @@ namespace Blazorise
         void Register( Type component, Type implementation );
 
         /// <summary>
+        /// Replaces already registered components with new custom implementation.
+        /// </summary>
+        /// <param name="component">Base component type.</param>
+        /// <param name="implementation">Implementation component type.</param>
+        void Replace( Type component, Type implementation );
+
+        /// <summary>
         /// Checks if a component type has a custom registration.
         /// </summary>
         /// <typeparam name="TComponent">Component type to check.</typeparam>

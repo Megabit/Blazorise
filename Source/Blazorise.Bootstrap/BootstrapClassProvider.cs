@@ -34,6 +34,8 @@ namespace Blazorise.Bootstrap
 
         public override string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
 
+        public override string SelectMultiple() => null;
+
         public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
@@ -164,6 +166,10 @@ namespace Blazorise.Bootstrap
 
         public override string ValidationNone() => "form-text text-muted";
 
+        public override string ValidationSummary() => "text-danger";
+
+        public override string ValidationSummaryError() => "text-danger";
+
         #endregion
 
         #region Fields
@@ -172,7 +178,7 @@ namespace Blazorise.Bootstrap
 
         public override string FieldsBody() => null;
 
-        public override string FieldsColumn() => $"{Col()}";
+        public override string FieldsColumn() => $"{Column()}";
 
         #endregion
 
@@ -182,7 +188,7 @@ namespace Blazorise.Bootstrap
 
         public override string FieldHorizontal() => "row";
 
-        public override string FieldColumn() => $"{Col()}";
+        public override string FieldColumn() => $"{Column()}";
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -413,6 +419,40 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Carousel
+
+        public override string Carousel() => "carousel slide";
+
+        public override string CarouselSlides() => "carousel-inner";
+
+        public override string CarouselSlide() => "carousel-item";
+
+        public override string CarouselSlideActive( bool active ) => active ? Active() : null;
+
+        public override string CarouselIndicators() => "carousel-indicators";
+
+        public override string CarouselIndicator() => null;
+
+        public override string CarouselIndicatorActive( bool active ) => active ? Active() : null;
+
+        public override string CarouselFade( bool fade ) => fade ? "carousel-fade" : null;
+
+        public override string CarouselCaption() => "carousel-caption";
+
+        #endregion
+
+        #region Jumbotron
+
+        public override string Jumbotron() => "jumbotron";
+
+        public override string JumbotronBackground( Background background ) => $"jumbotron-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "lead";
+
+        #endregion
+
         #region Card
 
         public override string CardGroup() => "card-group";
@@ -469,33 +509,7 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region Panel
-
-        public override string Panel() => null;
-
-        #endregion
-
-        #region Nav
-
-        public override string Nav() => "nav";
-
-        public override string NavItem() => "nav-item";
-
-        public override string NavLink() => "nav-link";
-
-        public override string NavTabs() => "nav-tabs";
-
-        public override string NavCards() => "nav-cards";
-
-        public override string NavPills() => "nav-pills";
-
-        public override string NavFill( NavFillType fillType ) => fillType == NavFillType.Justified ? "nav-justified" : "nav-fill";
-
-        public override string NavVertical() => "flex-column";
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public override string Bar() => "navbar";
 
@@ -585,13 +599,13 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public override string Col() => "col";
+        public override string Column() => "col";
 
-        public override string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+        public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var baseClass = offset ? "offset" : Col();
+            var baseClass = offset ? "offset" : Column();
 
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
@@ -601,14 +615,27 @@ namespace Blazorise.Bootstrap
                 return $"{baseClass}-{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
             }
 
-            //if ( columnWidth == Blazorise.ColumnWidth.Auto )
-            //    return $"{baseClass}";
-
             return $"{baseClass}-{ToColumnWidth( columnWidth )}";
         }
 
-        public override string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-            string.Join( " ", rules.Select( r => Col( columnWidth, r.breakpoint, r.offset ) ) );
+        public override string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules )
+            => string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+
+        #endregion
+
+        #region Display
+
+        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        {
+            var baseClass = breakpoint != Breakpoint.None
+                ? $"d-{ToBreakpoint( breakpoint )}-{ToDisplayType( displayType )}"
+                : $"d-{ToDisplayType( displayType )}";
+
+            if ( direction != DisplayDirection.None )
+                return $"{baseClass} flex-{ToDisplayDirection( direction )}";
+
+            return baseClass;
+        }
 
         #endregion
 
@@ -772,6 +799,8 @@ namespace Blazorise.Bootstrap
 
         public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
 
+        public override string TableResponsive() => "table-responsive";
+
         #endregion
 
         #region Badge
@@ -838,7 +867,7 @@ namespace Blazorise.Bootstrap
 
         public override string FigureSize( FigureSize figureSize ) => $"figure-is-{ToFigureSize( figureSize )}";
 
-        public override string FigureImage() => "figure-img";
+        public override string FigureImage() => "figure-img img-fluid";
 
         public override string FigureImageRounded() => "rounded";
 

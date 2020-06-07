@@ -120,11 +120,7 @@
     {
         await chart.Clear();
 
-        await chart.AddLabel( Labels );
-
-        await chart.AddDataSet( getDataSet() );
-
-        await chart.Update();
+        await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSet() );
     }
 
     ChartDataset<double> GetChartDataset()

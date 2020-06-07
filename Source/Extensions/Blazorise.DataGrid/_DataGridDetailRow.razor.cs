@@ -20,23 +20,11 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
-        protected bool HasCommandColumn => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
+        protected bool HasCommandColumn
+            => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
 
-        protected string CommandColumnLocation
-        {
-            get
-            {
-                if ( Columns.Count > 1 && HasCommandColumn )
-                {
-                    if ( Columns[0].ColumnType == DataGridColumnType.Command )
-                        return "start";
-                    else if ( Columns[Columns.Count - 1].ColumnType == DataGridColumnType.Command )
-                        return "end";
-                }
-
-                return string.Empty;
-            }
-        }
+        protected int ColumnSpan
+            => Columns.Count - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
 
         /// <summary>
         /// Item associated with the data set.
