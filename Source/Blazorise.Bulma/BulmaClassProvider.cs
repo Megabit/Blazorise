@@ -458,6 +458,8 @@ namespace Blazorise.Bulma
 
         #region Card
 
+        public override string CardDeck() => "card-deck";
+
         public override string CardGroup() => "card-group";
 
         public override string Card() => "card";

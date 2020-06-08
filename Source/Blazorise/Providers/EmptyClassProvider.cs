@@ -385,6 +385,8 @@ namespace Blazorise.Providers
 
         #region Card
 
+        public string CardDeck() => null;
+
         public string CardGroup() => null;
 
         public string Card() => null;

@@ -382,6 +382,8 @@ namespace Blazorise
 
         #region Card
 
+        public abstract string CardDeck();
+
         public abstract string CardGroup();
 
         public abstract string Card();

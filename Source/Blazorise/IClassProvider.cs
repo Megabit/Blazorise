@@ -381,6 +381,8 @@ namespace Blazorise
 
         #region Card
 
+        string CardDeck();
+
         string CardGroup();
 
         string Card();
