@@ -44,11 +44,11 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected async Task ClickHandler()
         {
             if ( !Disabled )
             {
-                Clicked.InvokeAsync( null );
+                await Clicked.InvokeAsync( null );
 
                 if ( Command?.CanExecute( CommandParameter ) ?? false )
                 {
