@@ -97,6 +97,18 @@ window.blazorise = {
         return true;
     },
 
+    setCaret: (element, caret) => {
+        window.requestAnimationFrame(() => {
+            element.selectionStart = caret;
+            element.selectionEnd = caret;
+        })
+    },
+
+    getCaret: (element) => {
+        const caret = element.selectionStart;
+        return caret;
+    },
+
     getSelectedOptions: (elementId) => {
         const element = document.getElementById(elementId);
         const len = element.options.length;
