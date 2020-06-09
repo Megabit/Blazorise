@@ -741,6 +741,8 @@ namespace Blazorise.Providers
 
         public string BadgePill() => null;
 
+        public string BadgeClose() => null;
+
         #endregion
 
         #region Media

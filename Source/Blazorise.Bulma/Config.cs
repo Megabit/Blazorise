@@ -28,6 +28,7 @@ namespace Blazorise.Bulma
         private static void RegisterComponents( IComponentMapper componentMapper )
         {
             componentMapper.Register<Blazorise.Addons, Bulma.Addons>();
+            componentMapper.Register<Blazorise.Badge, Bulma.Badge>();
             componentMapper.Register<Blazorise.BarToggler, Bulma.BarToggler>();
             componentMapper.Register<Blazorise.BarDropdown, Bulma.BarDropdown>();
             componentMapper.Register<Blazorise.Breadcrumb, Bulma.Breadcrumb>();

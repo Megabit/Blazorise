@@ -806,6 +806,8 @@ namespace Blazorise.AntDesign
 
         public override string BadgePill() => $"{Badge()}-pill";
 
+        public override string BadgeClose() => "anticon anticon-close";
+
         #endregion
 
         #region Media
