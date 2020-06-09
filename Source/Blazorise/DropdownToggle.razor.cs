@@ -67,9 +67,11 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
             ParentDropdown?.Toggle();
+
+            return Task.CompletedTask;
         }
 
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )

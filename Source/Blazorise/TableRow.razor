@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <tr class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @attributes="@Attributes">
+    <tr class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
         @ChildContent
     </tr>
 }
