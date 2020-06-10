@@ -295,10 +295,18 @@ namespace Blazorise.DataGrid
 
         protected async Task HandleReadData()
         {
-            IsLoading = true;
-            await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns ) );
-            IsLoading = false;
-            StateHasChanged();
+            try
+            {
+                IsLoading = true;
+
+                await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns ) );
+            }
+            finally
+            {
+                IsLoading = false;
+
+                StateHasChanged();
+            }
         }
 
         protected Task OnSortClicked( DataGridColumn<TItem> column )
