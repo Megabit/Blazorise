@@ -293,9 +293,12 @@ namespace Blazorise.DataGrid
 
         #region Filtering
 
-        protected Task HandleReadData()
+        protected async Task HandleReadData()
         {
-            return ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns ) );
+            IsLoading = true;
+            await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns ) );
+            IsLoading = false;
+            StateHasChanged();
         }
 
         protected Task OnSortClicked( DataGridColumn<TItem> column )
@@ -526,6 +529,21 @@ namespace Blazorise.DataGrid
         protected bool HasAggregates => Aggregates.Count > 0;
 
         /// <summary>
+        /// Returns true if data is not empty, data is not loaded, empty and loading template is not set.
+        /// </summary>
+        protected bool IsDisplayDataVisible => !IsLoadingTemplateVisible && !IsEmptyTemplateVisible;
+
+        /// <summary>
+        /// Returns true if LoadingTemplate is set and IsLoading is true.
+        /// </summary>
+        protected bool IsLoadingTemplateVisible => LoadingTemplate != null && IsLoading;
+
+        /// <summary>
+        /// Returns true if EmptyTemplate is set and Data is null or empty.
+        /// </summary>
+        protected bool IsEmptyTemplateVisible => EmptyTemplate != null && ( Data == null || !Data.Any() );
+
+        /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.
         /// </summary>
         public bool ManualReadMode => ReadData.HasDelegate;
@@ -649,6 +667,16 @@ namespace Blazorise.DataGrid
         [Parameter] public int CurrentPage { get; set; } = 1;
 
         /// <summary>
+        /// Gets or sets content of table body for empty DisplayData.
+        /// </summary>
+        [Parameter] public RenderFragment EmptyTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets content of table body for handle ReadData.
+        /// </summary>
+        [Parameter] public RenderFragment LoadingTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets content of first button of pager.
         /// </summary>
         [Parameter] public RenderFragment FirstPageButtonTemplate { get; set; }
@@ -667,6 +695,8 @@ namespace Blazorise.DataGrid
         /// Gets or sets content of next button of pager.
         /// </summary>
         [Parameter] public RenderFragment NextPageButtonTemplate { get; set; }
+
+        [Parameter] public bool IsLoading { get; set; }
 
         /// <summary>
         /// Gets the last page number.

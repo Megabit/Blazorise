@@ -77,33 +77,44 @@
             }
         </TableHeader>
         <TableBody>
-            @if ( Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup )
+            @if ( IsDisplayDataVisible )
             {
-                <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
-            }
-            @foreach ( var item in DisplayData )
-            {
-                @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && (object)item == (object)editItem )
+                @if ( Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup )
                 {
                     <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
                 }
-                else
+                @foreach ( var item in DisplayData )
                 {
-                    <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" />
-                    @if ( DetailRowTemplate != null )
+                    @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && (object)item == (object)editItem )
                     {
-                        var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
-
-                        @if ( canShow )
+                        <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
+                    }
+                    else
+                    {
+                        <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" />
+                        @if ( DetailRowTemplate != null )
                         {
-                            <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
-                                @DetailRowTemplate( item )
-                            </_DataGridDetailRow>
+                            var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
+
+                            @if ( canShow )
+                            {
+                                <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
+                                    @DetailRowTemplate( item )
+                                </_DataGridDetailRow>
+                            }
                         }
                     }
                 }
             }
         </TableBody>
+        @if ( IsEmptyTemplateVisible )
+        {
+            @EmptyTemplate
+        }
+        @if ( IsLoadingTemplateVisible )
+        {
+            @LoadingTemplate
+        }
         @if ( HasAggregates )
         {
             <TableFooter>
