@@ -1,11 +1,9 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
 using Blazorise.Utils;
-
 #endregion
 
 namespace Blazorise.Charts
@@ -366,30 +364,30 @@ namespace Blazorise.Charts
         public static ChartColor FromRgba( byte red, byte green, byte blue, float alpha ) => new ChartColor( red, green, blue, alpha );
 
         /// <summary>
-        /// Converts the color to the js function call.
-        /// </summary>
-        /// <returns></returns>
-        public string ToJsRgba() => $"rgba({R},{G},{B},{A.ToString( CultureInfo.InvariantCulture )})";
-
-        /// <summary>
         /// Creates a new color based on the supplied HTML color code.
         /// </summary>
         /// <param name="code">The HTML color code to parse</param>
         /// <returns><see cref="ChartColor"/></returns>
-        public static ChartColor FromHTMLColorCode( string code )
+        public static ChartColor FromHtmlColorCode( string code )
         {
             if ( code == null )
             {
                 throw new ArgumentNullException( nameof( code ) );
             }
 
-            if ( HTMLColorCodeParser.TryParse( code, out var red, out var green, out var blue ) )
+            if ( HtmlColorCodeParser.TryParse( code, out var red, out var green, out var blue ) )
             {
                 return new ChartColor( red, green, blue );
             }
 
             throw new ArgumentException( $"The \"{code}\" doesn't represent a valid HTML color code.", nameof( code ) );
         }
+
+        /// <summary>
+        /// Converts the color to the js function call.
+        /// </summary>
+        /// <returns></returns>
+        public string ToJsRgba() => $"rgba({R},{G},{B},{A.ToString( CultureInfo.InvariantCulture )})";
 
         #endregion
 

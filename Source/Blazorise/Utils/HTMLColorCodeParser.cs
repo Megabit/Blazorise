@@ -1,17 +1,22 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
+#endregion
 
 namespace Blazorise.Utils
 {
-    public static class HTMLColorCodeParser
+    public static class HtmlColorCodeParser
     {
         #region Constants
+
         private static readonly Regex HtmlColorRegex = new Regex( @"^#((?'R'[0-9a-f]{2})(?'G'[0-9a-f]{2})(?'B'[0-9a-f]{2}))|((?'R'[0-9a-f])(?'G'[0-9a-f])(?'B'[0-9a-f]))$", RegexOptions.Compiled | RegexOptions.IgnoreCase );
+
         #endregion
 
         #region HTML Color name to Hex-code
+
         private static readonly Dictionary<string, int> Mapping = new Dictionary<string, int>( StringComparer.OrdinalIgnoreCase )
         {
             {"AlgaeGreen", 0x64E986 },
@@ -357,7 +362,10 @@ namespace Blazorise.Utils
             {"YellowGreen", 0x52D017 },
             {"ZombieGreen", 0x54C571 }
         };
+
         #endregion
+
+        #region Methods
 
         /// <summary>
         /// Parses the supplied HTML color code. This can be defined in short ot long hexadecimal form, or as text.
@@ -379,11 +387,13 @@ namespace Blazorise.Utils
             }
 
             var match = HtmlColorRegex.Match( code );
+
             if ( match.Success )
             {
                 red = ParseHexValueAsByte( match.Groups["R"].Value );
                 green = ParseHexValueAsByte( match.Groups["G"].Value );
                 blue = ParseHexValueAsByte( match.Groups["B"].Value );
+
                 return true;
             }
 
@@ -392,6 +402,7 @@ namespace Blazorise.Utils
                 red = (byte)( ( hexCode & 0xFF0000 ) >> 16 );
                 green = (byte)( ( hexCode & 0x00FF00 ) >> 8 );
                 blue = (byte)( hexCode & 0x0000FF );
+
                 return true;
             }
 
@@ -402,5 +413,7 @@ namespace Blazorise.Utils
         {
             return byte.Parse( value, NumberStyles.AllowHexSpecifier );
         }
+
+        #endregion
     }
 }
