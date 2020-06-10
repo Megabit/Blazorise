@@ -799,6 +799,8 @@ namespace Blazorise.Frolic
 
         public override string BadgePill() => $"{Badge()} rounded";
 
+        public override string BadgeClose() => $"{Badge()}-close";
+
         #endregion
 
         #region Media

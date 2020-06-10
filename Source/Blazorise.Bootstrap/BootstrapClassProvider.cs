@@ -811,6 +811,8 @@ namespace Blazorise.Bootstrap
 
         public override string BadgePill() => $"{Badge()}-pill";
 
+        public override string BadgeClose() => "badge-close";
+
         #endregion
 
         #region Media

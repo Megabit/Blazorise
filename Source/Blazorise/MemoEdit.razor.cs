@@ -45,14 +45,16 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        protected Task OnInputHandler( ChangeEventArgs e )
+        protected async Task OnInputHandler( ChangeEventArgs e )
         {
             if ( Options.ChangeTextOnKeyPress )
             {
-                return CurrentValueHandler( e?.Value?.ToString() );
-            }
+                var caret = await JSRunner.GetCaret( ElementRef );
 
-            return Task.CompletedTask;
+                await CurrentValueHandler( e?.Value?.ToString() );
+
+                await JSRunner.SetCaret( ElementRef, caret );
+            }
         }
 
         protected override Task OnInternalValueChanged( string value )

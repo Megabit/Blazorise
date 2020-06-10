@@ -814,6 +814,8 @@ namespace Blazorise.Bulma
 
         public override string BadgePill() => null;
 
+        public override string BadgeClose() => "delete is-small";
+
         #endregion
 
         #region Media

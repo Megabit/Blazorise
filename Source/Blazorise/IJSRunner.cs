@@ -52,6 +52,10 @@ namespace Blazorise
 
         ValueTask<bool> SetTextValue( ElementReference elementRef, object value );
 
+        ValueTask SetCaret( ElementReference elementRef, int caret );
+
+        ValueTask<int> GetCaret( ElementReference elementRef );
+
         ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop );
 
         ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );

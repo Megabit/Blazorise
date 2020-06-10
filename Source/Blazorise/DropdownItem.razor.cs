@@ -26,9 +26,9 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
-            Clicked.InvokeAsync( Value );
+            return Clicked.InvokeAsync( Value );
         }
 
         #endregion
