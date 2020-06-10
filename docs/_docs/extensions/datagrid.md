@@ -432,7 +432,7 @@ If you want to change default buttons you can use following templates
 ```
 ###Grid Templates
 
-If you want to change display of content, while gird is empty or ReadData is laoding, you can use following templates:
+If you want to change display of content, while gird is empty or ReadData is executing, you can use following templates:
 
 - `EmptyTemplate`
 - `LoadingTemplate`
