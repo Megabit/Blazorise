@@ -22,7 +22,9 @@ The card component comprises several elements that you can mix and match:
 - `<CardGroup>`
 - `<CardDeck>`
 
-## Example Card
+## Examples
+
+### Card
 
 ```html
 <Card>
@@ -40,7 +42,7 @@ The card component comprises several elements that you can mix and match:
 
 <iframe src="/examples/cards/basic/" frameborder="0" scrolling="no" style="width:100%;height:625px;"></iframe>
 
-## Example CardDeck
+### Card Deck
 
 A set of equal width and height cards that aren’t attached to one another.
 
