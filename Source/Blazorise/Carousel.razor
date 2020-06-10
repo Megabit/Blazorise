@@ -1,0 +1,13 @@
+﻿@inherits BaseContainerComponent
+@if ( !HasCustomRegistration )
+{
+    <CascadingValue Value=this>
+        <CascadingValue Value="@store">
+            @ChildContent
+        </CascadingValue>
+    </CascadingValue>
+}
+else
+{
+    @RenderCustomComponent()
+}

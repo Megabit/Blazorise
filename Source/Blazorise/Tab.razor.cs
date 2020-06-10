@@ -63,10 +63,12 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
             Clicked?.Invoke();
             ParentTabs?.SelectTab( Name );
+
+            return Task.CompletedTask;
         }
 
         #endregion

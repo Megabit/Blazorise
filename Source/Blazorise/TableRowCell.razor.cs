@@ -37,7 +37,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected Task HandleClick( MouseEventArgs e )
+        protected Task ClickHandler( MouseEventArgs e )
         {
             return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
         }

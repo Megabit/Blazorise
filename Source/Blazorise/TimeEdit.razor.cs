@@ -44,9 +44,9 @@ namespace Blazorise
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
-        protected void OnClickHandler( MouseEventArgs e )
+        protected async Task OnClickHandler( MouseEventArgs e )
         {
-            JSRunner.ActivateTimePicker( ElementId, Utils.Parsers.InternalTimeFormat );
+            await JSRunner.ActivateTimePicker( ElementId, Parsers.InternalTimeFormat );
         }
 
         protected override Task OnInternalValueChanged( TValue value )

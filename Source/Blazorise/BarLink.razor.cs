@@ -26,9 +26,9 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
-            Clicked?.Invoke();
+            return Clicked.InvokeAsync( null );
         }
 
         #endregion
@@ -50,7 +50,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] public Action Clicked { get; set; }
+        [Parameter] public EventCallback Clicked { get; set; }
 
         /// <summary>
         /// Page address.

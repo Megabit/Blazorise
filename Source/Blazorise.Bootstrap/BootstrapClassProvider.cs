@@ -419,6 +419,28 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Carousel
+
+        public override string Carousel() => "carousel slide";
+
+        public override string CarouselSlides() => "carousel-inner";
+
+        public override string CarouselSlide() => "carousel-item";
+
+        public override string CarouselSlideActive( bool active ) => active ? Active() : null;
+
+        public override string CarouselIndicators() => "carousel-indicators";
+
+        public override string CarouselIndicator() => null;
+
+        public override string CarouselIndicatorActive( bool active ) => active ? Active() : null;
+
+        public override string CarouselFade( bool fade ) => fade ? "carousel-fade" : null;
+
+        public override string CarouselCaption() => "carousel-caption";
+
+        #endregion
+
         #region Jumbotron
 
         public override string Jumbotron() => "jumbotron";
@@ -788,6 +810,8 @@ namespace Blazorise.Bootstrap
         public override string BadgeColor( Color color ) => $"{Badge()}-{ToColor( color )}";
 
         public override string BadgePill() => $"{Badge()}-pill";
+
+        public override string BadgeClose() => "badge-close";
 
         #endregion
 

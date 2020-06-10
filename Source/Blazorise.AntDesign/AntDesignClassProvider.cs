@@ -416,6 +416,28 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Carousel
+
+        public override string Carousel() => "ant-carousel";
+
+        public override string CarouselSlides() => "slick-list";
+
+        public override string CarouselSlide() => "slick-slide";
+
+        public override string CarouselSlideActive( bool active ) => active ? "slick-active slick-current" : null;
+
+        public override string CarouselIndicators() => "slick-dots slick-dots-bottom";
+
+        public override string CarouselIndicator() => null;
+
+        public override string CarouselIndicatorActive( bool active ) => active ? "slick-active" : null;
+
+        public override string CarouselFade( bool fade ) => null;
+
+        public override string CarouselCaption() => null;
+
+        #endregion
+
         #region Jumbotron
 
         public override string Jumbotron() => "ant-hero";
@@ -783,6 +805,8 @@ namespace Blazorise.AntDesign
         public override string BadgeColor( Color color ) => $"{Badge()}-{ToColor( color )}";
 
         public override string BadgePill() => $"{Badge()}-pill";
+
+        public override string BadgeClose() => "anticon anticon-close";
 
         #endregion
 

@@ -28,6 +28,7 @@ namespace Blazorise.Bulma
         private static void RegisterComponents( IComponentMapper componentMapper )
         {
             componentMapper.Register<Blazorise.Addons, Bulma.Addons>();
+            componentMapper.Register<Blazorise.Badge, Bulma.Badge>();
             componentMapper.Register<Blazorise.BarToggler, Bulma.BarToggler>();
             componentMapper.Register<Blazorise.BarDropdown, Bulma.BarDropdown>();
             componentMapper.Register<Blazorise.Breadcrumb, Bulma.Breadcrumb>();
@@ -35,6 +36,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.CardImage, Bulma.CardImage>();
             componentMapper.Register<Blazorise.CardTitle, Bulma.CardTitle>();
             componentMapper.Register<Blazorise.CardSubtitle, Bulma.CardSubtitle>();
+            componentMapper.Register<Blazorise.Carousel, Bulma.Carousel>();
             componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Bulma.Check<> ) );
             componentMapper.Register( typeof( Blazorise.DateEdit<> ), typeof( Bulma.DateEdit<> ) );
             componentMapper.Register<Blazorise.DropdownDivider, Bulma.DropdownDivider>();

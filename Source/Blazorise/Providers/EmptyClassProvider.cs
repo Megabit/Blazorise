@@ -349,6 +349,28 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Carousel
+
+        public string Carousel() => null;
+
+        public string CarouselSlides() => null;
+
+        public string CarouselSlide() => null;
+
+        public string CarouselSlideActive( bool active ) => null;
+
+        public string CarouselIndicators() => null;
+
+        public string CarouselIndicator() => null;
+
+        public string CarouselIndicatorActive( bool active ) => null;
+
+        public string CarouselFade( bool fade ) => null;
+
+        public string CarouselCaption() => null;
+
+        #endregion
+
         #region Jumbotron
 
         public string Jumbotron() => null;
@@ -718,6 +740,8 @@ namespace Blazorise.Providers
         public string BadgeColor( Color color ) => null;
 
         public string BadgePill() => null;
+
+        public string BadgeClose() => null;
 
         #endregion
 

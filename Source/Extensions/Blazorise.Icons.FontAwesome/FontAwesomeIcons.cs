@@ -11,6 +11,7 @@ namespace Blazorise.Icons.FontAwesome
     /// </summary>
     public static class FontAwesomeIcons
     {
+        public static readonly new string Equals = "fa-equals";
         public static readonly string Ad = "fa-ad";
         public static readonly string AddressBook = "fa-address-book";
         public static readonly string AddressCard = "fa-address-card";
@@ -304,7 +305,6 @@ namespace Blazorise.Icons.FontAwesome
         public static readonly string EnvelopeOpen = "fa-envelope-open";
         public static readonly string EnvelopeOpenText = "fa-envelope-open-text";
         public static readonly string EnvelopeSquare = "fa-envelope-square";
-        public static readonly new string Equals = "fa-equals";
         public static readonly string Eraser = "fa-eraser";
         public static readonly string Ethernet = "fa-ethernet";
         public static readonly string EuroSign = "fa-euro-sign";

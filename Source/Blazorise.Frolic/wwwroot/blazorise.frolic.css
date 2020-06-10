@@ -109,6 +109,163 @@
 .e-alert {
     margin-bottom: 1rem; }
 
+.e-tag-close {
+    cursor: pointer; }
+    .e-tag-close::before {
+        height: 2px;
+        width: 50%; }
+    .e-tag-close::after {
+        height: 50%;
+        width: 2px; }
+    .e-tag-close:hover, .e-tag-close:focus {
+        background-color: rgba(10, 10, 10, 0.3); }
+    .e-tag-close:active {
+        background-color: rgba(10, 10, 10, 0.4); }
+
+.carousel, .carousel-list {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
+
+.carousel {
+    min-height: 120px;
+    position: relative; }
+    .carousel.is-overlay {
+        background-color: rgba(0, 0, 0, 0.86);
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        display: flex;
+        max-height: 100vh;
+        position: fixed;
+        z-index: 40; }
+        .carousel.is-overlay .carousel-item img {
+            cursor: default; }
+        .carousel.is-overlay .carousel-indicator.has-background {
+            background: transparent; }
+    .carousel .progress {
+        border-radius: 2px;
+        height: 0.25rem;
+        margin-bottom: 0; }
+    .carousel .carousel-items {
+        position: relative;
+        display: flex;
+        overflow: hidden;
+        width: 100%; }
+        @media screen and (min-width: 1023px), print {
+            .carousel .carousel-items:hover .carousel-arrow.is-hovered {
+                opacity: 1; } }
+        .carousel .carousel-items .carousel-item {
+            flex-shrink: 0;
+            width: 100%; }
+            .carousel .carousel-items .carousel-item-hidden {
+                display: none; }
+    .carousel .carousel-pause {
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        right: 0.15rem;
+        z-index: 1; }
+    .carousel .carousel-indicator {
+        width: 100%;
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center; }
+        .carousel .carousel-indicator.has-background {
+            background: rgba(0, 0, 0, 0.5); }
+        .carousel .carousel-indicator.has-custom {
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            -webkit-overflow-scrolling: touch;
+            overflow: hidden;
+            overflow-x: auto; }
+            .carousel .carousel-indicator.has-custom.is-small .indicator-item {
+                flex: 1 0 10%; }
+            .carousel .carousel-indicator.has-custom.is-medium .indicator-item {
+                flex: 1 0 16.66667%; }
+        .carousel .carousel-indicator.is-inside {
+            position: absolute; }
+            .carousel .carousel-indicator.is-inside.is-bottom {
+                bottom: 0; }
+            .carousel .carousel-indicator.is-inside.is-top {
+                top: 0; }
+        .carousel .carousel-indicator .indicator-item:not(:last-child) {
+            margin-right: 0.5rem; }
+        .carousel .carousel-indicator .indicator-item.is-active .indicator-style,
+        .carousel .carousel-indicator .indicator-item .indicator-style:hover {
+            background: var(--b-theme-primary, #1da1f2);
+            border: 1px solid var(--b-theme-white, #fff); }
+        .carousel .carousel-indicator .indicator-item .indicator-style {
+            display: block;
+            border: 1px solid var(--b-theme-primary, #1da1f2);
+            background: var(--b-theme-white, #fff);
+            outline: none;
+            transition: 150ms ease-out; }
+            .carousel .carousel-indicator .indicator-item .indicator-style.is-boxes {
+                height: 10px;
+                width: 10px; }
+            .carousel .carousel-indicator .indicator-item .indicator-style.is-dots {
+                border-radius: 10px;
+                height: 10px;
+                width: 10px; }
+            .carousel .carousel-indicator .indicator-item .indicator-style.is-lines {
+                height: 5px;
+                width: 25px; }
+
+.carousel-list {
+    position: relative;
+    overflow: hidden;
+    width: 100%; }
+    .carousel-list.has-shadow {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25); }
+    @media screen and (min-width: 1023px), print {
+        .carousel-list:hover .carousel-arrow.is-hovered {
+            opacity: 1; } }
+    .carousel-list .carousel-slides {
+        position: relative;
+        display: flex;
+        width: 100%; }
+        .carousel-list .carousel-slides:not(.is-dragging) {
+            transition: all 250ms ease-out 0s; }
+        .carousel-list .carousel-slides.has-grayscale .carousel-slide img {
+            filter: grayscale(100%); }
+        .carousel-list .carousel-slides.has-grayscale .carousel-slide.is-active img {
+            filter: grayscale(0%); }
+        .carousel-list .carousel-slides.has-opacity .carousel-slide img {
+            opacity: 0.25; }
+        .carousel-list .carousel-slides.has-opacity .carousel-slide.is-active img {
+            opacity: 1; }
+        .carousel-list .carousel-slides .carousel-slide {
+            border: 2px solid transparent;
+            flex-shrink: 0; }
+
+.carousel-arrow {
+    transition: 150ms ease-out; }
+    .carousel-arrow.is-hovered {
+        opacity: 0; }
+    .carousel-arrow .icon {
+        background: var(--b-theme-white, #fff);
+        color: var(--b-theme-primary, #1da1f2);
+        cursor: pointer;
+        border: 1px solid var(--b-theme-white, #fff);
+        border-radius: 290486px;
+        outline: 0; }
+        .carousel-arrow .icon:hover {
+            border: 1px solid var(--b-theme-primary, #1da1f2);
+            opacity: 1; }
+        .carousel-arrow .icon.has-icons-left, .carousel-arrow .icon.has-icons-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1; }
+        .carousel-arrow .icon.has-icons-left {
+            left: 1.5rem; }
+        .carousel-arrow .icon.has-icons-right {
+            right: 1.5rem; }
+
 .collapse:not(.show) {
     display: none; }
 
