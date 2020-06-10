@@ -430,6 +430,50 @@ If you want to change default buttons you can use following templates
     </EditCommandTemplate>
 </DataGridCommandColumn>
 ```
+###Grid Templates
+
+If you want to change display of content, while gird is empty or ReadData is laoding, you can use following templates:
+
+- `EmptyTemplate`
+- `LoadingTemplate`
+
+```html
+<DataGrid TItem="Employee"
+	Data="@employeeList"
+    TotalItems="@totalEmployees"
+	ReadData="@LoadEmployeesFromService">
+    <ChildContent>
+    	<!--DataGridColumns-->
+    </ChildContent>
+    <EmptyTemplate>
+    	<div class="box">
+        	No employees are found!
+        </div>
+    </EmptyTemplate>
+    <LoadingTemplate>
+    	<div class="box">
+        	<progress class="progress is-small is-primary" max="100"/>
+        </div>
+    </LoadingTemplate>
+</DataGrid>
+```
+```cs
+@code
+{
+    Employee[] employeeList;
+    int totalEmployees;
+
+    asnyc Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
+    {
+        /*
+        * This can be call to anything like calling api for load employees
+        * and while execution 'LoadingTemplate' will be displayed.
+        * If your api call returns empty result, then 'EmptyTemplate' will be displayed,
+        * so that you can see easily, that your loading is finish, but your result is empty.
+        */
+    }
+}
+```
 
 ## Attributes
 
@@ -465,6 +509,8 @@ If you want to change default buttons you can use following templates
 | RowRemoving            | Action                                                              |         | Cancelable event called before the row is removed.                                                          |
 | RowRemoved             | EventCallback                                                       |         | Event called after the row is removed.                                                                      |
 | PageChanged            | EventCallback                                                       |         | Occurs after the selected page has changed.                                                                 |
+| EmptyTemplate            | RenderingFragment                                                       |         | Define the format for empty data collection                                                                 |
+| LoadingTemplate            | RenderingFragment                                                       |         | Define the format for signal of loading data                                                                 |
 
 ### EditMode
 
