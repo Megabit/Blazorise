@@ -547,6 +547,11 @@ namespace Blazorise.DataGrid
         protected bool IsLoadingTemplateVisible => LoadingTemplate != null && IsLoading;
 
         /// <summary>
+        /// Returns true if ReadData will be invoked.
+        /// </summary>
+        protected bool IsLoading { get; set; }
+
+        /// <summary>
         /// Returns true if EmptyTemplate is set and Data is null or empty.
         /// </summary>
         protected bool IsEmptyTemplateVisible => EmptyTemplate != null && ( Data == null || !Data.Any() );
@@ -703,8 +708,6 @@ namespace Blazorise.DataGrid
         /// Gets or sets content of next button of pager.
         /// </summary>
         [Parameter] public RenderFragment NextPageButtonTemplate { get; set; }
-
-        [Parameter] public bool IsLoading { get; set; }
 
         /// <summary>
         /// Gets the last page number.
