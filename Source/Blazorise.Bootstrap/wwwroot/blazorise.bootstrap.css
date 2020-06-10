@@ -1,4 +1,17 @@
-﻿.navbar-nav .nav-item:hover {
+﻿.badge-close {
+    cursor: pointer; }
+    .badge-close::before {
+        height: 2px;
+        width: 50%; }
+    .badge-close::after {
+        height: 50%;
+        width: 2px; }
+    .badge-close:hover, .badge-close:focus {
+        background-color: rgba(10, 10, 10, 0.3); }
+    .badge-close:active {
+        background-color: rgba(10, 10, 10, 0.4); }
+
+.navbar-nav .nav-item:hover {
     cursor: pointer; }
 
 .navbar-nav .nav-link:hover {

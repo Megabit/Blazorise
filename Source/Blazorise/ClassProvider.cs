@@ -740,6 +740,8 @@ namespace Blazorise
 
         public abstract string BadgePill();
 
+        public abstract string BadgeClose();
+
         #endregion
 
         #region Media

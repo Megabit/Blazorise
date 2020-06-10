@@ -733,6 +733,8 @@ namespace Blazorise
 
         string BadgePill();
 
+        string BadgeClose();
+
         #endregion
 
         #region Media
