@@ -430,18 +430,19 @@ If you want to change default buttons you can use following templates
     </EditCommandTemplate>
 </DataGridCommandColumn>
 ```
-###Grid Templates
 
-If you want to change display of content, while gird is empty or ReadData is executing, you can use following templates:
+### Loading Templates
+
+If you want to change display of content, while grid is empty or `ReadData` is executing, you can use following templates:
 
 - `EmptyTemplate`
 - `LoadingTemplate`
 
 ```html
 <DataGrid TItem="Employee"
-	Data="@employeeList"
+    Data="@employeeList"
     TotalItems="@totalEmployees"
-	ReadData="@LoadEmployeesFromService">
+    ReadData="@LoadEmployeesFromService">
     <ChildContent>
     	<!--DataGridColumns-->
     </ChildContent>
@@ -457,13 +458,14 @@ If you want to change display of content, while gird is empty or ReadData is exe
     </LoadingTemplate>
 </DataGrid>
 ```
+
 ```cs
 @code
 {
     Employee[] employeeList;
     int totalEmployees;
 
-    asnyc Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
+    async Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
     {
         /*
         * This can be call to anything like calling api for load employees
