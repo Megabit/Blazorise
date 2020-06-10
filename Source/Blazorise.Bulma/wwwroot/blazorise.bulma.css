@@ -1314,6 +1314,19 @@
     .card-group > .card {
         margin-bottom: 15px; }
 
+.card-deck {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: -15px;
+    margin-left: -15px; }
+    .card-deck .card {
+        margin-bottom: 15px; }
+    .card-deck .card {
+        flex: 1 0 0%;
+        margin-right: 15px;
+        margin-bottom: 0;
+        margin-left: 15px; }
+
 @media (min-width: 768px) {
     .card-group {
         -ms-flex-flow: row wrap;
@@ -1364,6 +1377,19 @@
     flex-direction: column; }
     .card-group > .card {
         margin-bottom: 15px; }
+
+.card-deck {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: -15px;
+    margin-left: -15px; }
+    .card-deck .card {
+        margin-bottom: 15px; }
+    .card-deck .card {
+        flex: 1 0 0%;
+        margin-right: 15px;
+        margin-bottom: 0;
+        margin-left: 15px; }
 
 @media (min-width: 768px) {
     .card-group {

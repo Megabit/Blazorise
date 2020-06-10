@@ -443,6 +443,8 @@ namespace Blazorise.Frolic
 
         #region Card
 
+        public override string CardDeck() => "e-cards deck";
+
         public override string CardGroup() => "e-cards unified";
 
         public override string Card() => "e-card";

@@ -452,6 +452,8 @@ namespace Blazorise.AntDesign
 
         #region Card
 
+        public override string CardDeck() => "ant-card-deck";
+
         public override string CardGroup() => "ant-card-group";
 
         public override string Card() => "ant-card ant-card-bordered";
