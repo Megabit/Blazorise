@@ -30,8 +30,6 @@ namespace Blazorise
 
         private IFluentDisplay display;
 
-        private Visibility visibility = Visibility.Default;
-
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
         private Dictionary<string, object> parameters;
@@ -132,8 +130,6 @@ namespace Blazorise
         {
             if ( Style != null )
                 builder.Append( Style );
-
-            builder.Append( StyleProvider.Visibility( Visibility ) );
         }
 
         // use this until https://github.com/aspnet/Blazor/issues/1732 is fixed!!
@@ -379,22 +375,6 @@ namespace Blazorise
                 padding = value;
 
                 DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the element visibility.
-        /// </summary>
-        [Parameter]
-        [Obsolete( "This property will likely be removed in place of Display property." )]
-        public Visibility Visibility
-        {
-            get => visibility;
-            set
-            {
-                visibility = value;
-
-                DirtyStyles();
             }
         }
 
