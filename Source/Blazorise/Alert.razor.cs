@@ -75,7 +75,9 @@ namespace Blazorise
 
         private void HandleVisibilityState( bool active )
         {
-            Visibility = active ? Visibility.Always : Visibility.Never;
+            Display = active
+                ? Blazorise.Display.Always
+                : Blazorise.Display.None;
         }
 
         /// <summary>

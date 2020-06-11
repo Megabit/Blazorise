@@ -452,6 +452,8 @@ namespace Blazorise.AntDesign
 
         #region Card
 
+        public override string CardDeck() => "ant-card-deck";
+
         public override string CardGroup() => "ant-card-group";
 
         public override string Card() => "ant-card ant-card-bordered";
@@ -805,6 +807,8 @@ namespace Blazorise.AntDesign
         public override string BadgeColor( Color color ) => $"{Badge()}-{ToColor( color )}";
 
         public override string BadgePill() => $"{Badge()}-pill";
+
+        public override string BadgeClose() => "anticon anticon-close";
 
         #endregion
 

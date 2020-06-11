@@ -149,10 +149,10 @@ namespace Blazorise.Charts
     public class Scales
     {
         [DataMember( EmitDefaultValue = false )]
-        public List<Axe> XAxes { get; set; }
+        public List<Axis> XAxes { get; set; }
 
         [DataMember( EmitDefaultValue = false )]
-        public List<Axe> YAxes { get; set; }
+        public List<Axis> YAxes { get; set; }
     }
 
     [DataContract]
@@ -188,7 +188,7 @@ namespace Blazorise.Charts
     }
 
     [DataContract]
-    public class Axe
+    public class Axis
     {
         [DataMember( EmitDefaultValue = false )]
         public string Type { get; set; }

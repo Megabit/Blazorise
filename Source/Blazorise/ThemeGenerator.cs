@@ -63,13 +63,13 @@ namespace Blazorise
                 GenerateTextColorVariables( theme, name, color );
 
             if ( theme.SidebarOptions != null )
-                GenerateSidebarVariables( theme.SidebarOptions );
+                GenerateSidebarVariables( theme, theme.SidebarOptions );
 
             if ( theme.SnackbarOptions != null )
-                GenerateSnackbarVariables( theme.SnackbarOptions );
+                GenerateSnackbarVariables( theme, theme.SnackbarOptions );
 
             if ( theme.DividerOptions != null )
-                GenerateDividerVariables( theme.DividerOptions );
+                GenerateDividerVariables( theme, theme.DividerOptions );
 
             GenerateTooltipVariables( theme, theme.TooltipOptions );
 
@@ -89,12 +89,12 @@ namespace Blazorise
         {
             variables[ThemeVariables.Color( variant )] = value;
 
-            GenerateButtonColorVariables( variant, value, value, theme.ButtonOptions );
-            GenerateOutlineButtonColorVariables( variant, value, theme.ButtonOptions );
+            GenerateButtonColorVariables( theme, variant, value, value, theme.ButtonOptions );
+            GenerateOutlineButtonColorVariables( theme, variant, value, theme.ButtonOptions );
             GenerateSnackbarColorVariables( theme, variant, value, theme.SnackbarOptions );
         }
 
-        protected virtual void GenerateButtonColorVariables( string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options )
+        protected virtual void GenerateButtonColorVariables( Theme theme, string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options )
         {
             var backgroundColor = ParseColor( inBackgroundColor );
             var borderColor = ParseColor( inBorderColor );
@@ -106,9 +106,9 @@ namespace Blazorise
             var hoverBorderColor = Lighten( borderColor, options?.HoverLightenColor ?? 20f );
             var activeBackgroundColor = Darken( backgroundColor, options?.ActiveDarkenColor ?? 20f );
             var activeBorderColor = Lighten( borderColor, options?.ActiveLightenColor ?? 25f );
-            var yiqBackgroundColor = Contrast( backgroundColor );
-            var yiqHoverBackgroundColor = Contrast( hoverBackgroundColor );
-            var yiqActiveBackgroundColor = Contrast( activeBackgroundColor );
+            var yiqBackgroundColor = Contrast( theme, backgroundColor );
+            var yiqHoverBackgroundColor = Contrast( theme, hoverBackgroundColor );
+            var yiqActiveBackgroundColor = Contrast( theme, activeBackgroundColor );
 
             var background = ToHex( backgroundColor );
             var border = ToHex( borderColor );
@@ -134,7 +134,7 @@ namespace Blazorise
             variables[ThemeVariables.ButtonBoxShadow( variant )] = boxShadow;
         }
 
-        protected virtual void GenerateOutlineButtonColorVariables( string variant, string inBorderColor, ThemeButtonOptions options )
+        protected virtual void GenerateOutlineButtonColorVariables( Theme theme, string variant, string inBorderColor, ThemeButtonOptions options )
         {
             var borderColor = ParseColor( inBorderColor );
 
@@ -142,7 +142,7 @@ namespace Blazorise
                 return;
 
             var color = ToHex( borderColor );
-            var yiqColor = ToHex( Contrast( borderColor ) );
+            var yiqColor = ToHex( Contrast( theme, borderColor ) );
             var boxShadow = ToHexRGBA( Transparency( borderColor, 127 ) );
             var hoverColor = ToHex( Lighten( borderColor, options?.HoverLightenColor ?? 20f ) );
             var activeColor = ToHex( Darken( borderColor, options?.ActiveDarkenColor ?? 20f ) );
@@ -161,7 +161,7 @@ namespace Blazorise
                 return;
 
             var backgroundColor = ThemeColorLevel( theme, inColor, options?.VariantBackgroundColorLevel ?? -3 );
-            var textColor = Contrast( backgroundColor );
+            var textColor = Contrast( theme, backgroundColor );
             var buttonColor = Darken( textColor, 40f );
             var buttonHoverColor = Lighten( textColor, 40f );
             //var textColor = Contrast( ThemeColorLevel( theme, inColor, options?.VariantTextColorLevel ?? 6 ) );
@@ -181,7 +181,7 @@ namespace Blazorise
             if ( backgroundColor.IsEmpty )
                 return;
 
-            var backgroundYiqColor = Contrast( backgroundColor );
+            var backgroundYiqColor = Contrast( theme, backgroundColor );
 
             variables[ThemeVariables.BackgroundColor( variant )] = ToHex( backgroundColor );
             variables[ThemeVariables.BackgroundYiqColor( variant )] = ToHex( backgroundYiqColor );
@@ -197,7 +197,7 @@ namespace Blazorise
             variables[ThemeVariables.TextColor( variant )] = ToHex( color );
         }
 
-        protected virtual void GenerateSidebarVariables( ThemeSidebarOptions sidebarOptions )
+        protected virtual void GenerateSidebarVariables( Theme theme, ThemeSidebarOptions sidebarOptions )
         {
             if ( sidebarOptions.Width != null )
                 variables[ThemeVariables.SidebarWidth] = sidebarOptions.Width;
@@ -209,7 +209,7 @@ namespace Blazorise
                 variables[ThemeVariables.SidebarColor] = ToHex( ParseColor( sidebarOptions.Color ) );
         }
 
-        protected virtual void GenerateSnackbarVariables( ThemeSnackbarOptions snackbarOptions )
+        protected virtual void GenerateSnackbarVariables( Theme theme, ThemeSnackbarOptions snackbarOptions )
         {
             if ( snackbarOptions?.BackgroundColor != null )
                 variables[ThemeVariables.SnackbarBackground] = ToHex( ParseColor( snackbarOptions.BackgroundColor ) );
@@ -224,7 +224,7 @@ namespace Blazorise
                 variables[ThemeVariables.SnackbarButtonHoverColor] = ToHex( ParseColor( snackbarOptions.ButtonHoverColor ) );
         }
 
-        protected virtual void GenerateDividerVariables( ThemeDividerOptions dividerOptions )
+        protected virtual void GenerateDividerVariables( Theme theme, ThemeDividerOptions dividerOptions )
         {
             if ( dividerOptions.Color != null )
                 variables[ThemeVariables.DividerColor] = ToHex( ParseColor( dividerOptions.Color ) );
@@ -612,14 +612,14 @@ namespace Blazorise
             return System.Drawing.Color.FromArgb( color.A, (int)red, (int)green, (int)blue );
         }
 
-        protected static System.Drawing.Color Contrast( string hexColor )
+        protected static System.Drawing.Color Contrast( Theme theme, string hexColor )
         {
             var color = ParseColor( hexColor );
 
-            return Contrast( color );
+            return Contrast( theme, color );
         }
 
-        protected static System.Drawing.Color Contrast( System.Drawing.Color color )
+        protected static System.Drawing.Color Contrast( Theme theme, System.Drawing.Color color )
         {
             int d = 0;
 
@@ -627,7 +627,7 @@ namespace Blazorise
             double luminance = ( 299 * color.R + 587 * color.G + 114 * color.B ) / 1000d;
 
             // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
-            if ( luminance > 150 )
+            if ( luminance > theme.LuminanceThreshold )
                 d = 0; // bright colors - black font
             else
                 d = 255; // dark colors - white font

@@ -458,6 +458,8 @@ namespace Blazorise.Bulma
 
         #region Card
 
+        public override string CardDeck() => "card-deck";
+
         public override string CardGroup() => "card-group";
 
         public override string Card() => "card";
@@ -813,6 +815,8 @@ namespace Blazorise.Bulma
         public override string BadgeColor( Color color ) => $"is-{ToColor( color )}";
 
         public override string BadgePill() => null;
+
+        public override string BadgeClose() => "delete is-small";
 
         #endregion
 

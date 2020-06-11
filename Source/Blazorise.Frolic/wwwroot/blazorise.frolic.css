@@ -109,6 +109,19 @@
 .e-alert {
     margin-bottom: 1rem; }
 
+.e-tag-close {
+    cursor: pointer; }
+    .e-tag-close::before {
+        height: 2px;
+        width: 50%; }
+    .e-tag-close::after {
+        height: 50%;
+        width: 2px; }
+    .e-tag-close:hover, .e-tag-close:focus {
+        background-color: rgba(10, 10, 10, 0.3); }
+    .e-tag-close:active {
+        background-color: rgba(10, 10, 10, 0.4); }
+
 .carousel, .carousel-list {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
