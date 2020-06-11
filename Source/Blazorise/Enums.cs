@@ -780,28 +780,6 @@ namespace Blazorise
     }
 
     /// <summary>
-    /// Defines an element visibility behaviour.
-    /// </summary>    
-    public enum Visibility
-    {
-        /// <summary>
-        /// None.
-        /// </summary>
-        Default,
-
-        /// <summary>
-        /// Element will always be visible.
-        /// </summary>
-        Always,
-
-        /// <summary>
-        /// Element will always bi hidden.
-        /// </summary>
-        Never,
-    }
-
-
-    /// <summary>
     /// Defines the alignment of an element.
     /// </summary>
     public enum Alignment
