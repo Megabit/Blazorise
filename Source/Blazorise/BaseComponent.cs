@@ -28,6 +28,8 @@ namespace Blazorise
 
         private IFluentSpacing padding;
 
+        private IFluentDisplay display;
+
         private Visibility visibility = Visibility.Default;
 
         private CharacterCasing characterCasing = CharacterCasing.Normal;
@@ -115,6 +117,9 @@ namespace Blazorise
 
             if ( Padding != null )
                 builder.Append( Padding.Class( ClassProvider ) );
+
+            if ( Display != null )
+                builder.Append( Display.Class( ClassProvider ) );
 
             if ( Float != Float.None )
                 builder.Append( ClassProvider.ToFloat( Float ) );
@@ -381,6 +386,7 @@ namespace Blazorise
         /// Gets or sets the element visibility.
         /// </summary>
         [Parameter]
+        [Obsolete( "This property will likely be removed in place of Display property." )]
         public Visibility Visibility
         {
             get => visibility;
@@ -389,6 +395,21 @@ namespace Blazorise
                 visibility = value;
 
                 DirtyStyles();
+            }
+        }
+
+        /// <summary>
+        /// Specifies the display behavior of an element.
+        /// </summary>
+        [Parameter]
+        public IFluentDisplay Display
+        {
+            get => display;
+            set
+            {
+                display = value;
+
+                DirtyClasses();
             }
         }
 
