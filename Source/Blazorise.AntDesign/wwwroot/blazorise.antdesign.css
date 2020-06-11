@@ -1465,6 +1465,9 @@
 .bg-transparent {
     background-color: transparent !important; }
 
+.ant-display-none {
+    display: none !important; }
+
 .ant-display-inline {
     display: inline !important; }
 

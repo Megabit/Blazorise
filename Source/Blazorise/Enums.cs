@@ -416,7 +416,12 @@ namespace Blazorise
     public enum DisplayType
     {
         /// <summary>
-        /// Display will not be applied.
+        /// Display will not be applied, meaning an element will be visible.
+        /// </summary>
+        Always,
+
+        /// <summary>
+        /// Hides an element.
         /// </summary>
         None,
 
@@ -776,7 +781,7 @@ namespace Blazorise
 
     /// <summary>
     /// Defines an element visibility behaviour.
-    /// </summary>
+    /// </summary>    
     public enum Visibility
     {
         /// <summary>

@@ -1172,6 +1172,8 @@ namespace Blazorise
         {
             switch ( displayType )
             {
+                case Blazorise.DisplayType.None:
+                    return "none";
                 case Blazorise.DisplayType.Block:
                     return "block";
                 case Blazorise.DisplayType.Inline:
@@ -1188,6 +1190,7 @@ namespace Blazorise
                     return "table-row";
                 case Blazorise.DisplayType.TableCell:
                     return "table-cell";
+                case DisplayType.Always:
                 default:
                     return null;
             }
