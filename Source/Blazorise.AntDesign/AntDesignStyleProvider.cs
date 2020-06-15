@@ -42,8 +42,6 @@ namespace Blazorise.AntDesign
 
         #region Layout
 
-        public override string Visibility( Visibility visibility ) => visibility == Blazorise.Visibility.Never ? "display: none;" : null;
-
         #endregion
     }
 }

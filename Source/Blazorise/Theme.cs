@@ -36,6 +36,11 @@ namespace Blazorise
         public string Black { get; set; } = "#343a40";
 
         /// <summary>
+        /// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+        /// </summary>
+        public byte LuminanceThreshold { get; set; } = 150;
+
+        /// <summary>
         /// Enables the gradient background colors.
         /// </summary>
         public bool IsGradient { get; set; } = false;

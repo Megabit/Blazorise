@@ -73,3 +73,10 @@ $speed: 86ms !default;
 
 $speed-slow: 150ms !default;
 $speed-slower: 250ms !default;
+
+// Cards
+
+$grid-gutter-width: 30px !default;
+
+$card-group-margin: $grid-gutter-width / 2 !default;
+$card-deck-margin: $card-group-margin !default;

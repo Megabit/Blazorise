@@ -385,6 +385,8 @@ namespace Blazorise.Providers
 
         #region Card
 
+        public string CardDeck() => null;
+
         public string CardGroup() => null;
 
         public string Card() => null;
@@ -746,6 +748,8 @@ namespace Blazorise.Providers
         public string BadgeColor( Color color ) => null;
 
         public string BadgePill() => null;
+
+        public string BadgeClose() => null;
 
         #endregion
 

@@ -1,4 +1,17 @@
-﻿.form-check > .form-check-input.form-check-input-pointer,
+﻿.badge-close {
+    cursor: pointer; }
+    .badge-close::before {
+        height: 2px;
+        width: 50%; }
+    .badge-close::after {
+        height: 50%;
+        width: 2px; }
+    .badge-close:hover, .badge-close:focus {
+        background-color: rgba(10, 10, 10, 0.3); }
+    .badge-close:active {
+        background-color: rgba(10, 10, 10, 0.4); }
+
+.form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .custom-checkbox > .custom-control-input.custom-control-input-pointer,
 .custom-checkbox > .custom-control-label.custom-control-label-pointer {

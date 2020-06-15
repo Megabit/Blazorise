@@ -12,18 +12,28 @@ To define spacing between components you have an option to use a fluent-builder 
 
 The following example will set the margins for mobile(xs) and desktop(md) breakpoints:
 
-```cs
+```html
 <CardBody Margin="Margin.Is2.OnMobile.Is5.OnDesktop">
 ```
 
 **Note:** The same rules can also be applied for paddings.
 {: .notice--info}
 
+## Display
+
+Quickly and responsively toggle the display value of components and more with display utilities.
+
+```html
+<Paragraph Display="Display.None.Block.OnFullHD">
+    hide on screens smaller than lg
+</Paragraph>
+```
+
 ## ColumnSize
 
 Similar to the spacing builder you can also define column sizes using the same pattern.
 
-```cs
+```html
 <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile">
 ```
 

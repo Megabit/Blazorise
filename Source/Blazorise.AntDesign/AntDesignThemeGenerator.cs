@@ -18,7 +18,7 @@ namespace Blazorise.AntDesign
 
             sb.Append( $".ant-hero-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
-                .Append( $"color: {ToHex( Contrast( Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
                 .AppendLine( "}" );
         }
 
@@ -370,7 +370,7 @@ namespace Blazorise.AntDesign
             if ( backgroundColor.IsEmpty )
                 return;
 
-            var yiqBackgroundColor = Contrast( backgroundColor );
+            var yiqBackgroundColor = Contrast( theme, backgroundColor );
 
             var background = ToHex( backgroundColor );
             var yiqBackground = ToHex( yiqBackgroundColor );

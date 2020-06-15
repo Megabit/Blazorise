@@ -381,6 +381,8 @@ namespace Blazorise
 
         #region Card
 
+        string CardDeck();
+
         string CardGroup();
 
         string Card();
@@ -736,6 +738,8 @@ namespace Blazorise
         string BadgeColor( Color color );
 
         string BadgePill();
+
+        string BadgeClose();
 
         #endregion
 

@@ -167,6 +167,16 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
         }
 
+        public ValueTask SetCaret( ElementReference elementRef, int caret )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setCaret", elementRef, caret );
+        }
+
+        public ValueTask<int> GetCaret( ElementReference elementRef )
+        {
+            return runtime.InvokeAsync<int>( $"{BLAZORISE_NAMESPACE}.getCaret", elementRef );
+        }
+
         public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop );
 
         public abstract ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );

@@ -382,6 +382,8 @@ namespace Blazorise
 
         #region Card
 
+        public abstract string CardDeck();
+
         public abstract string CardGroup();
 
         public abstract string Card();
@@ -743,6 +745,8 @@ namespace Blazorise
         public abstract string BadgeColor( Color color );
 
         public abstract string BadgePill();
+
+        public abstract string BadgeClose();
 
         #endregion
 
@@ -1174,6 +1178,8 @@ namespace Blazorise
         {
             switch ( displayType )
             {
+                case Blazorise.DisplayType.None:
+                    return "none";
                 case Blazorise.DisplayType.Block:
                     return "block";
                 case Blazorise.DisplayType.Inline:
@@ -1190,6 +1196,7 @@ namespace Blazorise
                     return "table-row";
                 case Blazorise.DisplayType.TableCell:
                     return "table-cell";
+                case DisplayType.Always:
                 default:
                     return null;
             }

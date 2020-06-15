@@ -28,7 +28,7 @@ namespace Blazorise
 
         private IFluentSpacing padding;
 
-        private Visibility visibility = Visibility.Default;
+        private IFluentDisplay display;
 
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
@@ -116,6 +116,9 @@ namespace Blazorise
             if ( Padding != null )
                 builder.Append( Padding.Class( ClassProvider ) );
 
+            if ( Display != null )
+                builder.Append( Display.Class( ClassProvider ) );
+
             if ( Float != Float.None )
                 builder.Append( ClassProvider.ToFloat( Float ) );
 
@@ -127,8 +130,6 @@ namespace Blazorise
         {
             if ( Style != null )
                 builder.Append( Style );
-
-            builder.Append( StyleProvider.Visibility( Visibility ) );
         }
 
         // use this until https://github.com/aspnet/Blazor/issues/1732 is fixed!!
@@ -378,17 +379,17 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets or sets the element visibility.
+        /// Specifies the display behavior of an element.
         /// </summary>
         [Parameter]
-        public Visibility Visibility
+        public IFluentDisplay Display
         {
-            get => visibility;
+            get => display;
             set
             {
-                visibility = value;
+                display = value;
 
-                DirtyStyles();
+                DirtyClasses();
             }
         }
 

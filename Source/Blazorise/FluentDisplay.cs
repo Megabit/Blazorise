@@ -62,6 +62,8 @@ namespace Blazorise
     public interface IFluentDisplayWithDisplay :
         IFluentDisplay
     {
+        IFluentDisplayWithDisplayOnBreakpointWithDirection None { get; }
+
         IFluentDisplayWithDisplayOnBreakpointWithDirection Block { get; }
 
         IFluentDisplayWithDisplayOnBreakpointWithDirection Inline { get; }
@@ -113,7 +115,7 @@ namespace Blazorise
             {
                 void BuildClasses( ClassBuilder builder )
                 {
-                    if ( rules.Count( x => x.Key != DisplayType.None ) > 0 )
+                    if ( rules.Count( x => x.Key != DisplayType.Always ) > 0 )
                         builder.Append( rules.Select( r => classProvider.Display( r.Key, r.Value.Select( v => (v.Breakpoint, v.Direction) ) ) ) );
                 }
 
@@ -132,7 +134,7 @@ namespace Blazorise
             dirty = true;
         }
 
-        private IFluentDisplayWithDisplayOnBreakpointWithDirection WithDisplay( DisplayType displayType )
+        public IFluentDisplayWithDisplayOnBreakpointWithDirection WithDisplay( DisplayType displayType )
         {
             var columnDefinition = new DisplayDefinition { Breakpoint = Breakpoint.None };
 
@@ -147,7 +149,7 @@ namespace Blazorise
             return this;
         }
 
-        private IFluentDisplayWithDisplayFlexWithDirection WithFlex( DisplayType displayType )
+        public IFluentDisplayWithDisplayFlexWithDirection WithFlex( DisplayType displayType )
         {
             var columnDefinition = new DisplayDefinition { Breakpoint = Breakpoint.None };
 
@@ -162,7 +164,7 @@ namespace Blazorise
             return this;
         }
 
-        private IFluentDisplayWithDisplay WithBreakpoint( Breakpoint breakpoint )
+        public IFluentDisplayWithDisplay WithBreakpoint( Breakpoint breakpoint )
         {
             currentDisplay.Breakpoint = breakpoint;
             Dirty();
@@ -206,6 +208,16 @@ namespace Blazorise
         /// Breakpoint on large desktops (extra large).
         /// </summary>
         public IFluentDisplayWithDisplay OnFullHD => WithBreakpoint( Breakpoint.FullHD );
+
+        /// <summary>
+        /// Display will not be applied, meaning an element will be visible.
+        /// </summary>
+        public IFluentDisplayWithDisplayOnBreakpointWithDirection Always { get { return WithDisplay( DisplayType.Always ); } }
+
+        /// <summary>
+        /// Hides an element.
+        /// </summary>
+        public IFluentDisplayWithDisplayOnBreakpointWithDirection None { get { return WithDisplay( DisplayType.None ); } }
 
         /// <summary>
         /// Displays an element as a block element.
@@ -284,6 +296,10 @@ namespace Blazorise
     /// </summary>
     public static class Display
     {
+        public static IFluentDisplayWithDisplayOnBreakpointWithDirection Always { get { return new FluentDisplay().Always; } }
+
+        public static IFluentDisplayWithDisplayOnBreakpointWithDirection None { get { return new FluentDisplay().None; } }
+
         /// <summary>
         /// Displays an element as a block element.
         /// </summary>
