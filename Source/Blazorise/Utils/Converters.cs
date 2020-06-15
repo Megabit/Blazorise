@@ -22,6 +22,13 @@ namespace Blazorise.Utils
         };
         #endregion
 
+        /// <summary>
+        /// Converts an object to a dictionary object without the properties which have a null value.
+        /// This can be used as a workaround for System.Text.Json which will always serialize null values which breaks ChartJS functionality.
+        /// </summary>
+        /// <param name="source">The source object, can be null.</param>
+        /// <param name="addEmptyObjects">If this is set to true, objects which do not have any properties are also added to the dictionary. If false, these objects are skipped.</param>
+        /// <returns>Dictionary</returns>
         public static IDictionary<string, object> ToDictionary( object source, bool addEmptyObjects = true )
         {
             if ( source == null )
