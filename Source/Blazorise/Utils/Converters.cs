@@ -1,15 +1,59 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.Utils
 {
     public static class Converters
     {
+        #region Constants
+        private static readonly Type[] SimpleTypes =
+        {
+            typeof(string),
+            typeof(decimal),
+            typeof(DateTime),
+            typeof(DateTimeOffset),
+            typeof(TimeSpan),
+            typeof(Guid)
+        };
+        #endregion
+
+        public static IDictionary<string, object> ToDictionary( object source, bool addEmptyObjects = true )
+        {
+            if ( source == null )
+            {
+                return null;
+            }
+
+            var dictionary = new Dictionary<string, object>();
+            foreach ( PropertyDescriptor property in TypeDescriptor.GetProperties( source ) )
+            {
+                object value = property.GetValue( source );
+                if ( value != null )
+                {
+                    var type = value.GetType();
+                    if ( IsSimpleType( type ) )
+                    {
+                        dictionary.Add( property.Name, value );
+                    }
+                    else
+                    {
+                        var dict = ToDictionary( value, addEmptyObjects );
+                        if ( addEmptyObjects || dict.Count > 0 )
+                        {
+                            dictionary.Add( property.Name, dict );
+                        }
+                    }
+                }
+            }
+
+            return dictionary;
+        }
+
         // https://stackoverflow.com/a/1107090/833106
         public static TValue ChangeType<TValue>( object o )
         {
@@ -151,6 +195,17 @@ namespace Blazorise.Utils
                 default:
                     throw new InvalidOperationException( $"Unsupported type {type}" );
             }
+        }
+
+        public static bool IsSimpleType( Type type )
+        {
+            return
+                type.IsPrimitive ||
+                type.IsEnum ||
+                SimpleTypes.Contains( type ) ||
+                Convert.GetTypeCode( type ) != TypeCode.Object ||
+                ( type.IsGenericType && type.GetGenericTypeDefinition() == typeof( Nullable<> ) && IsSimpleType( type.GetGenericArguments()[0] ) )
+                ;
         }
     }
 }
