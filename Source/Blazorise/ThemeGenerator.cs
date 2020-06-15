@@ -274,7 +274,7 @@ namespace Blazorise
             }
         }
 
-        protected virtual void GenerateSnackbarVariables( ThemeSnackbarOptions snackbarOptions )
+        protected virtual void GenerateSnackbarVariables( Theme theme, ThemeSnackbarOptions snackbarOptions )
         {
             if ( snackbarOptions?.BackgroundColor != null )
                 variables[ThemeVariables.SnackbarBackground] = ToHex( ParseColor( snackbarOptions.BackgroundColor ) );
