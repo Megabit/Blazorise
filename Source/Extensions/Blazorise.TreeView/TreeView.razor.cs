@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise
+namespace Blazorise.TreeView
 {
     public partial class TreeViewBase<TNode> : BaseComponent
     {
-        #region methods
+        #region members
 
-        //protected override void OnInitialized()
-        //{
-        //    base.OnInitialized();
-        //}
+        #endregion
+
+        #region methods
 
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -55,12 +54,12 @@ namespace Blazorise
 
         [Parameter] public IEnumerable<TNode> Nodes { get; set; }
 
-        [Parameter] public RenderFragment<TNode> TitleTemplate { get; set; }
+        [Parameter] public RenderFragment<TNode> TextContent { get; set; }
 
         [Parameter] public TNode SelectedNode { get; set; }
         [Parameter] public EventCallback<TNode> SelectedNodeChanged { get; set; }
 
-        [Parameter] public Func<TNode, IEnumerable<TNode>> ChildSelector { get; set; }
+        [Parameter] public Func<TNode, IEnumerable<TNode>> SetChildNodes { get; set; }
 
         [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
         [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }

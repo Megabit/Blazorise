@@ -3,16 +3,16 @@
 
 @if (!HasCustomRegistration)
 {
-    <div class="tree-view @(Visible ? "" : "tree-view-hidden")">
+    <div class="tree-view @(Visible ? String.Empty : "tree-view-hidden")">
 
-        @foreach (var node in Nodes ?? Enumerable.Empty<TNode>())
+        @foreach (TNode node in Nodes ?? Enumerable.Empty<TNode>())
         {
-            var nodeExpanded = ExpandedNodes.Contains(node);
-            var nodeSelected = node.Equals(SelectedNode);
-            var hasChildren = HasChildNodes(node);
+            bool nodeExpanded = ExpandedNodes.Contains(node);
+            bool nodeSelected = node.Equals(SelectedNode);
+            bool hasChildren = HasChildNodes(node);
 
             <div>
-                @if (hasChildren)
+                @if (hasChildren == true)
                 {
                     <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node, !nodeExpanded))">
                         <i class="@(nodeExpanded ? CollapseNodeIconClass : ExpandNodeIconClass)"></i>
@@ -20,16 +20,16 @@
                 }
 
                 <div class="tree-view-title">
-                    <span class="@NodeTitleClass @(nodeSelected ? NodeTitleSelectedClass : "")" @onclick="@(() => OnSelectNode(node))">
-                        @TitleTemplate(node)
+                    <span class="@NodeTitleClass @(nodeSelected ? NodeTitleSelectedClass : String.Empty)" @onclick="@(() => OnSelectNode(node))">
+                        @TextContent(node)
                     </span>
                 </div>
 
-                @if (hasChildren)
+                @if (hasChildren ==true)
                 {
-                    <TreeView Nodes="ChildSelector(node)"
-                                TitleTemplate="TitleTemplate"
-                                ChildSelector="ChildSelector"
+                    <TreeView Nodes="SetChildNodes(node)"
+                                TextContent="TextContent"
+                                SetChildNodes="SetChildNodes"
                                 ExpandedNodes="ExpandedNodes"
                                 ExpandedNodesChanged="ExpandedNodesChanged"
                                 SelectedNode="SelectedNode"

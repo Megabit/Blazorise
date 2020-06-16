@@ -409,15 +409,9 @@
                 </CardText>
             </CardBody>
             <CardBody>
-
-                <TreeView Nodes="Items" ChildSelector="@(item => item.Children)" @bind-SelectedNode="selectedNode" @bind-ExpandedNodes="ExpandedNodes" HasChildNodes="@(item => item.Children?.Any() == true)">
-                    <TitleTemplate>@context.Text</TitleTemplate>
+                <TreeView Nodes="Items" SetChildNodes="@(item => item.Children)" @bind-SelectedNode="selectedNode" @bind-ExpandedNodes="ExpandedNodes" HasChildNodes="@(item => item.Children?.Any() == true)">
+                    <TextContent>@context.Text</TextContent>
                 </TreeView>
-
-                <p style="margin-top: 2rem">
-                    Selected: @selectedNode?.Text<br />
-                    Expanded: @string.Join(", ", ExpandedNodes.Select(i => i.Text))<br />
-                </p>
             </CardBody>
         </Card>
     </Column>
@@ -521,7 +515,6 @@
     bool dismisableAlert5 = true;
 
 
-
     public class Item
     {
         public string Text { get; set; }
@@ -567,15 +560,9 @@
             }
         },
         new Item { Text = "Item 5" },
-        new Item { Text = "Item 6" },
+        new Item { Text = "Item 6" }
     };
 
     IList<Item> ExpandedNodes = new List<Item>();
     Item selectedNode;
-
-    protected override void OnInitialized()
-    {
-        ExpandedNodes.Add(Items.Skip(1).First());
-        ExpandedNodes.Add(Items.Skip(1).Take(1).First().Children.Skip(1).First());
-    }
 }
