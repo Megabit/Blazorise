@@ -1,7 +1,6 @@
 ﻿@typeparam TNode
 @inherits TreeViewBase<TNode>
-<div class="tree-view @(Visible ? String.Empty : "tree-view-hidden")">
-
+<div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     @foreach ( TNode node in Nodes ?? Enumerable.Empty<TNode>() )
     {
         bool nodeExpanded = ExpandedNodes.Contains( node );

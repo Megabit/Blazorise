@@ -8,18 +8,18 @@ namespace Blazorise.TreeView
 {
     public partial class TreeViewBase<TNode> : BaseComponent
     {
-        #region members
+        #region Members
+
+        private bool visible = true;
 
         #endregion
 
-        #region methods
+        #region Methods
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            //builder.Append( ClassProvider.TreeView()  );
-            //builder.Append( ClassProvider.TreeViewHidden() );
-            //builder.Append( ClassProvider.TreeViewIcon() );
-            //builder.Append( ClassProvider.TreeViewTitle() );
+            builder.Append( "tree-view" );
+            builder.Append( "tree-view-hidden", !Visible );
 
             base.BuildClasses( builder );
         }
@@ -69,7 +69,20 @@ namespace Blazorise.TreeView
         [Parameter] public string NodeTitleClass { get; set; } = "p-1 cursor-pointer";
         [Parameter] public string NodeTitleSelectedClass { get; set; } = "bg-primary text-white";
 
-        [Parameter] public bool Visible { get; set; } = true;
+        [Parameter]
+        public bool Visible
+        {
+            get => visible;
+            set
+            {
+                if ( value == visible )
+                    return;
+
+                visible = value;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
 
