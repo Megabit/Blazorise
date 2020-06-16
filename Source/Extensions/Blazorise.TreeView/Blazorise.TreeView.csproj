@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <Import Project="..\..\..\Build\Blazorise.props" />
 
@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
-    <ProjectReference Include="..\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
   </ItemGroup>
 
   <ItemGroup>

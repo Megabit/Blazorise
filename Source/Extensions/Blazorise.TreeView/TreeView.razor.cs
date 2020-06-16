@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -65,8 +64,6 @@ namespace Blazorise.TreeView
         [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
         [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }
 
-        [Parameter] public string ExpandNodeIconClass { get; set; } = "far " + FontAwesomeIcons.PlusSquare + " cursor-pointer";
-        [Parameter] public string CollapseNodeIconClass { get; set; } = "far " + FontAwesomeIcons.MinusSquare + " cursor-pointer";
         [Parameter] public string NodeTitleClass { get; set; } = new FluentPadding().Is1.OnAll + " cursor-pointer";
         [Parameter] public string NodeTitleSelectedClass { get; set; } = Background.Primary + " " + TextColor.White;
 
