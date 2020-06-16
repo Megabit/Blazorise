@@ -11,6 +11,7 @@ namespace Blazorise.Utils
     public static class Converters
     {
         #region Constants
+
         private static readonly Type[] SimpleTypes =
         {
             typeof(string),
@@ -20,7 +21,10 @@ namespace Blazorise.Utils
             typeof(TimeSpan),
             typeof(Guid)
         };
+
         #endregion
+
+        #region Methods
 
         /// <summary>
         /// Converts an object to a dictionary object without the properties which have a null value.
@@ -37,12 +41,15 @@ namespace Blazorise.Utils
             }
 
             var dictionary = new Dictionary<string, object>();
+
             foreach ( PropertyDescriptor property in TypeDescriptor.GetProperties( source ) )
             {
-                object value = property.GetValue( source );
+                var value = property.GetValue( source );
+
                 if ( value != null )
                 {
                     var type = value.GetType();
+
                     if ( IsSimpleType( type ) )
                     {
                         dictionary.Add( property.Name, value );
@@ -50,6 +57,7 @@ namespace Blazorise.Utils
                     else
                     {
                         var dict = ToDictionary( value, addEmptyObjects );
+
                         if ( addEmptyObjects || dict.Count > 0 )
                         {
                             dictionary.Add( property.Name, dict );
@@ -211,8 +219,9 @@ namespace Blazorise.Utils
                 type.IsEnum ||
                 SimpleTypes.Contains( type ) ||
                 Convert.GetTypeCode( type ) != TypeCode.Object ||
-                ( type.IsGenericType && type.GetGenericTypeDefinition() == typeof( Nullable<> ) && IsSimpleType( type.GetGenericArguments()[0] ) )
-                ;
+                ( type.IsGenericType && type.GetGenericTypeDefinition() == typeof( Nullable<> ) && IsSimpleType( type.GetGenericArguments()[0] ) );
         }
+
+        #endregion
     }
 }
