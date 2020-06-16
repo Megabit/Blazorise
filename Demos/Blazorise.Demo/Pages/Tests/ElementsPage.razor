@@ -409,7 +409,11 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <TreeView Nodes="Items" SetChildNodes="@(item => item.Children)" @bind-SelectedNode="selectedNode" @bind-ExpandedNodes="ExpandedNodes" HasChildNodes="@(item => item.Children?.Any() == true)">
+                <TreeView Nodes="Items"
+                          SetChildNodes="@(item => item.Children)"
+                          @bind-SelectedNode="selectedNode"
+                          @bind-ExpandedNodes="ExpandedNodes"
+                          HasChildNodes="@(item => item.Children?.Any() == true)">
                     <NodeContent>@context.Text</NodeContent>
                 </TreeView>
             </CardBody>
@@ -527,10 +531,10 @@
         new Item {
             Text = "Item 2",
             Children = new []
-            {
+        {
                 new Item { Text = "Item 2.1" },
                 new Item { Text = "Item 2.2", Children = new []
-                {
+            {
                     new Item { Text = "Item 2.2.1" },
                     new Item { Text = "Item 2.2.2" },
                     new Item { Text = "Item 2.2.3" },
@@ -545,10 +549,10 @@
         new Item {
             Text = "Item 4",
             Children = new []
-            {
+        {
                 new Item { Text = "Item 4.1" },
                 new Item { Text = "Item 4.2", Children = new []
-                {
+            {
                     new Item { Text = "Item 4.2.1" },
                     new Item { Text = "Item 4.2.2" },
                     new Item { Text = "Item 4.2.3" },

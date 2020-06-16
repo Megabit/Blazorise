@@ -1,39 +1,13 @@
 ﻿@typeparam TNode
-@inherits TreeViewBase<TNode>
-
-<div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    @foreach ( TNode node in Nodes ?? Enumerable.Empty<TNode>() )
-    {
-        bool nodeExpanded = ExpandedNodes.Contains( node );
-        bool nodeSelected = node.Equals( SelectedNode );
-        bool hasChildren = HasChildNodes( node );
-
-        <div>
-            @if ( hasChildren )
-            {
-                <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node, !nodeExpanded))">
-                    <Icon Name="@(nodeExpanded ? IconName.MinusSquare : IconName.PlusSquare)" IconStyle="IconStyle.Regular" />
-                </span>
-            }
-
-            <div class="tree-view-title">
-                <span class="@NodeTitleClass @(nodeSelected ? NodeTitleSelectedClass : String.Empty)" @onclick="@(() => OnSelectNode(node))">
-                    @NodeContent( node )
-                </span>
-            </div>
-
-            @if ( hasChildren == true )
-            {
-                <TreeView Nodes="SetChildNodes(node)"
-                          NodeContent="NodeContent"
-                          SetChildNodes="SetChildNodes"
-                          ExpandedNodes="ExpandedNodes"
-                          ExpandedNodesChanged="ExpandedNodesChanged"
-                          SelectedNode="SelectedNode"
-                          SelectedNodeChanged="SelectedNodeChanged"
-                          Visible="nodeExpanded"
-                          HasChildNodes="HasChildNodes" />
-            }
-        </div>
-    }
-</div>
+@inherits BaseComponent
+<CascadingValue Value=this>
+    <CascadingValue Value="@store">
+        <_TreeView Nodes="Nodes"
+                   NodeContent="NodeContent"
+                   SetChildNodes="SetChildNodes"
+                   ExpandedNodes="ExpandedNodes"
+                   ExpandedNodesChanged="ExpandedNodesChanged"
+                   HasChildNodes="HasChildNodes">
+        </_TreeView>
+    </CascadingValue>
+</CascadingValue>

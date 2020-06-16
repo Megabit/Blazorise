@@ -6,46 +6,23 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.TreeView
 {
-    public partial class TreeViewBase<TNode> : BaseComponent
+    public partial class TreeView<TNode> : BaseComponent
     {
         #region Members
 
-        private bool visible = true;
+        private TreeViewStore<TNode> store = new TreeViewStore<TNode>
+        {
+        };
 
         #endregion
 
         #region Methods
 
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( "tree-view" );
-            builder.Append( "tree-view-hidden", !Visible );
-
-            base.BuildClasses( builder );
-        }
-
-        protected void OnToggleNode( TNode node, bool expand )
-        {
-            bool expanded = ExpandedNodes.Contains( node );
-
-            if ( expanded && !expand )
-            {
-                ExpandedNodes.Remove( node );
-                ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
-            }
-            else if ( !expanded && expand )
-            {
-                ExpandedNodes.Add( node );
-                ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
-            }
-
-            StateHasChanged();
-        }
-
-        protected void OnSelectNode( TNode node )
+        public void SelectNode( TNode node )
         {
             SelectedNode = node;
-            SelectedNodeChanged.InvokeAsync( node );
+
+            StateHasChanged();
         }
 
         #endregion
@@ -56,7 +33,22 @@ namespace Blazorise.TreeView
 
         [Parameter] public RenderFragment<TNode> NodeContent { get; set; }
 
-        [Parameter] public TNode SelectedNode { get; set; }
+        [Parameter]
+        public TNode SelectedNode
+        {
+            get => store.SelectedNode;
+            set
+            {
+                if ( value != null && value.Equals( store.SelectedNode ) )
+                    return;
+
+                store.SelectedNode = value;
+
+                SelectedNodeChanged.InvokeAsync( store.SelectedNode );
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public EventCallback<TNode> SelectedNodeChanged { get; set; }
 
@@ -66,26 +58,7 @@ namespace Blazorise.TreeView
 
         [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }
 
-        protected string NodeTitleClass
-            => $"{ClassProvider.Spacing( Spacing.Padding, SpacingSize.Is1, Side.All, Breakpoint.None )} cursor-pointer";
-
-        protected string NodeTitleSelectedClass
-            => $"{ClassProvider.BackgroundColor( Background.Primary )} {ClassProvider.TextColor( TextColor.White )}";
-
-        [Parameter]
-        public bool Visible
-        {
-            get => visible;
-            set
-            {
-                if ( value == visible )
-                    return;
-
-                visible = value;
-
-                DirtyClasses();
-            }
-        }
+        [Parameter] public bool Visible { get; set; }
 
         [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
 
