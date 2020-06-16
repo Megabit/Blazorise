@@ -1,4 +1,5 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,9 +34,10 @@ namespace Blazorise.Utils
         /// This can be used as a workaround for System.Text.Json which will always serialize null values which breaks ChartJS functionality.
         /// </summary>
         /// <param name="source">The source object, can be null.</param>
-        /// <param name="addEmptyObjects">If this is set to true, objects which do not have any properties are also added to the dictionary. If false, these objects are skipped.</param>
+        /// <param name="addEmptyObjects">Objects which do not have any properties are also added to the dictionary. Default value is true.</param>
+        /// <param name="forceCamelCase">Force to use CamelCase, even if a DataMember has another casing defined. Default value is true.</param>
         /// <returns>Dictionary</returns>
-        public static IDictionary<string, object> ToDictionary( object source, bool addEmptyObjects = true )
+        public static IDictionary<string, object> ToDictionary( object source, bool addEmptyObjects = true, bool forceCamelCase = true )
         {
             if ( source == null )
             {
@@ -55,6 +57,11 @@ namespace Blazorise.Utils
                 {
                     var type = value.GetType();
                     var propertyName = dataMemberAttribute?.Name ?? property.Name;
+
+                    if ( forceCamelCase )
+                    {
+                        propertyName = propertyName.ToCamelcase();
+                    }
 
                     if ( IsSimpleType( type ) )
                     {

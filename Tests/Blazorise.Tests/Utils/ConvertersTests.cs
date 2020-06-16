@@ -58,9 +58,9 @@ namespace Blazorise.Tests.Utils
             // Assert
             Assert.NotNull( result );
             Assert.Equal( 3, result.Count );
-            Assert.Equal( 42, result[nameof( Test.Integer )] );
-            Assert.Equal( 0, result[nameof( Test.IntegerWithDefaultOk )] );
-            Assert.Equal( 43, result[nameof( Test.NullableInteger )] );
+            Assert.Equal( 42, result["integer"] );
+            Assert.Equal( 0, result["integerWithDefaultOk"] );
+            Assert.Equal( 43, result["nullableInteger"] );
         }
 
         [Fact]
@@ -79,6 +79,42 @@ namespace Blazorise.Tests.Utils
             Assert.NotNull( result );
             Assert.Equal( 1, result.Count );
             Assert.Equal( "abc", result["foobar"] );
+        }
+
+        [Fact]
+        public void ToDictionary_With_ForceCamelCase_Is_False_Should_Use_Original_DataMemberName()
+        {
+            // Arrange
+            var test = new TestWithDataMemberName
+            {
+                Foo = "abc"
+            };
+
+            // Act
+            var result = Converters.ToDictionary( test, true, false );
+
+            // Assert
+            Assert.NotNull( result );
+            Assert.Equal( 1, result.Count );
+            Assert.Equal( "abc", result["Foobar"] );
+        }
+
+        [Fact]
+        public void ToDictionary_With_ForceCamelCase_Is_False_Should_Use_Original_PropertyName()
+        {
+            // Arrange
+            var test = new
+            {
+                Foo = "abc"
+            };
+
+            // Act
+            var result = Converters.ToDictionary( test, true, false );
+
+            // Assert
+            Assert.NotNull( result );
+            Assert.Equal( 1, result.Count );
+            Assert.Equal( "abc", result["Foo"] );
         }
     }
 
@@ -101,7 +137,7 @@ namespace Blazorise.Tests.Utils
 
     public class TestWithDataMemberName
     {
-        [DataMember( Name = "foobar" )]
+        [DataMember( Name = "Foobar" )]
         public string Foo { get; set; }
     }
 }
