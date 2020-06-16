@@ -1,0 +1,47 @@
+﻿@typeparam TNode
+@inherits TreeViewBase<TNode>
+
+@if (!HasCustomRegistration)
+{
+    <div class="tree-view @(Visible ? "" : "tree-view-hidden")">
+
+        @foreach (var node in Nodes ?? Enumerable.Empty<TNode>())
+        {
+            var nodeExpanded = ExpandedNodes.Contains(node);
+            var nodeSelected = node.Equals(SelectedNode);
+            var hasChildren = HasChildNodes(node);
+
+            <div>
+                @if (hasChildren)
+                {
+                    <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node, !nodeExpanded))">
+                        <i class="@(nodeExpanded ? CollapseNodeIconClass : ExpandNodeIconClass)"></i>
+                    </span>
+                }
+
+                <div class="tree-view-title">
+                    <span class="@NodeTitleClass @(nodeSelected ? NodeTitleSelectedClass : "")" @onclick="@(() => OnSelectNode(node))">
+                        @TitleTemplate(node)
+                    </span>
+                </div>
+
+                @if (hasChildren)
+                {
+                    <TreeView Nodes="ChildSelector(node)"
+                                TitleTemplate="TitleTemplate"
+                                ChildSelector="ChildSelector"
+                                ExpandedNodes="ExpandedNodes"
+                                ExpandedNodesChanged="ExpandedNodesChanged"
+                                SelectedNode="SelectedNode"
+                                SelectedNodeChanged="SelectedNodeChanged"
+                                Visible="nodeExpanded"
+                                HasChildNodes="HasChildNodes" />
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    @RenderCustomComponent()
+}

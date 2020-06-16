@@ -397,6 +397,31 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card>
+            <CardHeader>
+                <CardTitle>TreeView</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Treeview component
+                </CardText>
+            </CardBody>
+            <CardBody>
+
+                <TreeView Nodes="Items" ChildSelector="@(item => item.Children)" @bind-SelectedNode="selectedNode" @bind-ExpandedNodes="ExpandedNodes" HasChildNodes="@(item => item.Children?.Any() == true)">
+                    <TitleTemplate>@context.Text</TitleTemplate>
+                </TreeView>
+
+                <p style="margin-top: 2rem">
+                    Selected: @selectedNode?.Text<br />
+                    Expanded: @string.Join(", ", ExpandedNodes.Select(i => i.Text))<br />
+                </p>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 <Snackbar @ref="snackbar">
     <SnackbarBody>
         Single line of text directly related to the operation performed
@@ -494,4 +519,63 @@
     bool dismisableAlert3 = true;
     bool dismisableAlert4 = true;
     bool dismisableAlert5 = true;
+
+
+
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    IEnumerable<Item> Items = new[]
+    {
+        new Item { Text = "Item 1" },
+        new Item {
+            Text = "Item 2",
+            Children = new []
+            {
+                new Item { Text = "Item 2.1" },
+                new Item { Text = "Item 2.2", Children = new []
+                {
+                    new Item { Text = "Item 2.2.1" },
+                    new Item { Text = "Item 2.2.2" },
+                    new Item { Text = "Item 2.2.3" },
+                    new Item { Text = "Item 2.2.4" }
+                }
+            },
+            new Item { Text = "Item 2.3" },
+            new Item { Text = "Item 2.4" }
+            }
+        },
+        new Item { Text = "Item 3" },
+        new Item {
+            Text = "Item 4",
+            Children = new []
+            {
+                new Item { Text = "Item 4.1" },
+                new Item { Text = "Item 4.2", Children = new []
+                {
+                    new Item { Text = "Item 4.2.1" },
+                    new Item { Text = "Item 4.2.2" },
+                    new Item { Text = "Item 4.2.3" },
+                    new Item { Text = "Item 4.2.4" }
+                }
+            },
+            new Item { Text = "Item 4.3" },
+            new Item { Text = "Item 4.4" }
+            }
+        },
+        new Item { Text = "Item 5" },
+        new Item { Text = "Item 6" },
+    };
+
+    IList<Item> ExpandedNodes = new List<Item>();
+    Item selectedNode;
+
+    protected override void OnInitialized()
+    {
+        ExpandedNodes.Add(Items.Skip(1).First());
+        ExpandedNodes.Add(Items.Skip(1).Take(1).First().Children.Skip(1).First());
+    }
 }
