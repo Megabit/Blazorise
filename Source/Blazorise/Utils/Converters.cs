@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization;
+
 #endregion
 
 namespace Blazorise.Utils
@@ -27,7 +29,7 @@ namespace Blazorise.Utils
         #region Methods
 
         /// <summary>
-        /// Converts an object to a dictionary object without the properties which have a null value.
+        /// Converts an object to a dictionary object without the properties which have a null value or a [DataMember( EmitDefaultValue = false )] applied.
         /// This can be used as a workaround for System.Text.Json which will always serialize null values which breaks ChartJS functionality.
         /// </summary>
         /// <param name="source">The source object, can be null.</param>
@@ -44,9 +46,11 @@ namespace Blazorise.Utils
 
             foreach ( PropertyDescriptor property in TypeDescriptor.GetProperties( source ) )
             {
+                bool emitDefaultValue = property.Attributes.OfType<DataMemberAttribute>().FirstOrDefault()?.EmitDefaultValue ?? true;
+
                 var value = property.GetValue( source );
 
-                if ( value != null )
+                if ( value != null && ( emitDefaultValue || !IsEqualToDefaultValue( value ) ) )
                 {
                     var type = value.GetType();
 
@@ -212,7 +216,7 @@ namespace Blazorise.Utils
             }
         }
 
-        public static bool IsSimpleType( Type type )
+        private static bool IsSimpleType( Type type )
         {
             return
                 type.IsPrimitive ||
@@ -220,6 +224,26 @@ namespace Blazorise.Utils
                 SimpleTypes.Contains( type ) ||
                 Convert.GetTypeCode( type ) != TypeCode.Object ||
                 ( type.IsGenericType && type.GetGenericTypeDefinition() == typeof( Nullable<> ) && IsSimpleType( type.GetGenericArguments()[0] ) );
+        }
+
+        private static bool IsEqualToDefaultValue<T>( T argument )
+        {
+            // deal with non-null nullables
+            Type methodType = typeof( T );
+            if ( Nullable.GetUnderlyingType( methodType ) != null )
+            {
+                return false;
+            }
+
+            // deal with boxed value types
+            Type argumentType = argument.GetType();
+            if ( argumentType.IsValueType && argumentType != methodType )
+            {
+                object obj = Activator.CreateInstance( argument.GetType() );
+                return obj.Equals( argument );
+            }
+
+            return false;
         }
 
         #endregion
