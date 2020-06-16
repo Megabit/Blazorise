@@ -57,15 +57,20 @@ namespace Blazorise.TreeView
         [Parameter] public RenderFragment<TNode> NodeContent { get; set; }
 
         [Parameter] public TNode SelectedNode { get; set; }
+
         [Parameter] public EventCallback<TNode> SelectedNodeChanged { get; set; }
 
         [Parameter] public Func<TNode, IEnumerable<TNode>> SetChildNodes { get; set; }
 
         [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
+
         [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }
 
-        [Parameter] public string NodeTitleClass { get; set; } = new FluentPadding().Is1.OnAll + " cursor-pointer";
-        [Parameter] public string NodeTitleSelectedClass { get; set; } = Background.Primary + " " + TextColor.White;
+        protected string NodeTitleClass
+            => $"{ClassProvider.Spacing( Spacing.Padding, SpacingSize.Is1, Side.All, Breakpoint.None )} cursor-pointer";
+
+        protected string NodeTitleSelectedClass
+            => $"{ClassProvider.BackgroundColor( Background.Primary )} {ClassProvider.TextColor( TextColor.White )}";
 
         [Parameter]
         public bool Visible

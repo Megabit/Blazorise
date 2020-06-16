@@ -9,7 +9,7 @@
         bool hasChildren = HasChildNodes( node );
 
         <div>
-            @if ( hasChildren == true )
+            @if ( hasChildren )
             {
                 <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node, !nodeExpanded))">
                     <Icon Name="@(nodeExpanded ? IconName.MinusSquare : IconName.PlusSquare)" IconStyle="IconStyle.Regular" />
