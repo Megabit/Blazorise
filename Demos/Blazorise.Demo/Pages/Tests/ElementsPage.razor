@@ -410,7 +410,7 @@
             </CardBody>
             <CardBody>
                 <TreeView Nodes="Items" SetChildNodes="@(item => item.Children)" @bind-SelectedNode="selectedNode" @bind-ExpandedNodes="ExpandedNodes" HasChildNodes="@(item => item.Children?.Any() == true)">
-                    <TextContent>@context.Text</TextContent>
+                    <NodeContent>@context.Text</NodeContent>
                 </TreeView>
             </CardBody>
         </Card>

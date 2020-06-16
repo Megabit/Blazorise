@@ -1,5 +1,6 @@
 ﻿@typeparam TNode
 @inherits TreeViewBase<TNode>
+
 <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     @foreach ( TNode node in Nodes ?? Enumerable.Empty<TNode>() )
     {
@@ -17,14 +18,14 @@
 
             <div class="tree-view-title">
                 <span class="@NodeTitleClass @(nodeSelected ? NodeTitleSelectedClass : String.Empty)" @onclick="@(() => OnSelectNode(node))">
-                    @TextContent( node )
+                    @NodeContent( node )
                 </span>
             </div>
 
             @if ( hasChildren == true )
             {
                 <TreeView Nodes="SetChildNodes(node)"
-                          TextContent="TextContent"
+                          NodeContent="NodeContent"
                           SetChildNodes="SetChildNodes"
                           ExpandedNodes="ExpandedNodes"
                           ExpandedNodesChanged="ExpandedNodesChanged"

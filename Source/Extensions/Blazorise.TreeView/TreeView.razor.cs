@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -26,7 +27,7 @@ namespace Blazorise.TreeView
 
         protected void OnToggleNode( TNode node, bool expand )
         {
-            var expanded = ExpandedNodes.Contains( node );
+            bool expanded = ExpandedNodes.Contains( node );
 
             if ( expanded && !expand )
             {
@@ -54,7 +55,7 @@ namespace Blazorise.TreeView
 
         [Parameter] public IEnumerable<TNode> Nodes { get; set; }
 
-        [Parameter] public RenderFragment<TNode> TextContent { get; set; }
+        [Parameter] public RenderFragment<TNode> NodeContent { get; set; }
 
         [Parameter] public TNode SelectedNode { get; set; }
         [Parameter] public EventCallback<TNode> SelectedNodeChanged { get; set; }
@@ -64,10 +65,10 @@ namespace Blazorise.TreeView
         [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
         [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }
 
-        [Parameter] public string ExpandNodeIconClass { get; set; } = "far fa-plus-square cursor-pointer";
-        [Parameter] public string CollapseNodeIconClass { get; set; } = "far fa-minus-square cursor-pointer";
-        [Parameter] public string NodeTitleClass { get; set; } = "p-1 cursor-pointer";
-        [Parameter] public string NodeTitleSelectedClass { get; set; } = "bg-primary text-white";
+        [Parameter] public string ExpandNodeIconClass { get; set; } = "far " + FontAwesomeIcons.PlusSquare + " cursor-pointer";
+        [Parameter] public string CollapseNodeIconClass { get; set; } = "far " + FontAwesomeIcons.MinusSquare + " cursor-pointer";
+        [Parameter] public string NodeTitleClass { get; set; } = new FluentPadding().Is1.OnAll + " cursor-pointer";
+        [Parameter] public string NodeTitleSelectedClass { get; set; } = Background.Primary + " " + TextColor.White;
 
         [Parameter]
         public bool Visible

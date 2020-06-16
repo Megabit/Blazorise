@@ -9,6 +9,7 @@
     <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components treeview</PackageTags>
+    <Authors>%Authors%;Robin Clark</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
   </ItemGroup>
 
   <ItemGroup>
