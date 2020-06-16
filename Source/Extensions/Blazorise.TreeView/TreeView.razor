@@ -1,47 +1,39 @@
 ﻿@typeparam TNode
 @inherits TreeViewBase<TNode>
+<div class="tree-view @(Visible ? String.Empty : "tree-view-hidden")">
 
-@if (!HasCustomRegistration)
-{
-    <div class="tree-view @(Visible ? String.Empty : "tree-view-hidden")">
+    @foreach ( TNode node in Nodes ?? Enumerable.Empty<TNode>() )
+    {
+        bool nodeExpanded = ExpandedNodes.Contains( node );
+        bool nodeSelected = node.Equals( SelectedNode );
+        bool hasChildren = HasChildNodes( node );
 
-        @foreach (TNode node in Nodes ?? Enumerable.Empty<TNode>())
-        {
-            bool nodeExpanded = ExpandedNodes.Contains(node);
-            bool nodeSelected = node.Equals(SelectedNode);
-            bool hasChildren = HasChildNodes(node);
+        <div>
+            @if ( hasChildren == true )
+            {
+                <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node, !nodeExpanded))">
+                    <i class="@(nodeExpanded ? CollapseNodeIconClass : ExpandNodeIconClass)"></i>
+                </span>
+            }
 
-            <div>
-                @if (hasChildren == true)
-                {
-                    <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node, !nodeExpanded))">
-                        <i class="@(nodeExpanded ? CollapseNodeIconClass : ExpandNodeIconClass)"></i>
-                    </span>
-                }
-
-                <div class="tree-view-title">
-                    <span class="@NodeTitleClass @(nodeSelected ? NodeTitleSelectedClass : String.Empty)" @onclick="@(() => OnSelectNode(node))">
-                        @TextContent(node)
-                    </span>
-                </div>
-
-                @if (hasChildren ==true)
-                {
-                    <TreeView Nodes="SetChildNodes(node)"
-                                TextContent="TextContent"
-                                SetChildNodes="SetChildNodes"
-                                ExpandedNodes="ExpandedNodes"
-                                ExpandedNodesChanged="ExpandedNodesChanged"
-                                SelectedNode="SelectedNode"
-                                SelectedNodeChanged="SelectedNodeChanged"
-                                Visible="nodeExpanded"
-                                HasChildNodes="HasChildNodes" />
-                }
+            <div class="tree-view-title">
+                <span class="@NodeTitleClass @(nodeSelected ? NodeTitleSelectedClass : String.Empty)" @onclick="@(() => OnSelectNode(node))">
+                    @TextContent( node )
+                </span>
             </div>
-        }
-    </div>
-}
-else
-{
-    @RenderCustomComponent()
-}
+
+            @if ( hasChildren == true )
+            {
+                <TreeView Nodes="SetChildNodes(node)"
+                          TextContent="TextContent"
+                          SetChildNodes="SetChildNodes"
+                          ExpandedNodes="ExpandedNodes"
+                          ExpandedNodesChanged="ExpandedNodesChanged"
+                          SelectedNode="SelectedNode"
+                          SelectedNodeChanged="SelectedNodeChanged"
+                          Visible="nodeExpanded"
+                          HasChildNodes="HasChildNodes" />
+            }
+        </div>
+    }
+</div>

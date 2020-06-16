@@ -50,7 +50,7 @@ namespace Blazorise.TreeView
 
         #endregion
 
-        #region properties
+        #region Properties
 
         [Parameter] public IEnumerable<TNode> Nodes { get; set; }
 
