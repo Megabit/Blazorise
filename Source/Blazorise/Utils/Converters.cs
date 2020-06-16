@@ -46,17 +46,19 @@ namespace Blazorise.Utils
 
             foreach ( PropertyDescriptor property in TypeDescriptor.GetProperties( source ) )
             {
-                bool emitDefaultValue = property.Attributes.OfType<DataMemberAttribute>().FirstOrDefault()?.EmitDefaultValue ?? true;
+                var dataMemberAttribute = property.Attributes.OfType<DataMemberAttribute>().FirstOrDefault();
+                var emitDefaultValue = dataMemberAttribute?.EmitDefaultValue ?? true;
 
                 var value = property.GetValue( source );
 
                 if ( value != null && ( emitDefaultValue || !IsEqualToDefaultValue( value ) ) )
                 {
                     var type = value.GetType();
+                    var propertyName = dataMemberAttribute?.Name ?? property.Name;
 
                     if ( IsSimpleType( type ) )
                     {
-                        dictionary.Add( property.Name, value );
+                        dictionary.Add( propertyName, value );
                     }
                     else
                     {
@@ -64,7 +66,7 @@ namespace Blazorise.Utils
 
                         if ( addEmptyObjects || dict.Count > 0 )
                         {
-                            dictionary.Add( property.Name, dict );
+                            dictionary.Add( propertyName, dict );
                         }
                     }
                 }

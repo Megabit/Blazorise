@@ -36,7 +36,7 @@ namespace Blazorise.Tests.Utils
             Assert.Equal( 3, result.Count );
             Assert.Equal( 42, result["integer"] );
             Assert.Equal( 0, result["integerWithDefault"] );
-            Assert.Equal( 43, result["nullableIntegerWithNull"] );
+            Assert.Equal( 43, result["nullableInteger"] );
         }
 
         [Fact]
@@ -62,6 +62,24 @@ namespace Blazorise.Tests.Utils
             Assert.Equal( 0, result[nameof( Test.IntegerWithDefaultOk )] );
             Assert.Equal( 43, result[nameof( Test.NullableInteger )] );
         }
+
+        [Fact]
+        public void ToDictionary_With_DataMemberName_Should_Use_That_Name()
+        {
+            // Arrange
+            var test = new TestWithDataMemberName
+            {
+                Foo = "abc"
+            };
+
+            // Act
+            var result = Converters.ToDictionary( test );
+
+            // Assert
+            Assert.NotNull( result );
+            Assert.Equal( 1, result.Count );
+            Assert.Equal( "abc", result["foobar"] );
+        }
     }
 
     public class Test
@@ -79,5 +97,11 @@ namespace Blazorise.Tests.Utils
 
         [DataMember( EmitDefaultValue = false )]
         public int? NullableIntegerWithNull { get; set; }
+    }
+
+    public class TestWithDataMemberName
+    {
+        [DataMember( Name = "foobar" )]
+        public string Foo { get; set; }
     }
 }
