@@ -80,6 +80,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.E2ETests", "Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Tests", "Tests\Blazorise.Tests\Blazorise.Tests.csproj", "{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.TreeView", "Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj", "{83B3D727-2C23-4A95-8478-85A854BA8325}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -210,6 +212,10 @@ Global
 		{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B3D727-2C23-4A95-8478-85A854BA8325}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B3D727-2C23-4A95-8478-85A854BA8325}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B3D727-2C23-4A95-8478-85A854BA8325}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B3D727-2C23-4A95-8478-85A854BA8325}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -248,6 +254,7 @@ Global
 		{47240431-396C-4187-941A-9511D7B79D8D} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
 		{A4218BB6-81C3-47A6-80F2-6FF6E227D142} = {D04C5874-4D6A-493E-8CF4-6C7922198563}
 		{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E} = {D04C5874-4D6A-493E-8CF4-6C7922198563}
+		{83B3D727-2C23-4A95-8478-85A854BA8325} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
