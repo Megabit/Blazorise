@@ -87,8 +87,15 @@ namespace Blazorise
             }
 
             absoluteUri = To == null ? string.Empty : NavigationManager.ToAbsoluteUri( To ).AbsoluteUri;
-            active = ShouldMatch( NavigationManager.Uri );
-            DirtyClasses();
+
+            var shouldBeActiveNow = ShouldMatch( NavigationManager.Uri );
+
+            if ( shouldBeActiveNow != active )
+            {
+                active = shouldBeActiveNow;
+
+                DirtyClasses();
+            }
 
             base.OnParametersSet();
         }
