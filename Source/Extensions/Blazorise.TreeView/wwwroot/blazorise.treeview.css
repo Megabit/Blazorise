@@ -1,7 +1,7 @@
 ﻿.tree-view {
     margin-left: 1.25rem; }
 
-.tree-view-hidden {
+.tree-view-collapsed {
     display: none; }
 
 .tree-view-icon {

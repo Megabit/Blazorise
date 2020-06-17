@@ -7,10 +7,10 @@
             </CardHeader>
             <CardBody>
                 <TreeView Nodes="Nodes"
-                            SetChildNodes="@(item => item.Children)"
-                            @bind-SelectedNode="selectedNode"
-                            @bind-ExpandedNodes="ExpandedNodes"
-                            HasChildNodes="@(item => item.Children?.Any() == true)">
+                          @bind-SelectedNode="selectedNode"
+                          @bind-ExpandedNodes="ExpandedNodes"
+                          SetChildNodes="@(item => item.Children)"
+                          HasChildNodes="@(item => item.Children?.Any() == true)">
                     <NodeContent>
                         <Icon Name="IconName.Folder" />
                         @context.Text

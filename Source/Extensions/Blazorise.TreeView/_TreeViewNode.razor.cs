@@ -11,7 +11,7 @@ namespace Blazorise.TreeView
     {
         #region Members
 
-        private TreeViewStore<TNode> treeViewStore;
+        private bool expanded = true;
 
         #endregion
 
@@ -19,47 +19,69 @@ namespace Blazorise.TreeView
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( $"{ClassProvider.Spacing( Spacing.Padding, SpacingSize.Is1, Side.All, Breakpoint.None )} cursor-pointer" );
-
-            if ( Selected )
-                builder.Append( $"{ClassProvider.BackgroundColor( Background.Primary )} {ClassProvider.TextColor( TextColor.White )}" );
+            builder.Append( "tree-view" );
+            builder.Append( "tree-view-collapsed", !Expanded );
 
             base.BuildClasses( builder );
         }
 
-        protected Task OnClick()
-        {
-            //DirtyClasses();
-            Parent?.SelectNode( Node );
+        //protected Task OnToggleNode()
+        //{
+        //    Expanded = !Expanded;
 
-            return Task.CompletedTask;
+        //    return Task.CompletedTask;
+        //}
+
+        protected void OnToggleNode( TNode node, bool expand )
+        {
+            bool expanded = ExpandedNodes.Contains( node );
+
+            if ( expanded && !expand )
+            {
+                ExpandedNodes.Remove( node );
+                ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+            }
+            else if ( !expanded && expand )
+            {
+                ExpandedNodes.Add( node );
+                ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+            }
+
+            StateHasChanged();
         }
 
         #endregion
 
         #region Properties
 
-        protected bool Selected
-            => TreeViewStore.SelectedNode != null && TreeViewStore.SelectedNode.Equals( Node );
+        [Parameter] public IEnumerable<TNode> Nodes { get; set; }
 
-        [Parameter] public TNode Node { get; set; }
+        [Parameter] public RenderFragment<TNode> NodeContent { get; set; }
 
-        [CascadingParameter] public TreeView<TNode> Parent { get; set; }
+        [Parameter] public Func<TNode, IEnumerable<TNode>> SetChildNodes { get; set; }
 
-        [CascadingParameter]
-        protected TreeViewStore<TNode> TreeViewStore
+        [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
+
+        [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }
+
+        [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
+
+        [Parameter]
+        public bool Expanded
         {
-            get => treeViewStore;
+            get => expanded;
             set
             {
-                if ( treeViewStore == value )
+                if ( value == expanded )
                     return;
 
-                treeViewStore = value;
+                expanded = value;
 
                 DirtyClasses();
             }
         }
+
+        [CascadingParameter] public _TreeViewNode<TNode> ParentNode { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

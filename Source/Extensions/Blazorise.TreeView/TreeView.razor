@@ -2,12 +2,13 @@
 @inherits BaseComponent
 <CascadingValue Value=this>
     <CascadingValue Value="@store">
-        <_TreeView Nodes="Nodes"
-                   NodeContent="NodeContent"
-                   SetChildNodes="SetChildNodes"
-                   ExpandedNodes="ExpandedNodes"
-                   ExpandedNodesChanged="ExpandedNodesChanged"
-                   HasChildNodes="HasChildNodes">
-        </_TreeView>
+        <_TreeViewNode Nodes="Nodes"
+                       NodeContent="NodeContent"
+                       SetChildNodes="SetChildNodes"
+                       ExpandedNodes="ExpandedNodes"
+                       ExpandedNodesChanged="ExpandedNodesChanged"
+                       Expanded="true"
+                       HasChildNodes="HasChildNodes">
+        </_TreeViewNode>
     </CascadingValue>
 </CascadingValue>

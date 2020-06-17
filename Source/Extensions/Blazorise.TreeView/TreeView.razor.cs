@@ -58,8 +58,9 @@ namespace Blazorise.TreeView
 
         [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }
 
-        [Parameter] public bool Visible { get; set; }
-
+        /// <summary>
+        /// Indicates if the node has child elements.
+        /// </summary>
         [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
 
         [Parameter] public RenderFragment ChildContent { get; set; }
