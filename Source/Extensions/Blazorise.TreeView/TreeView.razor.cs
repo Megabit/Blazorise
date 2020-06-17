@@ -39,7 +39,7 @@ namespace Blazorise.TreeView
             get => store.SelectedNode;
             set
             {
-                if ( value != null && value.Equals( store.SelectedNode ) )
+                if ( EqualityComparer<TNode>.Default.Equals( store.SelectedNode, value ) )
                     return;
 
                 store.SelectedNode = value;

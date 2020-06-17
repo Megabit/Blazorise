@@ -16,7 +16,7 @@ namespace Blazorise.TreeView
 
         public bool Equals( TreeViewStore<TNode> other )
         {
-            return SelectedNode != null && SelectedNode.Equals( other.SelectedNode );
+            return EqualityComparer<TNode>.Default.Equals( SelectedNode, other.SelectedNode );
         }
 
         public override int GetHashCode()
