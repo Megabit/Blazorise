@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -196,7 +197,7 @@ namespace Blazorise.Charts
             Options = options;
 
             if ( initialized )
-                await JS.SetOptions( JSRuntime, ElementId, Options, OptionsJsonString, OptionsObject );
+                await JS.SetOptions( JSRuntime, ElementId, Converters.ToDictionary( Options ), OptionsJsonString, OptionsObject );
         }
 
         private async Task Initialize()
@@ -205,7 +206,7 @@ namespace Blazorise.Charts
 
             await JS.Initialize( JSRuntime, dotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type,
                 Data,
-                Options,
+                Converters.ToDictionary( Options ),
                 DataJsonString,
                 OptionsJsonString,
                 OptionsObject );
