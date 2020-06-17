@@ -276,13 +276,13 @@
     private bool siderVisible = true;
     private bool uiElementsVisible = true;
 
-    RenderFragment customIcon = @<img src="/brand-logo.png" style="width:32px; height: 32px" />;
+    RenderFragment customIcon =@<img src="/brand-logo.png" style="width:32px; height: 32px" />;
 
-    void ToggleSidebar()
-    {
-        siderVisible = !siderVisible;
-        StateHasChanged();
-    }
+void ToggleSidebar()
+{
+siderVisible = !siderVisible;
+StateHasChanged();
+}
 
-    [CascadingParameter] protected Theme Theme { get; set; }
+[CascadingParameter] protected Theme Theme { get; set; }
 }
