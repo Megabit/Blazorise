@@ -22,9 +22,9 @@
 
                 @if ( hasChildren )
                 {
-                    <_TreeViewNode Nodes="SetChildNodes(node)"
+                    <_TreeViewNode Nodes="GetChildNodes(node)"
                                    NodeContent="NodeContent"
-                                   SetChildNodes="SetChildNodes"
+                                   GetChildNodes="GetChildNodes"
                                    ExpandedNodes="ExpandedNodes"
                                    ExpandedNodesChanged="ExpandedNodesChanged"
                                    Expanded="nodeExpanded"

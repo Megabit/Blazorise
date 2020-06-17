@@ -58,11 +58,11 @@ namespace Blazorise.TreeView
 
         [Parameter] public RenderFragment<TNode> NodeContent { get; set; }
 
-        [Parameter] public Func<TNode, IEnumerable<TNode>> SetChildNodes { get; set; }
-
         [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
 
         [Parameter] public EventCallback<IList<TNode>> ExpandedNodesChanged { get; set; }
+
+        [Parameter] public Func<TNode, IEnumerable<TNode>> GetChildNodes { get; set; }
 
         [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
 
