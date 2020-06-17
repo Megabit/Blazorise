@@ -1,0 +1,25 @@
+﻿@page "/tests/treeview"
+<Row>
+    <Column ColumnSize="ColumnSize.Is12" Margin="Margin.Is4.OnY">
+        <Card>
+            <CardHeader>
+                <CardTitle>TreeView</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Treeview allows the display of hierarchical information in a tree-like structure.</CardText>
+            </CardBody>
+            <CardBody>
+                <TreeView Nodes="Nodes"
+                          @bind-SelectedNode="selectedNode"
+                          @bind-ExpandedNodes="ExpandedNodes"
+                          GetChildNodes="@(item => item.Children)"
+                          HasChildNodes="@(item => item.Children?.Any() == true)">
+                    <NodeContent>
+                        <Icon Name="IconName.Folder" />
+                        @context.Text
+                    </NodeContent>
+                </TreeView>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
