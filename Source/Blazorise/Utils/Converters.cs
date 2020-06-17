@@ -1,15 +1,87 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
+
 #endregion
 
 namespace Blazorise.Utils
 {
     public static class Converters
     {
+        #region Constants
+
+        private static readonly Type[] SimpleTypes =
+        {
+            typeof(string),
+            typeof(decimal),
+            typeof(DateTime),
+            typeof(DateTimeOffset),
+            typeof(TimeSpan),
+            typeof(Guid)
+        };
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Converts an object to a dictionary object without the properties which have a null value or a [DataMember( EmitDefaultValue = false )] applied.
+        /// This can be used as a workaround for System.Text.Json which will always serialize null values which breaks ChartJS functionality.
+        /// </summary>
+        /// <param name="source">The source object, can be null.</param>
+        /// <param name="addEmptyObjects">Objects which do not have any properties are also added to the dictionary. Default value is true.</param>
+        /// <param name="forceCamelCase">Force to use CamelCase, even if a DataMember has another casing defined. Default value is true.</param>
+        /// <returns>Dictionary</returns>
+        public static IDictionary<string, object> ToDictionary( object source, bool addEmptyObjects = true, bool forceCamelCase = true )
+        {
+            if ( source == null )
+            {
+                return null;
+            }
+
+            var dictionary = new Dictionary<string, object>();
+
+            foreach ( PropertyDescriptor property in TypeDescriptor.GetProperties( source ) )
+            {
+                var dataMemberAttribute = property.Attributes.OfType<DataMemberAttribute>().FirstOrDefault();
+                var emitDefaultValue = dataMemberAttribute?.EmitDefaultValue ?? true;
+
+                var value = property.GetValue( source );
+
+                if ( value != null && ( emitDefaultValue || !IsEqualToDefaultValue( value ) ) )
+                {
+                    var type = value.GetType();
+                    var propertyName = dataMemberAttribute?.Name ?? property.Name;
+
+                    if ( forceCamelCase )
+                    {
+                        propertyName = propertyName.ToCamelcase();
+                    }
+
+                    if ( IsSimpleType( type ) )
+                    {
+                        dictionary.Add( propertyName, value );
+                    }
+                    else
+                    {
+                        var dict = ToDictionary( value, addEmptyObjects );
+
+                        if ( addEmptyObjects || dict.Count > 0 )
+                        {
+                            dictionary.Add( propertyName, dict );
+                        }
+                    }
+                }
+            }
+
+            return dictionary;
+        }
+
         // https://stackoverflow.com/a/1107090/833106
         public static TValue ChangeType<TValue>( object o )
         {
@@ -152,5 +224,37 @@ namespace Blazorise.Utils
                     throw new InvalidOperationException( $"Unsupported type {type}" );
             }
         }
+
+        private static bool IsSimpleType( Type type )
+        {
+            return
+                type.IsPrimitive ||
+                type.IsEnum ||
+                SimpleTypes.Contains( type ) ||
+                Convert.GetTypeCode( type ) != TypeCode.Object ||
+                ( type.IsGenericType && type.GetGenericTypeDefinition() == typeof( Nullable<> ) && IsSimpleType( type.GetGenericArguments()[0] ) );
+        }
+
+        private static bool IsEqualToDefaultValue<T>( T argument )
+        {
+            // deal with non-null nullables
+            Type methodType = typeof( T );
+            if ( Nullable.GetUnderlyingType( methodType ) != null )
+            {
+                return false;
+            }
+
+            // deal with boxed value types
+            Type argumentType = argument.GetType();
+            if ( argumentType.IsValueType && argumentType != methodType )
+            {
+                object obj = Activator.CreateInstance( argument.GetType() );
+                return obj.Equals( argument );
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }
