@@ -1,7 +1,5 @@
 ﻿#region Using directives
-
 using System;
-
 #endregion
 
 namespace Blazorise.Utils
