@@ -115,6 +115,8 @@ docs:
         url: /docs/extensions/sidebar/
       - title: "Snackbar"
         url: /docs/extensions/snackbar/
+      - title: "TreeView"
+        url: /docs/extensions/treeview/
   - title: Helpers
     url: /docs/helpers/
     children:
