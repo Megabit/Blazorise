@@ -475,53 +475,59 @@ namespace Blazorise.Providers
 
         public string BarBreakpoint( Breakpoint breakpoint ) => null;
 
-        public string BarItem() => null;
+        public string BarMode( BarMode mode ) => null;
 
-        public string BarItemActive() => null;
+        public string BarItem( BarMode mode ) => null;
 
-        public string BarItemDisabled() => null;
+        public string BarItemActive( BarMode mode ) => null;
 
-        public string BarItemHasDropdown() => null;
+        public string BarItemDisabled( BarMode mode ) => null;
 
-        public string BarItemHasDropdownShow() => null;
+        public string BarItemHasDropdown( BarMode mode ) => null;
 
-        public string BarLink() => null;
+        public string BarItemHasDropdownShow( BarMode mode ) => null;
 
-        public string BarLinkDisabled() => null;
+        public string BarLink( BarMode mode ) => null;
+
+        public string BarLinkDisabled( BarMode mode ) => null;
 
         //public  string BarCollapse() => null;
 
-        public string BarBrand() => null;
+        public string BarBrand( BarMode mode ) => null;
 
-        public string BarToggler() => null;
+        public string BarToggler( BarMode mode ) => null;
 
-        public string BarTogglerCollapsed( bool isShow ) => null;
+        public string BarTogglerCollapsed( BarMode mode, bool isShow ) => null;
 
-        public string BarMenu() => null;
+        public string BarMenu( BarMode mode ) => null;
 
-        public string BarMenuShow() => null;
+        public string BarMenuShow( BarMode mode ) => null;
 
-        public string BarStart() => null;
+        public string BarStart( BarMode mode ) => null;
 
-        public string BarEnd() => null;
+        public string BarEnd( BarMode mode ) => null;
 
         //public  string BarHasDropdown() => null;
 
-        public string BarDropdown() => null;
+        public string BarDropdown( BarMode mode ) => null;
 
-        public string BarDropdownShow() => null;
+        public string BarDropdownShow( BarMode mode ) => null;
 
-        public string BarDropdownToggle() => null;
+        public string BarDropdownToggle( BarMode mode ) => null;
 
-        public string BarDropdownItem() => null;
+        public string BarDropdownItem( BarMode mode ) => null;
 
-        public string BarTogglerIcon() => null;
+        public string BarTogglerIcon( BarMode mode ) => null;
 
-        public string BarDropdownMenu() => null;
+        public string BarDropdownMenu( BarMode mode ) => null;
 
-        public string BarDropdownMenuVisible( bool visible ) => null;
+        public string BarDropdownMenuVisible( BarMode mode, bool visible ) => null;
 
-        public string BarDropdownMenuRight() => null;
+        public string BarDropdownMenuRight( BarMode mode ) => null;
+
+        public string BarCollapsed( BarMode mode ) => null;
+
+        public string BarLabel() => null;
 
         #endregion
 
@@ -932,6 +938,10 @@ namespace Blazorise.Providers
         public string ToFigureSize( FigureSize figureSize ) => null;
 
         public string ToCharacterCasing( CharacterCasing characterCasing ) => null;
+
+        public string ToBarMode( BarMode mode ) => null;
+
+        public string ToBarCollapsedMode( BarCollapseMode collapseMode ) => null;
 
         #endregion
 

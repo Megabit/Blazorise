@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,9 +13,9 @@ namespace Blazorise
     {
         #region Members
 
-        private bool visible;
-
         private bool rightAligned;
+
+        private BarDropdownStore parentStore;
 
         #endregion
 
@@ -22,65 +23,17 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownMenu() );
-            builder.Append( ClassProvider.BarDropdownMenuVisible( Visible ) );
-            builder.Append( ClassProvider.BarDropdownMenuRight(), RightAligned );
+            builder.Append( ClassProvider.BarDropdownMenu( ParentStore.Mode ) );
+            builder.Append( ClassProvider.BarDropdownMenuVisible( ParentStore.Mode, ParentStore.Visible && ParentStore.Mode != BarMode.VerticalSmall ) );
+            builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), RightAligned );
 
             base.BuildClasses( builder );
-        }
-
-        protected override void OnInitialized()
-        {
-            if ( ParentBarDropdown != null )
-            {
-                Visible = ParentBarDropdown.Visible;
-
-                ParentBarDropdown.StateChanged += OnBarDropdownStateChanged;
-            }
-
-            base.OnInitialized();
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( ParentBarDropdown != null )
-                {
-                    ParentBarDropdown.StateChanged -= OnBarDropdownStateChanged;
-                }
-            }
-
-            base.Dispose( disposing );
-        }
-
-        private void OnBarDropdownStateChanged( object sender, BarDropdownStateEventArgs e )
-        {
-            Visible = e.Visible;
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Handles the visibility of dropdown menu.
-        /// </summary>
-        [Parameter]
-        public bool Visible
-        {
-            get => visible;
-            set
-            {
-                visible = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Right aligned dropdown menu.
-        /// </summary>
         [Parameter]
         public bool RightAligned
         {
@@ -93,7 +46,20 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
+        [CascadingParameter]
+        protected BarDropdownStore ParentStore
+        {
+            get => parentStore;
+            set
+            {
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

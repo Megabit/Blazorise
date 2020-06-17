@@ -510,7 +510,7 @@ namespace Blazorise.AntDesign
 
         #region Bar
 
-        public override string Bar() => "ant-menu ant-menu-root ant-menu-horizontal";
+        public override string Bar() => "ant-menu ant-menu-root";
 
         public override string BarBackground( Background background ) => BackgroundColor( background );
 
@@ -520,51 +520,57 @@ namespace Blazorise.AntDesign
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"ant-menu-expand-{ToBreakpoint( breakpoint )}";
 
-        public override string BarItem() => "ant-menu-item ant-menu-item-only-child";
+        public override string BarMode( BarMode mode ) => $"ant-menu-{ToBarMode( mode )} {( mode == Blazorise.BarMode.VerticalSmall ? "ant-menu-inline-collapsed" : null )}";
 
-        public override string BarItemActive() => "ant-menu-item-selected";
+        public override string BarItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-item ant-menu-item-only-child" : "ant-menu-item";
 
-        public override string BarItemDisabled() => "ant-menu-item-disabled";
+        public override string BarItemActive( BarMode mode ) => "ant-menu-item-selected";
 
-        public override string BarItemHasDropdown() => null;
+        public override string BarItemDisabled( BarMode mode ) => "ant-menu-item-disabled";
 
-        public override string BarItemHasDropdownShow() => null;
+        public override string BarItemHasDropdown( BarMode mode ) => null;
 
-        public override string BarLink() => "ant-menu-link";
+        public override string BarItemHasDropdownShow( BarMode mode ) => null;
 
-        public override string BarLinkDisabled() => Disabled();
+        public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-link" : null;
+
+        public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
         //public override string BarCollapse() => "navbar-collapse";
 
-        public override string BarBrand() => "ant-menu-item";
+        public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-item" : "ant-menu-item ant-bar-brand";
 
-        public override string BarToggler() => null;
+        public override string BarToggler( BarMode mode ) => null;
 
-        public override string BarTogglerCollapsed( bool isShow ) => null;
+        public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => null;
 
-        public override string BarMenu() => null;
+        public override string BarMenu( BarMode mode ) => null;
 
-        public override string BarMenuShow() => null;
+        public override string BarMenuShow( BarMode mode ) => null;
 
-        public override string BarStart() => "ant-menu-start";
+        public override string BarStart( BarMode mode ) => "ant-menu-start";
 
-        public override string BarEnd() => "ant-menu-end";
+        public override string BarEnd( BarMode mode ) => "ant-menu-end";
 
-        public override string BarDropdown() => "ant-menu-submenu ant-menu-submenu-horizontal";
+        public override string BarDropdown( BarMode mode ) => $"ant-menu-submenu ant-menu-submenu-{ToBarMode( mode )}";
 
-        public override string BarDropdownShow() => "ant-menu-submenu-open";
+        public override string BarDropdownShow( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-open" : "ant-menu-submenu-open";
 
-        public override string BarDropdownToggle() => "ant-menu-submenu-title";
+        public override string BarDropdownToggle( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-title" : "ant-menu-submenu-title";
 
-        public override string BarDropdownItem() => "ant-menu-item ant-menu-item-only-child";
+        public override string BarDropdownItem( BarMode mode ) => "ant-menu-item ant-menu-item-only-child";
 
-        public override string BarTogglerIcon() => "navbar-toggler-icon";
+        public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler-icon" : "navbar-toggler-icon";
 
-        public override string BarDropdownMenu() => "ant-menu ant-menu-sub ant-menu-vertical";
+        public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? $"ant-menu ant-menu-sub ant-menu-vertical" : $"ant-menu ant-menu-sub ant-menu-{ToBarMode( mode )}";
 
-        public override string BarDropdownMenuVisible( bool visible ) => visible ? null : "ant-menu-hidden";
+        public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? null : "ant-menu-hidden";
 
-        public override string BarDropdownMenuRight() => null;
+        public override string BarDropdownMenuRight( BarMode mode ) => null;
+
+        public override string BarCollapsed( BarMode mode ) => $"ant-menu-{ToBarMode( mode )}-collapsed";
+
+        public override string BarLabel() => "ant-menu-label";
 
         #endregion
 
@@ -980,6 +986,22 @@ namespace Blazorise.AntDesign
                     return "24";
                 case Blazorise.ColumnWidth.Auto:
                     return "auto";
+                default:
+                    return null;
+            }
+        }
+
+        public override string ToBarMode( BarMode mode )
+        {
+            switch ( mode )
+            {
+                case Blazorise.BarMode.Horizontal:
+                    return "horizontal";
+                case Blazorise.BarMode.VerticalInline:
+                    return "inline";
+                case Blazorise.BarMode.VerticalSmall:
+                case Blazorise.BarMode.VerticalPopout:
+                    return "vertical";
                 default:
                     return null;
             }

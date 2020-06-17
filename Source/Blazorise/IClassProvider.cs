@@ -469,51 +469,57 @@ namespace Blazorise
 
         string BarBreakpoint( Breakpoint breakpoint );
 
-        string BarItem();
+        string BarMode( BarMode mode );
 
-        string BarItemActive();
+        string BarItem( BarMode mode );
 
-        string BarItemDisabled();
+        string BarItemActive( BarMode mode );
 
-        string BarItemHasDropdown();
+        string BarItemDisabled( BarMode mode );
 
-        string BarItemHasDropdownShow();
+        string BarItemHasDropdown( BarMode mode );
 
-        string BarLink();
+        string BarItemHasDropdownShow( BarMode mode );
 
-        string BarLinkDisabled();
+        string BarLink( BarMode mode );
 
-        string BarBrand();
+        string BarLinkDisabled( BarMode mode );
 
-        string BarToggler();
+        string BarBrand( BarMode mode );
 
-        string BarTogglerCollapsed( bool isShow );
+        string BarToggler( BarMode mode );
 
-        string BarMenu();
+        string BarTogglerCollapsed( BarMode mode, bool isShow );
 
-        string BarMenuShow();
+        string BarMenu( BarMode mode );
 
-        string BarStart();
+        string BarMenuShow( BarMode mode );
 
-        string BarEnd();
+        string BarStart( BarMode mode );
+
+        string BarEnd( BarMode mode );
 
         //string BarHasDropdown();
 
-        string BarDropdown();
+        string BarDropdown( BarMode mode );
 
-        string BarDropdownShow();
+        string BarDropdownShow( BarMode mode );
 
-        string BarDropdownToggle();
+        string BarDropdownToggle( BarMode mode );
 
-        string BarDropdownItem();
+        string BarDropdownItem( BarMode mode );
 
-        string BarTogglerIcon();
+        string BarTogglerIcon( BarMode mode );
 
-        string BarDropdownMenu();
+        string BarDropdownMenu( BarMode mode );
 
-        string BarDropdownMenuVisible( bool visible );
+        string BarDropdownMenuVisible( BarMode mode, bool visible );
 
-        string BarDropdownMenuRight();
+        string BarDropdownMenuRight( BarMode mode );
+
+        string BarCollapsed( BarMode mode );
+
+        string BarLabel();
 
         #endregion
 
@@ -927,6 +933,10 @@ namespace Blazorise
         string ToFigureSize( FigureSize figureSize );
 
         string ToCharacterCasing( CharacterCasing characterCasing );
+
+        string ToBarMode( BarMode mode );
+
+        string ToBarCollapsedMode( BarCollapseMode collapseMode );
 
         #endregion
 
