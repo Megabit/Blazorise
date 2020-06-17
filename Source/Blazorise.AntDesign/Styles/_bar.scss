@@ -150,6 +150,17 @@
         }
     }
 
+    @mixin ant-selected-item {
+        margin: 0px -16px;
+        color: inherit;
+        padding-right: 16px;
+
+        &.active {
+            color: var(--b-bar-item-dark-active-color, #fff);
+            background: var(--b-bar-item-dark-active-background, #0288D1);
+        }
+    }
+
     &.ant-menu-inline {
         min-width: var(--b-sidebar-width, 220px);
         max-width: var(--b-sidebar-width, 220px);
@@ -157,10 +168,10 @@
 
         > .ant-menu-item {
             min-height: 40px;
-            padding-left: 24px;
 
-            a {
-                color: inherit;
+            > a {
+                @include ant-selected-item;
+                padding-left: 24px;
             }
         }
 
@@ -171,7 +182,10 @@
 
             > .ant-menu.ant-menu-sub {
                 > .ant-menu-item {
-                    padding-left: 48px;
+                    > a {
+                        @include ant-selected-item;
+                        padding-left: 48px;
+                    }
                 }
             }
         }
@@ -182,6 +196,16 @@
             min-width: var(--b-sidebar-small-width, 80px);
             max-width: var(--b-sidebar-small-width, 80px);
             width: var(--b-sidebar-small-width, 80px);
+        }
+
+        > .ant-menu-item {
+            min-height: 40px;
+
+            > a {
+                @include ant-selected-item;
+                padding: 0px 32px;
+                margin: 0px -32px;
+            }
         }
 
         .ant-menu-submenu.ant-menu-submenu-vertical {
@@ -195,6 +219,15 @@
 
             .ant-menu-submenu.ant-menu-submenu-popup {
                 margin: -45px 5px 0px 5px;
+
+                > .ant-menu.ant-menu-sub {
+                    > .ant-menu-item {
+                        > a {
+                            @include ant-selected-item;
+                            padding-left: 16px;
+                        }
+                    }
+                }
 
                 &.ant-menu-submenu-placement-rightTop {
                     left: var(--b-sidebar-small-width, 80px);

@@ -148,30 +148,56 @@
     max-width: var(--b-sidebar-width, 220px);
     width: var(--b-sidebar-width, 220px); }
     .ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item {
-        min-height: 40px;
-        padding-left: 24px; }
-        .ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item a {
-            color: inherit; }
+        min-height: 40px; }
+        .ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item > a {
+            margin: 0px -16px;
+            color: inherit;
+            padding-right: 16px;
+            padding-left: 24px; }
+            .ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item > a.active {
+                color: var(--b-bar-item-dark-active-color, #fff);
+                background: var(--b-bar-item-dark-active-background, #0288D1); }
     .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
         padding-left: 24px; }
-    .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item {
+    .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a {
+        margin: 0px -16px;
+        color: inherit;
+        padding-right: 16px;
         padding-left: 48px; }
-
-.ant-menu.ant-menu-root.ant-menu-vertical:not(.ant-menu-inline-collapsed) {
-    min-width: var(--b-sidebar-width, 220px);
-    max-width: var(--b-sidebar-width, 220px);
-    width: var(--b-sidebar-width, 220px); }
+        .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
+            color: var(--b-bar-item-dark-active-color, #fff);
+            background: var(--b-bar-item-dark-active-background, #0288D1); }
 
 .ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed:not(.ant-menu-vertical-collapsed) {
     min-width: var(--b-sidebar-small-width, 80px);
     max-width: var(--b-sidebar-small-width, 80px);
     width: var(--b-sidebar-small-width, 80px); }
 
+.ant-menu.ant-menu-root.ant-menu-vertical > .ant-menu-item {
+    min-height: 40px; }
+    .ant-menu.ant-menu-root.ant-menu-vertical > .ant-menu-item > a {
+        margin: 0px -16px;
+        color: inherit;
+        padding-right: 16px;
+        padding: 0px 32px;
+        margin: 0px -32px; }
+        .ant-menu.ant-menu-root.ant-menu-vertical > .ant-menu-item > a.active {
+            color: var(--b-bar-item-dark-active-color, #fff);
+            background: var(--b-bar-item-dark-active-background, #0288D1); }
+
 .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical:hover > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub.ant-menu-vertical {
     display: block !important; }
 
 .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup {
     margin: -45px 5px 0px 5px; }
+    .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a {
+        margin: 0px -16px;
+        color: inherit;
+        padding-right: 16px;
+        padding-left: 16px; }
+        .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
+            color: var(--b-bar-item-dark-active-color, #fff);
+            background: var(--b-bar-item-dark-active-background, #0288D1); }
     .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop {
         left: var(--b-sidebar-small-width, 80px); }
         .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop::before {
