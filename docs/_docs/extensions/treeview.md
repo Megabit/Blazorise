@@ -8,13 +8,13 @@ toc_label: "Guide"
 
 ## Overview
 
-The treeview component a graphical control element that presents a hierarchical view of information. 
+The TreeView component is a graphical control element that presents a hierarchical view of information. 
 
 ## Installation
 
 ### NuGet
 
-Install treeview extension from NuGet.
+Install TreeView extension from NuGet.
 
 ```
 Install-Package Blazorise.TreeView
@@ -40,11 +40,15 @@ Include CSS link into your `index.html` or `_Host.cshtml` file, depending if you
 
 ### Basic example
 
-A basic treeview that aims to reproduce standard treeview behavior.
+A basic TreeView that aims to reproduce standard tree-view behavior.
 
 ```html
- <TreeView Nodes="Items" ChildSelector="@(item => item.Children)" @bind-SelectedNode="selectedNode" @bind-ExpandedNodes="ExpandedNodes" >
-    <TextContent>@context.Text</TextContent>
+ <TreeView Nodes="Items"
+    GetChildNodes="@(item => item.Children)"
+    HasChildNodes="@(item => item.Children?.Any() == true)"
+    @bind-SelectedNode="selectedNode"
+    @bind-ExpandedNodes="ExpandedNodes" >
+    <NodeContent>@context.Text</NodeContent>
 </TreeView>
 
 @code{
@@ -86,16 +90,11 @@ A basic treeview that aims to reproduce standard treeview behavior.
 
 | Name                  | Type                                                                                     | Default      | Description                                                                                  |
 |-----------------------|------------------------------------------------------------------------------------------|--------------|----------------------------------------------------------------------------------------------|
-| Nodes                 | IEnumerable<TNode>                                                                       |              | Collection of child treeview items (child nodes). If null/empty then this node won't expand. |
-| TextContent           | string                                                                                   |              | Text string to display for the node.                                                         |
-| SelectedNode          | TNode                                                                                    |              | The currently selected treeview item/node.                                                   |
-| SelectedNodeChanged   | event                                                                                    |              | Occurs when the selected treeview node has changed.                                          |
-| SetChildNodes         | action                                                                                   |              | Action that allows the child nodes to be set for a particular node                           |
-| ExpandedNodes         | List<TNode>                                                                              |              | List of currently expanded treeview items (child nodes).                                     |
+| Nodes                 | IEnumerable<TNode>                                                                       |              | Collection of child TreeView items (child nodes). If null/empty then this node won't expand. |
+| NodeContent           | string                                                                                   |              | Template to display content for the node.                                                    |
+| SelectedNode          | TNode                                                                                    |              | The currently selected TreeView item/node.                                                   |
+| SelectedNodeChanged   | event                                                                                    |              | Occurs when the selected TreeView node has changed.                                          |
+| ExpandedNodes         | List<TNode>                                                                              |              | List of currently expanded TreeView items (child nodes).                                     |
 | ExpandedNodeChanged   | event                                                                                    |              | Occurs when the collection of expanded nodes has changed.                                    |
-| ExpandNodeIconClass   | string                                                                                   |              | Class representing a closed treeview node.                                                   |
-| CollapseNodeIconClass | string                                                                                   |              | Class representing an open treeview node                                                     |
-| NodeTitleClass        | string                                                                                   |              | Class representing style for node content                                                    |
-| NodeTitleSelectedClass| string                                                                                   |              | Class representing style for a selected node content                                         |
-| Visible               | bool                                                                                     | true         | Is the treeview (or child treeview node) visible?                                            |
+| GetChildNodes         | action                                                                                   |              | Action that allows the child nodes to be set for a particular node                           |
 | HasChildNodes         | action                                                                                   | true         | Does the node have any child nodes?                                                          |
