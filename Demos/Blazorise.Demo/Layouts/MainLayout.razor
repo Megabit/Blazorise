@@ -23,7 +23,7 @@
                             </BarLink>
                         </BarItem>
                         <BarItem>
-                            <BarDropdown Visible="true">
+                            <BarDropdown @bind-Visible="uiElementsVisible">
                                 <BarDropdownToggle>
                                     <BarIcon IconName="IconName.Wrench" />
                                     UI Elements
@@ -271,6 +271,7 @@
 
 
     private bool siderVisible = true;
+    private bool uiElementsVisible = true;
 
     RenderFragment customIcon = @<img src="/brand-logo.png" style="width:32px; height: 32px" />;
 

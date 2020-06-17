@@ -24,7 +24,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdown( Store.Mode ) );
-            builder.Append( ClassProvider.BarDropdownShow( Store.Mode ), Store.Visible );
+            builder.Append( ClassProvider.BarDropdownShow( Store.Mode ), Store.Visible && Store.Mode != BarMode.VerticalSmall );
 
             base.BuildClasses( builder );
         }
@@ -119,10 +119,6 @@ namespace Blazorise
                 parentStore = value;
 
                 store.Mode = parentStore.Mode;
-
-                // Hack for AntDesign..
-                if ( store.Mode == BarMode.VerticalSmall )
-                    Visible = false;
 
                 DirtyClasses();
             }
