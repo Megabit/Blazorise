@@ -1,2 +1,4 @@
 ﻿@inherits Blazorise.BarMenu
-@ChildContent
+<CascadingValue Value="@ParentStore">
+    @ChildContent
+</CascadingValue>

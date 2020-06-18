@@ -1,7 +1,5 @@
-﻿.b-layout {
-    &.b-layout-has-sider {
-        .b-layout {
-            overflow-x: initial;
-        }
+﻿body {
+    &::-webkit-scrollbar {
+        display: none;
     }
 }

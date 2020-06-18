@@ -1,9 +1,9 @@
 ---
-title: "Enums"
+title: 'Enums'
 permalink: /docs/helpers/enums/
 excerpt: "Blazorise have it's own set of enums that you can use instead of manually writing CSS class-names."
 toc: true
-toc_label: "Enums"
+toc_label: 'Enums'
 ---
 
 ## Breakpoint
@@ -230,3 +230,19 @@ Defines the validation execution mode.
 
 - `Auto` Validation will execute on every input change.
 - `Manual` Validation will run only when explicitly called.
+
+## BarMode
+
+Defines the style of `Bar` component
+
+- `Horizontal` - top bar
+- `VerticalPopout` - sidebar with popout `BarDropdown` menus
+- `VerticalInline` - sidebar with inline `BarDropdown` menus
+- `VerticalSmall` - sidebar with icons only, and popout `BarDropdown` menus
+
+## BarCollapseMode
+
+Defines the `Bar` state when collapsed (only works with `Vertical` bar modes)
+
+- `Hide` - collapses to be completely hidden
+- `Small` - collapse to behave like `BarMode.VerticalSmall`

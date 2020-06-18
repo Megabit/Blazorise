@@ -14,6 +14,8 @@ namespace Blazorise.Material
 
         public override string Bar() => "navbar navbar-full";
 
+        public override string BarItemHasDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : null;
+
         public override string Provider => "Material";
     }
 }

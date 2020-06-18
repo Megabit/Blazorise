@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,9 +13,9 @@ namespace Blazorise
     {
         #region Members
 
-        private bool visible;
+        private BarItemStore parentStore;
 
-        public event EventHandler<BarDropdownStateEventArgs> StateChanged;
+        private BarDropdownStore store;
 
         #endregion
 
@@ -22,54 +23,52 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdown() );
-            builder.Append( ClassProvider.BarDropdownShow(), Visible );
+            builder.Append( ClassProvider.BarDropdown( Store.Mode ) );
+            builder.Append( ClassProvider.BarDropdownShow( Store.Mode ), Store.Visible && Store.Mode != BarMode.VerticalSmall );
 
             base.BuildClasses( builder );
         }
 
-        protected override void OnInitialized()
+        protected override Task OnInitializedAsync()
         {
             // link to the parent component
-            BarItem?.Hook( this );
+            ParentBarItem?.Hook( this );
 
-            base.OnInitialized();
+            return base.OnInitializedAsync();
         }
 
-        public void Show()
+        public override Task SetParametersAsync( ParameterView parameters )
         {
-            var temp = Visible;
+            // This is needed for the two-way binding to work properly.
+            // Otherwise the internal value would not be set in the right order.
+            if ( parameters.TryGetValue<bool>( nameof( Visible ), out var newVisible ) )
+            {
+                store.Visible = newVisible;
+            }
 
+            return base.SetParametersAsync( parameters );
+        }
+
+        internal void Show()
+        {
             Visible = true;
 
-            if ( temp != Visible ) // used to prevent toggle event call if Open() is called multiple times
-                Toggled?.Invoke( Visible );
-
-            BarItem?.MenuChanged();
-
             StateHasChanged();
         }
 
-        public void Hide()
+        internal void Hide()
         {
-            var temp = Visible;
-
             Visible = false;
 
-            if ( temp != Visible ) // used to prevent toggle event call if Close() is called multiple times
-                Toggled?.Invoke( Visible );
-
-            BarItem?.MenuChanged();
-
             StateHasChanged();
         }
 
-        public void Toggle()
+        internal void Toggle()
         {
-            Visible = !Visible;
-            Toggled?.Invoke( Visible );
+            if ( Store.Mode == BarMode.VerticalSmall )
+                return;
 
-            BarItem?.MenuChanged();
+            Visible = !Visible;
 
             StateHasChanged();
         }
@@ -78,30 +77,52 @@ namespace Blazorise
 
         #region Properties
 
+        protected BarDropdownStore Store => store;
+
         /// <summary>
-        /// Gets or sets a value indicating whether the control and all its child controls are displayed.
+        /// Sets a value indicating whether the dropdown menu and all its child controls are visible.
         /// </summary>
         [Parameter]
         public bool Visible
         {
-            get => visible;
+            get => store.Visible;
             set
             {
                 // prevent dropdown from calling the same code multiple times
-                if ( value == visible )
+                if ( value == store.Visible )
                     return;
 
-                visible = value;
+                store.Visible = value;
 
-                StateChanged?.Invoke( this, new BarDropdownStateEventArgs( visible ) );
+                VisibleChanged.InvokeAsync( value );
 
                 DirtyClasses();
             }
         }
 
-        [Parameter] public Action<bool> Toggled { get; set; }
+        /// <summary>
+        /// Occurs when the component visibility changes.
+        /// </summary>
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
-        [CascadingParameter] protected BarItem BarItem { get; set; }
+        [CascadingParameter] protected BarItem ParentBarItem { get; set; }
+
+        [CascadingParameter]
+        protected BarItemStore ParentStore
+        {
+            get => parentStore;
+            set
+            {
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
+
+                store.Mode = parentStore.Mode;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

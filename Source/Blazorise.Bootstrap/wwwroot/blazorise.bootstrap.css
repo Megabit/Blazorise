@@ -20,6 +20,9 @@
 .nav .nav-link:hover {
     cursor: pointer; }
 
+.nav-item {
+    position: relative; }
+
 .btn-group > .b-tooltip:not(:last-child) > .btn {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0; }

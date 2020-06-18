@@ -40,11 +40,13 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.Badge, AntDesign.Badge>();
             componentMapper.Register<Blazorise.Bar, AntDesign.Bar>();
             componentMapper.Register<Blazorise.BarBrand, AntDesign.BarBrand>();
+            componentMapper.Register<Blazorise.BarIcon, AntDesign.BarIcon>();
             componentMapper.Register<Blazorise.BarItem, AntDesign.BarItem>();
             componentMapper.Register<Blazorise.BarMenu, AntDesign.BarMenu>();
             componentMapper.Register<Blazorise.BarStart, AntDesign.BarStart>();
             componentMapper.Register<Blazorise.BarEnd, AntDesign.BarEnd>();
             componentMapper.Register<Blazorise.BarDropdown, AntDesign.BarDropdown>();
+            componentMapper.Register<Blazorise.BarLink, AntDesign.BarLink>();
             componentMapper.Register<Blazorise.BarDropdownMenu, AntDesign.BarDropdownMenu>();
             componentMapper.Register<Blazorise.BarDropdownItem, AntDesign.BarDropdownItem>();
             componentMapper.Register<Blazorise.BarDropdownToggle, AntDesign.BarDropdownToggle>();

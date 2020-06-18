@@ -65,6 +65,9 @@ namespace Blazorise
             if ( theme.SidebarOptions != null )
                 GenerateSidebarVariables( theme, theme.SidebarOptions );
 
+            if ( theme.BarOptions != null )
+                GenerateBarVariables( theme.BarOptions );
+
             if ( theme.SnackbarOptions != null )
                 GenerateSnackbarVariables( theme, theme.SnackbarOptions );
 
@@ -207,6 +210,68 @@ namespace Blazorise
 
             if ( sidebarOptions.Color != null )
                 variables[ThemeVariables.SidebarColor] = ToHex( ParseColor( sidebarOptions.Color ) );
+        }
+
+        protected virtual void GenerateBarVariables( ThemeBarOptions barOptions )
+        {
+            if ( !string.IsNullOrEmpty( barOptions.VerticalWidth ) )
+                variables[ThemeVariables.VerticalBarWidth] = barOptions.VerticalWidth;
+
+            if ( !string.IsNullOrEmpty( barOptions.VerticalSmallWidth ) )
+                variables[ThemeVariables.VerticalBarSmallWidth] = barOptions.VerticalSmallWidth;
+
+            if ( !string.IsNullOrEmpty( barOptions.VerticalBrandHeight ) )
+                variables[ThemeVariables.VerticalBarBrandHeight] = barOptions.VerticalBrandHeight;
+
+            if ( barOptions?.DarkColors != null )
+            {
+                variables[ThemeVariables.BarDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BackgroundColor ) );
+                variables[ThemeVariables.BarDarkColor] = ToHex( ParseColor( barOptions.DarkColors.Color ) );
+
+                if ( barOptions.DarkColors.ItemColorOptions != null )
+                {
+                    variables[ThemeVariables.BarItemDarkActiveBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor ) );
+                    variables[ThemeVariables.BarItemDarkActiveColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveColor ) );
+
+                    variables[ThemeVariables.BarItemDarkHoverBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverBackgroundColor ) );
+                    variables[ThemeVariables.BarItemDarkHoverColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverColor ) );
+                }
+
+                if ( barOptions.DarkColors.DropdownColorOptions != null )
+                {
+                    variables[ThemeVariables.BarDropdownDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.DropdownColorOptions.BackgroundColor ) );
+                }
+
+                if ( barOptions.DarkColors.BrandColorOptions != null )
+                {
+                    variables[ThemeVariables.BarBrandDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BrandColorOptions.BackgroundColor ) );
+                }
+            }
+
+            if ( barOptions?.LightColors != null )
+            {
+                variables[ThemeVariables.BarLightBackground] = ToHex( ParseColor( barOptions.LightColors.BackgroundColor ) );
+                variables[ThemeVariables.BarLightColor] = ToHex( ParseColor( barOptions.LightColors.Color ) );
+
+                if ( barOptions.LightColors.ItemColorOptions != null )
+                {
+                    variables[ThemeVariables.BarItemLightActiveBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveBackgroundColor ) );
+                    variables[ThemeVariables.BarItemLightActiveColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveColor ) );
+
+                    variables[ThemeVariables.BarItemLightHoverBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverBackgroundColor ) );
+                    variables[ThemeVariables.BarItemLightHoverColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverColor ) );
+                }
+
+                if ( barOptions.LightColors.DropdownColorOptions != null )
+                {
+                    variables[ThemeVariables.BarDropdownLightBackground] = ToHex( ParseColor( barOptions.LightColors.DropdownColorOptions.BackgroundColor ) );
+                }
+
+                if ( barOptions.LightColors.BrandColorOptions != null )
+                {
+                    variables[ThemeVariables.BarBrandLightBackground] = ToHex( ParseColor( barOptions.LightColors.BrandColorOptions.BackgroundColor ) );
+                }
+            }
         }
 
         protected virtual void GenerateSnackbarVariables( Theme theme, ThemeSnackbarOptions snackbarOptions )
@@ -354,6 +419,17 @@ namespace Blazorise
 
         protected virtual void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpoint, string value )
         {
+            if ( string.IsNullOrEmpty( value ) )
+                return;
+
+            // mobile is configured diferently from other breakpoints
+            if ( breakpoint != "mobile" )
+            {
+                sb.Append( $"@media (min-width: {value})" ).Append( "{" )
+                    .Append( $"body:before" ).Append( "{" )
+                        .Append( $"content: \"{breakpoint}\";" ).Append( "}" )
+                    .AppendLine( "}" );
+            }
         }
 
         /// <summary>
@@ -491,35 +567,43 @@ namespace Blazorise
                 : System.Drawing.Color.FromName( value );
         }
 
+        protected static System.Drawing.Color Rgba2Rgb( System.Drawing.Color background, System.Drawing.Color color, float? customAlpha = null )
+        {
+            var alpha = customAlpha ?? color.A / byte.MaxValue;
+
+            return System.Drawing.Color.FromArgb(
+                (int)( ( 1 - alpha ) * background.R + alpha * color.R ),
+                (int)( ( 1 - alpha ) * background.G + alpha * color.G ),
+                (int)( ( 1 - alpha ) * background.B + alpha * color.B )
+            );
+        }
+
         protected static System.Drawing.Color HexStringToColor( string hexColor )
         {
-            string hc = ExtractHexDigits( hexColor );
+            var hc = ExtractHexDigits( hexColor );
 
-            if ( hc.Length != 6 )
-            {
-                // you can choose whether to throw an exception
-                //throw new ArgumentException("hexColor is not exactly 6 digits.");
+            if ( hc.Length < 6 )
                 return System.Drawing.Color.Empty;
-            }
 
-            string r = hc.Substring( 0, 2 );
-            string g = hc.Substring( 2, 2 );
-            string b = hc.Substring( 4, 2 );
-            System.Drawing.Color color;
             try
             {
-                int ri = Int32.Parse( r, System.Globalization.NumberStyles.HexNumber );
-                int gi = Int32.Parse( g, System.Globalization.NumberStyles.HexNumber );
-                int bi = Int32.Parse( b, System.Globalization.NumberStyles.HexNumber );
-                color = System.Drawing.Color.FromArgb( ri, gi, bi );
+                var r = int.Parse( hc.Substring( 0, 2 ), NumberStyles.HexNumber );
+                var g = int.Parse( hc.Substring( 2, 2 ), NumberStyles.HexNumber );
+                var b = int.Parse( hc.Substring( 4, 2 ), NumberStyles.HexNumber );
+
+                if ( hc.Length == 8 )
+                {
+                    var a = int.Parse( hc.Substring( 6, 2 ), NumberStyles.HexNumber );
+
+                    return System.Drawing.Color.FromArgb( a, r, g, b );
+                }
+
+                return System.Drawing.Color.FromArgb( r, g, b );
             }
             catch
             {
-                // you can choose whether to throw an exception
-                //throw new ArgumentException("Conversion failed.");
                 return System.Drawing.Color.Empty;
             }
-            return color;
         }
 
         /// <summary>
@@ -540,12 +624,15 @@ namespace Blazorise
 
         protected static string ToHex( System.Drawing.Color color )
         {
-            return $"#{color.R.ToString( "X2" )}{color.G.ToString( "X2" )}{color.B.ToString( "X2" )}";
+            if ( color.A < 255 )
+                return $"#{color.R:X2}{color.G:X2}{color.B:X2}{color.A:X2}";
+
+            return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
         }
 
         protected static string ToHexRGBA( System.Drawing.Color color )
         {
-            return $"#{color.R.ToString( "X2" )}{color.G.ToString( "X2" )}{color.B.ToString( "X2" )}{color.A.ToString( "X2" )}";
+            return $"#{color.R:X2}{color.G:X2}{color.B:X2}{color.A:X2}";
         }
 
         protected static System.Drawing.Color Transparency( string hexColor, int A )

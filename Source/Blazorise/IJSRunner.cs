@@ -73,6 +73,12 @@ namespace Blazorise
 
         ValueTask<object> UnregisterClosableComponent( ICloseActivator component );
 
+        ValueTask<object> RegisterBreakpointComponent( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId );
+
+        ValueTask<object> UnregisterBreakpointComponent( IBreakpointActivator component );
+
+        ValueTask<string> GetBreakpoint();
+
         ValueTask<bool> ScrollIntoView( string anchorTarget );
 
         ValueTask<bool> InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId );
