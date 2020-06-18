@@ -13,6 +13,7 @@ dotnet pack ../Source/Extensions/Blazorise.DataGrid/Blazorise.DataGrid.csproj --
 dotnet pack ../Source/Extensions/Blazorise.Sidebar/Blazorise.Sidebar.csproj --force -o . -c Release
 dotnet pack ../Source/Extensions/Blazorise.Snackbar/Blazorise.Snackbar.csproj --force -o . -c Release
 dotnet pack ../Source/Extensions/Blazorise.Components/Blazorise.Components.csproj --force -o . -c Release
+dotnet pack ../Source/Extensions/Blazorise.TreeView/Blazorise.TreeView.csproj --force -o . -c Release
 
 dotnet pack ../Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.FontAwesome.csproj --force -o . -c Release
 dotnet pack ../Source/Extensions/Blazorise.Icons.Material/Blazorise.Icons.Material.csproj --force -o . -c Release
