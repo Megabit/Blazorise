@@ -60,7 +60,7 @@ To define an icon it's simple as this.
 You can also use a real icon name instead of predefined enum.
 
 ```html
-<Icon Name="fa-phone" />
+<Icon Name="@("fa-phone")" />
 ```
 
 ### Style
