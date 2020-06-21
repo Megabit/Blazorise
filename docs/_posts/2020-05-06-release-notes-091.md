@@ -49,6 +49,8 @@ Describing all of the features of new vertical mode would not be enough so it's 
 
 <img src="/assets/news/release-091/bar-example.gif" alt="Vertical bar example" />
 
+For more on how to use it, check out the updated [Bar]({{ "/docs/components/bar" | relative_url }}) documentation.
+
 ### Carousel
 
 The new `Carousel` component was requested multiple times over [Gitter](https://gitter.im/stsrki/Blazorise), so I guess it was only fair to finally make it. 
