@@ -12,9 +12,11 @@ tags:
   - quick fix
 ---
 
-An old Croatian saying _Ispeci pa reci_, would roughly translate _Think before you speak_. That perfectly explains what happened with Blazorise v0.9.1. Initially I said it would take me about a month to finish it, and it's being over two months now. I guess I should be more careful with prediction in the future.
+An old Croatian saying _Ispeci pa reci_, would roughly translate _Think before you speak_. That perfectly explains what happened with Blazorise v0.9.1. Initially, I said it would take me about a month to finish it, and it's been over two months now. I guess I should be more careful with predictions in the future.
 
-The good news is that new version is finally done, and with more features and bug fixes than it was initially planned. Thanks to the help of  many contributors. So without further ado let's start with listing what's new in this release of Blazorise.
+The good news is that new version is finally done, and with more features and bug fixes than it was initially planned. Thanks to the help of  many contributors.
+
+So without further ado, let's get into what's new in this release of Blazorise.
 
 ## Breaking changes
 
@@ -34,7 +36,7 @@ First we need to cover breaking changes. There's not many of them but they need 
 
 Probably the biggest and most complicated change in this version is the new vertical mode for [Bar]({{ "/docs/components/bar" | relative_url }}) component. For a long time I wanted to have it, but knowing it would be really complex I just postponed it every time. 
 
-So I finally decided to give it a go for v0.9.1. At the same time [@MitchellNZ](https://github.com/MitchellNZ), one of the community members, contacted me and asked to help me with some of the features scheduled for Bar component. In the end all the work on vertical mode and improvements for Bar component was done by him, with me only guiding him, and helping with final optimization regarding the theme support and other smaller issues. The amount of work he has put into it, all in his spare time, long nights and on weekends, is mind-blown. Really I cannot thank him enough times.
+So I finally decided to give it a go for v0.9.1. At the same time [@MitchellNZ](https://github.com/MitchellNZ), one of the community members, contacted me and asked to help me with some of the features scheduled for Bar component. In the end all the work on vertical mode and improvements for Bar component was done by him, with me only guiding and helping with final optimization regarding the theme support and other smaller issues. The amount of work he has put into it, all in his spare time, long nights and on weekends, is mind-blowing. Really I cannot thank him enough times.
 
 Some major new features of vertical bar:
 
@@ -47,13 +49,18 @@ Describing all of the features of new vertical mode would not be enough so it's 
 
 <img src="/assets/news/release-091/bar-example.gif" alt="Vertical bar example" />
 
+For more on how to use it, check out the updated [Bar]({{ "/docs/components/bar" | relative_url }}) documentation.
+
 ### Carousel
 
-The new `Carousel` component was requested multiple times over [Gitter](https://gitter.im/stsrki/Blazorise) so I guess it was only fair to finally make it. Initially I though it would be fairly easy but I must admit it was harder than I anticipated. As always AntDesign had it's own strange logic for carousel component, so that's one problem I had to figure. Another problem was support for animating slides. I didn't want to use any JavaScript so this one is still unsolved. But even in this non-animated state I think it's ready to be used.
+The new `Carousel` component was requested multiple times over [Gitter](https://gitter.im/stsrki/Blazorise), so I guess it was only fair to finally make it. 
 
-So what it has? It has all the basic features like looping the panels, clickable indicators, previous and next button, and configurable loop time.
+Initially I though it would be fairly easy, but I must admit it was harder than I anticipated. As always AntDesign had it's own strange logic for the carousel component, so that's one problem I had to solve. 
+Another problem was support for animating slides, I didn't want to use any JavaScript so this one is still unsolved. But even in this non-animated state, I think it's ready to be used.
 
-To learn more just visit [Carousel]({{ "/docs/components/carousel" | relative_url }}) page.
+_So what does it have?_ It has all the basic features like looping panels, clickable indicators, previous/next buttons, and configurable loop time.
+
+To learn more, just visit the [Carousel]({{ "/docs/components/carousel" | relative_url }}) page.
 
 ### Jumbotron
 
@@ -63,7 +70,9 @@ Example of [Jumbotron]({{ "/docs/components/jumbotron" | relative_url }}) can be
 
 ### TreeView
 
-This component is actually the new extension for Blazorise done by [@robalexclark](https://github.com/robalexclark), also one of the community members. He created the TreeView component near the end of v0.9.1 development stage, just in time to make it part of the release. The component is fairly easy so just go to the [TreeView]({{ "/docs/extensions/treeview" | relative_url }}) page to learn how to install it and use it. Big thanks to Robin for making it!
+This component is actually a new extension for Blazorise done by [@robalexclark](https://github.com/robalexclark), also one of the community members. He created the TreeView component near the end of v0.9.1 development stage, just in time to make it part of the release. The component is fairly easy to use, so just go to the [TreeView]({{ "/docs/extensions/treeview" | relative_url }}) page to learn how to get started with it. 
+
+Big thanks to Robin for making it!
 
 ### Validation summary
 
@@ -86,7 +95,7 @@ A lot of work was put to theming support in this release.
 
 ### Display utilities
 
-Similar to Margin and Padding utilities, the new Display utility is also created with fluent syntax in mind. It is inspired by the Bootstrap [display](https://getbootstrap.com/docs/4.5/utilities/display/) and [flex](https://getbootstrap.com/docs/4.5/utilities/flex/) utilities, but all packed under the one Display utility.
+Similar to `Margin` and `Padding` utilities, the new `Display` utility is also created with fluent syntax in mind. It is inspired by the Bootstrap [display](https://getbootstrap.com/docs/4.5/utilities/display/) and [flex](https://getbootstrap.com/docs/4.5/utilities/flex/) utilities, but all packed under the one Display utility.
 
 Just a basic usage of new utility:
 
