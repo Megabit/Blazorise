@@ -218,6 +218,16 @@ Sometimes you don't want to show error messages under each field. In those situa
 </Validations>
 ```
 
+## Auto Validation
+
+By default form is auto-validated on page load. In case you want to disable it and validate only when user starts entering fields, now you can. Just set `ValidateOnLoad` to false. 
+
+```html
+<Validations Mode="ValidationMode.Auto" ValidateOnLoad="true">
+    ...
+</Validations>
+```
+
 ## Validation rules
 
 In Blazorise you can use some of the predefined validation rules. eg
@@ -250,6 +260,7 @@ Here is a list of the validators currently available.
 | MissingFieldsErrorMessage | string                                                                            |          | Message that will be displayed if any of the validations does not have defined error message.          |
 | ValidatedAll              | EventCallback                                                                     |          | Event is fired only after all of the validation are successful.                                        |
 | StatusChanged             | EventCallback                                                                     |          | Event is fired whenever there is a change in validation status.                                        |
+| ValidateOnLoad            | bool                                                                              |          | Run validation only when user starts entering values.                                                  |
 
 ### Validation
 
