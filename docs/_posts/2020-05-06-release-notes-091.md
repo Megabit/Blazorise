@@ -76,9 +76,13 @@ This component is actually a new extension for Blazorise done by [@robalexclark]
 
 Big thanks to Robin for making it!
 
-### Validation summary
+### Validation
 
-Instead of having validation message for each validated field, now it is possible to place a `<ValidationSummary>` component that will act as a placeholder for all the errors and messages raised by the `<Validations>` component. It is used in places where you don't want to break your UI with too many error messages.
+Validation components also got some new features:
+
+- Instead of having validation message for each validated field, now it is possible to place a `<ValidationSummary>` component that will act as a placeholder for all the errors and messages raised by the `<Validations>` component. It is used in places where you don't want to break your UI with too many error messages.
+- Added new `StatusChanged` that will run whenever there is change in `Validations` state.
+- Now it's possible to skip auto-validation when page is loaded for the first time, and instead run it when user starts to enter form fields.
 
 ### Closable Badge
 
@@ -126,6 +130,24 @@ While this change is only internal and not directly visible to outside world, I 
 - Easier to compare if store is actually changed when used in child component.
 
 For those of you wanting to learn more you can visit the original [PR](https://github.com/stsrki/Blazorise/pull/869).
+
+### Chart new APIs
+
+Sometimes when `Chart` is updated too many time in a small period of time, an exception within `chart.js` will happen. I tried to pin-point the error but the search was always pointing to `chart.Update()` when used as a separate call over `JSInterop`. So to overcome the problem I introduced some new APIs that will do the data and label update in just one call.
+
+**Old:**
+
+```cs
+await lineChart.AddLabel( Labels );
+await lineChart.AddDataSet( GetLineChartDataset() );
+await lineChart.Update();
+```
+
+**New:**
+
+```cs
+await chart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );
+```
 
 ## Other Changes
 
@@ -202,5 +224,7 @@ Big thanks to everyone that helped with Blazorise v0.9.1 coming to life. My wish
 ## Closing notes
 
 _What comes next?_ For starters I will take some free days to clear the head. After that I will start planning for the next milestone while I will also maintain and clean some bugs introduced with v0.9.1. Let's not fool our self, there are always some bugs :)
+
+That's it for now. I hope you will like this new version and that there will not be too many problem. Enjoy, and hopefully see you soon. Cheers! 🍻
 
 And as always if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/stsrki/Blazorise). Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic)!

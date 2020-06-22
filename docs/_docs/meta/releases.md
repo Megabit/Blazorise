@@ -40,7 +40,7 @@ toc_label: "Version history"
 
 - [#622](https://github.com/stsrki/Blazorise/issues/622) [DataGrid] [Material] Issue with DetailRowTemplate in Editable DataGrid
 - [#664](https://github.com/stsrki/Blazorise/issues/664) Switch Component Cursor Property doesn't work
-- [#646](https://github.com/stsrki/Blazorise/issues/646) Theme ColorOptions Primary also changes breadcrumb link color
+- [#646](https://github.com/stsrki/Blazorise/issues/646) Theme ColorOptions Primary also changes Breadcrumb link color
 - [#686](https://github.com/stsrki/Blazorise/issues/686) Null reference exception when DataGridColumn Field is not set
 - [#661](https://github.com/stsrki/Blazorise/issues/661) Auto Validation: Form Validation, error message is displayed on first load.
 - [#871](https://github.com/stsrki/Blazorise/issues/871) Sidebar not collapsing on media breakpoints
