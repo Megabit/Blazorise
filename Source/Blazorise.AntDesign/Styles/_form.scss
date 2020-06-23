@@ -39,7 +39,33 @@
     }
 }
 
-// fixes colum spacing when fields are next to each other
-.ant-col.ant-form-item + .ant-col.ant-form-item {
-    margin-left: 1rem;
+.ant-row.ant-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -$form-grid-gutter-width / 2;
+    margin-left: -$form-grid-gutter-width / 2;
+
+    > .ant-col,
+    > [class*="ant-col-"] {
+        padding-right: $form-grid-gutter-width / 2;
+        padding-left: $form-grid-gutter-width / 2;
+
+        .ant-form-item-label {
+            padding-right: 0;
+            padding-left: 0;
+        }
+    }
+}
+
+.ant-form-item {
+    > .ant-col.ant-form-item-label {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    &.ant-row {
+        > .ant-col + .ant-col {
+            padding-left: 0;
+        }
+    }
 }

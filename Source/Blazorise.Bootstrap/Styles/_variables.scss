@@ -1,1 +1,24 @@
-﻿$figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
+﻿$white: #fff !default;
+$black: #000 !default;
+
+$text-light: #fff !default;
+$text-dark: #212529 !default;
+
+$yiq-text-light: $text-light !default;
+$yiq-text-dark: $text-dark !default;
+
+// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+$yiq-contrasted-threshold: 150 !default;
+
+$primary: #007bff !default;
+$secondary: #6c757d !default;
+$success: #28a745 !default;
+$info: #17a2b8 !default;
+$warning: #ffc107 !default;
+$danger: #dc3545 !default;
+$light: #f8f9fa !default;
+$dark: #343a40 !default;
+
+$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark);
+
+$figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;

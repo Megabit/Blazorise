@@ -33,6 +33,8 @@ namespace Blazorise
 
         string Select();
 
+        string SelectMultiple();
+
         string SelectSize( Size size );
 
         string SelectValidation( ValidationStatus validationStatus );
@@ -148,6 +150,10 @@ namespace Blazorise
         string ValidationErrorTooltip();
 
         string ValidationNone();
+
+        string ValidationSummary();
+
+        string ValidationSummaryError();
 
         #endregion
 
@@ -339,7 +345,43 @@ namespace Blazorise
 
         #endregion
 
+        #region Carousel
+
+        string Carousel();
+
+        string CarouselSlides();
+
+        string CarouselSlide();
+
+        string CarouselSlideActive( bool active );
+
+        string CarouselIndicators();
+
+        string CarouselIndicator();
+
+        string CarouselIndicatorActive( bool active );
+
+        string CarouselFade( bool fade );
+
+        string CarouselCaption();
+
+        #endregion
+
+        #region Jumbotron
+
+        string Jumbotron();
+
+        string JumbotronBackground( Background background );
+
+        string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize );
+
+        string JumbotronSubtitle();
+
+        #endregion
+
         #region Card
+
+        string CardDeck();
 
         string CardGroup();
 
@@ -393,8 +435,6 @@ namespace Blazorise
 
         string LayoutHasSider();
 
-        string LayoutBody();
-
         string LayoutContent();
 
         string LayoutHeader();
@@ -417,33 +457,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Panel
-
-        string Panel();
-
-        #endregion
-
-        #region Nav
-
-        string Nav();
-
-        string NavItem();
-
-        string NavLink();
-
-        string NavTabs();
-
-        string NavCards();
-
-        string NavPills();
-
-        string NavFill( NavFillType fillType );
-
-        string NavVertical();
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         string Bar();
 
@@ -455,51 +469,57 @@ namespace Blazorise
 
         string BarBreakpoint( Breakpoint breakpoint );
 
-        string BarItem();
+        string BarMode( BarMode mode );
 
-        string BarItemActive();
+        string BarItem( BarMode mode );
 
-        string BarItemDisabled();
+        string BarItemActive( BarMode mode );
 
-        string BarItemHasDropdown();
+        string BarItemDisabled( BarMode mode );
 
-        string BarItemHasDropdownShow();
+        string BarItemHasDropdown( BarMode mode );
 
-        string BarLink();
+        string BarItemHasDropdownShow( BarMode mode );
 
-        string BarLinkDisabled();
+        string BarLink( BarMode mode );
 
-        string BarBrand();
+        string BarLinkDisabled( BarMode mode );
 
-        string BarToggler();
+        string BarBrand( BarMode mode );
 
-        string BarTogglerCollapsed( bool isShow );
+        string BarToggler( BarMode mode );
 
-        string BarMenu();
+        string BarTogglerCollapsed( BarMode mode, bool isShow );
 
-        string BarMenuShow();
+        string BarMenu( BarMode mode );
 
-        string BarStart();
+        string BarMenuShow( BarMode mode );
 
-        string BarEnd();
+        string BarStart( BarMode mode );
+
+        string BarEnd( BarMode mode );
 
         //string BarHasDropdown();
 
-        string BarDropdown();
+        string BarDropdown( BarMode mode );
 
-        string BarDropdownShow();
+        string BarDropdownShow( BarMode mode );
 
-        string BarDropdownToggle();
+        string BarDropdownToggle( BarMode mode );
 
-        string BarDropdownItem();
+        string BarDropdownItem( BarMode mode );
 
-        string BarTogglerIcon();
+        string BarTogglerIcon( BarMode mode );
 
-        string BarDropdownMenu();
+        string BarDropdownMenu( BarMode mode );
 
-        string BarDropdownMenuVisible( bool visible );
+        string BarDropdownMenuVisible( BarMode mode, bool visible );
 
-        string BarDropdownMenuRight();
+        string BarDropdownMenuRight( BarMode mode );
+
+        string BarCollapsed( BarMode mode );
+
+        string BarLabel();
 
         #endregion
 
@@ -531,11 +551,19 @@ namespace Blazorise
 
         #endregion
 
-        #region Col
+        #region Column
 
-        string Col();
+        string Column();
 
-        string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules );
+        string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules );
+
+        #endregion
+
+        #region Display
+
+        string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction );
+
+        string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules );
 
         #endregion
 
@@ -699,6 +727,8 @@ namespace Blazorise
 
         string TableRowCellTextAlignment( TextAlignment textAlignment );
 
+        string TableResponsive();
+
         #endregion
 
         #region Badge
@@ -708,6 +738,8 @@ namespace Blazorise
         string BadgeColor( Color color );
 
         string BadgePill();
+
+        string BadgeClose();
 
         #endregion
 
@@ -878,6 +910,10 @@ namespace Blazorise
 
         string ToColumnWidth( ColumnWidth columnWidth );
 
+        string ToDisplayType( DisplayType displayType );
+
+        string ToDisplayDirection( DisplayDirection displayDirection );
+
         string ToModalSize( ModalSize modalSize );
 
         string ToSpacingSize( SpacingSize spacingSize );
@@ -890,11 +926,17 @@ namespace Blazorise
 
         string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
 
+        string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize );
+
         string ToPlacement( Placement placement );
 
         string ToFigureSize( FigureSize figureSize );
 
         string ToCharacterCasing( CharacterCasing characterCasing );
+
+        string ToBarMode( BarMode mode );
+
+        string ToBarCollapsedMode( BarCollapseMode collapseMode );
 
         #endregion
 

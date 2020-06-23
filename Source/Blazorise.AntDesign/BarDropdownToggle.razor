@@ -1,8 +1,6 @@
 ﻿@inherits Blazorise.BarDropdownToggle
-<div @onclick="@ClickHandler" class="ant-menu-submenu-title" role="button" aria-expanded="@Visible.ToString().ToLowerInvariant()" aria-haspopup="true" style="padding-left: 24px;" aria-owns="@SubMenuId">
-    <span>
-        @ChildContent
-    </span>
+<div @onclick="@ClickHandler" class="ant-menu-submenu-title" role="button" aria-expanded="@ParentStore.Visible.ToString().ToLowerInvariant()" aria-haspopup="true" style="padding-left: 24px;" aria-owns="@SubMenuId">
+    <span>@ChildContent</span>
     <i class="ant-menu-submenu-arrow"></i>
 </div>
 @code{

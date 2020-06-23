@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 #endregion
 
@@ -32,6 +33,8 @@ namespace Blazorise
         #region Select
 
         public abstract string Select();
+
+        public abstract string SelectMultiple();
 
         public abstract string SelectSize( Size size );
 
@@ -148,6 +151,10 @@ namespace Blazorise
         public abstract string ValidationErrorTooltip();
 
         public abstract string ValidationNone();
+
+        public abstract string ValidationSummary();
+
+        public abstract string ValidationSummaryError();
 
         #endregion
 
@@ -339,7 +346,43 @@ namespace Blazorise
 
         #endregion
 
+        #region Carousel
+
+        public abstract string Carousel();
+
+        public abstract string CarouselSlides();
+
+        public abstract string CarouselSlide();
+
+        public abstract string CarouselSlideActive( bool active );
+
+        public abstract string CarouselIndicators();
+
+        public abstract string CarouselIndicator();
+
+        public abstract string CarouselIndicatorActive( bool active );
+
+        public abstract string CarouselFade( bool fade );
+
+        public abstract string CarouselCaption();
+
+        #endregion
+
+        #region Jumbotron
+
+        public abstract string Jumbotron();
+
+        public abstract string JumbotronBackground( Background background );
+
+        public abstract string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize );
+
+        public abstract string JumbotronSubtitle();
+
+        #endregion
+
         #region Card
+
+        public abstract string CardDeck();
 
         public abstract string CardGroup();
 
@@ -393,8 +436,6 @@ namespace Blazorise
 
         public virtual string LayoutHasSider() => "b-layout-has-sider";
 
-        public virtual string LayoutBody() => "b-body-layout";
-
         public virtual string LayoutContent() => "b-layout-content";
 
         public virtual string LayoutHeader() => "b-layout-header";
@@ -417,33 +458,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Panel
-
-        public abstract string Panel();
-
-        #endregion
-
-        #region Nav
-
-        public abstract string Nav();
-
-        public abstract string NavItem();
-
-        public abstract string NavLink();
-
-        public abstract string NavTabs();
-
-        public abstract string NavCards();
-
-        public abstract string NavPills();
-
-        public abstract string NavFill( NavFillType fillType );
-
-        public abstract string NavVertical();
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public abstract string Bar();
 
@@ -455,53 +470,59 @@ namespace Blazorise
 
         public abstract string BarBreakpoint( Breakpoint breakpoint );
 
-        public abstract string BarItem();
+        public abstract string BarMode( BarMode mode );
 
-        public abstract string BarItemActive();
+        public abstract string BarItem( BarMode mode );
 
-        public abstract string BarItemDisabled();
+        public abstract string BarItemActive( BarMode mode );
 
-        public abstract string BarItemHasDropdown();
+        public abstract string BarItemDisabled( BarMode mode );
 
-        public abstract string BarItemHasDropdownShow();
+        public abstract string BarItemHasDropdown( BarMode mode );
 
-        public abstract string BarLink();
+        public abstract string BarItemHasDropdownShow( BarMode mode );
 
-        public abstract string BarLinkDisabled();
+        public abstract string BarLink( BarMode mode );
+
+        public abstract string BarLinkDisabled( BarMode mode );
 
         //public abstract string BarCollapse();
 
-        public abstract string BarBrand();
+        public abstract string BarBrand( BarMode mode );
 
-        public abstract string BarToggler();
+        public abstract string BarToggler( BarMode mode );
 
-        public abstract string BarTogglerCollapsed( bool isShow );
+        public abstract string BarTogglerCollapsed( BarMode mode, bool isShow );
 
-        public abstract string BarMenu();
+        public abstract string BarMenu( BarMode mode );
 
-        public abstract string BarMenuShow();
+        public abstract string BarMenuShow( BarMode mode );
 
-        public abstract string BarStart();
+        public abstract string BarStart( BarMode mode );
 
-        public abstract string BarEnd();
+        public abstract string BarEnd( BarMode mode );
 
         //public abstract string BarHasDropdown();
 
-        public abstract string BarDropdown();
+        public abstract string BarDropdown( BarMode mode );
 
-        public abstract string BarDropdownShow();
+        public abstract string BarDropdownShow( BarMode mode );
 
-        public abstract string BarDropdownToggle();
+        public abstract string BarDropdownToggle( BarMode mode );
 
-        public abstract string BarDropdownItem();
+        public abstract string BarDropdownItem( BarMode mode );
 
-        public abstract string BarTogglerIcon();
+        public abstract string BarTogglerIcon( BarMode mode );
 
-        public abstract string BarDropdownMenu();
+        public abstract string BarDropdownMenu( BarMode mode );
 
-        public abstract string BarDropdownMenuVisible( bool visible );
+        public abstract string BarDropdownMenuVisible( BarMode mode, bool visible );
 
-        public abstract string BarDropdownMenuRight();
+        public abstract string BarDropdownMenuRight( BarMode mode );
+
+        public abstract string BarCollapsed( BarMode mode );
+
+        public abstract string BarLabel();
 
         #endregion
 
@@ -533,14 +554,23 @@ namespace Blazorise
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public abstract string Col();
+        public abstract string Column();
 
-        public abstract string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
+        public abstract string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 
-        public virtual string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-            string.Join( " ", rules.Select( r => Col( columnWidth, r.breakpoint, r.offset ) ) );
+        public virtual string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
+            string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+
+        #endregion
+
+        #region Display
+
+        public abstract string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction );
+
+        public virtual string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules )
+            => string.Join( " ", rules.Select( r => Display( displayType, r.breakpoint, r.direction ) ) );
 
         #endregion
 
@@ -704,6 +734,8 @@ namespace Blazorise
 
         public abstract string TableRowCellTextAlignment( TextAlignment textAlignment );
 
+        public abstract string TableResponsive();
+
         #endregion
 
         #region Badge
@@ -713,6 +745,8 @@ namespace Blazorise
         public abstract string BadgeColor( Color color );
 
         public abstract string BadgePill();
+
+        public abstract string BadgeClose();
 
         #endregion
 
@@ -1140,6 +1174,51 @@ namespace Blazorise
             }
         }
 
+        public virtual string ToDisplayType( DisplayType displayType )
+        {
+            switch ( displayType )
+            {
+                case Blazorise.DisplayType.None:
+                    return "none";
+                case Blazorise.DisplayType.Block:
+                    return "block";
+                case Blazorise.DisplayType.Inline:
+                    return "inline";
+                case Blazorise.DisplayType.InlineBlock:
+                    return "inline-block";
+                case Blazorise.DisplayType.Flex:
+                    return "flex";
+                case Blazorise.DisplayType.InlineFlex:
+                    return "inline-flex";
+                case Blazorise.DisplayType.Table:
+                    return "table";
+                case Blazorise.DisplayType.TableRow:
+                    return "table-row";
+                case Blazorise.DisplayType.TableCell:
+                    return "table-cell";
+                case DisplayType.Always:
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ToDisplayDirection( DisplayDirection displayDirection )
+        {
+            switch ( displayDirection )
+            {
+                case DisplayDirection.Row:
+                    return "row";
+                case DisplayDirection.Column:
+                    return "column";
+                case DisplayDirection.ReverseRow:
+                    return "row-reverse";
+                case DisplayDirection.ReverseColumn:
+                    return "column-reverse";
+                default:
+                    return null;
+            }
+        }
+
         public virtual string ToModalSize( ModalSize modalSize )
         {
             switch ( modalSize )
@@ -1249,6 +1328,23 @@ namespace Blazorise
             }
         }
 
+        public virtual string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize )
+        {
+            switch ( jumbotronTitleSize )
+            {
+                case Blazorise.JumbotronTitleSize.Is1:
+                    return "1";
+                case Blazorise.JumbotronTitleSize.Is2:
+                    return "2";
+                case Blazorise.JumbotronTitleSize.Is3:
+                    return "3";
+                case Blazorise.JumbotronTitleSize.Is4:
+                    return "4";
+                default:
+                    return null;
+            }
+        }
+
         public string ToPlacement( Placement placement )
         {
             switch ( placement )
@@ -1345,6 +1441,36 @@ namespace Blazorise
                 case Blazorise.DividerType.Solid:
                 default:
                     return "solid";
+            }
+        }
+
+        public virtual string ToBarMode( BarMode mode )
+        {
+            switch ( mode )
+            {
+                case Blazorise.BarMode.Horizontal:
+                    return "horizontal";
+                case Blazorise.BarMode.VerticalPopout:
+                    return "vertical-popout";
+                case Blazorise.BarMode.VerticalInline:
+                    return "vertical-inline";
+                case Blazorise.BarMode.VerticalSmall:
+                    return "vertical-small";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ToBarCollapsedMode( BarCollapseMode collapseMode )
+        {
+            switch ( collapseMode )
+            {
+                case BarCollapseMode.Hide:
+                    return "hide";
+                case BarCollapseMode.Small:
+                    return "small";
+                default:
+                    return null;
             }
         }
 

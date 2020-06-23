@@ -112,6 +112,7 @@ If you want to prevent modal from closing you can use `Closing` event.
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
 | Visible        | boolean                                                                | false     | Handles the visibility of modal dialog.                                                                                        |
 | Closing        | event                                                                  |           | Occurs before the modal is closed and can be used to prevent the modal from closing.                                           |
+| ScrollToTop    | boolean                                                                | true      | If true modal will scroll to top when opened.                                                                                  |
 
 ### ModalContent
 

@@ -30,8 +30,6 @@ namespace Blazorise
 
         #region Layout
 
-        public abstract string Visibility( Visibility visibility );
-
         #endregion
 
         #region Row

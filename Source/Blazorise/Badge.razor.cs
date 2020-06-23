@@ -20,6 +20,15 @@ namespace Blazorise
 
         #endregion
 
+        #region Constructors
+
+        public Badge()
+        {
+            CloseClassBuilder = new ClassBuilder( BuildCloseClasses );
+        }
+
+        #endregion
+
         #region Methods
 
         protected override void BuildClasses( ClassBuilder builder )
@@ -31,9 +40,26 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        private void BuildCloseClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.BadgeClose() );
+        }
+
+        protected Task OnCloseClickedHandler()
+        {
+            return CloseClicked.InvokeAsync( null );
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Indicated if badge can have closable icon.
+        /// </summary>
+        protected bool Closable => CloseClicked.HasDelegate;
+
+        protected ClassBuilder CloseClassBuilder { get; private set; }
 
         /// <summary>
         /// Make the badge more rounded.
@@ -79,6 +105,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Occurs on close button click.
+        /// </summary>
+        [Parameter] public EventCallback CloseClicked { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -1,0 +1,82 @@
+﻿$white: #fff !default;
+$black: #000 !default;
+
+$text-light: #fff !default;
+$text-dark: #212529 !default;
+
+$yiq-text-light: $text-light !default;
+$yiq-text-dark: $text-dark !default;
+
+// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+$yiq-contrasted-threshold: 150 !default;
+
+$primary: #00d1b2 !default;
+$secondary: #6c757d !default;
+$success: #48c774 !default;
+$info: #238cd1 !default;
+$warning: #ffd83d !default;
+$danger: #ef2e55 !default;
+$light: #f5f5f5 !default;
+$dark: #363636 !default;
+
+$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark);
+
+/*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
+$mobile: 576px;
+$tablet: 1023px;
+$desktop: 1215px;
+$widescreen: 1407px;
+$fullhd: 1907px;
+
+$spacer: 1rem !default;
+$spacers: () !default;
+
+$spacers: map-merge(( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3) ), $spacers);
+
+$grid-breakpoints: ( xs: 0, mobile: $mobile, tablet: $tablet, desktop: $desktop, widescreen: $widescreen, hd: $fullhd ) !default;
+
+$dimensions: 256 512 !default;
+
+// TODO: add these to theme generator
+$control-height: 2.5em !default;
+$control-line-height: 1.5 !default;
+
+$size-1: 3rem !default;
+$size-2: 2.5rem !default;
+$size-3: 2rem !default;
+$size-4: 1.5rem !default;
+$size-5: 1.25rem !default;
+$size-6: 1rem !default;
+$size-7: 0.75rem !default;
+
+$size-small: $size-7 !default
+$size-normal: $size-6 !default
+$size-medium: $size-5 !default
+$size-large: $size-4 !default
+
+$switch-background: rgba(0,0,0,.125) !default
+$switch-border: .1rem solid transparent !default;
+$switch-background-active: var(--b-theme-primary, hsl(171, 100%, 41%)) !default;
+$switch-radius: 4px !default;
+$switch-paddle-background: var(--b-theme-white, #fff) !default;
+$switch-paddle-background-active: var(--b-theme-primary, hsl(171, 100%, 41%)) !default;
+$switch-paddle-offset: 0.25rem !default;
+$switch-paddle-transition: all 0.25s ease-out !default;
+$switch-focus: 1px dotted rgba(0,0,0,.125) !default;
+
+$easing: ease-out !default;
+$radius-small: 2px !default;
+$radius: 4px !default;
+$radius-large: 6px !default;
+$radius-rounded: 290486px !default;
+$speed: 86ms !default;
+
+$speed-slow: 150ms !default;
+$speed-slower: 250ms !default;
+
+// Cards
+
+$grid-gutter-width: 30px !default;
+
+$card-group-margin: $grid-gutter-width / 2 !default;
+$card-deck-margin: $card-group-margin !default;

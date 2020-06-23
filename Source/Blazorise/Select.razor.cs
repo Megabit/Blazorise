@@ -15,6 +15,8 @@ namespace Blazorise
     {
         #region Members
 
+        private bool multiple;
+
         #endregion
 
         #region Methods
@@ -39,6 +41,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Select() );
+            builder.Append( ClassProvider.SelectMultiple(), Multiple );
             builder.Append( ClassProvider.SelectSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.SelectValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
@@ -157,7 +160,17 @@ namespace Blazorise
         /// <summary>
         /// Specifies that multiple items can be selected.
         /// </summary>
-        [Parameter] public bool Multiple { get; set; }
+        [Parameter]
+        public bool Multiple
+        {
+            get => multiple;
+            set
+            {
+                multiple = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the selected item value.

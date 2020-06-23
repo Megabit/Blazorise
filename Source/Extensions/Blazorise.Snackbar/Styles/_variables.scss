@@ -67,7 +67,13 @@ $transition-timing-function-deceleration: cubic-bezier(0, 0, 0.2, 1) !default;
 $transition-timing-function-sharp: cubic-bezier(0.4, 0, 0.6, 1) !default;
 $transition-timing-function-standard: cubic-bezier(0.4, 0, 0.2, 1) !default;
 
-$grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px ) !default;
+$mobile: 576px;
+$tablet: 768px;
+$desktop: 992px;
+$widescreen: 1200px;
+$fullhd: 1600px;
+
+$grid-breakpoints: ( xs: $mobile, sm: $tablet, md: $desktop, lg: $widescreen, xl: $fullhd ) !default;
 
 $line-height-base: 1.428572 !default;
 

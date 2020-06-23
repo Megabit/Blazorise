@@ -22,9 +22,20 @@ namespace Blazorise.Components
             return SelectedValueChanged.InvokeAsync( value );
         }
 
+        /// <summary>
+        /// Sets focus on the input element, if it can be focused.
+        /// </summary>
+        /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
+        public void Focus( bool scrollToElement = true )
+        {
+            select.Focus( scrollToElement );
+        }
+
         #endregion
 
         #region Properties
+
+        protected Select<object> select;
 
         [Parameter] public IEnumerable<TItem> Data { get; set; }
 

@@ -1,13 +1,13 @@
-﻿@inherits BaseSidebarLink
+﻿@inherits BaseComponent
 @if ( To != null )
 {
-    <Blazorise.Link Class="@ClassNames" To="@To" Title="@Title" Match="@Match">
+    <Blazorise.Link Class="@ClassNames" Style="@StyleNames" To="@To" Title="@Title" Match="@Match" Attributes="@Attributes">
         @ChildContent
     </Blazorise.Link>
 }
 else
 {
-    <a class="@ClassNames" @onclick="@ClickHandler" data-toggle="sidebar-collapse" aria-expanded="@Visible" title="@Title">
+    <a class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" data-toggle="@DataToggle" aria-expanded="@AriaExpanded" title="@Title" @attributes="@Attributes">
         @ChildContent
     </a>
 }

@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Text;
 #endregion
 
@@ -10,10 +11,30 @@ namespace Blazorise.Bootstrap
     {
         #region Methods
 
+        protected override void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpointName, string breakpointSize )
+        {
+            if ( !string.IsNullOrEmpty( breakpointSize ) )
+            {
+                if ( !string.IsNullOrEmpty( theme?.ContainerMaxWidthOptions?[breakpointName]?.Invoke() ) )
+                {
+                    var containerSize = theme.ContainerMaxWidthOptions[breakpointName].Invoke();
+
+                    sb.Append( MediaBreakpointUp( breakpointName, $".container{{max-width: {containerSize};}}" ) );
+                }
+            }
+
+            base.GenerateBreakpointStyles( sb, theme, breakpointName, breakpointSize );
+        }
+
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
         {
             sb.Append( $".bg-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .AppendLine( "}" );
+
+            sb.Append( $".jumbotron-{variant}" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
                 .AppendLine( "}" );
         }
 
@@ -245,7 +266,7 @@ namespace Blazorise.Bootstrap
             if ( backgroundColor.IsEmpty )
                 return;
 
-            var yiqBackgroundColor = Contrast( backgroundColor );
+            var yiqBackgroundColor = Contrast( theme, backgroundColor );
 
             var background = ToHex( backgroundColor );
             var yiqBackground = ToHex( yiqBackgroundColor );
@@ -300,7 +321,7 @@ namespace Blazorise.Bootstrap
             sb.Append( $".table-{variant} th," )
                 .Append( $".table-{variant} td," )
                 .Append( $".table-{variant} thead td," )
-                .Append( $".table-{variant} tbody + tbody," )
+                .Append( $".table-{variant} tbody + tbody" )
                 .Append( "{" )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
@@ -393,10 +414,10 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
 
 
-            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
             {
                 sb.Append( $".breadcrumb-item>a" ).Append( "{" )
-                    .Append( $"color: {theme.ColorOptions.Primary};" )
+                    .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
                     .AppendLine( "}" );
             }
         }

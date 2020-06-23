@@ -3,6 +3,10 @@
 {
     <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
+        @if ( ParentStore.Mode != BarMode.Horizontal )
+        {
+            <BarToggler Class="b-bar-mobile-toggle" />
+        }
     </div>
 }
 else

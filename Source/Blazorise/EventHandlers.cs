@@ -8,17 +8,11 @@ using System.Threading.Tasks;
 
 namespace Blazorise
 {
-    public delegate void ValidateEventHandler( ValidatorEventArgs e );
-
-    public delegate void ValidationFailedEventHandler( ValidationFailedEventArgs e );
-
-    public delegate void ValidationSucceededEventHandler( ValidationSucceededEventArgs e );
-
-    public delegate void ValidatingEventHandler();
+    public delegate void ValidationStartedEventHandler();
 
     public delegate void ValidatingAllEventHandler( ValidatingAllEventArgs e );
 
-    public delegate void ValidatedEventHandler( ValidatedEventArgs e );
+    public delegate void ClearAllValidationsEventHandler();
 
-    public delegate void ClearAllValidatinaEventHandler();
+    public delegate void ValidationsStatusChangedEventHandler( ValidationsStatusChangedEventArgs e );
 }

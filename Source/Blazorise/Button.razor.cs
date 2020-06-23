@@ -44,11 +44,11 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected async Task ClickHandler()
         {
             if ( !Disabled )
             {
-                Clicked.InvokeAsync( null );
+                await Clicked.InvokeAsync( null );
 
                 if ( Command?.CanExecute( CommandParameter ) ?? false )
                 {
@@ -81,7 +81,10 @@ namespace Blazorise
                 ParentDropdown?.UnRegister( this );
                 ParentAddons?.UnRegister( this );
 
-                JSRunner.DestroyButton( ElementId );
+                if ( Rendered )
+                {
+                    JSRunner.DestroyButton( ElementId );
+                }
             }
 
             base.Dispose( disposing );

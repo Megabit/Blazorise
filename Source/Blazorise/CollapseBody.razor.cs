@@ -61,7 +61,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the content visibility.
         /// </summary>
-        [CascadingParameter( Name = "Collapse" )]
+        [CascadingParameter( Name = "CollapseVisible" )]
         public bool Visible
         {
             get => visible;

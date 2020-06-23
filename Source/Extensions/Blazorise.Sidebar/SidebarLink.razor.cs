@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar
 {
-    public abstract class BaseSidebarLink : BaseComponent
+    public partial class SidebarLink : BaseComponent
     {
         #region Members
 
@@ -21,28 +21,44 @@ namespace Blazorise.Sidebar
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "sidebar-link" );
-            builder.Append( "collapsed", !Visible );
+            builder.Append( "collapsed", Collapsable && !Visible );
 
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected override void OnInitialized()
         {
-            Click?.Invoke();
+            if ( ParentSidebarItem != null )
+            {
+                ParentSidebarItem.NotifyHasSidebarLink();
+            }
 
-            if ( To == null )
+            base.OnInitialized();
+        }
+
+        protected async Task ClickHandler()
+        {
+            await Click.InvokeAsync( null );
+
+            if ( Collapsable )
             {
                 Visible = !Visible;
 
                 StateHasChanged();
 
-                Toggled?.Invoke( Visible );
+                await Toggled.InvokeAsync( Visible );
             }
         }
 
         #endregion
 
         #region Properties
+
+        protected bool Collapsable => ParentSidebarItem?.HasSubItem == true;
+
+        protected string DataToggle => Collapsable ? "sidebar-collapse" : null;
+
+        protected string AriaExpanded => Collapsable ? Visible.ToString().ToLowerInvariant() : null;
 
         [Parameter]
         public bool Visible
@@ -65,9 +81,11 @@ namespace Blazorise.Sidebar
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] public Action Click { get; set; }
+        [Parameter] public EventCallback Click { get; set; }
 
-        [Parameter] public Action<bool> Toggled { get; set; }
+        [Parameter] public EventCallback<bool> Toggled { get; set; }
+
+        [CascadingParameter] public SidebarItem ParentSidebarItem { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

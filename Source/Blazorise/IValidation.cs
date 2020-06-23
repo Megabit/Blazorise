@@ -15,5 +15,10 @@ namespace Blazorise
         /// Gets the last validation status.
         /// </summary>
         ValidationStatus Status { get; }
+
+        /// <summary>
+        /// Gets the last error message.
+        /// </summary>
+        string LastErrorMessage { get; }
     }
 }

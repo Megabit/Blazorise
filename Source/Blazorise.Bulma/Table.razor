@@ -1,0 +1,17 @@
+﻿@inherits Blazorise.Table
+@if ( Responsive )
+{
+    <div style="display: grid;">
+        <div class="@ResponsiveClassNames">
+            <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @ChildContent
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </table>
+}

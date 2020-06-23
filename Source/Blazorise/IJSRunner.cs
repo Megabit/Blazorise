@@ -52,7 +52,11 @@ namespace Blazorise
 
         ValueTask<bool> SetTextValue( ElementReference elementRef, object value );
 
-        ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
+        ValueTask SetCaret( ElementReference elementRef, int caret );
+
+        ValueTask<int> GetCaret( ElementReference elementRef );
+
+        ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop );
 
         ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
 
@@ -68,6 +72,12 @@ namespace Blazorise
         ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, string elementId );
 
         ValueTask<object> UnregisterClosableComponent( ICloseActivator component );
+
+        ValueTask<object> RegisterBreakpointComponent( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId );
+
+        ValueTask<object> UnregisterBreakpointComponent( IBreakpointActivator component );
+
+        ValueTask<string> GetBreakpoint();
 
         ValueTask<bool> ScrollIntoView( string anchorTarget );
 

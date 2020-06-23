@@ -14,6 +14,7 @@ Validation component is used to provide simple form validation for Blazorise inp
       - `<ValidationSuccess>` success message
       - `<ValidationError>` error message
       - `<ValidationNone>` message when nothing has happened
+  - `ValidationSummary` lists all error messages
 
 **Notice:** Starting from **v0.9** it is advised to also surround `Field` components with `Validation` tags. This will ensure that validation will work in all scenarios!
 {: .notice--warning}
@@ -205,6 +206,28 @@ public class User
 **Note:** For a full source code you can look at the [validation page](https://github.com/stsrki/Blazorise/blob/master/Demos/Blazorise.Demo/Pages/Tests/ValidationsPage.razor) inside of a demo application.
 {: .notice--info}
 
+## Validation summary
+
+Sometimes you don't want to show error messages under each field. In those situations you can use `ValidationSummary` component. Once placed inside of `Validations` it will show all error messages as a bullet list.
+
+```html
+<Validations @ref="annotationsValidations" Mode="ValidationMode.Manual" Model="@manualUser">
+    <ValidationSummary Label="Following error occurs..." />
+
+    // other validation fields
+</Validations>
+```
+
+## Auto Validation
+
+By default form is auto-validated on page load. In case you want to disable it and validate only when user starts entering fields, now you can. Just set `ValidateOnLoad` to false. 
+
+```html
+<Validations Mode="ValidationMode.Auto" ValidateOnLoad="true">
+    ...
+</Validations>
+```
+
 ## Validation rules
 
 In Blazorise you can use some of the predefined validation rules. eg
@@ -227,6 +250,19 @@ Here is a list of the validators currently available.
 | IsLowercase                  | Check if the string is lowercase.                                  |
 
 ## Attributes
+
+### Validations
+
+| Name                      | Type                                                                              | Default  | Description                                                                                            |
+|---------------------------|-----------------------------------------------------------------------------------|----------|--------------------------------------------------------------------------------------------------------|
+| Mode                      | [ValidationMode]({{ "/docs/helpers/enums/#validationmode" | relative_url }})      | `Auto`   | Defines the validation mode for validations inside of this container.                                  |
+| Model                     | object                                                                            | null     | Specifies the top-level model object for the form. An edit context will be constructed for this model. |
+| MissingFieldsErrorMessage | string                                                                            |          | Message that will be displayed if any of the validations does not have defined error message.          |
+| ValidatedAll              | EventCallback                                                                     |          | Event is fired only after all of the validation are successful.                                        |
+| StatusChanged             | EventCallback                                                                     |          | Event is fired whenever there is a change in validation status.                                        |
+| ValidateOnLoad            | bool                                                                              |          | Run validation only when user starts entering values.                                                  |
+
+### Validation
 
 | Name         | Type                                                                              | Default  | Description                                                                                |
 |--------------|-----------------------------------------------------------------------------------|----------|--------------------------------------------------------------------------------------------|

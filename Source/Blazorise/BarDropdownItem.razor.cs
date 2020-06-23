@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,20 +13,22 @@ namespace Blazorise
     {
         #region Members
 
+        private BarDropdownStore parentStore;
+
         #endregion
 
         #region Methods
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownItem() );
+            builder.Append( ClassProvider.BarDropdownItem( ParentStore.Mode ) );
 
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
-            Clicked.InvokeAsync( null );
+            return Clicked.InvokeAsync( null );
         }
 
         #endregion
@@ -44,6 +47,21 @@ namespace Blazorise
         [Parameter] public Match Match { get; set; } = Match.All;
 
         [Parameter] public string Title { get; set; }
+
+        [CascadingParameter] 
+        protected BarDropdownStore ParentStore
+        {
+            get => parentStore;
+            set
+            {
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
+
+                DirtyClasses();
+            }
+        }
 
         #endregion
     }

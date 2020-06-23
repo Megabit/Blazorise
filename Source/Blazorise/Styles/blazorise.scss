@@ -1,9 +1,13 @@
-﻿@import "variables";
+﻿@import "breakpoints";
+
+@import "variables";
 @import "mixins";
 
 @import "progress";
 @import "tooltip";
 @import "layout";
+
+@import "bar";
 
 .b-character-casing-lower {
     text-transform: lowercase;

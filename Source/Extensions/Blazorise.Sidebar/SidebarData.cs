@@ -68,6 +68,12 @@ namespace Blazorise.Sidebar
         public string To { get; set; }
 
         /// <summary>
+        /// Icon for the sidebar link.
+        /// </summary>
+        [DataMember( EmitDefaultValue = false )]
+        public object Icon { get; set; }
+
+        /// <summary>
         /// Whether the item and all sub-items are shown.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]

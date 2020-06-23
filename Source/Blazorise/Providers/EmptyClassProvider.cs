@@ -37,6 +37,8 @@ namespace Blazorise.Providers
 
         public string Select() => null;
 
+        public string SelectMultiple() => null;
+
         public string SelectSize( Size size ) => null;
 
         public string SelectValidation( ValidationStatus validationStatus ) => null;
@@ -152,6 +154,10 @@ namespace Blazorise.Providers
         public string ValidationErrorTooltip() => null;
 
         public string ValidationNone() => null;
+
+        public string ValidationSummary() => null;
+
+        public string ValidationSummaryError() => null;
 
         #endregion
 
@@ -343,7 +349,43 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Carousel
+
+        public string Carousel() => null;
+
+        public string CarouselSlides() => null;
+
+        public string CarouselSlide() => null;
+
+        public string CarouselSlideActive( bool active ) => null;
+
+        public string CarouselIndicators() => null;
+
+        public string CarouselIndicator() => null;
+
+        public string CarouselIndicatorActive( bool active ) => null;
+
+        public string CarouselFade( bool fade ) => null;
+
+        public string CarouselCaption() => null;
+
+        #endregion
+
+        #region Jumbotron
+
+        public string Jumbotron() => null;
+
+        public string JumbotronBackground( Background background ) => null;
+
+        public string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => null;
+
+        public string JumbotronSubtitle() => null;
+
+        #endregion
+
         #region Card
+
+        public string CardDeck() => null;
 
         public string CardGroup() => null;
 
@@ -421,33 +463,7 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Panel
-
-        public string Panel() => null;
-
-        #endregion
-
-        #region Nav
-
-        public string Nav() => null;
-
-        public string NavItem() => null;
-
-        public string NavLink() => null;
-
-        public string NavTabs() => null;
-
-        public string NavCards() => null;
-
-        public string NavPills() => null;
-
-        public string NavFill( NavFillType fillType ) => null;
-
-        public string NavVertical() => null;
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public string Bar() => null;
 
@@ -459,53 +475,59 @@ namespace Blazorise.Providers
 
         public string BarBreakpoint( Breakpoint breakpoint ) => null;
 
-        public string BarItem() => null;
+        public string BarMode( BarMode mode ) => null;
 
-        public string BarItemActive() => null;
+        public string BarItem( BarMode mode ) => null;
 
-        public string BarItemDisabled() => null;
+        public string BarItemActive( BarMode mode ) => null;
 
-        public string BarItemHasDropdown() => null;
+        public string BarItemDisabled( BarMode mode ) => null;
 
-        public string BarItemHasDropdownShow() => null;
+        public string BarItemHasDropdown( BarMode mode ) => null;
 
-        public string BarLink() => null;
+        public string BarItemHasDropdownShow( BarMode mode ) => null;
 
-        public string BarLinkDisabled() => null;
+        public string BarLink( BarMode mode ) => null;
+
+        public string BarLinkDisabled( BarMode mode ) => null;
 
         //public  string BarCollapse() => null;
 
-        public string BarBrand() => null;
+        public string BarBrand( BarMode mode ) => null;
 
-        public string BarToggler() => null;
+        public string BarToggler( BarMode mode ) => null;
 
-        public string BarTogglerCollapsed( bool isShow ) => null;
+        public string BarTogglerCollapsed( BarMode mode, bool isShow ) => null;
 
-        public string BarMenu() => null;
+        public string BarMenu( BarMode mode ) => null;
 
-        public string BarMenuShow() => null;
+        public string BarMenuShow( BarMode mode ) => null;
 
-        public string BarStart() => null;
+        public string BarStart( BarMode mode ) => null;
 
-        public string BarEnd() => null;
+        public string BarEnd( BarMode mode ) => null;
 
         //public  string BarHasDropdown() => null;
 
-        public string BarDropdown() => null;
+        public string BarDropdown( BarMode mode ) => null;
 
-        public string BarDropdownShow() => null;
+        public string BarDropdownShow( BarMode mode ) => null;
 
-        public string BarDropdownToggle() => null;
+        public string BarDropdownToggle( BarMode mode ) => null;
 
-        public string BarDropdownItem() => null;
+        public string BarDropdownItem( BarMode mode ) => null;
 
-        public string BarTogglerIcon() => null;
+        public string BarTogglerIcon( BarMode mode ) => null;
 
-        public string BarDropdownMenu() => null;
+        public string BarDropdownMenu( BarMode mode ) => null;
 
-        public string BarDropdownMenuVisible( bool visible ) => null;
+        public string BarDropdownMenuVisible( BarMode mode, bool visible ) => null;
 
-        public string BarDropdownMenuRight() => null;
+        public string BarDropdownMenuRight( BarMode mode ) => null;
+
+        public string BarCollapsed( BarMode mode ) => null;
+
+        public string BarLabel() => null;
 
         #endregion
 
@@ -537,13 +559,21 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public string Col() => null;
+        public string Column() => null;
 
-        public string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
+        public string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
 
-        private string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+        private string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+
+        #endregion
+
+        #region Display
+
+        public string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction ) => null;
+
+        public string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules ) => null;
 
         #endregion
 
@@ -707,6 +737,8 @@ namespace Blazorise.Providers
 
         public string TableRowCellTextAlignment( TextAlignment textAlignment ) => null;
 
+        public string TableResponsive() => null;
+
         #endregion
 
         #region Badge
@@ -716,6 +748,8 @@ namespace Blazorise.Providers
         public string BadgeColor( Color color ) => null;
 
         public string BadgePill() => null;
+
+        public string BadgeClose() => null;
 
         #endregion
 
@@ -881,6 +915,10 @@ namespace Blazorise.Providers
 
         public string ToColumnWidth( ColumnWidth columnWidth ) => null;
 
+        public string ToDisplayType( DisplayType displayType ) => null;
+
+        public string ToDisplayDirection( DisplayDirection displayDirection ) => null;
+
         public string ToModalSize( ModalSize modalSize ) => null;
 
         public string ToSpacingSize( SpacingSize spacingSize ) => null;
@@ -893,11 +931,17 @@ namespace Blazorise.Providers
 
         public string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
 
+        public string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize ) => null;
+
         public string ToPlacement( Placement placement ) => null;
 
         public string ToFigureSize( FigureSize figureSize ) => null;
 
         public string ToCharacterCasing( CharacterCasing characterCasing ) => null;
+
+        public string ToBarMode( BarMode mode ) => null;
+
+        public string ToBarCollapsedMode( BarCollapseMode collapseMode ) => null;
 
         #endregion
 

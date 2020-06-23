@@ -8,9 +8,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar
 {
-    public abstract class BaseSidebarItem : BaseComponent
+    public partial class SidebarItem : BaseComponent
     {
         #region Members
+
+        private bool hasLink;
+
+        private bool hasSubItem;
 
         #endregion
 
@@ -23,9 +27,23 @@ namespace Blazorise.Sidebar
             base.BuildClasses( builder );
         }
 
+        internal void NotifyHasSidebarLink()
+        {
+            hasLink = true;
+        }
+
+        internal void NotifyHasSidebarSubItem()
+        {
+            hasSubItem = true;
+        }
+
         #endregion
 
         #region Properties
+
+        public bool HasLink => hasLink;
+
+        public bool HasSubItem => hasSubItem;
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

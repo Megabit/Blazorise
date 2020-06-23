@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -14,9 +15,7 @@ namespace Blazorise
 
         private List<string> panels = new List<string>();
 
-        private string selectedPanel;
-
-        public event EventHandler<TabsContentStateEventArgs> StateChanged;
+        private TabsContentStore store = new TabsContentStore();
 
         #endregion
 
@@ -45,7 +44,9 @@ namespace Blazorise
 
         #region Properties
 
-        protected int IndexOfSelectedPanel => panels.IndexOf( selectedPanel );
+        protected TabsContentStore Store => store;
+
+        protected int IndexOfSelectedPanel => panels.IndexOf( store.SelectedPanel );
 
         /// <summary>
         /// Gets or sets currently selected panel name.
@@ -53,18 +54,17 @@ namespace Blazorise
         [Parameter]
         public string SelectedPanel
         {
-            get => selectedPanel;
+            get => store.SelectedPanel;
             set
             {
                 // prevent panels from calling the same code multiple times
-                if ( value == selectedPanel )
+                if ( value == store.SelectedPanel )
                     return;
 
-                selectedPanel = value;
+                store.SelectedPanel = value;
 
                 // raise the tabchanged notification
-                StateChanged?.Invoke( this, new TabsContentStateEventArgs( selectedPanel ) );
-                SelectedPanelChanged.InvokeAsync( selectedPanel );
+                SelectedPanelChanged.InvokeAsync( store.SelectedPanel );
 
                 DirtyClasses();
             }

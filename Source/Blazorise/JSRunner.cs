@@ -167,7 +167,17 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
         }
 
-        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
+        public ValueTask SetCaret( ElementReference elementRef, int caret )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setCaret", elementRef, caret );
+        }
+
+        public ValueTask<int> GetCaret( ElementReference elementRef )
+        {
+            return runtime.InvokeAsync<int>( $"{BLAZORISE_NAMESPACE}.getCaret", elementRef );
+        }
+
+        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop );
 
         public abstract ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
 
@@ -189,6 +199,21 @@ namespace Blazorise
         public ValueTask<object> UnregisterClosableComponent( ICloseActivator component )
         {
             return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementId );
+        }
+
+        public ValueTask<object> RegisterBreakpointComponent( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId )
+        {
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.breakpoint.registerBreakpointComponent", elementId, dotNetObjectRef );
+        }
+
+        public ValueTask<object> UnregisterBreakpointComponent( IBreakpointActivator component )
+        {
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.breakpoint.unregisterBreakpointComponent", component.ElementId );
+        }
+
+        public ValueTask<string> GetBreakpoint()
+        {
+            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.breakpoint.getBreakpoint" );
         }
 
         public ValueTask<bool> ScrollIntoView( string anchorTarget )
