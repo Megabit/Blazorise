@@ -11,10 +11,16 @@ namespace Blazorise.Snackbar
     /// </summary>
     public class SnackbarClosedEventArgs : EventArgs
     {
-        public SnackbarClosedEventArgs( SnackbarCloseReason closeReason )
+        public SnackbarClosedEventArgs( string key, SnackbarCloseReason closeReason )
         {
+            Key = key;
             CloseReason = closeReason;
         }
+
+        /// <summary>
+        /// Gets the key associated with the closed snackbar.
+        /// </summary>
+        public string Key { get; }
 
         /// <summary>
         /// Gets a value that indicates why the snackbar is being closed.
