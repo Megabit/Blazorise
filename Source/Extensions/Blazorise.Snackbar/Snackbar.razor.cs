@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using Blazorise.Snackbar.Utils;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -23,6 +24,11 @@ namespace Blazorise.Snackbar
         private SnackbarColor snackbarColor = SnackbarColor.None;
 
         private Timer timer;
+
+        /// <summary>
+        /// Holds the last received reason for snackbar closure.
+        /// </summary>
+        private SnackbarCloseReason closeReason = SnackbarCloseReason.None;
 
         #endregion
 
@@ -84,8 +90,6 @@ namespace Blazorise.Snackbar
             if ( Visible )
                 return;
 
-            timer.Start();
-
             Visible = true;
 
             StateHasChanged();
@@ -104,9 +108,12 @@ namespace Blazorise.Snackbar
             if ( !Visible )
                 return;
 
+            this.closeReason = closeReason;
+
             Visible = false;
 
-            _ = Closed.InvokeAsync( new SnackbarClosedEventArgs( closeReason ) );
+            // finally reset close reason so it doesn't interfere with internal closing by Visible property
+            this.closeReason = SnackbarCloseReason.None;
 
             StateHasChanged();
         }
@@ -117,9 +124,38 @@ namespace Blazorise.Snackbar
             InvokeAsync( () => Hide( SnackbarCloseReason.None ) );
         }
 
+        private void HandleVisibilityStyles( bool visible )
+        {
+            if ( visible )
+            {
+                ExecuteAfterRender( () =>
+                {
+                    timer?.Start();
+
+                    return Task.CompletedTask;
+                } );
+            }
+
+            DirtyClasses();
+            DirtyStyles();
+        }
+
+        private void RaiseEvents( bool visible )
+        {
+            if ( !visible )
+            {
+                _ = Closed.InvokeAsync( new SnackbarClosedEventArgs( Key, closeReason ) );
+            }
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Unique key associated by this snackbar.
+        /// </summary>
+        [Parameter] public string Key { get; set; } = $"Snackbar_{IDGenerator.Instance.Generate}";
 
         /// <summary>
         /// Defines the visibility of snackbar.
@@ -130,9 +166,13 @@ namespace Blazorise.Snackbar
             get => visible;
             set
             {
+                if ( visible == value )
+                    return;
+
                 visible = value;
 
-                DirtyClasses();
+                HandleVisibilityStyles( visible );
+                RaiseEvents( visible );
             }
         }
 

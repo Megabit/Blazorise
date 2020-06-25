@@ -20,6 +20,20 @@ namespace Blazorise.Snackbar.Utils
             }
         }
 
+        public static string GetName( this SnackbarStackLocation snackbarStackLocation )
+        {
+            switch ( snackbarStackLocation )
+            {
+                case SnackbarStackLocation.Left:
+                    return "left";
+                case SnackbarStackLocation.Right:
+                    return "right";
+                case SnackbarStackLocation.Center:
+                default:
+                    return "center";
+            }
+        }
+
         public static string GetName( this SnackbarColor snackbarColor )
         {
             switch ( snackbarColor )
