@@ -95,31 +95,7 @@ namespace Blazorise.Utils
 
                 if ( value != null && ( emitDefaultValue || !IsEqualToDefaultValue( value ) ) )
                 {
-                    //var type = value.GetType();
-
                     dictionary.Add( propertyName, ProcessValue( value, emitDefaultValue ) );
-
-                    //if ( IsSimpleType( type ) )
-                    //{
-                    //    dictionary.Add( propertyName, value );
-                    //}
-                    //else if ( typeof( IEnumerable ).IsAssignableFrom( type ) )
-                    //{
-                    //    var list = new List<object>();
-                    //    foreach ( var item in value as IEnumerable )
-                    //    {
-
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    var dict = ToDictionary( value, addEmptyObjects );
-
-                    //    if ( addEmptyObjects || dict.Count > 0 )
-                    //    {
-                    //        dictionary.Add( propertyName, dict );
-                    //    }
-                    //}
                 }
             }
 
