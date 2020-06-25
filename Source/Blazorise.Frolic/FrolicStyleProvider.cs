@@ -31,8 +31,6 @@ namespace Blazorise.Frolic
 
         #region Layout
 
-        public override string Visibility( Visibility visibility ) => visibility == Blazorise.Visibility.Never ? "display: none;" : null;
-
         #endregion
     }
 }

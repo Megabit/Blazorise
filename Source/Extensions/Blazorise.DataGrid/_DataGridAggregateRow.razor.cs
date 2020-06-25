@@ -140,6 +140,16 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public string Style { get; set; }
 
+        /// <summary>
+        /// Custom background.
+        /// </summary>
+        [Parameter] public Background Background { get; set; }
+
+        /// <summary>
+        /// Custom color.
+        /// </summary>
+        [Parameter] public Color Color { get; set; }
+
         [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
 
         #endregion

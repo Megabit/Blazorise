@@ -1,5 +1,5 @@
-﻿@inherits BaseSidebar
-<nav class="@ClassNames">
+﻿@inherits BaseComponent
+<nav class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     @if ( Data != null )
     {
         <SidebarContent>
@@ -15,7 +15,11 @@
                     @foreach ( var item in Data.Items )
                     {
                         <SidebarItem @key="@item">
-                            <SidebarLink To="@item.To" Title="@item.Tooltip" Visible="@item.Visible" Toggled="@((isOpen)=>{item.SubItemReference?.Toggle( isOpen );})">
+                            <SidebarLink To="@item.To" Title="@item.Tooltip" Visible="@item.Visible" Toggled="@(( isOpen ) => { item.Visible = isOpen; })">
+                                @if ( item.Icon != null )
+                                {
+                                    <Icon Name="item.Icon" />
+                                }
                                 @item.Text
                             </SidebarLink>
                             @if ( item.SubItems != null )
@@ -24,7 +28,13 @@
                                     @foreach ( var subItem in item.SubItems )
                                     {
                                         <SidebarItem @key="@subItem">
-                                            <SidebarLink To="@subItem.To">@subItem.Text</SidebarLink>
+                                            <SidebarLink To="@subItem.To">
+                                                @if ( subItem.Icon != null )
+                                                {
+                                                    <Icon Name="subItem.Icon" />
+                                                }
+                                                @subItem.Text
+                                            </SidebarLink>
                                         </SidebarItem>
                                     }
                                 </SidebarSubItem>

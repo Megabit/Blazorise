@@ -37,13 +37,16 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.AddonLabel, AntDesign.AddonLabel>();
             componentMapper.Register<Blazorise.AlertMessage, AntDesign.AlertMessage>();
             componentMapper.Register<Blazorise.AlertDescription, AntDesign.AlertDescription>();
+            componentMapper.Register<Blazorise.Badge, AntDesign.Badge>();
             componentMapper.Register<Blazorise.Bar, AntDesign.Bar>();
             componentMapper.Register<Blazorise.BarBrand, AntDesign.BarBrand>();
+            componentMapper.Register<Blazorise.BarIcon, AntDesign.BarIcon>();
             componentMapper.Register<Blazorise.BarItem, AntDesign.BarItem>();
             componentMapper.Register<Blazorise.BarMenu, AntDesign.BarMenu>();
             componentMapper.Register<Blazorise.BarStart, AntDesign.BarStart>();
             componentMapper.Register<Blazorise.BarEnd, AntDesign.BarEnd>();
             componentMapper.Register<Blazorise.BarDropdown, AntDesign.BarDropdown>();
+            componentMapper.Register<Blazorise.BarLink, AntDesign.BarLink>();
             componentMapper.Register<Blazorise.BarDropdownMenu, AntDesign.BarDropdownMenu>();
             componentMapper.Register<Blazorise.BarDropdownItem, AntDesign.BarDropdownItem>();
             componentMapper.Register<Blazorise.BarDropdownToggle, AntDesign.BarDropdownToggle>();
@@ -55,7 +58,9 @@ namespace Blazorise.AntDesign
             componentMapper.Register<Blazorise.Button, AntDesign.Button>();
             componentMapper.Register<Blazorise.CardHeader, AntDesign.CardHeader>();
             componentMapper.Register<Blazorise.CardLink, AntDesign.CardLink>();
+            componentMapper.Register<Blazorise.Carousel, AntDesign.Carousel>();
             componentMapper.Register<Blazorise.CloseButton, AntDesign.CloseButton>();
+            componentMapper.Register<Blazorise.CollapseHeader, AntDesign.CollapseHeader>();
             componentMapper.Register<Blazorise.Dropdown, AntDesign.Dropdown>();
             componentMapper.Register<Blazorise.DropdownMenu, AntDesign.DropdownMenu>();
             componentMapper.Register<Blazorise.DropdownItem, AntDesign.DropdownItem>();

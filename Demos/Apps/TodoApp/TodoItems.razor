@@ -22,7 +22,7 @@
                                 </Addon>
                                 <Addon AddonType="AddonType.End">
                                     <Button Color="Color.Primary" Clicked="@OnAddTodo">
-                                        <Icon Name="IconName.New" />Add
+                                        <Icon Name="IconName.Add" />Add
                                     </Button>
                                 </Addon>
                             </Addons>
@@ -47,7 +47,7 @@
                             </Buttons>
                         </FieldBody>
                         <FieldBody ColumnSize="ColumnSize.Is2">
-                            <Button Color="Color.Warning" Float="Float.Right" Clicked="@OnClearCompleted" Visibility="@(todos.Any(x=>x.Completed) ? Visibility.Always : Visibility.Never)">Clear Completed</Button>
+                            <Button Color="Color.Warning" Float="Float.Right" Clicked="@OnClearCompleted" Display="@(todos.Any(x=>x.Completed) ? Display.Always : Display.None)">Clear Completed</Button>
                         </FieldBody>
                     </Field>
                 </CardFooter>

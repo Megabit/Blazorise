@@ -1,0 +1,25 @@
+﻿.e-tabs.vertical ul {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+.e-tabs.vertical li {
+    width: 100%;
+}
+
+.e-tabs.vertical li > a {
+    width: 100%;
+}
+
+.e-tabs-content > .e-tabs-panel {
+    display: none;
+}
+
+.e-tabs-content > .e-tabs-panel {
+    display: none;
+}
+
+.e-tabs-content > .active {
+    display: block;
+    background-color: inherit !important;
+}

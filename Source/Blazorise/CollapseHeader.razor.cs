@@ -23,9 +23,18 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        protected Task ClickHandler()
+        {
+            ParentCollapse.Toggle();
+
+            return Task.CompletedTask;
+        }
+
         #endregion
 
         #region Properties
+
+        [CascadingParameter] protected Collapse ParentCollapse { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

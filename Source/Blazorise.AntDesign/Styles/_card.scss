@@ -1,5 +1,5 @@
 ﻿.ant-card-group {
-    > .card {
+    > .ant-card {
         margin-bottom: $card-group-margin;
     }
 
@@ -7,14 +7,34 @@
         display: flex;
         flex-flow: row wrap;
 
-        > .card {
+        > .ant-card {
             flex: 1 0 0%;
             margin-bottom: 0;
 
-            + .card {
+            + .ant-card {
                 margin-left: 0;
                 border-left: 0;
             }
+        }
+    }
+}
+
+.ant-card-deck {
+    .ant-card {
+        margin-bottom: $card-deck-margin;
+    }
+
+    @include media-breakpoint-up(sm) {
+        display: flex;
+        flex-flow: row wrap;
+        margin-right: -$card-deck-margin;
+        margin-left: -$card-deck-margin;
+
+        .ant-card {
+            flex: 1 0 0%;
+            margin-right: $card-deck-margin;
+            margin-bottom: 0; // Override the default
+            margin-left: $card-deck-margin;
         }
     }
 }

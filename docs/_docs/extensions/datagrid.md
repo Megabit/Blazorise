@@ -303,6 +303,36 @@ Filter API is fairly straightforward. All you need is to attach `CustomFilter` t
 }
 ```
 
+### Custom Row Colors
+
+You have full control over appearance of each row, including the selected rows.
+
+```html
+<DataGrid TItem="Employee"
+        Data="@employeeList"
+        CustomFilter="@OnCustomFilter"
+        RowStyling="@OnRowStyling"
+        SelectedRowStyling="@OnSelectedRowStyling">
+    ...
+</DataGrid>
+```
+
+```cs
+@code
+{
+    void OnRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        if ( !employee.IsActive )
+            styling.Style = "color: red;";
+    }
+
+    void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        styling.Background = Background.Info;
+    }
+}
+```
+
 
 ## Templates
 
@@ -401,6 +431,52 @@ If you want to change default buttons you can use following templates
 </DataGridCommandColumn>
 ```
 
+### Loading Templates
+
+If you want to change display of content, while grid is empty or `ReadData` is executing, you can use following templates:
+
+- `EmptyTemplate`
+- `LoadingTemplate`
+
+```html
+<DataGrid TItem="Employee"
+    Data="@employeeList"
+    TotalItems="@totalEmployees"
+    ReadData="@LoadEmployeesFromService">
+    <ChildContent>
+    	<!--DataGridColumns-->
+    </ChildContent>
+    <EmptyTemplate>
+    	<div class="box">
+        	No employees are found!
+        </div>
+    </EmptyTemplate>
+    <LoadingTemplate>
+    	<div class="box">
+        	<progress class="progress is-small is-primary" max="100"/>
+        </div>
+    </LoadingTemplate>
+</DataGrid>
+```
+
+```cs
+@code
+{
+    Employee[] employeeList;
+    int totalEmployees;
+
+    async Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
+    {
+        /*
+        * This can be call to anything like calling api for load employees
+        * and while execution 'LoadingTemplate' will be displayed.
+        * If your api call returns empty result, then 'EmptyTemplate' will be displayed,
+        * so that you can see easily, that your loading is finish, but your result is empty.
+        */
+    }
+}
+```
+
 ## Attributes
 
 ### DataGrid
@@ -435,6 +511,8 @@ If you want to change default buttons you can use following templates
 | RowRemoving            | Action                                                              |         | Cancelable event called before the row is removed.                                                          |
 | RowRemoved             | EventCallback                                                       |         | Event called after the row is removed.                                                                      |
 | PageChanged            | EventCallback                                                       |         | Occurs after the selected page has changed.                                                                 |
+| EmptyTemplate            | RenderingFragment                                                       |         | Define the format for empty data collection                                                                 |
+| LoadingTemplate            | RenderingFragment                                                       |         | Define the format for signal of loading data                                                                 |
 
 ### EditMode
 

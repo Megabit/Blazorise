@@ -15,3 +15,27 @@ label.radio.button {
         z-index: -1;
     }
 }
+
+.switch[type="checkbox"] {
+    outline: 0;
+    user-select: none;
+    display: inline-block;
+    position: absolute;
+    opacity: 0;
+
+    @include switch-size($size-normal);
+}
+
+.field-body {
+    .switch[type="checkbox"] {
+        + label {
+            margin-top: .375em;
+        }
+    }
+}
+
+.field-body {
+    .slider[type="range"] {
+        width: 100%;
+    }
+}

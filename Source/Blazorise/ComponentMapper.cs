@@ -60,6 +60,14 @@ namespace Blazorise
             }
         }
 
+        public void Replace( Type component, Type implementation )
+        {
+            if ( components.ContainsKey( component ) )
+            {
+                components[component] = implementation;
+            }
+        }
+
         public bool HasRegistration<TComponent>()
             where TComponent : IComponent
         {

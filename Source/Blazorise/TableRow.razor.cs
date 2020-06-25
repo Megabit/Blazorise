@@ -40,7 +40,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected async Task HandleClick( MouseEventArgs e )
+        protected async Task ClickHandler( MouseEventArgs e )
         {
             // https://stackoverflow.com/questions/5497073/how-to-differentiate-single-click-event-and-double-click-event
             // works good enough. Click is still called before the double click, but it is advise to not use both events anyway.

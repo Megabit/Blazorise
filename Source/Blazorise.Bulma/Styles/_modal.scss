@@ -1,0 +1,19 @@
+﻿.modal {
+    &-sm {
+        @media (min-width: 576px) {
+            width: 300px;
+        }
+    }
+
+    &-lg {
+        @media (min-width: 992px) {
+            width: 800px;
+        }
+    }
+
+    &-xl {
+        @media (min-width: 1200px) {
+            width: 1140px;
+        }
+    }
+}

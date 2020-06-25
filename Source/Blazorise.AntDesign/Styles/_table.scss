@@ -1,4 +1,28 @@
-﻿.ant-table-striped {
+﻿.ant-table {
+    @each $name, $value in $theme-colors {
+        $background: theme-color-level($name, $table-background-level);
+        $border: theme-color-level($name, $table-border-level);
+
+        &-#{$name} {
+            &,
+            > th,
+            > td {
+                background-color: $background;
+            }
+
+            @if $border != null {
+                th,
+                td,
+                thead th,
+                tbody + tbody {
+                    border-color: $border;
+                }
+            }
+        }
+    }
+}
+
+.ant-table-striped {
     tbody tr:nth-of-type(odd) {
         background-color: #fbfbfb;
     }
@@ -50,4 +74,15 @@
 
 .ant-table-row-header {
     font-weight: bold;
+}
+
+.ant-table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ant-table-responsive > .ant-table-bordered {
+    border: 0;
 }

@@ -48,31 +48,6 @@ namespace Blazorise.Utils
             CultureInfo.InvariantCulture.DateTimeFormat.ShortTimePattern,
         };
 
-        public static bool TryParseDate( string value, out DateTime? result )
-        {
-            if ( string.IsNullOrWhiteSpace( value ) )
-            {
-                result = null;
-                return false;
-            }
-
-            if ( DateTime.TryParseExact( value, SupportedDateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt ) )
-            {
-                result = dt;
-                return true;
-            }
-
-            if ( DateTimeOffset.TryParse( value, out var dto ) )
-            {
-                result = dto.DateTime;
-                return true;
-            }
-
-            result = null;
-
-            return false;
-        }
-
         public static bool TryParseDate<TValue>( string value, out TValue result )
         {
             if ( string.IsNullOrWhiteSpace( value ) )
@@ -81,15 +56,23 @@ namespace Blazorise.Utils
                 return false;
             }
 
-            if ( DateTime.TryParseExact( value, SupportedDateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt ) )
+            var type = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
+
+            if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, SupportedDateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt ) )
             {
                 result = (TValue)(object)dt;
                 return true;
             }
 
-            if ( DateTimeOffset.TryParse( value, out var dto ) )
+            if ( type == typeof( DateTime ) && DateTimeOffset.TryParse( value, out var dto ) )
             {
                 result = (TValue)(object)dto.DateTime;
+                return true;
+            }
+
+            if ( type == typeof( DateTimeOffset ) && DateTimeOffset.TryParse( value, out var dto2 ) )
+            {
+                result = (TValue)(object)dto2;
                 return true;
             }
 
@@ -106,13 +89,15 @@ namespace Blazorise.Utils
                 return false;
             }
 
-            if ( TimeSpan.TryParseExact( value, SupportedTimeFormats, CultureInfo.InvariantCulture, TimeSpanStyles.None, out var time ) )
+            var type = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
+
+            if ( type == typeof( TimeSpan ) && TimeSpan.TryParseExact( value, SupportedTimeFormats, CultureInfo.InvariantCulture, TimeSpanStyles.None, out var time ) )
             {
                 result = (TValue)(object)time;
                 return true;
             }
 
-            if ( DateTime.TryParseExact( value, SupportedTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt ) )
+            if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, SupportedTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt ) )
             {
                 result = (TValue)(object)dt;
                 return true;

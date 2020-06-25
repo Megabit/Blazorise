@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -13,29 +14,17 @@ namespace Blazorise
     {
         #region Members
 
-        private bool visible;
-
         private bool split;
 
         private bool jsRegistered;
 
         private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
+        private DropdownStore parentDropdownStore;
+
         #endregion
 
         #region Methods
-
-        protected override void OnInitialized()
-        {
-            if ( ParentDropdown != null )
-            {
-                Visible = ParentDropdown.Visible;
-
-                ParentDropdown.StateChanged += OnDropdownStateChanged;
-            }
-
-            base.OnInitialized();
-        }
 
         protected override async Task OnFirstAfterRenderAsync()
         {
@@ -64,18 +53,25 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    _ = JSRunner.UnregisterClosableComponent( this );
+                    if ( Rendered )
+                    {
+                        _ = JSRunner.UnregisterClosableComponent( this );
+                    }
                 }
-
-                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                if ( Rendered )
+                {
+                    JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                }
             }
 
             base.Dispose( disposing );
         }
 
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
             ParentDropdown?.Toggle();
+
+            return Task.CompletedTask;
         }
 
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
@@ -90,9 +86,13 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        private void OnDropdownStateChanged( object sender, DropdownStateEventArgs e )
+        /// <summary>
+        /// Sets focus on the input element, if it can be focused.
+        /// </summary>
+        /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
+        public void Focus( bool scrollToElement = true )
         {
-            Visible = e.Visible;
+            _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
         }
 
         #endregion
@@ -112,34 +112,6 @@ namespace Blazorise
         [Parameter] public ButtonSize Size { get; set; } = ButtonSize.None;
 
         /// <summary>
-        /// Handles the visibility of dropdown toggle.
-        /// </summary>
-        [Parameter]
-        public bool Visible
-        {
-            get => visible;
-            set
-            {
-                visible = value;
-
-                if ( visible )
-                {
-                    jsRegistered = true;
-
-                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
-                }
-                else
-                {
-                    jsRegistered = false;
-
-                    JSRunner.UnregisterClosableComponent( this );
-                }
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
         /// Button outline.
         /// </summary>
         [Parameter] public bool Outline { get; set; }
@@ -154,6 +126,40 @@ namespace Blazorise
             set
             {
                 split = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [CascadingParameter]
+        protected DropdownStore ParentDropdownStore
+        {
+            get => parentDropdownStore;
+            set
+            {
+                if ( parentDropdownStore == value )
+                    return;
+
+                parentDropdownStore = value;
+
+                if ( parentDropdownStore.Visible )
+                {
+                    jsRegistered = true;
+
+                    if ( Rendered )
+                    {
+                        JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                    }
+                }
+                else
+                {
+                    jsRegistered = false;
+
+                    if ( Rendered )
+                    {
+                        JSRunner.UnregisterClosableComponent( this );
+                    }
+                }
 
                 DirtyClasses();
             }

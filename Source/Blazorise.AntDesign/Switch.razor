@@ -1,14 +1,17 @@
 ﻿@typeparam TValue
 @inherits Blazorise.Switch<TValue>
 <button @ref="@ElementRef" id="@ElementId" type="button" role="switch" class="@ClassNames" style="@StyleNames" disabled="@Disabled" aria-checked="@CurrentValueAsString?.ToLowerInvariant()" ant-click-animating="true" @onclick="@HandleButtonClick" @attributes="@Attributes">
-    <span class="ant-switch-inner"></span>
+    <span class="ant-switch-inner">@ChildContent</span>
     <div class="ant-click-animating-node"></div>
 </button>
+@Feedback
 @code {
-    Task HandleButtonClick()
+    async Task HandleButtonClick()
     {
-        return CurrentValueHandler( CurrentValueAsString == bool.FalseString
+        await CurrentValueHandler( CurrentValueAsString == bool.FalseString
             ? bool.TrueString
             : bool.FalseString );
+
+        DirtyClasses();
     }
 }

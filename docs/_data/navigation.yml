@@ -74,12 +74,16 @@ docs:
         url: /docs/components/button/
       - title: "Card"
         url: /docs/components/card/
+      - title: "Carousel"
+        url: /docs/components/carousel/
       - title: "Dropdown"
         url: /docs/components/dropdown/
       - title: "Figure"
         url: /docs/components/figure/
       - title: "Grid"
         url: /docs/components/grid/
+      - title: "Jumbotron"
+        url: /docs/components/jumbotron/
       - title: "Layout"
         url: /docs/components/layout/
       - title: "Modal"
@@ -113,6 +117,8 @@ docs:
         url: /docs/extensions/sidebar/
       - title: "Snackbar"
         url: /docs/extensions/snackbar/
+      - title: "TreeView"
+        url: /docs/extensions/treeview/
   - title: Helpers
     url: /docs/helpers/
     children:

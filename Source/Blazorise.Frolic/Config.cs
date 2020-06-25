@@ -28,17 +28,16 @@ namespace Blazorise.Frolic
         private static void RegisterComponents( IComponentMapper componentMapper )
         {
             componentMapper.Register<Blazorise.Addon, Frolic.Addon>();
-            componentMapper.Register<Blazorise.Bar, Frolic.Bar>();
             componentMapper.Register<Blazorise.BarBrand, Frolic.BarBrand>();
             componentMapper.Register<Blazorise.BarDropdownToggle, Frolic.BarDropdownToggle>();
             componentMapper.Register<Blazorise.BarEnd, Frolic.BarEnd>();
             componentMapper.Register<Blazorise.BarItem, Frolic.BarItem>();
-            componentMapper.Register<Blazorise.BarMenu, Frolic.BarMenu>();
             componentMapper.Register<Blazorise.BarStart, Frolic.BarStart>();
             componentMapper.Register<Blazorise.BarToggler, Frolic.BarToggler>();
             componentMapper.Register<Blazorise.Breadcrumb, Frolic.Breadcrumb>();
             componentMapper.Register<Blazorise.CardText, Frolic.CardText>();
             componentMapper.Register<Blazorise.CardTitle, Frolic.CardTitle>();
+            componentMapper.Register<Blazorise.Carousel, Frolic.Carousel>();
             componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Frolic.Check<> ) );
             componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Frolic.Radio<> ) );
             componentMapper.Register<Blazorise.DisplayHeading, Frolic.DisplayHeading>();
@@ -46,6 +45,8 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.DropdownToggle, Frolic.DropdownToggle>();
             componentMapper.Register<Blazorise.Field, Frolic.Field>();
             componentMapper.Register<Blazorise.Heading, Frolic.Heading>();
+            componentMapper.Register<Blazorise.Jumbotron, Frolic.Jumbotron>();
+            componentMapper.Register<Blazorise.JumbotronSubtitle, Frolic.JumbotronSubtitle>();
             componentMapper.Register<Blazorise.Pagination, Frolic.Pagination>();
             componentMapper.Register<Blazorise.ProgressBar, Frolic.ProgressBar>();
             componentMapper.Register<Blazorise.Progress, Frolic.Progress>();

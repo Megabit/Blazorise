@@ -1,0 +1,45 @@
+﻿$white: #fff !default;
+$black: #000 !default;
+
+$text-light: #fff !default;
+$text-dark: #212529 !default;
+
+$yiq-text-light: $text-light !default;
+$yiq-text-dark: $text-dark !default;
+
+// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+$yiq-contrasted-threshold: 150 !default;
+
+$primary: #1da1f2 !default;
+$secondary: #6c757d !default;
+$success: #4fd69c !default;
+$info: #54c7ec !default;
+$warning: #ffdd57 !default;
+$danger: #f64669 !default;
+$light: #f5f5f5 !default;
+$dark: #343a40 !default;
+
+$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark);
+
+$mobile: 576px;
+$tablet: 1023px;
+$desktop: 1215px;
+$widescreen: 1407px;
+$fullhd: 1907px;
+
+$spacer: 1rem !default;
+$spacers: () !default;
+
+$spacers: map-merge(( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3) ), $spacers);
+
+$grid-breakpoints: ( "xxs": 0, "xs": $mobile, "sm": $tablet, "md": $desktop, "lg": $widescreen, "xl": $fullhd ) !default;
+
+$easing: ease-out !default;
+$radius-small: 2px !default;
+$radius: 4px !default;
+$radius-large: 6px !default;
+$radius-rounded: 290486px !default;
+$speed: 86ms !default;
+
+$speed-slow: 150ms !default;
+$speed-slower: 250ms !default;

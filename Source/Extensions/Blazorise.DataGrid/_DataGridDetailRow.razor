@@ -1,21 +1,7 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridDetailRow<TItem>
 <TableRow style="background-color: unset;">
-    @{
-        var location = CommandColumnLocation;
-
-        if ( location == "start" && ParentDataGrid.Editable )
-        {
-            <TableRowCell>
-            </TableRowCell>
-        }
-        <TableRowCell ColumnSpan="@Columns.Count">
-            @ChildContent
-        </TableRowCell>
-        if ( location == "end" && ParentDataGrid.Editable )
-        {
-            <TableRowCell>
-            </TableRowCell>
-        }
-    }
+    <TableRowCell ColumnSpan="@ColumnSpan">
+        @ChildContent
+    </TableRowCell>
 </TableRow>
