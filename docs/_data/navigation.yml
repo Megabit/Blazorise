@@ -82,6 +82,8 @@ docs:
         url: /docs/components/figure/
       - title: "Grid"
         url: /docs/components/grid/
+      - title: "Jumbotron"
+        url: /docs/components/jumbotron/
       - title: "Layout"
         url: /docs/components/layout/
       - title: "Modal"

@@ -9,21 +9,23 @@ redirect_from: /docs/components/bars/
 
 ## Basics
 
-The bar component is a responsive and versatile horizontal navigation bar with the following structure:
+The `Bar` component is a responsive and versatile navigation bar that can be used as a top menu in **Horizontal** mode or as a sidebar in one of the three **Vertical** modes.
+
+The bar component has the following structure:
 
 - `Bar` the main container
-  - `BarBrand` the left side, **always visible**, usually contains the logo
-  - `BarToggler` toggles the bar menu on the touch devices
-  - `BarMenu` the right side, hidden on touch devices, visible on desktop
-  - `BarStart` (left side of the menu)
-  - `BarEnd` (right side of the menu)
-    - `BarItem` each single item of the bar menu
-      - `BarLink` item link or button
-        - `BarIcon` icon for Bar item
-      - `BarDropdown` dropdown container
-        - `BarDropdownToggle` dropdown trigger
-        - `BarDropdownMenu` the dropdown menu, which can include bar items and dividers
-          - `BarDropdownItem` each single item of the dropdown menu
+  - `BarBrand` **Horizontal**: the left side, always visible. **Vertical**: top of Bar branding.
+  - `BarToggler` **Horizontal**: toggles the bar. **Vertical**: handled automatically on mobile.
+  - `BarMenu` **Horizontal**: the right side, hidden on breakpoint. **Vertical**: contains the core menu elements.
+    - `BarStart` **Horizontal**: left side menu. **Vertical**: sticky top menu.
+    - `BarEnd` **Horizontal**: right side menu. **Vertical**: sticky bottom menu.
+      - `BarItem` each single item of the bar menu
+        - `BarLink` item link or button
+          - `BarIcon` icon for Bar item (required for BarMode.VerticalSmall)
+        - `BarDropdown` dropdown container (or popout for BarMode.VerticalPopout)
+          - `BarDropdownToggle` dropdown trigger
+          - `BarDropdownMenu` the dropdown menu, which can include bar items and dividers
+            - `BarDropdownItem` each single item of the dropdown menu
 
 ### Top Bar (with dropdown)
 
@@ -168,13 +170,13 @@ Right-aligned vertical bar example:
 
 ## Attributes
 
-| Name                 | Type                                                        | Default          | Description                                |
-| -------------------- | ----------------------------------------------------------- | ---------------- | ------------------------------------------ |
-| Mode                 | [BarMode]({{ "/docs/helpers/enums/#barmode"                 | relative_url }}) | `Horizontal`                               | Bar mode (`Vertical*` for Sidebar). |
-| CollapseMode         | [BarCollapseMode]({{ "/docs/helpers/enums/#barcollapsemode" | relative_url }}) | `Hide`                                     | What the Bar will collapse to when `Visible` toggled. |
-| Visible              | boolean                                                     | false            | Controls the state of toggle and the menu. |
-| Breakpoint           | [Breakpoint]({{ "/docs/helpers/enums/#breakpoint"           | relative_url }}) | `None`                                     | Defines the media breakpoint. |
-| NavigationBreakpoint | [Breakpoint]({{ "/docs/helpers/enums/#breakpoint"           | relative_url }}) | `None`                                     | Defines the media breakpoint on navigation. |
-| ThemeContrast        | [ThemeContrast]({{ "/docs/helpers/enums/#themecontrast"     | relative_url }}) | `Light`                                    | Adjusts the contrast for light or dark themes. |
-| Background           | [Background]({{ "/docs/helpers/colors/#background"          | relative_url }}) | `None`                                     | Sets the bar background color. |
-| Color                | [Colors]({{ "/docs/helpers/colors/#color"                   | relative_url }}) | `None`                                     | Component visual or contextual style variants. |
+| Name                  | Type                                                                            | Default           | Description                                                   |
+|-----------------------|---------------------------------------------------------------------------------|-------------------|---------------------------------------------------------------|
+| Mode                  | [BarMode]({{ "/docs/helpers/enums/#barmode" | relative_url }})                  | `Horizontal`      | Bar mode (`Vertical*` for Sidebar).                           |
+| CollapseMode          | [BarCollapseMode]({{ "/docs/helpers/enums/#barcollapsemode" | relative_url }})  | `Hide`            | What the Bar will collapse to when `Visible` toggled.         |
+| Visible               | boolean                                                                         | false             | Controls the state of toggle and the menu.                    |
+| Breakpoint            | [Breakpoint]({{ "/docs/helpers/enums/#breakpoint" | relative_url }})            | `None`            | Defines the media breakpoint.                                 |
+| NavigationBreakpoint  | [Breakpoint]({{ "/docs/helpers/enums/#breakpoint" | relative_url }})            | `None`            | Defines the media breakpoint on navigation.                   |
+| ThemeContrast         | [ThemeContrast]({{ "/docs/helpers/enums/#themecontrast" | relative_url }})      | `Light`           | Adjusts the contrast for light or dark themes.                |
+| Background            | [Background]({{ "/docs/helpers/colors/#background" | relative_url }})           | `None`            | Sets the bar background color.                                |
+| Color                 | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})                    | `None`            | Component visual or contextual style variants.                |

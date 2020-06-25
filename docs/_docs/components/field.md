@@ -116,8 +116,6 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
 
 | Name            | Type                                                                              | Default   | Description                                                                                                             |
 |-----------------|-----------------------------------------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------|
-| IsCheck         | boolean                                                                           | false     | Label is used by the checkbox.                                                                                          |
-| IsFile          | boolean                                                                           | false     | Label is used by the file input.                                                                                        |
 | Screenreader    | [Screenreader]({{ "/docs/helpers/enums/#screenreader" | relative_url }})          | `Always`  | Defines the visibility for screen readers.                                                                              |
 
 ### Fields
