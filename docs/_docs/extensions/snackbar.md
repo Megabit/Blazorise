@@ -86,6 +86,19 @@ You can also define variant [colors]({{ "/docs/helpers/colors/#snackbarcolor" | 
 </Snackbar>
 ```
 
+### Stacked snackbars
+
+When you want to show multiple snackbars stacked on top of each other you can use a wrapper component `SnackbarStack`.
+
+```html
+<Button Color="Color.Primary" Clicked="@(()=>snackbarStack.Push("Current time is: " + DateTime.Now, SnackbarColor.Info))">Primary</Button>
+
+<SnackbarStack @ref="snackbarStack" Location="SnackbarStackLocation.Right" />
+@code{
+    SnackbarStack snackbarStack;
+}
+```
+
 ## Attributes
 
 | Name               | Type                                                                                     | Default      | Description                                                                                  |

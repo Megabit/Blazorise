@@ -29,6 +29,27 @@ namespace Blazorise.Snackbar
     }
 
     /// <summary>
+    /// Defines the snackbar stack location.
+    /// </summary>
+    public enum SnackbarStackLocation
+    {
+        /// <summary>
+        /// Default behavior.
+        /// </summary>
+        Center,
+
+        /// <summary>
+        /// Show the snackbar stack on the left side of the screen.
+        /// </summary>
+        Left,
+
+        /// <summary>
+        /// Show the snackbar stack on the right side of the screen.
+        /// </summary>
+        Right,
+    }
+
+    /// <summary>
     /// Predefined set of contextual colors.
     /// </summary>
     public enum SnackbarColor
