@@ -202,6 +202,9 @@ namespace Blazorise.Charts
 
         [DataMember( EmitDefaultValue = false )]
         public AxeScaleLabel ScaleLabel { get; set; }
+
+        [DataMember( EmitDefaultValue = false )]
+        public bool Stacked { get; set; }
     }
 
     /// <summary>
