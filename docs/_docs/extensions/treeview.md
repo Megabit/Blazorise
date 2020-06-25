@@ -1,6 +1,6 @@
 ---
 title: "TreeView extension"
-permalink: /docs/extensions/TreeView/
+permalink: /docs/extensions/treeview/
 excerpt: "Learn how to use TreeView component."
 toc: true
 toc_label: "Guide"
