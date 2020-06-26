@@ -43,12 +43,6 @@ namespace Blazorise
 
         protected override async Task OnInitializedAsync()
         {
-            if ( Mode != BarMode.Horizontal )
-            {
-                lastBrokenState = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
-                Visible = !lastBrokenState;
-            }
-
             if ( NavigationBreakpoint != Breakpoint.None )
                 NavigationManager.LocationChanged += OnLocationChanged;
 
@@ -62,6 +56,12 @@ namespace Blazorise
             if ( Rendered )
             {
                 _ = JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+
+                if ( Mode != BarMode.Horizontal )
+                {
+                    lastBrokenState = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
+                    Visible = !lastBrokenState;
+                }
             }
 
             await base.OnFirstAfterRenderAsync();
