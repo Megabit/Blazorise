@@ -77,9 +77,9 @@
             }
         </TableHeader>
         <TableBody>
-            @if ( IsDisplayDataVisible || (Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup) )
+            @if ( IsDisplayDataVisible || IsNewItemInGrid )
             {
-                @if ( Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup )
+                @if ( IsNewItemInGrid )
                 {
                     <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
                 }
@@ -107,11 +107,11 @@
                 }
             }
         </TableBody>
-        @if ( IsEmptyTemplateVisible && !IsLoadingTemplateVisible && !(Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup))
+        @if ( IsEmptyTemplateVisible && !IsLoadingTemplateVisible && !IsNewItemInGrid )
         {
             @EmptyTemplate
         }
-        @if ( IsLoadingTemplateVisible && !(Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup))
+        @if ( IsLoadingTemplateVisible && !IsNewItemInGrid )
         {
             @LoadingTemplate
         }
