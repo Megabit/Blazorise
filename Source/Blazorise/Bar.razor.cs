@@ -12,7 +12,9 @@ namespace Blazorise
     {
         #region Members
 
-        // Used to keep track of the breakpoint state for this component.
+        /// <summary>
+        /// Used to keep track of the breakpoint state for this component.
+        /// </summary>
         private bool isBroken;
 
         private Breakpoint breakpoint = Breakpoint.None;
@@ -60,6 +62,7 @@ namespace Blazorise
                     // This needs to be run to set the inital state, RegisterBreakpointComponent and OnBreakpoint will handle
                     // additional changes to responsive breakpoints from there.
                     isBroken = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
+
                     if ( Visible == isBroken )
                     {
                         Visible = !isBroken;
