@@ -77,7 +77,7 @@
             }
         </TableHeader>
         <TableBody>
-            @if ( IsDisplayDataVisible )
+            @if ( IsDisplayDataVisible || (Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup) )
             {
                 @if ( Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup )
                 {
@@ -107,11 +107,11 @@
                 }
             }
         </TableBody>
-        @if ( IsEmptyTemplateVisible )
+        @if ( IsEmptyTemplateVisible && !IsLoadingTemplateVisible && !(Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup))
         {
             @EmptyTemplate
         }
-        @if ( IsLoadingTemplateVisible )
+        @if ( IsLoadingTemplateVisible && !(Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup))
         {
             @LoadingTemplate
         }
@@ -122,7 +122,7 @@
             </TableFooter>
         }
     </Table>
-    @if ( ShowPager )
+    @if ( ShowPager && !IsEmptyTemplateVisible && !IsLoadingTemplateVisible )
     {
         <Pagination>
             <PaginationItem Disabled="@(CurrentPage <= 1)">

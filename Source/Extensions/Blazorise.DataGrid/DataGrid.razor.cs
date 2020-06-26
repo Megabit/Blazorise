@@ -201,6 +201,13 @@ namespace Blazorise.DataGrid
                     dirtyFilter = dirtyView = true;
                 }
             }
+
+            // When deleting and the page becomes empty and we aren't the first page:
+            //   go to the previous page
+            if ( ManualReadMode && ShowPager && CurrentPage > FirstVisiblePage && !Data.Any() )
+            {
+                await OnPaginationItemClick( ( CurrentPage - 1 ).ToString() );
+            }
         }
 
         protected async Task OnSaveCommand()
@@ -235,6 +242,10 @@ namespace Blazorise.DataGrid
                 {
                     await RowInserted.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
                     dirtyFilter = dirtyView = true;
+                    // If a new item is added, the data should be refreshed
+                    // to account for paging, sorting, and filtering
+                    if ( ManualReadMode )
+                        await HandleReadData();
                 }
                 else
                     await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
