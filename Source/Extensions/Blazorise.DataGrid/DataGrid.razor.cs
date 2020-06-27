@@ -201,6 +201,13 @@ namespace Blazorise.DataGrid
                     dirtyFilter = dirtyView = true;
                 }
             }
+
+            // When deleting and the page becomes empty and we aren't the first page:
+            // go to the previous page
+            if ( ManualReadMode && ShowPager && CurrentPage > FirstVisiblePage && !Data.Any() )
+            {
+                await OnPaginationItemClick( ( CurrentPage - 1 ).ToString() );
+            }
         }
 
         protected async Task OnSaveCommand()
@@ -235,6 +242,11 @@ namespace Blazorise.DataGrid
                 {
                     await RowInserted.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
                     dirtyFilter = dirtyView = true;
+
+                    // If a new item is added, the data should be refreshed
+                    // to account for paging, sorting, and filtering
+                    if ( ManualReadMode )
+                        await HandleReadData();
                 }
                 else
                     await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
@@ -555,6 +567,11 @@ namespace Blazorise.DataGrid
         /// Returns true if EmptyTemplate is set and Data is null or empty.
         /// </summary>
         protected bool IsEmptyTemplateVisible => EmptyTemplate != null && ( Data == null || !Data.Any() );
+
+        /// <summary>
+        /// Returns true if current state is for new item and editing fields are shown on datagrid.
+        /// </summary>
+        protected bool IsNewItemInGrid => Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup;
 
         /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.
