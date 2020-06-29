@@ -210,7 +210,7 @@ namespace Blazorise
             dirty = true;
         }
 
-        private IFluentColumnOnBreakpointWithOffsetAndSize WithColumnSize( ColumnWidth columnSize )
+        public IFluentColumnOnBreakpointWithOffsetAndSize WithColumnSize( ColumnWidth columnSize )
         {
             var columnDefinition = new ColumnDefinition { Breakpoint = Breakpoint.None };
 
@@ -225,7 +225,7 @@ namespace Blazorise
             return this;
         }
 
-        private IFluentColumnWithSize WithColumnSize( string value )
+        public IFluentColumnWithSize WithColumnSize( string value )
         {
             if ( customRules == null )
                 customRules = new List<string> { value };
@@ -237,7 +237,7 @@ namespace Blazorise
             return this;
         }
 
-        private IFluentColumnWithSize WithBreakpoint( Breakpoint breakpoint )
+        public IFluentColumnWithSize WithBreakpoint( Breakpoint breakpoint )
         {
             currentColumn.Breakpoint = breakpoint;
             Dirty();
