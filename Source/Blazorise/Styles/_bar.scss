@@ -77,6 +77,26 @@
         height: var(--b-vertical-bar-brand-height, 64px);
     }
 
+    .b-bar-toggler-popout:not(.b-bar-mobile-toggle) {
+        display: flex;
+        position: fixed;
+        left: var(--b-vertical-bar-width, 220px);
+        background: var(--b-bar-dark-background, #001529);
+        color: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));
+        border-radius: 0px 10px 10px 0px;
+        border: 0px;
+        width: 10px;
+        height: 60px;
+        padding: 5px;
+        align-items: center;
+        transition: width 200ms ease-in-out, left 200ms ease-in-out;
+        box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+
+        &:hover {
+            width: 45px;
+        }
+    }
+
     .b-bar-item {
         margin: auto;
         flex-grow: 1;
@@ -288,6 +308,10 @@
     min-width: var(--b-vertical-bar-small-width, 64px);
     transition: width 200ms ease-in-out, min-width 200ms ease-in-out;
 
+    .b-bar-toggler-popout:not(.b-bar-mobile-toggle) {
+        left: var(--b-vertical-bar-small-width, 64px);
+    }
+
     .b-bar-dropdown {
         &:before {
             display: none;
@@ -383,12 +407,21 @@
     min-width: 0px;
     transition: width 200ms ease-in-out, min-width 200ms ease-in-out, visibility 100ms;
     visibility: hidden;
+
+    .b-bar-toggler-popout:not(.b-bar-mobile-toggle) {
+        visibility: visible;
+        left: 0px;
+    }
 }
 
 /* Mobile & below */
 @media only screen and (max-width:576px) {
     .b-bar-vertical-inline:not([data-collapse]) {
         min-width: 100vw;
+
+        .b-bar-toggler-popout:not(.b-bar-mobile-toggle) {
+            left: 100vw;
+        }
 
         .b-bar-mobile-toggle {
             display: flex;
