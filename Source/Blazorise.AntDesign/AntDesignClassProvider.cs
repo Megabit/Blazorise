@@ -1,9 +1,7 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.AntDesign
@@ -540,7 +538,7 @@ namespace Blazorise.AntDesign
 
         public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-item" : "ant-menu-item ant-bar-brand";
 
-        public override string BarToggler( BarMode mode ) => null;
+        public override string BarToggler( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-toggler-popout";
 
         public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => null;
 

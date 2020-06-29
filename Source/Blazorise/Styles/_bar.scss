@@ -92,8 +92,17 @@
         transition: width 200ms ease-in-out, left 200ms ease-in-out;
         box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
 
+        & > * {
+            margin: auto;
+            display: none;
+        }
+
         &:hover {
             width: 45px;
+
+            & > * {
+                display: block;
+            }
         }
     }
 

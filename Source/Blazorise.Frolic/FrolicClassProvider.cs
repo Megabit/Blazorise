@@ -1,9 +1,6 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.Frolic
@@ -523,7 +520,7 @@ namespace Blazorise.Frolic
 
         public override string BarItemHasDropdownShow( BarMode mode ) => Show();
 
-        public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal? "e-menu-item" : "b-bar-link";
+        public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-menu-item" : "b-bar-link";
 
         public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
@@ -531,31 +528,31 @@ namespace Blazorise.Frolic
 
         public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
 
-        public override string BarToggler( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-btn no-shadow no-desktop" : null;
+        public override string BarToggler( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-btn no-shadow no-desktop" : "b-bar-toggler-popout";
 
-        public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => isShow ? Show() : null;
+        public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => isShow || mode != Blazorise.BarMode.Horizontal ? null : Show();
 
-        public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal? "e-menu" : "b-bar-menu";
+        public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-menu" : "b-bar-menu";
 
         public override string BarMenuShow( BarMode mode ) => Show();
 
-        public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal? "e-distribution" : "b-bar-start";
+        public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-distribution" : "b-bar-start";
 
         public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-distribution" : "b-bar-end";
 
         //public override string BarHasDropdown() => "dropdown";
 
-        public override string BarDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal? "e-dropdown" : "b-bar-dropdown";
+        public override string BarDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-dropdown" : "b-bar-dropdown";
 
         public override string BarDropdownShow( BarMode mode ) => null;
 
         public override string BarDropdownToggle( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-link";
 
-        public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal? "drop-item" : "b-bar-dropdown-item";
+        public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "drop-item" : "b-bar-dropdown-item";
 
         public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
 
-        public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal? "drop-items" : "b-bar-dropdown-menu";
+        public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "drop-items" : "b-bar-dropdown-menu";
 
         public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
