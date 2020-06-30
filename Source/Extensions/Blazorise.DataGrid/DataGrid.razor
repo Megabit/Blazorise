@@ -77,12 +77,12 @@
             }
         </TableHeader>
         <TableBody>
-            @if ( IsDisplayDataVisible || IsNewItemInGrid )
+            @if ( IsNewItemInGrid )
             {
-                @if ( IsNewItemInGrid )
-                {
-                    <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
-                }
+                <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
+            }
+            @if ( IsDisplayDataVisible )
+            {
                 @foreach ( var item in DisplayData )
                 {
                     @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && (object)item == (object)editItem )
@@ -106,15 +106,19 @@
                     }
                 }
             }
+            @if ( IsEmptyTemplateVisible )
+            {
+                <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                    @EmptyTemplate
+                </_DataGridFullColumnSpanRow>
+            }
+            @if ( IsLoadingTemplateVisible )
+            {
+                <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                    @LoadingTemplate
+                </_DataGridFullColumnSpanRow>
+            }
         </TableBody>
-        @if ( IsEmptyTemplateVisible && !IsLoadingTemplateVisible && !IsNewItemInGrid )
-        {
-            @EmptyTemplate
-        }
-        @if ( IsLoadingTemplateVisible && !IsNewItemInGrid )
-        {
-            @LoadingTemplate
-        }
         @if ( HasAggregates )
         {
             <TableFooter>
@@ -122,7 +126,7 @@
             </TableFooter>
         }
     </Table>
-    @if ( ShowPager && !IsEmptyTemplateVisible && !IsLoadingTemplateVisible )
+    @if ( IsPagerVisible )
     {
         <Pagination>
             <PaginationItem Disabled="@(CurrentPage <= 1)">
