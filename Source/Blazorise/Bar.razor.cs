@@ -1,8 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
@@ -16,7 +12,10 @@ namespace Blazorise
     {
         #region Members
 
-        private bool lastBrokenState;
+        /// <summary>
+        /// Used to keep track of the breakpoint state for this component.
+        /// </summary>
+        private bool isBroken;
 
         private Breakpoint breakpoint = Breakpoint.None;
 
@@ -43,12 +42,6 @@ namespace Blazorise
 
         protected override async Task OnInitializedAsync()
         {
-            if ( Mode != BarMode.Horizontal )
-            {
-                lastBrokenState = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
-                Visible = !lastBrokenState;
-            }
-
             if ( NavigationBreakpoint != Breakpoint.None )
                 NavigationManager.LocationChanged += OnLocationChanged;
 
@@ -62,6 +55,20 @@ namespace Blazorise
             if ( Rendered )
             {
                 _ = JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+
+                if ( Mode != BarMode.Horizontal )
+                {
+                    // Check if we need to collapse the Bar based on the current screen width against the breakpoint defined for this component.
+                    // This needs to be run to set the inital state, RegisterBreakpointComponent and OnBreakpoint will handle
+                    // additional changes to responsive breakpoints from there.
+                    isBroken = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
+
+                    if ( Visible == isBroken )
+                    {
+                        Visible = !isBroken;
+                        StateHasChanged();
+                    }
+                }
             }
 
             await base.OnFirstAfterRenderAsync();
@@ -88,12 +95,15 @@ namespace Blazorise
 
         public Task OnBreakpoint( bool broken )
         {
-            if ( lastBrokenState == broken )
+            // If the breakpoint state has changed, we need to toggle the visibility of this component.
+            // broken = true, hide the component
+            // broken = false, show the component
+            if ( isBroken == broken )
                 return Task.CompletedTask;
 
-            lastBrokenState = broken;
-            Visible = !lastBrokenState;
-            
+            isBroken = broken;
+            Visible = !isBroken;
+
             StateHasChanged();
 
             return Task.CompletedTask;
