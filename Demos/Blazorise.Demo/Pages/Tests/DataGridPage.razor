@@ -1,6 +1,4 @@
 ﻿@page "/tests/datagrid"
-@inject IJSRuntime jsRuntime
-
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -16,28 +14,28 @@
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <Check @bind-Checked="@Editable">Editable</Check>
+                            <Check @bind-Checked="@editable">Editable</Check>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <Check @bind-Checked="@Sortable">Sortable</Check>
+                            <Check @bind-Checked="@sortable">Sortable</Check>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <Check @bind-Checked="@Filterable">Filterable</Check>
+                            <Check @bind-Checked="@filterable">Filterable</Check>
                         </FieldBody>
                     </Field>
                     <Field>
                         <FieldLabel>
                         </FieldLabel>
                         <FieldBody>
-                            <Check @bind-Checked="@ShowPager">Show Pager</Check>
+                            <Check @bind-Checked="@showPager">Show Pager</Check>
                         </FieldBody>
                     </Field>
                     <Field>
@@ -60,29 +58,19 @@
                             <TextEdit @bind-Text="@customFilterValue" />
                         </FieldBody>
                     </Field>
-                    <Field>
-                        <FieldLabel>
-                        </FieldLabel>
-                        <FieldBody>
-                            <Check @bind-Checked="@SimulateLoading">Simulate Loading</Check>
-                        </FieldBody>
-                    </Field>
                 </Fields>
             </CardBody>
             <CardBody>
-                <DataGrid @ref="grid"
-                          TItem="Employee"
+                <DataGrid TItem="Employee"
                           Data="@dataModels"
                           EditMode="@editMode"
-                          Editable="@Editable"
-                          Sortable="@Sortable"
-                          Filterable="@Filterable"
-                          ShowPager="@ShowPager"
+                          Editable="@editable"
+                          Sortable="@sortable"
+                          Filterable="@filterable"
+                          ShowPager="@showPager"
                           RowInserted="@OnRowInserted"
                           RowUpdated="@OnRowUpdated"
                           RowRemoved="@OnRowRemoved"
-                          TotalItems="@totalItems"
-                          ReadData="@(SimulateLoading ? new EventCallback<DataGridReadDataEventArgs<Employee>>(this, new ReadData(OnReadData)) : new EventCallback<DataGridReadDataEventArgs<Employee>>() )"
                           UseInternalEditing="true"
                           @bind-SelectedRow="@selectedEmployee"
                           DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
@@ -191,9 +179,6 @@
                             </DataGrid>
                         }
                     </DetailRowTemplate>
-                    <LoadingTemplate>
-                        Loading ...
-                    </LoadingTemplate>
                 </DataGrid>
             </CardBody>
         </Card>
@@ -235,91 +220,11 @@
     </Column>
 </Row>
 @code{
-    DataGrid<Employee> grid;
     DataGridEditMode editMode = DataGridEditMode.Form;
     bool editable = true;
     bool sortable = true;
     bool filterable = true;
     bool showPager = true;
-    bool simulateLoading = false;
-    int totalItems;
-
-    public bool Editable
-    {
-        get
-        {
-            return editable;
-        }
-        set
-        {
-            editable = value;
-            if (editable)
-            {
-                SimulateLoading = false;
-            }
-            StateHasChanged();
-        }
-    }
-
-    public bool Sortable
-    {
-        get
-        {
-            return sortable;
-        }
-        set
-        {
-            sortable = value;
-            if (sortable)
-            {
-                SimulateLoading = false;
-            }
-            StateHasChanged();
-        }
-    }
-
-    public bool Filterable
-    {
-        get
-        {
-            return filterable;
-        }
-        set
-        {
-            filterable = value;
-            if (filterable)
-            {
-                SimulateLoading = false;
-            }
-            StateHasChanged();
-        }
-    }
-
-    public bool ShowPager { get => showPager; set => showPager = value; }
-
-    public bool SimulateLoading
-    {
-        get
-        {
-            return simulateLoading;
-        }
-        set
-        {
-            simulateLoading = value;
-            if (simulateLoading)
-            {
-                dataModels = remoteDataModels.Take(5).ToList();
-                Filterable = false;
-                Sortable = false;
-                Editable = false;
-            }
-            else
-            {
-                dataModels = remoteDataModels;
-            }
-            StateHasChanged();
-        }
-    }
 
     // TODO: add options to control the commands
     //bool newCommandAllowed = true;
@@ -354,9 +259,8 @@
         public decimal Total { get; set; }
     }
 
-    //For simulating loading
     // generated with https://mockaroo.com/
-    List<Employee> remoteDataModels = new List<Employee> {
+    List<Employee> dataModels = new List<Employee> {
         new Employee {Id = 1,FirstName = "Caro",LastName = "Nizard",EMail = "cnizard0@hc360.com",City = "Faīẕābād",Zip = null,Salary = 51724.19m, DateOfBirth = new DateTime(1983,5,8),
             Salaries = new List<Salary> {
                 new Salary { Date = new DateTime(2019,1,6), Total = 6000 },
@@ -394,26 +298,6 @@
         new Employee {Id = 26,FirstName = "Reeta",LastName = "Acom",EMail = "racomp@fc2.com",City = "Baoping",Zip = null,Salary = 61296.4m },
         new Employee {Id = 27,FirstName = "Chandler",LastName = "Franzonetti",EMail = "cfranzonettiq@archive.org",City = "Emin",Zip = null,Salary = 67458.07m, Childrens=1 }
     };
-
-    List<Employee> dataModels;
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        totalItems = remoteDataModels.Count;
-        dataModels = remoteDataModels;
-    }
-
-    async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
-    {
-        var offset = (e.Page - 1) * e.PageSize;
-        await Task.Delay(5000);
-        //TODO Better filter options!
-        var filteredData = remoteDataModels;
-        totalItems = filteredData.Count;
-        dataModels = filteredData.Skip(offset).Take(e.PageSize).ToList();
-        StateHasChanged();
-    }
 
     void OnRowInserted( SavedRowItem<Employee, Dictionary<string, object>> e )
     {
@@ -459,6 +343,4 @@
             || model.LastName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
             || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
     }
-
-    delegate Task ReadData( DataGridReadDataEventArgs<Employee> e );
 }
