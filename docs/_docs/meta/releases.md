@@ -6,6 +6,22 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.9.1.1
+
+### Bug fixes
+
+- [#1026](https://github.com/stsrki/Blazorise/issues/1026) Bar issue with Server-Side pre-rendering
+- [#1030](https://github.com/stsrki/Blazorise/issues/1030) Role="TextRole.Email" cashes Validation
+- [#1044](https://github.com/stsrki/Blazorise/issues/1044) Autocomplete, define the type="search" of TextEdit
+- [#1045](https://github.com/stsrki/Blazorise/issues/1045) Bootstrap 4.5.0 - ColumnSize="ColumnSize.Is12.OnMobile" still use 'col-xs-12' (deprecated)
+
+## PRs
+
+- [#1032](https://github.com/stsrki/Blazorise/pull/1032) Fixes for DataGrid manual data read behavior
+- [#1027](https://github.com/stsrki/Blazorise/pull/1027) fix: Server-Side pre-rendering issue with Bar calling JSInterop
+
+For detail description of changes please look at [v0.9.1.1 release page]({{ "/news/release-notes/0911/" | relative_url }})
+
 ## 0.9.1
 
 ### Features and bug fixes
