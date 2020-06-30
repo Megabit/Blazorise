@@ -521,7 +521,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
 
-        public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
+        public override string BarBreakpoint( Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
 
         public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
 
@@ -611,11 +611,8 @@ namespace Blazorise.Bootstrap
         {
             var baseClass = offset ? "offset" : Column();
 
-            if ( breakpoint != Blazorise.Breakpoint.None )
+            if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
             {
-                if ( columnWidth == Blazorise.ColumnWidth.None )
-                    return $"{baseClass}-{ToBreakpoint( breakpoint )}";
-
                 return $"{baseClass}-{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
             }
 
@@ -631,7 +628,7 @@ namespace Blazorise.Bootstrap
 
         public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
         {
-            var baseClass = breakpoint != Breakpoint.None
+            var baseClass = breakpoint != Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile
                 ? $"d-{ToBreakpoint( breakpoint )}-{ToDisplayType( displayType )}"
                 : $"d-{ToDisplayType( displayType )}";
 
@@ -935,7 +932,7 @@ namespace Blazorise.Bootstrap
 
         public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
         {
-            if ( breakpoint != Blazorise.Breakpoint.None )
+            if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Breakpoint.Mobile )
                 return $"{ToSpacing( spacing )}{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
 
             return $"{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
