@@ -252,7 +252,7 @@ namespace Blazorise
     {
         public float GradientBlendPercentage { get; set; } = 15f;
 
-        public bool ShowToggleIcon { get; set; } = true;
+        public bool ToggleIconVisible { get; set; } = true;
     }
 
     public class ThemeInputOptions : BasicOptions

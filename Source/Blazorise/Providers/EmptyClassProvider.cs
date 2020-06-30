@@ -301,7 +301,7 @@ namespace Blazorise.Providers
 
         public string DropdownMenuRight() => null;
 
-        public string DropdownToggle( bool showToggle ) => null;
+        public string DropdownToggle() => null;
 
         public string DropdownToggleColor( Color color ) => null;
 
@@ -310,6 +310,8 @@ namespace Blazorise.Providers
         public string DropdownToggleSize( ButtonSize buttonSize ) => null;
 
         public string DropdownToggleSplit() => null;
+
+        public string DropdownToggleIcon( bool visible ) => null;
 
         public string DropdownDirection( Direction direction ) => null;
 

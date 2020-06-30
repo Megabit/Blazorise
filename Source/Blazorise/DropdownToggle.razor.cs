@@ -32,11 +32,12 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.DropdownToggle( DrawToggleIcon ) );
+            builder.Append( ClassProvider.DropdownToggle() );
             builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
             builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != ButtonSize.None );
             builder.Append( ClassProvider.DropdownToggleSplit(), Split );
+            builder.Append( ClassProvider.DropdownToggleIcon( IsToggleIconVisible ) );
 
             base.BuildClasses( builder );
         }
@@ -97,6 +98,11 @@ namespace Blazorise
         #region Properties
 
         protected bool IsGroup => ParentDropdown?.IsGroup == true;
+
+        /// <summary>
+        /// Should the toggle icon be drawn
+        /// </summary>
+        protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.DropdownOptions?.ToggleIconVisible ?? true );
 
         /// <summary>
         /// Gets or sets the dropdown color.
@@ -167,23 +173,19 @@ namespace Blazorise
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the dropdown toggle is visible.
+        /// Gets or sets a value indicating whether the dropdown toggle icon is visible.
         /// </summary>
         /// <value>
         /// <c>true</c> if [show toggle]; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>Default: True</remarks>
-        [Parameter] public bool? ShowToggle { get; set; }
+        [Parameter] public bool? ToggleIconVisible { get; set; }
 
         /// <summary>
-        /// Should the toggle icon be drawn
-        /// </summary>
-        protected bool DrawToggleIcon => ShowToggle.GetValueOrDefault( Theme.DropdownOptions?.ShowToggleIcon ?? true );
-
-        /// <summary>
-        /// The applied theme
+        /// The applied theme.
         /// </summary>
         [CascadingParameter] protected Theme Theme { get; set; }
+
         #endregion
     }
 }

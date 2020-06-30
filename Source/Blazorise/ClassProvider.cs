@@ -298,7 +298,7 @@ namespace Blazorise
 
         public abstract string DropdownMenuRight();
 
-        public abstract string DropdownToggle( bool showToggle );
+        public abstract string DropdownToggle();
 
         public abstract string DropdownToggleColor( Color color );
 
@@ -307,6 +307,8 @@ namespace Blazorise
         public abstract string DropdownToggleSize( ButtonSize buttonSize );
 
         public abstract string DropdownToggleSplit();
+
+        public abstract string DropdownToggleIcon( bool visible );
 
         public abstract string DropdownDirection( Direction direction );
 

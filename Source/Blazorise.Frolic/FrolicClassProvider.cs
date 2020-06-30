@@ -333,7 +333,7 @@ namespace Blazorise.Frolic
 
         public override string DropdownMenuRight() => null;
 
-        public override string DropdownToggle( bool showToggle ) => "button dropdown";
+        public override string DropdownToggle() => "button dropdown";
 
         public override string DropdownToggleColor( Color color ) => ToColor( color );
 
@@ -353,6 +353,8 @@ namespace Blazorise.Frolic
         }
 
         public override string DropdownToggleSplit() => "button split";
+
+        public override string DropdownToggleIcon( bool visible ) => null;
 
         public override string DropdownDirection( Direction direction )
         {
