@@ -554,7 +554,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Returns true if EmptyTemplate is set and Data is null or empty.
         /// </summary>
-        protected bool IsEmptyTemplateVisible => EmptyTemplate != null && ( Data == null || !Data.Any() );
+        protected bool IsEmptyTemplateVisible => !IsLoadingTemplateVisible && EmptyTemplate != null && ( Data == null || !Data.Any() );
 
         /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.
