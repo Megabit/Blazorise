@@ -17,6 +17,8 @@ namespace Blazorise
 
         private BarTogglerMode mode = BarTogglerMode.Normal;
 
+        private Bar bar;
+
         #endregion
 
         #region Methods
@@ -29,13 +31,30 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        protected override void BuildStyles( StyleBuilder builder )
+        {
+            if ( Bar != null )
+            {
+                builder.Append( "display: inline-flex" );
+            }
+
+            base.BuildStyles( builder );
+        }
+
         protected Task ClickHandler()
         {
-            // NOTE: is this right?
-            if ( Clicked == null )
-                ParentBar?.Toggle();
+            if ( Clicked != null )
+            {
+                Clicked.Invoke();
+            }
+            else if ( Bar != null )
+            {
+                Bar.Toggle();
+            }
             else
-                Clicked?.Invoke();
+            {
+                ParentBar?.Toggle();
+            } 
 
             return Task.CompletedTask;
         }
@@ -59,6 +78,21 @@ namespace Blazorise
                     return;
 
                 mode = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [Parameter]
+        public Bar Bar 
+        {
+            get => bar;
+            set
+            {
+                if ( bar == value )
+                    return;
+
+                bar = value;
 
                 DirtyClasses();
             }

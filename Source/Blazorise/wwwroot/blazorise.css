@@ -245,7 +245,7 @@
     .b-bar-vertical-inline .b-bar-toggler-inline,
     .b-bar-vertical-popout .b-bar-toggler-inline,
     .b-bar-vertical-small .b-bar-toggler-inline {
-        height: 64px;
+        height: var(--b-vertical-bar-brand-height, 64px);
         padding: 12px;
         display: inline-flex;
         cursor: pointer;
@@ -264,7 +264,7 @@
         border-radius: 0px 10px 10px 0px;
         border: 0px;
         width: 10px;
-        height: 60px;
+        height: 40px;
         padding: 5px;
         align-items: center;
         transition: width 200ms ease-in-out, left 200ms ease-in-out;
