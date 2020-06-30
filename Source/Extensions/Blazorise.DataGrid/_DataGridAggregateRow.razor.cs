@@ -27,6 +27,7 @@ namespace Blazorise.DataGrid
         {
             if ( Data == null )
                 return null;
+
             switch ( aggregate.Aggregate )
             {
                 case DataGridAggregateType.Sum:
