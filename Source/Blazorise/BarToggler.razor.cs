@@ -15,14 +15,16 @@ namespace Blazorise
 
         private BarStore parentStore;
 
+        private BarTogglerMode mode = BarTogglerMode.Normal;
+
         #endregion
 
         #region Methods
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarToggler( ParentStore.Mode ) );
-            builder.Append( ClassProvider.BarTogglerCollapsed( ParentStore.Mode, ParentStore.Visible ) );
+            builder.Append( ClassProvider.BarToggler( ParentStore.Mode, Mode ) );
+            builder.Append( ClassProvider.BarTogglerCollapsed( ParentStore.Mode, Mode, ParentStore.Visible ) );
 
             base.BuildClasses( builder );
         }
@@ -46,6 +48,21 @@ namespace Blazorise
         /// Occurs when the button is clicked.
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
+
+        [Parameter]
+        public BarTogglerMode Mode
+        {
+            get => mode;
+            set
+            {
+                if ( mode == value )
+                    return;
+
+                mode = value;
+
+                DirtyClasses();
+            }
+        }
 
         [CascadingParameter]
         protected BarStore ParentStore

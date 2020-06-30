@@ -487,9 +487,9 @@ namespace Blazorise
 
         string BarBrand( BarMode mode );
 
-        string BarToggler( BarMode mode );
+        string BarToggler( BarMode mode, BarTogglerMode togglerMode );
 
-        string BarTogglerCollapsed( BarMode mode, bool isShow );
+        string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow );
 
         string BarMenu( BarMode mode );
 

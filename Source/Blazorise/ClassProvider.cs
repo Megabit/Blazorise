@@ -490,9 +490,9 @@ namespace Blazorise
 
         public abstract string BarBrand( BarMode mode );
 
-        public abstract string BarToggler( BarMode mode );
+        public abstract string BarToggler( BarMode mode, BarTogglerMode togglerMode );
 
-        public abstract string BarTogglerCollapsed( BarMode mode, bool isShow );
+        public abstract string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow );
 
         public abstract string BarMenu( BarMode mode );
 
