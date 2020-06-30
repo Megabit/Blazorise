@@ -556,7 +556,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Returns true if LoadingTemplate is set and IsLoading is true.
         /// </summary>
-        protected bool IsLoadingTemplateVisible => LoadingTemplate != null && IsLoading;
+        protected bool IsLoadingTemplateVisible => !IsNewItemInGrid && LoadingTemplate != null && IsLoading;
 
         /// <summary>
         /// Returns true if ReadData will be invoked.
@@ -566,7 +566,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Returns true if EmptyTemplate is set and Data is null or empty.
         /// </summary>
-        protected bool IsEmptyTemplateVisible => EmptyTemplate != null && ( Data == null || !Data.Any() );
+        protected bool IsEmptyTemplateVisible => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyTemplate != null && ( Data == null || !Data.Any() );
+
+        /// <summary>
+        /// Returns true if ShowPager is true and grid is not empty or loading.
+        /// </summary>
+        protected bool IsPagerVisible => !IsEmptyTemplateVisible && !IsLoadingTemplateVisible && ShowPager;
 
         /// <summary>
         /// Returns true if current state is for new item and editing fields are shown on datagrid.
