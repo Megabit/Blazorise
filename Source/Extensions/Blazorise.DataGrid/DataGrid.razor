@@ -81,7 +81,7 @@
             {
                 <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
             }
-            @if (IsDisplayDataVisible)
+            @if ( IsDisplayDataVisible )
             {
                 @foreach ( var item in DisplayData )
                 {
