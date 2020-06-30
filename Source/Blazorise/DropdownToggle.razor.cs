@@ -1,7 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
@@ -35,7 +32,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.DropdownToggle( ShowToggle ) );
+            builder.Append( ClassProvider.DropdownToggle( DrawToggleIcon ) );
             builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
             builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != ButtonSize.None );
@@ -176,7 +173,17 @@ namespace Blazorise
         /// <c>true</c> if [show toggle]; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>Default: True</remarks>
-        [Parameter] public bool ShowToggle { get; set; } = true;
+        [Parameter] public bool? ShowToggle { get; set; }
+
+        /// <summary>
+        /// Should the toggle icon be drawn
+        /// </summary>
+        protected bool DrawToggleIcon => ShowToggle.GetValueOrDefault( Theme.DropdownOptions?.ShowToggleIcon ?? true );
+
+        /// <summary>
+        /// The applied theme
+        /// </summary>
+        [CascadingParameter] protected Theme Theme { get; set; }
         #endregion
     }
 }

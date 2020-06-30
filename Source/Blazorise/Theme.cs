@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 #endregion
 
 namespace Blazorise
@@ -252,6 +251,8 @@ namespace Blazorise
     public class ThemeDropdownOptions : BasicOptions
     {
         public float GradientBlendPercentage { get; set; } = 15f;
+
+        public bool ShowToggleIcon { get; set; } = true;
     }
 
     public class ThemeInputOptions : BasicOptions
