@@ -78,7 +78,7 @@ You should always define `TItem` data type.
     {
         await lineChart.Clear();
 
-        await chart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );
+        await lineChart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );
     }
 
     LineChartDataset<double> GetLineChartDataset()
