@@ -297,7 +297,7 @@ namespace Blazorise
 
         string DropdownMenuRight();
 
-        string DropdownToggle();
+        string DropdownToggle( bool showToggle );
 
         string DropdownToggleColor( Color color );
 

@@ -342,11 +342,11 @@ namespace Blazorise.AntDesign
 
         public override string DropdownMenuRight() => "dropdown-menu-right";
 
-        public override string DropdownToggle() => "ant-btn ant-dropdown-trigger";
+        public override string DropdownToggle( bool showToggle ) => "ant-btn ant-dropdown-trigger";
 
         public override string DropdownToggleColor( Color color ) => $"{Button()}-{ToColor( color )}";
 
-        public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+        public override string DropdownToggleOutline( Color color ) => color != Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
         public override string DropdownToggleSize( ButtonSize buttonSize )
         {

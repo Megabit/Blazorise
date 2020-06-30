@@ -35,7 +35,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.DropdownToggle() );
+            builder.Append( ClassProvider.DropdownToggle( ShowToggle ) );
             builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
             builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != ButtonSize.None );
@@ -169,6 +169,14 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the dropdown toggle is visible.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [show toggle]; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>Default: True</remarks>
+        [Parameter] public bool ShowToggle { get; set; } = true;
         #endregion
     }
 }

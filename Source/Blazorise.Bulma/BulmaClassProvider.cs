@@ -348,7 +348,7 @@ namespace Blazorise.Bulma
 
         public override string DropdownMenuRight() => null;
 
-        public override string DropdownToggle() => "button dropdown-trigger";
+        public override string DropdownToggle( bool showToggle ) => "button dropdown-trigger";
 
         public override string DropdownToggleColor( Color color ) => $"is-{ToColor( color )}";
 
