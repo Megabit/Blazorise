@@ -308,6 +308,8 @@ namespace Blazorise
 
         public abstract string DropdownToggleSplit();
 
+        public abstract string DropdownToggleIcon( bool visible );
+
         public abstract string DropdownDirection( Direction direction );
 
         #endregion

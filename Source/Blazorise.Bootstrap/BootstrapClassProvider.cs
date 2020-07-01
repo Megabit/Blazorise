@@ -366,6 +366,8 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownToggleSplit() => "dropdown-toggle-split";
 
+        public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
+
         public override string DropdownDirection( Direction direction )
         {
             switch ( direction )

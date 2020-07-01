@@ -1,7 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
@@ -40,6 +37,7 @@ namespace Blazorise
             builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
             builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != ButtonSize.None );
             builder.Append( ClassProvider.DropdownToggleSplit(), Split );
+            builder.Append( ClassProvider.DropdownToggleIcon( IsToggleIconVisible ) );
 
             base.BuildClasses( builder );
         }
@@ -100,6 +98,11 @@ namespace Blazorise
         #region Properties
 
         protected bool IsGroup => ParentDropdown?.IsGroup == true;
+
+        /// <summary>
+        /// Should the toggle icon be drawn
+        /// </summary>
+        protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.DropdownOptions?.ToggleIconVisible ?? true );
 
         /// <summary>
         /// Gets or sets the dropdown color.
@@ -168,6 +171,20 @@ namespace Blazorise
         [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the dropdown toggle icon is visible.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [show toggle]; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>Default: True</remarks>
+        [Parameter] public bool? ToggleIconVisible { get; set; }
+
+        /// <summary>
+        /// The applied theme.
+        /// </summary>
+        [CascadingParameter] protected Theme Theme { get; set; }
 
         #endregion
     }

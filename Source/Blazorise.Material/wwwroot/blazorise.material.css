@@ -11,6 +11,12 @@
     .badge-close:active {
         background-color: rgba(10, 10, 10, 0.4); }
 
+.dropdown-toggle.dropdown-toggle-hidden::after {
+    content: none !important; }
+
+.dropdown-toggle.dropdown-toggle-hidden::before {
+    content: none !important; }
+
 .form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .custom-checkbox > .custom-control-input.custom-control-input-pointer,

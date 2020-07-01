@@ -311,6 +311,8 @@ namespace Blazorise.Providers
 
         public string DropdownToggleSplit() => null;
 
+        public string DropdownToggleIcon( bool visible ) => null;
+
         public string DropdownDirection( Direction direction ) => null;
 
         #endregion
