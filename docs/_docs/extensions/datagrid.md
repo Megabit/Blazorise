@@ -511,9 +511,9 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | RowRemoving            | Action                                                              |         | Cancelable event called before the row is removed.                                                          |
 | RowRemoved             | EventCallback                                                       |         | Event called after the row is removed.                                                                      |
 | PageChanged            | EventCallback                                                       |         | Occurs after the selected page has changed.                                                                 |
-| EmptyTemplate            | RenderingFragment                                                       |         | Define the format for empty data collection                                                                 |
-| LoadingTemplate            | RenderingFragment                                                       |         | Define the format for signal of loading data                                                                 |
-| PopupTitleTemplate        | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of popup modal                                                                      |
+| EmptyTemplate          | RenderingFragment                                                   |         | Define the format for empty data collection                                                                 |
+| LoadingTemplate        | RenderingFragment                                                   |         | Define the format for signal of loading data                                                                |
+| PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of edit popup dialog                                                              |
 
 ### EditMode
 
@@ -552,4 +552,4 @@ Specifies the grid editing modes.
 | DisplayTemplate           | `RenderFragment<TItem>`                                             |         | Template for custom cell display formating.                                                                   |
 | EditTemplate              | `RenderFragment<CellEditContext>`                                   |         | Template for custom cell editing.                                                                             |
 | FilterTemplate            | `RenderFragment<FilterContext>`                                     |         | Template for custom column filter rendering.                                                                  |
-| PopupColumnSize            | `IFluentColumn`                                     |  ColumnSize.IsHalf.OnDesktop       | Change size of field for popup modal.                                                                  |
+| PopupColumnSize           | `IFluentColumn`                                                     |  `IsHalf.OnDesktop` | Defines the size of field for popup modal.                                                        |
