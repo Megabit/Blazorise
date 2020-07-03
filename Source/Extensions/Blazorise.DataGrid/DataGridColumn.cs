@@ -250,6 +250,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<FilterContext> FilterTemplate { get; set; }
 
+        /// <summary>
+        /// Template for custom column filter rendering.
+        /// </summary>
+        [Parameter] public IFluentColumn PopupColumnSize { get; set; } = ColumnSize.IsHalf.OnDesktop;
+
         internal FilterContext FilterContext { get; set; }
 
         /// <summary>
