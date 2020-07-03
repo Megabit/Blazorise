@@ -596,7 +596,7 @@ namespace Blazorise.DataGrid
         {
             return builder =>
             {
-                builder.AddContent(0, context.EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create");
+                builder.AddContent( 0, context.EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create" );
             };
         };
 
