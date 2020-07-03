@@ -589,6 +589,18 @@ namespace Blazorise.DataGrid
         public DataGridEditState EditState => editState;
 
         /// <summary>
+        /// Gets template for title of popup modal.
+        /// </summary>
+        [Parameter]
+        public RenderFragment<PopupTitleContext<TItem>> PopupTitleTemplate { get; set; } = context =>
+        {
+            return builder =>
+            {
+                builder.AddContent( 0, context.EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create" );
+            };
+        };
+
+        /// <summary>
         /// Gets the flag which indicates if popup editor is visible.
         /// </summary>
         protected bool PopupVisible = false;
