@@ -5,7 +5,7 @@
     <ModalContent>
         <ModalHeader>
             <ModalTitle>
-                @if( TitleTemplate == null )
+                @if( TitleTemplate == null || EditItem == null)
                     @(EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create")
                 else
                     @TitleTemplate( new PopupTitleContext<TItem>( EditItem, EditState ) )

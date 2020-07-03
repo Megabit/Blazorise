@@ -194,7 +194,7 @@
     @if ( editItem != null && EditMode == DataGridEditMode.Popup )
     {
         <_DataGridModal TItem="TItem"
-                        TitleTemplate="PopupTitleTemplate"
+                        TitleTemplate="@PopupTitleTemplate"
                         EditItem="@editItem"
                         EditItemCellValues="@editItemCellValues"
                         Columns="@Columns"
