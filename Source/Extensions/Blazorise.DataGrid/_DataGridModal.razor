@@ -5,10 +5,10 @@
     <ModalContent>
         <ModalHeader>
             <ModalTitle>
-								@if(TitleTemplate == null)
-									@(EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create")
-								else
-									@TitleTemplate(new PopupTitleContext<TItem>(EditItem, EditState))
+                @if( TitleTemplate == null )
+                    @(EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create")
+                else
+                    @TitleTemplate( new PopupTitleContext<TItem>( EditItem, EditState ) )
             </ModalTitle>
             <CloseButton Clicked="@Cancel" />
         </ModalHeader>
