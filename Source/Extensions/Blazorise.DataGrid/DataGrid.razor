@@ -193,6 +193,8 @@
     }
     @if ( editItem != null && EditMode == DataGridEditMode.Popup )
     {
+			@if (PopupTitleTemplate == null)
+			{
         <_DataGridModal TItem="TItem"
                         EditItem="@editItem"
                         EditItemCellValues="@editItemCellValues"
@@ -200,8 +202,21 @@
                         PopupVisible="@PopupVisible"
                         EditState="@editState"
                         Save="@OnSaveCommand"
-                        Cancel="@OnCancelCommand" />
-    }
+                        Cancel="@OnCancelCommand"/>
+			}
+			else
+			{
+        <_DataGridModal TItem="TItem"
+												TitleTemplate="PopupTitleTemplate"
+                        EditItem="@editItem"
+                        EditItemCellValues="@editItemCellValues"
+                        Columns="@Columns"
+                        PopupVisible="@PopupVisible"
+                        EditState="@editState"
+                        Save="@OnSaveCommand"
+                        Cancel="@OnCancelCommand"/>
+				}
+			}
 </CascadingValue>
 @* This one is to hold information about columns *@
 <CascadingValue Value=this>

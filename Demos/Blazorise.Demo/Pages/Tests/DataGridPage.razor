@@ -179,6 +179,12 @@
                             </DataGrid>
                         }
                     </DetailRowTemplate>
+										<PopupTitleTemplate>
+											@if(context.EditState == DataGridEditState.Edit)
+												@("Edit Employee " + context.Item.FirstName + " " + context.Item.LastName)
+											else
+												@("Create Employee")
+										</PopupTitleTemplate>
                 </DataGrid>
             </CardBody>
         </Card>

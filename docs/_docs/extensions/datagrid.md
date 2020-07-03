@@ -551,3 +551,4 @@ Specifies the grid editing modes.
 | DisplayTemplate           | `RenderFragment<TItem>`                                             |         | Template for custom cell display formating.                                                                   |
 | EditTemplate              | `RenderFragment<CellEditContext>`                                   |         | Template for custom cell editing.                                                                             |
 | FilterTemplate            | `RenderFragment<FilterContext>`                                     |         | Template for custom column filter rendering.                                                                  |
+| PopupTitleTemplate        | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of popup modal                                                                      |
