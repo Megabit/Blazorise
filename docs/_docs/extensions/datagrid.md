@@ -513,6 +513,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | PageChanged            | EventCallback                                                       |         | Occurs after the selected page has changed.                                                                 |
 | EmptyTemplate            | RenderingFragment                                                       |         | Define the format for empty data collection                                                                 |
 | LoadingTemplate            | RenderingFragment                                                       |         | Define the format for signal of loading data                                                                 |
+| PopupTitleTemplate        | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of popup modal                                                                      |
 
 ### EditMode
 
@@ -551,4 +552,3 @@ Specifies the grid editing modes.
 | DisplayTemplate           | `RenderFragment<TItem>`                                             |         | Template for custom cell display formating.                                                                   |
 | EditTemplate              | `RenderFragment<CellEditContext>`                                   |         | Template for custom cell editing.                                                                             |
 | FilterTemplate            | `RenderFragment<FilterContext>`                                     |         | Template for custom column filter rendering.                                                                  |
-| PopupTitleTemplate        | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of popup modal                                                                      |
