@@ -552,4 +552,4 @@ Specifies the grid editing modes.
 | DisplayTemplate           | `RenderFragment<TItem>`                                             |         | Template for custom cell display formating.                                                                   |
 | EditTemplate              | `RenderFragment<CellEditContext>`                                   |         | Template for custom cell editing.                                                                             |
 | FilterTemplate            | `RenderFragment<FilterContext>`                                     |         | Template for custom column filter rendering.                                                                  |
-| PopupColumnSize           | `IFluentColumn`                                                     |  `IsHalf.OnDesktop` | Defines the size of field for popup modal.                                                        |
+| PopupFieldColumnSize      | `IFluentColumn`                                                     |  `IsHalf.OnDesktop` | Defines the size of field for popup modal.                                                        |

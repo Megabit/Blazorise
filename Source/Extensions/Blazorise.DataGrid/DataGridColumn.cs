@@ -253,7 +253,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Defines the size of field for popup modal.
         /// </summary>
-        [Parameter] public IFluentColumn PopupColumnSize { get; set; } = ColumnSize.IsHalf.OnDesktop;
+        [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; } = ColumnSize.IsHalf.OnDesktop;
 
         internal FilterContext FilterContext { get; set; }
 
