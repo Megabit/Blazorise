@@ -181,7 +181,7 @@ Just as in the previous example everything is the same except that now we must d
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.City)" Caption="City" Editable="true" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Zip)" Caption="Zip" Editable="true" />
     <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.Childrens)" Caption="Childrens" Editable="true" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary"Editable="true">
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
         <DisplayTemplate>
             @($"{( context as Employee )?.Salary} €")
         </DisplayTemplate>
@@ -525,7 +525,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | EmptyTemplate          | RenderingFragment                                                   |         | Define the format for empty data collection                                                                 |
 | LoadingTemplate        | RenderingFragment                                                   |         | Define the format for signal of loading data                                                                |
 | PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of edit popup dialog                                                              |
-| SetDefaultValues       | `Action<TItem>`                                                     |         | Action will be called for setting default values of property, when create new entry                         |
+| SetDefaultValues       | `Action<TItem>`                                                     |         | Action will be called for setting default values of property, when create new entry                           |
 
 ### EditMode
 
