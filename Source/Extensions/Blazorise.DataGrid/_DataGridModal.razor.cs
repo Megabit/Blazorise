@@ -20,6 +20,8 @@ namespace Blazorise.DataGrid
 
         [Parameter] public bool PopupVisible { get; set; }
 
+        [Parameter] public ModalSize PopupSize { get; set; }
+
         [Parameter] public DataGridEditState EditState { get; set; }
 
         [Parameter] public EventCallback Save { get; set; }

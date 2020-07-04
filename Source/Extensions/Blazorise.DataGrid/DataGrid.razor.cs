@@ -606,6 +606,11 @@ namespace Blazorise.DataGrid
         protected bool PopupVisible = false;
 
         /// <summary>
+        /// Defines the size of popup dialog.
+        /// </summary>
+        [Parameter] public ModalSize PopupSize { get; set; } = ModalSize.Default;
+
+        /// <summary>
         /// Gets the reference to the associated command column.
         /// </summary>
         public DataGridCommandColumn<TItem> CommandColumn { get; private set; }

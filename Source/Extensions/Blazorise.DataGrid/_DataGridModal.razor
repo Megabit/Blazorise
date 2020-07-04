@@ -2,7 +2,7 @@
 @inherits _BaseDataGridModal<TItem>
 <Modal Visible="@PopupVisible" Closed="@Cancel">
     <ModalBackdrop />
-    <ModalContent>
+    <ModalContent Size="@PopupSize">
         <ModalHeader>
             <ModalTitle>
                 @if ( TitleTemplate != null && EditItem != null )
