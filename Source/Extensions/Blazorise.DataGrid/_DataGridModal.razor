@@ -2,7 +2,7 @@
 @inherits _BaseDataGridModal<TItem>
 <Modal Visible="@PopupVisible" Closed="@Cancel">
     <ModalBackdrop />
-    <ModalContent>
+    <ModalContent Size="@PopupSize">
         <ModalHeader>
             <ModalTitle>
                 @if ( TitleTemplate != null && EditItem != null )
@@ -25,7 +25,7 @@
 
                     @if ( column.Editable )
                     {
-                        <Field ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                        <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
                             <Field>
                                 <FieldLabel>
                                     @column.Caption
