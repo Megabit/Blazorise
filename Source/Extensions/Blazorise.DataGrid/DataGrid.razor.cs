@@ -168,7 +168,8 @@ namespace Blazorise.DataGrid
         {
             var newItem = CreateNewItem();
 
-            SetDefaultFromEditableColumns( newItem );
+            if( SetDefaultValues != null )
+                SetDefaultValues.Invoke( newItem );
 
             InitEditItem( newItem );
 
@@ -176,17 +177,6 @@ namespace Blazorise.DataGrid
 
             if ( EditMode == DataGridEditMode.Popup )
                 PopupVisible = true;
-        }
-
-        protected void SetDefaultFromEditableColumns( TItem item )
-        {
-            foreach ( var column in EditableColumns )
-            {
-                var defaultValue = column.DefaultValue;
-                if ( defaultValue == null )
-                    continue;
-                column.SetValue( item, defaultValue );
-            }
         }
 
         protected void OnEditCommand( TItem item )
@@ -919,6 +909,11 @@ namespace Blazorise.DataGrid
         /// Template for displaying detail or nested row.
         /// </summary>
         [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
+
+        /// <summary>
+        /// Function, that is called, when a new item is created for inserting new entry.
+        /// </summary>
+        [Parameter] public Action<TItem> SetDefaultValues { get; set; }
 
         /// <summary>
         /// Adds stripes to the table.

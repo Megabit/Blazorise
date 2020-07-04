@@ -181,8 +181,7 @@ Just as in the previous example everything is the same except that now we must d
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.City)" Caption="City" Editable="true" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Zip)" Caption="Zip" Editable="true" />
     <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.Childrens)" Caption="Childrens" Editable="true" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary"
-                    Editable="true" DefaultValue="100.0M">
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary"Editable="true">
         <DisplayTemplate>
             @($"{( context as Employee )?.Salary} €")
         </DisplayTemplate>
@@ -334,11 +333,16 @@ You have full control over appearance of each row, including the selected rows.
 }
 ```
 
-###DefaultValue
+###SetDefaultValues
 
-DefaultValue is used for setting properties of created item for inserting new entry. It will only be evaluate, if column is editable. Given value has to be type of property. For example: DefaultValue has to set with like 100.0M for Employee.Salary, because it is decimal.
+SetDefaultValues is called for setting properties of created item for inserting new entry. It will only be evaluate, if datagrid is editable.
 ```html
-<DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true" DefaultValue="100.0M">
+<DataGrid TItem="Employee" Editable="true" SetDefaultValues="item => {
+  item.Salary = 100.0M;
+  item.IsActive = true;
+}">
+  ...
+</DataGrid>
 ```
 
 ## Templates
@@ -521,6 +525,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | EmptyTemplate          | RenderingFragment                                                   |         | Define the format for empty data collection                                                                 |
 | LoadingTemplate        | RenderingFragment                                                   |         | Define the format for signal of loading data                                                                |
 | PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of edit popup dialog                                                              |
+| SetDefaultValues       | `Action<TItem>`                                                     |         | Action will be called for setting default values of property, when create new entry                         |
 
 ### EditMode
 
@@ -561,4 +566,3 @@ Specifies the grid editing modes.
 | FilterTemplate            | `RenderFragment<FilterContext>`                                     |                     | Template for custom column filter rendering.                                                                  |
 | PopupSize                 | [ModalSize]({{ "/docs/helpers/sizes/#modalsize" | relative_url }})  |  `Default`          | Defines the size of popup modal.                                                                              |
 | PopupFieldColumnSize      | `IFluentColumn`                                                     |  `IsHalf.OnDesktop` | Defines the size of field for popup modal.                                                                    |
-| DefaultValue              | object                                                              |           | Default value for property of to create new entry, when column is editable.                               |

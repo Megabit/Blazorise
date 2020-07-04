@@ -73,6 +73,7 @@
                           RowRemoved="@OnRowRemoved"
                           UseInternalEditing="true"
                           @bind-SelectedRow="@selectedEmployee"
+                          SetDefaultValues="SetDefaultValuesForEmployee"
                           DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
                           Striped="true"
                           Bordered="true"
@@ -159,12 +160,12 @@
                                 </Select>
                             </EditTemplate>
                         </DataGridSelectColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DefaultValue="100.0M" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.Right">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.Right">
                             <EditTemplate>
                                 <NumericEdit TValue="decimal" Value="@((decimal)( ( (CellEditContext)context ).CellValue ))" ValueChanged="@(v => ( (CellEditContext)context ).CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false" DefaultValue="true">
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false" >
                             <DisplayTemplate>
                                 <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
                             </DisplayTemplate>
@@ -313,6 +314,12 @@
         new Employee {Id = 26,FirstName = "Reeta",LastName = "Acom",EMail = "racomp@fc2.com",City = "Baoping",Zip = null,Salary = 61296.4m },
         new Employee {Id = 27,FirstName = "Chandler",LastName = "Franzonetti",EMail = "cfranzonettiq@archive.org",City = "Emin",Zip = null,Salary = 67458.07m, Childrens=1 }
     };
+
+    void SetDefaultValuesForEmployee(Employee employee)
+    {
+      employee.Salary = 100.0M;
+      employee.IsActive = true;
+    }
 
     void OnRowInserted( SavedRowItem<Employee, Dictionary<string, object>> e )
     {
