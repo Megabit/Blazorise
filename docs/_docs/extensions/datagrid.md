@@ -181,7 +181,7 @@ Just as in the previous example everything is the same except that now we must d
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.City)" Caption="City" Editable="true" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Zip)" Caption="Zip" Editable="true" />
     <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.Childrens)" Caption="Childrens" Editable="true" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary"Editable="true">
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
         <DisplayTemplate>
             @($"{( context as Employee )?.Salary} €")
         </DisplayTemplate>
@@ -333,16 +333,21 @@ You have full control over appearance of each row, including the selected rows.
 }
 ```
 
-###SetDefaultValues
+### SetDefaultValues
 
-SetDefaultValues is called for setting properties of created item for inserting new entry. It will only be evaluate, if datagrid is editable.
+`SetDefaultValues` function is used to set default values when new item is created and before the edit form is shown. It will only be evaluate, if datagrid is editable.
+
 ```html
-<DataGrid TItem="Employee" Editable="true" SetDefaultValues="item => {
-  item.Salary = 100.0M;
-  item.IsActive = true;
-}">
+<DataGrid TItem="Employee" Editable="true" SetDefaultValues="@SetDefaultValuesForEmployee">
   ...
 </DataGrid>
+@code{
+    void SetDefaultValuesForEmployee( Employee employee )
+    {
+        employee.Salary = 100.0M;
+        employee.IsActive = true;
+    }
+}
 ```
 
 ## Templates

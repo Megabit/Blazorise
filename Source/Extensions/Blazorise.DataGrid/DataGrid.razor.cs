@@ -168,8 +168,7 @@ namespace Blazorise.DataGrid
         {
             var newItem = CreateNewItem();
 
-            if( SetDefaultValues != null )
-                SetDefaultValues.Invoke( newItem );
+            SetDefaultValues?.Invoke( newItem );
 
             InitEditItem( newItem );
 

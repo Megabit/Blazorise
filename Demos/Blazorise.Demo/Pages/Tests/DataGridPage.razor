@@ -165,7 +165,7 @@
                                 <NumericEdit TValue="decimal" Value="@((decimal)( ( (CellEditContext)context ).CellValue ))" ValueChanged="@(v => ( (CellEditContext)context ).CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false" >
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
                             <DisplayTemplate>
                                 <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
                             </DisplayTemplate>
@@ -315,10 +315,10 @@
         new Employee {Id = 27,FirstName = "Chandler",LastName = "Franzonetti",EMail = "cfranzonettiq@archive.org",City = "Emin",Zip = null,Salary = 67458.07m, Childrens=1 }
     };
 
-    void SetDefaultValuesForEmployee(Employee employee)
+    void SetDefaultValuesForEmployee( Employee employee )
     {
-      employee.Salary = 100.0M;
-      employee.IsActive = true;
+        employee.Salary = 100.0M;
+        employee.IsActive = true;
     }
 
     void OnRowInserted( SavedRowItem<Employee, Dictionary<string, object>> e )
