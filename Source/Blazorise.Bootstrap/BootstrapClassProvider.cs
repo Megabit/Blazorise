@@ -553,7 +553,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav mr-auto" : "b-bar-start";
 
-        public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav" : "b-bar-end";
+        public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav ml-auto" : "b-bar-end";
 
         public override string BarDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : "b-bar-dropdown";
 
