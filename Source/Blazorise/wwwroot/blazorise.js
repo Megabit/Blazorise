@@ -97,16 +97,35 @@ window.blazorise = {
         return true;
     },
 
+    hasSelectionCapabilities: (element) => {
+        const nodeName = element && element.nodeName && element.nodeName.toLowerCase();
+
+        return (
+            nodeName &&
+            ((nodeName === 'input' &&
+                (element.type === 'text' ||
+                    element.type === 'search' ||
+                    element.type === 'tel' ||
+                    element.type === 'url' ||
+                    element.type === 'password')) ||
+                nodeName === 'textarea' ||
+                element.contentEditable === 'true')
+        );
+    },
+
     setCaret: (element, caret) => {
-        window.requestAnimationFrame(() => {
-            element.selectionStart = caret;
-            element.selectionEnd = caret;
-        })
+        if (window.blazorise.hasSelectionCapabilities(element)) {
+            window.requestAnimationFrame(() => {
+                element.selectionStart = caret;
+                element.selectionEnd = caret;
+            });
+        }
     },
 
     getCaret: (element) => {
-        const caret = element.selectionStart;
-        return caret;
+        return window.blazorise.hasSelectionCapabilities(element)
+            ? element.selectionStart :
+            -1;
     },
 
     getSelectedOptions: (elementId) => {

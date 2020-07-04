@@ -34,6 +34,8 @@ namespace Blazorise
                     return "password";
                 case TextRole.Url:
                     return "url";
+                case TextRole.Search:
+                    return "search";
                 default:
                     return "text";
             }

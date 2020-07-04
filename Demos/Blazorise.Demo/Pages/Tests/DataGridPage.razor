@@ -116,7 +116,7 @@
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <FilterTemplate>
                                 <Select TValue="string" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
@@ -179,6 +179,16 @@
                             </DataGrid>
                         }
                     </DetailRowTemplate>
+                    <PopupTitleTemplate>
+                        @if ( context.EditState == DataGridEditState.Edit )
+                        {
+                            @($"Edit Employee {context.Item.FirstName} {context.Item.LastName}")
+                        }
+                        else
+                        {
+                            @("Create Employee")
+                        }
+                    </PopupTitleTemplate>
                 </DataGrid>
             </CardBody>
         </Card>

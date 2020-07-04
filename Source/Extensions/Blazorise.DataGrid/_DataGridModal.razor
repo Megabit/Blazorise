@@ -2,10 +2,17 @@
 @inherits _BaseDataGridModal<TItem>
 <Modal Visible="@PopupVisible" Closed="@Cancel">
     <ModalBackdrop />
-    <ModalContent>
+    <ModalContent Size="@PopupSize">
         <ModalHeader>
             <ModalTitle>
-                Row Edit
+                @if ( TitleTemplate != null && EditItem != null )
+                {
+                    @TitleTemplate( new PopupTitleContext<TItem>( EditItem, EditState ) )
+                }
+                else
+                {
+                    @(EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create")
+                }
             </ModalTitle>
             <CloseButton Clicked="@Cancel" />
         </ModalHeader>
@@ -18,7 +25,7 @@
 
                     @if ( column.Editable )
                     {
-                        <Field ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                        <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
                             <Field>
                                 <FieldLabel>
                                     @column.Caption

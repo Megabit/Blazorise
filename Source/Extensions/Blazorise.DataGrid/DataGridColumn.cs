@@ -250,6 +250,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<FilterContext> FilterTemplate { get; set; }
 
+        /// <summary>
+        /// Defines the size of field for popup modal.
+        /// </summary>
+        [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; } = ColumnSize.IsHalf.OnDesktop;
+
         internal FilterContext FilterContext { get; set; }
 
         /// <summary>
