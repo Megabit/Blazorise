@@ -379,6 +379,8 @@ namespace Blazorise
         public string Thickness { get; set; } = "2px";
 
         public string TextSize { get; set; } = ".85rem";
+
+        public DividerType? DividerType { get; set; } = Blazorise.DividerType.Solid;
     }
 
     public class ThemeParagraphOptions
