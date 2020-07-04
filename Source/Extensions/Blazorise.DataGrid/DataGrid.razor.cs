@@ -166,12 +166,27 @@ namespace Blazorise.DataGrid
 
         protected void OnNewCommand()
         {
-            InitEditItem( CreateNewItem() );
+            var newItem = CreateNewItem();
+
+            SetDefaultFromEditableColumns( newItem );
+
+            InitEditItem( newItem );
 
             editState = DataGridEditState.New;
 
             if ( EditMode == DataGridEditMode.Popup )
                 PopupVisible = true;
+        }
+
+        protected void SetDefaultFromEditableColumns( TItem item )
+        {
+            foreach ( var column in EditableColumns )
+            {
+                var defaultValue = column.DefaultValue;
+                if ( defaultValue == null )
+                    continue;
+                column.SetValue( item, defaultValue );
+            }
         }
 
         protected void OnEditCommand( TItem item )

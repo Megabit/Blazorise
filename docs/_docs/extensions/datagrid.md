@@ -181,7 +181,8 @@ Just as in the previous example everything is the same except that now we must d
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.City)" Caption="City" Editable="true" />
     <DataGridColumn TItem="Employee" Field="@nameof(Employee.Zip)" Caption="Zip" Editable="true" />
     <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.Childrens)" Caption="Childrens" Editable="true" />
-    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
+    <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary"
+                    Editable="true" DefaultValue="100.0M">
         <DisplayTemplate>
             @($"{( context as Employee )?.Salary} €")
         </DisplayTemplate>
@@ -333,6 +334,12 @@ You have full control over appearance of each row, including the selected rows.
 }
 ```
 
+###DefaultValue
+
+DefaultValue is used for setting properties of created item for inserting new entry. It will only be evaluate, if column is editable. Given value has to be type of property. For example: DefaultValue has to set with like 100.0M for Employee.Salary, because it is decimal.
+```html
+<DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true" DefaultValue="100.0M">
+```
 
 ## Templates
 
@@ -342,7 +349,7 @@ Both templates have a special `context` attribute that is used to give access to
 
 ### DisplayTemplate
 
-Display template is using `TItem` as a context value. 
+Display template is using `TItem` as a context value.
 
 ```html
 <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" Editable="true">
@@ -554,3 +561,4 @@ Specifies the grid editing modes.
 | FilterTemplate            | `RenderFragment<FilterContext>`                                     |                     | Template for custom column filter rendering.                                                                  |
 | PopupSize                 | [ModalSize]({{ "/docs/helpers/sizes/#modalsize" | relative_url }})  |  `Default`          | Defines the size of popup modal.                                                                              |
 | PopupFieldColumnSize      | `IFluentColumn`                                                     |  `IsHalf.OnDesktop` | Defines the size of field for popup modal.                                                                    |
+| DefaultValue              | object                                                              |           | Default value for property of to create new entry, when column is editable.                               |

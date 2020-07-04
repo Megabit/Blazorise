@@ -262,6 +262,8 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<CellEditContext> EditTemplate { get; set; }
 
+        [Parameter] public object DefaultValue { get; set; }
+
         #endregion
     }
 }

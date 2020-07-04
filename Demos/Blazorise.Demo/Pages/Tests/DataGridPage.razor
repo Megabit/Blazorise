@@ -143,7 +143,11 @@
                                     else if ( gender == "F" )
                                     {
                                         @("Female")
-                                    }
+																		}
+																		else if ( gender == "D" )
+																		{
+																				@("Diverse")
+																		}
                                 }
                             </DisplayTemplate>
                             <EditTemplate>
@@ -151,15 +155,16 @@
                                     <SelectItem TValue="string" Value="null"></SelectItem>
                                     <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
                                     <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                                    <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
                                 </Select>
                             </EditTemplate>
                         </DataGridSelectColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.Right">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable="true" Width="140px" DefaultValue="100.0M" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.Right">
                             <EditTemplate>
                                 <NumericEdit TValue="decimal" Value="@((decimal)( ( (CellEditContext)context ).CellValue ))" ValueChanged="@(v => ( (CellEditContext)context ).CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false">
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable="true" Filterable="false" DefaultValue="true">
                             <DisplayTemplate>
                                 <Check TValue="bool" Checked="context.IsActive" Disabled="true" ReadOnly="true" />
                             </DisplayTemplate>
