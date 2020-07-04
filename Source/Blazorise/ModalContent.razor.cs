@@ -25,7 +25,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ModalContent( Dialog ) );
-            builder.Append( ClassProvider.ModalContentSize( Size ), Size != ModalSize.None );
+            builder.Append( ClassProvider.ModalContentSize( Size ), Size != ModalSize.Default );
 
             base.BuildClasses( builder );
         }
