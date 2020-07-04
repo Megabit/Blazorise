@@ -4,3 +4,8 @@
 .custom-checkbox > .custom-control-label.custom-control-label-pointer {
     cursor: pointer;
 }
+
+input.form-control[type=color] {
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+}
