@@ -172,6 +172,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Occurs when the bar visibility changes.
+        /// </summary>
         [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         /// <summary>
