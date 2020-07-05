@@ -161,7 +161,15 @@
 
                 <PaginationItem Disabled="@(pageNumber == CurrentPage)" Active="@pageActive">
                     <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
-                        @pageNumberString
+                        @if(PageButtonTemplate != null)
+                        {
+                            var context = new PageButtonContext(pageNumber, pageActive);
+                            @PageButtonTemplate(context)
+                        }
+                        else
+                        {
+                            @pageNumberString
+                        }
                     </PaginationLink>
                 </PaginationItem>
             }
