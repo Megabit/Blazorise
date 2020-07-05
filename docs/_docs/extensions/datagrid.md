@@ -333,16 +333,16 @@ You have full control over appearance of each row, including the selected rows.
 }
 ```
 
-### SetDefaultValues
+### NewItemDefaultSetter
 
-`SetDefaultValues` function is used to set default values when new item is created and before the edit form is shown. It will only be evaluate, if datagrid is editable.
+`NewItemDefaultSetter` function is used to set default values when new item is created and before the edit form is shown. It will only be evaluate, if datagrid is editable.
 
 ```html
-<DataGrid TItem="Employee" Editable="true" SetDefaultValues="@SetDefaultValuesForEmployee">
+<DataGrid TItem="Employee" Editable="true" NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter">
   ...
 </DataGrid>
 @code{
-    void SetDefaultValuesForEmployee( Employee employee )
+    void OnEmployeeNewItemDefaultSetter( Employee employee )
     {
         employee.Salary = 100.0M;
         employee.IsActive = true;
@@ -530,7 +530,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | EmptyTemplate          | RenderingFragment                                                   |         | Define the format for empty data collection                                                                 |
 | LoadingTemplate        | RenderingFragment                                                   |         | Define the format for signal of loading data                                                                |
 | PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of edit popup dialog                                                              |
-| SetDefaultValues       | `Action<TItem>`                                                     |         | Action will be called for setting default values of property, when create new entry                           |
+| NewItemDefaultSetter   | `Action<TItem>`                                                     |         | Action will be called for setting default values of property, when create new entry                           |
 
 ### EditMode
 

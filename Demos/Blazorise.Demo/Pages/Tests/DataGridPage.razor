@@ -73,7 +73,7 @@
                           RowRemoved="@OnRowRemoved"
                           UseInternalEditing="true"
                           @bind-SelectedRow="@selectedEmployee"
-                          SetDefaultValues="SetDefaultValuesForEmployee"
+                          NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
                           DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
                           Striped="true"
                           Bordered="true"
@@ -315,7 +315,7 @@
         new Employee {Id = 27,FirstName = "Chandler",LastName = "Franzonetti",EMail = "cfranzonettiq@archive.org",City = "Emin",Zip = null,Salary = 67458.07m, Childrens=1 }
     };
 
-    void SetDefaultValuesForEmployee( Employee employee )
+    void OnEmployeeNewItemDefaultSetter( Employee employee )
     {
         employee.Salary = 100.0M;
         employee.IsActive = true;

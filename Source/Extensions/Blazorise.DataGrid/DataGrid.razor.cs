@@ -168,7 +168,7 @@ namespace Blazorise.DataGrid
         {
             var newItem = CreateNewItem();
 
-            SetDefaultValues?.Invoke( newItem );
+            NewItemDefaultSetter?.Invoke( newItem );
 
             InitEditItem( newItem );
 
@@ -912,7 +912,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Function, that is called, when a new item is created for inserting new entry.
         /// </summary>
-        [Parameter] public Action<TItem> SetDefaultValues { get; set; }
+        [Parameter] public Action<TItem> NewItemDefaultSetter { get; set; }
 
         /// <summary>
         /// Adds stripes to the table.
