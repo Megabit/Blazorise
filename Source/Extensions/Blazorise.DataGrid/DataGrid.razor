@@ -27,7 +27,14 @@
                             <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable ? " cursor: pointer" : "")}")" Clicked="@(async () => await OnSortClicked( column ) )" width="@column.Width">
                                 @if ( column.ShowCaption )
                                 {
-                                    @column.Caption
+                                    @if ( column.CaptionTemplate != null )
+                                    {
+                                        @column.CaptionTemplate(column)
+                                    }
+                                    else
+                                    {
+                                        @column.Caption
+                                    }
                                 }
                                 @if ( Sortable && column.Sortable && column.CurrentDirection != SortDirection.None )
                                 {
