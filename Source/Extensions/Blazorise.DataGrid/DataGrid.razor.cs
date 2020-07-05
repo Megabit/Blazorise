@@ -529,7 +529,7 @@ namespace Blazorise.DataGrid
             var step = (int)Math.Floor( MaxPaginationLinks / 2d );
             var leftButton = CurrentPage - step;
             var rightButton = CurrentPage + step;
-            if ( leftButton < 1 )
+            if ( leftButton <= 1 )
             {
                 firstVisiblePage = 1;
                 lastVisiblePage = Math.Min( MaxPaginationLinks, LastPage );
