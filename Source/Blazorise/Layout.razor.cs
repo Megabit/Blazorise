@@ -14,6 +14,8 @@ namespace Blazorise
 
         private bool sider;
 
+        private bool loading;
+
         private bool bodyClassApplied;
 
         #endregion
@@ -24,6 +26,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Layout() );
             builder.Append( ClassProvider.LayoutHasSider(), Sider );
+            builder.Append( ClassProvider.LayoutLoading(), Loading );
 
             base.BuildClasses( builder );
         }
@@ -46,6 +49,20 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        [Parameter]
+        public bool Loading
+        {
+            get => loading;
+            set
+            {
+                loading = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [Parameter] public EventCallback<bool> LoadingChanged { get; set; }
 
         [CascadingParameter] protected Layout ParentLayout { get; set; }
 

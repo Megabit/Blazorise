@@ -172,6 +172,14 @@
 .b-layout * {
     box-sizing: border-box; }
 
+.b-layout.b-layout-loading:before {
+    z-index: 9999;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    content: ' '; }
+
 .b-layout.b-layout-has-sider {
     flex-direction: row; }
     .b-layout.b-layout-has-sider .b-layout {

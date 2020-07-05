@@ -449,6 +449,8 @@ namespace Blazorise
 
         string LayoutSiderContent();
 
+        string LayoutLoading();
+
         #endregion
 
         #region Container

@@ -450,6 +450,8 @@ namespace Blazorise
 
         public virtual string LayoutSiderContent() => "b-layout-sider-content";
 
+        public virtual string LayoutLoading() => "b-layout-loading";
+
         #endregion
 
         #region Container
