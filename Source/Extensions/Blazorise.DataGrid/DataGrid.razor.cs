@@ -166,7 +166,11 @@ namespace Blazorise.DataGrid
 
         protected void OnNewCommand()
         {
-            InitEditItem( CreateNewItem() );
+            var newItem = CreateNewItem();
+
+            NewItemDefaultSetter?.Invoke( newItem );
+
+            InitEditItem( newItem );
 
             editState = DataGridEditState.New;
 
@@ -904,6 +908,11 @@ namespace Blazorise.DataGrid
         /// Template for displaying detail or nested row.
         /// </summary>
         [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
+
+        /// <summary>
+        /// Function, that is called, when a new item is created for inserting new entry.
+        /// </summary>
+        [Parameter] public Action<TItem> NewItemDefaultSetter { get; set; }
 
         /// <summary>
         /// Adds stripes to the table.

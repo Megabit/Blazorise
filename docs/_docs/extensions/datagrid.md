@@ -333,6 +333,22 @@ You have full control over appearance of each row, including the selected rows.
 }
 ```
 
+### NewItemDefaultSetter
+
+`NewItemDefaultSetter` function is used to set default values when new item is created and before the edit form is shown. It will only be evaluate, if datagrid is editable.
+
+```html
+<DataGrid TItem="Employee" Editable="true" NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter">
+  ...
+</DataGrid>
+@code{
+    void OnEmployeeNewItemDefaultSetter( Employee employee )
+    {
+        employee.Salary = 100.0M;
+        employee.IsActive = true;
+    }
+}
+```
 
 ## Templates
 
@@ -342,7 +358,7 @@ Both templates have a special `context` attribute that is used to give access to
 
 ### DisplayTemplate
 
-Display template is using `TItem` as a context value. 
+Display template is using `TItem` as a context value.
 
 ```html
 <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" Editable="true">
@@ -514,6 +530,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | EmptyTemplate          | RenderingFragment                                                   |         | Define the format for empty data collection                                                                 |
 | LoadingTemplate        | RenderingFragment                                                   |         | Define the format for signal of loading data                                                                |
 | PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of edit popup dialog                                                              |
+| NewItemDefaultSetter   | `Action<TItem>`                                                     |         | Action will be called for setting default values of property, when create new entry                           |
 
 ### EditMode
 
