@@ -39,3 +39,8 @@ label.radio.button {
         width: 100%;
     }
 }
+
+// When file is placed inside of "field-body" it will not be fullwidth. With this we force it to work as expected.
+.file.has-name.is-fullwidth {
+    width: 100%;
+}
