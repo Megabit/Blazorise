@@ -534,9 +534,9 @@ namespace Blazorise.DataGrid
                 firstVisiblePage = 1;
                 lastVisiblePage = Math.Min( MaxPaginationLinks, LastPage );
             }
-            else if ( LastPage < rightButton )
+            else if ( LastPage <= rightButton )
             {
-                firstVisiblePage = LastPage - MaxPaginationLinks + 1;
+                firstVisiblePage = Math.Max(LastPage - MaxPaginationLinks + 1, 1);
                 lastVisiblePage = LastPage;
             }
             else
