@@ -62,7 +62,7 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
-        public Task NotifyChange( FileEntry[] files )
+        public async Task NotifyChange( FileEntry[] files )
         {
             // Unlike in other Edit components we cannot just call CurrentValueHandler since
             // we're dealing with complex types instead of a simple string as en element value.
@@ -81,7 +81,9 @@ namespace Blazorise
             // send the value to the validation for processing
             ParentValidation?.NotifyInputChanged();
 
-            return Changed.InvokeAsync( new FileChangedEventArgs( files ) );
+            await Changed.InvokeAsync( new FileChangedEventArgs( files ) );
+
+            await InvokeAsync( () => StateHasChanged() );
         }
 
         protected override Task OnInternalValueChanged( IFileEntry[] value )
@@ -145,6 +147,11 @@ namespace Blazorise
         protected long ProgressTotal;
 
         protected double Progress;
+
+        /// <summary>
+        /// Gets the list is selected filename
+        /// </summary>
+        protected IEnumerable<string> SelectedFileNames => InternalValue?.Select( x => x.Name ) ?? Enumerable.Empty<string>();
 
         /// <summary>
         /// Enables the multiple file selection.
