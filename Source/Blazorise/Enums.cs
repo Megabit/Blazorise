@@ -978,11 +978,6 @@ namespace Blazorise
     public enum ModalSize
     {
         /// <summary>
-        /// No sizing applied.
-        /// </summary>
-        None,
-
-        /// <summary>
         /// Default modal size.
         /// </summary>
         Default,

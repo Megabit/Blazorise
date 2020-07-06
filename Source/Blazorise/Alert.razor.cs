@@ -78,6 +78,13 @@ namespace Blazorise
             Display = active
                 ? Blazorise.Display.Always
                 : Blazorise.Display.None;
+
+            DirtyClasses();
+        }
+
+        private void RaiseEvents( bool visible )
+        {
+            VisibleChanged.InvokeAsync( visible );
         }
 
         /// <summary>
@@ -130,13 +137,20 @@ namespace Blazorise
             get => store.Visible;
             set
             {
+                if ( value == store.Visible )
+                    return;
+
                 store.Visible = value;
 
                 HandleVisibilityState( value );
-
-                DirtyClasses();
+                RaiseEvents( value );
             }
         }
+
+        /// <summary>
+        /// Occurs when the alert visibility changes.
+        /// </summary>
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         /// <summary>
         /// Gets or sets the alert color.

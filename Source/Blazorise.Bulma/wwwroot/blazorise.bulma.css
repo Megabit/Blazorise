@@ -1,4 +1,7 @@
 ﻿/*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
+.is-none {
+    display: none !important; }
+
 .is-table {
     display: table !important; }
 
@@ -1659,6 +1662,9 @@ label.radio.button {
     margin-top: .375em; }
 
 .field-body .slider[type="range"] {
+    width: 100%; }
+
+.file.has-name.is-fullwidth {
     width: 100%; }
 
 .hero.hero-primary {

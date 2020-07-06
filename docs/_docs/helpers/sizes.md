@@ -32,7 +32,6 @@ Defines a button size.
 
 Changes the size of the modal.
 
-- `None` No sizing applied.
 - `Default` Default modal size for current provider.
 - `Small` Small modal.
 - `Large` Large modal.
