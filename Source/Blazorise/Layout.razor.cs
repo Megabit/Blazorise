@@ -16,7 +16,16 @@ namespace Blazorise
 
         private bool loading;
 
-        private string loadingClass = "b-layout-loading-spinner";
+        private string loadingClass;
+
+        #endregion
+
+        #region Constructors
+
+        public Layout()
+        {
+            LoadingClassBuilder = new ClassBuilder( BuildLoadingClasses );
+        }
 
         #endregion
 
@@ -26,15 +35,29 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Layout() );
             builder.Append( ClassProvider.LayoutHasSider(), Sider );
-            builder.Append( ClassProvider.LayoutLoading(), Loading );
             builder.Append( ClassProvider.LayoutRoot(), ParentLayout == null );
 
             base.BuildClasses( builder );
         }
 
+        protected void BuildLoadingClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.LayoutLoading(), string.IsNullOrEmpty( LoadingClass ) );
+            builder.Append( LoadingClass );
+        }
+
+        internal protected override void DirtyClasses()
+        {
+            LoadingClassBuilder.Dirty();
+
+            base.DirtyClasses();
+        }
+
         #endregion
 
         #region Properties
+
+        protected string LoadingClassNames => LoadingClassBuilder.Class;
 
         /// <summary>
         /// Indicates that layout will contain sider.
@@ -75,9 +98,13 @@ namespace Blazorise
             }
         }
 
+        protected ClassBuilder LoadingClassBuilder { get; private set; }
+
         [Parameter] public EventCallback<bool> LoadingChanged { get; set; }
 
         [CascadingParameter] protected Layout ParentLayout { get; set; }
+
+        [Parameter] public RenderFragment LoadingTemplate { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

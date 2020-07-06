@@ -59,8 +59,8 @@ The bar component has the following structure:
     </BarStart>
     <BarEnd>
       <BarItem>
-        <button Color="Color.Primary">Sign up</button>
-        <button Color="Color.Secondary">Log in</button>
+        <Button Color="Color.Primary">Sign up</Button>
+        <Button Color="Color.Secondary">Log in</Button>
       </BarItem>
     </BarEnd>
   </BarMenu>

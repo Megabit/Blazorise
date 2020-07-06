@@ -5,7 +5,14 @@
         <CascadingValue Value=this>
             @if ( Loading )
             {
-                <div class="@LoadingClass"></div>
+                @if ( LoadingTemplate != null )
+                {
+                    @LoadingTemplate
+                }
+                else
+                {
+                    <div class="@LoadingClassNames"></div>
+                }
             }
             @ChildContent
         </CascadingValue>
