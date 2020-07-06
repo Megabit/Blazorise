@@ -1578,31 +1578,31 @@
     color: rgba(255, 255, 255, 0.5) !important; }
 
 .ant-switch-primary.ant-switch-checked {
-    background-color: #1890ff !important; }
+    background-color: #1890ff; }
 
 .ant-switch-secondary.ant-switch-checked {
-    background-color: #6c757d !important; }
+    background-color: #6c757d; }
 
 .ant-switch-success.ant-switch-checked {
-    background-color: #35c613 !important; }
-
-.ant-switch-danger.ant-switch-checked {
-    background-color: #ff4d4f !important; }
-
-.ant-switch-warning.ant-switch-checked {
-    background-color: #f7c12a !important; }
+    background-color: #35c613; }
 
 .ant-switch-info.ant-switch-checked {
-    background-color: #60b6f4 !important; }
+    background-color: #60b6f4; }
+
+.ant-switch-warning.ant-switch-checked {
+    background-color: #f7c12a; }
+
+.ant-switch-danger.ant-switch-checked {
+    background-color: #ff4d4f; }
 
 .ant-switch-light.ant-switch-checked {
-    background-color: #fafafa !important; }
+    background-color: #fafafa; }
 
 .ant-switch-dark.ant-switch-checked {
-    background-color: #343a40 !important; }
+    background-color: #343a40; }
 
 .ant-switch-link.ant-switch-checked {
-    background-color: #3273dc !important; }
+    background-color: #3273dc; }
 
 .bg-primary {
     background-color: #1890ff !important; }

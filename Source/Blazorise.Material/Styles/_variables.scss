@@ -29,6 +29,7 @@ $light-light: #fafafa !default;
 $dark-light: #757575 !default;
 
 $theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link);
+$theme-light-colors: ("primary": $primary-light, "secondary": $secondary-light, "success": $success-light, "info": $info-light, "warning": $warning-light, "danger": $danger-light, "light": $light-light, "dark": $dark-light, "link":$link);
 
 $grid-columns: 12 !default;
 $grid-gutter-width: 30px !default;

@@ -28,7 +28,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Switch() );
-            builder.Append( ClassProvider.SwitchColor( color ), Color != Color.None );
+            builder.Append( ClassProvider.SwitchColor( color ) );
             builder.Append( ClassProvider.SwitchChecked( Checked?.ToString() == bool.TrueString ) );
 
             base.BuildClasses( builder );
@@ -43,10 +43,7 @@ namespace Blazorise
         [Parameter]
         public Color Color
         {
-            get
-            {
-                return color;
-            }
+            get { return color; }
             set
             {
                 color = value;

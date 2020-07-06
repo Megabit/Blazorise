@@ -1,46 +1,11 @@
 ﻿@import "variables";
 
-.custom-control-input-primary:checked ~ .custom-control-label::before {
-	background-color: $primary !important;
-	border-color: $primary !important;
-}
 
-.custom-control-input-secondary:checked ~ .custom-control-label::before {
-	background-color: $secondary !important;
-	border-color: $secondary !important;
-}
+@each $name, $value in $theme-colors {
+	$color: $value;
 
-.custom-control-input-success:checked ~ .custom-control-label::before {
-	background-color: $success !important;
-	border-color: $success !important;
-}
-
-.custom-control-input-danger:checked ~ .custom-control-label::before {
-	background-color: $danger !important;
-	border-color: $danger !important;
-}
-
-.custom-control-input-warning:checked ~ .custom-control-label::before {
-	background-color: $warning !important;
-	border-color: $warning !important;
-}
-
-.custom-control-input-info:checked ~ .custom-control-label::before {
-	background-color: $info !important;
-	border-color: $info !important;
-}
-
-.custom-control-input-light:checked ~ .custom-control-label::before {
-	background-color: $light !important;
-	border-color: $light !important;
-}
-
-.custom-control-input-dark:checked ~ .custom-control-label::before {
-	background-color: $dark !important;
-	border-color: $dark !important;
-}
-
-.custom-control-input-link:checked ~ .custom-control-label::before {
-	background-color: $link !important;
-	border-color: $link !important;
+	&.custom-control-input-#{$name}:checked ~ .custom-control-label::before {
+		background-color: $color;
+		border-color: $color;
+	}
 }

@@ -809,55 +809,55 @@ h6.card-title,
     font-size: 1rem; }
 
 .custom-control-input-primary:checked ~ .custom-control-label::after {
-    background-color: #9c27b0 !important; }
+    background-color: #9c27b0; }
 
 .custom-control-input-secondary:checked ~ .custom-control-label::after {
-    background-color: #ff4081 !important; }
+    background-color: #ff4081; }
 
 .custom-control-input-success:checked ~ .custom-control-label::after {
-    background-color: #4caf50 !important; }
-
-.custom-control-input-danger:checked ~ .custom-control-label::after {
-    background-color: #f44336 !important; }
-
-.custom-control-input-warning:checked ~ .custom-control-label::after {
-    background-color: #ff9800 !important; }
+    background-color: #4caf50; }
 
 .custom-control-input-info:checked ~ .custom-control-label::after {
-    background-color: #2196f3 !important; }
+    background-color: #2196f3; }
+
+.custom-control-input-warning:checked ~ .custom-control-label::after {
+    background-color: #ff9800; }
+
+.custom-control-input-danger:checked ~ .custom-control-label::after {
+    background-color: #f44336; }
 
 .custom-control-input-light:checked ~ .custom-control-label::after {
-    background-color: #f5f5f5 !important; }
+    background-color: #f5f5f5; }
 
 .custom-control-input-dark:checked ~ .custom-control-label::after {
-    background-color: #424242 !important; }
+    background-color: #424242; }
 
 .custom-control-input-link:checked ~ .custom-control-label::after {
-    background-color: #3273dc !important; }
+    background-color: #3273dc; }
 
 .custom-control-input-primary:checked ~ .custom-control-track {
-    background-color: #e1bee7 !important; }
+    background-color: #e1bee7; }
 
 .custom-control-input-secondary:checked ~ .custom-control-track {
-    background-color: #ff80ab !important; }
+    background-color: #ff80ab; }
 
 .custom-control-input-success:checked ~ .custom-control-track {
-    background-color: #c8e6c9 !important; }
-
-.custom-control-input-danger:checked ~ .custom-control-track {
-    background-color: #ffcdd2 !important; }
-
-.custom-control-input-warning:checked ~ .custom-control-track {
-    background-color: #ffe0b2 !important; }
+    background-color: #c8e6c9; }
 
 .custom-control-input-info:checked ~ .custom-control-track {
-    background-color: #bbdefb !important; }
+    background-color: #bbdefb; }
+
+.custom-control-input-warning:checked ~ .custom-control-track {
+    background-color: #ffe0b2; }
+
+.custom-control-input-danger:checked ~ .custom-control-track {
+    background-color: #ffcdd2; }
 
 .custom-control-input-light:checked ~ .custom-control-track {
-    background-color: #fafafa !important; }
+    background-color: #fafafa; }
 
 .custom-control-input-dark:checked ~ .custom-control-track {
-    background-color: #757575 !important; }
+    background-color: #757575; }
 
 .custom-control-input-link:checked ~ .custom-control-track {
-    background-color: #3273dc !important; }
+    background-color: #3273dc; }

@@ -1795,28 +1795,28 @@ tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
 
 /*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
 .switch-primary:checked ~ label::before {
-    background-color: #00d1b2 !important; }
+    background-color: #00d1b2; }
 
 .switch-secondary:checked ~ label::before {
-    background-color: #6c757d !important; }
+    background-color: #6c757d; }
 
 .switch-success:checked ~ label::before {
-    background-color: #48c774 !important; }
-
-.switch-danger:checked ~ label::before {
-    background-color: #ef2e55 !important; }
-
-.switch-warning:checked ~ label::before {
-    background-color: #ffd83d !important; }
+    background-color: #48c774; }
 
 .switch-info:checked ~ label::before {
-    background-color: #238cd1 !important; }
+    background-color: #238cd1; }
+
+.switch-warning:checked ~ label::before {
+    background-color: #ffd83d; }
+
+.switch-danger:checked ~ label::before {
+    background-color: #ef2e55; }
 
 .switch-light:checked ~ label::before {
-    background-color: #f5f5f5 !important; }
+    background-color: #f5f5f5; }
 
 .switch-dark:checked ~ label::before {
-    background-color: #ef2e55 !important; }
+    background-color: #363636; }
 
 .switch-link:checked ~ label::before {
-    background-color: #3273dc !important; }
+    background-color: #3273dc; }
