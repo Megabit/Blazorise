@@ -716,6 +716,10 @@ input.form-control[type=color] {
     background-color: #424242;
     color: #fff; }
 
+.jumbotron.jumbotron-link {
+    background-color: #3273dc;
+    color: #fff; }
+
 .modal-backdrop {
     z-index: -1; }
 
@@ -803,3 +807,57 @@ h5.card-title,
 h6.card-title,
 .h6.card-title {
     font-size: 1rem; }
+
+.custom-control-input-primary:checked ~ .custom-control-label::after {
+    background-color: #9c27b0 !important; }
+
+.custom-control-input-secondary:checked ~ .custom-control-label::after {
+    background-color: #ff4081 !important; }
+
+.custom-control-input-success:checked ~ .custom-control-label::after {
+    background-color: #4caf50 !important; }
+
+.custom-control-input-danger:checked ~ .custom-control-label::after {
+    background-color: #f44336 !important; }
+
+.custom-control-input-warning:checked ~ .custom-control-label::after {
+    background-color: #ff9800 !important; }
+
+.custom-control-input-info:checked ~ .custom-control-label::after {
+    background-color: #2196f3 !important; }
+
+.custom-control-input-light:checked ~ .custom-control-label::after {
+    background-color: #f5f5f5 !important; }
+
+.custom-control-input-dark:checked ~ .custom-control-label::after {
+    background-color: #424242 !important; }
+
+.custom-control-input-link:checked ~ .custom-control-label::after {
+    background-color: #3273dc !important; }
+
+.custom-control-input-primary:checked ~ .custom-control-track {
+    background-color: #e1bee7 !important; }
+
+.custom-control-input-secondary:checked ~ .custom-control-track {
+    background-color: #ff80ab !important; }
+
+.custom-control-input-success:checked ~ .custom-control-track {
+    background-color: #c8e6c9 !important; }
+
+.custom-control-input-danger:checked ~ .custom-control-track {
+    background-color: #ffcdd2 !important; }
+
+.custom-control-input-warning:checked ~ .custom-control-track {
+    background-color: #ffe0b2 !important; }
+
+.custom-control-input-info:checked ~ .custom-control-track {
+    background-color: #bbdefb !important; }
+
+.custom-control-input-light:checked ~ .custom-control-track {
+    background-color: #fafafa !important; }
+
+.custom-control-input-dark:checked ~ .custom-control-track {
+    background-color: #757575 !important; }
+
+.custom-control-input-link:checked ~ .custom-control-track {
+    background-color: #3273dc !important; }

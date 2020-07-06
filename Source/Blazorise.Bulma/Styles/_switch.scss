@@ -1,0 +1,37 @@
+﻿@import "variables";
+
+.switch-primary:checked ~ label::before {
+	background-color: $primary !important;
+}
+
+.switch-secondary:checked ~ label::before {
+	background-color: $secondary !important;
+}
+
+.switch-success:checked ~ label::before {
+	background-color: $success !important;
+}
+
+.switch-danger:checked ~ label::before {
+	background-color: $danger !important;
+}
+
+.switch-warning:checked ~ label::before {
+	background-color: $warning !important;
+}
+
+.switch-info:checked ~ label::before {
+	background-color: $info !important;
+}
+
+.switch-light:checked ~ label::before {
+	background-color: $light !important;
+}
+
+.switch-dark:checked ~ label::before {
+	background-color: $danger !important;
+}
+
+.switch-link:checked ~ label::before {
+	background-color: $link !important;
+}

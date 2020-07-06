@@ -18,8 +18,17 @@ $warning: #ff9800 !default;
 $danger: #f44336 !default;
 $light: #f5f5f5 !default;
 $dark: #424242 !default;
+$link: #3273dc !default;
+$primary-light: #e1bee7 !default;
+$secondary-light: #ff80ab !default;
+$success-light: #c8e6c9 !default;
+$info-light: #bbdefb !default;
+$warning-light: #ffe0b2 !default;
+$danger-light: #ffcdd2 !default;
+$light-light: #fafafa !default;
+$dark-light: #757575 !default;
 
-$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark);
+$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link);
 
 $grid-columns: 12 !default;
 $grid-gutter-width: 30px !default;

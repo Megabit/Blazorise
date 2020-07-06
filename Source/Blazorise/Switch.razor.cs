@@ -19,6 +19,8 @@ namespace Blazorise
     {
         #region Members
 
+        private Color color = Color.None;
+
         #endregion
 
         #region Methods
@@ -26,6 +28,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Switch() );
+            builder.Append( ClassProvider.SwitchColor( color ), Color != Color.None );
             builder.Append( ClassProvider.SwitchChecked( Checked?.ToString() == bool.TrueString ) );
 
             base.BuildClasses( builder );
@@ -36,6 +39,20 @@ namespace Blazorise
         #region Properties
 
         protected override string TrueValueName => "true";
+
+        [Parameter]
+        public Color Color
+        {
+            get
+            {
+                return color;
+            }
+            set
+            {
+                color = value;
+                DirtyClasses();
+            }
+        }
 
         #endregion
     }

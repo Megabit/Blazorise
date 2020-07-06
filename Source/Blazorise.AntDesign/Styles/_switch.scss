@@ -1,0 +1,37 @@
+﻿@import "variables";
+
+.ant-switch-primary.ant-switch-checked {
+	background-color: $primary !important;
+}
+
+.ant-switch-secondary.ant-switch-checked {
+	background-color: $secondary !important;
+}
+
+.ant-switch-success.ant-switch-checked {
+	background-color: $success !important;
+}
+
+.ant-switch-danger.ant-switch-checked {
+	background-color: $danger !important;
+}
+
+.ant-switch-warning.ant-switch-checked {
+	background-color: $warning !important;
+}
+
+.ant-switch-info.ant-switch-checked {
+	background-color: $info !important;
+}
+
+.ant-switch-light.ant-switch-checked {
+	background-color: $light !important;
+}
+
+.ant-switch-dark.ant-switch-checked {
+	background-color: $dark !important;
+}
+
+.ant-switch-link.ant-switch-checked {
+	background-color: $link !important;
+}

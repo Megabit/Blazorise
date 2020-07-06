@@ -100,6 +100,8 @@ namespace Blazorise.AntDesign
 
         public override string Switch() => "ant-switch";
 
+        public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+
         public override string SwitchChecked( bool @checked ) => @checked ? "ant-switch-checked" : null;
 
         public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";

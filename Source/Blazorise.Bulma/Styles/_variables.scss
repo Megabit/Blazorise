@@ -18,8 +18,9 @@ $warning: #ffd83d !default;
 $danger: #ef2e55 !default;
 $light: #f5f5f5 !default;
 $dark: #363636 !default;
+$link: #3273dc !default;
 
-$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark);
+$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link);
 
 /*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
 $mobile: 576px;

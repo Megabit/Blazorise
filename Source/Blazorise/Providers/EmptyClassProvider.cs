@@ -102,6 +102,7 @@ namespace Blazorise.Providers
         #region Switch
 
         public string Switch() => null;
+        public string SwitchColor( Color color ) => null;
 
         public string SwitchChecked( bool @checked ) => null;
 

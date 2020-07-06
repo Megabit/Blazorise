@@ -1,0 +1,73 @@
+﻿@import "variables";
+
+.custom-control-input-primary:checked ~ .custom-control-label::after {
+	background-color: $primary !important;
+}
+
+.custom-control-input-secondary:checked ~ .custom-control-label::after {
+	background-color: $secondary !important;
+}
+
+.custom-control-input-success:checked ~ .custom-control-label::after {
+	background-color: $success !important;
+}
+
+.custom-control-input-danger:checked ~ .custom-control-label::after {
+	background-color: $danger !important;
+}
+
+.custom-control-input-warning:checked ~ .custom-control-label::after {
+	background-color: $warning !important;
+}
+
+.custom-control-input-info:checked ~ .custom-control-label::after {
+	background-color: $info !important;
+}
+
+.custom-control-input-light:checked ~ .custom-control-label::after {
+	background-color: $light !important;
+}
+
+.custom-control-input-dark:checked ~ .custom-control-label::after {
+	background-color: $dark !important;
+}
+
+.custom-control-input-link:checked ~ .custom-control-label::after {
+	background-color: $link !important;
+}
+
+.custom-control-input-primary:checked ~ .custom-control-track {
+	background-color: $primary-light !important;
+}
+
+.custom-control-input-secondary:checked ~ .custom-control-track {
+	background-color: $secondary-light !important;
+}
+
+.custom-control-input-success:checked ~ .custom-control-track {
+	background-color: $success-light !important;
+}
+
+.custom-control-input-danger:checked ~ .custom-control-track {
+	background-color: $danger-light !important;
+}
+
+.custom-control-input-warning:checked ~ .custom-control-track {
+	background-color: $warning-light !important;
+}
+
+.custom-control-input-info:checked ~ .custom-control-track {
+	background-color: $info-light !important;
+}
+
+.custom-control-input-light:checked ~ .custom-control-track {
+	background-color: $light-light !important;
+}
+
+.custom-control-input-dark:checked ~ .custom-control-track {
+	background-color: $dark-light !important;
+}
+
+.custom-control-input-link:checked ~ .custom-control-track {
+	background-color: $link !important;
+}

@@ -1699,6 +1699,10 @@ label.radio.button {
     background-color: #363636;
     color: #fff; }
 
+.hero.hero-link {
+    background-color: #3273dc;
+    color: #fff; }
+
 body::-webkit-scrollbar {
     display: none; }
 
@@ -1788,3 +1792,31 @@ tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
     color: #fff !important; }
+
+/*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
+.switch-primary:checked ~ label::before {
+    background-color: #00d1b2 !important; }
+
+.switch-secondary:checked ~ label::before {
+    background-color: #6c757d !important; }
+
+.switch-success:checked ~ label::before {
+    background-color: #48c774 !important; }
+
+.switch-danger:checked ~ label::before {
+    background-color: #ef2e55 !important; }
+
+.switch-warning:checked ~ label::before {
+    background-color: #ffd83d !important; }
+
+.switch-info:checked ~ label::before {
+    background-color: #238cd1 !important; }
+
+.switch-light:checked ~ label::before {
+    background-color: #f5f5f5 !important; }
+
+.switch-dark:checked ~ label::before {
+    background-color: #ef2e55 !important; }
+
+.switch-link:checked ~ label::before {
+    background-color: #3273dc !important; }

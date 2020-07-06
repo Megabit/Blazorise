@@ -121,6 +121,10 @@
     background-color: #343a40;
     color: #fff; }
 
+.jumbotron.jumbotron-link {
+    background-color: #3273dc;
+    color: #fff; }
+
 .modal-backdrop {
     z-index: -1; }
 
@@ -129,3 +133,39 @@ table.table tbody tr.selected {
 
 tr.table-row-selectable:hover {
     cursor: pointer; }
+
+.custom-control-input-primary:checked ~ .custom-control-label::before {
+    background-color: #007bff !important;
+    border-color: #007bff !important; }
+
+.custom-control-input-secondary:checked ~ .custom-control-label::before {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important; }
+
+.custom-control-input-success:checked ~ .custom-control-label::before {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important; }
+
+.custom-control-input-danger:checked ~ .custom-control-label::before {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important; }
+
+.custom-control-input-warning:checked ~ .custom-control-label::before {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important; }
+
+.custom-control-input-info:checked ~ .custom-control-label::before {
+    background-color: #17a2b8 !important;
+    border-color: #17a2b8 !important; }
+
+.custom-control-input-light:checked ~ .custom-control-label::before {
+    background-color: #f8f9fa !important;
+    border-color: #f8f9fa !important; }
+
+.custom-control-input-dark:checked ~ .custom-control-label::before {
+    background-color: #343a40 !important;
+    border-color: #343a40 !important; }
+
+.custom-control-input-link:checked ~ .custom-control-label::before {
+    background-color: #3273dc !important;
+    border-color: #3273dc !important; }
