@@ -531,6 +531,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | LoadingTemplate        | RenderingFragment                                                   |         | Define the format for signal of loading data                                                                |
 | PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of edit popup dialog                                                              |
 | NewItemDefaultSetter   | `Action<TItem>`                                                     |         | Action will be called for setting default values of property, when create new entry                           |
+| PageButtonTemplate   | `RenderTemplate<PageButtonContext>`                                   |         | Define the format a pagination button                           |
 
 ### EditMode
 
