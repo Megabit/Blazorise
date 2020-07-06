@@ -65,7 +65,7 @@
     width: var(--b-vertical-bar-width, 220px);
     transition: width 200ms ease-in-out, min-width 200ms ease-in-out;
     box-shadow: 2px 0 6px rgba(0,21,41,.35);
-    height: 100vh;
+    height: 100%;
 
     .b-bar-menu {
         height: calc(100% - var(--b-vertical-bar-brand-height, 64px));

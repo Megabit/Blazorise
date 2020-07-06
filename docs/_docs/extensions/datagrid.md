@@ -531,6 +531,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | LoadingTemplate        | RenderingFragment                                                   |         | Define the format for signal of loading data                                                                |
 | PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of edit popup dialog                                                              |
 | NewItemDefaultSetter   | `Action<TItem>`                                                     |         | Action will be called for setting default values of property, when create new entry                           |
+| PageButtonTemplate   | `RenderTemplate<PageButtonContext>`                                   |         | Define the format a pagination button                           |
 
 ### EditMode
 
@@ -545,7 +546,7 @@ Specifies the grid editing modes.
 | Name                      | Type                                                                | Default             | Description                                                                                                   |
 |---------------------------|---------------------------------------------------------------------|---------------------|---------------------------------------------------------------------------------------------------------------|
 | Field                     | string                                                              |                     | TItem data field name.                                                                                        |
-| Caption                   | string                                                              |                     | Column's display caption.                                                                                     |
+| Caption                   | string                                                              |                     | Column's display caption. It will be displayed, if ColumnTemplate is not set.                                 |
 | Filter                    | FilterContext                                                       |                     | Filter value for this column.                                                                                 |
 | Direction                 | SortDirection                                                       | `None`              | Column initial sort direction.                                                                                |
 | TextAlignment             | TextAlignment                                                       | `None`              | Defines the alignment for display cell.                                                                       |
@@ -571,3 +572,4 @@ Specifies the grid editing modes.
 | FilterTemplate            | `RenderFragment<FilterContext>`                                     |                     | Template for custom column filter rendering.                                                                  |
 | PopupSize                 | [ModalSize]({{ "/docs/helpers/sizes/#modalsize" | relative_url }})  |  `Default`          | Defines the size of popup modal.                                                                              |
 | PopupFieldColumnSize      | `IFluentColumn`                                                     |  `IsHalf.OnDesktop` | Defines the size of field for popup modal.                                                                    |
+| CaptionTemplate           | `RenderingFragment<DataGridColumn<TItem>>`                          |                     | Template for custom caption. CaptionTemplate will block caption template.                                     |

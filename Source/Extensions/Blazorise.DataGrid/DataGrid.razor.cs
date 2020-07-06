@@ -67,6 +67,10 @@ namespace Blazorise.DataGrid
 
         protected Dictionary<string, CellEditContext> filterCellValues;
 
+        private int firstVisiblePage;
+
+        private int lastVisiblePage;
+
         #endregion
 
         #region Constructors
@@ -518,6 +522,37 @@ namespace Blazorise.DataGrid
 
         #endregion
 
+        #region Pagination
+
+        /// <summary>
+        /// Calculates the first and last visible pages based on the current offset and page size.
+        /// </summary>
+        private void CalculateFirstAndLastVisiblePage()
+        {
+            var step = (int)Math.Floor( MaxPaginationLinks / 2d );
+
+            var leftButton = CurrentPage - step;
+            var rightButton = CurrentPage + step;
+
+            if ( leftButton <= 1 )
+            {
+                firstVisiblePage = 1;
+                lastVisiblePage = Math.Min( MaxPaginationLinks, LastPage );
+            }
+            else if ( LastPage <= rightButton )
+            {
+                firstVisiblePage = Math.Max( LastPage - MaxPaginationLinks + 1, 1 );
+                lastVisiblePage = LastPage;
+            }
+            else
+            {
+                firstVisiblePage = leftButton;
+                lastVisiblePage = rightButton;
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Properties
@@ -753,6 +788,11 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment NextPageButtonTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets content of page buttons of pager.
+        /// </summary>
+        [Parameter] public RenderFragment<PageButtonContext> PageButtonTemplate { get; set; }
+
+        /// <summary>
         /// Gets the last page number.
         /// </summary>
         protected int LastPage
@@ -778,10 +818,7 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                int firstVisiblePage = CurrentPage - (int)Math.Floor( MaxPaginationLinks / 2d );
-
-                if ( firstVisiblePage < 1 )
-                    firstVisiblePage = 1;
+                CalculateFirstAndLastVisiblePage();
 
                 return firstVisiblePage;
             }
@@ -794,14 +831,7 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                var firstVisiblePage = FirstVisiblePage;
-                var lastVisiblePage = CurrentPage + (int)Math.Floor( MaxPaginationLinks / 2d );
-
-                if ( ( lastVisiblePage - firstVisiblePage ) < MaxPaginationLinks )
-                    lastVisiblePage = firstVisiblePage + MaxPaginationLinks - 1;
-
-                if ( lastVisiblePage > LastPage )
-                    lastVisiblePage = LastPage;
+                CalculateFirstAndLastVisiblePage();
 
                 return lastVisiblePage;
             }
@@ -813,7 +843,7 @@ namespace Blazorise.DataGrid
         [Parameter] public int PageSize { get; set; } = 5;
 
         /// <summary>
-        /// Gets or sets the maximum number of visible pagination links.
+        /// Gets or sets the maximum number of visible pagination links. It has to be odd for well look.
         /// </summary>
         [Parameter] public int MaxPaginationLinks { get; set; } = 5;
 
