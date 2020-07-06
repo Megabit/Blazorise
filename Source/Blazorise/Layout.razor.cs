@@ -16,7 +16,7 @@ namespace Blazorise
 
         private bool loading;
 
-        private bool bodyClassApplied;
+        private string loadingClass = "b-layout-loading-spinner";
 
         #endregion
 
@@ -58,6 +58,18 @@ namespace Blazorise
             set
             {
                 loading = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [Parameter]
+        public string LoadingClass
+        {
+            get => loadingClass;
+            set
+            {
+                loadingClass = value;
 
                 DirtyClasses();
             }

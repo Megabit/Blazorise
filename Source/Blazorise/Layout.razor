@@ -3,6 +3,10 @@
 {
     <section @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         <CascadingValue Value=this>
+            @if ( Loading )
+            {
+                <div class="@LoadingClass"></div>
+            }
             @ChildContent
         </CascadingValue>
     </section>
