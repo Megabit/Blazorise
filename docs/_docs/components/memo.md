@@ -49,14 +49,15 @@ When using the event `TextChanged`, you also must define the `Text` value attrib
 
 ## Attributes
 
-| Name        | Type                                                         | Default | Description                                                                                          |
-|-------------|--------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
-| Text        | string                                                       |         | Input value.                                                                                         |
-| TextChanged | event                                                        |         | Occurs after text has changed.                                                                       |
-| Plaintext   | boolean                                                      | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
-| ReadOnly    | boolean                                                      | false   | Prevents modification of the input’s value.                                                          |
-| Disabled    | boolean                                                      | false   | Prevents user interactions and make it appear lighter.                                               |
-| MaxLength   | int?                                                         | null    | Specifies the maximum number of characters allowed in the input element.                             |
-| Placeholder | string                                                       |         | Sets the placeholder for the empty text.                                                             |
-| Rows        | int?                                                         | null    | Specifies the number lines in the input element.                                                     |
-| Size        | [Sizes]({{ "/docs/helpers/sizes/#size" | relative_url }})    | `None`  | Component size variations.                                                                           |
+| Name                  | Type                                                         | Default | Description                                                                                          |
+|-----------------------|--------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
+| Text                  | string                                                       |         | Input value.                                                                                         |
+| TextChanged           | event                                                        |         | Occurs after text has changed.                                                                       |
+| Plaintext             | boolean                                                      | false   | Remove the default form field styling and preserve the correct margin and padding.                   |
+| ReadOnly              | boolean                                                      | false   | Prevents modification of the input’s value.                                                          |
+| Disabled              | boolean                                                      | false   | Prevents user interactions and make it appear lighter.                                               |
+| MaxLength             | int?                                                         | null    | Specifies the maximum number of characters allowed in the input element.                             |
+| Placeholder           | string                                                       |         | Sets the placeholder for the empty text.                                                             |
+| Rows                  | int?                                                         | null    | Specifies the number lines in the input element.                                                     |
+| Size                  | [Sizes]({{ "/docs/helpers/sizes/#size" | relative_url }})    | `None`  | Component size variations.                                                                           |
+| ChangeTextOnKeyPress  | bool?                                                        |  null   | If true the text in will be changed after each key press (overrides global settings).                |
