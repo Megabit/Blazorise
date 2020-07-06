@@ -181,7 +181,8 @@
     content: ' '; }
 
 .b-layout.b-layout-has-sider {
-    flex-direction: row; }
+    flex-direction: row;
+    min-height: 0; }
     .b-layout.b-layout-has-sider .b-layout {
         overflow-x: hidden; }
 
@@ -200,9 +201,10 @@
 .b-layout-footer {
     color: rgba(0, 0, 0, 0.65); }
     .b-layout-footer-fixed {
-        position: fixed;
+        position: sticky;
         z-index: 1;
-        bottom: 0; }
+        bottom: 0;
+        flex: 0; }
 
 .b-layout-content {
     flex: 1; }

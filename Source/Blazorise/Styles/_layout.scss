@@ -27,6 +27,7 @@
 
     &.b-layout-has-sider {
         flex-direction: row;
+        min-height: 0;
 
         .b-layout {
             overflow-x: hidden;
@@ -54,9 +55,10 @@
     color: rgba(0, 0, 0, 0.65);
 
     &-fixed {
-        position: fixed;
+        position: sticky;
         z-index: 1;
         bottom: 0;
+        flex: 0;
     }
 }
 
