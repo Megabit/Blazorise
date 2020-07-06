@@ -446,6 +446,8 @@ namespace Blazorise
 
         public virtual string LayoutFooter() => "b-layout-footer";
 
+        public virtual string LayoutFooterFixed() => "b-layout-footer-fixed";
+
         public virtual string LayoutSider() => "b-layout-sider";
 
         public virtual string LayoutSiderContent() => "b-layout-sider-content";

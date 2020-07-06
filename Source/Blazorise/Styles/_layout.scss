@@ -2,7 +2,6 @@
     display: flex;
     flex: auto;
     flex-direction: column;
-    min-height: 0;
     height: 100vh;
 }
 
@@ -39,6 +38,7 @@
 
 .b-layout-header {
     color: rgba(0, 0, 0, 0.65);
+
     &-fixed {
         position: sticky;
         z-index: 1;
@@ -48,15 +48,17 @@
 }
 
 .b-layout-footer {
-    /*padding: 24px 50px;*/
     color: rgba(0, 0, 0, 0.65);
-    font-size: 14px;
-    /*background: #f0f2f5;*/
+
+    &-fixed {
+        position: fixed;
+        z-index: 1;
+        bottom: 0;
+    }
 }
 
 .b-layout-content {
     flex: 1;
-    min-height: 0;
 }
 
 .b-layout-sider {
