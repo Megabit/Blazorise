@@ -37,7 +37,7 @@ namespace Blazorise
 
         protected Task OnChangeHandler( ChangeEventArgs e )
         {
-            if ( !Options.ChangeTextOnKeyPress )
+            if ( !IsChangeTextOnKeyPress )
             {
                 return CurrentValueHandler( e?.Value?.ToString() );
             }
@@ -47,7 +47,7 @@ namespace Blazorise
 
         protected async Task OnInputHandler( ChangeEventArgs e )
         {
-            if ( Options.ChangeTextOnKeyPress )
+            if ( IsChangeTextOnKeyPress )
             {
                 var caret = await JSRunner.GetCaret( ElementRef );
 
@@ -73,7 +73,8 @@ namespace Blazorise
 
         protected override string InternalValue { get => Text; set => Text = value; }
 
-        [Inject] protected BlazoriseOptions Options { get; set; }
+        private bool IsChangeTextOnKeyPress
+           => ChangeTextOnKeyPress.GetValueOrDefault( Options?.ChangeTextOnKeyPress ?? true );
 
         /// <summary>
         /// Sets the placeholder for the empty text.
@@ -104,6 +105,14 @@ namespace Blazorise
         /// Specifies the number lines in the input element.
         /// </summary>
         [Parameter] public int? Rows { get; set; }
+
+        /// <summary>
+        /// If true the text in will be changed after each key press.
+        /// </summary>
+        /// <remarks>
+        /// Note that setting this will override global settings in <see cref="BlazoriseOptions.ChangeTextOnKeyPress"/>.
+        /// </remarks>
+        [Parameter] public bool? ChangeTextOnKeyPress { get; set; }
 
         #endregion
     }
