@@ -1183,13 +1183,25 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 0; }
 
-.ant-input-group > .ant-input-group-addon:last-child > .ant-dropdown-button > .ant-btn {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0; }
+.ant-input-group > .ant-select-selection-search-input:first-child > .ant-select-selector {
+    border-right: 0;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important; }
 
-.ant-input-group > .ant-input-group-addon:first-child > .ant-dropdown-button > .ant-btn {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0; }
+.ant-input-group > .ant-select-selection-search-input:nth-child(2) > .ant-select-selector {
+    border-left: 0;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important; }
+
+.ant-input-search-enter-button .ant-input-group-addon {
+    padding: 0;
+    border: 0; }
+    .ant-input-search-enter-button .ant-input-group-addon:last-child .ant-btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0; }
+    .ant-input-search-enter-button .ant-input-group-addon:first-child .ant-btn {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0; }
 
 .ant-row.ant-form-row {
     display: flex;

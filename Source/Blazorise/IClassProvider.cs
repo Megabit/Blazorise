@@ -447,9 +447,15 @@ namespace Blazorise
 
         string LayoutFooter();
 
+        string LayoutFooterFixed();
+
         string LayoutSider();
 
         string LayoutSiderContent();
+
+        string LayoutLoading();
+
+        string LayoutRoot();
 
         #endregion
 

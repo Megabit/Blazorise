@@ -452,9 +452,15 @@ namespace Blazorise.Providers
 
         public string LayoutFooter() => null;
 
+        public string LayoutFooterFixed() => null;
+
         public string LayoutSider() => null;
 
         public string LayoutSiderContent() => null;
+
+        public string LayoutLoading() => null;
+
+        public string LayoutRoot() => null;
 
         #endregion
 
