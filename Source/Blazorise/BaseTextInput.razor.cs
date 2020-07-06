@@ -45,7 +45,7 @@ namespace Blazorise
 
         protected virtual Task OnChangeHandler( ChangeEventArgs e )
         {
-            if ( !Options.ChangeTextOnKeyPress )
+            if ( !IsChangeTextOnKeyPress )
             {
                 return CurrentValueHandler( e?.Value?.ToString() );
             }
@@ -55,7 +55,7 @@ namespace Blazorise
 
         protected virtual async Task OnInputHandler( ChangeEventArgs e )
         {
-            if ( Options.ChangeTextOnKeyPress )
+            if ( IsChangeTextOnKeyPress )
             {
                 var caret = await JSRunner.GetCaret( ElementRef );
 
@@ -69,7 +69,8 @@ namespace Blazorise
 
         #region Properties
 
-        [Inject] protected BlazoriseOptions Options { get; set; }
+        private bool IsChangeTextOnKeyPress
+            => ChangeTextOnKeyPress.GetValueOrDefault( Options?.ChangeTextOnKeyPress ?? true );
 
         /// <summary>
         /// Sets the placeholder for the empty text.
@@ -100,6 +101,14 @@ namespace Blazorise
         /// The pattern attribute specifies a regular expression that the input element's value is checked against on form validation.
         /// </summary>
         [Parameter] public string Pattern { get; set; }
+
+        /// <summary>
+        /// If true the text in will be changed after each key press.
+        /// </summary>
+        /// <remarks>
+        /// Note that setting this will override global settings in <see cref="BlazoriseOptions.ChangeTextOnKeyPress"/>.
+        /// </remarks>
+        [Parameter] public bool? ChangeTextOnKeyPress { get; set; }
 
         #endregion
     }
