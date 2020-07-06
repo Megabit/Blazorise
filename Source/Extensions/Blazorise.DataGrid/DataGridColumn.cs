@@ -135,12 +135,12 @@ namespace Blazorise.DataGrid
         public virtual DataGridColumnType ColumnType { get; } = DataGridColumnType.Text;
 
         /// <summary>
-        /// Gets or sets the column's display caption
+        /// Gets or sets the column's display caption.
         /// </summary>
         [Parameter] public string Caption { get; set; }
 
         /// <summary>
-        /// Gets or sets the column's display caption template
+        /// Gets or sets the column's display caption template.
         /// </summary>
         [Parameter] public RenderFragment<DataGridColumn<TItem>> CaptionTemplate { get; set; }
 
