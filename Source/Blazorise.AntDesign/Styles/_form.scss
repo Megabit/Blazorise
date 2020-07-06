@@ -26,16 +26,37 @@
 }
 
 .ant-input-group {
-    > .ant-input-group-addon {
-        &:last-child > .ant-dropdown-button > .ant-btn {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+    > .ant-select-selection-search-input {
+        &:first-child {
+            > .ant-select-selector {
+                border-right: 0;
+                border-top-right-radius: 0 !important;
+                border-bottom-right-radius: 0 !important;
+            }
         }
 
-        &:first-child > .ant-dropdown-button > .ant-btn {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
+        &:nth-child(2) {
+            > .ant-select-selector {
+                border-left: 0;
+                border-top-left-radius: 0 !important;
+                border-bottom-left-radius: 0 !important;
+            }
         }
+    }
+}
+
+.ant-input-search-enter-button .ant-input-group-addon {
+    padding: 0;
+    border: 0;
+
+    &:last-child .ant-btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    &:first-child .ant-btn {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
     }
 }
 
