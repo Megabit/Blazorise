@@ -459,6 +459,8 @@ namespace Blazorise.Providers
 
         public string LayoutLoading() => null;
 
+        public string LayoutRoot() => null;
+
         #endregion
 
         #region Container

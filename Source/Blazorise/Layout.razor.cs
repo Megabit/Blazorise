@@ -27,6 +27,7 @@ namespace Blazorise
             builder.Append( ClassProvider.Layout() );
             builder.Append( ClassProvider.LayoutHasSider(), Sider );
             builder.Append( ClassProvider.LayoutLoading(), Loading );
+            builder.Append( ClassProvider.LayoutRoot(), ParentLayout == null );
 
             base.BuildClasses( builder );
         }

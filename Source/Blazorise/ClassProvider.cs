@@ -454,6 +454,8 @@ namespace Blazorise
 
         public virtual string LayoutLoading() => "b-layout-loading";
 
+        public virtual string LayoutRoot() => "b-layout-root";
+
         #endregion
 
         #region Container

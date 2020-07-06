@@ -453,6 +453,8 @@ namespace Blazorise
 
         string LayoutLoading();
 
+        string LayoutRoot();
+
         #endregion
 
         #region Container

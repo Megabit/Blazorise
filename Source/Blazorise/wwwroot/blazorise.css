@@ -164,8 +164,9 @@
 .b-layout {
     display: flex;
     flex: auto;
-    flex-direction: column;
-    height: 100vh; }
+    flex-direction: column; }
+    .b-layout.b-layout-root {
+        height: 100vh; }
 
 .b-layout,
 .b-layout * {
@@ -207,11 +208,11 @@
     flex: 1; }
 
 .b-layout-sider {
+    display: flex;
     position: relative;
     background: #001529; }
 
 .b-layout-sider-content {
-    height: 100vh;
     position: sticky;
     top: 0;
     z-index: 2; }
@@ -231,7 +232,7 @@
     width: var(--b-vertical-bar-width, 220px);
     transition: width 200ms ease-in-out, min-width 200ms ease-in-out;
     box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
-    height: 100vh;
+    height: 100%;
     /* 
         Theming
     */ }

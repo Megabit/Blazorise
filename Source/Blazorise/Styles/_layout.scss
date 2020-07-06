@@ -2,7 +2,10 @@
     display: flex;
     flex: auto;
     flex-direction: column;
-    height: 100vh;
+
+    &.b-layout-root {
+        height: 100vh;
+    }
 }
 
 .b-layout,
@@ -62,12 +65,12 @@
 }
 
 .b-layout-sider {
+    display: flex;
     position: relative;
     background: #001529;
 }
 
 .b-layout-sider-content {
-    height: 100vh;
     position: sticky;
     top: 0;
     z-index: 2;
