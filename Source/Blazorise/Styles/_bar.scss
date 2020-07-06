@@ -49,6 +49,10 @@
     position: relative;
 }
 
+.b-bar-horizontal {
+    flex-wrap: nowrap;
+}
+
 .b-bar-vertical-inline,
 .b-bar-vertical-popout,
 .b-bar-vertical-small {
