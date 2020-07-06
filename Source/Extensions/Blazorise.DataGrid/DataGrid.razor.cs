@@ -166,7 +166,11 @@ namespace Blazorise.DataGrid
 
         protected void OnNewCommand()
         {
-            InitEditItem( CreateNewItem() );
+            var newItem = CreateNewItem();
+
+            NewItemDefaultSetter?.Invoke( newItem );
+
+            InitEditItem( newItem );
 
             editState = DataGridEditState.New;
 
@@ -200,6 +204,13 @@ namespace Blazorise.DataGrid
 
                     dirtyFilter = dirtyView = true;
                 }
+            }
+
+            // When deleting and the page becomes empty and we aren't the first page:
+            // go to the previous page
+            if ( ManualReadMode && ShowPager && CurrentPage > FirstVisiblePage && !Data.Any() )
+            {
+                await OnPaginationItemClick( ( CurrentPage - 1 ).ToString() );
             }
         }
 
@@ -235,6 +246,11 @@ namespace Blazorise.DataGrid
                 {
                     await RowInserted.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
                     dirtyFilter = dirtyView = true;
+
+                    // If a new item is added, the data should be refreshed
+                    // to account for paging, sorting, and filtering
+                    if ( ManualReadMode )
+                        await HandleReadData();
                 }
                 else
                     await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
@@ -544,7 +560,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Returns true if LoadingTemplate is set and IsLoading is true.
         /// </summary>
-        protected bool IsLoadingTemplateVisible => LoadingTemplate != null && IsLoading;
+        protected bool IsLoadingTemplateVisible => !IsNewItemInGrid && LoadingTemplate != null && IsLoading;
 
         /// <summary>
         /// Returns true if ReadData will be invoked.
@@ -554,7 +570,17 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Returns true if EmptyTemplate is set and Data is null or empty.
         /// </summary>
-        protected bool IsEmptyTemplateVisible => EmptyTemplate != null && ( Data == null || !Data.Any() );
+        protected bool IsEmptyTemplateVisible => !IsLoadingTemplateVisible && !IsNewItemInGrid && EmptyTemplate != null && ( Data == null || !Data.Any() );
+
+        /// <summary>
+        /// Returns true if ShowPager is true and grid is not empty or loading.
+        /// </summary>
+        protected bool IsPagerVisible => !IsEmptyTemplateVisible && !IsLoadingTemplateVisible && ShowPager;
+
+        /// <summary>
+        /// Returns true if current state is for new item and editing fields are shown on datagrid.
+        /// </summary>
+        protected bool IsNewItemInGrid => Editable && editState == DataGridEditState.New && EditMode != DataGridEditMode.Popup;
 
         /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.
@@ -567,9 +593,26 @@ namespace Blazorise.DataGrid
         public DataGridEditState EditState => editState;
 
         /// <summary>
+        /// Gets template for title of popup modal.
+        /// </summary>
+        [Parameter]
+        public RenderFragment<PopupTitleContext<TItem>> PopupTitleTemplate { get; set; } = context =>
+        {
+            return builder =>
+            {
+                builder.AddContent( 0, context.EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create" );
+            };
+        };
+
+        /// <summary>
         /// Gets the flag which indicates if popup editor is visible.
         /// </summary>
         protected bool PopupVisible = false;
+
+        /// <summary>
+        /// Defines the size of popup dialog.
+        /// </summary>
+        [Parameter] public ModalSize PopupSize { get; set; } = ModalSize.Default;
 
         /// <summary>
         /// Gets the reference to the associated command column.
@@ -865,6 +908,11 @@ namespace Blazorise.DataGrid
         /// Template for displaying detail or nested row.
         /// </summary>
         [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
+
+        /// <summary>
+        /// Function, that is called, when a new item is created for inserting new entry.
+        /// </summary>
+        [Parameter] public Action<TItem> NewItemDefaultSetter { get; set; }
 
         /// <summary>
         /// Adds stripes to the table.

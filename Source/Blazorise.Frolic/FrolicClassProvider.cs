@@ -354,6 +354,8 @@ namespace Blazorise.Frolic
 
         public override string DropdownToggleSplit() => "button split";
 
+        public override string DropdownToggleIcon( bool visible ) => null;
+
         public override string DropdownDirection( Direction direction )
         {
             switch ( direction )

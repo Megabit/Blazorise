@@ -25,6 +25,9 @@ namespace Blazorise.DataGrid
 
         protected object Calculate( DataGridAggregate<TItem> aggregate, DataGridColumn<TItem> column )
         {
+            if ( Data == null )
+                return null;
+
             switch ( aggregate.Aggregate )
             {
                 case DataGridAggregateType.Sum:

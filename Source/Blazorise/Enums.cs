@@ -713,6 +713,11 @@ namespace Blazorise
         /// Used for input fields that should contain a URL address.
         /// </summary>
         Url,
+
+        /// <summary>
+        /// Define a search field (like a site search, or Google search).
+        /// </summary>
+        Search,
     }
 
     /// <summary>
@@ -976,11 +981,6 @@ namespace Blazorise
     /// </summary>
     public enum ModalSize
     {
-        /// <summary>
-        /// No sizing applied.
-        /// </summary>
-        None,
-
         /// <summary>
         /// Default modal size.
         /// </summary>

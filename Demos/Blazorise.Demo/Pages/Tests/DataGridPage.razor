@@ -73,6 +73,7 @@
                           RowRemoved="@OnRowRemoved"
                           UseInternalEditing="true"
                           @bind-SelectedRow="@selectedEmployee"
+                          NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
                           DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
                           Striped="true"
                           Bordered="true"
@@ -116,7 +117,7 @@
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <FilterTemplate>
                                 <Select TValue="string" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
@@ -144,6 +145,10 @@
                                     {
                                         @("Female")
                                     }
+                                    else if ( gender == "D" )
+                                    {
+                                        @("Diverse")
+                                    }
                                 }
                             </DisplayTemplate>
                             <EditTemplate>
@@ -151,6 +156,7 @@
                                     <SelectItem TValue="string" Value="null"></SelectItem>
                                     <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
                                     <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                                    <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
                                 </Select>
                             </EditTemplate>
                         </DataGridSelectColumn>
@@ -179,6 +185,16 @@
                             </DataGrid>
                         }
                     </DetailRowTemplate>
+                    <PopupTitleTemplate>
+                        @if ( context.EditState == DataGridEditState.Edit )
+                        {
+                            @($"Edit Employee {context.Item.FirstName} {context.Item.LastName}")
+                        }
+                        else
+                        {
+                            @("Create Employee")
+                        }
+                    </PopupTitleTemplate>
                 </DataGrid>
             </CardBody>
         </Card>
@@ -298,6 +314,12 @@
         new Employee {Id = 26,FirstName = "Reeta",LastName = "Acom",EMail = "racomp@fc2.com",City = "Baoping",Zip = null,Salary = 61296.4m },
         new Employee {Id = 27,FirstName = "Chandler",LastName = "Franzonetti",EMail = "cfranzonettiq@archive.org",City = "Emin",Zip = null,Salary = 67458.07m, Childrens=1 }
     };
+
+    void OnEmployeeNewItemDefaultSetter( Employee employee )
+    {
+        employee.Salary = 100.0M;
+        employee.IsActive = true;
+    }
 
     void OnRowInserted( SavedRowItem<Employee, Dictionary<string, object>> e )
     {

@@ -369,6 +369,8 @@ namespace Blazorise.Bulma
 
         public override string DropdownToggleSplit() => null;
 
+        public override string DropdownToggleIcon( bool visible ) => null;
+
         public override string DropdownDirection( Direction direction )
         {
             switch ( direction )

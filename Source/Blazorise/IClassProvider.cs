@@ -307,6 +307,8 @@ namespace Blazorise
 
         string DropdownToggleSplit();
 
+        string DropdownToggleIcon( bool visible );
+
         string DropdownDirection( Direction direction );
 
         #endregion

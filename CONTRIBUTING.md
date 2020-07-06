@@ -29,9 +29,17 @@ You are now ready to build and test Blazorise:
 
 ## Branch Organization
 
+### Development
+
 We use separate branches for development and for all new features. After all the features are done in the seperate branch it will be merged into the `master`.
 
 Development branches follows the naming based on the milestone version number. For example if the milestone is `0.5.2` the main develop branch will be named `dev052` and all feature branches will be based on `dev052`. Feature branches follows the naming `dev052-feature-name`.
+
+### Support
+
+Similar to development branches we also have branches specifically for support. After new version is released the old `devNUM` branch will be removed and we will create new branch with the `sup` prefix and with the numbering from `dev` branch, eg. `dev052` > `sup052`
+
+This branch is used ONLY for bug fixes. No new features can or will be added here.
 
 ## Pull requests
 
