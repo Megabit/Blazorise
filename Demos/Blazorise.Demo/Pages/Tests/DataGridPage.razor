@@ -120,7 +120,7 @@
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <CaptionTemplate>
-                              <i class="fas fa-city"></i> @context.Caption
+                                <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
                             <FilterTemplate>
                                 <Select TValue="string" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
