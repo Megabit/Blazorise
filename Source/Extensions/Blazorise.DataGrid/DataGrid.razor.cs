@@ -524,11 +524,16 @@ namespace Blazorise.DataGrid
 
         #region Pagination
 
-        private void CalculateAndSetVisiblePages()
+        /// <summary>
+        /// Calculates the first and last visible pages based on the current offset and page size.
+        /// </summary>
+        private void CalculateFirstAndLastVisiblePage()
         {
             var step = (int)Math.Floor( MaxPaginationLinks / 2d );
+
             var leftButton = CurrentPage - step;
             var rightButton = CurrentPage + step;
+
             if ( leftButton <= 1 )
             {
                 firstVisiblePage = 1;
@@ -536,7 +541,7 @@ namespace Blazorise.DataGrid
             }
             else if ( LastPage <= rightButton )
             {
-                firstVisiblePage = Math.Max(LastPage - MaxPaginationLinks + 1, 1);
+                firstVisiblePage = Math.Max( LastPage - MaxPaginationLinks + 1, 1 );
                 lastVisiblePage = LastPage;
             }
             else
@@ -813,7 +818,8 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                CalculateAndSetVisiblePages();
+                CalculateFirstAndLastVisiblePage();
+
                 return firstVisiblePage;
             }
         }
@@ -825,7 +831,8 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                CalculateAndSetVisiblePages();
+                CalculateFirstAndLastVisiblePage();
+
                 return lastVisiblePage;
             }
         }
