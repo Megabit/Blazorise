@@ -59,8 +59,10 @@ namespace Blazorise
 
         protected string LoadingClassNames => LoadingClassBuilder.Class;
 
+        protected ClassBuilder LoadingClassBuilder { get; private set; }
+
         /// <summary>
-        /// Indicates that layout will contain sider.
+        /// Indicates that layout will contain sider container.
         /// </summary>
         [Parameter]
         public bool Sider
@@ -74,6 +76,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// If true, an overlay will be created so the user cannot click anything until set to false.
+        /// </summary>
         [Parameter]
         public bool Loading
         {
@@ -86,6 +91,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Sets the custom classname for loading element.
+        /// </summary>
         [Parameter]
         public string LoadingClass
         {
@@ -97,8 +105,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-
-        protected ClassBuilder LoadingClassBuilder { get; private set; }
 
         [Parameter] public EventCallback<bool> LoadingChanged { get; set; }
 
