@@ -1,28 +1,25 @@
 ﻿@import "variables";
 
-
 @each $name, $value in $theme-colors {
     $color: $value;
 
-    &.custom-control-input-#{$name}:checked ~ .custom-control-label::before {
-        background-color: $color;
-        border-color: $color;
-    }
+    .custom-switch {
+        .custom-control-input {
+            &.custom-control-input-#{$name}:checked ~ .custom-control-label::before {
+                background-color: $color;
+                border-color: $color;
+            }
 
-    &.custom-control-input-#{$name}:focus ~ .custom-control-label::before {
-        box-shadow: 0 0 0 .2rem rgba($color,.25);
-        border-color: $color;
-    }
+            &.custom-control-input-#{$name}:focus ~ .custom-control-label::before {
+                box-shadow: 0 0 0 .2rem rgba($color,.25);
+                border-color: $color;
+            }
 
-    &.custom-control-input-#{$name}:not(:disabled):active ~ .custom-control-label::before {
-        border-color: $color;
-    }
-}
-
-@each $name, $value in $theme-light-colors {
-    $color: $value;
-
-    &.custom-control-input-#{$name}:not(:disabled):active ~ .custom-control-label::before {
-        background-color: $color;
+            &:disabled {
+                &.custom-control-input-#{$name}:checked ~ .custom-control-label::before {
+                    background-color: rgba($color,.5);
+                }
+            }
+        }
     }
 }

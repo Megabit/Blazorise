@@ -19,16 +19,7 @@ $danger: #dc3545 !default;
 $light: #f8f9fa !default;
 $dark: #343a40 !default;
 $link: #3273dc !default;
-$primary-light: #e1bee7 !default;
-$secondary-light: #ff80ab !default;
-$success-light: #c8e6c9 !default;
-$info-light: #bbdefb !default;
-$warning-light: #ffe0b2 !default;
-$danger-light: #ffcdd2 !default;
-$light-light: #fafafa !default;
-$dark-light: #757575 !default;
 
 $theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link);
-$theme-light-colors: ("primary": $primary-light, "secondary": $secondary-light, "success": $success-light, "info": $info-light, "warning": $warning-light, "danger": $danger-light, "light": $light-light, "dark": $dark-light, "link":$link);
 
 $figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
