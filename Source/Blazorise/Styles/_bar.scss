@@ -49,8 +49,18 @@
     position: relative;
 }
 
-.b-bar-horizontal[data-collapse=hide] {
-    flex-wrap: nowrap;
+.b-bar-horizontal {
+    &[data-collapse=hide] {
+        flex-wrap: nowrap;
+
+        &[data-broken=true] {
+            height: var(--b-bar-horizontal-height, 64px);
+        }
+    }
+
+    &[data-broken=false] {
+        height: var(--b-bar-horizontal-height, 64px);
+    }
 }
 
 .b-bar-vertical-inline,

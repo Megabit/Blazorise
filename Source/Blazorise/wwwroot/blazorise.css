@@ -241,6 +241,11 @@
 
 .b-bar-horizontal[data-collapse=hide] {
     flex-wrap: nowrap; }
+    .b-bar-horizontal[data-collapse=hide][data-broken=true] {
+        height: var(--b-bar-horizontal-height, 64px); }
+
+.b-bar-horizontal[data-broken=false] {
+    height: var(--b-bar-horizontal-height, 64px); }
 
 .b-bar-vertical-inline,
 .b-bar-vertical-popout,

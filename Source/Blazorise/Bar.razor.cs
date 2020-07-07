@@ -141,6 +141,8 @@ namespace Blazorise
 
         protected BarStore Store => store;
 
+        protected string BrokenStateString => isBroken.ToString().ToLower();
+
         protected string CollapseModeString
         {
             get
