@@ -3099,6 +3099,10 @@ fieldset:disabled a.btn { pointer-events: none; }
 
     .custom-control-input.focus ~ .custom-control-label::before, .custom-control-input:active ~ .custom-control-label::before { opacity: 0.12; -webkit-transform: scale(1, 1) translateZ(0); transform: scale(1, 1) translateZ(0); }
 
+    .custom-control-input:checked ~ .custom-control-label::after { color: #ff4081; }
+
+    .custom-control-input:checked ~ .custom-control-label::before { background-color: #ff4081; }
+
     .custom-control-input:disabled ~ .custom-control-label { color: rgba(0, 0, 0, 0.26); }
 
         .custom-control-input:disabled ~ .custom-control-label::after { color: rgba(0, 0, 0, 0.26); }
