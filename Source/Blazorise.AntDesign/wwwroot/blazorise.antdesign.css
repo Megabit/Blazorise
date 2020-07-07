@@ -1577,59 +1577,86 @@
 .ant-typography-white-50 {
     color: rgba(255, 255, 255, 0.5) !important; }
 
-.ant-switch-primary.ant-switch-checked {
+.ant-switch.ant-switch-primary.ant-switch-checked {
     background-color: #1890ff; }
 
-.ant-switch-primary:focus {
+.ant-switch.ant-switch-primary:focus {
     box-shadow: 0 0 0 0.2rem rgba(24, 144, 255, 0.25); }
 
-.ant-switch-secondary.ant-switch-checked {
+.ant-switch:disabled.ant-switch-primary.ant-switch-checked {
+    background-color: rgba(24, 144, 255, 0.5); }
+
+.ant-switch.ant-switch-secondary.ant-switch-checked {
     background-color: #6c757d; }
 
-.ant-switch-secondary:focus {
+.ant-switch.ant-switch-secondary:focus {
     box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25); }
 
-.ant-switch-success.ant-switch-checked {
+.ant-switch:disabled.ant-switch-secondary.ant-switch-checked {
+    background-color: rgba(108, 117, 125, 0.5); }
+
+.ant-switch.ant-switch-success.ant-switch-checked {
     background-color: #35c613; }
 
-.ant-switch-success:focus {
+.ant-switch.ant-switch-success:focus {
     box-shadow: 0 0 0 0.2rem rgba(53, 198, 19, 0.25); }
 
-.ant-switch-info.ant-switch-checked {
+.ant-switch:disabled.ant-switch-success.ant-switch-checked {
+    background-color: rgba(53, 198, 19, 0.5); }
+
+.ant-switch.ant-switch-info.ant-switch-checked {
     background-color: #60b6f4; }
 
-.ant-switch-info:focus {
+.ant-switch.ant-switch-info:focus {
     box-shadow: 0 0 0 0.2rem rgba(96, 182, 244, 0.25); }
 
-.ant-switch-warning.ant-switch-checked {
+.ant-switch:disabled.ant-switch-info.ant-switch-checked {
+    background-color: rgba(96, 182, 244, 0.5); }
+
+.ant-switch.ant-switch-warning.ant-switch-checked {
     background-color: #f7c12a; }
 
-.ant-switch-warning:focus {
+.ant-switch.ant-switch-warning:focus {
     box-shadow: 0 0 0 0.2rem rgba(247, 193, 42, 0.25); }
 
-.ant-switch-danger.ant-switch-checked {
+.ant-switch:disabled.ant-switch-warning.ant-switch-checked {
+    background-color: rgba(247, 193, 42, 0.5); }
+
+.ant-switch.ant-switch-danger.ant-switch-checked {
     background-color: #ff4d4f; }
 
-.ant-switch-danger:focus {
+.ant-switch.ant-switch-danger:focus {
     box-shadow: 0 0 0 0.2rem rgba(255, 77, 79, 0.25); }
 
-.ant-switch-light.ant-switch-checked {
+.ant-switch:disabled.ant-switch-danger.ant-switch-checked {
+    background-color: rgba(255, 77, 79, 0.5); }
+
+.ant-switch.ant-switch-light.ant-switch-checked {
     background-color: #fafafa; }
 
-.ant-switch-light:focus {
+.ant-switch.ant-switch-light:focus {
     box-shadow: 0 0 0 0.2rem rgba(250, 250, 250, 0.25); }
 
-.ant-switch-dark.ant-switch-checked {
+.ant-switch:disabled.ant-switch-light.ant-switch-checked {
+    background-color: rgba(250, 250, 250, 0.5); }
+
+.ant-switch.ant-switch-dark.ant-switch-checked {
     background-color: #343a40; }
 
-.ant-switch-dark:focus {
+.ant-switch.ant-switch-dark:focus {
     box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.25); }
 
-.ant-switch-link.ant-switch-checked {
+.ant-switch:disabled.ant-switch-dark.ant-switch-checked {
+    background-color: rgba(52, 58, 64, 0.5); }
+
+.ant-switch.ant-switch-link.ant-switch-checked {
     background-color: #3273dc; }
 
-.ant-switch-link:focus {
+.ant-switch.ant-switch-link:focus {
     box-shadow: 0 0 0 0.2rem rgba(50, 115, 220, 0.25); }
+
+.ant-switch:disabled.ant-switch-link.ant-switch-checked {
+    background-color: rgba(50, 115, 220, 0.5); }
 
 .bg-primary {
     background-color: #1890ff !important; }
