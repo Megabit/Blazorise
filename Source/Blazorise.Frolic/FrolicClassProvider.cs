@@ -100,7 +100,7 @@ namespace Blazorise.Frolic
 
         public override string Switch() => "e-switch";
 
-        public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+        public override string SwitchColor( Color color ) => $"{ToColor( color )}";
 
         public override string SwitchChecked( bool @checked ) => null;
 
