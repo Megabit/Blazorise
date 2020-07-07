@@ -6,4 +6,9 @@
 	&.ant-switch-#{$name}.ant-switch-checked {
 		background-color: $color;
 	}
+
+	&.ant-switch-#{$name}:focus {
+		box-shadow: 0 0 0 .2rem rgba($color,.25);
+	}
+
 }

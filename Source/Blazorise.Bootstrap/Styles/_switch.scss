@@ -8,4 +8,23 @@
 		background-color: $color;
 		border-color: $color;
 	}
+
+	&.custom-control-input-#{$name}:focus ~ .custom-control-label::before {
+		box-shadow: 0 0 0 .2rem rgba($color,.25);
+		border-color: $color;
+	}
+
+	&.custom-control-input-#{$name}:not(:disabled):active ~ .custom-control-label::before {
+		border-color: $color;
+	}
+
+}
+
+@each $name, $value in $theme-light-colors {
+	$color: $value;
+
+	&.custom-control-input-#{$name}:not(:disabled):active ~ .custom-control-label::before {
+		background-color: $color;
+	}
+
 }

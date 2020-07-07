@@ -138,34 +138,124 @@ tr.table-row-selectable:hover {
     background-color: #007bff;
     border-color: #007bff; }
 
+.custom-control-input-primary:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    border-color: #007bff; }
+
+.custom-control-input-primary:not(:disabled):active ~ .custom-control-label::before {
+    border-color: #007bff; }
+
 .custom-control-input-secondary:checked ~ .custom-control-label::before {
     background-color: #6c757d;
+    border-color: #6c757d; }
+
+.custom-control-input-secondary:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+    border-color: #6c757d; }
+
+.custom-control-input-secondary:not(:disabled):active ~ .custom-control-label::before {
     border-color: #6c757d; }
 
 .custom-control-input-success:checked ~ .custom-control-label::before {
     background-color: #28a745;
     border-color: #28a745; }
 
+.custom-control-input-success:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    border-color: #28a745; }
+
+.custom-control-input-success:not(:disabled):active ~ .custom-control-label::before {
+    border-color: #28a745; }
+
 .custom-control-input-info:checked ~ .custom-control-label::before {
     background-color: #17a2b8;
+    border-color: #17a2b8; }
+
+.custom-control-input-info:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+    border-color: #17a2b8; }
+
+.custom-control-input-info:not(:disabled):active ~ .custom-control-label::before {
     border-color: #17a2b8; }
 
 .custom-control-input-warning:checked ~ .custom-control-label::before {
     background-color: #ffc107;
     border-color: #ffc107; }
 
+.custom-control-input-warning:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    border-color: #ffc107; }
+
+.custom-control-input-warning:not(:disabled):active ~ .custom-control-label::before {
+    border-color: #ffc107; }
+
 .custom-control-input-danger:checked ~ .custom-control-label::before {
     background-color: #dc3545;
+    border-color: #dc3545; }
+
+.custom-control-input-danger:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    border-color: #dc3545; }
+
+.custom-control-input-danger:not(:disabled):active ~ .custom-control-label::before {
     border-color: #dc3545; }
 
 .custom-control-input-light:checked ~ .custom-control-label::before {
     background-color: #f8f9fa;
     border-color: #f8f9fa; }
 
+.custom-control-input-light:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(248, 249, 250, 0.25);
+    border-color: #f8f9fa; }
+
+.custom-control-input-light:not(:disabled):active ~ .custom-control-label::before {
+    border-color: #f8f9fa; }
+
 .custom-control-input-dark:checked ~ .custom-control-label::before {
     background-color: #343a40;
+    border-color: #343a40; }
+
+.custom-control-input-dark:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.25);
+    border-color: #343a40; }
+
+.custom-control-input-dark:not(:disabled):active ~ .custom-control-label::before {
     border-color: #343a40; }
 
 .custom-control-input-link:checked ~ .custom-control-label::before {
     background-color: #3273dc;
     border-color: #3273dc; }
+
+.custom-control-input-link:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(50, 115, 220, 0.25);
+    border-color: #3273dc; }
+
+.custom-control-input-link:not(:disabled):active ~ .custom-control-label::before {
+    border-color: #3273dc; }
+
+.custom-control-input-primary:not(:disabled):active ~ .custom-control-label::before {
+    background-color: #e1bee7; }
+
+.custom-control-input-secondary:not(:disabled):active ~ .custom-control-label::before {
+    background-color: #ff80ab; }
+
+.custom-control-input-success:not(:disabled):active ~ .custom-control-label::before {
+    background-color: #c8e6c9; }
+
+.custom-control-input-info:not(:disabled):active ~ .custom-control-label::before {
+    background-color: #bbdefb; }
+
+.custom-control-input-warning:not(:disabled):active ~ .custom-control-label::before {
+    background-color: #ffe0b2; }
+
+.custom-control-input-danger:not(:disabled):active ~ .custom-control-label::before {
+    background-color: #ffcdd2; }
+
+.custom-control-input-light:not(:disabled):active ~ .custom-control-label::before {
+    background-color: #fafafa; }
+
+.custom-control-input-dark:not(:disabled):active ~ .custom-control-label::before {
+    background-color: #757575; }
+
+.custom-control-input-link:not(:disabled):active ~ .custom-control-label::before {
+    background-color: #3273dc; }

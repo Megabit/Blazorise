@@ -6,6 +6,11 @@
 	&.custom-control-input-#{$name}:checked ~ .custom-control-label::after {
 		background-color: $color;
 	}
+
+	&.custom-control-input-#{$name}:checked ~ .custom-control-label::before {
+		background-color: $color;
+	}
+
 }
 
 @each $name, $value in $theme-light-colors {
@@ -14,4 +19,5 @@
 	&.custom-control-input-#{$name}:checked ~ .custom-control-track {
 		background-color: $color;
 	}
+
 }
