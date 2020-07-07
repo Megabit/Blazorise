@@ -134,6 +134,8 @@ namespace Blazorise
 
         public ThemeBadgeOptions BadgeOptions { get; set; }
 
+        public ThemeSwitchOptions SwitchOptions { get; set; }
+
         public ThemePaginationOptions PaginationOptions { get; set; }
 
         public ThemeSidebarOptions SidebarOptions { get; set; }
@@ -318,6 +320,13 @@ namespace Blazorise
 
     public class ThemeBadgeOptions : BasicOptions
     {
+    }
+
+    public class ThemeSwitchOptions : BasicOptions
+    {
+        public float BoxShadowLightenColor { get; set; } = 25;
+
+        public float DisabledLightenColor { get; set; } = 50;
     }
 
     public class ThemePaginationOptions : BasicOptions
