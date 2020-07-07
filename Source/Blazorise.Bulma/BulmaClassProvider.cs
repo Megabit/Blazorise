@@ -100,7 +100,7 @@ namespace Blazorise.Bulma
 
         public override string Switch() => "switch";
 
-        public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+        public override string SwitchColor( Color color ) => $"is-{ToColor( color )}";
 
         public override string SwitchChecked( bool @checked ) => null;
 

@@ -1,9 +1,28 @@
 ﻿@import "variables";
 
-@each $name, $value in $theme-colors {
-	$color: $value;
+.switch[type="checkbox"] {
+    outline: 0;
+    user-select: none;
+    display: inline-block;
+    position: absolute;
+    opacity: 0;
 
-	&.switch-#{$name}:checked ~ label::before {
-		background-color: $color;
-	}
+    @include switch-size($size-normal);
+}
+
+@each $name, $value in $theme-colors {
+    $color: $value;
+
+    .switch[type="checkbox"] {
+        &.is-#{$name}:checked + label::before,
+        &.is-#{$name}:checked + label:before {
+            background-color: $color;
+        }
+
+        &:disabled {
+            &.is-#{$name}:checked + label::before {
+                background-color: rgba($color,.5);
+            }
+        }
+    }
 }

@@ -1240,6 +1240,10 @@
     height: 512px;
     width: 512px; }
 
+.b-bar-vertical-inline.b-bar-dark .is-active,
+.b-bar-vertical.b-bar-dark .is-active {
+    color: #fff !important; }
+
 .button.is-secondary {
     background-color: #6c757d;
     border-color: transparent;
@@ -1614,50 +1618,6 @@ label.radio.button {
         outline: none;
         z-index: -1; }
 
-.switch[type="checkbox"] {
-    outline: 0;
-    user-select: none;
-    display: inline-block;
-    position: absolute;
-    opacity: 0; }
-    .switch[type="checkbox"] + label {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: flex-start;
-        font-size: 1rem;
-        line-height: 1.5;
-        padding-left: 3.5rem;
-        padding-top: .2rem;
-        cursor: pointer; }
-        .switch[type="checkbox"] + label::before, .switch[type="checkbox"] + label:before {
-            position: absolute;
-            display: block;
-            top: calc( 50% - 1.5rem / 2);
-            left: 0;
-            width: 3rem;
-            height: 1.5rem;
-            border: 0.1rem solid transparent;
-            border-radius: 4px;
-            background: rgba(0, 0, 0, 0.125);
-            content: ''; }
-        .switch[type="checkbox"] + label::after, .switch[type="checkbox"] + label:after {
-            display: block;
-            position: absolute;
-            top: calc( 50% - 1rem / 2);
-            left: 0.25rem;
-            width: 1rem;
-            height: 1rem;
-            transform: translate3d(0, 0, 0);
-            border-radius: 4px;
-            background: var(--b-theme-white, #fff);
-            transition: all 0.25s ease-out;
-            content: ''; }
-    .switch[type="checkbox"]:checked + label::before, .switch[type="checkbox"]:checked + label:before {
-        background: var(--b-theme-primary, #00d1b2); }
-    .switch[type="checkbox"]:checked + label::after {
-        left: 1.625rem; }
-
 .field-body .switch[type="checkbox"] + label {
     margin-top: .375em; }
 
@@ -1761,6 +1721,112 @@ body::-webkit-scrollbar {
     .modal-xl {
         width: 1140px; } }
 
+/*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
+.switch[type="checkbox"] {
+    outline: 0;
+    user-select: none;
+    display: inline-block;
+    position: absolute;
+    opacity: 0; }
+    .switch[type="checkbox"] + label {
+        position: relative;
+        display: initial;
+        font-size: 1rem;
+        line-height: 1.5;
+        padding-left: 3.5rem;
+        padding-top: .2rem;
+        cursor: pointer; }
+        .switch[type="checkbox"] + label::before, .switch[type="checkbox"] + label:before {
+            position: absolute;
+            display: block;
+            top: calc( 50% - 1.5rem / 2);
+            left: 0;
+            width: 3rem;
+            height: 1.5rem;
+            border: 0.1rem solid transparent;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.125);
+            content: ''; }
+        .switch[type="checkbox"] + label::after, .switch[type="checkbox"] + label:after {
+            display: block;
+            position: absolute;
+            top: calc( 50% - 1rem / 2);
+            left: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            transform: translate3d(0, 0, 0);
+            border-radius: 4px;
+            background: var(--b-theme-white, #fff);
+            transition: all 0.25s ease-out;
+            content: ''; }
+    .switch[type="checkbox"]:checked + label::before, .switch[type="checkbox"]:checked + label:before {
+        background: var(--b-theme-primary, #00d1b2); }
+    .switch[type="checkbox"]:checked + label::after {
+        left: 1.625rem; }
+
+.switch[type="checkbox"].is-primary:checked + label::before,
+.switch[type="checkbox"].is-primary:checked + label:before {
+    background-color: #00d1b2; }
+
+.switch[type="checkbox"]:disabled.is-primary:checked + label::before {
+    background-color: rgba(0, 209, 178, 0.5); }
+
+.switch[type="checkbox"].is-secondary:checked + label::before,
+.switch[type="checkbox"].is-secondary:checked + label:before {
+    background-color: #6c757d; }
+
+.switch[type="checkbox"]:disabled.is-secondary:checked + label::before {
+    background-color: rgba(108, 117, 125, 0.5); }
+
+.switch[type="checkbox"].is-success:checked + label::before,
+.switch[type="checkbox"].is-success:checked + label:before {
+    background-color: #48c774; }
+
+.switch[type="checkbox"]:disabled.is-success:checked + label::before {
+    background-color: rgba(72, 199, 116, 0.5); }
+
+.switch[type="checkbox"].is-info:checked + label::before,
+.switch[type="checkbox"].is-info:checked + label:before {
+    background-color: #238cd1; }
+
+.switch[type="checkbox"]:disabled.is-info:checked + label::before {
+    background-color: rgba(35, 140, 209, 0.5); }
+
+.switch[type="checkbox"].is-warning:checked + label::before,
+.switch[type="checkbox"].is-warning:checked + label:before {
+    background-color: #ffd83d; }
+
+.switch[type="checkbox"]:disabled.is-warning:checked + label::before {
+    background-color: rgba(255, 216, 61, 0.5); }
+
+.switch[type="checkbox"].is-danger:checked + label::before,
+.switch[type="checkbox"].is-danger:checked + label:before {
+    background-color: #ef2e55; }
+
+.switch[type="checkbox"]:disabled.is-danger:checked + label::before {
+    background-color: rgba(239, 46, 85, 0.5); }
+
+.switch[type="checkbox"].is-light:checked + label::before,
+.switch[type="checkbox"].is-light:checked + label:before {
+    background-color: #f5f5f5; }
+
+.switch[type="checkbox"]:disabled.is-light:checked + label::before {
+    background-color: rgba(245, 245, 245, 0.5); }
+
+.switch[type="checkbox"].is-dark:checked + label::before,
+.switch[type="checkbox"].is-dark:checked + label:before {
+    background-color: #363636; }
+
+.switch[type="checkbox"]:disabled.is-dark:checked + label::before {
+    background-color: rgba(54, 54, 54, 0.5); }
+
+.switch[type="checkbox"].is-link:checked + label::before,
+.switch[type="checkbox"].is-link:checked + label:before {
+    background-color: #3273dc; }
+
+.switch[type="checkbox"]:disabled.is-link:checked + label::before {
+    background-color: rgba(50, 115, 220, 0.5); }
+
 table.is-borderless td,
 table.is-borderless th,
 table.is-borderless tr {
@@ -1788,35 +1854,3 @@ tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
 
 .tabs.is-vertical li > a {
     border: none; }
-
-.b-bar-vertical-inline.b-bar-dark .is-active,
-.b-bar-vertical.b-bar-dark .is-active {
-    color: #fff !important; }
-
-/*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
-.switch-primary:checked ~ label::before {
-    background-color: #00d1b2; }
-
-.switch-secondary:checked ~ label::before {
-    background-color: #6c757d; }
-
-.switch-success:checked ~ label::before {
-    background-color: #48c774; }
-
-.switch-info:checked ~ label::before {
-    background-color: #238cd1; }
-
-.switch-warning:checked ~ label::before {
-    background-color: #ffd83d; }
-
-.switch-danger:checked ~ label::before {
-    background-color: #ef2e55; }
-
-.switch-light:checked ~ label::before {
-    background-color: #f5f5f5; }
-
-.switch-dark:checked ~ label::before {
-    background-color: #363636; }
-
-.switch-link:checked ~ label::before {
-    background-color: #3273dc; }
