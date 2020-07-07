@@ -125,7 +125,7 @@
 .ant-menu.ant-menu-root.ant-menu-inline, .ant-menu.ant-menu-root.ant-menu-vertical {
     display: flex;
     flex-flow: column;
-    height: 100vh;
+    height: 100%;
     overflow-y: auto; }
     .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-label, .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-label {
         background: transparent;
