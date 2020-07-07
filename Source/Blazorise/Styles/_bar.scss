@@ -54,12 +54,12 @@
         flex-wrap: nowrap;
 
         &[data-broken=true] {
-            height: var(--b-bar-horizontal-height, 64px);
+            height: var(--b-bar-horizontal-height, auto);
         }
     }
 
     &[data-broken=false] {
-        height: var(--b-bar-horizontal-height, 64px);
+        height: var(--b-bar-horizontal-height, auto);
     }
 }
 
