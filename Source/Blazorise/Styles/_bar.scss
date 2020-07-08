@@ -161,8 +161,6 @@
         text-decoration: none;
         padding: .5rem .5rem .5rem 1.5rem;
         cursor: pointer;
-        white-space: nowrap;
-        text-overflow: ellipsis;
         overflow-x: hidden;
     }
 
@@ -207,8 +205,6 @@
                 text-decoration: none;
                 display: block;
                 width: 100%;
-                white-space: nowrap;
-                text-overflow: ellipsis;
                 overflow-x: hidden;
 
                 i {
@@ -227,6 +223,16 @@
         right: 20px;
         margin: auto;
         display: none;
+    }
+
+    // Note: Leaving this here as a possible idea for multi-line truncation support
+    .b-bar-item-multi-line {
+        display: -webkit-box !important;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: var(--b-bar-item-lines, 2);
+        white-space: normal !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     /* 
         Theming
@@ -418,7 +424,7 @@
         box-shadow: none;
 
         .b-bar-dropdown-item {
-            padding: .5rem 3rem !important;
+            padding: .5rem .5rem .5rem 3rem;
         }
     }
 }
