@@ -327,7 +327,7 @@ namespace Blazorise
 
     public class ThemeBarOptions
     {
-        public string VerticalWidth { get; set; } = "220px";
+        public string VerticalWidth { get; set; } = "230px";
 
         public string VerticalSmallWidth { get; set; } = "64px";
 
@@ -572,7 +572,7 @@ namespace Blazorise
 
     public class ThemeSidebarOptions
     {
-        public string Width { get; set; } = "220px";
+        public string Width { get; set; } = "230px";
 
         public string BackgroundColor { get; set; } = "#343a40";
 
