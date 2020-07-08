@@ -66,7 +66,9 @@
 .b-bar-vertical-inline,
 .b-bar-vertical-popout,
 .b-bar-vertical-small {
-    display: inline-block !important;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
     position: sticky;
     top: 0;
     padding: 0;
@@ -78,17 +80,19 @@
     height: 100%;
 
     .b-bar-menu {
-        height: calc(100% - var(--b-vertical-bar-brand-height, 64px));
+        width: 100%;
+        display: flex;
+        flex: 1;
         justify-content: space-between;
         flex-direction: column;
-        display: flex !important;
+        align-self: stretch;
     }
 
     .b-bar-brand {
         width: 100%;
         display: flex;
-        margin: 0;
         height: var(--b-vertical-bar-brand-height, 64px);
+        min-height: var(--b-vertical-bar-brand-height, 64px);
     }
 
     .b-bar-toggler-inline {
@@ -138,21 +142,22 @@
         min-height: 40px;
 
         .b-bar-icon {
-            font-size: 18px;
+            font-size: 1.25rem;
+            vertical-align: middle;
             margin: 3px;
         }
     }
 
     .b-bar-start {
         width: 100%;
-        display: inline-block;
+        display: block;
     }
 
     .b-bar-end {
         padding-bottom: 1rem;
         width: 100%;
         padding-top: 1rem;
-        display: inline-block;
+        display: block;
     }
 
     .b-bar-link {

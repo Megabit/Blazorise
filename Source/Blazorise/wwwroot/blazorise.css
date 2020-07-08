@@ -250,7 +250,9 @@
 .b-bar-vertical-inline,
 .b-bar-vertical-popout,
 .b-bar-vertical-small {
-    display: inline-block !important;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
     position: sticky;
     top: 0;
     padding: 0;
@@ -266,17 +268,19 @@
     .b-bar-vertical-inline .b-bar-menu,
     .b-bar-vertical-popout .b-bar-menu,
     .b-bar-vertical-small .b-bar-menu {
-        height: calc(100% - var(--b-vertical-bar-brand-height, 64px));
+        width: 100%;
+        display: flex;
+        flex: 1;
         justify-content: space-between;
         flex-direction: column;
-        display: flex !important; }
+        align-self: stretch; }
     .b-bar-vertical-inline .b-bar-brand,
     .b-bar-vertical-popout .b-bar-brand,
     .b-bar-vertical-small .b-bar-brand {
         width: 100%;
         display: flex;
-        margin: 0;
-        height: var(--b-vertical-bar-brand-height, 64px); }
+        height: var(--b-vertical-bar-brand-height, 64px);
+        min-height: var(--b-vertical-bar-brand-height, 64px); }
     .b-bar-vertical-inline .b-bar-toggler-inline,
     .b-bar-vertical-popout .b-bar-toggler-inline,
     .b-bar-vertical-small .b-bar-toggler-inline {
@@ -327,20 +331,21 @@
         .b-bar-vertical-inline .b-bar-item .b-bar-icon,
         .b-bar-vertical-popout .b-bar-item .b-bar-icon,
         .b-bar-vertical-small .b-bar-item .b-bar-icon {
-            font-size: 18px;
+            font-size: 1.25rem;
+            vertical-align: middle;
             margin: 3px; }
     .b-bar-vertical-inline .b-bar-start,
     .b-bar-vertical-popout .b-bar-start,
     .b-bar-vertical-small .b-bar-start {
         width: 100%;
-        display: inline-block; }
+        display: block; }
     .b-bar-vertical-inline .b-bar-end,
     .b-bar-vertical-popout .b-bar-end,
     .b-bar-vertical-small .b-bar-end {
         padding-bottom: 1rem;
         width: 100%;
         padding-top: 1rem;
-        display: inline-block; }
+        display: block; }
     .b-bar-vertical-inline .b-bar-link,
     .b-bar-vertical-popout .b-bar-link,
     .b-bar-vertical-small .b-bar-link {
