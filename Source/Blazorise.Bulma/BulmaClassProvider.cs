@@ -930,7 +930,7 @@ namespace Blazorise.Bulma
 
         #region States
 
-        public override string Show() => "show";
+        public override string Show() => "is-block";
 
         public override string Fade() => "fade";
 
