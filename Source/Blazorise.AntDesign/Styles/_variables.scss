@@ -21,9 +21,10 @@ $warning: #f7c12a !default;
 $danger: #ff4d4f !default;
 $light: #fafafa !default;
 $dark: #343a40 !default;
+$link: #3273dc !default;
 
 $theme-colors: () !default;
-$theme-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark), $theme-colors);
+$theme-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link), $theme-colors);
 
 // Set a specific jump point for requesting color jumps
 $theme-color-interval: 8% !default;

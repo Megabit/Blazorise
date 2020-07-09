@@ -16,16 +16,6 @@ label.radio.button {
     }
 }
 
-.switch[type="checkbox"] {
-    outline: 0;
-    user-select: none;
-    display: inline-block;
-    position: absolute;
-    opacity: 0;
-
-    @include switch-size($size-normal);
-}
-
 .field-body {
     .switch[type="checkbox"] {
         + label {

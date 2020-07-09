@@ -1,0 +1,33 @@
+﻿@page "/tests/misc-forms"
+@using System.Diagnostics
+@using System.IO
+@using System.Runtime.Serialization
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Switch</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Display the classic checkbox as a switch button with different colors, sizes, and states
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Switch TValue="bool" Color="Color.Primary">Primary</Switch>
+                <Switch TValue="bool" Color="Color.Secondary">Secondary</Switch>
+                <Switch TValue="bool" Color="Color.Success">Success</Switch>
+                <Switch TValue="bool" Color="Color.Danger">Danger</Switch>
+                <Switch TValue="bool" Color="Color.Warning">Warning</Switch>
+                <Switch TValue="bool" Color="Color.Info">Info</Switch>
+                <Switch TValue="bool" Color="Color.Light">Light</Switch>
+                <Switch TValue="bool" Color="Color.Dark">Dark</Switch>
+                <Switch TValue="bool" Color="Color.Link">Link</Switch>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code{
+
+}

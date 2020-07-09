@@ -32,6 +32,10 @@
         color: #1b1e21;
         background-color: #d6d8d9;
         border-color: #c6c8ca; }
+    .ant-alert-link {
+        color: #1a3c72;
+        background-color: #d6e3f8;
+        border-color: #c6d8f5; }
 
 .ant-tag-pill {
     padding-right: .6em;
@@ -1300,6 +1304,9 @@
     .ant-hero.ant-hero-dark {
         background-color: #343a40;
         color: #fff; }
+    .ant-hero.ant-hero-link {
+        background-color: #3273dc;
+        color: #fff; }
 
 .ant-hero-subtitle {
     font-size: 1.25rem;
@@ -1438,6 +1445,17 @@
 .ant-table-dark tbody + tbody {
     border-color: #95999c; }
 
+.ant-table-link,
+.ant-table-link > th,
+.ant-table-link > td {
+    background-color: #c6d8f5; }
+
+.ant-table-link th,
+.ant-table-link td,
+.ant-table-link thead th,
+.ant-table-link tbody + tbody {
+    border-color: #94b6ed; }
+
 .ant-table-striped tbody tr:nth-of-type(odd) {
     background-color: #fbfbfb; }
 
@@ -1544,6 +1562,9 @@
 .ant-typography-dark {
     color: #343a40 !important; }
 
+.ant-typography-link {
+    color: #3273dc !important; }
+
 .ant-typography-body {
     color: #212529 !important; }
 
@@ -1555,6 +1576,87 @@
 
 .ant-typography-white-50 {
     color: rgba(255, 255, 255, 0.5) !important; }
+
+.ant-switch.ant-switch-primary.ant-switch-checked {
+    background-color: #1890ff; }
+
+.ant-switch.ant-switch-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(24, 144, 255, 0.25); }
+
+.ant-switch:disabled.ant-switch-primary.ant-switch-checked {
+    background-color: rgba(24, 144, 255, 0.5); }
+
+.ant-switch.ant-switch-secondary.ant-switch-checked {
+    background-color: #6c757d; }
+
+.ant-switch.ant-switch-secondary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25); }
+
+.ant-switch:disabled.ant-switch-secondary.ant-switch-checked {
+    background-color: rgba(108, 117, 125, 0.5); }
+
+.ant-switch.ant-switch-success.ant-switch-checked {
+    background-color: #35c613; }
+
+.ant-switch.ant-switch-success:focus {
+    box-shadow: 0 0 0 0.2rem rgba(53, 198, 19, 0.25); }
+
+.ant-switch:disabled.ant-switch-success.ant-switch-checked {
+    background-color: rgba(53, 198, 19, 0.5); }
+
+.ant-switch.ant-switch-info.ant-switch-checked {
+    background-color: #60b6f4; }
+
+.ant-switch.ant-switch-info:focus {
+    box-shadow: 0 0 0 0.2rem rgba(96, 182, 244, 0.25); }
+
+.ant-switch:disabled.ant-switch-info.ant-switch-checked {
+    background-color: rgba(96, 182, 244, 0.5); }
+
+.ant-switch.ant-switch-warning.ant-switch-checked {
+    background-color: #f7c12a; }
+
+.ant-switch.ant-switch-warning:focus {
+    box-shadow: 0 0 0 0.2rem rgba(247, 193, 42, 0.25); }
+
+.ant-switch:disabled.ant-switch-warning.ant-switch-checked {
+    background-color: rgba(247, 193, 42, 0.5); }
+
+.ant-switch.ant-switch-danger.ant-switch-checked {
+    background-color: #ff4d4f; }
+
+.ant-switch.ant-switch-danger:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 77, 79, 0.25); }
+
+.ant-switch:disabled.ant-switch-danger.ant-switch-checked {
+    background-color: rgba(255, 77, 79, 0.5); }
+
+.ant-switch.ant-switch-light.ant-switch-checked {
+    background-color: #fafafa; }
+
+.ant-switch.ant-switch-light:focus {
+    box-shadow: 0 0 0 0.2rem rgba(250, 250, 250, 0.25); }
+
+.ant-switch:disabled.ant-switch-light.ant-switch-checked {
+    background-color: rgba(250, 250, 250, 0.5); }
+
+.ant-switch.ant-switch-dark.ant-switch-checked {
+    background-color: #343a40; }
+
+.ant-switch.ant-switch-dark:focus {
+    box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.25); }
+
+.ant-switch:disabled.ant-switch-dark.ant-switch-checked {
+    background-color: rgba(52, 58, 64, 0.5); }
+
+.ant-switch.ant-switch-link.ant-switch-checked {
+    background-color: #3273dc; }
+
+.ant-switch.ant-switch-link:focus {
+    box-shadow: 0 0 0 0.2rem rgba(50, 115, 220, 0.25); }
+
+.ant-switch:disabled.ant-switch-link.ant-switch-checked {
+    background-color: rgba(50, 115, 220, 0.5); }
 
 .bg-primary {
     background-color: #1890ff !important; }
@@ -1579,6 +1681,9 @@
 
 .bg-dark {
     background-color: #343a40 !important; }
+
+.bg-link {
+    background-color: #3273dc !important; }
 
 .bg-white {
     background-color: #fff !important; }

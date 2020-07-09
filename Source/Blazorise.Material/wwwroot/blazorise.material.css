@@ -716,6 +716,10 @@ input.form-control[type=color] {
     background-color: #424242;
     color: #fff; }
 
+.jumbotron.jumbotron-link {
+    background-color: #3273dc;
+    color: #fff; }
+
 .modal-backdrop {
     z-index: -1; }
 
@@ -803,3 +807,111 @@ h5.card-title,
 h6.card-title,
 .h6.card-title {
     font-size: 1rem; }
+
+.custom-switch .custom-control-input:checked.custom-control-input-primary ~ .custom-control-label::after {
+    background-color: #9c27b0; }
+
+.custom-switch .custom-control-input:checked.custom-control-input-primary ~ .custom-control-track {
+    background-color: rgba(156, 39, 176, 0.25); }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-primary ~ .custom-control-label::after {
+    background-color: #bdbdbd; }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-primary ~ .custom-control-track {
+    background-color: rgba(189, 189, 189, 0.25); }
+
+.custom-switch .custom-control-input:checked.custom-control-input-secondary ~ .custom-control-label::after {
+    background-color: #ff4081; }
+
+.custom-switch .custom-control-input:checked.custom-control-input-secondary ~ .custom-control-track {
+    background-color: rgba(255, 64, 129, 0.25); }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-secondary ~ .custom-control-label::after {
+    background-color: #bdbdbd; }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-secondary ~ .custom-control-track {
+    background-color: rgba(189, 189, 189, 0.25); }
+
+.custom-switch .custom-control-input:checked.custom-control-input-success ~ .custom-control-label::after {
+    background-color: #4caf50; }
+
+.custom-switch .custom-control-input:checked.custom-control-input-success ~ .custom-control-track {
+    background-color: rgba(76, 175, 80, 0.25); }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-success ~ .custom-control-label::after {
+    background-color: #bdbdbd; }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-success ~ .custom-control-track {
+    background-color: rgba(189, 189, 189, 0.25); }
+
+.custom-switch .custom-control-input:checked.custom-control-input-info ~ .custom-control-label::after {
+    background-color: #2196f3; }
+
+.custom-switch .custom-control-input:checked.custom-control-input-info ~ .custom-control-track {
+    background-color: rgba(33, 150, 243, 0.25); }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-info ~ .custom-control-label::after {
+    background-color: #bdbdbd; }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-info ~ .custom-control-track {
+    background-color: rgba(189, 189, 189, 0.25); }
+
+.custom-switch .custom-control-input:checked.custom-control-input-warning ~ .custom-control-label::after {
+    background-color: #ff9800; }
+
+.custom-switch .custom-control-input:checked.custom-control-input-warning ~ .custom-control-track {
+    background-color: rgba(255, 152, 0, 0.25); }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-warning ~ .custom-control-label::after {
+    background-color: #bdbdbd; }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-warning ~ .custom-control-track {
+    background-color: rgba(189, 189, 189, 0.25); }
+
+.custom-switch .custom-control-input:checked.custom-control-input-danger ~ .custom-control-label::after {
+    background-color: #f44336; }
+
+.custom-switch .custom-control-input:checked.custom-control-input-danger ~ .custom-control-track {
+    background-color: rgba(244, 67, 54, 0.25); }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-danger ~ .custom-control-label::after {
+    background-color: #bdbdbd; }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-danger ~ .custom-control-track {
+    background-color: rgba(189, 189, 189, 0.25); }
+
+.custom-switch .custom-control-input:checked.custom-control-input-light ~ .custom-control-label::after {
+    background-color: #f5f5f5; }
+
+.custom-switch .custom-control-input:checked.custom-control-input-light ~ .custom-control-track {
+    background-color: rgba(245, 245, 245, 0.25); }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-light ~ .custom-control-label::after {
+    background-color: #bdbdbd; }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-light ~ .custom-control-track {
+    background-color: rgba(189, 189, 189, 0.25); }
+
+.custom-switch .custom-control-input:checked.custom-control-input-dark ~ .custom-control-label::after {
+    background-color: #424242; }
+
+.custom-switch .custom-control-input:checked.custom-control-input-dark ~ .custom-control-track {
+    background-color: rgba(66, 66, 66, 0.25); }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-dark ~ .custom-control-label::after {
+    background-color: #bdbdbd; }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-dark ~ .custom-control-track {
+    background-color: rgba(189, 189, 189, 0.25); }
+
+.custom-switch .custom-control-input:checked.custom-control-input-link ~ .custom-control-label::after {
+    background-color: #3273dc; }
+
+.custom-switch .custom-control-input:checked.custom-control-input-link ~ .custom-control-track {
+    background-color: rgba(50, 115, 220, 0.25); }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-link ~ .custom-control-label::after {
+    background-color: #bdbdbd; }
+
+.custom-switch .custom-control-input:disabled.custom-control-input-link ~ .custom-control-track {
+    background-color: rgba(189, 189, 189, 0.25); }

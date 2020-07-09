@@ -99,6 +99,8 @@ namespace Blazorise
 
         string Switch();
 
+        string SwitchColor( Color color );
+
         string SwitchChecked( bool @checked );
 
         string SwitchCursor( Cursor cursor );

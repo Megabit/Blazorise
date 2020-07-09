@@ -61,6 +61,9 @@
     height: 512px;
     width: 512px; }
 
+.e-is-none {
+    display: none !important; }
+
 .e-is-inline {
     display: inline !important; }
 
@@ -368,7 +371,7 @@ select.e-select {
     background-color: #1da1f2;
     color: #fff; }
 
-.e-face.e-face-secondary {
+.e-face.e-face-gray {
     background-color: #6c757d;
     color: #fff; }
 
@@ -395,6 +398,103 @@ select.e-select {
 .e-face.e-face-dark {
     background-color: #343a40;
     color: #fff; }
+
+.e-switch[type="checkbox"] {
+    outline: 0;
+    user-select: none;
+    display: inline-block;
+    opacity: 0; }
+    .e-switch[type="checkbox"] + label {
+        position: relative;
+        display: initial;
+        font-size: 1rem;
+        line-height: 1.5;
+        padding-left: 3.5rem;
+        padding-top: .2rem;
+        cursor: pointer; }
+        .e-switch[type="checkbox"] + label::before, .e-switch[type="checkbox"] + label:before {
+            position: absolute;
+            display: block;
+            top: calc( 50% - 1.5rem / 2);
+            left: 0;
+            width: 3rem;
+            height: 1.5rem;
+            border: 0.1rem solid transparent;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.125);
+            content: ''; }
+        .e-switch[type="checkbox"] + label::after, .e-switch[type="checkbox"] + label:after {
+            display: block;
+            position: absolute;
+            top: calc( 50% - 1rem / 2);
+            left: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            transform: translate3d(0, 0, 0);
+            border-radius: 4px;
+            background: var(--b-theme-white, #fff);
+            transition: all 0.25s ease-out;
+            content: ''; }
+    .e-switch[type="checkbox"]:checked + label::before, .e-switch[type="checkbox"]:checked + label:before {
+        background: var(--b-theme-primary, #00d1b2); }
+    .e-switch[type="checkbox"]:checked + label::after {
+        left: 1.625rem; }
+
+.e-switch[type="checkbox"].primary:checked + label::before,
+.e-switch[type="checkbox"].primary:checked + label:before {
+    background-color: #1da1f2; }
+
+.e-switch[type="checkbox"]:disabled.primary:checked + label::before {
+    background-color: rgba(29, 161, 242, 0.5); }
+
+.e-switch[type="checkbox"].gray:checked + label::before,
+.e-switch[type="checkbox"].gray:checked + label:before {
+    background-color: #6c757d; }
+
+.e-switch[type="checkbox"]:disabled.gray:checked + label::before {
+    background-color: rgba(108, 117, 125, 0.5); }
+
+.e-switch[type="checkbox"].success:checked + label::before,
+.e-switch[type="checkbox"].success:checked + label:before {
+    background-color: #4fd69c; }
+
+.e-switch[type="checkbox"]:disabled.success:checked + label::before {
+    background-color: rgba(79, 214, 156, 0.5); }
+
+.e-switch[type="checkbox"].info:checked + label::before,
+.e-switch[type="checkbox"].info:checked + label:before {
+    background-color: #54c7ec; }
+
+.e-switch[type="checkbox"]:disabled.info:checked + label::before {
+    background-color: rgba(84, 199, 236, 0.5); }
+
+.e-switch[type="checkbox"].warning:checked + label::before,
+.e-switch[type="checkbox"].warning:checked + label:before {
+    background-color: #ffdd57; }
+
+.e-switch[type="checkbox"]:disabled.warning:checked + label::before {
+    background-color: rgba(255, 221, 87, 0.5); }
+
+.e-switch[type="checkbox"].danger:checked + label::before,
+.e-switch[type="checkbox"].danger:checked + label:before {
+    background-color: #f64669; }
+
+.e-switch[type="checkbox"]:disabled.danger:checked + label::before {
+    background-color: rgba(246, 70, 105, 0.5); }
+
+.e-switch[type="checkbox"].light:checked + label::before,
+.e-switch[type="checkbox"].light:checked + label:before {
+    background-color: #f5f5f5; }
+
+.e-switch[type="checkbox"]:disabled.light:checked + label::before {
+    background-color: rgba(245, 245, 245, 0.5); }
+
+.e-switch[type="checkbox"].dark:checked + label::before,
+.e-switch[type="checkbox"].dark:checked + label:before {
+    background-color: #343a40; }
+
+.e-switch[type="checkbox"]:disabled.dark:checked + label::before {
+    background-color: rgba(52, 58, 64, 0.5); }
 
 .e-table.borderless td, .e-table.borderless th, .e-table.borderless tr {
     border: 0 !important; }
