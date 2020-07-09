@@ -20,7 +20,7 @@ namespace Blazorise
 
         private Color color;
 
-        private ValueDelayer valueDelayer;
+        private ValueDelayer inputValueDelayer;
 
         #endregion
 
@@ -40,8 +40,8 @@ namespace Blazorise
         {
             if ( IsDelayTextOnKeyPress )
             {
-                valueDelayer = new ValueDelayer( DelayTextOnKeyPressIntervalValue );
-                valueDelayer.Delayed += DelayValue_Delayed;
+                inputValueDelayer = new ValueDelayer( DelayTextOnKeyPressIntervalValue );
+                inputValueDelayer.Delayed += OnInputValueDelayed;
             }
 
             if ( ParentValidation != null )
@@ -54,21 +54,13 @@ namespace Blazorise
 
         protected override void Dispose( bool disposing )
         {
-            if ( valueDelayer != null )
+            if ( inputValueDelayer != null )
             {
-                valueDelayer.Delayed -= DelayValue_Delayed;
-                valueDelayer = null;
+                inputValueDelayer.Delayed -= OnInputValueDelayed;
+                inputValueDelayer = null;
             }
 
             base.Dispose( disposing );
-        }
-
-        private void DelayValue_Delayed( object sender, string value )
-        {
-            InvokeAsync( async () =>
-            {
-                await CurrentValueHandler( value );
-            } );
         }
 
         protected virtual Task OnChangeHandler( ChangeEventArgs e )
@@ -87,7 +79,7 @@ namespace Blazorise
             {
                 if ( IsDelayTextOnKeyPress )
                 {
-                    valueDelayer.Update( e?.Value?.ToString() );
+                    inputValueDelayer?.Update( e?.Value?.ToString() );
                 }
                 else
                 {
@@ -98,6 +90,14 @@ namespace Blazorise
                     await JSRunner.SetCaret( ElementRef, caret );
                 }
             }
+        }
+
+        private void OnInputValueDelayed( object sender, string value )
+        {
+            InvokeAsync( async () =>
+            {
+                await CurrentValueHandler( value );
+            } );
         }
 
         #endregion
