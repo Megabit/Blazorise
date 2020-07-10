@@ -52,4 +52,6 @@ In case you don't want to be on the list please let me know. And 'm sorry if I f
 - Zoltán Kiss
 - David Taylor
 - Adam Herbage
+- Willian Gruber
+- Brian John Robinson
 - Your name can be here, [become a patron](https://www.patreon.com/mladenmacanovic) or [buy me a coffee](https://www.buymeacoffee.com/mladenmacanovic)
