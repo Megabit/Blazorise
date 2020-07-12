@@ -72,6 +72,11 @@ Paging is handled automatically by the DataGrid. You also have some additional a
 - `ShowPager` to hide or show pagination controls
 - `PageSize` the maximum number of items for each page.
 - `CurrentPage` current page number.
+- `PreviousPageButtonTemplate` template for previous page button
+- `NextPageButtonTemplate` template for next page button
+- `FirstPageButtonTemplate` template for first page button
+- `LastPageButtonTemplate` template for last page button
+- `PageButtonTemplate` template for explicated page button with `PageButtonContext` as parameter
 
 ### Editing
 
