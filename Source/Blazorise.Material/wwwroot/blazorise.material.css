@@ -784,6 +784,9 @@ table.table tbody tr.selected {
 tr.table-row-selectable:hover {
     cursor: pointer; }
 
+.nav.nav-tabs .nav-item a.nav-link {
+    cursor: pointer; }
+
 h1.card-title,
 .h1.card-title {
     font-size: 2.5rem; }

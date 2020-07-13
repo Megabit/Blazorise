@@ -527,9 +527,11 @@ tr.table-row-selectable:hover {
 
 .e-tabs.vertical li {
     width: 100%; }
+    .e-tabs.vertical li > a {
+        width: 100%; }
 
-.e-tabs.vertical li > a {
-    width: 100%; }
+.e-tabs ul li a {
+    cursor: pointer; }
 
 .e-tabs-content > .e-tabs-panel {
     display: none; }
