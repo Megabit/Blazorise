@@ -79,6 +79,7 @@
                           Bordered="true"
                           Hoverable="true"
                           Responsive="true"
+                          ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter">
                     <DataGridAggregates>
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
@@ -111,13 +112,13 @@
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable="true">
                             <FilterTemplate>
                                 <TextEdit Placeholder="Search name" TextChanged="@(v=>context.TriggerFilterChange(v))" />
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Validator="CheckEMail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
@@ -239,47 +240,47 @@
     </Column>
 </Row>
 @code{
-    DataGridEditMode editMode = DataGridEditMode.Form;
-    bool editable = true;
-    bool sortable = true;
-    bool filterable = true;
-    bool showPager = true;
+  DataGridEditMode editMode = DataGridEditMode.Form;
+  bool editable = true;
+  bool sortable = true;
+  bool filterable = true;
+  bool showPager = true;
 
-    // TODO: add options to control the commands
-    //bool newCommandAllowed = true;
-    //bool editCommandAllowed = true;
-    //bool saveCommandAllowed = true;
-    //bool cancelCommandAllowed = true;
-    //bool deleteCommandAllowed = true;
-    //bool clearFilterCommandAllowed = true;
+  // TODO: add options to control the commands
+  //bool newCommandAllowed = true;
+  //bool editCommandAllowed = true;
+  //bool saveCommandAllowed = true;
+  //bool cancelCommandAllowed = true;
+  //bool deleteCommandAllowed = true;
+  //bool clearFilterCommandAllowed = true;
 
-    Employee selectedEmployee;
+  Employee selectedEmployee;
 
-    public class Employee
-    {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string EMail { get; set; }
-        public string City { get; set; }
-        public string Zip { get; set; }
-        public DateTime? DateOfBirth { get; set; }
-        public int? Childrens { get; set; }
-        public string Gender { get; set; }
-        public decimal Salary { get; set; }
-        public bool IsActive { get; set; }
+  public class Employee
+  {
+    public int Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string EMail { get; set; }
+    public string City { get; set; }
+    public string Zip { get; set; }
+    public DateTime? DateOfBirth { get; set; }
+    public int? Childrens { get; set; }
+    public string Gender { get; set; }
+    public decimal Salary { get; set; }
+    public bool IsActive { get; set; }
 
-        public List<Salary> Salaries { get; set; } = new List<Salary>();
-    }
+    public List<Salary> Salaries { get; set; } = new List<Salary>();
+  }
 
-    public class Salary
-    {
-        public DateTime Date { get; set; }
-        public decimal Total { get; set; }
-    }
+  public class Salary
+  {
+    public DateTime Date { get; set; }
+    public decimal Total { get; set; }
+  }
 
-    // generated with https://mockaroo.com/
-    List<Employee> dataModels = new List<Employee> {
+  // generated with https://mockaroo.com/
+  List<Employee> dataModels = new List<Employee> {
         new Employee {Id = 1,FirstName = "Caro",LastName = "Nizard",EMail = "cnizard0@hc360.com",City = "Faīẕābād",Zip = null,Salary = 51724.19m, DateOfBirth = new DateTime(1983,5,8),
             Salaries = new List<Salary> {
                 new Salary { Date = new DateTime(2019,1,6), Total = 6000 },
@@ -318,54 +319,72 @@
         new Employee {Id = 27,FirstName = "Chandler",LastName = "Franzonetti",EMail = "cfranzonettiq@archive.org",City = "Emin",Zip = null,Salary = 67458.07m, Childrens=1 }
     };
 
-    void OnEmployeeNewItemDefaultSetter( Employee employee )
+  public void CheckEMail( ValidatorEventArgs validationArgs )
+  {
+    ValidationRule.IsEmail( validationArgs );
+    if( validationArgs.Status == ValidationStatus.Error )
     {
-        employee.Salary = 100.0M;
-        employee.IsActive = true;
+      validationArgs.ErrorText = "EMail has to be valid email";
     }
+  }
 
-    void OnRowInserted( SavedRowItem<Employee, Dictionary<string, object>> e )
+  public void CheckFirstName( ValidatorEventArgs validationArgs )
+  {
+    ValidationRule.IsNotEmpty( validationArgs );
+    if ( validationArgs.Status == ValidationStatus.Error )
     {
-        //var employee = e.Item;
-
-        //employee.Id = dataModels?.Max( x => x.Id ) + 1 ?? 1;
-
-        //dataModels.Add( employee );
+      validationArgs.ErrorText = "First name has to be provided";
     }
+  }
 
-    void OnRowUpdated( SavedRowItem<Employee, Dictionary<string, object>> e )
-    {
-        //var employee = e.Item;
+  void OnEmployeeNewItemDefaultSetter( Employee employee )
+  {
+    employee.Salary = 100.0M;
+    employee.IsActive = true;
+  }
 
-        //employee.FirstName = (string)e.Values["FirstName"];
-        //employee.LastName = (string)e.Values["LastName"];
-        //employee.EMail = (string)e.Values["EMail"];
-        //employee.City = (string)e.Values["City"];
-        //employee.Zip = (string)e.Values["Zip"];
-        //employee.DateOfBirth = (DateTime?)e.Values["DateOfBirth"];
-        //employee.Childrens = (int?)e.Values["Childrens"];
-        //employee.Gender = (string)e.Values["Gender"];
-        //employee.Salary = (decimal)e.Values["Salary"];
-    }
+  void OnRowInserted( SavedRowItem<Employee, Dictionary<string, object>> e )
+  {
+    //var employee = e.Item;
 
-    void OnRowRemoved( Employee model )
-    {
-        //if ( dataModels.Contains( model ) )
-        //{
-        //    dataModels.Remove( model );
-        //}
-    }
+    //employee.Id = dataModels?.Max( x => x.Id ) + 1 ?? 1;
 
-    string customFilterValue;
+    //dataModels.Add( employee );
+  }
 
-    bool OnCustomFilter( Employee model )
-    {
-        if ( string.IsNullOrEmpty( customFilterValue ) )
-            return true;
+  void OnRowUpdated( SavedRowItem<Employee, Dictionary<string, object>> e )
+  {
+    //var employee = e.Item;
 
-        return
-            model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
-            || model.LastName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
-            || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
-    }
+    //employee.FirstName = (string)e.Values["FirstName"];
+    //employee.LastName = (string)e.Values["LastName"];
+    //employee.EMail = (string)e.Values["EMail"];
+    //employee.City = (string)e.Values["City"];
+    //employee.Zip = (string)e.Values["Zip"];
+    //employee.DateOfBirth = (DateTime?)e.Values["DateOfBirth"];
+    //employee.Childrens = (int?)e.Values["Childrens"];
+    //employee.Gender = (string)e.Values["Gender"];
+    //employee.Salary = (decimal)e.Values["Salary"];
+  }
+
+  void OnRowRemoved( Employee model )
+  {
+    //if ( dataModels.Contains( model ) )
+    //{
+    //    dataModels.Remove( model );
+    //}
+  }
+
+  string customFilterValue;
+
+  bool OnCustomFilter( Employee model )
+  {
+    if ( string.IsNullOrEmpty( customFilterValue ) )
+      return true;
+
+    return
+        model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
+        || model.LastName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
+        || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
+  }
 }

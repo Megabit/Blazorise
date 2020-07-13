@@ -10,6 +10,16 @@ namespace Blazorise.DataGrid
 {
     public abstract class _BaseDataGridCell<TItem> : ComponentBase
     {
+        #region Members
+
+        #endregion
+
+        #region Methods
+
+        #endregion
+
+        #region Properties
+
         [Parameter] public DataGridColumn<TItem> Column { get; set; }
 
         [Parameter] public TItem Item { get; set; }
@@ -17,5 +27,10 @@ namespace Blazorise.DataGrid
         [Parameter] public CellEditContext CellEditContext { get; set; }
 
         [Parameter] public EventCallback<object> CellValueChanged { get; set; }
+
+        [Parameter] public bool ShowFeedback { get; set; }
+
+        #endregion
+
     }
 }
