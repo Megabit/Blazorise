@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
+    <ProjectReference Include="..\Apps\ThemeApp\ThemeApp.csproj" />
     <ProjectReference Include="..\Apps\TodoApp\TodoApp.csproj" />
   </ItemGroup>
 

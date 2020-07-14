@@ -13,48 +13,220 @@
     </Router>
 </Blazorise.ThemeProvider>
 @code{
-    private Theme theme = new Theme
+    private Theme theme = new Theme()
     {
-        BreakpointOptions = new ThemeBreakpointOptions
+        Black = "#343a40",
+        Enabled = true,
+        IsGradient = true,
+        IsRounded = true,
+        LuminanceThreshold = 150,
+        ThemeColorInterval = 8f,
+        White = "#ffffff",
+        AlertOptions = new ThemeAlertOptions()
         {
+            BackgroundLevel = -10,
+            BorderLevel = -9,
+            BorderRadius = ".25rem",
+            ColorLevel = 6,
+            GradientBlendPercentage = 15f
         },
-        ColorOptions = new ThemeColorOptions
+        BackgroundOptions = new ThemeBackgroundOptions()
         {
-            Primary = "#0288D1",
-            //Secondary = "#A65529",
-            //Success = "#23C02E",
-            //Info = "#9BD8FE",
-            //Warning = "#F8B86C",
-            //Danger = "#F95741",
-            //Light = "#F0F0F0",
-            //Dark = "#535353",
+            Body = "#555555",
+            Danger = "#f44336",
+            Dark = "#424242",
+            Info = "#00bcd4",
+            Light = "#f5f5f5",
+            Muted = "#dddddd",
+            Primary = "#1976d2",
+            Secondary = "#757575",
+            Success = "#4caf50",
+            Warning = "#ffeb3b"
         },
-        BackgroundOptions = new ThemeBackgroundOptions
+        BadgeOptions = new ThemeBadgeOptions()
         {
-            Primary = "#0288D1",
+            BorderRadius = ".25rem"
         },
-        TextColorOptions = new ThemeTextColorOptions
+        BarOptions = new ThemeBarOptions()
         {
+            DarkColors = new ThemeBarColorOptions()
+            {
+                BackgroundColor = "#001529",
+                BrandColorOptions = new ThemeBarBrandColorOptions()
+                {
+                    BackgroundColor = "#ffffff"
+                },
+                Color = "#ffffff",
+                DropdownColorOptions = new ThemeBarDropdownColorOptions()
+                {
+                    BackgroundColor = "#000c17"
+                },
+                ItemColorOptions = new ThemeBarItemColorOptions()
+                {
+                    ActiveBackgroundColor = "#0288D1",
+                    ActiveColor = "#ffffff",
+                    HoverBackgroundColor = "#ffffff",
+                    HoverColor = "#ffffff"
+                }
+            },
+            LightColors = new ThemeBarColorOptions()
+            {
+                BackgroundColor = "#ffffff",
+                BrandColorOptions = new ThemeBarBrandColorOptions()
+                {
+                    BackgroundColor = "#000000"
+                },
+                Color = "#000000",
+                DropdownColorOptions = new ThemeBarDropdownColorOptions()
+                {
+                    BackgroundColor = "#f2f2f2"
+                },
+                ItemColorOptions = new ThemeBarItemColorOptions()
+                {
+                    ActiveBackgroundColor = "#0288D1",
+                    ActiveColor = "#000000",
+                    HoverBackgroundColor = "#000000",
+                    HoverColor = "#000000"
+                }
+            },
+            VerticalBrandHeight = "64px",
+            VerticalSmallWidth = "64px",
+            VerticalWidth = "220px"
         },
-        //ButtonOptions = new ThemeButtonOptions { },
-        //DropdownOptions = new ThemeDropdownOptions { },
-        InputOptions = new ThemeInputOptions
+        BreadcrumbOptions = new ThemeBreadcrumbOptions()
         {
-            CheckColor = "#0288D1",
+            BorderRadius = ".25rem",
+            Color = "#42a5f5"
         },
-        //CardOptions = new ThemeCardOptions { },
-        //ModalOptions = new ThemeModalOptions { },
-        //TabsOptions = new ThemeTabsOptions { },
-        //ProgressOptions = new ThemeProgressOptions { },
-        //AlertOptions = new ThemeAlertOptions { },
-        //BreadcrumbOptions = new ThemeBreadcrumbOptions { },
-        //BadgeOptions = new ThemeBadgeOptions { },
-        //PaginationOptions = new ThemePaginationOptions { },
-        //TooltipOptions = new ThemeTooltipOptions
-        //{
-        //    BackgroundColor = "#22c8ce",
-        //    BackgroundOpacity = .7f,
-        //    Color = "#ff0000",
-        //},
+        BreakpointOptions = new ThemeBreakpointOptions()
+        {
+            Desktop = "992px",
+            FullHD = "1400px",
+            Mobile = "576px",
+            Tablet = "768px",
+            Widescreen = "1200px"
+        },
+        ButtonOptions = new ThemeButtonOptions()
+        {
+            ActiveDarkenColor = 10f,
+            ActiveLightenColor = 12.5f,
+            BorderRadius = ".25rem",
+            BoxShadowSize = ".25rem",
+            BoxShadowTransparency = 127,
+            GradientBlendPercentage = 15f,
+            HoverDarkenColor = 7.5f,
+            HoverLightenColor = 10f,
+            LargeBorderRadius = ".3rem",
+            Margin = "0rem 0rem 0rem 0rem",
+            Padding = ".6875rem 1rem .6875rem 1rem",
+            SmallBorderRadius = ".2rem"
+        },
+        CardOptions = new ThemeCardOptions()
+        {
+            BorderRadius = ".25rem",
+            ImageTopRadius = "calc(.25rem - 1px)"
+        },
+        ColorOptions = new ThemeColorOptions()
+        {
+            Danger = "#f44336",
+            Dark = "#424242",
+            Info = "#00bcd4",
+            Light = "#f5f5f5",
+            Primary = "#1976d2",
+            Secondary = "#757575",
+            Success = "#4caf50",
+            Warning = "#ffeb3b"
+        },
+        ContainerMaxWidthOptions = new ThemeContanerMaxWidthOptions()
+        {
+            Desktop = "960px",
+            FullHD = "1320px",
+            Mobile = "540px",
+            Tablet = "720px",
+            Widescreen = "1140px"
+        },
+        DividerOptions = new ThemeDividerOptions()
+        {
+            Color = "#999999",
+            TextSize = ".875rem",
+            Thickness = "2px"
+        },
+        DropdownOptions = new ThemeDropdownOptions()
+        {
+            BorderRadius = ".25rem",
+            GradientBlendPercentage = 15f
+        },
+        InputOptions = new ThemeInputOptions()
+        {
+            BorderRadius = ".25rem",
+            CheckColor = "#1976d2",
+            Color = "#000000",
+            SliderColor = "#c4c4c4"
+        },
+        ModalOptions = new ThemeModalOptions()
+        {
+            BorderRadius = ".25rem"
+        },
+        PaginationOptions = new ThemePaginationOptions()
+        {
+            BorderRadius = ".25rem",
+            LargeBorderRadius = ".3rem"
+        },
+        ProgressOptions = new ThemeProgressOptions()
+        {
+            BorderRadius = ".25rem"
+        },
+        SidebarOptions = new ThemeSidebarOptions()
+        {
+            BackgroundColor = "#343a40",
+            Color = "#ced4da",
+            Width = "220px"
+        },
+        SnackbarOptions = new ThemeSnackbarOptions()
+        {
+            BackgroundColor = "#323232",
+            ButtonColor = "#ff4081",
+            ButtonHoverColor = "#ff80ab",
+            TextColor = "#ffffff",
+            VariantBackgroundColorLevel = -3
+        },
+        TableOptions = new ThemeTableOptions()
+        {
+            BackgroundLevel = -9,
+            BorderLevel = -6,
+            BorderRadius = ".25rem"
+        },
+        TabsOptions = new ThemeTabsOptions()
+        {
+            BorderRadius = ".25rem"
+        },
+        TextColorOptions = new ThemeTextColorOptions()
+        {
+            Black50 = "#000000",
+            Body = "#212121",
+            Danger = "#f44336",
+            Dark = "#424242",
+            Info = "#00bcd4",
+            Light = "#f5f5f5",
+            Muted = "#757575",
+            Primary = "#1976d2",
+            Secondary = "#757575",
+            Success = "#4caf50",
+            Warning = "#ffeb3b",
+            White = "#fafafa",
+            White50 = "#ffffff"
+        },
+        TooltipOptions = new ThemeTooltipOptions()
+        {
+            BackgroundColor = "#808080",
+            BackgroundOpacity = 90f,
+            BorderRadius = ".25rem",
+            Color = "#ffffff",
+            FadeTime = "0.3s",
+            FontSize = ".875rem",
+            MaxWidth = "15rem",
+            Padding = ".5rem 1rem .5rem 1rem",
+            ZIndex = "1020"
+        }
     };
 }
