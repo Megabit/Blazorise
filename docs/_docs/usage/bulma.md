@@ -56,54 +56,95 @@ In your main _Imports.razor_ add:
 
 ### 4. Registrations
 
-Finally in the Startup.cs you must tell the Blazor to register Bulma provider and extensions:
+Starting from **.Net Core 3.2** there was some changes regarding the setup process for **Blazor WebAssembly** project types. Specifically the **Startup.cs** file is removed and all registrations are now done in the **Program.cs**.
+
+---
+Depending on the hosting model of your Blazor project you only need to apply either step **4.a** or **4.b**. You should not include both of them as that is generally not supported.
+
+To Learn more about the different project types you can go to the official [documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models).
+
+---
+
+#### 4.a Blazor WebAssembly
+
+This step is mandatory for **Blazor WebAssembly**(client-side) and also for **ASP.NET Core hosted** project types. You should place the code into the **Program.cs** of your **client** project.
 
 ```cs
+// other usings
 using Blazorise;
 using Blazorise.Bulma;
 using Blazorise.Icons.FontAwesome;
 
-public void ConfigureServices( IServiceCollection services )
+public class Program
 {
-  services
-    .AddBlazorise( options =>
+  public static async Task Main( string[] args )
+  {
+    var builder = WebAssemblyHostBuilder.CreateDefault( args );
+
+    builder.Services
+      .AddBlazorise( options =>
+      {
+          options.ChangeTextOnKeyPress = true;
+      } )
+      .AddBulmaProviders()
+      .AddFontAwesomeIcons();
+
+    builder.Services.AddSingleton( new HttpClient
     {
-      options.ChangeTextOnKeyPress = true;
-    } ) // from v0.6.0-preview4
-    .AddBulmaProviders()
-    .AddFontAwesomeIcons();
-}
-```
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
 
-### 4.a Blazor WebAssembly
+    builder.RootComponents.Add<App>( "app" );
 
-```cs
-public void Configure( IComponentsApplicationBuilder app )
-{
-  app.Services
-    .UseBulmaProviders()
-    .UseFontAwesomeIcons();
+    var host = builder.Build();
 
-  app.AddComponent<App>( "app" );
+    host.Services
+      .UseBulmaProviders()
+      .UseFontAwesomeIcons();
+
+    await host.RunAsync();
+  }
 }
 ```
 
 ### 4.b Blazor Server
 
 ```cs
-public void Configure( IComponentsApplicationBuilder app )
-{
-  ...
-  app.UseRouting();
-  
-  app.ApplicationServices
-    .UseBulmaProviders()
-    .UseFontAwesomeIcons();
+// other usings
+using Blazorise;
+using Blazorise.Bulma;
+using Blazorise.Icons.FontAwesome;
 
-  app.UseEndpoints( endpoints =>
+public class Startup
+{
+  public void ConfigureServices( IServiceCollection services )
   {
-      endpoints.MapBlazorHub();
-      endpoints.MapFallbackToPage( "/_Host" );
-  } );
+    services
+      .AddBlazorise( options =>
+      {
+        options.ChangeTextOnKeyPress = true;
+      } )
+      .AddBulmaProviders()
+      .AddFontAwesomeIcons();
+
+    // other services
+  }
+
+  public void Configure( IComponentsApplicationBuilder app )
+  {
+    // other settings
+    
+    app.UseRouting();
+    
+    app.ApplicationServices
+      .UseBulmaProviders()
+      .UseFontAwesomeIcons();
+
+    app.UseEndpoints( endpoints =>
+    {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage( "/_Host" );
+    } );
+  }
 }
 ```

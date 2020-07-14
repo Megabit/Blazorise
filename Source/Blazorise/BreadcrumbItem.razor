@@ -1,8 +1,8 @@
-﻿@inherits Blazorise.BaseBreadcrumbItem
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
-        <li class="@ClassNames" aria-current="@(IsActive ? "page" : null)" @attributes="@Attributes">
+        <li class="@ClassNames" style="@StyleNames" aria-current="@(Active ? "page" : null)" @attributes="@Attributes">
             @ChildContent
         </li>
     </CascadingValue>

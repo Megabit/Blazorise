@@ -1,0 +1,36 @@
+﻿label.radio.button {
+    display: flex;
+}
+
+label.radio.button {
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+
+    input[type=radio] {
+        position: absolute;
+        left: 0;
+        opacity: 0;
+        outline: none;
+        z-index: -1;
+    }
+}
+
+.field-body {
+    .switch[type="checkbox"] {
+        + label {
+            margin-top: .375em;
+        }
+    }
+}
+
+.field-body {
+    .slider[type="range"] {
+        width: 100%;
+    }
+}
+
+// When file is placed inside of "field-body" it will not be fullwidth. With this we force it to work as expected.
+.file.has-name.is-fullwidth {
+    width: 100%;
+}

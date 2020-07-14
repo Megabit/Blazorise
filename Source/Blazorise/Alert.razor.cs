@@ -3,22 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseAlert : BaseComponent
+    public partial class Alert : BaseComponent
     {
         #region Members
 
-        private bool isDismisable;
+        private AlertStore store = new AlertStore
+        {
+            Color = Color.None,
+        };
 
-        private bool isShow;
+        private bool hasMessage;
 
-        private Color color = Color.None;
-
-        public event EventHandler<AlertStateEventArgs> StateChanged;
+        private bool hasDescription;
 
         #endregion
 
@@ -28,36 +30,83 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Alert() );
             builder.Append( ClassProvider.AlertColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.AlertDismisable(), IsDismisable );
-            builder.Append( ClassProvider.AlertFade(), IsDismisable );
-            builder.Append( ClassProvider.AlertShow(), IsDismisable && IsShow );
+            builder.Append( ClassProvider.AlertDismisable(), Dismisable );
+            builder.Append( ClassProvider.AlertFade(), Dismisable );
+            builder.Append( ClassProvider.AlertShow(), Dismisable && Visible );
+            builder.Append( ClassProvider.AlertHasMessage(), hasMessage );
+            builder.Append( ClassProvider.AlertHasDescription(), hasDescription );
 
             base.BuildClasses( builder );
         }
 
+        protected override void OnInitialized()
+        {
+            HandleVisibilityState( Visible );
+
+            base.OnInitialized();
+        }
+
+        /// <summary>
+        /// Displays the alert to the user.
+        /// </summary>
         public void Show()
         {
-            IsShow = true;
+            Visible = true;
             StateHasChanged();
         }
 
+        /// <summary>
+        /// Conceals the alert from the user.
+        /// </summary>
         public void Hide()
         {
-            IsShow = false;
+            Visible = false;
             StateHasChanged();
         }
 
+        /// <summary>
+        /// Toggles the visibility of the alert.
+        /// </summary>
         public void Toggle()
         {
-            IsShow = !IsShow;
+            Visible = !Visible;
             StateHasChanged();
         }
 
         private void HandleVisibilityState( bool active )
         {
-            Visibility = active ? Visibility.Always : Visibility.Never;
+            Display = active
+                ? Blazorise.Display.Always
+                : Blazorise.Display.None;
 
-            StateChanged?.Invoke( this, new AlertStateEventArgs( active ) );
+            DirtyClasses();
+        }
+
+        private void RaiseEvents( bool visible )
+        {
+            VisibleChanged.InvokeAsync( visible );
+        }
+
+        /// <summary>
+        /// Notifies the alert that one of the child componens is a message.
+        /// </summary>
+        internal void NotifyHasMessage()
+        {
+            hasMessage = true;
+
+            DirtyClasses();
+            StateHasChanged();
+        }
+
+        /// <summary>
+        /// Notifies the alert that one of the child componens is a description.
+        /// </summary>
+        internal void NotifyHasDescription()
+        {
+            hasDescription = true;
+
+            DirtyClasses();
+            StateHasChanged();
         }
 
         #endregion
@@ -68,12 +117,12 @@ namespace Blazorise
         /// Enables the alert to be closed by placing the padding for close button.
         /// </summary>
         [Parameter]
-        public bool IsDismisable
+        public bool Dismisable
         {
-            get => isDismisable;
+            get => store.Dismisable;
             set
             {
-                isDismisable = value;
+                store.Dismisable = value;
 
                 DirtyClasses();
             }
@@ -83,22 +132,25 @@ namespace Blazorise
         /// Sets the alert visibilty.
         /// </summary>
         [Parameter]
-        public bool IsShow
+        public bool Visible
         {
-            get => isShow;
+            get => store.Visible;
             set
             {
-                // prevent alert from calling the same code multiple times
-                if ( value == isShow )
+                if ( value == store.Visible )
                     return;
 
-                isShow = value;
+                store.Visible = value;
 
                 HandleVisibilityState( value );
-
-                DirtyClasses();
+                RaiseEvents( value );
             }
         }
+
+        /// <summary>
+        /// Occurs when the alert visibility changes.
+        /// </summary>
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         /// <summary>
         /// Gets or sets the alert color.
@@ -106,10 +158,10 @@ namespace Blazorise
         [Parameter]
         public Color Color
         {
-            get => color;
+            get => store.Color;
             set
             {
-                color = value;
+                store.Color = value;
 
                 DirtyClasses();
             }

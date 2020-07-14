@@ -3,16 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseBarMenu : BaseComponent
+    public partial class BarMenu : BaseComponent
     {
         #region Members
 
-        private bool isOpen;
+        private bool visible;
+
+        private BarStore parentStore;
 
         #endregion
 
@@ -20,23 +23,16 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarMenu() );
-            builder.Append( ClassProvider.BarMenuShow(), IsOpen );
+            builder.Append( ClassProvider.BarMenu( ParentStore.Mode ));
+            builder.Append( ClassProvider.BarMenuShow( ParentStore.Mode ), Visible && ParentStore.Visible );
 
             base.BuildClasses( builder );
         }
 
-        protected override void OnInitialized()
-        {
-            ParentBar?.Hook( this );
-
-            base.OnInitialized();
-        }
-
         public void Toggle()
         {
-            IsOpen = !IsOpen;
-            Toggled?.Invoke( IsOpen );
+            Visible = !Visible;
+            Toggled?.Invoke( Visible );
 
             StateHasChanged();
         }
@@ -46,12 +42,12 @@ namespace Blazorise
         #region Properties
 
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => visible;
             set
             {
-                isOpen = value;
+                visible = value;
 
                 DirtyClasses();
             }
@@ -59,7 +55,20 @@ namespace Blazorise
 
         [Parameter] public Action<bool> Toggled { get; set; }
 
-        [CascadingParameter] public BaseBar ParentBar { get; set; }
+        [CascadingParameter] 
+        protected BarStore ParentStore
+        {
+            get => parentStore;
+            set
+            {
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

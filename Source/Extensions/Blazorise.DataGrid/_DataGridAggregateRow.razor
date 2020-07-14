@@ -1,0 +1,36 @@
+﻿@typeparam TItem
+@inherits BaseDataGridComponent
+<TableRow Class="@Class" Style="@Style" Background="@Background" Color="@Color">
+    @foreach ( var column in Columns )
+    {
+        @if ( column.ColumnType == DataGridColumnType.Command )
+        {
+            @if ( ParentDataGrid.Editable == true )
+            {
+                <TableRowCell></TableRowCell>
+            }
+        }
+        else
+        {
+            <TableRowCell Class="@column.GroupCellClass" Style="@column.GroupCellStyle" width="@column.Width" TextAlignment="@column.TextAlignment">
+                @{
+                    var aggregateColumn = Aggregates.FirstOrDefault( x => x.Field == column.Field );
+
+                    if ( aggregateColumn != null )
+                    {
+                        var aggregateValue = Calculate( aggregateColumn, column );
+
+                        @if ( aggregateColumn.DisplayTemplate != null )
+                        {
+                            @aggregateColumn.DisplayTemplate( new AggregateContext( column.Field, aggregateValue ) )
+                        }
+                        else
+                        {
+                            @aggregateColumn.FormatDisplayValue( aggregateValue );
+                        }
+                    }
+                }
+            </TableRowCell>
+        }
+    }
+</TableRow>

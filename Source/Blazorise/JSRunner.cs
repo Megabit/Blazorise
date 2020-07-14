@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
@@ -44,9 +45,20 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementRef, elementId );
         }
 
-        public ValueTask<bool> InitializeNumericEdit( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, int decimals, string decimalsSeparator, decimal? step )
+        public ValueTask<bool> InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, int decimals, string decimalsSeparator, decimal? step, TValue min, TValue max )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementRef, elementId, decimals, decimalsSeparator, step );
+            // find the min and max possible value based on the supplied value type
+            var (minFromType, maxFromType) = Converters.GetMinMaxValueOfType<TValue>();
+
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize",
+                dotNetObjectRef,
+                elementRef,
+                elementId,
+                decimals,
+                decimalsSeparator,
+                step,
+                EqualityComparer<TValue>.Default.Equals( min, default ) ? minFromType : (object)min,
+                EqualityComparer<TValue>.Default.Equals( max, default ) ? maxFromType : (object)max );
         }
 
         public ValueTask<bool> DestroyNumericEdit( ElementReference elementRef, string elementId )
@@ -99,14 +111,9 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.parentHasClass", elementRef, classaname );
         }
 
-        /// <summary>
-        /// Gets the fake file paths from input field.
-        /// </summary>
-        /// <param name="element">Input field.</param>
-        /// <returns>Returns an array of paths.</returns>
-        public ValueTask<string[]> GetFilePaths( ElementReference element )
+        public ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId )
         {
-            return runtime.InvokeAsync<string[]>( $"{BLAZORISE_NAMESPACE}.getFilePaths", element );
+            return runtime.InvokeAsync<DomElement>( $"{BLAZORISE_NAMESPACE}.getElementInfo", elementRef, elementId );
         }
 
         /// <summary>
@@ -115,6 +122,17 @@ namespace Blazorise
         /// <param name="elementId">Input element id.</param>
         /// <param name="formatSubmit">Date format to submit.</param>
         public virtual ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit )
+        {
+            // must be implemented by a framework provider!
+            return new ValueTask<bool>( true );
+        }
+
+        /// <summary>
+        /// Activates the time picker for a given element id.
+        /// </summary>
+        /// <param name="elementId">Input element id.</param>
+        /// <param name="formatSubmit">Date format to submit.</param>
+        public virtual ValueTask<bool> ActivateTimePicker( string elementId, string formatSubmit )
         {
             // must be implemented by a framework provider!
             return new ValueTask<bool>( true );
@@ -149,9 +167,24 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
         }
 
-        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId );
+        public ValueTask SetCaret( ElementReference elementRef, int caret )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setCaret", elementRef, caret );
+        }
+
+        public ValueTask<int> GetCaret( ElementReference elementRef )
+        {
+            return runtime.InvokeAsync<int>( $"{BLAZORISE_NAMESPACE}.getCaret", elementRef );
+        }
+
+        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop );
 
         public abstract ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
+
+        public ValueTask<bool> OpenFileDialog( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.fileEdit.open", elementRef, elementId );
+        }
 
         public ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement )
         {
@@ -166,6 +199,41 @@ namespace Blazorise
         public ValueTask<object> UnregisterClosableComponent( ICloseActivator component )
         {
             return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementId );
+        }
+
+        public ValueTask<object> RegisterBreakpointComponent( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId )
+        {
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.breakpoint.registerBreakpointComponent", elementId, dotNetObjectRef );
+        }
+
+        public ValueTask<object> UnregisterBreakpointComponent( IBreakpointActivator component )
+        {
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.breakpoint.unregisterBreakpointComponent", component.ElementId );
+        }
+
+        public ValueTask<string> GetBreakpoint()
+        {
+            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.breakpoint.getBreakpoint" );
+        }
+
+        public ValueTask<bool> ScrollIntoView( string anchorTarget )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.link.scrollIntoView", anchorTarget );
+        }
+
+        public ValueTask<bool> InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.fileEdit.initialize", dotNetObjectRef, elementRef, elementId );
+        }
+
+        public ValueTask<bool> DestroyFileEdit( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.fileEdit.destroy", elementRef, elementId );
+        }
+
+        public ValueTask<string> ReadDataAsync( CancellationToken cancellationToken, ElementReference elementRef, int fileEntryId, long position, long length )
+        {
+            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.fileEdit.readFileData", cancellationToken, elementRef, fileEntryId, position, length );
         }
     }
 }

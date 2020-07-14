@@ -1,7 +1,7 @@
-﻿@inherits Blazorise.BaseDropdownItem
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <a class="@ClassNames" @onclick="@ClickHandler" @attributes="@Attributes">
+    <a class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
         @ChildContent
     </a>
 }

@@ -9,15 +9,11 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Sets the field label.
+    /// Label for a <see cref="Field"/> component.
     /// </summary>
-    public abstract class BaseFieldLabel : BaseSizableComponent
+    public partial class FieldLabel : BaseSizableFieldComponent
     {
         #region Members
-
-        private bool isCheck;
-
-        private bool isFile;
 
         private Screenreader screenreader = Screenreader.Always;
 
@@ -28,7 +24,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.FieldLabel() );
-            builder.Append( ClassProvider.FieldLabelHorizontal(), ParentIsHorizontal );
+            builder.Append( ClassProvider.FieldLabelHorizontal(), IsHorizontal );
             builder.Append( ClassProvider.ToScreenreader( Screenreader ), Screenreader != Screenreader.Always );
 
             base.BuildClasses( builder );
@@ -38,37 +34,10 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the ID of an element that this label belongs to.
+        /// </summary>
         [Parameter] public string For { get; set; }
-
-        /// <summary>
-        /// Label is used by the checkbox.
-        /// </summary>
-        [Parameter]
-        public bool IsCheck
-        {
-            get => isCheck;
-            set
-            {
-                isCheck = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Label is used by the file input.
-        /// </summary>
-        [Parameter]
-        public bool IsFile
-        {
-            get => isFile;
-            set
-            {
-                isFile = value;
-
-                DirtyClasses();
-            }
-        }
 
         /// <summary>
         /// Defines the visibility for screen readers.

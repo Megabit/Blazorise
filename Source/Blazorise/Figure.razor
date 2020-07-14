@@ -1,7 +1,7 @@
-﻿@inherits Blazorise.BaseFigure
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <figure class="@ClassNames" @attributes="@Attributes">
+    <figure class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </figure>
 }

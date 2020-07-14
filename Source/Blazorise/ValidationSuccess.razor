@@ -1,9 +1,9 @@
-﻿@inherits Blazorise.BaseValidationSuccess
+﻿@inherits BaseValidationResult
 @if ( !HasCustomRegistration )
 {
     @if ( ParentValidation?.Status == ValidationStatus.Success )
     {
-        <div class="@ClassNames" @attributes="@Attributes">
+        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </div>
     }

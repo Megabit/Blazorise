@@ -3,26 +3,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseTabs : BaseComponent
+    public partial class Tabs : BaseComponent
     {
         #region Members
 
-        private bool isPills;
+        private TabsStore store = new TabsStore
+        {
+            TabPosition = TabPosition.Top,
+        };
 
-        private bool isFullWidth;
+        private List<string> tabItems = new List<string>();
 
-        private bool isJustified;
+        private List<string> tabPanels = new List<string>();
 
-        private bool isVertical;
+        #endregion
 
-        private readonly List<BaseTab> childTabs = new List<BaseTab>();
+        #region Constructors
 
-        private string lastSelectedTab;
+        public Tabs()
+        {
+            ContentClassBuilder = new ClassBuilder( BuildContentClasses );
+        }
 
         #endregion
 
@@ -32,17 +39,27 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Tabs() );
             builder.Append( ClassProvider.TabsCards(), IsCards );
-            builder.Append( ClassProvider.TabsPills(), IsPills );
-            builder.Append( ClassProvider.TabsFullWidth(), IsFullWidth );
-            builder.Append( ClassProvider.TabsJustified(), IsJustified );
-            builder.Append( ClassProvider.TabsVertical(), IsVertical );
+            builder.Append( ClassProvider.TabsPills(), Pills );
+            builder.Append( ClassProvider.TabsFullWidth(), FullWidth );
+            builder.Append( ClassProvider.TabsJustified(), Justified );
+            builder.Append( ClassProvider.TabsVertical(), TabPosition == TabPosition.Left || TabPosition == TabPosition.Right );
 
             base.BuildClasses( builder );
         }
 
-        internal void Hook( BaseTab tab )
+        private void BuildContentClasses( ClassBuilder builder )
         {
-            childTabs.Add( tab );
+            builder.Append( ClassProvider.TabsContent() );
+        }
+
+        internal void HookTab( string tabName )
+        {
+            tabItems.Add( tabName );
+        }
+
+        internal void HookPanel( string panelName )
+        {
+            tabPanels.Add( panelName );
         }
 
         /// <summary>
@@ -51,41 +68,42 @@ namespace Blazorise
         /// <param name="tabName"></param>
         public void SelectTab( string tabName )
         {
-            if ( lastSelectedTab != tabName )
-            {
-                lastSelectedTab = tabName;
+            SelectedTab = tabName;
 
-                foreach ( var child in childTabs )
-                {
-                    child.IsActive = child.Name == tabName;
-                }
-
-                // raise the tabchanged notification
-                SelectedTabChanged?.Invoke( tabName );
-
-                // although nothing is actually changed we need to call this anyways or otherwise the rendering will not be called
-                DirtyClasses();
-
-                StateHasChanged();
-            }
+            StateHasChanged();
         }
 
         #endregion
 
         #region Properties
 
-        private bool IsCards => CardHeader != null;
+        protected TabsStore Store => store;
+
+        protected bool IsCards => CardHeader != null;
+
+        protected ClassBuilder ContentClassBuilder { get; private set; }
+
+        /// <summary>
+        /// Gets the content class-names.
+        /// </summary>
+        protected string ContentClassNames => ContentClassBuilder.Class;
+
+        protected int IndexOfSelectedTab => tabItems.IndexOf( store.SelectedTab );
+
+        protected IReadOnlyList<string> TabItems => tabItems;
+
+        protected IReadOnlyList<string> TabPanels => tabPanels;
 
         /// <summary>
         /// Makes the tab items to appear as pills.
         /// </summary>
         [Parameter]
-        public bool IsPills
+        public bool Pills
         {
-            get => isPills;
+            get => store.Pills;
             set
             {
-                isPills = value;
+                store.Pills = value;
 
                 DirtyClasses();
             }
@@ -95,12 +113,12 @@ namespace Blazorise
         /// Makes the tab items to extend the full available width.
         /// </summary>
         [Parameter]
-        public bool IsFullWidth
+        public bool FullWidth
         {
-            get => isFullWidth;
+            get => store.FullWidth;
             set
             {
-                isFullWidth = value;
+                store.FullWidth = value;
 
                 DirtyClasses();
             }
@@ -110,27 +128,49 @@ namespace Blazorise
         /// Makes the tab items to extend the full available width, but every item will be the same width.
         /// </summary>
         [Parameter]
-        public bool IsJustified
+        public bool Justified
         {
-            get => isJustified;
+            get => store.Justified;
             set
             {
-                isJustified = value;
+                store.Justified = value;
 
                 DirtyClasses();
             }
         }
 
         /// <summary>
-        /// Stack the navigation items by changing the flex item direction.
+        /// Position of tab items.
         /// </summary>
         [Parameter]
-        public bool IsVertical
+        public TabPosition TabPosition
         {
-            get => isVertical;
+            get => store.TabPosition;
             set
             {
-                isVertical = value;
+                store.TabPosition = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets currently selected tab name.
+        /// </summary>
+        [Parameter]
+        public string SelectedTab
+        {
+            get => store.SelectedTab;
+            set
+            {
+                // prevent tabs from calling the same code multiple times
+                if ( value == store.SelectedTab )
+                    return;
+
+                store.SelectedTab = value;
+
+                // raise the tabchanged notification                
+                SelectedTabChanged.InvokeAsync( store.SelectedTab );
 
                 DirtyClasses();
             }
@@ -139,9 +179,13 @@ namespace Blazorise
         /// <summary>
         /// Occurs after the selected tab has changed.
         /// </summary>
-        [Parameter] public Action<string> SelectedTabChanged { get; set; }
+        [Parameter] public EventCallback<string> SelectedTabChanged { get; set; }
 
-        [CascadingParameter] public BaseCardHeader CardHeader { get; set; }
+        [CascadingParameter] protected CardHeader CardHeader { get; set; }
+
+        [Parameter] public RenderFragment Items { get; set; }
+
+        [Parameter] public RenderFragment Content { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

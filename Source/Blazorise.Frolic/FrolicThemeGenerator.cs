@@ -23,11 +23,16 @@ namespace Blazorise.Frolic
             sb.Append( $".bg-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )};" )
                 .AppendLine( "}" );
+
+            sb.Append( $".e-face-{variant}" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
-            var background = Var( ThemeVariables.ButtonBackgrund( variant ) );
+            var background = Var( ThemeVariables.ButtonBackground( variant ) );
             var border = Var( ThemeVariables.ButtonBorder( variant ) );
             var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
             //var hoverBorder = Var( ThemeVariables.ButtonHoverBorder( variant ) );
@@ -206,7 +211,7 @@ namespace Blazorise.Frolic
             if ( backgroundColor.IsEmpty )
                 return;
 
-            var yiqBackgroundColor = Contrast( backgroundColor );
+            var yiqBackgroundColor = Contrast( theme, backgroundColor );
 
             var background = ToHex( backgroundColor );
             var yiqBackground = ToHex( yiqBackgroundColor );
@@ -214,6 +219,32 @@ namespace Blazorise.Frolic
             sb.Append( $".e-tag.{variant}" ).Append( "{" )
                 .Append( $"color: {yiqBackground};" )
                 .Append( $"background-color: {background};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+
+            if ( backgroundColor.IsEmpty )
+                return;
+
+            //var boxShadowColor = Lighten( backgroundColor, options?.BoxShadowLightenColor ?? 25 );
+            var disabledBackgroundColor = Lighten( backgroundColor, options?.DisabledLightenColor ?? 50 );
+
+            var background = ToHex( backgroundColor );
+            //var boxShadow = ToHex( boxShadowColor );
+            var disabledBackground = ToHex( disabledBackgroundColor );
+
+            sb
+                .Append( $".e-switch[type=\"checkbox\"].{variant}:checked + label::before," )
+                .Append( $".e-switch[type=\"checkbox\"].{variant}:checked + label:before" ).Append( "{" )
+                .Append( $"background-color: {background};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".e-switch[type=\"checkbox\"]:disabled.{variant}:checked + label::before" ).Append( "{" )
+                .Append( $"background-color: {disabledBackground};" )
                 .AppendLine( "}" );
         }
 
@@ -296,14 +327,17 @@ namespace Blazorise.Frolic
                  .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                  .AppendLine( "}" );
 
-            //sb.Append( $".breadcrumb a" ).Append( "{" )
-            //    .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )};" )
-            //    .AppendLine( "}" );
+            if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
+            {
+                sb.Append( $".e-breadcrumb a" ).Append( "{" )
+                    .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
+                    .AppendLine( "}" );
+            }
         }
 
         protected override void GenerateBadgeStyles( StringBuilder sb, Theme theme, ThemeBadgeOptions options )
         {
-            sb.Append( $".e-tag" ).Append( "{" )
+            sb.Append( $".e-tag:not(.e-tag .rounded)" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
         }
@@ -325,6 +359,28 @@ namespace Blazorise.Frolic
 
         protected override void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options )
         {
+        }
+
+        protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
+        {
+            var textColor = ParseColor( inTextColor );
+
+            var textColorHex = ToHex( textColor );
+
+            sb.Append( $".text-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {textColorHex};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
+        {
+            var color = ToHex( ParseColor( inColor ) );
+
+            sb.Append( $".e-control.text-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {color};" )
+                .AppendLine( "}" );
         }
 
         #endregion

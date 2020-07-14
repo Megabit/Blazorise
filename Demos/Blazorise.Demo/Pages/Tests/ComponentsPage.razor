@@ -1,0 +1,110 @@
+﻿@page "/tests/components"
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Select List</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <SelectList Data="@myDdlData"
+                                    TextField="@((item)=>item.MyTextField)"
+                                    ValueField="@((item)=>item.MyValueField)"
+                                    SelectedValue="@selectedListValue"
+                                    SelectedValueChanged="@MyListValueChangedHandler" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @selectedListValue
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete Data="@myDdlData"
+                                      TextField="@((item)=>item.MyTextField)"
+                                      ValueField="@((item)=>item.MyTextField)"
+                                      SelectedValue="@selectedSearchValue"
+                                      SelectedValueChanged="@MySearchHandler"
+                                      Placeholder="Search..." Filter="AutocompleteFilter.StartsWith" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected search value: @selectedSearchValue
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Dropdown List</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <DropdownList Data="@myDdlData"
+                                      TextField="@((item)=>item.MyTextField)"
+                                      ValueField="@((item)=>item.MyValueField)"
+                                      SelectedValue="@selectedDropValue"
+                                      SelectedValueChanged="@MyDropValueChangedHandler"
+                                      Color="Color.Primary">
+                            Select item
+                        </DropdownList>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @selectedDropValue
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code{
+    public class MySelectModel
+    {
+        public int MyValueField { get; set; }
+        public string MyTextField { get; set; }
+    }
+
+    static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
+    IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
+
+    object selectedListValue { get; set; } = 3;
+    object selectedDropValue { get; set; } = 2;
+    object selectedSearchValue { get; set; }
+
+    void MyListValueChangedHandler( object newValue )
+    {
+        selectedListValue = newValue;
+    }
+
+    void MyDropValueChangedHandler( object newValue )
+    {
+        selectedDropValue = newValue;
+    }
+
+    void MySearchHandler( object newValue )
+    {
+        selectedSearchValue = newValue;
+    }
+}

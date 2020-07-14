@@ -1,0 +1,79 @@
+﻿@page "/tests/livecharts"
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Horizontal Line</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <LineChart @ref="horizontalLineChart" TItem="LiveDataPoint" OptionsObject="@horizontalLineChartOptions">
+                    <ChartStreaming TItem="LiveDataPoint"
+                                    Options="new ChartStreamingOptions { Delay = 2000 }"
+                                    Refreshed="@OnHorizontalLineRefreshed" />
+                </LineChart>
+            </CardBody>
+            <CardFooter>
+                <Button Color="Color.Primary" Outline="true" Clicked="@AddNewHorizontalLineDataSet">Add DataSet</Button>
+                <Button Color="Color.Secondary" Outline="true" Clicked="@AddNewHorizontalLineData">Add Data</Button>
+            </CardFooter>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Vertical Line</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <LineChart @ref="verticalLineChart" TItem="LiveDataPoint" OptionsObject="@verticalLineChartOptions">
+                    <ChartStreaming TItem="LiveDataPoint"
+                                    Vertical="true"
+                                    Options="new ChartStreamingOptions { Delay = 2000 }"
+                                    Refreshed="@OnVerticalLineRefreshed" />
+                </LineChart>
+            </CardBody>
+            <CardFooter>
+                <Button Color="Color.Primary" Outline="true" Clicked="@AddNewVerticalLineDataSet">Add DataSet</Button>
+                <Button Color="Color.Secondary" Outline="true" Clicked="@AddNewVerticalLineData">Add Data</Button>
+            </CardFooter>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Horizontal Bar</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <BarChart @ref="horizontalBarChart" TItem="LiveDataPoint" OptionsObject="@horizontalBarChartOptions">
+                    <ChartStreaming TItem="LiveDataPoint"
+                                    Options="new ChartStreamingOptions { Delay = 2000 }"
+                                    Refreshed="@OnHorizontalBarRefreshed" />
+                </BarChart>
+            </CardBody>
+            <CardFooter>
+                <Button Color="Color.Primary" Outline="true" Clicked="@AddNewHorizontalBarDataSet">Add DataSet</Button>
+                <Button Color="Color.Secondary" Outline="true" Clicked="@AddNewHorizontalBarData">Add Data</Button>
+            </CardFooter>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Vertical Bar</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <HorizontalBarChart @ref="verticalBarChart" TItem="LiveDataPoint" OptionsObject="@verticalBarChartOptions">
+                    <ChartStreaming TItem="LiveDataPoint"
+                                    Vertical="true"
+                                    Options="new ChartStreamingOptions { Delay = 2000 }"
+                                    Refreshed="@OnVerticalBarRefreshed" />
+                </HorizontalBarChart>
+            </CardBody>
+            <CardFooter>
+                <Button Color="Color.Primary" Outline="true" Clicked="@AddNewVerticalBarDataSet">Add DataSet</Button>
+                <Button Color="Color.Secondary" Outline="true" Clicked="@AddNewVerticalBarData">Add Data</Button>
+            </CardFooter>
+        </Card>
+    </Column>
+</Row>

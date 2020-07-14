@@ -13,5 +13,6 @@ namespace Blazorise.Charts
         Doughnut,
         PolarArea,
         Radar,
+        HorizontalBar,
     }
 }

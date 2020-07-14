@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Charts
 {
-    public abstract class BaseLineChart<TItem> : BaseChart<LineChartDataset<TItem>, TItem, LineChartOptions, LineChartModel>
+    public partial class LineChart<TItem> : BaseChart<LineChartDataset<TItem>, TItem, LineChartOptions, LineChartModel>
     {
         #region Members
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
-        public BaseLineChart()
+        public LineChart()
         {
             Type = ChartType.Line;
         }

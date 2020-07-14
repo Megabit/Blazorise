@@ -3,22 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseTab : BaseComponent
+    public partial class Tab : BaseComponent
     {
         #region Members
 
-        private bool isActive;
+        private TabsStore parentTabsStore;
+
+        private bool disabled;
 
         #endregion
 
         #region Constructors
 
-        public BaseTab()
+        public Tab()
         {
             LinkClassBuilder = new ClassBuilder( BuildLinkClasses );
         }
@@ -30,7 +33,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabItem() );
-            builder.Append( ClassProvider.TabItemActive(), IsActive );
+            builder.Append( ClassProvider.TabItemActive( Active ) );
+            builder.Append( ClassProvider.TabItemDisabled( Disabled ) );
 
             base.BuildClasses( builder );
         }
@@ -38,7 +42,8 @@ namespace Blazorise
         private void BuildLinkClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabLink() );
-            builder.Append( ClassProvider.TabLinkActive(), IsActive );
+            builder.Append( ClassProvider.TabLinkActive( Active ) );
+            builder.Append( ClassProvider.TabLinkDisabled( Disabled ) );
         }
 
         internal protected override void DirtyClasses()
@@ -50,20 +55,26 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            ParentTabs?.Hook( this );
+            if ( ParentTabs != null )
+            {
+                ParentTabs.HookTab( Name );
+            }
 
             base.OnInitialized();
         }
 
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
             Clicked?.Invoke();
             ParentTabs?.SelectTab( Name );
+
+            return Task.CompletedTask;
         }
 
         #endregion
 
         #region Properties
+
         protected ClassBuilder LinkClassBuilder { get; private set; }
 
         /// <summary>
@@ -71,21 +82,23 @@ namespace Blazorise
         /// </summary>
         protected string LinkClassNames => LinkClassBuilder.Class;
 
+        protected bool Active => parentTabsStore.SelectedTab == Name;
+
         /// <summary>
-        /// Defines the tab name.
+        /// Defines the tab name. Must match the coresponding panel name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 
         /// <summary>
-        /// Sets the active tab.
+        /// Determines is the tab is disabled.
         /// </summary>
         [Parameter]
-        public bool IsActive
+        public bool Disabled
         {
-            get => isActive;
+            get => disabled;
             set
             {
-                isActive = value;
+                disabled = value;
 
                 DirtyClasses();
             }
@@ -96,7 +109,22 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
 
-        [CascadingParameter] public BaseTabs ParentTabs { get; set; }
+        [CascadingParameter]
+        protected TabsStore ParentTabsStore
+        {
+            get => parentTabsStore;
+            set
+            {
+                if ( parentTabsStore == value )
+                    return;
+
+                parentTabsStore = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [CascadingParameter] protected Tabs ParentTabs { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

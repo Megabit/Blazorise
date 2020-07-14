@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Providers
@@ -32,13 +33,15 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region SelectEdit
+        #region Select
 
-        public string SelectEdit() => null;
+        public string Select() => null;
 
-        public string SelectEditSize( Size size ) => null;
+        public string SelectMultiple() => null;
 
-        public string SelectEditValidation( ValidationStatus validationStatus ) => null;
+        public string SelectSize( Size size ) => null;
+
+        public string SelectValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
@@ -52,31 +55,76 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region CheckEdit
+        #region TimeEdit
 
-        public string CheckEdit() => null;
+        public string TimeEdit() => null;
 
-        public string CheckEditInline() => null;
+        public string TimeEditSize( Size size ) => null;
 
-        public string CheckEditCursor( Cursor cursor ) => null;
-
-        public string CheckEditValidation( ValidationStatus validationStatus ) => null;
+        public string TimeEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
-        #region RadioEdit
+        #region ColorEdit
 
-        public string RadioEdit() => null;
-
-        public string RadioEditInline() => null;
+        public string ColorEdit() => null;
 
         #endregion
 
-        #region File
+        #region Check
+
+        public string Check() => null;
+
+        public string CheckInline() => null;
+
+        public string CheckCursor( Cursor cursor ) => null;
+
+        public string CheckValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region RadioGroup
+
+        public string RadioGroup( bool buttons ) => null;
+
+        public string RadioGroupInline() => null;
+
+        #endregion
+
+        #region Radio
+
+        public string Radio( bool button ) => null;
+
+        public string RadioInline() => null;
+
+        #endregion
+
+        #region Switch
+
+        public string Switch() => null;
+        public string SwitchColor( Color color ) => null;
+
+        public string SwitchChecked( bool @checked ) => null;
+
+        public string SwitchCursor( Cursor cursor ) => null;
+
+        public string SwitchValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region FileEdit
 
         public string FileEdit() => null;
 
-        public virtual string FileEditValidation( ValidationStatus validationStatus ) => null;
+        public string FileEditValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region Slider
+
+        public string Slider() => null;
+
+        public string SliderColor( Color color ) => null;
 
         #endregion
 
@@ -84,11 +132,9 @@ namespace Blazorise.Providers
 
         public string Label() => null;
 
+        public string LabelType( LabelType labelType ) => null;
+
         public string LabelCursor( Cursor cursor ) => null;
-
-        public string LabelCheck() => null;
-
-        public string LabelFile() => null;
 
         #endregion
 
@@ -109,6 +155,10 @@ namespace Blazorise.Providers
         public string ValidationErrorTooltip() => null;
 
         public string ValidationNone() => null;
+
+        public string ValidationSummary() => null;
+
+        public string ValidationSummaryError() => null;
 
         #endregion
 
@@ -131,6 +181,8 @@ namespace Blazorise.Providers
         public string FieldColumn() => null;
 
         public string FieldJustifyContent( JustifyContent justifyContent ) => null;
+
+        public string FieldValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
@@ -160,6 +212,8 @@ namespace Blazorise.Providers
 
         public string ControlRadio() => null;
 
+        public string ControlSwitch() => null;
+
         public string ControlFile() => null;
 
         public string ControlText() => null;
@@ -169,6 +223,8 @@ namespace Blazorise.Providers
         #region Addons
 
         public string Addons() => null;
+
+        public string AddonsHasButton( bool hasButton ) => null;
 
         public string Addon( AddonType addonType ) => null;
 
@@ -242,7 +298,7 @@ namespace Blazorise.Providers
 
         //public string DropdownMenuBody() => null;
 
-        public string DropdownMenuShow() => null;
+        public string DropdownMenuVisible( bool visible ) => null;
 
         public string DropdownMenuRight() => null;
 
@@ -255,6 +311,8 @@ namespace Blazorise.Providers
         public string DropdownToggleSize( ButtonSize buttonSize ) => null;
 
         public string DropdownToggleSplit() => null;
+
+        public string DropdownToggleIcon( bool visible ) => null;
 
         public string DropdownDirection( Direction direction ) => null;
 
@@ -276,21 +334,61 @@ namespace Blazorise.Providers
 
         public string TabItem() => null;
 
-        public string TabItemActive() => null;
+        public string TabItemActive( bool active ) => null;
+
+        public string TabItemDisabled( bool disabled ) => null;
 
         public string TabLink() => null;
 
-        public string TabLinkActive() => null;
+        public string TabLinkActive( bool active ) => null;
+
+        public string TabLinkDisabled( bool disabled ) => null;
 
         public string TabsContent() => null;
 
         public string TabPanel() => null;
 
-        public string TabPanelActive() => null;
+        public string TabPanelActive( bool active ) => null;
+
+        #endregion
+
+        #region Carousel
+
+        public string Carousel() => null;
+
+        public string CarouselSlides() => null;
+
+        public string CarouselSlide() => null;
+
+        public string CarouselSlideActive( bool active ) => null;
+
+        public string CarouselIndicators() => null;
+
+        public string CarouselIndicator() => null;
+
+        public string CarouselIndicatorActive( bool active ) => null;
+
+        public string CarouselFade( bool fade ) => null;
+
+        public string CarouselCaption() => null;
+
+        #endregion
+
+        #region Jumbotron
+
+        public string Jumbotron() => null;
+
+        public string JumbotronBackground( Background background ) => null;
+
+        public string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => null;
+
+        public string JumbotronSubtitle() => null;
 
         #endregion
 
         #region Card
+
+        public string CardDeck() => null;
 
         public string CardGroup() => null;
 
@@ -310,11 +408,13 @@ namespace Blazorise.Providers
 
         public string CardImage() => null;
 
-        public string CardTitle() => null;
+        public string CardTitle( bool insideHeader ) => null;
 
-        public string CardSubtitle() => null;
+        public string CardTitleSize( bool insideHeader, int? size ) => null;
 
-        public string CardSubtitleSize( int size ) => null;
+        public string CardSubtitle( bool insideHeader ) => null;
+
+        public string CardSubtitleSize( bool insideHeader, int size ) => null;
 
         public string CardText() => null;
 
@@ -336,6 +436,34 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Layout
+
+        public string Layout() => null;
+
+        public string LayoutHasSider() => null;
+
+        public string LayoutBody() => null;
+
+        public string LayoutContent() => null;
+
+        public string LayoutHeader() => null;
+
+        public string LayoutHeaderFixed() => null;
+
+        public string LayoutFooter() => null;
+
+        public string LayoutFooterFixed() => null;
+
+        public string LayoutSider() => null;
+
+        public string LayoutSiderContent() => null;
+
+        public string LayoutLoading() => null;
+
+        public string LayoutRoot() => null;
+
+        #endregion
+
         #region Container
 
         public string Container() => null;
@@ -344,87 +472,71 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Panel
-
-        public string Panel() => null;
-
-        #endregion
-
-        #region Nav
-
-        public string Nav() => null;
-
-        public string NavItem() => null;
-
-        public string NavLink() => null;
-
-        public string NavTabs() => null;
-
-        public string NavCards() => null;
-
-        public string NavPills() => null;
-
-        public string NavFill( NavFillType fillType ) => null;
-
-        public string NavVertical() => null;
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public string Bar() => null;
+
+        public string BarBackground( Background background ) => null;
+
+        public string BarAlignment( Alignment alignment ) => null;
 
         public string BarThemeContrast( ThemeContrast themeContrast ) => null;
 
         public string BarBreakpoint( Breakpoint breakpoint ) => null;
 
-        public string BarItem() => null;
+        public string BarMode( BarMode mode ) => null;
 
-        public string BarItemActive() => null;
+        public string BarItem( BarMode mode ) => null;
 
-        public string BarItemDisabled() => null;
+        public string BarItemActive( BarMode mode ) => null;
 
-        public string BarItemHasDropdown() => null;
+        public string BarItemDisabled( BarMode mode ) => null;
 
-        public string BarItemHasDropdownShow() => null;
+        public string BarItemHasDropdown( BarMode mode ) => null;
 
-        public string BarLink() => null;
+        public string BarItemHasDropdownShow( BarMode mode ) => null;
 
-        public string BarLinkDisabled() => null;
+        public string BarLink( BarMode mode ) => null;
+
+        public string BarLinkDisabled( BarMode mode ) => null;
 
         //public  string BarCollapse() => null;
 
-        public string BarBrand() => null;
+        public string BarBrand( BarMode mode ) => null;
 
-        public string BarToggler() => null;
+        public string BarToggler( BarMode mode ) => null;
 
-        public virtual string BarTogglerCollapsed( bool isShow ) => null;
+        public string BarTogglerCollapsed( BarMode mode, bool isShow ) => null;
 
-        public string BarMenu() => null;
+        public string BarMenu( BarMode mode ) => null;
 
-        public string BarMenuShow() => null;
+        public string BarMenuShow( BarMode mode ) => null;
 
-        public string BarStart() => null;
+        public string BarStart( BarMode mode ) => null;
 
-        public string BarEnd() => null;
+        public string BarEnd( BarMode mode ) => null;
 
         //public  string BarHasDropdown() => null;
 
-        public string BarDropdown() => null;
+        public string BarDropdown( BarMode mode ) => null;
 
-        public string BarDropdownShow() => null;
+        public string BarDropdownShow( BarMode mode ) => null;
 
-        public string BarDropdownToggle() => null;
+        public string BarDropdownToggle( BarMode mode ) => null;
 
-        public string BarDropdownItem() => null;
+        public string BarDropdownItem( BarMode mode ) => null;
 
-        public string BarTogglerIcon() => null;
+        public string BarTogglerIcon( BarMode mode ) => null;
 
-        public virtual string BarDropdownMenu() => null;
+        public string BarDropdownMenu( BarMode mode ) => null;
 
-        public virtual string BarDropdownMenuShow() => null;
+        public string BarDropdownMenuVisible( BarMode mode, bool visible ) => null;
 
-        public virtual string BarDropdownMenuRight() => null;
+        public string BarDropdownMenuRight( BarMode mode ) => null;
+
+        public string BarCollapsed( BarMode mode ) => null;
+
+        public string BarLabel() => null;
 
         #endregion
 
@@ -438,7 +550,15 @@ namespace Blazorise.Providers
 
         public string Collapse() => null;
 
-        public string CollapseShow() => null;
+        public string CollapseActive( bool active ) => null;
+
+        public string CollapseHeader() => null;
+
+        public string CollapseBody() => null;
+
+        public string CollapseBodyActive( bool active ) => null;
+
+        public string CollapseBodyContent() => null;
 
         #endregion
 
@@ -448,13 +568,21 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public string Col() => null;
+        public string Column() => null;
 
-        public string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
+        public string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
 
-        private string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+        private string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+
+        #endregion
+
+        #region Display
+
+        public string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction ) => null;
+
+        public string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules ) => null;
 
         #endregion
 
@@ -470,6 +598,14 @@ namespace Blazorise.Providers
 
         public string AlertShow() => null;
 
+        public string AlertHasMessage() => null;
+
+        public string AlertHasDescription() => null;
+
+        public string AlertMessage() => null;
+
+        public string AlertDescription() => null;
+
         #endregion
 
         #region Modal
@@ -478,11 +614,17 @@ namespace Blazorise.Providers
 
         public string ModalFade() => null;
 
-        public string ModalShow() => null;
+        public string ModalVisible( bool visible ) => null;
 
         public string ModalBackdrop() => null;
 
-        public string ModalContent( bool isForm ) => null;
+        public string ModalBackdropFade() => null;
+
+        public string ModalBackdropVisible( bool visible ) => null;
+
+        public string ModalContent( bool dialog ) => null;
+
+        public string ModalContentSize( ModalSize modalSize ) => null;
 
         public string ModalContentCentered() => null;
 
@@ -598,9 +740,13 @@ namespace Blazorise.Providers
 
         public string TableRowCellColor( Color color ) => null;
 
-        public virtual string TableRowCellBackground( Background background ) => null;
+        public string TableRowCellBackground( Background background ) => null;
 
-        public virtual string TableRowCellTextColor( TextColor textColor ) => null;
+        public string TableRowCellTextColor( TextColor textColor ) => null;
+
+        public string TableRowCellTextAlignment( TextAlignment textAlignment ) => null;
+
+        public string TableResponsive() => null;
 
         #endregion
 
@@ -611,6 +757,8 @@ namespace Blazorise.Providers
         public string BadgeColor( Color color ) => null;
 
         public string BadgePill() => null;
+
+        public string BadgeClose() => null;
 
         #endregion
 
@@ -704,6 +852,14 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Divider
+
+        public string Divider() => null;
+
+        public string DividerType( DividerType dividerType ) => null;
+
+        #endregion
+
         #region States
 
         public string Show() => null;
@@ -768,6 +924,10 @@ namespace Blazorise.Providers
 
         public string ToColumnWidth( ColumnWidth columnWidth ) => null;
 
+        public string ToDisplayType( DisplayType displayType ) => null;
+
+        public string ToDisplayDirection( DisplayDirection displayDirection ) => null;
+
         public string ToModalSize( ModalSize modalSize ) => null;
 
         public string ToSpacingSize( SpacingSize spacingSize ) => null;
@@ -780,11 +940,17 @@ namespace Blazorise.Providers
 
         public string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
 
+        public string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize ) => null;
+
         public string ToPlacement( Placement placement ) => null;
 
         public string ToFigureSize( FigureSize figureSize ) => null;
 
         public string ToCharacterCasing( CharacterCasing characterCasing ) => null;
+
+        public string ToBarMode( BarMode mode ) => null;
+
+        public string ToBarCollapsedMode( BarCollapseMode collapseMode ) => null;
 
         #endregion
 

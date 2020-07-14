@@ -3,15 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BasePaginationLink : BaseComponent
+    public partial class PaginationLink : BaseComponent
     {
         #region Members
+
+        private PaginationItemStore paginationItemStore;
 
         #endregion
 
@@ -20,7 +23,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.PaginationLink() );
-            builder.Append( ClassProvider.PaginationLinkActive(), ParentPaginationItem?.IsActive == true );
+            builder.Append( ClassProvider.PaginationLinkActive(), PaginationItemStore.Active );
 
             base.BuildClasses( builder );
         }
@@ -37,8 +40,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the page name.
         /// </summary>
-        [Parameter]
-        public string Page { get; set; }
+        [Parameter] public string Page { get; set; }
 
         /// <summary>
         /// Occurs when the item link is clicked.
@@ -47,7 +49,20 @@ namespace Blazorise
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        [CascadingParameter] public BasePaginationItem ParentPaginationItem { get; set; }
+        [CascadingParameter]
+        protected PaginationItemStore PaginationItemStore
+        {
+            get => paginationItemStore;
+            set
+            {
+                if ( paginationItemStore == value )
+                    return;
+
+                paginationItemStore = value;
+
+                DirtyClasses();
+            }
+        }
 
         #endregion
     }

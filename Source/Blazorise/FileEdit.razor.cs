@@ -1,18 +1,34 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseFileEdit : BaseInputComponent<string[]>
+    /// <summary>
+    /// This is needed to set the value from javascript because calling generic component directly is not supported by Blazor.
+    /// </summary>
+    public interface IFileEdit
+    {
+        Task NotifyChange( FileEntry[] files );
+    }
+
+    public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit
     {
         #region Members
 
-        private bool isMultiple;
+        private bool multiple;
+
+        // taken from https://github.com/aspnet/AspNetCore/issues/11159
+        private DotNetObjectReference<FileEditAdapter> dotNetObjectRef;
+
+        private IFileEntry[] files;
 
         #endregion
 
@@ -26,53 +42,127 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected Task OnChangeHandler( ChangeEventArgs e )
+        protected override async Task OnFirstAfterRenderAsync()
         {
-            return CurrentValueHandler( e?.Value?.ToString() );
+            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new FileEditAdapter( this ) );
+
+            await JSRunner.InitializeFileEdit( dotNetObjectRef, ElementRef, ElementId );
+
+            await base.OnFirstAfterRenderAsync();
         }
 
-        protected override Task OnInternalValueChanged( string[] value )
+        protected override void Dispose( bool disposing )
         {
-            return PathChanged.InvokeAsync( value );
+            if ( disposing && Rendered )
+            {
+                JSRunner.DestroyFileEdit( ElementRef, ElementId );
+                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+            }
+
+            base.Dispose( disposing );
         }
 
-        protected override async Task<ParseValue<string[]>> ParseValueFromStringAsync( string value )
+        public async Task NotifyChange( FileEntry[] files )
         {
-            if ( IsMultiple )
-            {
-                var multipleValues = await JSRunner.GetFilePaths( ElementRef );
+            // Unlike in other Edit components we cannot just call CurrentValueHandler since
+            // we're dealing with complex types instead of a simple string as en element value.
+            //
+            // Because of that we're going to skip CurrentValueHandler and implement all the
+            // update logic here.
 
-                return new ParseValue<string[]>( true, multipleValues, null );
-            }
-            else
+            foreach ( var file in files )
             {
-                return new ParseValue<string[]>( true, new string[] { value?.ToString() }, null );
+                // So that method invocations on the file can be dispatched back here
+                file.Owner = (FileEdit)(object)this;
             }
+
+            InternalValue = files;
+
+            // send the value to the validation for processing
+            ParentValidation?.NotifyInputChanged();
+
+            await Changed.InvokeAsync( new FileChangedEventArgs( files ) );
+
+            await InvokeAsync( () => StateHasChanged() );
+        }
+
+        protected override Task OnInternalValueChanged( IFileEntry[] value )
+        {
+            throw new NotImplementedException( $"{nameof( OnInternalValueChanged )} in {nameof( FileEdit )} should never be called." );
+        }
+
+        protected override Task<ParseValue<IFileEntry[]>> ParseValueFromStringAsync( string value )
+        {
+            throw new NotImplementedException( $"{nameof( ParseValueFromStringAsync )} in {nameof( FileEdit )} should never be called." );
+        }
+
+        internal Task UpdateFileStartedAsync( IFileEntry fileEntry )
+        {
+            // reset all
+            ProgressProgress = 0;
+            ProgressTotal = fileEntry.Size;
+            Progress = 0;
+
+            return Started.InvokeAsync( new FileStartedEventArgs( fileEntry ) );
+        }
+
+        internal Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success )
+        {
+            return Ended.InvokeAsync( new FileEndedEventArgs( fileEntry, success ) );
+        }
+
+        internal Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
+        {
+            return Written.InvokeAsync( new FileWrittenEventArgs( fileEntry, position, data ) );
+        }
+
+        internal async Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
+        {
+            ProgressProgress += progressProgress;
+
+            var progress = Math.Round( (double)ProgressProgress / ProgressTotal, 3 );
+
+            if ( Math.Abs( progress - Progress ) > double.Epsilon )
+            {
+                Progress = progress;
+
+                await Progressed.InvokeAsync( new FileProgressedEventArgs( fileEntry, Progress ) );
+            }
+        }
+
+        internal async Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
+        {
+            await new RemoteFileEntryStreamReader( JSRunner, ElementRef, fileEntry, this, MaxMessageSize )
+                .WriteToStreamAsync( stream, CancellationToken.None );
         }
 
         #endregion
 
         #region Properties
 
-        protected override string[] InternalValue
-        {
-            get => null;
-            set
-            {
-                // TODO
-            }
-        }
+        protected override IFileEntry[] InternalValue { get => files; set => files = value; }
+
+        protected long ProgressProgress;
+
+        protected long ProgressTotal;
+
+        protected double Progress;
+
+        /// <summary>
+        /// Gets the list is selected filename
+        /// </summary>
+        protected IEnumerable<string> SelectedFileNames => InternalValue?.Select( x => x.Name ) ?? Enumerable.Empty<string>();
 
         /// <summary>
         /// Enables the multiple file selection.
         /// </summary>
         [Parameter]
-        public bool IsMultiple
+        public bool Multiple
         {
-            get => isMultiple;
+            get => multiple;
             set
             {
-                isMultiple = value;
+                multiple = value;
 
                 DirtyClasses();
             }
@@ -85,9 +175,34 @@ namespace Blazorise
         [Parameter] public string Filter { get; set; }
 
         /// <summary>
-        /// Occurs when the file path is changed.
+        /// Gets or sets the max message size when uploading the file.
         /// </summary>
-        [Parameter] public EventCallback<string[]> PathChanged { get; set; }
+        [Parameter] public int MaxMessageSize { get; set; } = 20 * 1024;
+
+        /// <summary>
+        /// Occurs every time the selected file(s) has changed.
+        /// </summary>
+        [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
+
+        /// <summary>
+        /// Occurs when an individual file upload has started.
+        /// </summary>
+        [Parameter] public EventCallback<FileStartedEventArgs> Started { get; set; }
+
+        /// <summary>
+        /// Occurs when an individual file upload has ended.
+        /// </summary>
+        [Parameter] public EventCallback<FileEndedEventArgs> Ended { get; set; }
+
+        /// <summary>
+        /// Occurs every time the part of file has being written to the destination stream.
+        /// </summary>
+        [Parameter] public EventCallback<FileWrittenEventArgs> Written { get; set; }
+
+        /// <summary>
+        /// Notifies the progress of file being written to the destination stream.
+        /// </summary>
+        [Parameter] public EventCallback<FileProgressedEventArgs> Progressed { get; set; }
 
         #endregion
     }

@@ -25,11 +25,23 @@ namespace Blazorise.Providers
 
         public string ProgressBarValue( int value ) => null;
 
+        public string ProgressBarSize( Size size ) => null;
+
         #endregion
 
         #region Layout
 
-        public string Visibility( Visibility visibility ) => null;
+        #endregion
+
+        #region Row
+
+        public string RowGutter( (int Horizontal, int Vertical) gutter ) => null;
+
+        #endregion
+
+        #region Column
+
+        public string ColumnGutter( (int Horizontal, int Vertical) gutter ) => null;
 
         #endregion
     }

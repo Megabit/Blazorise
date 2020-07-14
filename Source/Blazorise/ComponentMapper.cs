@@ -47,7 +47,7 @@ namespace Blazorise
 
         public void Register<TComponent, TImplementation>()
             where TComponent : IComponent
-            where TImplementation : IComponent
+            where TImplementation : TComponent
         {
             Register( typeof( TComponent ), typeof( TImplementation ) );
         }
@@ -57,6 +57,14 @@ namespace Blazorise
             if ( !components.ContainsKey( component ) )
             {
                 components.Add( component, implementation );
+            }
+        }
+
+        public void Replace( Type component, Type implementation )
+        {
+            if ( components.ContainsKey( component ) )
+            {
+                components[component] = implementation;
             }
         }
 

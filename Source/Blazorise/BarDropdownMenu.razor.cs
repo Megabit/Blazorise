@@ -3,18 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public class BaseBarDropdownMenu : BaseComponent
+    public partial class BarDropdownMenu : BaseComponent
     {
         #region Members
 
-        private bool isOpen;
+        private bool rightAligned;
 
-        private bool isRightAligned;
+        private BarDropdownStore parentStore;
 
         #endregion
 
@@ -22,56 +23,43 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownMenu() );
-            builder.Append( ClassProvider.BarDropdownMenuShow(), IsOpen );
-            builder.Append( ClassProvider.BarDropdownMenuRight(), IsRightAligned );
+            builder.Append( ClassProvider.BarDropdownMenu( ParentStore.Mode ) );
+            builder.Append( ClassProvider.BarDropdownMenuVisible( ParentStore.Mode, ParentStore.Visible && ParentStore.Mode != BarMode.VerticalSmall ) );
+            builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), RightAligned );
 
             base.BuildClasses( builder );
-        }
-
-        protected override void OnInitialized()
-        {
-            // link to the parent component
-            BarDropdown?.Hook( this );
-
-            base.OnInitialized();
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Handles the visibility of dropdown menu.
-        /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool RightAligned
         {
-            get => isOpen;
+            get => rightAligned;
             set
             {
-                isOpen = value;
+                rightAligned = value;
 
                 DirtyClasses();
             }
         }
 
-        /// <summary>
-        /// Right aligned dropdown menu.
-        /// </summary>
-        [Parameter]
-        public bool IsRightAligned
+        [CascadingParameter]
+        protected BarDropdownStore ParentStore
         {
-            get => isRightAligned;
+            get => parentStore;
             set
             {
-                isRightAligned = value;
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
 
                 DirtyClasses();
             }
         }
-
-        [CascadingParameter] public BaseBarDropdown BarDropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseAddon : BaseComponent
+    public partial class Addon : BaseComponent
     {
         #region Members
 

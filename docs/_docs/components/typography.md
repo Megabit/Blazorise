@@ -54,10 +54,10 @@ Block of text separated from adjacent blocks by blank lines and/or first-line in
 ## Display Headings
 
 ```html
-<DisplayHeading Size="DisplayHeadingSize.Is1">Display 1</Heading>
-<DisplayHeading Size="DisplayHeadingSize.Is2">Display 2</Heading>
-<DisplayHeading Size="DisplayHeadingSize.Is3">Display 3</Heading>
-<DisplayHeading Size="DisplayHeadingSize.Is4">Display 4</Heading>
+<DisplayHeading Size="DisplayHeadingSize.Is1">Display 1</DisplayHeading>
+<DisplayHeading Size="DisplayHeadingSize.Is2">Display 2</DisplayHeading>
+<DisplayHeading Size="DisplayHeadingSize.Is3">Display 3</DisplayHeading>
+<DisplayHeading Size="DisplayHeadingSize.Is4">Display 4</DisplayHeading>
 ```
 
 <iframe src="/examples/typography/displayheading/" frameborder="0" scrolling="no" style="width:100%;height:420px;"></iframe>
@@ -72,7 +72,7 @@ Block of text separated from adjacent blocks by blank lines and/or first-line in
 | Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
 | Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
 | Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### Paragraph
 
@@ -82,7 +82,7 @@ Block of text separated from adjacent blocks by blank lines and/or first-line in
 | Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
 | Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
 | Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### Heading
 

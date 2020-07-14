@@ -1,7 +1,9 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Blazorise.Utils;
 #endregion
 
 namespace Blazorise.Charts
@@ -37,7 +39,6 @@ namespace Blazorise.Charts
     [DataContract]
     public class ChartDataset<T>
     {
-
         public ChartDataset() { }
 
         protected ChartDataset(
@@ -69,13 +70,13 @@ namespace Blazorise.Charts
         ///List of background colors for each of the data items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> BackgroundColor { get; set; }
+        public object BackgroundColor { get; set; }
 
         /// <summary>
         /// List of border colors for each of the data items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> BorderColor { get; set; }
+        public object BorderColor { get; set; }
 
         /// <summary>
         /// Defines the border width.
@@ -163,6 +164,12 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public bool SteppedLine { get; set; }
+
+        /// <summary>
+        /// https://www.chartjs.org/docs/latest/charts/line.html#cubicinterpolationmode
+        /// </summary>
+        [DataMember]
+        public string CubicInterpolationMode { get; set; } = "default";
     }
 
     /// <remarks>
@@ -355,6 +362,26 @@ namespace Blazorise.Charts
         /// <param name="alpha"></param>
         /// <returns></returns>
         public static ChartColor FromRgba( byte red, byte green, byte blue, float alpha ) => new ChartColor( red, green, blue, alpha );
+
+        /// <summary>
+        /// Creates a new color based on the supplied HTML color code.
+        /// </summary>
+        /// <param name="code">The HTML color code to parse</param>
+        /// <returns><see cref="ChartColor"/></returns>
+        public static ChartColor FromHtmlColorCode( string code )
+        {
+            if ( code == null )
+            {
+                throw new ArgumentNullException( nameof( code ) );
+            }
+
+            if ( HtmlColorCodeParser.TryParse( code, out var red, out var green, out var blue ) )
+            {
+                return new ChartColor( red, green, blue );
+            }
+
+            throw new ArgumentException( $"The \"{code}\" doesn't represent a valid HTML color code.", nameof( code ) );
+        }
 
         /// <summary>
         /// Converts the color to the js function call.

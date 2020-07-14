@@ -1,10 +1,12 @@
-﻿@inherits Blazorise.BaseTabsContent
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
-        <div class="@ClassNames" @attributes="@Attributes">
-            @ChildContent
-        </div>
+        <CascadingValue Value="@store">
+            <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @ChildContent
+            </div>
+        </CascadingValue>
     </CascadingValue>
 }
 else

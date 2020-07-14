@@ -1,0 +1,29 @@
+﻿@import "variables";
+
+@each $name, $value in $theme-colors {
+    $color: $value;
+
+    .custom-switch {
+        .custom-control-input {
+            &:checked {
+                &.custom-control-input-#{$name} ~ .custom-control-label::after {
+                    background-color: $color;
+                }
+
+                &.custom-control-input-#{$name} ~ .custom-control-track {
+                    background-color: rgba($color,.25);
+                }
+            }
+
+            &:disabled {
+                &.custom-control-input-#{$name} ~ .custom-control-label::after {
+                    background-color: #bdbdbd;
+                }
+
+                &.custom-control-input-#{$name} ~ .custom-control-track {
+                    background-color: rgba(#bdbdbd,.25);
+                }
+            }
+        }
+    }
+}

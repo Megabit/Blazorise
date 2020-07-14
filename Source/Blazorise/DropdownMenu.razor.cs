@@ -3,18 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseDropdownMenu : BaseComponent
+    public partial class DropdownMenu : BaseComponent
     {
         #region Members
 
-        private bool isOpen;
-
-        private bool isRightAligned;
+        private DropdownStore parentDropdownStore;
 
         #endregion
 
@@ -23,55 +22,32 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DropdownMenu() );
-            builder.Append( ClassProvider.DropdownMenuShow(), IsOpen );
-            builder.Append( ClassProvider.DropdownMenuRight(), IsRightAligned );
+            builder.Append( ClassProvider.DropdownMenuVisible( ParentDropdownStore.Visible ) );
+            builder.Append( ClassProvider.DropdownMenuRight(), ParentDropdownStore.RightAligned );
 
             base.BuildClasses( builder );
-        }
-
-        protected override void OnInitialized()
-        {
-            // link to the parent component
-            Dropdown?.Hook( this );
-
-            base.OnInitialized();
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Handles the visibility of dropdown menu.
-        /// </summary>
-        [Parameter]
-        public bool IsOpen
+        [CascadingParameter]
+        protected DropdownStore ParentDropdownStore
         {
-            get => isOpen;
+            get => parentDropdownStore;
             set
             {
-                isOpen = value;
+                if ( parentDropdownStore == value )
+                    return;
+
+                parentDropdownStore = value;
 
                 DirtyClasses();
             }
         }
 
-        /// <summary>
-        /// Right aligned dropdown menu.
-        /// </summary>
-        [Parameter]
-        public bool IsRightAligned
-        {
-            get => isRightAligned;
-            set
-            {
-                isRightAligned = value;
-
-                DirtyClasses();
-            }
-        }
-
-        [CascadingParameter] public BaseDropdown Dropdown { get; set; }
+        [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

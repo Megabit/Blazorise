@@ -3,14 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseBarBrand : BaseComponent
+    public partial class BarBrand : BaseComponent
     {
         #region Members
+
+        private BarStore parentStore;
 
         #endregion
 
@@ -18,7 +21,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarBrand() );
+            builder.Append( ClassProvider.BarBrand( ParentStore.Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -26,6 +29,21 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        [CascadingParameter] 
+        protected BarStore ParentStore
+        {
+            get => parentStore;
+            set
+            {
+                if ( parentStore == value )
+                    return;
+                
+                parentStore = value;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

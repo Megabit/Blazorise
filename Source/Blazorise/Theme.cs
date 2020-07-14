@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 #endregion
 
 namespace Blazorise
@@ -13,6 +12,14 @@ namespace Blazorise
     /// </summary>
     public class Theme
     {
+        /// <summary>
+        /// Globaly enable or disable the theme.
+        /// </summary>
+        public bool Enabled { get; set; } = true;
+
+        /// <summary>
+        /// Event raised after the theme options has changed.
+        /// </summary>
         public event EventHandler<EventArgs> Changed;
 
         /// <summary>
@@ -28,6 +35,11 @@ namespace Blazorise
         public string Black { get; set; } = "#343a40";
 
         /// <summary>
+        /// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+        /// </summary>
+        public byte LuminanceThreshold { get; set; } = 150;
+
+        /// <summary>
         /// Enables the gradient background colors.
         /// </summary>
         public bool IsGradient { get; set; } = false;
@@ -36,6 +48,18 @@ namespace Blazorise
         /// Globaly enables rounded elements.
         /// </summary>
         public bool IsRounded { get; set; } = true;
+
+        /// <summary>
+        /// Gets the valid breakpoints.
+        /// </summary>
+        public IEnumerable<(string name, string color)> ValidBreakpoints
+            => BreakpointOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+
+        /// <summary>
+        /// Gets the valid sizes for container.
+        /// </summary>
+        public IEnumerable<(string name, string color)> ValidContainerMaxWidths
+            => ContainerMaxWidthOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
         /// Gets the valid variant colors.
@@ -50,6 +74,22 @@ namespace Blazorise
             => BackgroundOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
+        /// Gets the valid text colors.
+        /// </summary>
+        public IEnumerable<(string name, string color)> ValidTextColors
+            => TextColorOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
+
+        /// <summary>
+        /// Global options for media breakpoints.
+        /// </summary>
+        public ThemeBreakpointOptions BreakpointOptions { get; set; }
+
+        /// <summary>
+        /// Define the maximum width of container for different screen sizes.
+        /// </summary>
+        public ThemeContanerMaxWidthOptions ContainerMaxWidthOptions { get; set; }
+
+        /// <summary>
         /// Used to override default theme colors.
         /// </summary>
         public ThemeColorOptions ColorOptions { get; set; }
@@ -58,6 +98,16 @@ namespace Blazorise
         /// Used to override default background colors.
         /// </summary>
         public ThemeBackgroundOptions BackgroundOptions { get; set; }
+
+        /// <summary>
+        /// Used to override default background colors.
+        /// </summary>
+        public ThemeTextColorOptions TextColorOptions { get; set; }
+
+        /// <summary>
+        /// Set a specific jump point for requesting color jumps
+        /// </summary>
+        public float ThemeColorInterval { get; set; } = 8f;
 
         /// <summary>
         /// Overrides the button styles.
@@ -84,6 +134,8 @@ namespace Blazorise
 
         public ThemeBadgeOptions BadgeOptions { get; set; }
 
+        public ThemeSwitchOptions SwitchOptions { get; set; }
+
         public ThemePaginationOptions PaginationOptions { get; set; }
 
         public ThemeSidebarOptions SidebarOptions { get; set; }
@@ -91,6 +143,10 @@ namespace Blazorise
         public ThemeSnackbarOptions SnackbarOptions { get; set; }
 
         public ThemeBarOptions BarOptions { get; set; }
+
+        public ThemeDividerOptions DividerOptions { get; set; }
+
+        public ThemeTooltipOptions TooltipOptions { get; set; }
     }
 
     public class BasicOptions
@@ -103,6 +159,72 @@ namespace Blazorise
         }
     }
 
+    public class ThemeBreakpointOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    {
+        private Dictionary<string, Func<string>> breakpointMap => new Dictionary<string, Func<string>> {
+            { "mobile", () => Mobile },
+            { "tablet", () => Tablet },
+            { "desktop", () => Desktop },
+            { "widescreen", () => Widescreen },
+            { "fullhd", () => FullHD },
+        };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        public Func<string> this[string key] => breakpointMap[key];
+
+        public string Mobile { get; set; } = "576px";
+
+        public string Tablet { get; set; } = "768px";
+
+        public string Desktop { get; set; } = "992px";
+
+        public string Widescreen { get; set; } = "1200px";
+
+        public string FullHD { get; set; } = "1400px";
+    }
+
+    public class ThemeContanerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    {
+        private Dictionary<string, Func<string>> breakpointMap => new Dictionary<string, Func<string>> {
+            { "mobile", () => Mobile },
+            { "tablet", () => Tablet },
+            { "desktop", () => Desktop },
+            { "widescreen", () => Widescreen },
+            { "fullhd", () => FullHD },
+        };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return breakpointMap.GetEnumerator();
+        }
+
+        public Func<string> this[string key] => breakpointMap[key];
+
+        public string Mobile { get; set; } = "540px";
+
+        public string Tablet { get; set; } = "720px";
+
+        public string Desktop { get; set; } = "960px";
+
+        public string Widescreen { get; set; } = "1140px";
+
+        public string FullHD { get; set; } = "1320px";
+    }
+
     public class ThemeButtonOptions : BasicOptions
     {
         public string Padding { get; set; }
@@ -113,13 +235,13 @@ namespace Blazorise
 
         public byte BoxShadowTransparency { get; set; } = 127;
 
-        public float HoverDarkenColor { get; set; } = 7.5f;
+        public float HoverDarkenColor { get; set; } = 15f;
 
-        public float HoverLightenColor { get; set; } = 10f;
+        public float HoverLightenColor { get; set; } = 20f;
 
-        public float ActiveDarkenColor { get; set; } = 10f;
+        public float ActiveDarkenColor { get; set; } = 20f;
 
-        public float ActiveLightenColor { get; set; } = 12.5f;
+        public float ActiveLightenColor { get; set; } = 25f;
 
         public string LargeBorderRadius { get; set; } = ".3rem";
 
@@ -131,6 +253,8 @@ namespace Blazorise
     public class ThemeDropdownOptions : BasicOptions
     {
         public float GradientBlendPercentage { get; set; } = 15f;
+
+        public bool ToggleIconVisible { get; set; } = true;
     }
 
     public class ThemeInputOptions : BasicOptions
@@ -139,10 +263,13 @@ namespace Blazorise
 
         public string CheckColor { get; set; }
 
+        public string SliderColor { get; set; }
+
         public override bool HasOptions()
         {
             return !string.IsNullOrEmpty( Color )
                 || !string.IsNullOrEmpty( CheckColor )
+                || !string.IsNullOrEmpty( SliderColor )
                 || base.HasOptions();
         }
     }
@@ -150,6 +277,10 @@ namespace Blazorise
     public class ThemeCardOptions : BasicOptions
     {
         public string ImageTopRadius { get; set; } = "calc(.25rem - 1px)";
+    }
+
+    public class ThemeJumbotronOptions : BasicOptions
+    {
     }
 
     public class ThemeModalOptions : BasicOptions
@@ -168,7 +299,7 @@ namespace Blazorise
     {
         public int BackgroundLevel { get; set; } = -10;
 
-        public int BorderLevel { get; set; } = -9;
+        public int BorderLevel { get; set; } = -7;
 
         public int ColorLevel { get; set; } = 6;
 
@@ -184,10 +315,18 @@ namespace Blazorise
 
     public class ThemeBreadcrumbOptions : BasicOptions
     {
+        public string Color { get; set; } = ThemeColors.Blue.Shades["400"].Value;
     }
 
     public class ThemeBadgeOptions : BasicOptions
     {
+    }
+
+    public class ThemeSwitchOptions : BasicOptions
+    {
+        public float BoxShadowLightenColor { get; set; } = 25;
+
+        public float DisabledLightenColor { get; set; } = 50;
     }
 
     public class ThemePaginationOptions : BasicOptions
@@ -197,6 +336,83 @@ namespace Blazorise
 
     public class ThemeBarOptions
     {
+        public string VerticalWidth { get; set; } = "220px";
+
+        public string VerticalSmallWidth { get; set; } = "64px";
+
+        public string VerticalBrandHeight { get; set; } = "64px";
+
+        public ThemeBarColorOptions DarkColors { get; set; }
+
+        public ThemeBarColorOptions LightColors { get; set; }
+    }
+
+    public class ThemeBarColorOptions
+    {
+        public string BackgroundColor { get; set; }
+
+        public string Color { get; set; }
+
+        public ThemeBarItemColorOptions ItemColorOptions { get; set; }
+
+        public ThemeBarDropdownColorOptions DropdownColorOptions { get; set; }
+
+        public ThemeBarBrandColorOptions BrandColorOptions { get; set; }
+    }
+
+    public class ThemeBarItemColorOptions
+    {
+        public string ActiveBackgroundColor { get; set; }
+
+        public string ActiveColor { get; set; }
+
+        public string HoverBackgroundColor { get; set; }
+
+        public string HoverColor { get; set; }
+    }
+
+    public class ThemeBarDropdownColorOptions
+    {
+        public string BackgroundColor { get; set; }
+    }
+
+    public class ThemeBarBrandColorOptions
+    {
+        public string BackgroundColor { get; set; }
+    }
+
+    public class ThemeDividerOptions
+    {
+        public string Color { get; set; } = "#999999";
+
+        public string Thickness { get; set; } = "2px";
+
+        public string TextSize { get; set; } = ".85rem";
+
+        public DividerType? DividerType { get; set; } = Blazorise.DividerType.Solid;
+    }
+
+    public class ThemeParagraphOptions
+    {
+    }
+
+    public class ThemeTooltipOptions : BasicOptions
+    {
+        public string BackgroundColor { get; set; } = "#808080";
+
+        public float? BackgroundOpacity { get; set; } = 90f;
+
+        public string Color { get; set; } = "#ffffff";
+
+        public string FontSize { get; set; } = ".875rem";
+
+        public string FadeTime { get; set; } = "0.3s";
+
+        public string MaxWidth { get; set; } = "15rem";
+
+        public string Padding { get; set; } = ".5rem 1rem";
+
+        public string ZIndex { get; set; } = "1020";
     }
 
     public class ThemeColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
@@ -299,20 +515,106 @@ namespace Blazorise
         public string Muted { get; set; }
     }
 
+    public class ThemeTextColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    {
+        private Dictionary<string, Func<string>> colorMap => new Dictionary<string, Func<string>> {
+            { "primary", () => Primary },
+            { "secondary", () => Secondary },
+            { "success", () => Success },
+            { "info", () => Info },
+            { "warning", () => Warning },
+            { "danger", () => Danger },
+            { "light", () => Light },
+            { "dark", () => Dark },
+            { "body", () => Body },
+            { "muted", () => Muted },
+            { "white", () => White },
+            { "black50", () => Black50 },
+            { "white50", () => White50 },
+        };
+
+        public IEnumerator<KeyValuePair<string, Func<string>>> GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return colorMap.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the color handler associated with the specified color key.
+        /// </summary>
+        /// <param name="key">Color key</param>
+        /// <returns>Return the color getter.</returns>
+        public Func<string> this[string key] => colorMap[key];
+
+        public string Primary { get; set; } = ThemeColors.Blue.Shades["400"].Value;
+
+        public string Secondary { get; set; } = ThemeColors.Gray.Shades["600"].Value;
+
+        public string Success { get; set; } = ThemeColors.Green.Shades["500"].Value;
+
+        public string Info { get; set; } = ThemeColors.Cyan.Shades["500"].Value;
+
+        public string Warning { get; set; } = ThemeColors.Yellow.Shades["500"].Value;
+
+        public string Danger { get; set; } = ThemeColors.Red.Shades["500"].Value;
+
+        public string Light { get; set; } = ThemeColors.Gray.Shades["100"].Value;
+
+        public string Dark { get; set; } = ThemeColors.Gray.Shades["800"].Value;
+
+        public string Body { get; set; } = ThemeColors.Gray.Shades["900"].Value;
+
+        public string Muted { get; set; } = ThemeColors.Gray.Shades["600"].Value;
+
+        public string White { get; set; } = ThemeColors.Gray.Shades["50"].Value;
+
+        public string Black50 { get; set; } = "#000000";
+
+        public string White50 { get; set; } = "#FFFFFF";
+    }
+
     public class ThemeSidebarOptions
     {
-        public string BackgroundColor { get; set; }
+        public string Width { get; set; } = "220px";
 
-        public string Color { get; set; }
+        public string BackgroundColor { get; set; } = "#343a40";
+
+        public string Color { get; set; } = "#ced4da";
     }
 
     public class ThemeSnackbarOptions
     {
+        /// <summary>
+        /// Default snackbar color.
+        /// </summary>
         public string BackgroundColor { get; set; }
 
+        /// <summary>
+        /// Default text color.
+        /// </summary>
+        public string TextColor { get; set; }
+
+        /// <summary>
+        /// Default button color.
+        /// </summary>
         public string ButtonColor { get; set; }
 
+        /// <summary>
+        /// Default button hover color.
+        /// </summary>
         public string ButtonHoverColor { get; set; }
+
+        public int VariantBackgroundColorLevel { get; set; } = -3;
+
+        //public int VariantTextColorLevel { get; set; } = 6;
+
+        //public int VariantButtonColorLevel { get; set; } = 8;
+
+        //public int VariantButtonHoverColorLevel { get; set; } = 4;
     }
 
     public static class ThemeVariables
@@ -332,6 +634,13 @@ namespace Blazorise
         public static string Color( string variant ) => $"--b-theme-{variant}";
 
         /// <summary>
+        /// Gets the breakpoint variable name.
+        /// </summary>
+        /// <param name="name">Breakpoint name.</param>
+        /// <returns></returns>
+        public static string Breakpoint( string name ) => $"--b-theme-breakpoint-{name}";
+
+        /// <summary>
         /// Gets the theme background color variable name.
         /// </summary>
         /// <param name="variant">Color variant name.</param>
@@ -339,7 +648,9 @@ namespace Blazorise
         public static string BackgroundColor( string variant ) => $"--b-theme-background-{variant}";
         public static string BackgroundYiqColor( string variant ) => $"--b-theme-background-{variant}-yiq";
 
-        public static string ButtonBackgrund( string variant ) => $"--b-button-{variant}-background";
+        public static string TextColor( string variant ) => $"--b-theme-text-{variant}";
+
+        public static string ButtonBackground( string variant ) => $"--b-button-{variant}-background";
         public static string ButtonBorder( string variant ) => $"--b-button-{variant}-border";
         public static string ButtonHoverBackground( string variant ) => $"--b-button-{variant}-hover-background";
         public static string ButtonHoverBorder( string variant ) => $"--b-button-{variant}-hover-border";
@@ -353,13 +664,57 @@ namespace Blazorise
         public static string OutlineButtonColor( string variant ) => $"--b-outline-button-{variant}-color";
         public static string OutlineButtonYiqColor( string variant ) => $"--b-outline-button-{variant}-yiq-shadow";
         public static string OutlineButtonBoxShadowColor( string variant ) => $"--b-outline-button-{variant}-box-shadow";
+        public static string OutlineButtonHoverColor( string variant ) => $"--b-outline-button-{variant}-hover-color";
+        public static string OutlineButtonActiveColor( string variant ) => $"--b-outline-button-{variant}-active-color";
 
+        public const string SidebarWidth = "--b-sidebar-width";
         public const string SidebarBackground = "--b-sidebar-background";
         public const string SidebarColor = "--b-sidebar-color";
 
+        public const string VerticalBarWidth = "--b-vertical-bar-width";
+        public const string VerticalBarSmallWidth = "--b-vertical-bar-small-width";
+        public const string VerticalBarBrandHeight = "--b-vertical-bar-brand-height";
+
+        public const string BarDarkBackground = "--b-bar-dark-background";
+        public const string BarDarkColor = "--b-bar-dark-color";
+        public const string BarItemDarkActiveBackground = "--b-bar-item-dark-active-background";
+        public const string BarItemDarkActiveColor = "--b-bar-item-dark-active-color";
+        public const string BarItemDarkHoverBackground = "--b-bar-item-dark-hover-background";
+        public const string BarItemDarkHoverColor = "--b-bar-item-dark-hover-color";
+        public const string BarDropdownDarkBackground = "--b-bar-dropdown-dark-background";
+        public const string BarBrandDarkBackground = "--b-bar-brand-dark-background";
+
+        public const string BarLightBackground = "--b-bar-light-background";
+        public const string BarLightColor = "--b-bar-light-color";
+        public const string BarItemLightActiveBackground = "--b-bar-item-light-active-background";
+        public const string BarItemLightActiveColor = "--b-bar-item-light-active-color";
+        public const string BarItemLightHoverBackground = "--b-bar-item-light-hover-background";
+        public const string BarItemLightHoverColor = "--b-bar-item-light-hover-color";
+        public const string BarDropdownLightBackground = "--b-bar-dropdown-light-background";
+        public const string BarBrandLightBackground = "--b-bar-brand-light-background";
+
         public const string SnackbarBackground = "--b-snackbar-background";
-        public const string SnackbarButtonColor = "--b-snackbar-button-color";
-        public const string SnackbarButtonHoverColor = "--b-snackbar-button-hover-color";
+        public const string SnackbarTextColor = "--b-snackbar-text";
+        public const string SnackbarButtonColor = "--b-snackbar-button";
+        public const string SnackbarButtonHoverColor = "--b-snackbar-button-hover";
+
+        public const string DividerColor = "--b-divider-color";
+        public const string DividerThickness = "--b-divider-thickness";
+        public const string DividerTextSize = "--b-divider-font-size";
+
+        public const string TooltipBackgroundColorR = "--b-tooltip-background-color-r";
+        public const string TooltipBackgroundColorG = "--b-tooltip-background-color-g";
+        public const string TooltipBackgroundColorB = "--b-tooltip-background-color-b";
+        public const string TooltipBackgroundOpacity = "--b-tooltip-background-opacity";
+        public const string TooltipColor = "--b-tooltip-color";
+        public const string TooltipFontSize = "--b-tooltip-font-size";
+        public const string TooltipBorderRadius = "--b-tooltip-border-radius";
+        public const string TooltipFadeTime = "--b-tooltip-fade-time";
+        public const string TooltipMaxWidth = "--b-tooltip-maxwidth";
+        public const string TooltipPadding = "--b-tooltip-padding";
+        public const string TooltipZIndex = "--b-tooltip-z-index";
+
+        public const string BreadcrumbColor = "--b-breadcrumb-color";
     }
 
     /// <summary>

@@ -3,18 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BasePaginationItem : BaseComponent
+    public partial class PaginationItem : BaseComponent
     {
         #region Members
 
-        private bool isActive;
-
-        private bool isDisabled;
+        private PaginationItemStore store = new PaginationItemStore();
 
         #endregion
 
@@ -23,8 +22,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.PaginationItem() );
-            builder.Append( ClassProvider.PaginationItemActive(), IsActive );
-            builder.Append( ClassProvider.Disabled(), IsDisabled );
+            builder.Append( ClassProvider.PaginationItemActive(), Active );
+            builder.Append( ClassProvider.PaginationItemDisabled(), Disabled );
 
             base.BuildClasses( builder );
         }
@@ -37,12 +36,12 @@ namespace Blazorise
         /// Indicate the currently active page.
         /// </summary>
         [Parameter]
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
+            get => store.Active;
             set
             {
-                isActive = value;
+                store.Active = value;
 
                 DirtyClasses();
             }
@@ -52,12 +51,12 @@ namespace Blazorise
         /// Used for links that appear un-clickable.
         /// </summary>
         [Parameter]
-        public bool IsDisabled
+        public bool Disabled
         {
-            get => isDisabled;
+            get => store.Disabled;
             set
             {
-                isDisabled = value;
+                store.Disabled = value;
 
                 DirtyClasses();
             }

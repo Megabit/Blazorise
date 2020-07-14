@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseThemeProvider : ComponentBase, IDisposable
+    public partial class ThemeProvider : ComponentBase, IDisposable
     {
         #region Members
 
@@ -29,6 +29,9 @@ namespace Blazorise
 
         public string GetVariablesTag()
         {
+            if ( !theme?.Enabled == true )
+                return null;
+
             var sb = new StringBuilder();
 
             sb.AppendLine( "<style>" );
@@ -45,6 +48,9 @@ namespace Blazorise
 
         public string GetStylesTag()
         {
+            if ( !theme?.Enabled == true )
+                return null;
+
             var sb = new StringBuilder();
 
             sb.AppendLine( $"<style type=\"text/css\" scoped>" );

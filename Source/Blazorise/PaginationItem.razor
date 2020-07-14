@@ -1,8 +1,8 @@
-﻿@inherits Blazorise.BasePaginationItem
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <CascadingValue Value=this>
-        <li class="@ClassNames" @attributes="@Attributes">
+    <CascadingValue Value="@store" >
+        <li class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </li>
     </CascadingValue>

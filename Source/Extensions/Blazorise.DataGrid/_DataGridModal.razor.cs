@@ -12,11 +12,15 @@ namespace Blazorise.DataGrid
     {
         [Parameter] public TItem EditItem { get; set; }
 
-        [Parameter] public IEnumerable<BaseDataGridColumn<TItem>> Columns { get; set; }
+        [Parameter] public RenderFragment<PopupTitleContext<TItem>> TitleTemplate { get; set; }
+
+        [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
         [Parameter] public IReadOnlyDictionary<string, CellEditContext> EditItemCellValues { get; set; }
 
         [Parameter] public bool PopupVisible { get; set; }
+
+        [Parameter] public ModalSize PopupSize { get; set; }
 
         [Parameter] public DataGridEditState EditState { get; set; }
 
@@ -24,6 +28,6 @@ namespace Blazorise.DataGrid
 
         [Parameter] public EventCallback Cancel { get; set; }
 
-        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
+        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
     }
 }

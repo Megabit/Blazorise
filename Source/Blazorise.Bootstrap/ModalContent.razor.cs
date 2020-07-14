@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 #endregion
 
-namespace Blazorise.Bootstrap.BootstrapBase
+namespace Blazorise.Bootstrap
 {
-    public abstract class BaseBootstrapModalContent : BaseModalContent
+    public partial class ModalContent : Blazorise.ModalContent
     {
         #region Members
 
@@ -15,7 +15,7 @@ namespace Blazorise.Bootstrap.BootstrapBase
 
         #region Constructors
 
-        public BaseBootstrapModalContent()
+        public ModalContent()
         {
             DialogClassBuilder = new ClassBuilder( BuildDialogClasses );
         }
@@ -33,8 +33,10 @@ namespace Blazorise.Bootstrap.BootstrapBase
 
         private void BuildDialogClasses( ClassBuilder builder )
         {
-            builder.Append( $"modal-dialog {ClassProvider.ToModalSize( Size )}" );
-            builder.Append( ClassProvider.ModalContentCentered(), IsCentered );
+            builder.Append( $"modal-dialog" );
+            builder.Append( $"modal-{ClassProvider.ToModalSize( Size )}", Size != ModalSize.Default );
+
+            builder.Append( ClassProvider.ModalContentCentered(), Centered );
         }
 
         #endregion

@@ -3,20 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseBarDropdown : BaseComponent
+    public partial class BarDropdown : BaseComponent
     {
         #region Members
 
-        private bool isOpen;
+        private BarItemStore parentStore;
 
-        private BaseBarDropdownMenu barDropdownMenu;
-
-        private BaseBarDropdownToggle barDropdownToggler;
+        private BarDropdownStore store;
 
         #endregion
 
@@ -24,64 +23,52 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdown() );
-            builder.Append( ClassProvider.BarDropdownShow(), IsOpen );
+            builder.Append( ClassProvider.BarDropdown( Store.Mode ) );
+            builder.Append( ClassProvider.BarDropdownShow( Store.Mode ), Store.Visible && Store.Mode != BarMode.VerticalSmall );
 
             base.BuildClasses( builder );
         }
 
-        protected override void OnInitialized()
+        protected override Task OnInitializedAsync()
         {
             // link to the parent component
-            BarItem?.Hook( this );
+            ParentBarItem?.Hook( this );
 
-            base.OnInitialized();
+            return base.OnInitializedAsync();
         }
 
-        internal void Hook( BaseBarDropdownMenu barDropdownMenu )
+        public override Task SetParametersAsync( ParameterView parameters )
         {
-            this.barDropdownMenu = barDropdownMenu;
+            // This is needed for the two-way binding to work properly.
+            // Otherwise the internal value would not be set in the right order.
+            if ( parameters.TryGetValue<bool>( nameof( Visible ), out var newVisible ) )
+            {
+                store.Visible = newVisible;
+            }
+
+            return base.SetParametersAsync( parameters );
         }
 
-        internal void Hook( BaseBarDropdownToggle barDropdownToggler )
+        internal void Show()
         {
-            this.barDropdownToggler = barDropdownToggler;
-        }
-
-        public void Open()
-        {
-            var temp = IsOpen;
-
-            IsOpen = true;
-
-            if ( temp != IsOpen ) // used to prevent toggle event call if Open() is called multiple times
-                Toggled?.Invoke( IsOpen );
-
-            BarItem?.MenuChanged();
+            Visible = true;
 
             StateHasChanged();
         }
 
-        public void Close()
+        internal void Hide()
         {
-            var temp = IsOpen;
-
-            IsOpen = false;
-
-            if ( temp != IsOpen ) // used to prevent toggle event call if Close() is called multiple times
-                Toggled?.Invoke( IsOpen );
-
-            BarItem?.MenuChanged();
+            Visible = false;
 
             StateHasChanged();
         }
 
-        public void Toggle()
+        internal void Toggle()
         {
-            IsOpen = !IsOpen;
-            Toggled?.Invoke( IsOpen );
+            if ( Store.Mode == BarMode.VerticalSmall )
+                return;
 
-            BarItem?.MenuChanged();
+            Visible = !Visible;
 
             StateHasChanged();
         }
@@ -90,27 +77,52 @@ namespace Blazorise
 
         #region Properties
 
+        protected BarDropdownStore Store => store;
+
+        /// <summary>
+        /// Sets a value indicating whether the dropdown menu and all its child controls are visible.
+        /// </summary>
         [Parameter]
-        public bool IsOpen
+        public bool Visible
         {
-            get => isOpen;
+            get => store.Visible;
             set
             {
-                isOpen = value;
+                // prevent dropdown from calling the same code multiple times
+                if ( value == store.Visible )
+                    return;
 
-                if ( barDropdownMenu != null )
-                    barDropdownMenu.IsOpen = value;
+                store.Visible = value;
 
-                if ( barDropdownToggler != null )
-                    barDropdownToggler.IsOpen = value;
+                VisibleChanged.InvokeAsync( value );
 
                 DirtyClasses();
             }
         }
 
-        [Parameter] public Action<bool> Toggled { get; set; }
+        /// <summary>
+        /// Occurs when the component visibility changes.
+        /// </summary>
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
-        [CascadingParameter] public BaseBarItem BarItem { get; set; }
+        [CascadingParameter] protected BarItem ParentBarItem { get; set; }
+
+        [CascadingParameter]
+        protected BarItemStore ParentStore
+        {
+            get => parentStore;
+            set
+            {
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
+
+                store.Mode = parentStore.Mode;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

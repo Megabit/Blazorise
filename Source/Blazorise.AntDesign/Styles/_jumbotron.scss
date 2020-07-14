@@ -1,0 +1,39 @@
+﻿.ant-hero {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: #e9ecef;
+    border-radius: 0.3rem;
+
+    @media (min-width: 768px) {
+        .ant-hero {
+            padding: 4rem 2rem;
+        }
+    }
+
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+    h1 {
+        font-weight: 300;
+    }
+
+    .ant-container {
+        max-width: 40rem;
+    }
+
+    @each $name, $value in $theme-colors {
+        $color: $value;
+        $color-invert: color-yiq($value);
+
+        &.ant-hero-#{$name} {
+            background-color: $color;
+            color: $color-invert;
+        }
+    }
+}
+
+.ant-hero-subtitle {
+    font-size: 1.25rem;
+    font-weight: 300;
+}

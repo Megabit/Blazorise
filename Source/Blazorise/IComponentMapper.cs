@@ -35,7 +35,7 @@ namespace Blazorise
         /// <typeparam name="TImplementation">Implementation component type.</typeparam>
         void Register<TComponent, TImplementation>()
             where TComponent : IComponent
-            where TImplementation : IComponent;
+            where TImplementation : TComponent;
 
         /// <summary>
         /// Registers the implementation component types to the base component.
@@ -43,6 +43,13 @@ namespace Blazorise
         /// <param name="component">Base component type.</param>
         /// <param name="implementation">Implementation component type.</param>
         void Register( Type component, Type implementation );
+
+        /// <summary>
+        /// Replaces already registered components with new custom implementation.
+        /// </summary>
+        /// <param name="component">Base component type.</param>
+        /// <param name="implementation">Implementation component type.</param>
+        void Replace( Type component, Type implementation );
 
         /// <summary>
         /// Checks if a component type has a custom registration.

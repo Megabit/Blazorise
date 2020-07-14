@@ -1,7 +1,7 @@
-﻿@inherits Blazorise.BaseTableBody
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <tbody class="@ClassNames" @attributes="@Attributes">
+    <tbody class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </tbody>
 }

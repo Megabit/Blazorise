@@ -24,7 +24,7 @@ namespace Blazorise
 
         private TextWeight textWeight = TextWeight.None;
 
-        private bool isItalic = false;
+        private bool italic = false;
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace Blazorise
             builder.Append( ClassProvider.TextAlignment( Alignment ), Alignment != TextAlignment.None );
             builder.Append( ClassProvider.TextTransform( Transform ), Transform != TextTransform.None );
             builder.Append( ClassProvider.TextWeight( Weight ), Weight != TextWeight.None );
-            builder.Append( ClassProvider.TextItalic(), IsItalic );
+            builder.Append( ClassProvider.TextItalic(), Italic );
 
             base.BuildClasses( builder );
         }
@@ -109,12 +109,12 @@ namespace Blazorise
         /// Italicize text if set to true.
         /// </summary>
         [Parameter]
-        public bool IsItalic
+        public bool Italic
         {
-            get => isItalic;
+            get => italic;
             set
             {
-                isItalic = value;
+                italic = value;
 
                 DirtyClasses();
             }

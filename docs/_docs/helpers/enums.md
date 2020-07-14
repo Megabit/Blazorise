@@ -1,9 +1,9 @@
 ---
-title: "Enums"
+title: 'Enums'
 permalink: /docs/helpers/enums/
 excerpt: "Blazorise have it's own set of enums that you can use instead of manually writing CSS class-names."
 toc: true
-toc_label: "Enums"
+toc_label: 'Enums'
 ---
 
 ## Breakpoint
@@ -177,3 +177,72 @@ Defines the display heading size.
 - `Is2` Heading 2
 - `Is3` Heading 3
 - `Is4` Heading 4
+
+## SortDirection
+
+Specifies the direction of a sort operation.
+
+- `None` No sorting will be applied.
+- `Ascending` Sorts in ascending order.
+- `Descending` Sorts in descending order.
+
+## DividerType
+
+Specifies divider variants.
+
+- `Solid`
+- `Dashed`
+- `Dotted`
+- `TextContent`
+
+## TabPosition
+
+Specifies divider variants.
+
+- `Top` Top side.
+- `Bottom` Bottom side.
+- `Left` Left side.
+- `Right` Right side.
+
+## BreadcrumbMode
+
+Defines the breadcrumb activation mode.
+
+- `None` No activation will be applied.
+- `Auto` Breadcrumb items will be activated based on current navigation.
+
+## IconStyle
+
+- `Solid`
+- `Regular`
+- `Light`
+- `DuoTone`
+
+## SnackbarLocation
+
+- `None` Default behavior.
+- `Left` Show the snackbar on the left side of the screen.
+- `Right` Show the snackbar on the right side of the screen.
+
+## ValidationMode
+
+Defines the validation execution mode.
+
+- `Auto` Validation will execute on every input change.
+- `Manual` Validation will run only when explicitly called.
+
+## BarMode
+
+Defines the style of `Bar` component
+
+- `Horizontal` - top bar
+- `VerticalPopout` - sidebar with popout `BarDropdown` menus
+- `VerticalInline` - sidebar with inline `BarDropdown` menus
+- `VerticalSmall` - sidebar with icons only, and popout `BarDropdown` menus
+
+## BarCollapseMode
+
+Defines the `Bar` state when collapsed (only works with `Vertical` bar modes)
+
+- `Hide` - collapses to be completely hidden
+- `Small` - collapse to behave like `BarMode.VerticalSmall`

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public abstract class BaseTextEdit : BaseTextInput<string>
+    public partial class TextEdit : BaseTextInput<string>
     {
         #region Members
 
@@ -38,7 +38,7 @@ namespace Blazorise
 
         protected override void Dispose( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
                 JSRunner.DestroyTextEdit( ElementRef, ElementId );
             }

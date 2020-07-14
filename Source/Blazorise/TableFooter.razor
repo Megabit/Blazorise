@@ -1,7 +1,7 @@
-﻿@inherits Blazorise.BaseTableFooter
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <tfoot class="@ClassNames" @attributes="@Attributes">
+    <tfoot class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </tfoot>
 }

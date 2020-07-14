@@ -3,17 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseBarDropdownToggle : BaseComponent, ICloseActivator
+    public partial class BarDropdownToggle : BaseComponent, ICloseActivator
     {
         #region Members
 
-        private bool isOpen;
+        private BarDropdownStore parentStore;
 
         private bool isRegistered;
 
@@ -22,14 +23,6 @@ namespace Blazorise
         #endregion
 
         #region Methods
-
-        protected override void OnInitialized()
-        {
-            // link to the parent component
-            BarDropdown?.Hook( this );
-
-            base.OnInitialized();
-        }
 
         protected override async Task OnFirstAfterRenderAsync()
         {
@@ -40,7 +33,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownToggle() );
+            builder.Append( ClassProvider.BarDropdownToggle( ParentStore.Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -54,7 +47,14 @@ namespace Blazorise
                 {
                     isRegistered = false;
 
-                    JSRunner.UnregisterClosableComponent( this );
+                    if ( Rendered )
+                    {
+                        _ = JSRunner.UnregisterClosableComponent( this );
+                    }
+                }
+
+                if ( Rendered )
+                {
                     JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
                 }
             }
@@ -62,54 +62,61 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
-            BarDropdown?.Toggle();
+            ParentBarDropdown?.Toggle();
+
+            return Task.CompletedTask;
         }
 
-        public bool SafeToClose( string elementId, bool isEscapeKey )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
         {
-            return isEscapeKey || elementId != ElementId;
+            return Task.FromResult( closeReason == CloseReason.EscapeClosing || elementId != ElementId );
         }
 
-        public void Close()
+        public Task Close( CloseReason closeReason )
         {
-            BarDropdown?.Close();
+            ParentBarDropdown?.Hide();
+
+            return Task.CompletedTask;
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Handles the visibility of dropdown toggle.
-        /// </summary>
-        [Parameter]
-        public bool IsOpen
+        [CascadingParameter]
+        public BarDropdownStore ParentStore
         {
-            get => isOpen;
+            get => parentStore;
             set
             {
-                isOpen = value;
+                if ( parentStore == value )
+                    return;
 
-                if ( isOpen )
+                parentStore = value;
+
+                if ( parentStore.Mode == BarMode.Horizontal )
                 {
-                    isRegistered = true;
+                    if ( parentStore.Visible )
+                    {
+                        isRegistered = true;
 
-                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
-                }
-                else
-                {
-                    isRegistered = false;
+                        JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                    }
+                    else
+                    {
+                        isRegistered = false;
 
-                    JSRunner.UnregisterClosableComponent( this );
+                        JSRunner.UnregisterClosableComponent( this );
+                    }
                 }
 
                 DirtyClasses();
             }
         }
 
-        [CascadingParameter] public BaseBarDropdown BarDropdown { get; set; }
+        [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

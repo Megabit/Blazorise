@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Components
 {
-    public abstract class BaseSelectList<TItem> : ComponentBase
+    public partial class SelectList<TItem> : ComponentBase
     {
         #region Members
 
@@ -22,9 +22,20 @@ namespace Blazorise.Components
             return SelectedValueChanged.InvokeAsync( value );
         }
 
+        /// <summary>
+        /// Sets focus on the input element, if it can be focused.
+        /// </summary>
+        /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
+        public void Focus( bool scrollToElement = true )
+        {
+            select.Focus( scrollToElement );
+        }
+
         #endregion
 
         #region Properties
+
+        protected Select<object> select;
 
         [Parameter] public IEnumerable<TItem> Data { get; set; }
 
@@ -35,6 +46,13 @@ namespace Blazorise.Components
         [Parameter] public object SelectedValue { get; set; }
 
         [Parameter] public EventCallback<object> SelectedValueChanged { get; set; }
+
+        [Parameter] public string Class { get; set; }
+
+        [Parameter] public string Style { get; set; }
+
+        [Parameter( CaptureUnmatchedValues = true )]
+        public Dictionary<string, object> Attributes { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

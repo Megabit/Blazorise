@@ -3,16 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseBarLink : BaseComponent
+    public partial class BarLink : BaseComponent
     {
         #region Members
 
-        private bool isDisabled;
+        private BarItemStore parentStore;
 
         #endregion
 
@@ -20,37 +21,25 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarLink() );
-            builder.Append( ClassProvider.BarLinkDisabled(), IsDisabled );
+            builder.Append( ClassProvider.BarLink( ParentStore.Mode ) );
+            builder.Append( ClassProvider.BarLinkDisabled( ParentStore.Mode ), ParentStore.Disabled );
 
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
-            Clicked?.Invoke();
+            return Clicked.InvokeAsync( null );
         }
 
         #endregion
 
         #region Properties
 
-        [Parameter]
-        public bool IsDisabled
-        {
-            get => isDisabled;
-            set
-            {
-                isDisabled = value;
-
-                DirtyClasses();
-            }
-        }
-
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] public Action Clicked { get; set; }
+        [Parameter] public EventCallback Clicked { get; set; }
 
         /// <summary>
         /// Page address.
@@ -60,6 +49,21 @@ namespace Blazorise
         [Parameter] public Match Match { get; set; } = Match.All;
 
         [Parameter] public string Title { get; set; }
+
+        [CascadingParameter]
+        protected BarItemStore ParentStore
+        {
+            get => parentStore;
+            set
+            {
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -3,18 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseTabsContent : BaseComponent
+    public partial class TabsContent : BaseComponent
     {
         #region Members
 
-        private List<BaseTabPanel> childPanels = new List<BaseTabPanel>();
+        private List<string> panels = new List<string>();
 
-        private string lastSelectePanel;
+        private TabsContentStore store = new TabsContentStore();
 
         #endregion
 
@@ -27,40 +28,52 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Hook( BaseTabPanel panel )
+        internal void Hook( string panelName )
         {
-            childPanels.Add( panel );
+            panels.Add( panelName );
         }
 
         public void SelectPanel( string panelName )
         {
-            if ( lastSelectePanel != panelName )
-            {
-                lastSelectePanel = panelName;
+            SelectedPanel = panelName;
 
-                foreach ( var child in childPanels )
-                {
-                    child.IsActive = child.Name == panelName;
-                }
-
-                // raise the panelchanged notification
-                SelectedPanelChanged?.Invoke( panelName );
-
-                // although nothing is actually changed we need to call this anyways or otherwise the rendering will not be called
-                DirtyClasses();
-
-                StateHasChanged();
-            }
+            StateHasChanged();
         }
 
         #endregion
 
         #region Properties
 
+        protected TabsContentStore Store => store;
+
+        protected int IndexOfSelectedPanel => panels.IndexOf( store.SelectedPanel );
+
+        /// <summary>
+        /// Gets or sets currently selected panel name.
+        /// </summary>
+        [Parameter]
+        public string SelectedPanel
+        {
+            get => store.SelectedPanel;
+            set
+            {
+                // prevent panels from calling the same code multiple times
+                if ( value == store.SelectedPanel )
+                    return;
+
+                store.SelectedPanel = value;
+
+                // raise the tabchanged notification
+                SelectedPanelChanged.InvokeAsync( store.SelectedPanel );
+
+                DirtyClasses();
+            }
+        }
+
         /// <summary>
         /// Occurs after the selected panel has changed.
         /// </summary>
-        [Parameter] public Action<string> SelectedPanelChanged { get; set; }
+        [Parameter] public EventCallback<string> SelectedPanelChanged { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

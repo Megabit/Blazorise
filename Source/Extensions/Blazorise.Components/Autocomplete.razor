@@ -1,7 +1,6 @@
 ﻿@typeparam TItem
-@inherits BaseAutocomplete<TItem>
-<Dropdown @ref="dropdownRef">
-    <TextEdit Text="@SelectedText" TextChanged="@HandleTextChanged" Placeholder="@Placeholder" Size="@Size" IsDisabled="@IsDisabled" KeyDown="@HandleTextKeyDown" />
+<Dropdown @ref="dropdownRef" Class="@DropdownClassNames" Style="@Style" Attributes="@Attributes" Visible="@DropdownVisible">
+    <TextEdit @ref="@textEdit" Role="TextRole.Search" Text="@SelectedText" TextChanged="@HandleTextChanged" Placeholder="@Placeholder" Size="@Size" Disabled="@Disabled" KeyDown="@HandleTextKeyDown" />
     <DropdownMenu>
         @if ( DropdownVisible )
         {
@@ -12,7 +11,7 @@
                 var text = TextField?.Invoke( item );
                 var value = ValueField?.Invoke( item );
 
-                <DropdownItem IsActive="@(i == ActiveItemIndex)" Value="@value" Clicked="@HandleDropdownItemClicked">@text</DropdownItem>
+                <DropdownItem Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@HandleDropdownItemClicked">@text</DropdownItem>
             }
         }
     </DropdownMenu>

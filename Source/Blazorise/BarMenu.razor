@@ -1,9 +1,11 @@
-﻿@inherits Blazorise.BaseBarMenu
-@if ( !HasCustomRegistration )
+﻿@inherits BaseComponent
+@if (!HasCustomRegistration)
 {
-    <div class="@ClassNames" @attributes="@Attributes">
-        @ChildContent
-    </div>
+    <CascadingValue Value="@ParentStore">
+        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </div>
+    </CascadingValue>
 }
 else
 {

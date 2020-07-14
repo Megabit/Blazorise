@@ -1,0 +1,101 @@
+﻿$border-color: $black-divider !default;
+$border-color-solid: #e1e1e1 !default;
+$border-radius: 2px !default;
+$border-width: 1px !default;
+
+$sizes: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$sizes: map-merge( ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, auto: auto ), $sizes );
+
+$spacer: 1rem !default;
+
+$spacer-xs: ($spacer * 0.25) !default;
+$spacer-sm: ($spacer * 0.5) !default;
+$spacer-lg: ($spacer * 1.5) !default;
+$spacer-xl: ($spacer * 3) !default;
+
+$spacers: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$spacers: map-merge( ( 0: 0, 1: $spacer-xs, 2: $spacer-sm, 3: $spacer, 4: $spacer-lg, 5: $spacer-xl ), $spacers );
+
+// Elevation
+// Based on https://material.google.com/what-is-material/elevation-shadows.html#elevation-shadows-elevation-android-
+
+$elevations: ( 24: (24 * 10), 16: (16 * 10), 12: (12 * 10), 8: (8 * 10), 6: (6 * 10), 4: (4 * 10), 2: (2 * 10), 1: (1 * 10) ) !default;
+
+// Shadow
+// Based on https://material.google.com/what-is-material/elevation-shadows.html#elevation-shadows-shadows
+
+$shadow-color-1: rgba(0, 0, 0, 0.14) !default;
+$shadow-color-2: rgba(0, 0, 0, 0.12) !default;
+$shadow-color-3: rgba(0, 0, 0, 0.2) !default;
+
+$shadows: ( 24: unquote('0 24px 38px 3px #{$shadow-color-1}, 0 9px 46px 8px #{$shadow-color-2}, 0 11px 15px 0 #{$shadow-color-3}'), 16: unquote('0 16px 24px 2px #{$shadow-color-1}, 0 6px 30px 5px #{$shadow-color-2}, 0 8px 10px 0 #{$shadow-color-3}'), 12: unquote('0 12px 17px 2px #{$shadow-color-1}, 0 5px 22px 4px #{$shadow-color-2}, 0 7px 8px 0 #{$shadow-color-3}'), 8: unquote('0 8px 10px 1px #{$shadow-color-1}, 0 3px 14px 3px #{$shadow-color-2}, 0 4px 15px 0 #{$shadow-color-3}'), 6: unquote('0 6px 10px 0 #{$shadow-color-1}, 0 1px 18px 0 #{$shadow-color-2}, 0 3px 5px 0 #{$shadow-color-3}'), 4: unquote('0 2px 4px 0 #{$shadow-color-1}, 0 4px 5px 0 #{$shadow-color-2}, 0 1px 10px 0 #{$shadow-color-3}'), 2: unquote('0 0 4px 0 #{$shadow-color-1}, 0 3px 4px 0 #{$shadow-color-2}, 0 1px 5px 0 #{$shadow-color-3}'), 1: unquote('0 0 2px 0 #{$shadow-color-1}, 0 2px 2px 0 #{$shadow-color-2}, 0 1px 3px 0 #{$shadow-color-3}') ) !default;
+
+// Value pair
+// Combination of elevation and shadow
+
+$elevation-shadows: ( 24: ( elevation: map-get($elevations, 24), shadow: map-get($shadows, 4) ), 16: ( elevation: map-get($elevations, 16), shadow: map-get($shadows, 6) ), 12: ( elevation: map-get($elevations, 12), shadow: map-get($shadows, 2) ), 8: ( elevation: map-get($elevations, 8), shadow: map-get($shadows, 8) ), 6: ( elevation: map-get($elevations, 6), shadow: map-get($shadows, 6) ), 4: ( elevation: map-get($elevations, 4), shadow: map-get($shadows, 4) ), 2: ( elevation: map-get($elevations, 2), shadow: map-get($shadows, 2) ), 1: ( elevation: map-get($elevations, 1), shadow: map-get($shadows, 1) ) ) !default;
+
+$transition-scale: 0.87 !default;
+
+// The movement of an element is based on https://material.google.com/motion/movement.html
+
+// Transition duration
+// Based on https://material.google.com/motion/duration-easing.html#duration-easing-common-durations
+
+$transition-duration-desktop: 0.2s !default;
+$transition-duration-desktop-complex: 0.25s !default;
+$transition-duration-desktop-entering: 0.15s !default;
+$transition-duration-desktop-leaving: 0.13s !default;
+
+$transition-duration-mobile: 0.3s !default;
+$transition-duration-mobile-complex: 0.375s !default;
+$transition-duration-mobile-entering: 0.225s !default;
+$transition-duration-mobile-leaving: 0.195s !default;
+
+$transition-duration-tablet: 0.39s !default;
+$transition-duration-tablet-complex: 0.4875s !default;
+$transition-duration-tablet-entering: 0.2925s !default;
+$transition-duration-tablet-leaving: 0.2535s !default;
+
+// Transition timing function
+// Based on https://material.google.com/motion/duration-easing.html#duration-easing-natural-easing-curves
+
+$transition-timing-function-acceleration: cubic-bezier(0.4, 0, 1, 1) !default;
+$transition-timing-function-deceleration: cubic-bezier(0, 0, 0.2, 1) !default;
+$transition-timing-function-sharp: cubic-bezier(0.4, 0, 0.6, 1) !default;
+$transition-timing-function-standard: cubic-bezier(0.4, 0, 0.2, 1) !default;
+
+$mobile: 576px;
+$tablet: 768px;
+$desktop: 992px;
+$widescreen: 1200px;
+$fullhd: 1600px;
+
+$grid-breakpoints: ( xs: $mobile, sm: $tablet, md: $desktop, lg: $widescreen, xl: $fullhd ) !default;
+
+$line-height-base: 1.428572 !default;
+
+$font-weight-medium: 500 !default;
+$font-weight-regular: 400 !default;
+$font-weight-light: 300 !default;
+
+$font-weight-base: $font-weight-regular !default;
+
+$btn-bg-active: rgba(153, 153, 153, 0.4) !default;
+$btn-bg-active-inverse: rgba(204, 204, 204, 0.25) !default;
+$btn-bg-disabled: $black-divider !default;
+$btn-bg-disabled-inverse: $white-divider !default;
+$btn-border-radius: $border-radius !default;
+$btn-block-margin-y: $spacer-xs !default;
+$btn-color: $black-primary !default;
+$btn-color-disabled: rgba(0, 0, 0, 0.26) !default;
+$btn-color-disabled-inverse: rgba(255, 255, 255, 0.3) !default;
+$btn-elevation-shadow: map-get($elevation-shadows, 2) !default;
+$btn-elevation-shadow-active: map-get($elevation-shadows, 8) !default;
+$btn-font-weight: $font-weight-medium !default;
+$btn-line-height: 1 !default;
+$btn-min-width: 5.5rem !default;
+$btn-overlay: $black-divider !default;
+$btn-overlay-inverse: $white-divider !default;

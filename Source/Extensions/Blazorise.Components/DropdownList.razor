@@ -1,7 +1,6 @@
 ﻿@typeparam TItem
-@inherits BaseDropdownList<TItem>
-<Dropdown>
-    <DropdownToggle Color="@Color">@ChildContent</DropdownToggle>
+<Dropdown @ref="@dropdown" Class="@Class" Style="@Style" Attributes="@Attributes">
+    <DropdownToggle @ref="@dropdownToggle" Color="@Color">@ChildContent</DropdownToggle>
     <DropdownMenu>
         @if ( Data != null )
         {

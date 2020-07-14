@@ -1,0 +1,13 @@
+﻿@each $name, $value in $theme-colors {
+    .bg-#{$name} {
+        background-color: $value !important;
+    }
+}
+
+.bg-white {
+    background-color: $white !important;
+}
+
+.bg-transparent {
+    background-color: transparent !important;
+}

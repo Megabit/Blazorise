@@ -1,0 +1,8 @@
+﻿@inherits Blazorise.BarStart
+<CascadingValue Value="@ParentStore">
+    @ChildContent
+    @if ( ParentStore.Mode != BarMode.Horizontal )
+    {
+        <li style="flex-grow: 1"></li>
+    }
+</CascadingValue>

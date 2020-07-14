@@ -6,12 +6,9 @@ toc: true
 toc_label: "Guide"
 ---
 
-**Warning:** Right now there are some issues when serializing dataset object to JSON. Blazor internal serializer is serializing nullable fields and when ChartJS is trying to read them it will break. There is not much I can do for now, except to always initialize all of the fields for the particular chart dataset.
+**Warning:** Right now there are some issues when serializing dataset and option objects to JSON. Blazor internal serializer is serializing nullable fields and when ChartJS is trying to read them it will break. There is not much I can do for now, except to always initialize all of the fields for the particular chart dataset.
+To overcome this limitation you can use `DataJsonString` and `OptionsJsonString` or `OptionsObject`. Keep in mind that these parameters are just a temporary feature that will be removed once the .Net Core team implements a better serializer.
 {: .notice--warning}
-
-**Update:** As of version **0.5.2** and **0.6.0-preview3** there are now two parameters for the chart components that will serve as a workaround for Blazor serializer which does not supports DataContract and DataMember attributes. The new parameters are `DataJsonString` and `OptionsJsonString` and are used to provide data and options for charts as JSON strings.
-Keep in mind that these two parameters are just a temporary feature that will be removed once the Blazor team implements a better serializer.
-{: .notice--info}
 
 ## Basics
 
@@ -22,6 +19,7 @@ Supported charts types are:
 - `Chart` default chart components, should be used only for testing(see warning)
 - `LineChart`
 - `BarChart`
+- `HorizontalBarChart`
 - `PieChart`
 - `PolarAreaChart`
 - `DoughnutChart`
@@ -42,7 +40,7 @@ Install-Package Blazorise.Charts
 Add `ChartsJS` and `blazorise.charts.js` to your index.html file.
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 <script src="_content/Blazorise.Charts/blazorise.charts.js"></script>
 ```
@@ -78,13 +76,9 @@ You should always define `TItem` data type.
 
     async Task HandleRedraw()
     {
-        lineChart.Clear();
+        await lineChart.Clear();
 
-        lineChart.AddLabel( Labels );
-
-        lineChart.AddDataSet( GetLineChartDataset() );
-
-        await lineChart.Update();
+        await lineChart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );
     }
 
     LineChartDataset<double> GetLineChartDataset()
@@ -137,6 +131,134 @@ It is possible to use `Clicked` and `Hovered` events to interact with chart. The
 }
 ```
 
+## Third-party Plugins
+
+### Streaming
+
+Live streaming is made possible with the help of [chartjs-plugin-streaming](https://nagix.github.io/chartjs-plugin-streaming/).
+
+#### Installation
+
+To use live streaming charts you need to first install it from NuGet:
+
+```
+Install-Package Blazorise.Charts.Streaming
+```
+
+The next step is to add necessary files to the _index.html_ or __Host.cshtml_ file.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0"></script>
+
+<script src="_content/Blazorise.Charts/blazorise.charts.js"></script>
+<script src="_content/Blazorise.Charts.Streaming/blazorise.charts.streaming.js"></script>
+```
+
+#### Usage
+
+```html
+<LineChart @ref="horizontalLineChart" TItem="LiveDataPoint" OptionsObject="@horizontalLineChartOptions">
+    <ChartStreaming TItem="LiveDataPoint"
+                    Options="new ChartStreamingOptions { Delay = 2000 }"
+                    Refreshed="@OnHorizontalLineRefreshed" />
+</LineChart>
+```
+
+```cs
+@code{
+    LineChart<LiveDataPoint> horizontalLineChart;
+
+    Random random = new Random( DateTime.Now.Millisecond );
+
+    public struct LiveDataPoint
+    {
+        public object X { get; set; }
+
+        public object Y { get; set; }
+    }
+
+    object horizontalLineChartOptions = new
+    {
+        Title = new
+        {
+            Display = true,
+            Text = "Line chart (horizontal scroll) sample"
+        },
+        Scales = new
+        {
+            YAxes = new object[]
+            {
+                new {
+                    ScaleLabel = new {
+                    Display = true, LabelString = "value" }
+                }
+            }
+        },
+        Tooltips = new
+        {
+            Mode = "nearest",
+            Intersect = false
+        },
+        Hover = new
+        {
+            Mode = "nearest",
+            Intersect = false
+        }
+    };
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await Task.WhenAll(
+                HandleRedraw( horizontalLineChart, GetLineChartDataset1 ) );
+        }
+    }
+
+    async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( BaseChart<TDataSet, TItem, TOptions, TModel> chart, params Func<TDataSet>[] getDataSets )
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
+        where TModel : ChartModel
+    {
+        await chart.Clear();
+
+        await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSets.Select( x => x.Invoke() ).ToArray() );
+    }
+
+    LineChartDataset<LiveDataPoint> GetLineChartDataset1()
+    {
+        return new LineChartDataset<LiveDataPoint>
+        {
+            Data = new List<LiveDataPoint>(),
+            Label = "Dataset 1 (linear interpolation)",
+            BackgroundColor = backgroundColors[0],
+            BorderColor = borderColors[0],
+            Fill = false,
+            LineTension = 0,
+            BorderDash = new List<int> { 8, 4 },
+        };
+    }
+
+    Task OnHorizontalLineRefreshed( ChartStreamingData<LiveDataPoint> data )
+    {
+        data.Value = new LiveDataPoint
+        {
+            X = DateTime.Now,
+            Y = RandomScalingFactor(),
+        };
+
+        return Task.CompletedTask;
+    }
+
+    double RandomScalingFactor()
+    {
+        return ( random.NextDouble() > 0.5 ? 1.0 : -1.0 ) * Math.Round( random.NextDouble() * 100 );
+    }
+}
+```
+
 ## Attributes
 
 | Name               | Type                                                                       | Default      | Description                                                                           |
@@ -148,6 +270,47 @@ It is possible to use `Clicked` and `Hovered` events to interact with chart. The
 | OptionsJsonString  | string                                                                     | null         | Defines the chart options that is serialized as JSON string. **[WILL BE REMOVED]**    |
 | Clicked            | event                                                                      |              | Raised when clicked on data point.                                                    |
 | Hovered            | event                                                                      |              | Raised when hovered over data point.                                                  |
+
+## ChartOptions Attributes
+| Name                | Type                                                                       | Default     | Description                                                                           |
+|---------------------|----------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------|
+| Scales              | Scales                                                                     |             |                                                                                       |
+| Legend              | Legend                                                                     |             |                                                                                       |
+| Tooltips            | Tooltips                                                                   |             |                                                                                       |
+| Animation           | Animation                                                                  |             |                                                                                       |
+| Responsive          | bool?                                                                      | `true`      | Resizes the chart canvas when its container does.                                     |
+| MaintainAspectRatio | bool?                                                                      | `true`      | Maintain the original canvas aspect ratio (width / height) when resizing.             |
+| ResponsiveAnimationDuration | bool?                                                              | `true`      | Duration in milliseconds it takes to animate to new size after a resize event.        |
+| AspectRatio         | int                                                                        | `2`         | Canvas aspect ratio (i.e. width / height, a value of 1 representing a square canvas). |
+
+## Scales Attributes
+| Name               | Type                                                                       | Default      | Description                                                                           |
+|--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| XAxes              | List of Axis                                                               |              |                                                                                       |
+| YAxes              | List of Axis                                                               |              |                                                                                       |
+
+## Legend Attributes
+| Name               | Type                                                                       | Default      | Description                                                                           |
+|--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| Display            | bool                                                                       | `true`       | Is the legend shown.                                                                  |
+| Reverse            | bool                                                                       | `false       | Legend will show datasets in reverse order.                                           |
+| FullWidth          | bool                                                                       | `true`       | Marks that this box should take the full width of the canvas.                         |
+
+## Tooltips Attributes
+| Name               | Type                                                                       | Default      | Description                                                                           |
+|--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| Display            | bool                                                                       | `true`       | Are on-canvas tooltips enabled.                                                       |
+
+## Axis Attributes
+| Name               | Type                                                                       | Default      | Description                                                                           |
+|--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
+| Type               | string                                                                     | null         |                                                                                       |
+| Display            | bool                                                                       | `true`       |                                                                                       |
+| Ticks              | AxeTicks                                                                   |              |                                                                                       |
+| GridLines          | GridLines                                                                  |              |                                                                                       |
+| ScaleLabel         | ScaleLabel                                                                 |              |                                                                                       |
+| Ticks              | AxeTicks                                                                   |              |                                                                                       |
+| Stacked            | bool                                                                       | `false`      | Only used for `BarChart` and settng this to true will stack the datasets              |
 
 
 **Note:** DataJsonString and OptionsJsonString are used only temporary until the Blazor team fixes the built-in JSON serializer.

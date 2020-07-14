@@ -4,15 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseBreadcrumbItem : BaseComponent
+    public partial class BreadcrumbItem : BaseComponent
     {
         #region Members
 
-        private bool isActive;
+        private bool active;
+
+        private string absoluteUri;
 
         #endregion
 
@@ -21,26 +24,82 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BreadcrumbItem() );
-            builder.Append( ClassProvider.BreadcrumbItemActive(), IsActive );
+            builder.Append( ClassProvider.BreadcrumbItemActive(), Active );
 
             base.BuildClasses( builder );
+        }
+
+        protected override void OnInitialized()
+        {
+            NavigationManager.LocationChanged += OnLocationChanged;
+
+            base.OnInitialized();
+        }
+
+        protected override Task OnAfterRenderAsync( bool firstRender )
+        {
+            if ( firstRender )
+            {
+                if ( ParentBreadcrumb?.Mode == BreadcrumbMode.Auto && absoluteUri == NavigationManager.Uri )
+                {
+                    Active = true;
+
+                    StateHasChanged();
+                }
+            }
+
+            return base.OnAfterRenderAsync( firstRender );
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                // To avoid leaking memory, it's important to detach any event handlers in Dispose()
+                NavigationManager.LocationChanged -= OnLocationChanged;
+            }
+
+            base.Dispose( disposing );
+        }
+
+        private void OnLocationChanged( object sender, LocationChangedEventArgs args )
+        {
+            if ( ParentBreadcrumb?.Mode == BreadcrumbMode.Auto )
+            {
+                Active = args.Location == absoluteUri;
+
+                StateHasChanged();
+            }
+        }
+
+        internal void NotifyRelativeUriChanged( string relativeUri )
+        {
+            // uri will always be applied, no matter the BreadcrumbActivation state.
+            absoluteUri = relativeUri == null ? string.Empty : NavigationManager.ToAbsoluteUri( relativeUri ).AbsoluteUri;
         }
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the item active state.
+        /// </summary>
         [Parameter]
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
+            get => active;
             set
             {
-                isActive = value;
+                active = value;
 
                 DirtyClasses();
             }
         }
+
+        [Inject] private NavigationManager NavigationManager { get; set; }
+
+        [CascadingParameter] protected Breadcrumb ParentBreadcrumb { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -13,12 +13,15 @@ To create a basic grid in Blazorise you need to set the _Column_ that will defin
 ### Structure
 
 - `<DataGrid>` the main **container**
-  - `<DataGridColumn>` column template for text editor
-  - `<DataGridNumericColumn>` column template for numeric values
-  - `<DataGridDateColumn>` column template for datetime values
-  - `<DataGridCheckColumn>` column template for boolean values
-  - `<DataGridSelectColumn>` column template for selectable values
-  - `<DataGridCommandColumn>` column template for editing commands like Edit, Save, Cancel, etc.
+  - `DataGridColumns` container for datagrid columns
+    - `<DataGridColumn>` column template for text editor
+    - `<DataGridNumericColumn>` column template for numeric values
+    - `<DataGridDateColumn>` column template for datetime values
+    - `<DataGridCheckColumn>` column template for boolean values
+    - `<DataGridSelectColumn>` column template for selectable values
+    - `<DataGridCommandColumn>` column template for editing commands like Edit, Save, Cancel, etc.
+  - `DataGridAggregates` container for datagrid aggregates
+    - `DataGridAggregate` defines the column and aggregation function type
 
 ## Installation
 
@@ -58,6 +61,10 @@ Default method for filtering is `Contains`. If you want to change it you can set
 - `Equals` search must match the entire value
 - `NotEquals` opposite of Equals
 
+### Custom Filtering
+
+Regular filter works on per field basis. To enable advanced search capabilities you can use an attribute `CustomFilter`. More can be found in Usage section.
+
 ### Paging
 
 Paging is handled automatically by the DataGrid. You also have some additional attributes to configure paging based on your requirements.
@@ -65,6 +72,11 @@ Paging is handled automatically by the DataGrid. You also have some additional a
 - `ShowPager` to hide or show pagination controls
 - `PageSize` the maximum number of items for each page.
 - `CurrentPage` current page number.
+- `PreviousPageButtonTemplate` template for previous page button
+- `NextPageButtonTemplate` template for next page button
+- `FirstPageButtonTemplate` template for first page button
+- `LastPageButtonTemplate` template for last page button
+- `PageButtonTemplate` template for explicated page button with `PageButtonContext` as parameter
 
 ### Editing
 
@@ -99,6 +111,18 @@ By default, DataGrid will load everything in memory and it will perform the nece
 - `TotalItems` total number of items in the source data-set
 
 Bellow you can find a [basic example]({{ "/docs/extensions/datagrid/#large-data-example" | relative_url }}) of how to load large data and apply it to the DataGrid.
+
+### Aggregates
+
+The DataGrid provider several built-in aggregates for column values. Supported aggregate functions are:
+
+- `Sum` Calculate total(sum) value of the collection.
+- `Average` Calculates the average of the numeric items in the collection.
+- `Min` Finds the smallest value in the collection.
+- `Max` Finds the largest value in the collection.
+- `Count`  Counts the elements in a collection.
+- `TrueCount` Counts boolean elements with true value.
+- `FalseCount` Counts boolean elements with false value.
 
 ## Usage
 
@@ -193,15 +217,153 @@ Just as in the previous example everything is the same except that now we must d
 }
 ```
 
+### Aggregates
+
+DataGrid will automatically generate necessary group cells based on the defined `DataGridAggregate` options.
+
+```html
+<DataGrid TItem="Employee" Data="@employeeList">
+    <DataGridAggregates>
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
+            <DisplayTemplate>
+                @($"Total emails: {context.Value}")
+            </DisplayTemplate>
+        </DataGridAggregate>
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Salary )" Aggregate="DataGridAggregateType.Sum" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" />
+        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" Aggregate="DataGridAggregateType.TrueCount" />
+    </DataGridAggregates>
+    <DataGridColumns>
+        ...
+    </DataGridColumns>
+</DataGrid>
+```
+
+By default all aggregate operations are run on in-memory `Data`. When working with large datasets that is not possible. So just as in the previous examples for large datasets you need to work with `ReadData` and set the `AggregateData` property.
+
+```html
+<DataGrid TItem="Employee"
+        Data="@employeeList"
+        ReadData="@OnReadData"
+        TotalItems="@totalEmployees"
+        AggregateData="@employeeSummary">
+</DataGrid>
+```
+
+```cs
+@code
+{
+    Employee[] employeeList;
+    Employee[] employeeSummary;
+    int totalEmployees;
+
+    async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    {
+        // this can be call to anything, in this case we're calling a fictional api
+        var response = await Http.GetJsonAsync<Employee[]>( $"some-api/employees?page={e.Page}&pageSize={e.PageSize}" );
+        var aggregateResponse = await Http.GetJsonAsync<Employee[]>( $"some-aggregate-api/employees" );
+
+        employeeList = response.Data; // an actual data for the current page
+        totalEmployees = response.Total; // this is used to tell datagrid how many items are available so that pagination will work
+
+        employeeSummary = aggregateResponse.Data;
+
+        // always call StateHasChanged!
+        StateHasChanged();
+    }
+}
+```
+
+
+### Custom Filtering
+
+Filter API is fairly straightforward. All you need is to attach `CustomFilter` to a function and bind search value to `TextEdit` field. DataGrid will automatically respond to entered value.
+
+```html
+<TextEdit @bind-Text="@customFilterValue" />
+
+<DataGrid TItem="Employee"
+        Data="@employeeList"
+        CustomFilter="@OnCustomFilter">
+    ...
+</DataGrid>
+```
+
+```cs
+@code
+{
+    string customFilterValue;
+
+    bool OnCustomFilter( Employee model )
+    {
+        // We want to accept empty value as valid or otherwise
+        // datagrid will not show anything.
+        if ( string.IsNullOrEmpty( customFilterValue ) )
+            return true;
+
+        return
+            model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
+            || model.LastName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
+            || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
+    }
+}
+```
+
+### Custom Row Colors
+
+You have full control over appearance of each row, including the selected rows.
+
+```html
+<DataGrid TItem="Employee"
+        Data="@employeeList"
+        CustomFilter="@OnCustomFilter"
+        RowStyling="@OnRowStyling"
+        SelectedRowStyling="@OnSelectedRowStyling">
+    ...
+</DataGrid>
+```
+
+```cs
+@code
+{
+    void OnRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        if ( !employee.IsActive )
+            styling.Style = "color: red;";
+    }
+
+    void OnSelectedRowStyling( Employee employee, DataGridRowStyling styling )
+    {
+        styling.Background = Background.Info;
+    }
+}
+```
+
+### NewItemDefaultSetter
+
+`NewItemDefaultSetter` function is used to set default values when new item is created and before the edit form is shown. It will only be evaluate, if datagrid is editable.
+
+```html
+<DataGrid TItem="Employee" Editable="true" NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter">
+  ...
+</DataGrid>
+@code{
+    void OnEmployeeNewItemDefaultSetter( Employee employee )
+    {
+        employee.Salary = 100.0M;
+        employee.IsActive = true;
+    }
+}
+```
+
 ## Templates
 
 For extra customization DataGrid will provide you with two additional templates that you can use to extend it's default behavior. A display template is used to customize display cells and an edit template is used to customize cell editors. You can place anything inside of the templates, be it a Blazorise components, regular html tags or your own components.
 
-Both templates have a special `context` attribute that is used to give access to the underline cell value. To learn more about `context` please go to official Blazor [documentation](https://docs.microsoft.com/hr-hr/aspnet/core/blazor/components?view=aspnetcore-3.0#template-context-parameters).
+Both templates have a special `context` attribute that is used to give access to the underline cell value. To learn more about `context` please go to official Blazor [documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/templated-components).
 
 ### DisplayTemplate
 
-Display template is using `TItem` as a context value. 
+Display template is using `TItem` as a context value.
 
 ```html
 <DataGridNumericColumn TItem="Employee" Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth" Editable="true">
@@ -290,7 +452,55 @@ If you want to change default buttons you can use following templates
 </DataGridCommandColumn>
 ```
 
+### Loading Templates
+
+If you want to change display of content, while grid is empty or `ReadData` is executing, you can use following templates:
+
+- `EmptyTemplate`
+- `LoadingTemplate`
+
+```html
+<DataGrid TItem="Employee"
+    Data="@employeeList"
+    TotalItems="@totalEmployees"
+    ReadData="@LoadEmployeesFromService">
+    <ChildContent>
+    	<!--DataGridColumns-->
+    </ChildContent>
+    <EmptyTemplate>
+    	<div class="box">
+        	No employees are found!
+        </div>
+    </EmptyTemplate>
+    <LoadingTemplate>
+    	<div class="box">
+        	<progress class="progress is-small is-primary" max="100"/>
+        </div>
+    </LoadingTemplate>
+</DataGrid>
+```
+
+```cs
+@code
+{
+    Employee[] employeeList;
+    int totalEmployees;
+
+    async Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
+    {
+        /*
+        * This can be call to anything like calling api for load employees
+        * and while execution 'LoadingTemplate' will be displayed.
+        * If your api call returns empty result, then 'EmptyTemplate' will be displayed,
+        * so that you can see easily, that your loading is finish, but your result is empty.
+        */
+    }
+}
+```
+
 ## Attributes
+
+### DataGrid
 
 | Name                   | Type                                                                | Default | Description                                                                                                 |
 |------------------------|---------------------------------------------------------------------|---------|-------------------------------------------------------------------------------------------------------------|
@@ -304,17 +514,17 @@ If you want to change default buttons you can use following templates
 | ShowPager              | boolean                                                             | `false` | Whether users can navigate DataGrid by using pagination controls.                                           |
 | CurrentPage            | boolean                                                             | `1`     | Current page number.                                                                                        |
 | PageSize               | int                                                                 | `5`     | Maximum number of items for each page.                                                                      |
-| IsStriped              | boolean                                                             | `false` | Adds stripes to the table.                                                                                  |
-| IsBordered             | boolean                                                             | `false` | Adds borders to all the cells.                                                                              |
-| IsBorderless           | boolean                                                             | `false` | Makes the table without any borders.                                                                        |
-| IsHoverable            | boolean                                                             | `false` | Adds a hover effect when moussing over rows.                                                                |
-| IsNarrow               | boolean                                                             | `false` | Makes the table more compact by cutting cell padding in half.                                               |
+| Striped                | boolean                                                             | `false` | Adds stripes to the table.                                                                                  |
+| Bordered               | boolean                                                             | `false` | Adds borders to all the cells.                                                                              |
+| Borderless             | boolean                                                             | `false` | Makes the table without any borders.                                                                        |
+| Hoverable              | boolean                                                             | `false` | Adds a hover effect when moussing over rows.                                                                |
+| Narrow                 | boolean                                                             | `false` | Makes the table more compact by cutting cell padding in half.                                               |
 | ReadData               | EventCallback                                                       |         | Handles the manual loading of large data sets.                                                              |
 | SelectedRow            | TItem                                                               |         | Currently selected row.                                                                                     |
 | SelectedRowChanged     | EventCallback                                                       |         | Occurs after the selected row has changed.                                                                  |
-| RowSelectable          | Func<TItem,bool>                                                    |         | Handles the selection of the clicked row. If not set it will default to always true.                        |
-| RowHoverCursorSelector | Func<TItem,Blazorise.Cursor>                                        |         | Handles the selection of the cursor for a hovered row. If not set, `Blazorise.Cursor.Pointer` will be used. |
-| DetailRowTrigger       | Func<TItem,bool>                                                    |         | A trigger function used to handle the visibility of detail row.                                             |
+| RowSelectable          | `Func<TItem,bool>`                                                  |         | Handles the selection of the clicked row. If not set it will default to always true.                        |
+| RowHoverCursor         |` Func<TItem,Blazorise.Cursor>`                                      |         | Handles the selection of the cursor for a hovered row. If not set, `Blazorise.Cursor.Pointer` will be used. |
+| DetailRowTrigger       | `Func<TItem,bool>`                                                  |         | A trigger function used to handle the visibility of detail row.                                             |
 | RowInserting           | Action                                                              |         | Cancelable event called before the row is inserted.                                              |
 | RowUpdating            | Action                                                              |         | Cancelable event called before the row is updated.                                              |
 | RowInserted            | EventCallback                                                       |         | Event called after the row is inserted.                                                                     |
@@ -322,6 +532,11 @@ If you want to change default buttons you can use following templates
 | RowRemoving            | Action                                                              |         | Cancelable event called before the row is removed.                                                          |
 | RowRemoved             | EventCallback                                                       |         | Event called after the row is removed.                                                                      |
 | PageChanged            | EventCallback                                                       |         | Occurs after the selected page has changed.                                                                 |
+| EmptyTemplate          | RenderingFragment                                                   |         | Define the format for empty data collection                                                                 |
+| LoadingTemplate        | RenderingFragment                                                   |         | Define the format for signal of loading data                                                                |
+| PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of edit popup dialog                                                              |
+| NewItemDefaultSetter   | `Action<TItem>`                                                     |         | Action will be called for setting default values of property, when create new entry                           |
+| PageButtonTemplate   | `RenderTemplate<PageButtonContext>`                                   |         | Define the format a pagination button                           |
 
 ### EditMode
 
@@ -330,3 +545,36 @@ Specifies the grid editing modes.
 - `Form` editing is done in the internal DataGrid form
 - `Inline` editing is done in the current row
 - `Popup` editing is done in the the modal dialog
+
+### DataGridColumn
+
+| Name                      | Type                                                                | Default             | Description                                                                                                   |
+|---------------------------|---------------------------------------------------------------------|---------------------|---------------------------------------------------------------------------------------------------------------|
+| Field                     | string                                                              |                     | TItem data field name.                                                                                        |
+| Caption                   | string                                                              |                     | Column's display caption. It will be displayed, if ColumnTemplate is not set.                                 |
+| Filter                    | FilterContext                                                       |                     | Filter value for this column.                                                                                 |
+| Direction                 | SortDirection                                                       | `None`              | Column initial sort direction.                                                                                |
+| TextAlignment             | TextAlignment                                                       | `None`              | Defines the alignment for display cell.                                                                       |
+| Editable                  | bool                                                                | false               | Whether users can edit cell values under this column.                                                         |
+| Displayable               | bool                                                                | true                | Whether column can be displayed on a grid.                                                                    |
+| Sortable                  | bool                                                                | true                | Whether end-users can sort data by the column's values.                                                       |
+| Readonly                  | bool                                                                | false               | whether end-users are prevented from editing the column's cell values.                                        |
+| ShowCaption               | bool                                                                | true                | whether the column's caption is displayed within the column header.                                           |
+| Filterable                | bool                                                                | true                | Whether users can filter rows by its cell values.                                                             |
+| Width                     | string                                                              | null                | The width of the column.                                                                                      |
+| DisplayFormat             | string                                                              |                     | Defines the format for display value.                                                                         |
+| DisplayFormatProvider     | IFormatProvider                                                     |                     | Defines the format provider info for display value.                                                           |
+| CellClass                 | `Func<TItem, string>`                                               |                     | Custom classname handler for cell based on the current row item.                                              |
+| CellStyle                 | `Func<TItem, string>`                                               |                     | Custom style handler for cell based on the current row item.                                                  |
+| HeaderCellClass           | string                                                              |                     | Custom classname for header cell.                                                                             |
+| HeaderCellStyle           | string                                                              |                     | Custom style for header cell.                                                                                 |
+| FilterCellClass           | string                                                              |                     | Custom classname for filter cell.                                                                             |
+| FilterCellStyle           | string                                                              |                     | Custom style for filter cell.                                                                                 |
+| GroupCellClass            | string                                                              |                     | Custom classname for group cell.                                                                              |
+| GroupCellStyle            | string                                                              |                     | Custom style for group cell.                                                                                  |
+| DisplayTemplate           | `RenderFragment<TItem>`                                             |                     | Template for custom cell display formating.                                                                   |
+| EditTemplate              | `RenderFragment<CellEditContext>`                                   |                     | Template for custom cell editing.                                                                             |
+| FilterTemplate            | `RenderFragment<FilterContext>`                                     |                     | Template for custom column filter rendering.                                                                  |
+| PopupSize                 | [ModalSize]({{ "/docs/helpers/sizes/#modalsize" | relative_url }})  |  `Default`          | Defines the size of popup modal.                                                                              |
+| PopupFieldColumnSize      | `IFluentColumn`                                                     |  `IsHalf.OnDesktop` | Defines the size of field for popup modal.                                                                    |
+| CaptionTemplate           | `RenderingFragment<DataGridColumn<TItem>>`                          |                     | Template for custom caption. CaptionTemplate will block caption template.                                     |

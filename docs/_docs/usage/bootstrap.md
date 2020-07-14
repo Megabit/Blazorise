@@ -31,16 +31,16 @@ The next step is to change your `index.html` or `_Host.cshtml` file and include 
 
 ```html
 <!-- inside of head section -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
 
 <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
 <link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
 
 <!-- inside of body section and after the <app> tag  -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
 <script src="_content/Blazorise/blazorise.js"></script>
 <script src="_content/Blazorise.Bootstrap/blazorise.bootstrap.js"></script>
@@ -59,54 +59,97 @@ In your main _Imports.razor add:
 
 ### 4. Registrations
 
-Finally in the Startup.cs you must tell the Blazor to register Bootstrap provider and extensions:
+Starting from **.Net Core 3.2** there was some changes regarding the setup process for **Blazor WebAssembly** project types. Specifically the **Startup.cs** file is removed and all registrations are now done in the **Program.cs**.
+
+---
+Depending on the hosting model of your Blazor project you only need to apply either step **4.a** or **4.b**. You should not include both of them as that is generally not supported.
+
+To Learn more about the different project types you can go to the official [documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models).
+
+---
+
+#### 4.a Blazor WebAssembly
+
+This step is mandatory for **Blazor WebAssembly**(client-side) and also for **ASP.NET Core hosted** project types. You should place the code into the **Program.cs** of your **client** project.
 
 ```cs
+// other usings
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 
-public void ConfigureServices( IServiceCollection services )
+public class Program
 {
-  services
-    .AddBlazorise( options =>
-    {
-      options.ChangeTextOnKeyPress = true;
-    } ) // from v0.6.0-preview4
-    .AddBootstrapProviders()
-    .AddFontAwesomeIcons();
-}
-```
-
-### 4.a Blazor WebAssembly
-
-```cs
-public void Configure( IComponentsApplicationBuilder app )
-{
-  app.Services
-    .UseBootstrapProviders()
-    .UseFontAwesomeIcons();
-
-  app.AddComponent<App>( "app" );
-}
-```
-
-### 4.b Blazor Server
-
-```cs
-public void Configure( IComponentsApplicationBuilder app )
-{
-  ...
-  app.UseRouting();
-  
-  app.ApplicationServices
-    .UseBootstrapProviders()
-    .UseFontAwesomeIcons();
-
-  app.UseEndpoints( endpoints =>
+  public static async Task Main( string[] args )
   {
-      endpoints.MapBlazorHub();
-      endpoints.MapFallbackToPage( "/_Host" );
-  } );
+    var builder = WebAssemblyHostBuilder.CreateDefault( args );
+
+    builder.Services
+      .AddBlazorise( options =>
+      {
+          options.ChangeTextOnKeyPress = true;
+      } )
+      .AddBootstrapProviders()
+      .AddFontAwesomeIcons();
+
+    builder.Services.AddSingleton( new HttpClient
+    {
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
+
+    builder.RootComponents.Add<App>( "app" );
+
+    var host = builder.Build();
+
+    host.Services
+      .UseBootstrapProviders()
+      .UseFontAwesomeIcons();
+
+    await host.RunAsync();
+  }
+}
+```
+
+#### 4.b Blazor Server
+
+This step is going only into the **Startup.cs** of your **Blazor Server** project.
+
+```cs
+// other usings
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
+
+public class Startup
+{
+  public void ConfigureServices( IServiceCollection services )
+  {
+    services
+      .AddBlazorise( options =>
+      {
+        options.ChangeTextOnKeyPress = true; // optional
+      } )
+      .AddBootstrapProviders()
+      .AddFontAwesomeIcons();
+
+    // other services
+  }
+
+  public void Configure( IComponentsApplicationBuilder app )
+  {
+    // other settings
+    
+    app.UseRouting();
+    
+    app.ApplicationServices
+      .UseBootstrapProviders()
+      .UseFontAwesomeIcons();
+
+    app.UseEndpoints( endpoints =>
+    {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage( "/_Host" );
+    } );
+  }
 }
 ```

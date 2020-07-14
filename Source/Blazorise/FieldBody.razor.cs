@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseFieldBody : BaseSizableComponent
+    /// <summary>
+    /// Container for input components when <see cref="Field"/> has <see cref="Field.Horizontal"/> set to true.
+    /// </summary>
+    public partial class FieldBody : BaseSizableFieldComponent
     {
         #region Members
 

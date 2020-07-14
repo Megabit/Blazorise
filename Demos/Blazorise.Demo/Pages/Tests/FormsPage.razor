@@ -1,0 +1,525 @@
+﻿@page "/tests/forms"
+@using System.Diagnostics
+@using System.IO
+@using System.Runtime.Serialization
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Basic Fields</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Most common form control, text-based input fields. Includes support for most of HTML5 types: <code>text</code>, <code>password</code>, <code>date</code>, <code>number</code>, <code>text</code>, <code>email</code>, <code>url</code>.</CardText>
+            </CardBody>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Placeholder="Some text value..." />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Email</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Role="TextRole.Email" Placeholder="email" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Password</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Role="TextRole.Password" Text="password" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Placeholder</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Placeholder="placeholder" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Text area</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <MemoEdit Rows="5" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Readonly</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Text="Readonly value" ReadOnly="true" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Disabled</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Text="Disabled value" Disabled="true" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Static control</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Text="email@example.com" Plaintext="true" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Helping text</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Placeholder="Helping text">
+                            <FieldHelp>A block of help text that breaks onto a new line and may extend beyond one line.</FieldHelp>
+                        </TextEdit>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Input Select</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Select SelectedValue="3">
+                            <SelectItem Value="1">1</SelectItem>
+                            <SelectItem Value="2">2</SelectItem>
+                            <SelectItem Value="3">3</SelectItem>
+                            <SelectItem Value="4">4</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Multiple Select</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Select TValue="int" Multiple="true">
+                            <SelectItem Value="1">1</SelectItem>
+                            <SelectItem Value="2">2</SelectItem>
+                            <SelectItem Value="3">3</SelectItem>
+                            <SelectItem Value="4">4</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Input Select With Group</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Select SelectedValue="3">
+                            <SelectGroup Label="first group">
+                                <SelectItem Value="1">1</SelectItem>
+                                <SelectItem Value="2">2</SelectItem>
+                            </SelectGroup>
+                            <SelectGroup Label="second group">
+                                <SelectItem Value="3">3</SelectItem>
+                                <SelectItem Value="4">4</SelectItem>
+                            </SelectGroup>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Default file input</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <FileEdit />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Date</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <DateEdit TValue="DateTime?" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Time</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TimeEdit TValue="TimeSpan?" TimeChanged="@((v)=>Console.WriteLine(v))" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Number</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <NumericEdit TValue="decimal?" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Url</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Role="TextRole.Url" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Range slider</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Slider TValue="decimal" Value="25m" Max="100m" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Radios</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <RadioGroup TValue="string" Name="colors" Inline="true" CheckedValue="@("blue")">
+                            <Radio TValue="string" Value="@("red")">Red</Radio>
+                            <Radio TValue="string" Value="@("green")">Green</Radio>
+                            <Radio TValue="string" Value="@("blue")">Blue</Radio>
+                        </RadioGroup>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Radio buttons</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <RadioGroup TValue="string" Name="colors2" Inline="true" Buttons="true" CheckedValue="@("green")">
+                            <Radio TValue="string" Value="@("red")">Red</Radio>
+                            <Radio TValue="string" Value="@("green")">Green</Radio>
+                            <Radio TValue="string" Value="@("blue")">Blue</Radio>
+                        </RadioGroup>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Color</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <ColorEdit ColorChanged="@(c=>Console.WriteLine(c))" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Input Sizes & Addons</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Set heights using enums like <code>Size="Size.Large"</code>, and set widths using grid column builder like <code>ColumnSize="ColumnSize.Is*"</code>.</CardText>
+            </CardBody>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Size="Size.Small" Placeholder=".small" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Normal</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Placeholder="Normal" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <TextEdit Size="Size.Large" Placeholder=".large" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Static</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <AddonLabel>@@</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Placeholder="Username" />
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Static 2</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <AddonLabel>Start</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Placeholder="Placeholder" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>End</AddonLabel>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Multiple addons</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <AddonLabel>Start</AddonLabel>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Placeholder="Placeholder" />
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Placeholder="Placeholder 2" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <AddonLabel>End</AddonLabel>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Dropdowns</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Addons>
+                            <Addon AddonType="AddonType.Start">
+                                <Dropdown>
+                                    <DropdownToggle Color="Color.Primary">Dropdown</DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem>Action</DropdownItem>
+                                        <DropdownItem>Another action</DropdownItem>
+                                        <DropdownItem>Something else here</DropdownItem>
+                                        <DropdownDivider />
+                                        <DropdownItem>Separated link</DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </Addon>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit />
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Buttons</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Addons>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit Placeholder="Recipient's username" />
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <Button Color="Color.Secondary">Button</Button>
+                            </Addon>
+                        </Addons>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Basic Example</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field>
+                    <FieldLabel>Email address</FieldLabel>
+                    <TextEdit Placeholder="Enter email" />
+                    <FieldHelp>We'll never share your email with anyone else.</FieldHelp>
+                </Field>
+                <Field>
+                    <FieldLabel>Password</FieldLabel>
+                    <TextEdit Role="TextRole.Password" Placeholder="Password" />
+                </Field>
+                <Field>
+                    <Check TValue="bool">Check me out</Check>
+                </Field>
+                <Button Color="Color.Primary">Submit</Button>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Horizontal Form</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Email address</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Placeholder="Email" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Password</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Role="TextRole.Password" Placeholder="Password" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Re Password</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Role="TextRole.Password" Placeholder="Retype password" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
+                        <Check TValue="bool">Check me out</Check>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is9.Is3.WithOffset">
+                        <Button Color="Color.Primary">Submit</Button>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Inline Form</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Add <code>&lt;Inline&gt;</code> tag to your form (which doesn't have to be a <code>&lt;form&gt;</code>) for left-aligned and inline-block controls. This only applies to forms within viewports that are at least 768px wide.</CardText>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile">
+                        <Inline>
+                            <Field>
+                                <FieldLabel>email@example.com</FieldLabel>
+                            </Field>
+                            <Field Margin="Margin.Is3.OnX.OnTablet">
+                                <TextEdit Role="TextRole.Password" Placeholder="Password" />
+                            </Field>
+                            <Field>
+                                <Button Color="Color.Primary">Confirm identity</Button>
+                            </Field>
+                        </Inline>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile">
+                        <Fields Label="Auto-sizing">
+                            <Column ColumnSize="ColumnSize.IsAuto">
+                                <FieldLabel Screenreader="Screenreader.Only">Name</FieldLabel>
+                                <TextEdit Placeholder="Jane Doe" />
+                            </Column>
+                            <Column ColumnSize="ColumnSize.IsAuto">
+                                <FieldLabel Screenreader="Screenreader.Only">Username</FieldLabel>
+                                <Addons>
+                                    <Addon AddonType="AddonType.Start">
+                                        <AddonLabel>@@</AddonLabel>
+                                    </Addon>
+                                    <Addon AddonType="AddonType.Body">
+                                        <TextEdit Placeholder="Username" />
+                                    </Addon>
+                                </Addons>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.IsAuto">
+                                <Check TValue="bool">Remember me</Check>
+                            </Column>
+                            <Column ColumnSize="ColumnSize.IsAuto">
+                                <Button Color="Color.Primary">Submit</Button>
+                            </Column>
+                        </Fields>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Form Row</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                        <FieldLabel>Email</FieldLabel>
+                        <TextEdit Role="TextRole.Email" Placeholder="Email" />
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                        <FieldLabel>Password</FieldLabel>
+                        <TextEdit Role="TextRole.Password" Placeholder="Password" />
+                    </Field>
+                </Fields>
+                <Field>
+                    <FieldLabel>Address</FieldLabel>
+                    <TextEdit Placeholder="1234 Main St" />
+                </Field>
+                <Field>
+                    <FieldLabel>Address 2</FieldLabel>
+                    <TextEdit Placeholder="Appartment, studio, or floor" />
+                </Field>
+                <Fields>
+                    <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                        <FieldLabel>City</FieldLabel>
+                        <TextEdit />
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                        <FieldLabel>State</FieldLabel>
+                        <Select TValue="string">
+                        </Select>
+                    </Field>
+                    <Field ColumnSize="ColumnSize.Is2.OnDesktop">
+                        <FieldLabel>Zip</FieldLabel>
+                        <TextEdit />
+                    </Field>
+                </Fields>
+                <Field>
+                    <Switch TValue="bool" Color="Color.Danger" Cursor="Cursor.Pointer">Remember me</Switch>
+                </Field>
+                <Field>
+                    <Button Color="Color.Primary">Sign in</Button>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code{
+    int[] numbers = { 1, 3, 4 };
+
+    private DaysInWeek DaysInWeekLocal { get; set; } = DaysInWeek.Mon;
+
+    public enum DaysInWeek
+    {
+        Mon,
+        Tue,
+        Wen,
+        Thu,
+        Fri,
+        Sat,
+        Sun,
+    }
+
+    //string fileContent;
+    //int fileProgress;
+
+    //async Task OnFileChanged( FileChangedEventArgs e )
+    //{
+    //    try
+    //    {
+    //        foreach ( var file in e.Files )
+    //        {
+    //            using ( var stream = new MemoryStream() )
+    //            {
+    //                await file.WriteToStreamAsync( stream );
+
+    //                //stream.Seek( 0, SeekOrigin.Begin );
+
+    //                //using ( var reader = new StreamReader( stream ) )
+    //                //{
+    //                //    fileContent = await reader.ReadToEndAsync();
+    //                //}
+    //            }
+    //        }
+    //    }
+    //    catch ( Exception exc )
+    //    {
+    //        Console.WriteLine( exc.Message );
+    //    }
+    //    finally
+    //    {
+    //        this.StateHasChanged();
+    //    }
+    //}
+
+    //void OnFileStarted( FileStartedEventArgs e )
+    //{
+    //    fileProgress = 0;
+    //    Console.WriteLine( $"Started Name: {e.File.Name}" );
+    //}
+
+    //void OnFileEnded( FileEndedEventArgs e )
+    //{
+    //    Console.WriteLine( $"Finished Name: {e.File.Name}, Success: {e.Success}" );
+    //}
+
+    //void OnFileProgressed( FileProgressedEventArgs e )
+    //{
+    //    fileProgress = (int)e.Percentage;
+    //    Console.WriteLine( $"Name: {e.File.Name} Progress: {e.Percentage}" );
+    //}
+
+    //void OnFileWritten( FileWrittenEventArgs e )
+    //{
+    //    Console.WriteLine( $"Name: {e.File.Name} Position: {e.Position} Data: {Convert.ToBase64String( e.Data )}" );
+    //}
+}

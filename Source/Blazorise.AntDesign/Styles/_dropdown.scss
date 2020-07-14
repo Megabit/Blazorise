@@ -1,0 +1,26 @@
+﻿.ant-dropdown-group {
+    display: inline-flex;
+    white-space: nowrap;
+}
+
+.ant-input-group-addon.ant-input-group-addon-dropdown {
+    padding: 0;
+    border: 0;
+}
+
+.ant-dropdown-group {
+    // Reset rounded corners
+    > .ant-btn:not(:last-child):not(.ant-dropdown-trigger) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    > .ant-btn:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
+
+.ant-dropdown-group.ant-dropdown-button.b-is-autocomplete {
+    width: 100%;
+}

@@ -1,0 +1,36 @@
+﻿@typeparam TNode
+@inherits BaseComponent
+<CascadingValue Value=this>
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @foreach ( TNode node in Nodes ?? Enumerable.Empty<TNode>() )
+        {
+            //bool nodeExpanded = ParentNode == null || Expanded;
+            bool nodeExpanded = ExpandedNodes.Contains( node );
+            bool hasChildren = HasChildNodes( node );
+
+            <div>
+                @if ( hasChildren )
+                {
+                    <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node, !nodeExpanded))">
+                        <Icon Name="@(nodeExpanded ? IconName.MinusSquare : IconName.PlusSquare)" IconStyle="IconStyle.Regular" />
+                    </span>
+                }
+
+                <_TreeViewNodeContent TNode="TNode" Node="@node">
+                    @NodeContent( node )
+                </_TreeViewNodeContent>
+
+                @if ( nodeExpanded && hasChildren )
+                {
+                    <_TreeViewNode Nodes="GetChildNodes(node)"
+                                   NodeContent="NodeContent"
+                                   GetChildNodes="GetChildNodes"
+                                   ExpandedNodes="ExpandedNodes"
+                                   ExpandedNodesChanged="ExpandedNodesChanged"
+                                   Expanded="nodeExpanded"
+                                   HasChildNodes="HasChildNodes" />
+                }
+            </div>
+        }
+    </div>
+</CascadingValue>

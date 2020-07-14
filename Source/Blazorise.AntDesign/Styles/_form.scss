@@ -1,0 +1,92 @@
+﻿.ant-form-item-has-success .ant-input, .ant-form-item-has-success .ant-input-affix-wrapper, .ant-form-item-has-success .ant-input:hover, .ant-form-item-has-success .ant-input-affix-wrapper:hover {
+    background-color: #fff;
+    border-color: #52c41a;
+}
+
+.ant-checkbox-wrapper {
+    cursor: default;
+
+    &-pointer {
+        cursor: pointer;
+    }
+}
+
+.ant-input-group {
+    > .ant-input-group-addon {
+        &:last-child > .ant-btn {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        &:first-child > .ant-btn {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+}
+
+.ant-input-group {
+    > .ant-select-selection-search-input {
+        &:first-child {
+            > .ant-select-selector {
+                border-right: 0;
+                border-top-right-radius: 0 !important;
+                border-bottom-right-radius: 0 !important;
+            }
+        }
+
+        &:nth-child(2) {
+            > .ant-select-selector {
+                border-left: 0;
+                border-top-left-radius: 0 !important;
+                border-bottom-left-radius: 0 !important;
+            }
+        }
+    }
+}
+
+.ant-input-search-enter-button .ant-input-group-addon {
+    padding: 0;
+    border: 0;
+
+    &:last-child .ant-btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    &:first-child .ant-btn {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
+.ant-row.ant-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -$form-grid-gutter-width / 2;
+    margin-left: -$form-grid-gutter-width / 2;
+
+    > .ant-col,
+    > [class*="ant-col-"] {
+        padding-right: $form-grid-gutter-width / 2;
+        padding-left: $form-grid-gutter-width / 2;
+
+        .ant-form-item-label {
+            padding-right: 0;
+            padding-left: 0;
+        }
+    }
+}
+
+.ant-form-item {
+    > .ant-col.ant-form-item-label {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    &.ant-row {
+        > .ant-col + .ant-col {
+            padding-left: 0;
+        }
+    }
+}

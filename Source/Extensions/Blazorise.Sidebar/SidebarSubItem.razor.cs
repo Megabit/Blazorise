@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -8,11 +9,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Sidebar
 {
-    public abstract class BaseSidebarSubItem : BaseComponent
+    public partial class SidebarSubItem : BaseComponent
     {
         #region Members
 
-        private bool isShow;
+        private bool visible;
 
         #endregion
 
@@ -21,18 +22,28 @@ namespace Blazorise.Sidebar
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "sidebar-subitem" );
-            builder.Append( "show", IsShow );
+            builder.Append( "show", Visible );
 
             base.BuildClasses( builder );
+        }
+
+        protected override void OnInitialized()
+        {
+            if ( ParentSidebarItem != null )
+            {
+                ParentSidebarItem.NotifyHasSidebarSubItem();
+            }
+
+            base.OnInitialized();
         }
 
         /// <summary>
         /// Toggles the visibility of subitem.
         /// </summary>
-        /// <param name="isShow">Used to override default behaviour.</param>
-        public void Toggle( bool? isShow = null )
+        /// <param name="visible">Used to override default behaviour.</param>
+        public void Toggle( bool? visible = null )
         {
-            IsShow = isShow ?? !IsShow;
+            Visible = visible ?? !Visible;
 
             StateHasChanged();
         }
@@ -42,16 +53,18 @@ namespace Blazorise.Sidebar
         #region Properties
 
         [Parameter]
-        public bool IsShow
+        public bool Visible
         {
-            get => isShow;
+            get => visible;
             set
             {
-                isShow = value;
+                visible = value;
 
                 DirtyClasses();
             }
         }
+
+        [CascadingParameter] public SidebarItem ParentSidebarItem { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

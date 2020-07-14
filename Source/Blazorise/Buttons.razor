@@ -1,8 +1,8 @@
-﻿@inherits Blazorise.BaseButtons
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value="this">
-        <div class="@ClassNames" role="@(Role== ButtonsRole.Toolbar? "toolbar" : "group")" @attributes="@Attributes">
+        <div class="@ClassNames" style="@StyleNames" role="@(Role== ButtonsRole.Toolbar? "toolbar" : "group")" @attributes="@Attributes">
             @ChildContent
         </div>
     </CascadingValue>

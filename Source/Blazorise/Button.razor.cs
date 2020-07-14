@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseButton : BaseSizableComponent
+    public partial class Button : BaseComponent
     {
         #region Members
 
@@ -16,15 +17,15 @@ namespace Blazorise
 
         private ButtonSize size = ButtonSize.None;
 
-        private bool isOutline;
+        private bool outline;
 
-        private bool isDisabled;
+        private bool disabled;
 
-        private bool isActive;
+        private bool active;
 
-        private bool isBlock;
+        private bool block;
 
-        private bool isLoading;
+        private bool loading;
 
         #endregion
 
@@ -33,26 +34,36 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Button() );
-            builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.None && !IsOutline );
-            builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.None && IsOutline );
+            builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.None && !Outline );
+            builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.None && Outline );
             builder.Append( ClassProvider.ButtonSize( Size ), Size != ButtonSize.None );
-            builder.Append( ClassProvider.ButtonBlock(), IsBlock );
-            builder.Append( ClassProvider.ButtonActive(), IsActive );
-            builder.Append( ClassProvider.ButtonLoading(), IsLoading );
+            builder.Append( ClassProvider.ButtonBlock(), Block );
+            builder.Append( ClassProvider.ButtonActive(), Active );
+            builder.Append( ClassProvider.ButtonLoading(), Loading );
 
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        protected async Task ClickHandler()
         {
-            if ( !IsDisabled )
-                Clicked.InvokeAsync( null );
+            if ( !Disabled )
+            {
+                await Clicked.InvokeAsync( null );
+
+                if ( Command?.CanExecute( CommandParameter ) ?? false )
+                {
+                    Command.Execute( CommandParameter );
+                }
+            }
         }
 
         protected override void OnInitialized()
         {
             // notify dropdown that the button is inside of it
             ParentDropdown?.Register( this );
+
+            // notify addons that the button is inside of it
+            ParentAddons?.Register( this );
 
             ExecuteAfterRender( async () =>
             {
@@ -66,7 +77,14 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                JSRunner.DestroyButton( ElementId );
+                // remove button from parents
+                ParentDropdown?.UnRegister( this );
+                ParentAddons?.UnRegister( this );
+
+                if ( Rendered )
+                {
+                    JSRunner.DestroyButton( ElementId );
+                }
             }
 
             base.Dispose( disposing );
@@ -85,7 +103,15 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// True if button is part of an addons or dropdown group.
+        /// </summary>
         protected bool IsAddons => ParentButtons?.Role == ButtonsRole.Addons || ParentDropdown?.IsGroup == true;
+
+        /// <summary>
+        /// True if button is placed inside of a <see cref="Field"/>.
+        /// </summary>
+        protected bool ParentIsField => ParentField != null;
 
         /// <summary>
         /// Occurs when the button is clicked.
@@ -131,12 +157,12 @@ namespace Blazorise
         /// Makes the button to have the outlines.
         /// </summary>
         [Parameter]
-        public bool IsOutline
+        public bool Outline
         {
-            get => isOutline;
+            get => outline;
             set
             {
-                isOutline = value;
+                outline = value;
 
                 DirtyClasses();
             }
@@ -146,12 +172,12 @@ namespace Blazorise
         /// Makes button look inactive.
         /// </summary>
         [Parameter]
-        public bool IsDisabled
+        public bool Disabled
         {
-            get => isDisabled;
+            get => disabled;
             set
             {
-                isDisabled = value;
+                disabled = value;
 
                 DirtyClasses();
             }
@@ -161,12 +187,12 @@ namespace Blazorise
         /// Makes the button to appear as pressed.
         /// </summary>
         [Parameter]
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
+            get => active;
             set
             {
-                isActive = value;
+                active = value;
 
                 DirtyClasses();
             }
@@ -176,12 +202,12 @@ namespace Blazorise
         /// Makes the button to span the full width of a parent.
         /// </summary>
         [Parameter]
-        public bool IsBlock
+        public bool Block
         {
-            get => isBlock;
+            get => block;
             set
             {
-                isBlock = value;
+                block = value;
 
                 DirtyClasses();
             }
@@ -191,12 +217,12 @@ namespace Blazorise
         /// Shows the loading spinner.
         /// </summary>
         [Parameter]
-        public bool IsLoading
+        public bool Loading
         {
-            get => isLoading;
+            get => loading;
             set
             {
-                isLoading = value;
+                loading = value;
 
                 DirtyClasses();
             }
@@ -207,9 +233,23 @@ namespace Blazorise
         /// </summary>
         [Parameter] public bool PreventDefaultOnSubmit { get; set; }
 
-        [CascadingParameter] public BaseDropdown ParentDropdown { get; set; }
+        [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
-        [CascadingParameter] public BaseButtons ParentButtons { get; set; }
+        [CascadingParameter] protected Buttons ParentButtons { get; set; }
+
+        [CascadingParameter] protected Addons ParentAddons { get; set; }
+
+        [CascadingParameter] protected Field ParentField { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command to be executed when clicked on a button.
+        /// </summary>
+        [Parameter] public ICommand Command { get; set; }
+
+        /// <summary>
+        /// Reflects the parameter to pass to the CommandProperty upon execution.
+        /// </summary>
+        [Parameter] public object CommandParameter { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

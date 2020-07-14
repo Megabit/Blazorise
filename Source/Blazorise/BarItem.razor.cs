@@ -3,20 +3,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseBarItem : BaseComponent
+    public partial class BarItem : BaseComponent
     {
         #region Members
 
-        private bool isActive;
+        private BarStore parentStore;
 
-        private bool isDisabled;
+        private BarItemStore store;
 
-        private BaseBarDropdown barDropdown;
+        private BarDropdown barDropdown;
 
         #endregion
 
@@ -24,54 +25,78 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarItem() );
-            builder.Append( ClassProvider.BarItemActive(), IsActive );
-            builder.Append( ClassProvider.BarItemDisabled(), IsDisabled );
-            builder.Append( ClassProvider.BarItemHasDropdown(), IsDropdown );
-            builder.Append( ClassProvider.BarItemHasDropdownShow(), IsDropdown && barDropdown?.IsOpen == true );
+            builder.Append( ClassProvider.BarItem( Store.Mode ) );
+            builder.Append( ClassProvider.BarItemActive( Store.Mode ), Store.Active );
+            builder.Append( ClassProvider.BarItemDisabled( Store.Mode ), Store.Disabled );
+            builder.Append( ClassProvider.BarItemHasDropdown( Store.Mode ), HasDropdown );
 
             base.BuildClasses( builder );
         }
 
-        internal void Hook( BaseBarDropdown barDropdown )
+        protected override Task OnAfterRenderAsync( bool firstRender )
         {
-            this.barDropdown = barDropdown;
+            if ( firstRender )
+            {
+                if ( HasDropdown )
+                {
+                    DirtyClasses();
 
-            MenuChanged();
+                    StateHasChanged();
+                }
+            }
+
+            return base.OnAfterRenderAsync( firstRender );
         }
 
-        internal void MenuChanged()
+        internal void Hook( BarDropdown barDropdown )
         {
-            DirtyClasses();
-
-            StateHasChanged();
+            this.barDropdown = barDropdown;
         }
 
         #endregion
 
         #region Properties
 
-        protected bool IsDropdown => barDropdown != null;
+        protected BarItemStore Store => store;
+
+        protected bool HasDropdown => barDropdown != null;
 
         [Parameter]
-        public bool IsActive
+        public bool Active
         {
-            get => isActive;
+            get => store.Active;
             set
             {
-                isActive = value;
+                store.Active = value;
 
                 DirtyClasses();
             }
         }
 
         [Parameter]
-        public bool IsDisabled
+        public bool Disabled
         {
-            get => isDisabled;
+            get => store.Disabled;
             set
             {
-                isDisabled = value;
+                store.Disabled = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [CascadingParameter]
+        protected BarStore ParentStore
+        {
+            get => parentStore;
+            set
+            {
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
+
+                store.Mode = parentStore.Mode;
 
                 DirtyClasses();
             }

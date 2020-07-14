@@ -20,6 +20,9 @@ namespace Blazorise.DataGrid.Utils
         /// <returns>Returns the requested field if it exists.</returns>
         private static Expression GetSafeField( Expression item, string fieldName )
         {
+            if ( string.IsNullOrEmpty( fieldName ) )
+                throw new ArgumentException( $"{nameof( fieldName )} is not specified." );
+
             var parts = fieldName.Split( new char[] { '.' }, 2 );
 
             Expression field = Expression.PropertyOrField( item, parts[0] );
@@ -58,6 +61,9 @@ namespace Blazorise.DataGrid.Utils
         /// <returns>Returns the requested field if it exists.</returns>
         private static Expression GetField( Expression item, string fieldName )
         {
+            if ( string.IsNullOrEmpty( fieldName ) )
+                throw new ArgumentException( $"{nameof( fieldName )} is not specified." );
+
             var parts = fieldName.Split( new char[] { '.' }, 2 );
 
             Expression subProperty = Expression.PropertyOrField( item, parts[0] );

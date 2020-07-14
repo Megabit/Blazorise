@@ -21,7 +21,7 @@ namespace Blazorise
         Task SetValue( string value );
     }
 
-    public abstract class BaseNumericEdit<TValue> : BaseTextInput<TValue>, INumericEdit
+    public partial class NumericEdit<TValue> : BaseTextInput<TValue>, INumericEdit
     {
         #region Members
 
@@ -45,14 +45,15 @@ namespace Blazorise
         protected override async Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new NumericEditAdapter( this ) );
-            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementRef, ElementId, Decimals, DecimalsSeparator, Step );
+
+            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementRef, ElementId, Decimals, DecimalsSeparator, Step, Min, Max );
 
             await base.OnFirstAfterRenderAsync();
         }
 
         protected override void Dispose( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
                 JSRunner.DestroyNumericEdit( ElementRef, ElementId );
                 JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
@@ -89,16 +90,28 @@ namespace Blazorise
             {
                 case null:
                     return null;
+                case byte @byte:
+                    return Converters.FormatValue( @byte, CurrentCultureInfo );
+                case short @short:
+                    return Converters.FormatValue( @short, CurrentCultureInfo );
                 case int @int:
-                    return BindConverter.FormatValue( @int, CurrentCultureInfo );
+                    return Converters.FormatValue( @int, CurrentCultureInfo );
                 case long @long:
-                    return BindConverter.FormatValue( @long, CurrentCultureInfo );
+                    return Converters.FormatValue( @long, CurrentCultureInfo );
                 case float @float:
-                    return BindConverter.FormatValue( @float, CurrentCultureInfo );
+                    return Converters.FormatValue( @float, CurrentCultureInfo );
                 case double @double:
-                    return BindConverter.FormatValue( @double, CurrentCultureInfo );
+                    return Converters.FormatValue( @double, CurrentCultureInfo );
                 case decimal @decimal:
-                    return BindConverter.FormatValue( @decimal, CurrentCultureInfo );
+                    return Converters.FormatValue( @decimal, CurrentCultureInfo );
+                case sbyte @sbyte:
+                    return Converters.FormatValue( @sbyte, CurrentCultureInfo );
+                case ushort @ushort:
+                    return Converters.FormatValue( @ushort, CurrentCultureInfo );
+                case uint @uint:
+                    return Converters.FormatValue( @uint, CurrentCultureInfo );
+                case ulong @ulong:
+                    return Converters.FormatValue( @ulong, CurrentCultureInfo );
                 default:
                     throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
             }
@@ -169,15 +182,15 @@ namespace Blazorise
         [Parameter]
         public string Culture { get; set; }
 
-        ///// <summary>
-        ///// The minimum value to accept for this input.
-        ///// </summary>
-        //[Parameter] public TValue? Min { get; set; }
+        /// <summary>
+        /// The minimum value to accept for this input.
+        /// </summary>
+        [Parameter] public TValue Min { get; set; }
 
-        ///// <summary>
-        ///// The maximum value to accept for this input.
-        ///// </summary>
-        //[Parameter] public TValue? Max { get; set; }
+        /// <summary>
+        /// The maximum value to accept for this input.
+        /// </summary>
+        [Parameter] public TValue Max { get; set; }
 
         #endregion
     }

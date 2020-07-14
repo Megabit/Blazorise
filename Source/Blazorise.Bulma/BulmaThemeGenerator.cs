@@ -15,11 +15,16 @@ namespace Blazorise.Bulma
             sb.Append( $".has-background-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
+
+            sb.Append( $".hero-{variant}" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
-            var background = Var( ThemeVariables.ButtonBackgrund( variant ) );
+            var background = Var( ThemeVariables.ButtonBackground( variant ) );
             var border = Var( ThemeVariables.ButtonBorder( variant ) );
             var hoverBackground = Var( ThemeVariables.ButtonHoverBackground( variant ) );
             var hoverBorder = Var( ThemeVariables.ButtonHoverBorder( variant ) );
@@ -84,7 +89,8 @@ namespace Blazorise.Bulma
         {
             var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
             var yiqColor = Var( ThemeVariables.OutlineButtonYiqColor( variant ) );
-            //var boxShadow = Var( ThemeVariables.OutlineButtonBoxShadowColor( variant ) );
+            //var hoverColor = Var( ThemeVariables.OutlineButtonHoverColor( variant ) );
+            //var activeColor = Var( ThemeVariables.OutlineButtonActiveColor( variant ) );
 
             sb.Append( $".button.is-{variant}.is-outlined" ).Append( "{" )
                 .Append( $"color: {color};" )
@@ -98,7 +104,7 @@ namespace Blazorise.Bulma
                 .Append( $".button.is-{variant}.is-outlined:focus," )
                 .Append( $".button.is-{variant}.is-outlined.is-focused" ).Append( "{" )
                 .Append( $"color: {yiqColor};" )
-                .Append( $"background-color: white;" )
+                .Append( $"background-color: {color};" )
                 .Append( $"border-color: {color};" )
                 .AppendLine( "}" );
 
@@ -168,7 +174,7 @@ namespace Blazorise.Bulma
             if ( backgroundColor.IsEmpty )
                 return;
 
-            var yiqBackgroundColor = Contrast( backgroundColor );
+            var yiqBackgroundColor = Contrast( theme, backgroundColor );
 
             var background = ToHex( backgroundColor );
             var yiqBackground = ToHex( yiqBackgroundColor );
@@ -176,6 +182,32 @@ namespace Blazorise.Bulma
             sb.Append( $".tag:not(body).is-{variant}" ).Append( "{" )
                 .Append( $"color: {yiqBackground};" )
                 .Append( $"background-color: {background};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+
+            if ( backgroundColor.IsEmpty )
+                return;
+
+            //var boxShadowColor = Lighten( backgroundColor, options?.BoxShadowLightenColor ?? 25 );
+            var disabledBackgroundColor = Lighten( backgroundColor, options?.DisabledLightenColor ?? 50 );
+
+            var background = ToHex( backgroundColor );
+            //var boxShadow = ToHex( boxShadowColor );
+            var disabledBackground = ToHex( disabledBackgroundColor );
+
+            sb
+                .Append( $".switch[type=\"checkbox\"].is-{variant}:checked + label::before," )
+                .Append( $".switch[type=\"checkbox\"].is-{variant}:checked + label:before" ).Append( "{" )
+                .Append( $"background-color: {background};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".switch[type=\"checkbox\"]:disabled.is-{variant}:checked + label::before" ).Append( "{" )
+                .Append( $"background-color: {disabledBackground};" )
                 .AppendLine( "}" );
         }
 
@@ -294,10 +326,10 @@ namespace Blazorise.Bulma
 
         protected override void GenerateBreadcrumbStyles( StringBuilder sb, Theme theme, ThemeBreadcrumbOptions options )
         {
-            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            if ( !string.IsNullOrEmpty( Var( ThemeVariables.BreadcrumbColor ) ) )
             {
                 sb.Append( $".breadcrumb a" ).Append( "{" )
-                .Append( $"color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                .Append( $"color: {Var( ThemeVariables.BreadcrumbColor )};" )
                 .AppendLine( "}" );
             }
         }
@@ -341,6 +373,28 @@ namespace Blazorise.Bulma
                     .Append( $"color: {yiqColor};" )
                     .AppendLine( "}" );
             }
+        }
+
+        protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
+        {
+            var textColor = ParseColor( inTextColor );
+
+            var textColorHex = ToHex( textColor );
+
+            sb.Append( $".has-text-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {textColorHex};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string inColor )
+        {
+            var color = ToHex( ParseColor( inColor ) );
+
+            sb.Append( $".input.is-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {color};" )
+                .AppendLine( "}" );
         }
 
         #endregion

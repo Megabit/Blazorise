@@ -1,3 +1,14 @@
-﻿@inherits BaseBarEnd
-<i class="@ClassNames" @attributes="@Attributes"></i>
-@ChildContent
+﻿@inherits Blazorise.BarEnd
+@if ( ParentStore.Mode == BarMode.Horizontal )
+{
+    <i class="@ClassNames" style="@StyleNames" @attributes="@Attributes"></i>
+    @ChildContent
+}
+else
+{
+    <CascadingValue Value="@ParentStore">
+        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </div>
+    </CascadingValue>
+}

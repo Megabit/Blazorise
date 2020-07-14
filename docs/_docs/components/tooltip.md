@@ -52,7 +52,7 @@ You can use one of the following modifiers to change positions of the tooltip:
 |-------------------|--------------------------------------------------------------------|------------------|---------------------------------------------------------------------------|
 | Text              | string                                                             | null             | Content displayed in the tooltip.                                         |
 | Placement         | [Placement]({{ "/docs/helpers/enums/#placement" | relative_url }}) | `Top`            | Position of the tooltip relative to it's component.                       |
-| IsMultiline       | bool                                                               | false            | Force the multiline display.                                              |
-| IsAlwaysActive    | bool                                                               | false            | Always show tooltip, instead of just when hovering over the element.      |
-| IsInline          | bool                                                               | false            | Force inline block instead of trying to detect the element block.         |
-| IsFade            | bool                                                               | false            | Controls the fade effect.                                                 |
+| Multiline         | bool                                                               | false            | Force the multiline display.                                              |
+| AlwaysActive      | bool                                                               | false            | Always show tooltip, instead of just when hovering over the element.      |
+| Inline            | bool                                                               | false            | Force inline block instead of trying to detect the element block.         |
+| Fade              | bool                                                               | false            | Controls the fade effect.                                                 |

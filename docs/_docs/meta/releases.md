@@ -6,6 +6,182 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.9.1.1
+
+### Bug fixes
+
+- [#1026](https://github.com/stsrki/Blazorise/issues/1026) Bar issue with Server-Side pre-rendering
+- [#1030](https://github.com/stsrki/Blazorise/issues/1030) Role="TextRole.Email" cashes Validation
+- [#1044](https://github.com/stsrki/Blazorise/issues/1044) Autocomplete, define the type="search" of TextEdit
+- [#1045](https://github.com/stsrki/Blazorise/issues/1045) Bootstrap 4.5.0 - ColumnSize="ColumnSize.Is12.OnMobile" still use 'col-xs-12' (deprecated)
+
+## PRs
+
+- [#1032](https://github.com/stsrki/Blazorise/pull/1032) Fixes for DataGrid manual data read behavior
+- [#1027](https://github.com/stsrki/Blazorise/pull/1027) fix: Server-Side pre-rendering issue with Bar calling JSInterop
+
+For detail description of changes please look at [v0.9.1.1 release page]({{ "/news/release-notes/0911/" | relative_url }})
+
+## 0.9.1
+
+### Features and bug fixes
+
+- [#758](https://github.com/stsrki/Blazorise/issues/758) Optimize demo apps for mobile
+- [#760](https://github.com/stsrki/Blazorise/issues/760) Upgrade Bootstrap provider
+- [#658](https://github.com/stsrki/Blazorise/issues/658) Add validation support to work similar to ValidationSummary.
+- [#567](https://github.com/stsrki/Blazorise/issues/567) Implement Bar Color as a specific parameter in BarThemeOptions
+- [#763](https://github.com/stsrki/Blazorise/issues/763) Option to make vertical Bar
+- [#766](https://github.com/stsrki/Blazorise/issues/766) Toggle Animation not working with Bar component
+- [#281](https://github.com/stsrki/Blazorise/issues/281) Add ability to display close button on badge
+- [#350](https://github.com/stsrki/Blazorise/issues/350) Sidebar width and Bar height
+- [#369](https://github.com/stsrki/Blazorise/issues/369) Button text colors for success and info
+- [#407](https://github.com/stsrki/Blazorise/issues/407) Datagrid mobile friendly
+- [#413](https://github.com/stsrki/Blazorise/issues/413) Button colors
+- [#412](https://github.com/stsrki/Blazorise/issues/412) Error when using SelectEdit with dictionary in DataGrid
+- [#430](https://github.com/stsrki/Blazorise/issues/430) Modal Footer Buttons do not follow theme
+- [#447](https://github.com/stsrki/Blazorise/issues/447) DetailRowTemplate - Remove empty td or change size
+- [#483](https://github.com/stsrki/Blazorise/issues/483) Scroll not working after NavigationManager navigation
+- [#564](https://github.com/stsrki/Blazorise/issues/564) How should these theme attributes be filled?
+- [#672](https://github.com/stsrki/Blazorise/issues/672) Dropdown and DropdownMenu have a RightAligned property
+- [#676](https://github.com/stsrki/Blazorise/issues/676) Add a SetFocus method
+- [#693](https://github.com/stsrki/Blazorise/issues/693) ChartOptions improvement
+- [#708](https://github.com/stsrki/Blazorise/issues/708) Add Display utilities
+- [#660](https://github.com/stsrki/Blazorise/issues/660) Theme options to define layout grid breakpoints
+- [#790](https://github.com/stsrki/Blazorise/issues/790) Figure is not responsive
+- [#834](https://github.com/stsrki/Blazorise/issues/834) Default colors for AntDesign
+- [#851](https://github.com/stsrki/Blazorise/issues/851) Expose EditContext as an attribute of Validations
+- [#792](https://github.com/stsrki/Blazorise/issues/792) error with charts after redrawing
+- [#847](https://github.com/stsrki/Blazorise/issues/847) Modal scrolls to top of
+- [#955](https://github.com/stsrki/Blazorise/issues/955) Remove Visibility property
+
+- [#622](https://github.com/stsrki/Blazorise/issues/622) [DataGrid] [Material] Issue with DetailRowTemplate in Editable DataGrid
+- [#664](https://github.com/stsrki/Blazorise/issues/664) Switch Component Cursor Property doesn't work
+- [#646](https://github.com/stsrki/Blazorise/issues/646) Theme ColorOptions Primary also changes Breadcrumb link color
+- [#686](https://github.com/stsrki/Blazorise/issues/686) Null reference exception when DataGridColumn Field is not set
+- [#661](https://github.com/stsrki/Blazorise/issues/661) Auto Validation: Form Validation, error message is displayed on first load.
+- [#871](https://github.com/stsrki/Blazorise/issues/871) Sidebar not collapsing on media breakpoints
+- [#875](https://github.com/stsrki/Blazorise/issues/875) Streaming charts - how to assign specific "data-streams" to specific datasets
+- [#898](https://github.com/stsrki/Blazorise/issues/898) Column Width in Material
+- [#923](https://github.com/stsrki/Blazorise/issues/923) Don't call JSRunner during prerendering
+- [#655](https://github.com/stsrki/Blazorise/issues/655) Memo cursor jumps to end when enclosed in a field and Text is bound
+- [#733](https://github.com/stsrki/Blazorise/issues/733) TextEdit jump caret to the end of the text for every typed char
+- [#946](https://github.com/stsrki/Blazorise/issues/946) Unhandled Exception behavior in UI events
+- [#961](https://github.com/stsrki/Blazorise/issues/961) ChartOptions : Scales object has typo in "Axe"
+
+### PRs
+
+- [#785](https://github.com/stsrki/Blazorise/pull/785) fix: layout issue for responsive design
+- [#896](https://github.com/stsrki/Blazorise/pull/896) DataGrid detail column span fix
+- [#928](https://github.com/stsrki/Blazorise/pull/928) Check if component is rendered before calling JSRunner in Dispose()
+- [#947](https://github.com/stsrki/Blazorise/pull/947) Add flask icon to Font Awesome
+- [#948](https://github.com/stsrki/Blazorise/pull/948) DataGrid aggregate column shift fix
+- [#958](https://github.com/stsrki/Blazorise/pull/958) Add ChartColor.FromHtmlColorCode() method
+- [#968](https://github.com/stsrki/Blazorise/pull/968) EmptyTemplate and LoadingTemplate
+- [#962](https://github.com/stsrki/Blazorise/pull/962) Add CardDeck
+- [#987](https://github.com/stsrki/Blazorise/pull/987) TreeView component extension
+- [#985](https://github.com/stsrki/Blazorise/pull/985) ChartJS : convert Options object to Dictionary to fix null values issue
+- [#954](https://github.com/stsrki/Blazorise/pull/954) Vertical Bar mode
+
+For detail description of changes please look at [v0.9.1 release page]({{ "/news/release-notes/091/" | relative_url }})
+
+## 0.9.0
+
+### Features and bug fixes
+
+- [#612](https://github.com/stsrki/Blazorise/issues/612) Make BaseAutocomplete.CurrentSearch
+- [#358](https://github.com/stsrki/Blazorise/issues/358) Snackbar colors and theme support
+- [#576](https://github.com/stsrki/Blazorise/issues/576) Snackbar Closed event
+- [#570](https://github.com/stsrki/Blazorise/issues/570) DataGrid events converted to `EventCallback`
+- [#296](https://github.com/stsrki/Blazorise/issues/296) Cleaned Tabs API
+- [#549](https://github.com/stsrki/Blazorise/issues/549) `CloseReason` for closable components like Modal
+- [#493](https://github.com/stsrki/Blazorise/issues/493) DataGrid multi sorting
+- [#539](https://github.com/stsrki/Blazorise/issues/539) DataGrid sorting icon
+- [#509](https://github.com/stsrki/Blazorise/issues/509) Limit NumericEdit max and min based on it's value type
+- [#516](https://github.com/stsrki/Blazorise/issues/516) DataGrid previous and next templates
+- [#506](https://github.com/stsrki/Blazorise/issues/506) Support for MVVM with ICommand
+- [#617](https://github.com/stsrki/Blazorise/issues/617) DataGrid Row click events
+- [#681](https://github.com/stsrki/Blazorise/issues/681) Some Components can not be styled
+- [#656](https://github.com/stsrki/Blazorise/issues/656) FileUpload does not allow ValidationErrors to be displayed
+- [#668](https://github.com/stsrki/Blazorise/issues/668) Navigation marked as obsolete
+- [#492](https://github.com/stsrki/Blazorise/issues/492) [DataGrid] Add First and Last pagination buttons
+- [#529](https://github.com/stsrki/Blazorise/issues/529) DataGrid styling
+- [#527](https://github.com/stsrki/Blazorise/issues/527) [DataGrid] OnSaveCommand not working when Data is used with EF
+- [#633](https://github.com/stsrki/Blazorise/issues/633) DataGridColumn Filter Template (PR #639)
+- [#491](https://github.com/stsrki/Blazorise/issues/491) [DataGrid] Add Alignment to column
+- [#490](https://github.com/stsrki/Blazorise/issues/490) [DataGrid] Add Format attribute to DataGridColumn
+- [#569](https://github.com/stsrki/Blazorise/issues/569) [Bug] Scroll problem with sidebar
+- [#662](https://github.com/stsrki/Blazorise/issues/662) Possible memory leak on Dispose
+- [#657](https://github.com/stsrki/Blazorise/issues/657) Size-attribute conflict in `<Select>` component
+- [#394](https://github.com/stsrki/Blazorise/issues/394) Custom filtering for DataGrid
+- [#489](https://github.com/stsrki/Blazorise/issues/489) [DataGrid] Aggregate columns
+- [#722](https://github.com/stsrki/Blazorise/issues/722) `.b-body-layout` is not working Bulma
+- [#571](https://github.com/stsrki/Blazorise/issues/571) Prevent users from injecting their own components
+- [#677](https://github.com/stsrki/Blazorise/issues/677) Slider component not initializing as expected with values over 100 (#727)
+- [#351](https://github.com/stsrki/Blazorise/issues/351) Automatically set Breadcrumb active state based on navigation URL
+- [#605](https://github.com/stsrki/Blazorise/issues/605) Option to control data-grid column visibility in display mode
+- [#627](https://github.com/stsrki/Blazorise/issues/627) DataGrid Filter box placement #742
+- [#575](https://github.com/stsrki/Blazorise/issues/575) Adding `@attributes` to Blazorise.Components such as SelectList
+- [#514](https://github.com/stsrki/Blazorise/issues/514) [Clean] CascadingParameter access modifiers
+- [#522](https://github.com/stsrki/Blazorise/issues/522) [Refactor] Convert all components to partial classes
+- [#424](https://github.com/stsrki/Blazorise/issues/424) Tabs documentation doesn't match Tabs Demo (documentation solution doesn't work)
+- [#521](https://github.com/stsrki/Blazorise/issues/521) [Clean] DropdownToggle and BarDropdownToggle
+- [#507](https://github.com/stsrki/Blazorise/issues/507) BootStrap Alert Close Button
+- [#259](https://github.com/stsrki/Blazorise/issues/259) Tab not work with blazor preview 9
+- [#744](https://github.com/stsrki/Blazorise/issues/744) Feature Request: Ability to disable tabs
+
+### PRs
+
+- [#623](https://github.com/stsrki/Blazorise/pull/623) Use Tab key for Autocomplete selection
+- [#685](https://github.com/stsrki/Blazorise/pull/685) Grid/Row Gutter
+- [#639](https://github.com/stsrki/Blazorise/pull/639) DataGridColumn Filter Template
+- [#699](https://github.com/stsrki/Blazorise/pull/699) Fixed minor issues in RadioGroup tests so that they pass
+- [#702](https://github.com/stsrki/Blazorise/pull/702) Refactoring the Tests folder into Tests & Demos
+- [#703](https://github.com/stsrki/Blazorise/pull/703) Layout additions and fixes
+- [#713](https://github.com/stsrki/Blazorise/pull/713) fix: add back sticky header & scrollable sidebar
+- [#727](https://github.com/stsrki/Blazorise/pull/727) Fix slider initial value ignoring max
+- [#615](https://github.com/stsrki/Blazorise/pull/615) Add DisplayGridColumns parameter (#730)
+- [#726](https://github.com/stsrki/Blazorise/pull/726) Added DateEdit tests
+- [#736](https://github.com/stsrki/Blazorise/pull/736) [AntDesign] fix: ant card image/cover
+- [#737](https://github.com/stsrki/Blazorise/pull/737) [AntDesign] fix: progress bar
+- [#742](https://github.com/stsrki/Blazorise/pull/742) fix: insert empty cell when DataGridColumn Filterable is False
+- [#688](https://github.com/stsrki/Blazorise/pull/688) Updated contributing doc to include steps to setup development and testing environment.
+- [#719](https://github.com/stsrki/Blazorise/pull/719) Added unit test project for Blazorise
+- [#748](https://github.com/stsrki/Blazorise/pull/748) fix: Ant Design TableRowHeader
+- [#749](https://github.com/stsrki/Blazorise/pull/749) refactor: Collapse component away from Card dependency
+- [#752](https://github.com/stsrki/Blazorise/pull/752) docs: small changes & added grid docs
+
+For detail description of changes please look at [v0.9.0 release page]({{ "/news/release-notes/090/" | relative_url }})
+
+## 0.8.8.4 (quick fix)
+
+- Upgrade all projects to .Net Core 3.1.2 and Blazor 3.2-preview2
+
+For detail description of changes please look at [v0.8.8.4 release page]({{ "/docs/release-notes/release0884/" | relative_url }})
+
+## 0.8.8.3 (quick fix)
+
+Reupload NuGet package.
+
+For detail description of changes please look at [v0.8.8.3 release page]({{ "/docs/release-notes/release0883/" | relative_url }})
+
+## 0.8.8.2 (quick fix)
+
+### Bug Fixes
+
+- [#518](https://github.com/stsrki/Blazorise/issues/518) Alerts are always visible
+- [#517](https://github.com/stsrki/Blazorise/issues/517) Style missing from Table components
+
+For detail description of changes please look at [v0.8.8.2 release page]({{ "/docs/release-notes/release0882/" | relative_url }})
+
+## 0.8.8.1 (quick fix)
+
+### Bug Fixes
+
+- [#494](https://github.com/stsrki/Blazorise/issues/494) Missing SortDirection.None
+- [#496](https://github.com/stsrki/Blazorise/issues/496) InvalidOperationException: Unsupported type System.UInt64 for NumericEdit
+
+For detail description of changes please look at [v0.8.8.1 release page]({{ "/docs/release-notes/release0881/" | relative_url }})
+
 ## 0.8.8
 
 ### Breaking changes

@@ -30,13 +30,15 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region SelectEdit
+        #region Select
 
-        public override string SelectEdit() => "e-select";
+        public override string Select() => "e-select";
 
-        public override string SelectEditSize( Size size ) => $"{SelectEdit()}-{ToSize( size )}";
+        public override string SelectMultiple() => null;
 
-        public override string SelectEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
+
+        public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -50,23 +52,61 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region CheckEdit
+        #region TimeEdit
 
-        public override string CheckEdit() => null;
+        public override string TimeEdit() => "e-control";
 
-        public override string CheckEditInline() => null;
+        public override string TimeEditSize( Size size ) => $"{TimeEdit()}-{ToSize( size )}";
 
-        public override string CheckEditCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
-
-        public override string CheckEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
-        #region RadioEdit
+        #region ColorEdit
 
-        public override string RadioEdit() => null;
+        public override string ColorEdit() => "e-control";
+
+        #endregion
+
+        #region Check
+
+        public override string Check() => null;
+
+        public override string CheckInline() => null;
+
+        public override string CheckCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
+
+        public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region RadioGroup
+
+        public override string RadioGroup( bool buttons ) => buttons ? "e-buttons unified" : null;
+
+        public override string RadioGroupInline() => null;
+
+        #endregion
+
+        #region Radio
+
+        public override string Radio( bool button ) => null;
 
         public override string RadioInline() => null;
+
+        #endregion
+
+        #region Switch
+
+        public override string Switch() => "e-switch";
+
+        public override string SwitchColor( Color color ) => $"{ToColor( color )}";
+
+        public override string SwitchChecked( bool @checked ) => null;
+
+        public override string SwitchCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
+
+        public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -78,15 +118,34 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Slider
+
+        public override string Slider() => "e-range";
+
+        public override string SliderColor( Color color ) => ToColor( color );
+
+        #endregion
+
         #region Label
 
         public override string Label() => "e-label";
 
+        public override string LabelType( LabelType labelType )
+        {
+            switch ( labelType )
+            {
+                case Blazorise.LabelType.File:
+                    return "e-label";
+                case Blazorise.LabelType.Check:
+                case Blazorise.LabelType.Radio:
+                case Blazorise.LabelType.Switch:
+                case Blazorise.LabelType.None:
+                default:
+                    return null;
+            }
+        }
+
         public override string LabelCursor( Cursor cursor ) => $"e-label-{ToCursor( cursor )}";
-
-        public override string LabelCheck() => null;
-
-        public override string LabelFile() => "e-label";
 
         #endregion
 
@@ -108,6 +167,10 @@ namespace Blazorise.Frolic
 
         public override string ValidationNone() => "e-form-info text-muted";
 
+        public override string ValidationSummary() => "text-danger";
+
+        public override string ValidationSummaryError() => "text-danger";
+
         #endregion
 
         #region Fields
@@ -116,7 +179,7 @@ namespace Blazorise.Frolic
 
         public override string FieldsBody() => null;
 
-        public override string FieldsColumn() => $"{Col()}";
+        public override string FieldsColumn() => $"{Column()}";
 
         #endregion
 
@@ -126,9 +189,11 @@ namespace Blazorise.Frolic
 
         public override string FieldHorizontal() => "e-cols no-gap";
 
-        public override string FieldColumn() => $"{Col()}";
+        public override string FieldColumn() => $"{Column()}";
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
+
+        public override string FieldValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
@@ -158,6 +223,8 @@ namespace Blazorise.Frolic
 
         public override string ControlRadio() => UseCustomInputStyles ? "custom-control custom-radio" : "form-check";
 
+        public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
+
         public override string ControlFile() => UseCustomInputStyles ? "custom-control custom-file" : "form-group";
 
         public override string ControlText() => null;
@@ -167,6 +234,8 @@ namespace Blazorise.Frolic
         #region Addons
 
         public override string Addons() => "e-form-group unified";
+
+        public override string AddonsHasButton( bool hasButton ) => null;
 
         public override string Addon( AddonType addonType ) => "e-control-helper";
 
@@ -262,7 +331,7 @@ namespace Blazorise.Frolic
 
         //public override string DropdownMenuBody() => null;
 
-        public override string DropdownMenuShow() => Show();
+        public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
         public override string DropdownMenuRight() => null;
 
@@ -286,6 +355,8 @@ namespace Blazorise.Frolic
         }
 
         public override string DropdownToggleSplit() => "button split";
+
+        public override string DropdownToggleIcon( bool visible ) => null;
 
         public override string DropdownDirection( Direction direction )
         {
@@ -322,21 +393,61 @@ namespace Blazorise.Frolic
 
         public override string TabItem() => null;
 
-        public override string TabItemActive() => Active();
+        public override string TabItemActive( bool active ) => active ? Active() : null;
+
+        public override string TabItemDisabled( bool disabled ) => null;
 
         public override string TabLink() => null;
 
-        public override string TabLinkActive() => null;
+        public override string TabLinkActive( bool active ) => null;
+
+        public override string TabLinkDisabled( bool disabled ) => null;
 
         public override string TabsContent() => "e-tabs-content";
 
         public override string TabPanel() => "e-tabs-panel";
 
-        public override string TabPanelActive() => Active();
+        public override string TabPanelActive( bool active ) => active ? Active() : null;
+
+        #endregion
+
+        #region Carousel
+
+        public override string Carousel() => "carousel";
+
+        public override string CarouselSlides() => "carousel-items";
+
+        public override string CarouselSlide() => "carousel-item";
+
+        public override string CarouselSlideActive( bool active ) => active ? null : "carousel-item-hidden";
+
+        public override string CarouselIndicators() => "carousel-indicator is-inside is-bottom";
+
+        public override string CarouselIndicator() => "indicator-item";
+
+        public override string CarouselIndicatorActive( bool active ) => active ? "is-active" : null;
+
+        public override string CarouselFade( bool fade ) => null;
+
+        public override string CarouselCaption() => null;
+
+        #endregion
+
+        #region Jumbotron
+
+        public override string Jumbotron() => "e-face";
+
+        public override string JumbotronBackground( Background background ) => $"e-face-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"e-title size-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "e-face-subtitle";
 
         #endregion
 
         #region Card
+
+        public override string CardDeck() => "e-cards deck";
 
         public override string CardGroup() => "e-cards unified";
 
@@ -356,11 +467,13 @@ namespace Blazorise.Frolic
 
         public override string CardImage() => null;
 
-        public override string CardTitle() => "card-title";
+        public override string CardTitle( bool insideHeader ) => "card-title";
 
-        public override string CardSubtitle() => "card-subtitle";
+        public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
-        public override string CardSubtitleSize( int size ) => null;
+        public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
+
+        public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
         public override string CardText() => "card-text";
 
@@ -390,87 +503,71 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region Panel
-
-        public override string Panel() => null;
-
-        #endregion
-
-        #region Nav
-
-        public override string Nav() => "nav";
-
-        public override string NavItem() => "nav-item";
-
-        public override string NavLink() => "nav-link";
-
-        public override string NavTabs() => "nav-tabs";
-
-        public override string NavCards() => "nav-cards";
-
-        public override string NavPills() => "nav-pills";
-
-        public override string NavFill( NavFillType fillType ) => fillType == NavFillType.Justified ? "nav-justified" : "nav-fill";
-
-        public override string NavVertical() => "flex-column";
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public override string Bar() => "e-nav";
 
-        public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )}";
+        public override string BarBackground( Background background ) => BackgroundColor( background );
+
+        public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+
+        public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
 
         public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
 
-        public override string BarItem() => null;
+        public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
 
-        public override string BarItemActive() => null;
+        public override string BarItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-item";
 
-        public override string BarItemDisabled() => Disabled();
+        public override string BarItemActive( BarMode mode ) => null;
 
-        public override string BarItemHasDropdown() => "dropdown";
+        public override string BarItemDisabled( BarMode mode ) => Disabled();
 
-        public override string BarItemHasDropdownShow() => Show();
+        public override string BarItemHasDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : null;
 
-        public override string BarLink() => "e-menu-item";
+        public override string BarItemHasDropdownShow( BarMode mode ) => Show();
 
-        public override string BarLinkDisabled() => Disabled();
+        public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-menu-item" : "b-bar-link";
+
+        public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
         //public override string BarCollapse() => "navbar-collapse";
 
-        public override string BarBrand() => "navbar-brand";
+        public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
 
-        public override string BarToggler() => "e-btn no-shadow no-desktop";
+        public override string BarToggler( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-btn no-shadow no-desktop" : null;
 
-        public override string BarTogglerCollapsed( bool isShow ) => isShow ? Show() : null;
+        public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => isShow ? Show() : null;
 
-        public override string BarMenu() => "e-menu";
+        public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-menu" : "b-bar-menu";
 
-        public override string BarMenuShow() => Show();
+        public override string BarMenuShow( BarMode mode ) => Show();
 
-        public override string BarStart() => "e-distribution";
+        public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-distribution" : "b-bar-start";
 
-        public override string BarEnd() => "e-distribution";
+        public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-distribution" : "b-bar-end";
 
         //public override string BarHasDropdown() => "dropdown";
 
-        public override string BarDropdown() => "e-dropdown";
+        public override string BarDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "e-dropdown" : "b-bar-dropdown";
 
-        public override string BarDropdownShow() => null;
+        public override string BarDropdownShow( BarMode mode ) => null;
 
-        public override string BarDropdownToggle() => null;
+        public override string BarDropdownToggle( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-link";
 
-        public override string BarDropdownItem() => "drop-item";
+        public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "drop-item" : "b-bar-dropdown-item";
 
-        public override string BarTogglerIcon() => "navbar-toggler-icon";
+        public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
 
-        public override string BarDropdownMenu() => "drop-items";
+        public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "drop-items" : "b-bar-dropdown-menu";
 
-        public override string BarDropdownMenuShow() => Show();
+        public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
-        public override string BarDropdownMenuRight() => "drop-items-right";
+        public override string BarDropdownMenuRight( BarMode mode ) => "drop-items-right";
+
+        public override string BarCollapsed( BarMode mode ) => null;
+
+        public override string BarLabel() => "b-bar-label";
 
         #endregion
 
@@ -482,9 +579,17 @@ namespace Blazorise.Frolic
 
         #region Collapse
 
-        public override string Collapse() => "collapse";
+        public override string Collapse() => "e-card";
 
-        public override string CollapseShow() => Show();
+        public override string CollapseActive( bool active ) => null;
+
+        public override string CollapseHeader() => "card-body";
+
+        public override string CollapseBody() => "collapse";
+
+        public override string CollapseBodyActive( bool active ) => active ? Show() : null;
+
+        public override string CollapseBodyContent() => "card-body";
 
         #endregion
 
@@ -494,13 +599,13 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public override string Col() => "e-col";
+        public override string Column() => "e-col";
 
-        public override string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+        public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var baseClass = offset ? "offset" : Col();
+            var baseClass = offset ? "offset" : Column();
 
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
@@ -510,14 +615,27 @@ namespace Blazorise.Frolic
                 return $"{baseClass}-{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
             }
 
-            //if ( columnWidth == Blazorise.ColumnWidth.Auto )
-            //    return $"{baseClass}";
-
             return $"{baseClass}-{ToColumnWidth( columnWidth )}";
         }
 
-        public override string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-            string.Join( " ", rules.Select( r => Col( columnWidth, r.breakpoint, r.offset ) ) );
+        public override string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
+            string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+
+        #endregion
+
+        #region Display
+
+        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        {
+            var baseClass = breakpoint != Breakpoint.None
+                ? $"e-is-{ToBreakpoint( breakpoint )}-{ToDisplayType( displayType )}"
+                : $"e-is-{ToDisplayType( displayType )}";
+
+            if ( direction != DisplayDirection.None )
+                return $"{baseClass} flex-{ToDisplayDirection( direction )}";
+
+            return baseClass;
+        }
 
         #endregion
 
@@ -533,6 +651,14 @@ namespace Blazorise.Frolic
 
         public override string AlertShow() => Show();
 
+        public override string AlertHasMessage() => null;
+
+        public override string AlertHasDescription() => null;
+
+        public override string AlertMessage() => null;
+
+        public override string AlertDescription() => null;
+
         #endregion
 
         #region Modal
@@ -541,11 +667,17 @@ namespace Blazorise.Frolic
 
         public override string ModalFade() => "e-modal-e";
 
-        public override string ModalShow() => "launch";
+        public override string ModalVisible( bool visible ) => visible ? "launch" : null;
 
         public override string ModalBackdrop() => "e-modal-backdrop";
 
-        public override string ModalContent( bool isForm ) => "e-modal-content";
+        public override string ModalBackdropFade() => Fade();
+
+        public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+
+        public override string ModalContent( bool dialog ) => "e-modal-content";
+
+        public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
         public override string ModalContentCentered() => "modal-dialog-centered";
 
@@ -665,6 +797,10 @@ namespace Blazorise.Frolic
 
         public override string TableRowCellTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
+        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
+
+        public override string TableResponsive() => "e-table-responsive";
+
         #endregion
 
         #region Badge
@@ -674,6 +810,8 @@ namespace Blazorise.Frolic
         public override string BadgeColor( Color color ) => $"{Badge()} {ToColor( color )}";
 
         public override string BadgePill() => $"{Badge()} rounded";
+
+        public override string BadgeClose() => $"{Badge()}-close";
 
         #endregion
 
@@ -764,6 +902,14 @@ namespace Blazorise.Frolic
         public override string TooltipFade() => "b-tooltip-fade";
 
         public override string TooltipInline() => "b-tooltip-inline";
+
+        #endregion
+
+        #region Divider
+
+        public override string Divider() => "divider";
+
+        public override string DividerType( DividerType dividerType ) => $"{Divider()}-{ToDividerType( dividerType )}";
 
         #endregion
 

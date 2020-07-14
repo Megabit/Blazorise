@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridDetailRow<TItem> : BaseComponent
+    public abstract class _BaseDataGridDetailRow<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -20,23 +20,11 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
-        protected bool HasCommandColumn => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
+        protected bool HasCommandColumn
+            => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
 
-        protected string CommandColumnLocation
-        {
-            get
-            {
-                if ( Columns.Count > 1 && HasCommandColumn )
-                {
-                    if ( Columns[0].ColumnType == DataGridColumnType.Command )
-                        return "start";
-                    else if ( Columns[Columns.Count - 1].ColumnType == DataGridColumnType.Command )
-                        return "end";
-                }
-
-                return string.Empty;
-            }
-        }
+        protected int ColumnSpan
+            => Columns.Count - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
 
         /// <summary>
         /// Item associated with the data set.
@@ -46,9 +34,9 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// List of columns used to build this row.
         /// </summary>
-        [Parameter] public IReadOnlyList<BaseDataGridColumn<TItem>> Columns { get; set; }
+        [Parameter] public IReadOnlyList<DataGridColumn<TItem>> Columns { get; set; }
 
-        [CascadingParameter] public BaseDataGrid<TItem> ParentDataGrid { get; set; }
+        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

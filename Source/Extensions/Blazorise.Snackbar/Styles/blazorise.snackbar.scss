@@ -1,0 +1,208 @@
+﻿@import "colors";
+@import "variables";
+@import "mixins";
+@import "functions";
+
+
+$primary: ( background: var(--b-snackbar-background-primary, #cce5ff), color: var(--b-snackbar-text-primary, #004085), button: var(--b-snackbar-button-primary, #ff4081), button-hover: var(--b-snackbar-button-hover-primary, #ff80ab) );
+$secondary: ( background: var(--b-snackbar-background-secondary, #e2e3e5), color: var(--b-snackbar-text-secondary, #383d41), button: var(--b-snackbar-button-secondary, #ff4081), button-hover: var(--b-snackbar-button-hover-secondary, #ff80ab) );
+$success: ( background: var(--b-snackbar-background-success, #d4edda), color: var(--b-snackbar-text-success, #155724), button: var(--b-snackbar-button-success, #ff4081), button-hover: var(--b-snackbar-button-hover-success, #ff80ab) );
+$danger: ( background: var(--b-snackbar-background-danger, #f8d7da), color: var(--b-snackbar-text-danger, #721c24), button: var(--b-snackbar-button-danger, #ff4081), button-hover: var(--b-snackbar-button-hover-danger, #ff80ab) );
+$warning: ( background: var(--b-snackbar-background-warning, #fff3cd), color: var(--b-snackbar-text-warning, #856404), button: var(--b-snackbar-button-warning, #ff4081), button-hover: var(--b-snackbar-button-hover-warning, #ff80ab) );
+$info: ( background: var(--b-snackbar-background-info, #d1ecf1), color: var(--b-snackbar-text-info, #0c5460), button: var(--b-snackbar-button-info, #ff4081), button-hover: var(--b-snackbar-button-hover-info, #ff80ab) );
+$light: ( background: var(--b-snackbar-background-light, #fefefe), color: var(--b-snackbar-text-light, #818182), button: var(--b-snackbar-button-light, #ff4081), button-hover: var(--b-snackbar-button-hover-light, #ff80ab) );
+$dark: ( background: var(--b-snackbar-background-dark, #d6d8d9), color: var(--b-snackbar-text-dark, #1b1e21), button: var(--b-snackbar-button-dark, #ff4081), button-hover: var(--b-snackbar-button-hover-dark, #ff80ab) );
+
+$theme-colors: ( primary: $primary, secondary: $secondary, success: $success, danger: $danger, warning: $warning, info: $info, light: $light, dark: $dark );
+
+$snackbar-bg: var(--b-snackbar-background, #323232) !default;
+$snackbar-border-radius: $border-radius !default;
+$snackbar-breakpoint: sm !default;
+$snackbar-btn-color: var(--b-snackbar-button-color, #ff4081) !default;
+$snackbar-btn-color-hover: var(--b-snackbar-button-hover-color, #ff80ab) !default;
+$snackbar-color: var(--b-snackbar-text-color, $white-primary) !default;
+$snackbar-elevation-shadow: map-get($elevation-shadows, 6) !default;
+$snackbar-font-size: 0.875rem !default;
+$snackbar-height-multi: 5rem !default;
+$snackbar-inner-spacer-x: 1.5rem !default;
+$snackbar-inner-spacer-x-desktop: 3rem !default;
+$snackbar-line-height: $line-height-base !default;
+$snackbar-margin-x: $spacer-lg !default;
+$snackbar-margin-y: $spacer-lg !default;
+$snackbar-max-width: 35.5rem !default;
+$snackbar-min-width: 18rem !default;
+$snackbar-padding-x: 1.5rem !default;
+$snackbar-padding-y: 0.875rem !default;
+$snackbar-padding-y-multi: 1.25rem !default;
+
+.snackbar {
+    align-items: center;
+    background-color: $snackbar-bg;
+    color: $snackbar-color;
+    display: flex;
+    font-size: $snackbar-font-size;
+    line-height: $snackbar-line-height;
+    opacity: 0;
+    padding: $snackbar-padding-y $snackbar-padding-x;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    transform: translateY(100%);
+    transition: opacity 0s $transition-duration-mobile-leaving, transform $transition-duration-mobile-leaving $transition-timing-function-acceleration;
+    width: 100%;
+    z-index: map-get($snackbar-elevation-shadow, elevation);
+
+    @include media-breakpoint-up($snackbar-breakpoint) {
+        border-radius: $snackbar-border-radius;
+        max-width: $snackbar-max-width;
+        min-width: $snackbar-min-width;
+        left: 50%;
+        transform: translate(-50%, 100%);
+        width: auto;
+    }
+
+    @include media-breakpoint-up(sm) {
+        transition: opacity 0s $transition-duration-tablet-leaving, transform $transition-duration-tablet-leaving $transition-timing-function-acceleration;
+    }
+
+    @include media-breakpoint-up(lg) {
+        transition: opacity 0s $transition-duration-desktop-leaving, transform $transition-duration-desktop-leaving $transition-timing-function-acceleration;
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+
+    &.show {
+        @include transition-deceleration(transform);
+        opacity: 1;
+        transform: translateY(0);
+
+        @include media-breakpoint-up($snackbar-breakpoint) {
+            transform: translate(-50%, $snackbar-margin-y * -1);
+        }
+    }
+}
+
+.snackbar-body {
+    @include text-truncate;
+    margin-right: auto;
+    max-height: 100%;
+    min-width: 0;
+}
+
+
+.snackbar-btn {
+    @include transition-standard(background-color, background-image);
+    background-color: transparent;
+    background-image: none;
+    border: 0;
+    color: var(--b-snackbar-button-color, $snackbar-btn-color);
+    cursor: pointer;
+    display: block;
+    flex-shrink: 0;
+    font-size: inherit;
+    font-weight: $btn-font-weight;
+    line-height: inherit;
+    margin-left: $snackbar-inner-spacer-x;
+    padding: 0;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    @include focus-hover {
+        color: var(--b-snackbar-button-hover-color, $snackbar-btn-color-hover);
+        text-decoration: none;
+    }
+
+    @include media-breakpoint-up($snackbar-breakpoint) {
+        margin-left: $snackbar-inner-spacer-x-desktop;
+    }
+
+    &:focus {
+        outline: 0;
+    }
+}
+
+.snackbar-left,
+.snackbar-right {
+    @include media-breakpoint-up($snackbar-breakpoint) {
+        transform: translateY(100%);
+
+        &.show {
+            transform: translateY($snackbar-margin-y * -1);
+        }
+    }
+}
+
+.snackbar-left {
+    @include media-breakpoint-up($snackbar-breakpoint) {
+        left: $snackbar-margin-x;
+    }
+}
+
+.snackbar-right {
+    @include media-breakpoint-up($snackbar-breakpoint) {
+        right: $snackbar-margin-x;
+        left: auto;
+    }
+}
+
+.snackbar-multi-line {
+    height: $snackbar-height-multi;
+    padding-top: $snackbar-padding-y-multi;
+    padding-bottom: $snackbar-padding-y-multi;
+
+    .snackbar-body {
+        white-space: normal;
+    }
+}
+
+@each $name, $color in $theme-colors {
+    .snackbar-#{$name} {
+        background-color: map-get($color, background);
+        color: map-get($color, color);
+    }
+
+    .snackbar-btn-#{$name} {
+        color: map-get($color, button);
+
+        @include focus-hover {
+            color: map-get($color, button-hover);
+        }
+    }
+}
+
+.snackbar-stack {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: map-get($snackbar-elevation-shadow, elevation);
+    bottom: 0;
+}
+
+.snackbar-stack {
+    .snackbar {
+        position: relative;
+        flex-direction: row;
+        margin-bottom: 0;
+    }
+
+    .snackbar:not(:last-child) {
+        margin-bottom: $spacer-lg;
+    }
+}
+
+@media (min-width: $mobile) {
+    .snackbar-stack-center {
+        left: 50%;
+        transform: translate(-50%, 0%);
+    }
+
+    .snackbar-stack-left {
+        left: $spacer-lg;
+    }
+
+    .snackbar-stack-right {
+        right: $spacer-lg;
+    }
+}

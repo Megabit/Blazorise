@@ -1,8 +1,12 @@
-﻿@inherits Blazorise.BaseBarBrand
+﻿@inherits BaseComponent
 @if ( !HasCustomRegistration )
 {
-    <div class="@ClassNames" @attributes="@Attributes">
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
+        @if ( ParentStore.Mode != BarMode.Horizontal )
+        {
+            <BarToggler Class="b-bar-mobile-toggle" />
+        }
     </div>
 }
 else

@@ -8,15 +8,24 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseBadge : BaseComponent
+    public partial class Badge : BaseComponent
     {
         #region Members
 
-        private bool isPill;
+        private bool pill;
 
         private Color color = Color.None;
 
         private string link;
+
+        #endregion
+
+        #region Constructors
+
+        public Badge()
+        {
+            CloseClassBuilder = new ClassBuilder( BuildCloseClasses );
+        }
 
         #endregion
 
@@ -26,9 +35,19 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Badge() );
             builder.Append( ClassProvider.BadgeColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.BadgePill(), IsPill );
+            builder.Append( ClassProvider.BadgePill(), Pill );
 
             base.BuildClasses( builder );
+        }
+
+        private void BuildCloseClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.BadgeClose() );
+        }
+
+        protected Task OnCloseClickedHandler()
+        {
+            return CloseClicked.InvokeAsync( null );
         }
 
         #endregion
@@ -36,15 +55,22 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Indicated if badge can have closable icon.
+        /// </summary>
+        protected bool Closable => CloseClicked.HasDelegate;
+
+        protected ClassBuilder CloseClassBuilder { get; private set; }
+
+        /// <summary>
         /// Make the badge more rounded.
         /// </summary>
         [Parameter]
-        public bool IsPill
+        public bool Pill
         {
-            get => isPill;
+            get => pill;
             set
             {
-                isPill = value;
+                pill = value;
 
                 DirtyClasses();
             }
@@ -79,6 +105,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Occurs on close button click.
+        /// </summary>
+        [Parameter] public EventCallback CloseClicked { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -58,3 +58,15 @@ Similar to the contextual color classes, easily set the background of an element
 - `White`
 - `Black50`
 - `White50`
+
+## SnackbarColor
+
+- `None`
+- `Primary`
+- `Secondary`
+- `Success`
+- `Danger`
+- `Warning`
+- `Info`
+- `Light`
+- `Dark`

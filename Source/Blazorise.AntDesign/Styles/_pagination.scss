@@ -1,0 +1,23 @@
+﻿.ant-pagination-lg {
+    .ant-pagination-item {
+        height: auto;
+    }
+
+    .ant-pagination-link {
+        padding: .75rem 1.5rem;
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+    }
+}
+
+.ant-pagination-sm {
+    .ant-pagination-item {
+        height: auto;
+    }
+
+    .ant-pagination-link {
+        padding: .25rem .5rem;
+        font-size: .875rem;
+        line-height: 1rem;
+    }
+}

@@ -8,13 +8,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public abstract class BaseLabel : BaseComponent
+    public partial class Label : BaseComponent
     {
         #region Members
 
-        private bool isCheck;
-
-        private bool isFile;
+        private LabelType type = LabelType.None;
 
         private Cursor cursor;
 
@@ -24,9 +22,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.Label(), !IsFile && !IsCheck );
-            builder.Append( ClassProvider.LabelFile(), IsFile );
-            builder.Append( ClassProvider.LabelCheck(), IsCheck );
+            builder.Append( ClassProvider.Label(), Type == LabelType.None );
+            builder.Append( ClassProvider.LabelType( Type ), Type != LabelType.None );
             builder.Append( ClassProvider.LabelCursor( Cursor ), Cursor != Cursor.Default );
 
             base.BuildClasses( builder );
@@ -39,24 +36,12 @@ namespace Blazorise
         [Parameter] public string For { get; set; }
 
         [Parameter]
-        public bool IsCheck
+        public LabelType Type
         {
-            get => isCheck;
+            get => type;
             set
             {
-                isCheck = value;
-
-                DirtyClasses();
-            }
-        }
-
-        [Parameter]
-        public bool IsFile
-        {
-            get => isFile;
-            set
-            {
-                isFile = value;
+                type = value;
 
                 DirtyClasses();
             }

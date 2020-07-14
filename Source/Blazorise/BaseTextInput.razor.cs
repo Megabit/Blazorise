@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -19,13 +20,15 @@ namespace Blazorise
 
         private Color color;
 
+        private ValueDelayer inputValueDelayer;
+
         #endregion
 
         #region Methods
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.TextEdit( IsPlaintext ) );
+            builder.Append( ClassProvider.TextEdit( Plaintext ) );
             builder.Append( ClassProvider.TextEditColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.TextEditSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
@@ -35,6 +38,12 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
+            if ( IsDelayTextOnKeyPress )
+            {
+                inputValueDelayer = new ValueDelayer( DelayTextOnKeyPressIntervalValue );
+                inputValueDelayer.Delayed += OnInputValueDelayed;
+            }
+
             if ( ParentValidation != null )
             {
                 ParentValidation.InitializeInputPattern( Pattern );
@@ -43,9 +52,20 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        protected override void Dispose( bool disposing )
+        {
+            if ( inputValueDelayer != null )
+            {
+                inputValueDelayer.Delayed -= OnInputValueDelayed;
+                inputValueDelayer = null;
+            }
+
+            base.Dispose( disposing );
+        }
+
         protected virtual Task OnChangeHandler( ChangeEventArgs e )
         {
-            if ( !Options.ChangeTextOnKeyPress )
+            if ( !IsChangeTextOnKeyPress )
             {
                 return CurrentValueHandler( e?.Value?.ToString() );
             }
@@ -53,21 +73,45 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        protected virtual Task OnInputHandler( ChangeEventArgs e )
+        protected virtual async Task OnInputHandler( ChangeEventArgs e )
         {
-            if ( Options.ChangeTextOnKeyPress )
+            if ( IsChangeTextOnKeyPress )
             {
-                return CurrentValueHandler( e?.Value?.ToString() );
-            }
+                if ( IsDelayTextOnKeyPress )
+                {
+                    inputValueDelayer?.Update( e?.Value?.ToString() );
+                }
+                else
+                {
+                    var caret = await JSRunner.GetCaret( ElementRef );
 
-            return Task.CompletedTask;
+                    await CurrentValueHandler( e?.Value?.ToString() );
+
+                    await JSRunner.SetCaret( ElementRef, caret );
+                }
+            }
+        }
+
+        private void OnInputValueDelayed( object sender, string value )
+        {
+            InvokeAsync( async () =>
+            {
+                await CurrentValueHandler( value );
+            } );
         }
 
         #endregion
 
         #region Properties
 
-        [Inject] protected BlazoriseOptions Options { get; set; }
+        private bool IsChangeTextOnKeyPress
+            => ChangeTextOnKeyPress.GetValueOrDefault( Options?.ChangeTextOnKeyPress ?? true );
+
+        private bool IsDelayTextOnKeyPress
+            => DelayTextOnKeyPress.GetValueOrDefault( Options?.DelayTextOnKeyPress ?? false );
+
+        private int DelayTextOnKeyPressIntervalValue
+            => DelayTextOnKeyPressInterval.GetValueOrDefault( Options?.DelayTextOnKeyPressInterval ?? 300 );
 
         /// <summary>
         /// Sets the placeholder for the empty text.
@@ -77,7 +121,7 @@ namespace Blazorise
         /// <summary>
         /// Sets the class to remove the default form field styling and preserve the correct margin and padding.
         /// </summary>
-        [Parameter] public bool IsPlaintext { get; set; }
+        [Parameter] public bool Plaintext { get; set; }
 
         /// <summary>
         /// Sets the input text color.
@@ -91,7 +135,6 @@ namespace Blazorise
                 color = value;
 
                 DirtyClasses();
-                DirtyClasses();
             }
         }
 
@@ -99,6 +142,24 @@ namespace Blazorise
         /// The pattern attribute specifies a regular expression that the input element's value is checked against on form validation.
         /// </summary>
         [Parameter] public string Pattern { get; set; }
+
+        /// <summary>
+        /// If true the text in will be changed after each key press.
+        /// </summary>
+        /// <remarks>
+        /// Note that setting this will override global settings in <see cref="BlazoriseOptions.ChangeTextOnKeyPress"/>.
+        /// </remarks>
+        [Parameter] public bool? ChangeTextOnKeyPress { get; set; }
+
+        /// <summary>
+        /// If true the entered text will be slightly delayed before submiting it to the internal value.
+        /// </summary>
+        [Parameter] public bool? DelayTextOnKeyPress { get; set; }
+
+        /// <summary>
+        /// Interval in milliseconds that entered text will be delayed from submiting to the internal value.
+        /// </summary>
+        [Parameter] public int? DelayTextOnKeyPressInterval { get; set; }
 
         #endregion
     }

@@ -3,38 +3,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseModalBackdrop : BaseComponent, ICloseActivator
+    public partial class ModalBackdrop : BaseComponent, ICloseActivator
     {
         #region Members
 
-        private bool isOpen;
+        private ModalStore parentModalStore;
 
-        private bool isRegistered;
+        private bool jsRegistered;
 
         private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
         #endregion
 
         #region Methods
-
-        protected override void OnInitialized()
-        {
-            if ( ParentModal != null )
-            {
-                // initialize backdrop in case that modal is already set to visible
-                IsOpen = ParentModal.IsOpen;
-
-                ParentModal.StateChanged += OnModalStateChanged;
-            }
-
-            base.OnInitialized();
-        }
 
         protected override async Task OnFirstAfterRenderAsync()
         {
@@ -48,11 +36,18 @@ namespace Blazorise
             if ( disposing )
             {
                 // make sure to unregister listener
-                if ( isRegistered )
+                if ( jsRegistered )
                 {
-                    isRegistered = false;
+                    jsRegistered = false;
 
-                    JSRunner.UnregisterClosableComponent( this );
+                    if ( Rendered )
+                    {
+                        _ = JSRunner.UnregisterClosableComponent( this );
+                    }
+                }
+
+                if ( Rendered )
+                {
                     JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
                 }
             }
@@ -63,58 +58,48 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ModalBackdrop() );
-            builder.Append( ClassProvider.ModalFade() );
-            builder.Append( ClassProvider.ModalShow(), IsOpen );
+            builder.Append( ClassProvider.ModalBackdropFade() );
+            builder.Append( ClassProvider.ModalBackdropVisible( parentModalStore.Visible ) );
 
             base.BuildClasses( builder );
         }
 
-        public bool SafeToClose( string elementId, bool isEscapeKey )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
         {
-            // TODO: ask for parent modal is it OK to close it
-            return ElementId == elementId;
+            return Task.FromResult( ElementId == elementId );
         }
 
-        public void Close()
+        public Task Close( CloseReason closeReason )
         {
-            ParentModal?.Hide();
-        }
+            ParentModal?.Hide( closeReason );
 
-        private void OnModalStateChanged( object sender, ModalStateEventArgs e )
-        {
-            IsOpen = e.Opened;
+            return Task.CompletedTask;
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Defines the visibility of modal backdrop.
-        /// </summary>
-        /// <remarks>
-        /// Use this only when backdrop is placed outside of modal.
-        /// </remarks>
-        [Parameter]
-        public bool IsOpen
+        [CascadingParameter]
+        protected ModalStore ParentModalStore
         {
-            get => isOpen;
+            get => parentModalStore;
             set
             {
-                if ( value == isOpen )
+                if ( parentModalStore == value )
                     return;
 
-                isOpen = value;
+                parentModalStore = value;
 
-                if ( isOpen )
+                if ( parentModalStore.Visible )
                 {
-                    isRegistered = true;
+                    jsRegistered = true;
 
                     ExecuteAfterRender( async () => await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId ) );
                 }
                 else
                 {
-                    isRegistered = false;
+                    jsRegistered = false;
 
                     ExecuteAfterRender( async () => await JSRunner.UnregisterClosableComponent( this ) );
                 }
@@ -123,7 +108,7 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] public BaseModal ParentModal { get; set; }
+        [CascadingParameter] protected Modal ParentModal { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

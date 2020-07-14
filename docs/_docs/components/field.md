@@ -24,7 +24,7 @@ It is recommended to always place input components inside of a field. That way y
 ```html
 <Field>
     <TextEdit Placeholder="Name" />
-<Field>
+</Field>
 ```
 
 <iframe class="frame" src="/examples/fields/basic/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -35,7 +35,7 @@ It is recommended to always place input components inside of a field. That way y
 <Field>
     <FieldLabel>Email address</FieldLabel>
     <TextEdit Placeholder="Enter email" />
-<Field>
+</Field>
 ```
 
 <iframe src="/examples/fields/field-label/" frameborder="0" scrolling="no" style="width:100%;height:80px;"></iframe>
@@ -47,7 +47,7 @@ It is recommended to always place input components inside of a field. That way y
     <TextEdit Placeholder="Enter email">
         <FieldHelp>Please enter a valid email address</FieldHelp>
     </TextEdit>
-<Field>
+</Field>
 ```
 
 <iframe src="/examples/fields/field-help/" frameborder="0" scrolling="no" style="width:100%;height:105px;"></iframe>
@@ -57,7 +57,7 @@ It is recommended to always place input components inside of a field. That way y
 When using horizontal field you must place input controls inside of the `FieldBody` tag.
 
 ```html
-<Field IsHorizontal="true">
+<Field Horizontal="true">
     <FieldLabel ColumnSize="ColumnSize.Is2">Name</FieldLabel>
     <FieldBody ColumnSize="ColumnSize.Is10">
         <TextEdit Placeholder="Some text value..." />
@@ -89,8 +89,9 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
     </Field>
     <Field ColumnSize="ColumnSize.Is4.OnDesktop">
         <FieldLabel>State</FieldLabel>
-        <SelectEdit>
-        </SelectEdit>
+        <Select>
+            ...
+        </Select>
     </Field>
     <Field ColumnSize="ColumnSize.Is2.OnDesktop">
         <FieldLabel>Zip</FieldLabel>
@@ -107,7 +108,7 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
 
 | Name            | Type                                                                              | Default   | Description                                                                                                             |
 |-----------------|-----------------------------------------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------|
-| IsHorizontal    | boolean                                                                           | false     | Aligns the controls for horizontal form.                                                                                |
+| Horizontal      | boolean                                                                           | false     | Aligns the controls for horizontal form.                                                                                |
 | ColumnSize      | [ColumnSize]({{ "/docs/helpers/utilities/#columnsize" | relative_url }})          | null      | Determines how much space will be used by the field inside of the grid row.                                             |
 | JustifyContent  | [JustifyContent]({{ "/docs/helpers/enums/#justifycontent" | relative_url }})      | `None`    | Aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally).    |
 
@@ -115,8 +116,6 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
 
 | Name            | Type                                                                              | Default   | Description                                                                                                             |
 |-----------------|-----------------------------------------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------|
-| IsCheck         | boolean                                                                           | false     | Label is used by the checkbox.                                                                                          |
-| IsFile          | boolean                                                                           | false     | Label is used by the file input.                                                                                        |
 | Screenreader    | [Screenreader]({{ "/docs/helpers/enums/#screenreader" | relative_url }})          | `Always`  | Defines the visibility for screen readers.                                                                              |
 
 ### Fields

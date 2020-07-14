@@ -3,16 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
-    public abstract class BaseTabPanel : BaseComponent
+    public partial class TabPanel : BaseComponent
     {
         #region Members
 
-        private bool isActive;
+        private TabsStore parentTabsStore;
+
+        private TabsContentStore parentTabsContentStore;
 
         #endregion
 
@@ -21,14 +24,22 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabPanel() );
-            builder.Append( ClassProvider.TabPanelActive(), IsActive );
+            builder.Append( ClassProvider.TabPanelActive( Active ) );
 
             base.BuildClasses( builder );
         }
 
         protected override void OnInitialized()
         {
-            ParentTabContent?.Hook( this );
+            if ( ParentTabs != null )
+            {
+                ParentTabs.HookPanel( Name );
+            }
+
+            if ( ParentTabsContent != null )
+            {
+                ParentTabsContent.Hook( Name );
+            }
 
             base.OnInitialized();
         }
@@ -37,27 +48,46 @@ namespace Blazorise
 
         #region Properties
 
+        protected bool Active => parentTabsStore.SelectedTab == Name || parentTabsContentStore.SelectedPanel == Name;
+
         /// <summary>
-        /// Defines the panel name.
+        /// Defines the panel name. Must match the coresponding tab name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 
-        /// <summary>
-        /// Sets the active panel.
-        /// </summary>
-        [Parameter]
-        public bool IsActive
+        [CascadingParameter]
+        protected TabsStore ParentTabsStore
         {
-            get => isActive;
+            get => parentTabsStore;
             set
             {
-                isActive = value;
+                if ( parentTabsStore == value )
+                    return;
+
+                parentTabsStore = value;
 
                 DirtyClasses();
             }
         }
 
-        [CascadingParameter] public BaseTabsContent ParentTabContent { get; set; }
+        [CascadingParameter]
+        protected TabsContentStore ParentTabsContentStore
+        {
+            get => parentTabsContentStore;
+            set
+            {
+                if ( parentTabsContentStore == value )
+                    return;
+
+                parentTabsContentStore = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [CascadingParameter] protected Tabs ParentTabs { get; set; }
+
+        [CascadingParameter] protected TabsContent ParentTabsContent { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

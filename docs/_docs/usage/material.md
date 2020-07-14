@@ -76,54 +76,86 @@ In your main _Imports.razor add:
 
 ### 5. Registrations
 
-Finally in the Startup.cs you must tell the Blazor to register Material provider and extensions:
+Starting from **.Net Core 3.2** there was some changes regarding the setup process for **Blazor WebAssembly** project types. Specifically the **Startup.cs** file is removed and all registrations are now done in the **Program.cs**.
 
-```cs
-using Blazorise;
-using Blazorise.Material;
-using Blazorise.Icons.Material;
+---
+Depending on the hosting model of your Blazor project you only need to apply either step **5.a** or **5.b**. You should not include both of them as that is generally not supported.
 
-public void ConfigureServices( IServiceCollection services )
-{
-  services
-    .AddBlazorise( options =>
-    {
-      options.ChangeTextOnKeyPress = true;
-    } ) // from v0.6.0-preview4
-    .AddMaterialProviders()
-    .AddMaterialIcons();
-}
-```
+To Learn more about the different project types you can go to the official [documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models).
 
 ### 5.a Blazor WebAssembly
 
 ```cs
-public void Configure( IComponentsApplicationBuilder app )
+public class Program
 {
-  app.Services
-    .UseMaterialProviders()
-    .UseMaterialIcons();
+  public static async Task Main( string[] args )
+  {
+    var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
-  app.AddComponent<App>( "app" );
+    builder.Services
+      .AddBlazorise( options =>
+      {
+          options.ChangeTextOnKeyPress = true;
+      } )
+      .AddMaterialProviders()
+      .AddMaterialIcons();
+
+    builder.Services.AddSingleton( new HttpClient
+    {
+      BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
+    } );
+
+    builder.RootComponents.Add<App>( "app" );
+
+    var host = builder.Build();
+
+    host.Services
+      .UseMaterialProviders()
+      .UseMaterialIcons();
+
+    await host.RunAsync();
+  }
 }
 ```
 
 ### 5.b Blazor Server
 
 ```cs
-public void Configure( IComponentsApplicationBuilder app )
-{
-  ...
-  app.UseRouting();
-  
-  app.ApplicationServices
-    .UseMaterialProviders()
-    .UseMaterialIcons();
+// other usings
+using Blazorise;
+using Blazorise.Material;
+using Blazorise.Icons.FontAwesome;
 
-  app.UseEndpoints( endpoints =>
+public class Startup
+{
+  public void ConfigureServices( IServiceCollection services )
   {
-      endpoints.MapBlazorHub();
-      endpoints.MapFallbackToPage( "/_Host" );
-  } );
+    services
+      .AddBlazorise( options =>
+      {
+        options.ChangeTextOnKeyPress = true; // optional
+      } )
+      .AddMaterialProviders()
+      .AddMaterialIcons();
+
+    // other services
+  }
+
+  public void Configure( IComponentsApplicationBuilder app )
+  {
+    // other settings
+    
+    app.UseRouting();
+    
+    app.ApplicationServices
+      .UseMaterialProviders()
+      .UseMaterialIcons();
+
+    app.UseEndpoints( endpoints =>
+    {
+        endpoints.MapBlazorHub();
+        endpoints.MapFallbackToPage( "/_Host" );
+    } );
+  }
 }
 ```
