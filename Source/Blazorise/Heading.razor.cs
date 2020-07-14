@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Heading component is used for titles or subtitles that you want to display on a webpage.
+    /// </summary>
     public partial class Heading : BaseComponent
     {
         #region Members
@@ -23,7 +26,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.HeadingSize( headingSize ) );
-            builder.Append( ClassProvider.HeadingTextColor( TextColor ), TextColor != TextColor.None );
+            builder.Append( ClassProvider.HeadingTextColor( Color ), Color != TextColor.None );
 
             base.BuildClasses( builder );
         }
@@ -32,6 +35,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the heading size.
+        /// </summary>
         [Parameter]
         public HeadingSize Size
         {
@@ -44,8 +50,11 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the heading text color.
+        /// </summary>
         [Parameter]
-        public TextColor TextColor
+        public TextColor Color
         {
             get => textColor;
             set
