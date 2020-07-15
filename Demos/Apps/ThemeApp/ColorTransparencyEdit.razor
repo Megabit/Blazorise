@@ -1,0 +1,16 @@
+﻿<Field Horizontal="true">
+    <FieldLabel ColumnSize="ColumnSize.IsHalf">@Label</FieldLabel>
+    <FieldBody ColumnSize="ColumnSize.IsHalf">
+        <Row>
+            <Column ColumnSize="ColumnSize.Is3">
+                <ColorEdit Color="@Color.Substring(0,7)"
+                           ColorChanged="@(x=>{ Color = x + (Color.Length == 9 ? Color.Substring(7, 2) : string.Empty); })" />
+            </Column>
+            <Column ColumnSize="ColumnSize.Is9">
+                <Slider TValue="int" Min="0" Max="255" Step="1"
+                        Value="@(Color.Length == 9 ? Convert.ToInt32(Color.Substring(7,2), 16) : 255)"
+                        ValueChanged="@(x=>{ Color = Color.Substring(0, 7) + x.ToString("X2"); })" />
+            </Column>
+        </Row>
+    </FieldBody>
+</Field>

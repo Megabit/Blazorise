@@ -49,6 +49,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{C2D0A89F-530E-413F-9D0E-9EE2129A2275}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo", "Demos\Blazorise.Demo\Blazorise.Demo.csproj", "{03DE2645-88E7-4A06-AEDE-99090878C4B0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9BF2670E-B970-416C-8F87-A9F174D11610} = {9BF2670E-B970-416C-8F87-A9F174D11610}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.AntDesign", "Demos\Blazorise.Demo.AntDesign\Blazorise.Demo.AntDesign.csproj", "{39CCE894-2049-493F-9B49-2D8B94E4A1B6}"
 EndProject
@@ -81,6 +84,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Tests", "Tests\Blazorise.Tests\Blazorise.Tests.csproj", "{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.TreeView", "Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj", "{83B3D727-2C23-4A95-8478-85A854BA8325}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThemeApp", "Demos\Apps\ThemeApp\ThemeApp.csproj", "{9BF2670E-B970-416C-8F87-A9F174D11610}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -216,6 +221,10 @@ Global
 		{83B3D727-2C23-4A95-8478-85A854BA8325}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83B3D727-2C23-4A95-8478-85A854BA8325}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83B3D727-2C23-4A95-8478-85A854BA8325}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BF2670E-B970-416C-8F87-A9F174D11610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BF2670E-B970-416C-8F87-A9F174D11610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BF2670E-B970-416C-8F87-A9F174D11610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BF2670E-B970-416C-8F87-A9F174D11610}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -255,6 +264,7 @@ Global
 		{A4218BB6-81C3-47A6-80F2-6FF6E227D142} = {D04C5874-4D6A-493E-8CF4-6C7922198563}
 		{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E} = {D04C5874-4D6A-493E-8CF4-6C7922198563}
 		{83B3D727-2C23-4A95-8478-85A854BA8325} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{9BF2670E-B970-416C-8F87-A9F174D11610} = {47240431-396C-4187-941A-9511D7B79D8D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}

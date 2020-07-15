@@ -119,7 +119,12 @@
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="apps/todo">
+                                        <BarIcon IconName="IconName.CheckDouble" />
                                         Todo
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="apps/theme">
+                                        <BarIcon IconName="IconName.Palette" />
+                                        Theme
                                     </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
@@ -165,35 +170,8 @@
                     </BarStart>
                     <BarEnd>
                         <BarItem>
-                            <BarDropdown>
-                                <BarDropdownToggle><Icon Name="IconName.Tint" /> Theme</BarDropdownToggle>
-                                <BarDropdownMenu Style="padding: 15px; min-width:550px;" RightAligned="true">
-                                    <Row>
-                                        <Column Margin="Margin.Is2.FromBottom">
-                                            <Field>
-                                                <Switch TValue="bool" Checked="@(Theme?.Enabled == true)" CheckedChanged="@OnThemeEnabledChanged">Theme enabled</Switch>
-                                            </Field>
-                                        </Column>
-                                    </Row>
-                                    <Row>
-                                        <Column Margin="Margin.Is2.FromBottom">
-                                            <Field>
-                                                <Check TValue="bool" Checked="@(Theme?.IsGradient == true)" CheckedChanged="@OnGradientChanged">Gradient colors</Check>
-                                            </Field>
-                                            <Field>
-                                                <Check TValue="bool" Checked="@(Theme?.IsRounded == true)" CheckedChanged="@OnRoundedChanged">Rounded elements</Check>
-                                            </Field>
-                                        </Column>
-                                    </Row>
-                                    <Row>
-                                        <Column>
-                                            <Container Fluid="true">
-                                                <ThemeColorSelector Value="@(Theme?.ColorOptions?.Primary)" ValueChanged="@OnThemeColorChanged"></ThemeColorSelector>
-                                            </Container>
-                                        </Column>
-                                    </Row>
-                                </BarDropdownMenu>
-                            </BarDropdown>
+                            <Icon Name="IconName.Palette" />
+                            <BarLink To="apps/theme">Theme</BarLink>
                         </BarItem>
                         <BarItem>
                             <BarLink To="https://github.com/stsrki/blazorise">GitHub</BarLink>
@@ -209,70 +187,6 @@
 </Layout>
 
 @code{
-    void OnThemeEnabledChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.Enabled = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnGradientChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.IsGradient = value;
-
-        //if ( Theme.GradientOptions == null )
-        //    Theme.GradientOptions = new GradientOptions();
-
-        //Theme.GradientOptions.BlendPercentage = 80;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnRoundedChanged( bool value )
-    {
-        if ( Theme == null )
-            return;
-
-        Theme.IsRounded = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-    void OnThemeColorChanged( string value )
-    {
-        if ( Theme == null )
-            return;
-
-        if ( Theme.ColorOptions == null )
-            Theme.ColorOptions = new ThemeColorOptions();
-
-        if ( Theme.BackgroundOptions == null )
-            Theme.BackgroundOptions = new ThemeBackgroundOptions();
-
-        if ( Theme.TextColorOptions == null )
-            Theme.TextColorOptions = new ThemeTextColorOptions();
-
-        Theme.ColorOptions.Primary = value;
-        Theme.BackgroundOptions.Primary = value;
-        Theme.TextColorOptions.Primary = value;
-
-        if ( Theme.InputOptions == null )
-            Theme.InputOptions = new ThemeInputOptions();
-
-        //Theme.InputOptions.Color = value;
-        Theme.InputOptions.CheckColor = value;
-        Theme.InputOptions.SliderColor = value;
-
-        Theme.ThemeHasChanged();
-    }
-
-
     private bool siderVisible = true;
     private bool uiElementsVisible = true;
 
@@ -283,6 +197,4 @@ void ToggleSidebar()
 siderVisible = !siderVisible;
 StateHasChanged();
 }
-
-[CascadingParameter] protected Theme Theme { get; set; }
 }
