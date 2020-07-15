@@ -1658,6 +1658,156 @@
 .ant-switch:disabled.ant-switch-link.ant-switch-checked {
     background-color: rgba(50, 115, 220, 0.5); }
 
+.ant-switch-xs {
+    min-width: 22px;
+    height: 10px;
+    line-height: 8px; }
+    .ant-switch-xs .ant-switch-inner {
+        margin-right: 3px;
+        margin-left: 18px;
+        font-size: 10px; }
+    .ant-switch-xs::after {
+        width: 6px;
+        height: 6px; }
+    .ant-switch-xs:active::before, .ant-switch-xs:active::after {
+        width: 16px; }
+
+.ant-switch-xs.ant-switch-loading-icon {
+    width: 6px;
+    height: 6px; }
+
+.ant-switch-xs.ant-switch-checked .ant-switch-inner {
+    margin-right: 18px;
+    margin-left: 3px; }
+
+.ant-switch-xs.ant-switch-checked .ant-switch-loading-icon {
+    left: 100%;
+    margin-left: -7px; }
+
+.ant-switch-xs.ant-switch-loading .ant-switch-loading-icon {
+    font-weight: bold;
+    transform: scale(0.66667); }
+
+.ant-switch-sm {
+    min-width: 28px;
+    height: 16px;
+    line-height: 14px; }
+    .ant-switch-sm .ant-switch-inner {
+        margin-right: 3px;
+        margin-left: 18px;
+        font-size: 12px; }
+    .ant-switch-sm::after {
+        width: 12px;
+        height: 12px; }
+    .ant-switch-sm:active::before, .ant-switch-sm:active::after {
+        width: 16px; }
+
+.ant-switch-sm.ant-switch-loading-icon {
+    width: 12px;
+    height: 12px; }
+
+.ant-switch-sm.ant-switch-checked .ant-switch-inner {
+    margin-right: 18px;
+    margin-left: 3px; }
+
+.ant-switch-sm.ant-switch-checked .ant-switch-loading-icon {
+    left: 100%;
+    margin-left: -13px; }
+
+.ant-switch-sm.ant-switch-loading .ant-switch-loading-icon {
+    font-weight: bold;
+    transform: scale(0.66667); }
+
+.ant-switch-md {
+    min-width: 90px;
+    height: 28px;
+    line-height: 26px; }
+    .ant-switch-md .ant-switch-inner {
+        margin-right: 3px;
+        margin-left: 18px;
+        font-size: 12px; }
+    .ant-switch-md::after {
+        width: 24px;
+        height: 24px; }
+    .ant-switch-md:active::before, .ant-switch-md:active::after {
+        width: 16px; }
+
+.ant-switch-md.ant-switch-loading-icon {
+    width: 24px;
+    height: 24px; }
+
+.ant-switch-md.ant-switch-checked .ant-switch-inner {
+    margin-right: 18px;
+    margin-left: 3px; }
+
+.ant-switch-md.ant-switch-checked .ant-switch-loading-icon {
+    left: 100%;
+    margin-left: -25px; }
+
+.ant-switch-md.ant-switch-loading .ant-switch-loading-icon {
+    font-weight: bold;
+    transform: scale(0.66667); }
+
+.ant-switch-lg {
+    min-width: 90px;
+    height: 34px;
+    line-height: 32px; }
+    .ant-switch-lg .ant-switch-inner {
+        margin-right: 3px;
+        margin-left: 18px;
+        font-size: 12px; }
+    .ant-switch-lg::after {
+        width: 30px;
+        height: 30px; }
+    .ant-switch-lg:active::before, .ant-switch-lg:active::after {
+        width: 16px; }
+
+.ant-switch-lg.ant-switch-loading-icon {
+    width: 30px;
+    height: 30px; }
+
+.ant-switch-lg.ant-switch-checked .ant-switch-inner {
+    margin-right: 18px;
+    margin-left: 3px; }
+
+.ant-switch-lg.ant-switch-checked .ant-switch-loading-icon {
+    left: 100%;
+    margin-left: -31px; }
+
+.ant-switch-lg.ant-switch-loading .ant-switch-loading-icon {
+    font-weight: bold;
+    transform: scale(0.66667); }
+
+.ant-switch-xl {
+    min-width: 160px;
+    height: 40px;
+    line-height: 38px; }
+    .ant-switch-xl .ant-switch-inner {
+        margin-right: 3px;
+        margin-left: 18px;
+        font-size: 12px; }
+    .ant-switch-xl::after {
+        width: 36px;
+        height: 36px; }
+    .ant-switch-xl:active::before, .ant-switch-xl:active::after {
+        width: 16px; }
+
+.ant-switch-xl.ant-switch-loading-icon {
+    width: 36px;
+    height: 36px; }
+
+.ant-switch-xl.ant-switch-checked .ant-switch-inner {
+    margin-right: 18px;
+    margin-left: 3px; }
+
+.ant-switch-xl.ant-switch-checked .ant-switch-loading-icon {
+    left: 100%;
+    margin-left: -37px; }
+
+.ant-switch-xl.ant-switch-loading .ant-switch-loading-icon {
+    font-weight: bold;
+    transform: scale(0.66667); }
+
 .bg-primary {
     background-color: #1890ff !important; }
 
