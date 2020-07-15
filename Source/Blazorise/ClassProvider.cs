@@ -102,6 +102,8 @@ namespace Blazorise
 
         public abstract string SwitchColor( Color color );
 
+        public abstract string SwitchSize( Size size );
+
         public abstract string SwitchChecked( bool @checked );
 
         public abstract string SwitchCursor( Cursor cursor );

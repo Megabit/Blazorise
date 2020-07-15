@@ -4,7 +4,7 @@
 @using System.Runtime.Serialization
 <Row>
     <Column>
-        <Card Margin="Margin.Is4.OnY">
+        <Card Margin="Margin.Is4.FromTop">
             <CardHeader>
                 <CardTitle>Switch</CardTitle>
             </CardHeader>
@@ -27,7 +27,28 @@
         </Card>
     </Column>
 </Row>
-
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Switch Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Different sizes
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Switch TValue="bool" Size="Size.ExtraSmall">Extra Small</Switch>
+                <Switch TValue="bool" Size="Size.Small">Small</Switch>
+                <Switch TValue="bool" Size="Size.None">None (default)</Switch>
+                <Switch TValue="bool" Size="Size.Medium">Medium</Switch>
+                <Switch TValue="bool" Size="Size.Large">Large</Switch>
+                <Switch TValue="bool" Size="Size.ExtraLarge">Extra Large</Switch>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 @code{
 
 }
