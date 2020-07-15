@@ -102,6 +102,8 @@ namespace Blazorise.Frolic
 
         public override string SwitchColor( Color color ) => $"{ToColor( color )}";
 
+        public override string SwitchSize( Size size ) => $"e-switch-{ToSize( size )}";
+
         public override string SwitchChecked( bool @checked ) => null;
 
         public override string SwitchCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
@@ -958,10 +960,11 @@ namespace Blazorise.Frolic
                 case Blazorise.Size.Small:
                     return "small";
                 case Blazorise.Size.Medium:
-                    return null;
+                    return "medium";
                 case Blazorise.Size.Large:
-                case Blazorise.Size.ExtraLarge:
                     return "large";
+                case Blazorise.Size.ExtraLarge:
+                    return "huge";
                 default:
                     return null;
             }
