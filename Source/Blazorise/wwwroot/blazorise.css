@@ -364,27 +364,27 @@
         font-size: .75rem;
         text-overflow: ellipsis;
         overflow-x: hidden; }
-    .b-bar-vertical-inline .b-bar-dropdown:before,
-    .b-bar-vertical-popout .b-bar-dropdown:before,
-    .b-bar-vertical-small .b-bar-dropdown:before {
+    .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-toggle:before,
+    .b-bar-vertical-popout .b-bar-dropdown .b-bar-dropdown-toggle:before,
+    .b-bar-vertical-small .b-bar-dropdown .b-bar-dropdown-toggle:before {
         content: " ";
         border: solid;
         border-width: 0 2px 2px 0;
         display: inline-block;
         padding: 2px;
-        right: 1.25rem;
+        right: 1rem;
         transition: all 200ms ease-out;
         float: right;
         position: relative;
         -webkit-transform: rotate(-135deg);
         transform: rotate(-135deg);
-        top: 1.5rem; }
-    .b-bar-vertical-inline .b-bar-dropdown:not(.show):before,
-    .b-bar-vertical-popout .b-bar-dropdown:not(.show):before,
-    .b-bar-vertical-small .b-bar-dropdown:not(.show):before {
+        top: 0.7rem; }
+    .b-bar-vertical-inline .b-bar-dropdown:not(.show) .b-bar-dropdown-toggle:before,
+    .b-bar-vertical-popout .b-bar-dropdown:not(.show) .b-bar-dropdown-toggle:before,
+    .b-bar-vertical-small .b-bar-dropdown:not(.show) .b-bar-dropdown-toggle:before {
         -webkit-transform: rotate(45deg);
         transform: rotate(45deg);
-        top: 1.3rem; }
+        top: 0.5rem; }
     .b-bar-vertical-inline .b-bar-dropdown .b-bar-dropdown-menu,
     .b-bar-vertical-popout .b-bar-dropdown .b-bar-dropdown-menu,
     .b-bar-vertical-small .b-bar-dropdown .b-bar-dropdown-menu {
@@ -557,9 +557,9 @@
     .b-bar-vertical-inline[data-collapse=small] .b-bar-toggler-popout:not(.b-bar-mobile-toggle),
     .b-bar-vertical-popout[data-collapse=small] .b-bar-toggler-popout:not(.b-bar-mobile-toggle) {
         left: var(--b-vertical-bar-small-width, 64px); }
-    .b-bar-vertical-small .b-bar-dropdown:before,
-    .b-bar-vertical-inline[data-collapse=small] .b-bar-dropdown:before,
-    .b-bar-vertical-popout[data-collapse=small] .b-bar-dropdown:before {
+    .b-bar-vertical-small .b-bar-dropdown .b-bar-dropdown-toggle:before,
+    .b-bar-vertical-inline[data-collapse=small] .b-bar-dropdown .b-bar-dropdown-toggle:before,
+    .b-bar-vertical-popout[data-collapse=small] .b-bar-dropdown .b-bar-dropdown-toggle:before {
         display: none; }
     .b-bar-vertical-small .b-bar-dropdown:hover .b-bar-dropdown-menu, .b-bar-vertical-small .b-bar-dropdown:focus .b-bar-dropdown-menu, .b-bar-vertical-small .b-bar-dropdownactive .b-bar-dropdown-menu,
     .b-bar-vertical-inline[data-collapse=small] .b-bar-dropdown:hover .b-bar-dropdown-menu,
@@ -640,21 +640,25 @@
 .b-bar-vertical-inline:not([data-collapse]) {
     overflow-y: auto;
     overflow-x: hidden; }
-    .b-bar-vertical-inline:not([data-collapse]) .b-bar-dropdown-menu {
+    .b-bar-vertical-inline:not([data-collapse]) .b-bar-dropdown .b-bar-dropdown-menu {
         position: relative !important;
         border: none;
         border-radius: 0;
         box-shadow: none; }
-        .b-bar-vertical-inline:not([data-collapse]) .b-bar-dropdown-menu .b-bar-dropdown-item {
+        .b-bar-vertical-inline:not([data-collapse]) .b-bar-dropdown .b-bar-dropdown-menu .b-bar-dropdown-item {
             padding: .5rem .5rem .5rem 3rem; }
+        .b-bar-vertical-inline:not([data-collapse]) .b-bar-dropdown .b-bar-dropdown-menu > .b-bar-dropdown .b-bar-link {
+            padding: .5rem .5rem .5rem 3rem; }
+        .b-bar-vertical-inline:not([data-collapse]) .b-bar-dropdown .b-bar-dropdown-menu > .b-bar-dropdown .b-bar-dropdown-item {
+            padding: .5rem .5rem .5rem 4.5rem; }
 
-.b-bar-vertical-popout:not([data-collapse]) .b-bar-dropdown:before {
+.b-bar-vertical-popout:not([data-collapse]) .b-bar-dropdown .b-bar-dropdown-toggle:before {
     content: " ";
     border: solid;
     border-width: 0 2px 2px 0;
     display: inline-block;
     padding: 2px;
-    right: 1.25rem;
+    right: 1rem;
     transition: all 200ms ease-out;
     float: right;
     position: relative;

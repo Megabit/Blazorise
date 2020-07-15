@@ -43,7 +43,7 @@
     border-width: 0 2px 2px 0;
     display: inline-block;
     padding: 2px;
-    right: 1.25rem;
+    right: 1rem;
     transition: all 200ms ease-out;
     float: right;
     position: relative;
@@ -179,17 +179,23 @@
     }
 
     .b-bar-dropdown {
-        &:before {
-            @include b-bar-dropdown-arrow;
-            -webkit-transform: rotate(-135deg);
-            transform: rotate(-135deg);
-            top: 1.5rem;
+        .b-bar-dropdown-toggle {
+            &:before {
+                @include b-bar-dropdown-arrow;
+                -webkit-transform: rotate(-135deg);
+                transform: rotate(-135deg);
+                top: 0.7rem;
+            }
         }
 
-        &:not(.show):before {
-            -webkit-transform: rotate(45deg);
-            transform: rotate(45deg);
-            top: 1.3rem;
+        &:not(.show) {
+            .b-bar-dropdown-toggle {
+                &:before {
+                    -webkit-transform: rotate(45deg);
+                    transform: rotate(45deg);
+                    top: 0.5rem;
+                }
+            }
         }
 
         .b-bar-dropdown-menu {
@@ -229,7 +235,6 @@
         margin: auto;
         display: none;
     }
-
     // Note: Leaving this here as a possible idea for multi-line truncation support
     .b-bar-item-multi-line {
         display: -webkit-box !important;
@@ -374,8 +379,10 @@
     }
 
     .b-bar-dropdown {
-        &:before {
-            display: none;
+        .b-bar-dropdown-toggle {
+            &:before {
+                display: none;
+            }
         }
 
         &:hover, &:focus, &active {
@@ -422,25 +429,39 @@
     overflow-y: auto;
     overflow-x: hidden;
 
-    .b-bar-dropdown-menu {
-        position: relative !important;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
+    .b-bar-dropdown {
+        .b-bar-dropdown-menu {
+            position: relative !important;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
 
-        .b-bar-dropdown-item {
-            padding: .5rem .5rem .5rem 3rem;
+            .b-bar-dropdown-item {
+                padding: .5rem .5rem .5rem 3rem;
+            }
+
+            > .b-bar-dropdown {
+                .b-bar-link {
+                    padding: .5rem .5rem .5rem 3rem;
+                }
+
+                .b-bar-dropdown-item {
+                    padding: .5rem .5rem .5rem 4.5rem;
+                }
+            }
         }
     }
 }
 
 .b-bar-vertical-popout:not([data-collapse]) {
     .b-bar-dropdown {
-        &:before {
-            @include b-bar-dropdown-arrow;
-            -webkit-transform: rotate(-45deg);
-            transform: rotate(-45deg);
-            top: 1.45rem;
+        .b-bar-dropdown-toggle {
+            &:before {
+                @include b-bar-dropdown-arrow;
+                -webkit-transform: rotate(-45deg);
+                transform: rotate(-45deg);
+                top: 1.45rem;
+            }
         }
 
         &:hover, &:focus, &active {
