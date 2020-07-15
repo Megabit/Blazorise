@@ -23,3 +23,74 @@
         }
     }
 }
+
+@mixin switch($size) {
+    $width: 1rem;
+    $height: 1rem;
+
+    @if $size == 'xs' {
+        $width: .75rem;
+        $height: .5rem;
+    }
+    @else if $size == 'sm' {
+        $width: 1rem;
+        $height: .75rem;
+    }
+    @else if $size == 'md' {
+        $width: 2rem;
+        $height: 1.5rem;
+    }
+    @else if $size == 'lg' {
+        $width: 3rem;
+        $height: 2rem;
+    }
+    @else if $size == 'xl' {
+        $width: 4rem;
+        $height: 2.5rem;
+    }
+
+    .custom-control-input.custom-control-input-#{$size} {
+        + .custom-control-label {
+            padding-left: #{$width};
+            padding-bottom: calc(#{$height} / 2);
+
+            &::before {
+                height: $height;
+                width: calc(#{$width} + (#{$height} / 2));
+                border-radius: $height * 2;
+            }
+
+            &::after {
+                height: calc(#{$height} - 4px);
+                width: calc(#{$height} - 4px);
+                border-radius: calc(#{$width} - (#{$height} / 2));
+            }
+        }
+    }
+
+    .custom-control-input.custom-control-input-#{$size}:checked {
+        ~ .custom-control-label::after {
+            transform: translateX(calc(#{$width} - (#{$height} / 2)));
+        }
+    }
+}
+
+.custom-switch {
+    @include switch('xs');
+}
+
+.custom-switch {
+    @include switch('sm');
+}
+
+.custom-switch {
+    @include switch('md');
+}
+
+.custom-switch {
+    @include switch('lg');
+}
+
+.custom-switch {
+    @include switch('xl');
+}

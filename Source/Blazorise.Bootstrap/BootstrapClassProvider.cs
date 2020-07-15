@@ -102,6 +102,8 @@ namespace Blazorise.Bootstrap
 
         public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
 
+        public override string SwitchSize( Size size ) => $"custom-control-input-{ToSize( size )}";
+
         public override string SwitchChecked( bool @checked ) => null;
 
         public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
