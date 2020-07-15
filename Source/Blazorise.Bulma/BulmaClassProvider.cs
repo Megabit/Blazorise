@@ -14,7 +14,7 @@ namespace Blazorise.Bulma
 
         public override string TextEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-        public override string TextEditSize( Size size ) => ToSize( size );
+        public override string TextEditSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string TextEditColor( Color color ) => $"is-{ToColor( color )}";
 
@@ -36,7 +36,7 @@ namespace Blazorise.Bulma
 
         public override string SelectMultiple() => "is-multiple";
 
-        public override string SelectSize( Size size ) => $"{ToSize( size )}";
+        public override string SelectSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -46,7 +46,7 @@ namespace Blazorise.Bulma
 
         public override string DateEdit() => "input";
 
-        public override string DateEditSize( Size size ) => $"{ToSize( size )}";
+        public override string DateEditSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -56,7 +56,7 @@ namespace Blazorise.Bulma
 
         public override string TimeEdit() => "input";
 
-        public override string TimeEditSize( Size size ) => $"{ToSize( size )}";
+        public override string TimeEditSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -101,6 +101,8 @@ namespace Blazorise.Bulma
         public override string Switch() => "switch";
 
         public override string SwitchColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string SwitchSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string SwitchChecked( bool @checked ) => null;
 
@@ -711,7 +713,7 @@ namespace Blazorise.Bulma
 
         public override string Pagination() => "pagination-list";
 
-        public override string PaginationSize( Size size ) => $"{ToSize( size )}";
+        public override string PaginationSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string PaginationItem() => null;
 
@@ -971,13 +973,15 @@ namespace Blazorise.Bulma
             switch ( size )
             {
                 case Blazorise.Size.ExtraSmall:
+                    return "extra-small";
                 case Blazorise.Size.Small:
-                    return "is-small";
+                    return "small";
                 case Blazorise.Size.Medium:
-                    return "is-medium";
+                    return "medium";
                 case Blazorise.Size.Large:
+                    return "large";
                 case Blazorise.Size.ExtraLarge:
-                    return "is-large";
+                    return "extra-large";
                 default:
                     return null;
             }
