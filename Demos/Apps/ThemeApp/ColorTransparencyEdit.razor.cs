@@ -1,15 +1,20 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace ThemeApp
 {
     public partial class ColorTransparencyEdit : ComponentBase
     {
+        #region Members
         private string _color;
-        [Parameter] public string Color { get => _color; set { if (_color == value) return; _color = value; ColorChanged.InvokeAsync(value); } }
-        [Parameter] public EventCallback<string> ColorChanged { get; set; }
-        [Parameter] public string Label { get; set; }
+        #endregion
 
+        #region Constructors
+        #endregion
+
+        #region Methods
         private string GetRGBValue()
         {
             return Color.Substring( 0, 7 );
@@ -29,5 +34,12 @@ namespace ThemeApp
         {
             Color = Color.Substring( 0, 7 ) + value.ToString( "X2" );
         }
+        #endregion
+
+        #region Properties
+        [Parameter] public string Color { get => _color; set { if ( _color == value ) return; _color = value; ColorChanged.InvokeAsync( value ); } }
+        [Parameter] public EventCallback<string> ColorChanged { get; set; }
+        [Parameter] public string Label { get; set; }
+        #endregion
     }
 }
