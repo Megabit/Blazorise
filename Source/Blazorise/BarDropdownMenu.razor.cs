@@ -19,20 +19,45 @@ namespace Blazorise
 
         #endregion
 
+        #region Constructors
+
+        public BarDropdownMenu()
+        {
+            ContainerClassBuilder = new ClassBuilder( BuildContainerClasses );
+        }
+
+        #endregion
+
         #region Methods
 
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdownMenu( ParentStore.Mode ) );
             builder.Append( ClassProvider.BarDropdownMenuVisible( ParentStore.Mode, ParentStore.Visible && ParentStore.Mode != BarMode.VerticalSmall ) );
-            builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), RightAligned );
 
             base.BuildClasses( builder );
+        }
+
+        protected virtual void BuildContainerClasses( ClassBuilder builder )
+        {
+            builder.Append( "b-bar-dropdown-menu-container" );
+            builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), RightAligned );
+        }
+
+        internal protected override void DirtyClasses()
+        {
+            ContainerClassBuilder.Dirty();
+
+            base.DirtyClasses();
         }
 
         #endregion
 
         #region Properties
+
+        protected string ContainerClassNames => ContainerClassBuilder.Class;
+
+        protected ClassBuilder ContainerClassBuilder { get; private set; }
 
         [Parameter]
         public bool RightAligned

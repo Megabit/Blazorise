@@ -1,20 +1,24 @@
-﻿@mixin b-bar-popout-menu {
-    display: block !important;
-    visibility: hidden;
-    position: absolute !important;
-    margin: -45px 5px 0px 5px;
+﻿@mixin b-bar-popout-menu-container {
     z-index: 100;
+    max-height: 50vh;
+    position: absolute !important;
+    margin: -42px 5px 0px 5px;
+    visibility: hidden;
+    display: flex;
+    min-width: 180px;
+    max-width: 220px;
+}
+
+@mixin b-bar-popout-menu {
+    display: block !important;
     box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
     border-radius: 3px;
-    min-width: 180px;
-    max-width: 180px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 100%;
 
     .b-bar-dropdown-item {
         padding: .5rem 1.5rem !important;
-    }
-
-    &:hover, &:focus, &active {
-        visibility: visible;
     }
 
     &:before {
@@ -145,6 +149,7 @@
             font-size: 1.25rem;
             vertical-align: middle;
             margin: 3px;
+            display: inline-block;
         }
     }
 
@@ -379,6 +384,20 @@
     }
 
     .b-bar-dropdown {
+        .b-bar-dropdown-menu-container {
+            @include b-bar-popout-menu-container;
+            left: var(--b-vertical-bar-small-width, 64px);
+
+            &.b-bar-right {
+                right: var(--b-vertical-bar-small-width, 64px);
+                left: unset;
+            }
+
+            .b-bar-dropdown-menu {
+                @include b-bar-popout-menu;
+            }
+        }
+
         .b-bar-dropdown-toggle {
             &:before {
                 display: none;
@@ -386,19 +405,9 @@
         }
 
         &:hover, &:focus, &active {
-            .b-bar-dropdown-menu {
+            .b-bar-dropdown-menu-container {
                 visibility: visible;
             }
-        }
-    }
-
-    .b-bar-dropdown-menu {
-        @include b-bar-popout-menu;
-        left: var(--b-vertical-bar-small-width, 64px);
-
-        &.b-bar-right {
-            right: var(--b-vertical-bar-small-width, 64px);
-            left: unset;
         }
     }
 
@@ -430,23 +439,27 @@
     overflow-x: hidden;
 
     .b-bar-dropdown {
-        .b-bar-dropdown-menu {
-            position: relative !important;
-            border: none;
-            border-radius: 0;
-            box-shadow: none;
+        .b-bar-dropdown-menu-container {
+            position: relative;
 
-            .b-bar-dropdown-item {
-                padding: .5rem .5rem .5rem 3rem;
-            }
+            .b-bar-dropdown-menu {
+                position: relative !important;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
 
-            > .b-bar-dropdown {
-                .b-bar-link {
+                .b-bar-dropdown-item {
                     padding: .5rem .5rem .5rem 3rem;
                 }
 
-                .b-bar-dropdown-item {
-                    padding: .5rem .5rem .5rem 4.5rem;
+                > .b-bar-dropdown {
+                    .b-bar-link {
+                        padding: .5rem .5rem .5rem 3rem;
+                    }
+
+                    .b-bar-dropdown-item {
+                        padding: .5rem .5rem .5rem 4.5rem;
+                    }
                 }
             }
         }
@@ -465,19 +478,23 @@
         }
 
         &:hover, &:focus, &active {
-            .b-bar-dropdown-menu {
+            .b-bar-dropdown-menu-container {
                 visibility: visible;
             }
         }
     }
 
-    .b-bar-dropdown-menu {
-        @include b-bar-popout-menu;
-        left: var(--b-vertical-bar-width, 230px);
+    .b-bar-dropdown-menu-container {
+        @include b-bar-popout-menu-container;
+        left: var(--b-vertical-bar-small-width, 64px);
 
         &.b-bar-right {
-            right: var(--b-vertical-bar-small-width, 230px);
+            right: var(--b-vertical-bar-small-width, 64px);
             left: unset;
+        }
+
+        .b-bar-dropdown-menu {
+            @include b-bar-popout-menu;
         }
     }
 }
@@ -499,7 +516,6 @@
         left: 0px;
     }
 }
-
 /* Mobile & below */
 @media only screen and (max-width:576px) {
     .b-bar-vertical-inline:not([data-collapse]) {
