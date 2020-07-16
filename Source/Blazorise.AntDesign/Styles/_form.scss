@@ -90,3 +90,60 @@
         }
     }
 }
+
+.ant-input {
+    height: 32px;
+}
+
+.ant-input-xs {
+    padding: 0px 7px;
+    font-size: 10px;
+    height: 16px;
+}
+
+.ant-input-sm {
+    padding: 0px 9px;
+    font-size: 12px;
+    height: 24px;
+}
+
+.ant-input-md {
+    padding: 4.5px 11px;
+    font-size: 14px;
+    height: 36px;
+}
+
+.ant-input-lg {
+    padding: 6.5px 13px;
+    font-size: 16px;
+    height: 40px;
+}
+
+.ant-input-xl {
+    padding: 8.5px 15px;
+    font-size: 18px;
+    height: 48px;
+}
+
+@mixin select-size($name, $font-size, $height, $line-height) {
+    .ant-select-#{$name} {
+        font-size: $font-size;
+    }
+
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector {
+        height: $height;
+    }
+
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
+        line-height: $line-height;
+    }
+
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input):not(.ant-select-customize-input) .ant-select-selection-search-input {
+        height: $height;
+    }
+}
+
+@include select-size('xs', 10px, 16px, 14px);
+@include select-size('md', 14px, 36px, 34px);
+@include select-size('xl', 18px, 48px, 45px);

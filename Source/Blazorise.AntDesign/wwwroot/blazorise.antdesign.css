@@ -1224,6 +1224,73 @@
 .ant-form-item.ant-row > .ant-col + .ant-col {
     padding-left: 0; }
 
+.ant-input {
+    height: 32px; }
+
+.ant-input-xs {
+    padding: 0px 7px;
+    font-size: 10px;
+    height: 16px; }
+
+.ant-input-sm {
+    padding: 0px 9px;
+    font-size: 12px;
+    height: 24px; }
+
+.ant-input-md {
+    padding: 4.5px 11px;
+    font-size: 14px;
+    height: 36px; }
+
+.ant-input-lg {
+    padding: 6.5px 13px;
+    font-size: 16px;
+    height: 40px; }
+
+.ant-input-xl {
+    padding: 8.5px 15px;
+    font-size: 18px;
+    height: 48px; }
+
+.ant-select-xs {
+    font-size: 10px; }
+
+.ant-select-single.ant-select-xs:not(.ant-select-customize-input) .ant-select-selector {
+    height: 16px; }
+
+.ant-select-single.ant-select-xs:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
+.ant-select-single.ant-select-xs:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
+    line-height: 14px; }
+
+.ant-select-single.ant-select-xs:not(.ant-select-customize-input):not(.ant-select-customize-input) .ant-select-selection-search-input {
+    height: 16px; }
+
+.ant-select-md {
+    font-size: 14px; }
+
+.ant-select-single.ant-select-md:not(.ant-select-customize-input) .ant-select-selector {
+    height: 36px; }
+
+.ant-select-single.ant-select-md:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
+.ant-select-single.ant-select-md:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
+    line-height: 34px; }
+
+.ant-select-single.ant-select-md:not(.ant-select-customize-input):not(.ant-select-customize-input) .ant-select-selection-search-input {
+    height: 36px; }
+
+.ant-select-xl {
+    font-size: 18px; }
+
+.ant-select-single.ant-select-xl:not(.ant-select-customize-input) .ant-select-selector {
+    height: 48px; }
+
+.ant-select-single.ant-select-xl:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
+.ant-select-single.ant-select-xl:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
+    line-height: 45px; }
+
+.ant-select-single.ant-select-xl:not(.ant-select-customize-input):not(.ant-select-customize-input) .ant-select-selection-search-input {
+    height: 48px; }
+
 .ant-row {
     margin-left: -15px;
     margin-right: -15px; }
