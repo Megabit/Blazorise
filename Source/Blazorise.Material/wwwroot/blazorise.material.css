@@ -11,6 +11,18 @@
     .badge-close:active {
         background-color: rgba(10, 10, 10, 0.4); }
 
+.btn-md {
+    font-size: 0.91rem;
+    height: 2.5rem; }
+
+.btn-lg {
+    font-size: 0.9375rem;
+    height: 2.75rem; }
+
+.btn-xl {
+    font-size: 0.95rem;
+    height: 3rem; }
+
 .dropdown-toggle.dropdown-toggle-hidden::after {
     content: none !important; }
 
@@ -26,6 +38,93 @@
 input.form-control[type=color] {
     height: calc(1.5em + .75rem + 2px);
     padding: .375rem .75rem; }
+
+.form-control-plaintext.form-control-xs, .form-control-plaintext.form-control-md, .form-control-plaintext.form-control-xl {
+    padding-right: 0;
+    padding-left: 0; }
+
+.form-control {
+    height: 36px; }
+
+.form-control-xs {
+    font-size: 0.75rem;
+    height: 1.5rem;
+    /*height: 36px;*/
+    line-height: 1.5;
+    padding: 0.1875rem 0 calc(0.1875rem - 1px); }
+    .form-control-xs[type='file'] {
+        max-height: 1.5rem; }
+
+.form-control-sm {
+    font-size: 0.8125rem;
+    height: 1.75rem;
+    /*height: 36px;*/
+    line-height: 1.5;
+    padding: 0.26563rem 0 calc(0.26563rem - 1px); }
+    .form-control-sm[type='file'] {
+        max-height: 1.75rem; }
+
+.form-control-md {
+    font-size: 1.25rem;
+    height: 2.5rem;
+    /*height: 40px;*/
+    line-height: 1.5;
+    padding: 0.3125rem 0 calc(0.3125rem - 1px); }
+    .form-control-md[type='file'] {
+        max-height: 2.5rem; }
+
+.form-control-lg {
+    font-size: 1.5rem;
+    height: 2.75rem;
+    /*height: 62px;*/
+    line-height: 1.5;
+    padding: 0.25rem 0 calc(0.25rem - 1px); }
+    .form-control-lg[type='file'] {
+        max-height: 2.75rem; }
+
+.form-control-xl {
+    font-size: 1.75rem;
+    height: 3rem;
+    /*height: 66px;*/
+    line-height: 1.5;
+    padding: 0.1875rem 0 calc(0.1875rem - 1px); }
+    .form-control-xl[type='file'] {
+        max-height: 3rem; }
+
+.custom-select-xs {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    padding: 0.1875rem 1.5em calc(0.1875rem - 1px) 0; }
+    .custom-select-xs[multiple], .custom-select-xs[size]:not([size='1']) {
+        padding: calc(0.5625rem - 1px) 0.6rem; }
+
+.custom-select-sm {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    padding: 0.26563rem 1.5em calc(0.26563rem - 1px) 0; }
+    .custom-select-sm[multiple], .custom-select-sm[size]:not([size='1']) {
+        padding: calc(0.76563rem - 1px) 0.75rem; }
+
+.custom-select-md {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    padding: 0.3125rem 1.5em calc(0.3125rem - 1px) 0; }
+    .custom-select-md[multiple], .custom-select-md[size]:not([size='1']) {
+        padding: calc(0.8125rem - 1px) 0.9rem; }
+
+.custom-select-lg {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    padding: 0.25rem 1.5em calc(0.25rem - 1px) 0; }
+    .custom-select-lg[multiple], .custom-select-lg[size]:not([size='1']) {
+        padding: calc(1rem - 1px) 1rem; }
+
+.custom-select-xl {
+    font-size: 1.75rem;
+    line-height: 1.5;
+    padding: 0.1875rem 1.5em calc(0.1875rem - 1px) 0; }
+    .custom-select-xl[multiple], .custom-select-xl[size]:not([size='1']) {
+        padding: calc(1.1875rem - 1px) 1.15rem; }
 
 .no-gutters {
     margin-right: 0;
