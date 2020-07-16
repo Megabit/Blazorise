@@ -1627,6 +1627,24 @@ label.radio.button {
 .file.has-name.is-fullwidth {
     width: 100%; }
 
+.input.is-extra-small {
+    font-size: 0.65rem; }
+
+.input.is-extra-large {
+    font-size: 2rem; }
+
+.select.is-extra-small {
+    font-size: 0.65rem; }
+
+.select.is-extra-large {
+    font-size: 2rem; }
+
+.textarea.is-extra-small {
+    font-size: 0.65rem; }
+
+.textarea.is-extra-large {
+    font-size: 2rem; }
+
 .hero.hero-primary {
     background-color: #00d1b2;
     color: #fff; }
@@ -1766,18 +1784,18 @@ body::-webkit-scrollbar {
     .switch[type="checkbox"].is-extra-small + label {
         position: relative;
         display: initial;
-        font-size: 0.5rem;
+        font-size: 0.65rem;
         line-height: 1.5;
-        padding-left: 2rem;
+        padding-left: 2.45rem;
         padding-top: .2rem;
         cursor: pointer; }
         .switch[type="checkbox"].is-extra-small + label::before, .switch[type="checkbox"].is-extra-small + label:before {
             position: absolute;
             display: block;
-            top: calc( 50% - 0.75rem / 2);
+            top: calc( 50% - 0.975rem / 2);
             left: 0;
-            width: 1.5rem;
-            height: 0.75rem;
+            width: 1.95rem;
+            height: 0.975rem;
             border: 0.1rem solid transparent;
             border-radius: 4px;
             background: rgba(0, 0, 0, 0.125);
@@ -1785,10 +1803,10 @@ body::-webkit-scrollbar {
         .switch[type="checkbox"].is-extra-small + label::after, .switch[type="checkbox"].is-extra-small + label:after {
             display: block;
             position: absolute;
-            top: calc( 50% - 0.25rem / 2);
+            top: calc( 50% - 0.475rem / 2);
             left: 0.25rem;
-            width: 0.25rem;
-            height: 0.25rem;
+            width: 0.475rem;
+            height: 0.475rem;
             transform: translate3d(0, 0, 0);
             border-radius: 4px;
             background: var(--b-theme-white, #fff);
@@ -1797,7 +1815,7 @@ body::-webkit-scrollbar {
     .switch[type="checkbox"].is-extra-small:checked + label::before, .switch[type="checkbox"].is-extra-small:checked + label:before {
         background: var(--b-theme-primary, #00d1b2); }
     .switch[type="checkbox"].is-extra-small:checked + label::after {
-        left: 0.875rem; }
+        left: 1.1rem; }
     .switch[type="checkbox"].is-small + label {
         position: relative;
         display: initial;
