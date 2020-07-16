@@ -39,6 +39,24 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0; }
 
+.btn-xs {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    border-radius: 0.15rem; }
+
+.btn-md {
+    padding: 0.35rem 1rem;
+    font-size: 1.12rem;
+    line-height: 1.5;
+    border-radius: 0.25rem; }
+
+.btn-xl {
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    border-radius: 0.4rem; }
+
 .dropdown-toggle.dropdown-toggle-hidden::after {
     content: none !important; }
 
@@ -88,6 +106,52 @@
 .custom-switch > .custom-control-input.custom-control-input-pointer,
 .custom-switch > .custom-control-label.custom-control-label-pointer {
     cursor: pointer; }
+
+.form-control-plaintext.form-control-xs, .form-control-plaintext.form-control-md, .form-control-plaintext.form-control-xl {
+    padding-right: 0;
+    padding-left: 0; }
+
+.form-control-xs {
+    height: calc(1.5em + 0.3rem + 2px);
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    border-radius: 0.15rem; }
+
+.form-control-md {
+    height: calc(1.5em + 0.7rem + 2px);
+    padding: 0.35rem 1rem;
+    font-size: 1.12rem;
+    line-height: 1.5;
+    border-radius: 0.25rem; }
+
+.form-control-xl {
+    height: calc(1.5em + 1rem + 2px);
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    border-radius: 0.4rem; }
+
+.custom-select-xs {
+    height: calc(1.5em + 0.3rem + 2px);
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
+    padding-left: 0.5rem;
+    font-size: 0.75rem; }
+
+.custom-select-md {
+    height: calc(1.5em + 0.7rem + 2px);
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+    padding-left: 1rem;
+    font-size: 1.12rem; }
+
+.custom-select-xl {
+    height: calc(1.5em + 1rem + 2px);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    font-size: 1.5rem; }
 
 .jumbotron.jumbotron-primary {
     background-color: #007bff;
