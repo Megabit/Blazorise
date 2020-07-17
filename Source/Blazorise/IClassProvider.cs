@@ -99,6 +99,8 @@ namespace Blazorise
 
         string Switch();
 
+        string SwitchColor( Color color );
+
         string SwitchChecked( bool @checked );
 
         string SwitchCursor( Cursor cursor );
@@ -307,6 +309,8 @@ namespace Blazorise
 
         string DropdownToggleSplit();
 
+        string DropdownToggleIcon( bool visible );
+
         string DropdownDirection( Direction direction );
 
         #endregion
@@ -443,9 +447,15 @@ namespace Blazorise
 
         string LayoutFooter();
 
+        string LayoutFooterFixed();
+
         string LayoutSider();
 
         string LayoutSiderContent();
+
+        string LayoutLoading();
+
+        string LayoutRoot();
 
         #endregion
 

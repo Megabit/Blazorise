@@ -222,6 +222,32 @@ namespace Blazorise.Frolic
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+
+            if ( backgroundColor.IsEmpty )
+                return;
+
+            //var boxShadowColor = Lighten( backgroundColor, options?.BoxShadowLightenColor ?? 25 );
+            var disabledBackgroundColor = Lighten( backgroundColor, options?.DisabledLightenColor ?? 50 );
+
+            var background = ToHex( backgroundColor );
+            //var boxShadow = ToHex( boxShadowColor );
+            var disabledBackground = ToHex( disabledBackgroundColor );
+
+            sb
+                .Append( $".e-switch[type=\"checkbox\"].{variant}:checked + label::before," )
+                .Append( $".e-switch[type=\"checkbox\"].{variant}:checked + label:before" ).Append( "{" )
+                .Append( $"background-color: {background};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".e-switch[type=\"checkbox\"]:disabled.{variant}:checked + label::before" ).Append( "{" )
+                .Append( $"background-color: {disabledBackground};" )
+                .AppendLine( "}" );
+        }
+
         protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
         {
             var backgroundColor = ParseColor( inBackgroundColor );

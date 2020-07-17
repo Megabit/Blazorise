@@ -100,6 +100,8 @@ namespace Blazorise.AntDesign
 
         public override string Switch() => "ant-switch";
 
+        public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+
         public override string SwitchChecked( bool @checked ) => @checked ? "ant-switch-checked" : null;
 
         public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
@@ -346,7 +348,7 @@ namespace Blazorise.AntDesign
 
         public override string DropdownToggleColor( Color color ) => $"{Button()}-{ToColor( color )}";
 
-        public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+        public override string DropdownToggleOutline( Color color ) => color != Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
         public override string DropdownToggleSize( ButtonSize buttonSize )
         {
@@ -362,6 +364,8 @@ namespace Blazorise.AntDesign
         }
 
         public override string DropdownToggleSplit() => "dropdown-toggle-split";
+
+        public override string DropdownToggleIcon( bool visible ) => null;
 
         public override string DropdownDirection( Direction direction )
         {
