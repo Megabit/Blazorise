@@ -100,6 +100,8 @@ namespace Blazorise.Bootstrap
 
         public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
+        public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+
         public override string SwitchChecked( bool @checked ) => null;
 
         public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
@@ -366,6 +368,8 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownToggleSplit() => "dropdown-toggle-split";
 
+        public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
+
         public override string DropdownDirection( Direction direction )
         {
             switch ( direction )
@@ -551,7 +555,7 @@ namespace Blazorise.Bootstrap
 
         public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav mr-auto" : "b-bar-start";
 
-        public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav" : "b-bar-end";
+        public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav ml-auto" : "b-bar-end";
 
         public override string BarDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : "b-bar-dropdown";
 

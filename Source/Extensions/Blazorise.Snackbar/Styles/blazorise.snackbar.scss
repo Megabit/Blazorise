@@ -171,3 +171,38 @@ $snackbar-padding-y-multi: 1.25rem !default;
         }
     }
 }
+
+.snackbar-stack {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: map-get($snackbar-elevation-shadow, elevation);
+    bottom: 0;
+}
+
+.snackbar-stack {
+    .snackbar {
+        position: relative;
+        flex-direction: row;
+        margin-bottom: 0;
+    }
+
+    .snackbar:not(:last-child) {
+        margin-bottom: $spacer-lg;
+    }
+}
+
+@media (min-width: $mobile) {
+    .snackbar-stack-center {
+        left: 50%;
+        transform: translate(-50%, 0%);
+    }
+
+    .snackbar-stack-left {
+        left: $spacer-lg;
+    }
+
+    .snackbar-stack-right {
+        right: $spacer-lg;
+    }
+}

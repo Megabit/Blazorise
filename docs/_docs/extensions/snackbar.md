@@ -86,6 +86,19 @@ You can also define variant [colors]({{ "/docs/helpers/colors/#snackbarcolor" | 
 </Snackbar>
 ```
 
+### Stacked snackbars
+
+When you want to show multiple snackbars stacked on top of each other you can use a wrapper component `SnackbarStack`.
+
+```html
+<Button Color="Color.Primary" Clicked="@(()=>snackbarStack.Push("Current time is: " + DateTime.Now, SnackbarColor.Info))">Primary</Button>
+
+<SnackbarStack @ref="snackbarStack" Location="SnackbarStackLocation.Right" />
+@code{
+    SnackbarStack snackbarStack;
+}
+```
+
 ## Attributes
 
 | Name               | Type                                                                                     | Default      | Description                                                                                  |
@@ -95,4 +108,4 @@ You can also define variant [colors]({{ "/docs/helpers/colors/#snackbarcolor" | 
 | Visible            | bool                                                                                     | false        | Defines the visibility of snackbar.                                                          |
 | Multiline          | bool                                                                                     | false        | Allow snackbar to show multiple lines of text.                                               |
 | Interval           | double                                                                                   | 3000         | Defines the interval(in milliseconds) after which the snackbar will be automatically closed. |
-| Closed             | event                                                                                    |              | Occurs after the snackbar has closed.                                                        |
+| Closed             | `EventCallback<SnackbarClosedEventArgs>`                                                 |              | Occurs after the snackbar has closed.                                                        |

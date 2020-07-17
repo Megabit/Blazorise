@@ -20,7 +20,7 @@
                     @NodeContent( node )
                 </_TreeViewNodeContent>
 
-                @if ( hasChildren )
+                @if ( nodeExpanded && hasChildren )
                 {
                     <_TreeViewNode Nodes="GetChildNodes(node)"
                                    NodeContent="NodeContent"

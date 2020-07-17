@@ -100,6 +100,8 @@ namespace Blazorise
 
         public abstract string Switch();
 
+        public abstract string SwitchColor( Color color );
+
         public abstract string SwitchChecked( bool @checked );
 
         public abstract string SwitchCursor( Cursor cursor );
@@ -308,6 +310,8 @@ namespace Blazorise
 
         public abstract string DropdownToggleSplit();
 
+        public abstract string DropdownToggleIcon( bool visible );
+
         public abstract string DropdownDirection( Direction direction );
 
         #endregion
@@ -444,9 +448,15 @@ namespace Blazorise
 
         public virtual string LayoutFooter() => "b-layout-footer";
 
+        public virtual string LayoutFooterFixed() => "b-layout-footer-fixed";
+
         public virtual string LayoutSider() => "b-layout-sider";
 
         public virtual string LayoutSiderContent() => "b-layout-sider-content";
+
+        public virtual string LayoutLoading() => "b-layout-loading";
+
+        public virtual string LayoutRoot() => "b-layout-root";
 
         #endregion
 

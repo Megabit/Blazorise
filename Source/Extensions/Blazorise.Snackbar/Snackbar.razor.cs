@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using Blazorise.Snackbar.Utils;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -23,6 +24,11 @@ namespace Blazorise.Snackbar
         private SnackbarColor snackbarColor = SnackbarColor.None;
 
         private Timer timer;
+
+        /// <summary>
+        /// Holds the last received reason for snackbar closure.
+        /// </summary>
+        private SnackbarCloseReason closeReason = SnackbarCloseReason.None;
 
         #endregion
 
@@ -69,17 +75,24 @@ namespace Blazorise.Snackbar
             base.Dispose( disposing );
         }
 
+        protected Task OnClickHandler()
+        {
+            Hide( SnackbarCloseReason.UserClosed );
+
+            return Task.CompletedTask;
+        }
+
         /// <summary>
         /// Shows the snackbar.
         /// </summary>
         public void Show()
         {
-            timer?.Start();
+            if ( Visible )
+                return;
 
             Visible = true;
-            StateHasChanged();
 
-            timer.Start();
+            StateHasChanged();
         }
 
         /// <summary>
@@ -87,9 +100,20 @@ namespace Blazorise.Snackbar
         /// </summary>
         public void Hide()
         {
+            Hide( SnackbarCloseReason.UserClosed );
+        }
+
+        private void Hide( SnackbarCloseReason closeReason )
+        {
+            if ( !Visible )
+                return;
+
+            this.closeReason = closeReason;
+
             Visible = false;
 
-            _ = Closed.InvokeAsync( null );
+            // finally reset close reason so it doesn't interfere with internal closing by Visible property
+            this.closeReason = SnackbarCloseReason.None;
 
             StateHasChanged();
         }
@@ -97,12 +121,41 @@ namespace Blazorise.Snackbar
         private void Timer_Elapsed( object sender, ElapsedEventArgs e )
         {
             // InvokeAsync is used to prevent from blocking threads
-            InvokeAsync( () => Hide() );
+            InvokeAsync( () => Hide( SnackbarCloseReason.None ) );
+        }
+
+        private void HandleVisibilityStyles( bool visible )
+        {
+            if ( visible )
+            {
+                ExecuteAfterRender( () =>
+                {
+                    timer?.Start();
+
+                    return Task.CompletedTask;
+                } );
+            }
+
+            DirtyClasses();
+            DirtyStyles();
+        }
+
+        private void RaiseEvents( bool visible )
+        {
+            if ( !visible )
+            {
+                _ = Closed.InvokeAsync( new SnackbarClosedEventArgs( Key, closeReason ) );
+            }
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Unique key associated by this snackbar.
+        /// </summary>
+        [Parameter] public string Key { get; set; } = $"Snackbar_{IDGenerator.Instance.Generate}";
 
         /// <summary>
         /// Defines the visibility of snackbar.
@@ -113,9 +166,13 @@ namespace Blazorise.Snackbar
             get => visible;
             set
             {
+                if ( visible == value )
+                    return;
+
                 visible = value;
 
-                DirtyClasses();
+                HandleVisibilityStyles( visible );
+                RaiseEvents( visible );
             }
         }
 
@@ -172,7 +229,7 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Occurs after the snackbar has closed.
         /// </summary>
-        [Parameter] public EventCallback Closed { get; set; }
+        [Parameter] public EventCallback<SnackbarClosedEventArgs> Closed { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
