@@ -31,6 +31,5 @@ namespace Blazorise.DataGrid
         [Parameter] public bool ShowFeedback { get; set; }
 
         #endregion
-
     }
 }

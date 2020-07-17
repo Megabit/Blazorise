@@ -17,8 +17,8 @@
             <CloseButton Clicked="@Cancel" />
         </ModalHeader>
         <ModalBody>
-            <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" >
-                @if (ParentDataGrid?.ShowValidationsSummary ?? true)
+            <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged">
+                @if ( ParentDataGrid?.ShowValidationsSummary ?? true )
                 {
                     <ValidationSummary Label="@ParentDataGrid?.ValidationsSummaryLabel" />
                 }

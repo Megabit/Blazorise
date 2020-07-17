@@ -2,9 +2,9 @@
 @inherits _BaseDataGridRowEdit<TItem>
 @if ( EditMode == DataGridEditMode.Form )
 {
-    <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" >
+    <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged">
         <TableRowCell ColumnSpan="@(Columns.Count() + 1)">
-            @if( ParentDataGrid?.ShowValidationsSummary ?? true )
+            @if ( ParentDataGrid?.ShowValidationsSummary ?? true )
             {
                 <Row>
                     <ValidationSummary Label="@ParentDataGrid?.ValidationsSummaryLabel" />
@@ -64,44 +64,44 @@
 }
 else if ( EditMode == DataGridEditMode.Inline )
 {
-    <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" >
-      @if (ParentDataGrid?.ShowValidationsSummary ?? true)
-      {
-          <TableRow Display="@(isInvalid ? Display.TableRow : Display.None)">
-            <TableRowCell ColumnSpan="@Columns.Count()" Display="@(isInvalid ? Display.TableCell : Display.None)">
-              <ValidationSummary Label="@ParentDataGrid?.ValidationsSummaryLabel" />
-            </TableRowCell>
-          </TableRow>
-      }
-      @foreach ( var column in Columns )
-      {
-          @if ( column.ColumnType == DataGridColumnType.Command )
-          {
-              @if ( ParentDataGrid?.Editable == true )
-              {
-                  <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@SaveWithValidation" Cancel="@Cancel" Width="@column.Width" />
-              }
-          }
-          else
-          {
-              <TableRowCell width="@column.Width">
-                  @if ( ParentDataGrid?.Editable == true && CellAreEditable( column ) )
-                  {
-                      <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowFeedback="@( ParentDataGrid?.ShowValidationFeedback ?? false )"/>
-                  }
-                  else
-                  {
-                      if ( column.DisplayTemplate != null )
-                      {
-                          @column.DisplayTemplate( Item )
-                      }
-                      else
-                      {
-                          @column.GetValue( Item )
-                      }
-                  }
-              </TableRowCell>
-          }
-      }
+    <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged">
+        @if ( ParentDataGrid?.ShowValidationsSummary ?? true )
+        {
+            <TableRow Display="@(isInvalid ? Display.TableRow : Display.None)">
+                <TableRowCell ColumnSpan="@Columns.Count()" Display="@(isInvalid ? Display.TableCell : Display.None)">
+                    <ValidationSummary Label="@ParentDataGrid?.ValidationsSummaryLabel" />
+                </TableRowCell>
+            </TableRow>
+        }
+        @foreach ( var column in Columns )
+        {
+            @if ( column.ColumnType == DataGridColumnType.Command )
+            {
+                @if ( ParentDataGrid?.Editable == true )
+                {
+                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@SaveWithValidation" Cancel="@Cancel" Width="@column.Width" />
+                }
+            }
+            else
+            {
+                <TableRowCell width="@column.Width">
+                    @if ( ParentDataGrid?.Editable == true && CellAreEditable( column ) )
+                    {
+                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowFeedback="@( ParentDataGrid?.ShowValidationFeedback ?? false )" />
+                    }
+                    else
+                    {
+                        if ( column.DisplayTemplate != null )
+                        {
+                            @column.DisplayTemplate( Item )
+                        }
+                        else
+                        {
+                            @column.GetValue( Item )
+                        }
+                    }
+                </TableRowCell>
+            }
+        }
     </Validations>
 }
