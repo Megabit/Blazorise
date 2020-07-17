@@ -6,6 +6,14 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.9.1.2
+
+### Changes
+
+- Upgrade to .Net Core 3.1.6
+
+For detail description of changes please look at [v0.9.1.2 release page]({{ "/news/release-notes/0912/" | relative_url }})
+
 ## 0.9.1.1
 
 ### Bug fixes
