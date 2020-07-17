@@ -271,7 +271,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Validates the input value after trying to save.
         /// </summary>
-        [Parameter] 
+        [Parameter]
         public Action<ValidatorEventArgs> Validator
         {
             get => validator;
@@ -282,7 +282,7 @@ namespace Blazorise.DataGrid
                     validator = ( args ) => { args.Status = ValidationStatus.Success; };
                 }
                 else
-                { 
+                {
                     validator = value;
                 }
             }

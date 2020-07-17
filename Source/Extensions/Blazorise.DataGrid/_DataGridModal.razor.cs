@@ -13,7 +13,9 @@ namespace Blazorise.DataGrid
         #region Members
 
         protected EventCallbackFactory callbackFactory = new EventCallbackFactory();
+
         protected Validations validations;
+
         protected bool popupVisible;
 
         #endregion
@@ -28,6 +30,7 @@ namespace Blazorise.DataGrid
         protected void SaveWithValidation()
         {
             var isValid = validations.ValidateAll();
+
             if ( isValid )
                 Save.InvokeAsync( this );
         }
@@ -44,7 +47,7 @@ namespace Blazorise.DataGrid
 
         [Parameter] public IReadOnlyDictionary<string, CellEditContext> EditItemCellValues { get; set; }
 
-        [Parameter] 
+        [Parameter]
         public bool PopupVisible
         {
             get => popupVisible;
@@ -54,6 +57,7 @@ namespace Blazorise.DataGrid
                 {
                     validations?.ClearAll();
                 }
+
                 popupVisible = value;
             }
         }
@@ -69,6 +73,5 @@ namespace Blazorise.DataGrid
         [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
 
         #endregion
-
     }
 }

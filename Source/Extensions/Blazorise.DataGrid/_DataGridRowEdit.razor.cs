@@ -10,11 +10,12 @@ namespace Blazorise.DataGrid
 {
     public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase
     {
-
         #region Members    
 
         protected EventCallbackFactory callbackFactory = new EventCallbackFactory();
+
         protected Validations validations;
+
         protected bool isInvalid;
 
         #endregion
@@ -27,15 +28,18 @@ namespace Blazorise.DataGrid
                 ( ( column.CellsEditableOnNewCommand && ParentDataGrid?.EditState == DataGridEditState.New )
                 || ( column.CellsEditableOnEditCommand && ParentDataGrid?.EditState == DataGridEditState.Edit ) );
         }
+
         protected void ValidationsStatusChanged( ValidationsStatusChangedEventArgs args )
         {
             isInvalid = args.Status == ValidationStatus.Error;
+
             StateHasChanged();
         }
 
         protected void SaveWithValidation()
         {
             validations.ValidateAll();
+
             if ( !isInvalid )
                 Save.InvokeAsync( this );
         }
@@ -61,6 +65,5 @@ namespace Blazorise.DataGrid
         [Parameter] public string Width { get; set; }
 
         #endregion
-
     }
 }
