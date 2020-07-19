@@ -854,8 +854,6 @@ namespace Blazorise.AntDesign
 
         public override string HeadingSize( HeadingSize headingSize ) => "ant-typography";
 
-        public override string HeadingTextColor( TextColor textColor ) => $"ant-typography-{ToTextColor( textColor )}";
-
         #endregion
 
         #region DisplayHeading

@@ -847,8 +847,6 @@ namespace Blazorise.Frolic
 
         public override string HeadingSize( HeadingSize headingSize ) => null;
 
-        public override string HeadingTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
-
         #endregion
 
         #region DisplayHeading

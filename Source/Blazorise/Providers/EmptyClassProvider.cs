@@ -795,8 +795,6 @@ namespace Blazorise.Providers
 
         public string HeadingSize( HeadingSize headingSize ) => null;
 
-        public string HeadingTextColor( TextColor textColor ) => null;
-
         #endregion
 
         #region DisplayHeading

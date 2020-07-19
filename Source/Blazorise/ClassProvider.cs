@@ -792,8 +792,6 @@ namespace Blazorise
 
         public abstract string HeadingSize( HeadingSize headingSize );
 
-        public abstract string HeadingTextColor( TextColor textColor );
-
         #endregion
 
         #region DisplayHeading

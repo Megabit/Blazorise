@@ -852,8 +852,6 @@ namespace Blazorise.Bootstrap
 
         public override string HeadingSize( HeadingSize headingSize ) => $"h{ToHeadingSize( headingSize )}";
 
-        public override string HeadingTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
-
         #endregion
 
         #region DisplayHeading

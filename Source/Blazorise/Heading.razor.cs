@@ -11,13 +11,11 @@ namespace Blazorise
     /// <summary>
     /// Heading component is used for titles or subtitles that you want to display on a webpage.
     /// </summary>
-    public partial class Heading : BaseComponent
+    public partial class Heading : BaseTypographyComponent
     {
         #region Members
 
         private HeadingSize headingSize = HeadingSize.Is3;
-
-        private TextColor textColor = TextColor.None;
 
         #endregion
 
@@ -26,7 +24,6 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.HeadingSize( headingSize ) );
-            builder.Append( ClassProvider.HeadingTextColor( Color ), Color != TextColor.None );
 
             base.BuildClasses( builder );
         }
@@ -49,23 +46,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-
-        /// <summary>
-        /// Gets or sets the heading text color.
-        /// </summary>
-        [Parameter]
-        public TextColor Color
-        {
-            get => textColor;
-            set
-            {
-                textColor = value;
-
-                DirtyClasses();
-            }
-        }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

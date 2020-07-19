@@ -863,8 +863,6 @@ namespace Blazorise.Bulma
 
         public override string HeadingSize( HeadingSize headingSize ) => $"title is-{ToHeadingSize( headingSize )}";
 
-        public override string HeadingTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
-
         #endregion
 
         #region DisplayHeading
