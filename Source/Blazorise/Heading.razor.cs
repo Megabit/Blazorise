@@ -32,6 +32,19 @@ namespace Blazorise
 
         #region Properties
 
+        protected string TagName => $"h{SizeNumber}";
+
+        protected string SizeNumber => Size switch
+        {
+            HeadingSize.Is1 => "1",
+            HeadingSize.Is2 => "2",
+            HeadingSize.Is3 => "3",
+            HeadingSize.Is4 => "4",
+            HeadingSize.Is5 => "5",
+            HeadingSize.Is6 => "6",
+            _ => "3",
+        };
+
         /// <summary>
         /// Gets or sets the heading size.
         /// </summary>
