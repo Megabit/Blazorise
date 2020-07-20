@@ -21,8 +21,12 @@ namespace ThemeApp
         #endregion
 
         #region Properties
-        private string SelectedTab { get; set; } = "General";
         [CascadingParameter] public Theme Theme { get; set; }
+        private string SelectedTab { get; set; } = "General";
+        private bool AlertSuccessVisible { get; set; } = true;
+        private bool AlertInformationVisible { get; set; } = true;
+        private bool AlertWarningVisible { get; set; } = true;
+        private bool AlertErrorVisible { get; set; } = true;
         #endregion
     }
 }

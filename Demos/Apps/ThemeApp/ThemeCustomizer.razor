@@ -107,7 +107,7 @@
                                     <Field Horizontal="true">
                                         <FieldLabel ColumnSize="ColumnSize.IsHalf">Background Level</FieldLabel>
                                         <FieldBody ColumnSize="ColumnSize.IsHalf">
-                                            <Slider TValue="int" Min="-20" Max="0" Step="1"
+                                            <Slider TValue="int" Min="-12" Max="12" Step="1"
                                                     Value="@Theme.AlertOptions.BackgroundLevel"
                                                     ValueChanged="@(x=>{ Theme.AlertOptions.BackgroundLevel = x; Theme.ThemeHasChanged(); })" />
                                         </FieldBody>
@@ -115,7 +115,7 @@
                                     <Field Horizontal="true">
                                         <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Level</FieldLabel>
                                         <FieldBody ColumnSize="ColumnSize.IsHalf">
-                                            <Slider TValue="int" Min="-20" Max="0" Step="1"
+                                            <Slider TValue="int" Min="-12" Max="12" Step="1"
                                                     Value="@Theme.AlertOptions.BorderLevel"
                                                     ValueChanged="@(x=>{ Theme.AlertOptions.BorderLevel = x; Theme.ThemeHasChanged(); })" />
                                         </FieldBody>
@@ -131,7 +131,7 @@
                                     <Field Horizontal="true">
                                         <FieldLabel ColumnSize="ColumnSize.IsHalf">Color Level</FieldLabel>
                                         <FieldBody ColumnSize="ColumnSize.IsHalf">
-                                            <Slider TValue="int" Min="0" Max="20" Step="1"
+                                            <Slider TValue="int" Min="-12" Max="12" Step="1"
                                                     Value="@Theme.AlertOptions.ColorLevel"
                                                     ValueChanged="@(x=>{ Theme.AlertOptions.ColorLevel = x; Theme.ThemeHasChanged(); })" />
                                         </FieldBody>
@@ -155,7 +155,29 @@
                                     </Paragraph>
                                 </CardHeader>
                                 <CardBody>
-                                    Work in Progress...@*TODO*@
+                                    <Alert Color="Color.Success" Visible="@AlertSuccessVisible" Dismisable="true">
+                                        <AlertMessage><Icon Name="@IconName.Check" Margin="Margin.Is2.FromRight" />Success!</AlertMessage>
+                                        <CloseButton Clicked="@(()=>AlertSuccessVisible = false)" /><br />
+                                        <AlertDescription>This is a success alert</AlertDescription>
+                                    </Alert>
+                                    <Alert Color="Color.Info" Visible="@AlertInformationVisible" Dismisable="true">
+                                        <AlertMessage><Icon Name="@IconName.Info" Margin="Margin.Is2.FromRight" />Information:</AlertMessage>
+                                        <CloseButton Clicked="@(()=>AlertInformationVisible = false)" /><br />
+                                        <AlertDescription>This is an information alert</AlertDescription>
+                                    </Alert>
+                                    <Alert Color="Color.Warning" Visible="@AlertWarningVisible" Dismisable="true">
+                                        <AlertMessage><Icon Name="@IconName.ExclamationTriangle" Margin="Margin.Is2.FromRight" />Warning!</AlertMessage>
+                                        <CloseButton Clicked="@(()=>AlertWarningVisible = false)" /><br />
+                                        <AlertDescription>This is a warning alert</AlertDescription>
+                                    </Alert>
+                                    <Alert Color="Color.Danger" Visible="@AlertErrorVisible" Dismisable="true">
+                                        <AlertMessage><Icon Name="@IconName.TimesCircle" Margin="Margin.Is2.FromRight" />Error!</AlertMessage>
+                                        <CloseButton Clicked="@(()=>AlertErrorVisible = false)" /><br />
+                                        <AlertDescription>This is an error alert</AlertDescription>
+                                    </Alert>
+                                    <Button Color="Color.Secondary" Clicked="@(()=>{ AlertSuccessVisible = AlertInformationVisible = AlertWarningVisible = AlertErrorVisible = true; })">
+                                        <Icon Name="@IconName.Sync" Margin="Margin.Is3.FromRight" />Reset
+                                    </Button>
                                 </CardBody>
                             </Card>
                         </Column>
@@ -225,9 +247,9 @@
                                     <Field Horizontal="true">
                                         <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Radius</FieldLabel>
                                         <FieldBody ColumnSize="ColumnSize.IsHalf">
-                                            <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
-                                                    Value="@Convert.ToDecimal(Theme.BadgeOptions.BorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
-                                                    ValueChanged="@(x=>{ Theme.BadgeOptions.BorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                                            <Slider TValue="decimal" Min="0m" Max="1m" Step="0.05m"
+                                                    Value="@Convert.ToDecimal(Theme.BadgeOptions.BorderRadius.Replace("em", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                                    ValueChanged="@(x=>{ Theme.BadgeOptions.BorderRadius = x.ToString() + "em"; Theme.ThemeHasChanged(); })" />
                                         </FieldBody>
                                     </Field>
                                 </CardBody>
@@ -241,7 +263,14 @@
                                     </Paragraph>
                                 </CardHeader>
                                 <CardBody>
-                                    Work in Progress...@*TODO*@
+                                    <Badge Color="Color.Primary">Primary</Badge>
+                                    <Badge Color="Color.Secondary">Secondary</Badge>
+                                    <Badge Color="Color.Success">Success</Badge>
+                                    <Badge Color="Color.Info">Info</Badge>
+                                    <Badge Color="Color.Warning">Warning</Badge>
+                                    <Badge Color="Color.Danger">Danger</Badge>
+                                    <Badge Color="Color.Light">Light</Badge>
+                                    <Badge Color="Color.Dark">Dark</Badge>
                                 </CardBody>
                             </Card>
                         </Column>
@@ -347,7 +376,7 @@
                                     <Field Horizontal="true">
                                         <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Radius</FieldLabel>
                                         <FieldBody ColumnSize="ColumnSize.IsHalf">
-                                            <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                            <Slider TValue="decimal" Min="0m" Max="2m" Step="0.1m"
                                                     Value="@Convert.ToDecimal(Theme.BreadcrumbOptions.BorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
                                                     ValueChanged="@(x=>{ Theme.BreadcrumbOptions.BorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
                                         </FieldBody>
@@ -365,7 +394,30 @@
                                     </Paragraph>
                                 </CardHeader>
                                 <CardBody>
-                                    Work in Progress...@*TODO*@
+                                    <Breadcrumb>
+                                        <BreadcrumbItem Active="true">
+                                            <BreadcrumbLink To="#">Apps</BreadcrumbLink>
+                                        </BreadcrumbItem>
+                                    </Breadcrumb>
+                                    <Breadcrumb>
+                                        <BreadcrumbItem>
+                                            <BreadcrumbLink To="#">Apps</BreadcrumbLink>
+                                        </BreadcrumbItem>
+                                        <BreadcrumbItem Active="true">
+                                            <BreadcrumbLink To="#">Theme</BreadcrumbLink>
+                                        </BreadcrumbItem>
+                                    </Breadcrumb>
+                                    <Breadcrumb>
+                                        <BreadcrumbItem>
+                                            <BreadcrumbLink To="#">Apps</BreadcrumbLink>
+                                        </BreadcrumbItem>
+                                        <BreadcrumbItem>
+                                            <BreadcrumbLink To="#">Theme</BreadcrumbLink>
+                                        </BreadcrumbItem>
+                                        <BreadcrumbItem Active="true">
+                                            <BreadcrumbLink To="#">Breadcrumb Settings</BreadcrumbLink>
+                                        </BreadcrumbItem>
+                                    </Breadcrumb>
                                 </CardBody>
                             </Card>
                         </Column>
