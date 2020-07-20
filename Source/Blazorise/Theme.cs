@@ -52,13 +52,13 @@ namespace Blazorise
         /// <summary>
         /// Gets the valid breakpoints.
         /// </summary>
-        public IEnumerable<(string name, string color)> ValidBreakpoints
+        public IEnumerable<(string name, string size)> ValidBreakpoints
             => BreakpointOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
         /// Gets the valid sizes for container.
         /// </summary>
-        public IEnumerable<(string name, string color)> ValidContainerMaxWidths
+        public IEnumerable<(string name, string size)> ValidContainerMaxWidths
             => ContainerMaxWidthOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
