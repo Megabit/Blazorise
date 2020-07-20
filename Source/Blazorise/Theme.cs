@@ -87,7 +87,7 @@ namespace Blazorise
         /// <summary>
         /// Define the maximum width of container for different screen sizes.
         /// </summary>
-        public ThemeContanerMaxWidthOptions ContainerMaxWidthOptions { get; set; }
+        public ThemeContainerMaxWidthOptions ContainerMaxWidthOptions { get; set; }
 
         /// <summary>
         /// Used to override default theme colors.
@@ -192,7 +192,7 @@ namespace Blazorise
         public string FullHD { get; set; } = "1400px";
     }
 
-    public class ThemeContanerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    public class ThemeContainerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
     {
         private Dictionary<string, Func<string>> breakpointMap => new Dictionary<string, Func<string>> {
             { "mobile", () => Mobile },
