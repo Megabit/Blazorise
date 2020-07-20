@@ -570,8 +570,7 @@
         margin: -42px 5px 0px 5px;
         visibility: hidden;
         display: flex;
-        min-width: 180px;
-        max-width: 220px;
+        width: var(--b-vertical-bar-popout-menu-width, 180px);
         left: var(--b-vertical-bar-small-width, 64px); }
         .b-bar-vertical-small .b-bar-dropdown .b-bar-dropdown-menu-container.b-bar-right,
         .b-bar-vertical-inline[data-collapse=small] .b-bar-dropdown .b-bar-dropdown-menu-container.b-bar-right,
@@ -683,8 +682,7 @@
     margin: -42px 5px 0px 5px;
     visibility: hidden;
     display: flex;
-    min-width: 180px;
-    max-width: 220px;
+    width: var(--b-vertical-bar-popout-menu-width, 180px);
     left: var(--b-vertical-bar-small-width, 64px); }
     .b-bar-vertical-popout:not([data-collapse]) .b-bar-dropdown-menu-container.b-bar-right {
         right: var(--b-vertical-bar-small-width, 64px);

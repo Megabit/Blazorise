@@ -5,8 +5,7 @@
     margin: -42px 5px 0px 5px;
     visibility: hidden;
     display: flex;
-    min-width: 180px;
-    max-width: 220px;
+    width: var(--b-vertical-bar-popout-menu-width, 180px);
 }
 
 @mixin b-bar-popout-menu {
