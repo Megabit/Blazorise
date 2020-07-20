@@ -881,7 +881,7 @@
                                     <Field Horizontal="true">
                                         <FieldLabel ColumnSize="ColumnSize.IsHalf">Text Size</FieldLabel>
                                         <FieldBody ColumnSize="ColumnSize.IsHalf">
-                                            <Slider TValue="decimal" Min="0.125m" Max="7m" Step="0.125m"
+                                            <Slider TValue="decimal" Min="0.5m" Max="2m" Step="0.125m"
                                                     Value="@Convert.ToDecimal(Theme.DividerOptions.TextSize.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
                                                     ValueChanged="@(x=>{ Theme.DividerOptions.TextSize = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
                                         </FieldBody>
@@ -905,7 +905,11 @@
                                     </Paragraph>
                                 </CardHeader>
                                 <CardBody>
-                                    Work in Progress...@*TODO*@
+                                    <br /><Divider />
+                                    <br /><Divider Type="DividerType.Dashed" />
+                                    <br /><Divider Type="DividerType.Dotted" />
+                                    <br /><Divider Type="DividerType.TextContent" Text="Example Divider" />
+                                    <br />
                                 </CardBody>
                             </Card>
                         </Column>
