@@ -355,7 +355,10 @@
         text-decoration: none;
         padding: .5rem .5rem .5rem 1.5rem;
         cursor: pointer;
-        overflow-x: hidden; }
+        overflow-x: hidden;
+        line-height: 1.5rem;
+        vertical-align: middle;
+        transition: font-size 150ms ease-in; }
     .b-bar-vertical-inline .b-bar-label,
     .b-bar-vertical-popout .b-bar-label,
     .b-bar-vertical-small .b-bar-label {
@@ -628,7 +631,8 @@
     .b-bar-vertical-popout[data-collapse=small] .b-bar-link {
         animation: b-bar-link-small forwards;
         animation-delay: 170ms;
-        font-size: 0px; }
+        font-size: 0;
+        transition: font-size 100ms ease-out; }
         .b-bar-vertical-small .b-bar-link:after,
         .b-bar-vertical-inline[data-collapse=small] .b-bar-link:after,
         .b-bar-vertical-popout[data-collapse=small] .b-bar-link:after {

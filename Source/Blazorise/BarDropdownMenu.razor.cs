@@ -34,13 +34,14 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.BarDropdownMenu( ParentStore.Mode ) );
             builder.Append( ClassProvider.BarDropdownMenuVisible( ParentStore.Mode, ParentStore.Visible && ParentStore.Mode != BarMode.VerticalSmall ) );
+            builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), RightAligned );
 
             base.BuildClasses( builder );
         }
 
         protected virtual void BuildContainerClasses( ClassBuilder builder )
         {
-            builder.Append( "b-bar-dropdown-menu-container" );
+            builder.Append( "b-bar-dropdown-menu-container", ParentStore.Mode != BarMode.Horizontal );
             builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), RightAligned );
         }
 

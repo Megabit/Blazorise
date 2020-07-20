@@ -172,6 +172,9 @@
         padding: .5rem .5rem .5rem 1.5rem;
         cursor: pointer;
         overflow-x: hidden;
+        line-height: 1.5rem;
+        vertical-align: middle;
+        transition: font-size 150ms ease-in;
     }
 
     .b-bar-label {
@@ -422,7 +425,8 @@
     .b-bar-link {
         animation: b-bar-link-small forwards;
         animation-delay: 170ms;
-        font-size: 0px;
+        font-size: 0;
+        transition: font-size 100ms ease-out;
 
         &:after {
             display: none;
