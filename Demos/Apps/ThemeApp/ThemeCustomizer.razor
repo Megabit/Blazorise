@@ -1479,7 +1479,7 @@
                                     <Field Horizontal="true">
                                         <FieldLabel ColumnSize="ColumnSize.IsHalf">Z Index</FieldLabel>
                                         <FieldBody ColumnSize="ColumnSize.IsHalf">
-                                            <Slider TValue="int" Min="0" Max="5100" Step="255"
+                                            <Slider TValue="int" Min="0" Max="9999" Step="1"
                                                     Value="@Convert.ToInt32(Theme.TooltipOptions.ZIndex, System.Globalization.CultureInfo.InvariantCulture)"
                                                     ValueChanged="@(x=>{ Theme.TooltipOptions.ZIndex = x.ToString(); Theme.ThemeHasChanged(); })" />
                                         </FieldBody>
