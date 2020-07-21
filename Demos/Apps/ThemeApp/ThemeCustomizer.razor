@@ -1403,7 +1403,7 @@
                                     <Field Horizontal="true">
                                         <FieldLabel ColumnSize="ColumnSize.IsHalf">Fade Time</FieldLabel>
                                         <FieldBody ColumnSize="ColumnSize.IsHalf">
-                                            <Slider TValue="decimal" Min="0m" Max="10m" Step="0.05m"
+                                            <Slider TValue="decimal" Min="0m" Max="5m" Step="0.05m"
                                                     Value="@Convert.ToDecimal(Theme.TooltipOptions.FadeTime.Replace("s", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
                                                     ValueChanged="@(x=>{ Theme.TooltipOptions.FadeTime = x.ToString() + "s"; Theme.ThemeHasChanged(); })" />
                                         </FieldBody>
@@ -1495,7 +1495,18 @@
                                     </Paragraph>
                                 </CardHeader>
                                 <CardBody>
-                                    Work in Progress...@*TODO*@
+                                    <Tooltip Text="Instant Tooltip">
+                                        <Button Color="Color.Primary">Instant</Button>
+                                    </Tooltip>
+                                    <Tooltip Text="Multiline Tooltip. This long tooltip has the Multiline attribute enabled" Multiline="true">
+                                        <Button Color="Color.Primary">Multiline</Button>
+                                    </Tooltip>
+                                    <Tooltip Text="Fade Tooltip" Fade="true">
+                                        <Button Color="Color.Primary">Fade</Button>
+                                    </Tooltip>
+                                    <Tooltip Text="Tooltip" AlwaysActive="true">
+                                        <Button Color="Color.Primary">Always Active</Button>
+                                    </Tooltip>
                                 </CardBody>
                             </Card>
                         </Column>
