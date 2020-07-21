@@ -1049,7 +1049,27 @@
                                     </Paragraph>
                                 </CardHeader>
                                 <CardBody>
-                                    Work in Progress...@*TODO*@
+                                    <Button Color="Color.Primary" Clicked="@(()=>ModalPreview.Show())">Display Modal</Button>
+                                    <Modal @ref="ModalPreview">
+                                        <ModalBackdrop />
+                                        <ModalContent Centered="true" Size="ModalSize.Default">
+                                            <Form>
+                                                <ModalHeader>
+                                                    <ModalTitle>
+                                                        Modal Title
+                                                    </ModalTitle>
+                                                    <CloseButton Clicked="@(()=>ModalPreview.Hide())" />
+                                                </ModalHeader>
+                                                <ModalBody>
+                                                    Modal Content
+                                                </ModalBody>
+                                                <ModalFooter>
+                                                    <Button Color="Color.Secondary" Clicked="@(()=>ModalPreview.Hide())">Cancel</Button>
+                                                    <Button Type="ButtonType.Submit" PreventDefaultOnSubmit="true" Color="Color.Primary" Clicked="@(()=>ModalPreview.Hide())">Continue</Button>
+                                                </ModalFooter>
+                                            </Form>
+                                        </ModalContent>
+                                    </Modal>
                                 </CardBody>
                             </Card>
                         </Column>
