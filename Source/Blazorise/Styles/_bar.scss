@@ -30,6 +30,7 @@
         height: 100%;
         opacity: .0001;
         content: ' ';
+        z-index: -1;
     }
 
     &.b-bar-right {
@@ -47,7 +48,7 @@
     display: inline-block;
     padding: 2px;
     right: 1rem;
-    transition: all 200ms ease-out;
+    transition: transform 200ms ease-out;
     float: right;
     position: relative;
 }
@@ -385,6 +386,16 @@
         left: var(--b-vertical-bar-small-width, 64px);
     }
 
+    .b-bar-item {
+        > .b-bar-dropdown {
+            > .b-bar-dropdown-toggle {
+                &:before {
+                    display: none;
+                }
+            }
+        }
+    }
+
     .b-bar-dropdown {
         .b-bar-dropdown-menu-container {
             @include b-bar-popout-menu-container;
@@ -397,17 +408,21 @@
 
             .b-bar-dropdown-menu {
                 @include b-bar-popout-menu;
-            }
-        }
 
-        .b-bar-dropdown-toggle {
-            &:before {
-                display: none;
+                > .b-bar-dropdown {
+                    .b-bar-dropdown-menu-container {
+                        left: var(--b-vertical-bar-popout-menu-width, 180px);
+
+                        &.b-bar-right {
+                            right: var(--b-vertical-bar-popout-menu-width, 180px);
+                        }
+                    }
+                }
             }
         }
 
         &:hover, &:focus, &active {
-            .b-bar-dropdown-menu-container {
+            > .b-bar-dropdown-menu-container {
                 visibility: visible;
             }
         }
@@ -421,14 +436,17 @@
         }
     }
 
-    .b-bar-link {
-        animation: b-bar-link-small forwards;
-        animation-delay: 170ms;
-        font-size: 0;
-        transition: font-size 100ms ease-out;
+    .b-bar-item {
+        > .b-bar-link,
+        > .b-bar-dropdown > .b-bar-link {
+            animation: b-bar-link-small forwards;
+            animation-delay: 170ms;
+            font-size: 0;
+            transition: font-size 100ms ease-out;
 
-        &:after {
-            display: none;
+            &:after {
+                display: none;
+            }
         }
     }
 
