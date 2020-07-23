@@ -3,13 +3,11 @@
     max-height: 50vh;
     position: absolute !important;
     margin: -42px 5px 0px 5px;
-    visibility: hidden;
     display: flex;
     width: var(--b-vertical-bar-popout-menu-width, 180px);
 }
 
 @mixin b-bar-popout-menu {
-    display: block !important;
     box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
     border-radius: 3px;
     overflow-y: auto;
@@ -420,12 +418,6 @@
                 }
             }
         }
-
-        &:hover, &:focus, &active {
-            > .b-bar-dropdown-menu-container {
-                visibility: visible;
-            }
-        }
     }
 
     @keyframes b-bar-link-small {
@@ -495,12 +487,6 @@
                 -webkit-transform: rotate(-45deg);
                 transform: rotate(-45deg);
                 top: 1.45rem;
-            }
-        }
-
-        &:hover, &:focus, &active {
-            .b-bar-dropdown-menu-container {
-                visibility: visible;
             }
         }
     }

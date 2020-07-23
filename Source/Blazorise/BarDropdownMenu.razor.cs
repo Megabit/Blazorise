@@ -87,6 +87,8 @@ namespace Blazorise
             }
         }
 
+        [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

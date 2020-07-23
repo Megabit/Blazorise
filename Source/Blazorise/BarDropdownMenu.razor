@@ -3,7 +3,7 @@
 {
     <CascadingValue Value="@ParentStore">
         <div class="@ContainerClassNames">
-            <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes"  @onmouseenter="@ParentBarDropdown.OnMouseEnter" @onmouseleave="@ParentBarDropdown.OnMouseLeave">
                 @ChildContent
             </div>
         </div>

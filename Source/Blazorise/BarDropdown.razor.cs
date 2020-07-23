@@ -51,6 +51,9 @@ namespace Blazorise
 
         internal void Show()
         {
+            if ( Visible )
+                return;
+
             Visible = true;
 
             StateHasChanged();
@@ -58,6 +61,9 @@ namespace Blazorise
 
         internal void Hide()
         {
+            if ( !Visible )
+                return;
+
             Visible = false;
 
             StateHasChanged();
@@ -65,12 +71,28 @@ namespace Blazorise
 
         internal void Toggle()
         {
-            if ( Store.Mode == BarMode.VerticalSmall )
-                return;
+            //if ( Store.Mode == BarMode.VerticalSmall )
+            //    return;
 
             Visible = !Visible;
 
             StateHasChanged();
+        }
+
+        internal void OnMouseEnter()
+        {
+            if ( ParentStore.Mode == BarMode.Horizontal || ( ParentStore.Mode == BarMode.VerticalInline && ParentStore.BarVisible ) )
+                return;
+
+            Show();
+        }
+
+        internal void OnMouseLeave()
+        {
+            if ( ParentStore.Mode == BarMode.Horizontal || ( ParentStore.Mode == BarMode.VerticalInline && ParentStore.BarVisible ) )
+                return;
+
+            Hide();
         }
 
         #endregion
@@ -119,6 +141,10 @@ namespace Blazorise
                 parentStore = value;
 
                 store.Mode = parentStore.Mode;
+
+                // TODO: Fix this - it is overriding the binding
+                if ( !parentStore.BarVisible )
+                    Visible = false;
 
                 DirtyClasses();
             }
