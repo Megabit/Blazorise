@@ -96,7 +96,7 @@ namespace Blazorise
 
                 parentStore = value;
 
-                if ( parentStore.Visible && ( parentStore.Mode == BarMode.Horizontal || !parentStore.BarVisible ) )
+                if ( parentStore.Visible && !( parentStore.Mode == BarMode.VerticalInline && parentStore.BarVisible ) )
                 {
                     isRegistered = true;
 

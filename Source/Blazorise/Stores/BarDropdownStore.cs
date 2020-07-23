@@ -26,13 +26,11 @@ namespace Blazorise.Stores
             // Use a different bit for bool fields: bool.GetHashCode() will return 0 (false) or 1 (true). So we would
             // end up having the same hash code for e.g. two instances where one has only noCache set and the other
             // only noStore.
-            var result = Visible.GetHashCode();
+            var result = Visible.GetHashCode()
+                ^ ( BarVisible.GetHashCode() << 1 ); // increase shift by one for every bool field
 
             result = result
                 ^ ( Mode.GetHashCode() ^ 1 ); // power of two for every other field(^1, ^2, ^4, ^8, ^16, ...)
-
-            result = result
-                ^ ( BarVisible.GetHashCode() ^ 2 );
 
             return result;
         }
@@ -55,7 +53,7 @@ namespace Blazorise.Stores
 
         public BarMode Mode { readonly get; set; }
 
-        public bool BarVisible { get; set; }
+        public bool BarVisible { readonly get; set; }
 
         #endregion
     }

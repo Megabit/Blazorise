@@ -33,7 +33,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdownMenu( ParentStore.Mode ) );
-            builder.Append( ClassProvider.BarDropdownMenuVisible( ParentStore.Mode, ParentStore.Visible && ParentStore.Mode != BarMode.VerticalSmall ) );
+            builder.Append( ClassProvider.BarDropdownMenuVisible( ParentStore.Mode, ParentStore.Visible ) );
             builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), RightAligned );
 
             base.BuildClasses( builder );

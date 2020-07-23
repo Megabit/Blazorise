@@ -24,7 +24,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdown( Store.Mode ) );
-            builder.Append( ClassProvider.BarDropdownShow( Store.Mode ), Store.Visible && Store.Mode != BarMode.VerticalSmall );
+            builder.Append( ClassProvider.BarDropdownShow( Store.Mode ), Store.Visible );
 
             base.BuildClasses( builder );
         }
