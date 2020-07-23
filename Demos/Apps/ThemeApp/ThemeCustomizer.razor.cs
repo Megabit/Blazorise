@@ -27,6 +27,10 @@ namespace ThemeApp
         private bool AlertInformationVisible { get; set; } = true;
         private bool AlertWarningVisible { get; set; } = true;
         private bool AlertErrorVisible { get; set; } = true;
+        private bool ButtonOutline { get; set; } = false;
+        private bool ButtonActive { get; set; } = false;
+        private bool ButtonDisabled { get; set; } = false;
+        private bool ButtonLoading { get; set; } = false;
         private Modal ModalPreview { get; set; }
         #endregion
     }

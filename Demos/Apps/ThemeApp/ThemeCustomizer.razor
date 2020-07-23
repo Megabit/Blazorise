@@ -699,7 +699,21 @@
                                     </Paragraph>
                                 </CardHeader>
                                 <CardBody>
-                                    Work in Progress...@*TODO*@
+                                    <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Primary">Primary</Button>
+                                    <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Secondary">Secondary</Button>
+                                    <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Success">Success</Button>
+                                    <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Danger">Danger</Button>
+                                    <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Warning">Warning</Button>
+                                    <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Info">Information</Button>
+                                    <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Light">Light</Button>
+                                    <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Dark">Dark</Button>
+                                    <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Link">Link</Button>
+                                    <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading">None</Button>
+                                    <br /><br />
+                                    <Switch TValue="bool" @bind-Checked="ButtonOutline">Outline</Switch>
+                                    <Switch TValue="bool" @bind-Checked="ButtonActive">Active</Switch>
+                                    <Switch TValue="bool" @bind-Checked="ButtonDisabled">Disabled</Switch>
+                                    <Switch TValue="bool" @bind-Checked="ButtonLoading">Loading</Switch>
                                 </CardBody>
                             </Card>
                         </Column>
