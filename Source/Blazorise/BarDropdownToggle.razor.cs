@@ -96,20 +96,17 @@ namespace Blazorise
 
                 parentStore = value;
 
-                if ( parentStore.Mode == BarMode.Horizontal )
+                if ( parentStore.Visible && ( parentStore.Mode == BarMode.Horizontal || !parentStore.BarVisible ) )
                 {
-                    if ( parentStore.Visible )
-                    {
-                        isRegistered = true;
+                    isRegistered = true;
 
-                        JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
-                    }
-                    else
-                    {
-                        isRegistered = false;
+                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                }
+                else
+                {
+                    isRegistered = false;
 
-                        JSRunner.UnregisterClosableComponent( this );
-                    }
+                    JSRunner.UnregisterClosableComponent( this );
                 }
 
                 DirtyClasses();

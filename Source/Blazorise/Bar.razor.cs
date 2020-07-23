@@ -33,6 +33,7 @@ namespace Blazorise
 
         private BarStore store = new BarStore
         {
+            Visible = true,
             Mode = BarMode.Horizontal
         };
 

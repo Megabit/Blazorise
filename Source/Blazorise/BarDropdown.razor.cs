@@ -81,7 +81,7 @@ namespace Blazorise
 
         internal void OnMouseEnter()
         {
-            if ( ParentStore.Mode == BarMode.Horizontal || ( ParentStore.Mode == BarMode.VerticalInline && ParentStore.BarVisible ) )
+            if ( ParentStore.Mode == BarMode.Horizontal || ( ParentStore.Mode == BarMode.VerticalInline && Store.BarVisible ) )
                 return;
 
             Show();
@@ -89,7 +89,7 @@ namespace Blazorise
 
         internal void OnMouseLeave()
         {
-            if ( ParentStore.Mode == BarMode.Horizontal || ( ParentStore.Mode == BarMode.VerticalInline && ParentStore.BarVisible ) )
+            if ( ParentStore.Mode == BarMode.Horizontal || ( ParentStore.Mode == BarMode.VerticalInline && Store.BarVisible ) )
                 return;
 
             Hide();
@@ -141,9 +141,9 @@ namespace Blazorise
                 parentStore = value;
 
                 store.Mode = parentStore.Mode;
+                store.BarVisible = parentStore.BarVisible;
 
-                // TODO: Fix this - it is overriding the binding
-                if ( !parentStore.BarVisible )
+                if ( !store.BarVisible )
                     Visible = false;
 
                 DirtyClasses();
