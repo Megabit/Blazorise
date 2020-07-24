@@ -69,9 +69,9 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
-            return Task.FromResult( closeReason == CloseReason.EscapeClosing || elementId != ElementId );
+            return Task.FromResult( closeReason == CloseReason.EscapeClosing || ( elementId != ElementId && !isChildClicked ) );
         }
 
         public Task Close( CloseReason closeReason )

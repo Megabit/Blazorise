@@ -61,7 +61,7 @@ namespace Blazorise.AntDesign
             await Expand();
         }
 
-        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
             return Task.FromResult( Multiple
                 ? closeReason == CloseReason.EscapeClosing || elementId == ElementId || elementId == SelectorElementId || elementId == InputElementId

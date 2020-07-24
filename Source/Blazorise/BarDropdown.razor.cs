@@ -71,8 +71,9 @@ namespace Blazorise
 
         internal void Toggle()
         {
-            //if ( Store.Mode == BarMode.VerticalSmall )
-            //    return;
+            if ( ParentStore.Mode == BarMode.VerticalSmall || ParentStore.Mode == BarMode.VerticalPopout || 
+                 ( ParentStore.Mode == BarMode.VerticalInline && !ParentStore.BarVisible ) )
+                return;
 
             Visible = !Visible;
 
