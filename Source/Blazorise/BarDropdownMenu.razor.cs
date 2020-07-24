@@ -58,6 +58,8 @@ namespace Blazorise
 
         protected string ContainerClassNames => ContainerClassBuilder.Class;
 
+        protected string VisibleString => ParentStore.Visible.ToString().ToLower();
+
         protected ClassBuilder ContainerClassBuilder { get; private set; }
 
         [Parameter]

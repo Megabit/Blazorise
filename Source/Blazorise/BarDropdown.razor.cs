@@ -102,6 +102,8 @@ namespace Blazorise
 
         protected BarDropdownStore Store => store;
 
+        protected string VisibleString => Store.Visible.ToString().ToLower();
+
         /// <summary>
         /// Sets a value indicating whether the dropdown menu and all its child controls are visible.
         /// </summary>
