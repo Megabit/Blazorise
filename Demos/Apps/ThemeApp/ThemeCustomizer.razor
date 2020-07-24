@@ -1324,7 +1324,51 @@
                                     </Paragraph>
                                 </CardHeader>
                                 <CardBody>
-                                    Work in Progress...@*TODO*@
+                                    <Button Color="Color.None" Clicked="@(()=>SnackbarPreview.Show())">Normal</Button>
+                                    <Button Color="Color.Primary" Clicked="@(()=>SnackbarPreviewPrimary.Show())">Primary</Button>
+                                    <Button Color="Color.Secondary" Clicked="@(()=>SnackbarPreviewSecondary.Show())">Secondary</Button>
+                                    <Button Color="Color.Success" Clicked="@(()=>SnackbarPreviewSuccess.Show())">Success</Button>
+                                    <Button Color="Color.Danger" Clicked="@(()=>SnackbarPreviewDanger.Show())">Danger</Button>
+                                    <Button Color="Color.Warning" Clicked="@(()=>SnackbarPreviewWarning.Show())">Warning</Button>
+                                    <Button Color="Color.Info" Clicked="@(()=>SnackbarPreviewInfo.Show())">Information</Button>
+                                    <Button Color="Color.Light" Clicked="@(()=>SnackbarPreviewLight.Show())">Light</Button>
+                                    <Button Color="Color.Dark" Clicked="@(()=>SnackbarPreviewDark.Show())">Dark</Button>
+                                    <Snackbar @ref="SnackbarPreview" Color="SnackbarColor.None">
+                                        <SnackbarBody>Snackbar Example</SnackbarBody>
+                                        <SnackbarAction Clicked="@(()=>SnackbarPreview.Hide())">Action</SnackbarAction>
+                                    </Snackbar>
+                                    <Snackbar @ref="SnackbarPreviewPrimary" Color="SnackbarColor.Primary">
+                                        <SnackbarBody>Snackbar Example</SnackbarBody>
+                                        <SnackbarAction Clicked="@(()=>SnackbarPreviewPrimary.Hide())">Action</SnackbarAction>
+                                    </Snackbar>
+                                    <Snackbar @ref="SnackbarPreviewSecondary" Color="SnackbarColor.Secondary">
+                                        <SnackbarBody>Snackbar Example</SnackbarBody>
+                                        <SnackbarAction Clicked="@(()=>SnackbarPreviewSecondary.Hide())">Action</SnackbarAction>
+                                    </Snackbar>
+                                    <Snackbar @ref="SnackbarPreviewSuccess" Color="SnackbarColor.Success">
+                                        <SnackbarBody>Snackbar Example</SnackbarBody>
+                                        <SnackbarAction Clicked="@(()=>SnackbarPreviewSuccess.Hide())">Action</SnackbarAction>
+                                    </Snackbar>
+                                    <Snackbar @ref="SnackbarPreviewDanger" Color="SnackbarColor.Danger">
+                                        <SnackbarBody>Snackbar Example</SnackbarBody>
+                                        <SnackbarAction Clicked="@(()=>SnackbarPreviewDanger.Hide())">Action</SnackbarAction>
+                                    </Snackbar>
+                                    <Snackbar @ref="SnackbarPreviewWarning" Color="SnackbarColor.Warning">
+                                        <SnackbarBody>Snackbar Example</SnackbarBody>
+                                        <SnackbarAction Clicked="@(()=>SnackbarPreviewWarning.Hide())">Action</SnackbarAction>
+                                    </Snackbar>
+                                    <Snackbar @ref="SnackbarPreviewInfo" Color="SnackbarColor.Info">
+                                        <SnackbarBody>Snackbar Example</SnackbarBody>
+                                        <SnackbarAction Clicked="@(()=>SnackbarPreviewInfo.Hide())">Action</SnackbarAction>
+                                    </Snackbar>
+                                    <Snackbar @ref="SnackbarPreviewLight" Color="SnackbarColor.Light">
+                                        <SnackbarBody>Snackbar Example</SnackbarBody>
+                                        <SnackbarAction Clicked="@(()=>SnackbarPreviewLight.Hide())">Action</SnackbarAction>
+                                    </Snackbar>
+                                    <Snackbar @ref="SnackbarPreviewDark" Color="SnackbarColor.Dark">
+                                        <SnackbarBody>Snackbar Example</SnackbarBody>
+                                        <SnackbarAction Clicked="@(()=>SnackbarPreviewDark.Hide())">Action</SnackbarAction>
+                                    </Snackbar>
                                 </CardBody>
                             </Card>
                         </Column>

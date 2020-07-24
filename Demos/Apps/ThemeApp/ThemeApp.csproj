@@ -11,6 +11,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Source\Blazorise\Blazorise.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Charts.Streaming\Blazorise.Charts.Streaming.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Charts\Blazorise.Charts.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
+    <ProjectReference Include="..\..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
