@@ -994,6 +994,10 @@
                                                     ValueChanged="@(x=>{ Theme.DropdownOptions.GradientBlendPercentage = x; Theme.ThemeHasChanged(); })" />
                                         </FieldBody>
                                     </Field>
+                                    <Field Horizontal="true">
+                                        <FieldLabel ColumnSize="ColumnSize.IsHalf">Toggle Icon Visible</FieldLabel>
+                                        <Switch TValue="bool" Checked="@Theme.DropdownOptions.ToggleIconVisible" CheckedChanged="@(x=>{ Theme.DropdownOptions.ToggleIconVisible = x; Theme.ThemeHasChanged(); })" />
+                                    </Field>
                                 </CardBody>
                             </Card>
                         </Column>
