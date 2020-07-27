@@ -917,6 +917,18 @@
                                     <ColorTransparencyEdit Label="Color" Color="@Theme.DividerOptions.Color"
                                                            ColorChanged="@( x => { Theme.DividerOptions.Color = x; Theme.ThemeHasChanged(); })" />
                                     <Field Horizontal="true">
+                                        <FieldLabel ColumnSize="ColumnSize.IsHalf">Divider Type</FieldLabel>
+                                        <FieldBody ColumnSize="ColumnSize.IsHalf">
+                                            <Select TValue="DividerType" SelectedValue="@((DividerType)Theme.DividerOptions.DividerType)"
+                                                    SelectedValueChanged="@( x => { Theme.DividerOptions.DividerType = x; Theme.ThemeHasChanged(); })">
+                                                <SelectItem Value="DividerType.Dashed">Dashed</SelectItem>
+                                                <SelectItem Value="DividerType.Dotted">Dotted</SelectItem>
+                                                <SelectItem Value="DividerType.Solid">Solid</SelectItem>
+                                                <SelectItem Value="DividerType.TextContent">Text Content</SelectItem>
+                                            </Select>
+                                        </FieldBody>
+                                    </Field>
+                                    <Field Horizontal="true">
                                         <FieldLabel ColumnSize="ColumnSize.IsHalf">Text Size</FieldLabel>
                                         <FieldBody ColumnSize="ColumnSize.IsHalf">
                                             <Slider TValue="decimal" Min="0.5m" Max="2m" Step="0.125m"
@@ -944,9 +956,10 @@
                                 </CardHeader>
                                 <CardBody>
                                     <br /><Divider />
-                                    <br /><Divider Type="DividerType.Dashed" />
-                                    <br /><Divider Type="DividerType.Dotted" />
-                                    <br /><Divider Type="DividerType.TextContent" Text="Example Divider" />
+                                    <br /><Divider DividerType="DividerType.Solid" />
+                                    <br /><Divider DividerType="DividerType.Dashed" />
+                                    <br /><Divider DividerType="DividerType.Dotted" />
+                                    <br /><Divider DividerType="DividerType.TextContent" Text="Example Divider" />
                                     <br />
                                 </CardBody>
                             </Card>
