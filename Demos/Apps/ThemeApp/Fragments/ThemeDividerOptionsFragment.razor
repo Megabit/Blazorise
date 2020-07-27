@@ -1,0 +1,62 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Divider Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <ColorTransparencyEdit Label="Color" Color="@Theme.DividerOptions.Color"
+                                       ColorChanged="@( x => { Theme.DividerOptions.Color = x; Theme.ThemeHasChanged(); })" />
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Divider Type</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Select TValue="DividerType" SelectedValue="@((DividerType)Theme.DividerOptions.DividerType)"
+                                SelectedValueChanged="@( x => { Theme.DividerOptions.DividerType = x; Theme.ThemeHasChanged(); })">
+                            <SelectItem Value="DividerType.Dashed">Dashed</SelectItem>
+                            <SelectItem Value="DividerType.Dotted">Dotted</SelectItem>
+                            <SelectItem Value="DividerType.Solid">Solid</SelectItem>
+                            <SelectItem Value="DividerType.TextContent">Text Content</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Text Size</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.5m" Max="2m" Step="0.125m"
+                                Value="@Convert.ToDecimal(Theme.DividerOptions.TextSize.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.DividerOptions.TextSize = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Thickness</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="1" Max="25" Step="1"
+                                Value="@Convert.ToInt32(Theme.DividerOptions.Thickness.Replace("px", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.DividerOptions.Thickness = x.ToString() + "px"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <br /><Divider />
+                <br /><Divider DividerType="DividerType.Solid" />
+                <br /><Divider DividerType="DividerType.Dashed" />
+                <br /><Divider DividerType="DividerType.Dotted" />
+                <br /><Divider DividerType="DividerType.TextContent" Text="Example Divider" />
+                <br />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

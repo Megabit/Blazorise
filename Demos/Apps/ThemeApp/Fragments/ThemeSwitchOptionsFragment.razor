@@ -1,0 +1,51 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Switch Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.SwitchOptions.BorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.SwitchOptions.BorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Box Shadow Lighten Color</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="float" Min="0f" Max="100f" Step="1f"
+                                Value="@Theme.SwitchOptions.BoxShadowLightenColor"
+                                ValueChanged="@(x=>{ Theme.SwitchOptions.BoxShadowLightenColor = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Disabled Lighten Color</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="float" Min="0f" Max="100f" Step="1f"
+                                Value="@Theme.SwitchOptions.DisabledLightenColor"
+                                ValueChanged="@(x=>{ Theme.SwitchOptions.DisabledLightenColor = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                Work in Progress...@*TODO*@
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

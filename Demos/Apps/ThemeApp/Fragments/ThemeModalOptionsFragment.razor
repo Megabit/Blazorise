@@ -1,0 +1,55 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Modal Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.ModalOptions.BorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ModalOptions.BorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>ModalPreview.Show())">Display Modal</Button>
+                <Modal @ref="ModalPreview">
+                    <ModalBackdrop />
+                    <ModalContent Centered="true" Size="ModalSize.Default">
+                        <Form>
+                            <ModalHeader>
+                                <ModalTitle>
+                                    Modal Title
+                                </ModalTitle>
+                                <CloseButton Clicked="@(()=>ModalPreview.Hide())" />
+                            </ModalHeader>
+                            <ModalBody>
+                                Modal Content
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button Color="Color.Secondary" Clicked="@(()=>ModalPreview.Hide())">Cancel</Button>
+                                <Button Type="ButtonType.Submit" PreventDefaultOnSubmit="true" Color="Color.Primary" Clicked="@(()=>ModalPreview.Hide())">Continue</Button>
+                            </ModalFooter>
+                        </Form>
+                    </ModalContent>
+                </Modal>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

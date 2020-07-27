@@ -1,0 +1,51 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Table Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Background Level</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="-20" Max="0" Step="1"
+                                Value="@Theme.TableOptions.BackgroundLevel"
+                                ValueChanged="@(x=>{ Theme.TableOptions.BackgroundLevel = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Level</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="-20" Max="0" Step="1"
+                                Value="@Theme.TableOptions.BorderLevel"
+                                ValueChanged="@(x=>{ Theme.TableOptions.BorderLevel = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.TableOptions.BorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.TableOptions.BorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                Work in Progress...@*TODO*@
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

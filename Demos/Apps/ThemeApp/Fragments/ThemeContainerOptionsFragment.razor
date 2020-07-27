@@ -1,0 +1,76 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Container Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Max Width Desktop</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="10" Max="2000" Step="10"
+                                Value="@Convert.ToInt32(Theme.ContainerMaxWidthOptions.Desktop.Replace("px", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ContainerMaxWidthOptions.Desktop = x.ToString() + "px"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Max Width FullHD</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="10" Max="2000" Step="10"
+                                Value="@Convert.ToInt32(Theme.ContainerMaxWidthOptions.FullHD.Replace("px", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ContainerMaxWidthOptions.FullHD = x.ToString() + "px"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Max Width Mobile</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="10" Max="2000" Step="10"
+                                Value="@Convert.ToInt32(Theme.ContainerMaxWidthOptions.Mobile.Replace("px", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ContainerMaxWidthOptions.Mobile = x.ToString() + "px"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Max Width Tablet</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="10" Max="2000" Step="10"
+                                Value="@Convert.ToInt32(Theme.ContainerMaxWidthOptions.Tablet.Replace("px", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ContainerMaxWidthOptions.Tablet = x.ToString() + "px"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Max Width Widescreen</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="10" Max="2000" Step="10"
+                                Value="@Convert.ToInt32(Theme.ContainerMaxWidthOptions.Widescreen.Replace("px", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ContainerMaxWidthOptions.Widescreen = x.ToString() + "px"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Container>
+                    <Alert Color="Color.Primary" Visible="true">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </Alert>
+                </Container>
+                <Container Fluid="true">
+                    <Alert Color="Color.Primary" Visible="true">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </Alert>
+                </Container>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

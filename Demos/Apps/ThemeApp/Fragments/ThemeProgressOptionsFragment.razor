@@ -1,0 +1,99 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Progress Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.ProgressOptions.BorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ProgressOptions.BorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Value="50" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Value="75" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Value="100" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Value="25">25%</ProgressBar>
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Success" Value="25" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Info" Value="50" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Warning" Value="75" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Danger" Value="100" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Value="15" />
+                    <ProgressBar Background="Background.Success" Value="30" />
+                    <ProgressBar Background="Background.Info" Value="20" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Striped="true" Value="10" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Success" Striped="true" Value="25" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Info" Striped="true" Value="50" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Warning" Striped="true" Value="75" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Danger" Striped="true" Value="100" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Striped="true" Animated="true" Value="75" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Success" Value="25" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom" Size="Size.Small">
+                    <ProgressBar Background="Background.Info" Value="50" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom" Size="Size.Large">
+                    <ProgressBar Background="Background.Warning" Value="75" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom" Size="Size.Medium">
+                    <ProgressBar Background="Background.Info" Value="15" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom" Size="Size.ExtraLarge">
+                    <ProgressBar Background="Background.Danger" Value="100" />
+                </Progress>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

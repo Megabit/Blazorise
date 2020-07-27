@@ -1,0 +1,43 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Color Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <ColorTransparencyEdit Label="Danger" Color="@Theme.ColorOptions.Danger"
+                                       ColorChanged="@( x => { Theme.ColorOptions.Danger = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Dark" Color="@Theme.ColorOptions.Dark"
+                                       ColorChanged="@( x => { Theme.ColorOptions.Dark = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Information" Color="@Theme.ColorOptions.Info"
+                                       ColorChanged="@( x => { Theme.ColorOptions.Info = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Light" Color="@Theme.ColorOptions.Light"
+                                       ColorChanged="@( x => { Theme.ColorOptions.Light = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Primary" Color="@Theme.ColorOptions.Primary"
+                                       ColorChanged="@( x => { Theme.ColorOptions.Primary = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Secondary" Color="@Theme.ColorOptions.Secondary"
+                                       ColorChanged="@( x => { Theme.ColorOptions.Secondary = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Success" Color="@Theme.ColorOptions.Success"
+                                       ColorChanged="@( x => { Theme.ColorOptions.Success = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Warning" Color="@Theme.ColorOptions.Warning"
+                                       ColorChanged="@( x => { Theme.ColorOptions.Warning = x; Theme.ThemeHasChanged(); })" />
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                Work in Progress...@*TODO*@
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

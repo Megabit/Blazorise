@@ -1,0 +1,146 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Input Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.InputOptions.BorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.InputOptions.BorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <ColorTransparencyEdit Label="Check Color" Color="@Theme.InputOptions.CheckColor"
+                                       ColorChanged="@( x => { Theme.InputOptions.CheckColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Color" Color="@Theme.InputOptions.Color"
+                                       ColorChanged="@( x => { Theme.InputOptions.Color = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Slider Color" Color="@Theme.InputOptions.SliderColor"
+                                       ColorChanged="@( x => { Theme.InputOptions.SliderColor = x; Theme.ThemeHasChanged(); })" />
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Text Input</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <TextEdit Placeholder="Placeholder Value" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Text Area</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <MemoEdit Rows="2" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Input Select</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Select SelectedValue="3">
+                            <SelectGroup Label="First Group">
+                                <SelectItem Value="1">1</SelectItem>
+                                <SelectItem Value="2">2</SelectItem>
+                            </SelectGroup>
+                            <SelectGroup Label="Second Group">
+                                <SelectItem Value="3">3</SelectItem>
+                                <SelectItem Value="4">4</SelectItem>
+                            </SelectGroup>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Multiple Select</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Select TValue="int" Multiple="true">
+                            <SelectItem Value="1">1</SelectItem>
+                            <SelectItem Value="2">2</SelectItem>
+                            <SelectItem Value="3">3</SelectItem>
+                            <SelectItem Value="4">4</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">File Input</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <FileEdit />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Date Input</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <DateEdit TValue="DateTime?" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Time Input</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <TimeEdit TValue="TimeSpan?" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Number</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <NumericEdit TValue="decimal?" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Slider</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Value="25m" Max="100m" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Radios</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <RadioGroup TValue="string" Name="colors" Inline="true" CheckedValue="@("blue")">
+                            <Radio TValue="string" Value="@("red")">Red</Radio>
+                            <Radio TValue="string" Value="@("green")">Green</Radio>
+                            <Radio TValue="string" Value="@("blue")">Blue</Radio>
+                        </RadioGroup>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Radio buttons</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <RadioGroup TValue="string" Name="colors2" Inline="true" Buttons="true" CheckedValue="@("green")">
+                            <Radio TValue="string" Value="@("red")">Red</Radio>
+                            <Radio TValue="string" Value="@("green")">Green</Radio>
+                            <Radio TValue="string" Value="@("blue")">Blue</Radio>
+                        </RadioGroup>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Color</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <ColorEdit />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Check</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Check TValue="bool" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Switch</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Switch TValue="bool" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

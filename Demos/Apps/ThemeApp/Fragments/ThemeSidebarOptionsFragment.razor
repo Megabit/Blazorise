@@ -1,0 +1,39 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Sidebar Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <ColorTransparencyEdit Label="Background Color" Color="@Theme.SidebarOptions.BackgroundColor"
+                                       ColorChanged="@( x => { Theme.SidebarOptions.BackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Color" Color="@Theme.SidebarOptions.Color"
+                                       ColorChanged="@( x => { Theme.SidebarOptions.Color = x; Theme.ThemeHasChanged(); })" />
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Width</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="10" Max="1000" Step="10"
+                                Value="@Convert.ToInt32(Theme.SidebarOptions.Width.Replace("px", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.SidebarOptions.Width = x.ToString() + "px"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                Changes are applied instantly to the component, if available
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

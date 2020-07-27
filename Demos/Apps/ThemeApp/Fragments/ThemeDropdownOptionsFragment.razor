@@ -1,0 +1,63 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Dropdown Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.DropdownOptions.BorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.DropdownOptions.BorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Gradient Blend Percentage</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="float" Min="0f" Max="100f" Step="1f"
+                                Value="@Theme.DropdownOptions.GradientBlendPercentage"
+                                ValueChanged="@(x=>{ Theme.DropdownOptions.GradientBlendPercentage = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Toggle Icon Visible</FieldLabel>
+                    <Switch TValue="bool" Checked="@Theme.DropdownOptions.ToggleIconVisible" CheckedChanged="@(x=>{ Theme.DropdownOptions.ToggleIconVisible = x; Theme.ThemeHasChanged(); })" />
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">Dropdown</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Action</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem>Another Action</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown>
+                    <Button Color="Color.Secondary">Split Dropdown</Button>
+                    <DropdownToggle Color="Color.Secondary" Split="true"></DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Action</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem>Another Action</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

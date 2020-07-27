@@ -1,0 +1,142 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Tooltip Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <ColorTransparencyEdit Label="Background Color" Color="@Theme.TooltipOptions.BackgroundColor"
+                                       ColorChanged="@( x => { Theme.TooltipOptions.BackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Background Opacity</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="float?" Min="0f" Max="100f" Step="1f"
+                                Value="@Theme.TooltipOptions.BackgroundOpacity"
+                                ValueChanged="@(x=>{ Theme.TooltipOptions.BackgroundOpacity = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.TooltipOptions.BorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.TooltipOptions.BorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <ColorTransparencyEdit Label="Color" Color="@Theme.TooltipOptions.Color"
+                                       ColorChanged="@( x => { Theme.TooltipOptions.Color = x; Theme.ThemeHasChanged(); })" />
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Fade Time</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="5m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.TooltipOptions.FadeTime.Replace("s", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.TooltipOptions.FadeTime = x.ToString() + "s"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Font Size</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.125m" Max="7m" Step="0.125m"
+                                Value="@Convert.ToDecimal(Theme.TooltipOptions.FontSize.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.TooltipOptions.FontSize = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Max Width</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="1m" Max="30m" Step="1m"
+                                Value="@Convert.ToDecimal(Theme.TooltipOptions.MaxWidth.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.TooltipOptions.MaxWidth = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Top Padding</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.TooltipOptions.Padding.Split(" ")[0].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.TooltipOptions.Padding = string.Join(" ",
+                                                        x.ToString() + "rem",
+                                                        Theme.TooltipOptions.Padding.Split(" ")[1],
+                                                        Theme.TooltipOptions.Padding.Split(" ")[2],
+                                                        Theme.TooltipOptions.Padding.Split(" ")[3]);
+                                                        Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Right Padding</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.TooltipOptions.Padding.Split(" ")[1].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.TooltipOptions.Padding = string.Join(" ",
+                                                        Theme.TooltipOptions.Padding.Split(" ")[0],
+                                                        x.ToString() + "rem",
+                                                        Theme.TooltipOptions.Padding.Split(" ")[2],
+                                                        Theme.TooltipOptions.Padding.Split(" ")[3]);
+                                                        Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Bottom Padding</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.TooltipOptions.Padding.Split(" ")[2].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.TooltipOptions.Padding = string.Join(" ",
+                                                        Theme.TooltipOptions.Padding.Split(" ")[0],
+                                                        Theme.TooltipOptions.Padding.Split(" ")[1],
+                                                        x.ToString() + "rem",
+                                                        Theme.TooltipOptions.Padding.Split(" ")[3]);
+                                                        Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Left Padding</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.TooltipOptions.Padding.Split(" ")[3].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.TooltipOptions.Padding = string.Join(" ",
+                                                        Theme.TooltipOptions.Padding.Split(" ")[0],
+                                                        Theme.TooltipOptions.Padding.Split(" ")[1],
+                                                        Theme.TooltipOptions.Padding.Split(" ")[2],
+                                                        x.ToString() + "rem");
+                                                        Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Z Index</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="0" Max="9999" Step="1"
+                                Value="@Convert.ToInt32(Theme.TooltipOptions.ZIndex, System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.TooltipOptions.ZIndex = x.ToString(); Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Tooltip Text="Instant Tooltip">
+                    <Button Color="Color.Primary">Instant</Button>
+                </Tooltip>
+                <Tooltip Text="Multiline Tooltip. This long tooltip has the Multiline attribute enabled" Multiline="true">
+                    <Button Color="Color.Primary">Multiline</Button>
+                </Tooltip>
+                <Tooltip Text="Fade Tooltip" Fade="true">
+                    <Button Color="Color.Primary">Fade</Button>
+                </Tooltip>
+                <Tooltip Text="Tooltip" AlwaysActive="true">
+                    <Button Color="Color.Primary">Always Active</Button>
+                </Tooltip>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

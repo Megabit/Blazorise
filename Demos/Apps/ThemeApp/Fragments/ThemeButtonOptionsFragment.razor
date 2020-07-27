@@ -1,0 +1,225 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Button Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Active Darken Color</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="float" Min="0f" Max="100f" Step="2.5f"
+                                Value="@Theme.ButtonOptions.ActiveDarkenColor"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.ActiveDarkenColor = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Active Lighten Color</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="float" Min="0f" Max="100f" Step="2.5f"
+                                Value="@Theme.ButtonOptions.ActiveLightenColor"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.ActiveLightenColor = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.BorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.BorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Box Shadow Size</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.BoxShadowSize?.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.BoxShadowSize = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Box Shadow Transparency</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="byte" Min="0" Max="255" Step="1"
+                                Value="@Theme.ButtonOptions.BoxShadowTransparency"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.BoxShadowTransparency = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Gradient Blend Percentage</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="float" Min="0f" Max="100f" Step="1f"
+                                Value="@Theme.ButtonOptions.GradientBlendPercentage"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.GradientBlendPercentage = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Hover Darken Color</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="float" Min="0f" Max="100f" Step="2.5f"
+                                Value="@Theme.ButtonOptions.HoverDarkenColor"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.HoverDarkenColor = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Hover Lighten Color</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="float" Min="0f" Max="100f" Step="2.5f"
+                                Value="@Theme.ButtonOptions.HoverLightenColor"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.HoverLightenColor = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Large Border Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.LargeBorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.LargeBorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Top Margin</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.Margin.Split(" ")[0].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.Margin = string.Join(" ",
+                                            x.ToString() + "rem",
+                                            Theme.ButtonOptions.Margin.Split(" ")[1],
+                                            Theme.ButtonOptions.Margin.Split(" ")[2],
+                                            Theme.ButtonOptions.Margin.Split(" ")[3]);
+                                            Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Right Margin</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.Margin.Split(" ")[1].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.Margin = string.Join(" ",
+                                            Theme.ButtonOptions.Margin.Split(" ")[0],
+                                            x.ToString() + "rem",
+                                            Theme.ButtonOptions.Margin.Split(" ")[2],
+                                            Theme.ButtonOptions.Margin.Split(" ")[3]);
+                                            Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Bottom Margin</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.Margin.Split(" ")[2].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.Margin = string.Join(" ",
+                                            Theme.ButtonOptions.Margin.Split(" ")[0],
+                                            Theme.ButtonOptions.Margin.Split(" ")[1],
+                                            x.ToString() + "rem",
+                                            Theme.ButtonOptions.Margin.Split(" ")[3]);
+                                            Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Left Margin</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.Margin.Split(" ")[3].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.Margin = string.Join(" ",
+                                            Theme.ButtonOptions.Margin.Split(" ")[0],
+                                            Theme.ButtonOptions.Margin.Split(" ")[1],
+                                            Theme.ButtonOptions.Margin.Split(" ")[2],
+                                            x.ToString() + "rem");
+                                            Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Top Padding</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.Padding.Split(" ")[0].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.Padding = string.Join(" ",
+                                            x.ToString() + "rem",
+                                            Theme.ButtonOptions.Padding.Split(" ")[1],
+                                            Theme.ButtonOptions.Padding.Split(" ")[2],
+                                            Theme.ButtonOptions.Padding.Split(" ")[3]);
+                                            Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Right Padding</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.Padding.Split(" ")[1].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.Padding = string.Join(" ",
+                                            Theme.ButtonOptions.Padding.Split(" ")[0],
+                                            x.ToString() + "rem",
+                                            Theme.ButtonOptions.Padding.Split(" ")[2],
+                                            Theme.ButtonOptions.Padding.Split(" ")[3]);
+                                            Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Bottom Padding</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.Padding.Split(" ")[2].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.Padding = string.Join(" ",
+                                            Theme.ButtonOptions.Padding.Split(" ")[0],
+                                            Theme.ButtonOptions.Padding.Split(" ")[1],
+                                            x.ToString() + "rem",
+                                            Theme.ButtonOptions.Padding.Split(" ")[3]);
+                                            Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Left Padding</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0.0625m" Max="5m" Step="0.0625m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.Padding.Split(" ")[3].Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.Padding = string.Join(" ",
+                                            Theme.ButtonOptions.Padding.Split(" ")[0],
+                                            Theme.ButtonOptions.Padding.Split(" ")[1],
+                                            Theme.ButtonOptions.Padding.Split(" ")[2],
+                                            x.ToString() + "rem");
+                                            Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Small Border Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.ButtonOptions.SmallBorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.ButtonOptions.SmallBorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Primary">Primary</Button>
+                <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Secondary">Secondary</Button>
+                <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Success">Success</Button>
+                <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Danger">Danger</Button>
+                <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Warning">Warning</Button>
+                <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Info">Information</Button>
+                <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Light">Light</Button>
+                <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Dark">Dark</Button>
+                <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading" Color="Color.Link">Link</Button>
+                <Button Outline="@ButtonOutline" Active="@ButtonActive" Disabled="@ButtonDisabled" Loading="@ButtonLoading">None</Button>
+                <br /><br />
+                <Switch TValue="bool" @bind-Checked="ButtonOutline">Outline</Switch>
+                <Switch TValue="bool" @bind-Checked="ButtonActive">Active</Switch>
+                <Switch TValue="bool" @bind-Checked="ButtonDisabled">Disabled</Switch>
+                <Switch TValue="bool" @bind-Checked="ButtonLoading">Loading</Switch>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace ThemeApp
 {
-    public partial class ThemeCustomizer : ComponentBase
+    public partial class ThemeButtonOptionsFragment : ComponentBase
     {
         #region Members
         #endregion
@@ -14,15 +14,14 @@ namespace ThemeApp
         #endregion
 
         #region Methods
-        private void OnSelectedTabChanged( string name )
-        {
-            SelectedTab = name;
-        }
         #endregion
 
         #region Properties
         [CascadingParameter] public Theme Theme { get; set; }
-        private string SelectedTab { get; set; } = "General";
+        private bool ButtonOutline { get; set; } = false;
+        private bool ButtonActive { get; set; } = false;
+        private bool ButtonDisabled { get; set; } = false;
+        private bool ButtonLoading { get; set; } = false;
         #endregion
     }
 }

@@ -1,0 +1,47 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Background Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <ColorTransparencyEdit Label="Body Color" Color="@Theme.BackgroundOptions.Body"
+                                       ColorChanged="@( x => { Theme.BackgroundOptions.Body = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Danger Color" Color="@Theme.BackgroundOptions.Danger"
+                                       ColorChanged="@( x => { Theme.BackgroundOptions.Danger = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Dark Color" Color="@Theme.BackgroundOptions.Dark"
+                                       ColorChanged="@( x => { Theme.BackgroundOptions.Dark = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Information Color" Color="@Theme.BackgroundOptions.Info"
+                                       ColorChanged="@( x => { Theme.BackgroundOptions.Info = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Light Color" Color="@Theme.BackgroundOptions.Light"
+                                       ColorChanged="@( x => { Theme.BackgroundOptions.Light = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Muted Color" Color="@Theme.BackgroundOptions.Muted"
+                                       ColorChanged="@( x => { Theme.BackgroundOptions.Muted = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Primary Color" Color="@Theme.BackgroundOptions.Primary"
+                                       ColorChanged="@( x => { Theme.BackgroundOptions.Primary = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Secondary Color" Color="@Theme.BackgroundOptions.Secondary"
+                                       ColorChanged="@( x => { Theme.BackgroundOptions.Secondary = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Success Color" Color="@Theme.BackgroundOptions.Success"
+                                       ColorChanged="@( x => { Theme.BackgroundOptions.Success = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Warning Color" Color="@Theme.BackgroundOptions.Warning"
+                                       ColorChanged="@( x => { Theme.BackgroundOptions.Warning = x; Theme.ThemeHasChanged(); })" />
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                Work in Progress...@*TODO*@
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

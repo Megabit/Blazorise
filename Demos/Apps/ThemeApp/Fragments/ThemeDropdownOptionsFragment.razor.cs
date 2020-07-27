@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace ThemeApp
 {
-    public partial class ThemeCustomizer : ComponentBase
+    public partial class ThemeDropdownOptionsFragment : ComponentBase
     {
         #region Members
         #endregion
@@ -14,15 +14,10 @@ namespace ThemeApp
         #endregion
 
         #region Methods
-        private void OnSelectedTabChanged( string name )
-        {
-            SelectedTab = name;
-        }
         #endregion
 
         #region Properties
         [CascadingParameter] public Theme Theme { get; set; }
-        private string SelectedTab { get; set; } = "General";
         #endregion
     }
 }

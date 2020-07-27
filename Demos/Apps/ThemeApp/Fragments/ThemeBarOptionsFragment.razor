@@ -1,0 +1,83 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Bar Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <ColorTransparencyEdit Label="Dark Background Color" Color="@Theme.BarOptions.DarkColors.BackgroundColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.DarkColors.BackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Dark Brand Background Color" Color="@Theme.BarOptions.DarkColors.BrandColorOptions.BackgroundColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.DarkColors.BrandColorOptions.BackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Dark Color" Color="@Theme.BarOptions.DarkColors.Color"
+                                       ColorChanged="@( x => { Theme.BarOptions.DarkColors.Color = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Dark Dropdown Background Color" Color="@Theme.BarOptions.DarkColors.DropdownColorOptions.BackgroundColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.DarkColors.DropdownColorOptions.BackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Dark Item Active Background Color" Color="@Theme.BarOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Dark Item Active Color" Color="@Theme.BarOptions.DarkColors.ItemColorOptions.ActiveColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.DarkColors.ItemColorOptions.ActiveColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Dark Item Hover Background Color" Color="@Theme.BarOptions.DarkColors.ItemColorOptions.HoverBackgroundColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.DarkColors.ItemColorOptions.HoverBackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Dark Item Hover Color" Color="@Theme.BarOptions.DarkColors.ItemColorOptions.HoverColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.DarkColors.ItemColorOptions.HoverColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Light Background Color" Color="@Theme.BarOptions.LightColors.BackgroundColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.LightColors.BackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Light Brand Background Color" Color="@Theme.BarOptions.LightColors.BrandColorOptions.BackgroundColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.LightColors.BrandColorOptions.BackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Light Color" Color="@Theme.BarOptions.LightColors.Color"
+                                       ColorChanged="@( x => { Theme.BarOptions.LightColors.Color = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Light Dropdown Background Color" Color="@Theme.BarOptions.LightColors.DropdownColorOptions.BackgroundColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.LightColors.DropdownColorOptions.BackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Light Item Active Background Color" Color="@Theme.BarOptions.LightColors.ItemColorOptions.ActiveBackgroundColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.LightColors.ItemColorOptions.ActiveBackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Light Item Active Color" Color="@Theme.BarOptions.LightColors.ItemColorOptions.ActiveColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.LightColors.ItemColorOptions.ActiveColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Light Item Hover Background Color" Color="@Theme.BarOptions.LightColors.ItemColorOptions.HoverBackgroundColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.LightColors.ItemColorOptions.HoverBackgroundColor = x; Theme.ThemeHasChanged(); })" />
+                <ColorTransparencyEdit Label="Light Item Hover Color" Color="@Theme.BarOptions.LightColors.ItemColorOptions.HoverColor"
+                                       ColorChanged="@( x => { Theme.BarOptions.LightColors.ItemColorOptions.HoverColor = x; Theme.ThemeHasChanged(); })" />
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Vertical Brand Height</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="4" Max="256" Step="4"
+                                Value="@Convert.ToInt32(Theme.BarOptions.VerticalBrandHeight.Replace("px", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.BarOptions.VerticalBrandHeight = x.ToString() + "px"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Vertical Small Width</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="4" Max="256" Step="4"
+                                Value="@Convert.ToInt32(Theme.BarOptions.VerticalSmallWidth.Replace("px", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.BarOptions.VerticalSmallWidth = x.ToString() + "px"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Vertical Width</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="int" Min="10" Max="1000" Step="10"
+                                Value="@Convert.ToInt32(Theme.BarOptions.VerticalWidth.Replace("px", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.BarOptions.VerticalWidth = x.ToString() + "px"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                Changes are applied instantly to the component, if available
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

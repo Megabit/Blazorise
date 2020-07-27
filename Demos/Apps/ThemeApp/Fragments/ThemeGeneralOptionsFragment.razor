@@ -1,0 +1,59 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>General Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <ColorTransparencyEdit Label="Black" Color="@Theme.Black"
+                                       ColorChanged="@( x => { Theme.Black = x; Theme.ThemeHasChanged(); })" />
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Enabled</FieldLabel>
+                    <Switch TValue="bool" Checked="@Theme.Enabled" CheckedChanged="@(x=>{ Theme.Enabled = x; Theme.ThemeHasChanged(); })" />
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Gradient background colors</FieldLabel>
+                    <Switch TValue="bool" Checked="@Theme.IsGradient" CheckedChanged="@(x=>{ Theme.IsGradient = x; Theme.ThemeHasChanged(); })" />
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Rounded elements</FieldLabel>
+                    <Switch TValue="bool" Checked="@Theme.IsRounded" CheckedChanged="@(x=>{ Theme.IsRounded = x; Theme.ThemeHasChanged(); })" />
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Luminance Threshold</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="byte" Min="0" Max="255" Step="1"
+                                Value="@Theme.LuminanceThreshold"
+                                ValueChanged="@(x=>{ Theme.LuminanceThreshold = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Color Interval</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="float" Min="0f" Max="32f" Step="1f"
+                                Value="@Theme.ThemeColorInterval"
+                                ValueChanged="@(x=>{ Theme.ThemeColorInterval = x; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <ColorTransparencyEdit Label="White" Color="@Theme.White"
+                                       ColorChanged="@( x => { Theme.White = x; Theme.ThemeHasChanged(); })" />
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                Work in Progress...@*TODO*@
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

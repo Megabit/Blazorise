@@ -1,0 +1,58 @@
+﻿@namespace ThemeApp
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Card Settings</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Border Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.CardOptions.BorderRadius.Replace("rem", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.CardOptions.BorderRadius = x.ToString() + "rem"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsHalf">Image Top Radius</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsHalf">
+                        <Slider TValue="decimal" Min="0m" Max="3m" Step="0.05m"
+                                Value="@Convert.ToDecimal(Theme.CardOptions.ImageTopRadius.Replace("calc(", string.Empty).Replace("rem - 1px)", string.Empty), System.Globalization.CultureInfo.InvariantCulture)"
+                                ValueChanged="@(x=>{ Theme.CardOptions.ImageTopRadius = "calc(" + x.ToString() + "rem - 1px)"; Theme.ThemeHasChanged(); })" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <Paragraph Margin="Margin.IsAuto" Color="TextColor.Black50">
+                    <CardTitle>Preview</CardTitle>
+                </Paragraph>
+            </CardHeader>
+            <CardBody>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Card Title</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <CardSubtitle>Card Subtitle</CardSubtitle>
+                    </CardBody>
+                    <CardImage Source="docs/assets/images/blazorise.png" Alt="Logo Image" />
+                    <CardBody>
+                        <CardText>Card text</CardText>
+                        <CardLink Source="#">Card link</CardLink>
+                    </CardBody>
+                    <CardFooter>
+                        <CardText>Card Footer</CardText>
+                    </CardFooter>
+                </Card>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
