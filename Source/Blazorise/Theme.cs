@@ -324,9 +324,9 @@ namespace Blazorise
 
     public class ThemeSwitchOptions : BasicOptions
     {
-        public float BoxShadowLightenColor { get; set; } = 25;
+        public float BoxShadowLightenColor { get; set; } = 25f;
 
-        public float DisabledLightenColor { get; set; } = 50;
+        public float DisabledLightenColor { get; set; } = 50f;
     }
 
     public class ThemePaginationOptions : BasicOptions
