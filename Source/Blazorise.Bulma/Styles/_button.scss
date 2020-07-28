@@ -110,3 +110,13 @@
         }
     }
 }
+
+.button {
+    &.is-extrasmall {
+        font-size: $size-extra-small;
+    }
+
+    &.is-extralarge {
+        font-size: $size-extra-large;
+    }
+}

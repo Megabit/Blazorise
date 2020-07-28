@@ -1313,6 +1313,12 @@
             box-shadow: none;
             color: #fff; }
 
+.button.is-extrasmall {
+    font-size: 0.65rem; }
+
+.button.is-extralarge {
+    font-size: 2rem; }
+
 .card-group {
     display: -ms-flexbox;
     display: flex;

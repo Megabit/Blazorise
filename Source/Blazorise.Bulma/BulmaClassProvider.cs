@@ -280,10 +280,16 @@ namespace Blazorise.Bulma
         {
             switch ( buttonSize )
             {
+                case Blazorise.ButtonSize.ExtraSmall:
+                    return "is-extrasmall";
                 case Blazorise.ButtonSize.Small:
                     return "is-small";
+                case Blazorise.ButtonSize.Medium:
+                    return "is-medium";
                 case Blazorise.ButtonSize.Large:
                     return "is-large";
+                case Blazorise.ButtonSize.ExtraLarge:
+                    return "is-extralarge";
                 default:
                     return null;
             }
