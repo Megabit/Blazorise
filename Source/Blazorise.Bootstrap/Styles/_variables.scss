@@ -160,7 +160,7 @@ $font-family-base: $font-family-sans-serif !default;
 $font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
 $font-size-xs: $font-size-base * .75 !default;
 $font-size-sm: $font-size-base * .875 !default;
-$font-size-md: $font-size-base * 1.12 !default;
+$font-size-md: $font-size-base * 1.125 !default;
 $font-size-lg: $font-size-base * 1.25 !default;
 $font-size-xl: $font-size-base * 1.5 !default;
 
@@ -248,7 +248,7 @@ $input-btn-padding-x-sm: .5rem !default;
 $input-btn-font-size-sm: $font-size-sm !default;
 $input-btn-line-height-sm: $line-height-sm !default;
 
-$input-btn-padding-y-md: .35rem !default;
+$input-btn-padding-y-md: .47rem !default;
 $input-btn-padding-x-md: 1rem !default;
 $input-btn-font-size-md: $font-size-md !default;
 $input-btn-line-height-md: $line-height-md !default;

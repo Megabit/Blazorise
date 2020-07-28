@@ -46,8 +46,8 @@
     border-radius: 0.15rem; }
 
 .btn-md {
-    padding: 0.35rem 1rem;
-    font-size: 1.12rem;
+    padding: 0.47rem 1rem;
+    font-size: 1.125rem;
     line-height: 1.5;
     border-radius: 0.25rem; }
 
@@ -119,9 +119,9 @@
     border-radius: 0.15rem; }
 
 .form-control-md {
-    height: calc(1.5em + 0.7rem + 2px);
-    padding: 0.35rem 1rem;
-    font-size: 1.12rem;
+    height: calc(1.5em + 0.94rem + 2px);
+    padding: 0.47rem 1rem;
+    font-size: 1.125rem;
     line-height: 1.5;
     border-radius: 0.25rem; }
 
@@ -140,11 +140,11 @@
     font-size: 0.75rem; }
 
 .custom-select-md {
-    height: calc(1.5em + 0.7rem + 2px);
-    padding-top: 0.35rem;
-    padding-bottom: 0.35rem;
+    height: calc(1.5em + 0.94rem + 2px);
+    padding-top: 0.47rem;
+    padding-bottom: 0.47rem;
     padding-left: 1rem;
-    font-size: 1.12rem; }
+    font-size: 1.125rem; }
 
 .custom-select-xl {
     height: calc(1.5em + 1rem + 2px);

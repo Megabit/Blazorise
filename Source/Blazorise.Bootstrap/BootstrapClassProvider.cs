@@ -277,10 +277,16 @@ namespace Blazorise.Bootstrap
         {
             switch ( buttonSize )
             {
+                case Blazorise.ButtonSize.ExtraSmall:
+                    return "btn-xs";
                 case Blazorise.ButtonSize.Small:
                     return "btn-sm";
+                case Blazorise.ButtonSize.Medium:
+                    return "btn-md";
                 case Blazorise.ButtonSize.Large:
                     return "btn-lg";
+                case Blazorise.ButtonSize.ExtraLarge:
+                    return "btn-xl";
                 default:
                     return null;
             }
