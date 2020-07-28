@@ -1188,14 +1188,29 @@ namespace Blazorise
         None,
 
         /// <summary>
+        /// Makes a button to appear extra small.
+        /// </summary>
+        ExtraSmall,
+
+        /// <summary>
         /// Makes a button to appear smaller.
         /// </summary>
         Small,
 
         /// <summary>
+        /// Makes a button to appear medium sized.
+        /// </summary>
+        Medium,
+
+        /// <summary>
         /// Makes a button to appear larger.
         /// </summary>
         Large,
+
+        /// <summary>
+        /// Makes a button to appear extra large.
+        /// </summary>
+        ExtraLarge,
     }
 
     /// <summary>
