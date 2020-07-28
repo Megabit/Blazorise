@@ -265,10 +265,16 @@ namespace Blazorise.Frolic
         {
             switch ( buttonSize )
             {
+                case Blazorise.ButtonSize.ExtraSmall:
+                    return "e-btn-tiny";
                 case Blazorise.ButtonSize.Small:
-                    return "small";
+                    return "e-btn-small";
+                case Blazorise.ButtonSize.Medium:
+                    return "e-btn-medium";
                 case Blazorise.ButtonSize.Large:
-                    return "plus";
+                    return "e-btn-plus";
+                case Blazorise.ButtonSize.ExtraLarge:
+                    return "e-btn-huge";
                 default:
                     return null;
             }

@@ -125,6 +125,26 @@
     .e-tag-close:active {
         background-color: rgba(10, 10, 10, 0.4); }
 
+.e-btn.e-btn-tiny {
+    padding: .275rem .475rem;
+    font-size: .6rem; }
+
+.e-btn.e-btn-small {
+    padding: .27rem .85rem;
+    font-size: .85rem; }
+
+.e-btn.e-btn-medium {
+    padding: .65rem 1.65rem;
+    font-size: 1.1rem; }
+
+.e-btn.e-btn-plus {
+    padding: .75rem 2rem;
+    font-size: 1.125rem; }
+
+.e-btn.e-btn-huge {
+    padding: .85rem 2.4rem;
+    font-size: 1.5rem; }
+
 .carousel, .carousel-list {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -362,6 +382,31 @@ select.e-select {
 .e-form-group > .e-label-pointer,
 .e-form-group > .e-label-pointer > .e-check-pointer {
     cursor: pointer; }
+
+.e-control-tiny.e-control, .e-select-tiny.e-select:not([multiple]) {
+    height: calc(1.5rem + 2px);
+    padding: .275rem .475rem;
+    font-size: .6rem; }
+
+.e-control-small.e-control, .e-select-small.e-select:not([multiple]) {
+    height: calc(1.75rem + 2px);
+    padding: .3rem .5rem;
+    font-size: .8rem; }
+
+.e-control-medium.e-control, .e-select-medium.e-select:not([multiple]) {
+    height: calc(2.75rem + 2px);
+    padding: .4rem 1rem;
+    font-size: 1.1rem; }
+
+.e-control-large.e-control, .e-select-large.e-select:not([multiple]) {
+    height: calc(3.15rem + 2px);
+    padding: .45rem 1rem;
+    font-size: 1.2rem; }
+
+.e-control-huge.e-control, .e-select-huge.e-select:not([multiple]) {
+    height: calc(3.75rem + 2px);
+    padding: .65rem 1.2rem;
+    font-size: 1.4rem; }
 
 .e-face-subtitle {
     font-size: 1.25rem;
