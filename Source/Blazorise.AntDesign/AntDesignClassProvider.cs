@@ -274,10 +274,16 @@ namespace Blazorise.AntDesign
         {
             switch ( buttonSize )
             {
+                case Blazorise.ButtonSize.ExtraSmall:
+                    return "ant-btn-xs";
                 case Blazorise.ButtonSize.Small:
                     return "ant-btn-sm";
+                case Blazorise.ButtonSize.Medium:
+                    return "ant-btn-md";
                 case Blazorise.ButtonSize.Large:
                     return "ant-btn-lg";
+                case Blazorise.ButtonSize.ExtraLarge:
+                    return "ant-btn-xl";
                 default:
                     return null;
             }
