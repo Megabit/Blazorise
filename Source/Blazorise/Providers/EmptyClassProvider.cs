@@ -75,6 +75,8 @@ namespace Blazorise.Providers
 
         public string Check() => null;
 
+        public string CheckSize( Size size ) => null;
+
         public string CheckInline() => null;
 
         public string CheckCursor( Cursor cursor ) => null;
@@ -94,6 +96,8 @@ namespace Blazorise.Providers
         #region Radio
 
         public string Radio( bool button ) => null;
+
+        public string RadioSize( bool button, Size size ) => null;
 
         public string RadioInline() => null;
 

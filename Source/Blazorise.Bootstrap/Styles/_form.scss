@@ -63,3 +63,54 @@
     padding-left: $custom-select-padding-x-xl;
     font-size: $custom-select-font-size-xl;
 }
+
+@mixin checkbox($size, $top, $width, $height, $padding-top, $padding-left) {
+    .custom-control.custom-checkbox {
+        > .custom-control-input.custom-control-input-#{$size} {
+            + .custom-control-label::before,
+            + .custom-control-label::after {
+                top: $top;
+                width: $width;
+                height: $height;
+            }
+
+            + .custom-control-label {
+                padding-top: $padding-top;
+                padding-left: $padding-left;
+            }
+        }
+    }
+}
+
+@include checkbox('xs', .1rem, .7rem, .7rem, 0px, 0px);
+@include checkbox('sm', .3rem, .8rem, .8rem, 0px, 0px);
+@include checkbox('md', .4rem, 1.25rem, 1.25rem, 6px, 3px);
+@include checkbox('lg', .8rem, 1.55rem, 1.55rem, 13px, 6px);
+@include checkbox('xl', 1.2rem, 1.85rem, 1.85rem, 23px, 10px);
+
+@mixin radio($size, $radio-size, $padding-top, $padding-left) {
+   /* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+
+    .custom-control.custom-radio {
+        > .custom-control-input.custom-control-input-#{$size} {
+            + .custom-control-label::before,
+            + .custom-control-label::after {
+                /*top: $top;*/
+                width: $radio-size;
+                height: $radio-size;
+            }
+
+            + .custom-control-label {
+                padding-top: $padding-top;
+                padding-left: $padding-left;
+            }
+        }
+    }
+}
+
+@include radio('xs', .7rem, 0px, 0px);
+@include radio('sm', .8rem, 0px, 0px);
+@include radio('md', 1.25rem, 6px, 3px);
+@include radio('lg', 1.55rem, 13px, 6px);
+@include radio('xl', 1.85rem, 23px, 10px);

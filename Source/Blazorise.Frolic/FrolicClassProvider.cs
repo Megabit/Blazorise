@@ -72,6 +72,8 @@ namespace Blazorise.Frolic
 
         public override string Check() => null;
 
+        public override string CheckSize( Size size ) => null;
+
         public override string CheckInline() => null;
 
         public override string CheckCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
@@ -91,6 +93,8 @@ namespace Blazorise.Frolic
         #region Radio
 
         public override string Radio( bool button ) => null;
+
+        public override string RadioSize( bool button, Size size ) => null;
 
         public override string RadioInline() => null;
 

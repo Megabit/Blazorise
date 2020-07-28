@@ -153,6 +153,116 @@
     padding-left: 1rem;
     font-size: 1.5rem; }
 
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label::before,
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label::after {
+    top: 0.1rem;
+    width: 0.7rem;
+    height: 0.7rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label {
+    padding-top: 0px;
+    padding-left: 0px; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-sm + .custom-control-label::before,
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-sm + .custom-control-label::after {
+    top: 0.3rem;
+    width: 0.8rem;
+    height: 0.8rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-sm + .custom-control-label {
+    padding-top: 0px;
+    padding-left: 0px; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-md + .custom-control-label::before,
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-md + .custom-control-label::after {
+    top: 0.4rem;
+    width: 1.25rem;
+    height: 1.25rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-md + .custom-control-label {
+    padding-top: 6px;
+    padding-left: 3px; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-lg + .custom-control-label::before,
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-lg + .custom-control-label::after {
+    top: 0.8rem;
+    width: 1.55rem;
+    height: 1.55rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-lg + .custom-control-label {
+    padding-top: 13px;
+    padding-left: 6px; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xl + .custom-control-label::before,
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xl + .custom-control-label::after {
+    top: 1.2rem;
+    width: 1.85rem;
+    height: 1.85rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xl + .custom-control-label {
+    padding-top: 23px;
+    padding-left: 10px; }
+
+/* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xs + .custom-control-label::before,
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xs + .custom-control-label::after {
+    /*top: $top;*/
+    width: 0.7rem;
+    height: 0.7rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xs + .custom-control-label {
+    padding-top: 0px;
+    padding-left: 0px; }
+
+/* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+.custom-control.custom-radio > .custom-control-input.custom-control-input-sm + .custom-control-label::before,
+.custom-control.custom-radio > .custom-control-input.custom-control-input-sm + .custom-control-label::after {
+    /*top: $top;*/
+    width: 0.8rem;
+    height: 0.8rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-sm + .custom-control-label {
+    padding-top: 0px;
+    padding-left: 0px; }
+
+/* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+.custom-control.custom-radio > .custom-control-input.custom-control-input-md + .custom-control-label::before,
+.custom-control.custom-radio > .custom-control-input.custom-control-input-md + .custom-control-label::after {
+    /*top: $top;*/
+    width: 1.25rem;
+    height: 1.25rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-md + .custom-control-label {
+    padding-top: 6px;
+    padding-left: 3px; }
+
+/* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+.custom-control.custom-radio > .custom-control-input.custom-control-input-lg + .custom-control-label::before,
+.custom-control.custom-radio > .custom-control-input.custom-control-input-lg + .custom-control-label::after {
+    /*top: $top;*/
+    width: 1.55rem;
+    height: 1.55rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-lg + .custom-control-label {
+    padding-top: 13px;
+    padding-left: 6px; }
+
+/* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xl + .custom-control-label::before,
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xl + .custom-control-label::after {
+    /*top: $top;*/
+    width: 1.85rem;
+    height: 1.85rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xl + .custom-control-label {
+    padding-top: 23px;
+    padding-left: 10px; }
+
 .jumbotron.jumbotron-primary {
     background-color: #007bff;
     color: #fff; }

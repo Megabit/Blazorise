@@ -72,6 +72,8 @@ namespace Blazorise.Bootstrap
 
         public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
+        public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
+
         public override string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
         public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
@@ -91,6 +93,8 @@ namespace Blazorise.Bootstrap
         #region Radio
 
         public override string Radio( bool button ) => button ? null : UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+
+        public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
 
         public override string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 

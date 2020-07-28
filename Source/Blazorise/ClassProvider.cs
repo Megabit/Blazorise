@@ -72,6 +72,8 @@ namespace Blazorise
 
         public abstract string Check();
 
+        public abstract string CheckSize( Size size );
+
         public abstract string CheckInline();
 
         public abstract string CheckCursor( Cursor cursor );
@@ -91,6 +93,8 @@ namespace Blazorise
         #region Radio
 
         public abstract string Radio( bool button );
+
+        public abstract string RadioSize( bool button, Size size );
 
         public abstract string RadioInline();
 

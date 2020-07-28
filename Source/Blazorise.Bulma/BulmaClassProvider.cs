@@ -72,6 +72,8 @@ namespace Blazorise.Bulma
 
         public override string Check() => "checkbox";
 
+        public override string CheckSize( Size size ) => $"is-{ToSize( size )}";
+
         public override string CheckInline() => "is-inline";
 
         public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
@@ -91,6 +93,8 @@ namespace Blazorise.Bulma
         #region Radio
 
         public override string Radio( bool button ) => "radio";
+
+        public override string RadioSize( bool button, Size size ) => $"is-{ToSize( size )}";
 
         public override string RadioInline() => "is-inline";
 

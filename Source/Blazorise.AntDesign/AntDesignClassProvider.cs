@@ -72,6 +72,8 @@ namespace Blazorise.AntDesign
 
         public override string Check() => "ant-checkbox-input";
 
+        public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
+
         public override string CheckInline() => null;
 
         public override string CheckCursor( Cursor cursor ) => null;
@@ -91,6 +93,8 @@ namespace Blazorise.AntDesign
         #region Radio
 
         public override string Radio( bool button ) => button ? "ant-radio-button-input" : "ant-radio-input";
+
+        public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
 
         public override string RadioInline() => null;
 

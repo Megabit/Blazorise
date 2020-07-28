@@ -147,3 +147,61 @@
 @include select-size('xs', 10px, 16px, 14px);
 @include select-size('md', 14px, 36px, 34px);
 @include select-size('xl', 18px, 48px, 45px);
+
+@mixin checkbox($size, $width, $height) {
+    .ant-checkbox-input.ant-checkbox-input-#{$size} {
+        + .ant-checkbox-inner {
+            width: $width;
+            height: $height;
+        }
+    }
+
+    .ant-checkbox.ant-checkbox-checked {
+        > .ant-checkbox-input.ant-checkbox-input-#{$size} {
+            + .ant-checkbox-inner {
+                &::after {
+                    width: $width / 3;
+                    height: $height / 1.7;
+                }
+            }
+        }
+    }
+}
+
+@include checkbox('xs', 8px, 8px);
+@include checkbox('sm', 12px, 12px);
+@include checkbox('md', 20px, 20px);
+@include checkbox('lg', 24px, 24px);
+@include checkbox('xl', 28px, 28px);
+
+@mixin radio($size, $radio-size) {
+    $radio-dot-size: $radio-size - ($radio-size / 2);
+
+    .ant-radio {
+        > .ant-radio-input.ant-radio-input-#{$size} {
+            + .ant-radio-inner {
+                width: $radio-size;
+                height: $radio-size;
+            }
+        }
+
+        &.ant-radio-checked {
+            > .ant-radio-input.ant-radio-input-#{$size} {
+                + .ant-radio-inner {
+                    &::after {
+                        width: $radio-dot-size;
+                        height: $radio-dot-size;
+                        top: ($radio-size - $radio-dot-size) / 2 - 1px;
+                        left: ($radio-size - $radio-dot-size) / 2 - 1px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include radio('xs', 8px);
+@include radio('sm', 12px);
+@include radio('md', 20px);
+@include radio('lg', 24px);
+@include radio('xl', 28px);
