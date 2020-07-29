@@ -236,3 +236,18 @@
     font-size: 18px;
     height: 48px;
 }
+
+.ant-btn-group-xs > .ant-btn,
+.ant-btn-group-xs > span > .ant-btn {
+    @extend .ant-btn-xs;
+}
+
+.ant-btn-group-md > .ant-btn,
+.ant-btn-group-md > span > .ant-btn {
+    @extend .ant-btn-md;
+}
+
+.ant-btn-group-xl > .ant-btn,
+.ant-btn-group-xl > span > .ant-btn {
+    @extend .ant-btn-xl;
+}
