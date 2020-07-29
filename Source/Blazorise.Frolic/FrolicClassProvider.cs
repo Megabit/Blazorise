@@ -702,7 +702,7 @@ namespace Blazorise.Frolic
 
         public override string Pagination() => "e-pagination";
 
-        public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
+        public override string PaginationSize( Size size ) => ToSize( size );
 
         public override string PaginationItem() => "e-page-item";
 
