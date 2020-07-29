@@ -1754,6 +1754,12 @@ body::-webkit-scrollbar {
     .modal-xl {
         width: 1140px; } }
 
+.pagination.is-extra-small, .field.has-addons.are-extra-small > .control > .pagination.button {
+    font-size: 0.65rem; }
+
+.pagination.is-extra-large, .field.has-addons.are-extra-large > .control > .pagination.button {
+    font-size: 2rem; }
+
 /*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
 .switch[type="checkbox"] {
     outline: 0;
