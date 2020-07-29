@@ -26,6 +26,13 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        protected override void BuildStyles( StyleBuilder builder )
+        {
+            base.BuildStyles( builder );
+
+            builder.Append( $"padding-left: { 1.5d * ( ParentStore.NestedIndex + 1 ) }rem", ParentStore.IsInlineDisplay );
+        }
+
         protected Task ClickHandler()
         {
             return Clicked.InvokeAsync( null );
@@ -60,6 +67,7 @@ namespace Blazorise
                 parentStore = value;
 
                 DirtyClasses();
+                DirtyStyles();
             }
         }
 

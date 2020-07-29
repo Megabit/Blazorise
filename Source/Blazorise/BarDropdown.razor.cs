@@ -13,9 +13,14 @@ namespace Blazorise
     {
         #region Members
 
-        private BarItemStore parentStore;
+        private BarItemStore parentBarItemStore;
 
-        private BarDropdownStore store;
+        private BarDropdownStore parentBarDropdownStore;
+
+        private BarDropdownStore store = new BarDropdownStore
+        {
+            NestedIndex = 1
+        };
 
         #endregion
 
@@ -71,8 +76,9 @@ namespace Blazorise
 
         internal void Toggle()
         {
-            if ( ParentStore.Mode == BarMode.VerticalSmall || ParentStore.Mode == BarMode.VerticalPopout || 
-                 ( ParentStore.Mode == BarMode.VerticalInline && !ParentStore.BarVisible ) )
+            // Don't allow Toggle when menu is in a vertical "popout" style mode.
+            // This will be handled by mouse over actions below.
+            if ( ParentBarItemStore.Mode != BarMode.Horizontal && !Store.IsInlineDisplay )
                 return;
 
             Visible = !Visible;
@@ -82,7 +88,7 @@ namespace Blazorise
 
         internal void OnMouseEnter()
         {
-            if ( ParentStore.Mode == BarMode.Horizontal || ( ParentStore.Mode == BarMode.VerticalInline && Store.BarVisible ) )
+            if ( ParentBarItemStore.Mode == BarMode.Horizontal || Store.IsInlineDisplay )
                 return;
 
             Show();
@@ -90,7 +96,7 @@ namespace Blazorise
 
         internal void OnMouseLeave()
         {
-            if ( ParentStore.Mode == BarMode.Horizontal || ( ParentStore.Mode == BarMode.VerticalInline && Store.BarVisible ) )
+            if ( ParentBarItemStore.Mode == BarMode.Horizontal || Store.IsInlineDisplay )
                 return;
 
             Hide();
@@ -133,21 +139,38 @@ namespace Blazorise
         [CascadingParameter] protected BarItem ParentBarItem { get; set; }
 
         [CascadingParameter]
-        protected BarItemStore ParentStore
+        protected BarItemStore ParentBarItemStore
         {
-            get => parentStore;
+            get => parentBarItemStore;
             set
             {
-                if ( parentStore == value )
+                if ( parentBarItemStore == value )
                     return;
 
-                parentStore = value;
+                parentBarItemStore = value;
 
-                store.Mode = parentStore.Mode;
-                store.BarVisible = parentStore.BarVisible;
+                store.Mode = parentBarItemStore.Mode;
+                store.BarVisible = parentBarItemStore.BarVisible;
 
                 if ( !store.BarVisible )
                     Visible = false;
+
+                DirtyClasses();
+            }
+        }
+
+        [CascadingParameter]
+        protected BarDropdownStore ParentBarDropdownStore
+        {
+            get => parentBarDropdownStore;
+            set
+            {
+                if ( parentBarDropdownStore == value )
+                    return;
+
+                parentBarDropdownStore = value;
+
+                store.NestedIndex = parentBarDropdownStore.NestedIndex + 1;
 
                 DirtyClasses();
             }

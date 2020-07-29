@@ -38,6 +38,13 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        protected override void BuildStyles( StyleBuilder builder )
+        {
+            base.BuildStyles( builder );
+
+            builder.Append( $"padding-left: { 1.5d * ParentStore.NestedIndex }rem", ParentStore.IsInlineDisplay );
+        }
+
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -110,6 +117,7 @@ namespace Blazorise
                 }
 
                 DirtyClasses();
+                DirtyStyles();
             }
         }
 

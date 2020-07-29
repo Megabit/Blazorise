@@ -15,7 +15,7 @@
     flex: 1 100%;
 
     .b-bar-dropdown-item {
-        padding: .5rem 1.5rem !important;
+        padding: .5rem .5rem .5rem 1.5rem;
     }
 
     &:before {
@@ -485,16 +485,6 @@
 
                 .b-bar-dropdown-item {
                     padding: .5rem .5rem .5rem 3rem;
-                }
-
-                > .b-bar-dropdown {
-                    .b-bar-link {
-                        padding: .5rem .5rem .5rem 3rem;
-                    }
-
-                    .b-bar-dropdown-item {
-                        padding: .5rem .5rem .5rem 4.5rem;
-                    }
                 }
             }
         }
