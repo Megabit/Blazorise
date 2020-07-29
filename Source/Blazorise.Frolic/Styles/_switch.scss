@@ -21,7 +21,7 @@
             @include switch-size($size-medium);
         }
 
-        &-large {
+        &-plus {
             @include switch-size($size-large);
         }
 
