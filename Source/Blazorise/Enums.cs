@@ -1178,63 +1178,6 @@ namespace Blazorise
     }
 
     /// <summary>
-    /// Defines a button size.
-    /// </summary>
-    public enum ButtonSize
-    {
-        /// <summary>
-        /// No sizing will be applied to the button.
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// Makes a button to appear extra small.
-        /// </summary>
-        ExtraSmall,
-
-        /// <summary>
-        /// Makes a button to appear smaller.
-        /// </summary>
-        Small,
-
-        /// <summary>
-        /// Makes a button to appear medium sized.
-        /// </summary>
-        Medium,
-
-        /// <summary>
-        /// Makes a button to appear larger.
-        /// </summary>
-        Large,
-
-        /// <summary>
-        /// Makes a button to appear extra large.
-        /// </summary>
-        ExtraLarge,
-    }
-
-    /// <summary>
-    /// Defines sizes for button group.
-    /// </summary>
-    public enum ButtonsSize
-    {
-        /// <summary>
-        /// No sizing will be applied to the buttons.
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// Makes a buttons to appear smaller.
-        /// </summary>
-        Small,
-
-        /// <summary>
-        /// Makes a buttons to appear larger.
-        /// </summary>
-        Large,
-    }
-
-    /// <summary>
     /// Defines the mouse cursor.
     /// </summary>
     public enum Cursor

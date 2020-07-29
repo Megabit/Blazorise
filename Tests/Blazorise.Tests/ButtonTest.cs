@@ -60,10 +60,10 @@ namespace Blazorise.Tests
             var button = new Button();
 
             // test
-            button.Size = ButtonSize.Small;
+            button.Size = Size.Small;
 
             // validate
-            Assert.Equal( ButtonSize.Small, button.Size );
+            Assert.Equal( Size.Small, button.Size );
         }
 
         [Fact]

@@ -255,7 +255,7 @@ namespace Blazorise.Providers
 
         public string ButtonOutline( Color color ) => null;
 
-        public string ButtonSize( ButtonSize buttonSize ) => null;
+        public string ButtonSize( Size size ) => null;
 
         public string ButtonBlock() => null;
 
@@ -273,7 +273,7 @@ namespace Blazorise.Providers
 
         public string ButtonsToolbar() => null;
 
-        public string ButtonsSize( ButtonsSize buttonsSize ) => null;
+        public string ButtonsSize( Size size ) => null;
 
         public string ButtonsVertical() => null;
 
@@ -315,7 +315,7 @@ namespace Blazorise.Providers
 
         public string DropdownToggleOutline( Color color ) => null;
 
-        public string DropdownToggleSize( ButtonSize buttonSize ) => null;
+        public string DropdownToggleSize( Size size ) => null;
 
         public string DropdownToggleSplit() => null;
 
@@ -672,6 +672,8 @@ namespace Blazorise.Providers
         public string ProgressSize( Size size ) => null;
 
         public string ProgressBar() => null;
+
+        public string ProgressBarSize( Size size ) => null;
 
         public string ProgressBarColor( Background background ) => null;
 

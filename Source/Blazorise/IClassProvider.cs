@@ -251,7 +251,7 @@ namespace Blazorise
 
         string ButtonOutline( Color color );
 
-        string ButtonSize( ButtonSize buttonSize );
+        string ButtonSize( Size size );
 
         string ButtonBlock();
 
@@ -269,7 +269,7 @@ namespace Blazorise
 
         string ButtonsToolbar();
 
-        string ButtonsSize( ButtonsSize buttonsSize );
+        string ButtonsSize( Size size );
 
         string ButtonsVertical();
 
@@ -311,7 +311,7 @@ namespace Blazorise
 
         string DropdownToggleOutline( Color color );
 
-        string DropdownToggleSize( ButtonSize buttonSize );
+        string DropdownToggleSize( Size size );
 
         string DropdownToggleSplit();
 
@@ -662,6 +662,8 @@ namespace Blazorise
         string ProgressSize( Size size );
 
         string ProgressBar();
+
+        string ProgressBarSize( Size size );
 
         string ProgressBarColor( Background background );
 
