@@ -26,8 +26,9 @@ $enable-ripple: true !default; // Enable ripple effect on components (Buttons, m
 @import "jumbotron";
 @import "layout";
 @import "modal";
+@import "pagination";
 @import "spinner";
+@import "switch";
 @import "table";
 @import "tabs";
 @import "typography";
-@import "switch";
