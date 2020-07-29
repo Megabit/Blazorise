@@ -37,19 +37,45 @@ namespace Blazorise.Components
 
         protected Select<object> select;
 
+        /// <summary>
+        /// Gets or sets the select data-source.
+        /// </summary>
         [Parameter] public IEnumerable<TItem> Data { get; set; }
 
+        /// <summary>
+        /// Method used to get the display field from the supplied data source.
+        /// </summary>
         [Parameter] public Func<TItem, string> TextField { get; set; }
 
+        /// <summary>
+        /// Method used to get the value field from the supplied data source.
+        /// </summary>
         [Parameter] public Func<TItem, object> ValueField { get; set; }
 
+        /// <summary>
+        /// Currently selected item value.
+        /// </summary>
         [Parameter] public object SelectedValue { get; set; }
 
+        /// <summary>
+        /// Occurs after the selected value has changed.
+        /// </summary>
         [Parameter] public EventCallback<object> SelectedValueChanged { get; set; }
 
+        /// <summary>
+        /// Custom css class-names.
+        /// </summary>
         [Parameter] public string Class { get; set; }
 
+        /// <summary>
+        /// Custom styles.
+        /// </summary>
         [Parameter] public string Style { get; set; }
+
+        /// <summary>
+        /// Size of a select field.
+        /// </summary>
+        [Parameter] public Size Size { get; set; } = Size.None;
 
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
