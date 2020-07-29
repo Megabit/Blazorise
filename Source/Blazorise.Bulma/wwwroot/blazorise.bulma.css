@@ -1313,10 +1313,19 @@
             box-shadow: none;
             color: #fff; }
 
-.button.is-extrasmall {
+.button.is-extra-small, .field.has-addons.are-extra-small > .control > .button {
     font-size: 0.65rem; }
 
-.button.is-extralarge {
+.button.is-small, .field.has-addons.are-small > .control > .button {
+    font-size: 0.75rem; }
+
+.button.is-medium, .field.has-addons.are-medium > .control > .button {
+    font-size: 1.25rem; }
+
+.button.is-large, .field.has-addons.are-large > .control > .button {
+    font-size: 1.5rem; }
+
+.button.is-extra-large, .field.has-addons.are-extra-large > .control > .button {
     font-size: 2rem; }
 
 .card-group {
@@ -1507,9 +1516,9 @@
             -webkit-overflow-scrolling: touch;
             overflow: hidden;
             overflow-x: auto; }
-            .carousel .carousel-indicator.has-custom.is-small .indicator-item {
+            .carousel .carousel-indicator.has-custom.is-small .indicator-item, .carousel .field.has-addons.are-small > .control > .carousel-indicator.has-custom.button .indicator-item {
                 flex: 1 0 10%; }
-            .carousel .carousel-indicator.has-custom.is-medium .indicator-item {
+            .carousel .carousel-indicator.has-custom.is-medium .indicator-item, .carousel .field.has-addons.are-medium > .control > .carousel-indicator.has-custom.button .indicator-item {
                 flex: 1 0 16.66667%; }
         .carousel .carousel-indicator.is-inside {
             position: absolute; }
@@ -1633,22 +1642,22 @@ label.radio.button {
 .file.has-name.is-fullwidth {
     width: 100%; }
 
-.input.is-extra-small {
+.input.is-extra-small, .field.has-addons.are-extra-small > .control > .input.button {
     font-size: 0.65rem; }
 
-.input.is-extra-large {
+.input.is-extra-large, .field.has-addons.are-extra-large > .control > .input.button {
     font-size: 2rem; }
 
-.select.is-extra-small {
+.select.is-extra-small, .field.has-addons.are-extra-small > .control > .select.button {
     font-size: 0.65rem; }
 
-.select.is-extra-large {
+.select.is-extra-large, .field.has-addons.are-extra-large > .control > .select.button {
     font-size: 2rem; }
 
-.textarea.is-extra-small {
+.textarea.is-extra-small, .field.has-addons.are-extra-small > .control > .textarea.button {
     font-size: 0.65rem; }
 
-.textarea.is-extra-large {
+.textarea.is-extra-large, .field.has-addons.are-extra-large > .control > .textarea.button {
     font-size: 2rem; }
 
 .hero.hero-primary {
@@ -1787,7 +1796,7 @@ body::-webkit-scrollbar {
         background: var(--b-theme-primary, #00d1b2); }
     .switch[type="checkbox"]:checked + label::after {
         left: 1.625rem; }
-    .switch[type="checkbox"].is-extra-small + label {
+    .switch[type="checkbox"].is-extra-small + label, .field.has-addons.are-extra-small > .control > .switch[type="checkbox"].button + label {
         position: relative;
         display: initial;
         font-size: 0.65rem;
@@ -1795,7 +1804,7 @@ body::-webkit-scrollbar {
         padding-left: 2.45rem;
         padding-top: .2rem;
         cursor: pointer; }
-        .switch[type="checkbox"].is-extra-small + label::before, .switch[type="checkbox"].is-extra-small + label:before {
+        .switch[type="checkbox"].is-extra-small + label::before, .field.has-addons.are-extra-small > .control > .switch[type="checkbox"].button + label::before, .switch[type="checkbox"].is-extra-small + label:before, .field.has-addons.are-extra-small > .control > .switch[type="checkbox"].button + label:before {
             position: absolute;
             display: block;
             top: calc( 50% - 0.975rem / 2);
@@ -1806,7 +1815,7 @@ body::-webkit-scrollbar {
             border-radius: 4px;
             background: rgba(0, 0, 0, 0.125);
             content: ''; }
-        .switch[type="checkbox"].is-extra-small + label::after, .switch[type="checkbox"].is-extra-small + label:after {
+        .switch[type="checkbox"].is-extra-small + label::after, .field.has-addons.are-extra-small > .control > .switch[type="checkbox"].button + label::after, .switch[type="checkbox"].is-extra-small + label:after, .field.has-addons.are-extra-small > .control > .switch[type="checkbox"].button + label:after {
             display: block;
             position: absolute;
             top: calc( 50% - 0.475rem / 2);
@@ -1818,11 +1827,11 @@ body::-webkit-scrollbar {
             background: var(--b-theme-white, #fff);
             transition: all 0.25s ease-out;
             content: ''; }
-    .switch[type="checkbox"].is-extra-small:checked + label::before, .switch[type="checkbox"].is-extra-small:checked + label:before {
+    .switch[type="checkbox"].is-extra-small:checked + label::before, .field.has-addons.are-extra-small > .control > .switch[type="checkbox"].button:checked + label::before, .switch[type="checkbox"].is-extra-small:checked + label:before, .field.has-addons.are-extra-small > .control > .switch[type="checkbox"].button:checked + label:before {
         background: var(--b-theme-primary, #00d1b2); }
-    .switch[type="checkbox"].is-extra-small:checked + label::after {
+    .switch[type="checkbox"].is-extra-small:checked + label::after, .field.has-addons.are-extra-small > .control > .switch[type="checkbox"].button:checked + label::after {
         left: 1.1rem; }
-    .switch[type="checkbox"].is-small + label {
+    .switch[type="checkbox"].is-small + label, .field.has-addons.are-small > .control > .switch[type="checkbox"].button + label {
         position: relative;
         display: initial;
         font-size: 0.75rem;
@@ -1830,7 +1839,7 @@ body::-webkit-scrollbar {
         padding-left: 2.75rem;
         padding-top: .2rem;
         cursor: pointer; }
-        .switch[type="checkbox"].is-small + label::before, .switch[type="checkbox"].is-small + label:before {
+        .switch[type="checkbox"].is-small + label::before, .field.has-addons.are-small > .control > .switch[type="checkbox"].button + label::before, .switch[type="checkbox"].is-small + label:before, .field.has-addons.are-small > .control > .switch[type="checkbox"].button + label:before {
             position: absolute;
             display: block;
             top: calc( 50% - 1.125rem / 2);
@@ -1841,7 +1850,7 @@ body::-webkit-scrollbar {
             border-radius: 4px;
             background: rgba(0, 0, 0, 0.125);
             content: ''; }
-        .switch[type="checkbox"].is-small + label::after, .switch[type="checkbox"].is-small + label:after {
+        .switch[type="checkbox"].is-small + label::after, .field.has-addons.are-small > .control > .switch[type="checkbox"].button + label::after, .switch[type="checkbox"].is-small + label:after, .field.has-addons.are-small > .control > .switch[type="checkbox"].button + label:after {
             display: block;
             position: absolute;
             top: calc( 50% - 0.625rem / 2);
@@ -1853,11 +1862,11 @@ body::-webkit-scrollbar {
             background: var(--b-theme-white, #fff);
             transition: all 0.25s ease-out;
             content: ''; }
-    .switch[type="checkbox"].is-small:checked + label::before, .switch[type="checkbox"].is-small:checked + label:before {
+    .switch[type="checkbox"].is-small:checked + label::before, .field.has-addons.are-small > .control > .switch[type="checkbox"].button:checked + label::before, .switch[type="checkbox"].is-small:checked + label:before, .field.has-addons.are-small > .control > .switch[type="checkbox"].button:checked + label:before {
         background: var(--b-theme-primary, #00d1b2); }
-    .switch[type="checkbox"].is-small:checked + label::after {
+    .switch[type="checkbox"].is-small:checked + label::after, .field.has-addons.are-small > .control > .switch[type="checkbox"].button:checked + label::after {
         left: 1.25rem; }
-    .switch[type="checkbox"].is-medium + label {
+    .switch[type="checkbox"].is-medium + label, .field.has-addons.are-medium > .control > .switch[type="checkbox"].button + label {
         position: relative;
         display: initial;
         font-size: 1.25rem;
@@ -1865,7 +1874,7 @@ body::-webkit-scrollbar {
         padding-left: 4.25rem;
         padding-top: .2rem;
         cursor: pointer; }
-        .switch[type="checkbox"].is-medium + label::before, .switch[type="checkbox"].is-medium + label:before {
+        .switch[type="checkbox"].is-medium + label::before, .field.has-addons.are-medium > .control > .switch[type="checkbox"].button + label::before, .switch[type="checkbox"].is-medium + label:before, .field.has-addons.are-medium > .control > .switch[type="checkbox"].button + label:before {
             position: absolute;
             display: block;
             top: calc( 50% - 1.875rem / 2);
@@ -1876,7 +1885,7 @@ body::-webkit-scrollbar {
             border-radius: 4px;
             background: rgba(0, 0, 0, 0.125);
             content: ''; }
-        .switch[type="checkbox"].is-medium + label::after, .switch[type="checkbox"].is-medium + label:after {
+        .switch[type="checkbox"].is-medium + label::after, .field.has-addons.are-medium > .control > .switch[type="checkbox"].button + label::after, .switch[type="checkbox"].is-medium + label:after, .field.has-addons.are-medium > .control > .switch[type="checkbox"].button + label:after {
             display: block;
             position: absolute;
             top: calc( 50% - 1.375rem / 2);
@@ -1888,11 +1897,11 @@ body::-webkit-scrollbar {
             background: var(--b-theme-white, #fff);
             transition: all 0.25s ease-out;
             content: ''; }
-    .switch[type="checkbox"].is-medium:checked + label::before, .switch[type="checkbox"].is-medium:checked + label:before {
+    .switch[type="checkbox"].is-medium:checked + label::before, .field.has-addons.are-medium > .control > .switch[type="checkbox"].button:checked + label::before, .switch[type="checkbox"].is-medium:checked + label:before, .field.has-addons.are-medium > .control > .switch[type="checkbox"].button:checked + label:before {
         background: var(--b-theme-primary, #00d1b2); }
-    .switch[type="checkbox"].is-medium:checked + label::after {
+    .switch[type="checkbox"].is-medium:checked + label::after, .field.has-addons.are-medium > .control > .switch[type="checkbox"].button:checked + label::after {
         left: 2rem; }
-    .switch[type="checkbox"].is-large + label {
+    .switch[type="checkbox"].is-large + label, .field.has-addons.are-large > .control > .switch[type="checkbox"].button + label {
         position: relative;
         display: initial;
         font-size: 1.5rem;
@@ -1900,7 +1909,7 @@ body::-webkit-scrollbar {
         padding-left: 5rem;
         padding-top: .2rem;
         cursor: pointer; }
-        .switch[type="checkbox"].is-large + label::before, .switch[type="checkbox"].is-large + label:before {
+        .switch[type="checkbox"].is-large + label::before, .field.has-addons.are-large > .control > .switch[type="checkbox"].button + label::before, .switch[type="checkbox"].is-large + label:before, .field.has-addons.are-large > .control > .switch[type="checkbox"].button + label:before {
             position: absolute;
             display: block;
             top: calc( 50% - 2.25rem / 2);
@@ -1911,7 +1920,7 @@ body::-webkit-scrollbar {
             border-radius: 4px;
             background: rgba(0, 0, 0, 0.125);
             content: ''; }
-        .switch[type="checkbox"].is-large + label::after, .switch[type="checkbox"].is-large + label:after {
+        .switch[type="checkbox"].is-large + label::after, .field.has-addons.are-large > .control > .switch[type="checkbox"].button + label::after, .switch[type="checkbox"].is-large + label:after, .field.has-addons.are-large > .control > .switch[type="checkbox"].button + label:after {
             display: block;
             position: absolute;
             top: calc( 50% - 1.75rem / 2);
@@ -1923,11 +1932,11 @@ body::-webkit-scrollbar {
             background: var(--b-theme-white, #fff);
             transition: all 0.25s ease-out;
             content: ''; }
-    .switch[type="checkbox"].is-large:checked + label::before, .switch[type="checkbox"].is-large:checked + label:before {
+    .switch[type="checkbox"].is-large:checked + label::before, .field.has-addons.are-large > .control > .switch[type="checkbox"].button:checked + label::before, .switch[type="checkbox"].is-large:checked + label:before, .field.has-addons.are-large > .control > .switch[type="checkbox"].button:checked + label:before {
         background: var(--b-theme-primary, #00d1b2); }
-    .switch[type="checkbox"].is-large:checked + label::after {
+    .switch[type="checkbox"].is-large:checked + label::after, .field.has-addons.are-large > .control > .switch[type="checkbox"].button:checked + label::after {
         left: 2.375rem; }
-    .switch[type="checkbox"].is-extra-large + label {
+    .switch[type="checkbox"].is-extra-large + label, .field.has-addons.are-extra-large > .control > .switch[type="checkbox"].button + label {
         position: relative;
         display: initial;
         font-size: 2rem;
@@ -1935,7 +1944,7 @@ body::-webkit-scrollbar {
         padding-left: 6.5rem;
         padding-top: .2rem;
         cursor: pointer; }
-        .switch[type="checkbox"].is-extra-large + label::before, .switch[type="checkbox"].is-extra-large + label:before {
+        .switch[type="checkbox"].is-extra-large + label::before, .field.has-addons.are-extra-large > .control > .switch[type="checkbox"].button + label::before, .switch[type="checkbox"].is-extra-large + label:before, .field.has-addons.are-extra-large > .control > .switch[type="checkbox"].button + label:before {
             position: absolute;
             display: block;
             top: calc( 50% - 3rem / 2);
@@ -1946,7 +1955,7 @@ body::-webkit-scrollbar {
             border-radius: 4px;
             background: rgba(0, 0, 0, 0.125);
             content: ''; }
-        .switch[type="checkbox"].is-extra-large + label::after, .switch[type="checkbox"].is-extra-large + label:after {
+        .switch[type="checkbox"].is-extra-large + label::after, .field.has-addons.are-extra-large > .control > .switch[type="checkbox"].button + label::after, .switch[type="checkbox"].is-extra-large + label:after, .field.has-addons.are-extra-large > .control > .switch[type="checkbox"].button + label:after {
             display: block;
             position: absolute;
             top: calc( 50% - 2.5rem / 2);
@@ -1958,9 +1967,9 @@ body::-webkit-scrollbar {
             background: var(--b-theme-white, #fff);
             transition: all 0.25s ease-out;
             content: ''; }
-    .switch[type="checkbox"].is-extra-large:checked + label::before, .switch[type="checkbox"].is-extra-large:checked + label:before {
+    .switch[type="checkbox"].is-extra-large:checked + label::before, .field.has-addons.are-extra-large > .control > .switch[type="checkbox"].button:checked + label::before, .switch[type="checkbox"].is-extra-large:checked + label:before, .field.has-addons.are-extra-large > .control > .switch[type="checkbox"].button:checked + label:before {
         background: var(--b-theme-primary, #00d1b2); }
-    .switch[type="checkbox"].is-extra-large:checked + label::after {
+    .switch[type="checkbox"].is-extra-large:checked + label::after, .field.has-addons.are-extra-large > .control > .switch[type="checkbox"].button:checked + label::after {
         left: 3.125rem; }
 
 .switch[type="checkbox"].is-primary:checked + label::before,

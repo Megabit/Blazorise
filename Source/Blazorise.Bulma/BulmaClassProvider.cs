@@ -280,24 +280,7 @@ namespace Blazorise.Bulma
 
         public override string ButtonOutline( Color color ) => $"is-{ToColor( color )} is-outlined";
 
-        public override string ButtonSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.ExtraSmall:
-                    return "is-extrasmall";
-                case Blazorise.ButtonSize.Small:
-                    return "is-small";
-                case Blazorise.ButtonSize.Medium:
-                    return "is-medium";
-                case Blazorise.ButtonSize.Large:
-                    return "is-large";
-                case Blazorise.ButtonSize.ExtraLarge:
-                    return "is-extralarge";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string ButtonBlock() => $"is-fullwidth";
 
@@ -315,18 +298,7 @@ namespace Blazorise.Bulma
 
         public override string ButtonsToolbar() => "field is-grouped";
 
-        public override string ButtonsSize( ButtonsSize buttonsSize )
-        {
-            switch ( buttonsSize )
-            {
-                case Blazorise.ButtonsSize.Small:
-                    return "are-small";
-                case Blazorise.ButtonsSize.Large:
-                    return "are-large";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonsSize( Size size ) => $"are-{ToSize( size )}";
 
         public override string ButtonsVertical() => "buttons";
 
@@ -368,18 +340,7 @@ namespace Blazorise.Bulma
 
         public override string DropdownToggleOutline( Color color ) => $"is-{ToColor( color )} is-outlined";
 
-        public override string DropdownToggleSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.Small:
-                    return "is-small";
-                case Blazorise.ButtonSize.Large:
-                    return "is-large";
-                default:
-                    return null;
-            }
-        }
+        public override string DropdownToggleSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string DropdownToggleSplit() => null;
 
@@ -746,6 +707,8 @@ namespace Blazorise.Bulma
         public override string ProgressSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string ProgressBar() => "progress";
+
+        public override string ProgressBarSize( Size size ) => null;
 
         public override string ProgressBarColor( Background background ) => BackgroundColor( background );
 
