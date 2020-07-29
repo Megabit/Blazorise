@@ -684,10 +684,16 @@ $dropdown-header-padding: $dropdown-padding-y $dropdown-item-padding-x !default;
 
 $pagination-padding-y: .5rem !default;
 $pagination-padding-x: .75rem !default;
+$pagination-padding-y-xs: .125rem !default;
+$pagination-padding-x-xs: .25rem !default;
 $pagination-padding-y-sm: .25rem !default;
 $pagination-padding-x-sm: .5rem !default;
+$pagination-padding-y-md: .625rem !default;
+$pagination-padding-x-md: 1.25rem !default;
 $pagination-padding-y-lg: .75rem !default;
 $pagination-padding-x-lg: 1.5rem !default;
+$pagination-padding-y-xl: 1rem !default;
+$pagination-padding-x-xl: 2rem !default;
 $pagination-line-height: 1.25 !default;
 
 $pagination-color: $link-color !default;

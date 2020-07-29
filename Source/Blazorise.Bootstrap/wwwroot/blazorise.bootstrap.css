@@ -302,11 +302,44 @@
 .modal-backdrop {
     z-index: -1; }
 
-table.table tbody tr.selected {
-    background-color: var(--primary); }
+.pagination-xs .page-link {
+    padding: 0.125rem 0.25rem;
+    font-size: 0.75rem;
+    line-height: 1.5; }
 
-tr.table-row-selectable:hover {
-    cursor: pointer; }
+.pagination-xs .page-item:first-child .page-link {
+    border-top-left-radius: 0.15rem;
+    border-bottom-left-radius: 0.15rem; }
+
+.pagination-xs .page-item:last-child .page-link {
+    border-top-right-radius: 0.15rem;
+    border-bottom-right-radius: 0.15rem; }
+
+.pagination-md .page-link {
+    padding: 0.625rem 1.25rem;
+    font-size: 1.125rem;
+    line-height: 1.5; }
+
+.pagination-md .page-item:first-child .page-link {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem; }
+
+.pagination-md .page-item:last-child .page-link {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem; }
+
+.pagination-xl .page-link {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    line-height: 1.5; }
+
+.pagination-xl .page-item:first-child .page-link {
+    border-top-left-radius: 0.4rem;
+    border-bottom-left-radius: 0.4rem; }
+
+.pagination-xl .page-item:last-child .page-link {
+    border-top-right-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem; }
 
 .custom-switch .custom-control-input.custom-control-input-primary:checked ~ .custom-control-label::before {
     background-color: #007bff;
@@ -481,3 +514,9 @@ tr.table-row-selectable:hover {
 
 .custom-switch .custom-control-input.custom-control-input-xl:checked ~ .custom-control-label::after {
     transform: translateX(calc(4rem - (2.5rem / 2))); }
+
+table.table tbody tr.selected {
+    background-color: var(--primary); }
+
+tr.table-row-selectable:hover {
+    cursor: pointer; }
