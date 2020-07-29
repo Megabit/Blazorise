@@ -11,15 +11,19 @@
     .badge-close:active {
         background-color: rgba(10, 10, 10, 0.4); }
 
-.btn-md {
+.btn-xs, .btn-group-xs > .btn {
+    font-size: 0.75rem;
+    height: 1.5rem; }
+
+.btn-md, .btn-group-md > .btn {
     font-size: 0.91rem;
     height: 2.5rem; }
 
-.btn-lg {
+.btn-lg, .btn-group-lg > .btn {
     font-size: 0.9375rem;
     height: 2.75rem; }
 
-.btn-xl {
+.btn-xl, .btn-group-xl > .btn {
     font-size: 0.95rem;
     height: 3rem; }
 
