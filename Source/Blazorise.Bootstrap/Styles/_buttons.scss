@@ -36,3 +36,15 @@
 .btn-xl {
     @include button-size($btn-padding-y-xl, $btn-padding-x-xl, $btn-font-size-xl, $btn-line-height-xl, $btn-border-radius-xl);
 }
+
+.btn-group-xs > .btn {
+    @extend .btn-xs;
+}
+
+.btn-group-md > .btn {
+    @extend .btn-md;
+}
+
+.btn-group-xl > .btn {
+    @extend .btn-xl;
+}
