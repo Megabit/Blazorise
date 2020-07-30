@@ -168,11 +168,11 @@
     }
 }
 
-@include checkbox('xs', 8px, 8px);
-@include checkbox('sm', 12px, 12px);
-@include checkbox('md', 20px, 20px);
-@include checkbox('lg', 24px, 24px);
-@include checkbox('xl', 28px, 28px);
+@include checkbox('xs', $check-xs-height, $check-xs-height);
+@include checkbox('sm', $check-sm-height, $check-sm-height);
+@include checkbox('md', $check-md-height, $check-md-height);
+@include checkbox('lg', $check-lg-height, $check-lg-height);
+@include checkbox('xl', $check-xl-height, $check-xl-height);
 
 @mixin radio($size, $radio-size) {
     $radio-dot-size: $radio-size - ($radio-size / 2);
@@ -200,8 +200,8 @@
     }
 }
 
-@include radio('xs', 8px);
-@include radio('sm', 12px);
-@include radio('md', 20px);
-@include radio('lg', 24px);
-@include radio('xl', 28px);
+@include radio('xs', $radio-xs-height);
+@include radio('sm', $radio-sm-height);
+@include radio('md', $radio-md-height);
+@include radio('lg', $radio-lg-height);
+@include radio('xl', $radio-xl-height);

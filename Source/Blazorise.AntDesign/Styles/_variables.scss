@@ -102,6 +102,24 @@ $display3-weight: 300 !default;
 $display4-weight: 300 !default;
 $display-line-height: $headings-line-height !default;
 
+// Check
+
+$check-height: 16px;
+$check-xs-height: 8px;
+$check-sm-height: 12px;
+$check-md-height: 20px;
+$check-lg-height: 24px;
+$check-xl-height: 28px;
+
+// Radio
+
+$radio-height: 16px;
+$radio-xs-height: 8px;
+$radio-sm-height: 12px;
+$radio-md-height: 20px;
+$radio-lg-height: 24px;
+$radio-xl-height: 28px;
+
 // Switch
 
 $font-size-sm: 12px;
@@ -113,7 +131,7 @@ $switch-shadow-color: fade(#00230b, 20%);
 $switch-height: 22px;
 $switch-min-width: 44px;
 
-$switch-xs-height: 10px;
+$switch-xs-height: 12px;
 $switch-xs-min-width: 22px;
 $switch-xs-checked-margin-left: -($switch-xs-height - 3px);
 $switch-xs-font-size: 10px;
@@ -123,17 +141,17 @@ $switch-sm-min-width: 28px;
 $switch-sm-checked-margin-left: -($switch-sm-height - 3px);
 $switch-sm-font-size: 12px;
 
-$switch-md-height: 28px;
+$switch-md-height: 24px;
 $switch-md-min-width: 90px;
 $switch-md-checked-margin-left: -($switch-md-height - 3px);
 $switch-md-font-size: 12px;
 
-$switch-lg-height: 34px;
+$switch-lg-height: 28px;
 $switch-lg-min-width: 90px;
 $switch-lg-checked-margin-left: -($switch-lg-height - 3px);
 $switch-lg-font-size: 12px;
 
-$switch-xl-height: 40px;
+$switch-xl-height: 32px;
 $switch-xl-min-width: 160px;
 $switch-xl-checked-margin-left: -($switch-xl-height - 3px);
 $switch-xl-font-size: 12px;
