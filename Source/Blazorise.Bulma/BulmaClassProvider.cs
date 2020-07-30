@@ -70,7 +70,7 @@ namespace Blazorise.Bulma
 
         #region Check
 
-        public override string Check() => "checkbox";
+        public override string Check() => "is-checkradio";
 
         public override string CheckSize( Size size ) => $"is-{ToSize( size )}";
 
@@ -92,7 +92,7 @@ namespace Blazorise.Bulma
 
         #region Radio
 
-        public override string Radio( bool button ) => "radio";
+        public override string Radio( bool button ) => "is-checkradio";
 
         public override string RadioSize( bool button, Size size ) => $"is-{ToSize( size )}";
 
@@ -140,14 +140,11 @@ namespace Blazorise.Bulma
         {
             switch ( labelType )
             {
-                case Blazorise.LabelType.Check:
-                    return "checkbox";
-                case Blazorise.LabelType.Radio:
-                    return "radio";
-                case Blazorise.LabelType.Switch:
-                    return null;
                 case Blazorise.LabelType.File:
                     return "file-label";
+                case Blazorise.LabelType.Check:
+                case Blazorise.LabelType.Radio:
+                case Blazorise.LabelType.Switch:
                 case Blazorise.LabelType.None:
                 default:
                     return null;
