@@ -120,7 +120,7 @@ namespace Blazorise
         [Parameter] public bool Outline { get; set; }
 
         /// <summary>
-        /// Handles the visibility of split button.
+        /// Indicates that a toggle should act as a split button.
         /// </summary>
         [Parameter]
         public bool Split
