@@ -70,9 +70,9 @@ namespace Blazorise.Frolic
 
         #region Check
 
-        public override string Check() => null;
+        public override string Check() => "e-checkradio";
 
-        public override string CheckSize( Size size ) => null;
+        public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
 
         public override string CheckInline() => null;
 
@@ -92,9 +92,9 @@ namespace Blazorise.Frolic
 
         #region Radio
 
-        public override string Radio( bool button ) => null;
+        public override string Radio( bool button ) => button ? null : "e-checkradio";
 
-        public override string RadioSize( bool button, Size size ) => null;
+        public override string RadioSize( bool button, Size size ) => button ? null : $"{Radio( button )}-{ToSize( size )}";
 
         public override string RadioInline() => null;
 
