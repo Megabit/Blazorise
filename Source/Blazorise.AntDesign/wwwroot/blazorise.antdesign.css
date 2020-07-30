@@ -1516,21 +1516,150 @@
         .ant-modal-xl {
             width: 1140px; } }
 
-.ant-pagination-lg .ant-pagination-item {
-    height: auto; }
+.ant-pagination.ant-pagination-xs .ant-pagination-total-text,
+.ant-pagination.ant-pagination-xs .ant-pagination-simple-pager {
+    height: 16px;
+    line-height: 16px; }
 
-.ant-pagination-lg .ant-pagination-link {
-    padding: .75rem 1.5rem;
-    font-size: 1.25rem;
-    line-height: 1.5rem; }
+.ant-pagination.ant-pagination-xs .ant-pagination-item {
+    min-width: 16px;
+    height: 16px;
+    /*margin: 0;*/
+    line-height: 14px; }
 
-.ant-pagination-sm .ant-pagination-item {
-    height: auto; }
+.ant-pagination.ant-pagination-xs .ant-pagination-prev,
+.ant-pagination.ant-pagination-xs .ant-pagination-next {
+    min-width: 16px;
+    height: 16px;
+    /*margin: 0;*/
+    line-height: 16px; }
 
-.ant-pagination-sm .ant-pagination-link {
-    padding: .25rem .5rem;
-    font-size: .875rem;
-    line-height: 1rem; }
+.ant-pagination.ant-pagination-xs .ant-pagination-prev .ant-pagination-item-link::after,
+.ant-pagination.ant-pagination-xs .ant-pagination-next .ant-pagination-item-link::after {
+    height: 16px;
+    line-height: 16px; }
+
+.ant-pagination.ant-pagination-xs .ant-pagination-jump-prev,
+.ant-pagination.ant-pagination-xs .ant-pagination-jump-next {
+    height: 16px;
+    margin-right: 0;
+    line-height: 16px; }
+
+.ant-pagination.ant-pagination-sm .ant-pagination-total-text,
+.ant-pagination.ant-pagination-sm .ant-pagination-simple-pager {
+    height: 24px;
+    line-height: 24px; }
+
+.ant-pagination.ant-pagination-sm .ant-pagination-item {
+    min-width: 24px;
+    height: 24px;
+    /*margin: 0;*/
+    line-height: 22px; }
+
+.ant-pagination.ant-pagination-sm .ant-pagination-prev,
+.ant-pagination.ant-pagination-sm .ant-pagination-next {
+    min-width: 24px;
+    height: 24px;
+    /*margin: 0;*/
+    line-height: 24px; }
+
+.ant-pagination.ant-pagination-sm .ant-pagination-prev .ant-pagination-item-link::after,
+.ant-pagination.ant-pagination-sm .ant-pagination-next .ant-pagination-item-link::after {
+    height: 24px;
+    line-height: 24px; }
+
+.ant-pagination.ant-pagination-sm .ant-pagination-jump-prev,
+.ant-pagination.ant-pagination-sm .ant-pagination-jump-next {
+    height: 24px;
+    margin-right: 0;
+    line-height: 24px; }
+
+.ant-pagination.ant-pagination-md .ant-pagination-total-text,
+.ant-pagination.ant-pagination-md .ant-pagination-simple-pager {
+    height: 36px;
+    line-height: 36px; }
+
+.ant-pagination.ant-pagination-md .ant-pagination-item {
+    min-width: 36px;
+    height: 36px;
+    /*margin: 0;*/
+    line-height: 34px; }
+
+.ant-pagination.ant-pagination-md .ant-pagination-prev,
+.ant-pagination.ant-pagination-md .ant-pagination-next {
+    min-width: 36px;
+    height: 36px;
+    /*margin: 0;*/
+    line-height: 36px; }
+
+.ant-pagination.ant-pagination-md .ant-pagination-prev .ant-pagination-item-link::after,
+.ant-pagination.ant-pagination-md .ant-pagination-next .ant-pagination-item-link::after {
+    height: 36px;
+    line-height: 36px; }
+
+.ant-pagination.ant-pagination-md .ant-pagination-jump-prev,
+.ant-pagination.ant-pagination-md .ant-pagination-jump-next {
+    height: 36px;
+    margin-right: 0;
+    line-height: 36px; }
+
+.ant-pagination.ant-pagination-lg .ant-pagination-total-text,
+.ant-pagination.ant-pagination-lg .ant-pagination-simple-pager {
+    height: 40px;
+    line-height: 40px; }
+
+.ant-pagination.ant-pagination-lg .ant-pagination-item {
+    min-width: 40px;
+    height: 40px;
+    /*margin: 0;*/
+    line-height: 38px; }
+
+.ant-pagination.ant-pagination-lg .ant-pagination-prev,
+.ant-pagination.ant-pagination-lg .ant-pagination-next {
+    min-width: 40px;
+    height: 40px;
+    /*margin: 0;*/
+    line-height: 40px; }
+
+.ant-pagination.ant-pagination-lg .ant-pagination-prev .ant-pagination-item-link::after,
+.ant-pagination.ant-pagination-lg .ant-pagination-next .ant-pagination-item-link::after {
+    height: 40px;
+    line-height: 40px; }
+
+.ant-pagination.ant-pagination-lg .ant-pagination-jump-prev,
+.ant-pagination.ant-pagination-lg .ant-pagination-jump-next {
+    height: 40px;
+    margin-right: 0;
+    line-height: 40px; }
+
+.ant-pagination.ant-pagination-xl .ant-pagination-total-text,
+.ant-pagination.ant-pagination-xl .ant-pagination-simple-pager {
+    height: 48px;
+    line-height: 48px; }
+
+.ant-pagination.ant-pagination-xl .ant-pagination-item {
+    min-width: 48px;
+    height: 48px;
+    /*margin: 0;*/
+    line-height: 46px; }
+
+.ant-pagination.ant-pagination-xl .ant-pagination-prev,
+.ant-pagination.ant-pagination-xl .ant-pagination-next {
+    min-width: 48px;
+    height: 48px;
+    /*margin: 0;*/
+    line-height: 48px; }
+
+.ant-pagination.ant-pagination-xl .ant-pagination-prev .ant-pagination-item-link::after,
+.ant-pagination.ant-pagination-xl .ant-pagination-next .ant-pagination-item-link::after {
+    height: 48px;
+    line-height: 48px; }
+
+.ant-pagination.ant-pagination-xl .ant-pagination-jump-prev,
+.ant-pagination.ant-pagination-xl .ant-pagination-jump-next {
+    height: 48px;
+    margin-right: 0;
+    line-height: 48px; }
 
 .ant-progress-inner {
     display: inline-flex; }

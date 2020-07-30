@@ -26,7 +26,16 @@ $link: #3273dc !default;
 $theme-colors: () !default;
 $theme-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link), $theme-colors);
 
+$body-background: #fff;
 $component-background: #fff;
+
+$background-color-light: hsv_to_color(0, 0, 98%); // background of header and selected item
+$background-color-base: hsv_to_color(0, 0, 96%); // Default grey background color
+
+// Disabled states
+$disabled-color: fade(#000, 25%);
+$disabled-bg: $background-color-base;
+$disabled-color-dark: fade(#fff, 35%);
 
 // Set a specific jump point for requesting color jumps
 $theme-color-interval: 8% !default;
@@ -128,3 +137,20 @@ $switch-xl-height: 40px;
 $switch-xl-min-width: 160px;
 $switch-xl-checked-margin-left: -($switch-xl-height - 3px);
 $switch-xl-font-size: 12px;
+
+// Pagination
+// ---
+$pagination-item-bg: $component-background;
+$pagination-item-size: 32px;
+$pagination-item-size-xs: 16px;
+$pagination-item-size-sm: 24px;
+$pagination-item-size-md: 36px;
+$pagination-item-size-lg: 40px;
+$pagination-item-size-xl: 48px;
+$pagination-font-family: Arial;
+$pagination-font-weight-active: 500;
+$pagination-item-bg-active: $component-background;
+$pagination-item-link-bg: $component-background;
+$pagination-item-disabled-color-active: $white;
+$pagination-item-disabled-bg-active: darken($disabled-bg, 10%);
+$pagination-item-input-bg: $component-background;
