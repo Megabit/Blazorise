@@ -24,7 +24,7 @@
                                     @column.Caption
                                 </FieldLabel>
                                 <FieldBody>
-                                    <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
+                                    <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
                                 </FieldBody>
                             </Field>
                         </Column>
@@ -87,7 +87,7 @@ else if ( EditMode == DataGridEditMode.Inline )
                 <TableRowCell width="@column.Width">
                     @if ( ParentDataGrid?.Editable == true && CellAreEditable( column ) )
                     {
-                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowFeedback="@( ParentDataGrid?.ShowValidationFeedback ?? false )" />
+                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@( ParentDataGrid?.ShowValidationFeedback ?? false )" />
                     }
                     else
                     {

@@ -36,7 +36,7 @@
                                         @column.Caption
                                     </FieldLabel>
                                     <FieldBody>
-                                        <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
+                                        <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
                                     </FieldBody>
                                 </Field>
                             </Field>

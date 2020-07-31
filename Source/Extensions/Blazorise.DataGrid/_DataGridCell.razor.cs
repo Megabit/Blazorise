@@ -28,7 +28,7 @@ namespace Blazorise.DataGrid
 
         [Parameter] public EventCallback<object> CellValueChanged { get; set; }
 
-        [Parameter] public bool ShowFeedback { get; set; }
+        [Parameter] public bool ShowValidationFeedback { get; set; }
 
         #endregion
     }

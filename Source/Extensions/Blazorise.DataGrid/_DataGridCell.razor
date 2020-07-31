@@ -6,26 +6,45 @@
 }
 else
 {
-    @if ( Column.ColumnType == DataGridColumnType.Numeric
-       || Column.ColumnType == DataGridColumnType.Check
-       || Column.ColumnType == DataGridColumnType.Date )
+    @if ( Column.Validator != null )
     {
-        var type = Column.GetValueType();
-        <Validation Validator="Column.Validator" UsePattern="Column.UsePatternOfValidation">
-            <_DataGridCellEdit ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" />
-        </Validation>
+        @if ( Column.ColumnType == DataGridColumnType.Numeric
+            || Column.ColumnType == DataGridColumnType.Check
+            || Column.ColumnType == DataGridColumnType.Date )
+        {
+            var type = Column.GetValueType();
+
+            <Validation Validator="Column.Validator" UsePattern="Column.UsePatternForValidation">
+                <_DataGridCellEditValidation ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" ShowValidationFeedback="@ShowValidationFeedback" />
+            </Validation>
+        }
+        else
+        {
+            <Validation Validator="Column.Validator" UsePattern="Column.UsePatternForValidation">
+                <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@(( v ) => CellEditContext.CellValue = v)" ReadOnly="@Column.Readonly">
+                    <Feedback>
+                        @if ( ShowValidationFeedback )
+                        {
+                            <ValidationError />
+                        }
+                    </Feedback>
+                </TextEdit>
+            </Validation>
+        }
     }
     else
     {
-        <Validation Validator="Column.Validator" UsePattern="Column.UsePatternOfValidation">
-            <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@(( v ) => CellEditContext.CellValue = v)" ReadOnly="@Column.Readonly">
-                <Feedback>
-                    @if ( ShowFeedback )
-                    {
-                        <ValidationError />
-                    }
-                </Feedback>
-            </TextEdit>
-        </Validation>
+        @if ( Column.ColumnType == DataGridColumnType.Numeric
+            || Column.ColumnType == DataGridColumnType.Check
+            || Column.ColumnType == DataGridColumnType.Date )
+        {
+            var type = Column.GetValueType();
+
+            <_DataGridCellEdit ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" />
+        }
+        else
+        {
+            <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@(( v ) => CellEditContext.CellValue = v)" ReadOnly="@Column.Readonly" />
+        }
     }
 }

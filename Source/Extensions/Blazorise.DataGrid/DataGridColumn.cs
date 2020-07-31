@@ -19,7 +19,6 @@ namespace Blazorise.DataGrid
         private readonly Lazy<Func<object>> defaultValueByType;
         private readonly Lazy<Func<TItem, object>> valueGetter;
         private readonly Lazy<Action<TItem, object>> valueSetter;
-        private Action<ValidatorEventArgs> validator = ( args ) => { args.Status = ValidationStatus.Success; };
 
         #endregion
 
@@ -272,26 +271,12 @@ namespace Blazorise.DataGrid
         /// Validates the input value after trying to save.
         /// </summary>
         [Parameter]
-        public Action<ValidatorEventArgs> Validator
-        {
-            get => validator;
-            set
-            {
-                if ( value == null )
-                {
-                    validator = ( args ) => { args.Status = ValidationStatus.Success; };
-                }
-                else
-                {
-                    validator = value;
-                }
-            }
-        }
+        public Action<ValidatorEventArgs> Validator { get; set; }
 
         /// <summary>
         /// Forces validation to use regex pattern matching instead of default validator handler.
         /// </summary>
-        [Parameter] public bool UsePatternOfValidation { get; set; }
+        [Parameter] public bool UsePatternForValidation { get; set; }
 
         #endregion
     }
