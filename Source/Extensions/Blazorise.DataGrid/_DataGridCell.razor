@@ -6,7 +6,7 @@
 }
 else
 {
-    @if ( Column.Validator != null )
+    @if ( HasValidator || HasValidationPattern )
     {
         @if ( Column.ColumnType == DataGridColumnType.Numeric
             || Column.ColumnType == DataGridColumnType.Check
@@ -14,22 +14,47 @@ else
         {
             var type = Column.GetValueType();
 
-            <Validation Validator="Column.Validator" UsePattern="Column.UsePatternForValidation">
-                <_DataGridCellEditValidation ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" ShowValidationFeedback="@ShowValidationFeedback" />
-            </Validation>
+            @if ( HasValidationPattern )
+            {
+                <Validation UsePattern="@HasValidationPattern">
+                    <_DataGridCellEditValidation ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" ShowValidationFeedback="@ShowValidationFeedback" ValidationPattern="@ValidationPattern" />
+                </Validation>
+            }
+            else
+            {
+                <Validation Validator="@Validator">
+                    <_DataGridCellEditValidation ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" ShowValidationFeedback="@ShowValidationFeedback" />
+                </Validation>
+            }
         }
         else
         {
-            <Validation Validator="Column.Validator" UsePattern="Column.UsePatternForValidation">
-                <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@(( v ) => CellEditContext.CellValue = v)" ReadOnly="@Column.Readonly">
-                    <Feedback>
-                        @if ( ShowValidationFeedback )
-                        {
-                            <ValidationError />
-                        }
-                    </Feedback>
-                </TextEdit>
-            </Validation>
+            @if ( HasValidationPattern )
+            {
+                <Validation UsePattern="@HasValidationPattern">
+                    <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@(( v ) => CellEditContext.CellValue = v)" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
+                        <Feedback>
+                            @if ( ShowValidationFeedback )
+                            {
+                                <ValidationError />
+                            }
+                        </Feedback>
+                    </TextEdit>
+                </Validation>
+            }
+            else
+            {
+                <Validation Validator="@Validator">
+                    <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@(( v ) => CellEditContext.CellValue = v)" ReadOnly="@Column.Readonly">
+                        <Feedback>
+                            @if ( ShowValidationFeedback )
+                            {
+                                <ValidationError />
+                            }
+                        </Feedback>
+                    </TextEdit>
+                </Validation>
+            }
         }
     }
     else

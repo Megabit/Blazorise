@@ -276,7 +276,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Forces validation to use regex pattern matching instead of default validator handler.
         /// </summary>
-        [Parameter] public bool UsePatternForValidation { get; set; }
+        [Parameter] public string ValidationPattern { get; set; }
 
         #endregion
     }

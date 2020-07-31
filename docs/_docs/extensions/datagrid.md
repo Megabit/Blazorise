@@ -132,7 +132,7 @@ The DataGrid provides validations of column values at editing or creating items.
 - `ShowValidationsSummary` of DataGrid to hide or show validations summary.
 - `ValidationsSummaryLabel` of DataGrid to set label of validations summary.
 - `Validator` of DataGridColumn validates the input value after trying to save.
-- `UsePatternOfValidation` of DataGridColumn forces validation to use regex pattern matching instead of default validator handler.
+- `ValidationPattern` of DataGridColumn forces validation to use regex pattern matching instead of default validator handler.
 
 To enable basic validation you only need to define a `Validator` attribute and assign it to your validation method.
 
@@ -150,7 +150,7 @@ public void CheckEMail( ValidatorEventArgs validationArgs )
 }
 ```
 
-If you use `EditTemplate` to customize editing of columns, then using `Validator` or `UsePatternOfValidation` will not work and you have to use `Validation` like this:
+If you use `EditTemplate` to customize editing of columns, then using `Validator` or `ValidationPattern` will not work and you have to use `Validation` like this:
 
 ```html
 <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
@@ -625,4 +625,4 @@ Specifies the grid editing modes.
 | PopupFieldColumnSize      | `IFluentColumn`                                                     |  `IsHalf.OnDesktop` | Defines the size of field for popup modal.                                                                    |
 | CaptionTemplate           | `RenderingFragment<DataGridColumn<TItem>>`                          |                     | Template for custom caption. CaptionTemplate will block caption template.                                     |
 | Validator                 | `Action<ValidatorEventArgs>`                                        |                     | Validates the input value after trying to save.                                                               |
-| UsePatternOfValidation    | bool                                                                | false               | Forces validation to use regex pattern matching instead of default validator handler.                         |
+| ValidationPattern         | string                                                              |                     | Forces validation to use regex pattern matching instead of default validator handler.                         |

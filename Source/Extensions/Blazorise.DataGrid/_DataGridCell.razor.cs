@@ -12,6 +12,8 @@ namespace Blazorise.DataGrid
     {
         #region Members
 
+        private static readonly Action<ValidatorEventArgs> EmptyValidator = ( args ) => { args.Status = ValidationStatus.Success; };
+
         #endregion
 
         #region Methods
@@ -19,6 +21,18 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
+
+        protected bool HasValidator
+            => Column.Validator != null;
+
+        protected bool HasValidationPattern
+            => !string.IsNullOrWhiteSpace( Column.ValidationPattern );
+
+        protected Action<ValidatorEventArgs> Validator
+            => Column.Validator ?? EmptyValidator;
+
+        protected string ValidationPattern
+            => string.IsNullOrWhiteSpace( Column.ValidationPattern ) ? null : Column.ValidationPattern;
 
         [Parameter] public DataGridColumn<TItem> Column { get; set; }
 
