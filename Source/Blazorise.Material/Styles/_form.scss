@@ -142,3 +142,62 @@ input.form-control[type=color] {
         padding: calc(#{$textfield-box-padding-y-xl} - #{$textfield-border-width}) $textfield-box-padding-x-xl;
     }
 }
+
+@mixin checkbox($size, $font-size, $line-height, $padding-left) {
+    .custom-control.custom-checkbox {
+        > .custom-control-input.custom-control-input-#{$size} {
+            + .custom-control-label::before {
+                width: $font-size * 1.5;
+                height: $font-size * 1.5;
+                margin-top: -($font-size / 4);
+                margin-left: -($font-size / 4);
+            }
+
+            + .custom-control-label::after {
+                font-size: $font-size;
+            }
+
+            + .custom-control-label {
+                line-height: $line-height;
+                padding-left: $padding-left;
+                vertical-align: middle;
+            }
+        }
+    }
+}
+
+@include checkbox('xs', .5rem, .5rem, 0px);
+@include checkbox('sm', 1rem, 1rem, 0px);
+@include checkbox('md', 2rem, 2rem, 3px);
+@include checkbox('lg', 2.5rem, 2.5rem, 6px);
+@include checkbox('xl', 3rem, 3rem, 10px);
+
+@mixin radio($size, $font-size, $line-height, $padding-left) {
+    /* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+    .custom-control.custom-radio {
+        > .custom-control-input.custom-control-input-#{$size} {
+            + .custom-control-label::before {
+                width: $font-size * 1.5;
+                height: $font-size * 1.5;
+                margin-top: -($font-size / 4);
+                margin-left: -($font-size / 4);
+            }
+
+            + .custom-control-label::after {
+                font-size: $font-size;
+            }
+
+            + .custom-control-label {
+                line-height: $line-height;
+                padding-left: $padding-left;
+            }
+        }
+    }
+}
+
+@include radio('xs', .7rem, .7rem, 0px);
+@include radio('sm', 1rem, 1rem, 0px);
+@include radio('md', 2rem, 2rem, 3px);
+@include radio('lg', 2.5rem, 2.5rem, 6px);
+@include radio('xl', 3rem, 3rem, 10px);

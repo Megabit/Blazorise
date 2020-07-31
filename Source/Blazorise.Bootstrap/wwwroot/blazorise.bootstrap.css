@@ -155,112 +155,102 @@
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label::before,
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label::after {
-    top: 0.1rem;
     width: 0.7rem;
     height: 0.7rem; }
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label {
-    padding-top: 0px;
+    line-height: "normal";
     padding-left: 0px; }
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-sm + .custom-control-label::before,
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-sm + .custom-control-label::after {
-    top: 0.3rem;
     width: 0.8rem;
     height: 0.8rem; }
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-sm + .custom-control-label {
-    padding-top: 0px;
+    line-height: "normal";
     padding-left: 0px; }
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-md + .custom-control-label::before,
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-md + .custom-control-label::after {
-    top: 0.4rem;
     width: 1.25rem;
     height: 1.25rem; }
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-md + .custom-control-label {
-    padding-top: 6px;
+    line-height: 1.7rem;
     padding-left: 3px; }
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-lg + .custom-control-label::before,
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-lg + .custom-control-label::after {
-    top: 0.8rem;
     width: 1.55rem;
     height: 1.55rem; }
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-lg + .custom-control-label {
-    padding-top: 13px;
+    line-height: 2rem;
     padding-left: 6px; }
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-xl + .custom-control-label::before,
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-xl + .custom-control-label::after {
-    top: 1.2rem;
     width: 1.85rem;
     height: 1.85rem; }
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-xl + .custom-control-label {
-    padding-top: 23px;
+    line-height: 2.5rem;
     padding-left: 10px; }
 
 /* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
     $padding-left: $radio-size / 2;*/
 .custom-control.custom-radio > .custom-control-input.custom-control-input-xs + .custom-control-label::before,
 .custom-control.custom-radio > .custom-control-input.custom-control-input-xs + .custom-control-label::after {
-    /*top: $top;*/
     width: 0.7rem;
     height: 0.7rem; }
 
 .custom-control.custom-radio > .custom-control-input.custom-control-input-xs + .custom-control-label {
-    padding-top: 0px;
+    line-height: normal;
     padding-left: 0px; }
 
 /* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
     $padding-left: $radio-size / 2;*/
 .custom-control.custom-radio > .custom-control-input.custom-control-input-sm + .custom-control-label::before,
 .custom-control.custom-radio > .custom-control-input.custom-control-input-sm + .custom-control-label::after {
-    /*top: $top;*/
     width: 0.8rem;
     height: 0.8rem; }
 
 .custom-control.custom-radio > .custom-control-input.custom-control-input-sm + .custom-control-label {
-    padding-top: 0px;
+    line-height: normal;
     padding-left: 0px; }
 
 /* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
     $padding-left: $radio-size / 2;*/
 .custom-control.custom-radio > .custom-control-input.custom-control-input-md + .custom-control-label::before,
 .custom-control.custom-radio > .custom-control-input.custom-control-input-md + .custom-control-label::after {
-    /*top: $top;*/
     width: 1.25rem;
     height: 1.25rem; }
 
 .custom-control.custom-radio > .custom-control-input.custom-control-input-md + .custom-control-label {
-    padding-top: 6px;
+    line-height: 1.7rem;
     padding-left: 3px; }
 
 /* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
     $padding-left: $radio-size / 2;*/
 .custom-control.custom-radio > .custom-control-input.custom-control-input-lg + .custom-control-label::before,
 .custom-control.custom-radio > .custom-control-input.custom-control-input-lg + .custom-control-label::after {
-    /*top: $top;*/
     width: 1.55rem;
     height: 1.55rem; }
 
 .custom-control.custom-radio > .custom-control-input.custom-control-input-lg + .custom-control-label {
-    padding-top: 13px;
+    line-height: 2rem;
     padding-left: 6px; }
 
 /* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
     $padding-left: $radio-size / 2;*/
 .custom-control.custom-radio > .custom-control-input.custom-control-input-xl + .custom-control-label::before,
 .custom-control.custom-radio > .custom-control-input.custom-control-input-xl + .custom-control-label::after {
-    /*top: $top;*/
     width: 1.85rem;
     height: 1.85rem; }
 
 .custom-control.custom-radio > .custom-control-input.custom-control-input-xl + .custom-control-label {
-    padding-top: 23px;
+    line-height: 2.5rem;
     padding-left: 10px; }
 
 .jumbotron.jumbotron-primary {
@@ -441,8 +431,9 @@
     background-color: rgba(50, 115, 220, 0.5); }
 
 .custom-switch .custom-control-input.custom-control-input-xs + .custom-control-label {
-    padding-left: 0.75rem;
-    padding-bottom: calc(0.5rem / 2); }
+    line-height: 1rem;
+    vertical-align: middle;
+    padding-left: 0; }
     .custom-switch .custom-control-input.custom-control-input-xs + .custom-control-label::before {
         height: 0.5rem;
         width: calc(0.75rem + (0.5rem / 2));
@@ -456,8 +447,9 @@
     transform: translateX(calc(0.75rem - (0.5rem / 2))); }
 
 .custom-switch .custom-control-input.custom-control-input-sm + .custom-control-label {
-    padding-left: 1rem;
-    padding-bottom: calc(0.75rem / 2); }
+    line-height: 1.25rem;
+    vertical-align: middle;
+    padding-left: 0; }
     .custom-switch .custom-control-input.custom-control-input-sm + .custom-control-label::before {
         height: 0.75rem;
         width: calc(1rem + (0.75rem / 2));
@@ -471,8 +463,9 @@
     transform: translateX(calc(1rem - (0.75rem / 2))); }
 
 .custom-switch .custom-control-input.custom-control-input-md + .custom-control-label {
-    padding-left: 2rem;
-    padding-bottom: calc(1.5rem / 2); }
+    line-height: 2rem;
+    vertical-align: middle;
+    padding-left: 2rem; }
     .custom-switch .custom-control-input.custom-control-input-md + .custom-control-label::before {
         height: 1.5rem;
         width: calc(2rem + (1.5rem / 2));
@@ -486,8 +479,9 @@
     transform: translateX(calc(2rem - (1.5rem / 2))); }
 
 .custom-switch .custom-control-input.custom-control-input-lg + .custom-control-label {
-    padding-left: 3rem;
-    padding-bottom: calc(2rem / 2); }
+    line-height: 2.5rem;
+    vertical-align: middle;
+    padding-left: 3rem; }
     .custom-switch .custom-control-input.custom-control-input-lg + .custom-control-label::before {
         height: 2rem;
         width: calc(3rem + (2rem / 2));
@@ -501,8 +495,9 @@
     transform: translateX(calc(3rem - (2rem / 2))); }
 
 .custom-switch .custom-control-input.custom-control-input-xl + .custom-control-label {
-    padding-left: 4rem;
-    padding-bottom: calc(2.5rem / 2); }
+    line-height: 3rem;
+    vertical-align: middle;
+    padding-left: 4rem; }
     .custom-switch .custom-control-input.custom-control-input-xl + .custom-control-label::before {
         height: 2.5rem;
         width: calc(4rem + (2.5rem / 2));

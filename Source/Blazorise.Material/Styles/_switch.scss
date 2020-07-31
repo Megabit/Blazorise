@@ -31,6 +31,7 @@
 @mixin switch($size) {
     $width: 1rem;
     $height: 1rem;
+    $padding-left: 0;
 
     @if $size == 'xs' {
         $width: 1rem;
@@ -43,14 +44,17 @@
     @else if $size == 'md' {
         $width: 2.5rem;
         $height: 2rem;
+        $padding-left: $width / 2;
     }
     @else if $size == 'lg' {
         $width: 3rem;
         $height: 2.25rem;
+        $padding-left: $width / 2;
     }
     @else if $size == 'xl' {
         $width: 4rem;
         $height: 2.5rem;
+        $padding-left: $width / 2;
     }
 
     $handle-width: $width;
@@ -67,14 +71,13 @@
         }
 
         ~ .custom-control-label {
-            padding-left: #{$width};
-            padding-bottom: #{$height};
+            padding-left: #{$padding-left};
+            line-height: $height;
+            vertical-align: middle;
 
             &::before {
-                height: $height;
-                width: $width;
-                top: 15.5px;
-                border-radius: $height / 2;
+                height: calc(#{$height} * 1.5);
+                width: calc(#{$height} * 1.5);
             }
 
             &::after {
@@ -87,7 +90,8 @@
             }
         }
 
-        &:checked ~ .custom-control-label::after {
+        &:checked ~ .custom-control-label::after,
+        &:checked ~ .custom-control-label::before {
             transform: translateX(calc(#{$width} - (#{$height} / 2)));
         }
         /* &:not(:checked):focus ~ .custom-control-label::after {

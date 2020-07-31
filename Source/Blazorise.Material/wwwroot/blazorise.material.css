@@ -130,6 +130,151 @@ input.form-control[type=color] {
     .custom-select-xl[multiple], .custom-select-xl[size]:not([size='1']) {
         padding: calc(1.1875rem - 1px) 1.15rem; }
 
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label::before {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-top: -0.125rem;
+    margin-left: -0.125rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label::after {
+    font-size: 0.5rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label {
+    line-height: 0.5rem;
+    padding-left: 0px;
+    vertical-align: middle; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-sm + .custom-control-label::before {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: -0.25rem;
+    margin-left: -0.25rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-sm + .custom-control-label::after {
+    font-size: 1rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-sm + .custom-control-label {
+    line-height: 1rem;
+    padding-left: 0px;
+    vertical-align: middle; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-md + .custom-control-label::before {
+    width: 3rem;
+    height: 3rem;
+    margin-top: -0.5rem;
+    margin-left: -0.5rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-md + .custom-control-label::after {
+    font-size: 2rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-md + .custom-control-label {
+    line-height: 2rem;
+    padding-left: 3px;
+    vertical-align: middle; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-lg + .custom-control-label::before {
+    width: 3.75rem;
+    height: 3.75rem;
+    margin-top: -0.625rem;
+    margin-left: -0.625rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-lg + .custom-control-label::after {
+    font-size: 2.5rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-lg + .custom-control-label {
+    line-height: 2.5rem;
+    padding-left: 6px;
+    vertical-align: middle; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xl + .custom-control-label::before {
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-top: -0.75rem;
+    margin-left: -0.75rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xl + .custom-control-label::after {
+    font-size: 3rem; }
+
+.custom-control.custom-checkbox > .custom-control-input.custom-control-input-xl + .custom-control-label {
+    line-height: 3rem;
+    padding-left: 10px;
+    vertical-align: middle; }
+
+/* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xs + .custom-control-label::before {
+    width: 1.05rem;
+    height: 1.05rem;
+    margin-top: -0.175rem;
+    margin-left: -0.175rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xs + .custom-control-label::after {
+    font-size: 0.7rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xs + .custom-control-label {
+    line-height: 0.7rem;
+    padding-left: 0px; }
+
+/* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+.custom-control.custom-radio > .custom-control-input.custom-control-input-sm + .custom-control-label::before {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: -0.25rem;
+    margin-left: -0.25rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-sm + .custom-control-label::after {
+    font-size: 1rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-sm + .custom-control-label {
+    line-height: 1rem;
+    padding-left: 0px; }
+
+/* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+.custom-control.custom-radio > .custom-control-input.custom-control-input-md + .custom-control-label::before {
+    width: 3rem;
+    height: 3rem;
+    margin-top: -0.5rem;
+    margin-left: -0.5rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-md + .custom-control-label::after {
+    font-size: 2rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-md + .custom-control-label {
+    line-height: 2rem;
+    padding-left: 3px; }
+
+/* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+.custom-control.custom-radio > .custom-control-input.custom-control-input-lg + .custom-control-label::before {
+    width: 3.75rem;
+    height: 3.75rem;
+    margin-top: -0.625rem;
+    margin-left: -0.625rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-lg + .custom-control-label::after {
+    font-size: 2.5rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-lg + .custom-control-label {
+    line-height: 2.5rem;
+    padding-left: 6px; }
+
+/* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xl + .custom-control-label::before {
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-top: -0.75rem;
+    margin-left: -0.75rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xl + .custom-control-label::after {
+    font-size: 3rem; }
+
+.custom-control.custom-radio > .custom-control-input.custom-control-input-xl + .custom-control-label {
+    line-height: 3rem;
+    padding-left: 10px; }
+
 .no-gutters {
     margin-right: 0;
     margin-left: 0; }
@@ -369,13 +514,12 @@ input.form-control[type=color] {
         left: 0;
         width: calc(1rem + 0.75rem); }
     .custom-switch .custom-control-input.custom-control-input-xs ~ .custom-control-label {
-        padding-left: 1rem;
-        padding-bottom: 1rem; }
+        padding-left: 0;
+        line-height: 1rem;
+        vertical-align: middle; }
         .custom-switch .custom-control-input.custom-control-input-xs ~ .custom-control-label::before {
-            height: 1rem;
-            width: 1rem;
-            top: 15.5px;
-            border-radius: 0.5rem; }
+            height: calc(1rem * 1.5);
+            width: calc(1rem * 1.5); }
         .custom-switch .custom-control-input.custom-control-input-xs ~ .custom-control-label::after {
             height: calc(1rem - 4px);
             width: calc(1rem - 4px);
@@ -383,7 +527,8 @@ input.form-control[type=color] {
             border-radius: 50%;
             box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
             border-radius: calc(1rem - (1rem / 2)); }
-    .custom-switch .custom-control-input.custom-control-input-xs:checked ~ .custom-control-label::after {
+    .custom-switch .custom-control-input.custom-control-input-xs:checked ~ .custom-control-label::after,
+    .custom-switch .custom-control-input.custom-control-input-xs:checked ~ .custom-control-label::before {
         transform: translateX(calc(1rem - (1rem / 2))); }
 
 .custom-switch .custom-control-input.custom-control-input-sm {
@@ -400,13 +545,12 @@ input.form-control[type=color] {
         left: 0;
         width: calc(1.5rem + 0.75rem); }
     .custom-switch .custom-control-input.custom-control-input-sm ~ .custom-control-label {
-        padding-left: 1.5rem;
-        padding-bottom: 1.5rem; }
+        padding-left: 0;
+        line-height: 1.5rem;
+        vertical-align: middle; }
         .custom-switch .custom-control-input.custom-control-input-sm ~ .custom-control-label::before {
-            height: 1.5rem;
-            width: 1.5rem;
-            top: 15.5px;
-            border-radius: 0.75rem; }
+            height: calc(1.5rem * 1.5);
+            width: calc(1.5rem * 1.5); }
         .custom-switch .custom-control-input.custom-control-input-sm ~ .custom-control-label::after {
             height: calc(1.5rem - 4px);
             width: calc(1.5rem - 4px);
@@ -414,7 +558,8 @@ input.form-control[type=color] {
             border-radius: 50%;
             box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
             border-radius: calc(1.5rem - (1.5rem / 2)); }
-    .custom-switch .custom-control-input.custom-control-input-sm:checked ~ .custom-control-label::after {
+    .custom-switch .custom-control-input.custom-control-input-sm:checked ~ .custom-control-label::after,
+    .custom-switch .custom-control-input.custom-control-input-sm:checked ~ .custom-control-label::before {
         transform: translateX(calc(1.5rem - (1.5rem / 2))); }
 
 .custom-switch .custom-control-input.custom-control-input-md {
@@ -431,13 +576,12 @@ input.form-control[type=color] {
         left: 0;
         width: calc(2.5rem + 0.75rem); }
     .custom-switch .custom-control-input.custom-control-input-md ~ .custom-control-label {
-        padding-left: 2.5rem;
-        padding-bottom: 2rem; }
+        padding-left: 1.25rem;
+        line-height: 2rem;
+        vertical-align: middle; }
         .custom-switch .custom-control-input.custom-control-input-md ~ .custom-control-label::before {
-            height: 2rem;
-            width: 2.5rem;
-            top: 15.5px;
-            border-radius: 1rem; }
+            height: calc(2rem * 1.5);
+            width: calc(2rem * 1.5); }
         .custom-switch .custom-control-input.custom-control-input-md ~ .custom-control-label::after {
             height: calc(2rem - 4px);
             width: calc(2rem - 4px);
@@ -445,7 +589,8 @@ input.form-control[type=color] {
             border-radius: 50%;
             box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
             border-radius: calc(2.5rem - (2rem / 2)); }
-    .custom-switch .custom-control-input.custom-control-input-md:checked ~ .custom-control-label::after {
+    .custom-switch .custom-control-input.custom-control-input-md:checked ~ .custom-control-label::after,
+    .custom-switch .custom-control-input.custom-control-input-md:checked ~ .custom-control-label::before {
         transform: translateX(calc(2.5rem - (2rem / 2))); }
 
 .custom-switch .custom-control-input.custom-control-input-lg {
@@ -462,13 +607,12 @@ input.form-control[type=color] {
         left: 0;
         width: calc(3rem + 0.75rem); }
     .custom-switch .custom-control-input.custom-control-input-lg ~ .custom-control-label {
-        padding-left: 3rem;
-        padding-bottom: 2.25rem; }
+        padding-left: 1.5rem;
+        line-height: 2.25rem;
+        vertical-align: middle; }
         .custom-switch .custom-control-input.custom-control-input-lg ~ .custom-control-label::before {
-            height: 2.25rem;
-            width: 3rem;
-            top: 15.5px;
-            border-radius: 1.125rem; }
+            height: calc(2.25rem * 1.5);
+            width: calc(2.25rem * 1.5); }
         .custom-switch .custom-control-input.custom-control-input-lg ~ .custom-control-label::after {
             height: calc(2.25rem - 4px);
             width: calc(2.25rem - 4px);
@@ -476,7 +620,8 @@ input.form-control[type=color] {
             border-radius: 50%;
             box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
             border-radius: calc(3rem - (2.25rem / 2)); }
-    .custom-switch .custom-control-input.custom-control-input-lg:checked ~ .custom-control-label::after {
+    .custom-switch .custom-control-input.custom-control-input-lg:checked ~ .custom-control-label::after,
+    .custom-switch .custom-control-input.custom-control-input-lg:checked ~ .custom-control-label::before {
         transform: translateX(calc(3rem - (2.25rem / 2))); }
 
 .custom-switch .custom-control-input.custom-control-input-xl {
@@ -493,13 +638,12 @@ input.form-control[type=color] {
         left: 0;
         width: calc(4rem + 0.75rem); }
     .custom-switch .custom-control-input.custom-control-input-xl ~ .custom-control-label {
-        padding-left: 4rem;
-        padding-bottom: 2.5rem; }
+        padding-left: 2rem;
+        line-height: 2.5rem;
+        vertical-align: middle; }
         .custom-switch .custom-control-input.custom-control-input-xl ~ .custom-control-label::before {
-            height: 2.5rem;
-            width: 4rem;
-            top: 15.5px;
-            border-radius: 1.25rem; }
+            height: calc(2.5rem * 1.5);
+            width: calc(2.5rem * 1.5); }
         .custom-switch .custom-control-input.custom-control-input-xl ~ .custom-control-label::after {
             height: calc(2.5rem - 4px);
             width: calc(2.5rem - 4px);
@@ -507,7 +651,8 @@ input.form-control[type=color] {
             border-radius: 50%;
             box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
             border-radius: calc(4rem - (2.5rem / 2)); }
-    .custom-switch .custom-control-input.custom-control-input-xl:checked ~ .custom-control-label::after {
+    .custom-switch .custom-control-input.custom-control-input-xl:checked ~ .custom-control-label::after,
+    .custom-switch .custom-control-input.custom-control-input-xl:checked ~ .custom-control-label::before {
         transform: translateX(calc(4rem - (2.5rem / 2))); }
 
 table.table tbody tr.selected {
