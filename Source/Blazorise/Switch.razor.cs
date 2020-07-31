@@ -28,8 +28,9 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Switch() );
-            builder.Append( ClassProvider.SwitchColor( color ) );
-            builder.Append( ClassProvider.SwitchChecked( Checked?.ToString() == bool.TrueString ) );
+            builder.Append( ClassProvider.SwitchColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.SwitchSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.SwitchChecked( IsChecked ) );
 
             base.BuildClasses( builder );
         }
@@ -38,8 +39,17 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
         protected override string TrueValueName => "true";
 
+        /// <summary>
+        /// Returns true id switch is in checked state.
+        /// </summary>
+        protected bool IsChecked => Checked?.ToString()?.ToLowerInvariant() == TrueValueName;
+
+        /// <summary>
+        /// Defines the switch named color.
+        /// </summary>
         [Parameter]
         public Color Color
         {

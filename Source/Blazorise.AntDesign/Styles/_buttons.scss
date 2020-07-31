@@ -206,3 +206,48 @@
         }
     }
 }
+
+.ant-btn-xs {
+    padding: 0px 7px;
+    font-size: 10px;
+    height: 16px;
+}
+
+.ant-btn-sm {
+    padding: 0px 9px;
+    font-size: 12px;
+    height: 24px;
+}
+
+.ant-btn-md {
+    padding: 4.5px 11px;
+    font-size: 14px;
+    height: 36px;
+}
+
+.ant-btn-lg {
+    padding: 6.5px 13px;
+    font-size: 16px;
+    height: 40px;
+}
+
+.ant-btn-xl {
+    padding: 8.5px 15px;
+    font-size: 18px;
+    height: 48px;
+}
+
+.ant-btn-group-xs > .ant-btn,
+.ant-btn-group-xs > span > .ant-btn {
+    @extend .ant-btn-xs;
+}
+
+.ant-btn-group-md > .ant-btn,
+.ant-btn-group-md > span > .ant-btn {
+    @extend .ant-btn-md;
+}
+
+.ant-btn-group-xl > .ant-btn,
+.ant-btn-group-xl > span > .ant-btn {
+    @extend .ant-btn-xl;
+}
