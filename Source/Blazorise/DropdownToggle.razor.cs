@@ -35,7 +35,7 @@ namespace Blazorise
             builder.Append( ClassProvider.DropdownToggle() );
             builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
-            builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != ButtonSize.None );
+            builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.DropdownToggleSplit(), Split );
             builder.Append( ClassProvider.DropdownToggleIcon( IsToggleIconVisible ) );
 
@@ -112,7 +112,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the dropdown size.
         /// </summary>
-        [Parameter] public ButtonSize Size { get; set; } = ButtonSize.None;
+        [Parameter] public Size Size { get; set; } = Size.None;
 
         /// <summary>
         /// Button outline.
@@ -120,7 +120,7 @@ namespace Blazorise
         [Parameter] public bool Outline { get; set; }
 
         /// <summary>
-        /// Handles the visibility of split button.
+        /// Indicates that a toggle should act as a split button.
         /// </summary>
         [Parameter]
         public bool Split

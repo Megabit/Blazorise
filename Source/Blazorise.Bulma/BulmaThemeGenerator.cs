@@ -165,6 +165,29 @@ namespace Blazorise.Bulma
             sb.Append( $".textarea" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
+
+            if ( !string.IsNullOrEmpty( options?.CheckColor ) )
+            {
+                GenerateInputCheckEditStyles( sb, theme, options );
+            }
+        }
+
+        protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+        {
+            sb
+                .Append( $".is-checkradio[type=\"checkbox\"] + label::after, .is-checkradio[type=\"checkbox\"] + label:after" ).Append( "{" )
+                .Append( $"border-color: {options.CheckColor};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".is-checkradio[type=\"radio\"] + label::after, .is-checkradio[type=\"radio\"] + label:after" ).Append( "{" )
+                .Append( $"background: {options.CheckColor};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".is-checkradio[type=\"radio\"]:hover:not([disabled]) + label::before, .is-checkradio[type=\"radio\"]:hover:not([disabled]) + label:before, .is-checkradio[type=\"checkbox\"]:hover:not([disabled]) + label::before, .is-checkradio[type=\"checkbox\"]:hover:not([disabled]) + label:before" ).Append( "{" )
+                .Append( $"border-color: {options.CheckColor} !important;" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor )

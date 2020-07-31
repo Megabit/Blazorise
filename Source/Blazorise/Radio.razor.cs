@@ -27,6 +27,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Radio( AsButton ) );
+            builder.Append( ClassProvider.RadioSize( AsButton, Size ), Size != Size.None );
 
             base.BuildClasses( builder );
         }

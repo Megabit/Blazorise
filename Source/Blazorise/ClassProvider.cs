@@ -72,6 +72,8 @@ namespace Blazorise
 
         public abstract string Check();
 
+        public abstract string CheckSize( Size size );
+
         public abstract string CheckInline();
 
         public abstract string CheckCursor( Cursor cursor );
@@ -92,6 +94,8 @@ namespace Blazorise
 
         public abstract string Radio( bool button );
 
+        public abstract string RadioSize( bool button, Size size );
+
         public abstract string RadioInline();
 
         #endregion
@@ -101,6 +105,8 @@ namespace Blazorise
         public abstract string Switch();
 
         public abstract string SwitchColor( Color color );
+
+        public abstract string SwitchSize( Size size );
 
         public abstract string SwitchChecked( bool @checked );
 
@@ -246,7 +252,7 @@ namespace Blazorise
 
         public abstract string ButtonOutline( Color color );
 
-        public abstract string ButtonSize( ButtonSize buttonSize );
+        public abstract string ButtonSize( Size size );
 
         public abstract string ButtonBlock();
 
@@ -264,7 +270,7 @@ namespace Blazorise
 
         public abstract string ButtonsToolbar();
 
-        public abstract string ButtonsSize( ButtonsSize buttonsSize );
+        public abstract string ButtonsSize( Size size );
 
         public abstract string ButtonsVertical();
 
@@ -306,7 +312,7 @@ namespace Blazorise
 
         public abstract string DropdownToggleOutline( Color color );
 
-        public abstract string DropdownToggleSize( ButtonSize buttonSize );
+        public abstract string DropdownToggleSize( Size size );
 
         public abstract string DropdownToggleSplit();
 
@@ -664,6 +670,8 @@ namespace Blazorise
 
         public abstract string ProgressBar();
 
+        public abstract string ProgressBarSize( Size size );
+
         public abstract string ProgressBarColor( Background background );
 
         public abstract string ProgressBarStriped();
@@ -789,8 +797,6 @@ namespace Blazorise
         #region Heading
 
         public abstract string HeadingSize( HeadingSize headingSize );
-
-        public abstract string HeadingTextColor( TextColor textColor );
 
         #endregion
 

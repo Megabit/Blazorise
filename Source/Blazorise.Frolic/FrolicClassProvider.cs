@@ -70,7 +70,9 @@ namespace Blazorise.Frolic
 
         #region Check
 
-        public override string Check() => null;
+        public override string Check() => "e-checkradio";
+
+        public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
 
         public override string CheckInline() => null;
 
@@ -90,7 +92,9 @@ namespace Blazorise.Frolic
 
         #region Radio
 
-        public override string Radio( bool button ) => null;
+        public override string Radio( bool button ) => button ? null : "e-checkradio";
+
+        public override string RadioSize( bool button, Size size ) => button ? null : $"{Radio( button )}-{ToSize( size )}";
 
         public override string RadioInline() => null;
 
@@ -101,6 +105,8 @@ namespace Blazorise.Frolic
         public override string Switch() => "e-switch";
 
         public override string SwitchColor( Color color ) => $"{ToColor( color )}";
+
+        public override string SwitchSize( Size size ) => $"e-switch-{ToSize( size )}";
 
         public override string SwitchChecked( bool @checked ) => null;
 
@@ -259,14 +265,20 @@ namespace Blazorise.Frolic
 
         public override string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"outlined {ToColor( color )}" : $"outlined";
 
-        public override string ButtonSize( ButtonSize buttonSize )
+        public override string ButtonSize( Size size )
         {
-            switch ( buttonSize )
+            switch ( size )
             {
-                case Blazorise.ButtonSize.Small:
-                    return "small";
-                case Blazorise.ButtonSize.Large:
-                    return "plus";
+                case Size.ExtraSmall:
+                    return "e-btn-tiny";
+                case Size.Small:
+                    return "e-btn-small";
+                case Size.Medium:
+                    return "e-btn-medium";
+                case Size.Large:
+                    return "e-btn-plus";
+                case Size.ExtraLarge:
+                    return "e-btn-huge";
                 default:
                     return null;
             }
@@ -288,18 +300,7 @@ namespace Blazorise.Frolic
 
         public override string ButtonsToolbar() => "e-toolbar";
 
-        public override string ButtonsSize( ButtonsSize buttonsSize )
-        {
-            switch ( buttonsSize )
-            {
-                case Blazorise.ButtonsSize.Small:
-                    return "small";
-                case Blazorise.ButtonsSize.Large:
-                    return "plus";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonsSize( Size size ) => $"e-buttons-{ToSize( size )}";
 
         public override string ButtonsVertical() => "btn-group-vertical";
 
@@ -341,14 +342,20 @@ namespace Blazorise.Frolic
 
         public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.None ? $"outlined {ToColor( color )}" : $"outlined";
 
-        public override string DropdownToggleSize( ButtonSize buttonSize )
+        public override string DropdownToggleSize( Size size )
         {
-            switch ( buttonSize )
+            switch ( size )
             {
-                case Blazorise.ButtonSize.Small:
-                    return "small";
-                case Blazorise.ButtonSize.Large:
-                    return "plus";
+                case Size.ExtraSmall:
+                    return "e-btn-tiny";
+                case Size.Small:
+                    return "e-btn-small";
+                case Size.Medium:
+                    return "e-btn-medium";
+                case Size.Large:
+                    return "e-btn-plus";
+                case Size.ExtraLarge:
+                    return "e-btn-huge";
                 default:
                     return null;
             }
@@ -695,7 +702,7 @@ namespace Blazorise.Frolic
 
         public override string Pagination() => "e-pagination";
 
-        public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
+        public override string PaginationSize( Size size ) => ToSize( size );
 
         public override string PaginationItem() => "e-page-item";
 
@@ -718,6 +725,8 @@ namespace Blazorise.Frolic
         public override string ProgressSize( Size size ) => null;
 
         public override string ProgressBar() => "e-progress";
+
+        public override string ProgressBarSize( Size size ) => $"e-progress-{ToSize( size )}";
 
         public override string ProgressBarColor( Background background ) => ToBackground( background );
 
@@ -845,8 +854,6 @@ namespace Blazorise.Frolic
 
         public override string HeadingSize( HeadingSize headingSize ) => null;
 
-        public override string HeadingTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
-
         #endregion
 
         #region DisplayHeading
@@ -958,10 +965,11 @@ namespace Blazorise.Frolic
                 case Blazorise.Size.Small:
                     return "small";
                 case Blazorise.Size.Medium:
-                    return null;
+                    return "medium";
                 case Blazorise.Size.Large:
+                    return "plus";
                 case Blazorise.Size.ExtraLarge:
-                    return "large";
+                    return "huge";
                 default:
                     return null;
             }

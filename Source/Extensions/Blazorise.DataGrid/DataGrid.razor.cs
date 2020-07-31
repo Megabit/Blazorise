@@ -1034,6 +1034,21 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment DataGridAggregates { get; set; }
 
+        /// <summary>
+        /// If true, shows feedbacks for all validations.
+        /// </summary>
+        [Parameter] public bool ShowValidationFeedback { get; set; } = false;
+
+        /// <summary>
+        /// If true, shows summary for all validations.
+        /// </summary>
+        [Parameter] public bool ShowValidationsSummary { get; set; } = true;
+
+        /// <summary>
+        /// Label for validaitons summary.
+        /// </summary>
+        [Parameter] public string ValidationsSummaryLabel { get; set; }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

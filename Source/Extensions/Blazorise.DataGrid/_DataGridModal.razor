@@ -17,27 +17,33 @@
             <CloseButton Clicked="@Cancel" />
         </ModalHeader>
         <ModalBody>
-            <Fields>
-                @foreach ( var column in Columns )
+            <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged">
+                @if ( ParentDataGrid?.ShowValidationsSummary ?? true )
                 {
-                    @if ( column.ColumnType == DataGridColumnType.Command )
-                        continue;
-
-                    @if ( column.Editable )
-                    {
-                        <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
-                            <Field>
-                                <FieldLabel>
-                                    @column.Caption
-                                </FieldLabel>
-                                <FieldBody>
-                                    <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" />
-                                </FieldBody>
-                            </Field>
-                        </Field>
-                    }
+                    <ValidationSummary Label="@ParentDataGrid?.ValidationsSummaryLabel" />
                 }
-            </Fields>
+                <Fields>
+                    @foreach ( var column in Columns )
+                    {
+                        @if ( column.ColumnType == DataGridColumnType.Command )
+                            continue;
+
+                        @if ( column.Editable )
+                        {
+                            <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                                <Field>
+                                    <FieldLabel>
+                                        @column.Caption
+                                    </FieldLabel>
+                                    <FieldBody>
+                                        <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
+                                    </FieldBody>
+                                </Field>
+                            </Field>
+                        }
+                    }
+                </Fields>
+            </Validations>
         </ModalBody>
         <ModalFooter>
             @if ( ParentDataGrid?.CommandColumn?.SaveCommandAllowed == true )
@@ -46,13 +52,13 @@
                 {
                     @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
                     {
-                        Clicked = Save,
+                        Clicked = callbackFactory.Create( this, SaveWithValidation ),
                         Item = EditItem,
                     } )
                 }
                 else
                 {
-                    <Button Color="Color.Link" Clicked="@Save">Save</Button>
+                    <Button Color="Color.Link" Clicked="@SaveWithValidation">Save</Button>
                 }
             }
             @if ( ParentDataGrid?.CommandColumn?.CancelCommandAllowed == true )
