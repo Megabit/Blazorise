@@ -110,3 +110,67 @@
         }
     }
 }
+
+.button {
+    &.is-extra-small {
+        font-size: $size-extra-small;
+    }
+
+    &.is-small {
+        font-size: $size-small;
+    }
+
+    &.is-medium {
+        font-size: $size-medium;
+    }
+
+    &.is-large {
+        font-size: $size-large;
+    }
+
+    &.is-extra-large {
+        font-size: $size-extra-large;
+    }
+}
+
+.field.has-addons {
+    &.are-extra-small {
+        > .control {
+            > .button {
+                @extend .is-extra-small;
+            }
+        }
+    }
+
+    &.are-small {
+        > .control {
+            > .button {
+                @extend .is-small;
+            }
+        }
+    }
+
+    &.are-medium {
+        > .control {
+            > .button {
+                @extend .is-medium;
+            }
+        }
+    }
+
+    &.are-large {
+        > .control {
+            > .button {
+                @extend .is-large;
+            }
+        }
+    }
+
+    &.are-extra-large {
+        > .control {
+            > .button {
+                @extend .is-extra-large;
+            }
+        }
+    }
+}

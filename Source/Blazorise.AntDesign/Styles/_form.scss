@@ -90,3 +90,118 @@
         }
     }
 }
+
+.ant-input {
+    height: 32px;
+}
+
+.ant-input-xs {
+    padding: 0px 7px;
+    font-size: 10px;
+    height: 16px;
+}
+
+.ant-input-sm {
+    padding: 0px 9px;
+    font-size: 12px;
+    height: 24px;
+}
+
+.ant-input-md {
+    padding: 4.5px 11px;
+    font-size: 14px;
+    height: 36px;
+}
+
+.ant-input-lg {
+    padding: 6.5px 13px;
+    font-size: 16px;
+    height: 40px;
+}
+
+.ant-input-xl {
+    padding: 8.5px 15px;
+    font-size: 18px;
+    height: 48px;
+}
+
+@mixin select-size($name, $font-size, $height, $line-height) {
+    .ant-select-#{$name} {
+        font-size: $font-size;
+    }
+
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector {
+        height: $height;
+    }
+
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder {
+        line-height: $line-height;
+    }
+
+    .ant-select-single.ant-select-#{$name}:not(.ant-select-customize-input):not(.ant-select-customize-input) .ant-select-selection-search-input {
+        height: $height;
+    }
+}
+
+@include select-size('xs', 10px, 16px, 14px);
+@include select-size('md', 14px, 36px, 34px);
+@include select-size('xl', 18px, 48px, 45px);
+
+@mixin checkbox($size, $width, $height) {
+    .ant-checkbox-input.ant-checkbox-input-#{$size} {
+        + .ant-checkbox-inner {
+            width: $width;
+            height: $height;
+        }
+    }
+
+    .ant-checkbox.ant-checkbox-checked {
+        > .ant-checkbox-input.ant-checkbox-input-#{$size} {
+            + .ant-checkbox-inner {
+                &::after {
+                    width: $width / 3;
+                    height: $height / 1.7;
+                }
+            }
+        }
+    }
+}
+
+@include checkbox('xs', $check-xs-height, $check-xs-height);
+@include checkbox('sm', $check-sm-height, $check-sm-height);
+@include checkbox('md', $check-md-height, $check-md-height);
+@include checkbox('lg', $check-lg-height, $check-lg-height);
+@include checkbox('xl', $check-xl-height, $check-xl-height);
+
+@mixin radio($size, $radio-size) {
+    $radio-dot-size: $radio-size - ($radio-size / 2);
+
+    .ant-radio {
+        > .ant-radio-input.ant-radio-input-#{$size} {
+            + .ant-radio-inner {
+                width: $radio-size;
+                height: $radio-size;
+            }
+        }
+
+        &.ant-radio-checked {
+            > .ant-radio-input.ant-radio-input-#{$size} {
+                + .ant-radio-inner {
+                    &::after {
+                        width: $radio-dot-size;
+                        height: $radio-dot-size;
+                        top: ($radio-size - $radio-dot-size) / 2 - 1px;
+                        left: ($radio-size - $radio-dot-size) / 2 - 1px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include radio('xs', $radio-xs-height);
+@include radio('sm', $radio-sm-height);
+@include radio('md', $radio-md-height);
+@include radio('lg', $radio-lg-height);
+@include radio('xl', $radio-xl-height);
