@@ -124,7 +124,7 @@ The DataGrid provider several built-in aggregates for column values. Supported a
 - `TrueCount` Counts boolean elements with true value.
 - `FalseCount` Counts boolean elements with false value.
 
-###Validations
+### Validations
 
 The DataGrid provides validations of column values at editing or creating items. For using validation of DataGrid you have to use these properties:
 
@@ -134,9 +134,25 @@ The DataGrid provides validations of column values at editing or creating items.
 - `Validator` of DataGridColumn validates the input value after trying to save.
 - `UsePatternOfValidation` of DataGridColumn forces validation to use regex pattern matching instead of default validator handler.
 
-If you use EditTemplate to customize editing of columns, then using `Validator` or `UsePatternOfValidation` will not work and you have to use `Validation` like this:
+To enable basic validation you only need to define a `Validator` attribute and assign it to your validation method.
 
+```html
+<DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Validator="@CheckEMail" Editable="true" />
+
+public void CheckEMail( ValidatorEventArgs validationArgs )
+{
+    ValidationRule.IsEmail( validationArgs );
+
+    if ( validationArgs.Status == ValidationStatus.Error )
+    {
+        validationArgs.ErrorText = "EMail has to be valid email";
+    }
+}
 ```
+
+If you use `EditTemplate` to customize editing of columns, then using `Validator` or `UsePatternOfValidation` will not work and you have to use `Validation` like this:
+
+```html
 <DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
     ...
     <EditTemplate>
