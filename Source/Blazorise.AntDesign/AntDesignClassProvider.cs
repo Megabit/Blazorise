@@ -36,7 +36,7 @@ namespace Blazorise.AntDesign
 
         public override string SelectMultiple() => null;
 
-        public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
+        public override string SelectSize( Size size ) => $"ant-select-{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -72,6 +72,8 @@ namespace Blazorise.AntDesign
 
         public override string Check() => "ant-checkbox-input";
 
+        public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
+
         public override string CheckInline() => null;
 
         public override string CheckCursor( Cursor cursor ) => null;
@@ -92,6 +94,8 @@ namespace Blazorise.AntDesign
 
         public override string Radio( bool button ) => button ? "ant-radio-button-input" : "ant-radio-input";
 
+        public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
+
         public override string RadioInline() => null;
 
         #endregion
@@ -101,6 +105,8 @@ namespace Blazorise.AntDesign
         public override string Switch() => "ant-switch";
 
         public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+
+        public override string SwitchSize( Size size ) => $"{Switch()}-{ToSize( size )}";
 
         public override string SwitchChecked( bool @checked ) => @checked ? "ant-switch-checked" : null;
 
@@ -268,18 +274,7 @@ namespace Blazorise.AntDesign
 
         public override string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
-        public override string ButtonSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.Small:
-                    return "ant-btn-sm";
-                case Blazorise.ButtonSize.Large:
-                    return "ant-btn-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonSize( Size size ) => $"{Button()}-{ToSize( size )}";
 
         public override string ButtonBlock() => $"{Button()}-block";
 
@@ -297,18 +292,7 @@ namespace Blazorise.AntDesign
 
         public override string ButtonsToolbar() => "btn-toolbar";
 
-        public override string ButtonsSize( ButtonsSize buttonsSize )
-        {
-            switch ( buttonsSize )
-            {
-                case Blazorise.ButtonsSize.Small:
-                    return "btn-group-sm";
-                case Blazorise.ButtonsSize.Large:
-                    return "btn-group-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonsSize( Size size ) => $"ant-btn-group-{ToSize( size )}";
 
         public override string ButtonsVertical() => "btn-group-vertical";
 
@@ -350,18 +334,7 @@ namespace Blazorise.AntDesign
 
         public override string DropdownToggleOutline( Color color ) => color != Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
-        public override string DropdownToggleSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.Small:
-                    return "btn-sm";
-                case Blazorise.ButtonSize.Large:
-                    return "btn-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string DropdownToggleSize( Size size ) => $"{Button()}-{ToSize( size )}";
 
         public override string DropdownToggleSplit() => "dropdown-toggle-split";
 
@@ -726,6 +699,8 @@ namespace Blazorise.AntDesign
 
         public override string ProgressBar() => "ant-progress-bg b-ant-progress-text";
 
+        public override string ProgressBarSize( Size size ) => null;
+
         public override string ProgressBarColor( Background background ) => BackgroundColor( background );
 
         public override string ProgressBarStriped() => "progress-bar-striped";
@@ -851,8 +826,6 @@ namespace Blazorise.AntDesign
         #region Heading
 
         public override string HeadingSize( HeadingSize headingSize ) => "ant-typography";
-
-        public override string HeadingTextColor( TextColor textColor ) => $"ant-typography-{ToTextColor( textColor )}";
 
         #endregion
 

@@ -15,7 +15,7 @@ namespace Blazorise
 
         private Color color = Color.None;
 
-        private ButtonSize size = ButtonSize.None;
+        private Size size = Size.None;
 
         private bool outline;
 
@@ -36,7 +36,7 @@ namespace Blazorise
             builder.Append( ClassProvider.Button() );
             builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.None && Outline );
-            builder.Append( ClassProvider.ButtonSize( Size ), Size != ButtonSize.None );
+            builder.Append( ClassProvider.ButtonSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.ButtonBlock(), Block );
             builder.Append( ClassProvider.ButtonActive(), Active );
             builder.Append( ClassProvider.ButtonLoading(), Loading );
@@ -142,7 +142,7 @@ namespace Blazorise
         /// Changes the size of a button.
         /// </summary>
         [Parameter]
-        public ButtonSize Size
+        public Size Size
         {
             get => size;
             set
