@@ -235,5 +235,10 @@ namespace Blazorise
         {
             return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.fileEdit.readFileData", cancellationToken, elementRef, fileEntryId, position, length );
         }
+
+        public ValueTask ResetFileEdit( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.reset", elementRef, elementId );
+        }
     }
 }
