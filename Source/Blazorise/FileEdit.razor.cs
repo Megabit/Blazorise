@@ -263,7 +263,7 @@ namespace Blazorise
         [Parameter] public EventCallback<FileProgressedEventArgs> Progressed { get; set; }
 
         /// <summary>
-        /// If true file input will be automatically reseted after it has being uploaded.
+        /// If true file input will be automatically reset after it has being uploaded.
         /// </summary>
         [Parameter] public bool AutoReset { get; set; } = true;
 

@@ -124,6 +124,23 @@ In this example you can see the usage of all events, including the `Written` and
 }
 ```
 
+### Reset
+
+By default after each file upload has finished, file input will automatically reset to it's initial state. If you want this behavior disabled and control it manually you need to first set `AutoReset` to `false`. After that you can call `Reset()` every time you want the file input to be reset.
+
+```cs
+<FileEdit @ref="@fileEdit" AutoReset="false" ... />
+
+@code{
+    FileEdit fileEdit;
+
+    Task OnSomeButtonClick()
+    {
+        return fileEdit.Reset();
+    }
+}
+```
+
 ## Attributes
 
 | Name                  | Type      | Default     | Description                                                                                  |
@@ -136,3 +153,4 @@ In this example you can see the usage of all events, including the `Written` and
 | Progressed            | event     |             | Notifies the progress of file being uploaded.                                                |
 | Started               | event     |             | Occurs when an individual file upload has started.                                           |
 | Ended                 | event     |             | Occurs when an individual file upload has ended.                                             |
+| AutoReset             | boolean   | true        | If true file input will be automatically reset after it has being uploaded.                  |
