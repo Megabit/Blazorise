@@ -82,7 +82,10 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task ClickHandler()
         {
-            ParentDropdown?.Toggle();
+            if ( !Disabled )
+            {
+                ParentDropdown?.Toggle();
+            }
 
             return Task.CompletedTask;
         }
