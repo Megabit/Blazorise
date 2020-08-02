@@ -52,13 +52,13 @@ namespace Blazorise
         /// <summary>
         /// Gets the valid breakpoints.
         /// </summary>
-        public IEnumerable<(string name, string color)> ValidBreakpoints
+        public IEnumerable<(string name, string size)> ValidBreakpoints
             => BreakpointOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
         /// Gets the valid sizes for container.
         /// </summary>
-        public IEnumerable<(string name, string color)> ValidContainerMaxWidths
+        public IEnumerable<(string name, string size)> ValidContainerMaxWidths
             => ContainerMaxWidthOptions?.Where( x => !string.IsNullOrEmpty( x.Value() ) ).Select( x => (x.Key, x.Value()) ) ?? Enumerable.Empty<(string, string)>();
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Blazorise
         /// <summary>
         /// Define the maximum width of container for different screen sizes.
         /// </summary>
-        public ThemeContanerMaxWidthOptions ContainerMaxWidthOptions { get; set; }
+        public ThemeContainerMaxWidthOptions ContainerMaxWidthOptions { get; set; }
 
         /// <summary>
         /// Used to override default theme colors.
@@ -133,6 +133,8 @@ namespace Blazorise
         public ThemeBreadcrumbOptions BreadcrumbOptions { get; set; }
 
         public ThemeBadgeOptions BadgeOptions { get; set; }
+
+        public ThemeSwitchOptions SwitchOptions { get; set; }
 
         public ThemePaginationOptions PaginationOptions { get; set; }
 
@@ -190,7 +192,7 @@ namespace Blazorise
         public string FullHD { get; set; } = "1400px";
     }
 
-    public class ThemeContanerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    public class ThemeContainerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
     {
         private Dictionary<string, Func<string>> breakpointMap => new Dictionary<string, Func<string>> {
             { "mobile", () => Mobile },
@@ -318,6 +320,13 @@ namespace Blazorise
 
     public class ThemeBadgeOptions : BasicOptions
     {
+    }
+
+    public class ThemeSwitchOptions : BasicOptions
+    {
+        public float BoxShadowLightenColor { get; set; } = 25;
+
+        public float DisabledLightenColor { get; set; } = 50;
     }
 
     public class ThemePaginationOptions : BasicOptions

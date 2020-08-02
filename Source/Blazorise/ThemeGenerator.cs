@@ -450,6 +450,7 @@ namespace Blazorise
             GenerateButtonVariantStyles( sb, theme, variant, theme.ButtonOptions );
             GenerateButtonOutlineVariantStyles( sb, theme, variant, theme.ButtonOptions );
             GenerateBadgeVariantStyles( sb, theme, variant, color );
+            GenerateSwitchVariantStyles( sb, theme, variant, color, theme.SwitchOptions );
 
             GenerateAlertVariantStyles( sb, theme, variant,
                 ThemeColorLevelHex( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
@@ -486,6 +487,8 @@ namespace Blazorise
         protected abstract void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options );
 
         protected abstract void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor );
+
+        protected abstract void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions switchOptions );
 
         protected abstract void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options );
 

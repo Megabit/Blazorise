@@ -1,0 +1,305 @@
+﻿@page "/tests/misc-forms"
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>TextEdit Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Size="Size.ExtraSmall" Placeholder=".extra small" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Size="Size.Small" Placeholder=".small" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Normal</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Placeholder="Normal" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Medium</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Size="Size.Medium" Placeholder=".medium" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Size="Size.Large" Placeholder=".large" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <TextEdit Size="Size.ExtraLarge" Placeholder=".extra large" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Select Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Select TValue="string" Size="Size.ExtraSmall">
+                            <SelectItem TValue="string" Value="@("1")">Value 1</SelectItem>
+                            <SelectItem TValue="string" Value="@("2")">Value 2</SelectItem>
+                            <SelectItem TValue="string" Value="@("3")">Value 3</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Select TValue="string" Size="Size.Small">
+                            <SelectItem TValue="string" Value="@("1")">Value 1</SelectItem>
+                            <SelectItem TValue="string" Value="@("2")">Value 2</SelectItem>
+                            <SelectItem TValue="string" Value="@("3")">Value 3</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Normal</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Select TValue="string">
+                            <SelectItem TValue="string" Value="@("1")">Value 1</SelectItem>
+                            <SelectItem TValue="string" Value="@("2")">Value 2</SelectItem>
+                            <SelectItem TValue="string" Value="@("3")">Value 3</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Medium</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Select TValue="string" Size="Size.Medium">
+                            <SelectItem TValue="string" Value="@("1")">Value 1</SelectItem>
+                            <SelectItem TValue="string" Value="@("2")">Value 2</SelectItem>
+                            <SelectItem TValue="string" Value="@("3")">Value 3</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Select TValue="string" Size="Size.Large">
+                            <SelectItem TValue="string" Value="@("1")">Value 1</SelectItem>
+                            <SelectItem TValue="string" Value="@("2")">Value 2</SelectItem>
+                            <SelectItem TValue="string" Value="@("3")">Value 3</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <Select TValue="string" Size="Size.ExtraLarge">
+                            <SelectItem TValue="string" Value="@("1")">Value 1</SelectItem>
+                            <SelectItem TValue="string" Value="@("2")">Value 2</SelectItem>
+                            <SelectItem TValue="string" Value="@("3")">Value 3</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>NumericEdit Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <NumericEdit TValue="decimal" Size="Size.ExtraSmall" Placeholder=".extra small" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <NumericEdit TValue="decimal" Size="Size.Small" Placeholder=".small" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Normal</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <NumericEdit TValue="decimal" Placeholder="Normal" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Medium</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <NumericEdit TValue="decimal" Size="Size.Medium" Placeholder=".medium" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <NumericEdit TValue="decimal" Size="Size.Large" Placeholder=".large" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <NumericEdit TValue="decimal" Size="Size.ExtraLarge" Placeholder=".extra large" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>DateEdit Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <DateEdit TValue="DateTime?" Size="Size.ExtraSmall" Placeholder=".extra small" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Small</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <DateEdit TValue="DateTime?" Size="Size.Small" Placeholder=".small" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Normal</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <DateEdit TValue="DateTime?" Placeholder="Normal" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Medium</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <DateEdit TValue="DateTime?" Size="Size.Medium" Placeholder=".medium" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <DateEdit TValue="DateTime?" Size="Size.Large" Placeholder=".large" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is3">Extra Large</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is9">
+                        <DateEdit TValue="DateTime?" Size="Size.ExtraLarge" Placeholder=".extra large" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Switch</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Display the classic checkbox as a switch button with different colors, sizes, and states
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Switch TValue="bool" Color="Color.Primary">Primary</Switch>
+                <Switch TValue="bool" Color="Color.Secondary">Secondary</Switch>
+                <Switch TValue="bool" Color="Color.Success">Success</Switch>
+                <Switch TValue="bool" Color="Color.Danger">Danger</Switch>
+                <Switch TValue="bool" Color="Color.Warning">Warning</Switch>
+                <Switch TValue="bool" Color="Color.Info">Info</Switch>
+                <Switch TValue="bool" Color="Color.Light">Light</Switch>
+                <Switch TValue="bool" Color="Color.Dark">Dark</Switch>
+                <Switch TValue="bool" Color="Color.Link">Link</Switch>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Switch Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Different sizes
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Switch TValue="bool" Size="Size.ExtraSmall">Extra Small</Switch>
+                <Switch TValue="bool" Size="Size.Small">Small</Switch>
+                <Switch TValue="bool" Size="Size.None">None (default)</Switch>
+                <Switch TValue="bool" Size="Size.Medium">Medium</Switch>
+                <Switch TValue="bool" Size="Size.Large">Large</Switch>
+                <Switch TValue="bool" Size="Size.ExtraLarge">Extra Large</Switch>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Check Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Different sizes
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Check TValue="bool" Size="Size.ExtraSmall">Extra Small</Check>
+                <Check TValue="bool" Size="Size.Small">Small</Check>
+                <Check TValue="bool" Size="Size.None">None (default)</Check>
+                <Check TValue="bool" Size="Size.Medium">Medium</Check>
+                <Check TValue="bool" Size="Size.Large">Large</Check>
+                <Check TValue="bool" Size="Size.ExtraLarge">Extra Large</Check>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Radio Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Different sizes
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <RadioGroup TValue="string">
+                    <Radio TValue="string" Value="@("1")" Size="Size.ExtraSmall">Extra Small</Radio>
+                    <Radio TValue="string" Value="@("2")" Size="Size.Small">Small</Radio>
+                    <Radio TValue="string" Value="@("3")" Size="Size.None">None (default)</Radio>
+                    <Radio TValue="string" Value="@("4")" Size="Size.Medium">Medium</Radio>
+                    <Radio TValue="string" Value="@("5")" Size="Size.Large">Large</Radio>
+                    <Radio TValue="string" Value="@("6")" Size="Size.ExtraLarge">Extra Large</Radio>
+                </RadioGroup>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code{
+
+}

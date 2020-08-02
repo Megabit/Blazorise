@@ -1,9 +1,9 @@
-﻿@inherits BaseComponent
+﻿@inherits BaseTypographyComponent
 @if ( !HasCustomRegistration )
 {
-    <p class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <Dynamic TagName="@TagName" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
-    </p>
+    </Dynamic>
 }
 else
 {

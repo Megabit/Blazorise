@@ -40,11 +40,11 @@ namespace Blazorise.Frolic
             componentMapper.Register<Blazorise.Carousel, Frolic.Carousel>();
             componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Frolic.Check<> ) );
             componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Frolic.Radio<> ) );
+            componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( Frolic.Switch<> ) );
             componentMapper.Register<Blazorise.DisplayHeading, Frolic.DisplayHeading>();
             componentMapper.Register<Blazorise.Dropdown, Frolic.Dropdown>();
             componentMapper.Register<Blazorise.DropdownToggle, Frolic.DropdownToggle>();
             componentMapper.Register<Blazorise.Field, Frolic.Field>();
-            componentMapper.Register<Blazorise.Heading, Frolic.Heading>();
             componentMapper.Register<Blazorise.Jumbotron, Frolic.Jumbotron>();
             componentMapper.Register<Blazorise.JumbotronSubtitle, Frolic.JumbotronSubtitle>();
             componentMapper.Register<Blazorise.Pagination, Frolic.Pagination>();

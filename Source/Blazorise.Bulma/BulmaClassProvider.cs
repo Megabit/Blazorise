@@ -14,7 +14,7 @@ namespace Blazorise.Bulma
 
         public override string TextEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-        public override string TextEditSize( Size size ) => ToSize( size );
+        public override string TextEditSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string TextEditColor( Color color ) => $"is-{ToColor( color )}";
 
@@ -36,7 +36,7 @@ namespace Blazorise.Bulma
 
         public override string SelectMultiple() => "is-multiple";
 
-        public override string SelectSize( Size size ) => $"{ToSize( size )}";
+        public override string SelectSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -46,7 +46,7 @@ namespace Blazorise.Bulma
 
         public override string DateEdit() => "input";
 
-        public override string DateEditSize( Size size ) => $"{ToSize( size )}";
+        public override string DateEditSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -56,7 +56,7 @@ namespace Blazorise.Bulma
 
         public override string TimeEdit() => "input";
 
-        public override string TimeEditSize( Size size ) => $"{ToSize( size )}";
+        public override string TimeEditSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -70,7 +70,9 @@ namespace Blazorise.Bulma
 
         #region Check
 
-        public override string Check() => "checkbox";
+        public override string Check() => "is-checkradio";
+
+        public override string CheckSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string CheckInline() => "is-inline";
 
@@ -90,7 +92,9 @@ namespace Blazorise.Bulma
 
         #region Radio
 
-        public override string Radio( bool button ) => "radio";
+        public override string Radio( bool button ) => "is-checkradio";
+
+        public override string RadioSize( bool button, Size size ) => $"is-{ToSize( size )}";
 
         public override string RadioInline() => "is-inline";
 
@@ -99,6 +103,10 @@ namespace Blazorise.Bulma
         #region Switch
 
         public override string Switch() => "switch";
+
+        public override string SwitchColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string SwitchSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string SwitchChecked( bool @checked ) => null;
 
@@ -132,14 +140,11 @@ namespace Blazorise.Bulma
         {
             switch ( labelType )
             {
-                case Blazorise.LabelType.Check:
-                    return "checkbox";
-                case Blazorise.LabelType.Radio:
-                    return "radio";
-                case Blazorise.LabelType.Switch:
-                    return null;
                 case Blazorise.LabelType.File:
                     return "file-label";
+                case Blazorise.LabelType.Check:
+                case Blazorise.LabelType.Radio:
+                case Blazorise.LabelType.Switch:
                 case Blazorise.LabelType.None:
                 default:
                     return null;
@@ -272,18 +277,7 @@ namespace Blazorise.Bulma
 
         public override string ButtonOutline( Color color ) => $"is-{ToColor( color )} is-outlined";
 
-        public override string ButtonSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.Small:
-                    return "is-small";
-                case Blazorise.ButtonSize.Large:
-                    return "is-large";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string ButtonBlock() => $"is-fullwidth";
 
@@ -301,18 +295,7 @@ namespace Blazorise.Bulma
 
         public override string ButtonsToolbar() => "field is-grouped";
 
-        public override string ButtonsSize( ButtonsSize buttonsSize )
-        {
-            switch ( buttonsSize )
-            {
-                case Blazorise.ButtonsSize.Small:
-                    return "are-small";
-                case Blazorise.ButtonsSize.Large:
-                    return "are-large";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonsSize( Size size ) => $"are-{ToSize( size )}";
 
         public override string ButtonsVertical() => "buttons";
 
@@ -354,18 +337,7 @@ namespace Blazorise.Bulma
 
         public override string DropdownToggleOutline( Color color ) => $"is-{ToColor( color )} is-outlined";
 
-        public override string DropdownToggleSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.Small:
-                    return "is-small";
-                case Blazorise.ButtonSize.Large:
-                    return "is-large";
-                default:
-                    return null;
-            }
-        }
+        public override string DropdownToggleSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string DropdownToggleSplit() => null;
 
@@ -710,7 +682,7 @@ namespace Blazorise.Bulma
 
         public override string Pagination() => "pagination-list";
 
-        public override string PaginationSize( Size size ) => $"{ToSize( size )}";
+        public override string PaginationSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string PaginationItem() => null;
 
@@ -733,6 +705,8 @@ namespace Blazorise.Bulma
         public override string ProgressSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string ProgressBar() => "progress";
+
+        public override string ProgressBarSize( Size size ) => null;
 
         public override string ProgressBarColor( Background background ) => BackgroundColor( background );
 
@@ -860,8 +834,6 @@ namespace Blazorise.Bulma
 
         public override string HeadingSize( HeadingSize headingSize ) => $"title is-{ToHeadingSize( headingSize )}";
 
-        public override string HeadingTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
-
         #endregion
 
         #region DisplayHeading
@@ -970,13 +942,15 @@ namespace Blazorise.Bulma
             switch ( size )
             {
                 case Blazorise.Size.ExtraSmall:
+                    return "extra-small";
                 case Blazorise.Size.Small:
-                    return "is-small";
+                    return "small";
                 case Blazorise.Size.Medium:
-                    return "is-medium";
+                    return "medium";
                 case Blazorise.Size.Large:
+                    return "large";
                 case Blazorise.Size.ExtraLarge:
-                    return "is-large";
+                    return "extra-large";
                 default:
                     return null;
             }

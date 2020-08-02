@@ -7,11 +7,16 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Toggles the dropdown menu visibility on or off.
+    /// </summary>
     public partial class DropdownToggle : BaseComponent, ICloseActivator
     {
         #region Members
 
         private bool split;
+
+        private bool disabled;
 
         private bool jsRegistered;
 
@@ -23,6 +28,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
@@ -30,18 +36,23 @@ namespace Blazorise
             await base.OnFirstAfterRenderAsync();
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DropdownToggle() );
             builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.None && Outline );
-            builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != ButtonSize.None );
+            builder.Append( ClassProvider.DropdownToggleSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.DropdownToggleSplit(), Split );
             builder.Append( ClassProvider.DropdownToggleIcon( IsToggleIconVisible ) );
 
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Disposes all the used resources.
+        /// </summary>
+        /// <param name="disposing">True if object is disposing.</param>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -65,18 +76,36 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
+        /// <summary>
+        /// Handles the item onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task ClickHandler()
         {
-            ParentDropdown?.Toggle();
+            if ( !Disabled )
+            {
+                ParentDropdown?.Toggle();
+            }
 
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Returns true of the parent dropdown-menu is safe to be closed.
+        /// </summary>
+        /// <param name="elementId">Id of an element.</param>
+        /// <param name="closeReason">Close reason.</param>
+        /// <returns>True if it's safe to be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
             return Task.FromResult( closeReason == CloseReason.EscapeClosing || elementId != ElementId );
         }
 
+        /// <summary>
+        /// Forces the parent dropdown to close the dropdown-menu.
+        /// </summary>
+        /// <param name="closeReason"></param>
+        /// <returns></returns>
         public Task Close( CloseReason closeReason )
         {
             ParentDropdown?.Hide();
@@ -97,7 +126,15 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// True if parent dropdown is part of a button group.
+        /// </summary>
         protected bool IsGroup => ParentDropdown?.IsGroup == true;
+
+        /// <summary>
+        /// True if the toggle button should be disabled.
+        /// </summary>
+        protected bool IsDisabled => ParentDropdown?.Disabled ?? Disabled;
 
         /// <summary>
         /// Should the toggle icon be drawn
@@ -112,7 +149,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the dropdown size.
         /// </summary>
-        [Parameter] public ButtonSize Size { get; set; } = ButtonSize.None;
+        [Parameter] public Size Size { get; set; } = Size.None;
 
         /// <summary>
         /// Button outline.
@@ -120,7 +157,7 @@ namespace Blazorise
         [Parameter] public bool Outline { get; set; }
 
         /// <summary>
-        /// Handles the visibility of split button.
+        /// Indicates that a toggle should act as a split button.
         /// </summary>
         [Parameter]
         public bool Split
@@ -134,6 +171,24 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Makes the toggle element look inactive.
+        /// </summary>
+        [Parameter]
+        public bool Disabled
+        {
+            get => disabled;
+            set
+            {
+                disabled = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the parent dropdown store object.
+        /// </summary>
         [CascadingParameter]
         protected DropdownStore ParentDropdownStore
         {
@@ -168,8 +223,14 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent dropdown.
+        /// </summary>
         [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
+        /// <summary>
+        /// Gets or sets the component child content.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>

@@ -465,6 +465,14 @@ window.blazorise = {
             return true;
         },
 
+        reset: (element, elementId) => {
+            if (element) {
+                element.value = '';
+            }
+
+            return true;
+        },
+
         readFileData: function readFileData(element, fileEntryId, position, length) {
             var readPromise = getArrayBufferFromFileAsync(element, fileEntryId);
 

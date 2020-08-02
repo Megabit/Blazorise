@@ -16,16 +16,6 @@ label.radio.button {
     }
 }
 
-.switch[type="checkbox"] {
-    outline: 0;
-    user-select: none;
-    display: inline-block;
-    position: absolute;
-    opacity: 0;
-
-    @include switch-size($size-normal);
-}
-
 .field-body {
     .switch[type="checkbox"] {
         + label {
@@ -43,4 +33,28 @@ label.radio.button {
 // When file is placed inside of "field-body" it will not be fullwidth. With this we force it to work as expected.
 .file.has-name.is-fullwidth {
     width: 100%;
+}
+
+.input.is-extra-small {
+    font-size: $size-extra-small;
+}
+
+.input.is-extra-large {
+    font-size: $size-extra-large;
+}
+
+.select.is-extra-small {
+    font-size: $size-extra-small;
+}
+
+.select.is-extra-large {
+    font-size: $size-extra-large;
+}
+
+.textarea.is-extra-small {
+    font-size: $size-extra-small;
+}
+
+.textarea.is-extra-large {
+    font-size: $size-extra-large;
 }

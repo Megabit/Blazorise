@@ -48,6 +48,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.FieldBody, Bulma.FieldBody>();
             componentMapper.Register<Blazorise.Fields, Bulma.Fields>();
             componentMapper.Register<Blazorise.FileEdit, Bulma.FileEdit>();
+            componentMapper.Register<Blazorise.Heading, Bulma.Heading>();
             componentMapper.Register<Blazorise.Jumbotron, Bulma.Jumbotron>();
             componentMapper.Register<Blazorise.JumbotronSubtitle, Bulma.JumbotronSubtitle>();
             componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Bulma.Radio<> ) );
