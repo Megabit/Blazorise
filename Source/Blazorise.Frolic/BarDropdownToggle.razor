@@ -6,7 +6,7 @@
 }
 else
 {
-    <a id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" @onclick="@ClickHandler" @attributes="@Attributes">
+    <a id="@ElementId" class="@ClassNames" style="@StyleNames" role="button" @onclick="@ClickHandler"  @onmouseenter="@ParentBarDropdown.OnMouseEnter" @onmouseleave="@ParentBarDropdown.OnMouseLeave" @attributes="@Attributes">
         <span>@ChildContent</span>
     </a>
 }

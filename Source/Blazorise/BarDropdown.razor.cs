@@ -86,7 +86,7 @@ namespace Blazorise
             StateHasChanged();
         }
 
-        internal void OnMouseEnter()
+        public void OnMouseEnter()
         {
             if ( ParentBarItemStore.Mode == BarMode.Horizontal || Store.IsInlineDisplay )
                 return;
@@ -94,7 +94,7 @@ namespace Blazorise
             Show();
         }
 
-        internal void OnMouseLeave()
+        public void OnMouseLeave()
         {
             if ( ParentBarItemStore.Mode == BarMode.Horizontal || Store.IsInlineDisplay )
                 return;
