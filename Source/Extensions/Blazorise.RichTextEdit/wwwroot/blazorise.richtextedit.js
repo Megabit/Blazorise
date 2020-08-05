@@ -1,16 +1,17 @@
 ﻿window.blazoriseRichTextEdit = {
-    initialize: (dotnetAdapter, editorRef, toolbarRef, readOnly, placeholder, theme, onContentChanged, bindEnter, onEnter, configure) => {
-        if (!editorRef) return false;
-
-        var options = {
+    initialize: (dotnetAdapter, editorRef, toolbarRef, readOnly, placeholder, theme, onContentChanged, bindEnter,
+        onEnter, configure) => {
+        if (!editorRef)
+            return false;
+        let options = {
             modules: {
-                toolbar: toolbarRef
+                toolbar: toolbarRef,
+                keyboard: undefined
             },
             placeholder: placeholder,
             readOnly: readOnly,
             theme: theme
         };
-
         if (bindEnter === true) {
             options.modules.keyboard = {
                 bindings: {
@@ -23,105 +24,98 @@
                         handler: (range, context) => {
                             if (context.format.list) {
                                 editorRef.quill.insertText(range.index, '\n');
-                                return;
+                            } else {
+                                dotnetAdapter.invokeMethodAsync(onEnter);
                             }
-
-                            dotnetAdapter.invokeMethodAsync(onEnter);
                         }
                     }
                 }
             };
         }
-
-        function executeFunctionByName(functionName, context /*, args */) {
-            const args = Array.prototype.slice.call(arguments, 2);
-            const namespaces = functionName.split(".");
-            const func = namespaces.pop();
-            for (let i = 0; i < namespaces.length; i++) {
-                context = context[namespaces[i]];
-            }
-            return context[func].apply(context, args);
-        };
-
         if (configure) {
             try {
-                const updatedOptions = executeFunctionByName(configure, window, options);
+                const updatedOptions = blazoriseRichTextEdit.configure(configure, window, options);
                 if (updatedOptions) {
                     options = updatedOptions;
                 }
             } catch (err) {
                 console.error(err);
-            } 
-        }
-
-        const quill = new Quill(editorRef, options);
-
-        quill.on('text-change', (delta, oldDelta, source) => {
-            if (source === 'user') {
-                dotnetAdapter.invokeMethodAsync(onContentChanged);
             }
-        });
-
+        }
+        const quill = new Quill(editorRef, options);
+        quill.on('text-change',
+            (_dx, _dy, source) => {
+                if (source === 'user') {
+                    dotnetAdapter.invokeMethod(onContentChanged);
+                }
+            });
         editorRef.quill = quill;
         return true;
     },
+    configure: (functionName, context, options) => {
+        const namespaces = functionName.split(".");
+        const func = namespaces.pop();
+        for (let i = 0; i < namespaces.length; i++) {
+            context = context[namespaces[i]];
+        }
+        return context[func].apply(context, options);
+    },
     destroy: (editorRef) => {
-        if (!editorRef) return false;
-
+        if (!editorRef)
+            return false;
         delete editorRef.quill;
-
         return true;
     },
-    setReadOnly: (editorRef, value) => {
-        var editor = editorRef.quill;
-        if (!editor) return;
-
-        if (value)
+    setReadOnly: (editorRef, readOnly) => {
+        const editor = editorRef.quill;
+        if (!editor)
+            return;
+        if (readOnly)
             editor.disable();
         else
             editor.enable();
     },
     getHtml: (editorRef) => {
-        var editor = editorRef.quill;
-        if (!editor) return undefined;
-
+        const editor = editorRef.quill;
+        if (!editor)
+            return undefined;
         return editor.root.innerHTML;
     },
     setHtml: (editorRef, html) => {
-        var editor = editorRef.quill;
-        if (!editor) return;
-
-        var delta = editor.clipboard.convert(html);
+        const editor = editorRef.quill;
+        if (!editor)
+            return;
+        const delta = editor.clipboard.convert(html);
         editor.setContents(delta);
     },
     getDelta: (editorRef) => {
-        var editor = editorRef.quill;
-        if (!editor) return undefined;
-
+        const editor = editorRef.quill;
+        if (!editor)
+            return;
         return JSON.stringify(editor.getContents());
     },
     setDelta: (editorRef, delta) => {
-        var editor = editorRef.quill;
-        if (!editor) return;
-
+        const editor = editorRef.quill;
+        if (!editor)
+            return;
         editor.setContents(delta);
     },
     getText: (editorRef) => {
-        var editor = editorRef.quill;
-        if (!editor) return undefined;
-
+        const editor = editorRef.quill;
+        if (!editor)
+            return;
         return editor.getText();
     },
     setText: (editorRef, txt) => {
-        var editor = editorRef.quill;
-        if (!editor) return;
-
+        const editor = editorRef.quill;
+        if (!editor)
+            return;
         editor.setText(txt);
     },
     clearContent: (editorRef) => {
-        var editor = editorRef.quill;
-        if (!editor) return;
-
+        const editor = editorRef.quill;
+        if (!editor)
+            return;
         editor.setContents([]);
     }
 };
