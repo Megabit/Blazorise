@@ -46,7 +46,7 @@ namespace Blazorise.RichTextEdit
             await InitializeJsInterop();
 
             var dotNetRef = DotNetObjectReference
-                .Create( this );
+                .Create( richTextEdit );
 
             await jsRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.initialize",
                 dotNetRef,
