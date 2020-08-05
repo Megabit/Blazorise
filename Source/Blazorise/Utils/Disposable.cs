@@ -4,7 +4,7 @@ using System;
 
 namespace Blazorise.Utils
 {
-    internal sealed class Disposable : IDisposable
+    public sealed class Disposable : IDisposable
     {
         #region Members
 

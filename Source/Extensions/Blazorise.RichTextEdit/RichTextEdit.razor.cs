@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
-using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -15,7 +14,7 @@ namespace Blazorise.RichTextEdit
         /// <summary>
         /// The disposables to cleanup.
         /// </summary>
-        private readonly CompositeDisposable cleanup = new CompositeDisposable();
+        private IDisposable cleanup;
 
         /// <summary>
         /// ReadOnly state.
@@ -39,8 +38,6 @@ namespace Blazorise.RichTextEdit
         {
             if ( disposing && initialized && Rendered )
             {
-                _ = JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.destroy", EditorRef );
-
                 cleanup.Dispose();
             }
 
@@ -52,21 +49,7 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         protected override async Task OnFirstAfterRenderAsync()
         {
-            var dotNetRef = DotNetObjectReference
-                .Create( this )
-                .DisposeWith( cleanup );
-
-            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.initialize",
-                dotNetRef,
-                EditorRef,
-                Toolbar != null ? ToolbarRef : default,
-                ReadOnly,
-                PlaceHolder,
-                Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
-                nameof( OnContentChanged ),
-                SubmitOnEnter,
-                nameof( OnEnter ),
-                ConfigureQuillJsMethod);
+            cleanup = await RteJsInterop.InitializeEditor( this );
 
             initialized = true;
 
@@ -89,7 +72,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setHtml", EditorRef, html );
+            await RteJsInterop.SetHtmlAsync( EditorRef, html );
         }
 
         /// <summary>
@@ -99,7 +82,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getHtml", EditorRef );
+            return await RteJsInterop.GetHtmlAsync( EditorRef );
         }
 
         /// <summary>
@@ -110,7 +93,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setDelta", EditorRef, deltaJson );
+            await RteJsInterop.SetDeltaAsync( EditorRef, deltaJson );
         }
 
         /// <summary>
@@ -121,7 +104,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getDelta", EditorRef );
+            return await RteJsInterop.GetDeltaAsync( EditorRef );
         }
 
         /// <summary>
@@ -131,7 +114,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setText", EditorRef, text );
+            await RteJsInterop.SetTextAsync( EditorRef, text );
         }
 
         /// <summary>
@@ -142,7 +125,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            return await JSRuntime.InvokeAsync<string>( "blazoriseRichTextEdit.getText", EditorRef );
+            return await RteJsInterop.GetTextAsync( EditorRef );
         }
 
         /// <summary>
@@ -152,7 +135,7 @@ namespace Blazorise.RichTextEdit
         {
             InitializationCheck();
 
-            await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.clearContent", EditorRef );
+            await RteJsInterop.ClearAsync( EditorRef );
 
             await OnContentChanged();
         }
@@ -161,15 +144,13 @@ namespace Blazorise.RichTextEdit
         /// Javascript callback for when content changes.
         /// </summary>
         [JSInvokable]
-        public Task OnContentChanged()
-            => ContentChanged.InvokeAsync( true );
+        public Task OnContentChanged() => ContentChanged.InvokeAsync( true );
 
         /// <summary>
         /// Javascript callback for when enter is pressed.
         /// </summary>
         [JSInvokable]
-        public Task OnEnter()
-            => EnterPressed.InvokeAsync( true );
+        public Task OnEnter() => EnterPressed.InvokeAsync( true );
 
         /// <summary>
         /// Toggles the readonly state
@@ -178,7 +159,7 @@ namespace Blazorise.RichTextEdit
         {
             if ( initialized )
             {
-                await JSRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.setReadOnly", EditorRef, value );
+                await RteJsInterop.SetReadOnly( EditorRef, value );
             }
         }
 
@@ -186,7 +167,7 @@ namespace Blazorise.RichTextEdit
 
         #region Properties
 
-        [Inject] private IJSRuntime JSRuntime { get; set; }
+        [Inject] private RichTextEditJsInterop RteJsInterop { get; set; }
 
         /// <summary>
         /// [Optional] Gets or sets the content of the toolbar.
