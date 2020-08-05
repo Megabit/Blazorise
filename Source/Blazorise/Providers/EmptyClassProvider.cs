@@ -75,6 +75,8 @@ namespace Blazorise.Providers
 
         public string Check() => null;
 
+        public string CheckSize( Size size ) => null;
+
         public string CheckInline() => null;
 
         public string CheckCursor( Cursor cursor ) => null;
@@ -95,6 +97,8 @@ namespace Blazorise.Providers
 
         public string Radio( bool button ) => null;
 
+        public string RadioSize( bool button, Size size ) => null;
+
         public string RadioInline() => null;
 
         #endregion
@@ -102,6 +106,10 @@ namespace Blazorise.Providers
         #region Switch
 
         public string Switch() => null;
+
+        public string SwitchColor( Color color ) => null;
+
+        public string SwitchSize( Size size ) => null;
 
         public string SwitchChecked( bool @checked ) => null;
 
@@ -247,7 +255,7 @@ namespace Blazorise.Providers
 
         public string ButtonOutline( Color color ) => null;
 
-        public string ButtonSize( ButtonSize buttonSize ) => null;
+        public string ButtonSize( Size size ) => null;
 
         public string ButtonBlock() => null;
 
@@ -265,7 +273,7 @@ namespace Blazorise.Providers
 
         public string ButtonsToolbar() => null;
 
-        public string ButtonsSize( ButtonsSize buttonsSize ) => null;
+        public string ButtonsSize( Size size ) => null;
 
         public string ButtonsVertical() => null;
 
@@ -307,7 +315,7 @@ namespace Blazorise.Providers
 
         public string DropdownToggleOutline( Color color ) => null;
 
-        public string DropdownToggleSize( ButtonSize buttonSize ) => null;
+        public string DropdownToggleSize( Size size ) => null;
 
         public string DropdownToggleSplit() => null;
 
@@ -665,6 +673,8 @@ namespace Blazorise.Providers
 
         public string ProgressBar() => null;
 
+        public string ProgressBarSize( Size size ) => null;
+
         public string ProgressBarColor( Background background ) => null;
 
         public string ProgressBarStriped() => null;
@@ -790,8 +800,6 @@ namespace Blazorise.Providers
         #region Heading
 
         public string HeadingSize( HeadingSize headingSize ) => null;
-
-        public string HeadingTextColor( TextColor textColor ) => null;
 
         #endregion
 

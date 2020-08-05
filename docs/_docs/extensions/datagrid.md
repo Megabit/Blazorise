@@ -72,6 +72,11 @@ Paging is handled automatically by the DataGrid. You also have some additional a
 - `ShowPager` to hide or show pagination controls
 - `PageSize` the maximum number of items for each page.
 - `CurrentPage` current page number.
+- `PreviousPageButtonTemplate` template for previous page button
+- `NextPageButtonTemplate` template for next page button
+- `FirstPageButtonTemplate` template for first page button
+- `LastPageButtonTemplate` template for last page button
+- `PageButtonTemplate` template for explicated page button with `PageButtonContext` as parameter
 
 ### Editing
 
@@ -118,6 +123,49 @@ The DataGrid provider several built-in aggregates for column values. Supported a
 - `Count`  Counts the elements in a collection.
 - `TrueCount` Counts boolean elements with true value.
 - `FalseCount` Counts boolean elements with false value.
+
+### Validations
+
+The DataGrid provides validations of column values at editing or creating items. For using validation of DataGrid you have to use these properties:
+
+- `ShowValidationFeedback` of DataGrid to hide or show feedback for validation.
+- `ShowValidationsSummary` of DataGrid to hide or show validations summary.
+- `ValidationsSummaryLabel` of DataGrid to set label of validations summary.
+- `Validator` of DataGridColumn validates the input value after trying to save.
+- `ValidationPattern` of DataGridColumn forces validation to use regex pattern matching instead of default validator handler.
+
+To enable basic validation you only need to define a `Validator` attribute and assign it to your validation method.
+
+```html
+<DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Validator="@CheckEMail" Editable="true" />
+
+public void CheckEMail( ValidatorEventArgs validationArgs )
+{
+    ValidationRule.IsEmail( validationArgs );
+
+    if ( validationArgs.Status == ValidationStatus.Error )
+    {
+        validationArgs.ErrorText = "EMail has to be valid email";
+    }
+}
+```
+
+If you use `EditTemplate` to customize editing of columns, then using `Validator` or `ValidationPattern` will not work and you have to use `Validation` like this:
+
+```html
+<DataGridColumn TItem="Employee" Field="@nameof(Employee.Salary)" Caption="Salary" Editable="true">
+    ...
+    <EditTemplate>
+        <Validation Validator="@CheckSalary" >
+            <NumericEdit ... >
+                <Feedback>
+                    <ValidationError/>
+                </Feedback>
+            </NumericEdit >
+        </Validation>
+    </EditTemplate>
+</DataGridColumn>
+```
 
 ## Usage
 
@@ -520,8 +568,8 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | RowSelectable          | `Func<TItem,bool>`                                                  |         | Handles the selection of the clicked row. If not set it will default to always true.                        |
 | RowHoverCursor         |` Func<TItem,Blazorise.Cursor>`                                      |         | Handles the selection of the cursor for a hovered row. If not set, `Blazorise.Cursor.Pointer` will be used. |
 | DetailRowTrigger       | `Func<TItem,bool>`                                                  |         | A trigger function used to handle the visibility of detail row.                                             |
-| RowInserting           | Action                                                              |         | Cancelable event called before the row is inserted.                                              |
-| RowUpdating            | Action                                                              |         | Cancelable event called before the row is updated.                                              |
+| RowInserting           | Action                                                              |         | Cancelable event called before the row is inserted.                                                         |
+| RowUpdating            | Action                                                              |         | Cancelable event called before the row is updated.                                                          |
 | RowInserted            | EventCallback                                                       |         | Event called after the row is inserted.                                                                     |
 | RowUpdated             | EventCallback                                                       |         | Event called after the row is updated.                                                                      |
 | RowRemoving            | Action                                                              |         | Cancelable event called before the row is removed.                                                          |
@@ -530,8 +578,11 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | EmptyTemplate          | RenderingFragment                                                   |         | Define the format for empty data collection                                                                 |
 | LoadingTemplate        | RenderingFragment                                                   |         | Define the format for signal of loading data                                                                |
 | PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of edit popup dialog                                                              |
-| NewItemDefaultSetter   | `Action<TItem>`                                                     |         | Action will be called for setting default values of property, when create new entry                           |
-| PageButtonTemplate   | `RenderTemplate<PageButtonContext>`                                   |         | Define the format a pagination button                           |
+| NewItemDefaultSetter   | `Action<TItem>`                                                     |         | Action will be called for setting default values of property, when create new entry                         |
+| PageButtonTemplate     | `RenderTemplate<PageButtonContext>`                                 |         | Define the format a pagination button                                                                       |
+| ShowValidationFeedback | boolean                                                             | false   | Hide or show feedback for validation                                                                        |
+| ShowValidationsSummary | boolean                                                             | true    | Hide or show validations summary                                                                            |
+| ValidationsSummaryLabel| string                                                              | null    | Set label of validations summary                                                                            |
 
 ### EditMode
 
@@ -573,3 +624,5 @@ Specifies the grid editing modes.
 | PopupSize                 | [ModalSize]({{ "/docs/helpers/sizes/#modalsize" | relative_url }})  |  `Default`          | Defines the size of popup modal.                                                                              |
 | PopupFieldColumnSize      | `IFluentColumn`                                                     |  `IsHalf.OnDesktop` | Defines the size of field for popup modal.                                                                    |
 | CaptionTemplate           | `RenderingFragment<DataGridColumn<TItem>>`                          |                     | Template for custom caption. CaptionTemplate will block caption template.                                     |
+| Validator                 | `Action<ValidatorEventArgs>`                                        |                     | Validates the input value after trying to save.                                                               |
+| ValidationPattern         | string                                                              |                     | Forces validation to use regex pattern matching instead of default validator handler.                         |

@@ -79,6 +79,7 @@
                           Bordered="true"
                           Hoverable="true"
                           Responsive="true"
+                          ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter">
                     <DataGridAggregates>
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
@@ -111,13 +112,13 @@
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable="true">
                             <FilterTemplate>
                                 <TextEdit Placeholder="Search name" TextChanged="@(v=>context.TriggerFilterChange(v))" />
                             </FilterTemplate>
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Validator="CheckEMail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
@@ -317,6 +318,26 @@
         new Employee {Id = 26,FirstName = "Reeta",LastName = "Acom",EMail = "racomp@fc2.com",City = "Baoping",Zip = null,Salary = 61296.4m },
         new Employee {Id = 27,FirstName = "Chandler",LastName = "Franzonetti",EMail = "cfranzonettiq@archive.org",City = "Emin",Zip = null,Salary = 67458.07m, Childrens=1 }
     };
+
+    public void CheckEMail( ValidatorEventArgs validationArgs )
+    {
+        ValidationRule.IsEmail( validationArgs );
+
+        if ( validationArgs.Status == ValidationStatus.Error )
+        {
+            validationArgs.ErrorText = "EMail has to be valid email";
+        }
+    }
+
+    public void CheckFirstName( ValidatorEventArgs validationArgs )
+    {
+        ValidationRule.IsNotEmpty( validationArgs );
+
+        if ( validationArgs.Status == ValidationStatus.Error )
+        {
+            validationArgs.ErrorText = "First name has to be provided";
+        }
+    }
 
     void OnEmployeeNewItemDefaultSetter( Employee employee )
     {

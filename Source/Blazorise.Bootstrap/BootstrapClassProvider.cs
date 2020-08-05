@@ -72,6 +72,8 @@ namespace Blazorise.Bootstrap
 
         public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
+        public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
+
         public override string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
         public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
@@ -92,6 +94,8 @@ namespace Blazorise.Bootstrap
 
         public override string Radio( bool button ) => button ? null : UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
+        public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
+
         public override string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
         #endregion
@@ -99,6 +103,10 @@ namespace Blazorise.Bootstrap
         #region Switch
 
         public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+
+        public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+
+        public override string SwitchSize( Size size ) => $"custom-control-input-{ToSize( size )}";
 
         public override string SwitchChecked( bool @checked ) => null;
 
@@ -269,18 +277,7 @@ namespace Blazorise.Bootstrap
 
         public override string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
-        public override string ButtonSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.Small:
-                    return "btn-sm";
-                case Blazorise.ButtonSize.Large:
-                    return "btn-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonSize( Size size ) => $"{Button()}-{ToSize( size )}";
 
         public override string ButtonBlock() => $"{Button()}-block";
 
@@ -298,18 +295,7 @@ namespace Blazorise.Bootstrap
 
         public override string ButtonsToolbar() => "btn-toolbar";
 
-        public override string ButtonsSize( ButtonsSize buttonsSize )
-        {
-            switch ( buttonsSize )
-            {
-                case Blazorise.ButtonsSize.Small:
-                    return "btn-group-sm";
-                case Blazorise.ButtonsSize.Large:
-                    return "btn-group-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonsSize( Size size ) => $"{ButtonsAddons()}-{ToSize( size )}";
 
         public override string ButtonsVertical() => "btn-group-vertical";
 
@@ -351,18 +337,7 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
-        public override string DropdownToggleSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.Small:
-                    return "btn-sm";
-                case Blazorise.ButtonSize.Large:
-                    return "btn-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string DropdownToggleSize( Size size ) => $"{Button()}-{ToSize( size )}";
 
         public override string DropdownToggleSplit() => "dropdown-toggle-split";
 
@@ -722,6 +697,8 @@ namespace Blazorise.Bootstrap
 
         public override string ProgressBar() => "progress-bar";
 
+        public override string ProgressBarSize( Size size ) => null;
+
         public override string ProgressBarColor( Background background ) => BackgroundColor( background );
 
         public override string ProgressBarStriped() => "progress-bar-striped";
@@ -847,8 +824,6 @@ namespace Blazorise.Bootstrap
         #region Heading
 
         public override string HeadingSize( HeadingSize headingSize ) => $"h{ToHeadingSize( headingSize )}";
-
-        public override string HeadingTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
         #endregion
 

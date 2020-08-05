@@ -21,9 +21,21 @@ $warning: #f7c12a !default;
 $danger: #ff4d4f !default;
 $light: #fafafa !default;
 $dark: #343a40 !default;
+$link: #3273dc !default;
 
 $theme-colors: () !default;
-$theme-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark), $theme-colors);
+$theme-colors: map-merge(( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link), $theme-colors);
+
+$body-background: #fff;
+$component-background: #fff;
+
+$background-color-light: hsv_to_color(0, 0, 98%); // background of header and selected item
+$background-color-base: hsv_to_color(0, 0, 96%); // Default grey background color
+
+// Disabled states
+$disabled-color: fade(#000, 25%);
+$disabled-bg: $background-color-base;
+$disabled-color-dark: fade(#fff, 35%);
 
 // Set a specific jump point for requesting color jumps
 $theme-color-interval: 8% !default;
@@ -89,3 +101,74 @@ $display2-weight: 300 !default;
 $display3-weight: 300 !default;
 $display4-weight: 300 !default;
 $display-line-height: $headings-line-height !default;
+
+// Check
+
+$check-height: 16px;
+$check-xs-height: 8px;
+$check-sm-height: 12px;
+$check-md-height: 20px;
+$check-lg-height: 24px;
+$check-xl-height: 28px;
+
+// Radio
+
+$radio-height: 16px;
+$radio-xs-height: 8px;
+$radio-sm-height: 12px;
+$radio-md-height: 20px;
+$radio-lg-height: 24px;
+$radio-xl-height: 28px;
+
+// Switch
+
+$font-size-sm: 12px;
+
+$switch-color: $primary;
+$switch-bg: $component-background;
+$switch-shadow-color: fade(#00230b, 20%);
+
+$switch-height: 22px;
+$switch-min-width: 44px;
+
+$switch-xs-height: 12px;
+$switch-xs-min-width: 22px;
+$switch-xs-checked-margin-left: -($switch-xs-height - 3px);
+$switch-xs-font-size: 10px;
+
+$switch-sm-height: 16px;
+$switch-sm-min-width: 28px;
+$switch-sm-checked-margin-left: -($switch-sm-height - 3px);
+$switch-sm-font-size: 12px;
+
+$switch-md-height: 24px;
+$switch-md-min-width: 90px;
+$switch-md-checked-margin-left: -($switch-md-height - 3px);
+$switch-md-font-size: 12px;
+
+$switch-lg-height: 28px;
+$switch-lg-min-width: 90px;
+$switch-lg-checked-margin-left: -($switch-lg-height - 3px);
+$switch-lg-font-size: 12px;
+
+$switch-xl-height: 32px;
+$switch-xl-min-width: 160px;
+$switch-xl-checked-margin-left: -($switch-xl-height - 3px);
+$switch-xl-font-size: 12px;
+
+// Pagination
+// ---
+$pagination-item-bg: $component-background;
+$pagination-item-size: 32px;
+$pagination-item-size-xs: 16px;
+$pagination-item-size-sm: 24px;
+$pagination-item-size-md: 36px;
+$pagination-item-size-lg: 40px;
+$pagination-item-size-xl: 48px;
+$pagination-font-family: Arial;
+$pagination-font-weight-active: 500;
+$pagination-item-bg-active: $component-background;
+$pagination-item-link-bg: $component-background;
+$pagination-item-disabled-color-active: $white;
+$pagination-item-disabled-bg-active: darken($disabled-bg, 10%);
+$pagination-item-input-bg: $component-background;

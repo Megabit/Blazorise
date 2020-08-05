@@ -10,6 +10,35 @@ namespace Blazorise.DataGrid
 {
     public abstract class _BaseDataGridModal<TItem> : ComponentBase
     {
+        #region Members
+
+        protected EventCallbackFactory callbackFactory = new EventCallbackFactory();
+
+        protected Validations validations;
+
+        protected bool popupVisible;
+
+        #endregion
+
+        #region Methods
+
+        protected void ValidationsStatusChanged( ValidationsStatusChangedEventArgs args )
+        {
+            StateHasChanged();
+        }
+
+        protected void SaveWithValidation()
+        {
+            var isValid = validations.ValidateAll();
+
+            if ( isValid )
+                Save.InvokeAsync( this );
+        }
+
+        #endregion
+
+        #region Properties
+
         [Parameter] public TItem EditItem { get; set; }
 
         [Parameter] public RenderFragment<PopupTitleContext<TItem>> TitleTemplate { get; set; }
@@ -18,7 +47,20 @@ namespace Blazorise.DataGrid
 
         [Parameter] public IReadOnlyDictionary<string, CellEditContext> EditItemCellValues { get; set; }
 
-        [Parameter] public bool PopupVisible { get; set; }
+        [Parameter]
+        public bool PopupVisible
+        {
+            get => popupVisible;
+            set
+            {
+                if ( !popupVisible && value )
+                {
+                    validations?.ClearAll();
+                }
+
+                popupVisible = value;
+            }
+        }
 
         [Parameter] public ModalSize PopupSize { get; set; }
 
@@ -29,5 +71,7 @@ namespace Blazorise.DataGrid
         [Parameter] public EventCallback Cancel { get; set; }
 
         [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+
+        #endregion
     }
 }

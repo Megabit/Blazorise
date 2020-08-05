@@ -165,6 +165,29 @@ namespace Blazorise.Bulma
             sb.Append( $".textarea" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
+
+            if ( !string.IsNullOrEmpty( options?.CheckColor ) )
+            {
+                GenerateInputCheckEditStyles( sb, theme, options );
+            }
+        }
+
+        protected virtual void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+        {
+            sb
+                .Append( $".is-checkradio[type=\"checkbox\"] + label::after, .is-checkradio[type=\"checkbox\"] + label:after" ).Append( "{" )
+                .Append( $"border-color: {options.CheckColor};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".is-checkradio[type=\"radio\"] + label::after, .is-checkradio[type=\"radio\"] + label:after" ).Append( "{" )
+                .Append( $"background: {options.CheckColor};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".is-checkradio[type=\"radio\"]:hover:not([disabled]) + label::before, .is-checkradio[type=\"radio\"]:hover:not([disabled]) + label:before, .is-checkradio[type=\"checkbox\"]:hover:not([disabled]) + label::before, .is-checkradio[type=\"checkbox\"]:hover:not([disabled]) + label:before" ).Append( "{" )
+                .Append( $"border-color: {options.CheckColor} !important;" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor )
@@ -182,6 +205,32 @@ namespace Blazorise.Bulma
             sb.Append( $".tag:not(body).is-{variant}" ).Append( "{" )
                 .Append( $"color: {yiqBackground};" )
                 .Append( $"background-color: {background};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+
+            if ( backgroundColor.IsEmpty )
+                return;
+
+            //var boxShadowColor = Lighten( backgroundColor, options?.BoxShadowLightenColor ?? 25 );
+            var disabledBackgroundColor = Lighten( backgroundColor, options?.DisabledLightenColor ?? 50 );
+
+            var background = ToHex( backgroundColor );
+            //var boxShadow = ToHex( boxShadowColor );
+            var disabledBackground = ToHex( disabledBackgroundColor );
+
+            sb
+                .Append( $".switch[type=\"checkbox\"].is-{variant}:checked + label::before," )
+                .Append( $".switch[type=\"checkbox\"].is-{variant}:checked + label:before" ).Append( "{" )
+                .Append( $"background-color: {background};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".switch[type=\"checkbox\"]:disabled.is-{variant}:checked + label::before" ).Append( "{" )
+                .Append( $"background-color: {disabledBackground};" )
                 .AppendLine( "}" );
         }
 

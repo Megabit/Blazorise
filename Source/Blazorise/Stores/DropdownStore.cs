@@ -18,6 +18,7 @@ namespace Blazorise.Stores
         {
             return Visible == other.Visible
                 && RightAligned == other.RightAligned
+                && Disabled == other.Disabled
                 && Direction == other.Direction;
         }
 
@@ -27,7 +28,8 @@ namespace Blazorise.Stores
             // end up having the same hash code for e.g. two instances where one has only noCache set and the other
             // only noStore.
             var result = Visible.GetHashCode()
-             ^ ( RightAligned.GetHashCode() << 1 ); // increase shift by one for every bool field
+             ^ ( RightAligned.GetHashCode() << 1 )
+             ^ ( Disabled.GetHashCode() << 2 ); // increase shift by one for every bool field
 
             result = result
                 ^ ( Direction.GetHashCode() ^ 1 ); // power of two for every other field(^1, ^2, ^4, ^8, ^16, ...)
@@ -52,6 +54,8 @@ namespace Blazorise.Stores
         public bool Visible { readonly get; set; }
 
         public bool RightAligned { readonly get; set; }
+
+        public bool Disabled { readonly get; set; }
 
         public Direction Direction { readonly get; set; }
 

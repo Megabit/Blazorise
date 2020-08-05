@@ -267,6 +267,17 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<CellEditContext> EditTemplate { get; set; }
 
+        /// <summary>
+        /// Validates the input value after trying to save.
+        /// </summary>
+        [Parameter]
+        public Action<ValidatorEventArgs> Validator { get; set; }
+
+        /// <summary>
+        /// Forces validation to use regex pattern matching instead of default validator handler.
+        /// </summary>
+        [Parameter] public string ValidationPattern { get; set; }
+
         #endregion
     }
 }
