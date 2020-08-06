@@ -65,8 +65,8 @@
                                 <RichTextEditToolbarSelect Action="RichTextEditAction.Background" />
                             </RichTextEditToolbarGroup>
                             <RichTextEditToolbarGroup Float="Float.Right">
-                                <Button onClick="window.open('https://www.quilljs.com/','quilljs')">Help</Button>
-                                <Button Clicked="@OnSave">Save</Button>
+                                <Button Class="btn-icon" Size="Size.ExtraSmall" onClick="window.open('https://www.quilljs.com/','quilljs')"><Icon Name="IconName.InfoCircle" /></Button>
+                                <Button Class="btn-icon" Size="Size.ExtraSmall" Clicked="@OnSave"><Icon Name="IconName.Save" /></Button>
                             </RichTextEditToolbarGroup>
                         </Toolbar>
                     </RichTextEdit>
