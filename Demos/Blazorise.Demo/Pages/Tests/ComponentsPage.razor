@@ -12,6 +12,8 @@
                         <SelectList Data="@myDdlData"
                                     TextField="@((item)=>item.MyTextField)"
                                     ValueField="@((item)=>item.MyValueField)"
+                                    TItem="MySelectModel"
+                                    TValue="object"
                                     SelectedValue="@selectedListValue"
                                     SelectedValueChanged="@MyListValueChangedHandler" />
                     </FieldBody>
