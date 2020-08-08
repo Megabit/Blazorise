@@ -7,7 +7,7 @@
         {
             var text = TextField?.Invoke(item);
             TValue value;
-            if (!ReferenceEquals(ValueField, default(TValue)))
+            if (ValueField!=null)
             {
                 value = ValueField.Invoke(item);
                 <SelectItem TValue="TValue" Value="@value">@text</SelectItem>
