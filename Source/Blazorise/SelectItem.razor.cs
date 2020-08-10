@@ -10,20 +10,11 @@ namespace Blazorise
 {
     public partial class SelectItem<TValue> : BaseComponent
     {
-        private Select<TValue> parentSelect;
         #region Members
 
         #endregion
 
         #region Methods
-
-        protected async virtual Task OnClickHandlerAsnc()
-        {
-            if ( ParentSelect != null && ParentSelect is Select<TValue> select )
-            {
-                await select.SelectValue( Value );
-            }
-        }
 
         #endregion
 
@@ -34,7 +25,6 @@ namespace Blazorise
         /// <summary>
         /// Convert the value to string because option tags are working with string internally. Otherwise some datatypes like booleans will not work as expected.
         /// </summary>
-        [Obsolete]
         protected string StringValue => Value?.ToString();
 
         /// <summary>
@@ -47,16 +37,7 @@ namespace Blazorise
         /// </summary>
         [Parameter] public bool Disabled { get; set; }
 
-        protected virtual Select<TValue> ParentSelect
-        {
-            get => parentSelect;
-            set
-            {
-                parentSelect = value;
-
-                ParentSelect?.Items.TryAdd( Value, ChildContent );
-            }
-        }
+        [CascadingParameter] protected Select<TValue> ParentSelect { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

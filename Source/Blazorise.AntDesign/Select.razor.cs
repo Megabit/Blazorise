@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utils;
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
@@ -72,7 +71,7 @@ namespace Blazorise.AntDesign
         public async Task Close( CloseReason closeReason )
         {
             await Collapse();
-            
+
             StateHasChanged();
         }
 
@@ -105,14 +104,6 @@ namespace Blazorise.AntDesign
             return CurrentValueHandler( string.Join( MultipleValuesSeparator, list ) );
         }
 
-        protected Task OnSelectClearClickHandler()
-        {
-            ClearSelectedItems();
-
-            return Task.CompletedTask;
-        }
-
-        [Obsolete]
         internal async Task NotifySelectValueChanged( TValue selectValue )
         {
             // We cuold just set SelectedValue(s) directly but that would skip validation process 
@@ -180,6 +171,7 @@ namespace Blazorise.AntDesign
         #endregion
 
         #region Properties
+
         protected bool Expanded { get; set; }
 
         protected string SelectorElementId { get; set; } = IDGenerator.Instance.Generate;
@@ -190,13 +182,10 @@ namespace Blazorise.AntDesign
             $"select_list_{ElementId}";
 
         string ContainerClassNames =>
-            "ant-select " +
-            $"{( Multiple ? "ant-select-multiple" : "ant-select-single" )} ant-select-show-arrow " +
-            $"{( Expanded ? "ant-select-open" : "" )} " +
-            $"{( AllowClear ? "ant-select-allow-clear" : "" )} ";
+            $"{ClassNames} {( Multiple ? "ant-select-multiple" : "ant-select-single" )} ant-select-show-arrow {( Expanded ? "ant-select-open" : "" )}";
 
         string DropdownClassNames =>
-            $"ant-select-dropdown ant-select-dropdown-placement-bottomLeft {( Expanded ? "slide-up-enter slide-up-enter-active slide-up" : "slide-up-leave slide-up-leave-active slide-up" )}";
+            $"ant-select-dropdown ant-select-dropdown-placement-bottomLeft {( Expanded ? "" : "ant-select-dropdown-hidden" )}";
 
         string DropdownStyleNames =>
             $"width: {(int)elementInfo.BoundingClientRect.Width}px; left: {(int)elementInfo.OffsetLeft}px; top: {(int)( elementInfo.OffsetTop + elementInfo.BoundingClientRect.Height )}px;";
