@@ -56,6 +56,16 @@ namespace Blazorise.Components
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
+        [Parameter] public bool Loading { get; set; } 
+
+        [Parameter] public bool AllowClear { get; set; }
+
+        [Parameter] public bool Multiple { get; set; }
+
+        [Parameter] public IReadOnlyList<object> SelectedValues { get; set; }
+
+        [Parameter] public EventCallback<IReadOnlyList<object>> SelectedValuesChanged { get; set; }
+
         #endregion
     }
 }
