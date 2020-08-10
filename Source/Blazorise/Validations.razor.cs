@@ -107,10 +107,16 @@ namespace Blazorise
         {
             if ( !validations.Contains( validation ) )
             {
-                validations.Add( validation );
+                 validations.Add( validation );
             }
         }
-
+        internal void NotifyValidationRemoved( IValidation validation )
+        {
+            if ( validations.Contains( validation ) )
+            {
+                validations.Remove( validation );
+            }
+        }
         internal void NotifyValidationStatusChanged( IValidation validation )
         {
             // Here we need to call ValidatedAll only when in Auto mode. Manuall call is already called through ValidateAll()
