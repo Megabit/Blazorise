@@ -1,0 +1,318 @@
+﻿@page "/testpage"
+@using Blazorise
+@using Blazorise.Components
+@using System.Text.Json
+@using System.ComponentModel;
+@using System.Globalization;
+
+<Row>
+    <Blazorise.Column ColumnSize="ColumnSize.Is4">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Ant Select</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Select TValue="string" Style="width:150px;" @bind-SelectedValue="selectedListValueStr">
+                    @foreach (var item in Countries)
+                    {
+                        <SelectItem TValue="string" Value="@item">@(item)</SelectItem>
+                    }
+                </Select>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @(selectedListValue)
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Blazorise.Column>
+    <Blazorise.Column ColumnSize="ColumnSize.Is4">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Ant Select multiple</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Select TValue="string" Multiple="true" Style="width:300px;" @bind-SelectedValues="selectedListValues">
+                    @foreach (var item in Countries)
+                    {
+                        <SelectItem TValue="string" Value="@item">@(item)</SelectItem>
+                    }
+                </Select>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @(selectedListValue)
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Blazorise.Column>
+    <Blazorise.Column ColumnSize="ColumnSize.Is4">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Ant Select loading</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Select TValue="string" Loading="true" Style="width:150px;">
+                    @foreach (var item in Countries)
+                    {
+                        <SelectItem TValue="string" Value="@item">@(item)</SelectItem>
+                    }
+                </Select>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @(selectedListValue)
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Blazorise.Column>
+</Row>
+<Row>
+    <Blazorise.Column ColumnSize="ColumnSize.Is4">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Ant Select Clear</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Select TValue="string" AllowClear="true" Style="width:150px;" SelectedValue="@selectedListValueStr">
+                    @foreach (var item in Countries)
+                    {
+                        <SelectItem TValue="string" Value="@item">@(item)</SelectItem>
+                    }
+                </Select>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @(selectedListValue)
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Blazorise.Column>
+    <Blazorise.Column ColumnSize="ColumnSize.Is4">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Ant Select Multiple Clear</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Select TValue="string" Multiple="true" AllowClear="true" Style="width:300px;" SelectedValues="@selectedListValues">
+                    @foreach (var item in Countries)
+                    {
+                        <SelectItem TValue="string" Value="@item">@(item)</SelectItem>
+                    }
+                </Select>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @(selectedListValue)
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Blazorise.Column>
+    <Column ColumnSize="ColumnSize.Is4">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Select List</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <SelectList Data="@myDdlData"
+                                    TextField="@((item)=>item.MyTextField)"
+                                    ValueField="@((item)=>item.MyValueField)"
+                                    SelectedValue="@selectedListValue"
+                                    SelectedValueChanged="@MyListValueChangedHandler" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @selectedListValue
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+
+@code {
+
+    SelectList<MySelectModel> selectList;
+
+    public class MySelectModel
+    {
+        public int MyValueField { get; set; }
+        public string MyTextField { get; set; }
+    }
+
+    public class Comparer : IEqualityComparer<object>
+    {
+        public bool Equals(object x, object y)
+        {
+            return ((MySelectModel)x).MyValueField == ((MySelectModel)y).MyValueField;
+        }
+
+        public int GetHashCode(object obj)
+        {
+            return ((MySelectModel)obj).MyValueField.GetHashCode();
+        }
+    }
+
+    public class GeneralConverter : System.ComponentModel.TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+        }
+
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        {
+            return destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var str = value as string;
+
+            var res = JsonSerializer.Deserialize<MySelectModel>(str);
+
+            return res;
+        }
+
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            if (destinationType != typeof(string))
+            {
+                throw new Exception();
+            }
+
+            return JsonSerializer.Serialize(value);
+        }
+
+        public override object CreateInstance(ITypeDescriptorContext context, System.Collections.IDictionary propertyValues)
+        {
+            return base.CreateInstance(context, propertyValues);
+        }
+
+        public override bool GetCreateInstanceSupported(ITypeDescriptorContext context)
+        {
+            return base.GetCreateInstanceSupported(context);
+        }
+
+        public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
+        {
+            return base.GetProperties(context, value, attributes);
+        }
+
+        public override bool GetPropertiesSupported(ITypeDescriptorContext context)
+        {
+            return base.GetPropertiesSupported(context);
+        }
+
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        {
+            return base.GetStandardValues(context);
+        }
+
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
+        {
+            return base.GetStandardValuesExclusive(context);
+        }
+
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
+        {
+            return base.GetStandardValuesSupported(context);
+        }
+
+        public override bool IsValid(ITypeDescriptorContext context, object value)
+        {
+            return base.IsValid(context, value);
+        }
+    }
+
+    private string _selectedListValueStr;
+    private MySelectModel _selectedListValueObj;
+
+    private string StringItem(object value)
+    {
+        return JsonSerializer.Serialize(value);
+    }
+
+
+    static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
+    IEnumerable<MySelectModel> myDdlData = Enumerable.Range(1, Countries.Length).Select(x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x });
+
+    string selectedListValueStr
+    {
+        get => _selectedListValueStr;
+        set
+        {
+            _selectedListValueStr = value;
+        }
+    }
+
+    MySelectModel selectedListValueObj
+    {
+        get => _selectedListValueObj;
+        set
+        {
+            _selectedListValueObj = value;
+        }
+    }
+
+    object selectedListValue { get; set; }
+    IReadOnlyList<string> selectedListValues { get; set; }
+
+    object selectedObjectListValue { get; set; }
+    object selectedDropValue { get; set; } = 2;
+    object selectedSearchValue { get; set; }
+    object selectedListLoadingValue { get; set; }
+    object selectedListClearValue { get; set; }
+
+    IReadOnlyList<object> selectedValues { get; set; } = new List<object>();
+
+    void MyLoadingListValueChangedHandler(object newValue)
+    {
+        selectedListLoadingValue = newValue;
+    }
+
+    void MyClearListValueChangedHandler(object newValue)
+    {
+        selectedListClearValue = newValue;
+    }
+
+    void MyListValueChangedHandler(object newValue)
+    {
+        selectedListValue = newValue;
+    }
+
+    void MyDropValueChangedHandler(object newValue)
+    {
+        selectedDropValue = newValue;
+    }
+
+    void MySearchHandler(object newValue)
+    {
+        selectedSearchValue = newValue;
+    }
+
+    void MyListMultipleChangedHandler(IReadOnlyList<object> values)
+    {
+        selectedValues = values ?? new List<object>();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+    }
+}

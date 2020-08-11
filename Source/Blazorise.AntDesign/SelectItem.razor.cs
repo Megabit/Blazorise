@@ -55,14 +55,25 @@ namespace Blazorise.AntDesign
         bool Active { get; set; }
 
         [CascadingParameter]
-        protected virtual Select<TValue> ParentSelect
+        protected Select<TValue> AntParentSelect
         {
             get => parentSelect;
             set
             {
                 parentSelect = value;
 
-                ParentSelect?.Items.TryAdd( Value, ChildContent );
+                // In case of usage object generic type there can be issue to get dic value by integer key.
+                if (typeof(TValue) == typeof(object))
+                {
+                    if (Value is int val)
+                    {
+                        parentSelect?.Items.TryAdd( (TValue)(object)val.ToString(), ChildContent );
+
+                       return;
+                    }
+                }
+
+                parentSelect?.Items.TryAdd( Value, ChildContent );
             }
         }
         #endregion

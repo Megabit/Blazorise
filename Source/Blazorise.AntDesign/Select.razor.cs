@@ -14,9 +14,6 @@ namespace Blazorise.AntDesign
     {
         #region Members
 
-        private bool loading;
-
-
         /// <summary>
         /// Holds the information about the element location and size.
         /// </summary>
@@ -34,7 +31,6 @@ namespace Blazorise.AntDesign
         private const string MultipleValuesSeparator = ";"; // Let's hope ";" will be enough to distinguish the values!
 
         private Dictionary<TValue, RenderFragment> items = new Dictionary<TValue, RenderFragment>();
-        private Dictionary<TValue, RenderFragment> selectedItems = new Dictionary<TValue, RenderFragment>();
 
 
         private IEqualityComparer<TValue> equalityComparer;
@@ -106,9 +102,8 @@ namespace Blazorise.AntDesign
 
         private void ClearSelectedItems()
         {
-            selectedItems.Clear();
             SelectedValue = default;
-            SelectedValues = new List<TValue>();
+            SelectedValues = default;
         }
 
         protected Task OnMultipleValueClickHandler( TValue selectValue )
@@ -195,18 +190,12 @@ namespace Blazorise.AntDesign
                 _items.TryAdd( item.Key, item.Value );
             }
 
-            foreach ( var item in selectedItems )
-            {
-                _selectedItems.TryAdd( item.Key, item.Value );
-            }
-
             items = _items;
-            selectedItems = _selectedItems;
         }
 
-        protected bool RemoveSelectedItem( TValue value )
+        protected Task RemoveSelectedItem( TValue value )
         {
-            return selectedItems.Remove( value );
+            return NotifySelectValueChanged( value );
         }
 
         protected Task OnSelectClearClickHandler()
@@ -225,25 +214,6 @@ namespace Blazorise.AntDesign
         protected string SelectorElementId { get; set; } = IDGenerator.Instance.Generate;
 
         protected string InputElementId { get; set; } = IDGenerator.Instance.Generate;
-
-        /// <summary>
-        /// Gets or sets loading property.
-        /// </summary>
-        [Parameter]
-        public bool Loading
-        {
-            get => loading;
-            set
-            {
-                loading = value;
-                Disabled = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets loading property.
-        /// </summary>
-        [Parameter] public bool AllowClear { get; set; }
 
         /// <summary>
         /// Gets component items.
@@ -268,8 +238,18 @@ namespace Blazorise.AntDesign
             }
         }
 
-        protected RenderFragment SelectedItem => items.Count > 0 ? items[SelectedValue] : null;
-
+        protected RenderFragment SelectedItem
+        {
+            get
+            {
+                return
+                SelectedValue != null
+                ? items.Count > 0
+                ? items[SelectedValue]
+                : null
+                : null;
+            }
+        }
         /// <summary>
         /// Gets or sets values comparer.
         /// </summary>
@@ -288,11 +268,13 @@ namespace Blazorise.AntDesign
             $"select_list_{ElementId}";
 
         string ContainerClassNames =>
-            "ant-select " +
-            $"{( Multiple ? "ant-select-multiple" : "ant-select-single" )} ant-select-show-arrow " +
+            "ant-select ant-select-show-arrow " +
+            $"{( Multiple ? "ant-select-multiple" : "ant-select-single" )} " +
             $"{( Expanded ? "ant-select-open" : "" )} " +
-            $"{( AllowClear ? "ant-select-allow-clear" : "" )} ";
+            $"{( AllowClear ? "ant-select-allow-clear" : "" )} " +
+            $"{( Disabled ? "ant-select-disabled" : "" )}";
 
+        //ant-select ant-select-single ant-select-show-arrow ant-select-disabled
         string DropdownClassNames =>
             $"ant-select-dropdown ant-select-dropdown-placement-bottomLeft {( Expanded ? "slide-up-enter slide-up-enter-active slide-up" : "slide-up-leave slide-up-leave-active slide-up" )}";
 
