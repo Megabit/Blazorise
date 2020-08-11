@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -11,6 +12,8 @@ namespace Blazorise.AntDesign
     public partial class SelectItem<TValue> : Blazorise.SelectItem<TValue>
     {
         #region Members
+
+        private Select<TValue> parentSelect;
 
         #endregion
 
@@ -51,6 +54,28 @@ namespace Blazorise.AntDesign
 
         bool Active { get; set; }
 
+        [CascadingParameter]
+        protected Select<TValue> AntParentSelect
+        {
+            get => parentSelect;
+            set
+            {
+                parentSelect = value;
+
+                // In case of usage object generic type there can be issue to get dic value by integer key.
+                if (typeof(TValue) == typeof(object))
+                {
+                    if (Value is int val)
+                    {
+                        parentSelect?.Items.TryAdd( (TValue)(object)val.ToString(), ChildContent );
+
+                       return;
+                    }
+                }
+
+                parentSelect?.Items.TryAdd( Value, ChildContent );
+            }
+        }
         #endregion
     }
 }
