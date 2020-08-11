@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utils;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
@@ -12,6 +13,9 @@ namespace Blazorise.AntDesign
     public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator
     {
         #region Members
+
+        private bool loading;
+
 
         /// <summary>
         /// Holds the information about the element location and size.
@@ -28,6 +32,12 @@ namespace Blazorise.AntDesign
         /// Internal string separator for selected values when Multiple mode is used.
         /// </summary>
         private const string MultipleValuesSeparator = ";"; // Let's hope ";" will be enough to distinguish the values!
+
+        private Dictionary<TValue, RenderFragment> items = new Dictionary<TValue, RenderFragment>();
+        private Dictionary<TValue, RenderFragment> selectedItems = new Dictionary<TValue, RenderFragment>();
+
+
+        private IEqualityComparer<TValue> equalityComparer;
 
         #endregion
 
@@ -92,6 +102,13 @@ namespace Blazorise.AntDesign
             await JSRunner.UnregisterClosableComponent( this );
 
             Expanded = false;
+        }
+
+        private void ClearSelectedItems()
+        {
+            selectedItems.Clear();
+            SelectedValue = default;
+            SelectedValues = new List<TValue>();
         }
 
         protected Task OnMultipleValueClickHandler( TValue selectValue )
@@ -168,6 +185,37 @@ namespace Blazorise.AntDesign
             }
         }
 
+        private void SetComparer( IEqualityComparer<TValue> comparer )
+        {
+            var _items = new Dictionary<TValue, RenderFragment>( comparer );
+            var _selectedItems = new Dictionary<TValue, RenderFragment>( comparer );
+
+            foreach ( var item in items )
+            {
+                _items.TryAdd( item.Key, item.Value );
+            }
+
+            foreach ( var item in selectedItems )
+            {
+                _selectedItems.TryAdd( item.Key, item.Value );
+            }
+
+            items = _items;
+            selectedItems = _selectedItems;
+        }
+
+        protected bool RemoveSelectedItem( TValue value )
+        {
+            return selectedItems.Remove( value );
+        }
+
+        protected Task OnSelectClearClickHandler()
+        {
+            ClearSelectedItems();
+
+            return Task.CompletedTask;
+        }
+
         #endregion
 
         #region Properties
@@ -178,14 +226,75 @@ namespace Blazorise.AntDesign
 
         protected string InputElementId { get; set; } = IDGenerator.Instance.Generate;
 
+        /// <summary>
+        /// Gets or sets loading property.
+        /// </summary>
+        [Parameter]
+        public bool Loading
+        {
+            get => loading;
+            set
+            {
+                loading = value;
+                Disabled = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets loading property.
+        /// </summary>
+        [Parameter] public bool AllowClear { get; set; }
+
+        /// <summary>
+        /// Gets component items.
+        /// </summary>
+        public Dictionary<TValue, RenderFragment> Items => items;
+
+        /// <summary>
+        /// Gets the selected items.
+        /// </summary>
+        protected IEnumerable<RenderFragment> SelectedItems
+        {
+            get
+            {
+                var list = new List<RenderFragment>();
+
+                foreach ( var selectedValue in SelectedValues )
+                {
+                    list.Add( items[selectedValue] );
+                }
+
+                return list;
+            }
+        }
+
+        protected RenderFragment SelectedItem => items.Count > 0 ? items[SelectedValue] : null;
+
+        /// <summary>
+        /// Gets or sets values comparer.
+        /// </summary>
+        [Parameter]
+        public IEqualityComparer<TValue> EqualityComparer
+        {
+            get => equalityComparer;
+            set
+            {
+                equalityComparer = value;
+                SetComparer( value );
+            }
+        }
+
         string SelectListId =>
             $"select_list_{ElementId}";
 
         string ContainerClassNames =>
-            $"{ClassNames} {( Multiple ? "ant-select-multiple" : "ant-select-single" )} ant-select-show-arrow {( Expanded ? "ant-select-open" : "" )}";
+            "ant-select " +
+            $"{( Multiple ? "ant-select-multiple" : "ant-select-single" )} ant-select-show-arrow " +
+            $"{( Expanded ? "ant-select-open" : "" )} " +
+            $"{( AllowClear ? "ant-select-allow-clear" : "" )} ";
 
         string DropdownClassNames =>
-            $"ant-select-dropdown ant-select-dropdown-placement-bottomLeft {( Expanded ? "" : "ant-select-dropdown-hidden" )}";
+            $"ant-select-dropdown ant-select-dropdown-placement-bottomLeft {( Expanded ? "slide-up-enter slide-up-enter-active slide-up" : "slide-up-leave slide-up-leave-active slide-up" )}";
 
         string DropdownStyleNames =>
             $"width: {(int)elementInfo.BoundingClientRect.Width}px; left: {(int)elementInfo.OffsetLeft}px; top: {(int)( elementInfo.OffsetTop + elementInfo.BoundingClientRect.Height )}px;";
