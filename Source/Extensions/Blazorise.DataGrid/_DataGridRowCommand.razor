@@ -2,7 +2,7 @@
 @inherits _BaseDataGridRowCommand<TItem>
 @if ( EditState == DataGridEditState.Edit )
 {
-    <TableRowCell Class="@Class" Style="@Style" width="@Width">
+    <TableRowCell Class="@Class" Style="@Style" width="@Width" TextAlignment="@TextAlignment">
         @if ( ParentDataGrid?.CommandColumn?.SaveCommandAllowed == true )
         {
             @if ( ParentDataGrid?.CommandColumn?.SaveCommandTemplate != null )
@@ -37,7 +37,7 @@
 }
 else if ( EditState == DataGridEditState.None )
 {
-    <TableRowCell Class="@Class" Style="@Style" width="@Width">
+    <TableRowCell Class="@Class" Style="@Style" width="@Width" TextAlignment="@TextAlignment">
         @if ( ParentDataGrid?.CommandColumn?.EditCommandAllowed == true )
         {
             @if ( ParentDataGrid?.CommandColumn?.EditCommandTemplate != null )

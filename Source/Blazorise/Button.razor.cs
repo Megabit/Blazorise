@@ -4,18 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Clickable button for actions in forms, dialogs, and more with support for multiple sizes, states, and more.
+    /// </summary>
     public partial class Button : BaseComponent
     {
         #region Members
 
         private Color color = Color.None;
 
-        private ButtonSize size = ButtonSize.None;
+        private Size size = Size.None;
 
         private bool outline;
 
@@ -27,16 +31,19 @@ namespace Blazorise
 
         private bool loading;
 
+        private DropdownStore parentDropdownStore;
+
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Button() );
             builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.None && !Outline );
             builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.None && Outline );
-            builder.Append( ClassProvider.ButtonSize( Size ), Size != ButtonSize.None );
+            builder.Append( ClassProvider.ButtonSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.ButtonBlock(), Block );
             builder.Append( ClassProvider.ButtonActive(), Active );
             builder.Append( ClassProvider.ButtonLoading(), Loading );
@@ -44,19 +51,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected async Task ClickHandler()
-        {
-            if ( !Disabled )
-            {
-                await Clicked.InvokeAsync( null );
-
-                if ( Command?.CanExecute( CommandParameter ) ?? false )
-                {
-                    Command.Execute( CommandParameter );
-                }
-            }
-        }
-
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             // notify dropdown that the button is inside of it
@@ -73,6 +68,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -88,6 +84,23 @@ namespace Blazorise
             }
 
             base.Dispose( disposing );
+        }
+
+        /// <summary>
+        /// Handles the item onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected async Task ClickHandler()
+        {
+            if ( !Disabled )
+            {
+                await Clicked.InvokeAsync( null );
+
+                if ( Command?.CanExecute( CommandParameter ) ?? false )
+                {
+                    Command.Execute( CommandParameter );
+                }
+            }
         }
 
         /// <summary>
@@ -107,6 +120,11 @@ namespace Blazorise
         /// True if button is part of an addons or dropdown group.
         /// </summary>
         protected bool IsAddons => ParentButtons?.Role == ButtonsRole.Addons || ParentDropdown?.IsGroup == true;
+
+        /// <summary>
+        /// True if button or it's parent dropdown is disabled.
+        /// </summary>
+        protected bool IsDisabled => ParentDropdown?.Disabled ?? Disabled;
 
         /// <summary>
         /// True if button is placed inside of a <see cref="Field"/>.
@@ -142,7 +160,7 @@ namespace Blazorise
         /// Changes the size of a button.
         /// </summary>
         [Parameter]
-        public ButtonSize Size
+        public Size Size
         {
             get => size;
             set
@@ -233,13 +251,43 @@ namespace Blazorise
         /// </summary>
         [Parameter] public bool PreventDefaultOnSubmit { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent dropdown.
+        /// </summary>
         [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent buttons.
+        /// </summary>
         [CascadingParameter] protected Buttons ParentButtons { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent addons.
+        /// </summary>
         [CascadingParameter] protected Addons ParentAddons { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent field.
+        /// </summary>
         [CascadingParameter] protected Field ParentField { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent dropdown store object.
+        /// </summary>
+        [CascadingParameter]
+        protected DropdownStore ParentDropdownStore
+        {
+            get => parentDropdownStore;
+            set
+            {
+                if ( parentDropdownStore == value )
+                    return;
+
+                parentDropdownStore = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the command to be executed when clicked on a button.
@@ -251,6 +299,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public object CommandParameter { get; set; }
 
+        /// <summary>
+        /// Gets or sets the component child content.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

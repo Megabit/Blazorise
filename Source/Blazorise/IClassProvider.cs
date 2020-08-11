@@ -71,6 +71,8 @@ namespace Blazorise
 
         string Check();
 
+        string CheckSize( Size size );
+
         string CheckInline();
 
         string CheckCursor( Cursor cursor );
@@ -91,6 +93,8 @@ namespace Blazorise
 
         string Radio( bool button );
 
+        string RadioSize( bool button, Size size );
+
         string RadioInline();
 
         #endregion
@@ -98,6 +102,10 @@ namespace Blazorise
         #region Switch
 
         string Switch();
+
+        string SwitchColor( Color color );
+
+        string SwitchSize( Size size );
 
         string SwitchChecked( bool @checked );
 
@@ -243,7 +251,7 @@ namespace Blazorise
 
         string ButtonOutline( Color color );
 
-        string ButtonSize( ButtonSize buttonSize );
+        string ButtonSize( Size size );
 
         string ButtonBlock();
 
@@ -261,7 +269,7 @@ namespace Blazorise
 
         string ButtonsToolbar();
 
-        string ButtonsSize( ButtonsSize buttonsSize );
+        string ButtonsSize( Size size );
 
         string ButtonsVertical();
 
@@ -303,9 +311,11 @@ namespace Blazorise
 
         string DropdownToggleOutline( Color color );
 
-        string DropdownToggleSize( ButtonSize buttonSize );
+        string DropdownToggleSize( Size size );
 
         string DropdownToggleSplit();
+
+        string DropdownToggleIcon( bool visible );
 
         string DropdownDirection( Direction direction );
 
@@ -443,9 +453,15 @@ namespace Blazorise
 
         string LayoutFooter();
 
+        string LayoutFooterFixed();
+
         string LayoutSider();
 
         string LayoutSiderContent();
+
+        string LayoutLoading();
+
+        string LayoutRoot();
 
         #endregion
 
@@ -647,6 +663,8 @@ namespace Blazorise
 
         string ProgressBar();
 
+        string ProgressBarSize( Size size );
+
         string ProgressBarColor( Background background );
 
         string ProgressBarStriped();
@@ -772,8 +790,6 @@ namespace Blazorise
         #region Heading
 
         string HeadingSize( HeadingSize headingSize );
-
-        string HeadingTextColor( TextColor textColor );
 
         #endregion
 

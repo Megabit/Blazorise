@@ -19,6 +19,9 @@ namespace Blazorise
         Task NotifyChange( FileEntry[] files );
     }
 
+    /// <summary>
+    /// Input component with support for single of multi file upload.
+    /// </summary>
     public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit
     {
         #region Members
@@ -34,6 +37,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.FileEdit() );
@@ -42,6 +46,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new FileEditAdapter( this ) );
@@ -51,6 +56,7 @@ namespace Blazorise
             await base.OnFirstAfterRenderAsync();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing && Rendered )
@@ -62,7 +68,12 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
-        public Task NotifyChange( FileEntry[] files )
+        /// <summary>
+        /// Notifies the component that file input value has changed.
+        /// </summary>
+        /// <param name="files">List of changed file(s).</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task NotifyChange( FileEntry[] files )
         {
             // Unlike in other Edit components we cannot just call CurrentValueHandler since
             // we're dealing with complex types instead of a simple string as en element value.
@@ -81,19 +92,28 @@ namespace Blazorise
             // send the value to the validation for processing
             ParentValidation?.NotifyInputChanged();
 
-            return Changed.InvokeAsync( new FileChangedEventArgs( files ) );
+            await Changed.InvokeAsync( new FileChangedEventArgs( files ) );
+
+            await InvokeAsync( () => StateHasChanged() );
         }
 
+        /// <inheritdoc/>
         protected override Task OnInternalValueChanged( IFileEntry[] value )
         {
             throw new NotImplementedException( $"{nameof( OnInternalValueChanged )} in {nameof( FileEdit )} should never be called." );
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<IFileEntry[]>> ParseValueFromStringAsync( string value )
         {
             throw new NotImplementedException( $"{nameof( ParseValueFromStringAsync )} in {nameof( FileEdit )} should never be called." );
         }
 
+        /// <summary>
+        /// Notifies the component that file upload is about to start.
+        /// </summary>
+        /// <param name="fileEntry">File entry to be uploaded.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         internal Task UpdateFileStartedAsync( IFileEntry fileEntry )
         {
             // reset all
@@ -104,16 +124,40 @@ namespace Blazorise
             return Started.InvokeAsync( new FileStartedEventArgs( fileEntry ) );
         }
 
-        internal Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success )
+        /// <summary>
+        /// Notifies the component that file upload has ended.
+        /// </summary>
+        /// <param name="fileEntry">Uploaded file entry.</param>
+        /// <param name="success">True if the file upload was successful.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        internal async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success )
         {
-            return Ended.InvokeAsync( new FileEndedEventArgs( fileEntry, success ) );
+            if ( AutoReset )
+            {
+                await Reset();
+            }
+
+            await Ended.InvokeAsync( new FileEndedEventArgs( fileEntry, success ) );
         }
 
+        /// <summary>
+        /// Updates component with the latest file data.
+        /// </summary>
+        /// <param name="fileEntry">Currently processed file entry.</param>
+        /// <param name="position">The current position of this stream.</param>
+        /// <param name="data">Curerntly read data.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         internal Task UpdateFileWrittenAsync( IFileEntry fileEntry, long position, byte[] data )
         {
             return Written.InvokeAsync( new FileWrittenEventArgs( fileEntry, position, data ) );
         }
 
+        /// <summary>
+        /// Updated the component with the latest upload progress.
+        /// </summary>
+        /// <param name="fileEntry">Currently processed file entry.</param>
+        /// <param name="progressProgress">Progress value.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         internal async Task UpdateFileProgressAsync( IFileEntry fileEntry, long progressProgress )
         {
             ProgressProgress += progressProgress;
@@ -128,16 +172,32 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Writes the file data to the target stream.
+        /// </summary>
+        /// <param name="fileEntry">Currently processed file entry.</param>
+        /// <param name="stream">Target stream.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         internal async Task WriteToStreamAsync( FileEntry fileEntry, Stream stream )
         {
             await new RemoteFileEntryStreamReader( JSRunner, ElementRef, fileEntry, this, MaxMessageSize )
                 .WriteToStreamAsync( stream, CancellationToken.None );
         }
 
+        /// <summary>
+        /// Manaully resets the input file value.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task Reset()
+        {
+            await JSRunner.ResetFileEdit( ElementRef, ElementId );
+        }
+
         #endregion
 
         #region Properties
 
+        /// <inheritdoc/>
         protected override IFileEntry[] InternalValue { get => files; set => files = value; }
 
         protected long ProgressProgress;
@@ -145,6 +205,11 @@ namespace Blazorise
         protected long ProgressTotal;
 
         protected double Progress;
+
+        /// <summary>
+        /// Gets the list is selected filename
+        /// </summary>
+        protected IEnumerable<string> SelectedFileNames => InternalValue?.Select( x => x.Name ) ?? Enumerable.Empty<string>();
 
         /// <summary>
         /// Enables the multiple file selection.
@@ -196,6 +261,11 @@ namespace Blazorise
         /// Notifies the progress of file being written to the destination stream.
         /// </summary>
         [Parameter] public EventCallback<FileProgressedEventArgs> Progressed { get; set; }
+
+        /// <summary>
+        /// If true file input will be automatically reset after it has being uploaded.
+        /// </summary>
+        [Parameter] public bool AutoReset { get; set; } = true;
 
         #endregion
     }

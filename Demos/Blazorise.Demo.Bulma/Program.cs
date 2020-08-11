@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise.Bulma;
 using Blazorise.Icons.FontAwesome;
+using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -20,6 +21,11 @@ namespace Blazorise.Demo.Bulma
                 .AddBlazorise( options =>
                 {
                     options.ChangeTextOnKeyPress = true;
+                } )
+                .AddBlazoriseRichTextEdit( options =>
+                {
+                    options.UseBubbleTheme = true;
+                    options.UseShowTheme = true;
                 } )
                 .AddBulmaProviders()
                 .AddFontAwesomeIcons();

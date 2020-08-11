@@ -189,3 +189,27 @@
     color: var(--b-snackbar-button-dark, #ff4081); }
     .snackbar-btn-dark:focus, .snackbar-btn-dark:hover {
         color: var(--b-snackbar-button-hover-dark, #ff80ab); }
+
+.snackbar-stack {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 60;
+    bottom: 0; }
+
+.snackbar-stack .snackbar {
+    position: relative;
+    flex-direction: row;
+    margin-bottom: 0; }
+
+.snackbar-stack .snackbar:not(:last-child) {
+    margin-bottom: 1.5rem; }
+
+@media (min-width: 576px) {
+    .snackbar-stack-center {
+        left: 50%;
+        transform: translate(-50%, 0%); }
+    .snackbar-stack-left {
+        left: 1.5rem; }
+    .snackbar-stack-right {
+        right: 1.5rem; } }

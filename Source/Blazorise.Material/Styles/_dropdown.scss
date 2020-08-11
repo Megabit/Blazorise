@@ -1,0 +1,7 @@
+﻿.dropdown-toggle.dropdown-toggle-hidden::after {
+    content: none !important;
+}
+
+.dropdown-toggle.dropdown-toggle-hidden::before {
+    content: none !important;
+}

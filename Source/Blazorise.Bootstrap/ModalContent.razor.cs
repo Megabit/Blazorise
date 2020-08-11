@@ -33,7 +33,9 @@ namespace Blazorise.Bootstrap
 
         private void BuildDialogClasses( ClassBuilder builder )
         {
-            builder.Append( $"modal-dialog modal-{ClassProvider.ToModalSize( Size )}" );
+            builder.Append( $"modal-dialog" );
+            builder.Append( $"modal-{ClassProvider.ToModalSize( Size )}", Size != ModalSize.Default );
+
             builder.Append( ClassProvider.ModalContentCentered(), Centered );
         }
 

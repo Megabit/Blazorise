@@ -119,7 +119,7 @@
     &.ant-menu-vertical {
         display: flex;
         flex-flow: column;
-        height: 100vh;
+        height: 100%;
         overflow-y: auto;
 
         .ant-menu-label {
