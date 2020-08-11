@@ -78,7 +78,7 @@ builder.Services
             <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
             <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
                 <RichTextEditToolbarSelectItem Value="small" />
-                <RichTextEditToolbarSelectItem IsSelected="true" />
+                <RichTextEditToolbarSelectItem Selected="true" />
                 <RichTextEditToolbarSelectItem Value="large" />
                 <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
             </RichTextEditToolbarSelect>
@@ -179,5 +179,5 @@ See [QuillJS Toolbar module](https://quilljs.com/docs/modules/toolbar/) for more
 | Name                 | Type               | Default    | Description                                           |
 |----------------------|--------------------|------------|-------------------------------------------------------|
 | Value                | string             |            | The QuillJS action selected value.                    |
-| IsSelected           | bool               | false      | Is the select item selected.                          |
+| Selected             | bool               | false      | Is the select item selected.                          |
 | ChildContent         | markup             |            | The custom markup/text to display.                    |
