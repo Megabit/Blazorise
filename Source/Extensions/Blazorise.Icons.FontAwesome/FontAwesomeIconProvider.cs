@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Blazorise.Providers;
 #endregion
 
@@ -274,9 +273,11 @@ namespace Blazorise.Icons.FontAwesome
             { IconName.Stream, "fa-stream" },
             { IconName.StreetView, "fa-street-view" },
             { IconName.Strikethrough, "fa-strikethrough" },
+            { IconName.Subscript, "fa-subscript" },
             { IconName.Subway, "fa-subway" },
             { IconName.Suitcase, "fa-suitcase" },
             { IconName.Sun, "fa-sun" },
+            { IconName.Superscript, "fa-superscript" },
             { IconName.SwimmingPool, "fa-swimming-pool" },
             { IconName.Sync, "fa-sync" },
             { IconName.SyncAlt, "fa-sync-alt" },

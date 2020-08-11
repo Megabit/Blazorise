@@ -111,6 +111,8 @@ docs:
         url: /docs/extensions/dropdownlist/
       - title: "Icons"
         url: /docs/extensions/icons/
+      - title: "RichTextEdit"
+        url: /docs/extensions/richtextedit/
       - title: "SelectList"
         url: /docs/extensions/selectlist/
       - title: "Sidebar"
