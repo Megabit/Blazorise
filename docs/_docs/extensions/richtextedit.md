@@ -8,7 +8,7 @@ toc_label: "Guide"
 
 ## Overview
 
-The `RichTextEdit` component allows you to add a 'WYSIWYG' rich text editor. The Blazorise RichTextEdit is based on the [QuillJS](https://quilljs.com/) javascript library.
+The `RichTextEdit` component allows you to add and use a 'WYSIWYG' rich text editor. The Blazorise RichTextEdit is based on the [QuillJS](https://quilljs.com/) JavaScript library.
 
 ### Structure
 
@@ -53,9 +53,9 @@ builder.Services
 
 | Name                  | Type   | Default | Description                                              |
 |-----------------------|--------|---------|----------------------------------------------------------|
-| UseShowTheme          | bool   | true    | Load the QuillJs snow theme related resources.           |
-| UseBubbleTheme        | bool   | false   | Load the QuillJs bubble theme related resources.         |
-| QuillJsVersion        | string | 1.3.7   | The QuillJs version to load.                             |
+| UseShowTheme          | bool   | true    | Load the QuillJS snow theme related resources.           |
+| UseBubbleTheme        | bool   | false   | Load the QuillJS bubble theme related resources.         |
+| QuillJSVersion        | string | 1.3.7   | The QuillJS version to load.                             |
 | DynamicLoadReferences | bool   | true    | Load the RichTextEdit scripts and stylesheets on demand. |
 
 ## Usage
@@ -130,7 +130,7 @@ See [QuillJS Themes](https://quilljs.com/docs/themes/) for more information.
 
 ### Toolbar
 
-The `RichTextEdit` toolbar can be completely customized. QuillJs defines a number of default actions that can be used through the `RichTextEditToolbarButton` and `RichTextEditToolbarSelect` components
+The `RichTextEdit` toolbar can be completely customized. QuillJS defines a number of default actions that can be used through the `RichTextEditToolbarButton` and `RichTextEditToolbarSelect` components
 
 See [QuillJS Toolbar module](https://quilljs.com/docs/modules/toolbar/) for more information.
 
@@ -143,14 +143,14 @@ See [QuillJS Toolbar module](https://quilljs.com/docs/modules/toolbar/) for more
 |------------------------|--------------------|------------|-------------------------------------------------------|
 | Toolbar                | markup             |            | The custom toolbar definition.                        |
 | Editor                 | markup             |            | The editor content.                                   |
-| ReadOnly               | bool               | false      | Editor readonly flag.                                 |
+| ReadOnly               | bool               | false      | Editor read-only flag.                                |
 | Theme                  | RichTextEditTheme  | Snow       | The editor theme.                                     |
 | PlaceHolder            | string             |            | Placeholder text for empty editor.                    |
 | ToolbarPosition        | Placement          | Top        | Toolbar position (top or bottom).                     |
 | SubmitOnEnter          | bool               | false      | Call _EnterPressed_ event when pressing ENTER key.    |
 | ContentChanged         | event              |            | Occurs when the content changes.                      |
 | EnterPressed           | event              |            | Occurs when ENTER key is pressed and _SubmitOnEnter_. |
-| ConfigureQuillJsMethod | string             |            | The javascript method to call to configure additional QuillJs modules and or add custom bindings. |
+| ConfigureQuillJSMethod | string             |            | The JavaScript method to call to configure additional QuillJS modules and or add custom bindings. |
 
 ### RichTextEditToolbarGroup
 
@@ -163,7 +163,7 @@ See [QuillJS Toolbar module](https://quilljs.com/docs/modules/toolbar/) for more
 
 | Name                 | Type               | Default    | Description                                           |
 |----------------------|--------------------|------------|-------------------------------------------------------|
-| Action               | RichTextEditAction |            | The QuillJs action associated with the select.        |
+| Action               | RichTextEditAction |            | The QuillJS action associated with the select.        |
 | Value                | RichTextEditAction |            | The QuillJS action selected value.                    |
 | ChildContent         | markup             |            | The custom markup/text to display.                    |
 
@@ -171,7 +171,7 @@ See [QuillJS Toolbar module](https://quilljs.com/docs/modules/toolbar/) for more
 
 | Name                 | Type               | Default    | Description                                           |
 |----------------------|--------------------|------------|-------------------------------------------------------|
-| Action               | RichTextEditAction |            | The QuillJs action associated with the select.        |
+| Action               | RichTextEditAction |            | The QuillJS action associated with the select.        |
 | ChildContent         | markup             |            | The `RichTextEditToolbarSelectItem` items.            |
 
 ### RichTextEditToolbarSelectItem
