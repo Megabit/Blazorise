@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Components
 {
-    public partial class SelectList<TItem> : ComponentBase
+    public partial class SelectList<TItem, TValue> : ComponentBase
     {
         #region Members
 
@@ -16,7 +16,7 @@ namespace Blazorise.Components
 
         #region Methods
 
-        protected Task HandleSelectedValueChanged( object value )
+        protected Task HandleSelectedValueChanged( TValue value )
         {
             SelectedValue = value;
             return SelectedValueChanged.InvokeAsync( value );
@@ -35,7 +35,7 @@ namespace Blazorise.Components
 
         #region Properties
 
-        protected Select<object> select;
+        protected Select<TValue> select;
 
         /// <summary>
         /// Gets or sets the select data-source.
@@ -50,17 +50,17 @@ namespace Blazorise.Components
         /// <summary>
         /// Method used to get the value field from the supplied data source.
         /// </summary>
-        [Parameter] public Func<TItem, object> ValueField { get; set; }
+        [Parameter] public Func<TItem, TValue> ValueField { get; set; }
 
         /// <summary>
         /// Currently selected item value.
         /// </summary>
-        [Parameter] public object SelectedValue { get; set; }
+        [Parameter] public TValue SelectedValue { get; set; }
 
         /// <summary>
         /// Occurs after the selected value has changed.
         /// </summary>
-        [Parameter] public EventCallback<object> SelectedValueChanged { get; set; }
+        [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
 
         /// <summary>
         /// Custom css class-names.
