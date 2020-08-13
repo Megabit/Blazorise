@@ -29,7 +29,6 @@
                 </span>
             }
         </div>
-        <!--Arrow-->
         @if ( !Loading )
         {
             <span class="ant-select-arrow" unselectable="on" aria-hidden="true" style="user-select: none;">
@@ -40,7 +39,6 @@
                     </svg>
                 </span>
             </span>
-            <!--Clear-->
             @if ( AllowClear )
             {
                 <span class="ant-select-clear" unselectable="on" aria-hidden="true" style="user-select: none;" @onclick="OnSelectClearClickHandler">
@@ -52,7 +50,6 @@
                 </span>
             }
         }
-        <!--Loading-->
         @if ( Loading )
         {
             <span class="ant-select-arrow ant-select-arrow-loading" unselectable="on" aria-hidden="true" style="user-select: none;">
