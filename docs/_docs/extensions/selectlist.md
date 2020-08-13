@@ -12,12 +12,12 @@ The `SelectList` component allows you to select a value from a list of predefine
 
 ## Installation
 
-The SelectList extension is part of the **Blazorise.Components** Nuget package.
+The SelectList extension is part of the **Blazorise.Components** NuGet package.
 {: .notice--info}
 
-### Nuget
+### NuGet
 
-Install extension from nuget.
+Install extension from NuGet.
 
 ```
 Install-Package Blazorise.Components
@@ -28,13 +28,14 @@ Install-Package Blazorise.Components
 ### Markup
 
 ```html
-<SelectList Data="@myDdlData"
+<SelectList
+    TItem="MySelectModel"
+    TValue="int"
+    Data="@myDdlData"
     TextField="@((item)=>item.MyTextField)"
     ValueField="@((item)=>item.MyValueField)"
     SelectedValue="@selectedListValue"
-    SelectedValueChanged="@MyListValueChangedHandler"
-	TItem="MySelectModel"
-	TValue="int" />
+    SelectedValueChanged="@MyListValueChangedHandler" />
 ```
 
 ### Data binding
@@ -62,12 +63,12 @@ Install-Package Blazorise.Components
 
 ## Attributes
 
-| Name                 | Type               | Default    | Description                                           |
-|----------------------|--------------------|------------|-------------------------------------------------------|
-| TItem                | generic            |            | Model data type.                                      |
-| TValue               | generic            |            | Bound value data type.                                |
-| Data                 | IEnumerable<TItem> |            | Data used for selection.                              |
-| TextField            | Func               |            | Selector for the display name field.                  |
-| ValueField           | Func               |            | Selector for the value field.                         |
-| SelectedValue        | TValue             |            | Currently selected value.                             |
-| SelectedValueChanged | event              |            | Raises an event after the selected value has changed. |
+| Name                 | Type                       | Default    | Description                                           |
+|----------------------|----------------------------|------------|-------------------------------------------------------|
+| TItem                | generic                    |            | Model data type.                                      |
+| TValue               | generic                    |            | Bound value data type.                                |
+| Data                 | IEnumerable<TItem>         |            | Data used for selection.                              |
+| TextField            | `Func<TItem, string>`      |            | Selector for the display name field.                  |
+| ValueField           | `Func<TItem, TValue>`      |            | Selector for the value field.                         |
+| SelectedValue        | TValue                     |            | Currently selected value.                             |
+| SelectedValueChanged | `EventCallback<TValue>`    |            | Raises an event after the selected value has changed. |
