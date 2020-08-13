@@ -424,6 +424,8 @@ namespace Blazorise.DataGrid
             if ( query == null )
             {
                 filteredData.Clear();
+                FilteredDataChanged?.Invoke( filteredData );
+
                 return;
             }
 
@@ -479,6 +481,8 @@ namespace Blazorise.DataGrid
             filteredData = query.ToList();
 
             dirtyFilter = false;
+
+            FilteredDataChanged?.Invoke( filteredData );
         }
 
         private bool CompareFilterValues( string searchValue, string compareTo )
@@ -704,6 +708,11 @@ namespace Blazorise.DataGrid
                 return filteredData;
             }
         }
+
+        /// <summary>
+        /// Raises an event every time that filtered data is refreshed.
+        /// </summary>
+        [Parameter] public Action<IEnumerable<TItem>> FilteredDataChanged { get; set; }
 
         /// <summary>
         /// Gets the data to show on grid based on the filter and current page.
