@@ -1,21 +1,14 @@
 ﻿@typeparam TItem
 @typeparam TValue
 <Select @ref="@select" TValue="TValue" SelectedValue="@SelectedValue" SelectedValueChanged="@HandleSelectedValueChanged" Class="@Class" Style="@Style" Size="@Size" Attributes="@Attributes">
-    @if (Data != null)
+    @if ( Data != null )
     {
-        foreach (var item in Data)
+        @foreach ( var item in Data )
         {
-            var text = TextField?.Invoke(item);
-            TValue value;
-            if (ValueField!=null)
-            {
-                value = ValueField.Invoke(item);
-                <SelectItem TValue="TValue" Value="@value">@text</SelectItem>
-            }
-            else
-            {
-                <SelectItem TValue="TValue" Value="default(TValue)">@text</SelectItem>
-            }
+            var text = TextField?.Invoke( item );
+            var value = ValueField != null ? ValueField.Invoke( item ) : default;
+
+            <SelectItem TValue="TValue" Value="@value">@text</SelectItem>
         }
     }
     @ChildContent

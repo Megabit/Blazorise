@@ -9,11 +9,11 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <SelectList Data="@myDdlData"
+                        <SelectList TItem="MySelectModel"
+                                    TValue="object"
+                                    Data="@myDdlData"
                                     TextField="@((item)=>item.MyTextField)"
                                     ValueField="@((item)=>item.MyValueField)"
-                                    TItem="MySelectModel"
-                                    TValue="object"
                                     SelectedValue="@selectedListValue"
                                     SelectedValueChanged="@MyListValueChangedHandler" />
                     </FieldBody>
