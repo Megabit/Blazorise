@@ -1,0 +1,22 @@
+﻿@inherits BaseComponent
+<div @ref="ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+
+    @if ( Toolbar != null && ToolbarPosition != Placement.Bottom )
+    {
+        <div @ref="@ToolbarRef">
+            @Toolbar
+        </div>
+    }
+
+    <div @ref="@EditorRef">
+        @Editor
+    </div>
+
+    @if ( Toolbar != null && ToolbarPosition == Placement.Bottom )
+    {
+        <div @ref="@ToolbarRef" style="border-top: 0">
+            @Toolbar
+        </div>
+    }
+
+</div>

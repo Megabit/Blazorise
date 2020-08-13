@@ -1,8 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise
@@ -1455,9 +1451,11 @@ namespace Blazorise
         Stream,
         StreetView,
         Strikethrough,
+        Subscript,
         Subway,
         Suitcase,
         Sun,
+        Superscript,
         SwimmingPool,
         Sync,
         SyncAlt,
