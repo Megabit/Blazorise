@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -42,7 +43,15 @@ namespace Blazorise
 
             base.OnInitialized();
         }
-
+        protected virtual Task OnFocusInHandler(FocusEventArgs e){
+            return Task.CompletedTask;
+        }
+        protected virtual Task OnFocusOutHandler(FocusEventArgs e){
+            return Task.CompletedTask;
+        }
+        protected virtual Task OnFocusHandler(FocusEventArgs e){
+            return Task.CompletedTask;
+        }
         protected virtual Task OnChangeHandler( ChangeEventArgs e )
         {
             if ( !Options.ChangeTextOnKeyPress )
