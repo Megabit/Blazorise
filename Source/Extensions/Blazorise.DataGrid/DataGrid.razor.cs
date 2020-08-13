@@ -67,6 +67,10 @@ namespace Blazorise.DataGrid
 
         protected Dictionary<string, CellEditContext> filterCellValues;
 
+        private int firstVisiblePage;
+
+        private int lastVisiblePage;
+
         #endregion
 
         #region Constructors
@@ -166,7 +170,11 @@ namespace Blazorise.DataGrid
 
         protected void OnNewCommand()
         {
-            InitEditItem( CreateNewItem() );
+            var newItem = CreateNewItem();
+
+            NewItemDefaultSetter?.Invoke( newItem );
+
+            InitEditItem( newItem );
 
             editState = DataGridEditState.New;
 
@@ -416,6 +424,8 @@ namespace Blazorise.DataGrid
             if ( query == null )
             {
                 filteredData.Clear();
+                FilteredDataChanged?.Invoke( filteredData );
+
                 return;
             }
 
@@ -471,6 +481,8 @@ namespace Blazorise.DataGrid
             filteredData = query.ToList();
 
             dirtyFilter = false;
+
+            FilteredDataChanged?.Invoke( filteredData );
         }
 
         private bool CompareFilterValues( string searchValue, string compareTo )
@@ -510,6 +522,37 @@ namespace Blazorise.DataGrid
 
             SelectedRow = item;
             return SelectedRowChanged.InvokeAsync( SelectedRow );
+        }
+
+        #endregion
+
+        #region Pagination
+
+        /// <summary>
+        /// Calculates the first and last visible pages based on the current offset and page size.
+        /// </summary>
+        private void CalculateFirstAndLastVisiblePage()
+        {
+            var step = (int)Math.Floor( MaxPaginationLinks / 2d );
+
+            var leftButton = CurrentPage - step;
+            var rightButton = CurrentPage + step;
+
+            if ( leftButton <= 1 )
+            {
+                firstVisiblePage = 1;
+                lastVisiblePage = Math.Min( MaxPaginationLinks, LastPage );
+            }
+            else if ( LastPage <= rightButton )
+            {
+                firstVisiblePage = Math.Max( LastPage - MaxPaginationLinks + 1, 1 );
+                lastVisiblePage = LastPage;
+            }
+            else
+            {
+                firstVisiblePage = leftButton;
+                lastVisiblePage = rightButton;
+            }
         }
 
         #endregion
@@ -589,9 +632,26 @@ namespace Blazorise.DataGrid
         public DataGridEditState EditState => editState;
 
         /// <summary>
+        /// Gets template for title of popup modal.
+        /// </summary>
+        [Parameter]
+        public RenderFragment<PopupTitleContext<TItem>> PopupTitleTemplate { get; set; } = context =>
+        {
+            return builder =>
+            {
+                builder.AddContent( 0, context.EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create" );
+            };
+        };
+
+        /// <summary>
         /// Gets the flag which indicates if popup editor is visible.
         /// </summary>
         protected bool PopupVisible = false;
+
+        /// <summary>
+        /// Defines the size of popup dialog.
+        /// </summary>
+        [Parameter] public ModalSize PopupSize { get; set; } = ModalSize.Default;
 
         /// <summary>
         /// Gets the reference to the associated command column.
@@ -648,6 +708,11 @@ namespace Blazorise.DataGrid
                 return filteredData;
             }
         }
+
+        /// <summary>
+        /// Raises an event every time that filtered data is refreshed.
+        /// </summary>
+        [Parameter] public Action<IEnumerable<TItem>> FilteredDataChanged { get; set; }
 
         /// <summary>
         /// Gets the data to show on grid based on the filter and current page.
@@ -732,6 +797,11 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment NextPageButtonTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets content of page buttons of pager.
+        /// </summary>
+        [Parameter] public RenderFragment<PageButtonContext> PageButtonTemplate { get; set; }
+
+        /// <summary>
         /// Gets the last page number.
         /// </summary>
         protected int LastPage
@@ -757,10 +827,7 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                int firstVisiblePage = CurrentPage - (int)Math.Floor( MaxPaginationLinks / 2d );
-
-                if ( firstVisiblePage < 1 )
-                    firstVisiblePage = 1;
+                CalculateFirstAndLastVisiblePage();
 
                 return firstVisiblePage;
             }
@@ -773,14 +840,7 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                var firstVisiblePage = FirstVisiblePage;
-                var lastVisiblePage = CurrentPage + (int)Math.Floor( MaxPaginationLinks / 2d );
-
-                if ( ( lastVisiblePage - firstVisiblePage ) < MaxPaginationLinks )
-                    lastVisiblePage = firstVisiblePage + MaxPaginationLinks - 1;
-
-                if ( lastVisiblePage > LastPage )
-                    lastVisiblePage = LastPage;
+                CalculateFirstAndLastVisiblePage();
 
                 return lastVisiblePage;
             }
@@ -792,7 +852,7 @@ namespace Blazorise.DataGrid
         [Parameter] public int PageSize { get; set; } = 5;
 
         /// <summary>
-        /// Gets or sets the maximum number of visible pagination links.
+        /// Gets or sets the maximum number of visible pagination links. It has to be odd for well look.
         /// </summary>
         [Parameter] public int MaxPaginationLinks { get; set; } = 5;
 
@@ -889,6 +949,11 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
 
         /// <summary>
+        /// Function, that is called, when a new item is created for inserting new entry.
+        /// </summary>
+        [Parameter] public Action<TItem> NewItemDefaultSetter { get; set; }
+
+        /// <summary>
         /// Adds stripes to the table.
         /// </summary>
         [Parameter] public bool Striped { get; set; }
@@ -977,6 +1042,21 @@ namespace Blazorise.DataGrid
         /// Template for holding the datagrid aggregate columns.
         /// </summary>
         [Parameter] public RenderFragment DataGridAggregates { get; set; }
+
+        /// <summary>
+        /// If true, shows feedbacks for all validations.
+        /// </summary>
+        [Parameter] public bool ShowValidationFeedback { get; set; } = false;
+
+        /// <summary>
+        /// If true, shows summary for all validations.
+        /// </summary>
+        [Parameter] public bool ShowValidationsSummary { get; set; } = true;
+
+        /// <summary>
+        /// Label for validaitons summary.
+        /// </summary>
+        [Parameter] public string ValidationsSummaryLabel { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

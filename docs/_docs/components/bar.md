@@ -168,15 +168,19 @@ Right-aligned vertical bar example:
 </Layout>
 ```
 
+### Header on top
+
+For an example where the horizontal `Bar` is "on top" of the vertical `Bar`, please look at [this example]({{"/docs/components/layout/#sider-with-header-on-top"}}) in the `Layout` docs.
+
 ## Attributes
 
-| Name                  | Type                                                                            | Default           | Description                                                   |
-|-----------------------|---------------------------------------------------------------------------------|-------------------|---------------------------------------------------------------|
-| Mode                  | [BarMode]({{ "/docs/helpers/enums/#barmode" | relative_url }})                  | `Horizontal`      | Bar mode (`Vertical*` for Sidebar).                           |
-| CollapseMode          | [BarCollapseMode]({{ "/docs/helpers/enums/#barcollapsemode" | relative_url }})  | `Hide`            | What the Bar will collapse to when `Visible` toggled.         |
-| Visible               | boolean                                                                         | false             | Controls the state of toggle and the menu.                    |
-| Breakpoint            | [Breakpoint]({{ "/docs/helpers/enums/#breakpoint" | relative_url }})            | `None`            | Defines the media breakpoint.                                 |
-| NavigationBreakpoint  | [Breakpoint]({{ "/docs/helpers/enums/#breakpoint" | relative_url }})            | `None`            | Defines the media breakpoint on navigation.                   |
-| ThemeContrast         | [ThemeContrast]({{ "/docs/helpers/enums/#themecontrast" | relative_url }})      | `Light`           | Adjusts the contrast for light or dark themes.                |
-| Background            | [Background]({{ "/docs/helpers/colors/#background" | relative_url }})           | `None`            | Sets the bar background color.                                |
-| Color                 | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})                    | `None`            | Component visual or contextual style variants.                |
+| Name                 | Type                                                        | Default          | Description                                |
+| -------------------- | ----------------------------------------------------------- | ---------------- | ------------------------------------------ |
+| Mode                 | [BarMode]({{ "/docs/helpers/enums/#barmode"                 | relative_url }}) | `Horizontal`                               | Bar mode (`Vertical*` for Sidebar). |
+| CollapseMode         | [BarCollapseMode]({{ "/docs/helpers/enums/#barcollapsemode" | relative_url }}) | `Hide`                                     | What the Bar will collapse to when `Visible` toggled. |
+| Visible              | boolean                                                     | false            | Controls the state of toggle and the menu. |
+| Breakpoint           | [Breakpoint]({{ "/docs/helpers/enums/#breakpoint"           | relative_url }}) | `None`                                     | Defines the media breakpoint. |
+| NavigationBreakpoint | [Breakpoint]({{ "/docs/helpers/enums/#breakpoint"           | relative_url }}) | `None`                                     | Defines the media breakpoint on navigation. |
+| ThemeContrast        | [ThemeContrast]({{ "/docs/helpers/enums/#themecontrast"     | relative_url }}) | `Light`                                    | Adjusts the contrast for light or dark themes. |
+| Background           | [Background]({{ "/docs/helpers/colors/#background"          | relative_url }}) | `None`                                     | Sets the bar background color. |
+| Color                | [Colors]({{ "/docs/helpers/colors/#color"                   | relative_url }}) | `None`                                     | Component visual or contextual style variants. |

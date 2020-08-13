@@ -13,7 +13,7 @@ namespace Blazorise
     {
         #region Members       
 
-        private DividerType type = DividerType.Solid;
+        private DividerType? type;
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Divider() );
-            builder.Append( ClassProvider.DividerType( Type ) );
+            builder.Append( ClassProvider.DividerType( ApplyDividerType ) );
 
             base.BuildClasses( builder );
         }
@@ -31,8 +31,17 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets the divider type to apply, based on current theme settings.
+        /// </summary>
+        protected DividerType ApplyDividerType
+            => DividerType.GetValueOrDefault( Theme?.DividerOptions?.DividerType ?? Blazorise.DividerType.Solid );
+
+        /// <summary>
+        /// Defines the type and style of the divider.
+        /// </summary>
         [Parameter]
-        public DividerType Type
+        public DividerType? DividerType
         {
             get => type;
             set
@@ -43,7 +52,12 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Defines the text of the divider when it's set as <see cref="DividerType.TextContent"/>.
+        /// </summary>
         [Parameter] public string Text { get; set; }
+
+        [CascadingParameter] public Theme Theme { get; set; }
 
         #endregion
     }

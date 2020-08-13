@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Blazorise.Providers;
 #endregion
 
@@ -274,9 +273,11 @@ namespace Blazorise.Icons.Material
             { IconName.Stream, "view_stream" },
             { IconName.StreetView, "streetview" },
             { IconName.Strikethrough, "format_strikethrough" },
+            { IconName.Subscript, "subscript" },
             { IconName.Subway, "subway" },
             { IconName.Suitcase, "business_center" },
             { IconName.Sun, "wb_sunny" },
+            { IconName.Superscript, "superscript" },
             { IconName.SwimmingPool, "pool" },
             { IconName.Sync, "sync" },
             { IconName.SyncAlt, "cached" },

@@ -10,9 +10,23 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Components
 {
+    /// <summary>
+    /// The autocomplete is a normal text input enhanced by a panel of suggested options.
+    /// </summary>
+    /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
     public partial class Autocomplete<TItem> : ComponentBase
     {
         #region Members
+
+        /// <summary>
+        /// Reference to the Dropdown component.
+        /// </summary>
+        private Dropdown dropdownRef;
+
+        /// <summary>
+        /// Reference to the TextEdit component.
+        /// </summary>
+        private TextEdit textEditRef;
 
         /// <summary>
         /// Original data-source.
@@ -35,7 +49,7 @@ namespace Blazorise.Components
 
         #region Methods
 
-        protected async Task HandleTextChanged( string text )
+        private async Task HandleTextChanged( string text )
         {
             CurrentSearch = text ?? string.Empty;
             SelectedText = CurrentSearch;
@@ -53,7 +67,7 @@ namespace Blazorise.Components
             await SearchChanged.InvokeAsync( CurrentSearch );
         }
 
-        protected async Task HandleTextKeyDown( KeyboardEventArgs e )
+        private async Task HandleTextKeyDown( KeyboardEventArgs e )
         {
             if ( !DropdownVisible )
                 return;
@@ -85,7 +99,7 @@ namespace Blazorise.Components
             }
         }
 
-        protected async Task HandleDropdownItemClicked( object value )
+        private async Task HandleDropdownItemClicked( object value )
         {
             CurrentSearch = null;
             dropdownRef.Hide();
@@ -168,25 +182,36 @@ namespace Blazorise.Components
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
         public void Focus( bool scrollToElement = true )
         {
-            textEdit.Focus( scrollToElement );
+            textEditRef.Focus( scrollToElement );
         }
 
         #endregion
 
         #region Properties
 
-        protected Dropdown dropdownRef;
-
-        protected TextEdit textEdit;
-
+        /// <summary>
+        /// Gets or sets the current search value.
+        /// </summary>
         protected string CurrentSearch { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets the currently selected item text.
+        /// </summary>
         protected string SelectedText { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets the currently active item index.
+        /// </summary>
         protected int ActiveItemIndex { get; set; }
 
+        /// <summary>
+        /// True if the dropdown menu should be visible.
+        /// </summary>
         protected bool DropdownVisible => Data != null && TextField != null && CurrentSearch?.Length >= MinLength;
 
+        /// <summary>
+        /// Gets the custom classnames for dropdown element.
+        /// </summary>
         protected string DropdownClassNames
             => $"{Class} b-is-autocomplete";
 
@@ -289,13 +314,43 @@ namespace Blazorise.Components
         /// </summary>
         [Parameter] public EventCallback<string> SearchChanged { get; set; }
 
+        /// <summary>
+        /// Custom classname for dropdown element.
+        /// </summary>
         [Parameter] public string Class { get; set; }
 
+        /// <summary>
+        /// Custom styles for dropdown element.
+        /// </summary>
         [Parameter] public string Style { get; set; }
 
+        /// <summary>
+        /// If true the text in will be changed after each key press.
+        /// </summary>
+        /// <remarks>
+        /// Note that setting this will override global settings in <see cref="BlazoriseOptions.ChangeTextOnKeyPress"/>.
+        /// </remarks>
+        [Parameter] public bool? ChangeTextOnKeyPress { get; set; }
+
+        /// <summary>
+        /// If true the entered text will be slightly delayed before submiting it to the internal value.
+        /// </summary>
+        [Parameter] public bool? DelayTextOnKeyPress { get; set; }
+
+        /// <summary>
+        /// Interval in milliseconds that entered text will be delayed from submiting to the internal value.
+        /// </summary>
+        [Parameter] public int? DelayTextOnKeyPressInterval { get; set; }
+
+        /// <summary>
+        /// List of all passed attributes that are not used by this components.
+        /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
 
+        /// <summary>
+        /// Gets or sets the component child content.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

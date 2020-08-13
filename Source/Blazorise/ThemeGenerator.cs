@@ -444,6 +444,7 @@ namespace Blazorise
             GenerateButtonVariantStyles( sb, theme, variant, theme.ButtonOptions );
             GenerateButtonOutlineVariantStyles( sb, theme, variant, theme.ButtonOptions );
             GenerateBadgeVariantStyles( sb, theme, variant, color );
+            GenerateSwitchVariantStyles( sb, theme, variant, color, theme.SwitchOptions );
 
             GenerateAlertVariantStyles( sb, theme, variant,
                 ThemeColorLevelHex( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
@@ -480,6 +481,8 @@ namespace Blazorise
         protected abstract void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options );
 
         protected abstract void GenerateBadgeVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor );
+
+        protected abstract void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions switchOptions );
 
         protected abstract void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options );
 
@@ -562,9 +565,12 @@ namespace Blazorise
 
         protected static System.Drawing.Color ParseColor( string value )
         {
-            return value.StartsWith( "#" )
-                ? HexStringToColor( value )
-                : System.Drawing.Color.FromName( value );
+            if ( value.StartsWith( '#' ) )
+                return HexStringToColor( value );
+            else if ( value.StartsWith( "rgb" ) )
+                return CssRgbaFunctionToColor( value );
+
+            return System.Drawing.Color.FromName( value );
         }
 
         protected static System.Drawing.Color Rgba2Rgb( System.Drawing.Color background, System.Drawing.Color color, float? customAlpha = null )
@@ -604,6 +610,39 @@ namespace Blazorise
             {
                 return System.Drawing.Color.Empty;
             }
+        }
+
+        protected static System.Drawing.Color CssRgbaFunctionToColor( string cssColor )
+        {
+            int left = cssColor.IndexOf( '(' );
+            int right = cssColor.IndexOf( ')' );
+
+            if ( 0 > left || 0 > right )
+                throw new FormatException( $"Invalid rgb or rgba function format: {cssColor}" );
+
+            var noBrackets = cssColor.Substring( left + 1, right - left - 1 );
+
+            var parts = noBrackets.Split( ',' );
+
+            if ( parts.Length < 3 )
+                throw new FormatException( $"Invalid rgb format: {cssColor}" );
+
+            var r = int.Parse( parts[0], CultureInfo.InvariantCulture );
+            var g = int.Parse( parts[1], CultureInfo.InvariantCulture );
+            var b = int.Parse( parts[2], CultureInfo.InvariantCulture );
+
+            if ( 3 == parts.Length )
+            {
+                return System.Drawing.Color.FromArgb( r, g, b );
+            }
+            else if ( 4 == parts.Length )
+            {
+                var a = float.Parse( parts[3], CultureInfo.InvariantCulture );
+
+                return System.Drawing.Color.FromArgb( (int)( a * 255 ), r, g, b );
+            }
+
+            return System.Drawing.Color.Empty;
         }
 
         /// <summary>

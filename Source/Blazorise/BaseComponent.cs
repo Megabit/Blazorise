@@ -102,9 +102,17 @@ namespace Blazorise
             await base.OnAfterRenderAsync( firstRender );
         }
 
+        /// <summary>
+        /// Method is called only once when component is first rendered.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual Task OnFirstAfterRenderAsync()
             => Task.CompletedTask;
 
+        /// <summary>
+        /// Builds a list of classnames for this component.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
         protected virtual void BuildClasses( ClassBuilder builder )
         {
             if ( Class != null )

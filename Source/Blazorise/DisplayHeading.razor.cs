@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class DisplayHeading : BaseComponent
+    public partial class DisplayHeading : BaseTypographyComponent
     {
         #region Members
 
@@ -29,6 +29,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the display heading size.
+        /// </summary>
         [Parameter]
         public DisplayHeadingSize Size
         {
@@ -40,8 +43,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }
