@@ -234,7 +234,7 @@ namespace Blazorise.AntDesign
                 : null;
             }
         }
-        
+
         string SelectListId =>
             $"select_list_{ElementId}";
 
