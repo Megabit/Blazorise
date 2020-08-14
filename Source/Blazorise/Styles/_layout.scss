@@ -2,8 +2,10 @@
     display: flex;
     flex: auto;
     flex-direction: column;
-    min-height: 0;
-    height: 100vh;
+
+    &.b-layout-root {
+        height: 100vh;
+    }
 }
 
 .b-layout,
@@ -12,8 +14,41 @@
 }
 
 .b-layout {
+    @keyframes spinner {
+        0% {
+            transform: translate3d(-50%, -50%, 0) rotate(0deg);
+        }
+
+        100% {
+            transform: translate3d(-50%, -50%, 0) rotate(360deg);
+        }
+    }
+
+    > .b-layout-loading {
+        &:before {
+            animation: 1s linear infinite spinner;
+            border: solid 3px #eee;
+            border-bottom-color: var(--b-theme-primary);
+            border-radius: 50%;
+            height: 40px;
+            left: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            width: 40px;
+            content: ' ';
+        }
+
+        z-index: 9999;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+    }
+
     &.b-layout-has-sider {
         flex-direction: row;
+        min-height: 0;
 
         .b-layout {
             overflow-x: hidden;
@@ -28,6 +63,7 @@
 
 .b-layout-header {
     color: rgba(0, 0, 0, 0.65);
+
     &-fixed {
         position: sticky;
         z-index: 1;
@@ -37,24 +73,27 @@
 }
 
 .b-layout-footer {
-    /*padding: 24px 50px;*/
     color: rgba(0, 0, 0, 0.65);
-    font-size: 14px;
-    /*background: #f0f2f5;*/
+
+    &-fixed {
+        position: sticky;
+        z-index: 1;
+        bottom: 0;
+        flex: 0;
+    }
 }
 
 .b-layout-content {
     flex: 1;
-    min-height: 0;
 }
 
 .b-layout-sider {
+    display: flex;
     position: relative;
     background: #001529;
 }
 
 .b-layout-sider-content {
-    height: 100vh;
     position: sticky;
     top: 0;
     z-index: 2;

@@ -1,15 +1,18 @@
-﻿@import "variables";
-@import "functions";
+﻿@import "functions";
+@import "variables";
 @import "mixins";
 
 @import "badge";
 @import "bar";
 @import "buttons";
+@import "dropdown";
 @import "figure";
 @import "form";
 @import "jumbotron";
 @import "layout";
 @import "modal";
+@import "pagination";
+@import "switch";
 @import "table";
 
 @import "utilities";

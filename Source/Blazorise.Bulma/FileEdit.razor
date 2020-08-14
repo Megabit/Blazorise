@@ -9,8 +9,11 @@
             </span>
         </span>
         <span class="file-name">
-            @* TODO *@
+            @SelectedFilenamesString
         </span>
     </Label>
 </Control>
 @Feedback
+@code{
+    string SelectedFilenamesString => string.Join( ", ", SelectedFileNames );
+}

@@ -114,6 +114,8 @@ namespace Blazorise
 
         #region Properties
 
+        [Inject] protected BlazoriseOptions Options { get; set; }
+
         /// <inheritdoc/>
         public virtual object ValidationValue => InternalValue;
 

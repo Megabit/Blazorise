@@ -6,3 +6,109 @@
 .custom-switch > .custom-control-label.custom-control-label-pointer {
     cursor: pointer;
 }
+
+.form-control-plaintext {
+    &.form-control-xs,
+    &.form-control-md,
+    &.form-control-xl {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+.form-control-xs {
+    height: $input-height-xs;
+    padding: $input-padding-y-xs $input-padding-x-xs;
+    font-size: $input-font-size-xs;
+    line-height: $input-line-height-xs;
+    border-radius: $input-border-radius-xs;
+}
+
+.form-control-md {
+    height: $input-height-md;
+    padding: $input-padding-y-md $input-padding-x-md;
+    font-size: $input-font-size-md;
+    line-height: $input-line-height-md;
+    border-radius: $input-border-radius-md;
+}
+
+.form-control-xl {
+    height: $input-height-xl;
+    padding: $input-padding-y-xl $input-padding-x-xl;
+    font-size: $input-font-size-xl;
+    line-height: $input-line-height-xl;
+    border-radius: $input-border-radius-xl;
+}
+
+.custom-select-xs {
+    height: $custom-select-height-xs;
+    padding-top: $custom-select-padding-y-xs;
+    padding-bottom: $custom-select-padding-y-xs;
+    padding-left: $custom-select-padding-x-xs;
+    font-size: $custom-select-font-size-xs;
+}
+
+.custom-select-md {
+    height: $custom-select-height-md;
+    padding-top: $custom-select-padding-y-md;
+    padding-bottom: $custom-select-padding-y-md;
+    padding-left: $custom-select-padding-x-md;
+    font-size: $custom-select-font-size-md;
+}
+
+.custom-select-xl {
+    height: $custom-select-height-xl;
+    padding-top: $custom-select-padding-y-xl;
+    padding-bottom: $custom-select-padding-y-xl;
+    padding-left: $custom-select-padding-x-xl;
+    font-size: $custom-select-font-size-xl;
+}
+
+@mixin checkbox($size, $width, $height, $line-height, $padding-left) {
+    .custom-control.custom-checkbox {
+        > .custom-control-input.custom-control-input-#{$size} {
+            + .custom-control-label::before,
+            + .custom-control-label::after {
+                width: $width;
+                height: $height;
+            }
+
+            + .custom-control-label {
+                line-height: $line-height;
+                padding-left: $padding-left;
+            }
+        }
+    }
+}
+
+@include checkbox('xs', .7rem, .7rem, 'normal', 0px);
+@include checkbox('sm', .8rem, .8rem, 'normal', 0px);
+@include checkbox('md', 1.25rem, 1.25rem, 1.7rem, 3px);
+@include checkbox('lg', 1.55rem, 1.55rem, 2rem, 6px);
+@include checkbox('xl', 1.85rem, 1.85rem, 2.5rem, 10px);
+
+@mixin radio($size, $radio-size, $line-height, $padding-left) {
+    /* $padding-top: (($radio-size - ($radio-size - ($radio-size / 2))) / 2);
+    $padding-left: $radio-size / 2;*/
+
+    .custom-control.custom-radio {
+        > .custom-control-input.custom-control-input-#{$size} {
+            + .custom-control-label::before,
+            + .custom-control-label::after {
+                width: $radio-size;
+                height: $radio-size;
+            }
+
+            + .custom-control-label {
+                line-height: $line-height;
+                padding-left: $padding-left;
+            }
+        }
+    }
+}
+
+@include radio('xs', .7rem, normal, 0px);
+@include radio('sm', .8rem, normal, 0px);
+@include radio('md', 1.25rem, 1.7rem, 3px);
+@include radio('lg', 1.55rem, 2rem, 6px);
+@include radio('xl', 1.85rem, 2.5rem, 10px);

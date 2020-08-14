@@ -94,6 +94,7 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
 | Visible        | boolean                                                                | false     | Handles the visibility of dropdown menu.                                                                                       |
 | RightAligned   | boolean                                                                | false     | Right aligned dropdown menu.                                                                                                   |
+| Disabled       | boolean                                                                | false     | Disabled the button or toggle button that are placed inside of dropdown.                                                       |
 | Direction      | [Direction]({{ "/docs/helpers/enums/#direction" | relative_url }})     | `Down`    | Direction of an dropdown menu.                                                                                                 |
 | Toggled        | event                                                                  |           | Occurs after the dropdown menu visibility has changed.                                                                         |
 
@@ -118,3 +119,4 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
 | Size           | [ButtonSize]({{ "/docs/helpers/sizes/#buttonsize" | relative_url }})   | `None`    | Button size variations.                                                                                                        |
 | Split          | boolean                                                                | false     | Handles the visibility of split button.                                                                                        |
 | Outline        | boolean                                                                | false     | Outlined button                                                                                                                |
+| Disabled       | boolean                                                                | false     | Makes toggle look inactive.                                                                                                    |

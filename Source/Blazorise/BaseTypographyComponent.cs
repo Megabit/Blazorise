@@ -12,7 +12,7 @@ namespace Blazorise
     /// <summary>
     /// Base class for all text-based components.
     /// </summary>
-    public abstract class BaseTextComponent : BaseComponent
+    public abstract class BaseTypographyComponent : BaseComponent
     {
         #region Members
 

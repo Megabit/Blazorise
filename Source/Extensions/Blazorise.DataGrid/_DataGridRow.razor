@@ -26,7 +26,7 @@
             {
                 @if ( ParentDataGrid.Editable == true )
                 {
-                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" />
+                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" TextAlignment="@column.TextAlignment" />
                 }
             }
             else

@@ -16,6 +16,7 @@ namespace Blazorise
         #region Members
 
         private bool multiple;
+
         private bool loading;
 
         #endregion

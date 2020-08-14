@@ -3,9 +3,9 @@
 <CascadingValue Value=this>
     <div @ref="@ElementRef" id="@ElementId" class="@ContainerClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" @attributes="@Attributes">
         <div id="@SelectorElementId" class="ant-select-selector" @onclick="@OnSelectorClickHandler">
-            @if (Multiple)
+            @if ( Multiple )
             {
-                foreach (var selectedValue in SelectedValues ?? Enumerable.Empty<TValue>())
+                foreach ( var selectedValue in SelectedValues ?? Enumerable.Empty<TValue>() )
                 {
                     <span class="ant-select-selection-item">
                         <span class="ant-select-selection-item-content">@(this.Items[selectedValue])</span>
@@ -19,7 +19,7 @@
                     </span>
                 }
             }
-            @if (!Multiple)
+            @if ( !Multiple )
             {
                 <span class="ant-select-selection-search">
                     <input id="@InputElementId" class="ant-select-selection-search-input" role="combobox" readonly multiple="@Multiple" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="false" autocomplete="off" aria-autocomplete="list" unselectable="on">
@@ -29,8 +29,7 @@
                 </span>
             }
         </div>
-        <!--Arrow-->
-        @if (!Loading)
+        @if ( !Loading )
         {
             <span class="ant-select-arrow" unselectable="on" aria-hidden="true" style="user-select: none;">
                 <span role="img" aria-label="down" class="anticon anticon-down ant-select-suffix">
@@ -40,8 +39,7 @@
                     </svg>
                 </span>
             </span>
-            <!--Clear-->
-            @if (AllowClear)
+            @if ( AllowClear )
             {
                 <span class="ant-select-clear" unselectable="on" aria-hidden="true" style="user-select: none;" @onclick="OnSelectClearClickHandler">
                     <span role="img" aria-label="close-circle" class="anticon anticon-close-circle" style="vertical-align: 0.125em;">
@@ -52,8 +50,7 @@
                 </span>
             }
         }
-        <!--Loading-->
-        @if (Loading)
+        @if ( Loading )
         {
             <span class="ant-select-arrow ant-select-arrow-loading" unselectable="on" aria-hidden="true" style="user-select: none;">
                 <span role="img" aria-label="loading" class="anticon anticon-loading">
