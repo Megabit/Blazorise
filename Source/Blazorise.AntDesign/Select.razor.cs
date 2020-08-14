@@ -32,9 +32,6 @@ namespace Blazorise.AntDesign
 
         private Dictionary<TValue, RenderFragment> items = new Dictionary<TValue, RenderFragment>();
 
-
-        private IEqualityComparer<TValue> equalityComparer;
-
         #endregion
 
         #region Methods
@@ -180,19 +177,6 @@ namespace Blazorise.AntDesign
             }
         }
 
-        private void SetComparer( IEqualityComparer<TValue> comparer )
-        {
-            var _items = new Dictionary<TValue, RenderFragment>( comparer );
-            var _selectedItems = new Dictionary<TValue, RenderFragment>( comparer );
-
-            foreach ( var item in items )
-            {
-                _items.TryAdd( item.Key, item.Value );
-            }
-
-            items = _items;
-        }
-
         protected Task RemoveSelectedItem( TValue value )
         {
             return NotifySelectValueChanged( value );
@@ -250,20 +234,7 @@ namespace Blazorise.AntDesign
                 : null;
             }
         }
-        /// <summary>
-        /// Gets or sets values comparer.
-        /// </summary>
-        [Parameter]
-        public IEqualityComparer<TValue> EqualityComparer
-        {
-            get => equalityComparer;
-            set
-            {
-                equalityComparer = value;
-                SetComparer( value );
-            }
-        }
-
+        
         string SelectListId =>
             $"select_list_{ElementId}";
 
@@ -274,7 +245,6 @@ namespace Blazorise.AntDesign
             $"{( AllowClear ? "ant-select-allow-clear" : "" )} " +
             $"{( Disabled ? "ant-select-disabled" : "" )}";
 
-        //ant-select ant-select-single ant-select-show-arrow ant-select-disabled
         string DropdownClassNames =>
             $"ant-select-dropdown ant-select-dropdown-placement-bottomLeft {( Expanded ? "slide-up-enter slide-up-enter-active slide-up" : "slide-up-leave slide-up-leave-active slide-up" )}";
 
