@@ -17,6 +17,8 @@ namespace Blazorise
     {
         #region Members
 
+        private Color color = Color.None;
+
         private bool inline;
 
         private bool buttons;
@@ -70,6 +72,21 @@ namespace Blazorise
         #region Properties
 
         protected override TValue InternalValue { get => CheckedValue; set => CheckedValue = value; }
+
+        /// <summary>
+        /// Radio group color.
+        /// </summary>
+        [Parameter]
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                color = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Radio group name.

@@ -18,17 +18,30 @@ namespace Blazorise
     {
         #region Members
 
+        private Color color = Color.None;
+
         private string group;
 
         #endregion
 
         #region Methods
 
+        public Radio()
+        {
+            LabelButtonClassBuilder = new ClassBuilder( BuildLabelButtonClasses );
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Radio( AsButton ) );
 
             base.BuildClasses( builder );
+        }
+
+        private void BuildLabelButtonClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.Button() );
+            builder.Append( ClassProvider.ButtonColor( color ), color != Color.None );
         }
 
         protected override void OnInitialized()
@@ -44,6 +57,8 @@ namespace Blazorise
                 {
                     Group = ParentRadioGroup.Name;
                 }
+
+                color = ParentRadioGroup.Color;
             }
 
             base.OnInitialized();
@@ -90,6 +105,13 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        protected ClassBuilder LabelButtonClassBuilder { get; private set; }
+
+        /// <summary>
+        /// Gets the link button class-names.
+        /// </summary>
+        protected string LabelButtonClassNames => LabelButtonClassBuilder.Class;
 
         protected override string TrueValueName => Value?.ToString();
 
