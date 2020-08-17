@@ -62,7 +62,7 @@ namespace Blazorise.AntDesign
             {
                 parentSelect = value;
 
-                // In case of usage object generic type there can be issue to get dic value by integer key.
+                // In case of usage object generic type there can be issue to get value by integer key.
                 if (typeof(TValue) == typeof(object) && (parentSelect?.Items.All( i => !i.Key.Equals( Value ) ) ?? false ))
                 {
                     if (Value is int val)

@@ -8,7 +8,7 @@
                 foreach ( var selectedValue in SelectedValues ?? Enumerable.Empty<TValue>() )
                 {
                     <span class="ant-select-selection-item">
-                        <span class="ant-select-selection-item-content">@(this.Items[selectedValue])</span>
+                        <span class="ant-select-selection-item-content">@(this.Items.First(i=> i.Key.Equals(selectedValue)).Value)</span>
                         <span class="ant-select-selection-item-remove" unselectable="on" aria-hidden="true" style="user-select: none;">
                             <span role="img" aria-label="close" class="anticon anticon-close" style="vertical-align: 0.125em;" @onclick="@(_ => RemoveSelectedItem(selectedValue))">
                                 <svg viewBox="64 64 896 896" focusable="false" class="" data-icon="close" width="1em" height="1em" fill="currentColor" aria-hidden="true">
