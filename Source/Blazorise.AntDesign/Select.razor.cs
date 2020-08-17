@@ -30,7 +30,8 @@ namespace Blazorise.AntDesign
         /// </summary>
         private const string MultipleValuesSeparator = ";"; // Let's hope ";" will be enough to distinguish the values!
 
-        private Dictionary<TValue, RenderFragment> items = new Dictionary<TValue, RenderFragment>();
+        //private Dictionary<TValue, RenderFragment> items = new Dictionary<TValue, RenderFragment>();
+        private List<(TValue Key, RenderFragment Value)> items = new List<(TValue Key, RenderFragment Value)>();
 
         #endregion
 
@@ -202,7 +203,8 @@ namespace Blazorise.AntDesign
         /// <summary>
         /// Gets component items.
         /// </summary>
-        public Dictionary<TValue, RenderFragment> Items => items;
+        //public Dictionary<TValue, RenderFragment> Items => items;
+        public List<(TValue Key, RenderFragment Value)> Items => items;
 
         /// <summary>
         /// Gets the selected items.
@@ -215,7 +217,8 @@ namespace Blazorise.AntDesign
 
                 foreach ( var selectedValue in SelectedValues )
                 {
-                    list.Add( items[selectedValue] );
+                    //list.Add( items[selectedValue] );
+                    list.Add( items.First(i=>i.Key.Equals(selectedValue)).Value);
                 }
 
                 return list;
@@ -229,7 +232,8 @@ namespace Blazorise.AntDesign
                 return
                 SelectedValue != null
                 ? items.Count > 0
-                ? items[SelectedValue]
+                //? items[SelectedValue]
+                ? items.First(i=>i.Key.Equals(SelectedValue)).Value
                 : null
                 : null;
             }
