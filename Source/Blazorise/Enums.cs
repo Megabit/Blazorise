@@ -982,11 +982,6 @@ namespace Blazorise
     public enum ModalSize
     {
         /// <summary>
-        /// No sizing applied.
-        /// </summary>
-        None,
-
-        /// <summary>
         /// Default modal size.
         /// </summary>
         Default,
@@ -1180,48 +1175,6 @@ namespace Blazorise
         /// Validation will run only when explicitly called. 
         /// </summary>
         Manual,
-    }
-
-    /// <summary>
-    /// Defines a button size.
-    /// </summary>
-    public enum ButtonSize
-    {
-        /// <summary>
-        /// No sizing will be applied to the button.
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// Makes a button to appear smaller.
-        /// </summary>
-        Small,
-
-        /// <summary>
-        /// Makes a button to appear larger.
-        /// </summary>
-        Large,
-    }
-
-    /// <summary>
-    /// Defines sizes for button group.
-    /// </summary>
-    public enum ButtonsSize
-    {
-        /// <summary>
-        /// No sizing will be applied to the buttons.
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// Makes a buttons to appear smaller.
-        /// </summary>
-        Small,
-
-        /// <summary>
-        /// Makes a buttons to appear larger.
-        /// </summary>
-        Large,
     }
 
     /// <summary>

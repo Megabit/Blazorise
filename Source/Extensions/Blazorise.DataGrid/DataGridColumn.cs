@@ -135,9 +135,14 @@ namespace Blazorise.DataGrid
         public virtual DataGridColumnType ColumnType { get; } = DataGridColumnType.Text;
 
         /// <summary>
-        /// Gets or sets the column's display caption
+        /// Gets or sets the column's display caption.
         /// </summary>
         [Parameter] public string Caption { get; set; }
+
+        /// <summary>
+        /// Gets or sets the column's display caption template.
+        /// </summary>
+        [Parameter] public RenderFragment<DataGridColumn<TItem>> CaptionTemplate { get; set; }
 
         /// <summary>
         /// Filter value for this column.
@@ -250,12 +255,28 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<FilterContext> FilterTemplate { get; set; }
 
+        /// <summary>
+        /// Defines the size of field for popup modal.
+        /// </summary>
+        [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; } = ColumnSize.IsHalf.OnDesktop;
+
         internal FilterContext FilterContext { get; set; }
 
         /// <summary>
         /// Template for custom cell editing.
         /// </summary>
         [Parameter] public RenderFragment<CellEditContext> EditTemplate { get; set; }
+
+        /// <summary>
+        /// Validates the input value after trying to save.
+        /// </summary>
+        [Parameter]
+        public Action<ValidatorEventArgs> Validator { get; set; }
+
+        /// <summary>
+        /// Forces validation to use regex pattern matching instead of default validator handler.
+        /// </summary>
+        [Parameter] public string ValidationPattern { get; set; }
 
         #endregion
     }

@@ -31,9 +31,7 @@
 
     + label {
         position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: flex-start;
+        display: initial;
         font-size: $size;
         line-height: $control-line-height;
         padding-left: $switch-width + .5;

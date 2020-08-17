@@ -26,6 +26,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Check() );
+            builder.Append( ClassProvider.CheckSize( Size ), Size != Size.None );
 
             base.BuildClasses( builder );
         }

@@ -111,8 +111,9 @@ or programmatically
 
 ## Attributes
 
-| Name         | Type                                                         | Default          | Description                                                                                 |
-|--------------|--------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
-| Dismisable   | boolean                                                      | false            | Enables the alert to be closed by placing the padding for close button.                     |
-| Visible      | boolean                                                      | false            | Sets the alert visibility.                                                                   |
-| Color        | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }}) | `None`           | Component visual or contextual style variants.                                              |
+| Name              | Type                                                         | Default          | Description                                                                                 |
+|-------------------|--------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------|
+| Dismisable        | boolean                                                      | false            | Enables the alert to be closed by placing the padding for close button.                     |
+| Visible           | boolean                                                      | false            | Sets the alert visibility.                                                                  |
+| VisibleChanged    | `EventCallback<bool>`                                        |                  | Occurs when the alert visibility changes.                                                   |
+| Color             | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }}) | `None`           | Component visual or contextual style variants.                                              |

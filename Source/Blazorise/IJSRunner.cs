@@ -86,5 +86,7 @@ namespace Blazorise
         ValueTask<bool> DestroyFileEdit( ElementReference elementRef, string elementId );
 
         ValueTask<string> ReadDataAsync( CancellationToken cancellationToken, ElementReference elementRef, int fileEntryId, long position, long length );
+
+        ValueTask ResetFileEdit( ElementReference elementRef, string elementId );
     }
 }

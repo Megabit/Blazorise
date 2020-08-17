@@ -23,12 +23,16 @@ namespace Blazorise
 
         private bool buttons;
 
+        /// <summary>
+        /// An event raised after the internal radio group value has changed.
+        /// </summary>
         public event EventHandler<RadioCheckedChangedEventArgs<TValue>> RadioCheckedChanged;
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.RadioGroup( Buttons ) );
@@ -37,6 +41,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
             if ( string.IsNullOrEmpty( value ) )
@@ -52,14 +57,20 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override Task OnInternalValueChanged( TValue value )
         {
             // notify child radios they need to update their states
-            RadioCheckedChanged.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( value ) );
+            RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( value ) );
 
             return CheckedValueChanged.InvokeAsync( value );
         }
 
+        /// <summary>
+        /// Notifies radio group that one of it's radios have changed.
+        /// </summary>
+        /// <param name="radio">Radio from which change was received.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         internal async Task NotifyRadioChanged( Radio<TValue> radio )
         {
             await CurrentValueHandler( radio.Value?.ToString() );
@@ -67,10 +78,22 @@ namespace Blazorise
             StateHasChanged();
         }
 
+        /// <inheritdoc/>
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) )
+            {
+                await CurrentValueHandler( result?.ToString() );
+            }
+
+            await base.SetParametersAsync( parameters );
+        }
+
         #endregion
 
         #region Properties
 
+        /// <inheritdoc/>
         protected override TValue InternalValue { get => CheckedValue; set => CheckedValue = value; }
 
         /// <summary>

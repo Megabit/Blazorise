@@ -1,6 +1,6 @@
 /*!
- * Daemonite Material v4.5.0 (https://djibe.github.io/material/)
- * Copyright 2011-2020 Daemon Pty Ltd + djibe
+ * Daemonite Material v4.4.1 (https://djibe.github.io/material/)
+ * Copyright 2011-2020 Daemon Pty Ltd
  * Licensed under MIT (https://github.com/Daemonite/material/blob/master/LICENSE)
  */
 
@@ -3433,175 +3433,6 @@
     };
   }($);
 
-  var defaultOptions = {
-      className: '',
-      color: 'currentcolor',
-      opacity: .1,
-      spreadingDuration: '.4s',
-      spreadingDelay: '0s',
-      spreadingTimingFunction: 'linear',
-      clearingDuration: '1s',
-      clearingDelay: '0s',
-      clearingTimingFunction: 'ease-in-out',
-      centered: false,
-      appendTo: 'body',
-  };
-  function ripplet(_a, _options) {
-      var currentTarget = _a.currentTarget, clientX = _a.clientX, clientY = _a.clientY;
-      if (!(currentTarget instanceof Element)) {
-          return;
-      }
-      var options = _options
-          ? Object.keys(defaultOptions).reduce(function (merged, field) { return (merged[field] = _options.hasOwnProperty(field) ? _options[field] : defaultOptions[field], merged); }, {})
-          : defaultOptions;
-      var targetRect = currentTarget.getBoundingClientRect();
-      if (options.centered && options.centered !== 'false') {
-          clientX = targetRect.left + targetRect.width * .5;
-          clientY = targetRect.top + targetRect.height * .5;
-      }
-      else if (typeof clientX !== 'number' || typeof clientY !== 'number') {
-          return;
-      }
-      var targetStyle = getComputedStyle(currentTarget);
-      var documentElement = document.documentElement, body = document.body;
-      var containerElement = document.createElement('div');
-      var removingElement = containerElement;
-      {
-          var appendToParent = options.appendTo === 'parent';
-          var containerStyle = containerElement.style;
-          if (targetStyle.position === 'fixed' || (targetStyle.position === 'absolute' && appendToParent)) {
-              if (appendToParent) {
-                  currentTarget.parentElement.insertBefore(containerElement, currentTarget);
-              }
-              else {
-                  body.appendChild(containerElement);
-              }
-              copyStyles(containerStyle, targetStyle, ['position', 'left', 'top', 'right', 'bottom', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom']);
-          }
-          else if (appendToParent) {
-              var parentStyle = getComputedStyle(currentTarget.parentElement);
-              if (parentStyle.display === 'flex' || parentStyle.display === 'inline-flex') {
-                  currentTarget.parentElement.insertBefore(containerElement, currentTarget);
-                  containerStyle.position = 'absolute';
-                  containerStyle.left = currentTarget.offsetLeft + "px";
-                  containerStyle.top = currentTarget.offsetTop + "px";
-              }
-              else {
-                  var containerContainer = removingElement
-                      = currentTarget.parentElement.insertBefore(document.createElement('div'), currentTarget);
-                  var containerContainerStyle = containerContainer.style;
-                  containerContainerStyle.display = 'inline-block';
-                  containerContainerStyle.position = 'relative';
-                  containerContainerStyle.width = containerContainerStyle.height
-                      = '0';
-                  containerContainerStyle.cssFloat = targetStyle.cssFloat;
-                  var containerContainerRect = containerContainer.getBoundingClientRect(); // this may be a slow operation...
-                  containerContainer.appendChild(containerElement);
-                  containerStyle.position = 'absolute';
-                  containerStyle.top = targetRect.top - containerContainerRect.top + "px";
-                  containerStyle.left = targetRect.left - containerContainerRect.left + "px";
-              }
-          }
-          else {
-              body.appendChild(containerElement);
-              containerStyle.position = 'absolute';
-              containerStyle.left = targetRect.left + documentElement.scrollLeft + body.scrollLeft + "px";
-              containerStyle.top = targetRect.top + documentElement.scrollTop + body.scrollTop + "px";
-          }
-          containerStyle.overflow = 'hidden';
-          containerStyle.pointerEvents = 'none';
-          containerStyle.width = targetRect.width + "px";
-          containerStyle.height = targetRect.height + "px";
-          containerStyle.zIndex = (+targetStyle.zIndex || 0) + 1;
-          containerStyle.opacity = options.opacity;
-          copyStyles(containerStyle, targetStyle, ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomLeftRadius', 'borderBottomRightRadius', 'webkitClipPath', 'clipPath']);
-      }
-      {
-          var distanceX = Math.max(clientX - targetRect.left, targetRect.right - clientX);
-          var distanceY = Math.max(clientY - targetRect.top, targetRect.bottom - clientY);
-          var radius = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-          var rippletElement = containerElement.appendChild(document.createElement('div'));
-          var rippletStyle = rippletElement.style;
-          rippletElement.className = options.className;
-          rippletStyle.backgroundColor = /^currentcolor$/i.test(options.color) ? targetStyle.color : options.color;
-          rippletStyle.width = rippletStyle.height
-              = radius * 2 + "px";
-          rippletStyle.marginLeft = clientX - targetRect.left - radius + "px";
-          rippletStyle.marginTop = clientY - targetRect.top - radius + "px";
-          rippletStyle.borderRadius = '50%';
-          rippletStyle.transition =
-              "transform " + options.spreadingDuration + " " + options.spreadingTimingFunction + " " + options.spreadingDelay +
-                  (",opacity " + options.clearingDuration + " " + options.clearingTimingFunction + " " + options.clearingDelay);
-          rippletStyle.transform = 'scale(0)';
-          // reflect styles by force layout
-          // tslint:disable-next-line:no-unused-expression
-          rippletElement.offsetTop;
-          rippletElement.addEventListener('transitionend', function (event) {
-              if (event.propertyName === 'opacity' && removingElement.parentElement) {
-                  removingElement.parentElement.removeChild(removingElement);
-              }
-          });
-          rippletStyle.transform = '';
-          rippletStyle.opacity = '0';
-      }
-      return containerElement;
-  }
-  function copyStyles(destination, source, properties) {
-      for (var _i = 0, properties_1 = properties; _i < properties_1.length; _i++) {
-          var property = properties_1[_i];
-          destination[property] = source[property];
-      }
-  }
-
-  /*
-   * Config for ripplet.js by luncheon
-   */
-  // Values from https://github.com/material-components/material-components-web/blob/master/packages/mdc-ripple/_variables.scss
-
-  var Ripplet = function () {
-    /* eslint complexity: ["error", 40] */
-    addEventListener('pointerdown', function (event) {
-      defaultOptions.color = 'rgba(0,0,0,0.12)';
-      defaultOptions.opacity = 1;
-      defaultOptions.spreadingDelay = '15ms';
-      defaultOptions.spreadingDuration = '175ms';
-      defaultOptions.clearingDelay = '300ms';
-      defaultOptions.clearingDuration = '150ms';
-      defaultOptions.clearingTimingFunction = 'linear';
-
-      if (event.button !== 0) {
-        return;
-      }
-
-      var currentTarget = event.target.closest('.btn, .card-link, .card-primary-action, .list-group-item-action, [data-ripplet]');
-
-      if (!currentTarget || currentTarget.disabled) {
-        return;
-      }
-
-      var rippleTarget = {
-        currentTarget: currentTarget,
-        clientX: event.clientX,
-        clientY: event.clientY
-      };
-      currentTarget.setAttribute('data-ripplet', '');
-      var cls = currentTarget.classList;
-
-      if (cls.contains('btn-outline-primary') || cls.contains('btn-outline-secondary') || cls.contains('btn-outline-danger') || cls.contains('btn-outline-info') || cls.contains('btn-outline-success') || cls.contains('btn-outline-warning') || cls.contains('btn-outline-dark') || cls.contains('btn-outline-light') || cls.contains('btn-link') || cls.contains('card-link') || cls.contains('btn-flat-primary') || cls.contains('btn-flat-secondary') || cls.contains('btn-flat-danger') || cls.contains('btn-flat-info') || cls.contains('btn-flat-success') || cls.contains('btn-flat-warning') || cls.contains('btn-flat-dark') || cls.contains('btn-flat-light')) {
-        ripplet(rippleTarget, {
-          color: getComputedStyle(currentTarget).color,
-          opacity: 0.12
-        });
-      } else if (cls.contains('btn-primary') || cls.contains('btn-secondary') || cls.contains('btn-success') || cls.contains('btn-danger') || cls.contains('btn-warning') || cls.contains('btn-info') || cls.contains('btn-dark')) {
-        ripplet(rippleTarget, {
-          color: 'rgba(255,255,255,0.24)'
-        });
-      } else {
-        ripplet(rippleTarget);
-      }
-    });
-  }();
-
   /*
    * Selection control plugin fixes the focus state problem with
    * Chrome persisting focus state on checkboxes/radio buttons after clicking
@@ -3772,7 +3603,6 @@
   exports.FloatingLabel = FloatingLabel;
   exports.NavDrawer = NavDrawer;
   exports.PickDate = PickDate;
-  exports.Ripplet = Ripplet;
   exports.SelectionControlFocus = SelectionControlFocus;
   exports.TabSwitch = TabSwitch;
   exports.Util = Util;

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class CardSubtitle : BaseTextComponent
+    public partial class CardSubtitle : BaseTypographyComponent
     {
         #region Members
 

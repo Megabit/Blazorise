@@ -12,6 +12,8 @@ namespace Blazorise
     {
         #region Members
 
+        private bool @fixed;
+
         #endregion
 
         #region Methods
@@ -19,6 +21,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.LayoutFooter() );
+            builder.Append( ClassProvider.LayoutFooterFixed(), Fixed );
 
             base.BuildClasses( builder );
         }
@@ -26,6 +29,21 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// If true footer will be fixed to the bottom of the page.
+        /// </summary>
+        [Parameter]
+        public bool Fixed
+        {
+            get => @fixed;
+            set
+            {
+                @fixed = value;
+
+                DirtyClasses();
+            }
+        }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

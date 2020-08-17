@@ -17,3 +17,34 @@
         @include border-top-radius(0);
     }
 }
+
+@mixin button-size($padding-y, $padding-x, $font-size, $line-height, $border-radius) {
+    padding: $padding-y $padding-x;
+    font-size: $font-size;
+    line-height: $line-height;
+    border-radius: $border-radius;
+}
+
+.btn-xs {
+    @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $btn-font-size-xs, $btn-line-height-xs, $btn-border-radius-xs);
+}
+
+.btn-md {
+    @include button-size($btn-padding-y-md, $btn-padding-x-md, $btn-font-size-md, $btn-line-height-md, $btn-border-radius-md);
+}
+
+.btn-xl {
+    @include button-size($btn-padding-y-xl, $btn-padding-x-xl, $btn-font-size-xl, $btn-line-height-xl, $btn-border-radius-xl);
+}
+
+.btn-group-xs > .btn {
+    @extend .btn-xs;
+}
+
+.btn-group-md > .btn {
+    @extend .btn-md;
+}
+
+.btn-group-xl > .btn {
+    @extend .btn-xl;
+}
