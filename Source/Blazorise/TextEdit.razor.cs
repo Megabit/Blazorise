@@ -97,23 +97,26 @@ namespace Blazorise
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
         [Parameter] public EventCallback<KeyboardEventArgs> KeyPress { get; set; }
+
         /// <summary>
-        /// Occurs when the input box gains focus.
+        /// Occurs when a key is released while the control has focus.
         /// </summary>
-        [Parameter] public EventCallback<FocusEventArgs> FocusIn { get; set; }
-        /// <summary>
-        /// Occurs when the input box loses focus.
-        /// </summary>
-        [Parameter] public EventCallback<FocusEventArgs> FocusOut { get; set; }
+        [Parameter] public EventCallback<KeyboardEventArgs> KeyUp { get; set; }
+
         /// <summary>
         /// Occurs when the input box gains or loses focus.
         /// </summary>
         [Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; }
 
         /// <summary>
-        /// Occurs when a key is released while the control has focus.
+        /// Occurs when the input box gains focus.
         /// </summary>
-        [Parameter] public EventCallback<KeyboardEventArgs> KeyUp { get; set; }
+        [Parameter] public EventCallback<FocusEventArgs> FocusIn { get; set; }
+
+        /// <summary>
+        /// Occurs when the input box loses focus.
+        /// </summary>
+        [Parameter] public EventCallback<FocusEventArgs> FocusOut { get; set; }
 
         /// <summary>
         /// A string representing a edit mask expression.
