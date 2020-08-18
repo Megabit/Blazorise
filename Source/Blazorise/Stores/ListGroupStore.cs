@@ -17,12 +17,16 @@ namespace Blazorise.Stores
         public bool Equals( ListGroupStore other )
         {
             return Flush == other.Flush
+                && Mode == other.Mode
                 && SelectedItem == other.SelectedItem;
         }
 
         public override int GetHashCode()
         {
             var result = Flush.GetHashCode();
+
+            result = result
+               ^ ( Mode.GetHashCode() ^ 1 ); // power of two for every other field(^1, ^2, ^4, ^8, ^16, ...)
 
             if ( SelectedItem != null )
                 result ^= SelectedItem.GetHashCode();
@@ -45,6 +49,8 @@ namespace Blazorise.Stores
         #region Properties
 
         public bool Flush { readonly get; set; }
+
+        public ListGroupMode Mode { readonly get; set; }
 
         public string SelectedItem { readonly get; set; }
 
