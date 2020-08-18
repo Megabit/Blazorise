@@ -185,7 +185,7 @@ namespace Blazorise.Frolic
 
         public override string FieldsBody() => null;
 
-        public override string FieldsColumn() => $"{Column()}";
+        public override string FieldsColumn() => "e-col";
 
         #endregion
 
@@ -195,7 +195,7 @@ namespace Blazorise.Frolic
 
         public override string FieldHorizontal() => "e-cols no-gap";
 
-        public override string FieldColumn() => $"{Column()}";
+        public override string FieldColumn() => "e-col";
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -608,11 +608,11 @@ namespace Blazorise.Frolic
 
         #region Column
 
-        public override string Column() => "e-col";
+        public override string Column( bool hasSizes ) => "e-col";
 
         public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var baseClass = offset ? "offset" : Column();
+            var baseClass = offset ? "offset" : "e-col";
 
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
