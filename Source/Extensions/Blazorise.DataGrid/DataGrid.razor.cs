@@ -67,9 +67,15 @@ namespace Blazorise.DataGrid
 
         protected Dictionary<string, CellEditContext> filterCellValues;
 
-        private int firstVisiblePage;
+        /// <summary>
+        /// Holds the pagination templates
+        /// </summary>
+        protected PaginationTemplates paginationTemplates = new PaginationTemplates();
 
-        private int lastVisiblePage;
+        /// <summary>
+        /// Holds the pagination context
+        /// </summary>
+        protected PaginationContext paginationContext = new PaginationContext();
 
         #endregion
 
@@ -78,6 +84,8 @@ namespace Blazorise.DataGrid
         public DataGrid()
         {
             newItemCreator = new Lazy<Func<TItem>>( () => FunctionCompiler.CreateNewItem<TItem>() );
+            FilteredDataChanged += ( IEnumerable<TItem> filteredData ) => paginationContext.TotalItems = filteredData.Count();
+            paginationContext.SubscribeOnPageSizeChanged( ( pageSize ) => StateHasChanged() );
         }
 
         #endregion
@@ -212,7 +220,7 @@ namespace Blazorise.DataGrid
 
             // When deleting and the page becomes empty and we aren't the first page:
             // go to the previous page
-            if ( ManualReadMode && ShowPager && CurrentPage > FirstVisiblePage && !Data.Any() )
+            if ( ManualReadMode && ShowPager && CurrentPage > paginationContext.FirstVisiblePage && !Data.Any() )
             {
                 await OnPaginationItemClick( ( CurrentPage - 1 ).ToString() );
             }
@@ -395,8 +403,8 @@ namespace Blazorise.DataGrid
                 {
                     CurrentPage++;
 
-                    if ( CurrentPage > LastPage )
-                        CurrentPage = LastPage;
+                    if ( CurrentPage > paginationContext.LastPage )
+                        CurrentPage = paginationContext.LastPage;
                 }
                 else if ( pageName == "first" )
                 {
@@ -404,7 +412,7 @@ namespace Blazorise.DataGrid
                 }
                 else if ( pageName == "last" )
                 {
-                    CurrentPage = LastPage;
+                    CurrentPage = paginationContext.LastPage;
                 }
             }
 
@@ -522,37 +530,6 @@ namespace Blazorise.DataGrid
 
             SelectedRow = item;
             return SelectedRowChanged.InvokeAsync( SelectedRow );
-        }
-
-        #endregion
-
-        #region Pagination
-
-        /// <summary>
-        /// Calculates the first and last visible pages based on the current offset and page size.
-        /// </summary>
-        private void CalculateFirstAndLastVisiblePage()
-        {
-            var step = (int)Math.Floor( MaxPaginationLinks / 2d );
-
-            var leftButton = CurrentPage - step;
-            var rightButton = CurrentPage + step;
-
-            if ( leftButton <= 1 )
-            {
-                firstVisiblePage = 1;
-                lastVisiblePage = Math.Min( MaxPaginationLinks, LastPage );
-            }
-            else if ( LastPage <= rightButton )
-            {
-                firstVisiblePage = Math.Max( LastPage - MaxPaginationLinks + 1, 1 );
-                lastVisiblePage = LastPage;
-            }
-            else
-            {
-                firstVisiblePage = leftButton;
-                lastVisiblePage = rightButton;
-            }
         }
 
         #endregion
@@ -762,9 +739,28 @@ namespace Blazorise.DataGrid
         [Parameter] public bool ShowPager { get; set; }
 
         /// <summary>
+        /// Gets or sets the position of the pager.
+        /// </summary>
+        [Parameter] public DataGridPagerPosition PagerPosition { get; set; } = DataGridPagerPosition.Bottom;
+
+        /// <summary>
+        /// Gets or sets whether users can adjust the page size of the datagrid.
+        /// </summary>
+        [Parameter] public bool ShowPageSizes { get => paginationContext.ShowPageSizes; set => paginationContext.ShowPageSizes = value; }
+
+        /// <summary>
+        /// Gets or sets the chooseable page sizes of the datagrid.
+        /// </summary>
+        [Parameter] public IEnumerable<int> PageSizes { get => paginationContext.PageSizes; set => paginationContext.PageSizes = value; }
+
+        /// <summary>
         /// Gets or sets the current page number.
         /// </summary>
-        [Parameter] public int CurrentPage { get; set; } = 1;
+        [Parameter] public int CurrentPage { get => paginationContext.CurrentPage; set => paginationContext.CurrentPage = value; }
+
+        protected PaginationContext PaginationContext { get => paginationContext; }
+
+        protected PaginationTemplates PaginationTemplates { get => paginationTemplates; }
 
         /// <summary>
         /// Gets or sets content of table body for empty DisplayData.
@@ -779,22 +775,22 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets content of first button of pager.
         /// </summary>
-        [Parameter] public RenderFragment FirstPageButtonTemplate { get; set; }
+        [Parameter] public RenderFragment FirstPageButtonTemplate { get => paginationTemplates.FirstPageButtonTemplate; set => paginationTemplates.FirstPageButtonTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of last button of pager.
         /// </summary>
-        [Parameter] public RenderFragment LastPageButtonTemplate { get; set; }
+        [Parameter] public RenderFragment LastPageButtonTemplate { get => paginationTemplates.LastPageButtonTemplate; set => paginationTemplates.LastPageButtonTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of previous button of pager.
         /// </summary>
-        [Parameter] public RenderFragment PreviousPageButtonTemplate { get; set; }
+        [Parameter] public RenderFragment PreviousPageButtonTemplate { get => paginationTemplates.PreviousPageButtonTemplate; set => paginationTemplates.PreviousPageButtonTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of next button of pager.
         /// </summary>
-        [Parameter] public RenderFragment NextPageButtonTemplate { get; set; }
+        [Parameter] public RenderFragment NextPageButtonTemplate { get => paginationTemplates.NextPageButtonTemplate; set => paginationTemplates.NextPageButtonTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of page buttons of pager.
@@ -802,59 +798,29 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment<PageButtonContext> PageButtonTemplate { get; set; }
 
         /// <summary>
-        /// Gets the last page number.
+        /// Gets or sets content of items per page of grid.
         /// </summary>
-        protected int LastPage
-        {
-            get
-            {
-                // if we're using ReadData than TotalItems must be set so we can know how many items are available
-                var totalItems = ( ManualReadMode ? TotalItems : FilteredData?.Count() ) ?? 0;
-
-                var lastPage = Math.Max( (int)Math.Ceiling( totalItems / (double)PageSize ), 1 );
-
-                if ( CurrentPage > lastPage )
-                    CurrentPage = lastPage;
-
-                return lastPage;
-            }
-        }
+        public RenderFragment ItemsPerPageTemplate { get; set; }
 
         /// <summary>
-        /// Gets the number of the first page that can be clicked in a large dataset.
+        /// Gets or sets content of total items grid for small devices.
         /// </summary>
-        protected int FirstVisiblePage
-        {
-            get
-            {
-                CalculateFirstAndLastVisiblePage();
-
-                return firstVisiblePage;
-            }
-        }
+        public RenderFragment<PaginationContext> TotalItemsShortTemplate { get => paginationTemplates.TotalItemsShortTemplate; set => paginationTemplates.TotalItemsShortTemplate = value; }
 
         /// <summary>
-        /// Gets the number of the last page that can be clicked in a large dataset.
+        /// Gets or sets content of total items grid.
         /// </summary>
-        protected int LastVisiblePage
-        {
-            get
-            {
-                CalculateFirstAndLastVisiblePage();
-
-                return lastVisiblePage;
-            }
-        }
+        public RenderFragment<PaginationContext> TotalItemsTemplate { get => paginationTemplates.TotalItemsTemplate; set => paginationTemplates.TotalItemsTemplate = value; }
 
         /// <summary>
         /// Gets or sets the maximum number of items for each page.
         /// </summary>
-        [Parameter] public int PageSize { get; set; } = 5;
+        [Parameter] public int PageSize { get => paginationContext.CurrentPageSize; set => paginationContext.CurrentPageSize = value; }
 
         /// <summary>
         /// Gets or sets the maximum number of visible pagination links. It has to be odd for well look.
         /// </summary>
-        [Parameter] public int MaxPaginationLinks { get; set; } = 5;
+        [Parameter] public int MaxPaginationLinks { get => paginationContext.MaxPaginationLinks; set => paginationContext.MaxPaginationLinks = value; }
 
         /// <summary>
         /// Defines the filter method when searching the cell values.
