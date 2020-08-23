@@ -6,8 +6,18 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    partial class _DataGridPagination
+    partial class _DataGridPagination : BaseComponent
     {
+        #region Methods
+
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.FieldJustifyContent( JustifyContent.Between ) );
+            base.BuildClasses( builder );
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
