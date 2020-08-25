@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -283,6 +284,20 @@ namespace Blazorise.Tests.Utils
             Assert.NotNull( result );
             Assert.Equal( 1, result.Count );
             Assert.Equal( "abc", result["Foo"] );
+        }
+
+        [Theory]
+        [InlineData( "2020-08-24T17:48:00-04:00", true )]
+        [InlineData( "not a date", false )]
+        public void TryChangeType_With_DateTimeOffset_String_As_Value_Should_BeExpected( string value, bool expected )
+        {
+            // Arrange
+
+            // Act
+            var result = Converters.TryChangeType<DateTimeOffset>( value, out var _ );
+
+            // Assert
+            Assert.Equal( expected, result );
         }
     }
 
