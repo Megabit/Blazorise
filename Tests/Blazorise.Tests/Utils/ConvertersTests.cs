@@ -121,7 +121,7 @@ namespace Blazorise.Tests.Utils
         [Theory]
         [InlineData( "2020-08-24T17:48:00-04:00", true )]
         [InlineData( "not a date", false )]
-        public void TryChangeType_With_DateTimeOffsetAsString_Should_Succeed( string value, bool expected )
+        public void TryChangeType_With_DateTimeOffset_String_As_Value_Should_BeExpected( string value, bool expected )
         {
             // Arrange
 
