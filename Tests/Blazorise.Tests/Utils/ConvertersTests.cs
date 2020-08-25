@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using Blazorise.Utils;
 using Xunit;
 
@@ -115,6 +116,20 @@ namespace Blazorise.Tests.Utils
             Assert.NotNull( result );
             Assert.Equal( 1, result.Count );
             Assert.Equal( "abc", result["Foo"] );
+        }
+
+        [Theory]
+        [InlineData( "2020-08-24T17:48:00-04:00", true )]
+        [InlineData( "not a date", false )]
+        public void TryChangeType_With_DateTimeOffsetAsString_Should_Succeed( string value, bool expected )
+        {
+            // Arrange
+
+            // Act
+            var result = Converters.TryChangeType<DateTimeOffset>( value, out var _ );
+
+            // Assert
+            Assert.Equal( expected, result );
         }
     }
 
