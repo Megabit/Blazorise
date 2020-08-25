@@ -81,7 +81,7 @@ namespace Blazorise
                 // To avoid leaking memory, it's important to detach any event handlers in Dispose()
                 ParentValidations.ValidatingAll -= OnValidatingAll;
                 ParentValidations.ClearingAll -= OnClearingAll;
-                ParentValidations.NotifyValidationRemoved(this);
+                ParentValidations.NotifyValidationRemoved( this );
             }
         }
 
