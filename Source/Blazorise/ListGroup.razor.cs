@@ -16,7 +16,10 @@ namespace Blazorise
     {
         #region Members
 
-        private ListGroupStore store;
+        private ListGroupStore store = new ListGroupStore
+        {
+            Mode = ListGroupMode.Static,
+        };
 
         #endregion
 
@@ -61,6 +64,21 @@ namespace Blazorise
             set
             {
                 store.Flush = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Defines the list-group behaviour mode.
+        /// </summary>
+        [Parameter]
+        public ListGroupMode Mode
+        {
+            get => store.Mode;
+            set
+            {
+                store.Mode = value;
 
                 DirtyClasses();
             }

@@ -12,12 +12,12 @@ The `SelectList` component allows you to select a value from a list of predefine
 
 ## Installation
 
-The SelectList extension is part of the **Blazorise.Components** Nuget package.
+The SelectList extension is part of the **Blazorise.Components** NuGet package.
 {: .notice--info}
 
-### Nuget
+### NuGet
 
-Install extension from nuget.
+Install extension from NuGet.
 
 ```
 Install-Package Blazorise.Components
@@ -28,7 +28,10 @@ Install-Package Blazorise.Components
 ### Markup
 
 ```html
-<SelectList Data="@myDdlData"
+<SelectList
+    TItem="MySelectModel"
+    TValue="int"
+    Data="@myDdlData"
     TextField="@((item)=>item.MyTextField)"
     ValueField="@((item)=>item.MyValueField)"
     SelectedValue="@selectedListValue"
@@ -48,9 +51,9 @@ Install-Package Blazorise.Components
     static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
     IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
 
-    object selectedListValue { get; set; } = 3;
+    int selectedListValue { get; set; } = 3;
 
-    void MyListValueChangedHandler( object newValue )
+    void MyListValueChangedHandler( int newValue )
     {
         selectedListValue = newValue;
         StateHasChanged();
@@ -60,11 +63,12 @@ Install-Package Blazorise.Components
 
 ## Attributes
 
-| Name                 | Type               | Default    | Description                                           |
-|----------------------|--------------------|------------|-------------------------------------------------------|
-| TItem                | generic            |            | Model data type.                                      |
-| Data                 | IEnumerable<TItem> |            | Data used for selection.                              |
-| TextField            | Func               |            | Selector for the display name field.                  |
-| ValueField           | Func               |            | Selector for the value field.                         |
-| SelectedValue        | object             |            | Currently selected value.                             |
-| SelectedValueChanged | event              |            | Raises an event after the selected value has changed. |
+| Name                 | Type                       | Default    | Description                                           |
+|----------------------|----------------------------|------------|-------------------------------------------------------|
+| TItem                | generic                    |            | Model data type.                                      |
+| TValue               | generic                    |            | Bound value data type.                                |
+| Data                 | IEnumerable<TItem>         |            | Data used for selection.                              |
+| TextField            | `Func<TItem, string>`      |            | Selector for the display name field.                  |
+| ValueField           | `Func<TItem, TValue>`      |            | Selector for the value field.                         |
+| SelectedValue        | TValue                     |            | Currently selected value.                             |
+| SelectedValueChanged | `EventCallback<TValue>`    |            | Raises an event after the selected value has changed. |
