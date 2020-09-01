@@ -2,7 +2,7 @@
 @inherits BaseTextInput<TValue>
 @if ( !HasCustomRegistration )
 {
-    <input @ref="@ElementRef" id="@ElementId" type="time" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" @attributes="@Attributes" />
+    <input @ref="@ElementRef" id="@ElementId" type="time" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" @attributes="@Attributes" />
     @ChildContent
     @Feedback
 }

@@ -20,7 +20,7 @@
                 }
             }
             <div class="ant-select-selection-search">
-                <input id="@InputElementId" class="ant-select-selection-search-input" role="combobox" readonly multiple="@Multiple" value="@CurrentValueAsString" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="@Expanded.ToString().ToLowerInvariant()" />
+                <input id="@InputElementId" class="ant-select-selection-search-input" role="combobox" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" readonly multiple="@Multiple" value="@CurrentValueAsString" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="@Expanded.ToString().ToLowerInvariant()" />
             </div>
         </div>
     </div>
