@@ -186,7 +186,7 @@ namespace Blazorise.Bootstrap
 
         public override string FieldsBody() => null;
 
-        public override string FieldsColumn() => $"{Column()}";
+        public override string FieldsColumn() => "col";
 
         #endregion
 
@@ -196,7 +196,7 @@ namespace Blazorise.Bootstrap
 
         public override string FieldHorizontal() => "row";
 
-        public override string FieldColumn() => $"{Column()}";
+        public override string FieldColumn() => "col";
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -582,11 +582,11 @@ namespace Blazorise.Bootstrap
 
         #region Column
 
-        public override string Column() => "col";
+        public override string Column( bool hasSizes ) => hasSizes ? null : "col";
 
         public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var baseClass = offset ? "offset" : Column();
+            var baseClass = offset ? "offset" : "col";
 
             if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
             {

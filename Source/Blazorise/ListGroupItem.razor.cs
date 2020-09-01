@@ -60,7 +60,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the flag indicating the item is selected.
         /// </summary>
-        protected bool Active => parentListGroupStore.SelectedItem == Name;
+        protected bool Active => parentListGroupStore.Mode == ListGroupMode.Selectable && parentListGroupStore.SelectedItem == Name;
 
         /// <summary>
         /// Defines the item name.

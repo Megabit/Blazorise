@@ -172,7 +172,7 @@ namespace Blazorise.AntDesign
 
         public override string FieldsBody() => null;
 
-        public override string FieldsColumn() => $"{Column()}";
+        public override string FieldsColumn() => "ant-col";
 
         #endregion
 
@@ -581,11 +581,12 @@ namespace Blazorise.AntDesign
 
         #region Column
 
-        public override string Column() => "ant-col";
+        public override string Column( bool hasSizes ) => "ant-col";
 
         public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var sb = new StringBuilder( Column() );
+            // AntDesign requires for base ant-col class to be always defined.
+            var sb = new StringBuilder( $"ant-col" );
 
             if ( breakpoint != Blazorise.Breakpoint.None )
                 sb.Append( $"-{ToBreakpoint( breakpoint )}" );

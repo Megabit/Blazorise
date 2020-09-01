@@ -569,7 +569,7 @@ namespace Blazorise
 
         #region Column
 
-        string Column();
+        string Column( bool hasSizes );
 
         string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules );
 
