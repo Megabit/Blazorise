@@ -99,11 +99,6 @@ namespace Blazorise
         [Parameter] public EventCallback<KeyboardEventArgs> KeyPress { get; set; }
 
         /// <summary>
-        /// Occurs when a key is released while the control has focus.
-        /// </summary>
-        [Parameter] public EventCallback<KeyboardEventArgs> KeyUp { get; set; }
-
-        /// <summary>
         /// A string representing a edit mask expression.
         /// </summary>
         [Parameter] public string EditMask { get; set; }
