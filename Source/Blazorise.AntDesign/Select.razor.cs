@@ -202,7 +202,6 @@ namespace Blazorise.AntDesign
         /// <summary>
         /// Gets component items.
         /// </summary>
-        //public Dictionary<TValue, RenderFragment> Items => items;
         public List<(TValue Key, RenderFragment Value)> Items => items;
 
         /// <summary>
@@ -216,7 +215,7 @@ namespace Blazorise.AntDesign
 
                 foreach ( var selectedValue in SelectedValues )
                 {
-                    list.Add( items.First(i=>i.Key.Equals(selectedValue)).Value);
+                    list.Add( items.First( i => i.Key.Equals( selectedValue ) ).Value );
                 }
 
                 return list;
@@ -230,7 +229,7 @@ namespace Blazorise.AntDesign
                 return
                 SelectedValue != null
                 ? items.Count > 0
-                ? items.First(i=>i.Key.Equals(SelectedValue)).Value
+                ? items.First( i => i.Key.Equals( SelectedValue ) ).Value
                 : null
                 : null;
             }
