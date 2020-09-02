@@ -572,7 +572,7 @@ namespace Blazorise
 
         #region Column
 
-        public abstract string Column();
+        public abstract string Column( bool hasSizes );
 
         public abstract string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 

@@ -185,7 +185,7 @@ namespace Blazorise.Bulma
 
         public override string FieldsBody() => "field-body";
 
-        public override string FieldsColumn() => $"{Column()}";
+        public override string FieldsColumn() => "column";
 
         //public override string FieldsColumnSize( ColumnSize columnSize ) => $"is-{ColumnSize( columnSize )}";
 
@@ -197,7 +197,7 @@ namespace Blazorise.Bulma
 
         public override string FieldHorizontal() => "is-horizontal";
 
-        public override string FieldColumn() => $"{Column()}";
+        public override string FieldColumn() => "column";
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -588,7 +588,7 @@ namespace Blazorise.Bulma
 
         #region Column
 
-        public override string Column() => "column";
+        public override string Column( bool hasSizes ) => hasSizes ? null : "column";
 
         public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
@@ -597,12 +597,12 @@ namespace Blazorise.Bulma
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
                 if ( columnWidth == Blazorise.ColumnWidth.None )
-                    return $"{Column()} is-{baseClass}{ToBreakpoint( breakpoint )}";
+                    return $"column is-{baseClass}{ToBreakpoint( breakpoint )}";
 
-                return $"{Column()} is-{baseClass}{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
+                return $"column is-{baseClass}{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
             }
 
-            return $"{Column()} is-{baseClass}{ToColumnWidth( columnWidth )}";
+            return $"column is-{baseClass}{ToColumnWidth( columnWidth )}";
         }
 
         public override string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>

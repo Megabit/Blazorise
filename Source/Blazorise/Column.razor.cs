@@ -18,7 +18,10 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.Column() );
+            // Only add column classname if there are no custom sizes defined!
+            // If any provider need to have base classname then it needs to add
+            // it in ClassProvider.Column(...) builder.
+            builder.Append( ClassProvider.Column( ColumnSize?.HasSizes == true ) );
 
             base.BuildClasses( builder );
         }

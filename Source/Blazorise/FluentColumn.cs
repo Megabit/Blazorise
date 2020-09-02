@@ -6,9 +6,22 @@ using System.Linq;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Base interface for column fluent builder.
+    /// </summary>
     public interface IFluentColumn
     {
+        /// <summary>
+        /// Builds and returns the classnames for column sizes.
+        /// </summary>
+        /// <param name="classProvider">Class provider used by the current framework provider.</param>
+        /// <returns>Return list of css classnames.</returns>
         string Class( IClassProvider classProvider );
+
+        /// <summary>
+        /// True if there are column sizes defined.
+        /// </summary>
+        bool HasSizes { get; }
     }
 
     public interface IFluentColumnOnBreakpointWithOffsetAndSize :
@@ -212,6 +225,8 @@ namespace Blazorise
 
         public IFluentColumnOnBreakpointWithOffsetAndSize WithColumnSize( ColumnWidth columnSize )
         {
+            HasSizes = true;
+
             var columnDefinition = new ColumnDefinition { Breakpoint = Breakpoint.None };
 
             if ( !rules.ContainsKey( columnSize ) )
@@ -254,6 +269,8 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        public bool HasSizes { get; private set; }
 
         /// <summary>
         /// Valid on all devices. (extra small)

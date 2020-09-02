@@ -577,7 +577,7 @@ namespace Blazorise.Providers
 
         #region Column
 
-        public string Column() => null;
+        public string Column( bool hasSizes ) => null;
 
         public string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
 
