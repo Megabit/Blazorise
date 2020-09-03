@@ -5,7 +5,8 @@
         <div id="@SelectorElementId" class="ant-select-selector" @onclick="@OnSelectorClickHandler">
             @if ( Multiple )
             {
-                foreach ( var selectedValue in SelectedValues ?? Enumerable.Empty<TValue>() )
+                foreach ( var selectedValue in SelectedValues ?? Enumerable.Empty<TValue>
+                    () )
                 {
                     <span class="ant-select-selection-item">
                         <span class="ant-select-selection-item-content">@(this.Items.First(i=> i.Key.Equals(selectedValue)).Value)</span>
@@ -22,7 +23,7 @@
             @if ( !Multiple )
             {
                 <span class="ant-select-selection-search">
-                    <input id="@InputElementId" class="ant-select-selection-search-input" role="combobox" readonly="true" multiple="@Multiple" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="false" autocomplete="off" aria-autocomplete="list" unselectable="on">
+                    <input id="@InputElementId" class="ant-select-selection-search-input" role="combobox" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" readonly="true" multiple="@Multiple" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="false" autocomplete="off" aria-autocomplete="list" unselectable="on">
                 </span>
                 <span class="ant-select-selection-item">
                     @SelectedItem
