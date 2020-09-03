@@ -29,7 +29,7 @@ namespace Blazorise.Stores
             // only noStore.
             var result = Active.GetHashCode()
                 ^ ( Disabled.GetHashCode() << 1 )
-                ^ ( BarVisible.GetHashCode() << 1 ); // increase shift by one for every bool field
+                ^ ( BarVisible.GetHashCode() << 2 ); // increase shift by one for every bool field
 
             result = result
                 ^ ( Mode.GetHashCode() ^ 1 ); // power of two for every other field(^1, ^2, ^4, ^8, ^16, ...)

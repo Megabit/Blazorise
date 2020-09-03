@@ -41,7 +41,7 @@ namespace Blazorise
 
         protected virtual void BuildContainerClasses( ClassBuilder builder )
         {
-            builder.Append( "b-bar-dropdown-menu-container", ParentStore.Mode != BarMode.Horizontal );
+            builder.Append( ClassProvider.BarDropdownMenuContainer( ParentStore.Mode ) );
             builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), RightAligned );
         }
 

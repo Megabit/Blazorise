@@ -547,6 +547,8 @@ namespace Blazorise.Bootstrap
 
         public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-right" : "b-bar-right";
 
+        public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
+
         public override string BarCollapsed( BarMode mode ) => null;
 
         public override string BarLabel() => "b-bar-label";

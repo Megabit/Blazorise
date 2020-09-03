@@ -551,6 +551,8 @@ namespace Blazorise.Bulma
 
         public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "is-right" : null;
 
+        public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
+
         public override string BarCollapsed( BarMode mode ) => null;
 
         public override string BarLabel() => "b-bar-label";

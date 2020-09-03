@@ -533,6 +533,8 @@ namespace Blazorise
 
         string BarDropdownMenuRight( BarMode mode );
 
+        string BarDropdownMenuContainer( BarMode mode );
+
         string BarCollapsed( BarMode mode );
 
         string BarLabel();
