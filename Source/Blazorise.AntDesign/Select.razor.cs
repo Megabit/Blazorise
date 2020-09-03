@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Utils;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
@@ -28,6 +29,8 @@ namespace Blazorise.AntDesign
         /// Internal string separator for selected values when Multiple mode is used.
         /// </summary>
         private const string MultipleValuesSeparator = ";"; // Let's hope ";" will be enough to distinguish the values!
+
+        private List<(TValue Key, RenderFragment Value)> items = new List<(TValue Key, RenderFragment Value)>();
 
         #endregion
 
@@ -92,6 +95,12 @@ namespace Blazorise.AntDesign
             await JSRunner.UnregisterClosableComponent( this );
 
             Expanded = false;
+        }
+
+        private void ClearSelectedItems()
+        {
+            SelectedValue = default;
+            SelectedValues = default;
         }
 
         protected Task OnMultipleValueClickHandler( TValue selectValue )
@@ -168,6 +177,18 @@ namespace Blazorise.AntDesign
             }
         }
 
+        protected Task RemoveSelectedItem( TValue value )
+        {
+            return NotifySelectValueChanged( value );
+        }
+
+        protected Task OnSelectClearClickHandler()
+        {
+            ClearSelectedItems();
+
+            return Task.CompletedTask;
+        }
+
         #endregion
 
         #region Properties
@@ -178,14 +199,53 @@ namespace Blazorise.AntDesign
 
         protected string InputElementId { get; set; } = IDGenerator.Instance.Generate;
 
+        /// <summary>
+        /// Gets component items.
+        /// </summary>
+        public List<(TValue Key, RenderFragment Value)> Items => items;
+
+        /// <summary>
+        /// Gets the selected items.
+        /// </summary>
+        protected IEnumerable<RenderFragment> SelectedItems
+        {
+            get
+            {
+                var list = new List<RenderFragment>();
+
+                foreach ( var selectedValue in SelectedValues )
+                {
+                    list.Add( items.First( i => i.Key.Equals( selectedValue ) ).Value );
+                }
+
+                return list;
+            }
+        }
+
+        protected RenderFragment SelectedItem
+        {
+            get
+            {
+                return
+                SelectedValue != null
+                ? items.Count > 0
+                ? items.First( i => i.Key.Equals( SelectedValue ) ).Value
+                : null
+                : null;
+            }
+        }
+
         string SelectListId =>
             $"select_list_{ElementId}";
 
         string ContainerClassNames =>
-            $"{ClassNames} {( Multiple ? "ant-select-multiple" : "ant-select-single" )} ant-select-show-arrow {( Expanded ? "ant-select-open" : "" )}";
+            "ant-select ant-select-show-arrow " +
+            $"{( Multiple ? "ant-select-multiple" : "ant-select-single" )} " +
+            $"{( Expanded ? "ant-select-open" : "" )} " +
+            $"{( Disabled ? "ant-select-disabled" : "" )}";
 
         string DropdownClassNames =>
-            $"ant-select-dropdown ant-select-dropdown-placement-bottomLeft {( Expanded ? "" : "ant-select-dropdown-hidden" )}";
+            $"ant-select-dropdown ant-select-dropdown-placement-bottomLeft {( Expanded ? "slide-up-enter slide-up-enter-active slide-up" : "slide-up-leave slide-up-leave-active slide-up" )}";
 
         string DropdownStyleNames =>
             $"width: {(int)elementInfo.BoundingClientRect.Width}px; left: {(int)elementInfo.OffsetLeft}px; top: {(int)( elementInfo.OffsetTop + elementInfo.BoundingClientRect.Height )}px;";
