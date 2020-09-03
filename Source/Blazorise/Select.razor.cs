@@ -225,11 +225,6 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Gets or sets loading property.
-        /// </summary>
-        [Parameter] public bool AllowClear { get; set; }
-
         #endregion
     }
 }

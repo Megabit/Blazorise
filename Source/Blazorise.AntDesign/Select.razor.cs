@@ -242,7 +242,6 @@ namespace Blazorise.AntDesign
             "ant-select ant-select-show-arrow " +
             $"{( Multiple ? "ant-select-multiple" : "ant-select-single" )} " +
             $"{( Expanded ? "ant-select-open" : "" )} " +
-            $"{( AllowClear ? "ant-select-allow-clear" : "" )} " +
             $"{( Disabled ? "ant-select-disabled" : "" )}";
 
         string DropdownClassNames =>
