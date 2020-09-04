@@ -162,9 +162,9 @@
     }
 
     &.ant-menu-inline {
-        min-width: var(--b-sidebar-width, 220px);
-        max-width: var(--b-sidebar-width, 220px);
-        width: var(--b-sidebar-width, 220px);
+        min-width: var(--b-sidebar-width, 230px);
+        max-width: var(--b-sidebar-width, 230px);
+        width: var(--b-sidebar-width, 230px);
 
         > .ant-menu-item {
             min-height: 40px;
@@ -209,14 +209,6 @@
         }
 
         .ant-menu-submenu.ant-menu-submenu-vertical {
-            &:hover {
-                > .ant-menu-submenu.ant-menu-submenu-popup {
-                    > .ant-menu.ant-menu-sub.ant-menu-vertical {
-                        display: block !important;
-                    }
-                }
-            }
-
             .ant-menu-submenu.ant-menu-submenu-popup {
                 margin: -45px 5px 0px 5px;
 
@@ -244,12 +236,6 @@
                     &::before {
                         top: 0;
                         right: -7px;
-                    }
-                }
-
-                &:hover {
-                    > .ant-menu.ant-menu-sub.ant-menu-vertical {
-                        display: block !important;
                     }
                 }
             }
