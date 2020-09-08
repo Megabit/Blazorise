@@ -79,12 +79,12 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            await base.SetParametersAsync( parameters );
+
             if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) )
             {
                 await CurrentValueHandler( result?.ToString() );
             }
-
-            await base.SetParametersAsync( parameters );
         }
 
         #endregion
