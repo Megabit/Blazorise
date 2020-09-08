@@ -89,6 +89,8 @@ So for a basic tabs when we put it all together, we get this:
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
 | Name                | string                                                                     | null             | Defines the unique tab name.                                                                           |
+| Clicked             | event                                                                      |                  | Occurs when the button is clicked. 
+                                              |
 | Disabled            | boolean                                                                    | false            | Prevents user interactions and make it appear lighter.  
                                               |
 
