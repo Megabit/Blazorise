@@ -148,6 +148,20 @@
                 }
             }
         }
+
+        .ant-menu-toggler-inline {
+            height: var(--b-vertical-bar-brand-height, 64px);
+            padding: 12px;
+            display: inline-flex;
+            cursor: pointer;
+            position: absolute;
+            right: 0;
+            z-index: 2;
+
+            & > * {
+                margin: auto;
+            }
+        }
     }
 
     @mixin ant-selected-item {
@@ -253,6 +267,11 @@
                     font-size: 0px;
                 }
             }
+        }
+
+        .ant-menu-toggler-inline {
+            position: relative;
+            width: 100%;
         }
     }
 
