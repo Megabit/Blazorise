@@ -21,6 +21,8 @@ namespace Blazorise
 
         private bool buttons;
 
+        private bool settingParameters = false;
+
         /// <summary>
         /// An event raised after the internal radio group value has changed.
         /// </summary>
@@ -56,12 +58,15 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override Task OnInternalValueChanged( TValue value )
+        protected override async Task OnInternalValueChanged( TValue value )
         {
             // notify child radios they need to update their states
             RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( value ) );
 
-            return CheckedValueChanged.InvokeAsync( value );
+            if(!settingParameters)
+            {
+                await CheckedValueChanged.InvokeAsync( value );
+            }
         }
 
         /// <summary>
@@ -79,12 +84,14 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            settingParameters = true;
             if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) )
             {
-                RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( result ) );
+                await CurrentValueHandler( result?.ToString() );
             }
 
             await base.SetParametersAsync( parameters );
+            settingParameters = false;
         }
 
         #endregion
