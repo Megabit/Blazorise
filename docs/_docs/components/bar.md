@@ -120,7 +120,7 @@ Please see the [Layout docs]({{"/docs/components/layout/#with-sider"}}) for more
 </Bar>
 ```
 
-_Note:_ The `BarIcon` is requred for each `BarLink` or `BarDropdownToggle` when using `BarMode.VerticalSmall` or `BarCollapseMode.Small`, in order for it work correctly.
+_Note:_ The `BarIcon` is required for each `BarLink` or `BarDropdownToggle` when using `BarMode.VerticalSmall` or `BarCollapseMode.Small`, in order for it work correctly.
 
 For a demo of the Vertical bar in action, please check out [this Blazorise demo](https://bootstrapdemo.blazorise.com/).
 
@@ -128,7 +128,7 @@ For a demo of the Vertical bar in action, please check out [this Blazorise demo]
 
 You can create a right-aligned `Vertical` style `Bar` easily by following two key principals.
 
-- Using the `Layout` to accomodate the right-align bar, by putting the `LayoutSider` section after the `Layout` section (see in example below).
+- Using the `Layout` to accommodate the right-align bar, by putting the `LayoutSider` section after the `Layout` section (see in example below).
 - Adding `RightAligned="true"` to ALL `BarDropdownMenu` within the `Vertical` bar.
 
 Right-aligned vertical bar example:
@@ -211,11 +211,11 @@ Example:
 </Bar>
 ```
 
-**3. Extneral** (controlled by Top Bar)
+**3. External** (controlled by Top Bar)
 
 For an externally controlled `BarToggler`, you need to be using the top bar.
 
-Where you have a top bar and vetical bar, you can add multiple `BarTogglers` to the top bar and choose to have one of these control the vertical bar by simply setting the `Bar` property.
+Where you have a top bar and vertical bar, you can add multiple `BarTogglers` to the top bar and choose to have one of these control the vertical bar by simply setting the `Bar` property.
 
 In the example below, we will create two `BarTogglers` inside the top bar.
 - One to control the Vertical Bar (closest to it)
@@ -226,7 +226,7 @@ Example:
 <Layout Sider="true">
   <LayoutSider>
     <LayoutSiderContent>
-      <Bar @ref="sidebar" Mode="BarMode.VerticalInline">
+      <Bar @ref="@sidebar" Mode="BarMode.VerticalInline">
         ...
       </Bar>
     </LayoutSiderContent>
@@ -234,7 +234,7 @@ Example:
   <Layout>
     <LayoutHeader Fixed="true">
       <Bar Mode="BarMode.Horizontal">
-        <BarToggler Bar="sidebar" />
+        <BarToggler Bar="@sidebar" />
         <BarBrand>
           ...
         </BarBrand>
