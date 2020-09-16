@@ -11,11 +11,20 @@
 <body>
     <root>Loading...</root>
 
+    <!-- Explicit display:none required so StartupErrorNotificationTest can observe it change -->
+    <div id="blazor-error-ui" style="display: none;">
+        An unhandled error has occurred.
+        <a href class='reload'>Reload</a>
+        <a class='dismiss' style="cursor: pointer;">🗙</a>
+    </div>
+
     <script src="_content/Blazorise/blazorise.js"></script>
     <script src="_content/Blazorise.Bootstrap/blazorise.bootstrap.js"></script>
 
-    <!-- Used for testing interop scenarios between JS and .NET -->
+    <!-- Used for specific test cases -->
     <script src="js/jsinteroptests.js"></script>
+    <script src="js/renderattributestest.js"></script>
+    <script src="js/webComponentPerformingJsInterop.js"></script>
 
     <script>
         // Used by ElementRefComponent
@@ -24,19 +33,16 @@
             return element.value;
         }
 
-        function uriHelperNavigate() {
+        function navigationManagerNavigate() {
             Blazor.navigateTo('/subdir/some-path');
         }
 
-        (function () {
-            // Load either blazor.webassembly.js or blazor.server.js depending
-            // on the hash part of the URL. This is just to give a way for the
-            // test runner to make the selection.
-            var src = location.hash === '#server'
-                ? 'blazor.server.js'
-                : 'blazor.webassembly.js';
-            document.write('<script src="_framework/' + src + '"><' + '/script>');
-        })();
+        function getCurrentUrl() {
+            return location.href;
+        }
     </script>
+    <script src="_framework/blazor.webassembly.js"></script>
+
+    <script src="_content/Microsoft.AspNetCore.Components.Web.Extensions/headManager.js"></script>
 </body>
 </html>
