@@ -68,6 +68,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
 
+        /// <summary>
+        /// Provides options for inline or popout styles. Only supported by Vertical Bar. Uses inline by default.
+        /// </summary>
         [Parameter]
         public BarTogglerMode Mode
         {
@@ -83,8 +86,11 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Controls which Bar will be toggled. Uses parent Bar by default. 
+        /// </summary>
         [Parameter]
-        public Bar Bar 
+        public Bar Bar
         {
             get => bar;
             set
