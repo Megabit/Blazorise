@@ -15,7 +15,7 @@ The bar component has the following structure:
 
 - `Bar` the main container
   - `BarBrand` **Horizontal**: the left side, always visible. **Vertical**: top of Bar branding.
-  - `BarToggler` **Horizontal**: toggles the bar. **Vertical**: handled automatically on mobile.
+  - `BarToggler` **Horizontal**: toggles the bar. **Vertical**: read more [below]({{"#vertical-bar-toggler"}}).
   - `BarMenu` **Horizontal**: the right side, hidden on breakpoint. **Vertical**: contains the core menu elements.
     - `BarStart` **Horizontal**: left side menu. **Vertical**: sticky top menu.
     - `BarEnd` **Horizontal**: right side menu. **Vertical**: sticky bottom menu.
@@ -26,6 +26,7 @@ The bar component has the following structure:
           - `BarDropdownToggle` dropdown trigger
           - `BarDropdownMenu` the dropdown menu, which can include bar items and dividers
             - `BarDropdownItem` each single item of the dropdown menu
+            - `BarDropdown` by adding this again inside the menu, you will create nested dropdowns
 
 ### Top Bar (with dropdown)
 
@@ -38,7 +39,7 @@ The bar component has the following structure:
   <BarBrand>
     Brandname
   </BarBrand>
-  <BarToggler> </BarToggler>
+  <BarToggler />
   <BarMenu>
     <BarStart>
       <BarItem>
@@ -134,14 +135,6 @@ Right-aligned vertical bar example:
 
 ```html
 <Layout Sider="true">
-  <Layout>
-    <LayoutHeader Fixed="true">
-      Header
-    </LayoutHeader>
-    <LayoutContent>
-      Content
-    </LayoutContent>
-  </Layout>
   <LayoutSider>
     <LayoutSiderContent>
       <Bar Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small">
@@ -165,7 +158,135 @@ Right-aligned vertical bar example:
       </Bar>
     </LayoutSiderContent>
   </LayoutSider>
+  <Layout>
+    <LayoutHeader Fixed="true">
+      Header
+    </LayoutHeader>
+    <LayoutContent>
+      Content
+    </LayoutContent>
+  </Layout>
 </Layout>
+```
+
+### Vertical Bar Toggler
+
+The `BarToggler` for Vertical Bar supports 2 modes:
+- `BarTogglerMode.Normal` (default)
+- `BarTogglerMode.Popout`
+
+These 2 modes, along with an external implementation, provides 3 easy to configure implementations.
+
+**1. Inline**
+
+By simply adding the `BarToggler` anywhere inside the Vertical `Bar` component (at the top level), you will have an inline toggler added to your bar at this location.
+
+Example (used by demo application):
+```html
+<Bar Mode="BarMode.VerticalInline">
+  <BarToggler />
+  <BarBrand>
+    ...
+  </BarBrand>
+  <BarMenu>
+    ...
+  </BarMenu>
+</Bar>
+```
+
+**2. Popout**
+
+Once again, by simply adding the `BarToggler` anywhere inside the Vertical `Bar` component (at the top level), and setting the `Mode` to `Popout` you will have an popout toggler added to your bar at this location.
+
+Example:
+```html
+<Bar Mode="BarMode.VerticalInline">
+  <BarBrand>
+    ...
+  </BarBrand>
+  <BarToggler Mode="BarTogglerMode.Popout" />
+  <BarMenu>
+    ...
+  </BarMenu>
+</Bar>
+```
+
+**3. Extneral** (controlled by Top Bar)
+
+For an externally controlled `BarToggler`, you need to be using the top bar.
+
+Where you have a top bar and vetical bar, you can add multiple `BarTogglers` to the top bar and choose to have one of these control the vertical bar by simply setting the `Bar` property.
+
+In the example below, we will create two `BarTogglers` inside the top bar.
+- One to control the Vertical Bar (closest to it)
+- One to control the Top Bar (at the opposite end)
+
+Example:
+```html
+<Layout Sider="true">
+  <LayoutSider>
+    <LayoutSiderContent>
+      <Bar @ref="sidebar" Mode="BarMode.VerticalInline">
+        ...
+      </Bar>
+    </LayoutSiderContent>
+  </LayoutSider>
+  <Layout>
+    <LayoutHeader Fixed="true">
+      <Bar Mode="BarMode.Horizontal">
+        <BarToggler Bar="sidebar" />
+        <BarBrand>
+          ...
+        </BarBrand>
+        <BarMenu>
+          ...
+        </BarMenu>
+        <BarToggler />
+      </Bar>
+    </LayoutHeader>
+    <LayoutContent>
+      ...
+    </LayoutContent>
+  </Layout>
+</Layout>
+
+@code {
+  private Bar sidebar;
+}
+```
+
+### Nested Dropdowns
+
+To create nested `BarDropdowns`, you can simply add a `BarDropdown` component inside the structure of an existing `BarDropdownMenu`.
+
+Example:
+```html
+<BarMenu>
+  <BarStart>
+    <BarItem>
+      <BarDropdown>
+        <BarDropdownToggle>
+          Top-level toggler
+        </BarDropdownToggle>
+        <BarDropdownMenu>
+          <BarDropdownItem>
+            Top-level item
+          </BarDropdownItem>
+          <BarDropdown>
+            <BarDropdownToggle>
+              Nested toggler
+            </BarDropdownToggle>
+            <BarDropdownMenu>
+              <BarDropdownItem>
+                Nested item
+              </BarDropdownItem>
+            </BarDropdownMenu>
+          </BarDropdown>
+        </BarDropdownMenu>
+      </BarDropdown>
+    </BarItem>
+  </BarStart>
+</BarMenu>
 ```
 
 ### Header on top
