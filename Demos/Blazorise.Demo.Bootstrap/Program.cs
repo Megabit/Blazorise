@@ -35,7 +35,7 @@ namespace Blazorise.Demo.Bootstrap
                 BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
             } );
 
-            builder.RootComponents.Add<App>( "app" );
+            builder.RootComponents.Add<App>( "#app" );
 
             var host = builder.Build();
 
