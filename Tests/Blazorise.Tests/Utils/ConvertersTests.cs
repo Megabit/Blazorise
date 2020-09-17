@@ -299,6 +299,19 @@ namespace Blazorise.Tests.Utils
             // Assert
             Assert.Equal( expected, result );
         }
+
+        [Fact]
+        public void TryChangeType_With_DateTimeOffset_Current_Culture()
+        {
+            // Arrange
+            var test = DateTimeOffset.Now.ToString();
+
+            // Act
+            Converters.TryChangeType<DateTimeOffset>( test, out var result );
+
+            // Assert
+            Assert.Equal( test, result.ToString() );
+        }
     }
 
     public class Test
