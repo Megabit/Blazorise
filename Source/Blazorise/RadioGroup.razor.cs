@@ -21,7 +21,13 @@ namespace Blazorise
 
         private bool buttons;
 
-        private bool settingParameters = false;
+        /// <summary>
+        /// Flag needed for radiogroup to work property. Since the group is notified of it's state
+        /// from child radio component we need to skip calling event callback when we get the new
+        /// state through the param from outside. And it happens as a consequence of calling the
+        /// infamous StateHasChanged().
+        /// </summary>
+        private bool skipCheckedValueChangedCallback = false;
 
         /// <summary>
         /// An event raised after the internal radio group value has changed.
@@ -63,7 +69,7 @@ namespace Blazorise
             // notify child radios they need to update their states
             RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( value ) );
 
-            if(!settingParameters)
+            if ( !skipCheckedValueChangedCallback )
             {
                 await CheckedValueChanged.InvokeAsync( value );
             }
@@ -84,14 +90,21 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            settingParameters = true;
-            if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) )
+            try
             {
-                await CurrentValueHandler( result?.ToString() );
-            }
+                skipCheckedValueChangedCallback = true;
 
-            await base.SetParametersAsync( parameters );
-            settingParameters = false;
+                if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) )
+                {
+                    await CurrentValueHandler( result?.ToString() );
+                }
+
+                await base.SetParametersAsync( parameters );
+            }
+            finally
+            {
+                skipCheckedValueChangedCallback = false;
+            }
         }
 
         #endregion
