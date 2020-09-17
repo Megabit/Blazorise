@@ -511,9 +511,9 @@ namespace Blazorise.Providers
 
         public string BarBrand( BarMode mode ) => null;
 
-        public string BarToggler( BarMode mode ) => null;
+        public string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => null;
 
-        public string BarTogglerCollapsed( BarMode mode, bool isShow ) => null;
+        public string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow ) => null;
 
         public string BarMenu( BarMode mode ) => null;
 
@@ -540,6 +540,8 @@ namespace Blazorise.Providers
         public string BarDropdownMenuVisible( BarMode mode, bool visible ) => null;
 
         public string BarDropdownMenuRight( BarMode mode ) => null;
+
+        public string BarDropdownMenuContainer( BarMode mode ) => null;
 
         public string BarCollapsed( BarMode mode ) => null;
 

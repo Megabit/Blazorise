@@ -4,7 +4,9 @@
 <Layout Sider="true">
     <LayoutSider>
         <LayoutSiderContent>
-            <Bar Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Dark" Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small" @bind-Visible="siderVisible">
+            <Bar Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Dark"
+                 Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small">
+                <BarToggler />
                 <BarBrand>
                     <BarItem>
                         <BarLink To="">
@@ -84,6 +86,19 @@
                                     <BarDropdownItem To="tests/misc-forms">
                                         Misc
                                     </BarDropdownItem>
+                                    <BarDropdown>
+                                        <BarDropdownToggle>
+                                            Nested Forms
+                                        </BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            <BarDropdownItem To="tests/forms">
+                                                Nested Forms
+                                            </BarDropdownItem>
+                                            <BarDropdownItem To="tests/validations">
+                                                Nested Validations
+                                            </BarDropdownItem>
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -137,7 +152,7 @@
     </LayoutSider>
     <Layout>
         <LayoutHeader Fixed="true">
-            <Bar Style="height: 64px;" Breakpoint="Breakpoint.Desktop" Background="Background.Primary" ThemeContrast="ThemeContrast.Light">
+            <Bar Breakpoint="Breakpoint.Desktop" Background="Background.Primary" ThemeContrast="ThemeContrast.Light">
                 <BarBrand>
                     <BarItem>
                         <BarLink To="">
@@ -146,7 +161,7 @@
                         </BarLink>
                     </BarItem>
                 </BarBrand>
-                <BarToggler Clicked="@ToggleSidebar" />
+                <BarToggler />
                 <BarMenu>
                     <BarStart>
                         <BarItem>
@@ -278,17 +293,10 @@
         Theme.ThemeHasChanged();
     }
 
-
     private bool siderVisible = true;
     private bool uiElementsVisible = true;
 
+    [CascadingParameter] protected Theme Theme { get; set; }
+
     RenderFragment customIcon =@<img src="/brand-logo.png" style="width:32px; height: 32px" />;
-
-void ToggleSidebar()
-{
-siderVisible = !siderVisible;
-StateHasChanged();
-}
-
-[CascadingParameter] protected Theme Theme { get; set; }
 }

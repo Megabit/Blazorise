@@ -38,6 +38,13 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        protected override void BuildStyles( StyleBuilder builder )
+        {
+            base.BuildStyles( builder );
+
+            builder.Append( $"padding-left: { 1.5d * ParentStore.NestedIndex }rem", ParentStore.IsInlineDisplay );
+        }
+
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -69,9 +76,9 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
-            return Task.FromResult( closeReason == CloseReason.EscapeClosing || elementId != ElementId );
+            return Task.FromResult( closeReason == CloseReason.EscapeClosing || ( elementId != ElementId && !isChildClicked ) );
         }
 
         public Task Close( CloseReason closeReason )
@@ -96,23 +103,21 @@ namespace Blazorise
 
                 parentStore = value;
 
-                if ( parentStore.Mode == BarMode.Horizontal )
+                if ( parentStore.Visible && !( parentStore.Mode == BarMode.VerticalInline && parentStore.BarVisible ) )
                 {
-                    if ( parentStore.Visible )
-                    {
-                        isRegistered = true;
+                    isRegistered = true;
 
-                        JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
-                    }
-                    else
-                    {
-                        isRegistered = false;
+                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                }
+                else
+                {
+                    isRegistered = false;
 
-                        JSRunner.UnregisterClosableComponent( this );
-                    }
+                    JSRunner.UnregisterClosableComponent( this );
                 }
 
                 DirtyClasses();
+                DirtyStyles();
             }
         }
 

@@ -2,8 +2,10 @@
 @if (!HasCustomRegistration)
 {
     <CascadingValue Value="@ParentStore">
-        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-            @ChildContent
+        <div class="@ContainerClassNames">
+            <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnter" @onmouseleave="@ParentBarDropdown.OnMouseLeave" data-visible="@VisibleString">
+                @ChildContent
+            </div>
         </div>
     </CascadingValue>
 }
