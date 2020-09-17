@@ -223,6 +223,12 @@ namespace Blazorise
             if ( !string.IsNullOrEmpty( barOptions.VerticalBrandHeight ) )
                 variables[ThemeVariables.VerticalBarBrandHeight] = barOptions.VerticalBrandHeight;
 
+            if ( !string.IsNullOrEmpty( barOptions.VerticalPopoutMenuWidth ) )
+                variables[ThemeVariables.VerticalPopoutMenuWidth] = barOptions.VerticalPopoutMenuWidth;
+
+            if ( !string.IsNullOrEmpty( barOptions.HorizontalHeight ) )
+                variables[ThemeVariables.HorizontalBarHeight] = barOptions.HorizontalHeight;
+
             if ( barOptions?.DarkColors != null )
             {
                 variables[ThemeVariables.BarDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BackgroundColor ) );

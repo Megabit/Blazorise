@@ -23,7 +23,7 @@ namespace Blazorise
         /// <param name="elementId">Currently clicked element id.</param>
         /// <param name="closeReason">The reason for closing the component.</param>
         /// <returns>Returns true if the closable component is ready to be closed.</returns>
-        Task<bool> IsSafeToClose( string elementId, CloseReason closeReason );
+        Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild );
 
         /// <summary>
         /// Triggers the closable component to be closed.

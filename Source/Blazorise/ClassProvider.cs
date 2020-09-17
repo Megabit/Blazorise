@@ -506,9 +506,9 @@ namespace Blazorise
 
         public abstract string BarBrand( BarMode mode );
 
-        public abstract string BarToggler( BarMode mode );
+        public abstract string BarToggler( BarMode mode, BarTogglerMode togglerMode );
 
-        public abstract string BarTogglerCollapsed( BarMode mode, bool isShow );
+        public abstract string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow );
 
         public abstract string BarMenu( BarMode mode );
 
@@ -535,6 +535,8 @@ namespace Blazorise
         public abstract string BarDropdownMenuVisible( BarMode mode, bool visible );
 
         public abstract string BarDropdownMenuRight( BarMode mode );
+
+        public abstract string BarDropdownMenuContainer( BarMode mode );
 
         public abstract string BarCollapsed( BarMode mode );
 

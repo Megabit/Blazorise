@@ -13,6 +13,13 @@ namespace Blazorise
 
         #region Methods
 
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( "b-bar-icon" );
+
+            base.BuildClasses( builder );
+        }
+
         #endregion
 
         #region Properties
