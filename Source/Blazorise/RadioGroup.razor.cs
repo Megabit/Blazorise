@@ -22,6 +22,14 @@ namespace Blazorise
         private bool buttons;
 
         /// <summary>
+        /// Flag needed for radiogroup to work property. Since the group is notified of it's state
+        /// from child radio component we need to skip calling event callback when we get the new
+        /// state through the param from outside. And it happens as a consequence of calling the
+        /// infamous StateHasChanged().
+        /// </summary>
+        private bool skipCheckedValueChangedCallback = false;
+
+        /// <summary>
         /// An event raised after the internal radio group value has changed.
         /// </summary>
         public event EventHandler<RadioCheckedChangedEventArgs<TValue>> RadioCheckedChanged;
@@ -56,12 +64,15 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override Task OnInternalValueChanged( TValue value )
+        protected override async Task OnInternalValueChanged( TValue value )
         {
             // notify child radios they need to update their states
             RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( value ) );
 
-            return CheckedValueChanged.InvokeAsync( value );
+            if ( !skipCheckedValueChangedCallback )
+            {
+                await CheckedValueChanged.InvokeAsync( value );
+            }
         }
 
         /// <summary>
@@ -79,12 +90,21 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) )
+            try
             {
-                await CurrentValueHandler( result?.ToString() );
-            }
+                skipCheckedValueChangedCallback = true;
 
-            await base.SetParametersAsync( parameters );
+                if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) )
+                {
+                    await CurrentValueHandler( result?.ToString() );
+                }
+
+                await base.SetParametersAsync( parameters );
+            }
+            finally
+            {
+                skipCheckedValueChangedCallback = false;
+            }
         }
 
         #endregion
