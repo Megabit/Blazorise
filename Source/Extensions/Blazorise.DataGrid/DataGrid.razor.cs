@@ -84,15 +84,16 @@ namespace Blazorise.DataGrid
         public DataGrid()
         {
             newItemCreator = new Lazy<Func<TItem>>( () => FunctionCompiler.CreateNewItem<TItem>() );
-            FilteredDataChanged += ( IEnumerable<TItem> filteredData ) => paginationContext.TotalItems = filteredData.Count();
-            paginationContext.SubscribeOnPageSizeChanged( ( pageSize ) => StateHasChanged() );
+
+            FilteredDataChanged += OnFilteredDataChanged;
+            paginationContext.SubscribeOnPageSizeChanged( pageSize => InvokeAsync( () => StateHasChanged() ) );
         }
 
         #endregion
 
         #region Methods
 
-        #region Initialisation
+        #region Setup
 
         /// <summary>
         /// Links the child column with this datagrid.
@@ -126,10 +127,20 @@ namespace Blazorise.DataGrid
                     return HandleReadData();
 
                 // after all the columns have being "hooked" we need to resfresh the grid
-                StateHasChanged();
+                InvokeAsync( () => StateHasChanged() );
             }
 
             return base.OnAfterRenderAsync( firstRender );
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                FilteredDataChanged -= OnFilteredDataChanged;
+            }
+
+            base.Dispose( disposing );
         }
 
         #endregion
@@ -333,7 +344,7 @@ namespace Blazorise.DataGrid
             {
                 IsLoading = false;
 
-                StateHasChanged();
+                await InvokeAsync( () => StateHasChanged() );
             }
         }
 
@@ -369,6 +380,11 @@ namespace Blazorise.DataGrid
                 return HandleReadData();
 
             return Task.CompletedTask;
+        }
+
+        protected void OnFilteredDataChanged( IEnumerable<TItem> filteredData )
+        {
+            paginationContext.TotalItems = filteredData.Count();
         }
 
         protected Task OnClearFilterCommand()
@@ -758,9 +774,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public int CurrentPage { get => paginationContext.CurrentPage; set => paginationContext.CurrentPage = value; }
 
-        protected PaginationContext PaginationContext { get => paginationContext; }
+        protected PaginationContext PaginationContext => paginationContext;
 
-        protected PaginationTemplates PaginationTemplates { get => paginationTemplates; }
+        protected PaginationTemplates PaginationTemplates => paginationTemplates;
 
         /// <summary>
         /// Gets or sets content of table body for empty DisplayData.

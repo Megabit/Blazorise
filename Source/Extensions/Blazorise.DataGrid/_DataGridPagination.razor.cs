@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.DataGrid
 {
@@ -25,6 +27,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public PaginationContext PaginationContext { get; set; }
 
+        /// <summary>
+        /// Gets or sets the pagination templates.
+        /// </summary>
         [Parameter]
         public PaginationTemplates PaginationTemplates
         {
@@ -32,13 +37,13 @@ namespace Blazorise.DataGrid
             {
                 return new PaginationTemplates
                 {
-                    FirstPageButtonTemplate = this.FirstPageButtonTemplate,
-                    LastPageButtonTemplate = this.LastPageButtonTemplate,
-                    PreviousPageButtonTemplate = this.PreviousPageButtonTemplate,
-                    NextPageButtonTemplate = this.NextPageButtonTemplate,
-                    ItemsPerPageTemplate = this.ItemsPerPageTemplate,
-                    TotalItemsShortTemplate = this.TotalItemsShortTemplate,
-                    TotalItemsTemplate = this.TotalItemsTemplate
+                    FirstPageButtonTemplate = FirstPageButtonTemplate,
+                    LastPageButtonTemplate = LastPageButtonTemplate,
+                    PreviousPageButtonTemplate = PreviousPageButtonTemplate,
+                    NextPageButtonTemplate = NextPageButtonTemplate,
+                    ItemsPerPageTemplate = ItemsPerPageTemplate,
+                    TotalItemsShortTemplate = TotalItemsShortTemplate,
+                    TotalItemsTemplate = TotalItemsTemplate
                 };
             }
             set

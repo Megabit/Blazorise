@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+#endregion
 
 namespace Blazorise.DataGrid
 {
@@ -24,6 +26,10 @@ namespace Blazorise.DataGrid
         private int firstVisiblePage;
 
         private int lastVisiblePage;
+
+        private int currentPage = 1;
+
+        private int currentPageSize = 5;
 
         #endregion
 
@@ -104,8 +110,6 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
-
-        private int currentPage = 1;
         /// <summary>
         /// Gets or sets the current page
         /// </summary>
@@ -164,7 +168,6 @@ namespace Blazorise.DataGrid
             }
         }
 
-        private int currentPageSize = 5;
         /// <summary>
         /// Gets or sets the current page size
         /// </summary>

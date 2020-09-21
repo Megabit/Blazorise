@@ -3,7 +3,7 @@
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
 <CascadingValue Value=this>
-    @if (IsPagerVisible && (PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom))
+    @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
         <_DataGridPagination PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="OnPaginationItemClick" />
     }
@@ -33,7 +33,7 @@
                                 {
                                     @if ( column.CaptionTemplate != null )
                                     {
-                                        @column.CaptionTemplate(column)
+                                        @column.CaptionTemplate( column )
                                     }
                                     else
                                     {

@@ -100,12 +100,12 @@
         <Field Display="Blazorise.Display.None.Block.OnDesktop">
             @if ( TotalItemsTemplate != null )
             {
-                @TotalItemsTemplate(PaginationContext)
+                @TotalItemsTemplate( PaginationContext )
             }
             else
             {
-                var curStart = ((PaginationContext.CurrentPage - 1) * PaginationContext.CurrentPageSize + 1);
-                var curEnd = (PaginationContext.CurrentPage * PaginationContext.CurrentPageSize);
+                var curStart = ( ( PaginationContext.CurrentPage - 1 ) * PaginationContext.CurrentPageSize + 1 );
+                var curEnd = ( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize );
                 var text = curStart + " - " + curEnd + " of " + PaginationContext.TotalItems + " items";
                 <Text>@text</Text>
             }
@@ -113,7 +113,7 @@
         <Field Display="Blazorise.Display.Block.None.OnDesktop">
             @if ( TotalItemsTemplate != null )
             {
-                @TotalItemsTemplate(PaginationContext)
+                @TotalItemsTemplate( PaginationContext )
             }
             else
             {
