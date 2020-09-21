@@ -18,7 +18,7 @@ namespace Blazorise
     /// <summary>
     /// Container for input component that can check for different kind of validations.
     /// </summary>
-    public partial class Validation : ComponentBase, IValidation
+    public partial class Validation : ComponentBase, IValidation, IDisposable
     {
         #region Members
 
@@ -81,6 +81,7 @@ namespace Blazorise
                 // To avoid leaking memory, it's important to detach any event handlers in Dispose()
                 ParentValidations.ValidatingAll -= OnValidatingAll;
                 ParentValidations.ClearingAll -= OnClearingAll;
+                ParentValidations.NotifyValidationRemoved( this );
             }
         }
 

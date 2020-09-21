@@ -64,7 +64,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
             return Task.FromResult( ElementId == elementId );
         }

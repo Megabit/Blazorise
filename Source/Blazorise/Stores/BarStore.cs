@@ -17,7 +17,8 @@ namespace Blazorise.Stores
         public bool Equals( BarStore other )
         {
             return Visible == other.Visible
-                && Mode == other.Mode;
+                && Mode == other.Mode
+                && CollapseMode == other.CollapseMode;
         }
 
         public override int GetHashCode()
@@ -29,6 +30,9 @@ namespace Blazorise.Stores
 
             result = result
                 ^ ( Mode.GetHashCode() ^ 1 ); // power of two for every other field(^1, ^2, ^4, ^8, ^16, ...)
+
+            result = result
+                ^ ( CollapseMode.GetHashCode() ^ 2 );
 
             return result;
         }
@@ -50,6 +54,8 @@ namespace Blazorise.Stores
         public bool Visible { readonly get; set; }
 
         public BarMode Mode { readonly get; set; }
+
+        public BarCollapseMode CollapseMode { readonly get; set; }
 
         #endregion
     }

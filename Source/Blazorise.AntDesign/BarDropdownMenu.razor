@@ -2,7 +2,7 @@
 <CascadingValue Value="@ParentStore">
     @if ( ParentStore.Mode != BarMode.VerticalInline )
     {
-        <div class="@( ParentStore.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )">
+        <div class="@( ParentStore.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )" @onmouseenter="@ParentBarDropdown.OnMouseEnter" @onmouseleave="@ParentBarDropdown.OnMouseLeave">
             <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
                 @ChildContent
             </ul>

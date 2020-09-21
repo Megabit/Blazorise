@@ -27,9 +27,9 @@ namespace Blazorise
         }
 
         [JSInvokable()]
-        public Task<bool> SafeToClose( string elementId, string reason )
+        public Task<bool> SafeToClose( string elementId, string reason, bool isChildClicked )
         {
-            return component.IsSafeToClose( elementId, GetCloseReason( reason ) );
+            return component.IsSafeToClose( elementId, GetCloseReason( reason ), isChildClicked );
         }
 
         [JSInvokable()]

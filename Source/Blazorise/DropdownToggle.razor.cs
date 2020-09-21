@@ -96,7 +96,7 @@ namespace Blazorise
         /// <param name="elementId">Id of an element.</param>
         /// <param name="closeReason">Close reason.</param>
         /// <returns>True if it's safe to be closed.</returns>
-        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason )
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {
             return Task.FromResult( closeReason == CloseReason.EscapeClosing || elementId != ElementId );
         }

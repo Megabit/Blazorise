@@ -17,6 +17,8 @@ namespace Blazorise
 
         private bool multiple;
 
+        private bool loading;
+
         #endregion
 
         #region Methods
@@ -208,6 +210,20 @@ namespace Blazorise
         /// Gets or sets an expression that identifies the selected value.
         /// </summary>
         [Parameter] public Expression<Func<IReadOnlyList<TValue>>> SelectedValuesExpression { get; set; }
+
+        /// <summary>
+        /// Gets or sets loading property.
+        /// </summary>
+        [Parameter]
+        public bool Loading
+        {
+            get => loading;
+            set
+            {
+                loading = value;
+                Disabled = value;
+            }
+        }
 
         #endregion
     }
