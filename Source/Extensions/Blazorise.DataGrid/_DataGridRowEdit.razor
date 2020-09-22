@@ -82,7 +82,7 @@ else if ( EditMode == DataGridEditMode.Inline )
                     <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@SaveWithValidation" Cancel="@Cancel" Width="@column.Width" />
                 }
             }
-            else
+            else if ( column.Displayable )
             {
                 <TableRowCell width="@column.Width">
                     @if ( ParentDataGrid?.Editable == true && CellAreEditable( column ) )
