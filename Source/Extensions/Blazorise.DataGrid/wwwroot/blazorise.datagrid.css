@@ -1,0 +1,17 @@
+.table th {
+    position: relative;
+}
+
+.resizer {
+    /* Displayed at the right side of column */
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    cursor: col-resize;
+    user-select: none;
+}
+
+    .resizer:hover, .resizing {
+        border-right: 2px solid blue;
+    }

@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -71,6 +72,8 @@ namespace Blazorise.DataGrid
 
         private int lastVisiblePage;
 
+        private Table table;
+
         #endregion
 
         #region Constructors
@@ -114,6 +117,9 @@ namespace Blazorise.DataGrid
         {
             if ( firstRender )
             {
+                if ( Resizable )
+                    JSRuntime.InvokeVoidAsync( "blazoriseDataGrid.initialize", table.ElementRef );
+
                 if ( ManualReadMode )
                     return HandleReadData();
 
@@ -561,6 +567,8 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
+        [Inject] IJSRuntime JSRuntime { get; set; }
+
         /// <summary>
         /// List of all the columns associated with this datagrid.
         /// </summary>
@@ -740,6 +748,11 @@ namespace Blazorise.DataGrid
         /// Gets or sets whether users can edit datagrid rows.
         /// </summary>
         [Parameter] public bool Editable { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether users can resize datagrid columns.
+        /// </summary>
+        [Parameter] public bool Resizable { get; set; }
 
         /// <summary>
         /// Gets or sets whether end-users can sort data by the column's values.

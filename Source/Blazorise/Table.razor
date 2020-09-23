@@ -4,14 +4,14 @@
     @if ( Responsive )
     {
         <div class="@ResponsiveClassNames">
-            <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <table @ref="@ElementRef" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                 @ChildContent
             </table>
         </div>
     }
     else
     {
-        <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <table @ref="@ElementRef" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </table>
     }
