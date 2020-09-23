@@ -181,10 +181,16 @@ namespace Blazorise
 
                 EditContext.ValidateField( messages, fieldIdentifier );
 
-                Status = messages[fieldIdentifier].Any() ? ValidationStatus.Error : ValidationStatus.Success;
-                LastErrorMessage = Status == ValidationStatus.Error ? string.Join( "; ", messages[fieldIdentifier] ) : null;
+                var matchStatus = messages[fieldIdentifier].Any() ? ValidationStatus.Error : ValidationStatus.Success;
 
-                NotifyValidationStatusChanged( Status, LastErrorMessage );
+                if ( Status != matchStatus )
+                {
+                    Status = matchStatus;
+
+                    LastErrorMessage = Status == ValidationStatus.Error ? string.Join( "; ", messages[fieldIdentifier] ) : null;
+
+                    NotifyValidationStatusChanged( Status, LastErrorMessage );
+                }
             }
             else
             {
@@ -223,6 +229,7 @@ namespace Blazorise
         private void NotifyValidationStatusChanged( ValidationStatus status, string message = null )
         {
             ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, message ) );
+            StatusChanged.InvokeAsync( status );
 
             ParentValidations?.NotifyValidationStatusChanged( this );
         }
@@ -245,6 +252,11 @@ namespace Blazorise
         /// Gets or sets the current validation status.
         /// </summary>
         [Parameter] public ValidationStatus Status { get; set; }
+
+        /// <summary>
+        /// Occurs each time that validation status changed.
+        /// </summary>
+        [Parameter] public EventCallback<ValidationStatus> StatusChanged { get; set; }
 
         /// <summary>
         /// Gets the last error message.
