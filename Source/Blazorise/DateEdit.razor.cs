@@ -46,6 +46,9 @@ namespace Blazorise
 
         protected async Task OnClickHandler( MouseEventArgs e )
         {
+            if ( Disabled || ReadOnly )
+                return;
+
             await JSRunner.ActivateDatePicker( ElementId, Parsers.InternalDateFormat );
         }
 
