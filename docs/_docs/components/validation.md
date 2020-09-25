@@ -264,8 +264,9 @@ Here is a list of the validators currently available.
 
 ### Validation
 
-| Name         | Type                                                                              | Default  | Description                                                                                |
-|--------------|-----------------------------------------------------------------------------------|----------|--------------------------------------------------------------------------------------------|
-| Status       | [ValidationStatus]({{ "/docs/helpers/enums/#validationstatus" | relative_url }})  | `None`   | Gets or sets the current validation status.                                                |
-| Validator    | action                                                                            |          | Validates the input value after it has being changed.                                      |
-| UsePattern   | boolean                                                                           | false    | Forces validation to use regex pattern matching instead of default validator handler.      |
+| Name          | Type                                                                              | Default  | Description                                                                                |
+|---------------|-----------------------------------------------------------------------------------|----------|--------------------------------------------------------------------------------------------|
+| Status        | [ValidationStatus]({{ "/docs/helpers/enums/#validationstatus" | relative_url }})  | `None`   | Gets or sets the current validation status.                                                |
+| StatusChanged | EventCallback                                                                     |          | Event is fired whenever there is a change in validation status.                            |
+| Validator     | action                                                                            |          | Validates the input value after it has being changed.                                      |
+| UsePattern    | boolean                                                                           | false    | Forces validation to use regex pattern matching instead of default validator handler.      |
