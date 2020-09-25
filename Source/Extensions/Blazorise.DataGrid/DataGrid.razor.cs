@@ -534,7 +534,15 @@ namespace Blazorise.DataGrid
 
             // only use pagination if the custom data loading is not used
             if ( !ManualReadMode )
-                return filteredData.Skip( ( CurrentPage - 1 ) * PageSize ).Take( PageSize );
+            {
+                var skipElements = ( CurrentPage - 1 ) * PageSize;
+                if ( skipElements > filteredData.Count )
+                {
+                    CurrentPage = paginationContext.LastPage;
+                    skipElements = ( CurrentPage - 1 ) * PageSize;
+                }
+                return filteredData.Skip( skipElements ).Take( PageSize );
+            }
 
             return filteredData;
         }

@@ -105,7 +105,7 @@
             else
             {
                 var curStart = ( ( PaginationContext.CurrentPage - 1 ) * PaginationContext.CurrentPageSize + 1 );
-                var curEnd = ( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize );
+                var curEnd = Math.Min( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, PaginationContext.TotalItems );
                 var text = curStart + " - " + curEnd + " of " + PaginationContext.TotalItems + " items";
                 <Text>@text</Text>
             }
