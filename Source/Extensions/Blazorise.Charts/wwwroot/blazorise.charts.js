@@ -108,6 +108,16 @@ window.blazoriseCharts = {
         }
     },
 
+    setData: (canvasId, datasetIndex, newData) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
+
+        if (chart) {
+            newData.forEach((data, index) => {
+                chart.data.datasets[datasetIndex].data = data;
+            });
+        }
+    },
+
     addDatasetsAndUpdate: (canvasId, newDatasets) => {
         const chart = window.blazoriseCharts.getChart(canvasId);
 
