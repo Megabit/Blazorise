@@ -3,6 +3,10 @@
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
 <CascadingValue Value=this>
+    @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
+    {
+        <_DataGridPagination PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="OnPaginationItemClick" />
+    }
     <Table Class="@Class" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive">
         <TableHeader>
             @if ( ShowCaptions )
@@ -133,79 +137,9 @@
             </TableFooter>
         }
     </Table>
-    @if ( IsPagerVisible )
+    @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
-        <Pagination>
-            <PaginationItem Disabled="@(CurrentPage <= 1)">
-                <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
-                    @if ( FirstPageButtonTemplate != null )
-                    {
-                        @FirstPageButtonTemplate
-                    }
-                    else
-                    {
-                        @("First")
-                    }
-                </PaginationLink>
-            </PaginationItem>
-            <PaginationItem Disabled="@(CurrentPage <= 1)">
-                <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
-                    @if ( PreviousPageButtonTemplate != null )
-                    {
-                        @PreviousPageButtonTemplate
-                    }
-                    else
-                    {
-                        @("Prev")
-                    }
-                </PaginationLink>
-            </PaginationItem>
-            @for ( int i = FirstVisiblePage; i <= LastVisiblePage; ++i )
-            {
-                var pageNumber = i;
-                var pageNumberString = i.ToString();
-                var pageActive = pageNumber == CurrentPage;
-
-                <PaginationItem Disabled="@(pageNumber == CurrentPage)" Active="@pageActive">
-                    <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
-                        @if ( PageButtonTemplate != null )
-                        {
-                            var context = new PageButtonContext( pageNumber, pageActive );
-
-                            @PageButtonTemplate( context )
-                        }
-                        else
-                        {
-                            @pageNumberString
-                        }
-                    </PaginationLink>
-                </PaginationItem>
-            }
-            <PaginationItem Disabled="@(CurrentPage >= LastPage)">
-                <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
-                    @if ( NextPageButtonTemplate != null )
-                    {
-                        @NextPageButtonTemplate
-                    }
-                    else
-                    {
-                        @("Next")
-                    }
-                </PaginationLink>
-            </PaginationItem>
-            <PaginationItem Disabled="@(CurrentPage >= LastPage)">
-                <PaginationLink Page="last" Clicked="@OnPaginationItemClick">
-                    @if ( LastPageButtonTemplate != null )
-                    {
-                        @LastPageButtonTemplate
-                    }
-                    else
-                    {
-                        @("Last")
-                    }
-                </PaginationLink>
-            </PaginationItem>
-        </Pagination>
+        <_DataGridPagination PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="OnPaginationItemClick" />
     }
     @if ( editItem != null && EditMode == DataGridEditMode.Popup )
     {
