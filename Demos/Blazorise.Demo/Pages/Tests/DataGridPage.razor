@@ -40,6 +40,13 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@showPageSizes">Show Page sizes</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
                             Edit Mode
                         </FieldLabel>
                         <FieldBody>
@@ -69,6 +76,8 @@
                           Sortable="@sortable"
                           Filterable="@filterable"
                           ShowPager="@showPager"
+                          PagerPosition="DataGridPagerPosition.TopAndBottom"
+                          ShowPageSizes="@showPageSizes"
                           RowInserted="@OnRowInserted"
                           RowUpdated="@OnRowUpdated"
                           RowRemoved="@OnRowRemoved"
@@ -246,6 +255,7 @@
     bool sortable = true;
     bool filterable = true;
     bool showPager = true;
+    bool showPageSizes = true;
 
     // TODO: add options to control the commands
     //bool newCommandAllowed = true;
