@@ -1,8 +1,8 @@
-.table th {
+.b-datagrid.table th {
     position: relative;
 }
 
-.resizer {
+.b-datagrid-resizer {
     /* Displayed at the right side of column */
     position: absolute;
     top: 0;
@@ -12,6 +12,6 @@
     user-select: none;
 }
 
-    .resizer:hover, .resizing {
-        border-right: 2px solid blue;
+    .b-datagrid-resizer:hover, .b-datagrid-resizing {
+        border-right: 2px solid var(--b-theme-primary, blue);
     }

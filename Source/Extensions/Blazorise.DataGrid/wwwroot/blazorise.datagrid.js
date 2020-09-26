@@ -19,7 +19,7 @@ window.blazoriseDataGrid = {
                 document.addEventListener('pointermove', mouseMoveHandler);
                 document.addEventListener('pointerup', mouseUpHandler);
 
-                resizer.classList.add('resizing');
+                resizer.classList.add('b-datagrid-resizing');
             };
 
             const mouseMoveHandler = function (e) {
@@ -32,7 +32,7 @@ window.blazoriseDataGrid = {
 
             // When user releases the mouse, remove the existing event listeners
             const mouseUpHandler = function () {
-                resizer.classList.remove('resizing');
+                resizer.classList.remove('b-datagrid-resizing');
 
                 document.removeEventListener('pointermove', mouseMoveHandler);
                 document.removeEventListener('pointerup', mouseUpHandler);
@@ -44,7 +44,7 @@ window.blazoriseDataGrid = {
         [].forEach.call(cols, function (col) {
             // Add a resizer element to the column
             const resizer = document.createElement('div');
-            resizer.classList.add('resizer');
+            resizer.classList.add('b-datagrid-resizer');
 
             // Set the height
             resizer.style.height = `${table.offsetHeight}px`;
