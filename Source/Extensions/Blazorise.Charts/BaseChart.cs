@@ -138,10 +138,10 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
-        /// Adds the new data point to the specified dataset.
+        /// Sets the new data point(s) to the specified dataset.
         /// </summary>
-        /// <param name="dataSetIndex">Dataset index to which we add the data point.</param>
-        /// <param name="data">Data point(s) to add.</param>
+        /// <param name="dataSetIndex">Dataset index to which we set the data point(s).</param>
+        /// <param name="data">Data point(s) to set.</param>
         /// <returns></returns>
         public async Task SetData( int dataSetIndex, params TItem[] data )
         {
@@ -154,9 +154,9 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
-        /// Adds the new data point to the specified dataset.
+        /// Adds the new data point(s) to the specified dataset.
         /// </summary>
-        /// <param name="dataSetIndex">Dataset index to which we add the data point.</param>
+        /// <param name="dataSetIndex">Dataset index to which we add the data point(s).</param>
         /// <param name="data">Data point(s) to add.</param>
         /// <returns></returns>
         public async Task AddData( int dataSetIndex, params TItem[] data )
