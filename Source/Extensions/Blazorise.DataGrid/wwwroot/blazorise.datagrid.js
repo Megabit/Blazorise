@@ -1,5 +1,5 @@
 window.blazoriseDataGrid = {
-    initialize : function (table) {
+    initialize: function (table) {
         const cols = table.querySelectorAll('th');
 
         const createResizableColumn = function (col, resizer) {
