@@ -16,8 +16,8 @@ window.blazoriseDataGrid = {
                 w = parseInt(styles.width, 10);
 
                 // Attach listeners for document's events
-                document.addEventListener('mousemove', mouseMoveHandler);
-                document.addEventListener('mouseup', mouseUpHandler);
+                document.addEventListener('pointermove', mouseMoveHandler);
+                document.addEventListener('pointerup', mouseUpHandler);
 
                 resizer.classList.add('resizing');
             };
@@ -34,11 +34,11 @@ window.blazoriseDataGrid = {
             const mouseUpHandler = function () {
                 resizer.classList.remove('resizing');
 
-                document.removeEventListener('mousemove', mouseMoveHandler);
-                document.removeEventListener('mouseup', mouseUpHandler);
+                document.removeEventListener('pointermove', mouseMoveHandler);
+                document.removeEventListener('pointerup', mouseUpHandler);
             };
 
-            resizer.addEventListener('mousedown', mouseDownHandler);
+            resizer.addEventListener('pointerdown', mouseDownHandler);
         };
 
         [].forEach.call(cols, function (col) {
