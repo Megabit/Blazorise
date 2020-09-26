@@ -112,9 +112,7 @@ window.blazoriseCharts = {
         const chart = window.blazoriseCharts.getChart(canvasId);
 
         if (chart) {
-            newData.forEach((data, index) => {
-                chart.data.datasets[datasetIndex].data = data;
-            });
+            chart.data.datasets[datasetIndex].data = newData;
         }
     },
 
