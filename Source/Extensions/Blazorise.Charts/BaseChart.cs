@@ -143,11 +143,11 @@ namespace Blazorise.Charts
         /// <param name="dataSetIndex">Dataset index to which we set the data point(s).</param>
         /// <param name="data">Data point(s) to set.</param>
         /// <returns></returns>
-        public async Task SetData( int dataSetIndex, params TItem[] data )
+        public async Task SetData( int dataSetIndex, List<TItem> data )
         {
             dirty = true;
 
-            Datasets[dataSetIndex].Data = data.ToList();
+            Datasets[dataSetIndex].Data = data;
 
             if ( initialized )
                 await JS.SetData( JSRuntime, ElementId, dataSetIndex, data );
