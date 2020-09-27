@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,13 +13,10 @@ namespace Blazorise
     {
         #region Members
 
-        private bool dismisable;
-
-        private bool visible;
-
-        private Color color = Color.None;
-
-        public event EventHandler<AlertStateEventArgs> StateChanged;
+        private AlertStore store = new AlertStore
+        {
+            Color = Color.None,
+        };
 
         private bool hasMessage;
 
@@ -77,9 +75,14 @@ namespace Blazorise
 
         private void HandleVisibilityState( bool active )
         {
-            Visibility = active ? Visibility.Always : Visibility.Never;
+            Display = active
+                ? Blazorise.Display.Always
+                : Blazorise.Display.None;
         }
 
+        /// <summary>
+        /// Notifies the alert that one of the child componens is a message.
+        /// </summary>
         internal void NotifyHasMessage()
         {
             hasMessage = true;
@@ -88,6 +91,9 @@ namespace Blazorise
             StateHasChanged();
         }
 
+        /// <summary>
+        /// Notifies the alert that one of the child componens is a description.
+        /// </summary>
         internal void NotifyHasDescription()
         {
             hasDescription = true;
@@ -106,10 +112,10 @@ namespace Blazorise
         [Parameter]
         public bool Dismisable
         {
-            get => dismisable;
+            get => store.Dismisable;
             set
             {
-                dismisable = value;
+                store.Dismisable = value;
 
                 DirtyClasses();
             }
@@ -121,18 +127,12 @@ namespace Blazorise
         [Parameter]
         public bool Visible
         {
-            get => visible;
+            get => store.Visible;
             set
             {
-                // prevent alert from calling the same code multiple times
-                if ( value == visible )
-                    return;
-
-                visible = value;
+                store.Visible = value;
 
                 HandleVisibilityState( value );
-
-                StateChanged?.Invoke( this, new AlertStateEventArgs( visible ) );
 
                 DirtyClasses();
             }
@@ -144,10 +144,10 @@ namespace Blazorise
         [Parameter]
         public Color Color
         {
-            get => color;
+            get => store.Color;
             set
             {
-                color = value;
+                store.Color = value;
 
                 DirtyClasses();
             }

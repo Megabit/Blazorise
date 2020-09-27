@@ -1,0 +1,22 @@
+﻿@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+    $min: breakpoint-min($name, $breakpoints);
+
+    @if $min {
+        @media (min-width: $min) {
+            @content;
+        }
+    }
+    @else {
+        @content;
+    }
+}
+
+@mixin tablet($min-width: $tablet) {
+    @media screen and (min-width: $min-width), print {
+        @content;
+    }
+}
+
+@mixin overflow-touch () {
+    -webkit-overflow-scrolling: touch;
+}

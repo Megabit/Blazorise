@@ -24,7 +24,7 @@ It is recommended to always place input components inside of a field. That way y
 ```html
 <Field>
     <TextEdit Placeholder="Name" />
-<Field>
+</Field>
 ```
 
 <iframe class="frame" src="/examples/fields/basic/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -35,7 +35,7 @@ It is recommended to always place input components inside of a field. That way y
 <Field>
     <FieldLabel>Email address</FieldLabel>
     <TextEdit Placeholder="Enter email" />
-<Field>
+</Field>
 ```
 
 <iframe src="/examples/fields/field-label/" frameborder="0" scrolling="no" style="width:100%;height:80px;"></iframe>
@@ -47,7 +47,7 @@ It is recommended to always place input components inside of a field. That way y
     <TextEdit Placeholder="Enter email">
         <FieldHelp>Please enter a valid email address</FieldHelp>
     </TextEdit>
-<Field>
+</Field>
 ```
 
 <iframe src="/examples/fields/field-help/" frameborder="0" scrolling="no" style="width:100%;height:105px;"></iframe>
@@ -116,8 +116,6 @@ Use `Visibility` attribute to hide a field while still preserving it's space.
 
 | Name            | Type                                                                              | Default   | Description                                                                                                             |
 |-----------------|-----------------------------------------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------|
-| IsCheck         | boolean                                                                           | false     | Label is used by the checkbox.                                                                                          |
-| IsFile          | boolean                                                                           | false     | Label is used by the file input.                                                                                        |
 | Screenreader    | [Screenreader]({{ "/docs/helpers/enums/#screenreader" | relative_url }})          | `Always`  | Defines the visibility for screen readers.                                                                              |
 
 ### Fields

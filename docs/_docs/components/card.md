@@ -20,8 +20,11 @@ The card component comprises several elements that you can mix and match:
     - `<CardText>`
   - `<CardFooter>`
 - `<CardGroup>`
+- `<CardDeck>`
 
-## Example
+## Examples
+
+### Card
 
 ```html
 <Card>
@@ -38,6 +41,47 @@ The card component comprises several elements that you can mix and match:
 ```
 
 <iframe src="/examples/cards/basic/" frameborder="0" scrolling="no" style="width:100%;height:625px;"></iframe>
+
+### Card Deck
+
+A set of equal width and height cards that aren’t attached to one another.
+
+```html
+<CardDeck>
+    <Card>
+        <CardImage Source="/assets/images/gallery/9.jpg" Alt="Card image cap 3"></CardImage>
+        <CardBody>
+            <CardTitle Size="5">Card title 1</CardTitle>
+            <CardText>
+                This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+            </CardText>
+            <Button Color="Color.Primary">Button</Button>
+        </CardBody>
+    </Card>
+    <Card>
+        <CardImage Source="/assets/images/gallery/9.jpg" Alt="Card image cap 9"></CardImage>
+        <CardBody>
+            <CardTitle Size="5">Card title 2</CardTitle>
+            <CardText>
+                This card has supporting text below as a natural lead-in to additional content.
+            </CardText>
+            <Button Color="Color.Primary">Button</Button>
+        </CardBody>
+    </Card>
+    <Card>
+        <CardImage Source="/assets/images/gallery/9.jpg" Alt="Card image cap 12"></CardImage>
+        <CardBody>
+            <CardTitle Size="5">Card title 3</CardTitle>
+            <CardText>
+                This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.
+            </CardText>
+            <Button Color="Color.Primary">Button</Button>
+        </CardBody>
+    </Card>
+<CardDeck>
+```
+
+<iframe src="/examples/cards/carddeck/" frameborder="0" scrolling="no" style="width:100%;height:625px;"></iframe>
 
 ## Attributes
 
@@ -56,7 +100,7 @@ The card component comprises several elements that you can mix and match:
 | Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
 | Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
 | Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### CardTitle
 
@@ -67,7 +111,7 @@ The card component comprises several elements that you can mix and match:
 | Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
 | Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
 | Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### CardSubtitle
 
@@ -78,7 +122,7 @@ The card component comprises several elements that you can mix and match:
 | Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
 | Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
 | Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### CardLink
 

@@ -1,0 +1,9 @@
+﻿@inherits BaseComponent
+@if ( !HasCustomRegistration )
+{
+    <img class="@ClassNames" style="@StyleNames" src="@Source" alt="@Text" @attributes="@Attributes" />
+}
+else
+{
+    @RenderCustomComponent()
+}

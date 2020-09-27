@@ -1,4 +1,6 @@
-﻿@inherits BaseSidebarItem
-<li class="@ClassNames">
-    @ChildContent
-</li>
+﻿@inherits BaseComponent
+<CascadingValue Value=this>
+    <li class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </li>
+</CascadingValue>

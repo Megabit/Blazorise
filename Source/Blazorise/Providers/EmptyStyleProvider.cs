@@ -31,8 +31,6 @@ namespace Blazorise.Providers
 
         #region Layout
 
-        public string Visibility( Visibility visibility ) => null;
-
         #endregion
 
         #region Row

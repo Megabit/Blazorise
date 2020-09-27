@@ -1,11 +1,14 @@
 ﻿@typeparam TItem
 @inherits BaseDataGridComponent
-<TableRow Class="@Class" Style="@Style">
+<TableRow Class="@Class" Style="@Style" Background="@Background" Color="@Color">
     @foreach ( var column in Columns )
     {
         @if ( column.ColumnType == DataGridColumnType.Command )
         {
-            <TableRowCell></TableRowCell>
+            @if ( ParentDataGrid.Editable == true )
+            {
+                <TableRowCell></TableRowCell>
+            }
         }
         else
         {

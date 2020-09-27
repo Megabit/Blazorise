@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version>0.9.0</Version>
-		<PackageVersion>0.9.0</PackageVersion>
+		<Version>0.9.1.2</Version>
+		<PackageVersion>0.9.1.2</PackageVersion>
 
 		<Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
 		<Authors>Mladen Macanovic</Authors>
@@ -27,7 +27,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.6" />
 	</ItemGroup>	
 </Project>

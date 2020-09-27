@@ -26,6 +26,11 @@ namespace Blazorise.Material
             return serviceCollection;
         }
 
+        private static void RegisterComponents( IComponentMapper componentMapper )
+        {
+            componentMapper.Replace( typeof( Blazorise.Switch<> ), typeof( Material.Switch<> ) );
+        }
+
         /// <summary>
         /// Registers the custom rules for material components.
         /// </summary>
@@ -35,6 +40,10 @@ namespace Blazorise.Material
         {
             // same components as in bootstrap provider
             serviceProvider.UseBootstrapProviders();
+
+            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
+
+            RegisterComponents( componentMapper );
 
             return serviceProvider;
         }

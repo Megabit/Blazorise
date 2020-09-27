@@ -6,6 +6,92 @@ toc: true
 toc_label: "Version history"
 ---
 
+## 0.9.1.2
+
+### Changes
+
+- Upgrade to .Net Core 3.1.6
+
+For detail description of changes please look at [v0.9.1.2 release page]({{ "/news/release-notes/0912/" | relative_url }})
+
+## 0.9.1.1
+
+### Bug fixes
+
+- [#1026](https://github.com/stsrki/Blazorise/issues/1026) Bar issue with Server-Side pre-rendering
+- [#1030](https://github.com/stsrki/Blazorise/issues/1030) Role="TextRole.Email" cashes Validation
+- [#1044](https://github.com/stsrki/Blazorise/issues/1044) Autocomplete, define the type="search" of TextEdit
+- [#1045](https://github.com/stsrki/Blazorise/issues/1045) Bootstrap 4.5.0 - ColumnSize="ColumnSize.Is12.OnMobile" still use 'col-xs-12' (deprecated)
+
+## PRs
+
+- [#1032](https://github.com/stsrki/Blazorise/pull/1032) Fixes for DataGrid manual data read behavior
+- [#1027](https://github.com/stsrki/Blazorise/pull/1027) fix: Server-Side pre-rendering issue with Bar calling JSInterop
+
+For detail description of changes please look at [v0.9.1.1 release page]({{ "/news/release-notes/0911/" | relative_url }})
+
+## 0.9.1
+
+### Features and bug fixes
+
+- [#758](https://github.com/stsrki/Blazorise/issues/758) Optimize demo apps for mobile
+- [#760](https://github.com/stsrki/Blazorise/issues/760) Upgrade Bootstrap provider
+- [#658](https://github.com/stsrki/Blazorise/issues/658) Add validation support to work similar to ValidationSummary.
+- [#567](https://github.com/stsrki/Blazorise/issues/567) Implement Bar Color as a specific parameter in BarThemeOptions
+- [#763](https://github.com/stsrki/Blazorise/issues/763) Option to make vertical Bar
+- [#766](https://github.com/stsrki/Blazorise/issues/766) Toggle Animation not working with Bar component
+- [#281](https://github.com/stsrki/Blazorise/issues/281) Add ability to display close button on badge
+- [#350](https://github.com/stsrki/Blazorise/issues/350) Sidebar width and Bar height
+- [#369](https://github.com/stsrki/Blazorise/issues/369) Button text colors for success and info
+- [#407](https://github.com/stsrki/Blazorise/issues/407) Datagrid mobile friendly
+- [#413](https://github.com/stsrki/Blazorise/issues/413) Button colors
+- [#412](https://github.com/stsrki/Blazorise/issues/412) Error when using SelectEdit with dictionary in DataGrid
+- [#430](https://github.com/stsrki/Blazorise/issues/430) Modal Footer Buttons do not follow theme
+- [#447](https://github.com/stsrki/Blazorise/issues/447) DetailRowTemplate - Remove empty td or change size
+- [#483](https://github.com/stsrki/Blazorise/issues/483) Scroll not working after NavigationManager navigation
+- [#564](https://github.com/stsrki/Blazorise/issues/564) How should these theme attributes be filled?
+- [#672](https://github.com/stsrki/Blazorise/issues/672) Dropdown and DropdownMenu have a RightAligned property
+- [#676](https://github.com/stsrki/Blazorise/issues/676) Add a SetFocus method
+- [#693](https://github.com/stsrki/Blazorise/issues/693) ChartOptions improvement
+- [#708](https://github.com/stsrki/Blazorise/issues/708) Add Display utilities
+- [#660](https://github.com/stsrki/Blazorise/issues/660) Theme options to define layout grid breakpoints
+- [#790](https://github.com/stsrki/Blazorise/issues/790) Figure is not responsive
+- [#834](https://github.com/stsrki/Blazorise/issues/834) Default colors for AntDesign
+- [#851](https://github.com/stsrki/Blazorise/issues/851) Expose EditContext as an attribute of Validations
+- [#792](https://github.com/stsrki/Blazorise/issues/792) error with charts after redrawing
+- [#847](https://github.com/stsrki/Blazorise/issues/847) Modal scrolls to top of
+- [#955](https://github.com/stsrki/Blazorise/issues/955) Remove Visibility property
+
+- [#622](https://github.com/stsrki/Blazorise/issues/622) [DataGrid] [Material] Issue with DetailRowTemplate in Editable DataGrid
+- [#664](https://github.com/stsrki/Blazorise/issues/664) Switch Component Cursor Property doesn't work
+- [#646](https://github.com/stsrki/Blazorise/issues/646) Theme ColorOptions Primary also changes Breadcrumb link color
+- [#686](https://github.com/stsrki/Blazorise/issues/686) Null reference exception when DataGridColumn Field is not set
+- [#661](https://github.com/stsrki/Blazorise/issues/661) Auto Validation: Form Validation, error message is displayed on first load.
+- [#871](https://github.com/stsrki/Blazorise/issues/871) Sidebar not collapsing on media breakpoints
+- [#875](https://github.com/stsrki/Blazorise/issues/875) Streaming charts - how to assign specific "data-streams" to specific datasets
+- [#898](https://github.com/stsrki/Blazorise/issues/898) Column Width in Material
+- [#923](https://github.com/stsrki/Blazorise/issues/923) Don't call JSRunner during prerendering
+- [#655](https://github.com/stsrki/Blazorise/issues/655) Memo cursor jumps to end when enclosed in a field and Text is bound
+- [#733](https://github.com/stsrki/Blazorise/issues/733) TextEdit jump caret to the end of the text for every typed char
+- [#946](https://github.com/stsrki/Blazorise/issues/946) Unhandled Exception behavior in UI events
+- [#961](https://github.com/stsrki/Blazorise/issues/961) ChartOptions : Scales object has typo in "Axe"
+
+### PRs
+
+- [#785](https://github.com/stsrki/Blazorise/pull/785) fix: layout issue for responsive design
+- [#896](https://github.com/stsrki/Blazorise/pull/896) DataGrid detail column span fix
+- [#928](https://github.com/stsrki/Blazorise/pull/928) Check if component is rendered before calling JSRunner in Dispose()
+- [#947](https://github.com/stsrki/Blazorise/pull/947) Add flask icon to Font Awesome
+- [#948](https://github.com/stsrki/Blazorise/pull/948) DataGrid aggregate column shift fix
+- [#958](https://github.com/stsrki/Blazorise/pull/958) Add ChartColor.FromHtmlColorCode() method
+- [#968](https://github.com/stsrki/Blazorise/pull/968) EmptyTemplate and LoadingTemplate
+- [#962](https://github.com/stsrki/Blazorise/pull/962) Add CardDeck
+- [#987](https://github.com/stsrki/Blazorise/pull/987) TreeView component extension
+- [#985](https://github.com/stsrki/Blazorise/pull/985) ChartJS : convert Options object to Dictionary to fix null values issue
+- [#954](https://github.com/stsrki/Blazorise/pull/954) Vertical Bar mode
+
+For detail description of changes please look at [v0.9.1 release page]({{ "/news/release-notes/091/" | relative_url }})
+
 ## 0.9.0
 
 ### Features and bug fixes

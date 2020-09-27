@@ -78,11 +78,7 @@ You should always define `TItem` data type.
     {
         await lineChart.Clear();
 
-        await lineChart.AddLabel( Labels );
-
-        await lineChart.AddDataSet( GetLineChartDataset() );
-
-        await lineChart.Update();
+        await lineChart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );
     }
 
     LineChartDataset<double> GetLineChartDataset()
@@ -228,14 +224,7 @@ The next step is to add necessary files to the _index.html_ or __Host.cshtml_ fi
     {
         await chart.Clear();
 
-        await chart.AddLabel( Labels );
-
-        foreach ( var getDataSet in getDataSets )
-        {
-            await chart.AddDataSet( getDataSet() );
-        }
-
-        await chart.Update();
+        await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSets.Select( x => x.Invoke() ).ToArray() );
     }
 
     LineChartDataset<LiveDataPoint> GetLineChartDataset1()

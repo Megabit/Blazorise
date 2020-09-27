@@ -28,7 +28,7 @@ namespace Blazorise
 
         private IFluentSpacing padding;
 
-        private Visibility visibility = Visibility.Default;
+        private IFluentDisplay display;
 
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
@@ -76,6 +76,8 @@ namespace Blazorise
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
+            Rendered = true;
+
             // If the component has custom implementation we need to postpone the initialisation
             // until the custom component is rendered!
             if ( !HasCustomRegistration )
@@ -114,6 +116,9 @@ namespace Blazorise
             if ( Padding != null )
                 builder.Append( Padding.Class( ClassProvider ) );
 
+            if ( Display != null )
+                builder.Append( Display.Class( ClassProvider ) );
+
             if ( Float != Float.None )
                 builder.Append( ClassProvider.ToFloat( Float ) );
 
@@ -125,8 +130,6 @@ namespace Blazorise
         {
             if ( Style != null )
                 builder.Append( Style );
-
-            builder.Append( StyleProvider.Visibility( Visibility ) );
         }
 
         // use this until https://github.com/aspnet/Blazor/issues/1732 is fixed!!
@@ -246,7 +249,12 @@ namespace Blazorise
         /// <summary>
         /// Gets the built class-names based on all the rules set by the component parameters.
         /// </summary>
-        protected string ClassNames => ClassBuilder.Class;
+        public string ClassNames => ClassBuilder.Class;
+
+        /// <summary>
+        /// Indicates if component has been rendered in the browser.
+        /// </summary>
+        protected bool Rendered { get; private set; }
 
         /// <summary>
         /// Gets the style mapper.
@@ -256,7 +264,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the built styles based on all the rules set by the component parameters.
         /// </summary>
-        protected string StyleNames => StyleBuilder.Styles;
+        public string StyleNames => StyleBuilder.Styles;
 
         /// <summary>
         /// Gets or sets the custom components mapper.
@@ -371,17 +379,17 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets or sets the element visibility.
+        /// Specifies the display behavior of an element.
         /// </summary>
         [Parameter]
-        public Visibility Visibility
+        public IFluentDisplay Display
         {
-            get => visibility;
+            get => display;
             set
             {
-                visibility = value;
+                display = value;
 
-                DirtyStyles();
+                DirtyClasses();
             }
         }
 

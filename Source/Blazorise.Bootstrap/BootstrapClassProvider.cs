@@ -34,6 +34,8 @@ namespace Blazorise.Bootstrap
 
         public override string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
 
+        public override string SelectMultiple() => null;
+
         public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
@@ -164,6 +166,10 @@ namespace Blazorise.Bootstrap
 
         public override string ValidationNone() => "form-text text-muted";
 
+        public override string ValidationSummary() => "text-danger";
+
+        public override string ValidationSummaryError() => "text-danger";
+
         #endregion
 
         #region Fields
@@ -172,7 +178,7 @@ namespace Blazorise.Bootstrap
 
         public override string FieldsBody() => null;
 
-        public override string FieldsColumn() => $"{Col()}";
+        public override string FieldsColumn() => $"{Column()}";
 
         #endregion
 
@@ -182,7 +188,7 @@ namespace Blazorise.Bootstrap
 
         public override string FieldHorizontal() => "row";
 
-        public override string FieldColumn() => $"{Col()}";
+        public override string FieldColumn() => $"{Column()}";
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -413,7 +419,43 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Carousel
+
+        public override string Carousel() => "carousel slide";
+
+        public override string CarouselSlides() => "carousel-inner";
+
+        public override string CarouselSlide() => "carousel-item";
+
+        public override string CarouselSlideActive( bool active ) => active ? Active() : null;
+
+        public override string CarouselIndicators() => "carousel-indicators";
+
+        public override string CarouselIndicator() => null;
+
+        public override string CarouselIndicatorActive( bool active ) => active ? Active() : null;
+
+        public override string CarouselFade( bool fade ) => fade ? "carousel-fade" : null;
+
+        public override string CarouselCaption() => "carousel-caption";
+
+        #endregion
+
+        #region Jumbotron
+
+        public override string Jumbotron() => "jumbotron";
+
+        public override string JumbotronBackground( Background background ) => $"jumbotron-{ToBackground( background )}";
+
+        public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+
+        public override string JumbotronSubtitle() => "lead";
+
+        #endregion
+
         #region Card
+
+        public override string CardDeck() => "card-deck";
 
         public override string CardGroup() => "card-group";
 
@@ -469,33 +511,7 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region Panel
-
-        public override string Panel() => null;
-
-        #endregion
-
-        #region Nav
-
-        public override string Nav() => "nav";
-
-        public override string NavItem() => "nav-item";
-
-        public override string NavLink() => "nav-link";
-
-        public override string NavTabs() => "nav-tabs";
-
-        public override string NavCards() => "nav-cards";
-
-        public override string NavPills() => "nav-pills";
-
-        public override string NavFill( NavFillType fillType ) => fillType == NavFillType.Justified ? "nav-justified" : "nav-fill";
-
-        public override string NavVertical() => "flex-column";
-
-        #endregion
-
-        #region Navbar
+        #region Bar
 
         public override string Bar() => "navbar";
 
@@ -503,57 +519,59 @@ namespace Blazorise.Bootstrap
 
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 
-        public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )}";
+        public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
 
-        public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
+        public override string BarBreakpoint( Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
 
-        public override string BarItem() => "nav-item";
+        public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
 
-        public override string BarItemActive() => Active();
+        public override string BarItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-item" : "b-bar-item";
 
-        public override string BarItemDisabled() => Disabled();
+        public override string BarItemActive( BarMode mode ) => Active();
 
-        public override string BarItemHasDropdown() => "dropdown";
+        public override string BarItemDisabled( BarMode mode ) => Disabled();
 
-        public override string BarItemHasDropdownShow() => Show();
+        public override string BarItemHasDropdown( BarMode mode ) => null;
 
-        public override string BarLink() => "nav-link";
+        public override string BarItemHasDropdownShow( BarMode mode ) => null;
 
-        public override string BarLinkDisabled() => Disabled();
+        public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-link" : "b-bar-link";
 
-        //public override string BarCollapse() => "navbar-collapse";
+        public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
-        public override string BarBrand() => "navbar-brand";
+        public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
 
-        public override string BarToggler() => "navbar-toggler";
+        public override string BarToggler( BarMode mode ) => "navbar-toggler";
 
-        public override string BarTogglerCollapsed( bool isShow ) => isShow ? null : "collapsed";
+        public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => isShow ? null : "collapsed";
 
-        public override string BarMenu() => "collapse navbar-collapse";
+        public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "collapse navbar-collapse" : "b-bar-menu";
 
-        public override string BarMenuShow() => Show();
+        public override string BarMenuShow( BarMode mode ) => Show();
 
-        public override string BarStart() => "navbar-nav mr-auto";
+        public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav mr-auto" : "b-bar-start";
 
-        public override string BarEnd() => "navbar-nav";
+        public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav" : "b-bar-end";
 
-        //public override string BarHasDropdown() => "dropdown";
+        public override string BarDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : "b-bar-dropdown";
 
-        public override string BarDropdown() => null;
+        public override string BarDropdownShow( BarMode mode ) => Show();
 
-        public override string BarDropdownShow() => null;
+        public override string BarDropdownToggle( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-link dropdown-toggle" : "b-bar-link";
 
-        public override string BarDropdownToggle() => "nav-link dropdown-toggle";
+        public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 
-        public override string BarDropdownItem() => "dropdown-item";
+        public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
 
-        public override string BarTogglerIcon() => "navbar-toggler-icon";
+        public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu" : "b-bar-dropdown-menu";
 
-        public override string BarDropdownMenu() => "dropdown-menu";
+        public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
-        public override string BarDropdownMenuVisible( bool visible ) => visible ? Show() : null;
+        public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-right" : "b-bar-right";
 
-        public override string BarDropdownMenuRight() => "dropdown-menu-right";
+        public override string BarCollapsed( BarMode mode ) => null;
+
+        public override string BarLabel() => "b-bar-label";
 
         #endregion
 
@@ -585,30 +603,40 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region Col
+        #region Column
 
-        public override string Col() => "col";
+        public override string Column() => "col";
 
-        public override string Col( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+        public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var baseClass = offset ? "offset" : Col();
+            var baseClass = offset ? "offset" : Column();
 
-            if ( breakpoint != Blazorise.Breakpoint.None )
+            if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
             {
-                if ( columnWidth == Blazorise.ColumnWidth.None )
-                    return $"{baseClass}-{ToBreakpoint( breakpoint )}";
-
                 return $"{baseClass}-{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
             }
-
-            //if ( columnWidth == Blazorise.ColumnWidth.Auto )
-            //    return $"{baseClass}";
 
             return $"{baseClass}-{ToColumnWidth( columnWidth )}";
         }
 
-        public override string Col( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-            string.Join( " ", rules.Select( r => Col( columnWidth, r.breakpoint, r.offset ) ) );
+        public override string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules )
+            => string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+
+        #endregion
+
+        #region Display
+
+        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        {
+            var baseClass = breakpoint != Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile
+                ? $"d-{ToBreakpoint( breakpoint )}-{ToDisplayType( displayType )}"
+                : $"d-{ToDisplayType( displayType )}";
+
+            if ( direction != DisplayDirection.None )
+                return $"{baseClass} flex-{ToDisplayDirection( direction )}";
+
+            return baseClass;
+        }
 
         #endregion
 
@@ -772,6 +800,8 @@ namespace Blazorise.Bootstrap
 
         public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
 
+        public override string TableResponsive() => "table-responsive";
+
         #endregion
 
         #region Badge
@@ -781,6 +811,8 @@ namespace Blazorise.Bootstrap
         public override string BadgeColor( Color color ) => $"{Badge()}-{ToColor( color )}";
 
         public override string BadgePill() => $"{Badge()}-pill";
+
+        public override string BadgeClose() => "badge-close";
 
         #endregion
 
@@ -838,7 +870,7 @@ namespace Blazorise.Bootstrap
 
         public override string FigureSize( FigureSize figureSize ) => $"figure-is-{ToFigureSize( figureSize )}";
 
-        public override string FigureImage() => "figure-img";
+        public override string FigureImage() => "figure-img img-fluid";
 
         public override string FigureImageRounded() => "rounded";
 
@@ -900,7 +932,7 @@ namespace Blazorise.Bootstrap
 
         public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
         {
-            if ( breakpoint != Blazorise.Breakpoint.None )
+            if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Breakpoint.Mobile )
                 return $"{ToSpacing( spacing )}{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
 
             return $"{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";

@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @inherits BaseChart<DoughnutChartDataset<TItem>, TItem, DoughnutChartOptions, DoughnutChartModel>
-<canvas @ref="ElementRef" id="@ElementId" class="@ClassNames">
+<canvas @ref="ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <CascadingValue Value=this>
         @ChildContent
     </CascadingValue>

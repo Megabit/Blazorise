@@ -12,9 +12,9 @@ namespace Blazorise.Material
     {
         public override string TabPanel() => "tab-pane fade";
 
-        public override string Nav() => "nav nav-tabs-material";
-
         public override string Bar() => "navbar navbar-full";
+
+        public override string BarItemHasDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : null;
 
         public override string Provider => "Material";
     }

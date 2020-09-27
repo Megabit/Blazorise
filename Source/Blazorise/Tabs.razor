@@ -2,78 +2,80 @@
 @if ( !HasCustomRegistration )
 {
     <CascadingValue Value=this>
-        @if ( TabPosition == TabPosition.Top )
-        {
-            @if ( Items != null )
+        <CascadingValue Value="@store">
+            @if ( TabPosition == TabPosition.Top )
             {
-                <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                    @Items
-                </ul>
+                @if ( Items != null )
+                {
+                    <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                        @Items
+                    </ul>
+                }
+                @if ( Content != null )
+                {
+                    <div class="@ContentClassNames" @attributes="@Attributes">
+                        @Content
+                    </div>
+                }
             }
-            @if ( Content != null )
+            else if ( TabPosition == TabPosition.Bottom )
             {
-                <div class="@ContentClassNames" @attributes="@Attributes">
-                    @Content
-                </div>
+                @if ( Content != null )
+                {
+                    <div class="@ContentClassNames" @attributes="@Attributes">
+                        @Content
+                    </div>
+                }
+                @if ( Items != null )
+                {
+                    <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                        @Items
+                    </ul>
+                }
             }
-        }
-        else if ( TabPosition == TabPosition.Bottom )
-        {
-            @if ( Content != null )
+            else if ( TabPosition == TabPosition.Left )
             {
-                <div class="@ContentClassNames" @attributes="@Attributes">
-                    @Content
-                </div>
+                <Row>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        @if ( Items != null )
+                        {
+                            <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                                @Items
+                            </ul>
+                        }
+                    </Column>
+                    <Column>
+                        @if ( Content != null )
+                        {
+                            <div class="@ContentClassNames" @attributes="@Attributes">
+                                @Content
+                            </div>
+                        }
+                    </Column>
+                </Row>
             }
-            @if ( Items != null )
+            else if ( TabPosition == TabPosition.Right )
             {
-                <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                    @Items
-                </ul>
+                <Row>
+                    <Column>
+                        @if ( Content != null )
+                        {
+                            <div class="@ContentClassNames" @attributes="@Attributes">
+                                @Content
+                            </div>
+                        }
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        @if ( Items != null )
+                        {
+                            <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                                @Items
+                            </ul>
+                        }
+                    </Column>
+                </Row>
             }
-        }
-        else if ( TabPosition == TabPosition.Left )
-        {
-            <Row>
-                <Column ColumnSize="ColumnSize.IsAuto">
-                    @if ( Items != null )
-                    {
-                        <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                            @Items
-                        </ul>
-                    }
-                </Column>
-                <Column>
-                    @if ( Content != null )
-                    {
-                        <div class="@ContentClassNames" @attributes="@Attributes">
-                            @Content
-                        </div>
-                    }
-                </Column>
-            </Row>
-        }
-        else if ( TabPosition == TabPosition.Right )
-        {
-            <Row>
-                <Column>
-                    @if ( Content != null )
-                    {
-                        <div class="@ContentClassNames" @attributes="@Attributes">
-                            @Content
-                        </div>
-                    }
-                </Column>
-                <Column ColumnSize="ColumnSize.IsAuto">
-                    @if ( Items != null )
-                    {
-                        <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                            @Items
-                        </ul>
-                    }
-                </Column>
-            </Row>
-        }
+        </CascadingValue>
     </CascadingValue>
 }
 else

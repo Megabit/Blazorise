@@ -50,7 +50,7 @@ namespace Blazorise
         /// <summary>
         /// Raises an event that the validation has started.
         /// </summary>
-        public event ValidatingEventHandler Validating;
+        public event ValidationStartedEventHandler ValidationStarted;
 
         /// <summary>
         /// Raises every time a validation state has changed.
@@ -61,7 +61,7 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void OnInitialized()
+        protected override Task OnInitializedAsync()
         {
             if ( ParentValidations != null )
             {
@@ -71,7 +71,7 @@ namespace Blazorise
                 ParentValidations.NotifyValidationInitialized( this );
             }
 
-            base.OnInitialized();
+            return base.OnInitializedAsync();
         }
 
         public void Dispose()
@@ -91,7 +91,7 @@ namespace Blazorise
             // save the input value
             lastKnownValue = inputComponent.ValidationValue;
 
-            if ( Mode == ValidationMode.Auto )
+            if ( Mode == ValidationMode.Auto && ValidateOnLoad )
                 Validate();
         }
 
@@ -174,7 +174,7 @@ namespace Blazorise
             }
             else if ( EditContext != null && hasFieldIdentifier )
             {
-                Validating?.Invoke();
+                ValidationStarted?.Invoke();
 
                 var messages = new ValidationMessageStore( EditContext );
 
@@ -191,7 +191,7 @@ namespace Blazorise
 
                 if ( validatorHandler != null )
                 {
-                    Validating?.Invoke();
+                    ValidationStarted?.Invoke();
 
                     var validatorEventArgs = new ValidatorEventArgs( inputComponent.ValidationValue );
 
@@ -223,7 +223,7 @@ namespace Blazorise
         {
             ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, message ) );
 
-            ParentValidations?.NotifyValidationStatusChanged();
+            ParentValidations?.NotifyValidationStatusChanged( this );
         }
 
         #endregion
@@ -234,6 +234,11 @@ namespace Blazorise
         /// Gets the validation mode.
         /// </summary>
         private ValidationMode Mode => ParentValidations?.Mode ?? ValidationMode.Auto;
+
+        /// <summary>
+        /// Gets the activation mode when in auto mode.
+        /// </summary>
+        private bool ValidateOnLoad => ParentValidations?.ValidateOnLoad ?? true;
 
         /// <summary>
         /// Gets or sets the current validation status.

@@ -72,7 +72,7 @@ Block of text separated from adjacent blocks by blank lines and/or first-line in
 | Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
 | Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
 | Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### Paragraph
 
@@ -82,7 +82,7 @@ Block of text separated from adjacent blocks by blank lines and/or first-line in
 | Alignment     | [TextAlignment]({{ "/docs/helpers/enums/#textalignment" | relative_url }}) | `Left`           | Sets the text alignment.                                                                    |
 | Transform     | [TextTransform]({{ "/docs/helpers/enums/#texttransform" | relative_url }}) | `None`           | Sets the text transformation.                                                               |
 | Weight        | [TextWeight]({{ "/docs/helpers/enums/#textweight" | relative_url }})       | `None`           | Sets the text weight.                                                                       |
-| IsItalic      | bool                                                                       | false            | Italicize text if set to true.                                                              |
+| Italic        | bool                                                                       | false            | Italicize text if set to true.                                                              |
 
 ### Heading
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -16,20 +17,15 @@ namespace Blazorise
     {
         #region Members
 
-        /// <summary>
-        /// Flag that indicates if modal is visible.
-        /// </summary>
-        private bool visible;
+        ModalStore store = new ModalStore
+        {
+            Visible = false,
+        };
 
         /// <summary>
         /// Holds the last received reason for modal closure.
         /// </summary>
         private CloseReason closeReason = CloseReason.None;
-
-        /// <summary>
-        /// Occurs when the <see cref="Visible"/> property value changes.
-        /// </summary>
-        public event EventHandler<ModalStateEventArgs> StateChanged;
 
         #endregion
 
@@ -49,6 +45,21 @@ namespace Blazorise
             builder.Append( StyleProvider.ModalShow(), Visible );
 
             base.BuildStyles( builder );
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing && Rendered )
+            {
+                // TODO: implement IAsyncDisposable once it is supported by Blazor!
+                //
+                // Sometimes user can navigates to another page based on the action runned on modal. The problem is 
+                // that for providers like Bootstrap, some classnames can be left behind. So to cover those situation
+                // we need to close modal and dispose of any claassnames in case there is any left. 
+                _ = JSRunner.CloseModal( ElementRef, ElementId );
+            }
+
+            base.Dispose( disposing );
         }
 
         /// <summary>
@@ -81,7 +92,7 @@ namespace Blazorise
 
             if ( IsSafeToClose() )
             {
-                visible = false;
+                store.Visible = false;
 
                 HandleVisibilityStyles( false );
                 RaiseEvents( false );
@@ -123,7 +134,7 @@ namespace Blazorise
             {
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.OpenModal( ElementRef, ElementId );
+                    await JSRunner.OpenModal( ElementRef, ElementId, ScrollToTop );
                 } );
             }
             else
@@ -140,8 +151,6 @@ namespace Blazorise
 
         private void RaiseEvents( bool visible )
         {
-            StateChanged?.Invoke( this, new ModalStateEventArgs( visible ) );
-
             if ( !visible )
             {
                 Closed.InvokeAsync( null );
@@ -158,29 +167,34 @@ namespace Blazorise
         [Parameter]
         public bool Visible
         {
-            get => visible;
+            get => store.Visible;
             set
             {
                 // prevent modal from calling the same code multiple times
-                if ( value == visible )
+                if ( value == store.Visible )
                     return;
 
                 if ( value == true )
                 {
-                    visible = true;
+                    store.Visible = true;
 
                     HandleVisibilityStyles( true );
                     RaiseEvents( true );
                 }
                 else if ( value == false && IsSafeToClose() )
                 {
-                    visible = false;
+                    store.Visible = false;
 
                     HandleVisibilityStyles( false );
                     RaiseEvents( false );
                 }
             }
         }
+
+        /// <summary>
+        /// If true modal will scroll to top when opened.
+        /// </summary>
+        [Parameter] public bool ScrollToTop { get; set; } = true;
 
         /// <summary>
         /// Occurs before the modal is closed.

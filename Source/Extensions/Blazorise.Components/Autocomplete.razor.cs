@@ -162,11 +162,22 @@ namespace Blazorise.Components
             ActiveItemIndex = activeItemIndex;
         }
 
+        /// <summary>
+        /// Sets focus on the input element, if it can be focused.
+        /// </summary>
+        /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
+        public void Focus( bool scrollToElement = true )
+        {
+            textEdit.Focus( scrollToElement );
+        }
+
         #endregion
 
         #region Properties
 
         protected Dropdown dropdownRef;
+
+        protected TextEdit textEdit;
 
         protected string CurrentSearch { get; set; } = string.Empty;
 
@@ -175,6 +186,9 @@ namespace Blazorise.Components
         protected int ActiveItemIndex { get; set; }
 
         protected bool DropdownVisible => Data != null && TextField != null && CurrentSearch?.Length >= MinLength;
+
+        protected string DropdownClassNames
+            => $"{Class} b-is-autocomplete";
 
         /// <summary>
         /// Defines the method by which the search will be done.

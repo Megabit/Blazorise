@@ -54,13 +54,15 @@ namespace Blazorise.Charts.Streaming
         {
             foreach ( var dataset in ParentChart?.Data?.Datasets ?? Enumerable.Empty<ChartDataset<TItem>>() )
             {
-                var newData = new ChartStreamingData<TItem>();
+                var datasetIndex = ParentChart.Data.Datasets.IndexOf( dataset );
+
+                var newData = new ChartStreamingData<TItem>( dataset.Label, datasetIndex );
 
                 await Refreshed.InvokeAsync( newData );
 
                 await JS.AddData( JSRuntime,
                     ParentChart.ElementId,
-                    ParentChart.Data.Datasets.IndexOf( dataset ),
+                    newData.DatasetIndex,
                     newData.Value );
             }
         }

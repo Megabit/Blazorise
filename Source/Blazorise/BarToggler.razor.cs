@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,7 +13,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool visible;
+        private BarStore parentStore;
 
         #endregion
 
@@ -20,8 +21,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarToggler() );
-            builder.Append( ClassProvider.BarTogglerCollapsed( Visible ) );
+            builder.Append( ClassProvider.BarToggler( ParentStore.Mode ) );
+            builder.Append( ClassProvider.BarTogglerCollapsed( ParentStore.Mode, ParentStore.Visible ) );
 
             base.BuildClasses( builder );
         }
@@ -37,56 +38,29 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        protected override void OnInitialized()
-        {
-            if ( ParentBar != null )
-            {
-                Visible = ParentBar.Visible;
-
-                ParentBar.StateChanged += OnBarStateChanged;
-            }
-
-            base.OnInitialized();
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( ParentBar != null )
-                {
-                    ParentBar.StateChanged -= OnBarStateChanged;
-                }
-            }
-
-            base.Dispose( disposing );
-        }
-
-        private void OnBarStateChanged( object sender, BarStateEventArgs e )
-        {
-            Visible = e.Visible;
-        }
-
         #endregion
 
         #region Properties
-
-        [Parameter]
-        public bool Visible
-        {
-            get => visible;
-            set
-            {
-                visible = value;
-
-                DirtyClasses();
-            }
-        }
 
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
+
+        [CascadingParameter]
+        protected BarStore ParentStore
+        {
+            get => parentStore;
+            set
+            {
+                if ( parentStore == value )
+                    return;
+
+                parentStore = value;
+
+                DirtyClasses();
+            }
+        }
 
         [CascadingParameter] protected Bar ParentBar { get; set; }
 

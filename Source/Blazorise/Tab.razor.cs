@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,7 +13,7 @@ namespace Blazorise
     {
         #region Members
 
-        private bool active;
+        private TabsStore parentTabsStore;
 
         private bool disabled;
 
@@ -57,37 +58,17 @@ namespace Blazorise
             if ( ParentTabs != null )
             {
                 ParentTabs.HookTab( Name );
-
-                Active = Name == ParentTabs.SelectedTab;
-
-                ParentTabs.StateChanged += OnTabsStateChanged;
             }
 
             base.OnInitialized();
         }
 
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( ParentTabs != null )
-                {
-                    ParentTabs.StateChanged -= OnTabsStateChanged;
-                }
-            }
-
-            base.Dispose( disposing );
-        }
-
-        protected void ClickHandler()
+        protected Task ClickHandler()
         {
             Clicked?.Invoke();
             ParentTabs?.SelectTab( Name );
-        }
 
-        private void OnTabsStateChanged( object sender, TabsStateEventArgs e )
-        {
-            Active = Name == e.TabName;
+            return Task.CompletedTask;
         }
 
         #endregion
@@ -101,24 +82,12 @@ namespace Blazorise
         /// </summary>
         protected string LinkClassNames => LinkClassBuilder.Class;
 
+        protected bool Active => parentTabsStore.SelectedTab == Name;
+
         /// <summary>
         /// Defines the tab name. Must match the coresponding panel name.
         /// </summary>
         [Parameter] public string Name { get; set; }
-
-        /// <summary>
-        /// Determines is the tab active.
-        /// </summary>
-        public bool Active
-        {
-            get => active;
-            private set
-            {
-                active = value;
-
-                DirtyClasses();
-            }
-        }
 
         /// <summary>
         /// Determines is the tab is disabled.
@@ -139,6 +108,21 @@ namespace Blazorise
         /// Occurs when the item is clicked.
         /// </summary>
         [Parameter] public Action Clicked { get; set; }
+
+        [CascadingParameter]
+        protected TabsStore ParentTabsStore
+        {
+            get => parentTabsStore;
+            set
+            {
+                if ( parentTabsStore == value )
+                    return;
+
+                parentTabsStore = value;
+
+                DirtyClasses();
+            }
+        }
 
         [CascadingParameter] protected Tabs ParentTabs { get; set; }
 

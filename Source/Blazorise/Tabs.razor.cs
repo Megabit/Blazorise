@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,17 +13,10 @@ namespace Blazorise
     {
         #region Members
 
-        private bool pills;
-
-        private bool fullWidth;
-
-        private bool justified;
-
-        private string selectedTab;
-
-        private TabPosition tabPosition = TabPosition.Top;
-
-        public event EventHandler<TabsStateEventArgs> StateChanged;
+        private TabsStore store = new TabsStore
+        {
+            TabPosition = TabPosition.Top,
+        };
 
         private List<string> tabItems = new List<string>();
 
@@ -83,6 +77,8 @@ namespace Blazorise
 
         #region Properties
 
+        protected TabsStore Store => store;
+
         protected bool IsCards => CardHeader != null;
 
         protected ClassBuilder ContentClassBuilder { get; private set; }
@@ -92,7 +88,7 @@ namespace Blazorise
         /// </summary>
         protected string ContentClassNames => ContentClassBuilder.Class;
 
-        protected int IndexOfSelectedTab => tabItems.IndexOf( selectedTab );
+        protected int IndexOfSelectedTab => tabItems.IndexOf( store.SelectedTab );
 
         protected IReadOnlyList<string> TabItems => tabItems;
 
@@ -104,10 +100,10 @@ namespace Blazorise
         [Parameter]
         public bool Pills
         {
-            get => pills;
+            get => store.Pills;
             set
             {
-                pills = value;
+                store.Pills = value;
 
                 DirtyClasses();
             }
@@ -119,10 +115,10 @@ namespace Blazorise
         [Parameter]
         public bool FullWidth
         {
-            get => fullWidth;
+            get => store.FullWidth;
             set
             {
-                fullWidth = value;
+                store.FullWidth = value;
 
                 DirtyClasses();
             }
@@ -134,10 +130,10 @@ namespace Blazorise
         [Parameter]
         public bool Justified
         {
-            get => justified;
+            get => store.Justified;
             set
             {
-                justified = value;
+                store.Justified = value;
 
                 DirtyClasses();
             }
@@ -149,10 +145,10 @@ namespace Blazorise
         [Parameter]
         public TabPosition TabPosition
         {
-            get => tabPosition;
+            get => store.TabPosition;
             set
             {
-                tabPosition = value;
+                store.TabPosition = value;
 
                 DirtyClasses();
             }
@@ -164,18 +160,17 @@ namespace Blazorise
         [Parameter]
         public string SelectedTab
         {
-            get => selectedTab;
+            get => store.SelectedTab;
             set
             {
                 // prevent tabs from calling the same code multiple times
-                if ( value == selectedTab )
+                if ( value == store.SelectedTab )
                     return;
 
-                selectedTab = value;
+                store.SelectedTab = value;
 
-                // raise the tabchanged notification
-                StateChanged?.Invoke( this, new TabsStateEventArgs( selectedTab ) );
-                SelectedTabChanged.InvokeAsync( selectedTab );
+                // raise the tabchanged notification                
+                SelectedTabChanged.InvokeAsync( store.SelectedTab );
 
                 DirtyClasses();
             }

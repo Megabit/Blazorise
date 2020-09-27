@@ -411,6 +411,102 @@ namespace Blazorise
     }
 
     /// <summary>
+    /// The display property specifies the display behavior (the type of rendering box) of an element.
+    /// </summary>
+    public enum DisplayType
+    {
+        /// <summary>
+        /// Display will not be applied, meaning an element will be visible.
+        /// </summary>
+        Always,
+
+        /// <summary>
+        /// Hides an element.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Displays an element as a block element.
+        /// </summary>
+        /// <remarks>
+        /// It starts on a new line, and takes up the whole width.
+        /// </remarks>
+        Block,
+
+        /// <summary>
+        /// Displays an element as an inline element.
+        /// </summary>
+        /// <remarks>
+        /// Any height and width properties will have no effect.
+        /// </remarks>
+        Inline,
+
+        /// <summary>
+        /// Displays an element as an inline-level block container.
+        /// </summary>
+        /// <remarks>
+        /// The element itself is formatted as an inline element, but you can apply height and width values
+        /// </remarks>
+        InlineBlock,
+
+        /// <summary>
+        /// Displays an element as a block-level flex container.
+        /// </summary>
+        Flex,
+
+        /// <summary>
+        /// Displays an element as an inline-level flex container.
+        /// </summary>
+        InlineFlex,
+
+        /// <summary>
+        /// Let the element behave like a <table> element.
+        /// </summary>
+        Table,
+
+        /// <summary>
+        /// Let the element behave like a <tr> element.
+        /// </summary>
+        TableRow,
+
+        /// <summary>
+        /// Let the element behave like a <td> element.
+        /// </summary>
+        TableCell,
+    }
+
+    /// <summary>
+    /// Defines direction of flex items in a flex container.
+    /// </summary>
+    public enum DisplayDirection
+    {
+        /// <summary>
+        /// Direction will not be applied.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// The flex container's main-axis is defined to be the same as the text direction. The main-start and main-end points are the same as the content direction.
+        /// </summary>
+        Row,
+
+        /// <summary>
+        /// The flex container's main-axis is the same as the block-axis. The main-start and main-end points are the same as the before and after points of the writing-mode.
+        /// </summary>
+        Column,
+
+        /// <summary>
+        /// Behaves the same as row but the main-start and main-end points are permuted.
+        /// </summary>
+        ReverseRow,
+
+        /// <summary>
+        /// Behaves the same as column but the main-start and main-end are permuted.
+        /// </summary>
+        ReverseColumn,
+    }
+
+    /// <summary>
     /// Direction of an dropdown menu.
     /// </summary>
     public enum Direction
@@ -617,6 +713,11 @@ namespace Blazorise
         /// Used for input fields that should contain a URL address.
         /// </summary>
         Url,
+
+        /// <summary>
+        /// Define a search field (like a site search, or Google search).
+        /// </summary>
+        Search,
     }
 
     /// <summary>
@@ -682,28 +783,6 @@ namespace Blazorise
         /// </summary>
         Justified,
     }
-
-    /// <summary>
-    /// Defines an element visibility behaviour.
-    /// </summary>
-    public enum Visibility
-    {
-        /// <summary>
-        /// None.
-        /// </summary>
-        Default,
-
-        /// <summary>
-        /// Element will always be visible.
-        /// </summary>
-        Always,
-
-        /// <summary>
-        /// Element will always bi hidden.
-        /// </summary>
-        Never,
-    }
-
 
     /// <summary>
     /// Defines the alignment of an element.
@@ -1053,6 +1132,20 @@ namespace Blazorise
     }
 
     /// <summary>
+    /// Defines the jumbotron title size.
+    /// </summary>
+    public enum JumbotronTitleSize
+    {
+        Is1,
+
+        Is2,
+
+        Is3,
+
+        Is4,
+    }
+
+    /// <summary>
     /// Defines the validation results.
     /// </summary>
     public enum ValidationStatus
@@ -1149,30 +1242,314 @@ namespace Blazorise
 
     public enum IconName
     {
-        New,
-        Edit,
-        Save,
-        Cancel,
-        Delete,
+        Add,
+        Adjust,
+        AlignCenter,
+        AlignJustify,
+        AlignLeft,
+        AlignRight,
+        AngleDown,
+        AngleLeft,
+        AngleRight,
+        AngleUp,
+        Archive,
+        ArrowAltCircleDown,
+        ArrowDown,
+        ArrowLeft,
+        ArrowRight,
+        ArrowUp,
+        Baby,
+        BabyCarriage,
+        Backspace,
+        Backward,
+        BalanceScale,
+        Ban,
+        BandAid,
+        Bars,
+        BatteryFull,
+        Bell,
+        BellSlash,
+        Biking,
+        BirthdayCake,
+        Bold,
+        Bolt,
+        Book,
+        Bookmark,
+        BookReader,
+        BorderAll,
+        BorderNone,
+        BorderStyle,
+        Briefcase,
+        Brush,
+        Bug,
+        Building,
+        Bus,
+        CalendarCheck,
+        CalendarDay,
+        CalendarTimes,
+        CalendarWeek,
+        Camera,
+        CameraRetro,
+        Car,
+        CaretSquareRight,
+        CartPlus,
+        Chair,
+        ChartPie,
+        Check,
+        CheckCircle,
+        CheckDouble,
+        CheckSquare,
+        ChevronLeft,
+        ChevronRight,
+        Circle,
+        City,
         Clear,
-        Search,
-        ClearSearch,
-        Phone,
-        Smartphone,
-        Mail,
-        Person,
+        ClinicMedical,
+        Clock,
+        ClosedCaptioning,
+        Cloud,
+        CloudDownloadAlt,
+        CloudUploadAlt,
+        Cocktail,
+        Code,
+        Coffee,
+        Comment,
+        CommentAlt,
+        Comments,
+        CompactDisc,
+        Compass,
+        Compress,
+        Copyright,
+        CreditCard,
+        Crop,
+        Dashboard,
+        Delete,
+        Desktop,
+        Dice,
+        Directions,
+        Dog,
+        DollarSign,
+        DotCircle,
+        Download,
+        Dumbbell,
+        Edit,
+        Eject,
+        Ethernet,
+        EuroSign,
+        Exclamation,
+        ExclamationCircle,
+        ExclamationTriangle,
+        Expand,
+        ExpandArrowsAlt,
+        ExpandLess,
+        ExpandMore,
+        ExternalLinkSquareAlt,
+        Eye,
+        EyeSlash,
+        FastForward,
+        FileAlt,
+        FileDownload,
+        FilePdf,
+        FileUpload,
+        Film,
+        Filter,
+        Fingerprint,
+        Fire,
+        Flag,
+        Flask,
+        Folder,
+        FolderOpen,
+        FolderPlus,
+        Forward,
+        Frown,
+        FrownOpen,
+        Gamepad,
+        GasPump,
+        Gavel,
+        Gift,
+        Grin,
+        GripLines,
+        HandPaper,
+        HandsHelping,
+        Headphones,
+        Headset,
+        Heart,
+        Highlighter,
+        History,
+        Home,
+        Hospital,
+        Hotel,
+        HotTub,
+        Hourglass,
+        IdCard,
+        Image,
+        Images,
+        Inbox,
+        Indent,
+        Infinity,
+        Info,
+        InfoCircle,
+        Italic,
+        Key,
+        Keyboard,
+        Language,
+        Laptop,
+        LaptopCode,
+        Laugh,
+        LayerGroup,
+        Lightbulb,
+        Link,
+        List,
+        ListOl,
+        ListUl,
+        LocationArrow,
         Lock,
+        LockOpen,
+        Mail,
+        Map,
+        MapMarker,
+        MapMarkerAlt,
+        Memory,
+        Microphone,
+        MicrophoneSlash,
+        MinusCircle,
+        MinusSquare,
+        MoneyBillAlt,
         MoreHorizontal,
         MoreVertical,
-        ExpandMore,
-        ExpandLess,
-        SliderHorizontal,
-        SliderVertical,
-        Dashboard,
-        Tint,
+        Motorcycle,
+        Mouse,
+        Music,
+        PaintBrush,
+        PaintRoller,
         Palette,
-        SortUp,
+        Paperclip,
+        PaperPlane,
+        Parking,
+        Pause,
+        PauseCircle,
+        Pen,
+        Phone,
+        PhoneAlt,
+        PizzaSlice,
+        Plane,
+        PlaneArrival,
+        PlaneDeparture,
+        Play,
+        PlayCircle,
+        Plug,
+        PlusCircle,
+        PlusSquare,
+        Poll,
+        Portrait,
+        Print,
+        PuzzlePiece,
+        QuestionCircle,
+        QuoteRight,
+        Random,
+        Receipt,
+        Redo,
+        Remove,
+        RemoveFormat,
+        Reply,
+        ReplyAll,
+        Restroom,
+        Rss,
+        RulerHorizontal,
+        Running,
+        Satellite,
+        Save,
+        School,
+        SdCard,
+        Search,
+        SearchMinus,
+        SearchPlus,
+        Seedling,
+        Server,
+        Shapes,
+        Share,
+        ShareAlt,
+        ShieldAlt,
+        Ship,
+        ShoppingBag,
+        ShoppingBasket,
+        ShoppingCart,
+        ShuttleVan,
+        SimCard,
+        SliderHorizontal,
+        Smartphone,
+        Smile,
+        Smoking,
+        SmokingBan,
+        Sms,
+        Snowflake,
+        Sort,
+        SortAlphaDown,
+        SortAmountDownAlt,
         SortDown,
+        SortUp,
+        Spa,
+        SpellCheck,
+        Square,
+        Star,
+        StarHalf,
+        StepBackward,
+        StepForward,
+        StickyNote,
+        Stop,
+        Store,
+        StoreAlt,
+        Stream,
+        StreetView,
+        Strikethrough,
+        Subway,
+        Suitcase,
+        Sun,
+        SwimmingPool,
+        Sync,
+        SyncAlt,
+        Tablet,
+        Tag,
+        Taxi,
+        TextHeight,
+        ThumbsDown,
+        ThumbsUp,
+        TicketAlt,
+        Times,
+        TimesCircle,
+        Tint,
+        TintSlash,
+        TrafficLight,
+        Train,
+        Tram,
+        Tree,
+        Truck,
+        Tv,
+        UmbrellaBeach,
+        Underline,
+        Undo,
+        Unlock,
+        User,
+        UserCheck,
+        UserCircle,
+        UserFriends,
+        UserPlus,
+        Users,
+        UserTie,
+        Utensils,
+        Video,
+        VideoSlash,
+        Voicemail,
+        VolumeDown,
+        VolumeMute,
+        VolumeOff,
+        VolumeUp,
+        Walking,
+        Wallet,
+        Wheelchair,
+        Wifi,
+        WineBottle,
+        Wrench,
     }
 
     public enum IconStyle
@@ -1453,5 +1830,47 @@ namespace Blazorise
         /// Breadcrumb items will be activated based on current navigation.
         /// </summary>
         Auto,
+    }
+
+    /// <summary>
+    /// Bar orientation and menu display.
+    /// </summary>
+    public enum BarMode
+    {
+        /// <summary>
+        /// Horizontal navbar with dropdown menus.
+        /// </summary>
+        Horizontal,
+
+        /// <summary>
+        /// Vertical navbar with pop-out menus.
+        /// </summary>
+        VerticalPopout,
+
+        /// <summary>
+        /// Vertical navbar with inline dropdown menus.
+        /// </summary>
+        VerticalInline,
+
+        /// <summary>
+        /// Small vertical navbar with pop-out menus.
+        /// </summary>
+        VerticalSmall,
+    }
+
+    /// <summary>
+    /// Defines how the bar will be collapsed.
+    /// </summary>
+    public enum BarCollapseMode
+    {
+        /// <summary>
+        /// Bar will be hiddden completely when collapsed.
+        /// </summary>
+        Hide,
+
+        /// <summary>
+        /// Bar will be collapsed into smaller version with icons.
+        /// </summary>
+        Small
     }
 }

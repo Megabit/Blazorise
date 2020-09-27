@@ -60,7 +60,17 @@ To define an icon it's simple as this.
 You can also use a real icon name instead of predefined enum.
 
 ```html
-<Icon Name="fa-phone" />
+<Icon Name="@("fa-phone")" />
+```
+
+### Icon Names
+
+Preferred way to define icon is to use an enum `IconName`. That way every icon will be applied automatically based on the icon package that you're using.
+
+In case you cannot find an icon in the provided enum, you can also use prebuilt list of icon names that comes with every icon package. For example for font-awesome you would use `FontAwesomeIcons`, while for material that would be `MaterialIcons`.
+
+```html
+<Icon Name="FontAwesomeIcons.Announcement" />
 ```
 
 ### Style

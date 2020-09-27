@@ -25,6 +25,9 @@ namespace Blazorise.DataGrid
 
         protected object Calculate( DataGridAggregate<TItem> aggregate, DataGridColumn<TItem> column )
         {
+            if ( Data == null )
+                return null;
+
             switch ( aggregate.Aggregate )
             {
                 case DataGridAggregateType.Sum:
@@ -139,6 +142,16 @@ namespace Blazorise.DataGrid
         /// Custom html style.
         /// </summary>
         [Parameter] public string Style { get; set; }
+
+        /// <summary>
+        /// Custom background.
+        /// </summary>
+        [Parameter] public Background Background { get; set; }
+
+        /// <summary>
+        /// Custom color.
+        /// </summary>
+        [Parameter] public Color Color { get; set; }
 
         [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
 

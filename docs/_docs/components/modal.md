@@ -112,13 +112,14 @@ If you want to prevent modal from closing you can use `Closing` event.
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
 | Visible        | boolean                                                                | false     | Handles the visibility of modal dialog.                                                                                        |
 | Closing        | event                                                                  |           | Occurs before the modal is closed and can be used to prevent the modal from closing.                                           |
+| ScrollToTop    | boolean                                                                | true      | If true modal will scroll to top when opened.                                                                                  |
 
 ### ModalContent
 
 | Name           | Type                                                                   | Default   | Description                                                                                                                    |
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
-| IsForm         | boolean                                                                | false     | Makes the modal as classic dialog with header, body and footer. Used only by bulma provider! [see Modal card](https://bulma.io/documentation/components/modal#modal-card)                  |
-| IsCentered     | boolean                                                                | false     | Centers the modal vertically.                                                                                                  |
+| Form           | boolean                                                                | false     | Makes the modal as classic dialog with header, body and footer. Used only by bulma provider! [see Modal card](https://bulma.io/documentation/components/modal#modal-card)                  |
+| Centered       | boolean                                                                | false     | Centers the modal vertically.                                                                                                  |
 | Size           | [ModalSize]({{ "/docs/helpers/sizes/#modalsize" | relative_url }})     | `Default` | Changes the size of the modal.                                                                                                 |
 
 ### ModalBody

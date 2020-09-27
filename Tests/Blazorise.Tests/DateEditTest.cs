@@ -122,7 +122,7 @@ namespace Blazorise.Tests
         }
 
         [Fact]
-        public void ChangeValue()
+        public void ChangeValue_DateTime()
         {
             // setup
             var edit = new MockDateEdit<DateTime>();
@@ -136,7 +136,7 @@ namespace Blazorise.Tests
         }
 
         [Fact]
-        public void ChangeValue_NullValue()
+        public void ChangeValue_DateTime_NullValue()
         {
             // setup
             var edit = new MockDateEdit<DateTime?>();
@@ -149,10 +149,50 @@ namespace Blazorise.Tests
         }
 
         [Fact]
-        public void ChangeValue_NullEventArgs()
+        public void ChangeValue_DateTime_NullEventArgs()
         {
             // setup
             var edit = new MockDateEdit<DateTime?>();
+
+            // test
+            edit.OnChange( null );
+
+            // validate
+            Assert.Null( edit.Date );
+        }
+
+        [Fact]
+        public void ChangeValue_DateTimeOffset()
+        {
+            // setup
+            var edit = new MockDateEdit<DateTimeOffset>();
+            var expected = new DateTime( 2007, 1, 5 );
+
+            // test
+            edit.OnChange( new ChangeEventArgs { Value = expected } );
+
+            // validate
+            Assert.Equal( expected, edit.Date );
+        }
+
+        [Fact]
+        public void ChangeValue_DateTimeOffset_NullValue()
+        {
+            // setup
+            var edit = new MockDateEdit<DateTimeOffset?>();
+
+            // test
+            edit.OnChange( new ChangeEventArgs() );
+
+            // validate
+            Assert.Null( edit.Date );
+        }
+
+        [Fact]
+        public void ChangeValue_DateTimeOffset_NullEventArgs()
+        {
+            // setup
+            var edit = new MockDateEdit<DateTimeOffset?>();
 
             // test
             edit.OnChange( null );

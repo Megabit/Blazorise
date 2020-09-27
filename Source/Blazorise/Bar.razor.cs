@@ -1,32 +1,78 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
 {
-    public partial class Bar : BaseComponent
+    public partial class Bar : BaseComponent, IBreakpointActivator
     {
         #region Members
 
+        /// <summary>
+        /// Used to keep track of the breakpoint state for this component.
+        /// </summary>
+        private bool isBroken;
+
         private Breakpoint breakpoint = Breakpoint.None;
+
+        private Breakpoint navigationBreakpoint = Breakpoint.None;
 
         private ThemeContrast themeContrast = ThemeContrast.Light;
 
         private Alignment alignment = Alignment.None;
 
+        private BarCollapseMode collapseMode = BarCollapseMode.Hide;
+
         private Background background = Background.None;
 
-        private bool visible;
+        private DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef;
 
-        public event EventHandler<BarStateEventArgs> StateChanged;
+        private BarStore store = new BarStore
+        {
+            Mode = BarMode.Horizontal
+        };
 
         #endregion
 
         #region Methods
+
+        protected override async Task OnInitializedAsync()
+        {
+            if ( NavigationBreakpoint != Breakpoint.None )
+                NavigationManager.LocationChanged += OnLocationChanged;
+
+            await base.OnInitializedAsync();
+        }
+
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
+
+            if ( Rendered )
+            {
+                _ = JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+
+                if ( Mode != BarMode.Horizontal )
+                {
+                    // Check if we need to collapse the Bar based on the current screen width against the breakpoint defined for this component.
+                    // This needs to be run to set the inital state, RegisterBreakpointComponent and OnBreakpoint will handle
+                    // additional changes to responsive breakpoints from there.
+                    isBroken = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
+
+                    if ( Visible == isBroken )
+                    {
+                        Visible = !isBroken;
+                        StateHasChanged();
+                    }
+                }
+            }
+
+            await base.OnFirstAfterRenderAsync();
+        }
 
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -35,6 +81,7 @@ namespace Blazorise
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
+            builder.Append( ClassProvider.BarMode( Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -46,30 +93,86 @@ namespace Blazorise
             StateHasChanged();
         }
 
+        public Task OnBreakpoint( bool broken )
+        {
+            // If the breakpoint state has changed, we need to toggle the visibility of this component.
+            // broken = true, hide the component
+            // broken = false, show the component
+            if ( isBroken == broken )
+                return Task.CompletedTask;
+
+            isBroken = broken;
+            Visible = !isBroken;
+
+            StateHasChanged();
+
+            return Task.CompletedTask;
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                // make sure to unregister listener
+                if ( Rendered )
+                {
+                    _ = JSRunner.UnregisterBreakpointComponent( this );
+
+                    JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                }
+
+                if ( NavigationBreakpoint != Breakpoint.None )
+                    NavigationManager.LocationChanged -= OnLocationChanged;
+            }
+
+            base.Dispose( disposing );
+        }
+
+        private async void OnLocationChanged( object sender, LocationChangedEventArgs args )
+        {
+            // Collapse the bar automatically
+            if ( Visible && BreakpointActivatorAdapter.IsBroken( NavigationBreakpoint, await JSRunner.GetBreakpoint() ) )
+                Toggle();
+        }
+
         #endregion
 
         #region Properties
+
+        protected BarStore Store => store;
+
+        protected string CollapseModeString
+        {
+            get
+            {
+                if ( Visible )
+                    return null;
+
+                return ClassProvider.ToBarCollapsedMode( CollapseMode );
+            }
+        }
 
         /// <summary>
         /// Controlls the state of toggler and the menu.
         /// </summary>
         [Parameter]
-        public bool Visible
+        public virtual bool Visible
         {
-            get => visible;
+            get => store.Visible;
             set
             {
                 // prevent bar from calling the same code multiple times
-                if ( value == visible )
+                if ( value == store.Visible )
                     return;
 
-                visible = value;
-
-                StateChanged?.Invoke( this, new BarStateEventArgs( visible ) );
+                store.Visible = value;
+                VisibleChanged.InvokeAsync( value );
 
                 DirtyClasses();
             }
         }
+
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         /// <summary>
         /// Used for responsive collapsing.
@@ -81,6 +184,22 @@ namespace Blazorise
             set
             {
                 breakpoint = value;
+
+                DirtyClasses();
+            }
+        }
+
+
+        /// <summary>
+        /// Used for responsive collapsing after Navigation
+        /// </summary>
+        [Parameter]
+        public Breakpoint NavigationBreakpoint
+        {
+            get => navigationBreakpoint;
+            set
+            {
+                navigationBreakpoint = value;
 
                 DirtyClasses();
             }
@@ -128,7 +247,39 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Defines the Orientation for the bar. Vertical is required when using inside Sidebar.
+        /// </summary>
+        [Parameter]
+        public virtual BarMode Mode
+        {
+            get => store.Mode;
+            set
+            {
+                if ( store.Mode == value )
+                    return;
+
+                store.Mode = value;
+
+                DirtyClasses();
+            }
+        }
+
+        [Parameter]
+        public BarCollapseMode CollapseMode
+        {
+            get => collapseMode;
+            set
+            {
+                collapseMode = value;
+
+                DirtyClasses();
+            }
+        }
+
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        [Inject] protected NavigationManager NavigationManager { get; set; }
 
         #endregion
     }
