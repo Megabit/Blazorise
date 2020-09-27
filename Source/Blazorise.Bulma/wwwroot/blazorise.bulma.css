@@ -1,6 +1,6 @@
 ﻿/*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
 .is-none {
-    display: none !important; }
+    display: none; }
 
 .is-table {
     display: table !important; }
