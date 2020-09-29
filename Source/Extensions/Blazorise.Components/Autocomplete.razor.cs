@@ -1,11 +1,12 @@
 #region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+
 #endregion
 
 namespace Blazorise.Components
@@ -35,6 +36,18 @@ namespace Blazorise.Components
 
         #region Methods
 
+        protected Task OnFocus()
+        {
+            ShowOnFocus = true;
+            dropdownRef?.Show();
+            return Task.CompletedTask;
+        }
+
+        protected Task OnFocusOut()
+        {
+            return Task.Delay( 150 ).ContinueWith( _ => ShowOnFocus = false );
+        }
+
         protected async Task HandleTextChanged( string text )
         {
             CurrentSearch = text ?? string.Empty;
@@ -48,7 +61,11 @@ namespace Blazorise.Components
 
             //If input field is empty, clear current SelectedValue.
             if ( string.IsNullOrEmpty( text ) )
+            {
                 await Clear();
+
+                FilterData();
+            }
 
             await SearchChanged.InvokeAsync( CurrentSearch );
         }
@@ -67,12 +84,13 @@ namespace Blazorise.Components
             if ( ( e.Code == "Enter" || e.Code == "NumpadEnter" || e.Code == "Tab" ) )
             {
                 var item = FilteredData.ElementAtOrDefault( activeItemIndex );
-
+                ShowOnFocus = false;
                 if ( item != null )
                     await HandleDropdownItemClicked( ValueField.Invoke( item ) );
             }
             else if ( e.Code == "Escape" )
             {
+                ShowOnFocus = false;
                 await Clear();
             }
             else if ( e.Code == "ArrowUp" )
@@ -87,6 +105,7 @@ namespace Blazorise.Components
 
         protected async Task HandleDropdownItemClicked( object value )
         {
+            ShowOnFocus = false;
             CurrentSearch = null;
             dropdownRef.Hide();
 
@@ -115,19 +134,22 @@ namespace Blazorise.Components
             if ( TextField == null )
                 return;
 
-            if ( Filter == AutocompleteFilter.Contains )
+            if ( CurrentSearch != null )
             {
-                query = from q in query
-                        let text = TextField.Invoke( q )
-                        where text.IndexOf( CurrentSearch, 0, System.StringComparison.CurrentCultureIgnoreCase ) >= 0
-                        select q;
-            }
-            else
-            {
-                query = from q in query
-                        let text = TextField.Invoke( q )
-                        where text.StartsWith( CurrentSearch, StringComparison.OrdinalIgnoreCase )
-                        select q;
+                if ( Filter == AutocompleteFilter.Contains )
+                {
+                    query = from q in query
+                            let text = TextField.Invoke( q )
+                            where text.IndexOf( CurrentSearch, 0, System.StringComparison.CurrentCultureIgnoreCase ) >= 0
+                            select q;
+                }
+                else
+                {
+                    query = from q in query
+                            let text = TextField.Invoke( q )
+                            where text.StartsWith( CurrentSearch, StringComparison.OrdinalIgnoreCase )
+                            select q;
+                }
             }
 
             filteredData = query.ToList();
@@ -185,10 +207,10 @@ namespace Blazorise.Components
 
         protected int ActiveItemIndex { get; set; }
 
-        protected bool DropdownVisible => Data != null && TextField != null && CurrentSearch?.Length >= MinLength;
+        protected bool DropdownVisible => Data != null && TextField != null && ( CurrentSearch?.Length >= MinLength || ShowOnFocus );
+        private bool ShowOnFocus = false;
 
-        protected string DropdownClassNames
-            => $"{Class} b-is-autocomplete";
+        protected string DropdownClassNames => $"{Class} b-is-autocomplete";
 
         /// <summary>
         /// Defines the method by which the search will be done.

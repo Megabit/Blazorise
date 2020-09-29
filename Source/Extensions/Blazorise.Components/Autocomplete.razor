@@ -1,18 +1,18 @@
 ﻿@typeparam TItem
 <Dropdown @ref="dropdownRef" Class="@DropdownClassNames" Style="@Style" Attributes="@Attributes" Visible="@DropdownVisible">
-    <TextEdit @ref="@textEdit" Role="TextRole.Search" Text="@SelectedText" TextChanged="@HandleTextChanged" Placeholder="@Placeholder" Size="@Size" Disabled="@Disabled" KeyDown="@HandleTextKeyDown" />
-    <DropdownMenu>
-        @if ( DropdownVisible )
-        {
-            for ( int i = 0; i < FilteredData.Count; ++i )
-            {
-                var item = FilteredData[i];
+	<TextEdit @ref="@textEdit" Role="TextRole.Search" Text="@SelectedText" TextChanged="@HandleTextChanged" Placeholder="@Placeholder" Size="@Size" Disabled="@Disabled" KeyDown="@HandleTextKeyDown" @onfocus="@OnFocus" @onfocusout="@OnFocusOut" />
+	<DropdownMenu>
+		@if (DropdownVisible)
+		{
+			for (int i = 0; i < FilteredData.Count; ++i)
+			{
+				var item = FilteredData[i];
 
-                var text = TextField?.Invoke( item );
-                var value = ValueField?.Invoke( item );
+				var text = TextField?.Invoke(item);
+				var value = ValueField?.Invoke(item);
 
-                <DropdownItem Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@HandleDropdownItemClicked">@text</DropdownItem>
-            }
-        }
-    </DropdownMenu>
+				<DropdownItem Active="@(i == ActiveItemIndex)" Value="@value" @onclick="@(()=>HandleDropdownItemClicked(value))">@text</DropdownItem>
+			}
+		}
+	</DropdownMenu>
 </Dropdown>
