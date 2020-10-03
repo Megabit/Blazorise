@@ -357,7 +357,17 @@ namespace Blazorise.DataGrid
                 if ( !ManualReadMode )
                 {
                     if ( !sortByColumns.Any( c => c.Field == column.Field ) )
+                    {
+                        if ( SortMode == DataGridSortMode.Single )
+                        {
+                            for ( int i = sortByColumns.Count - 1; i >= 0; i-- )
+                            {
+                                sortByColumns[i].CurrentDirection = SortDirection.None;
+                                sortByColumns.RemoveAt( i );
+                            }
+                        }
                         sortByColumns.Add( column );
+                    }
                     else if ( column.CurrentDirection == SortDirection.None )
                         sortByColumns.Remove( column );
                 }
@@ -746,6 +756,11 @@ namespace Blazorise.DataGrid
         /// Gets or sets whether end-users can sort data by the column's values.
         /// </summary>
         [Parameter] public bool Sortable { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets whether the user can sort ony by one column or by multiple.
+        /// </summary>
+        [Parameter] public DataGridSortMode SortMode { get; set; } = DataGridSortMode.Multiple;
 
         /// <summary>
         /// Gets or sets whether users can filter rows by its cell values.
