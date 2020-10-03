@@ -14,6 +14,8 @@ namespace Blazorise
     {
         #region Members
 
+        private TextAlignment textAlignment = TextAlignment.None;
+
         #endregion
 
         #region Methods
@@ -21,6 +23,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableHeaderCell() );
+            builder.Append( ClassProvider.TableRowCellTextAlignment( TextAlignment ), TextAlignment != TextAlignment.None );
 
             base.BuildClasses( builder );
         }
@@ -33,6 +36,18 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        [Parameter]
+        public TextAlignment TextAlignment
+        {
+            get => textAlignment;
+            set
+            {
+                textAlignment = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Number of rows a cell should span.
