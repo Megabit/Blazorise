@@ -758,7 +758,7 @@ namespace Blazorise.DataGrid
         [Parameter] public bool Sortable { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets whether the user can sort ony by one column or by multiple.
+        /// Gets or sets whether the user can sort only by one column or by multiple.
         /// </summary>
         [Parameter] public DataGridSortMode SortMode { get; set; } = DataGridSortMode.Multiple;
 

@@ -167,6 +167,7 @@ namespace Blazorise.DataGrid
         /// The data grid can only be sorted by one column at a time.
         /// </summary>
         Single,
+
         /// <summary>
         /// The data grid can sorted by multiple columns.
         /// </summary>
