@@ -136,12 +136,12 @@
         await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSet() );
     }
 
-    async Task SetDataAndUpdate<TDataSet, TItem, TOptions, TModel>(Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<List<TItem>> items)
+    async Task SetDataAndUpdate<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<List<TItem>> items )
         where TDataSet : ChartDataset<TItem>
         where TOptions : ChartOptions
         where TModel : ChartModel
     {
-        await chart.SetData(0, items());
+        await chart.SetData( 0, items() );
         await chart.Update();
     }
 
