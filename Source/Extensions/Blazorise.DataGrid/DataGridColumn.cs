@@ -161,6 +161,11 @@ namespace Blazorise.DataGrid
         [Parameter] public TextAlignment TextAlignment { get; set; }
 
         /// <summary>
+        /// Gets or sets whether the header is also aligned or not.
+        /// </summary>
+        [Parameter] public bool AlignHeader { get; set; } = false;
+
+        /// <summary>
         /// Gets or sets whether users can edit cell values under this column.
         /// </summary>
         [Parameter] public bool Editable { get; set; }
