@@ -80,6 +80,19 @@
             </CardBody>
         </Card>
     </Column>
+    <Column ColumnSize="ColumnSize.IsThird.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Line</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await SetDataAndUpdate( lineChart, RandomizeData ))">Change Data</Button>
+            </CardBody>
+            <CardBody>
+                <LineChart @ref="lineChart" TItem="double" />
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
 @code{
     LineChart<double> lineChart;
@@ -121,6 +134,15 @@
         await chart.Clear();
 
         await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSet() );
+    }
+
+    async Task SetDataAndUpdate<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<List<TItem>> items )
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
+        where TModel : ChartModel
+    {
+        await chart.SetData( 0, items() );
+        await chart.Update();
     }
 
     ChartDataset<double> GetChartDataset()
