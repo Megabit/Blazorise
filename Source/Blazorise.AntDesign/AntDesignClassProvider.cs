@@ -757,6 +757,8 @@ namespace Blazorise.AntDesign
 
         public override string TableHeaderCell() => null;
 
+        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"ant-text-{ToTextAlignment( textAlignment )}";
+
         public override string TableFooter() => null;
 
         public override string TableBody() => "ant-table-tbody";

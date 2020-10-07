@@ -719,6 +719,8 @@ namespace Blazorise
 
         string TableHeaderCell();
 
+        string TableHeaderCellTextAlignment( TextAlignment textAlignment );
+
         string TableFooter();
 
         string TableBody();

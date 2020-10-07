@@ -729,6 +729,8 @@ namespace Blazorise.Providers
 
         public string TableHeaderCell() => null;
 
+        public string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => null;
+
         public string TableFooter() => null;
 
         public string TableBody() => null;
