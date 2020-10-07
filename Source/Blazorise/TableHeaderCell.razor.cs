@@ -14,6 +14,8 @@ namespace Blazorise
     {
         #region Members
 
+        private TextAlignment textAlignment = TextAlignment.None;
+
         #endregion
 
         #region Methods
@@ -21,6 +23,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableHeaderCell() );
+            builder.Append( ClassProvider.TableHeaderCellTextAlignment( TextAlignment ), TextAlignment != TextAlignment.None );
 
             base.BuildClasses( builder );
         }
@@ -33,6 +36,21 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the text alignment.
+        /// </summary>
+        [Parameter]
+        public TextAlignment TextAlignment
+        {
+            get => textAlignment;
+            set
+            {
+                textAlignment = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Number of rows a cell should span.
@@ -49,6 +67,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }
 
+        /// <summary>
+        /// Gets or sets the component child content.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
