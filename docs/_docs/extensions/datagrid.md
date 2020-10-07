@@ -583,6 +583,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | ShowValidationFeedback | boolean                                                             | false   | Hide or show feedback for validation                                                                        |
 | ShowValidationsSummary | boolean                                                             | true    | Hide or show validations summary                                                                            |
 | ValidationsSummaryLabel| string                                                              | null    | Set label of validations summary                                                                            |
+| SortMode               | [DataGridSortMode]({{ "/docs/helpers/enums/#datagridsortmode" | relative_url }})  | `Multiple`          | Defines whether the user can sort only by one column or by multiple.              |
 
 ### EditMode
 
