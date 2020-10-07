@@ -59,6 +59,17 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            Sort mode
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select @bind-SelectedValue="@sortMode">
+                                <SelectItem Value="@DataGridSortMode.Single">Single</SelectItem>
+                                <SelectItem Value="@DataGridSortMode.Multiple">Multiple</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
                             Custom Search
                         </FieldLabel>
                         <FieldBody>
@@ -73,6 +84,7 @@
                           EditMode="@editMode"
                           Editable="@editable"
                           Sortable="@sortable"
+                          SortMode="@sortMode"
                           Filterable="@filterable"
                           ShowPager="@showPager"
                           PagerPosition="DataGridPagerPosition.TopAndBottom"
@@ -252,6 +264,7 @@
     DataGridEditMode editMode = DataGridEditMode.Form;
     bool editable = true;
     bool sortable = true;
+    DataGridSortMode sortMode = DataGridSortMode.Multiple;
     bool filterable = true;
     bool showPager = true;
     bool showPageSizes = true;

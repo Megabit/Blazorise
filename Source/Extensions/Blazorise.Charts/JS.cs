@@ -85,6 +85,11 @@ namespace Blazorise.Charts
             return runtime.InvokeVoidAsync( "blazoriseCharts.addLabelsDatasetsAndUpdate", canvasId, newLabels, newDataSet );
         }
 
+        public static ValueTask SetData<TItem>( IJSRuntime runtime, string canvasId, int dataSetIndex, IReadOnlyCollection<TItem> newData )
+        {
+            return runtime.InvokeVoidAsync( "blazoriseCharts.setData", canvasId, dataSetIndex, newData );
+        }
+
         public static ValueTask AddData<TItem>( IJSRuntime runtime, string canvasId, int dataSetIndex, IReadOnlyCollection<TItem> newData )
         {
             return runtime.InvokeVoidAsync( "blazoriseCharts.addData", canvasId, dataSetIndex, newData );

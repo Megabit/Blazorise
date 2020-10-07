@@ -130,6 +130,11 @@ Defines the placement of an element.
 - `Equals` search must match the entire value
 - `NotEquals` opposite of Equals
 
+## DataGridSortMode
+
+- `Single` The data grid can only be sorted by one column at a time.
+- `Multiple` The data grid can sorted by multiple columns.
+
 ## TextAlignment
 
 Defines the alignment of an text within element.
