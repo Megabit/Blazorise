@@ -567,6 +567,83 @@ window.blazorise = {
         onBreakpoint: (dotnetAdapter, currentBreakpoint) => {
             dotnetAdapter.invokeMethodAsync('OnBreakpoint', currentBreakpoint);
         }
+    },
+
+    splitter: {
+        initialize: (element, elementId, options) => {
+            const prevSibling = element.previousElementSibling;
+            const nextSibling = element.nextElementSibling;
+
+            //// Set the height
+            //if (options.orientation === "Horizontal") {
+            //    element.style.height = `${element.offsetHeight}px`;
+            //}
+            //else {
+            //    element.style.height = `${element.offsetHeight}px`;
+            //}
+
+            // Track the current position of mouse
+            let x = 0;
+            let y = 0;
+            let prevSiblingWidth = 0;
+            let nextSiblingWidth = 0;
+            let prevSiblingHeight = 0;
+            let nextSiblingHeight = 0;
+
+            const mouseDownHandler = function (e) {
+                // Get the current mouse position
+                x = e.clientX;
+                y = e.clientY;
+
+                // Calculate the current width of siblings
+                const prevSiblingStyles = window.getComputedStyle(prevSibling);
+                const nextSiblingStyles = window.getComputedStyle(nextSibling);
+
+                prevSiblingWidth = parseInt(prevSiblingStyles.width, 10);
+                nextSiblingWidth = parseInt(nextSiblingStyles.width, 10);
+
+                prevSiblingHeight = parseInt(prevSiblingStyles.height, 10);
+                nextSiblingHeight = parseInt(nextSiblingStyles.height, 10);
+
+                // Attach listeners for document's events
+                document.addEventListener('pointermove', mouseMoveHandler);
+                document.addEventListener('pointerup', mouseUpHandler);
+
+                element.classList.add('b-splitter-resizing');
+            };
+
+            const mouseMoveHandler = function (e) {
+                // Determine how far the mouse has been moved
+                const prevSiblingDeltaX = e.clientX - x;
+                const nextSiblingDeltaX = e.clientX - x;
+
+                const prevSiblingDeltaY = e.clientY - y;
+                const nextSiblingDeltaY = e.clientY - y;
+
+                if (options.orientation === "Horizontal") {
+                    // Update the width of siblings
+                    prevSibling.style.width = `${prevSiblingWidth + prevSiblingDeltaX}px`;
+                    nextSibling.style.width = `${nextSiblingWidth - nextSiblingDeltaX}px`;
+                }
+                else {
+                    // Update the height of siblings
+                    prevSibling.style.height = `${prevSiblingHeight + prevSiblingDeltaY}px`;
+                    nextSibling.style.height = `${nextSiblingHeight - nextSiblingDeltaY}px`;
+                }
+            };
+
+            // When user releases the mouse, remove the existing event listeners
+            const mouseUpHandler = function () {
+                element.classList.remove('b-splitter-resizing');
+
+                document.removeEventListener('pointermove', mouseMoveHandler);
+                document.removeEventListener('pointerup', mouseUpHandler);
+            };
+
+            element.addEventListener('pointerdown', mouseDownHandler);
+
+            return true;
+        }
     }
 };
 

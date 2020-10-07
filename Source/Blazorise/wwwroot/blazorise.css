@@ -763,6 +763,18 @@
         .b-bar-vertical-inline:not([data-collapse]) .b-bar-mobile-toggle {
             display: flex; } }
 
+.b-splitter {
+    user-select: none;
+    touch-action: none; }
+    .b-splitter.b-splitter-horizontal {
+        top: 0;
+        right: 0;
+        cursor: w-resize; }
+    .b-splitter.b-splitter-vertical {
+        left: 0;
+        bottom: 0;
+        cursor: s-resize; }
+
 .b-character-casing-lower {
     text-transform: lowercase; }
 

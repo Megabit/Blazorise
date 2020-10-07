@@ -28,6 +28,8 @@ namespace Blazorise
 
         ValueTask<bool> InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit );
 
+        ValueTask<bool> InitializeSplitter( ElementReference elementRef, string elementId, object options );
+
         ValueTask<bool> DestroyButton( string elementId );
 
         ValueTask<bool> AddClass( ElementReference elementRef, string classname );

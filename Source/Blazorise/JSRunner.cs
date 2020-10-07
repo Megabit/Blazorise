@@ -76,6 +76,11 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.button.initialize", elementRef, elementId, preventDefaultSubmit );
         }
 
+        public virtual ValueTask<bool> InitializeSplitter( ElementReference elementRef, string elementId, object options )
+        {
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.splitter.initialize", elementRef, elementId, options );
+        }
+
         public ValueTask<bool> DestroyButton( string elementId )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.button.destroy", elementId );

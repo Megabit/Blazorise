@@ -1,0 +1,16 @@
+﻿.b-splitter {
+    user-select: none;
+    touch-action: none;
+
+    &.b-splitter-horizontal {
+        top: 0;
+        right: 0;
+        cursor: w-resize;
+    }
+
+    &.b-splitter-vertical {
+        left: 0;
+        bottom: 0;
+        cursor: s-resize;
+    }
+}
