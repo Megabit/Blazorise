@@ -47,9 +47,13 @@ namespace Blazorise.DataGrid
         private bool dirtyView = true;
 
         /// <summary>
-        /// List of columns ready to be sorted.
+        /// Holds the state of sorted columns grouped by the sort-mode.
         /// </summary>
-        protected IList<DataGridColumn<TItem>> sortByColumns = new List<DataGridColumn<TItem>>();
+        protected Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>> sortByColumnsDictionary = new Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>>
+        {
+            { DataGridSortMode.Single, new List<DataGridColumn<TItem>>() },
+            { DataGridSortMode.Multiple, new List<DataGridColumn<TItem>>() },
+        };
 
         private readonly Lazy<Func<TItem>> newItemCreator;
 
@@ -352,14 +356,28 @@ namespace Blazorise.DataGrid
         {
             if ( Sortable && column.Sortable )
             {
+                if ( SortMode == DataGridSortMode.Single )
+                {
+                    // in single-mode we need to reset all other columns to default state
+                    foreach ( var c in Columns.Where( x => x.Field != column.Field ) )
+                    {
+                        c.CurrentDirection = SortDirection.None;
+                    }
+
+                    // and also remove any column sort info except for current one
+                    SortByColumns.RemoveAll( x => x.Field != column.Field );
+                }
+
                 column.CurrentDirection = column.CurrentDirection.NextDirection();
 
                 if ( !ManualReadMode )
                 {
-                    if ( !sortByColumns.Any( c => c.Field == column.Field ) )
-                        sortByColumns.Add( column );
+                    if ( !SortByColumns.Any( c => c.Field == column.Field ) )
+                    {
+                        SortByColumns.Add( column );
+                    }
                     else if ( column.CurrentDirection == SortDirection.None )
-                        sortByColumns.Remove( column );
+                        SortByColumns.Remove( column );
                 }
 
                 dirtyFilter = dirtyView = true;
@@ -458,7 +476,7 @@ namespace Blazorise.DataGrid
             {
                 var firstSort = true;
 
-                foreach ( var sortByColumn in sortByColumns )
+                foreach ( var sortByColumn in SortByColumns )
                 {
                     if ( firstSort )
                     {
@@ -633,6 +651,11 @@ namespace Blazorise.DataGrid
         public DataGridEditState EditState => editState;
 
         /// <summary>
+        /// Gets the sort solumn info for current SortMode.
+        /// </summary>
+        protected List<DataGridColumn<TItem>> SortByColumns => sortByColumnsDictionary[SortMode];
+
+        /// <summary>
         /// Gets template for title of popup modal.
         /// </summary>
         [Parameter]
@@ -746,6 +769,11 @@ namespace Blazorise.DataGrid
         /// Gets or sets whether end-users can sort data by the column's values.
         /// </summary>
         [Parameter] public bool Sortable { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets whether the user can sort only by one column or by multiple.
+        /// </summary>
+        [Parameter] public DataGridSortMode SortMode { get; set; } = DataGridSortMode.Multiple;
 
         /// <summary>
         /// Gets or sets whether users can filter rows by its cell values.

@@ -726,6 +726,8 @@ namespace Blazorise
 
         public abstract string TableHeaderCell();
 
+        public abstract string TableHeaderCellTextAlignment( TextAlignment textAlignment );
+
         public abstract string TableFooter();
 
         public abstract string TableBody();
