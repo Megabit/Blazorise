@@ -28,11 +28,14 @@ Since NumericEdit is a generic component you will have to specify the exact data
 
 NumericEdit is just a specialized version of `TextEdit` component so all of the rules and styles are still working all the same. See [TextEdit]({{ "/docs/components/text/" | relative_url }}) to find the list of supported attributes.
 
-| Name              | Type                                                         | Default | Description                                                                                                                             |
-|-------------------|--------------------------------------------------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| Value             | string                                                       |         | Gets or sets the value inside the input field.                                                                                          |
-| ValueChanged      | event                                                        |         | Occurs after the value has changed.                                                                                                     |
-| Step              | decimal?                                                     | null    | Specifies the interval between valid values.                                                                                            |
-| Decimals          | int                                                          | 2       | Maximum number of decimal places after the decimal separator.                                                                           |
-| DecimalsSeparator | string                                                       | "."     | String to use as the decimal separator in numeric values. It is important, that given culture use the decimals seperator.               |
-| Culture           | string                                                       |         | String to use for parsing input as number. You have to use [ISO language codes](https://www.w3schools.com/tags/ref_language_codes.asp). |
+| Name              | Type                                                         | Default | Description                                                                                          |
+|-------------------|--------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
+| TValue            | decimal?                                                     | null    | Generic type parameter used for the value attribute.                                                 |
+| Value             | string                                                       |         | Gets or sets the value inside the input field.                                                       |
+| ValueChanged      | event                                                        |         | Occurs after the value has changed.                                                                  |
+| Step              | decimal?                                                     | null    | Specifies the interval between valid values.                                                         |
+| Decimals          | int                                                          | 2       | Maximum number of decimal places after the decimal separator.                                        |
+| DecimalsSeparator | string                                                       | "."     | String to use as the decimal separator in numeric values.                                            |
+| Culture           | string                                                       | null    | Helps define the language of an element.                                                             |
+| Min               | TValue                                                       | default | The minimum value to accept for this input.                                                          |
+| Max               | TValue                                                       | default | The maximum value to accept for this input.                                                          |
