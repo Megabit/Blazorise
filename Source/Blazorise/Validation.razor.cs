@@ -117,7 +117,7 @@ namespace Blazorise
             {
                 if ( !Comparers.AreEqual( this.lastKnownValue as Array, inputComponent.ValidationValue as Array ) )
                 {
-                    this.lastKnownValue = inputComponent.ValidationValue;
+                    lastKnownValue = inputComponent.ValidationValue;
 
                     if ( EditContext != null && hasFieldIdentifier )
                     {
@@ -130,9 +130,9 @@ namespace Blazorise
             }
             else
             {
-                if ( this.lastKnownValue != inputComponent.ValidationValue )
+                if ( lastKnownValue != inputComponent.ValidationValue )
                 {
-                    this.lastKnownValue = inputComponent.ValidationValue;
+                    lastKnownValue = inputComponent.ValidationValue;
 
                     if ( EditContext != null && hasFieldIdentifier )
                     {
@@ -278,6 +278,9 @@ namespace Blazorise
         /// </summary>
         [CascadingParameter] protected Validations ParentValidations { get; set; }
 
+        /// <summary>
+        /// Parent validation edit context.
+        /// </summary>
         [CascadingParameter] protected EditContext EditContext { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
