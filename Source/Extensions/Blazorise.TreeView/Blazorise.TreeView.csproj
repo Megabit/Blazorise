@@ -9,7 +9,7 @@
     <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components treeview</PackageTags>
-    <Authors>%Authors%;Robin Clark</Authors>
+    <Authors>$(Authors);Robin Clark</Authors>
   </PropertyGroup>
 
   <ItemGroup>
