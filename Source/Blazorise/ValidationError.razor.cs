@@ -20,7 +20,7 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            ErrorText = ParentValidation?.LastErrorMessage;
+            ErrorText = ParentValidation?.Message;
 
             base.OnInitialized();
         }

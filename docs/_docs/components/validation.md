@@ -236,18 +236,18 @@ In Blazorise you can use some of the predefined validation rules. eg
 <Validation Validator="@ValidationRule.IsNotEmpty">
 ```
 
-Here is a list of the validators currently available.
+List of the currently available validators.
 
-| Validator                    | Description                                                        |
-|------------------------------|--------------------------------------------------------------------|
-| IsEmpty                      | Check if the string is null or empty.                              |
-| IsNotEmpty                   | Check if the string is not null or empty.                          |
-| IsEmail                      | Check if the string is an email.                                   |
-| IsAlpha                      | Check if the string contains only letters (a-zA-Z).                |
-| IsAlphanumeric               | Check if the string contains only letters and numbers.             |
-| IsAlphanumericWithUnderscore | Check if the string contains only letters, numbers and underscore. |
-| IsUppercase                  | Check if the string is uppercase.                                  |
-| IsLowercase                  | Check if the string is lowercase.                                  |
+| Validator                         | Description                                                        |
+|-----------------------------------|--------------------------------------------------------------------|
+| `IsEmpty`                         | Check if the string is null or empty.                              |
+| `IsNotEmpty`                      | Check if the string is not null or empty.                          |
+| `IsEmail`                         | Check if the string is an email.                                   |
+| `IsAlpha`                         | Check if the string contains only letters (a-zA-Z).                |
+| `IsAlphanumeric`                  | Check if the string contains only letters and numbers.             |
+| `IsAlphanumericWithUnderscore`    | Check if the string contains only letters, numbers and underscore. |
+| `IsUppercase`                     | Check if the string is uppercase.                                  |
+| `IsLowercase`                     | Check if the string is lowercase.                                  |
 
 ## Attributes
 
@@ -265,9 +265,10 @@ Here is a list of the validators currently available.
 
 ### Validation
 
-| Name          | Type                                                                              | Default  | Description                                                                                |
-|---------------|-----------------------------------------------------------------------------------|----------|--------------------------------------------------------------------------------------------|
-| Status        | [ValidationStatus]({{ "/docs/helpers/enums/#validationstatus" | relative_url }})  | `None`   | Gets or sets the current validation status.                                                |
-| StatusChanged | EventCallback                                                                     |          | Event is fired whenever there is a change in validation status.                            |
-| Validator     | action                                                                            |          | Validates the input value after it has being changed.                                      |
-| UsePattern    | boolean                                                                           | false    | Forces validation to use regex pattern matching instead of default validator handler.      |
+| Name              | Type                                                                              | Default  | Description                                                                                |
+|-------------------|-----------------------------------------------------------------------------------|----------|--------------------------------------------------------------------------------------------|
+| Status            | [ValidationStatus]({{ "/docs/helpers/enums/#validationstatus" | relative_url }})  | `None`   | Gets or sets the current validation status.                                                |
+| StatusChanged     | EventCallback                                                                     |          | Event is fired whenever there is a change in validation status.                            |
+| Validator         | action                                                                            |          | Validates the input value after it has being changed.                                      |
+| UsePattern        | boolean                                                                           | false    | Forces validation to use regex pattern matching instead of default validator handler.      |
+| MessageLocalizer  | `Func<ValidationMessageEventArgs, string>`                                        | null     | Custom handler used to override error messages in case the localization is needed.         |

@@ -57,6 +57,40 @@ namespace Blazorise
         public string ErrorText { get; set; }
     }
 
+    /// <summary>
+    /// Holds the information about validation state and message.
+    /// </summary>
+    public class ValidationMessageEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        /// <param name="fieldName">Field name being validated.</param>
+        /// <param name="status">Validation status.</param>
+        /// <param name="message">Validation message.</param>
+        public ValidationMessageEventArgs( string fieldName, ValidationStatus status, string message )
+        {
+            FieldName = fieldName;
+            Status = status;
+            Message = message;
+        }
+
+        /// <summary>
+        /// Gets the validated field name.
+        /// </summary>
+        public string FieldName { get; }
+
+        /// <summary>
+        /// Gets the validation status.
+        /// </summary>
+        public ValidationStatus Status { get; }
+
+        /// <summary>
+        /// Gets the validation message.
+        /// </summary>
+        public string Message { get; }
+    }
+
     public class FailedValidationsEventArgs : EventArgs
     {
         public FailedValidationsEventArgs( IReadOnlyList<string> errorMessages )

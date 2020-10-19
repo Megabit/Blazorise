@@ -19,6 +19,6 @@ namespace Blazorise
         /// <summary>
         /// Gets the last error message.
         /// </summary>
-        string LastErrorMessage { get; }
+        string Message { get; }
     }
 }

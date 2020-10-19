@@ -99,7 +99,7 @@ namespace Blazorise
         internal void InitializeInputPattern( string pattern )
         {
             if ( !string.IsNullOrEmpty( pattern ) )
-                this.patternRegex = new Regex( pattern );
+                patternRegex = new Regex( pattern );
         }
 
         internal void InitializeInputExpression<T>( Expression<Func<T>> expression )
@@ -115,7 +115,7 @@ namespace Blazorise
         {
             if ( inputComponent.ValidationValue is Array )
             {
-                if ( !Comparers.AreEqual( this.lastKnownValue as Array, inputComponent.ValidationValue as Array ) )
+                if ( !Comparers.AreEqual( lastKnownValue as Array, inputComponent.ValidationValue as Array ) )
                 {
                     lastKnownValue = inputComponent.ValidationValue;
 
@@ -177,19 +177,24 @@ namespace Blazorise
             {
                 ValidationStarted?.Invoke();
 
-                var messages = new ValidationMessageStore( EditContext );
+                var messageStore = new ValidationMessageStore( EditContext );
 
-                EditContext.ValidateField( messages, fieldIdentifier );
+                EditContextValidator.ValidateField( EditContext, messageStore, fieldIdentifier, MessageLocalizer != null );
 
-                var matchStatus = messages[fieldIdentifier].Any() ? ValidationStatus.Error : ValidationStatus.Success;
+                var matchStatus = messageStore[fieldIdentifier].Any()
+                    ? ValidationStatus.Error
+                    : ValidationStatus.Success;
 
                 if ( Status != matchStatus )
                 {
                     Status = matchStatus;
+                    var message = ( Status == ValidationStatus.Error ? string.Join( ";", messageStore[fieldIdentifier] ) : null );
 
-                    LastErrorMessage = Status == ValidationStatus.Error ? string.Join( "; ", messages[fieldIdentifier] ) : null;
+                    Message = MessageLocalizer != null
+                        ? MessageLocalizer.Invoke( new ValidationMessageEventArgs( fieldIdentifier.FieldName, Status, message ) )
+                        : message;
 
-                    NotifyValidationStatusChanged( Status, LastErrorMessage );
+                    NotifyValidationStatusChanged( Status, Message );
                 }
             }
             else
@@ -207,9 +212,13 @@ namespace Blazorise
                     if ( Status != validatorEventArgs.Status )
                     {
                         Status = validatorEventArgs.Status;
-                        LastErrorMessage = Status == ValidationStatus.Error ? validatorEventArgs.ErrorText : null;
+                        var message = Status == ValidationStatus.Error ? validatorEventArgs.ErrorText : null;
 
-                        NotifyValidationStatusChanged( Status, LastErrorMessage );
+                        Message = MessageLocalizer != null
+                            ? MessageLocalizer.Invoke( new ValidationMessageEventArgs( fieldIdentifier.FieldName, Status, message ) )
+                            : message;
+
+                        NotifyValidationStatusChanged( Status, Message );
                     }
                 }
             }
@@ -249,6 +258,16 @@ namespace Blazorise
         private bool ValidateOnLoad => ParentValidations?.ValidateOnLoad ?? true;
 
         /// <summary>
+        /// Gets the last validation message.
+        /// </summary>
+        public string Message { get; private set; }
+
+        /// <summary>
+        /// Injects a default or custom EditContext validator.
+        /// </summary>
+        [Inject] IEditContextValidator EditContextValidator { get; set; }
+
+        /// <summary>
         /// Gets or sets the current validation status.
         /// </summary>
         [Parameter] public ValidationStatus Status { get; set; }
@@ -257,11 +276,6 @@ namespace Blazorise
         /// Occurs each time that validation status changed.
         /// </summary>
         [Parameter] public EventCallback<ValidationStatus> StatusChanged { get; set; }
-
-        /// <summary>
-        /// Gets the last error message.
-        /// </summary>
-        public string LastErrorMessage { get; private set; }
 
         /// <summary>
         /// Validates the input value after it has being changed.
@@ -274,6 +288,11 @@ namespace Blazorise
         [Parameter] public bool UsePattern { get; set; }
 
         /// <summary>
+        /// Overrides the message that is going to be shown on the <see cref="ValidationError"/> or <see cref="ValidationSuccess"/>.
+        /// </summary>
+        [Parameter] public Func<ValidationMessageEventArgs, string> MessageLocalizer { get; set; }
+
+        /// <summary>
         /// Parent validation group.
         /// </summary>
         [CascadingParameter] protected Validations ParentValidations { get; set; }
@@ -283,20 +302,11 @@ namespace Blazorise
         /// </summary>
         [CascadingParameter] protected EditContext EditContext { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Validation"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
-    }
-
-    public interface IValidationInput
-    {
-        /// <summary>
-        /// Gets the input value prepared for the validation check.
-        /// </summary>
-        /// <remarks>
-        /// This is mostly used to handle special inputs where there can be more than one
-        /// value types. For example a Select component can have single-value and multi-value.
-        /// </remarks>
-        object ValidationValue { get; }
     }
 }
