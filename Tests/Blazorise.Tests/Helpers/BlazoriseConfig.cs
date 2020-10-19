@@ -12,6 +12,7 @@ namespace Blazorise.Tests.Helpers
     {
         public static void AddBootstrapProviders( TestServiceProvider services )
         {
+            services.AddSingleton<IEditContextValidator>( new EditContextValidator() );
             services.AddSingleton<IClassProvider>( new BootstrapClassProvider() );
             services.AddSingleton<IStyleProvider>( new BootstrapStyleProvider() );
             services.AddSingleton<IJSRunner>( new BootstrapJSRunner( new Mock<IJSRuntime>().Object ) );
