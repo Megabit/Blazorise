@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.RenderTree;
@@ -178,29 +179,15 @@ namespace Blazorise
 
         #region Properties        
 
+        /// <summary>
+        /// Indicates if the default behavior will be prevented.
+        /// </summary>
         protected bool PreventDefault { get; private set; }
 
-        protected string TargetName
-        {
-            get
-            {
-                switch ( Target )
-                {
-                    case Target.Blank:
-                        return "_blank";
-                    case Target.Parent:
-                        return "_parent";
-                    case Target.Top:
-                        return "_top";
-                    case Target.Self:
-                        return "_self";
-                    case Target.None:
-                    default:
-                        return null;
-                }
-            }
-        }
-
+        /// <summary>
+        /// Gets the link target name.
+        /// </summary>
+        protected string TargetName => LinkHelpers.TargetName( Target );
 
         /// <summary>
         /// Denotes the target route of the link.

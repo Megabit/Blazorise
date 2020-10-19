@@ -35,6 +35,7 @@ Typically `<a href="#">` will cause the document to scroll to the top of page wh
 | Name       | Type                                                        | Default    | Description                                                          |
 |------------|-------------------------------------------------------------|------------|----------------------------------------------------------------------|
 | To         | string                                                      | null       | Path to the destination page.                                        |
+| Target     | [Target]({{ "/docs/helpers/enums/#target" | relative_url }})| `None`     | The target attribute specifies where to open the linked document.    |
 | Match      | [Match]({{ "/docs/helpers/enums/#match" | relative_url }})  | `Prefix`   | URL matching behavior for a link.                                    |
 | Title      | string                                                      | null       | Defines the title of a link, which appears to the user as a tooltip. |
 | Clicked    | event                                                       |            | Occurs when the link is clicked.                                     |

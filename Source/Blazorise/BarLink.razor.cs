@@ -46,8 +46,19 @@ namespace Blazorise
         /// </summary>
         [Parameter] public string To { get; set; }
 
+        /// <summary>
+        /// The target attribute specifies where to open the linked document.
+        /// </summary>
+        [Parameter] public Target Target { get; set; } = Target.None;
+
+        /// <summary>
+        /// URL matching behavior for a link.
+        /// </summary>
         [Parameter] public Match Match { get; set; } = Match.All;
 
+        /// <summary>
+        /// Specify extra information about the element.
+        /// </summary>
         [Parameter] public string Title { get; set; }
 
         [CascadingParameter]

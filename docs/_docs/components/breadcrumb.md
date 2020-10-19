@@ -71,8 +71,9 @@ In this mode breadcrumb items will respond to navigation changes and will be act
 
 ### BreadcrumbLink
 
-| Name       | Type                                                        | Default | Description                                                          |
-|------------|-------------------------------------------------------------|---------|----------------------------------------------------------------------|
-| To         | string                                                      | null    | Path to the destination page.                                        |
-| Match      | [Match]({{ "/docs/helpers/enums/#match" | relative_url }})  | `All`   | URL matching behavior for a link.                                    |
-| Title      | string                                                      | null    | Defines the title of a link, which appears to the user as a tooltip. |
+| Name       | Type                                                        | Default | Description                                                              |
+|------------|-------------------------------------------------------------|---------|--------------------------------------------------------------------------|
+| To         | string                                                      | null    | Path to the destination page.                                            |
+| Target     | [Target]({{ "/docs/helpers/enums/#target" | relative_url }})| `None`  | The target attribute specifies where to open the linked document.        |
+| Match      | [Match]({{ "/docs/helpers/enums/#match" | relative_url }})  | `All`   | URL matching behavior for a link.                                        |
+| Title      | string                                                      | null    | Defines the title of a link, which appears to the user as a tooltip.     |
