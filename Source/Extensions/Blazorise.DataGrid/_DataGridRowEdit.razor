@@ -67,7 +67,7 @@ else if ( EditMode == DataGridEditMode.Inline )
         }
         else
         {
-            <TableRowCell width="@column.Width">
+            <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" width="@column.Width">
                 @if ( ParentDataGrid?.Editable == true && CellAreEditable( column ) )
                 {
                     <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" />
