@@ -177,22 +177,28 @@ namespace Blazorise
             {
                 ValidationStarted?.Invoke();
 
-                var messageStore = new ValidationMessageStore( EditContext );
+                var messages = new ValidationMessageResultStore();
 
-                EditContextValidator.ValidateField( EditContext, messageStore, fieldIdentifier, MessageLocalizer != null );
+                EditContextValidator.ValidateField( EditContext, messages, fieldIdentifier, MessageLocalizer != null );
 
-                var matchStatus = messageStore[fieldIdentifier].Any()
+                var matchStatus = messages[fieldIdentifier].Any()
                     ? ValidationStatus.Error
                     : ValidationStatus.Success;
 
-                if ( Status != matchStatus )
+                var matchMessages = matchStatus == ValidationStatus.Error
+                    ? messages[fieldIdentifier]
+                    : null;
+
+                // Sometime status will stay the same and error message will change
+                // eg. StringLength > empty string > Required
+                if ( Status != matchStatus || !Comparers.AreEqual( Messages?.ToArray(), matchMessages?.ToArray() ) )
                 {
                     Status = matchStatus;
-                    var message = ( Status == ValidationStatus.Error ? string.Join( ";", messageStore[fieldIdentifier] ) : null );
+                    Messages = matchMessages;
 
-                    Message = MessageLocalizer != null
-                        ? MessageLocalizer.Invoke( new ValidationMessageEventArgs( fieldIdentifier.FieldName, Status, message ) )
-                        : message;
+                    Message = string.Join( ";", ( MessageLocalizer != null
+                        ? MessageLocalizer.Invoke( new ValidationMessageLocalizerEventArgs( fieldIdentifier.FieldName, Status, matchMessages ) )
+                        : matchMessages?.Select( x => x.Message ).ToArray() ) ?? Enumerable.Empty<string>() );
 
                     NotifyValidationStatusChanged( Status, Message );
                 }
@@ -209,14 +215,20 @@ namespace Blazorise
 
                     validatorHandler( validatorEventArgs );
 
-                    if ( Status != validatorEventArgs.Status )
+                    var matchMessage = Status == ValidationStatus.Error
+                        ? validatorEventArgs.ErrorText
+                        : null;
+
+                    var matchMemberNames = Status == ValidationStatus.Error
+                        ? validatorEventArgs.MemberNames?.ToArray()
+                        : null;
+
+                    if ( Status != validatorEventArgs.Status || Message != matchMessage )
                     {
                         Status = validatorEventArgs.Status;
-                        var message = Status == ValidationStatus.Error ? validatorEventArgs.ErrorText : null;
-
                         Message = MessageLocalizer != null
-                            ? MessageLocalizer.Invoke( new ValidationMessageEventArgs( fieldIdentifier.FieldName, Status, message ) )
-                            : message;
+                            ? string.Join( ";", MessageLocalizer.Invoke( new ValidationMessageLocalizerEventArgs( fieldIdentifier.FieldName, Status, new ValidationMessageResult[] { new ValidationMessageResult( matchMessage, null, matchMemberNames ) } ) ) )
+                            : matchMessage;
 
                         NotifyValidationStatusChanged( Status, Message );
                     }
@@ -263,6 +275,16 @@ namespace Blazorise
         public string Message { get; private set; }
 
         /// <summary>
+        /// Gets the list of last validation messages.
+        /// </summary>
+        public IEnumerable<ValidationMessageResult> Messages { get; private set; }
+
+        /// <summary>
+        /// Overrides the message that is going to be shown on the <see cref="ValidationError"/> or <see cref="ValidationSuccess"/>.
+        /// </summary>
+        [Parameter] public Func<ValidationMessageLocalizerEventArgs, IEnumerable<string>> MessageLocalizer { get; set; }
+
+        /// <summary>
         /// Injects a default or custom EditContext validator.
         /// </summary>
         [Inject] IEditContextValidator EditContextValidator { get; set; }
@@ -286,11 +308,6 @@ namespace Blazorise
         /// Forces validation to use regex pattern matching instead of default validator handler.
         /// </summary>
         [Parameter] public bool UsePattern { get; set; }
-
-        /// <summary>
-        /// Overrides the message that is going to be shown on the <see cref="ValidationError"/> or <see cref="ValidationSuccess"/>.
-        /// </summary>
-        [Parameter] public Func<ValidationMessageEventArgs, string> MessageLocalizer { get; set; }
 
         /// <summary>
         /// Parent validation group.

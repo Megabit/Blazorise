@@ -55,12 +55,17 @@ namespace Blazorise
         /// Gets or sets the validation custom error message.
         /// </summary>
         public string ErrorText { get; set; }
+
+        /// <summary>
+        /// Gets the collection of member names that indicate which fields have validation errors.
+        /// </summary>
+        public IEnumerable<string> MemberNames { get; set; }
     }
 
     /// <summary>
     /// Holds the information about validation state and message.
     /// </summary>
-    public class ValidationMessageEventArgs : EventArgs
+    public class ValidationMessageLocalizerEventArgs : EventArgs
     {
         /// <summary>
         /// Default constructor.
@@ -68,11 +73,11 @@ namespace Blazorise
         /// <param name="fieldName">Field name being validated.</param>
         /// <param name="status">Validation status.</param>
         /// <param name="message">Validation message.</param>
-        public ValidationMessageEventArgs( string fieldName, ValidationStatus status, string message )
+        public ValidationMessageLocalizerEventArgs( string fieldName, ValidationStatus status, IEnumerable<ValidationMessageResult> messages )
         {
             FieldName = fieldName;
             Status = status;
-            Message = message;
+            Messages = messages;
         }
 
         /// <summary>
@@ -85,10 +90,17 @@ namespace Blazorise
         /// </summary>
         public ValidationStatus Status { get; }
 
-        /// <summary>
-        /// Gets the validation message.
-        /// </summary>
-        public string Message { get; }
+        public IEnumerable<ValidationMessageResult> Messages { get; }
+
+        ///// <summary>
+        ///// Gets the validation message.
+        ///// </summary>
+        //public string Message { get; }
+
+        ///// <summary>
+        ///// Gets the collection of member names that indicate which fields have validation errors.
+        ///// </summary>
+        //public string[] MemberNames { get; }
     }
 
     public class FailedValidationsEventArgs : EventArgs
