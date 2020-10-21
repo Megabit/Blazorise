@@ -20,7 +20,9 @@ namespace Blazorise
 
         protected override void OnInitialized()
         {
-            ErrorText = ParentValidation?.Message;
+            ErrorText = ParentValidation?.Messages?.Count() > 0
+                ? string.Join( ";", ParentValidation?.Messages )
+                : null;
 
             base.OnInitialized();
         }
@@ -39,7 +41,9 @@ namespace Blazorise
         {
             if ( eventArgs.Status == ValidationStatus.Error )
             {
-                ErrorText = eventArgs.Message;
+                ErrorText = eventArgs.Messages?.Count() > 0
+                    ? string.Join( ";", eventArgs.Messages )
+                    : null;
             }
         }
 

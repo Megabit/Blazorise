@@ -241,13 +241,13 @@ namespace Blazorise
             get
             {
                 return validations
-                    .Where( x => x.Status == ValidationStatus.Error && !string.IsNullOrWhiteSpace( x.Message ) )
-                    .Select( x => x.Message )
+                    .Where( x => x.Status == ValidationStatus.Error && x.Messages?.Count() > 0 )
+                    .SelectMany( x => x.Messages )
                     .Concat(
                         // In case there are some fields that do not have error message we need to combine them all under one message.
                         validations.Any( v => v.Status == ValidationStatus.Error
-                            && string.IsNullOrWhiteSpace( v.Message )
-                            && !validations.Where( v2 => v2.Status == ValidationStatus.Error && !string.IsNullOrWhiteSpace( v2.Message ) ).Contains( v ) )
+                            && ( v.Messages == null || v.Messages.Count() == 0 )
+                            && !validations.Where( v2 => v2.Status == ValidationStatus.Error && v2.Messages?.Count() > 0 ).Contains( v ) )
                         ? new string[] { MissingFieldsErrorMessage ?? "One or more fields have an error. Please check and try again." }
                         : new string[] { } )
                     .ToList();

@@ -115,7 +115,7 @@ namespace Blazorise
         {
             if ( inputComponent.ValidationValue is Array )
             {
-                if ( !Comparers.AreEqual( lastKnownValue as Array, inputComponent.ValidationValue as Array ) )
+                if ( !Comparers.AreArraysEqual( lastKnownValue as Array, inputComponent.ValidationValue as Array ) )
                 {
                     lastKnownValue = inputComponent.ValidationValue;
 
@@ -191,16 +191,15 @@ namespace Blazorise
 
                 // Sometime status will stay the same and error message will change
                 // eg. StringLength > empty string > Required
-                if ( Status != matchStatus || !Comparers.AreEqual( Messages?.ToArray(), matchMessages?.ToArray() ) )
+                if ( Status != matchStatus || !Comparers.AreEqual( Messages?.ToArray(), matchMessages?.Select( x => x.Message )?.ToArray() ) )
                 {
                     Status = matchStatus;
-                    Messages = matchMessages;
 
-                    Message = string.Join( ";", ( MessageLocalizer != null
+                    Messages = MessageLocalizer != null
                         ? MessageLocalizer.Invoke( new ValidationMessageLocalizerEventArgs( fieldIdentifier.FieldName, Status, matchMessages ) )
-                        : matchMessages?.Select( x => x.Message ).ToArray() ) ?? Enumerable.Empty<string>() );
+                        : matchMessages?.Select( x => x.Message )?.ToArray();
 
-                    NotifyValidationStatusChanged( Status, Message );
+                    NotifyValidationStatusChanged( Status, Messages );
                 }
             }
             else
@@ -215,22 +214,23 @@ namespace Blazorise
 
                     validatorHandler( validatorEventArgs );
 
-                    var matchMessage = Status == ValidationStatus.Error
-                        ? validatorEventArgs.ErrorText
-                        : null;
+                    var matchMessages = Status == ValidationStatus.Error
+                        ? new string[] { validatorEventArgs.ErrorText }
+                        : new string[] { };
 
                     var matchMemberNames = Status == ValidationStatus.Error
                         ? validatorEventArgs.MemberNames?.ToArray()
                         : null;
 
-                    if ( Status != validatorEventArgs.Status || Message != matchMessage )
+                    if ( Status != validatorEventArgs.Status || !Comparers.AreEqual( Messages?.ToArray(), matchMessages ) )
                     {
                         Status = validatorEventArgs.Status;
-                        Message = MessageLocalizer != null
-                            ? string.Join( ";", MessageLocalizer.Invoke( new ValidationMessageLocalizerEventArgs( fieldIdentifier.FieldName, Status, new ValidationMessageResult[] { new ValidationMessageResult( matchMessage, null, matchMemberNames ) } ) ) )
-                            : matchMessage;
 
-                        NotifyValidationStatusChanged( Status, Message );
+                        Messages = MessageLocalizer != null
+                            ? MessageLocalizer.Invoke( new ValidationMessageLocalizerEventArgs( fieldIdentifier.FieldName, Status, new ValidationMessageResult[] { new ValidationMessageResult( matchMessages?.First(), null, matchMemberNames ) } ) )
+                            : matchMessages;
+
+                        NotifyValidationStatusChanged( Status, Messages );
                     }
                 }
             }
@@ -247,9 +247,9 @@ namespace Blazorise
             NotifyValidationStatusChanged( Status );
         }
 
-        private void NotifyValidationStatusChanged( ValidationStatus status, string message = null )
+        private void NotifyValidationStatusChanged( ValidationStatus status, IEnumerable<string> messages = null )
         {
-            ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, message ) );
+            ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, messages ) );
             StatusChanged.InvokeAsync( status );
 
             ParentValidations?.NotifyValidationStatusChanged( this );
@@ -270,14 +270,9 @@ namespace Blazorise
         private bool ValidateOnLoad => ParentValidations?.ValidateOnLoad ?? true;
 
         /// <summary>
-        /// Gets the last validation message.
-        /// </summary>
-        public string Message { get; private set; }
-
-        /// <summary>
         /// Gets the list of last validation messages.
         /// </summary>
-        public IEnumerable<ValidationMessageResult> Messages { get; private set; }
+        public IEnumerable<string> Messages { get; private set; }
 
         /// <summary>
         /// Overrides the message that is going to be shown on the <see cref="ValidationError"/> or <see cref="ValidationSuccess"/>.

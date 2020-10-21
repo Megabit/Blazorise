@@ -20,7 +20,12 @@ namespace Blazorise.Utils
             return ac.CompareTo( bc );
         }
 
-        public static bool AreEqual( Array array1, Array array2 )
+        public static bool AreEqual<T>( IEnumerable<T> array1, IEnumerable<T> array2 )
+        {
+            return AreArraysEqual( array1?.ToArray(), array2?.ToArray() );
+        }
+
+        public static bool AreArraysEqual( Array array1, Array array2 )
         {
             if ( array1 == null && array2 == null )
                 return true;

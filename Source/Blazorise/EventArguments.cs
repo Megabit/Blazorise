@@ -129,10 +129,10 @@ namespace Blazorise
     {
         public static new readonly ValidationStatusChangedEventArgs Empty = new ValidationStatusChangedEventArgs( ValidationStatus.None );
 
-        public ValidationStatusChangedEventArgs( ValidationStatus status, string message = null )
+        public ValidationStatusChangedEventArgs( ValidationStatus status, IEnumerable<string> messages = null )
         {
             Status = status;
-            Message = message;
+            Messages = messages;
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the custom validation message.
         /// </summary>
-        public string Message { get; }
+        public IEnumerable<string> Messages { get; }
     }
 
     public class ValidationsStatusChangedEventArgs : EventArgs
