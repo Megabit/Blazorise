@@ -90,17 +90,10 @@ namespace Blazorise
         /// </summary>
         public ValidationStatus Status { get; }
 
+        /// <summary>
+        /// Gets the list of validation messages.
+        /// </summary>
         public IEnumerable<ValidationMessageResult> Messages { get; }
-
-        ///// <summary>
-        ///// Gets the validation message.
-        ///// </summary>
-        //public string Message { get; }
-
-        ///// <summary>
-        ///// Gets the collection of member names that indicate which fields have validation errors.
-        ///// </summary>
-        //public string[] MemberNames { get; }
     }
 
     public class FailedValidationsEventArgs : EventArgs
