@@ -251,3 +251,13 @@ Defines the `Bar` state when collapsed (only works with `Vertical` bar modes)
 
 - `Hide` - collapses to be completely hidden
 - `Small` - collapse to behave like `BarMode.VerticalSmall`
+
+## Target
+
+The target attribute specifies where to open the linked document.
+
+- `None` - No target will be applied. Usually this is the same as `Self`.
+- `Self` - Opens the linked document in the same frame as it was clicked (this is default)
+- `Blank` - Opens the linked document in a new window or tab.
+- `Parent` - Opens the linked document in the parent frame.
+- `Top` - Opens the linked document in the full body of the window.

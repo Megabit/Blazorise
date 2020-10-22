@@ -918,7 +918,7 @@ namespace Blazorise
         None,
 
         /// <summary>
-        /// Opens the linked document in the same frame as it was clicked (this is default)
+        /// Opens the linked document in the same frame as it was clicked (this is default).
         /// </summary>
         Self,
 
