@@ -25,6 +25,8 @@ namespace Blazorise
 
             serviceCollection.AddSingleton( options );
 
+            serviceCollection.AddScoped<IEditContextValidator, EditContextValidator>();
+
             return serviceCollection;
         }
 

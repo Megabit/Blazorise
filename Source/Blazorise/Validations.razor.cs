@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components.Forms;
 namespace Blazorise
 {
     /// <summary>
-    /// Container for multiple validations.
+    /// Container for multiple validations and an <see cref="EditContext"/>.
     /// </summary>
     public partial class Validations : ComponentBase
     {
@@ -22,6 +22,9 @@ namespace Blazorise
         /// </summary>
         public event ValidatingAllEventHandler ValidatingAll;
 
+        /// <summary>
+        /// Raises an intent that validations are going to be cleared.
+        /// </summary>
         public event ClearAllValidationsEventHandler ClearingAll;
 
         /// <summary>
@@ -34,18 +37,27 @@ namespace Blazorise
         /// </summary>
         private List<IValidation> validations = new List<IValidation>();
 
+        private EditContext editContext;
+
+        private bool hasSetEditContextExplicitly;
+
         #endregion
 
         #region Methods
 
-        protected override void OnInitialized()
+        protected override void OnParametersSet()
         {
-            if ( Model != null )
+            if ( hasSetEditContextExplicitly && Model != null )
             {
-                EditContext = new EditContext( Model );
+                throw new InvalidOperationException( $"{nameof( Validations )} requires a {nameof( Model )} parameter, or an {nameof( EditContext )} parameter, but not both." );
             }
 
-            base.OnInitialized();
+            // Update editContext if we don't have one yet, or if they are supplying a
+            // potentially new EditContext, or if they are supplying a different Model
+            if ( Model != null && Model != editContext?.Model )
+            {
+                editContext = new EditContext( Model );
+            }
         }
 
         /// <summary>
@@ -156,8 +168,6 @@ namespace Blazorise
 
         #region Properties
 
-        protected EditContext EditContext { get; set; }
-
         /// <summary>
         /// Defines the validation mode for validations inside of this container.
         /// </summary>
@@ -169,7 +179,25 @@ namespace Blazorise
         [Parameter] public bool ValidateOnLoad { get; set; } = true;
 
         /// <summary>
+        /// Supplies the edit context explicitly. If using this parameter, do not
+        /// also supply <see cref="Model"/>, since the model value will be taken
+        /// from the <see cref="EditContext.Model"/> property.
+        /// </summary>
+        [Parameter]
+        public EditContext EditContext
+        {
+            get => editContext;
+            set
+            {
+                editContext = value;
+
+                hasSetEditContextExplicitly = value != null;
+            }
+        }
+
+        /// <summary>
         /// Specifies the top-level model object for the form. An edit context will be constructed for this model.
+        /// If using this parameter, do not also supply a value for <see cref="EditContext"/>.
         /// </summary>
         [Parameter] public object Model { get; set; }
 
@@ -188,26 +216,38 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<ValidationsStatusChangedEventArgs> StatusChanged { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Validations"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
+        /// <summary>
+        /// Indicates if there are any successful validation.
+        /// </summary>
         private bool AllValidationsSuccessful
             => validations.All( x => x.Status == ValidationStatus.Success );
 
+        /// <summary>
+        /// Indicates if there are any failed validation.
+        /// </summary>
         private bool HasFailedValidations
             => validations.Any( x => x.Status == ValidationStatus.Error );
 
+        /// <summary>
+        /// Gets the filtered list of failed validations.
+        /// </summary>
         private IReadOnlyCollection<string> FailedValidations
         {
             get
             {
                 return validations
-                    .Where( x => x.Status == ValidationStatus.Error && !string.IsNullOrWhiteSpace( x.LastErrorMessage ) )
-                    .Select( x => x.LastErrorMessage )
+                    .Where( x => x.Status == ValidationStatus.Error && x.Messages?.Count() > 0 )
+                    .SelectMany( x => x.Messages )
                     .Concat(
                         // In case there are some fields that do not have error message we need to combine them all under one message.
                         validations.Any( v => v.Status == ValidationStatus.Error
-                            && string.IsNullOrWhiteSpace( v.LastErrorMessage )
-                            && !validations.Where( v2 => v2.Status == ValidationStatus.Error && !string.IsNullOrWhiteSpace( v2.LastErrorMessage ) ).Contains( v ) )
+                            && ( v.Messages == null || v.Messages.Count() == 0 )
+                            && !validations.Where( v2 => v2.Status == ValidationStatus.Error && v2.Messages?.Count() > 0 ).Contains( v ) )
                         ? new string[] { MissingFieldsErrorMessage ?? "One or more fields have an error. Please check and try again." }
                         : new string[] { } )
                     .ToList();

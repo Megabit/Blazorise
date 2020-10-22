@@ -583,6 +583,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | ShowValidationFeedback | boolean                                                             | false   | Hide or show feedback for validation                                                                        |
 | ShowValidationsSummary | boolean                                                             | true    | Hide or show validations summary                                                                            |
 | ValidationsSummaryLabel| string                                                              | null    | Set label of validations summary                                                                            |
+| SortMode               | [DataGridSortMode]({{ "/docs/helpers/enums/#datagridsortmode" | relative_url }})  | `Multiple`          | Defines whether the user can sort only by one column or by multiple.              |
 
 ### EditMode
 
@@ -601,6 +602,7 @@ Specifies the grid editing modes.
 | Filter                    | FilterContext                                                       |                     | Filter value for this column.                                                                                 |
 | Direction                 | SortDirection                                                       | `None`              | Column initial sort direction.                                                                                |
 | TextAlignment             | TextAlignment                                                       | `None`              | Defines the alignment for display cell.                                                                       |
+| HeaderTextAlignment       | TextAlignment                                                       | `None`              | Defines the alignment for column header cell.                                                                 |
 | Editable                  | bool                                                                | false               | Whether users can edit cell values under this column.                                                         |
 | Displayable               | bool                                                                | true                | Whether column can be displayed on a grid.                                                                    |
 | Sortable                  | bool                                                                | true                | Whether end-users can sort data by the column's values.                                                       |

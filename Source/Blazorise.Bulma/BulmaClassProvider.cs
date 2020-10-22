@@ -762,6 +762,8 @@ namespace Blazorise.Bulma
 
         public override string TableHeaderCell() => null;
 
+        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"has-text-{ToTextAlignment( textAlignment )}";
+
         public override string TableFooter() => null;
 
         public override string TableBody() => null;
