@@ -395,6 +395,36 @@
         </Card>
     </Column>
 </Row>
+<Row Margin="Margin.Is4.OnY">
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <CardTitle>Horizontal Splitter</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <div style="width:100%; height: 200px;display:flex;">
+                    <div style="width:calc(50% - 10px); height: 100%; background-color: forestgreen;"></div>
+                    <Splitter Orientation="Orientation.Horizontal" />
+                    <div style="width:50%; height: 100%; background-color: cornflowerblue;"></div>
+                </div>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf">
+        <Card>
+            <CardHeader>
+                <CardTitle>Vertical Splitter</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <div style="width:100%; height:200px;">
+                    <div style="width:100%; height: calc(50% - 10px); background-color: forestgreen;"></div>
+                    <Splitter Orientation="Orientation.Vertical" />
+                    <div style="width:100%; height: 50%; background-color: cornflowerblue;"></div>
+                </div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 <Snackbar @ref="snackbar">
     <SnackbarBody>
         Single line of text directly related to the operation performed
