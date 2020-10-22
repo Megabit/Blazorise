@@ -59,14 +59,19 @@ namespace Blazorise.DataGrid
             base.OnInitialized();
         }
 
-        public void Dispose()
+        protected override void Dispose( bool disposing )
         {
-            if ( FilterContext != null )
+            if ( disposing )
             {
-                FilterContext.Unsubscribe( OnFilterValueChanged );
+                if ( FilterContext != null )
+                {
+                    FilterContext.Unsubscribe( OnFilterValueChanged );
 
-                FilterContext = null;
+                    FilterContext = null;
+                }
             }
+
+            base.Dispose( disposing );
         }
 
         private void InitializeFilterContext()
