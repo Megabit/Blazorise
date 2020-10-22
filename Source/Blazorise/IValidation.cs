@@ -17,8 +17,8 @@ namespace Blazorise
         ValidationStatus Status { get; }
 
         /// <summary>
-        /// Gets the last error message.
+        /// Gets the last error messages.
         /// </summary>
-        string Message { get; }
+        IEnumerable<string> Messages { get; }
     }
 }

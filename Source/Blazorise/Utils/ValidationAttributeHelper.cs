@@ -12,8 +12,8 @@ namespace Blazorise.Utils
         public const string PlaceholderPrefix = "{";
         public const string PlaceholderSuffix = "}";
 
-        public const string TempPlaceholderPrefix = "[";
-        public const string TempPlaceholderSuffix = "]";
+        public const string TempPlaceholderPrefix = "[[[";
+        public const string TempPlaceholderSuffix = "]]]";
 
         /// <summary>
         /// Sets the default error message on a <see cref="ValidationAttribute"/> by replacing it with
