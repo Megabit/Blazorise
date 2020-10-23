@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Bootstrap;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +21,12 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton<IThemeGenerator>( new BootstrapThemeGenerator() );
             services.AddSingleton<IIconProvider>( new Mock<IIconProvider>().Object );
 
-            services.AddSingleton<BlazoriseOptions>( new BlazoriseOptions() );
+            Action<BlazoriseOptions> configureOptions = ( options ) =>
+            {
+            };
+
+            services.AddSingleton( configureOptions );
+            services.AddSingleton<BlazoriseOptions>();
         }
     }
 }
