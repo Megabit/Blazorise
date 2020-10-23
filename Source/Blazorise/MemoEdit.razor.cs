@@ -20,17 +20,23 @@ namespace Blazorise
 
         #region Methods
 
+        public override Task SetParametersAsync( ParameterView parameters )
+        {
+            if ( ParentValidation != null )
+            {
+                if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( TextExpression ), out var expression ) )
+                    ParentValidation.InitializeInputExpression( expression );
+            }
+
+            return base.SetParametersAsync( parameters );
+        }
+
         protected override void OnInitialized()
         {
             if ( IsDelayTextOnKeyPress )
             {
                 inputValueDelayer = new ValueDelayer( DelayTextOnKeyPressIntervalValue );
                 inputValueDelayer.Delayed += OnInputValueDelayed;
-            }
-
-            if ( ParentValidation != null )
-            {
-                ParentValidation.InitializeInputExpression( TextExpression );
             }
 
             base.OnInitialized();

@@ -30,7 +30,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the last input value.
         /// </summary>
-        private object lastKnownValue;
+        private object lastValidationValue;
 
         /// <summary>
         /// Regex pattern used to override the validator handler.
@@ -90,10 +90,10 @@ namespace Blazorise
             this.inputComponent = inputComponent;
 
             // save the input value
-            lastKnownValue = inputComponent.ValidationValue;
+            lastValidationValue = inputComponent.ValidationValue;
 
             if ( Mode == ValidationMode.Auto && ValidateOnLoad )
-                Validate();
+                Validate( inputComponent.ValidationValue );
         }
 
         internal void InitializeInputPattern( string pattern )
@@ -107,17 +107,33 @@ namespace Blazorise
             if ( expression == null )
                 return;
 
-            fieldIdentifier = FieldIdentifier.Create( expression );
-            hasFieldIdentifier = true;
+            // We need to re-instantiate FieldIdentifier only if the model has changed.
+            // Otherwise it could get pretty slow for larger forms.
+            if ( !hasFieldIdentifier || ParentValidations?.Model != fieldIdentifier.Model )
+            {
+                fieldIdentifier = FieldIdentifier.Create( expression );
+
+                // re-run validation based on the new value for the new model
+                if ( hasFieldIdentifier && Mode == ValidationMode.Auto )
+                {
+                    NotifyInputChanged( expression.Compile().Invoke(), true );
+                }
+
+                hasFieldIdentifier = true;
+            }
         }
 
-        internal void NotifyInputChanged()
+        internal void NotifyInputChanged( object newExpressionValue = null, bool overrideNewValue = false )
         {
-            if ( inputComponent.ValidationValue is Array )
+            var newValidationValue = overrideNewValue
+                ? newExpressionValue
+                : inputComponent.ValidationValue;
+
+            if ( newValidationValue is Array newArrayValue )
             {
-                if ( !Comparers.AreArraysEqual( lastKnownValue as Array, inputComponent.ValidationValue as Array ) )
+                if ( !Comparers.AreArraysEqual( lastValidationValue as Array, newArrayValue ) )
                 {
-                    lastKnownValue = inputComponent.ValidationValue;
+                    lastValidationValue = newValidationValue;
 
                     if ( EditContext != null && hasFieldIdentifier )
                     {
@@ -125,14 +141,14 @@ namespace Blazorise
                     }
 
                     if ( Mode == ValidationMode.Auto )
-                        Validate();
+                        Validate( newValidationValue );
                 }
             }
             else
             {
-                if ( lastKnownValue != inputComponent.ValidationValue )
+                if ( lastValidationValue != newValidationValue )
                 {
-                    lastKnownValue = inputComponent.ValidationValue;
+                    lastValidationValue = newValidationValue;
 
                     if ( EditContext != null && hasFieldIdentifier )
                     {
@@ -140,14 +156,14 @@ namespace Blazorise
                     }
 
                     if ( Mode == ValidationMode.Auto )
-                        Validate();
+                        Validate( newValidationValue );
                 }
             }
         }
 
         private void OnValidatingAll( ValidatingAllEventArgs e )
         {
-            e.Cancel = Validate() == ValidationStatus.Error;
+            e.Cancel = Validate( inputComponent.ValidationValue ) == ValidationStatus.Error;
         }
 
         private void OnClearingAll()
@@ -158,11 +174,11 @@ namespace Blazorise
         /// <summary>
         /// Runs the validation process.
         /// </summary>
-        public ValidationStatus Validate()
+        public ValidationStatus Validate( object newValidationValue )
         {
             if ( UsePattern && patternRegex != null )
             {
-                var matchStatus = patternRegex.IsMatch( inputComponent.ValidationValue?.ToString() ?? string.Empty )
+                var matchStatus = patternRegex.IsMatch( newValidationValue?.ToString() ?? string.Empty )
                     ? ValidationStatus.Success
                     : ValidationStatus.Error;
 
