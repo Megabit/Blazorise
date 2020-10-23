@@ -62,40 +62,6 @@ namespace Blazorise
         public IEnumerable<string> MemberNames { get; set; }
     }
 
-    /// <summary>
-    /// Holds the information about validation state and message.
-    /// </summary>
-    public class ValidationMessageLocalizerEventArgs : EventArgs
-    {
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        /// <param name="fieldName">Field name being validated.</param>
-        /// <param name="status">Validation status.</param>
-        /// <param name="message">Validation message.</param>
-        public ValidationMessageLocalizerEventArgs( string fieldName, ValidationStatus status, IEnumerable<ValidationMessageResult> messages )
-        {
-            FieldName = fieldName;
-            Status = status;
-            Messages = messages;
-        }
-
-        /// <summary>
-        /// Gets the validated field name.
-        /// </summary>
-        public string FieldName { get; }
-
-        /// <summary>
-        /// Gets the validation status.
-        /// </summary>
-        public ValidationStatus Status { get; }
-
-        /// <summary>
-        /// Gets the list of validation messages.
-        /// </summary>
-        public IEnumerable<ValidationMessageResult> Messages { get; }
-    }
-
     public class FailedValidationsEventArgs : EventArgs
     {
         public FailedValidationsEventArgs( IReadOnlyList<string> errorMessages )
