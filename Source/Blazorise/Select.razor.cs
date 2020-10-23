@@ -23,21 +23,23 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void OnInitialized()
+        public override Task SetParametersAsync( ParameterView parameters )
         {
             if ( ParentValidation != null )
             {
                 if ( Multiple )
                 {
-                    ParentValidation.InitializeInputExpression( SelectedValuesExpression );
+                    if ( parameters.TryGetValue<Expression<Func<IReadOnlyList<TValue>>>>( nameof( SelectedValuesExpression ), out var expression ) )
+                        ParentValidation.InitializeInputExpression( expression );
                 }
                 else
                 {
-                    ParentValidation.InitializeInputExpression( SelectedValueExpression );
+                    if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( SelectedValueExpression ), out var expression ) )
+                        ParentValidation.InitializeInputExpression( expression );
                 }
             }
 
-            base.OnInitialized();
+            return base.SetParametersAsync( parameters );
         }
 
         protected override void BuildClasses( ClassBuilder builder )

@@ -25,7 +25,7 @@ namespace Blazorise
         /// <param name="messages">Holds the list of error messages if any error is found.</param>
         /// <param name="fieldIdentifier">Identifies the field for validation.</param>
         /// <param name="forLocalization">If true, error messages will be returned as raw messages that needs to be manually localized.</param>
-        void ValidateField( EditContext editContext, ValidationMessageResultStore messages, in FieldIdentifier fieldIdentifier, bool forLocalization );
+        void ValidateField( EditContext editContext, ValidationMessageStore messages, in FieldIdentifier fieldIdentifier, Func<string, IEnumerable<string>, string> messageLocalizer );
     }
 
     public class EditContextValidator : IEditContextValidator
@@ -49,9 +49,9 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        public virtual void ValidateField( EditContext editContext, ValidationMessageResultStore messages, in FieldIdentifier fieldIdentifier, bool forLocalization )
+        public virtual void ValidateField( EditContext editContext, ValidationMessageStore messages, in FieldIdentifier fieldIdentifier, Func<string, IEnumerable<string>, string> messageLocalizer )
         {
-            if ( TryGetValidatableProperty( fieldIdentifier, out var validationPropertyInfo, forLocalization ) )
+            if ( TryGetValidatableProperty( fieldIdentifier, out var validationPropertyInfo, messageLocalizer != null ) )
             {
                 var propertyValue = validationPropertyInfo.PropertyInfo.GetValue( fieldIdentifier.Model );
                 var validationContext = new ValidationContext( fieldIdentifier.Model )
@@ -63,7 +63,7 @@ namespace Blazorise
 
                 messages.Clear( fieldIdentifier );
 
-                if ( forLocalization )
+                if ( messageLocalizer != null )
                 {
                     // In this case we need to validate by using TryValidateValue because we need 
                     // to have custom messages on validation attributes
@@ -85,19 +85,16 @@ namespace Blazorise
                         // for manuall formating by the library users.
                         var errorMessageArguments = FindDifferences( errorMessage, errorMessageString );
 
-                        messages.Add( fieldIdentifier, new ValidationMessageResult( errorMessageString, errorMessageArguments?.ToArray(), results[i].MemberNames?.ToArray() ) );
+                        var localizedErrorMessage = messageLocalizer.Invoke( errorMessageString, errorMessageArguments );
+
+                        messages.Add( fieldIdentifier, localizedErrorMessage );
                     }
                 }
                 else
                 {
                     Validator.TryValidateProperty( propertyValue, validationContext, results );
 
-                    for ( int i = 0; i < results.Count; ++i )
-                    {
-                        var errorMessage = results[i].ErrorMessage;
-
-                        messages.Add( fieldIdentifier, new ValidationMessageResult( errorMessage, null, results[i].MemberNames?.ToArray() ) );
-                    }
+                    messages.Add( fieldIdentifier, results.Select( x => x.ErrorMessage ) );
                 }
 
                 // We have to notify even if there were no messages before and are still no messages now,
