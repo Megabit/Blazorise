@@ -74,7 +74,7 @@ namespace Blazorise
 
                     buildStyles( this );
 
-                    styles = builder.ToString().TrimEnd( ' ', Delimiter );
+                    styles = builder.ToString().TrimEnd( ' ', Delimiter )?.EmptyToNull();
 
                     dirty = false;
                 }

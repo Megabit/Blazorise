@@ -81,7 +81,7 @@ namespace Blazorise
 
                     buildClasses( this );
 
-                    classNames = builder.ToString()?.TrimEnd();
+                    classNames = builder.ToString().TrimEnd()?.EmptyToNull();
 
                     dirty = false;
                 }

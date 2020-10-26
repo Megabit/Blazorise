@@ -11,89 +11,25 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    // based on https://github.com/chanan/BlazorStrap/blob/master/src/BlazorStrap/DynamicElement.cs
     public class Dynamic : ComponentBase
     {
-        #region Members
-
-        private IDictionary<string, object> parametersToRender;
-
-        private RenderFragment childContent;
-
-        #endregion
-
         #region Methods
-
-        public override Task SetParametersAsync( ParameterView parameters )
-        {
-            parametersToRender = parameters.ToDictionary() as Dictionary<string, object>;
-
-            childContent = parametersToRender.GetAndRemove<RenderFragment>( "ChildContent" );
-            TagName = parametersToRender.GetAndRemove<string>( nameof( TagName ) ) ?? throw new InvalidOperationException( $"No value was supplied for required parameter '{nameof( TagName )}'." );
-
-            // Combine any explicitly-supplied attributes with the remaining parameters
-            var attributesParam = parametersToRender.GetAndRemove<IReadOnlyDictionary<string, object>>( nameof( Attributes ) );
-
-            if ( attributesParam != null )
-            {
-                foreach ( var kvp in attributesParam )
-                {
-                    if ( kvp.Value != null && parametersToRender.TryGetValue( kvp.Key, out var existingValue ) && existingValue != null )
-                    {
-                        parametersToRender[kvp.Key] = $"{existingValue} {kvp.Value}";
-                    }
-                    else
-                    {
-                        parametersToRender[kvp.Key] = kvp.Value;
-                    }
-                }
-            }
-
-            return base.SetParametersAsync( ParameterView.Empty );
-        }
 
         protected override void BuildRenderTree( RenderTreeBuilder builder )
         {
             base.BuildRenderTree( builder );
+            builder?.OpenElement( 0, TagName );
 
-            builder.OpenElement( 0, TagName );
-
-            foreach ( var param in parametersToRender )
+            builder.AddMultipleAttributes( 1, Attributes );
+            builder.AddEventPreventDefaultAttribute( 2, "onclick", ClickPreventDefault );
+            builder.AddEventStopPropagationAttribute( 3, "onclick", ClickStopPropagation );
+            builder.AddContent( 4, ChildContent );
+            builder.AddElementReferenceCapture( 2, capturedRef =>
             {
-                switch ( param.Value )
-                {
-                    case EventCallback<ChangeEventArgs> ec:
-                        builder.AddAttribute( 1, param.Key, ec );
-                        break;
-                    case EventCallback<ClipboardEventArgs> ec:
-                        builder.AddAttribute( 1, param.Key, ec );
-                        break;
-                    case EventCallback<DataTransferItem> ec:
-                        builder.AddAttribute( 1, param.Key, ec );
-                        break;
-                    case EventCallback<ErrorEventArgs> ec:
-                        builder.AddAttribute( 1, param.Key, ec );
-                        break;
-                    case EventCallback<EventArgs> ec:
-                        builder.AddAttribute( 1, param.Key, ec );
-                        break;
-                    case EventCallback<FocusEventArgs> ec:
-                        builder.AddAttribute( 1, param.Key, ec );
-                        break;
-                    case EventCallback<KeyboardEventArgs> ec:
-                        builder.AddAttribute( 1, param.Key, ec );
-                        break;
-                    case EventCallback<MouseEventArgs> ec:
-                        builder.AddAttribute( 1, param.Key, ec );
-                        break;
-                    default:
-                        builder.AddAttribute( 1, param.Key, param.Value );
-                        break;
-                }
-            }
+                ElementRef = capturedRef;
+                ElementRefChanged?.Invoke( ElementRef ); // Invoke the callback for the binding to work.
+            } );
 
-            builder.AddElementReferenceCapture( 2, capturedRef => { ElementRef = capturedRef; } );
-            builder.AddContent( 3, childContent );
             builder.CloseElement();
         }
 
@@ -104,22 +40,38 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the name of the element to render.
         /// </summary>
-        public string TagName { get; set; }
+        [Parameter] public string TagName { get; set; }
 
         /// <summary>
-        /// Gets the <see cref="Microsoft.AspNetCore.Components.ElementRef"/>.
+        /// Gets or sets the element reference.
         /// </summary>
-        public ElementReference ElementRef { get; private set; }
+        [Parameter] public ElementReference ElementRef { get; set; }
 
         /// <summary>
-        /// Gets or sets the attributes to render.
+        /// Notifies us that the element reference has changed.
         /// </summary>
-        public IReadOnlyDictionary<string, object> Attributes
-        {
-            // The property is only declared for intellisense. It's not used at runtime.
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
+        [Parameter] public Action<ElementReference> ElementRefChanged { get; set; }
+
+        /// <summary>
+        /// Set to true if click event need to be prevented.
+        /// </summary>
+        [Parameter] public bool ClickPreventDefault { get; set; }
+
+        /// <summary>
+        /// Set to true if click event need to be prevented from propagation.
+        /// </summary>
+        [Parameter] public bool ClickStopPropagation { get; set; }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Dynamic"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Captures all the custom attribute that are not part of Blazorise component.
+        /// </summary>
+        [Parameter( CaptureUnmatchedValues = true )]
+        public IDictionary<string, object> Attributes { get; set; }
 
         #endregion
     }
