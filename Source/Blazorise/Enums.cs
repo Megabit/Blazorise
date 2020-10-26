@@ -22,6 +22,11 @@ namespace Blazorise
         /// The button is a reset button (resets the form-data to its initial values).
         /// </summary>
         Reset,
+
+        /// <summary>
+        /// The button will be rendered as a link but will appear as a regular button.
+        /// </summary>
+        Link,
     }
 
     /// <summary>

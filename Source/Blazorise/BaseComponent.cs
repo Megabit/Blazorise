@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -416,6 +415,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Captures all the custom attribute that are not part of Blazorise component.
+        /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
 
