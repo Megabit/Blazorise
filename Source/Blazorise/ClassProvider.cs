@@ -324,11 +324,9 @@ namespace Blazorise
 
         #region Tab
 
-        public abstract string Tabs();
+        public abstract string Tabs( bool pills );
 
         public abstract string TabsCards();
-
-        public abstract string TabsPills();
 
         public abstract string TabsFullWidth();
 

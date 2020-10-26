@@ -364,11 +364,9 @@ namespace Blazorise.Bulma
 
         #region Tab
 
-        public override string Tabs() => "tabs";
+        public override string Tabs( bool pills ) => pills ? "tabs is-toggle" : "tabs";
 
         public override string TabsCards() => null;
-
-        public override string TabsPills() => "is-toggle";
 
         public override string TabsFullWidth() => "is-fullwidth";
 

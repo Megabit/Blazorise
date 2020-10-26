@@ -327,11 +327,9 @@ namespace Blazorise.Providers
 
         #region Tab
 
-        public string Tabs() => null;
+        public string Tabs( bool pills ) => null;
 
         public string TabsCards() => null;
-
-        public string TabsPills() => null;
 
         public string TabsFullWidth() => null;
 

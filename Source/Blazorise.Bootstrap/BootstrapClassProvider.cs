@@ -364,11 +364,9 @@ namespace Blazorise.Bootstrap
 
         #region Tab
 
-        public override string Tabs() => "nav nav-tabs";
+        public override string Tabs( bool pills ) => pills ? "nav nav-pills" : "nav nav-tabs";
 
         public override string TabsCards() => "card-header-tabs";
-
-        public override string TabsPills() => "nav-pills";
 
         public override string TabsFullWidth() => "nav-fill";
 
