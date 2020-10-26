@@ -386,11 +386,9 @@ namespace Blazorise.Frolic
 
         #region Tab
 
-        public override string Tabs() => "e-tabs";
+        public override string Tabs( bool pills ) => pills ? "e-tabs nav-pills" : "e-tabs";
 
         public override string TabsCards() => "card-header-tabs";
-
-        public override string TabsPills() => "nav-pills";
 
         public override string TabsFullWidth() => "nav-fill";
 
