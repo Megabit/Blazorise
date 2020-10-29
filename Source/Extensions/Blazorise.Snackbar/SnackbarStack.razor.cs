@@ -17,12 +17,13 @@ namespace Blazorise.Snackbar
 
         private class SnackbarInfo
         {
-            public SnackbarInfo( string key, string message, RenderFragment messageTemplate, SnackbarColor color )
+            public SnackbarInfo( string key, string message, RenderFragment messageTemplate, SnackbarColor color, string actionButtonText )
             {
                 Key = key ?? Guid.NewGuid().ToString();
                 Message = message;
                 MessageTemplate = messageTemplate;
                 Color = color;
+                ActionButtonText = actionButtonText;
             }
 
             public string Key { get; }
@@ -32,6 +33,8 @@ namespace Blazorise.Snackbar
             public RenderFragment MessageTemplate { get; }
 
             public SnackbarColor Color { get; }
+
+            public string ActionButtonText { get; }
 
             public bool Visible { get; } = true;
         }
@@ -52,19 +55,19 @@ namespace Blazorise.Snackbar
             base.BuildClasses( builder );
         }
 
-        public void Push( string message, SnackbarColor color = SnackbarColor.None )
+        public void Push( string message, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
         {
-            Push( null, message, null, color );
+            Push( null, message, null, color, actionButtonText );
         }
 
-        public void Push( RenderFragment messageTemplate, SnackbarColor color = SnackbarColor.None )
+        public void Push( RenderFragment messageTemplate, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
         {
-            Push( null, null, messageTemplate, color );
+            Push( null, null, messageTemplate, color, actionButtonText );
         }
 
-        public void Push( string key, string message, RenderFragment messageTemplate, SnackbarColor color = SnackbarColor.None )
+        public void Push( string key, string message, RenderFragment messageTemplate, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
         {
-            snackbarInfos.Add( new SnackbarInfo( key, message, messageTemplate, color ) );
+            snackbarInfos.Add( new SnackbarInfo( key, message, messageTemplate, color, actionButtonText ) );
 
             StateHasChanged();
         }
