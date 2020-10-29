@@ -20,12 +20,15 @@
                     @snackbarInfo.Message
                 }
             </SnackbarBody>
+            @{
+                var actionButtonText = snackbarInfo.ActionButtonText ?? ActionButtonText;
 
-            @if ( ActionButtonText != null )
-            {
-                var key = snackbarInfo.Key;
+                @if ( actionButtonText != null )
+                {
+                    var key = snackbarInfo.Key;
 
-                <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">@ActionButtonText</SnackbarAction>
+                    <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">@actionButtonText</SnackbarAction>
+                }
             }
         </Snackbar>
     }
