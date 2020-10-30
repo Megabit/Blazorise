@@ -65,7 +65,7 @@ namespace Blazorise.Charts
             return runtime.InvokeVoidAsync( "blazoriseCharts.clear", canvasId );
         }
 
-        public static ValueTask AddLabel( IJSRuntime runtime, string canvasId, IReadOnlyCollection<string> newLabels )
+        public static ValueTask AddLabel( IJSRuntime runtime, string canvasId, IReadOnlyCollection<object> newLabels )
         {
             return runtime.InvokeVoidAsync( "blazoriseCharts.addLabel", canvasId, newLabels );
         }
