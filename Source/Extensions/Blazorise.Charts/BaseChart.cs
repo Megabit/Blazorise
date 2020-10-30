@@ -113,7 +113,7 @@ namespace Blazorise.Charts
         /// Adds a new label to the chart.
         /// </summary>
         /// <param name="labels">Label name(s).</param>
-        public async Task AddLabel( params string[] labels )
+        public async Task AddLabel( params object[] labels )
         {
             dirty = true;
 
@@ -283,7 +283,7 @@ namespace Blazorise.Charts
 
         #region Properties
 
-        protected List<string> Labels
+        protected List<object> Labels
         {
             get
             {
@@ -291,7 +291,7 @@ namespace Blazorise.Charts
                     Data = new ChartData<TItem>();
 
                 if ( Data.Labels == null )
-                    Data.Labels = new List<string>();
+                    Data.Labels = new List<object>();
 
                 return Data.Labels;
             }
