@@ -152,7 +152,7 @@
     </LayoutSider>
     <Layout>
         <LayoutHeader Fixed="true">
-            <Bar Breakpoint="Breakpoint.Desktop" Background="Background.Primary" ThemeContrast="ThemeContrast.Light">
+            <Bar @bind-Visible="@topbarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.Primary" ThemeContrast="ThemeContrast.Light">
                 <BarBrand>
                     <BarItem>
                         <BarLink To="">
@@ -293,6 +293,7 @@
         Theme.ThemeHasChanged();
     }
 
+    private bool topbarVisible = false;
     private bool siderVisible = true;
     private bool uiElementsVisible = true;
 

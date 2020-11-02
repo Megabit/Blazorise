@@ -39,6 +39,7 @@ Defines the button type and behavior.
 - `Button` The button is a clickable button.
 - `Submit` The button is a submit button (submits form-data).
 - `Reset` The button is a reset button (resets the form-data to its initial values).
+- `Link` The button will be rendered as a link but will appear as a regular button.
 
 ## Cursor
 

@@ -210,44 +210,58 @@ public class User
 
 If you want to localize your validation messages, we got you covered. Blazorise will provide you with an API and all the required information needed for you to make localization. This is done through the `MessageLocalizer` API. But before you use it we need to break it down a little so you can understand it better how it works.
 
-A `MessageLocalizer` gives you an event argument with the following fields:
+A `MessageLocalizer` is fairly straight forward. It accepts two parameters and returns a string. It's signature is as following `string Localize(string message, IEnumerable<string> arguments)`.
 
-- `FieldName` a field name that requested localization
-- `Status` current status
-- `Messages` list of messages to localize
+Where:
 
-The most important is the `Messages` property and it contains the list of all (error) messages. Where each message consists of:
+- `format` raw validation message
+- `arguments` list of arguments or values for populating the message
 
-- `Message` raw validation message
-- `MessageArguments` list of arguments for the Message
-- `MemberNames` member names that indicate which fields have validation errors
+So now that you know what the API consist of, we need to talk what is the content of the API. And the most important is the `message` parameter. Each message value will be represented as a raw message in the form before the actual message was formatted.
 
-So now that you know what the API consist of, we need to talk what is the content of the API. And the most important is the `Message` property. Each message value will be represented as a raw message in the form before the actual message was formatted.
-
-For example if you have a `[Required]` attribute set on your model field, this message will be `"The {0} field is required."`. And the `MessageArguments` will contain all the values needed to populate the placeholders inside of the message.
+For example if you have a `[Required]` attribute set on your model field, this message will be `"The {0} field is required."`. And the `arguments` will contain all the values needed to populate the placeholders inside of the message.
 
 ### Example
 
-The final example boils down to this.
+For the basic example we're going to use `MessageLocalizer` directly on a `Validation` component.
 
 ```html
 <Validation MessageLocalizer="@Localize">
 ```
 
 ```cs
-IStringLocalizer<YourResource> L;
+[Inject] IStringLocalizer<YourResource> L;
 
-IEnumerable<string> Localize( ValidationMessageLocalizerEventArgs eventArgs )
+string Localize( string message, IEnumerable<string> arguments )
 {
-    foreach ( var vm in eventArgs.Messages )
-    {
-        yield return string.Format( L[vm.Message], vm.MessageArguments.Select( vma => L[vma] ).ToArray() );
-    }
+    // You should probably do null checks here!
+    return string.Format( L[message], arguments.ToArray() );
 }
 ```
 
 **Note:** We assumed you will get all your localization through the `IStringLocalizer`. If you're using something else you will need to modify code according to your requirements.
 {: .notice--info}
+
+### Global Options
+
+Setting the `MessageLocalizer` on each `Validation` is a good for approach if you want to control every part of your application. But a more practical way is to define it globally. If you remember from the [Start Guide]({{ "/docs/start#4a-blazor-webassembly" | relative_url }}), we already have `AddBlazorise` defined in our application startup so we just need to modify it a little.
+
+```cs
+services
+    .AddBlazorise( options =>
+    {
+        // other settings
+
+        options.ValidationMessageLocalizer = ( message, arguments ) =>
+        {
+            var stringLocalizer = options.Services.GetService<IStringLocalizer<YourResource>>();
+
+            return stringLocalizer != null && arguments?.Count() > 0
+                ? string.Format( stringLocalizer[message], arguments.ToArray() )
+                : message;
+        };
+    } )
+```
 
 ## Validation summary
 

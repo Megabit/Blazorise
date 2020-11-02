@@ -24,7 +24,7 @@ namespace Blazorise.Charts
         /// List of labels for the chart coordinates.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> Labels { get; set; }
+        public List<object> Labels { get; set; }
 
         /// <summary>
         /// List of datasets to be displayed in the chart.

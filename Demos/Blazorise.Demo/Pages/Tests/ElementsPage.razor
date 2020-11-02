@@ -272,6 +272,26 @@
     </Column>
 </Row>
 <Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Stacked snackbars</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    You can have a dynamicaly stacked snackbars.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.Push("Some success message!", SnackbarColor.Success, "Ok"))">Show Success message</Button>
+                <Button Color="Color.Info" Clicked="@(()=>snackbarStack.Push("Some info message!", SnackbarColor.Info, "Ok"))">Show Info message</Button>
+                <Button Color="Color.Warning" Clicked="@(()=>snackbarStack.Push("Some warning message!", SnackbarColor.Warning, "Ok"))">Show Warning message</Button>
+                <Button Color="Color.Danger" Clicked="@(()=>snackbarStack.Push("Some danger message!", SnackbarColor.Danger, "Ok"))">Show Danger message</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
     <Column ColumnSize="ColumnSize.Is12.OnMobile">
         <Jumbotron Background="Background.Primary" Margin="Margin.Is4.FromBottom">
             <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, world!</JumbotronTitle>
@@ -501,6 +521,7 @@
     </SnackbarBody>
     <SnackbarAction Clicked="@(()=>snackbarDark.Hide())">ACTION</SnackbarAction>
 </Snackbar>
+<SnackbarStack @ref="snackbarStack" Location="SnackbarStackLocation.Right" />
 @code{
     Snackbar snackbar;
     Snackbar snackbarAction;
@@ -516,6 +537,8 @@
     Snackbar snackbarInfo;
     Snackbar snackbarLight;
     Snackbar snackbarDark;
+
+    SnackbarStack snackbarStack;
 
     bool dismisableAlert1 = true;
     bool dismisableAlert2 = true;

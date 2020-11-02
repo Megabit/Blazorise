@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Blazorise.Providers;
+using Microsoft.Extensions.Options;
 #endregion
 
 namespace Blazorise
@@ -19,11 +20,13 @@ namespace Blazorise
         /// <returns></returns>
         public static IServiceCollection AddBlazorise( this IServiceCollection serviceCollection, Action<BlazoriseOptions> configureOptions = null )
         {
-            var options = new BlazoriseOptions();
+            // If options handler is not defined we will get an exception so
+            // we need to initialize and empty action.
+            if ( configureOptions == null )
+                configureOptions = ( e ) => { };
 
-            configureOptions?.Invoke( options );
-
-            serviceCollection.AddSingleton( options );
+            serviceCollection.AddSingleton( configureOptions );
+            serviceCollection.AddSingleton<BlazoriseOptions>();
 
             serviceCollection.AddScoped<IEditContextValidator, EditContextValidator>();
 

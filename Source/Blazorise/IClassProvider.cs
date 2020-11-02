@@ -323,11 +323,9 @@ namespace Blazorise
 
         #region Tab
 
-        string Tabs();
+        string Tabs( bool pills );
 
         string TabsCards();
-
-        string TabsPills();
 
         string TabsFullWidth();
 

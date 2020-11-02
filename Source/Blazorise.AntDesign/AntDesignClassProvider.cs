@@ -361,11 +361,9 @@ namespace Blazorise.AntDesign
 
         #region Tab
 
-        public override string Tabs() => "ant-tabs ant-tabs-top ant-tabs-line";
+        public override string Tabs( bool pills ) => pills ? "ant-tabs ant-tabs-top ant-tabs-line ant-tabs-pills" : "ant-tabs ant-tabs-top ant-tabs-line";
 
         public override string TabsCards() => "ant-tabs-card";
-
-        public override string TabsPills() => "ant-tabs-pills";
 
         public override string TabsFullWidth() => "ant-tabs-fill";
 

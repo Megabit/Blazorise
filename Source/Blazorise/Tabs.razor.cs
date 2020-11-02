@@ -37,9 +37,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.Tabs() );
+            builder.Append( ClassProvider.Tabs( Pills ) );
             builder.Append( ClassProvider.TabsCards(), IsCards );
-            builder.Append( ClassProvider.TabsPills(), Pills );
             builder.Append( ClassProvider.TabsFullWidth(), FullWidth );
             builder.Append( ClassProvider.TabsJustified(), Justified );
             builder.Append( ClassProvider.TabsVertical(), TabPosition == TabPosition.Left || TabPosition == TabPosition.Right );

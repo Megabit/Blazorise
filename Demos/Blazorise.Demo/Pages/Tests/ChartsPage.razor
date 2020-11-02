@@ -86,10 +86,10 @@
                 <CardTitle>Line</CardTitle>
             </CardHeader>
             <CardBody>
-                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await SetDataAndUpdate( lineChart, RandomizeData ))">Change Data</Button>
+                <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await SetDataAndUpdate( lineChartWithData, RandomizeData ))">Change Data</Button>
             </CardBody>
             <CardBody>
-                <LineChart @ref="lineChart" TItem="double" />
+                <LineChart @ref="lineChartWithData" TItem="double" />
             </CardBody>
         </Card>
     </Column>
@@ -101,6 +101,8 @@
     Chart<double> doughnutChart;
     Chart<double> polarAreaChart;
     Chart<double> radarChart;
+
+    LineChart<double> lineChartWithData;
 
     string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
     List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
@@ -122,7 +124,8 @@
                 HandleRedraw( pieChart, GetPieChartDataset ),
                 HandleRedraw( doughnutChart, GetDoughnutChartDataset ),
                 HandleRedraw( polarAreaChart, GetPolarAreaChartDataset ),
-                HandleRedraw( radarChart, GetRadarChartDataset ) );
+                HandleRedraw( radarChart, GetRadarChartDataset ),
+                HandleRedraw( lineChartWithData, GetLineChartDataset ) );
         }
     }
 
