@@ -126,7 +126,7 @@ namespace Blazorise.DataGrid
         {
             Page = page;
             PageSize = pageSize;
-            Columns = columns?.Select( x => new DataGridColumnInfo( x.Field, x.Filter?.SearchValue, x.CurrentDirection ) );
+            Columns = columns?.Select( x => new DataGridColumnInfo( x.Field, x.Filter?.SearchValue, x.CurrentDirection, x.ColumnType ) );
         }
 
         /// <summary>
