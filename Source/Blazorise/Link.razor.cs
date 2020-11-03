@@ -216,6 +216,9 @@ namespace Blazorise
 
         [Inject] private NavigationManager NavigationManager { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Link"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
