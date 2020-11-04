@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class NumericEditComponentTest : ComponentTestFixture
+    public class NumericEditComponentTest : TestContext
     {
         public NumericEditComponentTest()
         {

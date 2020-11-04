@@ -27,7 +27,7 @@ namespace Blazorise
             this.serviceProvider = serviceProvider;
             this.configureOptions = configureOptions;
 
-            configureOptions.Invoke( this );
+            this.configureOptions?.Invoke( this );
         }
 
         #endregion

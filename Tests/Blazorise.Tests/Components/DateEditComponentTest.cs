@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class DateEditComponentTest : ComponentTestFixture
+    public class DateEditComponentTest : TestContext
     {
         public DateEditComponentTest()
         {

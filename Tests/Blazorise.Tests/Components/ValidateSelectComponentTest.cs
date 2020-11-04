@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class ValidateSelectComponentTest : ComponentTestFixture
+    public class ValidateSelectComponentTest : TestContext
     {
         public ValidateSelectComponentTest()
         {

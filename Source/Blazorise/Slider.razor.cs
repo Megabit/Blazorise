@@ -52,42 +52,27 @@ namespace Blazorise
 
         protected override string FormatValueAsString( TValue value )
         {
-            switch ( value )
+            return value switch
             {
-                case null:
-                    return null;
-                case byte @byte:
-                    return Converters.FormatValue( @byte, CultureInfo.InvariantCulture );
-                case short @short:
-                    return Converters.FormatValue( @short, CultureInfo.InvariantCulture );
-                case int @int:
-                    return Converters.FormatValue( @int, CultureInfo.InvariantCulture );
-                case long @long:
-                    return Converters.FormatValue( @long, CultureInfo.InvariantCulture );
-                case float @float:
-                    return Converters.FormatValue( @float, CultureInfo.InvariantCulture );
-                case double @double:
-                    return Converters.FormatValue( @double, CultureInfo.InvariantCulture );
-                case decimal @decimal:
-                    return Converters.FormatValue( @decimal, CultureInfo.InvariantCulture );
-                case sbyte @sbyte:
-                    return Converters.FormatValue( @sbyte, CultureInfo.InvariantCulture );
-                case ushort @ushort:
-                    return Converters.FormatValue( @ushort, CultureInfo.InvariantCulture );
-                case uint @uint:
-                    return Converters.FormatValue( @uint, CultureInfo.InvariantCulture );
-                case ulong @ulong:
-                    return Converters.FormatValue( @ulong, CultureInfo.InvariantCulture );
-                default:
-                    throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
-            }
+                null => null,
+                byte @byte => Converters.FormatValue( @byte, CultureInfo.InvariantCulture ),
+                short @short => Converters.FormatValue( @short, CultureInfo.InvariantCulture ),
+                int @int => Converters.FormatValue( @int, CultureInfo.InvariantCulture ),
+                long @long => Converters.FormatValue( @long, CultureInfo.InvariantCulture ),
+                float @float => Converters.FormatValue( @float, CultureInfo.InvariantCulture ),
+                double @double => Converters.FormatValue( @double, CultureInfo.InvariantCulture ),
+                decimal @decimal => Converters.FormatValue( @decimal, CultureInfo.InvariantCulture ),
+                sbyte @sbyte => Converters.FormatValue( @sbyte, CultureInfo.InvariantCulture ),
+                ushort @ushort => Converters.FormatValue( @ushort, CultureInfo.InvariantCulture ),
+                uint @uint => Converters.FormatValue( @uint, CultureInfo.InvariantCulture ),
+                ulong @ulong => Converters.FormatValue( @ulong, CultureInfo.InvariantCulture ),
+                _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
+            };
         }
 
         #endregion
 
         #region Properties
-
-        [Inject] protected BlazoriseOptions Options { get; set; }
 
         protected override TValue InternalValue { get => Value; set => Value = value; }
 
