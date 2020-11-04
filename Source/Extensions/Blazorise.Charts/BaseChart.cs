@@ -22,8 +22,6 @@ namespace Blazorise.Charts
     {
         #region Members
 
-        protected DotNetObjectReference<ChartAdapter> dotNetObjectRef;
-
         #endregion
 
         #region Methods
@@ -39,8 +37,8 @@ namespace Blazorise.Charts
         {
             if ( disposing )
             {
-                JS.Destroy( JSRuntime, ElementId );
-                JS.DisposeDotNetObjectRef( dotNetObjectRef );
+                _ = JS.Destroy( JSRuntime, ElementId );
+                JS.DisposeDotNetObjectRef( DotNetObjectRef );
             }
 
             base.Dispose( disposing );
@@ -49,6 +47,8 @@ namespace Blazorise.Charts
         #endregion
 
         #region Properties
+
+        protected DotNetObjectReference<ChartAdapter> DotNetObjectRef { get; set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
@@ -228,9 +228,9 @@ namespace Blazorise.Charts
 
         private async Task Initialize()
         {
-            dotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
+            DotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
 
-            await JS.Initialize( JSRuntime, dotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type,
+            await JS.Initialize( JSRuntime, DotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type,
                 Data,
                 Converters.ToDictionary( Options ),
                 DataJsonString,
@@ -334,19 +334,16 @@ namespace Blazorise.Charts
         /// <summary>
         /// Defines the chart data that is serialized as json string.
         /// </summary>
-        [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
         [Parameter] public string DataJsonString { get; set; }
 
         /// <summary>
         /// Defines the chart options that is serialized as json string.
         /// </summary>
-        [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
         [Parameter] public string OptionsJsonString { get; set; }
 
         /// <summary>
         /// Defines the chart options that is serialized as json object.
         /// </summary>
-        [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
         [Parameter] public object OptionsObject { get; set; }
 
         #endregion

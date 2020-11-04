@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class RadioGroupComponentTest : ComponentTestFixture
+    public class RadioGroupComponentTest : TestContext
     {
         public RadioGroupComponentTest()
         {
