@@ -176,72 +176,82 @@ namespace Blazorise
         /// </summary>
         public ValidationStatus Validate( object newValidationValue )
         {
-            if ( UsePattern && patternRegex != null )
+            if ( Validator != null )
             {
-                var matchStatus = patternRegex.IsMatch( newValidationValue?.ToString() ?? string.Empty )
-                    ? ValidationStatus.Success
-                    : ValidationStatus.Error;
-
-                if ( Status != matchStatus )
-                {
-                    Status = matchStatus;
-
-                    NotifyValidationStatusChanged( Status );
-                }
+                ValidateUsingValidator( Validator, newValidationValue );
+            }
+            else if ( UsePattern && patternRegex != null )
+            {
+                ValidateUsingPattern( newValidationValue );
             }
             else if ( EditContext != null && hasFieldIdentifier )
             {
-                ValidationStarted?.Invoke();
-
-                var messages = new ValidationMessageStore( EditContext );
-
-                EditContextValidator.ValidateField( EditContext, messages, fieldIdentifier, MessageLocalizer ?? Options.ValidationMessageLocalizer );
-
-                var matchStatus = messages[fieldIdentifier].Any()
-                    ? ValidationStatus.Error
-                    : ValidationStatus.Success;
-
-                var matchMessages = matchStatus == ValidationStatus.Error
-                    ? messages[fieldIdentifier]
-                    : null;
-
-                // Sometime status will stay the same and error message will change
-                // eg. StringLength > empty string > Required
-                if ( Status != matchStatus || !Comparers.AreEqual( Messages?.ToArray(), matchMessages?.ToArray() ) )
-                {
-                    Status = matchStatus;
-                    Messages = matchMessages;
-
-                    NotifyValidationStatusChanged( Status, Messages );
-                }
-            }
-            else
-            {
-                var validatorHandler = Validator;
-
-                if ( validatorHandler != null )
-                {
-                    ValidationStarted?.Invoke();
-
-                    var validatorEventArgs = new ValidatorEventArgs( newValidationValue );
-
-                    validatorHandler( validatorEventArgs );
-
-                    var matchMessages = Status == ValidationStatus.Error
-                        ? new string[] { validatorEventArgs.ErrorText }
-                        : null;
-
-                    if ( Status != validatorEventArgs.Status || !Comparers.AreEqual( Messages?.ToArray(), matchMessages ) )
-                    {
-                        Status = validatorEventArgs.Status;
-                        Messages = matchMessages;
-
-                        NotifyValidationStatusChanged( Status, Messages );
-                    }
-                }
+                ValidateUsingDataAnnotation( newValidationValue );
             }
 
             return Status;
+        }
+
+        protected virtual void ValidateUsingValidator( Action<ValidatorEventArgs> validatorHandler, object newValidationValue )
+        {
+            ValidationStarted?.Invoke();
+
+            var validatorEventArgs = new ValidatorEventArgs( newValidationValue );
+
+            validatorHandler( validatorEventArgs );
+
+            var matchMessages = Status == ValidationStatus.Error
+                ? new string[] { validatorEventArgs.ErrorText }
+                : null;
+
+            if ( Status != validatorEventArgs.Status || !Comparers.AreEqual( Messages?.ToArray(), matchMessages ) )
+            {
+                Status = validatorEventArgs.Status;
+                Messages = matchMessages;
+
+                NotifyValidationStatusChanged( Status, Messages );
+            }
+        }
+
+        protected virtual void ValidateUsingDataAnnotation( object newValidationValue )
+        {
+            ValidationStarted?.Invoke();
+
+            var messages = new ValidationMessageStore( EditContext );
+
+            EditContextValidator.ValidateField( EditContext, messages, fieldIdentifier, MessageLocalizer ?? Options.ValidationMessageLocalizer );
+
+            var matchStatus = messages[fieldIdentifier].Any()
+                ? ValidationStatus.Error
+                : ValidationStatus.Success;
+
+            var matchMessages = matchStatus == ValidationStatus.Error
+                ? messages[fieldIdentifier]
+                : null;
+
+            // Sometime status will stay the same and error message will change
+            // eg. StringLength > empty string > Required
+            if ( Status != matchStatus || !Comparers.AreEqual( Messages?.ToArray(), matchMessages?.ToArray() ) )
+            {
+                Status = matchStatus;
+                Messages = matchMessages;
+
+                NotifyValidationStatusChanged( Status, Messages );
+            }
+        }
+
+        protected virtual void ValidateUsingPattern( object newValidationValue )
+        {
+            var matchStatus = patternRegex.IsMatch( newValidationValue?.ToString() ?? string.Empty )
+                      ? ValidationStatus.Success
+                      : ValidationStatus.Error;
+
+            if ( Status != matchStatus )
+            {
+                Status = matchStatus;
+
+                NotifyValidationStatusChanged( Status );
+            }
         }
 
         /// <summary>
