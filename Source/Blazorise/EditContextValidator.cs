@@ -30,7 +30,9 @@ namespace Blazorise
 
     public class EditContextValidator : IEditContextValidator
     {
-        #region Members        
+        #region Members       
+
+        protected readonly IValidationMessageLocalizerAttributeFinder validationMessageLocalizerAttributeFinder;
 
         protected readonly ConcurrentDictionary<(Type ModelType, string FieldName), ValidationPropertyInfo> propertyInfoCache
            = new ConcurrentDictionary<(Type, string), ValidationPropertyInfo>();
@@ -42,6 +44,15 @@ namespace Blazorise
             public ValidationAttribute[] ValidationAttributes { get; set; }
 
             public ValidationAttribute[] FormatedValidationAttributes { get; set; }
+        }
+
+        #endregion
+
+        #region Constructors
+
+        public EditContextValidator( IValidationMessageLocalizerAttributeFinder validationMessageLocalizerAttributeFinder )
+        {
+            this.validationMessageLocalizerAttributeFinder = validationMessageLocalizerAttributeFinder;
         }
 
         #endregion
@@ -83,7 +94,9 @@ namespace Blazorise
 
                         // Compare both error messages and find the diferences. This should later be used
                         // for manuall formating by the library users.
-                        var errorMessageArguments = FindDifferences( errorMessage, errorMessageString );
+                        var errorMessageArguments = validationMessageLocalizerAttributeFinder.FindAll( errorMessage, errorMessageString )
+                            ?.OrderBy( x => x.Index ) // sort arguments by index in the message eg, {0}, {1}, {2}
+                            ?.Select( x => x.Argument );
 
                         var localizedErrorMessage = messageLocalizer.Invoke( errorMessageString, errorMessageArguments );
 
@@ -100,27 +113,6 @@ namespace Blazorise
                 // We have to notify even if there were no messages before and are still no messages now,
                 // because the "state" that changed might be the completion of some async validation task
                 editContext.NotifyValidationStateChanged();
-            }
-        }
-
-        /// <summary>
-        /// Find all the diferences from two string.
-        /// </summary>
-        /// <param name="first">First string.</param>
-        /// <param name="second">Second string.</param>
-        /// <returns>Return the list of differences if any is found</returns>
-        protected virtual IEnumerable<string> FindDifferences( string first, string second )
-        {
-            var firstList = first?.Split( ' ' );
-            var secondList = second?.Split( ' ' );
-
-            if ( firstList != null && secondList != null && firstList.Length == secondList.Length )
-            {
-                for ( int i = 0; i < firstList.Length; ++i )
-                {
-                    if ( firstList[i] != secondList[i] )
-                        yield return new string( firstList[i].Where( x => char.IsLetterOrDigit( x ) ).ToArray() );
-                }
             }
         }
 

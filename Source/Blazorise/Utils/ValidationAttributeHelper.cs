@@ -22,13 +22,14 @@ namespace Blazorise.Utils
         /// <param name="validationAttribute">Validation attributes to modify.</param>
         public static void SetDefaultErrorMessage( ValidationAttribute validationAttribute )
         {
-            if ( validationAttribute is StringLengthAttribute stringLength && stringLength.MinimumLength != 0 )
+            if ( validationAttribute is StringLengthAttribute stringLengthAttribute && stringLengthAttribute.MinimumLength != 0 )
             {
                 var customErrorMessageSet = ValidationAttributeCustomErrorMessageSetProperty.GetValue( validationAttribute ) as bool?;
+
                 if ( customErrorMessageSet != true )
                 {
-                    validationAttribute.ErrorMessage =
-                        "The field {0} must be a string with a minimum length of {2} and a maximum length of {1}.";
+                    // This message is used by StringLengthAttribute internally so we need to copy the save behavior here.
+                    validationAttribute.ErrorMessage = SetErrorMessagePlaceholders( "The field {0} must be a string with a minimum length of {2} and a maximum length of {1}." );
                     return;
                 }
             }
