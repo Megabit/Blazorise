@@ -28,6 +28,8 @@ namespace Blazorise
             {
                 if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( TimeExpression ), out var expression ) )
                     ParentValidation.InitializeInputExpression( expression );
+
+                InitializeValidation();
             }
         }
 

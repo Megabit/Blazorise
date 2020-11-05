@@ -28,6 +28,8 @@ namespace Blazorise
             {
                 if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( TextExpression ), out var expression ) )
                     ParentValidation.InitializeInputExpression( expression );
+
+                InitializeValidation();
             }
         }
 

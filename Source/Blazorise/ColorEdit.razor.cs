@@ -26,6 +26,8 @@ namespace Blazorise
             {
                 if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
                     ParentValidation.InitializeInputExpression( expression );
+
+                InitializeValidation();
             }
         }
 

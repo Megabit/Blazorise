@@ -37,6 +37,9 @@ namespace Blazorise
         /// </summary>
         private Regex patternRegex;
 
+        // Flag that indicates validation has already being initialized.
+        private bool initialized;
+
         /// <summary>
         /// Field identifier for the bound value.
         /// </summary>
@@ -94,6 +97,8 @@ namespace Blazorise
 
             if ( Mode == ValidationMode.Auto && ValidateOnLoad )
                 Validate( inputComponent.ValidationValue );
+
+            initialized = true;
         }
 
         internal void InitializeInputPattern( string pattern )
@@ -104,22 +109,23 @@ namespace Blazorise
 
         internal void InitializeInputExpression<T>( Expression<Func<T>> expression )
         {
-            if ( expression == null )
-                return;
-
-            // We need to re-instantiate FieldIdentifier only if the model has changed.
-            // Otherwise it could get pretty slow for larger forms.
-            if ( !hasFieldIdentifier || ParentValidations?.Model != fieldIdentifier.Model )
+            if ( expression != null )
             {
-                fieldIdentifier = FieldIdentifier.Create( expression );
-
-                // re-run validation based on the new value for the new model
-                if ( hasFieldIdentifier && Mode == ValidationMode.Auto )
+                // We need to re-instantiate FieldIdentifier only if the model has changed.
+                // Otherwise it could get pretty slow for larger forms.
+                if ( !hasFieldIdentifier || ParentValidations?.Model != fieldIdentifier.Model )
                 {
-                    NotifyInputChanged( expression.Compile().Invoke(), true );
-                }
+                    fieldIdentifier = FieldIdentifier.Create( expression );
 
-                hasFieldIdentifier = true;
+                    // Re-run validation based on the new value for the new model,
+                    // but ONLY if validation has being previously initialized!
+                    if ( hasFieldIdentifier && Mode == ValidationMode.Auto && initialized )
+                    {
+                        NotifyInputChanged( expression.Compile().Invoke(), true );
+                    }
+
+                    hasFieldIdentifier = true;
+                }
             }
         }
 
@@ -129,35 +135,21 @@ namespace Blazorise
                 ? newExpressionValue
                 : inputComponent.ValidationValue;
 
-            if ( newValidationValue is Array newArrayValue )
+            var valueChanged = newValidationValue is Array newArrayValue
+                ? !Comparers.AreArraysEqual( lastValidationValue as Array, newArrayValue )
+                : lastValidationValue != newValidationValue;
+
+            if ( valueChanged )
             {
-                if ( !Comparers.AreArraysEqual( lastValidationValue as Array, newArrayValue ) )
+                lastValidationValue = newValidationValue;
+
+                if ( EditContext != null && hasFieldIdentifier )
                 {
-                    lastValidationValue = newValidationValue;
-
-                    if ( EditContext != null && hasFieldIdentifier )
-                    {
-                        EditContext.NotifyFieldChanged( fieldIdentifier );
-                    }
-
-                    if ( Mode == ValidationMode.Auto )
-                        Validate( newValidationValue );
+                    EditContext.NotifyFieldChanged( fieldIdentifier );
                 }
-            }
-            else
-            {
-                if ( lastValidationValue != newValidationValue )
-                {
-                    lastValidationValue = newValidationValue;
 
-                    if ( EditContext != null && hasFieldIdentifier )
-                    {
-                        EditContext.NotifyFieldChanged( fieldIdentifier );
-                    }
-
-                    if ( Mode == ValidationMode.Auto )
-                        Validate( newValidationValue );
-                }
+                if ( Mode == ValidationMode.Auto )
+                    Validate( newValidationValue );
             }
         }
 

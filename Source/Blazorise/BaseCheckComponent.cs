@@ -35,6 +35,8 @@ namespace Blazorise
             {
                 if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
                     ParentValidation.InitializeInputExpression( expression );
+
+                InitializeValidation();
             }
         }
 
