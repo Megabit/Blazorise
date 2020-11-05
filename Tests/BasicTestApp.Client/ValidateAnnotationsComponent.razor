@@ -1,0 +1,129 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<h2>Auto name validation</h2>
+<div id="auto-validate-name-initially-blank">
+    Initially blank:
+    <Validations Model="@autoModelForName" ValidateOnLoad="true">
+        <Validation>
+            <TextEdit @bind-Text="@autoModelForName.Name">
+                <Feedback>
+                    <ValidationError>error</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </Validations>
+</div>
+<div id="auto-validate-name-initially-populated">
+    Initially populated:
+    <Validations Model="@autoModelForName2" ValidateOnLoad="true">
+        <Validation>
+            <TextEdit @bind-Text="@autoModelForName2.Name">
+                <Feedback>
+                    <ValidationError>error</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </Validations>
+</div>
+
+<h2>Auto password validation</h2>
+<div id="auto-validate-password-initially-blank">
+    Initially blank:
+    <Validations Model="@autoModelForName" ValidateOnLoad="true">
+        <Validation>
+            <TextEdit @bind-Text="@autoModelForName.Password">
+                <Feedback>
+                    <ValidationError>error</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </Validations>
+</div>
+<div id="auto-validate-password-initially-populated">
+    Initially populated:
+    <Validations Model="@autoModelForName2" ValidateOnLoad="true">
+        <Validation>
+            <TextEdit @bind-Text="@autoModelForName2.Password">
+                <Feedback>
+                    <ValidationError>error</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </Validations>
+</div>
+
+
+<h2>Auto password validation with custom display name</h2>
+<div id="auto-validate-password-with-display-initially-blank">
+    Initially blank:
+    <Validations Model="@autoModelForName" ValidateOnLoad="true">
+        <Validation MessageLocalizer="@((m,a)=>a?.Count() > 0 ? string.Format(m,a?.ToArray()) : m)">
+            <TextEdit @bind-Text="@autoModelForName.PasswordWithDisplay">
+                <Feedback>
+                    <ValidationError>error</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </Validations>
+</div>
+
+
+<h2>Manual name validation</h2>
+<div id="manually-validate-name-initially-blank">
+    Initially blank:
+    <Validations @ref="@manualValidationsNameRef" Model="@manualModelForName" Mode="ValidationMode.Manual" ValidateOnLoad="true">
+        <Validation>
+            <TextEdit @bind-Text="@manualModelForName.Name">
+                <Feedback>
+                    <ValidationError>error</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </Validations>
+    <Button Clicked="@(()=>manualValidationsNameRef.ValidateAll())">Validate</Button>
+</div>
+<div id="manually-validate-name-initially-populated">
+    Initially populated:
+    <Validations @ref="@manualValidationsName2Ref" Model="@manualModelForName2" Mode="ValidationMode.Manual" ValidateOnLoad="true">
+        <Validation>
+            <TextEdit @bind-Text="@manualModelForName2.Name">
+                <Feedback>
+                    <ValidationError>error</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </Validations>
+    <Button Clicked="@(()=>manualValidationsName2Ref.ValidateAll())">Validate</Button>
+</div>
+@code {
+    User autoModelForName = new User();
+    User autoModelForName2 = new User() { Name = "a", Password = "12345" };
+
+    User manualModelForName = new User();
+    User manualModelForName2 = new User() { Name = "a", Password = "12345" };
+
+    Validations manualValidationsNameRef;
+    Validations manualValidationsName2Ref;
+
+    public class User
+    {
+        [Required]
+        [StringLength( 10 )]
+        public string Name { get; set; }
+
+        [Required]
+        [EmailAddress()]
+        public string Email { get; set; }
+
+        [Required()]
+        [StringLength( 8, MinimumLength = 5 )]
+        [DataType( DataType.Password )]
+        public string Password { get; set; }
+
+        [Required()]
+        [StringLength( 8, MinimumLength = 5 )]
+        [DataType( DataType.Password )]
+        [Display( Name = "DisplayName:Some.Custom.Name" )]
+        public string PasswordWithDisplay { get; set; }
+    }
+}
