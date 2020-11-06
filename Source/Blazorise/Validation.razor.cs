@@ -119,7 +119,7 @@ namespace Blazorise
 
                     // Re-run validation based on the new value for the new model,
                     // but ONLY if validation has being previously initialized!
-                    if ( hasFieldIdentifier && Mode == ValidationMode.Auto && initialized )
+                    if ( hasFieldIdentifier && Mode == ValidationMode.Auto && ValidateOnLoad && initialized )
                     {
                         NotifyInputChanged( expression.Compile().Invoke(), true );
                     }
