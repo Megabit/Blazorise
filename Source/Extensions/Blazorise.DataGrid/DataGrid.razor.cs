@@ -74,12 +74,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Holds the pagination templates
         /// </summary>
-        protected PaginationTemplates paginationTemplates = new PaginationTemplates();
+        protected PaginationTemplates<TItem> paginationTemplates;
 
         /// <summary>
         /// Holds the pagination context
         /// </summary>
-        protected PaginationContext paginationContext = new PaginationContext();
+        protected PaginationContext<TItem> paginationContext;
 
         #endregion
 
@@ -89,7 +89,9 @@ namespace Blazorise.DataGrid
         {
             newItemCreator = new Lazy<Func<TItem>>( () => FunctionCompiler.CreateNewItem<TItem>() );
 
-            FilteredDataChanged += OnFilteredDataChanged;
+            paginationTemplates = new PaginationTemplates<TItem>();
+            paginationContext = new PaginationContext<TItem>( this );
+
             paginationContext.SubscribeOnPageSizeChanged( pageSize => InvokeAsync( () => StateHasChanged() ) );
         }
 
@@ -135,16 +137,6 @@ namespace Blazorise.DataGrid
             }
 
             return base.OnAfterRenderAsync( firstRender );
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( disposing )
-            {
-                FilteredDataChanged -= OnFilteredDataChanged;
-            }
-
-            base.Dispose( disposing );
         }
 
         #endregion
@@ -398,11 +390,6 @@ namespace Blazorise.DataGrid
                 return HandleReadData();
 
             return Task.CompletedTask;
-        }
-
-        protected void OnFilteredDataChanged( IEnumerable<TItem> filteredData )
-        {
-            paginationContext.TotalItems = filteredData.Count();
         }
 
         protected Task OnClearFilterCommand()
@@ -717,12 +704,12 @@ namespace Blazorise.DataGrid
         /// <remarks>
         /// This field must be set only when <see cref="ReadData"/> is used to load the data.
         /// </remarks>
-        [Parameter] public int? TotalItems { get; set; }
+        [Parameter] public int? TotalItems { get => paginationContext.TotalItems; set => paginationContext.TotalItems = value; }
 
         /// <summary>
         /// Gets the data after all of the filters have being applied.
         /// </summary>
-        protected IEnumerable<TItem> FilteredData
+        protected internal IEnumerable<TItem> FilteredData
         {
             get
             {
@@ -810,9 +797,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public int CurrentPage { get => paginationContext.CurrentPage; set => paginationContext.CurrentPage = value; }
 
-        protected PaginationContext PaginationContext => paginationContext;
+        protected PaginationContext<TItem> PaginationContext => paginationContext;
 
-        protected PaginationTemplates PaginationTemplates => paginationTemplates;
+        protected PaginationTemplates<TItem> PaginationTemplates => paginationTemplates;
 
         /// <summary>
         /// Gets or sets content of table body for empty DisplayData.
@@ -857,12 +844,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets content of total items grid for small devices.
         /// </summary>
-        public RenderFragment<PaginationContext> TotalItemsShortTemplate { get => paginationTemplates.TotalItemsShortTemplate; set => paginationTemplates.TotalItemsShortTemplate = value; }
+        public RenderFragment<PaginationContext<TItem>> TotalItemsShortTemplate { get => paginationTemplates.TotalItemsShortTemplate; set => paginationTemplates.TotalItemsShortTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of total items grid.
         /// </summary>
-        public RenderFragment<PaginationContext> TotalItemsTemplate { get => paginationTemplates.TotalItemsTemplate; set => paginationTemplates.TotalItemsTemplate = value; }
+        public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get => paginationTemplates.TotalItemsTemplate; set => paginationTemplates.TotalItemsTemplate = value; }
 
         /// <summary>
         /// Gets or sets the maximum number of items for each page.

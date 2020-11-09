@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public class PaginationTemplates
+    public class PaginationTemplates<TItem>
     {
         public RenderFragment FirstPageButtonTemplate { get; set; }
 
@@ -19,8 +19,8 @@ namespace Blazorise.DataGrid
 
         public RenderFragment ItemsPerPageTemplate { get; set; }
 
-        public RenderFragment<PaginationContext> TotalItemsShortTemplate { get; set; }
+        public RenderFragment<PaginationContext<TItem>> TotalItemsShortTemplate { get; set; }
 
-        public RenderFragment<PaginationContext> TotalItemsTemplate { get; set; }
+        public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get; set; }
     }
 }

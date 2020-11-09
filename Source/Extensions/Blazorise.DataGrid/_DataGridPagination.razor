@@ -1,4 +1,5 @@
-﻿@inherits BaseComponent
+﻿@typeparam TItem
+@inherits BaseComponent
 <Row class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
         <Pagination>
@@ -103,7 +104,7 @@
             else
             {
                 var curStart = ( ( PaginationContext.CurrentPage - 1 ) * PaginationContext.CurrentPageSize + 1 );
-                var curEnd = Math.Min( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, PaginationContext.TotalItems );
+                var curEnd = Math.Min( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, PaginationContext.TotalItems ?? default );
                 var text = curStart + " - " + curEnd + " of " + PaginationContext.TotalItems + " items";
                 <Text>@text</Text>
             }
