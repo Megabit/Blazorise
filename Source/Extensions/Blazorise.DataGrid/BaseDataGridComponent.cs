@@ -59,8 +59,6 @@ namespace Blazorise.DataGrid
             }
         }
 
-
-
         #endregion
     }
 }
