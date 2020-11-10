@@ -147,12 +147,8 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                // if we're using ReadData than TotalItems must be set so we can know how many items are available
-                var totalItems = ( parentDataGrid.ManualReadMode
-                    ? TotalItems
-                    : parentDataGrid.FilteredData?.Count() ) ?? 0;
 
-                var lastPage = Math.Max( (int)Math.Ceiling( totalItems / (double)currentPageSize ), 1 );
+                var lastPage = Math.Max( (int)Math.Ceiling( ( TotalItems ?? 0 ) / (double)currentPageSize ), 1 );
 
                 if ( CurrentPage > lastPage )
                     CurrentPage = lastPage;
@@ -217,7 +213,8 @@ namespace Blazorise.DataGrid
         /// </remarks>
         public int? TotalItems
         {
-            get => totalItems;
+            // If we're using ReadData than TotalItems must be set so we can know how many items are available
+            get => ( parentDataGrid.ManualReadMode ? totalItems : parentDataGrid.FilteredData?.Count() ) ?? 0;
             set
             {
                 if ( totalItems != value )
