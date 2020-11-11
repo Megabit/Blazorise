@@ -37,6 +37,16 @@ namespace Blazorise
 
         #region Methods
 
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            await base.SetParametersAsync( parameters );
+
+            if ( ParentValidation != null )
+            {
+                InitializeValidation();
+            }
+        }
+
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
