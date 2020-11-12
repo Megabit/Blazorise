@@ -61,6 +61,7 @@ namespace Blazorise.Bulma
             componentMapper.Register( typeof( Blazorise.TimeEdit<> ), typeof( Bulma.TimeEdit<> ) );
             componentMapper.Register( typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) );
             componentMapper.Register<Blazorise.Pagination, Bulma.Pagination>();
+            componentMapper.Register<Blazorise.PaginationLink, Bulma.PaginationLink>();
         }
 
         public static IServiceProvider UseBulmaProviders( this IServiceProvider serviceProvider )
