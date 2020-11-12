@@ -1,0 +1,9 @@
+﻿@inherits Blazorise.PaginationLink
+@if ( PaginationItemStore.Disabled )
+{
+    <a class="@ClassNames" style="@StyleNames" disabled @onclick="@ClickHandler" @attributes="@Attributes">@ChildContent</a>
+}
+else
+{
+    <a class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">@ChildContent</a>
+}
