@@ -292,6 +292,9 @@
 .modal-backdrop {
     z-index: -1; }
 
+.page-item:not(.disabled) .page-link {
+    cursor: pointer; }
+
 .pagination-xs .page-link {
     padding: 0.125rem 0.25rem;
     font-size: 0.75rem;
