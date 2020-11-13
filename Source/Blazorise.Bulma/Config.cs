@@ -48,6 +48,7 @@ namespace Blazorise.Bulma
             componentMapper.Register<Blazorise.FieldBody, Bulma.FieldBody>();
             componentMapper.Register<Blazorise.Fields, Bulma.Fields>();
             componentMapper.Register<Blazorise.FileEdit, Bulma.FileEdit>();
+            componentMapper.Register<Blazorise.Heading, Bulma.Heading>();
             componentMapper.Register<Blazorise.Jumbotron, Bulma.Jumbotron>();
             componentMapper.Register<Blazorise.JumbotronSubtitle, Bulma.JumbotronSubtitle>();
             componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Bulma.Radio<> ) );
@@ -60,6 +61,7 @@ namespace Blazorise.Bulma
             componentMapper.Register( typeof( Blazorise.TimeEdit<> ), typeof( Bulma.TimeEdit<> ) );
             componentMapper.Register( typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) );
             componentMapper.Register<Blazorise.Pagination, Bulma.Pagination>();
+            componentMapper.Register<Blazorise.PaginationLink, Bulma.PaginationLink>();
         }
 
         public static IServiceProvider UseBulmaProviders( this IServiceProvider serviceProvider )

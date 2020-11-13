@@ -24,20 +24,29 @@ namespace Blazorise.Material
 
             // Material provider have some special rules for buttons placed inside of modal footer. So to keep it 
             // consistent we need to apply the same styles as in the base generator.
-            sb.Append( $".modal-footer .btn-{variant}" ).Append( "{" )
+            sb
+                .Append( $".modal-footer .btn-{variant}," )
+                .Append( $".modal-footer a.btn-{variant}" )
+                .Append( "{" )
                 .Append( $"color: {yiqBackground};" )
                 .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".modal-footer .btn-{variant}:hover" ).Append( "{" )
+            sb
+                .Append( $".modal-footer .btn-{variant}:hover," )
+                .Append( $".modal-footer a.btn-{variant}:hover" )
+                .Append( "{" )
                 .Append( $"color: {yiqHoverBackground};" )
                 .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: {hoverBorder};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".modal-footer .btn-{variant}:focus," )
-                .Append( $".modal-footer .btn-{variant}.focus" )
+            sb
+                .Append( $".modal-footer .btn-{variant}:focus," )
+                .Append( $".modal-footer .btn-{variant}.focus," )
+                .Append( $".modal-footer a.btn-{variant}:focus," )
+                .Append( $".modal-footer a.btn-{variant}.focus" )
                 .Append( "{" )
                 .Append( $"color: {yiqHoverBackground};" )
                 .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
@@ -45,8 +54,11 @@ namespace Blazorise.Material
                 .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".modal-footer .btn-{variant}.disabled," )
-                .Append( $".modal-footer .btn-{variant}:disabled" )
+            sb
+                .Append( $".modal-footer .btn-{variant}.disabled," )
+                .Append( $".modal-footer .btn-{variant}:disabled," )
+                .Append( $".modal-footer a.btn-{variant}.disabled," )
+                .Append( $".modal-footer a.btn-{variant}:disabled" )
                 .Append( "{" )
                 .Append( $"color: {yiqBackground};" )
                 .Append( $"background-color: {background};" )
@@ -57,7 +69,10 @@ namespace Blazorise.Material
             sb
                 .Append( $".modal-footer .btn-{variant}:not(:disabled):not(.disabled):active," )
                 .Append( $".modal-footer .btn-{variant}:not(:disabled):not(.disabled).active," )
-                .Append( $".modal-footer .show>.btn-{variant}.dropdown-toggle" )
+                .Append( $".modal-footer .show>.btn-{variant}.dropdown-toggle," )
+                .Append( $".modal-footer a.btn-{variant}:not(:disabled):not(.disabled):active," )
+                .Append( $".modal-footer a.btn-{variant}:not(:disabled):not(.disabled).active," )
+                .Append( $".modal-footer a.show>.btn-{variant}.dropdown-toggle" )
                 .Append( "{" )
                 .Append( $"color: {yiqActiveBackground};" )
                 .Append( $"background-color: {activeBackground};" )
@@ -67,7 +82,10 @@ namespace Blazorise.Material
             sb
                 .Append( $".modal-footer .btn-{variant}:not(:disabled):not(.disabled):active:focus," )
                 .Append( $".modal-footer .btn-{variant}:not(:disabled):not(.disabled).active:focus," )
-                .Append( $".modal-footer .show>.btn-{variant}.dropdown-toggle:focus" )
+                .Append( $".modal-footer .show>.btn-{variant}.dropdown-toggle:focus," )
+                .Append( $".modal-footer a.btn-{variant}:not(:disabled):not(.disabled):active:focus," )
+                .Append( $".modal-footer a.btn-{variant}:not(:disabled):not(.disabled).active:focus," )
+                .Append( $".modal-footer a.show>.btn-{variant}.dropdown-toggle:focus" )
                 .Append( "{" )
                 .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow}" )
                 .AppendLine( "}" );
@@ -79,16 +97,24 @@ namespace Blazorise.Material
         {
             var color = Var( ThemeVariables.OutlineButtonColor( variant ) );
 
-            sb.Append( $".btn-outline-{variant}," )
+            sb
+                .Append( $".btn-outline-{variant}," )
                 .Append( $".btn-outline-{variant}.active," )
                 .Append( $".btn-outline-{variant}:focus," )
-                .Append( $".btn-outline-{variant}:hover" )
+                .Append( $".btn-outline-{variant}:hover," )
+                .Append( $"a.btn-outline-{variant}," )
+                .Append( $"a.btn-outline-{variant}.active," )
+                .Append( $"a.btn-outline-{variant}:focus," )
+                .Append( $"a.btn-outline-{variant}:hover" )
                 .Append( "{" )
                 .Append( $"color: {color};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-outline-{variant}.disabled," )
-                .Append( $".btn-outline-{variant}:disabled" )
+            sb
+                .Append( $".btn-outline-{variant}.disabled," )
+                .Append( $".btn-outline-{variant}:disabled," )
+                .Append( $"a.btn-outline-{variant}.disabled," )
+                .Append( $"a.btn-outline-{variant}:disabled" )
                 .Append( "{" )
                 .Append( $"color: {color};" )
                 .AppendLine( "}" );
@@ -125,6 +151,41 @@ namespace Blazorise.Material
                     .Append( $"background-color: {trackColor};" )
                     .AppendLine( "}" );
             }
+        }
+
+        protected override void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions options )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+
+            if ( backgroundColor.IsEmpty )
+                return;
+
+            var boxShadowColor = Lighten( backgroundColor, options?.BoxShadowLightenColor ?? 25 );
+            var disabledBackgroundColor = Lighten( backgroundColor, options?.DisabledLightenColor ?? 50 );
+
+            var background = ToHex( backgroundColor );
+            var boxShadow = ToHex( boxShadowColor );
+            var disabledBackground = ToHex( disabledBackgroundColor );
+
+            sb
+                .Append( $".custom-switch .custom-control-input:checked.custom-control-input-{variant} ~ .custom-control-label::after" ).Append( "{" )
+                .Append( $"background-color: {background};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".custom-switch .custom-control-input:checked.custom-control-input-{variant} ~ .custom-control-track" ).Append( "{" )
+                .Append( $"background-color: {boxShadow};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".custom-switch .custom-control-input:disabled.custom-control-input-{variant} ~ .custom-control-label::after" ).Append( "{" )
+                .Append( $"background-color: {boxShadow};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".custom-switch .custom-control-input:disabled.custom-control-input-{variant} ~ .custom-control-track" ).Append( "{" )
+                .Append( $"background-color: {disabledBackground};" )
+                .AppendLine( "}" );
         }
     }
 }

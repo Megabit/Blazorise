@@ -36,7 +36,7 @@ namespace Blazorise.AntDesign
 
         public override string SelectMultiple() => null;
 
-        public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
+        public override string SelectSize( Size size ) => $"ant-select-{ToSize( size )}";
 
         public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -72,6 +72,8 @@ namespace Blazorise.AntDesign
 
         public override string Check() => "ant-checkbox-input";
 
+        public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
+
         public override string CheckInline() => null;
 
         public override string CheckCursor( Cursor cursor ) => null;
@@ -92,6 +94,8 @@ namespace Blazorise.AntDesign
 
         public override string Radio( bool button ) => button ? "ant-radio-button-input" : "ant-radio-input";
 
+        public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
+
         public override string RadioInline() => null;
 
         #endregion
@@ -99,6 +103,10 @@ namespace Blazorise.AntDesign
         #region Switch
 
         public override string Switch() => "ant-switch";
+
+        public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+
+        public override string SwitchSize( Size size ) => $"{Switch()}-{ToSize( size )}";
 
         public override string SwitchChecked( bool @checked ) => @checked ? "ant-switch-checked" : null;
 
@@ -164,7 +172,7 @@ namespace Blazorise.AntDesign
 
         public override string FieldsBody() => null;
 
-        public override string FieldsColumn() => $"{Column()}";
+        public override string FieldsColumn() => "ant-col";
 
         #endregion
 
@@ -266,18 +274,7 @@ namespace Blazorise.AntDesign
 
         public override string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
-        public override string ButtonSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.Small:
-                    return "ant-btn-sm";
-                case Blazorise.ButtonSize.Large:
-                    return "ant-btn-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonSize( Size size ) => $"{Button()}-{ToSize( size )}";
 
         public override string ButtonBlock() => $"{Button()}-block";
 
@@ -295,18 +292,7 @@ namespace Blazorise.AntDesign
 
         public override string ButtonsToolbar() => "btn-toolbar";
 
-        public override string ButtonsSize( ButtonsSize buttonsSize )
-        {
-            switch ( buttonsSize )
-            {
-                case Blazorise.ButtonsSize.Small:
-                    return "btn-group-sm";
-                case Blazorise.ButtonsSize.Large:
-                    return "btn-group-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonsSize( Size size ) => $"ant-btn-group-{ToSize( size )}";
 
         public override string ButtonsVertical() => "btn-group-vertical";
 
@@ -346,22 +332,13 @@ namespace Blazorise.AntDesign
 
         public override string DropdownToggleColor( Color color ) => $"{Button()}-{ToColor( color )}";
 
-        public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+        public override string DropdownToggleOutline( Color color ) => color != Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
-        public override string DropdownToggleSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.Small:
-                    return "btn-sm";
-                case Blazorise.ButtonSize.Large:
-                    return "btn-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string DropdownToggleSize( Size size ) => $"{Button()}-{ToSize( size )}";
 
         public override string DropdownToggleSplit() => "dropdown-toggle-split";
+
+        public override string DropdownToggleIcon( bool visible ) => null;
 
         public override string DropdownDirection( Direction direction )
         {
@@ -384,11 +361,9 @@ namespace Blazorise.AntDesign
 
         #region Tab
 
-        public override string Tabs() => "ant-tabs ant-tabs-top ant-tabs-line";
+        public override string Tabs( bool pills ) => pills ? "ant-tabs ant-tabs-top ant-tabs-line ant-tabs-pills" : "ant-tabs ant-tabs-top ant-tabs-line";
 
         public override string TabsCards() => "ant-tabs-card";
-
-        public override string TabsPills() => "ant-tabs-pills";
 
         public override string TabsFullWidth() => "ant-tabs-fill";
 
@@ -540,9 +515,10 @@ namespace Blazorise.AntDesign
 
         public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-item" : "ant-menu-item ant-bar-brand";
 
-        public override string BarToggler( BarMode mode ) => null;
+        public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? null :
+            togglerMode == BarTogglerMode.Popout ? "ant-menu-toggler-popout" : "ant-menu-toggler-inline";
 
-        public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => null;
+        public override string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow ) => null;
 
         public override string BarMenu( BarMode mode ) => null;
 
@@ -567,6 +543,8 @@ namespace Blazorise.AntDesign
         public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? null : "ant-menu-hidden";
 
         public override string BarDropdownMenuRight( BarMode mode ) => null;
+
+        public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
 
         public override string BarCollapsed( BarMode mode ) => $"ant-menu-{ToBarMode( mode )}-collapsed";
 
@@ -604,11 +582,12 @@ namespace Blazorise.AntDesign
 
         #region Column
 
-        public override string Column() => "ant-col";
+        public override string Column( bool hasSizes ) => "ant-col";
 
         public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var sb = new StringBuilder( Column() );
+            // AntDesign requires for base ant-col class to be always defined.
+            var sb = new StringBuilder( $"ant-col" );
 
             if ( breakpoint != Blazorise.Breakpoint.None )
                 sb.Append( $"-{ToBreakpoint( breakpoint )}" );
@@ -722,6 +701,8 @@ namespace Blazorise.AntDesign
 
         public override string ProgressBar() => "ant-progress-bg b-ant-progress-text";
 
+        public override string ProgressBarSize( Size size ) => null;
+
         public override string ProgressBarColor( Background background ) => BackgroundColor( background );
 
         public override string ProgressBarStriped() => "progress-bar-striped";
@@ -773,6 +754,8 @@ namespace Blazorise.AntDesign
         public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"ant-table-thead-{ToThemeContrast( themeContrast )}";
 
         public override string TableHeaderCell() => null;
+
+        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"ant-text-{ToTextAlignment( textAlignment )}";
 
         public override string TableFooter() => null;
 
@@ -847,8 +830,6 @@ namespace Blazorise.AntDesign
         #region Heading
 
         public override string HeadingSize( HeadingSize headingSize ) => "ant-typography";
-
-        public override string HeadingTextColor( TextColor textColor ) => $"ant-typography-{ToTextColor( textColor )}";
 
         #endregion
 

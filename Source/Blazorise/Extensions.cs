@@ -9,6 +9,20 @@ namespace Blazorise
 {
     public static class Extensions
     {
+        public static string ToButtonTagName( this ButtonType buttonType )
+        {
+            switch ( buttonType )
+            {
+                case ButtonType.Link:
+                    return "a";
+                case ButtonType.Button:
+                case ButtonType.Submit:
+                case ButtonType.Reset:
+                default:
+                    return "button";
+            }
+        }
+
         public static string ToButtonTypeString( this ButtonType buttonType )
         {
             switch ( buttonType )
@@ -19,6 +33,7 @@ namespace Blazorise
                     return "submit";
                 case ButtonType.Reset:
                     return "reset";
+                case ButtonType.Link:
                 default:
                     return null;
             }
@@ -91,6 +106,11 @@ namespace Blazorise
             {
                 return default;
             }
+        }
+
+        public static string EmptyToNull( this string value )
+        {
+            return string.IsNullOrEmpty( value ) ? null : value;
         }
     }
 }

@@ -26,6 +26,13 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        protected override void BuildStyles( StyleBuilder builder )
+        {
+            base.BuildStyles( builder );
+
+            builder.Append( $"padding-left: { 1.5d * ( ParentStore.NestedIndex + 1 ) }rem", ParentStore.IsInlineDisplay );
+        }
+
         protected Task ClickHandler()
         {
             return Clicked.InvokeAsync( null );
@@ -40,15 +47,27 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback Clicked { get; set; }
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
+        /// <summary>
+        /// Specifies the URL of the page the link goes to.
+        /// </summary>
         [Parameter] public string To { get; set; }
 
+        /// <summary>
+        /// The target attribute specifies where to open the linked document.
+        /// </summary>
+        [Parameter] public Target Target { get; set; } = Target.None;
+
+        /// <summary>
+        /// URL matching behavior for a link.
+        /// </summary>
         [Parameter] public Match Match { get; set; } = Match.All;
 
+        /// <summary>
+        /// Specify extra information about the link element.
+        /// </summary>
         [Parameter] public string Title { get; set; }
 
-        [CascadingParameter] 
+        [CascadingParameter]
         protected BarDropdownStore ParentStore
         {
             get => parentStore;
@@ -60,8 +79,14 @@ namespace Blazorise
                 parentStore = value;
 
                 DirtyClasses();
+                DirtyStyles();
             }
         }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

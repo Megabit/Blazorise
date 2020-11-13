@@ -22,8 +22,6 @@ namespace Blazorise.Charts
     {
         #region Members
 
-        protected DotNetObjectReference<ChartAdapter> dotNetObjectRef;
-
         #endregion
 
         #region Methods
@@ -39,8 +37,8 @@ namespace Blazorise.Charts
         {
             if ( disposing )
             {
-                JS.Destroy( JSRuntime, ElementId );
-                JS.DisposeDotNetObjectRef( dotNetObjectRef );
+                _ = JS.Destroy( JSRuntime, ElementId );
+                JS.DisposeDotNetObjectRef( DotNetObjectRef );
             }
 
             base.Dispose( disposing );
@@ -49,6 +47,8 @@ namespace Blazorise.Charts
         #endregion
 
         #region Properties
+
+        protected DotNetObjectReference<ChartAdapter> DotNetObjectRef { get; set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
@@ -113,7 +113,17 @@ namespace Blazorise.Charts
         /// Adds a new label to the chart.
         /// </summary>
         /// <param name="labels">Label name(s).</param>
-        public async Task AddLabel( params string[] labels )
+        [Obsolete( "This method will likely be removed in the future. Please use " + nameof( AddLabels ) + " instead." )]
+        public Task AddLabel( params object[] labels )
+        {
+            return AddLabels( labels );
+        }
+
+        /// <summary>
+        /// Adds a new label to the chart.
+        /// </summary>
+        /// <param name="labels">Label name(s).</param>
+        public async Task AddLabels( params object[] labels )
         {
             dirty = true;
 
@@ -138,9 +148,25 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
-        /// Adds the new data point to the specified dataset.
+        /// Sets the new data point(s) to the specified dataset.
         /// </summary>
-        /// <param name="dataSetIndex">Dataset index to which we add the data point.</param>
+        /// <param name="dataSetIndex">Dataset index to which we set the data point(s).</param>
+        /// <param name="data">Data point(s) to set.</param>
+        /// <returns></returns>
+        public async Task SetData( int dataSetIndex, List<TItem> data )
+        {
+            dirty = true;
+
+            Datasets[dataSetIndex].Data = data;
+
+            if ( initialized )
+                await JS.SetData( JSRuntime, ElementId, dataSetIndex, data );
+        }
+
+        /// <summary>
+        /// Adds the new data point(s) to the specified dataset.
+        /// </summary>
+        /// <param name="dataSetIndex">Dataset index to which we add the data point(s).</param>
         /// <param name="data">Data point(s) to add.</param>
         /// <returns></returns>
         public async Task AddData( int dataSetIndex, params TItem[] data )
@@ -202,9 +228,9 @@ namespace Blazorise.Charts
 
         private async Task Initialize()
         {
-            dotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
+            DotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
 
-            await JS.Initialize( JSRuntime, dotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type,
+            await JS.Initialize( JSRuntime, DotNetObjectRef, Clicked.HasDelegate, Hovered.HasDelegate, ElementId, Type,
                 Data,
                 Converters.ToDictionary( Options ),
                 DataJsonString,
@@ -267,7 +293,7 @@ namespace Blazorise.Charts
 
         #region Properties
 
-        protected List<string> Labels
+        protected List<object> Labels
         {
             get
             {
@@ -275,7 +301,7 @@ namespace Blazorise.Charts
                     Data = new ChartData<TItem>();
 
                 if ( Data.Labels == null )
-                    Data.Labels = new List<string>();
+                    Data.Labels = new List<object>();
 
                 return Data.Labels;
             }
@@ -308,19 +334,16 @@ namespace Blazorise.Charts
         /// <summary>
         /// Defines the chart data that is serialized as json string.
         /// </summary>
-        [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
         [Parameter] public string DataJsonString { get; set; }
 
         /// <summary>
         /// Defines the chart options that is serialized as json string.
         /// </summary>
-        [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
         [Parameter] public string OptionsJsonString { get; set; }
 
         /// <summary>
         /// Defines the chart options that is serialized as json object.
         /// </summary>
-        [Obsolete( "This parameter will likely be removed in the future as it's just a temporary feature until Blazor implements better serializer." )]
         [Parameter] public object OptionsObject { get; set; }
 
         #endregion

@@ -97,6 +97,7 @@ namespace Blazorise
                 parentStore = value;
 
                 store.Mode = parentStore.Mode;
+                store.BarVisible = parentStore.Visible;
 
                 DirtyClasses();
             }

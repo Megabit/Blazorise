@@ -57,8 +57,10 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( default );
             }
-
-            await Selected.InvokeAsync( Item );
+            else
+            {
+                await Selected.InvokeAsync( Item );
+            }
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
@@ -173,8 +175,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets the applied cursor when the row is hovered over.
         /// </summary>
-        [Parameter]
-        public Cursor HoverCursor { get; set; }
+        [Parameter] public Cursor HoverCursor { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

@@ -20,14 +20,17 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void OnInitialized()
+        public override async Task SetParametersAsync( ParameterView parameters )
         {
+            await base.SetParametersAsync( parameters );
+
             if ( ParentValidation != null )
             {
-                ParentValidation.InitializeInputExpression( DateExpression );
-            }
+                if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var expression ) )
+                    ParentValidation.InitializeInputExpression( expression );
 
-            base.OnInitialized();
+                InitializeValidation();
+            }
         }
 
         protected override void BuildClasses( ClassBuilder builder )
@@ -46,6 +49,9 @@ namespace Blazorise
 
         protected async Task OnClickHandler( MouseEventArgs e )
         {
+            if ( Disabled || ReadOnly )
+                return;
+
             await JSRunner.ActivateDatePicker( ElementId, Parsers.InternalDateFormat );
         }
 

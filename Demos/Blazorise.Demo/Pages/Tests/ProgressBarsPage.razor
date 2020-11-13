@@ -1,6 +1,6 @@
 ﻿@page "/tests/progressbars"
 <Row>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Basic Example</CardTitle>
@@ -30,7 +30,7 @@
             </CardBody>
         </Card>
     </Column>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Contextual Alternatives</CardTitle>
@@ -61,7 +61,7 @@
     </Column>
 </Row>
 <Row>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Striped Example</CardTitle>
@@ -93,7 +93,7 @@
             </CardBody>
         </Card>
     </Column>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Size example</CardTitle>
@@ -102,17 +102,20 @@
                 <CardText>Your awesome text goes here.</CardText>
             </CardBody>
             <CardBody>
-                <Progress Margin="Margin.Is3.FromBottom">
-                    <ProgressBar Background="Background.Success" Value="25" />
+                <Progress Margin="Margin.Is3.FromBottom" Size="Size.ExtraSmall">
+                    <ProgressBar Background="Background.Success" Value="15" />
                 </Progress>
                 <Progress Margin="Margin.Is3.FromBottom" Size="Size.Small">
+                    <ProgressBar Background="Background.Info" Value="20" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom">
+                    <ProgressBar Background="Background.Primary" Value="35" />
+                </Progress>
+                <Progress Margin="Margin.Is3.FromBottom" Size="Size.Medium">
                     <ProgressBar Background="Background.Info" Value="50" />
                 </Progress>
                 <Progress Margin="Margin.Is3.FromBottom" Size="Size.Large">
                     <ProgressBar Background="Background.Warning" Value="75" />
-                </Progress>
-                <Progress Margin="Margin.Is3.FromBottom" Size="Size.Medium">
-                    <ProgressBar Background="Background.Info" Value="15" />
                 </Progress>
                 <Progress Margin="Margin.Is3.FromBottom" Size="Size.ExtraLarge">
                     <ProgressBar Background="Background.Danger" Value="100" />

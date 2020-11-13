@@ -25,15 +25,15 @@ namespace Blazorise
 
         private Alignment alignment = Alignment.None;
 
-        private BarCollapseMode collapseMode = BarCollapseMode.Hide;
-
         private Background background = Background.None;
 
         private DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef;
 
         private BarStore store = new BarStore
         {
-            Mode = BarMode.Horizontal
+            Visible = true,
+            Mode = BarMode.Horizontal,
+            CollapseMode = BarCollapseMode.Hide
         };
 
         #endregion
@@ -141,6 +141,8 @@ namespace Blazorise
 
         protected BarStore Store => store;
 
+        protected string BrokenStateString => isBroken.ToString().ToLower();
+
         protected string CollapseModeString
         {
             get
@@ -172,6 +174,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Occurs when the bar visibility changes.
+        /// </summary>
         [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         /// <summary>
@@ -268,10 +273,13 @@ namespace Blazorise
         [Parameter]
         public BarCollapseMode CollapseMode
         {
-            get => collapseMode;
+            get => store.CollapseMode;
             set
             {
-                collapseMode = value;
+                if ( store.CollapseMode == value )
+                    return;
+
+                store.CollapseMode = value;
 
                 DirtyClasses();
             }

@@ -1,8 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise
@@ -26,6 +22,11 @@ namespace Blazorise
         /// The button is a reset button (resets the form-data to its initial values).
         /// </summary>
         Reset,
+
+        /// <summary>
+        /// The button will be rendered as a link but will appear as a regular button.
+        /// </summary>
+        Link,
     }
 
     /// <summary>
@@ -922,7 +923,7 @@ namespace Blazorise
         None,
 
         /// <summary>
-        /// Opens the linked document in the same frame as it was clicked (this is default)
+        /// Opens the linked document in the same frame as it was clicked (this is default).
         /// </summary>
         Self,
 
@@ -981,11 +982,6 @@ namespace Blazorise
     /// </summary>
     public enum ModalSize
     {
-        /// <summary>
-        /// No sizing applied.
-        /// </summary>
-        None,
-
         /// <summary>
         /// Default modal size.
         /// </summary>
@@ -1180,48 +1176,6 @@ namespace Blazorise
         /// Validation will run only when explicitly called. 
         /// </summary>
         Manual,
-    }
-
-    /// <summary>
-    /// Defines a button size.
-    /// </summary>
-    public enum ButtonSize
-    {
-        /// <summary>
-        /// No sizing will be applied to the button.
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// Makes a button to appear smaller.
-        /// </summary>
-        Small,
-
-        /// <summary>
-        /// Makes a button to appear larger.
-        /// </summary>
-        Large,
-    }
-
-    /// <summary>
-    /// Defines sizes for button group.
-    /// </summary>
-    public enum ButtonsSize
-    {
-        /// <summary>
-        /// No sizing will be applied to the buttons.
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// Makes a buttons to appear smaller.
-        /// </summary>
-        Small,
-
-        /// <summary>
-        /// Makes a buttons to appear larger.
-        /// </summary>
-        Large,
     }
 
     /// <summary>
@@ -1502,9 +1456,11 @@ namespace Blazorise
         Stream,
         StreetView,
         Strikethrough,
+        Subscript,
         Subway,
         Suitcase,
         Sun,
+        Superscript,
         SwimmingPool,
         Sync,
         SyncAlt,
@@ -1872,5 +1828,37 @@ namespace Blazorise
         /// Bar will be collapsed into smaller version with icons.
         /// </summary>
         Small
+    }
+
+    /// <summary>
+    /// Defines the look and position of the bar toggler.
+    /// </summary>
+    public enum BarTogglerMode
+    {
+        /// <summary>
+        /// The standard inline bar toggler. Supported by Horizontal and Vertical BarModes.
+        /// </summary>
+        Normal,
+
+        /// <summary>
+        /// A popout style bar toggler. Supported only on Vertical BarModes.
+        /// </summary>
+        Popout
+    }
+
+    /// <summary>
+    /// Defines the <see cref="ListGroup"/> behaviour.
+    /// </summary>
+    public enum ListGroupMode
+    {
+        /// <summary>
+        /// List group will act as a static list.
+        /// </summary>
+        Static,
+
+        /// <summary>
+        /// List group will act on clicking the items.
+        /// </summary>
+        Selectable,
     }
 }

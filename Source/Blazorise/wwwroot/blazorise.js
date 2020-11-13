@@ -188,9 +188,9 @@ window.blazorise = {
         }
     },
 
-    tryClose: (closable, targetElementId, isEscapeKey) => {
+    tryClose: (closable, targetElementId, isEscapeKey, isChildClicked) => {
         let request = new Promise((resolve, reject) => {
-            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', targetElementId, isEscapeKey ? 'escape' : 'leave')
+            closable.dotnetAdapter.invokeMethodAsync('SafeToClose', targetElementId, isEscapeKey ? 'escape' : 'leave', isChildClicked)
                 .then((result) => resolve({ elementId: closable.elementId, dotnetAdapter: closable.dotnetAdapter, status: result === true ? 'ok' : 'cancelled' }))
                 .catch(() => resolve({ elementId: closable.elementId, status: 'error' }));
         });
@@ -465,6 +465,14 @@ window.blazorise = {
             return true;
         },
 
+        reset: (element, elementId) => {
+            if (element) {
+                element.value = '';
+            }
+
+            return true;
+        },
+
         readFileData: function readFileData(element, fileEntryId, position, length) {
             var readPromise = getArrayBufferFromFileAsync(element, fileEntryId);
 
@@ -567,7 +575,7 @@ document.addEventListener('click', function handler(evt) {
         const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
 
         if (lastClosable) {
-            window.blazorise.tryClose(lastClosable, evt.target.id, false);
+            window.blazorise.tryClose(lastClosable, evt.target.id, false, hasParentInTree(evt.target, lastClosable.elementId));
         }
     }
 });
@@ -577,7 +585,7 @@ document.addEventListener('keyup', function handler(evt) {
         const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
 
         if (lastClosable) {
-            window.blazorise.tryClose(lastClosable, lastClosable.elementId, true);
+            window.blazorise.tryClose(lastClosable, lastClosable.elementId, true, false);
         }
     }
 });
@@ -648,6 +656,12 @@ function getArrayBufferFromFileAsync(elem, fileId) {
     }
 
     return file.readPromise;
+}
+
+function hasParentInTree(element, parentElementId) {
+    if (!element.parentElement) return false;
+    if (element.parentElement.id == parentElementId) return true;
+    return hasParentInTree(element.parentElement, parentElementId);
 }
 
 var uint8ToBase64 = (function () {

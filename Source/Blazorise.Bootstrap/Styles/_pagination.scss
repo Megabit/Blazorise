@@ -1,0 +1,39 @@
+﻿.page-item:not(.disabled) .page-link {
+    cursor: pointer;
+}
+
+@mixin pagination-size($padding-y, $padding-x, $font-size, $line-height, $border-radius) {
+    .page-link {
+        padding: $padding-y $padding-x;
+        font-size: $font-size;
+        line-height: $line-height;
+    }
+
+    .page-item {
+        &:first-child {
+            .page-link {
+                border-top-left-radius: $border-radius;
+                border-bottom-left-radius: $border-radius;
+            }
+        }
+
+        &:last-child {
+            .page-link {
+                border-top-right-radius: $border-radius;
+                border-bottom-right-radius: $border-radius;
+            }
+        }
+    }
+}
+
+.pagination-xs {
+    @include pagination-size($pagination-padding-y-xs, $pagination-padding-x-xs, $font-size-xs, $line-height-xs, $border-radius-xs);
+}
+
+.pagination-md {
+    @include pagination-size($pagination-padding-y-md, $pagination-padding-x-md, $font-size-md, $line-height-md, $border-radius-md);
+}
+
+.pagination-xl {
+    @include pagination-size($pagination-padding-y-xl, $pagination-padding-x-xl, $font-size-xl, $line-height-xl, $border-radius-xl);
+}

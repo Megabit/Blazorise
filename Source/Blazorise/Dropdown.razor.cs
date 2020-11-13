@@ -149,6 +149,21 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Right aligned dropdown menu.
+        /// </summary>
+        [Parameter]
+        public bool Disabled
+        {
+            get => store.Disabled;
+            set
+            {
+                store.Disabled = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Dropdown-menu slide direction.
         /// </summary>
         [Parameter]

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.RenderTree;
@@ -82,7 +83,7 @@ namespace Blazorise
             {
                 // If the href contains an anchor link we don't want the default click action to occur, but
                 // rather take care of the click in our own method.
-                anchorTarget = To.Substring( 1 );
+                anchorTarget = To[1..];
                 PreventDefault = true;
             }
 
@@ -178,29 +179,15 @@ namespace Blazorise
 
         #region Properties        
 
+        /// <summary>
+        /// Indicates if the default behavior will be prevented.
+        /// </summary>
         protected bool PreventDefault { get; private set; }
 
-        protected string TargetName
-        {
-            get
-            {
-                switch ( Target )
-                {
-                    case Target.Blank:
-                        return "_blank";
-                    case Target.Parent:
-                        return "_parent";
-                    case Target.Top:
-                        return "_top";
-                    case Target.Self:
-                        return "_self";
-                    case Target.None:
-                    default:
-                        return null;
-                }
-            }
-        }
-
+        /// <summary>
+        /// Gets the link target name.
+        /// </summary>
+        protected string TargetName => LinkHelpers.TargetName( Target );
 
         /// <summary>
         /// Denotes the target route of the link.
@@ -215,8 +202,7 @@ namespace Blazorise
         /// <summary>
         /// The target attribute specifies where to open the linked document.
         /// </summary>
-        [Parameter]
-        public Target Target { get; set; } = Target.None;
+        [Parameter] public Target Target { get; set; } = Target.None;
 
         /// <summary>
         /// Specify extra information about the element.
@@ -230,6 +216,9 @@ namespace Blazorise
 
         [Inject] private NavigationManager NavigationManager { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Link"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

@@ -1,0 +1,124 @@
+﻿@typeparam TItem
+@inherits BaseComponent
+<Row class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
+        <Pagination>
+            <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
+                <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
+                    @if ( FirstPageButtonTemplate != null )
+                    {
+                        @FirstPageButtonTemplate
+                    }
+                    else
+                    {
+                        @("First")
+                    }
+                </PaginationLink>
+            </PaginationItem>
+            <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
+                <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
+                    @if ( PreviousPageButtonTemplate != null )
+                    {
+                        @PreviousPageButtonTemplate
+                    }
+                    else
+                    {
+                        @("Prev")
+                    }
+                </PaginationLink>
+            </PaginationItem>
+            @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
+            {
+                var pageNumber = i;
+                var pageNumberString = i.ToString();
+                var pageActive = pageNumber == PaginationContext.CurrentPage;
+
+                <PaginationItem Display="Blazorise.Display.None.InlineBlock.OnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
+                    <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
+                        @pageNumberString
+                    </PaginationLink>
+                </PaginationItem>
+            }
+            <PaginationItem Display="Blazorise.Display.InlineBlock.None.OnTablet">
+                <Select @bind-SelectedValue="@PaginationContext.CurrentPage">
+                    @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
+                    {
+                        var pageNumber = i;
+                        <SelectItem Value="@pageNumber">@pageNumber</SelectItem>
+                    }
+                </Select>
+            </PaginationItem>
+            <PaginationItem Disabled="@(PaginationContext.CurrentPage >= PaginationContext.LastPage)">
+                <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
+                    @if ( NextPageButtonTemplate != null )
+                    {
+                        @NextPageButtonTemplate
+                    }
+                    else
+                    {
+                        @("Next")
+                    }
+                </PaginationLink>
+            </PaginationItem>
+            <PaginationItem Disabled="@(PaginationContext.CurrentPage >= PaginationContext.LastPage)">
+                <PaginationLink Page="last" Clicked="@OnPaginationItemClick">
+                    @if ( LastPageButtonTemplate != null )
+                    {
+                        @LastPageButtonTemplate
+                    }
+                    else
+                    {
+                        @("Last")
+                    }
+                </PaginationLink>
+            </PaginationItem>
+            @if ( PaginationContext.ShowPageSizes )
+            {
+                <PaginationItem Margin="Blazorise.Margin.Is0.FromBottom.Is3.FromLeft">
+                    <Select @bind-SelectedValue="@PaginationContext.CurrentPageSize">
+                        @foreach ( var curPageSize in PaginationContext.PageSizes )
+                            {
+                            <SelectItem Value="@curPageSize">@curPageSize</SelectItem>
+                            }
+                    </Select>
+                </PaginationItem>
+                <Field Margin="Blazorise.Margin.IsAuto.OnY.Is0.FromBottom.Is2.FromLeft" Display="Blazorise.Display.None.InlineBlock.OnDesktop">
+                    @if ( ItemsPerPageTemplate != null )
+                    {
+                        @ItemsPerPageTemplate
+                    }
+                    else
+                    {
+                        <Text>items per page</Text>
+                    }
+                </Field>
+            }
+        </Pagination>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.ReverseRow">
+        <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromLeft" Display="Blazorise.Display.None.InlineBlock.OnDesktop">
+            @if ( TotalItemsTemplate != null )
+            {
+                @TotalItemsTemplate( PaginationContext )
+            }
+            else
+            {
+                var curStart = ( ( PaginationContext.CurrentPage - 1 ) * PaginationContext.CurrentPageSize + 1 );
+                var curEnd = Math.Min( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, PaginationContext.TotalItems ?? default );
+                var text = curStart + " - " + curEnd + " of " + PaginationContext.TotalItems + " items";
+                <Text>@text</Text>
+            }
+        </Field>
+        <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromLeft" Display="Blazorise.Display.InlineBlock.None.OnDesktop">
+            @if ( TotalItemsTemplate != null )
+            {
+                @TotalItemsTemplate( PaginationContext )
+            }
+            else
+            {
+                var text = PaginationContext.TotalItems + " items";
+                <Text>@text</Text>
+            }
+        </Field>
+    </Column>
+</Row>

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <Import Project="..\..\..\Build\Blazorise.props" />
+
+  <PropertyGroup>
+    <PackageId>Blazorise.RichTextEdit</PackageId>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageIcon>Blazorise.png</PackageIcon>
+    <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
+    <PackageTags>blazorise blazor components rtf richtextedit</PackageTags>
+    <Authors>$(Authors);Niek Jannink</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
+    <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
+</Project>

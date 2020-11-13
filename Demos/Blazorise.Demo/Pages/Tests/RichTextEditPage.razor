@@ -1,0 +1,174 @@
+﻿@page "/tests/richtextedit"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Rich Text Editor (based on <Blazorise.Link To="https://quilljs.com/">QuillJs</Blazorise.Link>)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardBody>
+                    <Fields>
+                        <Field>
+                            <FieldLabel>
+                            </FieldLabel>
+                            <FieldBody>
+                                <Switch @bind-Checked="@readOnly">Read only</Switch>
+                            </FieldBody>
+                        </Field>
+                    </Fields>
+                </CardBody>
+                <CardBody Padding="Padding.Is0.OnAll">
+                    <RichTextEdit @ref="richTextEditRef"
+                                  ContentChanged="@OnContentChanged"
+                                  PlaceHolder="Type your post here..."
+                                  ReadOnly="@readOnly"
+                                  SubmitOnEnter="false"
+                                  EnterPressed="@OnSave"
+                                  ToolbarPosition="Placement.Bottom">
+                        <Editor>
+                            <p><b>Hello </b><i>world</i>!</p>
+                            <p><br></p>
+                            <p>
+                                based on: <a href="https://quilljs.com/">Quill</a>
+                            </p>
+                        </Editor>
+                        <Toolbar>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Underline" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Strike" />
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                                    <RichTextEditToolbarSelectItem Value="small" />
+                                    <RichTextEditToolbarSelectItem Selected="true" />
+                                    <RichTextEditToolbarSelectItem Value="large" />
+                                    <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+                                </RichTextEditToolbarSelect>
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Blockquote" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="sub" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="super" />
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarSelect Action="RichTextEditAction.Color" />
+                                <RichTextEditToolbarSelect Action="RichTextEditAction.Background" />
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup Float="Float.Right">
+                                <Button Class="btn-icon" Size="Size.ExtraSmall" onClick="window.open('https://www.quilljs.com/','quilljs')"><Icon Name="IconName.InfoCircle" /></Button>
+                                <Button Class="btn-icon" Size="Size.ExtraSmall" Clicked="@OnSave"><Icon Name="IconName.Save" /></Button>
+                            </RichTextEditToolbarGroup>
+                        </Toolbar>
+                    </RichTextEdit>
+                </CardBody>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnTablet.IsThird.OnDesktop">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Html Content Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                @((MarkupString) contentAsHtml)
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnTablet.IsThird.OnDesktop">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Delta Content Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <code>@contentAsDeltaJson</code>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnTablet.IsThird.OnDesktop">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Text Content Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <text>@contentAsText</text>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnTablet.IsHalf.OnDesktop">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Bubble theme</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Alert Visible="true">
+                    <AlertMessage>Note:</AlertMessage>
+                    <AlertDescription>Start typing and change format by key bindings or by selecting the text</AlertDescription>
+                </Alert>
+                <RichTextEdit Style="border: 1px solid" Theme="RichTextEditTheme.Bubble" PlaceHolder="My message" />
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnTablet.IsHalf.OnDesktop">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Snow theme</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <RichTextEdit />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Modal @ref="modalRef">
+    <ModalBackdrop />
+    <ModalContent Size="ModalSize.Default" Centered="true">
+        <ModalHeader>
+            <ModalTitle>Saved content</ModalTitle>
+            <CloseButton Clicked="@(() => modalRef.Hide())" />
+        </ModalHeader>
+        <ModalBody>
+            @((MarkupString) savedContent)
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Primary" Clicked="(() => modalRef.Hide())">Ok</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code {
+    private Modal modalRef;
+    private RichTextEdit richTextEditRef;
+    private bool readOnly;
+    private string contentAsHtml;
+    private string contentAsDeltaJson;
+    private string contentAsText;
+    private string savedContent;
+
+    public async Task OnContentChanged()
+    {
+        contentAsHtml = await richTextEditRef.GetHtmlAsync();
+        contentAsDeltaJson = await richTextEditRef.GetDeltaAsync();
+        contentAsText = await richTextEditRef.GetTextAsync();
+    }
+
+    public async Task OnSave()
+    {
+        savedContent = await richTextEditRef.GetHtmlAsync();
+        modalRef.Show();
+        await richTextEditRef.ClearAsync();
+    }
+}

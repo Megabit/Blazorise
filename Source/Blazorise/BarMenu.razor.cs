@@ -13,8 +13,6 @@ namespace Blazorise
     {
         #region Members
 
-        private bool visible;
-
         private BarStore parentStore;
 
         #endregion
@@ -24,36 +22,14 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarMenu( ParentStore.Mode ));
-            builder.Append( ClassProvider.BarMenuShow( ParentStore.Mode ), Visible && ParentStore.Visible );
+            builder.Append( ClassProvider.BarMenuShow( ParentStore.Mode ), ParentStore.Visible );
 
             base.BuildClasses( builder );
-        }
-
-        public void Toggle()
-        {
-            Visible = !Visible;
-            Toggled?.Invoke( Visible );
-
-            StateHasChanged();
         }
 
         #endregion
 
         #region Properties
-
-        [Parameter]
-        public bool Visible
-        {
-            get => visible;
-            set
-            {
-                visible = value;
-
-                DirtyClasses();
-            }
-        }
-
-        [Parameter] public Action<bool> Toggled { get; set; }
 
         [CascadingParameter] 
         protected BarStore ParentStore

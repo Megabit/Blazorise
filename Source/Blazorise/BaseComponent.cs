@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -102,9 +101,17 @@ namespace Blazorise
             await base.OnAfterRenderAsync( firstRender );
         }
 
+        /// <summary>
+        /// Method is called only once when component is first rendered.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual Task OnFirstAfterRenderAsync()
             => Task.CompletedTask;
 
+        /// <summary>
+        /// Builds a list of classnames for this component.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
         protected virtual void BuildClasses( ClassBuilder builder )
         {
             if ( Class != null )
@@ -408,6 +415,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Captures all the custom attribute that are not part of Blazorise component.
+        /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
 

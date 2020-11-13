@@ -8,13 +8,13 @@
     {
         @if ( To != null )
         {
-            <Blazorise.Link To="@To" Title="@Title" Match="@Match">
+            <Blazorise.Link Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Attributes="@Attributes">
                 @ChildContent
             </Blazorise.Link>
         }
         else
         {
-            <a title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
+            <a class="@ClassNames" style="@StyleNames" title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
                 @ChildContent
             </a>
         }

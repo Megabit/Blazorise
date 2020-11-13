@@ -20,6 +20,8 @@ namespace Blazorise.DataGrid
         private readonly Lazy<Func<TItem, object>> valueGetter;
         private readonly Lazy<Action<TItem, object>> valueSetter;
 
+        private Dictionary<DataGridSortMode, SortDirection> currentDirection { get; set; } = new Dictionary<DataGridSortMode, SortDirection>();
+
         #endregion
 
         #region Constructors
@@ -51,19 +53,25 @@ namespace Blazorise.DataGrid
             }
 
             // initialize temporary variables
-            CurrentDirection = Direction;
+            currentDirection[DataGridSortMode.Single] = Direction;
+            currentDirection[DataGridSortMode.Multiple] = Direction;
 
             base.OnInitialized();
         }
 
-        public void Dispose()
+        protected override void Dispose( bool disposing )
         {
-            if ( FilterContext != null )
+            if ( disposing )
             {
-                FilterContext.Unsubscribe( OnFilterValueChanged );
+                if ( FilterContext != null )
+                {
+                    FilterContext.Unsubscribe( OnFilterValueChanged );
 
-                FilterContext = null;
+                    FilterContext = null;
+                }
             }
+
+            base.Dispose( disposing );
         }
 
         private void InitializeFilterContext()
@@ -127,7 +135,11 @@ namespace Blazorise.DataGrid
         /// The reason for this field is that <see cref="Direction"/> is reseted every
         /// time when the grid is refreshed by the user.
         /// </remarks>
-        internal SortDirection CurrentDirection { get; set; }
+        internal SortDirection CurrentDirection
+        {
+            get => currentDirection[ParentDataGrid.SortMode];
+            set => currentDirection[ParentDataGrid.SortMode] = value;
+        }
 
         /// <summary>
         /// Gets the type of column editor.
@@ -135,9 +147,14 @@ namespace Blazorise.DataGrid
         public virtual DataGridColumnType ColumnType { get; } = DataGridColumnType.Text;
 
         /// <summary>
-        /// Gets or sets the column's display caption
+        /// Gets or sets the column's display caption.
         /// </summary>
         [Parameter] public string Caption { get; set; }
+
+        /// <summary>
+        /// Gets or sets the column's display caption template.
+        /// </summary>
+        [Parameter] public RenderFragment<DataGridColumn<TItem>> CaptionTemplate { get; set; }
 
         /// <summary>
         /// Filter value for this column.
@@ -154,6 +171,11 @@ namespace Blazorise.DataGrid
         /// Defines the alignment for display cell.
         /// </summary>
         [Parameter] public TextAlignment TextAlignment { get; set; }
+
+        /// <summary>
+        /// Defines the alignment for column header cell.
+        /// </summary>
+        [Parameter] public TextAlignment HeaderTextAlignment { get; set; }
 
         /// <summary>
         /// Gets or sets whether users can edit cell values under this column.
@@ -250,12 +272,28 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<FilterContext> FilterTemplate { get; set; }
 
+        /// <summary>
+        /// Defines the size of field for popup modal.
+        /// </summary>
+        [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; } = ColumnSize.IsHalf.OnDesktop;
+
         internal FilterContext FilterContext { get; set; }
 
         /// <summary>
         /// Template for custom cell editing.
         /// </summary>
         [Parameter] public RenderFragment<CellEditContext> EditTemplate { get; set; }
+
+        /// <summary>
+        /// Validates the input value after trying to save.
+        /// </summary>
+        [Parameter]
+        public Action<ValidatorEventArgs> Validator { get; set; }
+
+        /// <summary>
+        /// Forces validation to use regex pattern matching instead of default validator handler.
+        /// </summary>
+        [Parameter] public string ValidationPattern { get; set; }
 
         #endregion
     }

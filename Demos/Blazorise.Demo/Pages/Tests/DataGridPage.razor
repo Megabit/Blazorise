@@ -40,6 +40,13 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@showPageSizes">Show Page sizes</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
                             Edit Mode
                         </FieldLabel>
                         <FieldBody>
@@ -47,6 +54,17 @@
                                 <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
                                 <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
                                 <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
+                            Sort mode
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select @bind-SelectedValue="@sortMode">
+                                <SelectItem Value="@DataGridSortMode.Single">Single</SelectItem>
+                                <SelectItem Value="@DataGridSortMode.Multiple">Multiple</SelectItem>
                             </Select>
                         </FieldBody>
                     </Field>
@@ -66,18 +84,23 @@
                           EditMode="@editMode"
                           Editable="@editable"
                           Sortable="@sortable"
+                          SortMode="@sortMode"
                           Filterable="@filterable"
                           ShowPager="@showPager"
+                          PagerPosition="DataGridPagerPosition.TopAndBottom"
+                          ShowPageSizes="@showPageSizes"
                           RowInserted="@OnRowInserted"
                           RowUpdated="@OnRowUpdated"
                           RowRemoved="@OnRowRemoved"
                           UseInternalEditing="true"
                           @bind-SelectedRow="@selectedEmployee"
+                          NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
                           DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
                           Striped="true"
                           Bordered="true"
                           Hoverable="true"
                           Responsive="true"
+                          ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter">
                     <DataGridAggregates>
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
@@ -109,15 +132,18 @@
                                 <Button Color="Color.Warning" Clicked="@context.Clicked">Clear Filter</Button>
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="true">
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable="true">
                             <FilterTemplate>
                                 <TextEdit Placeholder="Search name" TextChanged="@(v=>context.TriggerFilterChange(v))" />
                             </FilterTemplate>
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Editable="true" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.EMail )" Caption="EMail" Validator="CheckEMail" Editable="true" PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable="true">
+                            <CaptionTemplate>
+                                <Icon Name="IconName.City" /> @context.Caption
+                            </CaptionTemplate>
                             <FilterTemplate>
                                 <Select TValue="string" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
                                     <SelectItem Value="@("*")">All</SelectItem>
@@ -144,6 +170,10 @@
                                     {
                                         @("Female")
                                     }
+                                    else if ( gender == "D" )
+                                    {
+                                        @("Diverse")
+                                    }
                                 }
                             </DisplayTemplate>
                             <EditTemplate>
@@ -151,6 +181,7 @@
                                     <SelectItem TValue="string" Value="null"></SelectItem>
                                     <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
                                     <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                                    <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
                                 </Select>
                             </EditTemplate>
                         </DataGridSelectColumn>
@@ -179,6 +210,16 @@
                             </DataGrid>
                         }
                     </DetailRowTemplate>
+                    <PopupTitleTemplate>
+                        @if ( context.EditState == DataGridEditState.Edit )
+                        {
+                            @($"Edit Employee {context.Item.FirstName} {context.Item.LastName}")
+                        }
+                        else
+                        {
+                            @("Create Employee")
+                        }
+                    </PopupTitleTemplate>
                 </DataGrid>
             </CardBody>
         </Card>
@@ -223,8 +264,10 @@
     DataGridEditMode editMode = DataGridEditMode.Form;
     bool editable = true;
     bool sortable = true;
+    DataGridSortMode sortMode = DataGridSortMode.Multiple;
     bool filterable = true;
     bool showPager = true;
+    bool showPageSizes = true;
 
     // TODO: add options to control the commands
     //bool newCommandAllowed = true;
@@ -298,6 +341,32 @@
         new Employee {Id = 26,FirstName = "Reeta",LastName = "Acom",EMail = "racomp@fc2.com",City = "Baoping",Zip = null,Salary = 61296.4m },
         new Employee {Id = 27,FirstName = "Chandler",LastName = "Franzonetti",EMail = "cfranzonettiq@archive.org",City = "Emin",Zip = null,Salary = 67458.07m, Childrens=1 }
     };
+
+    public void CheckEMail( ValidatorEventArgs validationArgs )
+    {
+        ValidationRule.IsEmail( validationArgs );
+
+        if ( validationArgs.Status == ValidationStatus.Error )
+        {
+            validationArgs.ErrorText = "EMail has to be valid email";
+        }
+    }
+
+    public void CheckFirstName( ValidatorEventArgs validationArgs )
+    {
+        ValidationRule.IsNotEmpty( validationArgs );
+
+        if ( validationArgs.Status == ValidationStatus.Error )
+        {
+            validationArgs.ErrorText = "First name has to be provided";
+        }
+    }
+
+    void OnEmployeeNewItemDefaultSetter( Employee employee )
+    {
+        employee.Salary = 100.0M;
+        employee.IsActive = true;
+    }
 
     void OnRowInserted( SavedRowItem<Employee, Dictionary<string, object>> e )
     {

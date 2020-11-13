@@ -47,9 +47,13 @@ namespace Blazorise.DataGrid
         private bool dirtyView = true;
 
         /// <summary>
-        /// List of columns ready to be sorted.
+        /// Holds the state of sorted columns grouped by the sort-mode.
         /// </summary>
-        protected IList<DataGridColumn<TItem>> sortByColumns = new List<DataGridColumn<TItem>>();
+        protected Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>> sortByColumnsDictionary = new Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>>
+        {
+            { DataGridSortMode.Single, new List<DataGridColumn<TItem>>() },
+            { DataGridSortMode.Multiple, new List<DataGridColumn<TItem>>() },
+        };
 
         private readonly Lazy<Func<TItem>> newItemCreator;
 
@@ -67,6 +71,16 @@ namespace Blazorise.DataGrid
 
         protected Dictionary<string, CellEditContext> filterCellValues;
 
+        /// <summary>
+        /// Holds the pagination templates
+        /// </summary>
+        protected PaginationTemplates<TItem> paginationTemplates;
+
+        /// <summary>
+        /// Holds the pagination context
+        /// </summary>
+        protected PaginationContext<TItem> paginationContext;
+
         #endregion
 
         #region Constructors
@@ -74,13 +88,18 @@ namespace Blazorise.DataGrid
         public DataGrid()
         {
             newItemCreator = new Lazy<Func<TItem>>( () => FunctionCompiler.CreateNewItem<TItem>() );
+
+            paginationTemplates = new PaginationTemplates<TItem>();
+            paginationContext = new PaginationContext<TItem>( this );
+
+            paginationContext.SubscribeOnPageSizeChanged( pageSize => InvokeAsync( () => StateHasChanged() ) );
         }
 
         #endregion
 
         #region Methods
 
-        #region Initialisation
+        #region Setup
 
         /// <summary>
         /// Links the child column with this datagrid.
@@ -114,7 +133,7 @@ namespace Blazorise.DataGrid
                     return HandleReadData();
 
                 // after all the columns have being "hooked" we need to resfresh the grid
-                StateHasChanged();
+                InvokeAsync( () => StateHasChanged() );
             }
 
             return base.OnAfterRenderAsync( firstRender );
@@ -166,7 +185,11 @@ namespace Blazorise.DataGrid
 
         protected void OnNewCommand()
         {
-            InitEditItem( CreateNewItem() );
+            var newItem = CreateNewItem();
+
+            NewItemDefaultSetter?.Invoke( newItem );
+
+            InitEditItem( newItem );
 
             editState = DataGridEditState.New;
 
@@ -204,7 +227,7 @@ namespace Blazorise.DataGrid
 
             // When deleting and the page becomes empty and we aren't the first page:
             // go to the previous page
-            if ( ManualReadMode && ShowPager && CurrentPage > FirstVisiblePage && !Data.Any() )
+            if ( ManualReadMode && ShowPager && CurrentPage > paginationContext.FirstVisiblePage && !Data.Any() )
             {
                 await OnPaginationItemClick( ( CurrentPage - 1 ).ToString() );
             }
@@ -317,7 +340,7 @@ namespace Blazorise.DataGrid
             {
                 IsLoading = false;
 
-                StateHasChanged();
+                await InvokeAsync( () => StateHasChanged() );
             }
         }
 
@@ -325,14 +348,28 @@ namespace Blazorise.DataGrid
         {
             if ( Sortable && column.Sortable )
             {
+                if ( SortMode == DataGridSortMode.Single )
+                {
+                    // in single-mode we need to reset all other columns to default state
+                    foreach ( var c in Columns.Where( x => x.Field != column.Field ) )
+                    {
+                        c.CurrentDirection = SortDirection.None;
+                    }
+
+                    // and also remove any column sort info except for current one
+                    SortByColumns.RemoveAll( x => x.Field != column.Field );
+                }
+
                 column.CurrentDirection = column.CurrentDirection.NextDirection();
 
                 if ( !ManualReadMode )
                 {
-                    if ( !sortByColumns.Any( c => c.Field == column.Field ) )
-                        sortByColumns.Add( column );
+                    if ( !SortByColumns.Any( c => c.Field == column.Field ) )
+                    {
+                        SortByColumns.Add( column );
+                    }
                     else if ( column.CurrentDirection == SortDirection.None )
-                        sortByColumns.Remove( column );
+                        SortByColumns.Remove( column );
                 }
 
                 dirtyFilter = dirtyView = true;
@@ -387,8 +424,8 @@ namespace Blazorise.DataGrid
                 {
                     CurrentPage++;
 
-                    if ( CurrentPage > LastPage )
-                        CurrentPage = LastPage;
+                    if ( CurrentPage > paginationContext.LastPage )
+                        CurrentPage = paginationContext.LastPage;
                 }
                 else if ( pageName == "first" )
                 {
@@ -396,7 +433,7 @@ namespace Blazorise.DataGrid
                 }
                 else if ( pageName == "last" )
                 {
-                    CurrentPage = LastPage;
+                    CurrentPage = paginationContext.LastPage;
                 }
             }
 
@@ -416,6 +453,8 @@ namespace Blazorise.DataGrid
             if ( query == null )
             {
                 filteredData.Clear();
+                FilteredDataChanged?.Invoke( filteredData );
+
                 return;
             }
 
@@ -424,7 +463,7 @@ namespace Blazorise.DataGrid
             {
                 var firstSort = true;
 
-                foreach ( var sortByColumn in sortByColumns )
+                foreach ( var sortByColumn in SortByColumns )
                 {
                     if ( firstSort )
                     {
@@ -471,6 +510,8 @@ namespace Blazorise.DataGrid
             filteredData = query.ToList();
 
             dirtyFilter = false;
+
+            FilteredDataChanged?.Invoke( filteredData );
         }
 
         private bool CompareFilterValues( string searchValue, string compareTo )
@@ -498,7 +539,15 @@ namespace Blazorise.DataGrid
 
             // only use pagination if the custom data loading is not used
             if ( !ManualReadMode )
-                return filteredData.Skip( ( CurrentPage - 1 ) * PageSize ).Take( PageSize );
+            {
+                var skipElements = ( CurrentPage - 1 ) * PageSize;
+                if ( skipElements > filteredData.Count )
+                {
+                    CurrentPage = paginationContext.LastPage;
+                    skipElements = ( CurrentPage - 1 ) * PageSize;
+                }
+                return filteredData.Skip( skipElements ).Take( PageSize );
+            }
 
             return filteredData;
         }
@@ -589,9 +638,31 @@ namespace Blazorise.DataGrid
         public DataGridEditState EditState => editState;
 
         /// <summary>
+        /// Gets the sort solumn info for current SortMode.
+        /// </summary>
+        protected List<DataGridColumn<TItem>> SortByColumns => sortByColumnsDictionary[SortMode];
+
+        /// <summary>
+        /// Gets template for title of popup modal.
+        /// </summary>
+        [Parameter]
+        public RenderFragment<PopupTitleContext<TItem>> PopupTitleTemplate { get; set; } = context =>
+        {
+            return builder =>
+            {
+                builder.AddContent( 0, context.EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create" );
+            };
+        };
+
+        /// <summary>
         /// Gets the flag which indicates if popup editor is visible.
         /// </summary>
         protected bool PopupVisible = false;
+
+        /// <summary>
+        /// Defines the size of popup dialog.
+        /// </summary>
+        [Parameter] public ModalSize PopupSize { get; set; } = ModalSize.Default;
 
         /// <summary>
         /// Gets the reference to the associated command column.
@@ -633,12 +704,12 @@ namespace Blazorise.DataGrid
         /// <remarks>
         /// This field must be set only when <see cref="ReadData"/> is used to load the data.
         /// </remarks>
-        [Parameter] public int? TotalItems { get; set; }
+        [Parameter] public int? TotalItems { get => paginationContext.TotalItems; set => paginationContext.TotalItems = value; }
 
         /// <summary>
         /// Gets the data after all of the filters have being applied.
         /// </summary>
-        protected IEnumerable<TItem> FilteredData
+        protected internal IEnumerable<TItem> FilteredData
         {
             get
             {
@@ -648,6 +719,11 @@ namespace Blazorise.DataGrid
                 return filteredData;
             }
         }
+
+        /// <summary>
+        /// Raises an event every time that filtered data is refreshed.
+        /// </summary>
+        [Parameter] public Action<IEnumerable<TItem>> FilteredDataChanged { get; set; }
 
         /// <summary>
         /// Gets the data to show on grid based on the filter and current page.
@@ -682,6 +758,11 @@ namespace Blazorise.DataGrid
         [Parameter] public bool Sortable { get; set; } = true;
 
         /// <summary>
+        /// Gets or sets whether the user can sort only by one column or by multiple.
+        /// </summary>
+        [Parameter] public DataGridSortMode SortMode { get; set; } = DataGridSortMode.Multiple;
+
+        /// <summary>
         /// Gets or sets whether users can filter rows by its cell values.
         /// </summary>
         [Parameter] public bool Filterable { get; set; }
@@ -697,9 +778,28 @@ namespace Blazorise.DataGrid
         [Parameter] public bool ShowPager { get; set; }
 
         /// <summary>
+        /// Gets or sets the position of the pager.
+        /// </summary>
+        [Parameter] public DataGridPagerPosition PagerPosition { get; set; } = DataGridPagerPosition.Bottom;
+
+        /// <summary>
+        /// Gets or sets whether users can adjust the page size of the datagrid.
+        /// </summary>
+        [Parameter] public bool ShowPageSizes { get => paginationContext.ShowPageSizes; set => paginationContext.ShowPageSizes = value; }
+
+        /// <summary>
+        /// Gets or sets the chooseable page sizes of the datagrid.
+        /// </summary>
+        [Parameter] public IEnumerable<int> PageSizes { get => paginationContext.PageSizes; set => paginationContext.PageSizes = value; }
+
+        /// <summary>
         /// Gets or sets the current page number.
         /// </summary>
-        [Parameter] public int CurrentPage { get; set; } = 1;
+        [Parameter] public int CurrentPage { get => paginationContext.CurrentPage; set => paginationContext.CurrentPage = value; }
+
+        protected PaginationContext<TItem> PaginationContext => paginationContext;
+
+        protected PaginationTemplates<TItem> PaginationTemplates => paginationTemplates;
 
         /// <summary>
         /// Gets or sets content of table body for empty DisplayData.
@@ -714,87 +814,52 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets content of first button of pager.
         /// </summary>
-        [Parameter] public RenderFragment FirstPageButtonTemplate { get; set; }
+        [Parameter] public RenderFragment FirstPageButtonTemplate { get => paginationTemplates.FirstPageButtonTemplate; set => paginationTemplates.FirstPageButtonTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of last button of pager.
         /// </summary>
-        [Parameter] public RenderFragment LastPageButtonTemplate { get; set; }
+        [Parameter] public RenderFragment LastPageButtonTemplate { get => paginationTemplates.LastPageButtonTemplate; set => paginationTemplates.LastPageButtonTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of previous button of pager.
         /// </summary>
-        [Parameter] public RenderFragment PreviousPageButtonTemplate { get; set; }
+        [Parameter] public RenderFragment PreviousPageButtonTemplate { get => paginationTemplates.PreviousPageButtonTemplate; set => paginationTemplates.PreviousPageButtonTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of next button of pager.
         /// </summary>
-        [Parameter] public RenderFragment NextPageButtonTemplate { get; set; }
+        [Parameter] public RenderFragment NextPageButtonTemplate { get => paginationTemplates.NextPageButtonTemplate; set => paginationTemplates.NextPageButtonTemplate = value; }
 
         /// <summary>
-        /// Gets the last page number.
+        /// Gets or sets content of page buttons of pager.
         /// </summary>
-        protected int LastPage
-        {
-            get
-            {
-                // if we're using ReadData than TotalItems must be set so we can know how many items are available
-                var totalItems = ( ManualReadMode ? TotalItems : FilteredData?.Count() ) ?? 0;
-
-                var lastPage = Math.Max( (int)Math.Ceiling( totalItems / (double)PageSize ), 1 );
-
-                if ( CurrentPage > lastPage )
-                    CurrentPage = lastPage;
-
-                return lastPage;
-            }
-        }
+        [Parameter] public RenderFragment<PageButtonContext> PageButtonTemplate { get; set; }
 
         /// <summary>
-        /// Gets the number of the first page that can be clicked in a large dataset.
+        /// Gets or sets content of items per page of grid.
         /// </summary>
-        protected int FirstVisiblePage
-        {
-            get
-            {
-                int firstVisiblePage = CurrentPage - (int)Math.Floor( MaxPaginationLinks / 2d );
-
-                if ( firstVisiblePage < 1 )
-                    firstVisiblePage = 1;
-
-                return firstVisiblePage;
-            }
-        }
+        public RenderFragment ItemsPerPageTemplate { get; set; }
 
         /// <summary>
-        /// Gets the number of the last page that can be clicked in a large dataset.
+        /// Gets or sets content of total items grid for small devices.
         /// </summary>
-        protected int LastVisiblePage
-        {
-            get
-            {
-                var firstVisiblePage = FirstVisiblePage;
-                var lastVisiblePage = CurrentPage + (int)Math.Floor( MaxPaginationLinks / 2d );
+        public RenderFragment<PaginationContext<TItem>> TotalItemsShortTemplate { get => paginationTemplates.TotalItemsShortTemplate; set => paginationTemplates.TotalItemsShortTemplate = value; }
 
-                if ( ( lastVisiblePage - firstVisiblePage ) < MaxPaginationLinks )
-                    lastVisiblePage = firstVisiblePage + MaxPaginationLinks - 1;
-
-                if ( lastVisiblePage > LastPage )
-                    lastVisiblePage = LastPage;
-
-                return lastVisiblePage;
-            }
-        }
+        /// <summary>
+        /// Gets or sets content of total items grid.
+        /// </summary>
+        public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get => paginationTemplates.TotalItemsTemplate; set => paginationTemplates.TotalItemsTemplate = value; }
 
         /// <summary>
         /// Gets or sets the maximum number of items for each page.
         /// </summary>
-        [Parameter] public int PageSize { get; set; } = 5;
+        [Parameter] public int PageSize { get => paginationContext.CurrentPageSize; set => paginationContext.CurrentPageSize = value; }
 
         /// <summary>
-        /// Gets or sets the maximum number of visible pagination links.
+        /// Gets or sets the maximum number of visible pagination links. It has to be odd for well look.
         /// </summary>
-        [Parameter] public int MaxPaginationLinks { get; set; } = 5;
+        [Parameter] public int MaxPaginationLinks { get => paginationContext.MaxPaginationLinks; set => paginationContext.MaxPaginationLinks = value; }
 
         /// <summary>
         /// Defines the filter method when searching the cell values.
@@ -889,6 +954,11 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment<TItem> DetailRowTemplate { get; set; }
 
         /// <summary>
+        /// Function, that is called, when a new item is created for inserting new entry.
+        /// </summary>
+        [Parameter] public Action<TItem> NewItemDefaultSetter { get; set; }
+
+        /// <summary>
         /// Adds stripes to the table.
         /// </summary>
         [Parameter] public bool Striped { get; set; }
@@ -977,6 +1047,21 @@ namespace Blazorise.DataGrid
         /// Template for holding the datagrid aggregate columns.
         /// </summary>
         [Parameter] public RenderFragment DataGridAggregates { get; set; }
+
+        /// <summary>
+        /// If true, shows feedbacks for all validations.
+        /// </summary>
+        [Parameter] public bool ShowValidationFeedback { get; set; } = false;
+
+        /// <summary>
+        /// If true, shows summary for all validations.
+        /// </summary>
+        [Parameter] public bool ShowValidationsSummary { get; set; } = true;
+
+        /// <summary>
+        /// Label for validaitons summary.
+        /// </summary>
+        [Parameter] public string ValidationsSummaryLabel { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 

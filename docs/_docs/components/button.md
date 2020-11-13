@@ -111,6 +111,17 @@ If you want to group buttons together on a single line, use the `Buttons` tag.
 
 <iframe src="/examples/buttons/buttongroup/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
 
+## Link Button
+
+By default, `Button` works with `<button>` element, but you can also create an `<a>` element that will still appear as regular button.
+
+```html
+<Button Color="Color.Primary" To="#">Primary link</Button>
+<Button Color="Color.Secondary" To="#" Target="Target.Blank">Secondary link</Button>
+```
+
+<iframe src="/examples/buttons/linkbutton/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
+
 ### Toolbar
 
 To attach buttons together use a Toolbar role.

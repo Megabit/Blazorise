@@ -1,0 +1,35 @@
+﻿@inherits BaseComponent
+<div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    @ChildContent
+    @foreach ( var snackbarInfo in snackbarInfos )
+    {
+        <Snackbar @key="@snackbarInfo.Key"
+                  Key="@snackbarInfo.Key"
+                  Visible="@snackbarInfo.Visible"
+                  Color="@snackbarInfo.Color"
+                  Multiline="@Multiline"
+                  Interval="@Interval"
+                  Closed="@(async (e)=> await OnSnackbarClosed(e.Key, e.CloseReason))">
+            <SnackbarBody>
+                @if ( snackbarInfo.MessageTemplate != null )
+                {
+                    @snackbarInfo.MessageTemplate
+                }
+                else
+                {
+                    @snackbarInfo.Message
+                }
+            </SnackbarBody>
+            @{
+                var actionButtonText = snackbarInfo.ActionButtonText ?? ActionButtonText;
+
+                @if ( actionButtonText != null )
+                {
+                    var key = snackbarInfo.Key;
+
+                    <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">@actionButtonText</SnackbarAction>
+                }
+            }
+        </Snackbar>
+    }
+</div>

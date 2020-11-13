@@ -136,4 +136,41 @@ namespace Blazorise.DataGrid
         /// </summary>
         FalseCount,
     }
+
+    /// <summary>
+    /// Defines the supported positions of the pagination.
+    /// </summary>
+    public enum DataGridPagerPosition
+    {
+        /// <summary>
+        /// Positions the pagination above the table.
+        /// </summary>
+        Top,
+
+        /// <summary>
+        /// Positions the pagination below the table.
+        /// </summary>
+        Bottom,
+
+        /// <summary>
+        /// Positions the pagination on above and below the table.
+        /// </summary>
+        TopAndBottom
+    }
+
+    /// <summary>
+    /// Defines the sort mode of the data grid.
+    /// </summary>
+    public enum DataGridSortMode
+    {
+        /// <summary>
+        /// The data grid can only be sorted by one column at a time.
+        /// </summary>
+        Single,
+
+        /// <summary>
+        /// The data grid can sorted by multiple columns.
+        /// </summary>
+        Multiple
+    }
 }

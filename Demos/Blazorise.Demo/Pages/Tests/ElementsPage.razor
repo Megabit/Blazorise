@@ -51,9 +51,8 @@
                 <Badge Color="Color.Primary">Primary</Badge>
                 <Badge Color="Color.Secondary">Secondary</Badge>
                 <Badge Color="Color.Success">Success</Badge>
-                <Badge Color="Color.Info">Info</Badge>
-                <Badge Color="Color.Warning">Warning</Badge>
                 <Badge Color="Color.Danger">Danger</Badge>
+                <Badge Color="Color.Warning">Warning</Badge>
                 <Badge Color="Color.Info">Info</Badge>
                 <Badge Color="Color.Light">Light</Badge>
                 <Badge Color="Color.Dark">Dark</Badge>
@@ -74,9 +73,8 @@
                 <Badge Color="Color.Primary" Pill="true">Primary</Badge>
                 <Badge Color="Color.Secondary" Pill="true">Secondary</Badge>
                 <Badge Color="Color.Success" Pill="true">Success</Badge>
-                <Badge Color="Color.Info" Pill="true">Info</Badge>
-                <Badge Color="Color.Warning" Pill="true">Warning</Badge>
                 <Badge Color="Color.Danger" Pill="true">Danger</Badge>
+                <Badge Color="Color.Warning" Pill="true">Warning</Badge>
                 <Badge Color="Color.Info" Pill="true">Info</Badge>
                 <Badge Color="Color.Light" Pill="true">Light</Badge>
                 <Badge Color="Color.Dark" Pill="true">Dark</Badge>
@@ -274,6 +272,26 @@
     </Column>
 </Row>
 <Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Stacked snackbars</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    You can have a dynamicaly stacked snackbars.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.Push("Some success message!", SnackbarColor.Success, "Ok"))">Show Success message</Button>
+                <Button Color="Color.Info" Clicked="@(()=>snackbarStack.Push("Some info message!", SnackbarColor.Info, "Ok"))">Show Info message</Button>
+                <Button Color="Color.Warning" Clicked="@(()=>snackbarStack.Push("Some warning message!", SnackbarColor.Warning, "Ok"))">Show Warning message</Button>
+                <Button Color="Color.Danger" Clicked="@(()=>snackbarStack.Push("Some danger message!", SnackbarColor.Danger, "Ok"))">Show Danger message</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
     <Column ColumnSize="ColumnSize.Is12.OnMobile">
         <Jumbotron Background="Background.Primary" Margin="Margin.Is4.FromBottom">
             <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, world!</JumbotronTitle>
@@ -320,7 +338,7 @@
                     </AlertDescription>
                 </Alert>
                 <Alert Color="Color.Success" Visible="true">
-                    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">Big one!</Heading>
+                    <Heading Size="HeadingSize.Is4" Color="TextColor.Success">Big one!</Heading>
                     <Paragraph>
                         <AlertMessage>Well done!</AlertMessage>
                         <AlertDescription>
@@ -381,7 +399,7 @@
                     <CloseButton Clicked="@(()=>dismisableAlert4 = false)" />
                 </Alert>
                 <Alert Color="Color.Info" Visible="@dismisableAlert5" Dismisable="true">
-                    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
+                    <Heading Size="HeadingSize.Is4" Color="TextColor.Success">
                         Big one!
                         <CloseButton Clicked="@(()=>dismisableAlert5 = false)" />
                     </Heading>
@@ -473,6 +491,7 @@
     </SnackbarBody>
     <SnackbarAction Clicked="@(()=>snackbarDark.Hide())">ACTION</SnackbarAction>
 </Snackbar>
+<SnackbarStack @ref="snackbarStack" Location="SnackbarStackLocation.Right" />
 @code{
     Snackbar snackbar;
     Snackbar snackbarAction;
@@ -489,6 +508,8 @@
     Snackbar snackbarLight;
     Snackbar snackbarDark;
 
+    SnackbarStack snackbarStack;
+
     bool dismisableAlert1 = true;
     bool dismisableAlert2 = true;
     bool dismisableAlert3 = true;
@@ -496,5 +517,5 @@
     bool dismisableAlert5 = true;
 
 
-    
+
 }

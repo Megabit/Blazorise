@@ -3,6 +3,10 @@
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
 <CascadingValue Value=this>
+    @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
+    {
+        <_DataGridPagination PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="OnPaginationItemClick" />
+    }
     <Table Class="@Class" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive">
         <TableHeader>
             @if ( ShowCaptions )
@@ -14,7 +18,7 @@
                         {
                             @if ( Editable )
                             {
-                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.HeaderCellStyle" width="@column.Width">
+                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.HeaderCellStyle" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
                                     @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                     {
                                         <_DataGridNewCommand TItem="TItem" New="@OnNewCommand" />
@@ -24,10 +28,17 @@
                         }
                         else
                         {
-                            <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable ? " cursor: pointer" : "")}")" Clicked="@(async () => await OnSortClicked( column ) )" width="@column.Width">
+                            <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable ? " cursor: pointer" : "")}")" Clicked="@(async () => await OnSortClicked( column ) )" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
                                 @if ( column.ShowCaption )
                                 {
-                                    @column.Caption
+                                    @if ( column.CaptionTemplate != null )
+                                    {
+                                        @column.CaptionTemplate( column )
+                                    }
+                                    else
+                                    {
+                                        @column.Caption
+                                    }
                                 }
                                 @if ( Sortable && column.Sortable && column.CurrentDirection != SortDirection.None )
                                 {
@@ -126,78 +137,19 @@
             </TableFooter>
         }
     </Table>
-    @if ( IsPagerVisible )
+    @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
-        <Pagination>
-            <PaginationItem Disabled="@(CurrentPage <= 1)">
-                <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
-                    @if ( FirstPageButtonTemplate != null )
-                    {
-                        @FirstPageButtonTemplate
-                    }
-                    else
-                    {
-                        @("First")
-                    }
-                </PaginationLink>
-            </PaginationItem>
-            <PaginationItem Disabled="@(CurrentPage <= 1)">
-                <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
-                    @if ( PreviousPageButtonTemplate != null )
-                    {
-                        @PreviousPageButtonTemplate
-                    }
-                    else
-                    {
-                        @("Prev")
-                    }
-                </PaginationLink>
-            </PaginationItem>
-            @for ( int i = FirstVisiblePage; i <= LastVisiblePage; ++i )
-            {
-                var pageNumber = i;
-                var pageNumberString = i.ToString();
-                var pageActive = pageNumber == CurrentPage;
-
-                <PaginationItem Disabled="@(pageNumber == CurrentPage)" Active="@pageActive">
-                    <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
-                        @pageNumberString
-                    </PaginationLink>
-                </PaginationItem>
-            }
-            <PaginationItem Disabled="@(CurrentPage >= LastPage)">
-                <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
-                    @if ( NextPageButtonTemplate != null )
-                    {
-                        @NextPageButtonTemplate
-                    }
-                    else
-                    {
-                        @("Next")
-                    }
-                </PaginationLink>
-            </PaginationItem>
-            <PaginationItem Disabled="@(CurrentPage >= LastPage)">
-                <PaginationLink Page="last" Clicked="@OnPaginationItemClick">
-                    @if ( LastPageButtonTemplate != null )
-                    {
-                        @LastPageButtonTemplate
-                    }
-                    else
-                    {
-                        @("Last")
-                    }
-                </PaginationLink>
-            </PaginationItem>
-        </Pagination>
+        <_DataGridPagination PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="OnPaginationItemClick" />
     }
     @if ( editItem != null && EditMode == DataGridEditMode.Popup )
     {
         <_DataGridModal TItem="TItem"
+                        TitleTemplate="@PopupTitleTemplate"
                         EditItem="@editItem"
                         EditItemCellValues="@editItemCellValues"
                         Columns="@Columns"
                         PopupVisible="@PopupVisible"
+                        PopupSize="@PopupSize"
                         EditState="@editState"
                         Save="@OnSaveCommand"
                         Cancel="@OnCancelCommand" />

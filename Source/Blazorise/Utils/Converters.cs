@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -46,26 +47,25 @@ namespace Blazorise.Utils
 
             var dictionary = new Dictionary<string, object>();
 
-            foreach ( PropertyDescriptor property in TypeDescriptor.GetProperties( source ) )
+            object ProcessValue( object value, bool emitDefaultValue )
             {
-                var dataMemberAttribute = property.Attributes.OfType<DataMemberAttribute>().FirstOrDefault();
-                var emitDefaultValue = dataMemberAttribute?.EmitDefaultValue ?? true;
-
-                var value = property.GetValue( source );
-
                 if ( value != null && ( emitDefaultValue || !IsEqualToDefaultValue( value ) ) )
                 {
                     var type = value.GetType();
-                    var propertyName = dataMemberAttribute?.Name ?? property.Name;
-
-                    if ( forceCamelCase )
-                    {
-                        propertyName = propertyName.ToCamelcase();
-                    }
 
                     if ( IsSimpleType( type ) )
                     {
-                        dictionary.Add( propertyName, value );
+                        return value;
+                    }
+                    else if ( typeof( IEnumerable ).IsAssignableFrom( type ) )
+                    {
+                        var list = new List<object>();
+                        foreach ( var item in value as IEnumerable )
+                        {
+                            list.Add( ProcessValue( item, emitDefaultValue ) );
+                        }
+
+                        return type.IsArray ? (object)list.ToArray() : list;
                     }
                     else
                     {
@@ -73,9 +73,29 @@ namespace Blazorise.Utils
 
                         if ( addEmptyObjects || dict.Count > 0 )
                         {
-                            dictionary.Add( propertyName, dict );
+                            return dict;
                         }
                     }
+                }
+
+                return null;
+            }
+
+            foreach ( PropertyDescriptor property in TypeDescriptor.GetProperties( source ) )
+            {
+                var dataMemberAttribute = property.Attributes.OfType<DataMemberAttribute>().FirstOrDefault();
+                var emitDefaultValue = dataMemberAttribute?.EmitDefaultValue ?? true;
+
+                var value = property.GetValue( source );
+                var propertyName = dataMemberAttribute?.Name ?? property.Name;
+                if ( forceCamelCase )
+                {
+                    propertyName = propertyName.ToCamelcase();
+                }
+
+                if ( value != null && ( emitDefaultValue || !IsEqualToDefaultValue( value ) ) )
+                {
+                    dictionary.Add( propertyName, ProcessValue( value, emitDefaultValue ) );
                 }
             }
 
@@ -103,6 +123,8 @@ namespace Blazorise.Utils
                     result = theEnum;
                 else if ( conversionType == typeof( Guid ) )
                     result = (TValue)Convert.ChangeType( Guid.Parse( value.ToString() ), conversionType );
+                else if ( conversionType == typeof( DateTimeOffset ) )
+                    result = (TValue)Convert.ChangeType( DateTimeOffset.Parse( value.ToString() ), conversionType );
                 else
                     result = (TValue)Convert.ChangeType( value, conversionType, cultureInfo ?? CultureInfo.InvariantCulture );
 

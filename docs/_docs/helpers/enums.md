@@ -39,6 +39,7 @@ Defines the button type and behavior.
 - `Button` The button is a clickable button.
 - `Submit` The button is a submit button (submits form-data).
 - `Reset` The button is a reset button (resets the form-data to its initial values).
+- `Link` The button will be rendered as a link but will appear as a regular button.
 
 ## Cursor
 
@@ -129,6 +130,11 @@ Defines the placement of an element.
 - `EndsWith` search only the ending
 - `Equals` search must match the entire value
 - `NotEquals` opposite of Equals
+
+## DataGridSortMode
+
+- `Single` The data grid can only be sorted by one column at a time.
+- `Multiple` The data grid can sorted by multiple columns.
 
 ## TextAlignment
 
@@ -246,3 +252,13 @@ Defines the `Bar` state when collapsed (only works with `Vertical` bar modes)
 
 - `Hide` - collapses to be completely hidden
 - `Small` - collapse to behave like `BarMode.VerticalSmall`
+
+## Target
+
+The target attribute specifies where to open the linked document.
+
+- `None` - No target will be applied. Usually this is the same as `Self`.
+- `Self` - Opens the linked document in the same frame as it was clicked (this is default)
+- `Blank` - Opens the linked document in a new window or tab.
+- `Parent` - Opens the linked document in the parent frame.
+- `Top` - Opens the linked document in the full body of the window.

@@ -3,16 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Stores;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A container component that is placed inside of an <see cref="ListGroup"/>.
+    /// </summary>
     public partial class ListGroupItem : BaseComponent
     {
         #region Members
 
-        private bool active;
+        private ListGroupStore parentListGroupStore;
 
         private bool disabled;
 
@@ -20,6 +24,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ListGroupItem() );
@@ -29,17 +34,18 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected void ClickHandler()
+        /// <summary>
+        /// Handles the item onclick event.
+        /// </summary>
+        /// <returns>Returns the awaitable task.</returns>
+        protected async Task ClickHandler()
         {
-            Clicked?.Invoke();
+            if ( Disabled )
+                return;
+
             ParentListGroup?.SelectItem( Name );
-        }
 
-        protected override void OnInitialized()
-        {
-            ParentListGroup?.LinkItem( this );
-
-            base.OnInitialized();
+            await Clicked.InvokeAsync( null );
         }
 
         #endregion
@@ -47,22 +53,23 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Gets the string representing the disabled state.
+        /// </summary>
+        protected string DisabledString => Disabled.ToString().ToLowerInvariant();
+
+        /// <summary>
+        /// Gets the flag indicating the item is selected.
+        /// </summary>
+        protected bool Active => parentListGroupStore.Mode == ListGroupMode.Selectable && parentListGroupStore.SelectedItem == Name;
+
+        /// <summary>
         /// Defines the item name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 
-        [Parameter]
-        public bool Active
-        {
-            get => active;
-            set
-            {
-                active = value;
-
-                DirtyClasses();
-            }
-        }
-
+        /// <summary>
+        /// Makes the item to make it appear disabled.
+        /// </summary>
         [Parameter]
         public bool Disabled
         {
@@ -78,10 +85,31 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] public Action Clicked { get; set; }
+        [Parameter] public EventCallback Clicked { get; set; }
 
+        [CascadingParameter]
+        protected ListGroupStore ParentListGroupStore
+        {
+            get => parentListGroupStore;
+            set
+            {
+                if ( parentListGroupStore == value )
+                    return;
+
+                parentListGroupStore = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the parent list group.
+        /// </summary>
         [CascadingParameter] protected ListGroup ParentListGroup { get; set; }
 
+        /// <summary>
+        /// Gets or sets the component child content.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

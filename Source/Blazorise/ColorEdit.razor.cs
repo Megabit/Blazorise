@@ -18,14 +18,17 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void OnInitialized()
+        public override async Task SetParametersAsync( ParameterView parameters )
         {
+            await base.SetParametersAsync( parameters );
+
             if ( ParentValidation != null )
             {
-                ParentValidation.InitializeInputExpression( ColorExpression );
-            }
+                if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
+                    ParentValidation.InitializeInputExpression( expression );
 
-            base.OnInitialized();
+                InitializeValidation();
+            }
         }
 
         protected override void BuildClasses( ClassBuilder builder )

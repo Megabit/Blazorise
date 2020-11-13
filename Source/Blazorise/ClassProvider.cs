@@ -72,6 +72,8 @@ namespace Blazorise
 
         public abstract string Check();
 
+        public abstract string CheckSize( Size size );
+
         public abstract string CheckInline();
 
         public abstract string CheckCursor( Cursor cursor );
@@ -92,6 +94,8 @@ namespace Blazorise
 
         public abstract string Radio( bool button );
 
+        public abstract string RadioSize( bool button, Size size );
+
         public abstract string RadioInline();
 
         #endregion
@@ -99,6 +103,10 @@ namespace Blazorise
         #region Switch
 
         public abstract string Switch();
+
+        public abstract string SwitchColor( Color color );
+
+        public abstract string SwitchSize( Size size );
 
         public abstract string SwitchChecked( bool @checked );
 
@@ -244,7 +252,7 @@ namespace Blazorise
 
         public abstract string ButtonOutline( Color color );
 
-        public abstract string ButtonSize( ButtonSize buttonSize );
+        public abstract string ButtonSize( Size size );
 
         public abstract string ButtonBlock();
 
@@ -262,7 +270,7 @@ namespace Blazorise
 
         public abstract string ButtonsToolbar();
 
-        public abstract string ButtonsSize( ButtonsSize buttonsSize );
+        public abstract string ButtonsSize( Size size );
 
         public abstract string ButtonsVertical();
 
@@ -304,9 +312,11 @@ namespace Blazorise
 
         public abstract string DropdownToggleOutline( Color color );
 
-        public abstract string DropdownToggleSize( ButtonSize buttonSize );
+        public abstract string DropdownToggleSize( Size size );
 
         public abstract string DropdownToggleSplit();
+
+        public abstract string DropdownToggleIcon( bool visible );
 
         public abstract string DropdownDirection( Direction direction );
 
@@ -314,11 +324,9 @@ namespace Blazorise
 
         #region Tab
 
-        public abstract string Tabs();
+        public abstract string Tabs( bool pills );
 
         public abstract string TabsCards();
-
-        public abstract string TabsPills();
 
         public abstract string TabsFullWidth();
 
@@ -444,9 +452,15 @@ namespace Blazorise
 
         public virtual string LayoutFooter() => "b-layout-footer";
 
+        public virtual string LayoutFooterFixed() => "b-layout-footer-fixed";
+
         public virtual string LayoutSider() => "b-layout-sider";
 
         public virtual string LayoutSiderContent() => "b-layout-sider-content";
+
+        public virtual string LayoutLoading() => "b-layout-loading";
+
+        public virtual string LayoutRoot() => "b-layout-root";
 
         #endregion
 
@@ -490,9 +504,9 @@ namespace Blazorise
 
         public abstract string BarBrand( BarMode mode );
 
-        public abstract string BarToggler( BarMode mode );
+        public abstract string BarToggler( BarMode mode, BarTogglerMode togglerMode );
 
-        public abstract string BarTogglerCollapsed( BarMode mode, bool isShow );
+        public abstract string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow );
 
         public abstract string BarMenu( BarMode mode );
 
@@ -519,6 +533,8 @@ namespace Blazorise
         public abstract string BarDropdownMenuVisible( BarMode mode, bool visible );
 
         public abstract string BarDropdownMenuRight( BarMode mode );
+
+        public abstract string BarDropdownMenuContainer( BarMode mode );
 
         public abstract string BarCollapsed( BarMode mode );
 
@@ -556,7 +572,7 @@ namespace Blazorise
 
         #region Column
 
-        public abstract string Column();
+        public abstract string Column( bool hasSizes );
 
         public abstract string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 
@@ -654,6 +670,8 @@ namespace Blazorise
 
         public abstract string ProgressBar();
 
+        public abstract string ProgressBarSize( Size size );
+
         public abstract string ProgressBarColor( Background background );
 
         public abstract string ProgressBarStriped();
@@ -705,6 +723,8 @@ namespace Blazorise
         public abstract string TableHeaderThemeContrast( ThemeContrast themeContrast );
 
         public abstract string TableHeaderCell();
+
+        public abstract string TableHeaderCellTextAlignment( TextAlignment textAlignment );
 
         public abstract string TableFooter();
 
@@ -779,8 +799,6 @@ namespace Blazorise
         #region Heading
 
         public abstract string HeadingSize( HeadingSize headingSize );
-
-        public abstract string HeadingTextColor( TextColor textColor );
 
         #endregion
 

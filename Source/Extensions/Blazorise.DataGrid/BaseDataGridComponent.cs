@@ -11,7 +11,7 @@ namespace Blazorise.DataGrid
     /// <summary>
     /// Minimal base class for datagrid components.
     /// </summary>
-    public class BaseDataGridComponent : ComponentBase
+    public class BaseDataGridComponent : ComponentBase, IDisposable
     {
         #region Members
 
@@ -19,7 +19,26 @@ namespace Blazorise.DataGrid
 
         #endregion
 
+        #region Methods
+
+        public void Dispose()
+        {
+            Dispose( true );
+        }
+
+        protected virtual void Dispose( bool disposing )
+        {
+            if ( !Disposed )
+            {
+                Disposed = true;
+            }
+        }
+
+        #endregion
+
         #region Properties
+
+        protected bool Disposed { get; private set; }
 
         /// <summary>
         /// Gets or sets the element id.

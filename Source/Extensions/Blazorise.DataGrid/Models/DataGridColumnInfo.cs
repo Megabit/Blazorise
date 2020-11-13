@@ -14,11 +14,13 @@ namespace Blazorise.DataGrid
         /// <param name="field">Field name.</param>
         /// <param name="searchValue">Current search value.</param>
         /// <param name="direction">Current sort direction.</param>
-        public DataGridColumnInfo( string field, string searchValue, SortDirection direction )
+        /// <param name="columnType">Current column type.</param>
+        public DataGridColumnInfo( string field, string searchValue, SortDirection direction, DataGridColumnType columnType )
         {
             Field = field;
             SearchValue = searchValue;
             Direction = direction;
+            ColumnType = columnType;
         }
 
         /// <summary>
@@ -34,6 +36,11 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the column sort direction.
         /// </summary>
-        public SortDirection Direction { get; set; }
+        public SortDirection Direction { get; }
+
+        /// <summary>
+        /// Gets the column type.
+        /// </summary>
+        public DataGridColumnType ColumnType { get; }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -21,21 +22,23 @@ namespace Blazorise
 
         private bool disabled;
 
+        private bool validationInitialized;
+
         #endregion
 
         #region Methods
 
-        protected override void OnInitialized()
+        protected void InitializeValidation()
         {
+            if ( validationInitialized )
+                return;
+
             // link to the parent component
-            if ( ParentValidation != null )
-            {
-                ParentValidation.InitializeInput( this );
+            ParentValidation.InitializeInput( this );
 
-                ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
-            }
+            ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
 
-            base.OnInitialized();
+            validationInitialized = true;
         }
 
         protected override void Dispose( bool disposing )
@@ -113,6 +116,8 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        [Inject] protected BlazoriseOptions Options { get; set; }
 
         /// <inheritdoc/>
         public virtual object ValidationValue => InternalValue;
@@ -204,6 +209,21 @@ namespace Blazorise
         /// Input content.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Occurs when the input box gains or loses focus.
+        /// </summary>
+        [Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; }
+
+        /// <summary>
+        /// Occurs when the input box gains focus.
+        /// </summary>
+        [Parameter] public EventCallback<FocusEventArgs> FocusIn { get; set; }
+
+        /// <summary>
+        /// Occurs when the input box loses focus.
+        /// </summary>
+        [Parameter] public EventCallback<FocusEventArgs> FocusOut { get; set; }
 
         /// <summary>
         /// Parent validation container.

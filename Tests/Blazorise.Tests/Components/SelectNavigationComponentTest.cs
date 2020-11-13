@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class SelectNavigationComponentTest : ComponentTestFixture
+    public class SelectNavigationComponentTest : TestContext
     {
         public SelectNavigationComponentTest()
         {

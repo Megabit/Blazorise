@@ -1,6 +1,6 @@
 ﻿@page "/tests/components"
 <Row>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Select List</CardTitle>
@@ -9,7 +9,9 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <SelectList Data="@myDdlData"
+                        <SelectList TItem="MySelectModel"
+                                    TValue="object"
+                                    Data="@myDdlData"
                                     TextField="@((item)=>item.MyTextField)"
                                     ValueField="@((item)=>item.MyValueField)"
                                     SelectedValue="@selectedListValue"
@@ -24,7 +26,7 @@
             </CardBody>
         </Card>
     </Column>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Autocomplete</CardTitle>
@@ -51,7 +53,7 @@
     </Column>
 </Row>
 <Row>
-    <Column ColumnSize="ColumnSize.IsHalf">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
                 <CardTitle>Dropdown List</CardTitle>

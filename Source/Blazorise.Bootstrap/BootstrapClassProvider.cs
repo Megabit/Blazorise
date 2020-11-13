@@ -72,6 +72,8 @@ namespace Blazorise.Bootstrap
 
         public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
+        public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
+
         public override string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
         public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
@@ -92,6 +94,8 @@ namespace Blazorise.Bootstrap
 
         public override string Radio( bool button ) => button ? null : UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
+        public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
+
         public override string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
         #endregion
@@ -99,6 +103,10 @@ namespace Blazorise.Bootstrap
         #region Switch
 
         public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+
+        public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+
+        public override string SwitchSize( Size size ) => $"custom-control-input-{ToSize( size )}";
 
         public override string SwitchChecked( bool @checked ) => null;
 
@@ -178,7 +186,7 @@ namespace Blazorise.Bootstrap
 
         public override string FieldsBody() => null;
 
-        public override string FieldsColumn() => $"{Column()}";
+        public override string FieldsColumn() => "col";
 
         #endregion
 
@@ -188,7 +196,7 @@ namespace Blazorise.Bootstrap
 
         public override string FieldHorizontal() => "row";
 
-        public override string FieldColumn() => $"{Column()}";
+        public override string FieldColumn() => "col";
 
         public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -269,18 +277,7 @@ namespace Blazorise.Bootstrap
 
         public override string ButtonOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
-        public override string ButtonSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.Small:
-                    return "btn-sm";
-                case Blazorise.ButtonSize.Large:
-                    return "btn-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonSize( Size size ) => $"{Button()}-{ToSize( size )}";
 
         public override string ButtonBlock() => $"{Button()}-block";
 
@@ -298,18 +295,7 @@ namespace Blazorise.Bootstrap
 
         public override string ButtonsToolbar() => "btn-toolbar";
 
-        public override string ButtonsSize( ButtonsSize buttonsSize )
-        {
-            switch ( buttonsSize )
-            {
-                case Blazorise.ButtonsSize.Small:
-                    return "btn-group-sm";
-                case Blazorise.ButtonsSize.Large:
-                    return "btn-group-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string ButtonsSize( Size size ) => $"{ButtonsAddons()}-{ToSize( size )}";
 
         public override string ButtonsVertical() => "btn-group-vertical";
 
@@ -351,20 +337,11 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.None ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
 
-        public override string DropdownToggleSize( ButtonSize buttonSize )
-        {
-            switch ( buttonSize )
-            {
-                case Blazorise.ButtonSize.Small:
-                    return "btn-sm";
-                case Blazorise.ButtonSize.Large:
-                    return "btn-lg";
-                default:
-                    return null;
-            }
-        }
+        public override string DropdownToggleSize( Size size ) => $"{Button()}-{ToSize( size )}";
 
         public override string DropdownToggleSplit() => "dropdown-toggle-split";
+
+        public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
 
         public override string DropdownDirection( Direction direction )
         {
@@ -387,11 +364,9 @@ namespace Blazorise.Bootstrap
 
         #region Tab
 
-        public override string Tabs() => "nav nav-tabs";
+        public override string Tabs( bool pills ) => pills ? "nav nav-pills" : "nav nav-tabs";
 
         public override string TabsCards() => "card-header-tabs";
-
-        public override string TabsPills() => "nav-pills";
 
         public override string TabsFullWidth() => "nav-fill";
 
@@ -541,9 +516,10 @@ namespace Blazorise.Bootstrap
 
         public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
 
-        public override string BarToggler( BarMode mode ) => "navbar-toggler";
+        public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler" :
+            togglerMode == BarTogglerMode.Popout ? "b-bar-toggler-popout" : "b-bar-toggler-inline";
 
-        public override string BarTogglerCollapsed( BarMode mode, bool isShow ) => isShow ? null : "collapsed";
+        public override string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow ) => isShow || mode != Blazorise.BarMode.Horizontal ? null : "collapsed";
 
         public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "collapse navbar-collapse" : "b-bar-menu";
 
@@ -551,13 +527,13 @@ namespace Blazorise.Bootstrap
 
         public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav mr-auto" : "b-bar-start";
 
-        public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav" : "b-bar-end";
+        public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav ml-auto" : "b-bar-end";
 
         public override string BarDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : "b-bar-dropdown";
 
         public override string BarDropdownShow( BarMode mode ) => Show();
 
-        public override string BarDropdownToggle( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-link dropdown-toggle" : "b-bar-link";
+        public override string BarDropdownToggle( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-link dropdown-toggle" : "b-bar-link b-bar-dropdown-toggle";
 
         public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 
@@ -568,6 +544,8 @@ namespace Blazorise.Bootstrap
         public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
         public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-right" : "b-bar-right";
+
+        public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
 
         public override string BarCollapsed( BarMode mode ) => null;
 
@@ -605,11 +583,11 @@ namespace Blazorise.Bootstrap
 
         #region Column
 
-        public override string Column() => "col";
+        public override string Column( bool hasSizes ) => hasSizes ? null : "col";
 
         public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
         {
-            var baseClass = offset ? "offset" : Column();
+            var baseClass = offset ? "offset" : "col";
 
             if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
             {
@@ -720,6 +698,8 @@ namespace Blazorise.Bootstrap
 
         public override string ProgressBar() => "progress-bar";
 
+        public override string ProgressBarSize( Size size ) => null;
+
         public override string ProgressBarColor( Background background ) => BackgroundColor( background );
 
         public override string ProgressBarStriped() => "progress-bar-striped";
@@ -771,6 +751,8 @@ namespace Blazorise.Bootstrap
         public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"thead-{ToThemeContrast( themeContrast )}";
 
         public override string TableHeaderCell() => null;
+
+        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
 
         public override string TableFooter() => null;
 
@@ -845,8 +827,6 @@ namespace Blazorise.Bootstrap
         #region Heading
 
         public override string HeadingSize( HeadingSize headingSize ) => $"h{ToHeadingSize( headingSize )}";
-
-        public override string HeadingTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
         #endregion
 

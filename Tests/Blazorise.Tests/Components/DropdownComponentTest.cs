@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class DropdownComponentTest : ComponentTestFixture
+    public class DropdownComponentTest : TestContext
     {
         public DropdownComponentTest()
         {
