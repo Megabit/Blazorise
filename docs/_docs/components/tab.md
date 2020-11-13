@@ -81,24 +81,28 @@ So for a basic tabs when we put it all together, we get this:
 | FullWidth           | boolean                                                                    | false            | Makes the tab items to extend the full available width.                                               |
 | Justified           | boolean                                                                    | false            | Makes the tab items to extend the full available width, but every item will be the same width.        |
 | TabPosition         | [TabPosition]({{ "/docs/helpers/enums/#tabposition" | relative_url }})     | Top              | Defines the placement of a tab items.                                                                 |
-| SelectedTab         | string                                                                     |                  | Currently selected tab name.                                                                          |
-| SelectedTabChanged  | event                                                                      |                  | Occurs after the selected tab has changed.                                                            |
+| SelectedTab         | string                                                                     |                  | Currently selected tab name.                                                                           |
+| SelectedTabChanged  | event                                                                      |                  | Occurs after the selected tab has changed.                                                             |
 
 ### Tab
 
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
-| Name                | string                                                                     | null             | Defines the unique tab name.                                                                          |
+| Name                | string                                                                     | null             | Defines the unique tab name.                                                                           |
+| Clicked             | event                                                                      |                  | Occurs when the button is clicked. 
+                                              |
+| Disabled            | boolean                                                                    | false            | Prevents user interactions and make it appear lighter.  
+                                              |
 
 ### TabsContent
 
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
-| SelectedPanel       | string                                                                     |                  | Currently selected panel name.                                                                        |
-| SelectedPanelChanged | event                                                                     |                  | Occurs after the selected panel has changed.                                                          |
+| SelectedPanel       | string                                                                     |                  | Currently selected panel name.                                                                         |
+| SelectedPanelChanged | event                                                                     |                  | Occurs after the selected panel has changed.                                                           |
 
 ### TabPanel
 
 | Name                | Type                                                                       | Default          | Description                                                                                           |
 |---------------------|----------------------------------------------------------------------------|------------------|-------------------------------------------------------------------------------------------------------|
-| Name                | string                                                                     | null             | Defines the panel name that must match the corresponding tab name.                                    |
+| Name                | string                                                                     | null             | Defines the panel name that must match the corresponding tab name.                                     |
