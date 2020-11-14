@@ -164,6 +164,7 @@ namespace Blazorise.DataGrid
                 editItemCellValues.Add( column.ElementId, new CellEditContext
                 {
                     CellValue = column.GetValue( editItem ),
+                    Model = editItem
                 } );
             }
         }
