@@ -1,4 +1,5 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +9,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
-#endregion
+
+#endregion Using directives
 
 namespace Blazorise.DataGrid
 {
@@ -81,7 +83,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected PaginationContext<TItem> paginationContext;
 
-        #endregion
+        #endregion Members
 
         #region Constructors
 
@@ -95,7 +97,7 @@ namespace Blazorise.DataGrid
             paginationContext.SubscribeOnPageSizeChanged( pageSize => InvokeAsync( () => StateHasChanged() ) );
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Methods
 
@@ -139,7 +141,7 @@ namespace Blazorise.DataGrid
             return base.OnAfterRenderAsync( firstRender );
         }
 
-        #endregion
+        #endregion Setup
 
         #region Editing
 
@@ -289,6 +291,18 @@ namespace Blazorise.DataGrid
                 PopupVisible = false;
         }
 
+        protected Task OnMultiSelectCommand( (bool IsSelected, TItem item) mSelect )
+        {
+            if ( SelectedRows is null )
+                SelectedRows = new List<TItem>();
+            if ( mSelect.IsSelected && !SelectedRows.Contains( mSelect.item ) )
+                SelectedRows.Add( mSelect.item );
+
+            if ( !mSelect.IsSelected && SelectedRows.Contains( mSelect.item ) )
+                SelectedRows.Remove( mSelect.item );
+            return SelectedRowsChanged.InvokeAsync( SelectedRows );
+        }
+
         // this is to give user a way to stop save if necessary
         internal async Task<bool> IsSafeToProceed<TValues>( EventCallback<CancellableRowChange<TItem, TValues>> handler, TItem item, TValues editedCellValues )
         {
@@ -324,7 +338,7 @@ namespace Blazorise.DataGrid
             return true;
         }
 
-        #endregion
+        #endregion Editing
 
         #region Filtering
 
@@ -381,7 +395,7 @@ namespace Blazorise.DataGrid
             return Task.CompletedTask;
         }
 
-        internal protected Task OnFilterChanged( DataGridColumn<TItem> column, string value )
+        protected internal Task OnFilterChanged( DataGridColumn<TItem> column, string value )
         {
             column.Filter.SearchValue = value;
             dirtyFilter = dirtyView = true;
@@ -520,12 +534,16 @@ namespace Blazorise.DataGrid
             {
                 case DataGridFilterMethod.StartsWith:
                     return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+
                 case DataGridFilterMethod.EndsWith:
                     return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+
                 case DataGridFilterMethod.Equals:
                     return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+
                 case DataGridFilterMethod.NotEquals:
                     return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+
                 case DataGridFilterMethod.Contains:
                 default:
                     return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
@@ -558,12 +576,13 @@ namespace Blazorise.DataGrid
                 return Task.CompletedTask;
 
             SelectedRow = item;
+
             return SelectedRowChanged.InvokeAsync( SelectedRow );
         }
 
-        #endregion
+        #endregion Filtering
 
-        #endregion
+        #endregion Methods
 
         #region Properties
 
@@ -872,9 +891,24 @@ namespace Blazorise.DataGrid
         [Parameter] public TItem SelectedRow { get; set; }
 
         /// <summary>
+        /// Gets or sets currently selected rows.
+        /// </summary>
+        [Parameter] public List<TItem> SelectedRows { get; set; }
+
+        /// <summary>
+        /// Enables multiple selection
+        /// </summary>
+        [Parameter] public bool MultiSelect { get; set; }
+
+        /// <summary>
         /// Occurs after the selected row has changed.
         /// </summary>
         [Parameter] public EventCallback<TItem> SelectedRowChanged { get; set; }
+
+        /// <summary>
+        /// Occurs after multi selection has changed.
+        /// </summary>
+        [Parameter] public EventCallback<List<TItem>> SelectedRowsChanged { get; set; }
 
         /// <summary>
         /// Cancelable event called before the row is inserted.
@@ -1065,6 +1099,6 @@ namespace Blazorise.DataGrid
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }

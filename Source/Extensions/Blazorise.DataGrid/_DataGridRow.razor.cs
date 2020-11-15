@@ -1,10 +1,12 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-#endregion
+
+#endregion Using directives
 
 namespace Blazorise.DataGrid
 {
@@ -17,7 +19,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected Dictionary<string, CellEditContext> cellsValues = new Dictionary<string, CellEditContext>();
 
-        #endregion
+        #endregion Members
 
         #region Methods
 
@@ -88,7 +90,12 @@ namespace Blazorise.DataGrid
             return Cancel.InvokeAsync( Item );
         }
 
-        #endregion
+        protected internal Task OnMultiSelectCommand( bool IsSelected )
+        {
+            return MultiSelect.InvokeAsync( (IsSelected, Item) );
+        }
+
+        #endregion Methods
 
         #region Properties
 
@@ -173,12 +180,17 @@ namespace Blazorise.DataGrid
         [Parameter] public EventCallback Cancel { get; set; }
 
         /// <summary>
+        /// Activates the multi select command.
+        /// </summary>
+        [Parameter] public EventCallback<(bool, TItem)> MultiSelect { get; set; }
+
+        /// <summary>
         /// Gets or sets the applied cursor when the row is hovered over.
         /// </summary>
         [Parameter] public Cursor HoverCursor { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }
