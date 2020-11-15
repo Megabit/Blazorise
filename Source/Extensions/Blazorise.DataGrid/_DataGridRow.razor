@@ -20,6 +20,12 @@
               Class="@GetClass(styling, selectedStyling)"
               Style="@GetStyle(styling, selectedStyling)"
               HoverCursor="@HoverCursor">
+
+        @if (ParentDataGrid.MultiSelect)
+        {
+            <_DataGridRowMultiSelect TItem="TItem" Item="Item" OnSelectedChanged="@OnMultiSelectCommand" ></_DataGridRowMultiSelect>
+        }
+
         @foreach ( var column in Columns )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )

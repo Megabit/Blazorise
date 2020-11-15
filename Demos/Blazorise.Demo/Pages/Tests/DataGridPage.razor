@@ -47,6 +47,13 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@multiSelect">Multi Selection</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
                             Edit Mode
                         </FieldLabel>
                         <FieldBody>
@@ -87,6 +94,7 @@
                           SortMode="@sortMode"
                           Filterable="@filterable"
                           ShowPager="@showPager"
+                          MultiSelect="@multiSelect"
                           PagerPosition="DataGridPagerPosition.TopAndBottom"
                           ShowPageSizes="@showPageSizes"
                           RowInserted="@OnRowInserted"
@@ -94,6 +102,7 @@
                           RowRemoved="@OnRowRemoved"
                           UseInternalEditing="true"
                           @bind-SelectedRow="@selectedEmployee"
+                          @bind-SelectedRows="@selectedEmployees"
                           NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
                           DetailRowTrigger="@((item)=>item.Salaries?.Count > 0 && item.Id == selectedEmployee?.Id)"
                           Striped="true"
@@ -260,6 +269,48 @@
         </Card>
     </Column>
 </Row>
+
+  @if(multiSelect && selectedEmployees?.Count > 0) { 
+    <Heading Size="HeadingSize.Is2" Margin="Margin.Is2">Multiple Employees</Heading>
+    @foreach (var employee in selectedEmployees)
+	{
+        <Row @key="employee" Margin="Margin.Is1.FromTop">
+            <Column>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Selected Employee</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>First Name</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit ReadOnly="true" Text="@employee?.FirstName"></TextEdit>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>Last Name</FieldLabel>
+                                <TextEdit ReadOnly="true" Text="@employee?.LastName"></TextEdit>
+                            </Field>
+                        </Fields>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>Email</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit ReadOnly="true" Text="@employee?.EMail"></TextEdit>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>City</FieldLabel>
+                                <TextEdit ReadOnly="true" Text="@employee?.City"></TextEdit>
+                            </Field>
+                        </Fields>
+                    </CardBody>
+                </Card>
+            </Column>
+        </Row>
+      }
+  }
 @code{
     DataGridEditMode editMode = DataGridEditMode.Form;
     bool editable = true;
@@ -268,6 +319,8 @@
     bool filterable = true;
     bool showPager = true;
     bool showPageSizes = true;
+    bool multiSelect = false;
+    List<Employee> selectedEmployees;
 
     // TODO: add options to control the commands
     //bool newCommandAllowed = true;
