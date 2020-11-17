@@ -57,8 +57,10 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( default );
             }
-
-            await Selected.InvokeAsync( Item );
+            else
+            {
+                await Selected.InvokeAsync( Item );
+            }
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )

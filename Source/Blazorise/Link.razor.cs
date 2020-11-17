@@ -83,7 +83,7 @@ namespace Blazorise
             {
                 // If the href contains an anchor link we don't want the default click action to occur, but
                 // rather take care of the click in our own method.
-                anchorTarget = To.Substring( 1 );
+                anchorTarget = To[1..];
                 PreventDefault = true;
             }
 
@@ -216,6 +216,9 @@ namespace Blazorise
 
         [Inject] private NavigationManager NavigationManager { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Link"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class ButtonOnlyComponentTest : ComponentTestFixture
+    public class ButtonOnlyComponentTest : TestContext
     {
         public ButtonOnlyComponentTest()
         {

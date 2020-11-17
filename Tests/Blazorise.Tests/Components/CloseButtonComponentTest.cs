@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class CloseButtonComponentTest : ComponentTestFixture
+    public class CloseButtonComponentTest : TestContext
     {
         public CloseButtonComponentTest()
         {

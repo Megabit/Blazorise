@@ -174,8 +174,14 @@ namespace Blazorise
         [Parameter] public ValidationMode Mode { get; set; } = ValidationMode.Auto;
 
         /// <summary>
-        /// If set to true, and <see cref="Mode"/> is set to <see cref="ValidationMode.Auto"/>, validation will run on page load.
+        /// If set to true, and <see cref="Mode"/> is set to <see cref="ValidationMode.Auto"/>, validation will run automatically on page load.
         /// </summary>
+        /// <remarks>
+        /// When validation is placed inside of modal dialog, the behavior is a little different. 
+        /// Modals are by definition always loaded and are always present in the DOM so no loading is ever happening again
+        /// after the page that contains the modal is first initialized.  Their visibility is controlled by display: none;
+        /// To workaround this, the actual "first load" for modals can be done by re-initializing <see cref="Model"/> parameter. 
+        /// </remarks>
         [Parameter] public bool ValidateOnLoad { get; set; } = true;
 
         /// <summary>

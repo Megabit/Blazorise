@@ -1,13 +1,14 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.DataGrid
 {
-    public class PaginationContext
+    public class PaginationContext<TItem>
     {
         #region Members
 
@@ -30,6 +31,19 @@ namespace Blazorise.DataGrid
         private int currentPage = 1;
 
         private int currentPageSize = 5;
+
+        private int? totalItems;
+
+        private DataGrid<TItem> parentDataGrid;
+
+        #endregion
+
+        #region Constructors
+
+        public PaginationContext( DataGrid<TItem> parentDataGrid )
+        {
+            this.parentDataGrid = parentDataGrid;
+        }
 
         #endregion
 
@@ -133,7 +147,8 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                var lastPage = Math.Max( (int)Math.Ceiling( totalItems / (double)currentPageSize ), 1 );
+
+                var lastPage = Math.Max( (int)Math.Ceiling( ( TotalItems ?? 0 ) / (double)currentPageSize ), 1 );
 
                 if ( CurrentPage > lastPage )
                     CurrentPage = lastPage;
@@ -190,19 +205,23 @@ namespace Blazorise.DataGrid
 
         public int MaxPaginationLinks { get; set; } = 5;
 
-        private int totalItems;
         /// <summary>
-        /// Gets or sets the current page size
+        /// Gets or sets the total number of items. Used only when <see cref="ReadData"/> is used to load the data.
         /// </summary>
-        public int TotalItems
+        /// <remarks>
+        /// This field must be set only when <see cref="ReadData"/> is used to load the data.
+        /// </remarks>
+        public int? TotalItems
         {
-            get => totalItems;
+            // If we're using ReadData than TotalItems must be set so we can know how many items are available
+            get => ( parentDataGrid.ManualReadMode ? totalItems : parentDataGrid.FilteredData?.Count() ) ?? 0;
             set
             {
                 if ( totalItems != value )
                 {
                     totalItems = value;
-                    TriggerTotalItemsChange( value );
+
+                    TriggerTotalItemsChange( value ?? default );
                 }
             }
         }

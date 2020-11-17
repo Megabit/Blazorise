@@ -42,7 +42,7 @@ namespace Blazorise
         [Parameter] public EventCallback Clicked { get; set; }
 
         /// <summary>
-        /// Page address.
+        /// Specifies the URL of the page the link goes to.
         /// </summary>
         [Parameter] public string To { get; set; }
 

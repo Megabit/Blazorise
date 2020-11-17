@@ -1,11 +1,8 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Blazorise.Providers;
-using Microsoft.Extensions.Options;
+using Blazorise.Utils;
+using Microsoft.Extensions.DependencyInjection;
 #endregion
 
 namespace Blazorise
@@ -28,6 +25,7 @@ namespace Blazorise
             serviceCollection.AddSingleton( configureOptions );
             serviceCollection.AddSingleton<BlazoriseOptions>();
 
+            serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
             serviceCollection.AddScoped<IEditContextValidator, EditContextValidator>();
 
             return serviceCollection;

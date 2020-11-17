@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    partial class _DataGridPagination : BaseComponent
+    partial class _DataGridPagination<TItem> : BaseComponent
     {
         #region Methods
 
@@ -25,17 +25,17 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets the pagination context.
         /// </summary>
-        [Parameter] public PaginationContext PaginationContext { get; set; }
+        [Parameter] public PaginationContext<TItem> PaginationContext { get; set; }
 
         /// <summary>
         /// Gets or sets the pagination templates.
         /// </summary>
         [Parameter]
-        public PaginationTemplates PaginationTemplates
+        public PaginationTemplates<TItem> PaginationTemplates
         {
             get
             {
-                return new PaginationTemplates
+                return new PaginationTemplates<TItem>
                 {
                     FirstPageButtonTemplate = FirstPageButtonTemplate,
                     LastPageButtonTemplate = LastPageButtonTemplate,
@@ -86,12 +86,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets content of total items grid for small devices.
         /// </summary>
-        [Parameter] public RenderFragment<PaginationContext> TotalItemsShortTemplate { get; set; }
+        [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsShortTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets content of total items grid.
         /// </summary>
-        [Parameter] public RenderFragment<PaginationContext> TotalItemsTemplate { get; set; }
+        [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get; set; }
 
         [Parameter]
         public Func<string, Task> OnPaginationItemClick { get; set; }

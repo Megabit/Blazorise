@@ -22,21 +22,23 @@ namespace Blazorise
 
         private bool disabled;
 
+        private bool validationInitialized;
+
         #endregion
 
         #region Methods
 
-        protected override void OnInitialized()
+        protected void InitializeValidation()
         {
+            if ( validationInitialized )
+                return;
+
             // link to the parent component
-            if ( ParentValidation != null )
-            {
-                ParentValidation.InitializeInput( this );
+            ParentValidation.InitializeInput( this );
 
-                ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
-            }
+            ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
 
-            base.OnInitialized();
+            validationInitialized = true;
         }
 
         protected override void Dispose( bool disposing )

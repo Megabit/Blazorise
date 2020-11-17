@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Blazorise.Tests.Components
 {
-    public class ValidateNumericEditComponentTest : ComponentTestFixture
+    public class ValidateNumericEditComponentTest : TestContext
     {
         public ValidateNumericEditComponentTest()
         {
