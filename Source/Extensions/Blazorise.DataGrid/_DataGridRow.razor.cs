@@ -64,9 +64,6 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( Item );
             }
-            if(_MultiSelect is object)
-                _MultiSelect.IsChecked = IsSelected;
-
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )

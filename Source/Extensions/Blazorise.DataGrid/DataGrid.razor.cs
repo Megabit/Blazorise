@@ -580,13 +580,6 @@ namespace Blazorise.DataGrid
             if ( editState != DataGridEditState.None )
                 return Task.CompletedTask;
             
-            if( item is null && SelectedRow is object )
-                OnMultiSelectCommand( (false, SelectedRow) );
-            else
-            {
-                OnMultiSelectCommand( (true, item) );
-            }
-
             SelectedRow = item;
 
             return SelectedRowChanged.InvokeAsync( SelectedRow );
