@@ -32,7 +32,7 @@ namespace Blazorise.DataGrid
                 // initialise all internal cell values
                 foreach ( var column in Columns )
                 {
-                    if ( column.ColumnType == DataGridColumnType.Command )
+                    if ( column.ExcludeFromInit )
                         continue;
 
                     cellsValues.Add( column.ElementId, new CellEditContext

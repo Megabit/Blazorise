@@ -512,7 +512,7 @@ namespace Blazorise.DataGrid
 
                 foreach ( var column in Columns )
                 {
-                    if ( column.ExcludeFromFilter() )
+                    if ( column.ExcludeFromFilter )
                         continue;
 
                     if ( string.IsNullOrEmpty( column.Filter.SearchValue ) )
@@ -611,12 +611,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets only columns that are available for editing.
         /// </summary>
-        protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.Editable );
+        protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
 
         /// <summary>
         /// Gets only columns that are available for display in the grid.
         /// </summary>
-        protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns => Columns.Where( x => x.ColumnType == DataGridColumnType.Command || x.Displayable );
+        protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns => Columns.Where( x => x.IsDisplayable || x.Displayable );
 
         /// <summary>
         /// Returns true if <see cref="Data"/> is safe to modify.

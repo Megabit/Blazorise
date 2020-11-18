@@ -124,10 +124,10 @@ namespace Blazorise.DataGrid
             return FormatDisplayValue( GetValue( item ) );
         }
 
-        public bool ExcludeFromFilter()
-        {
-            return ( this.ColumnType == DataGridColumnType.Command || this.ColumnType == DataGridColumnType.MultiSelect );
-        }
+        internal bool IsDisplayable => this.ColumnType == DataGridColumnType.Command || this.ColumnType == DataGridColumnType.MultiSelect;
+        internal bool ExcludeFromFilter => this.ColumnType == DataGridColumnType.Command || this.ColumnType == DataGridColumnType.MultiSelect;
+        internal bool ExcludeFromEdit => this.ColumnType == DataGridColumnType.Command || this.ColumnType == DataGridColumnType.MultiSelect;
+        internal bool ExcludeFromInit => this.ColumnType == DataGridColumnType.Command || this.ColumnType == DataGridColumnType.MultiSelect;
 
         #endregion
 
