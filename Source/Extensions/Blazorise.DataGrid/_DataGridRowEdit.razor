@@ -13,7 +13,7 @@
             <Row>
                 @foreach ( var column in Columns )
                 {
-                    @if ( column.ColumnType == DataGridColumnType.Command )
+                    @if ( column.ExcludeFromEdit )
                         continue;
 
                     @if ( CellAreEditable( column ) )
