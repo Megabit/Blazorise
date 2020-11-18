@@ -13,10 +13,7 @@
             {
 
                 <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.None)" Color="@(HeaderRowStyling?.Color ?? Color.None)">
-                    @if (MultiSelect)
-                    {
-                        <TableHeaderCell></TableHeaderCell>
-                    }
+
                     @foreach ( var column in DisplayableColumns )
                     {
                         @if ( column.ColumnType == DataGridColumnType.Command )
@@ -29,6 +26,13 @@
                                         <_DataGridNewCommand TItem="TItem" New="@OnNewCommand" />
                                     }
                                 </TableHeaderCell>
+                            }
+                        }
+                        else if (column.ColumnType == DataGridColumnType.MultiSelect)
+                        {
+                            @if (MultiSelect)
+                            {
+                                <TableHeaderCell></TableHeaderCell>
                             }
                         }
                         else
@@ -58,10 +62,7 @@
             {
 
                 <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.None)" Color="@(FilterRowStyling?.Color ?? Color.None)">
-                    @if (MultiSelect)
-                    {
-                        <TableHeaderCell></TableHeaderCell>
-                    }
+
                     @foreach ( var column in DisplayableColumns )
                     {
                         @if ( !column.Filterable )
@@ -78,6 +79,13 @@
                                 <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
                                     <_DataGridClearFilterCommand TItem="TItem" ClearFilter="@OnClearFilterCommand" />
                                 </TableHeaderCell>
+                            }
+                        }
+                        else if (column.ColumnType == DataGridColumnType.MultiSelect)
+                        {
+                            @if (MultiSelect)
+                            {
+                                <TableHeaderCell></TableHeaderCell>
                             }
                         }
                         else

@@ -2,5 +2,16 @@
 @inherits _BaseDataGridRowMultiSelect<TItem>
 
     <TableRowCell Class="@Class" Style="@Style" width="@Width" TextAlignment="@TextAlignment">
-        <Blazorise.Check TValue="bool" Checked="IsChecked" CheckedExpression="()=> IsChecked" CheckedChanged="IsCheckedChanged" ></Blazorise.Check>
+            @if ( ParentDataGrid?.MultiSelectColumn?.MultiSelectTemplate != null )
+            {
+                @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>
+                {
+                    SelectedChanged = OnSelectedChanged,
+                    Item = Item,
+                } )
+            }
+            else
+            {
+                <Blazorise.Check TValue="bool" Checked="IsChecked" CheckedExpression="()=> IsChecked" CheckedChanged="IsCheckedChanged" ></Blazorise.Check>
+            }
     </TableRowCell>

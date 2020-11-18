@@ -19,6 +19,8 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected Dictionary<string, CellEditContext> cellsValues = new Dictionary<string, CellEditContext>();
 
+        protected _DataGridRowMultiSelect<TItem> _MultiSelect;
+
         #endregion Members
 
         #region Methods
@@ -46,7 +48,6 @@ namespace Blazorise.DataGrid
         protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
         {
             await Clicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
-
             var selectable = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
 
             if ( !selectable )
@@ -63,6 +64,9 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( Item );
             }
+            if(_MultiSelect is object)
+                _MultiSelect.IsChecked = IsSelected;
+
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
@@ -102,7 +106,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Indicates if the row is selected.
         /// </summary>
-        protected bool IsSelected => ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item;
+        protected bool IsSelected => (ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item) || ( ParentDataGrid.SelectedRows is object && ParentDataGrid.SelectedRows.Any(x=> (object)(x) == (object)Item ) );
 
         /// <summary>
         /// Gets the row background color.

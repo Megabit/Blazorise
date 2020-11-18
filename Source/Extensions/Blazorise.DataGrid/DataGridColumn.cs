@@ -124,6 +124,11 @@ namespace Blazorise.DataGrid
             return FormatDisplayValue( GetValue( item ) );
         }
 
+        public bool ExcludeFromFilter()
+        {
+            return ( this.ColumnType == DataGridColumnType.Command || this.ColumnType == DataGridColumnType.MultiSelect );
+        }
+
         #endregion
 
         #region Properties

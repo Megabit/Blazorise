@@ -116,6 +116,11 @@ namespace Blazorise.DataGrid
             {
                 CommandColumn = commandColumn;
             }
+
+            if ( MultiSelectColumn == null && column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
+            {
+                MultiSelectColumn = multiSelectColumn;
+            }
         }
 
         /// <summary>
@@ -507,7 +512,7 @@ namespace Blazorise.DataGrid
 
                 foreach ( var column in Columns )
                 {
-                    if ( column.ColumnType == DataGridColumnType.Command )
+                    if ( column.ExcludeFromFilter() )
                         continue;
 
                     if ( string.IsNullOrEmpty( column.Filter.SearchValue ) )
@@ -574,6 +579,13 @@ namespace Blazorise.DataGrid
         {
             if ( editState != DataGridEditState.None )
                 return Task.CompletedTask;
+            
+            if( item is null && SelectedRow is object )
+                OnMultiSelectCommand( (false, SelectedRow) );
+            else
+            {
+                OnMultiSelectCommand( (true, item) );
+            }
 
             SelectedRow = item;
 
@@ -687,6 +699,11 @@ namespace Blazorise.DataGrid
         /// Gets the reference to the associated command column.
         /// </summary>
         public DataGridCommandColumn<TItem> CommandColumn { get; private set; }
+
+        /// <summary>
+        /// Gets the reference to the associated multiselect column.
+        /// </summary>
+        public DataGridMultiSelectColumn<TItem> MultiSelectColumn { get; private set; }
 
         /// <summary>
         /// Gets or sets the datagrid data-source.
