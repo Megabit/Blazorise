@@ -12,12 +12,12 @@ The `Autocomplete` component provides suggestions while you type into the field.
 
 ## Installation
 
-The Autocomplete extension is part of the **Blazorise.Components** Nuget package.
+The Autocomplete extension is part of the **Blazorise.Components** NuGet package.
 {: .notice--info}
 
-### Nuget
+### NuGet
 
-Install extension from nuget.
+Install extension from NuGet.
 
 ```
 Install-Package Blazorise.Components

@@ -12,12 +12,12 @@ The `DropdownList` component allows you to select a value from a list of predefi
 
 ## Installation
 
-The DropdownList extension is part of the **Blazorise.Components** Nuget package.
+The DropdownList extension is part of the **Blazorise.Components** NuGet package.
 {: .notice--info}
 
-### Nuget
+### NuGet
 
-Install extension from nuget.
+Install extension from NuGet.
 
 ```
 Install-Package Blazorise.Components
