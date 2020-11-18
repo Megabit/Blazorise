@@ -121,6 +121,7 @@
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" Aggregate="DataGridAggregateType.TrueCount" />
                     </DataGridAggregates>
                     <DataGridColumns>
+                        <DataGridMultiSelectColumn TItem="Employee" Width="30px"></DataGridMultiSelectColumn>
                         <DataGridCommandColumn TItem="Employee" Width="170px">
                             <NewCommandTemplate>
                                 <Button Color="Color.Success" Clicked="@context.Clicked">New</Button>
