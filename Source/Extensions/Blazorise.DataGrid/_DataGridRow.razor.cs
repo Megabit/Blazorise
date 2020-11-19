@@ -70,8 +70,12 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( Item );
             }
-            if( ParentDataGrid.MultiSelect )
-                await multiSelect.IsCheckedChanged( !multiSelect.IsChecked );
+            if ( ParentDataGrid.MultiSelect )
+                if ( multiSelect is object )
+                    await multiSelect.IsCheckedChanged( !multiSelect.IsChecked );
+                else
+                    await OnMultiSelectCommand( ParentDataGrid.SelectedRows is object && !ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) );
+
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
