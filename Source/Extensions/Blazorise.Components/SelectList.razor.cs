@@ -12,6 +12,8 @@ namespace Blazorise.Components
     {
         #region Members
 
+        protected Select<TValue> selectRef;
+
         #endregion
 
         #region Methods
@@ -28,14 +30,12 @@ namespace Blazorise.Components
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
         public void Focus( bool scrollToElement = true )
         {
-            select.Focus( scrollToElement );
+            selectRef.Focus( scrollToElement );
         }
 
         #endregion
 
         #region Properties
-
-        protected Select<TValue> select;
 
         /// <summary>
         /// Gets or sets the select data-source.

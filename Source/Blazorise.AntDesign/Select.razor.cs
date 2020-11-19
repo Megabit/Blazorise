@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
@@ -29,8 +30,6 @@ namespace Blazorise.AntDesign
         /// Internal string separator for selected values when Multiple mode is used.
         /// </summary>
         private const string MultipleValuesSeparator = ";"; // Let's hope ";" will be enough to distinguish the values!
-
-        private List<(TValue Key, RenderFragment Value)> items = new List<(TValue Key, RenderFragment Value)>();
 
         #endregion
 
@@ -200,55 +199,83 @@ namespace Blazorise.AntDesign
         protected string InputElementId { get; set; } = IDGenerator.Instance.Generate;
 
         /// <summary>
-        /// Gets component items.
-        /// </summary>
-        public List<(TValue Key, RenderFragment Value)> Items => items;
-
-        /// <summary>
-        /// Gets the selected items.
+        /// Gets the selected items render fragments.
         /// </summary>
         protected IEnumerable<RenderFragment> SelectedItems
         {
             get
             {
-                var list = new List<RenderFragment>();
-
                 foreach ( var selectedValue in SelectedValues )
                 {
-                    list.Add( items.First( i => i.Key.Equals( selectedValue ) ).Value );
-                }
+                    var item = SelectItems.FirstOrDefault( i => Convert.ToString( i.Value ) == Convert.ToString( selectedValue ) );
 
-                return list;
+                    if ( item != null )
+                    {
+                        yield return item.ChildContent;
+                    }
+                }
             }
         }
 
+        /// <summary>
+        /// Gets the render fragment for the selected option.
+        /// </summary>
         protected RenderFragment SelectedItem
         {
             get
             {
-                return
-                SelectedValue != null
-                ? items.Count > 0
-                ? items.First( i => i.Key.Equals( SelectedValue ) ).Value
-                : null
-                : null;
+                if ( SelectedValue != null )
+                {
+                    var item = SelectItems.FirstOrDefault( i => Convert.ToString( i.Value ) == Convert.ToString( SelectedValue ) );
+
+                    return item?.ChildContent;
+                }
+
+                return null;
             }
         }
 
         string SelectListId =>
             $"select_list_{ElementId}";
 
-        string ContainerClassNames =>
-            "ant-select ant-select-show-arrow " +
-            $"{( Multiple ? "ant-select-multiple" : "ant-select-single" )} " +
-            $"{( Expanded ? "ant-select-open" : "" )} " +
-            $"{( Disabled ? "ant-select-disabled" : "" )}";
+        string ContainerClassNames
+        {
+            get
+            {
+                var sb = new StringBuilder( "ant-select ant-select-show-arrow" );
 
-        string DropdownClassNames =>
-            $"ant-select-dropdown ant-select-dropdown-placement-bottomLeft {( Expanded ? "slide-up-enter slide-up-enter-active slide-up" : "slide-up-leave slide-up-leave-active slide-up" )}";
+                if ( Multiple )
+                    sb.Append( " ant-select-multiple" );
+                else
+                    sb.Append( " ant-select-single" );
+
+                if ( Expanded )
+                    sb.Append( " ant-select-open" );
+
+                if ( Disabled )
+                    sb.Append( " ant-select-disabled" );
+
+                return sb.ToString();
+            }
+        }
+
+        string DropdownClassNames
+        {
+            get
+            {
+                var sb = new StringBuilder( "ant-select-dropdown ant-select-dropdown-placement-bottomLeft" );
+
+                if ( Expanded )
+                    sb.Append( " slide-up-enter slide-up-enter-active slide-up" );
+                else
+                    sb.Append( " slide-up-leave slide-up-leave-active slide-up" );
+
+                return sb.ToString();
+            }
+        }
 
         string DropdownStyleNames =>
-            $"width: {(int)elementInfo.BoundingClientRect.Width}px; left: {(int)elementInfo.OffsetLeft}px; top: {(int)( elementInfo.OffsetTop + elementInfo.BoundingClientRect.Height )}px;";
+                $"width: {(int)elementInfo.BoundingClientRect.Width}px; left: {(int)elementInfo.OffsetLeft}px; top: {(int)( elementInfo.OffsetTop + elementInfo.BoundingClientRect.Height )}px;";
 
         string DropdownInnerStyleNames
             => $"max-height: {( MaxVisibleItems == null ? 256 : MaxVisibleItems * 32 )}px; overflow-y: auto; overflow-anchor: none;";
