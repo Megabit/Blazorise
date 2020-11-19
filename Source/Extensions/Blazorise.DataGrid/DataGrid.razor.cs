@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
 
-#endregion Using directives
+#endregion
 
 namespace Blazorise.DataGrid
 {
@@ -83,7 +83,14 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected PaginationContext<TItem> paginationContext;
 
-        #endregion Members
+        /// <summary>
+        /// Use it as a trigger to unselect all rows.
+        /// Set it back to false.
+        /// </summary>
+        internal bool UnSelectAllRows { get; set; }
+
+
+        #endregion 
 
         #region Constructors
 
@@ -97,7 +104,7 @@ namespace Blazorise.DataGrid
             paginationContext.SubscribeOnPageSizeChanged( pageSize => InvokeAsync( () => StateHasChanged() ) );
         }
 
-        #endregion Constructors
+        #endregion
 
         #region Methods
 
@@ -134,6 +141,12 @@ namespace Blazorise.DataGrid
 
         protected override Task OnAfterRenderAsync( bool firstRender )
         {
+            if ( !MultiSelect && SelectedRows is object )
+            {
+                SelectedRows = null;
+                InvokeAsync( () => StateHasChanged() );
+            }
+
             if ( firstRender )
             {
                 if ( ManualReadMode )
@@ -146,7 +159,7 @@ namespace Blazorise.DataGrid
             return base.OnAfterRenderAsync( firstRender );
         }
 
-        #endregion Setup
+        #endregion
 
         #region Editing
 
@@ -298,6 +311,9 @@ namespace Blazorise.DataGrid
 
         protected Task OnMultiSelectCommand( (bool IsSelected, TItem item) mSelect )
         {
+            SelectedAllRows = false;
+            UnSelectAllRows = false;
+
             if ( SelectedRows is null )
                 SelectedRows = new List<TItem>();
             if ( mSelect.IsSelected && !SelectedRows.Contains( mSelect.item ) )
@@ -306,6 +322,25 @@ namespace Blazorise.DataGrid
             if ( !mSelect.IsSelected && SelectedRows.Contains( mSelect.item ) )
                 SelectedRows.Remove( mSelect.item );
             return SelectedRowsChanged.InvokeAsync( SelectedRows );
+        }
+
+        protected async Task OnMultiSelectAll(bool selectAll)
+        {
+            if ( SelectedRows is null )
+                SelectedRows = new List<TItem>();
+            if ( selectAll )
+            { 
+                SelectedRows.Clear();
+                SelectedRows.AddRange( viewData );
+            }
+            else
+            { 
+                SelectedRows.Clear();
+            }
+            SelectedAllRows = selectAll;
+            UnSelectAllRows =  !selectAll;
+            await SelectedRowsChanged.InvokeAsync( SelectedRows );
+            await InvokeAsync( () => StateHasChanged() );
         }
 
         // this is to give user a way to stop save if necessary
@@ -343,7 +378,7 @@ namespace Blazorise.DataGrid
             return true;
         }
 
-        #endregion Editing
+        #endregion
 
         #region Filtering
 
@@ -585,9 +620,9 @@ namespace Blazorise.DataGrid
             return SelectedRowChanged.InvokeAsync( SelectedRow );
         }
 
-        #endregion Filtering
+        #endregion 
 
-        #endregion Methods
+        #endregion 
 
         #region Properties
 
@@ -910,6 +945,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public bool MultiSelect { get; set; }
 
+        [Parameter] public bool SelectedAllRows { get; set; }
+
+
         /// <summary>
         /// Occurs after the selected row has changed.
         /// </summary>
@@ -1109,6 +1147,6 @@ namespace Blazorise.DataGrid
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        #endregion Properties
+        #endregion 
     }
 }

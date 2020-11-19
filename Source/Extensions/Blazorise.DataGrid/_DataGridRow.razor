@@ -33,7 +33,7 @@
             }
             else if (column.ColumnType == DataGridColumnType.MultiSelect){
                 @if ( ParentDataGrid.MultiSelect) { 
-                  <_DataGridRowMultiSelect @ref="_MultiSelect" TItem="TItem" Item="Item" OnSelectedChanged="@OnMultiSelectCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" TextAlignment="@column.TextAlignment" ></_DataGridRowMultiSelect>
+                  <_DataGridRowMultiSelect @ref="multiSelect" TItem="TItem" Item="Item" OnSelectedChanged="@OnMultiSelectCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" TextAlignment="@column.TextAlignment" ></_DataGridRowMultiSelect>
                 }
             }
             else
