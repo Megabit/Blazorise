@@ -10,6 +10,28 @@
                   Multiline="@Multiline"
                   Interval="@Interval"
                   Closed="@(async (e)=> await OnSnackbarClosed(e.Key, e.CloseReason))">
+            @if ( snackbarInfo.Title != null )
+            {
+                <SnackbarHeader>
+                    @snackbarInfo.Title
+                </SnackbarHeader>
+
+                var closeButtonText = snackbarInfo.CloseButtonText ?? CloseButtonText;
+                var closeButtonIcon = snackbarInfo.CloseButtonIcon ?? CloseButtonIcon;
+
+                @if ( closeButtonText != null || closeButtonIcon != null )
+                {
+                    var key = snackbarInfo.Key;
+
+                    <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">
+                        @if ( closeButtonIcon != null )
+                        {
+                            <Icon Name="@closeButtonIcon" />
+                        }
+                        @closeButtonText
+                    </SnackbarAction>
+                }
+            }
             <SnackbarBody>
                 @if ( snackbarInfo.MessageTemplate != null )
                 {
@@ -22,12 +44,19 @@
             </SnackbarBody>
             @{
                 var actionButtonText = snackbarInfo.ActionButtonText ?? ActionButtonText;
+                var actionButtonIcon = snackbarInfo.ActionButtonIcon ?? ActionButtonIcon;
 
-                @if ( actionButtonText != null )
+                @if ( actionButtonText != null || actionButtonIcon != null )
                 {
                     var key = snackbarInfo.Key;
 
-                    <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">@actionButtonText</SnackbarAction>
+                    <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">
+                        @if ( actionButtonIcon != null )
+                        {
+                            <Icon Name="@actionButtonIcon" />
+                        }
+                        @actionButtonText
+                    </SnackbarAction>
                 }
             }
         </Snackbar>

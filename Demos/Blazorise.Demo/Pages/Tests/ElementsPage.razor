@@ -283,10 +283,10 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.Push("Some success message!", SnackbarColor.Success, "Ok"))">Show Success message</Button>
-                <Button Color="Color.Info" Clicked="@(()=>snackbarStack.Push("Some info message!", SnackbarColor.Info, "Ok"))">Show Info message</Button>
-                <Button Color="Color.Warning" Clicked="@(()=>snackbarStack.Push("Some warning message!", SnackbarColor.Warning, "Ok"))">Show Warning message</Button>
-                <Button Color="Color.Danger" Clicked="@(()=>snackbarStack.Push("Some danger message!", SnackbarColor.Danger, "Ok"))">Show Danger message</Button>
+                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.PushAsync("Some success message!", "Hello", SnackbarColor.Success, (options) => { options.CloseButtonIcon = IconName.Times; }))">Show Success message</Button>
+                <Button Color="Color.Info" Clicked="@(()=>snackbarStack.PushAsync("Some info message!", SnackbarColor.Info, (options) => { options.ActionButtonText = "Ok"; }))">Show Info message</Button>
+                <Button Color="Color.Warning" Clicked="@(()=>snackbarStack.PushAsync("Some warning message!", SnackbarColor.Warning, (options) => { options.ActionButtonText = "Ok"; }))">Show Warning message</Button>
+                <Button Color="Color.Danger" Clicked="@(()=>snackbarStack.PushAsync("Some danger message!", SnackbarColor.Danger, (options) => { options.ActionButtonText = "Dismiss"; }))">Show Danger message</Button>
             </CardBody>
         </Card>
     </Column>
@@ -419,6 +419,9 @@
     <SnackbarBody>
         Single line of text directly related to the operation performed
     </SnackbarBody>
+    <SnackbarAction>
+        <Icon Name="IconName.Times" />
+    </SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarAction">
     <SnackbarBody>
@@ -491,7 +494,7 @@
     </SnackbarBody>
     <SnackbarAction Clicked="@(()=>snackbarDark.Hide())">ACTION</SnackbarAction>
 </Snackbar>
-<SnackbarStack @ref="snackbarStack" Location="SnackbarStackLocation.Right" />
+<SnackbarStack @ref="snackbarStack" Location="SnackbarStackLocation.Right" Interval="30000" />
 @code{
     Snackbar snackbar;
     Snackbar snackbarAction;
@@ -515,7 +518,4 @@
     bool dismisableAlert3 = true;
     bool dismisableAlert4 = true;
     bool dismisableAlert5 = true;
-
-
-
 }

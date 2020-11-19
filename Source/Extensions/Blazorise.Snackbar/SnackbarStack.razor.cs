@@ -17,24 +17,44 @@ namespace Blazorise.Snackbar
 
         private class SnackbarInfo
         {
-            public SnackbarInfo( string key, string message, RenderFragment messageTemplate, SnackbarColor color, string actionButtonText )
+            public SnackbarInfo( string message,
+                string title,
+                SnackbarColor color,
+                string key,
+                RenderFragment messageTemplate,
+                string closeButtonText,
+                object closeButtonIcon,
+                string actionButtonText,
+                object actionButtonIcon )
             {
-                Key = key ?? Guid.NewGuid().ToString();
                 Message = message;
-                MessageTemplate = messageTemplate;
+                Title = title;
                 Color = color;
+                Key = key ?? Guid.NewGuid().ToString();
+                MessageTemplate = messageTemplate;
+                CloseButtonText = closeButtonText;
+                CloseButtonIcon = closeButtonIcon;
                 ActionButtonText = actionButtonText;
+                ActionButtonIcon = actionButtonIcon;
             }
-
-            public string Key { get; }
 
             public string Message { get; }
 
-            public RenderFragment MessageTemplate { get; }
+            public string Title { get; }
 
             public SnackbarColor Color { get; }
 
+            public string Key { get; }
+
+            public RenderFragment MessageTemplate { get; }
+
+            public string CloseButtonText { get; }
+
+            public object CloseButtonIcon { get; }
+
             public string ActionButtonText { get; }
+
+            public object ActionButtonIcon { get; }
 
             public bool Visible { get; } = true;
         }
@@ -55,21 +75,25 @@ namespace Blazorise.Snackbar
             base.BuildClasses( builder );
         }
 
-        public void Push( string message, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
+        public Task PushAsync( string message, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
         {
-            Push( null, message, null, color, actionButtonText );
+            return PushAsync( message, null, color, options );
         }
 
-        public void Push( RenderFragment messageTemplate, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
+        public Task PushAsync( string message, string title = null, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
         {
-            Push( null, null, messageTemplate, color, actionButtonText );
-        }
+            var snackbarOptions = CreateDefaultOptions();
+            options?.Invoke( snackbarOptions );
 
-        public void Push( string key, string message, RenderFragment messageTemplate, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
-        {
-            snackbarInfos.Add( new SnackbarInfo( key, message, messageTemplate, color, actionButtonText ) );
+            snackbarInfos.Add( new SnackbarInfo( message, title, color,
+                snackbarOptions.Key,
+                snackbarOptions.MessageTemplate,
+                snackbarOptions.CloseButtonText,
+                snackbarOptions.CloseButtonIcon,
+                snackbarOptions.ActionButtonText,
+                snackbarOptions.ActionButtonIcon ) );
 
-            StateHasChanged();
+            return InvokeAsync( () => StateHasChanged() );
         }
 
         private Task OnSnackbarClosed( string key, SnackbarCloseReason closeReason )
@@ -82,6 +106,14 @@ namespace Blazorise.Snackbar
             StateHasChanged();
 
             return Closed.InvokeAsync( new SnackbarClosedEventArgs( key, closeReason ) );
+        }
+
+        protected virtual SnackbarOptions CreateDefaultOptions()
+        {
+            return new SnackbarOptions
+            {
+                Key = Guid.NewGuid().ToString(),
+            };
         }
 
         #endregion
@@ -114,15 +146,33 @@ namespace Blazorise.Snackbar
         [Parameter] public double Interval { get; set; } = 3000;
 
         /// <summary>
+        /// Defines a text to show for snackbar close button. Leave as null to not show it!
+        /// </summary>
+        [Parameter] public string CloseButtonText { get; set; }
+
+        /// <summary>
+        /// Defines an icon to show for snackbar close button. Leave as null to not show it!
+        /// </summary>
+        [Parameter] public object CloseButtonIcon { get; set; }
+
+        /// <summary>
         /// Defines a text to show for snackbar action button. Leave as null to not show it!
         /// </summary>
         [Parameter] public string ActionButtonText { get; set; }
+
+        /// <summary>
+        /// Defines an icon to show for snackbar action button. Leave as null to not show it!
+        /// </summary>
+        [Parameter] public object ActionButtonIcon { get; set; }
 
         /// <summary>
         /// Occurs after the snackbar has closed.
         /// </summary>
         [Parameter] public EventCallback<SnackbarClosedEventArgs> Closed { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="SnackbarStack"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

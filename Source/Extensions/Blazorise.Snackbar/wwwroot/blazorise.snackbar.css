@@ -2,7 +2,6 @@
     align-items: center;
     background-color: var(--b-snackbar-background, #323232);
     color: var(--b-snackbar-text-color, white);
-    display: flex;
     font-size: 0.875rem;
     line-height: 1.42857;
     opacity: 0;
@@ -50,7 +49,23 @@
             .snackbar.show {
                 transform: translate(-50%, -1.5rem); } }
 
+.snackbar-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: DARKEN(var(--b-snackbar-background, #323232), 30%);
+    margin-right: auto;
+    min-width: 0;
+    font-weight: bold;
+    padding-bottom: 0.875rem; }
+
 .snackbar-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -93,6 +108,11 @@
             margin-left: 3rem; } }
     .snackbar-btn:focus {
         outline: 0; }
+
+.snackbar .snackbar-body + .snackbar-btn {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between; }
 
 @media (min-width: 768px) {
     .snackbar-left,

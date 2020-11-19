@@ -39,7 +39,6 @@ $snackbar-padding-y-multi: 1.25rem !default;
     align-items: center;
     background-color: $snackbar-bg;
     color: $snackbar-color;
-    display: flex;
     font-size: $snackbar-font-size;
     line-height: $snackbar-line-height;
     opacity: 0;
@@ -84,13 +83,27 @@ $snackbar-padding-y-multi: 1.25rem !default;
     }
 }
 
+.snackbar-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    @include text-truncate;
+    background-color: DARKEN($snackbar-bg, 30%);
+    margin-right: auto;
+    min-width: 0;
+    font-weight: bold;
+    padding-bottom: $snackbar-padding-y;
+}
+
 .snackbar-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     @include text-truncate;
     margin-right: auto;
     max-height: 100%;
     min-width: 0;
 }
-
 
 .snackbar-btn {
     @include transition-standard(background-color, background-image);
@@ -121,6 +134,12 @@ $snackbar-padding-y-multi: 1.25rem !default;
     &:focus {
         outline: 0;
     }
+}
+
+.snackbar .snackbar-body + .snackbar-btn {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
 }
 
 .snackbar-left,
