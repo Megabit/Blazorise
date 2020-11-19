@@ -272,6 +272,7 @@ The next step is to add necessary files to the _index.html_ or __Host.cshtml_ fi
 | Hovered            | event                                                                      |              | Raised when hovered over data point.                                                  |
 
 ## ChartOptions Attributes
+
 | Name                | Type                                                                       | Default     | Description                                                                           |
 |---------------------|----------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------|
 | Scales              | Scales                                                                     |             |                                                                                       |
@@ -284,24 +285,28 @@ The next step is to add necessary files to the _index.html_ or __Host.cshtml_ fi
 | AspectRatio         | int                                                                        | `2`         | Canvas aspect ratio (i.e. width / height, a value of 1 representing a square canvas). |
 
 ## Scales Attributes
+
 | Name               | Type                                                                       | Default      | Description                                                                           |
 |--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
 | XAxes              | List of Axis                                                               |              |                                                                                       |
 | YAxes              | List of Axis                                                               |              |                                                                                       |
 
 ## Legend Attributes
+
 | Name               | Type                                                                       | Default      | Description                                                                           |
 |--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
 | Display            | bool                                                                       | `true`       | Is the legend shown.                                                                  |
-| Reverse            | bool                                                                       | `false       | Legend will show datasets in reverse order.                                           |
+| Reverse            | bool                                                                       | `false`      | Legend will show datasets in reverse order.                                           |
 | FullWidth          | bool                                                                       | `true`       | Marks that this box should take the full width of the canvas.                         |
 
 ## Tooltips Attributes
+
 | Name               | Type                                                                       | Default      | Description                                                                           |
 |--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
 | Display            | bool                                                                       | `true`       | Are on-canvas tooltips enabled.                                                       |
 
 ## Axis Attributes
+
 | Name               | Type                                                                       | Default      | Description                                                                           |
 |--------------------|----------------------------------------------------------------------------|--------------|---------------------------------------------------------------------------------------|
 | Type               | string                                                                     | null         |                                                                                       |
@@ -311,7 +316,3 @@ The next step is to add necessary files to the _index.html_ or __Host.cshtml_ fi
 | ScaleLabel         | ScaleLabel                                                                 |              |                                                                                       |
 | Ticks              | AxeTicks                                                                   |              |                                                                                       |
 | Stacked            | bool                                                                       | `false`      | Only used for `BarChart` and settng this to true will stack the datasets              |
-
-
-**Note:** DataJsonString and OptionsJsonString are used only temporary until the Blazor team fixes the built-in JSON serializer.
-{: .notice--info}
