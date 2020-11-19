@@ -26,12 +26,30 @@ namespace Blazorise.DataGrid
 
         [Parameter] public EventCallback<bool> OnSelectedChanged { get; set; }
 
-        public bool IsChecked { get; set; }
+        internal bool IsChecked { get; set; }
 
-        public Task IsCheckedChanged( bool e )
+        internal Task IsCheckedChanged( bool e )
         {
             IsChecked = e;
             return OnSelectedChanged.InvokeAsync( e );
+        }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            if ( ParentDataGrid.SelectedAllRows )
+            {
+                //Double checks if this has been selected for coherence with filtering and sorting
+                if(ParentDataGrid.SelectedRows.Any(x=> (object)x == (object)Item ))
+                    IsChecked = true;
+                await InvokeAsync( () => StateHasChanged() );
+            }
+
+            if ( ParentDataGrid.UnSelectAllRows )
+            {
+                IsChecked = false;
+                await InvokeAsync( () => StateHasChanged() );
+            }
+            await base.OnParametersSetAsync();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected Dictionary<string, CellEditContext> cellsValues = new Dictionary<string, CellEditContext>();
 
-        protected _DataGridRowMultiSelect<TItem> _MultiSelect;
+        protected _DataGridRowMultiSelect<TItem> multiSelect;
 
         #endregion Members
 
@@ -60,10 +60,18 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( default );
             }
+            else if ( ParentDataGrid.MultiSelect && ParentDataGrid.SelectedRows is object && ParentDataGrid.SelectedRows.Any(x=> (object)x == (object)Item ) )
+            {
+                //If the user selects an already selected multiselect row, seems like it should be more transparent, to just de-select both normal and multi selection
+                //Remove this, if that is not the case
+                await Selected.InvokeAsync( default );
+            }
             else
             {
                 await Selected.InvokeAsync( Item );
             }
+            if( ParentDataGrid.MultiSelect )
+                await multiSelect.IsCheckedChanged( !multiSelect.IsChecked );
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
