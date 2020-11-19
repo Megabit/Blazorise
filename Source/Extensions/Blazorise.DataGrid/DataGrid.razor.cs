@@ -202,7 +202,7 @@ namespace Blazorise.DataGrid
 
         protected void OnNewCommand()
         {
-            var newItem = CreateNewItem();
+            TItem newItem = NewItemCreator != null ? NewItemCreator.Invoke() : CreateNewItem();
 
             NewItemDefaultSetter?.Invoke( newItem );
 
@@ -1037,6 +1037,11 @@ namespace Blazorise.DataGrid
         /// Function, that is called, when a new item is created for inserting new entry.
         /// </summary>
         [Parameter] public Action<TItem> NewItemDefaultSetter { get; set; }
+
+        /// <summary>
+        /// Function that, if set, is called to create new instance of an item. If left null a default constructor will be used.
+        /// </summary>
+        [Parameter] public Func<TItem> NewItemCreator { get; set; }
 
         /// <summary>
         /// Adds stripes to the table.
