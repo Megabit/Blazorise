@@ -11,8 +11,5 @@ namespace Blazorise.DataGrid
         public EventCallback<bool> SelectedChanged { get; set; }
 
         public TItem Item { get; set; }
-
     }
-
-
 }

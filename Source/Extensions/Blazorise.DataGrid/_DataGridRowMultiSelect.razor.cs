@@ -1,12 +1,10 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-
-#endregion Using directives
+#endregion
 
 namespace Blazorise.DataGrid
 {
@@ -39,8 +37,9 @@ namespace Blazorise.DataGrid
             if ( ParentDataGrid.SelectedAllRows )
             {
                 //Double checks if this has been selected for coherence with filtering and sorting
-                if(ParentDataGrid.SelectedRows.Any(x=> (object)x == (object)Item ))
+                if ( ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) )
                     IsChecked = true;
+
                 await InvokeAsync( () => StateHasChanged() );
             }
 
@@ -49,6 +48,7 @@ namespace Blazorise.DataGrid
                 IsChecked = false;
                 await InvokeAsync( () => StateHasChanged() );
             }
+
             await base.OnParametersSetAsync();
         }
     }

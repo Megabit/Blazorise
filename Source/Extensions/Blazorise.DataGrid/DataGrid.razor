@@ -11,9 +11,7 @@
         <TableHeader>
             @if ( ShowCaptions )
             {
-
                 <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.None)" Color="@(HeaderRowStyling?.Color ?? Color.None)">
-
                     @foreach ( var column in DisplayableColumns )
                     {
                         @if ( column.ColumnType == DataGridColumnType.Command )
@@ -28,12 +26,12 @@
                                 </TableHeaderCell>
                             }
                         }
-                        else if (column.ColumnType == DataGridColumnType.MultiSelect)
+                        else if ( column.ColumnType == DataGridColumnType.MultiSelect )
                         {
-                            @if (MultiSelect)
+                            @if ( MultiSelect )
                             {
                                 <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.HeaderCellStyle" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
-                                        <_DataGridMultiSelectAll TItem="TItem" MultiSelectAll="OnMultiSelectAll"></_DataGridMultiSelectAll>
+                                    <_DataGridMultiSelectAll TItem="TItem" MultiSelectAll="OnMultiSelectAll"></_DataGridMultiSelectAll>
                                 </TableHeaderCell>
                             }
                         }
@@ -62,9 +60,7 @@
             }
             @if ( Filterable )
             {
-
                 <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.None)" Color="@(FilterRowStyling?.Color ?? Color.None)">
-
                     @foreach ( var column in DisplayableColumns )
                     {
                         @if ( !column.Filterable )
@@ -83,9 +79,9 @@
                                 </TableHeaderCell>
                             }
                         }
-                        else if (column.ColumnType == DataGridColumnType.MultiSelect)
+                        else if ( column.ColumnType == DataGridColumnType.MultiSelect )
                         {
-                            @if (MultiSelect)
+                            @if ( MultiSelect )
                             {
                                 <TableHeaderCell></TableHeaderCell>
                             }
@@ -152,9 +148,9 @@
         </TableBody>
         @if ( HasAggregates )
         {
-    <TableFooter>
-        <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.None)" Color="@(GroupRowStyling?.Color ?? Color.None)" />
-    </TableFooter>
+            <TableFooter>
+                <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.None)" Color="@(GroupRowStyling?.Color ?? Color.None)" />
+            </TableFooter>
         }
     </Table>
     @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom ) )

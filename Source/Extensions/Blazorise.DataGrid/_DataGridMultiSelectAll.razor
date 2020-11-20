@@ -1,12 +1,12 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridMultiSelectAll<TItem>
-@if (ParentDataGrid?.MultiSelectColumn?.MultiSelectTemplate != null)
+@if ( ParentDataGrid?.MultiSelectColumn?.MultiSelectTemplate != null )
 {
     <Blazorise.Label @onclick:stopPropagation>
-        @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate(new MultiSelectContext<TItem>
+        @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>
         {
             SelectedChanged = MultiSelectAll
-        })
+        } )
     </Blazorise.Label>
 }
 else

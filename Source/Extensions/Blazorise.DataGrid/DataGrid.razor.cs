@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +8,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise.DataGrid
@@ -89,8 +87,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         internal bool UnSelectAllRows { get; set; }
 
-
-        #endregion 
+        #endregion
 
         #region Constructors
 
@@ -205,7 +202,7 @@ namespace Blazorise.DataGrid
 
         protected void OnNewCommand()
         {
-            TItem newItem = NewItemCreator != null ? NewItemCreator.Invoke() : CreateNewItem();
+            var newItem = CreateNewItem();
 
             NewItemDefaultSetter?.Invoke( newItem );
 
@@ -316,29 +313,34 @@ namespace Blazorise.DataGrid
 
             if ( SelectedRows is null )
                 SelectedRows = new List<TItem>();
+
             if ( mSelect.IsSelected && !SelectedRows.Contains( mSelect.item ) )
                 SelectedRows.Add( mSelect.item );
 
             if ( !mSelect.IsSelected && SelectedRows.Contains( mSelect.item ) )
                 SelectedRows.Remove( mSelect.item );
+
             return SelectedRowsChanged.InvokeAsync( SelectedRows );
         }
 
-        protected async Task OnMultiSelectAll(bool selectAll)
+        protected async Task OnMultiSelectAll( bool selectAll )
         {
             if ( SelectedRows is null )
                 SelectedRows = new List<TItem>();
+
             if ( selectAll )
-            { 
+            {
                 SelectedRows.Clear();
                 SelectedRows.AddRange( viewData );
             }
             else
-            { 
+            {
                 SelectedRows.Clear();
             }
+
             SelectedAllRows = selectAll;
-            UnSelectAllRows =  !selectAll;
+            UnSelectAllRows = !selectAll;
+
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
             await InvokeAsync( () => StateHasChanged() );
         }
@@ -574,16 +576,12 @@ namespace Blazorise.DataGrid
             {
                 case DataGridFilterMethod.StartsWith:
                     return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridFilterMethod.EndsWith:
                     return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridFilterMethod.Equals:
                     return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridFilterMethod.NotEquals:
                     return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridFilterMethod.Contains:
                 default:
                     return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
@@ -614,15 +612,15 @@ namespace Blazorise.DataGrid
         {
             if ( editState != DataGridEditState.None )
                 return Task.CompletedTask;
-            
+
             SelectedRow = item;
 
             return SelectedRowChanged.InvokeAsync( SelectedRow );
         }
 
-        #endregion 
+        #endregion
 
-        #endregion 
+        #endregion
 
         #region Properties
 
@@ -1041,11 +1039,6 @@ namespace Blazorise.DataGrid
         [Parameter] public Action<TItem> NewItemDefaultSetter { get; set; }
 
         /// <summary>
-        /// Function that, if set, is called to create new instance of an item. If left null a default constructor will be used.
-        /// </summary>
-        [Parameter] public Func<TItem> NewItemCreator { get; set; }
-
-        /// <summary>
         /// Adds stripes to the table.
         /// </summary>
         [Parameter] public bool Striped { get; set; }
@@ -1152,6 +1145,6 @@ namespace Blazorise.DataGrid
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        #endregion 
+        #endregion
     }
 }

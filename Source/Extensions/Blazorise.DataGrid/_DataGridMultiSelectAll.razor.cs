@@ -1,12 +1,10 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-
-#endregion Using directives
+#endregion
 
 namespace Blazorise.DataGrid
 {
@@ -26,9 +24,8 @@ namespace Blazorise.DataGrid
 
         protected override Task OnParametersSetAsync()
         {
-                //IsChecked = ( ParentDataGrid.PageSize == ParentDataGrid.SelectedRows.Count );
-                return base.OnParametersSetAsync();
+            //IsChecked = ( ParentDataGrid.PageSize == ParentDataGrid.SelectedRows.Count );
+            return base.OnParametersSetAsync();
         }
-
     }
 }

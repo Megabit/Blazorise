@@ -25,7 +25,7 @@
                 <Fields>
                     @foreach ( var column in Columns )
                     {
-                        @if (column.ExcludeFromEdit)
+                        @if ( column.ExcludeFromEdit )
                             continue;
 
                         @if ( column.Editable )

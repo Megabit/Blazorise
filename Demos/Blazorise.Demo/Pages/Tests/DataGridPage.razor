@@ -271,10 +271,11 @@
     </Column>
 </Row>
 
-  @if(multiSelect && selectedEmployees?.Count > 0) { 
+@if ( multiSelect && selectedEmployees?.Count > 0 )
+{
     <Heading Size="HeadingSize.Is2" Margin="Margin.Is2">Multiple Employees</Heading>
-    @foreach (var employee in selectedEmployees)
-	{
+    @foreach ( var employee in selectedEmployees )
+    {
         <Row @key="employee" Margin="Margin.Is1.FromTop">
             <Column>
                 <Card>
@@ -310,8 +311,8 @@
                 </Card>
             </Column>
         </Row>
-      }
-  }
+    }
+}
 @code{
     DataGridEditMode editMode = DataGridEditMode.Form;
     bool editable = true;

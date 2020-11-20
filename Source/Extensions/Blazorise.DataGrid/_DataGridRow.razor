@@ -20,20 +20,20 @@
               Class="@GetClass(styling, selectedStyling)"
               Style="@GetStyle(styling, selectedStyling)"
               HoverCursor="@HoverCursor">
-
-
         @foreach ( var column in Columns )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )
             {
-                @if ( ParentDataGrid.Editable)
+                @if ( ParentDataGrid.Editable )
                 {
                     <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" TextAlignment="@column.TextAlignment" />
                 }
             }
-            else if (column.ColumnType == DataGridColumnType.MultiSelect){
-                @if ( ParentDataGrid.MultiSelect) { 
-                  <_DataGridRowMultiSelect @ref="multiSelect" TItem="TItem" Item="Item" OnSelectedChanged="@OnMultiSelectCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" TextAlignment="@column.TextAlignment" ></_DataGridRowMultiSelect>
+            else if ( column.ColumnType == DataGridColumnType.MultiSelect )
+            {
+                @if ( ParentDataGrid.MultiSelect )
+                {
+                    <_DataGridRowMultiSelect @ref="multiSelect" TItem="TItem" Item="Item" OnSelectedChanged="@OnMultiSelectCommand" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" TextAlignment="@column.TextAlignment"></_DataGridRowMultiSelect>
                 }
             }
             else
