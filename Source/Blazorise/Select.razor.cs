@@ -126,7 +126,7 @@ namespace Blazorise
 
             if ( currentValue != null )
             {
-                var result = currentValue.Any( x => EqualityComparer<TValue>.Default.Equals( x, value ) );
+                var result = currentValue.Any( x => x.IsEqual( value ) );
 
                 return result;
             }

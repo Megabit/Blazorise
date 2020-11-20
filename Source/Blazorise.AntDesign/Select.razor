@@ -9,7 +9,7 @@
                 {
                     <span class="ant-select-selection-item">
                         <span class="ant-select-selection-item-content">
-                            @(SelectItems.FirstOrDefault(i=> EqualityComparer<TValue>.Default.Equals( i.Value, selectedValue ) )?.ChildContent)
+                            @(SelectItems.FirstOrDefault(i=> i.Value.IsEqual( selectedValue ) )?.ChildContent)
                         </span>
                         <span class="ant-select-selection-item-remove" unselectable="on" aria-hidden="true" style="user-select: none;">
                             <span role="img" aria-label="close" class="anticon anticon-close" style="vertical-align: 0.125em;" @onclick="@(_ => RemoveSelectedItem(selectedValue))">
