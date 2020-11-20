@@ -29,6 +29,16 @@ namespace Blazorise
                 if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var expression ) )
                     ParentValidation.InitializeInputExpression( expression );
 
+                if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
+                {
+                    // make sure we get the newest value
+                    var value = parameters.TryGetValue<TValue>( nameof( Date ), out var inDate )
+                        ? inDate
+                        : InternalValue;
+
+                    ParentValidation.InitializeInputPattern( pattern, value );
+                }
+
                 InitializeValidation();
             }
         }
