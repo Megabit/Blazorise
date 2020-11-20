@@ -51,7 +51,7 @@
 
 .snackbar-header {
     display: flex;
-    flex-direction: row;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -64,7 +64,7 @@
 
 .snackbar-body {
     display: flex;
-    flex-direction: row;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -87,7 +87,7 @@
     font-size: inherit;
     font-weight: 500;
     line-height: inherit;
-    margin-left: 1.5rem;
+    /*margin-left: $snackbar-inner-spacer-x;*/
     padding: 0;
     text-transform: uppercase;
     white-space: nowrap; }
@@ -108,11 +108,6 @@
             margin-left: 3rem; } }
     .snackbar-btn:focus {
         outline: 0; }
-
-.snackbar .snackbar-body + .snackbar-btn {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between; }
 
 @media (min-width: 768px) {
     .snackbar-left,

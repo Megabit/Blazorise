@@ -85,7 +85,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
 
 .snackbar-header {
     display: flex;
-    flex-direction: row;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     @include text-truncate;
     background-color: DARKEN($snackbar-bg, 30%);
@@ -96,8 +96,8 @@ $snackbar-padding-y-multi: 1.25rem !default;
 }
 
 .snackbar-body {
-    display: flex;
-    flex-direction: row;
+     display: flex;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     @include text-truncate;
     margin-right: auto;
@@ -117,7 +117,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
     font-size: inherit;
     font-weight: $btn-font-weight;
     line-height: inherit;
-    margin-left: $snackbar-inner-spacer-x;
+    /*margin-left: $snackbar-inner-spacer-x;*/
     padding: 0;
     text-transform: uppercase;
     white-space: nowrap;
@@ -134,12 +134,6 @@ $snackbar-padding-y-multi: 1.25rem !default;
     &:focus {
         outline: 0;
     }
-}
-
-.snackbar .snackbar-body + .snackbar-btn {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
 }
 
 .snackbar-left,
