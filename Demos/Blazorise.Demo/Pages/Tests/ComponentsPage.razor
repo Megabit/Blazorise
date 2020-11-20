@@ -35,7 +35,9 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete Data="@myDdlData"
+                        <Autocomplete TItem="MySelectModel"
+                                      TValue="string"
+                                      Data="@myDdlData"
                                       TextField="@((item)=>item.MyTextField)"
                                       ValueField="@((item)=>item.MyTextField)"
                                       SelectedValue="@selectedSearchValue"
@@ -93,7 +95,7 @@
 
     object selectedListValue { get; set; } = 3;
     object selectedDropValue { get; set; } = 2;
-    object selectedSearchValue { get; set; }
+    string selectedSearchValue { get; set; }
 
     void MyListValueChangedHandler( object newValue )
     {
@@ -105,7 +107,7 @@
         selectedDropValue = newValue;
     }
 
-    void MySearchHandler( object newValue )
+    void MySearchHandler( string newValue )
     {
         selectedSearchValue = newValue;
     }
