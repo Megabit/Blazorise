@@ -57,8 +57,8 @@ namespace Blazorise
                 decimals,
                 decimalsSeparator,
                 step,
-                EqualityComparer<TValue>.Default.Equals( min, default ) ? minFromType : (object)min,
-                EqualityComparer<TValue>.Default.Equals( max, default ) ? maxFromType : (object)max );
+                min.IsEqual( default ) ? minFromType : min,
+                max.IsEqual( default ) ? maxFromType : max );
         }
 
         public ValueTask<bool> DestroyNumericEdit( ElementReference elementRef, string elementId )
