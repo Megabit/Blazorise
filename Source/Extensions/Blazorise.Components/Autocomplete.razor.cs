@@ -15,6 +15,7 @@ namespace Blazorise.Components
     /// The autocomplete is a normal text input enhanced by a panel of suggested options.
     /// </summary>
     /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
+    /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
     public partial class Autocomplete<TItem, TValue> : ComponentBase
     {
         #region Members
