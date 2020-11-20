@@ -35,7 +35,9 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete Data="@myDdlData"
+                        <Autocomplete TItem="MySelectModel"
+                                      TValue="string"
+                                      Data="@myDdlData"
                                       TextField="@((item)=>item.MyTextField)"
                                       ValueField="@((item)=>item.MyTextField)"
                                       SelectedValue="@selectedSearchValue"
@@ -62,7 +64,9 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <DropdownList Data="@myDdlData"
+                        <DropdownList TItem="MySelectModel"
+                                      TValue="int"
+                                      Data="@myDdlData"
                                       TextField="@((item)=>item.MyTextField)"
                                       ValueField="@((item)=>item.MyValueField)"
                                       SelectedValue="@selectedDropValue"
@@ -92,20 +96,20 @@
     IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
 
     object selectedListValue { get; set; } = 3;
-    object selectedDropValue { get; set; } = 2;
-    object selectedSearchValue { get; set; }
+    int selectedDropValue { get; set; } = 2;
+    string selectedSearchValue { get; set; }
 
     void MyListValueChangedHandler( object newValue )
     {
         selectedListValue = newValue;
     }
 
-    void MyDropValueChangedHandler( object newValue )
+    void MyDropValueChangedHandler( int newValue )
     {
         selectedDropValue = newValue;
     }
 
-    void MySearchHandler( object newValue )
+    void MySearchHandler( string newValue )
     {
         selectedSearchValue = newValue;
     }

@@ -19,6 +19,8 @@ namespace Blazorise
 
         private bool loading;
 
+        private List<ISelectItem<TValue>> selectItems = new List<ISelectItem<TValue>>();
+
         #endregion
 
         #region Methods
@@ -124,12 +126,30 @@ namespace Blazorise
 
             if ( currentValue != null )
             {
-                var result = currentValue.Any( x => EqualityComparer<TValue>.Default.Equals( x, value ) );
+                var result = currentValue.Any( x => x.IsEqual( value ) );
 
                 return result;
             }
 
             return false;
+        }
+
+        internal void NotifySelectItemInitialized( ISelectItem<TValue> selectItem )
+        {
+            if ( selectItem == null )
+                return;
+
+            if ( !selectItems.Contains( selectItem ) )
+                selectItems.Add( selectItem );
+        }
+
+        internal void NotifySelectItemRemoved( ISelectItem<TValue> selectItem )
+        {
+            if ( selectItem == null )
+                return;
+
+            if ( selectItems.Contains( selectItem ) )
+                selectItems.Remove( selectItem );
         }
 
         #endregion
@@ -162,6 +182,11 @@ namespace Blazorise
                 }
             }
         }
+
+        /// <summary>
+        /// Gets the list of all select items inside of this select component.
+        /// </summary>
+        protected IEnumerable<ISelectItem<TValue>> SelectItems => selectItems;
 
         /// <summary>
         /// Specifies that multiple items can be selected.

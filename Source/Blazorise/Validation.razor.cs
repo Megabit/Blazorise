@@ -33,9 +33,19 @@ namespace Blazorise
         private object lastValidationValue;
 
         /// <summary>
+        /// Pattern that is being applied for the validation.
+        /// </summary>
+        private string pattern;
+
+        /// <summary>
         /// Regex pattern used to override the validator handler.
         /// </summary>
         private Regex patternRegex;
+
+        /// <summary>
+        /// Flag that indicates pattern validation has being applied.
+        /// </summary>
+        private bool hasPatternRegex;
 
         // Flag that indicates validation has already being initialized.
         private bool initialized;
@@ -101,10 +111,27 @@ namespace Blazorise
             initialized = true;
         }
 
-        internal void InitializeInputPattern( string pattern )
+        internal void InitializeInputPattern( string pattern, object value )
         {
             if ( !string.IsNullOrEmpty( pattern ) )
-                patternRegex = new Regex( pattern );
+            {
+                // We need to re-instantiate patternRegex only if the pattern has changed.
+                // Otherwise it could get pretty slow for larger forms.
+                if ( !hasPatternRegex || this.pattern != pattern )
+                {
+                    this.pattern = pattern;
+                    patternRegex = new Regex( pattern );
+
+                    // Re-run validation based on the new value for the new pattern,
+                    // but ONLY if validation has being previously initialized!
+                    if ( hasPatternRegex && Mode == ValidationMode.Auto && ValidateOnLoad && initialized )
+                    {
+                        NotifyInputChanged( value, true );
+                    }
+                }
+
+                hasPatternRegex = true;
+            }
         }
 
         internal void InitializeInputExpression<T>( Expression<Func<T>> expression )
@@ -164,15 +191,24 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Runs the validation process based on the last available value.
+        /// </summary>
+        public ValidationStatus Validate()
+        {
+            return Validate( inputComponent.ValidationValue );
+        }
+
+        /// <summary>
         /// Runs the validation process.
         /// </summary>
+        /// <param name="newValidationValue">New validation value.</param>
         public ValidationStatus Validate( object newValidationValue )
         {
             if ( Validator != null )
             {
                 ValidateUsingValidator( Validator, newValidationValue );
             }
-            else if ( UsePattern && patternRegex != null )
+            else if ( UsePattern && hasPatternRegex )
             {
                 ValidateUsingPattern( newValidationValue );
             }
