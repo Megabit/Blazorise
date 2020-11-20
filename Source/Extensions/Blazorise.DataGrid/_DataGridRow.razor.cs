@@ -1,12 +1,10 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-
-#endregion Using directives
+#endregion
 
 namespace Blazorise.DataGrid
 {
@@ -21,7 +19,7 @@ namespace Blazorise.DataGrid
 
         protected _DataGridRowMultiSelect<TItem> multiSelect;
 
-        #endregion Members
+        #endregion
 
         #region Methods
 
@@ -60,7 +58,7 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( default );
             }
-            else if ( ParentDataGrid.MultiSelect && ParentDataGrid.SelectedRows is object && ParentDataGrid.SelectedRows.Any(x=> (object)x == (object)Item ) )
+            else if ( ParentDataGrid.MultiSelect && ParentDataGrid.SelectedRows is object && ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) )
             {
                 //If the user selects an already selected multiselect row, seems like it should be more transparent, to just de-select both normal and multi selection
                 //Remove this, if that is not the case
@@ -70,12 +68,18 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( Item );
             }
-            if ( ParentDataGrid.MultiSelect )
-                if ( multiSelect is object )
-                    await multiSelect.IsCheckedChanged( !multiSelect.IsChecked );
-                else
-                    await OnMultiSelectCommand( ParentDataGrid.SelectedRows is object && !ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) );
 
+            if ( ParentDataGrid.MultiSelect )
+            {
+                if ( multiSelect is object )
+                {
+                    await multiSelect.IsCheckedChanged( !multiSelect.IsChecked );
+                }
+                else
+                {
+                    await OnMultiSelectCommand( ParentDataGrid.SelectedRows is object && !ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) );
+                }
+            }
         }
 
         protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
@@ -108,14 +112,14 @@ namespace Blazorise.DataGrid
             return MultiSelect.InvokeAsync( (IsSelected, Item) );
         }
 
-        #endregion Methods
+        #endregion
 
         #region Properties
 
         /// <summary>
         /// Indicates if the row is selected.
         /// </summary>
-        protected bool IsSelected => (ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item) || ( ParentDataGrid.SelectedRows is object && ParentDataGrid.SelectedRows.Any(x=> (object)(x) == (object)Item ) );
+        protected bool IsSelected => ( ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item ) || ( ParentDataGrid.SelectedRows is object && ParentDataGrid.SelectedRows.Any( x => (object)( x ) == (object)Item ) );
 
         /// <summary>
         /// Gets the row background color.
@@ -204,6 +208,6 @@ namespace Blazorise.DataGrid
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        #endregion Properties
+        #endregion
     }
 }

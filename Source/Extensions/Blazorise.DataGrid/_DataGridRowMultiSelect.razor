@@ -1,15 +1,14 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridRowMultiSelect<TItem>
-
 <TableRowCell Class="@Class" Style="@Style" width="@Width" TextAlignment="@TextAlignment">
-    @if (ParentDataGrid?.MultiSelectColumn?.MultiSelectTemplate != null)
+    @if ( ParentDataGrid?.MultiSelectColumn?.MultiSelectTemplate != null )
     {
         <Blazorise.Label @onclick:stopPropagation>
-            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate(new MultiSelectContext<TItem>
+            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>
             {
                 SelectedChanged = OnSelectedChanged,
                 Item = Item,
-            })
+            } )
         </Blazorise.Label>
     }
     else

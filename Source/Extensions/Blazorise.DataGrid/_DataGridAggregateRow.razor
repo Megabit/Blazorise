@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 @inherits BaseDataGridComponent
 <TableRow Class="@Class" Style="@Style" Background="@Background" Color="@Color">
-    @if (ParentDataGrid.MultiSelect)
+    @if ( ParentDataGrid.MultiSelect )
     {
         <TableRowCell></TableRowCell>
     }
@@ -14,9 +14,9 @@
                 <TableRowCell></TableRowCell>
             }
         }
-        else if (column.ColumnType == DataGridColumnType.MultiSelect)
+        else if ( column.ColumnType == DataGridColumnType.MultiSelect )
         {
-            @if (ParentDataGrid.MultiSelect)
+            @if ( ParentDataGrid.MultiSelect )
             {
                 <TableHeaderCell></TableHeaderCell>
             }
