@@ -14,23 +14,25 @@
             {
                 <SnackbarHeader>
                     @snackbarInfo.Title
-                </SnackbarHeader>
 
-                var closeButtonText = snackbarInfo.CloseButtonText ?? CloseButtonText;
-                var closeButtonIcon = snackbarInfo.CloseButtonIcon ?? CloseButtonIcon;
+                    @{
+                        var closeButtonText = snackbarInfo.CloseButtonText ?? CloseButtonText;
+                        var closeButtonIcon = snackbarInfo.CloseButtonIcon ?? CloseButtonIcon;
 
-                @if ( closeButtonText != null || closeButtonIcon != null )
-                {
-                    var key = snackbarInfo.Key;
-
-                    <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">
-                        @if ( closeButtonIcon != null )
+                        @if ( closeButtonText != null || closeButtonIcon != null )
                         {
-                            <Icon Name="@closeButtonIcon" />
+                            var key = snackbarInfo.Key;
+
+                            <SnackbarAction Clicked="@(async ( e ) => await OnSnackbarClosed( key, SnackbarCloseReason.UserClosed ))">
+                                @if ( closeButtonIcon != null )
+                                {
+                                    <Icon Name="@closeButtonIcon" />
+                                }
+                                @closeButtonText
+                            </SnackbarAction>
                         }
-                        @closeButtonText
-                    </SnackbarAction>
-                }
+                    }
+                </SnackbarHeader>
             }
             <SnackbarBody>
                 @if ( snackbarInfo.MessageTemplate != null )
@@ -41,24 +43,25 @@
                 {
                     @snackbarInfo.Message
                 }
-            </SnackbarBody>
-            @{
-                var actionButtonText = snackbarInfo.ActionButtonText ?? ActionButtonText;
-                var actionButtonIcon = snackbarInfo.ActionButtonIcon ?? ActionButtonIcon;
 
-                @if ( actionButtonText != null || actionButtonIcon != null )
-                {
-                    var key = snackbarInfo.Key;
+                @{
+                    var actionButtonText = snackbarInfo.ActionButtonText ?? ActionButtonText;
+                    var actionButtonIcon = snackbarInfo.ActionButtonIcon ?? ActionButtonIcon;
 
-                    <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">
-                        @if ( actionButtonIcon != null )
-                        {
-                            <Icon Name="@actionButtonIcon" />
-                        }
-                        @actionButtonText
-                    </SnackbarAction>
+                    @if ( actionButtonText != null || actionButtonIcon != null )
+                    {
+                        var key = snackbarInfo.Key;
+
+                        <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">
+                            @if ( actionButtonIcon != null )
+                            {
+                                <Icon Name="@actionButtonIcon" />
+                            }
+                            @actionButtonText
+                        </SnackbarAction>
+                    }
                 }
-            }
+            </SnackbarBody>
         </Snackbar>
     }
 </div>
