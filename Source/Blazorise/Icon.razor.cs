@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// An icon component.
+    /// </summary>
     public partial class Icon : BaseComponent
     {
         #region Members
@@ -20,6 +23,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( IconProvider.Icon( Name, IconStyle ) );
@@ -31,11 +35,13 @@ namespace Blazorise
 
         #region Properties
 
-        [Inject]
-        protected IIconProvider IconProvider { get; set; }
+        /// <summary>
+        /// An icon provider that is responsible to give the icon a class-name.
+        /// </summary>
+        [Inject] protected IIconProvider IconProvider { get; set; }
 
         /// <summary>
-        /// Icon name.
+        /// Icon name that can be either a string or <see cref="IconName"/>.
         /// </summary>
         [Parameter]
         public object Name
