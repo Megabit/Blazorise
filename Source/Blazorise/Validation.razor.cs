@@ -191,6 +191,14 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Runs the validation process based on the last available value.
+        /// </summary>
+        public ValidationStatus Validate()
+        {
+            return Validate( inputComponent.ValidationValue );
+        }
+
+        /// <summary>
         /// Runs the validation process.
         /// </summary>
         /// <param name="newValidationValue">New validation value.</param>
