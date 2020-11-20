@@ -18,8 +18,8 @@ $theme-colors: ( primary: $primary, secondary: $secondary, success: $success, da
 $snackbar-bg: var(--b-snackbar-background, #323232) !default;
 $snackbar-border-radius: $border-radius !default;
 $snackbar-breakpoint: sm !default;
-$snackbar-btn-color: var(--b-snackbar-button-color, #ff4081) !default;
-$snackbar-btn-color-hover: var(--b-snackbar-button-hover-color, #ff80ab) !default;
+$snackbar-action-button-color: var(--b-snackbar-button-color, #ff4081) !default;
+$snackbar-action-button-color-hover: var(--b-snackbar-button-hover-color, #ff80ab) !default;
 $snackbar-color: var(--b-snackbar-text-color, $white-primary) !default;
 $snackbar-elevation-shadow: map-get($elevation-shadows, 6) !default;
 $snackbar-font-size: 0.875rem !default;
@@ -43,7 +43,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
     line-height: $snackbar-line-height;
     opacity: 0;
     padding: $snackbar-padding-y $snackbar-padding-x;
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     transform: translateY(100%);
@@ -105,12 +105,12 @@ $snackbar-padding-y-multi: 1.25rem !default;
     min-width: 0;
 }
 
-.snackbar-btn {
+.snackbar-action-button {
     @include transition-standard(background-color, background-image);
     background-color: transparent;
     background-image: none;
     border: 0;
-    color: var(--b-snackbar-button-color, $snackbar-btn-color);
+    color: var(--b-snackbar-button-color, $snackbar-action-button-color);
     cursor: pointer;
     display: block;
     flex-shrink: 0;
@@ -123,7 +123,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
     white-space: nowrap;
 
     @include focus-hover {
-        color: var(--b-snackbar-button-hover-color, $snackbar-btn-color-hover);
+        color: var(--b-snackbar-button-hover-color, $snackbar-action-button-color-hover);
         text-decoration: none;
     }
 
@@ -175,7 +175,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
         color: map-get($color, color);
     }
 
-    .snackbar-btn-#{$name} {
+    .snackbar-action-button-#{$name} {
         color: map-get($color, button);
 
         @include focus-hover {
