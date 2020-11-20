@@ -44,11 +44,6 @@ namespace Blazorise
                 inputValueDelayer.Delayed += OnInputValueDelayed;
             }
 
-            if ( ParentValidation != null )
-            {
-                ParentValidation.InitializeInputPattern( Pattern );
-            }
-
             base.OnInitialized();
         }
 
