@@ -12,12 +12,12 @@ The `Autocomplete` component provides suggestions while you type into the field.
 
 ## Installation
 
-The Autocomplete extension is part of the **Blazorise.Components** Nuget package.
+The Autocomplete extension is part of the **Blazorise.Components** NuGet package.
 {: .notice--info}
 
-### Nuget
+### NuGet
 
-Install extension from nuget.
+Install extension from NuGet.
 
 ```
 Install-Package Blazorise.Components
@@ -28,7 +28,8 @@ Install-Package Blazorise.Components
 ### Markup
 
 ```html
-<Autocomplete Data="@myDdlData"
+<Autocomplete TItem="MySelectModel" TValue="string"
+    Data="@myDdlData"
     TextField="@((item)=>item.MyTextField)"
     ValueField="@((item)=>item.MyTextField)"
     SelectedValue="@selectedSearchValue"
@@ -49,9 +50,9 @@ Install-Package Blazorise.Components
     static string[] Countries = { "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" };
     IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
 
-    object selectedSearchValue { get; set; }
+    string selectedSearchValue { get; set; }
 
-    void MySearchHandler( object newValue )
+    void MySearchHandler( string newValue )
     {
         selectedSearchValue = newValue;
     }
