@@ -132,7 +132,6 @@
         left: auto; } }
 
 .snackbar-multi-line {
-    height: 5rem;
     padding-top: 1.25rem;
     padding-bottom: 1.25rem; }
     .snackbar-multi-line .snackbar-body {
