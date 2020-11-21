@@ -1,11 +1,4 @@
 ﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
-{
-    <th scope="row" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
-        @ChildContent
-    </th>
-}
-else
-{
-    @RenderCustomComponent()
-}
+<th scope="row" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+    @ChildContent
+</th>

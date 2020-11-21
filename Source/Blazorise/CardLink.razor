@@ -1,9 +1,2 @@
 ﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
-{
-    <a href="@Source" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">@ChildContent</a>
-}
-else
-{
-    @RenderCustomComponent()
-}
+<a href="@Source" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">@ChildContent</a>

@@ -1,11 +1,4 @@
 ﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
-{
-    <form class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </form>
-}
-else
-{
-    @RenderCustomComponent()
-}
+<form class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    @ChildContent
+</form>

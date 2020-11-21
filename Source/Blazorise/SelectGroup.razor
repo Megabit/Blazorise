@@ -1,11 +1,4 @@
 @inherits BaseComponent
-@if ( !HasCustomRegistration )
-{
-    <optgroup class="@ClassNames" style="@StyleNames" label="@Label" @attributes="@Attributes">
-        @ChildContent
-    </optgroup>
-}
-else
-{
-    @RenderCustomComponent()
-}
+<optgroup class="@ClassNames" style="@StyleNames" label="@Label" @attributes="@Attributes">
+    @ChildContent
+</optgroup>

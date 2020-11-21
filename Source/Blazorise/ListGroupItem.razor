@@ -1,11 +1,4 @@
 ﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
-{
-    <li class="@ClassNames" style="@StyleNames" aria-disabled="@DisabledString" @onclick="@ClickHandler" @attributes="@Attributes">
-        @ChildContent
-    </li>
-}
-else
-{
-    @RenderCustomComponent()
-}
+<li class="@ClassNames" style="@StyleNames" aria-disabled="@DisabledString" @onclick="@ClickHandler" @attributes="@Attributes">
+    @ChildContent
+</li>
