@@ -24,7 +24,6 @@ namespace Blazorise.AntDesign
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, AntDesignStyleProvider>();
             serviceCollection.AddScoped<IJSRunner, AntDesignJSRunner>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
             serviceCollection.AddScoped<IThemeGenerator, AntDesignThemeGenerator>();
 
             serviceCollection.AddTransient<Blazorise.Addons, AntDesign.Addons>();

@@ -17,8 +17,6 @@ namespace Blazorise
 
         private string customStyle;
 
-        private IComponentMapper componentMapper;
-
         private Float @float = Float.None;
 
         private IFluentSpacing margin;
@@ -199,19 +197,6 @@ namespace Blazorise
         /// Gets the built styles based on all the rules set by the component parameters.
         /// </summary>
         public string StyleNames => StyleBuilder.Styles;
-
-        /// <summary>
-        /// Gets or sets the custom components mapper.
-        /// </summary>
-        [Inject]
-        protected IComponentMapper ComponentMapper
-        {
-            get => componentMapper;
-            set
-            {
-                componentMapper = value;
-            }
-        }
 
         /// <summary>
         /// Gets or set the javascript runner.

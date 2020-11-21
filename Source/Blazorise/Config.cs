@@ -47,7 +47,6 @@ namespace Blazorise
         {
             serviceCollection.AddSingleton<IClassProvider, EmptyClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, EmptyStyleProvider>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
 
             serviceCollection.AddScoped<IJSRunner, EmptyJSRunner>();
 

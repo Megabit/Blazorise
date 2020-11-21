@@ -26,7 +26,6 @@ namespace Blazorise.Bootstrap
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, BootstrapStyleProvider>();
             serviceCollection.AddScoped<IJSRunner, BootstrapJSRunner>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
             serviceCollection.AddScoped<IThemeGenerator, BootstrapThemeGenerator>();
 
             serviceCollection.AddBootstrapComponents();

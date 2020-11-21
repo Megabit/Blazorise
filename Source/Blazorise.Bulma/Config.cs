@@ -19,7 +19,6 @@ namespace Blazorise.Bulma
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, BulmaStyleProvider>();
             serviceCollection.AddScoped<IJSRunner, BulmaJSRunner>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
             serviceCollection.AddSingleton<IThemeGenerator, BulmaThemeGenerator>();
 
             serviceCollection.AddTransient<Blazorise.Addons, Bulma.Addons>();
