@@ -2,7 +2,9 @@
 using System;
 using Blazorise.Providers;
 using Blazorise.Utils;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 #endregion
 
 namespace Blazorise
@@ -17,6 +19,8 @@ namespace Blazorise
         /// <returns></returns>
         public static IServiceCollection AddBlazorise( this IServiceCollection serviceCollection, Action<BlazoriseOptions> configureOptions = null )
         {
+            serviceCollection.Replace( ServiceDescriptor.Singleton<IComponentActivator, ComponentActivator>() );
+
             // If options handler is not defined we will get an exception so
             // we need to initialize and empty action.
             if ( configureOptions == null )

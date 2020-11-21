@@ -36,10 +36,6 @@ namespace BasicTestApp.Client
 
             var host = builder.Build();
 
-            host.Services
-                .UseBootstrapProviders()
-                .UseFontAwesomeIcons();
-
             await host.RunAsync();
         }
     }
