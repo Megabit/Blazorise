@@ -31,7 +31,7 @@ namespace Blazorise
                 instance = Activator.CreateInstance( componentType );
             }
 
-            if ( !( instance is IComponent component ) )
+            if ( instance is not IComponent component )
             {
                 throw new ArgumentException( $"The type {componentType.FullName} does not implement {nameof( IComponent )}.", nameof( componentType ) );
             }
