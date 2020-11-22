@@ -21,7 +21,7 @@ namespace Blazorise.DataGrid
             if ( ParentDataGrid.SelectedAllRows )
             {
                 //Double checks if this has been selected for coherence with filtering and sorting
-                if ( ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) )
+                if ( ParentDataGrid.SelectedRows.Any( x => x.IsEqual(Item) ) )
                     IsChecked = true;
 
                 await InvokeAsync( () => StateHasChanged() );

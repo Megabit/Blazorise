@@ -56,11 +56,11 @@ namespace Blazorise.DataGrid
             // un-select row if the user is holding the ctrl key on already selected row
             if ( eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
                 && ParentDataGrid.SelectedRow != null
-                && (object)Item == (object)ParentDataGrid.SelectedRow )
+                && Item.IsEqual(ParentDataGrid.SelectedRow) )
             {
                 await Selected.InvokeAsync( default );
             }
-            else if ( ParentDataGrid.MultiSelect && ParentDataGrid.SelectedRows != null && ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) )
+            else if ( ParentDataGrid.MultiSelect && ParentDataGrid.SelectedRows != null && ParentDataGrid.SelectedRows.Any( x => x.IsEqual(Item) ) )
             {
                 //If the user selects an already selected multiselect row, seems like it should be more transparent, to just de-select both normal and multi selection
                 //Remove this, if that is not the case
@@ -79,7 +79,7 @@ namespace Blazorise.DataGrid
                 }
                 else
                 {
-                    await OnMultiSelectCommand( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) );
+                    await OnMultiSelectCommand( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual(Item) ) );
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Indicates if the row is selected.
         /// </summary>
-        protected bool IsSelected => ( ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item ) || ( ParentDataGrid.SelectedRows != null && ParentDataGrid.SelectedRows.Any( x => (object)( x ) == (object)Item ) );
+        protected bool IsSelected => ( ParentDataGrid.EditState == DataGridEditState.None && ParentDataGrid.SelectedRow.IsEqual(Item) ) || ( ParentDataGrid.SelectedRows != null && ParentDataGrid.SelectedRows.Any( x => x.IsEqual(Item) ) );
 
         /// <summary>
         /// Gets the row background color.

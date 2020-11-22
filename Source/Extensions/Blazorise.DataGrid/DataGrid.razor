@@ -112,7 +112,7 @@
             {
                 @foreach ( var item in DisplayData )
                 {
-                    @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && (object)item == (object)editItem )
+                    @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual(editItem) )
                     {
                         <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
                     }
