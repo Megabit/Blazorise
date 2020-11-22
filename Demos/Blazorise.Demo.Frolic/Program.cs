@@ -39,10 +39,6 @@ namespace Blazorise.Demo.Frolic
 
             var host = builder.Build();
 
-            host.Services
-                .UseFrolicProviders()
-                .UseFontAwesomeIcons();
-
             await host.RunAsync();
         }
     }

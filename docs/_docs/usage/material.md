@@ -109,10 +109,6 @@ public class Program
 
     var host = builder.Build();
 
-    host.Services
-      .UseMaterialProviders()
-      .UseMaterialIcons();
-
     await host.RunAsync();
   }
 }
@@ -147,10 +143,6 @@ public class Startup
     
     app.UseRouting();
     
-    app.ApplicationServices
-      .UseMaterialProviders()
-      .UseMaterialIcons();
-
     app.UseEndpoints( endpoints =>
     {
         endpoints.MapBlazorHub();

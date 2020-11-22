@@ -160,10 +160,6 @@ public class Program
 
     var host = builder.Build();
 
-    host.Services
-      .UseBootstrapProviders()
-      .UseFontAwesomeIcons();
-
     await host.RunAsync();
   }
 }
@@ -200,10 +196,6 @@ public class Startup
     
     app.UseRouting();
     
-    app.ApplicationServices
-      .UseBootstrapProviders()
-      .UseFontAwesomeIcons();
-
     app.UseEndpoints( endpoints =>
     {
         endpoints.MapBlazorHub();

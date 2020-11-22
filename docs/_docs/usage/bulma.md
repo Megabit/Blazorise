@@ -98,10 +98,6 @@ public class Program
 
     var host = builder.Build();
 
-    host.Services
-      .UseBulmaProviders()
-      .UseFontAwesomeIcons();
-
     await host.RunAsync();
   }
 }
@@ -136,10 +132,6 @@ public class Startup
     
     app.UseRouting();
     
-    app.ApplicationServices
-      .UseBulmaProviders()
-      .UseFontAwesomeIcons();
-
     app.UseEndpoints( endpoints =>
     {
         endpoints.MapBlazorHub();

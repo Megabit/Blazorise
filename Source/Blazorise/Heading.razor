@@ -1,11 +1,4 @@
 ﻿@inherits BaseTypographyComponent
-@if ( !HasCustomRegistration )
-{
-    <Dynamic TagName="@TagName" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </Dynamic>
-}
-else
-{
-    @RenderCustomComponent()
-}
+<Dynamic TagName="@TagName" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    @ChildContent
+</Dynamic>

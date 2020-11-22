@@ -116,40 +116,33 @@ namespace Blazorise
 
         protected override void BuildRenderTree( RenderTreeBuilder builder )
         {
-            if ( HasCustomRegistration )
+            builder
+                .OpenElement( Type.ToButtonTagName() )
+                .Id( ElementId )
+                .Type( Type.ToButtonTypeString() )
+                .Class( ClassNames )
+                .Style( StyleNames )
+                .Disabled( Disabled )
+                .AriaPressed( Active );
+
+            if ( Type == ButtonType.Link && To != null )
             {
-                builder.AddContent( 0, RenderCustomComponent() );
+                builder
+                    .Role( "button" )
+                    .Href( To )
+                    .Target( Target );
             }
             else
             {
-                builder
-                    .OpenElement( Type.ToButtonTagName() )
-                    .Id( ElementId )
-                    .Type( Type.ToButtonTypeString() )
-                    .Class( ClassNames )
-                    .Style( StyleNames )
-                    .Disabled( Disabled )
-                    .AriaPressed( Active );
-
-                if ( Type == ButtonType.Link && To != null )
-                {
-                    builder
-                        .Role( "button" )
-                        .Href( To )
-                        .Target( Target );
-                }
-                else
-                {
-                    builder.OnClick( this, Clicked );
-                }
-
-                builder.Attributes( Attributes );
-                builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
-
-                builder.Content( ChildContent );
-
-                builder.CloseElement();
+                builder.OnClick( this, Clicked );
             }
+
+            builder.Attributes( Attributes );
+            builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
+
+            builder.Content( ChildContent );
+
+            builder.CloseElement();
 
             base.BuildRenderTree( builder );
         }

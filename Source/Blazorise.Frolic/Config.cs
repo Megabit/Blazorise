@@ -19,48 +19,35 @@ namespace Blazorise.Frolic
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, FrolicStyleProvider>();
             serviceCollection.AddScoped<IJSRunner, FrolicJSRunner>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
             serviceCollection.AddSingleton<IThemeGenerator, FrolicThemeGenerator>();
 
+            serviceCollection.AddTransient<Blazorise.Addon, Frolic.Addon>();
+            serviceCollection.AddTransient<Blazorise.BarBrand, Frolic.BarBrand>();
+            serviceCollection.AddTransient<Blazorise.BarDropdownToggle, Frolic.BarDropdownToggle>();
+            serviceCollection.AddTransient<Blazorise.BarEnd, Frolic.BarEnd>();
+            serviceCollection.AddTransient<Blazorise.BarItem, Frolic.BarItem>();
+            serviceCollection.AddTransient<Blazorise.BarStart, Frolic.BarStart>();
+            serviceCollection.AddTransient<Blazorise.BarToggler, Frolic.BarToggler>();
+            serviceCollection.AddTransient<Blazorise.Breadcrumb, Frolic.Breadcrumb>();
+            serviceCollection.AddTransient<Blazorise.CardText, Frolic.CardText>();
+            serviceCollection.AddTransient<Blazorise.CardTitle, Frolic.CardTitle>();
+            serviceCollection.AddTransient<Blazorise.Carousel, Frolic.Carousel>();
+            serviceCollection.AddTransient( typeof( Blazorise.Check<> ), typeof( Frolic.Check<> ) );
+            serviceCollection.AddTransient( typeof( Blazorise.Radio<> ), typeof( Frolic.Radio<> ) );
+            serviceCollection.AddTransient( typeof( Blazorise.Switch<> ), typeof( Frolic.Switch<> ) );
+            serviceCollection.AddTransient<Blazorise.DisplayHeading, Frolic.DisplayHeading>();
+            serviceCollection.AddTransient<Blazorise.Dropdown, Frolic.Dropdown>();
+            serviceCollection.AddTransient<Blazorise.DropdownToggle, Frolic.DropdownToggle>();
+            serviceCollection.AddTransient<Blazorise.Field, Frolic.Field>();
+            serviceCollection.AddTransient<Blazorise.Jumbotron, Frolic.Jumbotron>();
+            serviceCollection.AddTransient<Blazorise.JumbotronSubtitle, Frolic.JumbotronSubtitle>();
+            serviceCollection.AddTransient<Blazorise.Pagination, Frolic.Pagination>();
+            serviceCollection.AddTransient<Blazorise.ProgressBar, Frolic.ProgressBar>();
+            serviceCollection.AddTransient<Blazorise.Progress, Frolic.Progress>();
+            serviceCollection.AddTransient<Blazorise.Button, Frolic.Button>();
+            serviceCollection.AddTransient<Blazorise.Tabs, Frolic.Tabs>();
+
             return serviceCollection;
-        }
-
-        private static void RegisterComponents( IComponentMapper componentMapper )
-        {
-            componentMapper.Register<Blazorise.Addon, Frolic.Addon>();
-            componentMapper.Register<Blazorise.BarBrand, Frolic.BarBrand>();
-            componentMapper.Register<Blazorise.BarDropdownToggle, Frolic.BarDropdownToggle>();
-            componentMapper.Register<Blazorise.BarEnd, Frolic.BarEnd>();
-            componentMapper.Register<Blazorise.BarItem, Frolic.BarItem>();
-            componentMapper.Register<Blazorise.BarStart, Frolic.BarStart>();
-            componentMapper.Register<Blazorise.BarToggler, Frolic.BarToggler>();
-            componentMapper.Register<Blazorise.Breadcrumb, Frolic.Breadcrumb>();
-            componentMapper.Register<Blazorise.CardText, Frolic.CardText>();
-            componentMapper.Register<Blazorise.CardTitle, Frolic.CardTitle>();
-            componentMapper.Register<Blazorise.Carousel, Frolic.Carousel>();
-            componentMapper.Register( typeof( Blazorise.Check<> ), typeof( Frolic.Check<> ) );
-            componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( Frolic.Radio<> ) );
-            componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( Frolic.Switch<> ) );
-            componentMapper.Register<Blazorise.DisplayHeading, Frolic.DisplayHeading>();
-            componentMapper.Register<Blazorise.Dropdown, Frolic.Dropdown>();
-            componentMapper.Register<Blazorise.DropdownToggle, Frolic.DropdownToggle>();
-            componentMapper.Register<Blazorise.Field, Frolic.Field>();
-            componentMapper.Register<Blazorise.Jumbotron, Frolic.Jumbotron>();
-            componentMapper.Register<Blazorise.JumbotronSubtitle, Frolic.JumbotronSubtitle>();
-            componentMapper.Register<Blazorise.Pagination, Frolic.Pagination>();
-            componentMapper.Register<Blazorise.ProgressBar, Frolic.ProgressBar>();
-            componentMapper.Register<Blazorise.Progress, Frolic.Progress>();
-            componentMapper.Register<Blazorise.Button, Frolic.Button>();
-            componentMapper.Register<Blazorise.Tabs, Frolic.Tabs>();
-        }
-
-        public static IServiceProvider UseFrolicProviders( this IServiceProvider serviceProvider )
-        {
-            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
-
-            RegisterComponents( componentMapper );
-
-            return serviceProvider;
         }
     }
 }

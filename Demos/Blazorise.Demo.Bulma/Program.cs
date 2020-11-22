@@ -39,10 +39,6 @@ namespace Blazorise.Demo.Bulma
 
             var host = builder.Build();
 
-            host.Services
-                .UseBulmaProviders()
-                .UseFontAwesomeIcons();
-
             await host.RunAsync();
         }
     }
