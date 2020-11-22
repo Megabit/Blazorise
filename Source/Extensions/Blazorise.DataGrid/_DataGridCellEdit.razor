@@ -1,4 +1,5 @@
-@inherits _BaseDataGridCellEdit
+@typeparam TItem
+@inherits ComponentBase
 @if ( ValueType == typeof( decimal ) )
 {
     <NumericEdit TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />

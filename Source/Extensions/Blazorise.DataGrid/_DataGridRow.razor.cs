@@ -15,7 +15,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Holds the internal value for every cell in the row.
         /// </summary>
-        protected Dictionary<string, CellEditContext> cellsValues = new Dictionary<string, CellEditContext>();
+        protected Dictionary<string, CellEditContext<TItem>> cellsValues = new Dictionary<string, CellEditContext<TItem>>();
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace Blazorise.DataGrid
                     if ( column.ColumnType == DataGridColumnType.Command )
                         continue;
 
-                    cellsValues.Add( column.ElementId, new CellEditContext
+                    cellsValues.Add( column.ElementId, new CellEditContext<TItem>( Item )
                     {
                         CellValue = column.GetValue( Item ),
                     } );
