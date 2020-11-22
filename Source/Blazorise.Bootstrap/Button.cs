@@ -34,20 +34,30 @@ namespace Blazorise.Bootstrap
             builder.Attributes( Attributes );
             builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
 
-            if ( Loading )
+            if ( LoadingContent == null)
             {
-                builder.OpenElement( "span" );
-
-                builder
-                    .Class( "spinner-border spinner-border-sm" )
-                    .Role( "status" )
-                    .AriaHidden( "true" );
-
-                builder.CloseElement();
+                if ( Loading )
+                {
+                    CreateDefaultLoadingAnimation( builder );
+                }   
+                
+                builder.Content( ChildContent );
+            }
+            else
+            {
+                builder.Content( Loading ? LoadingContent : ChildContent);
             }
 
-            builder.Content( ChildContent );
-
+            builder.CloseElement();
+        }
+        
+        private void CreateDefaultLoadingAnimation( RenderTreeBuilder builder )
+        {
+            builder.OpenElement( "span" );
+            builder
+                .Class( "spinner-border spinner-border-sm" )
+                .Role( "status" )
+                .AriaHidden( "true" );
             builder.CloseElement();
         }
 
