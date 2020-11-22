@@ -4,11 +4,7 @@
     @if ( ParentDataGrid?.MultiSelectColumn?.MultiSelectTemplate != null )
     {
         <Blazorise.Label @onclick:stopPropagation>
-            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>
-            {
-                SelectedChanged = OnSelectedChanged,
-                Item = Item,
-            } )
+            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>( OnSelectedChanged, Item ) )
         </Blazorise.Label>
     }
     else

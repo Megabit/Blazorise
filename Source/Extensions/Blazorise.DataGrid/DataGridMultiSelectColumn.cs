@@ -6,14 +6,6 @@ namespace Blazorise.DataGrid
 {
     public partial class DataGridMultiSelectColumn<TItem> : DataGridColumn<TItem>
     {
-        #region Members
-
-        #endregion
-
-        #region Methods
-
-        #endregion
-
         #region Properties
 
         public override DataGridColumnType ColumnType => DataGridColumnType.MultiSelect;

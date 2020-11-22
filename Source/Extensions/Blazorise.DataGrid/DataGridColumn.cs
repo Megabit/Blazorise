@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,7 +7,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise.DataGrid
@@ -126,10 +124,13 @@ namespace Blazorise.DataGrid
             return FormatDisplayValue( GetValue( item ) );
         }
 
-        internal bool IsDisplayable => this.ColumnType == DataGridColumnType.Command || this.ColumnType == DataGridColumnType.MultiSelect;
-        internal bool ExcludeFromFilter => this.ColumnType == DataGridColumnType.Command || this.ColumnType == DataGridColumnType.MultiSelect;
-        internal bool ExcludeFromEdit => this.ColumnType == DataGridColumnType.Command || this.ColumnType == DataGridColumnType.MultiSelect;
-        internal bool ExcludeFromInit => this.ColumnType == DataGridColumnType.Command || this.ColumnType == DataGridColumnType.MultiSelect;
+        internal bool IsDisplayable => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+        internal bool ExcludeFromFilter => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+        internal bool ExcludeFromEdit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+        internal bool ExcludeFromInit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
 
         #endregion
 
