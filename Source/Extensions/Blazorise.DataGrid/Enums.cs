@@ -80,6 +80,11 @@ namespace Blazorise.DataGrid
         /// Column is used only to represent commands like edit, save, etc.
         /// </summary>
         Command,
+
+        /// <summary>
+        /// Column is used only to represent the multiselect command.
+        /// </summary>
+        MultiSelect,
     }
 
     public enum DataGridFilterMethod

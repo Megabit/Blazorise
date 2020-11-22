@@ -1,0 +1,20 @@
+﻿@typeparam TItem
+@inherits _BaseDataGridRowMultiSelect<TItem>
+<TableRowCell Class="@Class" Style="@Style" width="@Width" TextAlignment="@TextAlignment">
+    @if ( ParentDataGrid?.MultiSelectColumn?.MultiSelectTemplate != null )
+    {
+        <Blazorise.Label @onclick:stopPropagation>
+            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>
+            {
+                SelectedChanged = OnSelectedChanged,
+                Item = Item,
+            } )
+        </Blazorise.Label>
+    }
+    else
+    {
+        <Blazorise.Label @onclick:stopPropagation>
+            <Blazorise.Check TValue="bool" Checked="IsChecked" CheckedExpression="()=> IsChecked" CheckedChanged="IsCheckedChanged" @onclick:stopPropagation></Blazorise.Check>
+        </Blazorise.Label>
+    }
+</TableRowCell>
