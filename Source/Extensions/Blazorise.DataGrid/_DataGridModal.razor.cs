@@ -45,7 +45,7 @@ namespace Blazorise.DataGrid
 
         [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
-        [Parameter] public IReadOnlyDictionary<string, CellEditContext> EditItemCellValues { get; set; }
+        [Parameter] public IReadOnlyDictionary<string, CellEditContext<TItem>> EditItemCellValues { get; set; }
 
         [Parameter]
         public bool PopupVisible

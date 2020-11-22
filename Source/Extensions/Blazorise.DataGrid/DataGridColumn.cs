@@ -282,7 +282,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Template for custom cell editing.
         /// </summary>
-        [Parameter] public RenderFragment<CellEditContext> EditTemplate { get; set; }
+        [Parameter] public RenderFragment<CellEditContext<TItem>> EditTemplate { get; set; }
 
         /// <summary>
         /// Validates the input value after trying to save.

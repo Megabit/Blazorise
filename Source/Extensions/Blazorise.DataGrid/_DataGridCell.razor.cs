@@ -38,7 +38,7 @@ namespace Blazorise.DataGrid
 
         [Parameter] public TItem Item { get; set; }
 
-        [Parameter] public CellEditContext CellEditContext { get; set; }
+        [Parameter] public CellEditContext<TItem> CellEditContext { get; set; }
 
         [Parameter] public EventCallback<object> CellValueChanged { get; set; }
 

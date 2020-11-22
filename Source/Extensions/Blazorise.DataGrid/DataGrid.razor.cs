@@ -67,9 +67,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected DataGridEditState editState = DataGridEditState.None;
 
-        protected Dictionary<string, CellEditContext> editItemCellValues;
+        protected Dictionary<string, CellEditContext<TItem>> editItemCellValues;
 
-        protected Dictionary<string, CellEditContext> filterCellValues;
+        protected Dictionary<string, CellEditContext<TItem>> filterCellValues;
 
         /// <summary>
         /// Holds the pagination templates
@@ -157,11 +157,11 @@ namespace Blazorise.DataGrid
         private void InitEditItem( TItem item )
         {
             editItem = item;
-            editItemCellValues = new Dictionary<string, CellEditContext>();
+            editItemCellValues = new Dictionary<string, CellEditContext<TItem>>();
 
             foreach ( var column in EditableColumns )
             {
-                editItemCellValues.Add( column.ElementId, new CellEditContext
+                editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item )
                 {
                     CellValue = column.GetValue( editItem ),
                 } );
