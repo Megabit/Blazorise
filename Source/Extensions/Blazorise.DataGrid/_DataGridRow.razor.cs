@@ -60,7 +60,7 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( default );
             }
-            else if ( ParentDataGrid.MultiSelect && ParentDataGrid.SelectedRows is object && ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) )
+            else if ( ParentDataGrid.MultiSelect && ParentDataGrid.SelectedRows != null && ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) )
             {
                 //If the user selects an already selected multiselect row, seems like it should be more transparent, to just de-select both normal and multi selection
                 //Remove this, if that is not the case
@@ -73,13 +73,13 @@ namespace Blazorise.DataGrid
 
             if ( ParentDataGrid.MultiSelect )
             {
-                if ( multiSelect is object )
+                if ( multiSelect != null )
                 {
                     await multiSelect.IsCheckedChanged( !multiSelect.IsChecked );
                 }
                 else
                 {
-                    await OnMultiSelectCommand( ParentDataGrid.SelectedRows is object && !ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) );
+                    await OnMultiSelectCommand( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => (object)x == (object)Item ) );
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Indicates if the row is selected.
         /// </summary>
-        protected bool IsSelected => ( ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item ) || ( ParentDataGrid.SelectedRows is object && ParentDataGrid.SelectedRows.Any( x => (object)( x ) == (object)Item ) );
+        protected bool IsSelected => ( ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item ) || ( ParentDataGrid.SelectedRows != null && ParentDataGrid.SelectedRows.Any( x => (object)( x ) == (object)Item ) );
 
         /// <summary>
         /// Gets the row background color.

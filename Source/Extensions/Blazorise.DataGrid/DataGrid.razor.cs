@@ -150,7 +150,7 @@ namespace Blazorise.DataGrid
 
         protected override Task OnAfterRenderAsync( bool firstRender )
         {
-            if ( !MultiSelect && SelectedRows is object )
+            if ( !MultiSelect && SelectedRows != null )
             {
                 SelectedRows = null;
                 InvokeAsync( () => StateHasChanged() );
