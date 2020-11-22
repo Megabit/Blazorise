@@ -348,6 +348,11 @@ namespace Blazorise
         /// Gets or sets the component child content.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the component loading content.
+        /// </summary>
+        [Parameter]public RenderFragement LoadingContent { get;set; }
 
         #endregion
     }
