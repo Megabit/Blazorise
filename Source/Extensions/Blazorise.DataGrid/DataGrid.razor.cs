@@ -1,4 +1,5 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise.DataGrid
@@ -82,10 +84,20 @@ namespace Blazorise.DataGrid
         protected PaginationContext<TItem> paginationContext;
 
         /// <summary>
-        /// Use it as a trigger to unselect all rows.
+        /// Trigger to unselect all rows.
         /// Set it back to false.
         /// </summary>
         internal bool UnSelectAllRows { get; set; }
+
+        /// <summary>
+        /// Trigger to select all rows.
+        /// </summary>
+        internal bool SelectedAllRows { get; set; }
+
+        /// <summary>
+        /// Checks if the DataGrid is currently on multiple selection mode.
+        /// </summary>
+        internal bool MultiSelect => ( SelectionMode == DataGridSelectionMode.Multiple );
 
         #endregion
 
@@ -939,12 +951,9 @@ namespace Blazorise.DataGrid
         [Parameter] public List<TItem> SelectedRows { get; set; }
 
         /// <summary>
-        /// Enables multiple selection
+        /// Gets or sets current selection mode.
         /// </summary>
-        [Parameter] public bool MultiSelect { get; set; }
-
-        [Parameter] public bool SelectedAllRows { get; set; }
-
+        [Parameter] public DataGridSelectionMode SelectionMode { get; set; }
 
         /// <summary>
         /// Occurs after the selected row has changed.
