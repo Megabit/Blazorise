@@ -318,7 +318,7 @@ namespace Blazorise.DataGrid
                 PopupVisible = false;
         }
 
-        protected Task OnMultiSelectCommand( (bool IsSelected, TItem item) mSelect )
+        protected Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> mSelect )
         {
             SelectedAllRows = false;
             UnSelectAllRows = false;
@@ -326,11 +326,11 @@ namespace Blazorise.DataGrid
             if ( SelectedRows is null )
                 SelectedRows = new List<TItem>();
 
-            if ( mSelect.IsSelected && !SelectedRows.Contains( mSelect.item ) )
-                SelectedRows.Add( mSelect.item );
+            if ( mSelect.Selected && !SelectedRows.Contains( mSelect.Item ) )
+                SelectedRows.Add( mSelect.Item );
 
-            if ( !mSelect.IsSelected && SelectedRows.Contains( mSelect.item ) )
-                SelectedRows.Remove( mSelect.item );
+            if ( !mSelect.Selected && SelectedRows.Contains( mSelect.Item ) )
+                SelectedRows.Remove( mSelect.Item );
 
             return SelectedRowsChanged.InvokeAsync( SelectedRows );
         }

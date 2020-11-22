@@ -19,6 +19,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected Dictionary<string, CellEditContext<TItem>> cellsValues = new Dictionary<string, CellEditContext<TItem>>();
 
+        /// <summary>
+        /// Holds the reference to the multiSelect cell.
+        /// </summary>
         protected _DataGridRowMultiSelect<TItem> multiSelect;
 
         #endregion
@@ -111,7 +114,7 @@ namespace Blazorise.DataGrid
 
         protected internal Task OnMultiSelectCommand( bool IsSelected )
         {
-            return MultiSelect.InvokeAsync( (IsSelected, Item) );
+            return MultiSelect.InvokeAsync( new MultiSelectEventArgs<TItem>( Item, IsSelected ) );
         }
 
         #endregion
@@ -201,7 +204,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Activates the multi select command.
         /// </summary>
-        [Parameter] public EventCallback<(bool, TItem)> MultiSelect { get; set; }
+        [Parameter] public EventCallback<MultiSelectEventArgs<TItem>> MultiSelect { get; set; }
 
         /// <summary>
         /// Gets or sets the applied cursor when the row is hovered over.

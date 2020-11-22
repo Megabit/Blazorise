@@ -167,4 +167,33 @@ namespace Blazorise.DataGrid
         /// </summary>
         public BLMouseEventArgs MouseEventArgs { get; }
     }
+
+
+    /// <summary>
+    /// Provides all the information about the multi select event.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
+    public class MultiSelectEventArgs<TItem> : EventArgs
+    {
+        public MultiSelectEventArgs( TItem item, bool selected )
+        {
+            Item = item;
+            Selected = selected;
+        }
+
+        /// <summary>
+        /// Gets the model.
+        /// </summary>
+        public bool Selected { get; }
+
+        /// <summary>
+        /// Gets the model.
+        /// </summary>
+        public TItem Item { get; }
+
+
+
+    }
 }
+
+
