@@ -12,7 +12,7 @@ redirect_from: /docs/quick-start/
 **Note:** Before continuing please make sure that you already have a Blazor project created. If not please go to the [official Blazor site](https://blazor.net/docs/get-started.html){:target="_blank"} and learn how to create one.
 {: .notice--info}
 
-Blazorise is designed to work with different CSS frameworks. Each of the supported CSS framework is defined by a different nuget package. Please see the [usage page]({{ "/docs/usage/" | relative_url }}) to find a list of supported frameworks and how to use them.
+Blazorise is designed to work with different CSS frameworks. Each of the supported CSS framework is defined by a different NuGet package. Please see the [usage page]({{ "/docs/usage/" | relative_url }}) to find a list of supported frameworks and how to use them.
 
 The setup process is similar for all of the supported frameworks, you will just replace Bootstrap sources with the one you need.
 
@@ -47,9 +47,9 @@ The next step is to change your `index.html` or `_Host.cshtml` file and include 
   <link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
 </head>
 <body>
-  <app>...</app>
+  <div id="app"></div>
 
-  <!-- inside of body section and after the <app> tag  -->
+  <!-- inside of body section and after the div/app tag  -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
@@ -111,13 +111,9 @@ public class Program
       BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
     } );
 
-    builder.RootComponents.Add<App>( "app" );
+    builder.RootComponents.Add<App>( "#app" );
 
     var host = builder.Build();
-
-    host.Services
-      .UseBootstrapProviders()
-      .UseFontAwesomeIcons();
 
     await host.RunAsync();
   }
@@ -155,10 +151,6 @@ public class Startup
     
     app.UseRouting();
     
-    app.ApplicationServices
-      .UseBootstrapProviders()
-      .UseFontAwesomeIcons();
-
     app.UseEndpoints( endpoints =>
     {
         endpoints.MapBlazorHub();

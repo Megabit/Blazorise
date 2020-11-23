@@ -52,7 +52,7 @@ namespace Blazorise.DataGrid
 
         [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
-        [Parameter] public Dictionary<string, CellEditContext> CellValues { get; set; }
+        [Parameter] public Dictionary<string, CellEditContext<TItem>> CellValues { get; set; }
 
         [Parameter] public DataGridEditMode EditMode { get; set; }
 

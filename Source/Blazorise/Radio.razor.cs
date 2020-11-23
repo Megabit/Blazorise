@@ -36,7 +36,7 @@ namespace Blazorise
         {
             if ( ParentRadioGroup != null )
             {
-                Checked = EqualityComparer<TValue>.Default.Equals( ParentRadioGroup.CheckedValue, Value );
+                Checked = ParentRadioGroup.CheckedValue.IsEqual( Value );
 
                 // TODO: possibly memory leak in Blazor server-side with prerendering mode!
                 ParentRadioGroup.RadioCheckedChanged += OnRadioChanged;

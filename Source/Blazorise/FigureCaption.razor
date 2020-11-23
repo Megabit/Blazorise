@@ -1,11 +1,4 @@
 ﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
-{
-    <figcaption class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </figcaption>
-}
-else
-{
-    @RenderCustomComponent()
-}
+<figcaption class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    @ChildContent
+</figcaption>

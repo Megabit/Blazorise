@@ -105,13 +105,9 @@ public class Program
       BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
     } );
 
-    builder.RootComponents.Add<App>( "app" );
+    builder.RootComponents.Add<App>( "#app" );
 
     var host = builder.Build();
-
-    host.Services
-      .UseMaterialProviders()
-      .UseMaterialIcons();
 
     await host.RunAsync();
   }
@@ -147,10 +143,6 @@ public class Startup
     
     app.UseRouting();
     
-    app.ApplicationServices
-      .UseMaterialProviders()
-      .UseMaterialIcons();
-
     app.UseEndpoints( endpoints =>
     {
         endpoints.MapBlazorHub();

@@ -116,8 +116,8 @@ If you want to group buttons together on a single line, use the `Buttons` tag.
 By default, `Button` works with `<button>` element, but you can also create an `<a>` element that will still appear as regular button.
 
 ```html
-<Button Color="Color.Primary" To="#">Primary link</Button>
-<Button Color="Color.Secondary" To="#" Target="Target.Blank">Secondary link</Button>
+<Button Color="Color.Primary" Type="ButtonType.Link" To="#">Primary link</Button>
+<Button Color="Color.Secondary" Type="ButtonType.Link" To="#" Target="Target.Blank">Secondary link</Button>
 ```
 
 <iframe src="/examples/buttons/linkbutton/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -168,7 +168,7 @@ When using a submit button inside of `<Form>` element the browser will automatic
 | Name                      | Type                                                                    | Default  | Description                                                                  |
 |---------------------------|-------------------------------------------------------------------------|----------|------------------------------------------------------------------------------|
 | Color                     | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})            | `None`   | Component visual or contextual style variants                                |
-| Size                      | [ButtonSize]({{ "/docs/helpers/sizes/#buttonsize" | relative_url }})    | `None`   | Button size variations.                                                      |
+| Size                      | [Size]({{ "/docs/helpers/sizes/#size" | relative_url }})                | `None`   | Button size variations.                                                      |
 | Type                      | [ButtonType]({{ "/docs/helpers/enums/#buttontype" | relative_url }})    | `Button` | Defines the button type.                                                     |
 | Clicked                   | event                                                                   |          | Occurs when the button is clicked.                                           |
 | Outline                   | boolean                                                                 | false    | Outlined button.                                                             |

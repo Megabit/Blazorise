@@ -1,14 +1,7 @@
 ﻿@inherits BaseValidationResult
-@if ( !HasCustomRegistration )
+@if ( ParentValidation?.Status == ValidationStatus.Success )
 {
-    @if ( ParentValidation?.Status == ValidationStatus.Success )
-    {
-        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-            @ChildContent
-        </div>
-    }
-}
-else
-{
-    @RenderCustomComponent()
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </div>
 }

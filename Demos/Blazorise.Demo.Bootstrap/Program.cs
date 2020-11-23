@@ -39,10 +39,6 @@ namespace Blazorise.Demo.Bootstrap
 
             var host = builder.Build();
 
-            host.Services
-                .UseBootstrapProviders()
-                .UseFontAwesomeIcons();
-
             await host.RunAsync();
         }
     }

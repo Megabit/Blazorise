@@ -76,7 +76,7 @@ Install-Package Blazorise.Icons.FontAwesome
 
 The next step is to define links to Bootstrap and FontAwesome _CSS_ or _JS_ files. If you're using **Blazor WebAssembly** project template, those links will go to the `index.html` located inside of `wwwroot` folder. Otherwise, if you're using a **Blazor Server** project template you will place the links into the `_Host.cshtml`.
 
-In this step we're also going to define the links for Blazorise content files that comes with nuget packages. You must follow the naming convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. 
+In this step we're also going to define the links for Blazorise content files that comes with NuGet packages. You must follow the naming convention `_content/{LIBRARY.NAME}/{FILE.NAME}`. 
 
 ```html
 <html>
@@ -89,9 +89,9 @@ In this step we're also going to define the links for Blazorise content files th
   <link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
 </head>
 <body>
-  <app>...</app>
+  <div id="app"></div>
 
-  <!-- inside of body section and after the <app> tag  -->
+  <!-- inside of body section and after the div/app tag  -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
@@ -156,13 +156,9 @@ public class Program
       BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
     } );
 
-    builder.RootComponents.Add<App>( "app" );
+    builder.RootComponents.Add<App>( "#app" );
 
     var host = builder.Build();
-
-    host.Services
-      .UseBootstrapProviders()
-      .UseFontAwesomeIcons();
 
     await host.RunAsync();
   }
@@ -200,10 +196,6 @@ public class Startup
     
     app.UseRouting();
     
-    app.ApplicationServices
-      .UseBootstrapProviders()
-      .UseFontAwesomeIcons();
-
     app.UseEndpoints( endpoints =>
     {
         endpoints.MapBlazorHub();

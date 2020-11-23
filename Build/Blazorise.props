@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version>0.9.2</Version>
-		<PackageVersion>0.9.2</PackageVersion>
+		<Version>0.9.2.1</Version>
+		<PackageVersion>0.9.2.1</PackageVersion>
 
 		<Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
 		<Authors>Mladen Macanovic</Authors>
@@ -10,10 +10,10 @@
 		<RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		
-		<TargetFrameworks>netstandard2.1;net5.0</TargetFrameworks>
+		<TargetFramework>net5.0</TargetFramework>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>   
-		<LangVersion>8.0</LangVersion>
+		<LangVersion>9.0</LangVersion>
 
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		
@@ -26,20 +26,7 @@
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
-		<DefineConstants>$(DefineConstants);NETSTANDARD2_1</DefineConstants>
-	</PropertyGroup>
-	
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-		<DefineConstants>$(DefineConstants);NET5_0</DefineConstants>
-	</PropertyGroup>
-
-	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.10" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.10" />
-	</ItemGroup>
-
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
 	</ItemGroup>

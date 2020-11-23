@@ -1,6 +1,10 @@
 ﻿@typeparam TItem
 @inherits BaseDataGridComponent
 <TableRow Class="@Class" Style="@Style" Background="@Background" Color="@Color">
+    @if ( ParentDataGrid.MultiSelect )
+    {
+        <TableRowCell></TableRowCell>
+    }
     @foreach ( var column in Columns )
     {
         @if ( column.ColumnType == DataGridColumnType.Command )
@@ -8,6 +12,13 @@
             @if ( ParentDataGrid.Editable == true )
             {
                 <TableRowCell></TableRowCell>
+            }
+        }
+        else if ( column.ColumnType == DataGridColumnType.MultiSelect )
+        {
+            @if ( ParentDataGrid.MultiSelect )
+            {
+                <TableHeaderCell></TableHeaderCell>
             }
         }
         else

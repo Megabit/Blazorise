@@ -11,15 +11,11 @@ namespace Blazorise
     {
         #region Members
 
-        private ElementReference elementRef;
-
         private string elementId;
 
         private string customClass;
 
         private string customStyle;
-
-        private IComponentMapper componentMapper;
 
         private Float @float = Float.None;
 
@@ -30,8 +26,6 @@ namespace Blazorise
         private IFluentDisplay display;
 
         private CharacterCasing characterCasing = CharacterCasing.Normal;
-
-        private Dictionary<string, object> parameters;
 
         /// <summary>
         /// A stack of functions to execute after the rendering.
@@ -77,24 +71,19 @@ namespace Blazorise
         {
             Rendered = true;
 
-            // If the component has custom implementation we need to postpone the initialisation
-            // until the custom component is rendered!
-            if ( !HasCustomRegistration )
+            if ( firstRender )
             {
-                if ( firstRender )
-                {
-                    await OnFirstAfterRenderAsync();
-                }
+                await OnFirstAfterRenderAsync();
+            }
 
-                if ( executeAfterRendereQueue?.Count > 0 )
-                {
-                    var actions = executeAfterRendereQueue.ToArray();
-                    executeAfterRendereQueue.Clear();
+            if ( executeAfterRendereQueue?.Count > 0 )
+            {
+                var actions = executeAfterRendereQueue.ToArray();
+                executeAfterRendereQueue.Clear();
 
-                    foreach ( var action in actions )
-                    {
-                        await action();
-                    }
+                foreach ( var action in actions )
+                {
+                    await action();
                 }
             }
 
@@ -150,58 +139,6 @@ namespace Blazorise
             StyleBuilder.Dirty();
         }
 
-        public override Task SetParametersAsync( ParameterView parameters )
-        {
-            if ( HasCustomRegistration )
-            {
-                // the component has a custom implementation so we need to copy the parameters for manual rendering
-                this.parameters = new Dictionary<string, object>();
-
-                foreach ( var parameter in parameters )
-                {
-                    if ( parameter.Cascading )
-                        continue;
-
-                    this.parameters.Add( parameter.Name, parameter.Value );
-                }
-
-                return base.SetParametersAsync( ParameterView.Empty );
-            }
-            else
-                return base.SetParametersAsync( parameters );
-        }
-
-        /// <summary>
-        /// Main method to render custom component implementation.
-        /// </summary>
-        /// <returns></returns>
-        protected RenderFragment RenderCustomComponent() => builder =>
-        {
-            builder.OpenComponent( 0, ComponentMapper.GetImplementation( this ) );
-
-            foreach ( var parameter in parameters )
-            {
-                builder.AddAttribute( 1, parameter.Key, parameter.Value );
-            }
-
-            // since we're rendering custom component instead of this one, we need
-            // to get the ID of the rendered component. Then that ID will be used 
-            // and sent to java script when needed.
-            builder.AddComponentReferenceCapture( 2, ( otherComponent ) =>
-            {
-                if ( otherComponent is BaseComponent baseComponent )
-                {
-                    // getting the ElementRef directly is not possible so as a workaround we need to
-                    // get it through the function
-                    GetCustomElementRef = () => baseComponent.ElementRef;
-
-                    ElementId = baseComponent.ElementId;
-                }
-            } );
-
-            builder.CloseComponent();
-        };
-
         #endregion
 
         #region Properties
@@ -211,19 +148,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the reference to the rendered element.
         /// </summary>
-        public ElementReference ElementRef
-        {
-            get
-            {
-                return GetCustomElementRef != null ? GetCustomElementRef() : elementRef;
-            }
-            protected set => elementRef = value;
-        }
-
-        /// <summary>
-        /// Used to get the element reference from custom compomenent implementation.
-        /// </summary>
-        private Func<ElementReference> GetCustomElementRef { get; set; }
+        public ElementReference ElementRef { get; set; }
 
         /// <summary>
         /// Gets the unique id of the element.
@@ -272,26 +197,6 @@ namespace Blazorise
         /// Gets the built styles based on all the rules set by the component parameters.
         /// </summary>
         public string StyleNames => StyleBuilder.Styles;
-
-        /// <summary>
-        /// Gets or sets the custom components mapper.
-        /// </summary>
-        [Inject]
-        protected IComponentMapper ComponentMapper
-        {
-            get => componentMapper;
-            set
-            {
-                componentMapper = value;
-
-                HasCustomRegistration = componentMapper.HasRegistration( this );
-            }
-        }
-
-        /// <summary>
-        /// Indicates if components has a registered custom component.
-        /// </summary>
-        protected bool HasCustomRegistration { get; private set; }
 
         /// <summary>
         /// Gets or set the javascript runner.

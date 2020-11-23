@@ -1,11 +1,4 @@
 ﻿@inherits BaseTypographyComponent
-@if ( !HasCustomRegistration )
-{
-    <h1 class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </h1>
-}
-else
-{
-    @RenderCustomComponent()
-}
+<h1 class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    @ChildContent
+</h1>

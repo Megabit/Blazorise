@@ -138,7 +138,7 @@ namespace Blazorise
             get => InternalValue;
             set
             {
-                if ( !EqualityComparer<TValue>.Default.Equals( value, InternalValue ) )
+                if ( !value.IsEqual( InternalValue ) )
                 {
                     InternalValue = value;
                     _ = OnInternalValueChanged( value );

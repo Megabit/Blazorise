@@ -124,6 +124,14 @@ namespace Blazorise.DataGrid
             return FormatDisplayValue( GetValue( item ) );
         }
 
+        internal bool IsDisplayable => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+        internal bool ExcludeFromFilter => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+        internal bool ExcludeFromEdit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+        internal bool ExcludeFromInit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
         #endregion
 
         #region Properties
@@ -282,7 +290,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Template for custom cell editing.
         /// </summary>
-        [Parameter] public RenderFragment<CellEditContext> EditTemplate { get; set; }
+        [Parameter] public RenderFragment<CellEditContext<TItem>> EditTemplate { get; set; }
 
         /// <summary>
         /// Validates the input value after trying to save.

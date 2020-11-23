@@ -1,9 +1,11 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+
 #endregion
 
 namespace Blazorise.DataGrid
@@ -15,7 +17,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Holds the internal value for every cell in the row.
         /// </summary>
-        protected Dictionary<string, CellEditContext> cellsValues = new Dictionary<string, CellEditContext>();
+        protected Dictionary<string, CellEditContext<TItem>> cellsValues = new Dictionary<string, CellEditContext<TItem>>();
+
+        /// <summary>
+        /// Holds the reference to the multiSelect cell.
+        /// </summary>
+        protected _DataGridRowMultiSelect<TItem> multiSelect;
 
         #endregion
 
@@ -28,10 +35,10 @@ namespace Blazorise.DataGrid
                 // initialise all internal cell values
                 foreach ( var column in Columns )
                 {
-                    if ( column.ColumnType == DataGridColumnType.Command )
+                    if ( column.ExcludeFromInit )
                         continue;
 
-                    cellsValues.Add( column.ElementId, new CellEditContext
+                    cellsValues.Add( column.ElementId, new CellEditContext<TItem>( Item )
                     {
                         CellValue = column.GetValue( Item ),
                     } );
@@ -50,16 +57,37 @@ namespace Blazorise.DataGrid
             if ( !selectable )
                 return;
 
-            // un-select row if the user is holding the ctrl key on already selected row
-            if ( eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
+            // Un-select row if the user is holding the ctrl key on already selected row.
+            if ( ParentDataGrid.SingleSelect && eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
                 && ParentDataGrid.SelectedRow != null
-                && (object)Item == (object)ParentDataGrid.SelectedRow )
+                && Item.IsEqual( ParentDataGrid.SelectedRow ) )
             {
+                await Selected.InvokeAsync( default );
+            }
+            else if ( ParentDataGrid.MultiSelect
+                && ParentDataGrid.SelectedRows != null
+                && ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) )
+            {
+                // If the user selects an already selected multiselect row, seems like it should be more transparent,
+                // to just de-select both normal and multi selection
+                // Remove this, if that is not the case!!
                 await Selected.InvokeAsync( default );
             }
             else
             {
                 await Selected.InvokeAsync( Item );
+            }
+
+            if ( ParentDataGrid.MultiSelect )
+            {
+                if ( multiSelect != null )
+                {
+                    await multiSelect.OnCheckedChanged( !multiSelect.Checked );
+                }
+                else
+                {
+                    await OnMultiSelectCommand( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) );
+                }
             }
         }
 
@@ -88,6 +116,11 @@ namespace Blazorise.DataGrid
             return Cancel.InvokeAsync( Item );
         }
 
+        protected internal Task OnMultiSelectCommand( bool selected )
+        {
+            return MultiSelect.InvokeAsync( new MultiSelectEventArgs<TItem>( Item, selected ) );
+        }
+
         #endregion
 
         #region Properties
@@ -95,7 +128,10 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Indicates if the row is selected.
         /// </summary>
-        protected bool IsSelected => ParentDataGrid.EditState == DataGridEditState.None && (object)ParentDataGrid.SelectedRow == (object)Item;
+        protected bool IsSelected =>
+            ( ( ParentDataGrid.EditState == DataGridEditState.None || ParentDataGrid.SelectionMode == DataGridSelectionMode.Single ) && ParentDataGrid.SelectedRow.IsEqual( Item ) )
+            ||
+            ( ParentDataGrid.SelectionMode == DataGridSelectionMode.Multiple && ParentDataGrid.SelectedRows != null && ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) );
 
         /// <summary>
         /// Gets the row background color.
@@ -171,6 +207,11 @@ namespace Blazorise.DataGrid
         /// Activates the cancel command.
         /// </summary>
         [Parameter] public EventCallback Cancel { get; set; }
+
+        /// <summary>
+        /// Activates the multi select command.
+        /// </summary>
+        [Parameter] public EventCallback<MultiSelectEventArgs<TItem>> MultiSelect { get; set; }
 
         /// <summary>
         /// Gets or sets the applied cursor when the row is hovered over.

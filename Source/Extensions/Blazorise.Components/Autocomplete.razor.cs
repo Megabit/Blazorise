@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -14,7 +15,8 @@ namespace Blazorise.Components
     /// The autocomplete is a normal text input enhanced by a panel of suggested options.
     /// </summary>
     /// <typeparam name="TItem">Type of an item filtered by the autocomplete component.</typeparam>
-    public partial class Autocomplete<TItem> : ComponentBase
+    /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
+    public partial class Autocomplete<TItem, TValue> : ComponentBase
     {
         #region Members
 
@@ -43,7 +45,10 @@ namespace Blazorise.Components
         /// </summary>
         private bool dirtyFilter = true;
 
-        private object selectedValue;
+        /// <summary>
+        /// Holds internal selected value.
+        /// </summary>
+        private TValue selectedValue;
 
         #endregion
 
@@ -104,10 +109,10 @@ namespace Blazorise.Components
             CurrentSearch = null;
             dropdownRef.Hide();
 
-            var item = Data.FirstOrDefault( x => EqualityComparer<object>.Default.Equals( ValueField( x ), value ) );
+            var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
 
             SelectedText = item != null ? TextField?.Invoke( item ) : string.Empty;
-            SelectedValue = value;
+            SelectedValue = Converters.ChangeType<TValue>( value );
 
             await SelectedValueChanged.InvokeAsync( SelectedValue );
             await SearchChanged.InvokeAsync( CurrentSearch );
@@ -133,7 +138,7 @@ namespace Blazorise.Components
             {
                 query = from q in query
                         let text = TextField.Invoke( q )
-                        where text.IndexOf( CurrentSearch, 0, System.StringComparison.CurrentCultureIgnoreCase ) >= 0
+                        where text.IndexOf( CurrentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                         select q;
             }
             else
@@ -159,7 +164,7 @@ namespace Blazorise.Components
             dropdownRef.Hide();
 
             SelectedText = string.Empty;
-            SelectedValue = null;
+            SelectedValue = default;
 
             await SelectedValueChanged.InvokeAsync( selectedValue );
             await SearchChanged.InvokeAsync( CurrentSearch );
@@ -278,24 +283,24 @@ namespace Blazorise.Components
         /// <summary>
         /// Method used to get the value field from the supplied data source.
         /// </summary>
-        [Parameter] public Func<TItem, object> ValueField { get; set; }
+        [Parameter] public Func<TItem, TValue> ValueField { get; set; }
 
         /// <summary>
         /// Currently selected item value.
         /// </summary>
         [Parameter]
-        public object SelectedValue
+        public TValue SelectedValue
         {
             get { return selectedValue; }
             set
             {
-                if ( selectedValue == value )
+                if ( selectedValue.IsEqual( value ) )
                     return;
 
                 selectedValue = value;
 
                 var item = Data != null
-                    ? Data.FirstOrDefault( x => EqualityComparer<object>.Default.Equals( ValueField( x ), value ) )
+                    ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
                     : default;
 
                 SelectedText = item != null
@@ -307,7 +312,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Occurs after the selected value has changed.
         /// </summary>
-        [Parameter] public EventCallback<object> SelectedValueChanged { get; set; }
+        [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
 
         /// <summary>
         /// Occurs on every search text change.

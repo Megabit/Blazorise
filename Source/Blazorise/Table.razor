@@ -1,22 +1,15 @@
 ﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
+@if ( Responsive )
 {
-    @if ( Responsive )
-    {
-        <div class="@ResponsiveClassNames">
-            <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                @ChildContent
-            </table>
-        </div>
-    }
-    else
-    {
+    <div class="@ResponsiveClassNames">
         <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </table>
-    }
+    </div>
 }
 else
 {
-    @RenderCustomComponent()
+    <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </table>
 }

@@ -24,82 +24,64 @@ namespace Blazorise.AntDesign
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, AntDesignStyleProvider>();
             serviceCollection.AddScoped<IJSRunner, AntDesignJSRunner>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
             serviceCollection.AddScoped<IThemeGenerator, AntDesignThemeGenerator>();
 
+            serviceCollection.AddTransient<Blazorise.Addons, AntDesign.Addons>();
+            serviceCollection.AddTransient<Blazorise.Addon, AntDesign.Addon>();
+            serviceCollection.AddTransient<Blazorise.AddonLabel, AntDesign.AddonLabel>();
+            serviceCollection.AddTransient<Blazorise.AlertMessage, AntDesign.AlertMessage>();
+            serviceCollection.AddTransient<Blazorise.AlertDescription, AntDesign.AlertDescription>();
+            serviceCollection.AddTransient<Blazorise.Badge, AntDesign.Badge>();
+            serviceCollection.AddTransient<Blazorise.Bar, AntDesign.Bar>();
+            serviceCollection.AddTransient<Blazorise.BarBrand, AntDesign.BarBrand>();
+            serviceCollection.AddTransient<Blazorise.BarIcon, AntDesign.BarIcon>();
+            serviceCollection.AddTransient<Blazorise.BarItem, AntDesign.BarItem>();
+            serviceCollection.AddTransient<Blazorise.BarMenu, AntDesign.BarMenu>();
+            serviceCollection.AddTransient<Blazorise.BarStart, AntDesign.BarStart>();
+            serviceCollection.AddTransient<Blazorise.BarEnd, AntDesign.BarEnd>();
+            serviceCollection.AddTransient<Blazorise.BarDropdown, AntDesign.BarDropdown>();
+            serviceCollection.AddTransient<Blazorise.BarLink, AntDesign.BarLink>();
+            serviceCollection.AddTransient<Blazorise.BarDropdownMenu, AntDesign.BarDropdownMenu>();
+            serviceCollection.AddTransient<Blazorise.BarDropdownItem, AntDesign.BarDropdownItem>();
+            serviceCollection.AddTransient<Blazorise.BarDropdownToggle, AntDesign.BarDropdownToggle>();
+            serviceCollection.AddTransient<Blazorise.BarToggler, AntDesign.BarToggler>();
+            serviceCollection.AddTransient<Blazorise.Breadcrumb, AntDesign.Breadcrumb>();
+            serviceCollection.AddTransient<Blazorise.BreadcrumbItem, AntDesign.BreadcrumbItem>();
+            serviceCollection.AddTransient<Blazorise.BreadcrumbLink, AntDesign.BreadcrumbLink>();
+            serviceCollection.AddTransient( typeof( Blazorise.Check<> ), typeof( AntDesign.Check<> ) );
+            serviceCollection.AddTransient<Blazorise.Button, AntDesign.Button>();
+            serviceCollection.AddTransient<Blazorise.CardHeader, AntDesign.CardHeader>();
+            serviceCollection.AddTransient<Blazorise.CardLink, AntDesign.CardLink>();
+            serviceCollection.AddTransient<Blazorise.Carousel, AntDesign.Carousel>();
+            serviceCollection.AddTransient<Blazorise.CloseButton, AntDesign.CloseButton>();
+            serviceCollection.AddTransient<Blazorise.CollapseHeader, AntDesign.CollapseHeader>();
+            serviceCollection.AddTransient<Blazorise.Dropdown, AntDesign.Dropdown>();
+            serviceCollection.AddTransient<Blazorise.DropdownMenu, AntDesign.DropdownMenu>();
+            serviceCollection.AddTransient<Blazorise.DropdownItem, AntDesign.DropdownItem>();
+            serviceCollection.AddTransient<Blazorise.DropdownToggle, AntDesign.DropdownToggle>();
+            serviceCollection.AddTransient<Blazorise.Field, AntDesign.Field>();
+            serviceCollection.AddTransient<Blazorise.FieldBody, AntDesign.FieldBody>();
+            serviceCollection.AddTransient<Blazorise.FieldLabel, AntDesign.FieldLabel>();
+            serviceCollection.AddTransient<Blazorise.FileEdit, AntDesign.FileEdit>();
+            serviceCollection.AddTransient<Blazorise.ListGroup, AntDesign.ListGroup>();
+            serviceCollection.AddTransient<Blazorise.ModalBackdrop, AntDesign.ModalBackdrop>();
+            serviceCollection.AddTransient<Blazorise.ModalContent, AntDesign.ModalContent>();
+            serviceCollection.AddTransient<Blazorise.Progress, AntDesign.Progress>();
+            serviceCollection.AddTransient( typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) );
+            serviceCollection.AddTransient( typeof( Blazorise.SelectItem<> ), typeof( AntDesign.SelectItem<> ) );
+            serviceCollection.AddTransient<Blazorise.SelectGroup, AntDesign.SelectGroup>();
+            serviceCollection.AddTransient( typeof( Blazorise.Radio<> ), typeof( AntDesign.Radio<> ) );
+            serviceCollection.AddTransient( typeof( Blazorise.Slider<> ), typeof( AntDesign.Slider<> ) );
+            serviceCollection.AddTransient( typeof( Blazorise.Switch<> ), typeof( AntDesign.Switch<> ) );
+            serviceCollection.AddTransient<Blazorise.Tabs, AntDesign.Tabs>();
+            serviceCollection.AddTransient<Blazorise.Tab, AntDesign.Tab>();
+            serviceCollection.AddTransient<Blazorise.TabPanel, AntDesign.TabPanel>();
+            serviceCollection.AddTransient<Blazorise.TabsContent, AntDesign.TabsContent>();
+            serviceCollection.AddTransient<Blazorise.Table, AntDesign.Table>();
+            serviceCollection.AddTransient<Blazorise.TableRowHeader, AntDesign.TableRowHeader>();
+            serviceCollection.AddTransient<Blazorise.TextEdit, AntDesign.TextEdit>();
+
             return serviceCollection;
-        }
-
-        private static void RegisterComponents( IComponentMapper componentMapper )
-        {
-            componentMapper.Register<Blazorise.Addons, AntDesign.Addons>();
-            componentMapper.Register<Blazorise.Addon, AntDesign.Addon>();
-            componentMapper.Register<Blazorise.AddonLabel, AntDesign.AddonLabel>();
-            componentMapper.Register<Blazorise.AlertMessage, AntDesign.AlertMessage>();
-            componentMapper.Register<Blazorise.AlertDescription, AntDesign.AlertDescription>();
-            componentMapper.Register<Blazorise.Badge, AntDesign.Badge>();
-            componentMapper.Register<Blazorise.Bar, AntDesign.Bar>();
-            componentMapper.Register<Blazorise.BarBrand, AntDesign.BarBrand>();
-            componentMapper.Register<Blazorise.BarIcon, AntDesign.BarIcon>();
-            componentMapper.Register<Blazorise.BarItem, AntDesign.BarItem>();
-            componentMapper.Register<Blazorise.BarMenu, AntDesign.BarMenu>();
-            componentMapper.Register<Blazorise.BarStart, AntDesign.BarStart>();
-            componentMapper.Register<Blazorise.BarEnd, AntDesign.BarEnd>();
-            componentMapper.Register<Blazorise.BarDropdown, AntDesign.BarDropdown>();
-            componentMapper.Register<Blazorise.BarLink, AntDesign.BarLink>();
-            componentMapper.Register<Blazorise.BarDropdownMenu, AntDesign.BarDropdownMenu>();
-            componentMapper.Register<Blazorise.BarDropdownItem, AntDesign.BarDropdownItem>();
-            componentMapper.Register<Blazorise.BarDropdownToggle, AntDesign.BarDropdownToggle>();
-            componentMapper.Register<Blazorise.BarToggler, AntDesign.BarToggler>();
-            componentMapper.Register<Blazorise.Breadcrumb, AntDesign.Breadcrumb>();
-            componentMapper.Register<Blazorise.BreadcrumbItem, AntDesign.BreadcrumbItem>();
-            componentMapper.Register<Blazorise.BreadcrumbLink, AntDesign.BreadcrumbLink>();
-            componentMapper.Register( typeof( Blazorise.Check<> ), typeof( AntDesign.Check<> ) );
-            componentMapper.Register<Blazorise.Button, AntDesign.Button>();
-            componentMapper.Register<Blazorise.CardHeader, AntDesign.CardHeader>();
-            componentMapper.Register<Blazorise.CardLink, AntDesign.CardLink>();
-            componentMapper.Register<Blazorise.Carousel, AntDesign.Carousel>();
-            componentMapper.Register<Blazorise.CloseButton, AntDesign.CloseButton>();
-            componentMapper.Register<Blazorise.CollapseHeader, AntDesign.CollapseHeader>();
-            componentMapper.Register<Blazorise.Dropdown, AntDesign.Dropdown>();
-            componentMapper.Register<Blazorise.DropdownMenu, AntDesign.DropdownMenu>();
-            componentMapper.Register<Blazorise.DropdownItem, AntDesign.DropdownItem>();
-            componentMapper.Register<Blazorise.DropdownToggle, AntDesign.DropdownToggle>();
-            componentMapper.Register<Blazorise.Field, AntDesign.Field>();
-            componentMapper.Register<Blazorise.FieldBody, AntDesign.FieldBody>();
-            componentMapper.Register<Blazorise.FieldLabel, AntDesign.FieldLabel>();
-            componentMapper.Register<Blazorise.FileEdit, AntDesign.FileEdit>();
-            componentMapper.Register<Blazorise.ListGroup, AntDesign.ListGroup>();
-            componentMapper.Register<Blazorise.ModalBackdrop, AntDesign.ModalBackdrop>();
-            componentMapper.Register<Blazorise.ModalContent, AntDesign.ModalContent>();
-            componentMapper.Register<Blazorise.Progress, AntDesign.Progress>();
-            componentMapper.Register( typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) );
-            componentMapper.Register( typeof( Blazorise.SelectItem<> ), typeof( AntDesign.SelectItem<> ) );
-            componentMapper.Register<Blazorise.SelectGroup, AntDesign.SelectGroup>();
-            componentMapper.Register( typeof( Blazorise.Radio<> ), typeof( AntDesign.Radio<> ) );
-            componentMapper.Register( typeof( Blazorise.Slider<> ), typeof( AntDesign.Slider<> ) );
-            componentMapper.Register( typeof( Blazorise.Switch<> ), typeof( AntDesign.Switch<> ) );
-            componentMapper.Register<Blazorise.Tabs, AntDesign.Tabs>();
-            componentMapper.Register<Blazorise.Tab, AntDesign.Tab>();
-            componentMapper.Register<Blazorise.TabPanel, AntDesign.TabPanel>();
-            componentMapper.Register<Blazorise.TabsContent, AntDesign.TabsContent>();
-            componentMapper.Register<Blazorise.Table, AntDesign.Table>();
-            componentMapper.Register<Blazorise.TableRowHeader, AntDesign.TableRowHeader>();
-            componentMapper.Register<Blazorise.TextEdit, AntDesign.TextEdit>();
-        }
-
-        /// <summary>
-        /// Registers the custom rules for ant design components.
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IServiceProvider UseAntDesignProviders( this IServiceProvider serviceProvider )
-        {
-            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
-
-            RegisterComponents( componentMapper );
-
-            return serviceProvider;
         }
     }
 }

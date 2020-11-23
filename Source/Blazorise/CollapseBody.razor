@@ -1,13 +1,6 @@
 ﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
-{
-    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        <div class="@ContentClassNames">
-            @ChildContent
-        </div>
+<div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <div class="@ContentClassNames">
+        @ChildContent
     </div>
-}
-else
-{
-    @RenderCustomComponent()
-}
+</div>

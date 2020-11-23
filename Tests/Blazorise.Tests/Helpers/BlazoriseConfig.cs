@@ -18,7 +18,6 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton<IClassProvider>( new BootstrapClassProvider() );
             services.AddSingleton<IStyleProvider>( new BootstrapStyleProvider() );
             services.AddSingleton<IJSRunner>( new BootstrapJSRunner( new Mock<IJSRuntime>().Object ) );
-            services.AddSingleton<IComponentMapper>( new ComponentMapper() );
             services.AddSingleton<IThemeGenerator>( new BootstrapThemeGenerator() );
             services.AddSingleton<IIconProvider>( new Mock<IIconProvider>().Object );
 
