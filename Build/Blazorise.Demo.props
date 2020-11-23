@@ -5,7 +5,6 @@
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
 		<LangVersion>9.0</LangVersion>
-		<RazorLangVersion>3.0</RazorLangVersion>
     	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 

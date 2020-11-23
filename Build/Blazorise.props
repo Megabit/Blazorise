@@ -22,7 +22,6 @@
 			https://dotnet.myget.org/F/blazor-dev/api/v3/index.json;
 		</RestoreAdditionalProjectSources>
 
-		<RazorLangVersion>3.0</RazorLangVersion>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
