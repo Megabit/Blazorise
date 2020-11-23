@@ -2,13 +2,13 @@
 @inherits _BaseDataGridMultiSelectAll<TItem>
 @if ( ParentDataGrid?.MultiSelectColumn?.MultiSelectTemplate != null )
 {
-    <Blazorise.Label @onclick:stopPropagation>
+    <Label @onclick:stopPropagation>
         @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>( MultiSelectAll ) )
-    </Blazorise.Label>
+    </Label>
 }
 else
 {
-    <Blazorise.Label @onclick:stopPropagation>
-        <Blazorise.Check TValue="bool" Checked="IsChecked" CheckedExpression="()=> IsChecked" CheckedChanged="IsCheckedChanged" @onclick:stopPropagation></Blazorise.Check>
-    </Blazorise.Label>
+    <Label @onclick:stopPropagation>
+        <Check TValue="bool" Checked="IsChecked" CheckedExpression="()=> IsChecked" CheckedChanged="IsCheckedChanged" @onclick:stopPropagation></Check>
+    </Label>
 }

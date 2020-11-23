@@ -3,14 +3,14 @@
 <TableRowCell Class="@Class" Style="@Style" width="@Width" TextAlignment="@TextAlignment">
     @if ( ParentDataGrid?.MultiSelectColumn?.MultiSelectTemplate != null )
     {
-        <Blazorise.Label @onclick:stopPropagation>
-            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>( OnSelectedChanged, Item ) )
-        </Blazorise.Label>
+        <Label @onclick:stopPropagation>
+            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>( CheckedChanged, Item ) )
+        </Label>
     }
     else
     {
-        <Blazorise.Label @onclick:stopPropagation>
-            <Blazorise.Check TValue="bool" Checked="IsChecked" CheckedExpression="()=> IsChecked" CheckedChanged="IsCheckedChanged" @onclick:stopPropagation></Blazorise.Check>
-        </Blazorise.Label>
+        <Label @onclick:stopPropagation>
+            <Check TValue="bool" Checked="@Checked" CheckedChanged="@CheckedChanged" CheckedExpression="@(()=> Checked)" @onclick:stopPropagation></Check>
+        </Label>
     }
 </TableRowCell>

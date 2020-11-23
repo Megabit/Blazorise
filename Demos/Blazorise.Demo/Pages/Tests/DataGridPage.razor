@@ -317,7 +317,7 @@
         </Row>
     }
 }
-@code{ 
+@code{
     DataGridEditMode editMode = DataGridEditMode.Form;
     DataGridSortMode sortMode = DataGridSortMode.Multiple;
     DataGridSelectionMode selectionMode = DataGridSelectionMode.Single;
@@ -470,5 +470,5 @@
             model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
             || model.LastName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
             || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
-    } 
+    }
 }

@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -10,37 +12,15 @@ namespace Blazorise.DataGrid
     {
         #region Methods
 
-        internal Task IsCheckedChanged( bool e )
+        internal Task OnCheckedChanged( bool @checked )
         {
-            IsChecked = e;
-            return OnSelectedChanged.InvokeAsync( e );
-        }
-
-        protected override async Task OnParametersSetAsync()
-        {
-            if ( ParentDataGrid.SelectedAllRows )
-            {
-                //Double checks if this has been selected for coherence with filtering and sorting
-                if ( ParentDataGrid.SelectedRows.Any( x => x.IsEqual(Item) ) )
-                    IsChecked = true;
-
-                await InvokeAsync( () => StateHasChanged() );
-            }
-
-            if ( ParentDataGrid.UnSelectAllRows )
-            {
-                IsChecked = false;
-                await InvokeAsync( () => StateHasChanged() );
-            }
-
-            await base.OnParametersSetAsync();
+            Checked = @checked;
+            return CheckedChanged.InvokeAsync( @checked );
         }
 
         #endregion
 
         #region Properties
-
-        internal bool IsChecked { get; set; }
 
         [Parameter] public TItem Item { get; set; }
 
@@ -54,7 +34,9 @@ namespace Blazorise.DataGrid
 
         [Parameter] public TextAlignment TextAlignment { get; set; }
 
-        [Parameter] public EventCallback<bool> OnSelectedChanged { get; set; }
+        [Parameter] public bool Checked { get; set; }
+
+        [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
 
         #endregion
     }

@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +8,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise.DataGrid
@@ -95,6 +93,11 @@ namespace Blazorise.DataGrid
         internal bool SelectedAllRows { get; set; }
 
         /// <summary>
+        /// Checks if the DataGrid is currently on single selection mode.
+        /// </summary>
+        internal bool SingleSelect => ( SelectionMode == DataGridSelectionMode.Single );
+
+        /// <summary>
         /// Checks if the DataGrid is currently on multiple selection mode.
         /// </summary>
         internal bool MultiSelect => ( SelectionMode == DataGridSelectionMode.Multiple );
@@ -150,12 +153,6 @@ namespace Blazorise.DataGrid
 
         protected override Task OnAfterRenderAsync( bool firstRender )
         {
-            if ( !MultiSelect && SelectedRows != null )
-            {
-                SelectedRows = null;
-                InvokeAsync( () => StateHasChanged() );
-            }
-
             if ( firstRender )
             {
                 if ( ManualReadMode )
@@ -318,7 +315,7 @@ namespace Blazorise.DataGrid
                 PopupVisible = false;
         }
 
-        protected Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> mSelect )
+        protected Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
         {
             SelectedAllRows = false;
             UnSelectAllRows = false;
@@ -326,11 +323,11 @@ namespace Blazorise.DataGrid
             if ( SelectedRows is null )
                 SelectedRows = new List<TItem>();
 
-            if ( mSelect.Selected && !SelectedRows.Contains( mSelect.Item ) )
-                SelectedRows.Add( mSelect.Item );
+            if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) )
+                SelectedRows.Add( eventArgs.Item );
 
-            if ( !mSelect.Selected && SelectedRows.Contains( mSelect.Item ) )
-                SelectedRows.Remove( mSelect.Item );
+            if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) )
+                SelectedRows.Remove( eventArgs.Item );
 
             return SelectedRowsChanged.InvokeAsync( SelectedRows );
         }
@@ -354,7 +351,6 @@ namespace Blazorise.DataGrid
             UnSelectAllRows = !selectAll;
 
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
-            await InvokeAsync( () => StateHasChanged() );
         }
 
         // this is to give user a way to stop save if necessary

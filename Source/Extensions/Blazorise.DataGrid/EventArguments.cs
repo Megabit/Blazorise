@@ -168,13 +168,17 @@ namespace Blazorise.DataGrid
         public BLMouseEventArgs MouseEventArgs { get; }
     }
 
-
     /// <summary>
     /// Provides all the information about the multi select event.
     /// </summary>
     /// <typeparam name="TItem"></typeparam>
     public class MultiSelectEventArgs<TItem> : EventArgs
     {
+        /// <summary>
+        /// Default constructors.
+        /// </summary>
+        /// <param name="item">Model that belongs to the grid row.</param>
+        /// <param name="selected">Indicates if the row is selected or not.</param>
         public MultiSelectEventArgs( TItem item, bool selected )
         {
             Item = item;
@@ -184,16 +188,11 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the model.
         /// </summary>
-        public bool Selected { get; }
-
-        /// <summary>
-        /// Gets the model.
-        /// </summary>
         public TItem Item { get; }
 
-
-
+        /// <summary>
+        /// Returns true if the row is selected.
+        /// </summary>
+        public bool Selected { get; }
     }
 }
-
-

@@ -51,22 +51,26 @@ namespace Blazorise.DataGrid
         protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
         {
             await Clicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
+
             var selectable = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
 
             if ( !selectable )
                 return;
 
-            // un-select row if the user is holding the ctrl key on already selected row
-            if ( eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
+            // Un-select row if the user is holding the ctrl key on already selected row.
+            if ( ParentDataGrid.SingleSelect && eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
                 && ParentDataGrid.SelectedRow != null
-                && Item.IsEqual(ParentDataGrid.SelectedRow) )
+                && Item.IsEqual( ParentDataGrid.SelectedRow ) )
             {
                 await Selected.InvokeAsync( default );
             }
-            else if ( ParentDataGrid.MultiSelect && ParentDataGrid.SelectedRows != null && ParentDataGrid.SelectedRows.Any( x => x.IsEqual(Item) ) )
+            else if ( ParentDataGrid.MultiSelect
+                && ParentDataGrid.SelectedRows != null
+                && ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) )
             {
-                //If the user selects an already selected multiselect row, seems like it should be more transparent, to just de-select both normal and multi selection
-                //Remove this, if that is not the case
+                // If the user selects an already selected multiselect row, seems like it should be more transparent,
+                // to just de-select both normal and multi selection
+                // Remove this, if that is not the case!!
                 await Selected.InvokeAsync( default );
             }
             else
@@ -78,11 +82,11 @@ namespace Blazorise.DataGrid
             {
                 if ( multiSelect != null )
                 {
-                    await multiSelect.IsCheckedChanged( !multiSelect.IsChecked );
+                    await multiSelect.OnCheckedChanged( !multiSelect.Checked );
                 }
                 else
                 {
-                    await OnMultiSelectCommand( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual(Item) ) );
+                    await OnMultiSelectCommand( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) );
                 }
             }
         }
@@ -112,9 +116,9 @@ namespace Blazorise.DataGrid
             return Cancel.InvokeAsync( Item );
         }
 
-        protected internal Task OnMultiSelectCommand( bool IsSelected )
+        protected internal Task OnMultiSelectCommand( bool selected )
         {
-            return MultiSelect.InvokeAsync( new MultiSelectEventArgs<TItem>( Item, IsSelected ) );
+            return MultiSelect.InvokeAsync( new MultiSelectEventArgs<TItem>( Item, selected ) );
         }
 
         #endregion
@@ -124,7 +128,10 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Indicates if the row is selected.
         /// </summary>
-        protected bool IsSelected => ( ParentDataGrid.EditState == DataGridEditState.None && ParentDataGrid.SelectedRow.IsEqual(Item) ) || ( ParentDataGrid.SelectedRows != null && ParentDataGrid.SelectedRows.Any( x => x.IsEqual(Item) ) );
+        protected bool IsSelected =>
+            ( ( ParentDataGrid.EditState == DataGridEditState.None || ParentDataGrid.SelectionMode == DataGridSelectionMode.Single ) && ParentDataGrid.SelectedRow.IsEqual( Item ) )
+            ||
+            ( ParentDataGrid.SelectionMode == DataGridSelectionMode.Multiple && ParentDataGrid.SelectedRows != null && ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) );
 
         /// <summary>
         /// Gets the row background color.

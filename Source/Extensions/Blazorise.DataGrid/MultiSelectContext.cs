@@ -6,15 +6,28 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
+    /// <summary>
+    /// Context for the row multi select mode.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
     public class MultiSelectContext<TItem>
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor for event handler.
+        /// </summary>
+        /// <param name="selectedChanged">Holds the event handler for <see cref="SelectedChanged"/>.</param>
         public MultiSelectContext( EventCallback<bool> selectedChanged )
         {
             SelectedChanged = selectedChanged;
         }
 
+        /// <summary>
+        /// Constructor for event handler and a model.
+        /// </summary>
+        /// <param name="selectedChanged">Holds the event handler for <see cref="SelectedChanged"/>.</param>
+        /// <param name="item">Model associated with the row.</param>
         public MultiSelectContext( EventCallback<bool> selectedChanged, TItem item )
             : this( selectedChanged )
         {
@@ -25,9 +38,15 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
-        public EventCallback<bool> SelectedChanged { get; set; }
+        /// <summary>
+        /// Gets the event handler for selection change.
+        /// </summary>
+        public EventCallback<bool> SelectedChanged { get; }
 
-        public TItem Item { get; set; }
+        /// <summary>
+        /// Gets the model.
+        /// </summary>
+        public TItem Item { get; }
 
         #endregion
     }
