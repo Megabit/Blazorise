@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Timers;
 using Blazorise.Snackbar.Utils;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -22,8 +23,10 @@ namespace Blazorise.Snackbar
                 SnackbarColor color,
                 string key,
                 RenderFragment messageTemplate,
+                bool showCloseButton,
                 string closeButtonText,
                 object closeButtonIcon,
+                bool showActionButton,
                 string actionButtonText,
                 object actionButtonIcon )
             {
@@ -32,8 +35,10 @@ namespace Blazorise.Snackbar
                 Color = color;
                 Key = key ?? Guid.NewGuid().ToString();
                 MessageTemplate = messageTemplate;
+                ShowCloseButton = showCloseButton;
                 CloseButtonText = closeButtonText;
                 CloseButtonIcon = closeButtonIcon;
+                ShowActionButton = showActionButton;
                 ActionButtonText = actionButtonText;
                 ActionButtonIcon = actionButtonIcon;
             }
@@ -48,9 +53,13 @@ namespace Blazorise.Snackbar
 
             public RenderFragment MessageTemplate { get; }
 
+            public bool ShowCloseButton { get; }
+
             public string CloseButtonText { get; }
 
             public object CloseButtonIcon { get; }
+
+            public bool ShowActionButton { get; }
 
             public string ActionButtonText { get; }
 
@@ -75,11 +84,26 @@ namespace Blazorise.Snackbar
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Pushes the message to the stack to be shown as a snackbar.
+        /// </summary>
+        /// <param name="message">Message text.</param>
+        /// <param name="color">Message color.</param>
+        /// <param name="options">Additional message options.</param>
+        /// <returns>Returns awaitable task.</returns>
         public Task PushAsync( string message, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
         {
             return PushAsync( message, null, color, options );
         }
 
+        /// <summary>
+        /// Pushes the message to the stack to be shown as a snackbar.
+        /// </summary>
+        /// <param name="message">Message text.</param>
+        /// <param name="title">Message caption.</param>
+        /// <param name="color">Message color.</param>
+        /// <param name="options">Additional message options.</param>
+        /// <returns>Returns awaitable task.</returns>
         public Task PushAsync( string message, string title = null, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
         {
             var snackbarOptions = CreateDefaultOptions();
@@ -88,8 +112,10 @@ namespace Blazorise.Snackbar
             snackbarInfos.Add( new SnackbarInfo( message, title, color,
                 snackbarOptions.Key,
                 snackbarOptions.MessageTemplate,
+                snackbarOptions.ShowCloseButton,
                 snackbarOptions.CloseButtonText,
                 snackbarOptions.CloseButtonIcon,
+                snackbarOptions.ShowActionButton,
                 snackbarOptions.ActionButtonText,
                 snackbarOptions.ActionButtonIcon ) );
 
@@ -112,7 +138,8 @@ namespace Blazorise.Snackbar
         {
             return new SnackbarOptions
             {
-                Key = Guid.NewGuid().ToString(),
+                Key = IDGenerator.Instance.Generate,
+                ShowCloseButton = true,
             };
         }
 
@@ -143,7 +170,17 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Defines the interval(in milliseconds) after which the snackbars will be automatically closed.
         /// </summary>
-        [Parameter] public double Interval { get; set; } = 3000;
+        [Parameter] public double Interval { get; set; } = 5000;
+
+        /// <summary>
+        /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="Interval"/> time.
+        /// </summary>
+        [Parameter] public bool DelayCloseOnClick { get; set; }
+
+        /// <summary>
+        /// Defines the interval(in milliseconds) by which the snackbar will be delayed from closing.
+        /// </summary>
+        [Parameter] public double? DelayCloseOnClickInterval { get; set; }
 
         /// <summary>
         /// Defines a text to show for snackbar close button. Leave as null to not show it!

@@ -27,6 +27,9 @@ namespace Blazorise.Snackbar
 
         #region Properties
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="SnackbarHeader"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

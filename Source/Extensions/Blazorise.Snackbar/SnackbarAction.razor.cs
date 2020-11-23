@@ -17,6 +17,29 @@ namespace Blazorise.Snackbar
 
         #region Methods
 
+        protected override void OnInitialized()
+        {
+            if ( ParentSnackbar != null )
+            {
+                ParentSnackbar.NotifySnackbarActionInitialized( this );
+            }
+
+            base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentSnackbar != null )
+                {
+                    ParentSnackbar.NotifySnackbarActionRemoved( this );
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "snackbar-action-button" );
@@ -41,6 +64,9 @@ namespace Blazorise.Snackbar
 
         [CascadingParameter] protected Snackbar ParentSnackbar { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="SnackbarAction"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

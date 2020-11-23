@@ -21,6 +21,11 @@ namespace Blazorise.Snackbar
         public RenderFragment MessageTemplate { get; set; }
 
         /// <summary>
+        /// Flag that indicates if close button will be visible.
+        /// </summary>
+        public bool ShowCloseButton { get; set; }
+
+        /// <summary>
         /// Custom close button text.
         /// </summary>
         public string CloseButtonText { get; set; }
@@ -29,6 +34,11 @@ namespace Blazorise.Snackbar
         /// Custom close button icon. Can be either enum <see cref="IconName"/> or string eg. "fa-times".
         /// </summary>
         public object CloseButtonIcon { get; set; }
+
+        /// <summary>
+        /// Flag that indicates if action button will be visible.
+        /// </summary>
+        public bool ShowActionButton { get; set; }
 
         /// <summary>
         /// Custom action button text.

@@ -418,12 +418,6 @@
 <Snackbar @ref="snackbar">
     <SnackbarBody>
         Single line of text directly related to the operation performed
-        <SnackbarAction>
-            Action 1
-        </SnackbarAction>
-        <SnackbarAction>
-            Action 2
-        </SnackbarAction>
     </SnackbarBody>
 </Snackbar>
 <Snackbar @ref="snackbarAction">
@@ -497,7 +491,10 @@
         <SnackbarAction Clicked="@(()=>snackbarDark.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
 </Snackbar>
-<SnackbarStack @ref="snackbarStack" Location="SnackbarStackLocation.Right" Interval="30000" />
+<SnackbarStack @ref="snackbarStack"
+               Location="SnackbarStackLocation.Right"
+               Interval="3000"
+               DelayCloseOnClick="true" />
 @code{
     Snackbar snackbar;
     Snackbar snackbarAction;
