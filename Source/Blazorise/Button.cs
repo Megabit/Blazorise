@@ -184,6 +184,12 @@ namespace Blazorise
         [Parameter] public ButtonType Type { get; set; } = ButtonType.Button;
 
         /// <summary>
+        /// Occurs when the button type is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<ButtonType> TypeChanged { get; set; }
+
+        /// <summary>
         /// Gets or sets the button color.
         /// </summary>
         [Parameter]
@@ -197,6 +203,12 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Occurs when the button color is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<Color> ColorChanged { get; set; }
 
         /// <summary>
         /// Changes the size of a button.
@@ -214,6 +226,12 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Occurs when the button size is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<Size> SizeChanged { get; set; }
+
+        /// <summary>
         /// Makes the button to have the outlines.
         /// </summary>
         [Parameter]
@@ -227,6 +245,12 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Occurs when the button Outline is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<bool> OutlineChanged { get; set; }
 
         /// <summary>
         /// Makes button look inactive.
@@ -244,6 +268,12 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Occurs when the button Disabled is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<bool> DisabledChanged { get; set; }
+
+        /// <summary>
         /// Makes the button to appear as pressed.
         /// </summary>
         [Parameter]
@@ -257,6 +287,12 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Occurs when the button Active is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<bool> ActiveChanged { get; set; }
 
         /// <summary>
         /// Makes the button to span the full width of a parent.
@@ -274,6 +310,12 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Occurs when the button Block is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<bool> BlockChanged { get; set; }
+
+        /// <summary>
         /// Shows the loading spinner.
         /// </summary>
         [Parameter]
@@ -289,9 +331,21 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Occurs when the button Loading is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<bool> LoadingChanged { get; set; }
+
+        /// <summary>
         /// Prevents a default form-post when button type is set to <see cref="ButtonType.Submit"/>.
         /// </summary>
         [Parameter] public bool PreventDefaultOnSubmit { get; set; }
+
+        /// <summary>
+        /// Occurs when the button PreventDefaultOnSubmit is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<bool> PreventDefaultOnSubmitChanged { get; set; }
 
         /// <summary>
         /// Gets or sets the reference to the parent dropdown.
@@ -337,9 +391,21 @@ namespace Blazorise
         [Parameter] public ICommand Command { get; set; }
 
         /// <summary>
+        /// Occurs when the button Command is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<ICommand> CommandChanged { get; set; }
+
+        /// <summary>
         /// Reflects the parameter to pass to the CommandProperty upon execution.
         /// </summary>
         [Parameter] public object CommandParameter { get; set; }
+
+        /// <summary>
+        /// Occurs when the button CommandParameter is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<object> CommandParameterChanged { get; set; }
 
         /// <summary>
         /// Denotes the target route of the <see cref="ButtonType.Link"/> button.
@@ -347,9 +413,21 @@ namespace Blazorise
         [Parameter] public string To { get; set; }
 
         /// <summary>
+        /// Occurs when the button To is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<string> ToChanged { get; set; }
+
+        /// <summary>
         /// The target attribute specifies where to open the linked document for a <see cref="ButtonType.Link"/>.
         /// </summary>
         [Parameter] public Target Target { get; set; } = Target.None;
+
+        /// <summary>
+        /// Occurs when the button Target is changed.
+        /// </summary>
+        [Parameter]
+        public EventCallback<Target> TargetChanged { get; set; }
 
         /// <summary>
         /// Gets or sets the component child content.
