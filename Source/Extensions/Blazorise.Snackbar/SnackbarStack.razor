@@ -9,7 +9,28 @@
                   Color="@snackbarInfo.Color"
                   Multiline="@Multiline"
                   Interval="@Interval"
+                  DelayCloseOnClick="@DelayCloseOnClick"
+                  DelayCloseOnClickInterval="@DelayCloseOnClickInterval"
                   Closed="@(async (e)=> await OnSnackbarClosed(e.Key, e.CloseReason))">
+            @if ( snackbarInfo.Title != null )
+            {
+                <SnackbarHeader>
+                    @snackbarInfo.Title
+
+                    @if ( snackbarInfo.ShowCloseButton )
+                    {
+                        var closeButtonText = snackbarInfo.CloseButtonText ?? CloseButtonText;
+                        var closeButtonIcon = snackbarInfo.CloseButtonIcon ?? CloseButtonIcon ?? IconName.Times;
+
+                        var key = snackbarInfo.Key;
+
+                        <SnackbarAction Clicked="@(async ( e ) => await OnSnackbarClosed( key, SnackbarCloseReason.UserClosed ))">
+                            <Icon Name="@closeButtonIcon" />
+                            @closeButtonText
+                        </SnackbarAction>
+                    }
+                </SnackbarHeader>
+            }
             <SnackbarBody>
                 @if ( snackbarInfo.MessageTemplate != null )
                 {
@@ -19,17 +40,24 @@
                 {
                     @snackbarInfo.Message
                 }
-            </SnackbarBody>
-            @{
-                var actionButtonText = snackbarInfo.ActionButtonText ?? ActionButtonText;
 
-                @if ( actionButtonText != null )
+
+                @if ( snackbarInfo.ShowActionButton )
                 {
+                    var actionButtonText = snackbarInfo.ActionButtonText ?? ActionButtonText;
+                    var actionButtonIcon = snackbarInfo.ActionButtonIcon ?? ActionButtonIcon;
+
                     var key = snackbarInfo.Key;
 
-                    <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">@actionButtonText</SnackbarAction>
+                    <SnackbarAction Clicked="@(async (e)=> await OnSnackbarClosed(key, SnackbarCloseReason.UserClosed))">
+                        @if ( actionButtonIcon != null )
+                        {
+                            <Icon Name="@actionButtonIcon" />
+                        }
+                        @actionButtonText
+                    </SnackbarAction>
                 }
-            }
+            </SnackbarBody>
         </Snackbar>
     }
 </div>

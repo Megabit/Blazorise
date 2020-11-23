@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Snackbar
 {
-    public partial class SnackbarBody : BaseComponent
+    public partial class SnackbarFooter : BaseComponent
     {
         #region Members
 
@@ -18,7 +18,7 @@ namespace Blazorise.Snackbar
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( "snackbar-body" );
+            builder.Append( "snackbar-footer" );
 
             base.BuildClasses( builder );
         }
@@ -28,7 +28,7 @@ namespace Blazorise.Snackbar
         #region Properties
 
         /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="SnackbarBody"/>.
+        /// Specifies the content to be rendered inside this <see cref="SnackbarFooter"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 

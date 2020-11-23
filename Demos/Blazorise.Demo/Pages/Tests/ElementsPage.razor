@@ -283,10 +283,10 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.Push("Some success message!", SnackbarColor.Success, "Ok"))">Show Success message</Button>
-                <Button Color="Color.Info" Clicked="@(()=>snackbarStack.Push("Some info message!", SnackbarColor.Info, "Ok"))">Show Info message</Button>
-                <Button Color="Color.Warning" Clicked="@(()=>snackbarStack.Push("Some warning message!", SnackbarColor.Warning, "Ok"))">Show Warning message</Button>
-                <Button Color="Color.Danger" Clicked="@(()=>snackbarStack.Push("Some danger message!", SnackbarColor.Danger, "Ok"))">Show Danger message</Button>
+                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.PushAsync("Some success message!", "Hello", SnackbarColor.Success, (options) => { options.CloseButtonIcon = IconName.Times; options.ActionButtonText = "OK"; }))">Show Success message</Button>
+                <Button Color="Color.Info" Clicked="@(()=>snackbarStack.PushAsync("Some info message!", SnackbarColor.Info, (options) => { options.ActionButtonText = "Ok"; }))">Show Info message</Button>
+                <Button Color="Color.Warning" Clicked="@(()=>snackbarStack.PushAsync("Some warning message!", SnackbarColor.Warning, (options) => { options.ActionButtonText = "Ok"; }))">Show Warning message</Button>
+                <Button Color="Color.Danger" Clicked="@(()=>snackbarStack.PushAsync("Some danger message!", SnackbarColor.Danger, (options) => { options.ActionButtonText = "Dismiss"; }))">Show Danger message</Button>
             </CardBody>
         </Card>
     </Column>
@@ -423,14 +423,14 @@
 <Snackbar @ref="snackbarAction">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarAction.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarAction.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarMultiline" Multiline="true">
     <SnackbarBody>
         When I was 5 years old, my mother always told me that happiness was the key to life. When I went to school, they asked me what I wanted to be when I grew up. I wrote down ‘happy’. They told me I didn’t understand the assignment, and I told them they didn’t understand life. –John Lennon
+        <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarLeft" Location="SnackbarLocation.Left">
     <SnackbarBody>
@@ -446,52 +446,55 @@
 <Snackbar @ref="snackbarPrimary" Color="SnackbarColor.Primary">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarPrimary.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarPrimary.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarSecondary" Color="SnackbarColor.Secondary">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarSecondary.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarSecondary.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarSuccess" Color="SnackbarColor.Success">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarSuccess.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarSuccess.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarDanger" Color="SnackbarColor.Danger">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarDanger.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarDanger.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarWarning" Color="SnackbarColor.Warning">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarWarning.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarWarning.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarInfo" Color="SnackbarColor.Info">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarInfo.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarInfo.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarLight" Color="SnackbarColor.Light">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarLight.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarLight.Hide())">ACTION</SnackbarAction>
 </Snackbar>
 <Snackbar @ref="snackbarDark" Color="SnackbarColor.Dark">
     <SnackbarBody>
         Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarDark.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
-    <SnackbarAction Clicked="@(()=>snackbarDark.Hide())">ACTION</SnackbarAction>
 </Snackbar>
-<SnackbarStack @ref="snackbarStack" Location="SnackbarStackLocation.Right" />
+<SnackbarStack @ref="snackbarStack"
+               Location="SnackbarStackLocation.Right"
+               Interval="3000"
+               DelayCloseOnClick="true" />
 @code{
     Snackbar snackbar;
     Snackbar snackbarAction;
@@ -515,7 +518,4 @@
     bool dismisableAlert3 = true;
     bool dismisableAlert4 = true;
     bool dismisableAlert5 = true;
-
-
-
 }
