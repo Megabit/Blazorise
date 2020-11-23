@@ -140,7 +140,7 @@ namespace Blazorise
                 }
                 else
                 {
-                    builder.OnClick( this, Clicked );
+                    builder.OnClick( this, new EventCallbackFactory().Create( this, ClickHandler ) );
                 }
 
                 builder.Attributes( Attributes );
