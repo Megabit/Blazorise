@@ -125,17 +125,17 @@ namespace Blazorise
                 .Disabled( Disabled )
                 .AriaPressed( Active );
 
-            if ( Type == ButtonType.Link && To != null )
-            {
-                builder
-                    .Role( "button" )
-                    .Href( To )
-                    .Target( Target );
-            }
-            else
-            {
-                builder.OnClick( this, Clicked );
-            }
+                if ( Type == ButtonType.Link && To != null )
+                {
+                    builder
+                        .Role( "button" )
+                        .Href( To )
+                        .Target( Target );
+                }
+                else
+                {
+                    builder.OnClick( this, EventCallback.Factory.Create( this, ClickHandler ) );
+                }
 
             builder.Attributes( Attributes );
             builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
