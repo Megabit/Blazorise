@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
@@ -28,7 +29,7 @@ namespace Blazorise.Bootstrap
             }
             else
             {
-                builder.OnClick( this, Clicked );
+                builder.OnClick( this, EventCallback.Factory.Create( this, ClickHandler ) );
             }
 
             builder.Attributes( Attributes );
