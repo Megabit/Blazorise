@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
@@ -43,6 +44,26 @@ namespace Blazorise.AntDesign
 
             if ( Loading )
             {
+                builder.Content( LoadingContent );
+            }
+            else
+            {
+                builder.Content( ChildContent );
+            }
+
+            builder.CloseElement();
+
+            if ( IsAddons || ParentIsField )
+            {
+                builder.CloseElement();
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override RenderFragment ProvideDefaultLoadingContent()
+        {
+            return builder =>
+            {
                 builder
                     .OpenElement( "span" )
                     .Role( "img" )
@@ -72,18 +93,7 @@ namespace Blazorise.AntDesign
                     .OpenElement( "span" )
                     .Content( ChildContent )
                     .CloseElement();
-            }
-            else
-            {
-                builder.Content( ChildContent );
-            }
-
-            builder.CloseElement();
-
-            if ( IsAddons || ParentIsField )
-            {
-                builder.CloseElement();
-            }
+            };
         }
 
         #endregion

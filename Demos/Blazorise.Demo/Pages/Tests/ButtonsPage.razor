@@ -127,7 +127,7 @@
                 <CardTitle>Loading</CardTitle>
             </CardHeader>
             <CardBody>
-                <CardText>Use <code>Loading</code> attribute to add spinners within buttons to indicate an action is currently processing or taking place.</CardText>
+                <CardText>Use <code>Loading</code> attribute to add spinners within buttons to indicate an action is currently processing or taking place. Use <code>@("<LoadingContent>")</code> to add a custom loading template</CardText>
             </CardBody>
             <CardBody>
                 <Button Color="Color.Primary" Loading="true">PRIMARY</Button>
@@ -139,6 +139,28 @@
                 <Button Color="Color.Light" Loading="true">LIGHT</Button>
                 <Button Color="Color.Dark" Loading="true">DARK</Button>
                 <Button Color="Color.Link" Loading="true">LINK</Button>
+                <Button Color="Color.Primary" Clicked="ShowLoading" Loading="_isloading">
+                    <LoadingContent>
+                        This is a custom loading template
+                    </LoadingContent>
+                    <ChildContent>
+                        Click to load
+                    </ChildContent>
+                </Button>
+
+                @code{
+
+                    private bool _isloading;
+
+                    private async Task ShowLoading()
+                    {
+                        _isloading = true;
+
+                        await Task.Delay(TimeSpan.FromSeconds(3));
+
+                        _isloading = false;
+                    }
+                }
             </CardBody>
         </Card>
     </Column>

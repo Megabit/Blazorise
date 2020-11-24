@@ -48,7 +48,7 @@ namespace Blazorise
             builder.Append( ClassProvider.ButtonSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.ButtonBlock(), Block );
             builder.Append( ClassProvider.ButtonActive(), Active );
-            builder.Append( ClassProvider.ButtonLoading(), Loading );
+            builder.Append( ClassProvider.ButtonLoading(), Loading && LoadingContent == null);
 
             base.BuildClasses( builder );
         }
@@ -68,6 +68,20 @@ namespace Blazorise
             } );
 
             base.OnInitialized();
+
+            if(LoadingContent == null )
+            {
+                LoadingContent = ProvideDefaultLoadingContent();
+            }
+        }
+
+        /// <summary>
+        /// Provides default LoadingContent RenderFragment
+        /// </summary>
+        /// <returns>RenderFragment</returns>
+        protected virtual RenderFragment ProvideDefaultLoadingContent()
+        {
+            return null;
         }
 
         /// <inheritdoc/>
@@ -149,7 +163,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Properties
+        #region Properties 
 
         /// <summary>
         /// True if button is part of an addons or dropdown group.
@@ -352,7 +366,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the component loading content.
         /// </summary>
-        [Parameter]public RenderFragement LoadingContent { get;set; }
+        [Parameter]public RenderFragment LoadingContent { get;set; }
 
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
@@ -34,31 +35,31 @@ namespace Blazorise.Bootstrap
             builder.Attributes( Attributes );
             builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
 
-            if ( LoadingContent == null)
+            if( Loading )
             {
-                if ( Loading )
-                {
-                    CreateDefaultLoadingAnimation( builder );
-                }   
-                
-                builder.Content( ChildContent );
+                builder.Content( LoadingContent );
             }
             else
             {
-                builder.Content( Loading ? LoadingContent : ChildContent);
+                builder.Content( ChildContent );
             }
 
             builder.CloseElement();
         }
-        
-        private void CreateDefaultLoadingAnimation( RenderTreeBuilder builder )
+
+        /// <inheritdoc/>
+        protected override RenderFragment ProvideDefaultLoadingContent()
         {
-            builder.OpenElement( "span" );
-            builder
-                .Class( "spinner-border spinner-border-sm" )
-                .Role( "status" )
-                .AriaHidden( "true" );
-            builder.CloseElement();
+            return builder =>
+            {
+                builder.OpenElement( "span" );
+                builder
+                    .Class( "spinner-border spinner-border-sm" )
+                    .Role( "status" )
+                    .AriaHidden( "true" );
+                builder.CloseElement();
+                builder.Content( ChildContent );
+            };
         }
 
         #endregion

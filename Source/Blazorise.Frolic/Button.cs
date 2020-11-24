@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
@@ -43,6 +44,26 @@ namespace Blazorise.Frolic
 
             if ( Loading )
             {
+                builder.Content( LoadingContent );
+            }
+            else
+            {
+                builder.Content( ChildContent );
+            }
+
+            builder.CloseElement();
+
+            if ( IsAddons || ParentIsField )
+            {
+                builder.CloseElement();
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override RenderFragment ProvideDefaultLoadingContent()
+        {
+            return builder =>
+            {
                 builder.OpenElement( "span" );
 
                 builder
@@ -51,16 +72,8 @@ namespace Blazorise.Frolic
                     .AriaHidden( "true" );
 
                 builder.CloseElement();
-            }
-
-            builder.Content( ChildContent );
-
-            builder.CloseElement();
-
-            if ( IsAddons || ParentIsField )
-            {
-                builder.CloseElement();
-            }
+                builder.Content( ChildContent );
+            };
         }
 
         #endregion
