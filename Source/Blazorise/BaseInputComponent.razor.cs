@@ -12,7 +12,7 @@ namespace Blazorise
     /// <summary>
     /// Base component for all the input component types.
     /// </summary>
-    public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInput
+    public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInput, IFocusableComponent
     {
         #region Members
 
@@ -27,6 +27,38 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            await base.SetParametersAsync( parameters );
+
+            // For modals we need to make sure that autofocus is applied every time the modal is opened.
+            if ( ParentModal != null && parameters.TryGetValue<bool>( nameof( Autofocus ), out var autofocus ) )
+            {
+                if ( autofocus )
+                {
+                    ParentModal.AddFocusableComponent( this );
+                }
+                else
+                {
+                    ParentModal.RemoveFocusableComponent( this );
+                }
+            }
+        }
+
+        protected override Task OnInitializedAsync()
+        {
+            // When we don't use modal then autofocus needs to be applied only once on page load.
+            if ( ParentModal == null && Autofocus )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    await FocusAsync();
+                } );
+            }
+
+            return base.OnInitializedAsync();
+        }
 
         protected void InitializeValidation()
         {
@@ -49,6 +81,11 @@ namespace Blazorise
                 {
                     // To avoid leaking memory, it's important to detach any event handlers in Dispose()
                     ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
+                }
+
+                if ( ParentModal != null )
+                {
+                    ParentModal.RemoveFocusableComponent( this );
                 }
             }
 
@@ -104,13 +141,16 @@ namespace Blazorise
         /// <param name="value">New edit value.</param>
         protected abstract Task OnInternalValueChanged( TValue value );
 
-        /// <summary>
-        /// Sets focus on the input element, if it can be focused.
-        /// </summary>
-        /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
+        /// <inheritdoc/>
         public void Focus( bool scrollToElement = true )
         {
-            _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
+            _ = FocusAsync( scrollToElement );
+        }
+
+        /// <inheritdoc/>
+        public async Task FocusAsync( bool scrollToElement = true )
+        {
+            await JSRunner.Focus( ElementRef, ElementId, scrollToElement );
         }
 
         #endregion
@@ -201,6 +241,11 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Set's the focus to the component after the rendering is done.
+        /// </summary>
+        [Parameter] public bool Autofocus { get; set; }
+
+        /// <summary>
         /// Placeholder for validation messages.
         /// </summary>
         [Parameter] public RenderFragment Feedback { get; set; }
@@ -230,7 +275,15 @@ namespace Blazorise
         /// </summary>
         [CascadingParameter] protected Validation ParentValidation { get; set; }
 
+        /// <summary>
+        /// Parent field body.
+        /// </summary>
         [CascadingParameter] protected FieldBody ParentFieldBody { get; set; }
+
+        /// <summary>
+        /// Parent modal dialog.
+        /// </summary>
+        [CascadingParameter] protected Modal ParentModal { get; set; }
 
         #endregion
     }
