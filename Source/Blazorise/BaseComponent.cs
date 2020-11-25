@@ -46,11 +46,16 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose( true );
         }
 
+        /// <summary>
+        /// Releases the unmanaged resources used by the <see cref="BaseComponent"/> and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">True if the component is in the disposing process.</param>
         protected virtual void Dispose( bool disposing )
         {
             if ( !Disposed )
@@ -59,6 +64,10 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Pushes an action to the stack to be executed after the rendering is done.
+        /// </summary>
+        /// <param name="action"></param>
         protected void ExecuteAfterRender( Func<Task> action )
         {
             if ( executeAfterRendereQueue == null )
@@ -122,18 +131,27 @@ namespace Blazorise
                 builder.Append( ClassProvider.Casing( Casing ) );
         }
 
+        /// <summary>
+        /// Builds a list of styles for this component.
+        /// </summary>
+        /// <param name="builder">Style builder used to append the styles.</param>
         protected virtual void BuildStyles( StyleBuilder builder )
         {
             if ( Style != null )
                 builder.Append( Style );
         }
 
-        // use this until https://github.com/aspnet/Blazor/issues/1732 is fixed!!
+        /// <summary>
+        /// Clears the class-names and mark them to be regenerated.
+        /// </summary>
         internal protected virtual void DirtyClasses()
         {
             ClassBuilder.Dirty();
         }
 
+        /// <summary>
+        /// Clears the styles-names and mark them to be regenerated.
+        /// </summary>
         protected virtual void DirtyStyles()
         {
             StyleBuilder.Dirty();
@@ -143,6 +161,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Flag that indicates if the component is already fully disposed.
+        /// </summary>
         protected bool Disposed { get; private set; }
 
         /// <summary>
@@ -151,7 +172,7 @@ namespace Blazorise
         public ElementReference ElementRef { get; set; }
 
         /// <summary>
-        /// Gets the unique id of the element.
+        /// Gets or sets the unique id of the element.
         /// </summary>
         /// <remarks>
         /// Note that this ID is not defined for the component but instead for the underlined component that it represents.
@@ -159,18 +180,8 @@ namespace Blazorise
         /// </remarks>
         public string ElementId
         {
-            get
-            {
-                // generate ID only on first use
-                if ( elementId == null )
-                    elementId = Utils.IDGenerator.Instance.Generate;
-
-                return elementId;
-            }
-            private set
-            {
-                elementId = value;
-            }
+            get => elementId ??= Utils.IDGenerator.Instance.Generate;
+            set => elementId = value;
         }
 
         /// <summary>
