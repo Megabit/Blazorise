@@ -24,6 +24,8 @@ namespace Blazorise
 
         private bool validationInitialized;
 
+        private bool autofocus;
+
         #endregion
 
         #region Methods
@@ -33,31 +35,32 @@ namespace Blazorise
             await base.SetParametersAsync( parameters );
 
             // For modals we need to make sure that autofocus is applied every time the modal is opened.
-            if ( ParentModal != null && parameters.TryGetValue<bool>( nameof( Autofocus ), out var autofocus ) )
+            if ( parameters.TryGetValue<bool>( nameof( Autofocus ), out var autofocus ) && autofocus != this.autofocus )
             {
+                this.autofocus = autofocus;
+
                 if ( autofocus )
                 {
-                    ParentModal.AddFocusableComponent( this );
+                    if ( ParentModal != null )
+                    {
+                        ParentModal.AddFocusableComponent( this );
+                    }
+                    else
+                    {
+                        ExecuteAfterRender( async () =>
+                        {
+                            await FocusAsync();
+                        } );
+                    }
                 }
                 else
                 {
-                    ParentModal.RemoveFocusableComponent( this );
+                    if ( ParentModal != null )
+                    {
+                        ParentModal.RemoveFocusableComponent( this );
+                    }
                 }
             }
-        }
-
-        protected override Task OnInitializedAsync()
-        {
-            // When we don't use modal then autofocus needs to be applied only once on page load.
-            if ( ParentModal == null && Autofocus )
-            {
-                ExecuteAfterRender( async () =>
-                {
-                    await FocusAsync();
-                } );
-            }
-
-            return base.OnInitializedAsync();
         }
 
         protected void InitializeValidation()
