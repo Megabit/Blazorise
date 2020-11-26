@@ -22,9 +22,12 @@ namespace Blazorise
 
         private bool disabled;
 
-        private bool validationInitialized;
-
+        /// <summary>
+        /// Internal value for autofocus flag.
+        /// </summary>
         private bool autofocus;
+
+        private bool validationInitialized;
 
         #endregion
 
@@ -35,7 +38,7 @@ namespace Blazorise
             await base.SetParametersAsync( parameters );
 
             // For modals we need to make sure that autofocus is applied every time the modal is opened.
-            if ( parameters.TryGetValue<bool>( nameof( Autofocus ), out var autofocus ) && autofocus != this.autofocus )
+            if ( parameters.TryGetValue<bool>( nameof( Autofocus ), out var autofocus ) && this.autofocus != autofocus )
             {
                 this.autofocus = autofocus;
 
