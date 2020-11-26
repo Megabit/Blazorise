@@ -42,9 +42,9 @@ namespace Blazorise.AntDesign
             builder.Attributes( Attributes );
             builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
 
-            if ( Loading )
+            if ( Loading && LoadingTemplate != null )
             {
-                builder.Content( LoadingContent );
+                builder.Content( LoadingTemplate );
             }
             else
             {

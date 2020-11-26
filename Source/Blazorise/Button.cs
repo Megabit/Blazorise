@@ -48,7 +48,7 @@ namespace Blazorise
             builder.Append( ClassProvider.ButtonSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.ButtonBlock(), Block );
             builder.Append( ClassProvider.ButtonActive(), Active );
-            builder.Append( ClassProvider.ButtonLoading(), Loading && LoadingContent == null);
+            builder.Append( ClassProvider.ButtonLoading(), Loading && LoadingTemplate == null );
 
             base.BuildClasses( builder );
         }
@@ -67,22 +67,19 @@ namespace Blazorise
                 await JSRunner.InitializeButton( ElementRef, ElementId, PreventDefaultOnSubmit );
             } );
 
-            base.OnInitialized();
-
-            if(LoadingContent == null )
+            if ( LoadingTemplate == null )
             {
-                LoadingContent = ProvideDefaultLoadingContent();
+                LoadingTemplate = ProvideDefaultLoadingContent();
             }
+
+            base.OnInitialized();
         }
 
         /// <summary>
-        /// Provides default LoadingContent RenderFragment
+        /// Provides a default LoadingTemplate RenderFragment.
         /// </summary>
-        /// <returns>RenderFragment</returns>
-        protected virtual RenderFragment ProvideDefaultLoadingContent()
-        {
-            return null;
-        }
+        /// <returns>Returns the RenderFragment consisting of a loading content.</returns>
+        protected virtual RenderFragment ProvideDefaultLoadingContent() => null;
 
         /// <inheritdoc/>
         protected override void Dispose( bool disposing )
@@ -139,22 +136,29 @@ namespace Blazorise
                 .Disabled( Disabled )
                 .AriaPressed( Active );
 
-                if ( Type == ButtonType.Link && To != null )
-                {
-                    builder
-                        .Role( "button" )
-                        .Href( To )
-                        .Target( Target );
-                }
-                else
-                {
-                    builder.OnClick( this, EventCallback.Factory.Create( this, ClickHandler ) );
-                }
+            if ( Type == ButtonType.Link && To != null )
+            {
+                builder
+                    .Role( "button" )
+                    .Href( To )
+                    .Target( Target );
+            }
+            else
+            {
+                builder.OnClick( this, EventCallback.Factory.Create( this, ClickHandler ) );
+            }
 
             builder.Attributes( Attributes );
             builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
 
-            builder.Content( ChildContent );
+            if ( Loading && LoadingTemplate != null )
+            {
+                builder.Content( LoadingTemplate );
+            }
+            else
+            {
+                builder.Content( ChildContent );
+            }
 
             builder.CloseElement();
 
@@ -281,7 +285,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Shows the loading spinner.
+        /// Shows the loading spinner or a <see cref="LoadingTemplate"/>.
         /// </summary>
         [Parameter]
         public bool Loading
@@ -294,6 +298,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the component loading template.
+        /// </summary>
+        [Parameter] public RenderFragment LoadingTemplate { get; set; }
 
         /// <summary>
         /// Prevents a default form-post when button type is set to <see cref="ButtonType.Submit"/>.
@@ -362,11 +371,6 @@ namespace Blazorise
         /// Gets or sets the component child content.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the component loading content.
-        /// </summary>
-        [Parameter]public RenderFragment LoadingContent { get;set; }
 
         #endregion
     }
