@@ -80,6 +80,11 @@ namespace Blazorise.DataGrid
         /// Column is used only to represent commands like edit, save, etc.
         /// </summary>
         Command,
+
+        /// <summary>
+        /// Column is used only to represent the multiselect command.
+        /// </summary>
+        MultiSelect,
     }
 
     public enum DataGridFilterMethod
@@ -170,6 +175,22 @@ namespace Blazorise.DataGrid
 
         /// <summary>
         /// The data grid can sorted by multiple columns.
+        /// </summary>
+        Multiple
+    }
+
+    /// <summary>
+    /// Defines the selection mode of the data grid.
+    /// </summary>
+    public enum DataGridSelectionMode
+    {
+        /// <summary>
+        /// The data grid can only select a row at a time.
+        /// </summary>
+        Single,
+
+        /// <summary>
+        /// The data grid can select multiple rows with checkbox support.
         /// </summary>
         Multiple
     }

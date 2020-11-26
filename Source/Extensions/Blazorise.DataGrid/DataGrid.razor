@@ -26,6 +26,15 @@
                                 </TableHeaderCell>
                             }
                         }
+                        else if ( column.ColumnType == DataGridColumnType.MultiSelect )
+                        {
+                            @if ( MultiSelect )
+                            {
+                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.HeaderCellStyle" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
+                                    <_DataGridMultiSelectAll TItem="TItem" MultiSelectAll="OnMultiSelectAll"></_DataGridMultiSelectAll>
+                                </TableHeaderCell>
+                            }
+                        }
                         else
                         {
                             <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable ? " cursor: pointer" : "")}")" Clicked="@(async () => await OnSortClicked( column ) )" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
@@ -70,6 +79,13 @@
                                 </TableHeaderCell>
                             }
                         }
+                        else if ( column.ColumnType == DataGridColumnType.MultiSelect )
+                        {
+                            @if ( MultiSelect )
+                            {
+                                <TableHeaderCell></TableHeaderCell>
+                            }
+                        }
                         else
                         {
                             <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
@@ -96,13 +112,13 @@
             {
                 @foreach ( var item in DisplayData )
                 {
-                    @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && (object)item == (object)editItem )
+                    @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem ) )
                     {
                         <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
                     }
                     else
                     {
-                        <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" />
+                        <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
                         @if ( DetailRowTemplate != null )
                         {
                             var canShow = DetailRowTrigger?.Invoke( item ) ?? true;

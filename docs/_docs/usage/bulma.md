@@ -17,7 +17,7 @@ toc_label: "Steps"
 
 First step is to install a Bulma provider for Blazorise:
 
-Install Bulma provider from nuget.
+Install Bulma provider from NuGet.
 
 ```
 Install-Package Blazorise.Bulma
@@ -94,7 +94,7 @@ public class Program
       BaseAddress = new Uri( builder.HostEnvironment.BaseAddress )
     } );
 
-    builder.RootComponents.Add<App>( "app" );
+    builder.RootComponents.Add<App>( "#app" );
 
     var host = builder.Build();
 

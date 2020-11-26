@@ -29,7 +29,7 @@ namespace Blazorise.Bootstrap
             }
             else
             {
-                builder.OnClick( this, Clicked );
+                builder.OnClick( this, EventCallback.Factory.Create( this, ClickHandler ) );
             }
 
             builder.Attributes( Attributes );

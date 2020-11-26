@@ -39,6 +39,34 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            try
+            {
+                skipCheckedValueChangedCallback = true;
+
+                if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) )
+                {
+                    await CurrentValueHandler( result?.ToString() );
+                }
+
+                await base.SetParametersAsync( parameters );
+
+                if ( ParentValidation != null )
+                {
+                    if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
+                        ParentValidation.InitializeInputExpression( expression );
+
+                    InitializeValidation();
+                }
+            }
+            finally
+            {
+                skipCheckedValueChangedCallback = false;
+            }
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.RadioGroup( Buttons ) );
@@ -85,26 +113,6 @@ namespace Blazorise
             await CurrentValueHandler( radio.Value?.ToString() );
 
             StateHasChanged();
-        }
-
-        /// <inheritdoc/>
-        public override async Task SetParametersAsync( ParameterView parameters )
-        {
-            try
-            {
-                skipCheckedValueChangedCallback = true;
-
-                if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) )
-                {
-                    await CurrentValueHandler( result?.ToString() );
-                }
-
-                await base.SetParametersAsync( parameters );
-            }
-            finally
-            {
-                skipCheckedValueChangedCallback = false;
-            }
         }
 
         #endregion

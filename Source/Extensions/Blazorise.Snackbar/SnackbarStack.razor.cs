@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Timers;
 using Blazorise.Snackbar.Utils;
+using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -17,24 +18,52 @@ namespace Blazorise.Snackbar
 
         private class SnackbarInfo
         {
-            public SnackbarInfo( string key, string message, RenderFragment messageTemplate, SnackbarColor color, string actionButtonText )
+            public SnackbarInfo( string message,
+                string title,
+                SnackbarColor color,
+                string key,
+                RenderFragment messageTemplate,
+                bool showCloseButton,
+                string closeButtonText,
+                object closeButtonIcon,
+                bool showActionButton,
+                string actionButtonText,
+                object actionButtonIcon )
             {
-                Key = key ?? Guid.NewGuid().ToString();
                 Message = message;
-                MessageTemplate = messageTemplate;
+                Title = title;
                 Color = color;
+                Key = key ?? Guid.NewGuid().ToString();
+                MessageTemplate = messageTemplate;
+                ShowCloseButton = showCloseButton;
+                CloseButtonText = closeButtonText;
+                CloseButtonIcon = closeButtonIcon;
+                ShowActionButton = showActionButton;
                 ActionButtonText = actionButtonText;
+                ActionButtonIcon = actionButtonIcon;
             }
-
-            public string Key { get; }
 
             public string Message { get; }
 
-            public RenderFragment MessageTemplate { get; }
+            public string Title { get; }
 
             public SnackbarColor Color { get; }
 
+            public string Key { get; }
+
+            public RenderFragment MessageTemplate { get; }
+
+            public bool ShowCloseButton { get; }
+
+            public string CloseButtonText { get; }
+
+            public object CloseButtonIcon { get; }
+
+            public bool ShowActionButton { get; }
+
             public string ActionButtonText { get; }
+
+            public object ActionButtonIcon { get; }
 
             public bool Visible { get; } = true;
         }
@@ -55,21 +84,42 @@ namespace Blazorise.Snackbar
             base.BuildClasses( builder );
         }
 
-        public void Push( string message, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
+        /// <summary>
+        /// Pushes the message to the stack to be shown as a snackbar.
+        /// </summary>
+        /// <param name="message">Message text.</param>
+        /// <param name="color">Message color.</param>
+        /// <param name="options">Additional message options.</param>
+        /// <returns>Returns awaitable task.</returns>
+        public Task PushAsync( string message, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
         {
-            Push( null, message, null, color, actionButtonText );
+            return PushAsync( message, null, color, options );
         }
 
-        public void Push( RenderFragment messageTemplate, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
+        /// <summary>
+        /// Pushes the message to the stack to be shown as a snackbar.
+        /// </summary>
+        /// <param name="message">Message text.</param>
+        /// <param name="title">Message caption.</param>
+        /// <param name="color">Message color.</param>
+        /// <param name="options">Additional message options.</param>
+        /// <returns>Returns awaitable task.</returns>
+        public Task PushAsync( string message, string title = null, SnackbarColor color = SnackbarColor.None, Action<SnackbarOptions> options = null )
         {
-            Push( null, null, messageTemplate, color, actionButtonText );
-        }
+            var snackbarOptions = CreateDefaultOptions();
+            options?.Invoke( snackbarOptions );
 
-        public void Push( string key, string message, RenderFragment messageTemplate, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
-        {
-            snackbarInfos.Add( new SnackbarInfo( key, message, messageTemplate, color, actionButtonText ) );
+            snackbarInfos.Add( new SnackbarInfo( message, title, color,
+                snackbarOptions.Key,
+                snackbarOptions.MessageTemplate,
+                snackbarOptions.ShowCloseButton,
+                snackbarOptions.CloseButtonText,
+                snackbarOptions.CloseButtonIcon,
+                snackbarOptions.ShowActionButton,
+                snackbarOptions.ActionButtonText,
+                snackbarOptions.ActionButtonIcon ) );
 
-            StateHasChanged();
+            return InvokeAsync( () => StateHasChanged() );
         }
 
         private Task OnSnackbarClosed( string key, SnackbarCloseReason closeReason )
@@ -82,6 +132,15 @@ namespace Blazorise.Snackbar
             StateHasChanged();
 
             return Closed.InvokeAsync( new SnackbarClosedEventArgs( key, closeReason ) );
+        }
+
+        protected virtual SnackbarOptions CreateDefaultOptions()
+        {
+            return new SnackbarOptions
+            {
+                Key = IDGenerator.Instance.Generate,
+                ShowCloseButton = true,
+            };
         }
 
         #endregion
@@ -111,7 +170,27 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Defines the interval(in milliseconds) after which the snackbars will be automatically closed.
         /// </summary>
-        [Parameter] public double Interval { get; set; } = 3000;
+        [Parameter] public double Interval { get; set; } = 5000;
+
+        /// <summary>
+        /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="Interval"/> time.
+        /// </summary>
+        [Parameter] public bool DelayCloseOnClick { get; set; }
+
+        /// <summary>
+        /// Defines the interval(in milliseconds) by which the snackbar will be delayed from closing.
+        /// </summary>
+        [Parameter] public double? DelayCloseOnClickInterval { get; set; }
+
+        /// <summary>
+        /// Defines a text to show for snackbar close button. Leave as null to not show it!
+        /// </summary>
+        [Parameter] public string CloseButtonText { get; set; }
+
+        /// <summary>
+        /// Defines an icon to show for snackbar close button. Leave as null to not show it!
+        /// </summary>
+        [Parameter] public object CloseButtonIcon { get; set; }
 
         /// <summary>
         /// Defines a text to show for snackbar action button. Leave as null to not show it!
@@ -119,10 +198,18 @@ namespace Blazorise.Snackbar
         [Parameter] public string ActionButtonText { get; set; }
 
         /// <summary>
+        /// Defines an icon to show for snackbar action button. Leave as null to not show it!
+        /// </summary>
+        [Parameter] public object ActionButtonIcon { get; set; }
+
+        /// <summary>
         /// Occurs after the snackbar has closed.
         /// </summary>
         [Parameter] public EventCallback<SnackbarClosedEventArgs> Closed { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="SnackbarStack"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

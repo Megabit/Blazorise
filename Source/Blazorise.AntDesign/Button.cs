@@ -36,7 +36,7 @@ namespace Blazorise.AntDesign
             }
             else
             {
-                builder.OnClick( this, Clicked );
+                builder.OnClick( this, EventCallback.Factory.Create( this, ClickHandler ) );
             }
 
             builder.Attributes( Attributes );

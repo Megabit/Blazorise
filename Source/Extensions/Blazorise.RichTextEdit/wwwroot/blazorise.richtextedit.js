@@ -46,7 +46,7 @@
         quill.on('text-change',
             (_dx, _dy, source) => {
                 if (source === 'user') {
-                    dotnetAdapter.invokeMethod(onContentChanged);
+                    dotnetAdapter.invokeMethodAsync(onContentChanged);
                 }
             });
         editorRef.quill = quill;
