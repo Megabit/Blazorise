@@ -92,7 +92,8 @@ namespace Blazorise.DataGrid
             paginationTemplates = new PaginationTemplates<TItem>();
             paginationContext = new PaginationContext<TItem>( this );
 
-            paginationContext.SubscribeOnPageSizeChanged( pageSize => InvokeAsync( () => StateHasChanged() ) );
+            paginationContext.SubscribeOnPageSizeChanged( pageSize => OnPageSizeChanged() );
+            paginationContext.SubscribeOnPageChanged( currentPage => OnPaginationItemClick(currentPage.ToString()) );
         }
 
         #endregion
@@ -405,6 +406,14 @@ namespace Blazorise.DataGrid
                 return HandleReadData();
 
             return Task.CompletedTask;
+        }
+
+        protected async Task OnPageSizeChanged()
+        {
+            if ( ManualReadMode )
+                await HandleReadData();
+
+            StateHasChanged();
         }
 
         protected async Task OnPaginationItemClick( string pageName )
