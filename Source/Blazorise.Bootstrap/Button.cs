@@ -48,7 +48,7 @@ namespace Blazorise.Bootstrap
         }
 
         /// <inheritdoc/>
-        protected override RenderFragment ProvideDefaultLoadingContent()
+        protected override RenderFragment ProvideDefaultLoadingTemplate()
         {
             return builder =>
             {

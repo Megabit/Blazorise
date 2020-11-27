@@ -69,7 +69,7 @@ namespace Blazorise
 
             if ( LoadingTemplate == null )
             {
-                LoadingTemplate = ProvideDefaultLoadingContent();
+                LoadingTemplate = ProvideDefaultLoadingTemplate();
             }
 
             base.OnInitialized();
@@ -79,7 +79,7 @@ namespace Blazorise
         /// Provides a default LoadingTemplate RenderFragment.
         /// </summary>
         /// <returns>Returns the RenderFragment consisting of a loading content.</returns>
-        protected virtual RenderFragment ProvideDefaultLoadingContent() => null;
+        protected virtual RenderFragment ProvideDefaultLoadingTemplate() => null;
 
         /// <inheritdoc/>
         protected override void Dispose( bool disposing )

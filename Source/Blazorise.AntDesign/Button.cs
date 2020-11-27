@@ -60,7 +60,7 @@ namespace Blazorise.AntDesign
         }
 
         /// <inheritdoc/>
-        protected override RenderFragment ProvideDefaultLoadingContent()
+        protected override RenderFragment ProvideDefaultLoadingTemplate()
         {
             return builder =>
             {

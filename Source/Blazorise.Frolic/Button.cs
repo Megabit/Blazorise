@@ -60,7 +60,7 @@ namespace Blazorise.Frolic
         }
 
         /// <inheritdoc/>
-        protected override RenderFragment ProvideDefaultLoadingContent()
+        protected override RenderFragment ProvideDefaultLoadingTemplate()
         {
             return builder =>
             {
