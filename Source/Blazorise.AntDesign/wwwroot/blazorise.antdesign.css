@@ -1,4 +1,23 @@
-﻿.ant-alert {
+﻿@keyframes fadeIn {
+    0% {
+        opacity: 0; }
+    100% {
+        opacity: 1; }
+    0% {
+        opacity: 0; } }
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(1rem);
+        opacity: 0; }
+    100% {
+        transform: translateY(0rem);
+        opacity: 1; }
+    0% {
+        transform: translateY(1rem);
+        opacity: 0; } }
+
+.ant-alert {
     margin-bottom: 1rem; }
     .ant-alert-primary {
         color: #0c4b85;
@@ -242,6 +261,11 @@
     min-width: 0px;
     transition: width 200ms ease-in-out, min-width 200ms ease-in-out, visibility 100ms;
     visibility: hidden; }
+
+.ant-menu-submenu.ant-menu-submenu-open .ant-menu-submenu {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-name: fadeIn; }
 
 .ant-btn-secondary {
     color: #fff;
@@ -1155,6 +1179,11 @@
 .ant-dropdown-group.ant-dropdown-button.b-is-autocomplete {
     width: 100%; }
 
+.ant-dropdown:not(.ant-dropdown-hidden) .ant-dropdown-menu {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-name: fadeIn; }
+
 .ant-figure {
     display: inline-block;
     margin: 0 0 1rem; }
@@ -1531,6 +1560,11 @@
     @media (min-width: 1200px) {
         .ant-modal-xl {
             width: 1140px; } }
+
+.ant-modal-root[style*="display: block;"] {
+    animation-duration: 0.25s;
+    animation-fill-mode: both;
+    animation-name: fadeIn; }
 
 .ant-pagination.ant-pagination-xs .ant-pagination-total-text,
 .ant-pagination.ant-pagination-xs .ant-pagination-simple-pager {
