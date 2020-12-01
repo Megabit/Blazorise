@@ -1,4 +1,23 @@
 ﻿/*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
+@keyframes fadeIn {
+    0% {
+        opacity: 0; }
+    100% {
+        opacity: 1; }
+    0% {
+        opacity: 0; } }
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(1rem);
+        opacity: 0; }
+    100% {
+        transform: translateY(0rem);
+        opacity: 1; }
+    0% {
+        transform: translateY(1rem);
+        opacity: 0; } }
+
 .is-none {
     display: none; }
 
@@ -1243,6 +1262,11 @@
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
     color: #fff !important; }
+
+.navbar-dropdown[data-visible="true"] {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-name: fadeIn; }
 
 .button.is-secondary {
     background-color: #6c757d;
@@ -2519,6 +2543,11 @@
     .accordion > .card .card-header {
         margin-bottom: 1px; }
 
+.dropdown.is-active .dropdown-menu {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-name: fadeIn; }
+
 label.radio.button {
     display: flex; }
 
@@ -2653,6 +2682,11 @@ body::-webkit-scrollbar {
 @media (min-width: 1200px) {
     .modal-xl {
         width: 1140px; } }
+
+.modal.is-active {
+    animation-duration: 0.25s;
+    animation-fill-mode: both;
+    animation-name: fadeIn; }
 
 .pagination.is-extra-small, .field.has-addons.are-extra-small > .control > .pagination.button {
     font-size: 0.65rem; }
