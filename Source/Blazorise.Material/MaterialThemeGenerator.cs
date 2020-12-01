@@ -187,5 +187,19 @@ namespace Blazorise.Material
                 .Append( $"background-color: {disabledBackground};" )
                 .AppendLine( "}" );
         }
+
+        protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
+        {
+            sb.Append( $".progress" ).Append( "{" )
+                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                 .AppendLine( "}" );
+
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                sb.Append( $".progress-bar" ).Append( "{" )
+                    .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                    .AppendLine( "}" );
+            }
+        }
     }
 }
