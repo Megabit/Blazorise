@@ -92,18 +92,38 @@
                 <CardTitle>Repeater</CardTitle>
             </CardHeader>
             <CardBody>
-                <ul>
-                    <Repeater Items="@items">
-                        <li style="@GetColor(context)">@context</li>
-                    </Repeater>
-                </ul>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is12">
+                        <ul>
+                            <Repeater Items="@items">
+                                <li style="@GetColor(context)">@context</li>
+                            </Repeater>
+                        </ul>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is6">
+                        <Buttons>
+                            <Button Clicked="@(() => items.Add(items.Count + 1))">Add</Button>
+                            <Button Clicked="@(() => items.RemoveAt(items.Count - 1))">Remove</Button>
+                            <Button Clicked="@(() => items.Clear())">Clear</Button>
+                            <Button Clicked="ShuffleList">Move</Button>
+                        </Buttons>
+                    </FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is6">
+                        <Dropdown>
+                            <DropdownToggle Color="Color.Primary">
+                                Updating dropdown
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <Repeater Items="@items">
+                                    <DropdownItem>@context</DropdownItem>
+                                </Repeater>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </FieldBody>
+                </Field>
             </CardBody>
-            <Buttons>
-                <Button Clicked="@(() => items.Add(items.Count + 1))">Add</Button>
-                <Button Clicked="@(() => items.RemoveAt(items.Count - 1))">Remove</Button>
-                <Button Clicked="@(() => items.Clear())">Clear</Button>
-                <Button Clicked="ShuffleList">Move</Button>
-            </Buttons>
         </Card>
     </Column>
 </Row>
@@ -121,7 +141,7 @@
     object selectedListValue { get; set; } = 3;
     int selectedDropValue { get; set; } = 2;
     string selectedSearchValue { get; set; }
-    ObservableCollection<int> items { get; } = new ObservableCollection<int>(Enumerable.Range(1, 10));
+    ObservableCollection<int> items { get; } = new ObservableCollection<int>(Enumerable.Range(1, 4));
 
     void MyListValueChangedHandler( object newValue )
     {
