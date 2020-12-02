@@ -25,20 +25,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Methods
-
-        public override async Task SetParametersAsync( ParameterView parameters )
-        {
-            await base.SetParametersAsync( parameters );
-
-            if ( ParentValidation != null )
-            {
-                if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
-
-                InitializeValidation();
-            }
-        }
+        #region Methods        
 
         protected override void BuildClasses( ClassBuilder builder )
         {
