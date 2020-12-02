@@ -54,7 +54,7 @@ namespace Blazorise
 
                 if ( ParentValidation != null )
                 {
-                    if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
+                    if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedValueExpression ), out var expression ) )
                         ParentValidation.InitializeInputExpression( expression );
 
                     InitializeValidation();
@@ -170,7 +170,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets an expression that identifies the checked value.
         /// </summary>
-        [Parameter] public Expression<Func<TValue>> CheckedExpression { get; set; }
+        [Parameter] public Expression<Func<TValue>> CheckedValueExpression { get; set; }
 
         #endregion
     }
