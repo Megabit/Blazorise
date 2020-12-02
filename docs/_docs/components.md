@@ -45,6 +45,7 @@ Form components are comprised of basic input fields like text, check, select etc
 - [Layout]({{ "/docs/components/layout/" | relative_url }})
 - [Modal]({{ "/docs/components/modal/" | relative_url }})
 - [Pagination]({{ "/docs/components/pagination/" | relative_url }})
+- [Repeater]({{ "/docs/components/repeater/" | relative_url }})
 - [Tab]({{ "/docs/components/tab/" | relative_url }})
 - [Table]({{ "/docs/components/table/" | relative_url }})
 - [Tooltip]({{ "/docs/components/tooltip/" | relative_url }})
