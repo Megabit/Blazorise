@@ -103,7 +103,18 @@ namespace Blazorise
         /// </summary>
         protected virtual async Task CollectionChangedAsync( NotifyCollectionChangedEventArgs e )
         {
-            RenderItems();
+            if ( renderHandle.IsInitialized )
+            {
+                if ( renderHandle.Dispatcher.CheckAccess() )
+                {
+                    RenderItems();
+                }
+                else
+                {
+                    await renderHandle.Dispatcher.InvokeAsync( RenderItems );
+                }
+            }
+
             await CollectionChanged.InvokeAsync( e );
         }
 
