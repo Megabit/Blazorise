@@ -92,7 +92,19 @@ namespace Blazorise.DataGrid
             paginationTemplates = new PaginationTemplates<TItem>();
             paginationContext = new PaginationContext<TItem>( this );
 
-            paginationContext.SubscribeOnPageSizeChanged( pageSize => InvokeAsync( () => StateHasChanged() ) );
+            paginationContext.SubscribeOnPageSizeChanged( pageSize =>
+            {
+                // When using manual mode, a user is in control when StateHasChanged will be called
+                // so we just need to call HandleReadData.
+                if ( ManualReadMode )
+                {
+                    InvokeAsync( HandleReadData );
+                }
+                else
+                {
+                    InvokeAsync( StateHasChanged );
+                }
+            } );
         }
 
         #endregion
