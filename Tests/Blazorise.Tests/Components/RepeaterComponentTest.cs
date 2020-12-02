@@ -51,7 +51,7 @@ namespace Blazorise.Tests.Components
             var comp = ctx.RenderComponent<Repeater<int>>( builder => builder
                 .Add( p => p.Items, items )
                 .Add( p => p.ChildContent, x => x.ToString() )
-                .Add( p => p.CollectionChanged, callbackFactory.Create( watcher, (Action<NotifyCollectionChangedEventArgs>) watcher.OnCollectionChanged ) )
+                .Add( p => p.CollectionChanged, callbackFactory.Create( watcher, (Action<NotifyCollectionChangedEventArgs>)watcher.OnCollectionChanged ) )
             );
 
             Assert.Equal( string.Concat( items.Select( x => x.ToString() ) ), comp.Markup );
@@ -92,7 +92,7 @@ namespace Blazorise.Tests.Components
             Assert.Equal( 1, watcher.Count );
 
             var updated = Enumerable.Range( 10, 20 ).ToList();
-            comp.SetParametersAndRender( builder => builder.Add( p => p.Items, updated ));
+            comp.SetParametersAndRender( builder => builder.Add( p => p.Items, updated ) );
 
             Assert.Equal( string.Concat( updated.Select( x => x.ToString() ) ), comp.Markup );
             Assert.Equal( 2, watcher.Count );
@@ -132,7 +132,7 @@ namespace Blazorise.Tests.Components
             );
 
             Assert.Equal( string.Concat( items.Take( 2 ).Skip( 2 ).Select( x => x.ToString() ) ), comp.Markup );
-            
+
             comp.SetParametersAndRender( builder => builder.Add( p => p.Take, default ) );
 
             Assert.Equal( string.Concat( items.Skip( 2 ).Select( x => x.ToString() ) ), comp.Markup );

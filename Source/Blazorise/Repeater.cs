@@ -1,14 +1,10 @@
-﻿#nullable enable
-
-#region Using directives
-
+﻿#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise
@@ -23,7 +19,8 @@ namespace Blazorise
         #region Members
 
         private RenderHandle renderHandle;
-        private INotifyCollectionChanged? collection;
+
+        private INotifyCollectionChanged collection;
 
         #endregion
 
@@ -99,7 +96,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the items collection changes.
         /// </summary>
-        private async void OnCollectionChanged( object? sender, NotifyCollectionChangedEventArgs e )
+        private async void OnCollectionChanged( object sender, NotifyCollectionChangedEventArgs e )
         {
             await CollectionChangedAsync( e );
         }
@@ -161,34 +158,29 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// The content to render per item.
-        /// </summary>
-        [Parameter]
-        public RenderFragment<TItem>? ChildContent { get; set; }
-
-        /// <summary>
         /// The items to render. When this is <see cref="INotifyCollectionChanged"/> it will hookup collection change listeners.
         /// </summary>
-        [Parameter]
-        public IEnumerable<TItem>? Items { get; set; }
+        [Parameter] public IEnumerable<TItem> Items { get; set; }
 
         /// <summary>
         /// [Optional] The number of items to take.
         /// </summary>
-        [Parameter]
-        public long? Take { get; set; }
+        [Parameter] public long? Take { get; set; }
 
         /// <summary>
         /// [Optional] The number of items to skip.
         /// </summary>
-        [Parameter]
-        public long? Skip { get; set; }
+        [Parameter] public long? Skip { get; set; }
 
         /// <summary>
         /// Occurs when <see cref="Items"/> collection changes.
         /// </summary>
-        [Parameter]
-        public EventCallback<NotifyCollectionChangedEventArgs> CollectionChanged { get; set; }
+        [Parameter] public EventCallback<NotifyCollectionChangedEventArgs> CollectionChanged { get; set; }
+
+        /// <summary>
+        /// The content to render per item.
+        /// </summary>
+        [Parameter] public RenderFragment<TItem> ChildContent { get; set; }
 
         #endregion
     }
