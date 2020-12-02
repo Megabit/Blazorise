@@ -6,3 +6,9 @@
         }
     }
 }
+
+.navbar-dropdown[data-visible="true"] {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
+}

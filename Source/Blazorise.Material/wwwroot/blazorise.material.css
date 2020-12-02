@@ -1,4 +1,23 @@
-﻿.badge-close {
+﻿@keyframes fadeIn {
+    0% {
+        opacity: 0; }
+    100% {
+        opacity: 1; }
+    0% {
+        opacity: 0; } }
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(1rem);
+        opacity: 0; }
+    100% {
+        transform: translateY(0rem);
+        opacity: 1; }
+    0% {
+        transform: translateY(1rem);
+        opacity: 0; } }
+
+.badge-close {
     cursor: pointer; }
     .badge-close::before {
         height: 2px;
@@ -32,6 +51,11 @@
 
 .dropdown-toggle.dropdown-toggle-hidden::before {
     content: none !important; }
+
+.dropdown-menu.show {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-name: fadeIn; }
 
 .form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
@@ -321,6 +345,11 @@ input.form-control[type=color] {
 
 .modal-backdrop {
     z-index: -1; }
+
+.modal.show {
+    animation-duration: 0.25s;
+    animation-fill-mode: both;
+    animation-name: fadeIn; }
 
 .pagination-xs .page-link {
     border-radius: 0.84375rem;

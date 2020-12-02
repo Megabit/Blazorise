@@ -27,6 +27,17 @@ namespace Blazorise
         /// </summary>
         private CloseReason closeReason = CloseReason.None;
 
+        /// <summary>
+        /// A focusable components placed inside of a modal.
+        /// </summary>
+        /// <remarks>
+        /// Only one component can be focused, but the reason why we hold the list
+        /// of components is in case we change Autofocus="true" from one component to the other.
+        /// And because order of rendering is important, we must make sure that the last component
+        /// does NOT set focusableComponent to null.
+        /// </remarks>
+        private List<IFocusableComponent> focusableComponents;
+
         #endregion
 
         #region Methods
@@ -57,6 +68,12 @@ namespace Blazorise
                 // that for providers like Bootstrap, some classnames can be left behind. So to cover those situation
                 // we need to close modal and dispose of any claassnames in case there is any left. 
                 _ = JSRunner.CloseModal( ElementRef, ElementId );
+
+                if ( focusableComponents != null )
+                {
+                    focusableComponents.Clear();
+                    focusableComponents = null;
+                }
             }
 
             base.Dispose( disposing );
@@ -136,6 +153,15 @@ namespace Blazorise
                 {
                     await JSRunner.OpenModal( ElementRef, ElementId, ScrollToTop );
                 } );
+
+                // only one component can be focused
+                if ( FocusableComponents.Count > 0 )
+                {
+                    ExecuteAfterRender( async () =>
+                    {
+                        await FocusableComponents.First().FocusAsync();
+                    } );
+                }
             }
             else
             {
@@ -157,9 +183,37 @@ namespace Blazorise
             }
         }
 
+        public void AddFocusableComponent( IFocusableComponent focusableComponent )
+        {
+            if ( focusableComponent == null )
+                return;
+
+            if ( !FocusableComponents.Contains( focusableComponent ) )
+            {
+                FocusableComponents.Add( focusableComponent );
+            }
+        }
+
+        public void RemoveFocusableComponent( IFocusableComponent focusableComponent )
+        {
+            if ( focusableComponent == null )
+                return;
+
+            if ( FocusableComponents.Contains( focusableComponent ) )
+            {
+                FocusableComponents.Remove( focusableComponent );
+            }
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the list of focusable components.
+        /// </summary>
+        protected IList<IFocusableComponent> FocusableComponents
+            => focusableComponents ??= new List<IFocusableComponent>();
 
         /// <summary>
         /// Defines the visibility of modal dialog.
@@ -206,6 +260,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback Closed { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Modal"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Utils;
 using Microsoft.AspNetCore.Components;
@@ -24,12 +25,19 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void BuildClasses( ClassBuilder builder )
+        public override async Task SetParametersAsync( ParameterView parameters )
         {
-            builder.Append( ClassProvider.Radio( AsButton ) );
-            builder.Append( ClassProvider.RadioSize( AsButton, Size ), Size != Size.None );
+            await base.SetParametersAsync( parameters );
 
-            base.BuildClasses( builder );
+            // Individual Radio can have validation ONLY of it's not placed inside
+            // of a RadioGroup
+            if ( ParentValidation != null && ParentRadioGroup == null )
+            {
+                if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
+                    ParentValidation.InitializeInputExpression( expression );
+
+                InitializeValidation();
+            }
         }
 
         protected override void OnInitialized()
@@ -49,6 +57,14 @@ namespace Blazorise
             }
 
             base.OnInitialized();
+        }
+
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.Radio( AsButton ) );
+            builder.Append( ClassProvider.RadioSize( AsButton, Size ), Size != Size.None );
+
+            base.BuildClasses( builder );
         }
 
         protected override void Dispose( bool disposing )
