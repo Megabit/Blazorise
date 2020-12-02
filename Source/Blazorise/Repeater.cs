@@ -120,7 +120,7 @@ namespace Blazorise
             renderHandle.Render( builder =>
             {
                 var skip = Skip ?? 0;
-                var take = Take ?? int.MaxValue;
+                var take = Take ?? long.MaxValue;
 
                 foreach ( var (item, index) in Items.Select( ( x, i ) => (x, i) ) )
                 {
