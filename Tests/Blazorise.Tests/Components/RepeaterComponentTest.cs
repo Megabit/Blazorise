@@ -99,6 +99,25 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
+        public void ReplaceCollectionWithNull_Clears()
+        {
+            var ctx = new TestContext();
+
+            var items = Enumerable.Range( 0, 10 ).ToList();
+
+            var comp = ctx.RenderComponent<Repeater<int>>( builder => builder
+                .Add( p => p.Items, items )
+                .Add( p => p.ChildContent, x => x.ToString() )
+            );
+
+            Assert.Equal( string.Concat( items.Select( x => x.ToString() ) ), comp.Markup );
+
+            comp.SetParametersAndRender( builder => builder.Add( p => p.Items, default ) );
+
+            Assert.True( string.IsNullOrWhiteSpace( comp.Markup ) );
+        }
+
+        [Fact]
         public void TakeSkip_Renders()
         {
             var ctx = new TestContext();

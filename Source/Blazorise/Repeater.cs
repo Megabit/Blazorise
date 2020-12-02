@@ -1,4 +1,6 @@
-﻿#region Using directives
+﻿#nullable enable
+
+#region Using directives
 
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,7 @@ namespace Blazorise
         #region Members
 
         private RenderHandle renderHandle;
-        private INotifyCollectionChanged collection;
+        private INotifyCollectionChanged? collection;
 
         #endregion
 
@@ -68,9 +70,11 @@ namespace Blazorise
         /// <inheritdoc cref="IComponent.SetParametersAsync"/>
         public virtual async Task SetParametersAsync( ParameterView parameters )
         {
+            var current = Items;
+
             parameters.SetParameterProperties( this );
 
-            if ( ReferenceEquals( collection, Items ) )
+            if ( ReferenceEquals( current, Items ) )
             {
                 return;
             }
@@ -93,7 +97,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the items collection changes.
         /// </summary>
-        private async void OnCollectionChanged( object sender, NotifyCollectionChangedEventArgs e )
+        private async void OnCollectionChanged( object? sender, NotifyCollectionChangedEventArgs e )
         {
             await CollectionChangedAsync( e );
         }
@@ -123,17 +127,17 @@ namespace Blazorise
         /// </summary>
         public virtual void RenderItems()
         {
-            if ( Items == null )
-            {
-                return;
-            }
-
             renderHandle.Render( builder =>
             {
+                if ( Items == null )
+                {
+                    return;
+                }
+
                 var skip = Skip ?? 0;
                 var take = Take ?? long.MaxValue;
 
-                foreach ( var (item, index) in Items.Select( ( x, i ) => (x, i) ) )
+                foreach ( var (item, index) in Items.Select( ( x, i ) => ( x, i ) ) )
                 {
                     if ( index < skip )
                     {
@@ -158,13 +162,13 @@ namespace Blazorise
         /// The content to render per item.
         /// </summary>
         [Parameter]
-        public RenderFragment<TItem> ChildContent { get; set; }
+        public RenderFragment<TItem>? ChildContent { get; set; }
 
         /// <summary>
         /// The items to render. When this is <see cref="INotifyCollectionChanged"/> it will hookup collection change listeners.
         /// </summary>
         [Parameter]
-        public IEnumerable<TItem> Items { get; set; }
+        public IEnumerable<TItem>? Items { get; set; }
 
         /// <summary>
         /// [Optional] The number of items to take.
