@@ -76,22 +76,24 @@ namespace Blazorise
 
             if ( ReferenceEquals( current, Items ) )
             {
-                return;
+                RenderItems();
             }
-
-            if ( collection != null )
+            else
             {
-                collection.CollectionChanged -= OnCollectionChanged;
-                collection = null;
-            }
+                if ( collection != null )
+                {
+                    collection.CollectionChanged -= OnCollectionChanged;
+                    collection = null;
+                }
 
-            if ( Items is INotifyCollectionChanged collectionChanged )
-            {
-                collection = collectionChanged;
-                collection.CollectionChanged += OnCollectionChanged;
-            }
+                if ( Items is INotifyCollectionChanged collectionChanged )
+                {
+                    collection = collectionChanged;
+                    collection.CollectionChanged += OnCollectionChanged;
+                }
 
-            await CollectionChangedAsync( new NotifyCollectionChangedEventArgs( NotifyCollectionChangedAction.Reset ) );
+                await CollectionChangedAsync( new NotifyCollectionChangedEventArgs( NotifyCollectionChangedAction.Reset ) );
+            }
         }
 
         /// <summary>
@@ -137,7 +139,7 @@ namespace Blazorise
                 var skip = Skip ?? 0;
                 var take = Take ?? long.MaxValue;
 
-                foreach ( var (item, index) in Items.Select( ( x, i ) => ( x, i ) ) )
+                foreach ( var (item, index) in Items.Select( ( x, i ) => (x, i) ) )
                 {
                     if ( index < skip )
                     {
