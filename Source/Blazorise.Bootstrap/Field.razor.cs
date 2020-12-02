@@ -17,9 +17,6 @@ namespace Blazorise.Bootstrap
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            if ( IsFields )
-                builder.Append( ClassProvider.FieldColumn() );
-
             if ( ColumnSize != null )
                 builder.Append( ColumnSize.Class( ClassProvider ) );
 

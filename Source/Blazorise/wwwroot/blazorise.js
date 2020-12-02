@@ -25,6 +25,7 @@ window.blazorise = {
         }
         return true;
     },
+
     // toggles a classname on the given element id
     toggleClass: (element, classname) => {
         if (element) {
@@ -53,6 +54,13 @@ window.blazorise = {
             return element.parentElement.classList.contains(classname);
         }
         return false;
+    },
+
+    // sets the value to the element property
+    setProperty: (element, property, value) => {
+        if (element && property) {
+            element[property] = value;
+        }
     },
 
     getElementInfo: (element, elementId) => {
@@ -660,7 +668,7 @@ function getArrayBufferFromFileAsync(elem, fileId) {
 
 function hasParentInTree(element, parentElementId) {
     if (!element.parentElement) return false;
-    if (element.parentElement.id == parentElementId) return true;
+    if (element.parentElement.id === parentElementId) return true;
     return hasParentInTree(element.parentElement, parentElementId);
 }
 

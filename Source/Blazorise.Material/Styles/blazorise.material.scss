@@ -17,6 +17,7 @@ $enable-ripple: true !default; // Enable ripple effect on components (Buttons, m
 @import "variables";
 @import "variables-material";
 @import "mixins";
+@import "animations";
 
 @import "badge";
 @import "buttons";
