@@ -541,7 +541,8 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 }
 ```
 ### DataGrid Multiple Selection
-Set SelecionMode to `DataGridSelectionMode.Multiple` to enable multiple selection on Datagrid. 
+
+Set `SelectionMode` to `DataGridSelectionMode.Multiple` to enable multiple selection on Datagrid. 
 
 ```html
 <DataGrid TItem="Employee"
@@ -549,26 +550,22 @@ Set SelecionMode to `DataGridSelectionMode.Multiple` to enable multiple selectio
     SelectionMode="DataGridSelectionMode.Multiple"
     @bind-SelectedRows="@selectedEmployees">
 </DataGrid>
-
 ```
-Clicking rows will now select multiple records at a time. You can now access them by using the `SelectedRows Parameter` and also bind to the `SelectedRowsChanged EventCallBack`
 
-Optionally you can use the new Datagrid column `<DataGridMultiSelectColumn>` to enable a checkbox column that works exclusively with multiple selection. 
-You can either use your own `MultiSelectTemplate RenderFragment` to customize the input that will appear in the column and trigger the multiple selection by then binding to the provided 
-`SelectedChanged EventCallBack` or just use the provided default by not specifying a `MultiSelectTemplate RenderFragment`.
-When using this extra column, the top row column, will provide the ability to select or unselect all rows.
+Clicking rows will now select multiple records at a time. You can now access them by using the `SelectedRows` parameter and also bind to the `SelectedRowsChanged` event callback.
+
+Optionally you can use the new Datagrid column `<DataGridMultiSelectColumn>` to enable a checkbox column that works exclusively with multiple selection. You can either use your own `MultiSelectTemplate` render fragment to customize the input that will appear in the column and trigger the multiple selection by then binding to the provided `SelectedChanged` event callback or just use the provided default by not specifying a `MultiSelectTemplate` render fragment. When using this extra column, the top row column, will provide the ability to select or unselect all rows.
+
 ```html
 <DataGrid TItem="Employee"
     Data="@employeeList"
     SelectionMode="DataGridSelectionMode.Multiple">
     <DataGridColumns>
         <DataGridMultiSelectColumn TItem="Employee" Width="30px"></DataGridMultiSelectColumn>
-    ...
+        ...
     </DataGridColumns>
 </DataGrid>
-
 ```
-
 
 ## Attributes
 
