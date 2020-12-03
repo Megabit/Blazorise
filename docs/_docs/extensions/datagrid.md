@@ -61,6 +61,15 @@ Default method for filtering is `Contains`. If you want to change it you can set
 - `Equals` search must match the entire value
 - `NotEquals` opposite of Equals
 
+**Example:**
+
+```html
+<DataGrid TItem="Employee"
+    Data="@employeeList"
+    Filterable="true"
+    FilterMethod="DataGridFilterMethod.StartsWith">
+```
+
 ### Custom Filtering
 
 Regular filter works on per field basis. To enable advanced search capabilities you can use an attribute `CustomFilter`. More can be found in Usage section.
