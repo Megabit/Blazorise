@@ -540,6 +540,32 @@ If you want to change display of content, while grid is empty or `ReadData` is e
     }
 }
 ```
+### DataGrid Multiple Selection
+
+Set `SelectionMode` to `DataGridSelectionMode.Multiple` to enable multiple selection on Datagrid. 
+
+```html
+<DataGrid TItem="Employee"
+    Data="@employeeList"
+    SelectionMode="DataGridSelectionMode.Multiple"
+    @bind-SelectedRows="@selectedEmployees">
+</DataGrid>
+```
+
+Clicking rows will now select multiple records at a time. You can now access them by using the `SelectedRows` parameter and also bind to the `SelectedRowsChanged` event callback.
+
+Optionally you can use the new Datagrid column `<DataGridMultiSelectColumn>` to enable a checkbox column that works exclusively with multiple selection. You can either use your own `MultiSelectTemplate` render fragment to customize the input that will appear in the column and trigger the multiple selection by then binding to the provided `SelectedChanged` event callback or just use the provided default by not specifying a `MultiSelectTemplate` render fragment. When using this extra column, the top row column, will provide the ability to select or unselect all rows.
+
+```html
+<DataGrid TItem="Employee"
+    Data="@employeeList"
+    SelectionMode="DataGridSelectionMode.Multiple">
+    <DataGridColumns>
+        <DataGridMultiSelectColumn TItem="Employee" Width="30px"></DataGridMultiSelectColumn>
+        ...
+    </DataGridColumns>
+</DataGrid>
+```
 
 ## Attributes
 
@@ -584,6 +610,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | ShowValidationsSummary | boolean                                                             | true    | Hide or show validations summary                                                                            |
 | ValidationsSummaryLabel| string                                                              | null    | Set label of validations summary                                                                            |
 | SortMode               | [DataGridSortMode]({{ "/docs/helpers/enums/#datagridsortmode" | relative_url }})  | `Multiple`          | Defines whether the user can sort only by one column or by multiple.              |
+| SelectionMode          | [DataGridSelectionMode]({{ "/docs/helpers/enums/#datagridselectionmode" | relative_url }})  | `Single`          | Defines whether the datagrid is set to single or multiple selection mode. |
 
 ### EditMode
 

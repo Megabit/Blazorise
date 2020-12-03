@@ -19,3 +19,9 @@
         }
     }
 }
+
+.ant-modal-root[style*="display: block;"] {
+    animation-duration: 0.25s;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
+}

@@ -24,3 +24,9 @@
 .ant-dropdown-group.ant-dropdown-button.b-is-autocomplete {
     width: 100%;
 }
+
+.ant-dropdown:not(.ant-dropdown-hidden) .ant-dropdown-menu {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
+}
