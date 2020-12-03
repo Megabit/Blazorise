@@ -90,6 +90,8 @@ docs:
         url: /docs/components/modal/
       - title: "Pagination"
         url: /docs/components/pagination/
+      - title: "Repeater"
+        url: /docs/components/repeater/
       - title: "Tab"
         url: /docs/components/tab/
       - title: "Table"
