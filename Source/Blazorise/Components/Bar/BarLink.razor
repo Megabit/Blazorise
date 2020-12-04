@@ -1,0 +1,14 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+@if ( To != null )
+{
+    <Blazorise.Link Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Attributes="@Attributes">
+        @ChildContent
+    </Blazorise.Link>
+}
+else
+{
+    <a class="@ClassNames" style="@StyleNames" title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
+        @ChildContent
+    </a>
+}

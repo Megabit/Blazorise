@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System;
 using Blazorise.Bootstrap;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;

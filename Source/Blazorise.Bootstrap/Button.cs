@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 #endregion
