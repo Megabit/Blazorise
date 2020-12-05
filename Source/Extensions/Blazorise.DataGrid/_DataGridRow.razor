@@ -43,6 +43,10 @@
                     {
                         @column.DisplayTemplate( Item )
                     }
+                    else if ( ParentDataGrid.EmptyCellTemplate != null && column.GetValue( Item ) == null )
+                    {
+                        @ParentDataGrid.EmptyCellTemplate( Item )
+                    }
                     else
                     {
                         @column.FormatDisplayValue( Item )

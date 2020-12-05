@@ -43,7 +43,27 @@ namespace Blazorise.AntDesign
             builder.Attributes( Attributes );
             builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
 
-            if ( Loading )
+            if ( Loading && LoadingTemplate != null )
+            {
+                builder.Content( LoadingTemplate );
+            }
+            else
+            {
+                builder.Content( ChildContent );
+            }
+
+            builder.CloseElement();
+
+            if ( IsAddons || ParentIsField )
+            {
+                builder.CloseElement();
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override RenderFragment ProvideDefaultLoadingTemplate()
+        {
+            return builder =>
             {
                 builder
                     .OpenElement( "span" )
@@ -74,18 +94,7 @@ namespace Blazorise.AntDesign
                     .OpenElement( "span" )
                     .Content( ChildContent )
                     .CloseElement();
-            }
-            else
-            {
-                builder.Content( ChildContent );
-            }
-
-            builder.CloseElement();
-
-            if ( IsAddons || ParentIsField )
-            {
-                builder.CloseElement();
-            }
+            };
         }
 
         #endregion
