@@ -540,6 +540,26 @@ If you want to change display of content, while grid is empty or `ReadData` is e
     }
 }
 ```
+
+
+### Empty Cell Template
+
+If you want to change cell content display when cell's value is null, use `EmptyCellTemplate`.
+
+```html
+<DataGrid TItem="Employee"
+    Data="@employeeList"
+    TotalItems="@totalEmployees"
+    ReadData="@LoadEmployeesFromService">
+    <ChildContent>
+    	<!--DataGridColumns-->
+    </ChildContent>
+    <EmptyCellTemplate>
+    	<Text Style="opacity: .5;">-</Text>
+    </EmptyTemplate>
+</DataGrid>
+```
+
 ### DataGrid Multiple Selection
 
 Set `SelectionMode` to `DataGridSelectionMode.Multiple` to enable multiple selection on Datagrid. 
@@ -601,6 +621,7 @@ Optionally you can use the new Datagrid column `<DataGridMultiSelectColumn>` to 
 | RowRemoving            | Action                                                              |         | Cancelable event called before the row is removed.                                                          |
 | RowRemoved             | EventCallback                                                       |         | Event called after the row is removed.                                                                      |
 | PageChanged            | EventCallback                                                       |         | Occurs after the selected page has changed.                                                                 |
+| EmptyCellTemplate      | RenderingFragment                                                   |         | Define the format for empty data cell                                                                 |
 | EmptyTemplate          | RenderingFragment                                                   |         | Define the format for empty data collection                                                                 |
 | LoadingTemplate        | RenderingFragment                                                   |         | Define the format for signal of loading data                                                                |
 | PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of edit popup dialog                                                              |
