@@ -45,7 +45,7 @@
                     }
                     else if ( ParentDataGrid.EmptyCellTemplate != null && column.GetValue( Item ) == null )
                     {
-                        @ParentDataGrid.EmptyCellTemplate
+                        @ParentDataGrid.EmptyCellTemplate( Item )
                     }
                     else
                     {

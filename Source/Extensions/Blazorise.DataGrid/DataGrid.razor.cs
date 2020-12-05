@@ -891,7 +891,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets content of cell body for empty DisplayData.
         /// </summary>
-        [Parameter] public RenderFragment EmptyCellTemplate { get; set; }
+        [Parameter] public RenderFragment<TItem> EmptyCellTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets content of table body for handle ReadData.
