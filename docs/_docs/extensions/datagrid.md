@@ -544,9 +544,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 
 ### Empty Cell Template
 
-If you want to change display of content, if a cell's value is null.
-
-- `EmptyCellTemplate`
+If you want to change cell content display when cell's value is null, use `EmptyCellTemplate`.
 
 ```html
 <DataGrid TItem="Employee"
@@ -562,23 +560,6 @@ If you want to change display of content, if a cell's value is null.
 </DataGrid>
 ```
 
-```cs
-@code
-{
-    Employee[] employeeList;
-    int totalEmployees;
-
-    async Task LoadEmployeesFromService( DataGridReadDataEventArgs<Employee> e )
-    {
-        /*
-        * This can be call to anything like calling api for load employees
-        * and while execution 'LoadingTemplate' will be displayed.
-        * If your api call returns empty result, then 'EmptyTemplate' will be displayed,
-        * so that you can see easily, that your loading is finish, but your result is empty.
-        */
-    }
-}
-```
 ### DataGrid Multiple Selection
 
 Set `SelectionMode` to `DataGridSelectionMode.Multiple` to enable multiple selection on Datagrid. 
