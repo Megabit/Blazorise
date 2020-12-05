@@ -899,6 +899,11 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment LoadingTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets content of button row of pager.
+        /// </summary>
+        [Parameter] public RenderFragment<ButtonRowContext<TItem>> ButtonRowTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets content of first button of pager.
         /// </summary>
         [Parameter] public RenderFragment FirstPageButtonTemplate { get => paginationTemplates.FirstPageButtonTemplate; set => paginationTemplates.FirstPageButtonTemplate = value; }

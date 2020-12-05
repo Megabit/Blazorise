@@ -15,4 +15,14 @@ namespace Blazorise.DataGrid
     {
         public TItem Item { get; set; }
     }
+
+    public class EditCommandContext<TItem> : CommandContext<TItem>
+    {
+
+    }
+
+    public class ButtonRowContext<TItem> 
+    {
+        public EditCommandContext<TItem> EditCommand { get; set; }
+    }
 }

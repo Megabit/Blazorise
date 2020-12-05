@@ -30,7 +30,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Template to customize edit command button.
         /// </summary>
-        [Parameter] public RenderFragment<CommandContext<TItem>> EditCommandTemplate { get; set; }
+        [Parameter] public RenderFragment<EditCommandContext<TItem>> EditCommandTemplate { get; set; }
 
         /// <summary>
         /// Template to customize save command button.

@@ -42,7 +42,7 @@ else if ( EditState == DataGridEditState.None )
         {
             @if ( ParentDataGrid?.CommandColumn?.EditCommandTemplate != null )
             {
-                @ParentDataGrid.CommandColumn.EditCommandTemplate( new CommandContext<TItem>
+                @ParentDataGrid.CommandColumn.EditCommandTemplate( new EditCommandContext<TItem>
                 {
                     Clicked = Edit,
                     Item = Item,

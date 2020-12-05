@@ -155,7 +155,7 @@
     </Table>
     @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
-        <_DataGridPagination PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="OnPaginationItemClick" />
+        <_DataGridPagination TItem="TItem" ButtonRowTemplate="@ButtonRowTemplate" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@OnPaginationItemClick" Edit="@OnEditCommand" SelectedRow="@SelectedRow" />
     }
     @if ( editItem != null && EditMode == DataGridEditMode.Popup )
     {
