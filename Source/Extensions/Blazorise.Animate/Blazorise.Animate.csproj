@@ -9,6 +9,7 @@
     <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components animate</PackageTags>
+    <Authors>$(Authors);Mikael Koskinen</Authors>
   </PropertyGroup>
 
   <ItemGroup>

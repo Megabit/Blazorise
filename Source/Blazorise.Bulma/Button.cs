@@ -42,7 +42,14 @@ namespace Blazorise.Bulma
             builder.Attributes( Attributes );
             builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
 
-            builder.Content( ChildContent );
+            if ( Loading && LoadingTemplate != null )
+            {
+                builder.Content( LoadingTemplate );
+            }
+            else
+            {
+                builder.Content( ChildContent );
+            }
 
             builder.CloseElement();
 
