@@ -16,7 +16,7 @@
                     @if ( column.ColumnType == DataGridColumnType.Command )
                         continue;
 
-                    @if ( CellAreEditable( column ) )
+                    @if ( column.CellValuesAreEditable() )
                     {
                         <Column ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
                             <Field>
@@ -85,7 +85,7 @@ else if ( EditMode == DataGridEditMode.Inline )
             else if ( column.Displayable )
             {
                 <TableRowCell width="@column.Width">
-                    @if ( ParentDataGrid?.Editable == true && CellAreEditable( column ) )
+                    @if ( ParentDataGrid?.Editable == true && column.CellValuesAreEditable() )
                     {
                         <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@( ParentDataGrid?.ShowValidationFeedback ?? false )" />
                     }
