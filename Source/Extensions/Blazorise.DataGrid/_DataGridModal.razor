@@ -28,7 +28,7 @@
                         @if ( column.ExcludeFromEdit )
                             continue;
 
-                        @if ( column.Editable )
+                        @if ( column.CellValuesAreEditable() )
                         {
                             <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
                                 <Field>

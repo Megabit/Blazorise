@@ -124,6 +124,13 @@ namespace Blazorise.DataGrid
             return FormatDisplayValue( GetValue( item ) );
         }
 
+        public bool CellValuesAreEditable()
+        {
+            return Editable &&
+                ( ( CellsEditableOnNewCommand && ParentDataGrid?.EditState == DataGridEditState.New )
+                || ( CellsEditableOnEditCommand && ParentDataGrid?.EditState == DataGridEditState.Edit ) );
+        }
+
         internal bool IsDisplayable => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
 
         internal bool ExcludeFromFilter => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
