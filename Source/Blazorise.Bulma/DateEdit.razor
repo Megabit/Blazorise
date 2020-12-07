@@ -1,10 +1,11 @@
 ﻿@typeparam TValue
 @inherits Blazorise.DateEdit<TValue>
+@using Blazorise.Utilities
 @if ( ParentIsFieldBody )
 {
     <div class="field">
         <div class="control">
-            <input @ref="@ElementRef" id="@ElementId" type="date" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" placeholder="@Placeholder" min="@Min?.ToString(Utils.Parsers.InternalDateFormat)" max="@Max?.ToString(Utils.Parsers.InternalDateFormat)" @attributes="@Attributes" />
+            <input @ref="@ElementRef" id="@ElementId" type="date" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" placeholder="@Placeholder" min="@Min?.ToString(Parsers.InternalDateFormat)" max="@Max?.ToString(Parsers.InternalDateFormat)" @attributes="@Attributes" />
             @ChildContent
         </div>
         @Feedback
@@ -13,7 +14,7 @@
 else
 {
     <div class="control">
-        <input @ref="@ElementRef" id="@ElementId" type="date" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" placeholder="@Placeholder" min="@Min?.ToString(Utils.Parsers.InternalDateFormat)" max="@Max?.ToString(Utils.Parsers.InternalDateFormat)" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="date" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" placeholder="@Placeholder" min="@Min?.ToString(Parsers.InternalDateFormat)" max="@Max?.ToString(Parsers.InternalDateFormat)" @attributes="@Attributes" />
         @ChildContent
     </div>
     @Feedback

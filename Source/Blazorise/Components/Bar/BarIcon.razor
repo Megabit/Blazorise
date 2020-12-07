@@ -1,0 +1,12 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+@if ( IconName is RenderFragment )
+{
+    <div class="@ClassNames" style="@StyleNames">
+        @( IconName as RenderFragment )
+    </div>
+}
+else
+{
+    <Icon Name="@IconName" IconStyle="@IconStyle" Class="@ClassNames" Style="@StyleNames" />
+}

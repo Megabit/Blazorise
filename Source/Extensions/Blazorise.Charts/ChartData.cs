@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Charts

@@ -1,0 +1,9 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+<CascadingValue Value=this>
+    <CascadingValue Value="@store">
+        <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </ul>
+    </CascadingValue>
+</CascadingValue>
