@@ -1,5 +1,6 @@
 ﻿@typeparam TValue
 @inherits Blazorise.Select<TValue>
+@using Blazorise.Extensions
 <CascadingValue Value=this>
     <div @ref="@ElementRef" id="@ElementId" class="@ContainerClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" @attributes="@Attributes">
         <div id="@SelectorElementId" class="ant-select-selector" @onclick="@OnSelectorClickHandler">

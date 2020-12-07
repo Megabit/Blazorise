@@ -1,7 +1,0 @@
-﻿@inherits BaseValidationResult
-@if ( ParentValidation?.Status == ValidationStatus.Success )
-{
-    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </div>
-}

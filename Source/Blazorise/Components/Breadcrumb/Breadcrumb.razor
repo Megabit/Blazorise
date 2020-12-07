@@ -1,0 +1,9 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+<CascadingValue Value=this>
+    <nav aria-label="breadcrumb">
+        <ol class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </ol>
+    </nav>
+</CascadingValue>
