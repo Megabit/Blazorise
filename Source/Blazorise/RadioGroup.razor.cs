@@ -71,6 +71,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.RadioGroup( Buttons ) );
             builder.Append( ClassProvider.RadioGroupInline(), Inline );
+            builder.Append( ClassProvider.RadioGroupValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }
