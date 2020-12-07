@@ -6,11 +6,13 @@
         <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes" data-toggle="buttons">
             @ChildContent
         </div>
+        @Feedback
     }
     else
     {
         <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </div>
+        @Feedback
     }
 </CascadingValue>

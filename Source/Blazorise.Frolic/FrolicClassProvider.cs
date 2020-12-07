@@ -88,6 +88,8 @@ namespace Blazorise.Frolic
 
         public override string RadioGroupInline() => null;
 
+        public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
         #endregion
 
         #region Radio
