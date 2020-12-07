@@ -129,6 +129,14 @@ namespace Blazorise.DataGrid
         #region Properties
 
         /// <summary>
+        /// Returns true if the cell value is editable.
+        /// </summary>
+        public bool CellValueIsEditable
+            => Editable &&
+            ( ( CellsEditableOnNewCommand && ParentDataGrid?.EditState == DataGridEditState.New )
+            || ( CellsEditableOnEditCommand && ParentDataGrid?.EditState == DataGridEditState.Edit ) );
+
+        /// <summary>
         /// Gets or sets the current sort direction.
         /// </summary>
         /// <remarks>

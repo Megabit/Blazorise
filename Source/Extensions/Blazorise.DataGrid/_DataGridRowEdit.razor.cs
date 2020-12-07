@@ -22,13 +22,6 @@ namespace Blazorise.DataGrid
 
         #region Methods
 
-        protected bool CellAreEditable( DataGridColumn<TItem> column )
-        {
-            return column.Editable &&
-                ( ( column.CellsEditableOnNewCommand && ParentDataGrid?.EditState == DataGridEditState.New )
-                || ( column.CellsEditableOnEditCommand && ParentDataGrid?.EditState == DataGridEditState.Edit ) );
-        }
-
         protected void ValidationsStatusChanged( ValidationsStatusChangedEventArgs args )
         {
             isInvalid = args.Status == ValidationStatus.Error;

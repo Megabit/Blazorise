@@ -28,7 +28,7 @@
                         @if ( column.ColumnType == DataGridColumnType.Command )
                             continue;
 
-                        @if ( column.Editable )
+                        @if ( column.CellValueIsEditable )
                         {
                             <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
                                 <Field>
