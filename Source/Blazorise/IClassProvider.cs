@@ -87,6 +87,8 @@ namespace Blazorise
 
         string RadioGroupInline();
 
+        string RadioGroupValidation( ValidationStatus validationStatus );
+
         #endregion
 
         #region Radio

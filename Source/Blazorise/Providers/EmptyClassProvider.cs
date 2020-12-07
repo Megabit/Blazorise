@@ -91,6 +91,8 @@ namespace Blazorise.Providers
 
         public string RadioGroupInline() => null;
 
+        public string RadioGroupValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region Radio
