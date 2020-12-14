@@ -187,6 +187,7 @@ namespace Blazorise
         [Parameter] public RenderFragment Content { get; set; }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
+        [Parameter] public IFluentColumn ColumnItemsSize { get; set; } = ColumnSize.IsAuto;
 
         #endregion
     }

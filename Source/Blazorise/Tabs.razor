@@ -36,7 +36,7 @@
             else if ( TabPosition == TabPosition.Left )
             {
                 <Row>
-                    <Column ColumnSize="ColumnSize.IsAuto">
+                    <Column ColumnSize="ColumnItemsSize">
                         @if ( Items != null )
                         {
                             <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
@@ -65,7 +65,7 @@
                             </div>
                         }
                     </Column>
-                    <Column ColumnSize="ColumnSize.IsAuto">
+                    <Column ColumnSize="ColumnItemsSize">
                         @if ( Items != null )
                         {
                             <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
