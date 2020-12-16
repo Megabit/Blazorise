@@ -181,7 +181,7 @@ namespace Blazorise
             {
                 if ( parentStepsStore == value )
                     return;
-                Console.WriteLine( "ParentStepsStore" );
+
                 parentStepsStore = value;
 
                 DirtyClasses();
