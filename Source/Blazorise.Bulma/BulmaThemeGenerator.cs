@@ -234,6 +234,67 @@ namespace Blazorise.Bulma
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
+        {
+            sb
+                .Append( $".steps .step-item.is-completed::before" ).Append( "{" )
+                .Append( $"background-position: left bottom;" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".steps .step-item.is-completed .step-marker" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.White )};" )
+                .Append( $"background-color: {Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".steps .step-item.is-active.is-completed .step-marker," )
+                .Append( $".steps .step-item.is-active .step-marker" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.White )};" )
+                .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
+        {
+            sb
+                .Append( $".steps .step-item.is-{variant}::before" ).Append( "{" )
+                .Append( $"background: linear-gradient(to left, #dbdbdb 50%, {Var( ThemeVariables.VariantStepsItemIcon( variant ) )} 50%);" )
+                .Append( $"background-size: 200% 100%;" )
+                .Append( $"background-position: right bottom;" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".steps .step-item.is-{variant} .step-marker" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantStepsItemIconYiq( variant ) )};" )
+                .Append( $"background-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".steps .step-item.is-{variant}.is-completed::before" ).Append( "{" )
+                .Append( $"background-position: left bottom;" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".steps .step-item.is-{variant}.is-completed .step-marker" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemIconCompletedYiq )};" )
+                .Append( $"background-color: {Var( ThemeVariables.StepsItemIconCompleted )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".steps .step-item.is-{variant}.is-active::before" ).Append( "{" )
+                .Append( $"background-position: left bottom;" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".steps .step-item.is-{variant}.is-active.is-completed .step-marker," )
+                .Append( $".steps .step-item.is-{variant}.is-active .step-marker" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq, Var( ThemeVariables.White ) )};" )
+                .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .Append( $"border-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
+        }
+
         protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
         {
             var backgroundColor = ParseColor( inBackgroundColor );

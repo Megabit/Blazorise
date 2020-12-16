@@ -56,6 +56,8 @@ namespace Blazorise.Bulma
             serviceCollection.AddTransient( typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) );
             serviceCollection.AddTransient<Blazorise.Pagination, Bulma.Pagination>();
             serviceCollection.AddTransient<Blazorise.PaginationLink, Bulma.PaginationLink>();
+            serviceCollection.AddTransient<Blazorise.Steps, Bulma.Steps>();
+            serviceCollection.AddTransient<Blazorise.Step, Bulma.Step>();
 
             return serviceCollection;
         }

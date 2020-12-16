@@ -30,15 +30,33 @@ namespace Blazorise
         {
             if ( ParentTabs != null )
             {
-                ParentTabs.HookPanel( Name );
+                ParentTabs.NotifyTabPanelInitialized( Name );
             }
 
             if ( ParentTabsContent != null )
             {
-                ParentTabsContent.Hook( Name );
+                ParentTabsContent.NotifyTabPanelInitialized( Name );
             }
 
             base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentTabs != null )
+                {
+                    ParentTabs.NotifyTabPanelRemoved( Name );
+                }
+
+                if ( ParentTabsContent != null )
+                {
+                    ParentTabsContent.NotifyTabPanelRemoved( Name );
+                }
+            }
+
+            base.Dispose( disposing );
         }
 
         #endregion

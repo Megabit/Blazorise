@@ -323,7 +323,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Tab
+        #region Tabs
 
         string Tabs( bool pills );
 
@@ -352,6 +352,30 @@ namespace Blazorise
         string TabPanel();
 
         string TabPanelActive( bool active );
+
+        #endregion
+
+        #region Steps
+
+        string Steps();
+
+        string StepItem();
+
+        string StepItemActive( bool active );
+
+        string StepItemCompleted( bool completed );
+
+        string StepItemColor( Color color );
+
+        string StepItemMarker();
+
+        string StepItemDescription();
+
+        string StepsContent();
+
+        string StepPanel();
+
+        string StepPanelActive( bool active );
 
         #endregion
 

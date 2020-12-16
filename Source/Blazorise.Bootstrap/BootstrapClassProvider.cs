@@ -364,7 +364,7 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
-        #region Tab
+        #region Tabs
 
         public override string Tabs( bool pills ) => pills ? "nav nav-pills" : "nav nav-tabs";
 
@@ -393,6 +393,30 @@ namespace Blazorise.Bootstrap
         public override string TabPanel() => "tab-pane";
 
         public override string TabPanelActive( bool active ) => active ? $"{Active()} {Show()}" : null;
+
+        #endregion
+
+        #region Steps
+
+        public override string Steps() => "steps";
+
+        public override string StepItem() => "step";
+
+        public override string StepItemActive( bool active ) => active ? "step-active" : null;
+
+        public override string StepItemCompleted( bool completed ) => completed ? "step-completed" : null;
+
+        public override string StepItemColor( Color color ) => $"{StepItem()}-{ToColor( color )}";
+
+        public override string StepItemMarker() => "step-circle";
+
+        public override string StepItemDescription() => "step-text";
+
+        public override string StepsContent() => "steps-content";
+
+        public override string StepPanel() => "step-panel";
+
+        public override string StepPanelActive( bool active ) => active ? "active" : null;
 
         #endregion
 

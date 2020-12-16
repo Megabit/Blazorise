@@ -324,7 +324,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Tab
+        #region Tabs
 
         public abstract string Tabs( bool pills );
 
@@ -353,6 +353,30 @@ namespace Blazorise
         public abstract string TabPanel();
 
         public abstract string TabPanelActive( bool active );
+
+        #endregion
+
+        #region Steps
+
+        public abstract string Steps();
+
+        public abstract string StepItem();
+
+        public abstract string StepItemActive( bool active );
+
+        public abstract string StepItemCompleted( bool completed );
+
+        public abstract string StepItemColor( Color color );
+
+        public abstract string StepItemMarker();
+
+        public abstract string StepItemDescription();
+
+        public abstract string StepsContent();
+
+        public abstract string StepPanel();
+
+        public abstract string StepPanelActive( bool active );
 
         #endregion
 

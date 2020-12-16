@@ -80,6 +80,7 @@ namespace Blazorise.AntDesign
             serviceCollection.AddTransient<Blazorise.Table, AntDesign.Table>();
             serviceCollection.AddTransient<Blazorise.TableRowHeader, AntDesign.TableRowHeader>();
             serviceCollection.AddTransient<Blazorise.TextEdit, AntDesign.TextEdit>();
+            serviceCollection.AddTransient<Blazorise.Step, AntDesign.Step>();
 
             return serviceCollection;
         }

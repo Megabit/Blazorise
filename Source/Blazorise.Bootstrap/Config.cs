@@ -51,6 +51,7 @@ namespace Blazorise.Bootstrap
             serviceCollection.AddTransient<Blazorise.Button, Bootstrap.Button>();
             serviceCollection.AddTransient( typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) );
             serviceCollection.AddTransient( typeof( Blazorise.Switch<> ), typeof( Bootstrap.Switch<> ) );
+            serviceCollection.AddTransient<Blazorise.Step, Bootstrap.Step>();
 
             return serviceCollection;
         }

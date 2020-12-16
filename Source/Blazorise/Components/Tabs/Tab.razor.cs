@@ -56,7 +56,7 @@ namespace Blazorise
         {
             if ( ParentTabs != null )
             {
-                ParentTabs.HookTab( Name );
+                ParentTabs.NotifyTabInitialized( Name );
             }
 
             base.OnInitialized();
