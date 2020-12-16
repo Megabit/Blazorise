@@ -910,6 +910,22 @@ $breadcrumb-divider: quote("/") !default;
 
 $breadcrumb-border-radius: $border-radius !default;
 
+// Steps
+
+$step-gutter: 1rem !default;
+$step-container-width: 5rem !default;
+$step-container-padding-top: .5rem !default;
+$step-circle-size: 1.5rem !default;
+$step-circle-border-width: 2px !default;
+
+$step-icon-color: $gray-500 !default
+$step-icon-background: #fff !default
+$step-icon-completed-color: $success !default
+$step-icon-active-color: $primary !default;
+
+$step-text-color: $gray-500 !default;
+$step-text-completed-color: $primary !default;
+$step-text-active-color: $primary !default;
 
 // Carousel
 

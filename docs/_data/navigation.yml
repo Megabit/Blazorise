@@ -100,6 +100,8 @@ docs:
         url: /docs/components/tooltip/
       - title: "Typography"
         url: /docs/components/typography/
+      - title: "Step"
+        url: /docs/components/step/
   - title: Extensions
     url: /docs/extensions/
     children:

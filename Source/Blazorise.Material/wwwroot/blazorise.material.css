@@ -421,6 +421,183 @@ input.form-control[type=color] {
     width: 1rem;
     height: 1rem; }
 
+.stepper-primary.done .stepper-icon {
+    background-color: #9c27b0; }
+
+.stepper-primary.done .stepper-text {
+    color: #9c27b0; }
+
+.stepper-primary.active .stepper-icon {
+    background-color: #9c27b0;
+    color: #ffffff; }
+
+.stepper-primary.active .stepper-text {
+    color: #9c27b0; }
+
+.stepper-primary .stepper-icon {
+    background-color: #9c27b0; }
+
+.stepper-primary .stepper-text {
+    color: #9c27b0; }
+
+.stepper-secondary.done .stepper-icon {
+    background-color: #ff4081; }
+
+.stepper-secondary.done .stepper-text {
+    color: #ff4081; }
+
+.stepper-secondary.active .stepper-icon {
+    background-color: #9c27b0;
+    color: #ffffff; }
+
+.stepper-secondary.active .stepper-text {
+    color: #ff4081; }
+
+.stepper-secondary .stepper-icon {
+    background-color: #ff4081; }
+
+.stepper-secondary .stepper-text {
+    color: #ff4081; }
+
+.stepper-success.done .stepper-icon {
+    background-color: #4caf50; }
+
+.stepper-success.done .stepper-text {
+    color: #4caf50; }
+
+.stepper-success.active .stepper-icon {
+    background-color: #9c27b0;
+    color: #ffffff; }
+
+.stepper-success.active .stepper-text {
+    color: #4caf50; }
+
+.stepper-success .stepper-icon {
+    background-color: #4caf50; }
+
+.stepper-success .stepper-text {
+    color: #4caf50; }
+
+.stepper-info.done .stepper-icon {
+    background-color: #2196f3; }
+
+.stepper-info.done .stepper-text {
+    color: #2196f3; }
+
+.stepper-info.active .stepper-icon {
+    background-color: #9c27b0;
+    color: #ffffff; }
+
+.stepper-info.active .stepper-text {
+    color: #2196f3; }
+
+.stepper-info .stepper-icon {
+    background-color: #2196f3; }
+
+.stepper-info .stepper-text {
+    color: #2196f3; }
+
+.stepper-warning.done .stepper-icon {
+    background-color: #ff9800; }
+
+.stepper-warning.done .stepper-text {
+    color: #ff9800; }
+
+.stepper-warning.active .stepper-icon {
+    background-color: #9c27b0;
+    color: #ffffff; }
+
+.stepper-warning.active .stepper-text {
+    color: #ff9800; }
+
+.stepper-warning .stepper-icon {
+    background-color: #ff9800; }
+
+.stepper-warning .stepper-text {
+    color: #ff9800; }
+
+.stepper-danger.done .stepper-icon {
+    background-color: #f44336; }
+
+.stepper-danger.done .stepper-text {
+    color: #f44336; }
+
+.stepper-danger.active .stepper-icon {
+    background-color: #9c27b0;
+    color: #ffffff; }
+
+.stepper-danger.active .stepper-text {
+    color: #f44336; }
+
+.stepper-danger .stepper-icon {
+    background-color: #f44336; }
+
+.stepper-danger .stepper-text {
+    color: #f44336; }
+
+.stepper-light.done .stepper-icon {
+    background-color: #f5f5f5; }
+
+.stepper-light.done .stepper-text {
+    color: #f5f5f5; }
+
+.stepper-light.active .stepper-icon {
+    background-color: #9c27b0;
+    color: #ffffff; }
+
+.stepper-light.active .stepper-text {
+    color: #f5f5f5; }
+
+.stepper-light .stepper-icon {
+    background-color: #f5f5f5; }
+
+.stepper-light .stepper-text {
+    color: #f5f5f5; }
+
+.stepper-dark.done .stepper-icon {
+    background-color: #424242; }
+
+.stepper-dark.done .stepper-text {
+    color: #424242; }
+
+.stepper-dark.active .stepper-icon {
+    background-color: #9c27b0;
+    color: #ffffff; }
+
+.stepper-dark.active .stepper-text {
+    color: #424242; }
+
+.stepper-dark .stepper-icon {
+    background-color: #424242; }
+
+.stepper-dark .stepper-text {
+    color: #424242; }
+
+.stepper-link.done .stepper-icon {
+    background-color: #3273dc; }
+
+.stepper-link.done .stepper-text {
+    color: #3273dc; }
+
+.stepper-link.active .stepper-icon {
+    background-color: #9c27b0;
+    color: #ffffff; }
+
+.stepper-link.active .stepper-text {
+    color: #3273dc; }
+
+.stepper-link .stepper-icon {
+    background-color: #3273dc; }
+
+.stepper-link .stepper-text {
+    color: #3273dc; }
+
+.stepper-horiz-content > .stepper-panel {
+    display: none; }
+
+.stepper-horiz-content > .active {
+    display: block; }
+
 .custom-switch .custom-control-input:checked.custom-control-input-primary ~ .custom-control-label::after {
     background-color: #9c27b0; }
 

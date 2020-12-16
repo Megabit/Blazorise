@@ -1941,6 +1941,288 @@
 .ant-typography-white-50 {
     color: rgba(255, 255, 255, 0.5) !important; }
 
+.ant-steps-item.ant-steps-item-active.ant-steps-item-process.ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #1890ff; }
+    .ant-steps-item.ant-steps-item-active.ant-steps-item-process.ant-steps-item-finish .ant-steps-item-icon .ant-steps-icon {
+        color: #fff; }
+
+.ant-steps-item-primary.ant-steps-item-finish .ant-steps-item-content .ant-steps-item-title {
+    color: #1890ff; }
+
+.ant-steps-item-primary.ant-steps-item-wait .ant-steps-item-icon {
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-primary.ant-steps-item-wait .ant-steps-item-content .ant-steps-item-title {
+    color: #1890ff; }
+
+.ant-steps-item-primary.ant-steps-item-active.ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-primary.ant-steps-item-active.ant-steps-item-process .ant-steps-icon {
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-primary.ant-steps-item-active.ant-steps-item-process .ant-steps-item-content .ant-steps-item-title {
+    color: #1890ff; }
+
+.ant-steps-item-primary .ant-steps-item-icon {
+    border-color: #1890ff; }
+    .ant-steps-item-primary .ant-steps-item-icon .ant-steps-icon {
+        color: #1890ff; }
+
+.ant-steps-item-primary .ant-steps-item-content .ant-steps-item-title {
+    color: #1890ff; }
+
+.ant-steps-item-secondary.ant-steps-item-finish .ant-steps-item-content .ant-steps-item-title {
+    color: #6c757d; }
+
+.ant-steps-item-secondary.ant-steps-item-wait .ant-steps-item-icon {
+    border-color: #6c757d;
+    color: #fff; }
+
+.ant-steps-item-secondary.ant-steps-item-wait .ant-steps-item-content .ant-steps-item-title {
+    color: #6c757d; }
+
+.ant-steps-item-secondary.ant-steps-item-active.ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-secondary.ant-steps-item-active.ant-steps-item-process .ant-steps-icon {
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-secondary.ant-steps-item-active.ant-steps-item-process .ant-steps-item-content .ant-steps-item-title {
+    color: #6c757d; }
+
+.ant-steps-item-secondary .ant-steps-item-icon {
+    border-color: #6c757d; }
+    .ant-steps-item-secondary .ant-steps-item-icon .ant-steps-icon {
+        color: #6c757d; }
+
+.ant-steps-item-secondary .ant-steps-item-content .ant-steps-item-title {
+    color: #6c757d; }
+
+.ant-steps-item-success.ant-steps-item-finish .ant-steps-item-content .ant-steps-item-title {
+    color: #35c613; }
+
+.ant-steps-item-success.ant-steps-item-wait .ant-steps-item-icon {
+    border-color: #35c613;
+    color: #fff; }
+
+.ant-steps-item-success.ant-steps-item-wait .ant-steps-item-content .ant-steps-item-title {
+    color: #35c613; }
+
+.ant-steps-item-success.ant-steps-item-active.ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-success.ant-steps-item-active.ant-steps-item-process .ant-steps-icon {
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-success.ant-steps-item-active.ant-steps-item-process .ant-steps-item-content .ant-steps-item-title {
+    color: #35c613; }
+
+.ant-steps-item-success .ant-steps-item-icon {
+    border-color: #35c613; }
+    .ant-steps-item-success .ant-steps-item-icon .ant-steps-icon {
+        color: #35c613; }
+
+.ant-steps-item-success .ant-steps-item-content .ant-steps-item-title {
+    color: #35c613; }
+
+.ant-steps-item-info.ant-steps-item-finish .ant-steps-item-content .ant-steps-item-title {
+    color: #60b6f4; }
+
+.ant-steps-item-info.ant-steps-item-wait .ant-steps-item-icon {
+    border-color: #60b6f4;
+    color: #fff; }
+
+.ant-steps-item-info.ant-steps-item-wait .ant-steps-item-content .ant-steps-item-title {
+    color: #60b6f4; }
+
+.ant-steps-item-info.ant-steps-item-active.ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-info.ant-steps-item-active.ant-steps-item-process .ant-steps-icon {
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-info.ant-steps-item-active.ant-steps-item-process .ant-steps-item-content .ant-steps-item-title {
+    color: #60b6f4; }
+
+.ant-steps-item-info .ant-steps-item-icon {
+    border-color: #60b6f4; }
+    .ant-steps-item-info .ant-steps-item-icon .ant-steps-icon {
+        color: #60b6f4; }
+
+.ant-steps-item-info .ant-steps-item-content .ant-steps-item-title {
+    color: #60b6f4; }
+
+.ant-steps-item-warning.ant-steps-item-finish .ant-steps-item-content .ant-steps-item-title {
+    color: #f7c12a; }
+
+.ant-steps-item-warning.ant-steps-item-wait .ant-steps-item-icon {
+    border-color: #f7c12a;
+    color: #fff; }
+
+.ant-steps-item-warning.ant-steps-item-wait .ant-steps-item-content .ant-steps-item-title {
+    color: #f7c12a; }
+
+.ant-steps-item-warning.ant-steps-item-active.ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-warning.ant-steps-item-active.ant-steps-item-process .ant-steps-icon {
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-warning.ant-steps-item-active.ant-steps-item-process .ant-steps-item-content .ant-steps-item-title {
+    color: #f7c12a; }
+
+.ant-steps-item-warning .ant-steps-item-icon {
+    border-color: #f7c12a; }
+    .ant-steps-item-warning .ant-steps-item-icon .ant-steps-icon {
+        color: #f7c12a; }
+
+.ant-steps-item-warning .ant-steps-item-content .ant-steps-item-title {
+    color: #f7c12a; }
+
+.ant-steps-item-danger.ant-steps-item-finish .ant-steps-item-content .ant-steps-item-title {
+    color: #ff4d4f; }
+
+.ant-steps-item-danger.ant-steps-item-wait .ant-steps-item-icon {
+    border-color: #ff4d4f;
+    color: #fff; }
+
+.ant-steps-item-danger.ant-steps-item-wait .ant-steps-item-content .ant-steps-item-title {
+    color: #ff4d4f; }
+
+.ant-steps-item-danger.ant-steps-item-active.ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-danger.ant-steps-item-active.ant-steps-item-process .ant-steps-icon {
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-danger.ant-steps-item-active.ant-steps-item-process .ant-steps-item-content .ant-steps-item-title {
+    color: #ff4d4f; }
+
+.ant-steps-item-danger .ant-steps-item-icon {
+    border-color: #ff4d4f; }
+    .ant-steps-item-danger .ant-steps-item-icon .ant-steps-icon {
+        color: #ff4d4f; }
+
+.ant-steps-item-danger .ant-steps-item-content .ant-steps-item-title {
+    color: #ff4d4f; }
+
+.ant-steps-item-light.ant-steps-item-finish .ant-steps-item-content .ant-steps-item-title {
+    color: #fafafa; }
+
+.ant-steps-item-light.ant-steps-item-wait .ant-steps-item-icon {
+    border-color: #fafafa;
+    color: #fff; }
+
+.ant-steps-item-light.ant-steps-item-wait .ant-steps-item-content .ant-steps-item-title {
+    color: #fafafa; }
+
+.ant-steps-item-light.ant-steps-item-active.ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-light.ant-steps-item-active.ant-steps-item-process .ant-steps-icon {
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-light.ant-steps-item-active.ant-steps-item-process .ant-steps-item-content .ant-steps-item-title {
+    color: #fafafa; }
+
+.ant-steps-item-light .ant-steps-item-icon {
+    border-color: #fafafa; }
+    .ant-steps-item-light .ant-steps-item-icon .ant-steps-icon {
+        color: #fafafa; }
+
+.ant-steps-item-light .ant-steps-item-content .ant-steps-item-title {
+    color: #fafafa; }
+
+.ant-steps-item-dark.ant-steps-item-finish .ant-steps-item-content .ant-steps-item-title {
+    color: #343a40; }
+
+.ant-steps-item-dark.ant-steps-item-wait .ant-steps-item-icon {
+    border-color: #343a40;
+    color: #fff; }
+
+.ant-steps-item-dark.ant-steps-item-wait .ant-steps-item-content .ant-steps-item-title {
+    color: #343a40; }
+
+.ant-steps-item-dark.ant-steps-item-active.ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-dark.ant-steps-item-active.ant-steps-item-process .ant-steps-icon {
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-dark.ant-steps-item-active.ant-steps-item-process .ant-steps-item-content .ant-steps-item-title {
+    color: #343a40; }
+
+.ant-steps-item-dark .ant-steps-item-icon {
+    border-color: #343a40; }
+    .ant-steps-item-dark .ant-steps-item-icon .ant-steps-icon {
+        color: #343a40; }
+
+.ant-steps-item-dark .ant-steps-item-content .ant-steps-item-title {
+    color: #343a40; }
+
+.ant-steps-item-link.ant-steps-item-finish .ant-steps-item-content .ant-steps-item-title {
+    color: #3273dc; }
+
+.ant-steps-item-link.ant-steps-item-wait .ant-steps-item-icon {
+    border-color: #3273dc;
+    color: #fff; }
+
+.ant-steps-item-link.ant-steps-item-wait .ant-steps-item-content .ant-steps-item-title {
+    color: #3273dc; }
+
+.ant-steps-item-link.ant-steps-item-active.ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-link.ant-steps-item-active.ant-steps-item-process .ant-steps-icon {
+    border-color: #1890ff;
+    color: #fff; }
+
+.ant-steps-item-link.ant-steps-item-active.ant-steps-item-process .ant-steps-item-content .ant-steps-item-title {
+    color: #3273dc; }
+
+.ant-steps-item-link .ant-steps-item-icon {
+    border-color: #3273dc; }
+    .ant-steps-item-link .ant-steps-item-icon .ant-steps-icon {
+        color: #3273dc; }
+
+.ant-steps-item-link .ant-steps-item-content .ant-steps-item-title {
+    color: #3273dc; }
+
+.ant-steps-content {
+    margin: 1rem 0; }
+    .ant-steps-content > .ant-steps-panel {
+        display: none; }
+    .ant-steps-content > .ant-steps-panel-active {
+        display: block; }
+
 .ant-switch.ant-switch-primary.ant-switch-checked {
     background-color: #1890ff; }
 

@@ -361,7 +361,7 @@ namespace Blazorise.AntDesign
 
         #endregion
 
-        #region Tab
+        #region Tabs
 
         public override string Tabs( bool pills ) => pills ? "ant-tabs ant-tabs-top ant-tabs-line ant-tabs-pills" : "ant-tabs ant-tabs-top ant-tabs-line";
 
@@ -390,6 +390,30 @@ namespace Blazorise.AntDesign
         public override string TabPanel() => "ant-tabs-tabpane";
 
         public override string TabPanelActive( bool active ) => active ? "ant-tabs-tabpane-active" : "ant-tabs-tabpane-inactive";
+
+        #endregion
+
+        #region Steps
+
+        public override string Steps() => "ant-steps ant-steps-horizontal ant-steps-label-horizontal";
+
+        public override string StepItem() => "ant-steps-item";
+
+        public override string StepItemActive( bool active ) => active ? "ant-steps-item-process ant-steps-item-active" : "ant-steps-item-wait";
+
+        public override string StepItemCompleted( bool completed ) => completed ? "ant-steps-item-finish" : null;
+
+        public override string StepItemColor( Color color ) => $"ant-steps-item-{ToColor( color )}";
+
+        public override string StepItemMarker() => "ant-steps-item-icon";
+
+        public override string StepItemDescription() => "ant-steps-item-content";
+
+        public override string StepsContent() => "ant-steps-content";
+
+        public override string StepPanel() => "ant-steps-panel";
+
+        public override string StepPanelActive( bool active ) => active ? "ant-steps-panel-active" : null;
 
         #endregion
 

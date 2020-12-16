@@ -141,6 +141,8 @@ namespace Blazorise
 
         public ThemeSnackbarOptions SnackbarOptions { get; set; }
 
+        public ThemeStepsOptions StepsOptions { get; set; }
+
         public ThemeBarOptions BarOptions { get; set; }
 
         public ThemeDividerOptions DividerOptions { get; set; }

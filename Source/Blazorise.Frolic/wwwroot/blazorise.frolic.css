@@ -1444,6 +1444,328 @@ select.e-select {
 .e-progress.e-progress-huge {
     height: 28px !important; }
 
+.e-steps {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 1rem;
+    min-height: 2rem;
+    /* &.e-steps-small {
+        @include steps-size($size-small);
+    }*/
+    /*&.e-steps-medium {
+        @include steps-size($size-medium);
+    }
+
+    &.e-steps-large {
+        @include steps-size($size-large);
+    }*/ }
+    .e-steps:not(:last-child) {
+        margin-bottom: 1.5rem; }
+    .e-steps .e-step-item {
+        margin-top: 0;
+        position: relative;
+        flex-grow: 1;
+        flex-basis: 0; }
+        .e-steps .e-step-item:not(:first-child) {
+            flex-basis: 1em;
+            flex-grow: 1;
+            flex-shrink: 1; }
+            .e-steps .e-step-item:not(:first-child)::before {
+                content: " ";
+                display: block;
+                position: absolute; }
+        .e-steps .e-step-item::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #1da1f2 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+            .e-steps .e-step-item::before .e-step-item-marker {
+                color: #fff; }
+        .e-steps .e-step-item.e-step-item-completed::before {
+            background-position: left bottom; }
+        .e-steps .e-step-item.e-step-item-completed .e-step-item-marker {
+            color: #fff;
+            background-color: #4fd69c; }
+        .e-steps .e-step-item.e-step-item-active::before {
+            background-position: left bottom; }
+        .e-steps .e-step-item.e-step-item-active.e-step-item-completed .e-step-item-marker,
+        .e-steps .e-step-item.e-step-item-active .e-step-item-marker {
+            background-color: #1da1f2;
+            /*border-color: $steps-active-color;*/
+            color: #fff; }
+        .e-steps .e-step-item .e-step-item-marker {
+            align-items: center;
+            display: flex;
+            border-radius: 50%;
+            font-weight: 700;
+            justify-content: center;
+            background: #b5b5b5;
+            color: #fff;
+            border: 0.2em solid #fff;
+            z-index: 1; }
+        .e-steps .e-step-item .e-step-item-details {
+            text-align: center; }
+        .e-steps .e-step-item.e-step-item-primary::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #1da1f2 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .e-steps .e-step-item.e-step-item-primary .e-step-item-marker {
+            background-color: #1da1f2;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-primary.e-step-item-completed::before {
+            background-position: left bottom; }
+        .e-steps .e-step-item.e-step-item-primary.e-step-item-completed .e-step-item-marker {
+            background-color: #1da1f2;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-primary.e-step-item-active {
+            /*.step-marker {
+                        background-color: $white;
+                        border-color: $color;
+                        color: $color;
+                    }*/ }
+            .e-steps .e-step-item.e-step-item-primary.e-step-item-active::before {
+                background-position: left bottom; }
+            .e-steps .e-step-item.e-step-item-primary.e-step-item-active.e-step-item-completed .e-step-item-marker,
+            .e-steps .e-step-item.e-step-item-primary.e-step-item-active .e-step-item-marker {
+                background-color: #1da1f2;
+                border-color: #1da1f2;
+                color: #fff; }
+        .e-steps .e-step-item.e-step-item-gray::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #6c757d 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .e-steps .e-step-item.e-step-item-gray .e-step-item-marker {
+            background-color: #6c757d;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-gray.e-step-item-completed::before {
+            background-position: left bottom; }
+        .e-steps .e-step-item.e-step-item-gray.e-step-item-completed .e-step-item-marker {
+            background-color: #6c757d;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-gray.e-step-item-active {
+            /*.step-marker {
+                        background-color: $white;
+                        border-color: $color;
+                        color: $color;
+                    }*/ }
+            .e-steps .e-step-item.e-step-item-gray.e-step-item-active::before {
+                background-position: left bottom; }
+            .e-steps .e-step-item.e-step-item-gray.e-step-item-active.e-step-item-completed .e-step-item-marker,
+            .e-steps .e-step-item.e-step-item-gray.e-step-item-active .e-step-item-marker {
+                background-color: #1da1f2;
+                border-color: #1da1f2;
+                color: #fff; }
+        .e-steps .e-step-item.e-step-item-success::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #4fd69c 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .e-steps .e-step-item.e-step-item-success .e-step-item-marker {
+            background-color: #4fd69c;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-success.e-step-item-completed::before {
+            background-position: left bottom; }
+        .e-steps .e-step-item.e-step-item-success.e-step-item-completed .e-step-item-marker {
+            background-color: #4fd69c;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-success.e-step-item-active {
+            /*.step-marker {
+                        background-color: $white;
+                        border-color: $color;
+                        color: $color;
+                    }*/ }
+            .e-steps .e-step-item.e-step-item-success.e-step-item-active::before {
+                background-position: left bottom; }
+            .e-steps .e-step-item.e-step-item-success.e-step-item-active.e-step-item-completed .e-step-item-marker,
+            .e-steps .e-step-item.e-step-item-success.e-step-item-active .e-step-item-marker {
+                background-color: #1da1f2;
+                border-color: #1da1f2;
+                color: #fff; }
+        .e-steps .e-step-item.e-step-item-info::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #54c7ec 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .e-steps .e-step-item.e-step-item-info .e-step-item-marker {
+            background-color: #54c7ec;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-info.e-step-item-completed::before {
+            background-position: left bottom; }
+        .e-steps .e-step-item.e-step-item-info.e-step-item-completed .e-step-item-marker {
+            background-color: #54c7ec;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-info.e-step-item-active {
+            /*.step-marker {
+                        background-color: $white;
+                        border-color: $color;
+                        color: $color;
+                    }*/ }
+            .e-steps .e-step-item.e-step-item-info.e-step-item-active::before {
+                background-position: left bottom; }
+            .e-steps .e-step-item.e-step-item-info.e-step-item-active.e-step-item-completed .e-step-item-marker,
+            .e-steps .e-step-item.e-step-item-info.e-step-item-active .e-step-item-marker {
+                background-color: #1da1f2;
+                border-color: #1da1f2;
+                color: #fff; }
+        .e-steps .e-step-item.e-step-item-warning::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #ffdd57 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .e-steps .e-step-item.e-step-item-warning .e-step-item-marker {
+            background-color: #ffdd57;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-warning.e-step-item-completed::before {
+            background-position: left bottom; }
+        .e-steps .e-step-item.e-step-item-warning.e-step-item-completed .e-step-item-marker {
+            background-color: #ffdd57;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-warning.e-step-item-active {
+            /*.step-marker {
+                        background-color: $white;
+                        border-color: $color;
+                        color: $color;
+                    }*/ }
+            .e-steps .e-step-item.e-step-item-warning.e-step-item-active::before {
+                background-position: left bottom; }
+            .e-steps .e-step-item.e-step-item-warning.e-step-item-active.e-step-item-completed .e-step-item-marker,
+            .e-steps .e-step-item.e-step-item-warning.e-step-item-active .e-step-item-marker {
+                background-color: #1da1f2;
+                border-color: #1da1f2;
+                color: #fff; }
+        .e-steps .e-step-item.e-step-item-danger::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #f64669 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .e-steps .e-step-item.e-step-item-danger .e-step-item-marker {
+            background-color: #f64669;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-danger.e-step-item-completed::before {
+            background-position: left bottom; }
+        .e-steps .e-step-item.e-step-item-danger.e-step-item-completed .e-step-item-marker {
+            background-color: #f64669;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-danger.e-step-item-active {
+            /*.step-marker {
+                        background-color: $white;
+                        border-color: $color;
+                        color: $color;
+                    }*/ }
+            .e-steps .e-step-item.e-step-item-danger.e-step-item-active::before {
+                background-position: left bottom; }
+            .e-steps .e-step-item.e-step-item-danger.e-step-item-active.e-step-item-completed .e-step-item-marker,
+            .e-steps .e-step-item.e-step-item-danger.e-step-item-active .e-step-item-marker {
+                background-color: #1da1f2;
+                border-color: #1da1f2;
+                color: #fff; }
+        .e-steps .e-step-item.e-step-item-light::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #f5f5f5 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .e-steps .e-step-item.e-step-item-light .e-step-item-marker {
+            background-color: #f5f5f5;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-light.e-step-item-completed::before {
+            background-position: left bottom; }
+        .e-steps .e-step-item.e-step-item-light.e-step-item-completed .e-step-item-marker {
+            background-color: #f5f5f5;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-light.e-step-item-active {
+            /*.step-marker {
+                        background-color: $white;
+                        border-color: $color;
+                        color: $color;
+                    }*/ }
+            .e-steps .e-step-item.e-step-item-light.e-step-item-active::before {
+                background-position: left bottom; }
+            .e-steps .e-step-item.e-step-item-light.e-step-item-active.e-step-item-completed .e-step-item-marker,
+            .e-steps .e-step-item.e-step-item-light.e-step-item-active .e-step-item-marker {
+                background-color: #1da1f2;
+                border-color: #1da1f2;
+                color: #fff; }
+        .e-steps .e-step-item.e-step-item-dark::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #343a40 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .e-steps .e-step-item.e-step-item-dark .e-step-item-marker {
+            background-color: #343a40;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-dark.e-step-item-completed::before {
+            background-position: left bottom; }
+        .e-steps .e-step-item.e-step-item-dark.e-step-item-completed .e-step-item-marker {
+            background-color: #343a40;
+            /*border-color: $color;*/
+            color: #fff; }
+        .e-steps .e-step-item.e-step-item-dark.e-step-item-active {
+            /*.step-marker {
+                        background-color: $white;
+                        border-color: $color;
+                        color: $color;
+                    }*/ }
+            .e-steps .e-step-item.e-step-item-dark.e-step-item-active::before {
+                background-position: left bottom; }
+            .e-steps .e-step-item.e-step-item-dark.e-step-item-active.e-step-item-completed .e-step-item-marker,
+            .e-steps .e-step-item.e-step-item-dark.e-step-item-active .e-step-item-marker {
+                background-color: #1da1f2;
+                border-color: #1da1f2;
+                color: #fff; }
+    .e-steps .e-steps-content {
+        align-items: stretch;
+        flex-basis: 100%;
+        margin: 1rem 0; }
+        .e-steps .e-steps-content .e-step-content {
+            display: none; }
+            .e-steps .e-steps-content .e-step-content.e-step-item-active {
+                display: block; }
+    .e-steps .e-steps-actions {
+        display: flex;
+        align-items: stretch;
+        flex-basis: 100%; }
+        .e-steps .e-steps-actions .e-steps-action {
+            display: flex;
+            flex-basis: 0;
+            flex-grow: 1;
+            margin: .5rem;
+            justify-content: center;
+            align-items: center; }
+    .e-steps.e-steps-animated .e-step-item::before {
+        transition: all 2s ease; }
+    .e-steps.e-steps-animated .e-step-item .e-step-item-marker {
+        transition: all 0s ease;
+        transition-delay: 1.5s; }
+    .e-steps .e-step-item:not(:first-child)::before {
+        height: 0.2em;
+        width: 100%;
+        bottom: 0;
+        left: -50%;
+        top: 1rem; }
+    .e-steps .e-step-item .e-step-item-marker {
+        height: 2rem;
+        width: 2rem;
+        position: absolute;
+        left: calc(50% - 1rem); }
+        .e-steps .e-step-item .e-step-item-marker .icon * {
+            font-size: 1rem; }
+    .e-steps .e-step-item .e-step-item-details {
+        margin-top: 2rem;
+        margin-left: .5em;
+        margin-right: .5em;
+        padding-top: .2em; }
+        .e-steps .e-step-item .e-step-item-details .e-step-item-title {
+            font-size: 1.2rem;
+            font-weight: 600; }
+
 .e-switch[type="checkbox"] {
     outline: 0;
     user-select: none;
