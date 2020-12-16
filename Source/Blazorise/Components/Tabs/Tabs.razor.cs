@@ -49,14 +49,28 @@ namespace Blazorise
             builder.Append( ClassProvider.TabsContent() );
         }
 
-        internal void HookTab( string tabName )
+        internal void NotifyTabInitialized( string name )
         {
-            tabItems.Add( tabName );
+            if ( !tabItems.Contains( name ) )
+                tabItems.Add( name );
         }
 
-        internal void HookPanel( string panelName )
+        internal void NotifyTabRemoved( string name )
         {
-            tabPanels.Add( panelName );
+            if ( tabItems.Contains( name ) )
+                tabItems.Remove( name );
+        }
+
+        internal void NotifyTabPanelInitialized( string name )
+        {
+            if ( !tabPanels.Contains( name ) )
+                tabPanels.Add( name );
+        }
+
+        internal void NotifyTabPanelRemoved( string name )
+        {
+            if ( tabPanels.Contains( name ) )
+                tabPanels.Remove( name );
         }
 
         /// <summary>

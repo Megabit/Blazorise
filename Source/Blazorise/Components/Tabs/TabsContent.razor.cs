@@ -11,7 +11,7 @@ namespace Blazorise
     {
         #region Members
 
-        private List<string> panels = new List<string>();
+        private List<string> tabPanels = new List<string>();
 
         private TabsContentStore store = new TabsContentStore();
 
@@ -26,14 +26,21 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Hook( string panelName )
+        internal void NotifyTabPanelInitialized( string name )
         {
-            panels.Add( panelName );
+            if ( !tabPanels.Contains( name ) )
+                tabPanels.Add( name );
         }
 
-        public void SelectPanel( string panelName )
+        internal void NotifyTabPanelRemoved( string name )
         {
-            SelectedPanel = panelName;
+            if ( tabPanels.Contains( name ) )
+                tabPanels.Remove( name );
+        }
+
+        public void SelectPanel( string name )
+        {
+            SelectedPanel = name;
 
             StateHasChanged();
         }
@@ -44,7 +51,7 @@ namespace Blazorise
 
         protected TabsContentStore Store => store;
 
-        protected int IndexOfSelectedPanel => panels.IndexOf( store.SelectedPanel );
+        protected int IndexOfSelectedPanel => tabPanels.IndexOf( store.SelectedPanel );
 
         /// <summary>
         /// Gets or sets currently selected panel name.
