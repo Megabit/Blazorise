@@ -4,7 +4,7 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Rich Text Editor (based on <Blazorise.Link To="https://quilljs.com/">QuillJs</Blazorise.Link>)</CardTitle>
+                <CardTitle>Rich Text Editor (based on <Blazorise.Link To="https://quilljs.com/">QuillJs</Blazorise.Link>) @lastEvent</CardTitle>
             </CardHeader>
             <CardBody>
                 <CardBody>
@@ -25,6 +25,8 @@
                                   ReadOnly="@readOnly"
                                   SubmitOnEnter="false"
                                   EnterPressed="@OnSave"
+                                  EditorBlur="@(() => lastEvent = " Event rised: Blur" )"
+                                  EditorFocus="@(() => lastEvent = " Event rised: Focus" )"
                                   ToolbarPosition="Placement.Bottom">
                         <Editor>
                             <p><b>Hello </b><i>world</i>!</p>
@@ -157,6 +159,7 @@
     private string contentAsDeltaJson;
     private string contentAsText;
     private string savedContent;
+    private string lastEvent;
 
     public async Task OnContentChanged()
     {
@@ -171,4 +174,5 @@
         modalRef.Show();
         await richTextEditRef.ClearAsync();
     }
+
 }
