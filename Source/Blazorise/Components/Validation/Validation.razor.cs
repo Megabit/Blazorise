@@ -231,7 +231,7 @@ namespace Blazorise
 
             validatorHandler( validatorEventArgs );
 
-            var matchMessages = Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
+            var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
                 ? new string[] { validatorEventArgs.ErrorText }
                 : null;
 
