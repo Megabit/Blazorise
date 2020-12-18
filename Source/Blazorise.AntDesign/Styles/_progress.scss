@@ -9,3 +9,15 @@
     justify-content: center;
     flex-direction: column;
 }
+
+.b-page-progress {
+    .b-page-progress-indicator {
+        @each $name, $value in $theme-colors {
+            $color: $value;
+
+            &.b-page-progress-indicator-#{$name} {
+                background-color: $color;
+            }
+        }
+    }
+}
