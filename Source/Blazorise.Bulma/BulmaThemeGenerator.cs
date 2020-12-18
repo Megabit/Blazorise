@@ -399,6 +399,8 @@ namespace Blazorise.Bulma
             sb.Append( $".progress" ).Append( "{" )
                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
                 .AppendLine( "}" );
+
+            base.GenerateProgressStyles( sb, theme, options );
         }
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )

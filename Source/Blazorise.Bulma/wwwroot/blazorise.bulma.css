@@ -2694,6 +2694,33 @@ body::-webkit-scrollbar {
 .pagination.is-extra-large, .field.has-addons.are-extra-large > .control > .pagination.button {
     font-size: 2rem; }
 
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-primary {
+    background-color: #00d1b2; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-secondary {
+    background-color: #6c757d; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-success {
+    background-color: #48c774; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-info {
+    background-color: #238cd1; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-warning {
+    background-color: #ffd83d; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-danger {
+    background-color: #ef2e55; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-light {
+    background-color: #f5f5f5; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-dark {
+    background-color: #363636; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
+    background-color: #3273dc; }
+
 .steps {
     display: flex;
     flex-wrap: wrap;

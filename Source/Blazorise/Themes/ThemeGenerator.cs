@@ -91,6 +91,7 @@ namespace Blazorise
             GenerateOutlineButtonColorVariables( theme, variant, value, theme.ButtonOptions );
             GenerateSnackbarColorVariables( theme, variant, value, theme.SnackbarOptions );
             GenerateStepsColorVariables( theme, variant, value, theme.StepsOptions );
+            GenerateProgressColorVariables( theme, variant, value, theme.ProgressOptions );
         }
 
         protected virtual void GenerateButtonColorVariables( Theme theme, string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options )
@@ -185,6 +186,18 @@ namespace Blazorise
             variables[ThemeVariables.VariantStepsItemIcon( variant )] = color;
             variables[ThemeVariables.VariantStepsItemIconYiq( variant )] = ToHex( Contrast( theme, color ) );
             variables[ThemeVariables.VariantStepsItemText( variant )] = color;
+        }
+
+        protected virtual void GenerateProgressColorVariables( Theme theme, string variant, string inColor, ThemeProgressOptions options )
+        {
+            var inArgbColor = ParseColor( inColor );
+
+            if ( inArgbColor.IsEmpty )
+                return;
+
+            var color = ToHex( inArgbColor );
+
+            variables[ThemeVariables.VariantPageProgressIndicator( variant )] = color;
         }
 
         protected virtual void GenerateBackgroundVariables( Theme theme, string variant, string inColor )
@@ -510,6 +523,7 @@ namespace Blazorise
             GenerateBadgeVariantStyles( sb, theme, variant, color );
             GenerateSwitchVariantStyles( sb, theme, variant, color, theme.SwitchOptions );
             GenerateStepsVariantStyles( sb, theme, variant, color, theme.StepsOptions );
+            GenerateProgressVariantStyles( sb, theme, variant, color, theme.ProgressOptions );
 
             GenerateAlertVariantStyles( sb, theme, variant,
                 ThemeColorLevelHex( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
@@ -551,6 +565,14 @@ namespace Blazorise
 
         protected abstract void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions );
 
+        protected virtual void GenerateProgressVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeProgressOptions progressOptions )
+        {
+            sb
+                .Append( $".b-page-progress .b-page-progress-indicator.b-page-progress-indicator-{variant}" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.VariantPageProgressIndicator( variant ) )};" )
+                .AppendLine( "}" );
+        }
+
         protected abstract void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options );
 
         protected abstract void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor );
@@ -561,7 +583,16 @@ namespace Blazorise
 
         protected abstract void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options );
 
-        protected abstract void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options );
+        protected virtual void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
+        {
+            if ( !string.IsNullOrEmpty( options?.PageProgressDefaultColor ) )
+            {
+                sb
+                    .Append( $".b-page-progress .b-page-progress-indicator" ).Append( "{" )
+                    .Append( $"background-color: {options.PageProgressDefaultColor};" )
+                    .AppendLine( "}" );
+            }
+        }
 
         protected abstract void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options );
 

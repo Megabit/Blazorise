@@ -366,6 +366,33 @@ input.form-control[type=color] {
     font-size: 1.35rem;
     width: 3.0375rem; }
 
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-primary {
+    background-color: #9c27b0; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-secondary {
+    background-color: #ff4081; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-success {
+    background-color: #4caf50; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-info {
+    background-color: #2196f3; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-warning {
+    background-color: #ff9800; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-danger {
+    background-color: #f44336; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-light {
+    background-color: #f5f5f5; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-dark {
+    background-color: #424242; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
+    background-color: #3273dc; }
+
 @-webkit-keyframes spinner-border {
     to {
         -webkit-transform: rotate(360deg);
