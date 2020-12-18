@@ -46,6 +46,8 @@ namespace Blazorise.Frolic
             serviceCollection.AddTransient<Blazorise.Progress, Frolic.Progress>();
             serviceCollection.AddTransient<Blazorise.Button, Frolic.Button>();
             serviceCollection.AddTransient<Blazorise.Tabs, Frolic.Tabs>();
+            serviceCollection.AddTransient<Blazorise.Steps, Frolic.Steps>();
+            serviceCollection.AddTransient<Blazorise.Step, Frolic.Step>();
 
             return serviceCollection;
         }

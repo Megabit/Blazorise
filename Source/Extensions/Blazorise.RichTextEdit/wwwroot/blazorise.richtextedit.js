@@ -1,6 +1,6 @@
 ﻿window.blazoriseRichTextEdit = {
     initialize: (dotnetAdapter, editorRef, toolbarRef, readOnly, placeholder, theme, onContentChanged, bindEnter,
-        onEnter, configure) => {
+        onEnter, onFocus, onBlur, configure) => {
         if (!editorRef)
             return false;
         let options = {
@@ -49,6 +49,12 @@
                     dotnetAdapter.invokeMethodAsync(onContentChanged);
                 }
             });
+        quill.on('selection-change', function (range, oldRange, source) {
+            if (range === null && oldRange !== null) {
+                dotnetAdapter.invokeMethodAsync(onBlur);
+            } else if (range !== null && oldRange === null)
+                dotnetAdapter.invokeMethodAsync(onFocus);
+        });
         editorRef.quill = quill;
         return true;
     },

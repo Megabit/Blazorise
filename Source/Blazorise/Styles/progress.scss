@@ -19,3 +19,47 @@
         height: 2rem;
     }
 }
+
+.b-page-progress {
+    width: 100%;
+    height: 4px;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    position: fixed;
+    display: none;
+
+    .b-page-progress-indicator {
+        width: 0;
+        height: 100%;
+        transition: height .3s;
+        background-color: #000;
+        transition: width 1s;
+
+        &.b-page-progress-indicator-indeterminate {
+            width: 30%;
+            animation: running-page-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+    }
+
+    &.b-page-progress-active {
+        display: block;
+    }
+}
+
+@keyframes running-page-progress {
+    0% {
+        margin-left: 0px;
+        margin-right: 100%;
+    }
+
+    50% {
+        margin-left: 25%;
+        margin-right: 0%;
+    }
+
+    100% {
+        margin-left: 100%;
+        margin-right: 0;
+    }
+}

@@ -364,7 +364,7 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        #region Tab
+        #region Tabs
 
         public override string Tabs( bool pills ) => pills ? "tabs is-toggle" : "tabs";
 
@@ -378,11 +378,11 @@ namespace Blazorise.Bulma
 
         public override string TabItem() => null;
 
-        public override string TabItemActive( bool active ) => active ? $"{Active()}" : null;
+        public override string TabItemActive( bool active ) => active ? Active() : null;
 
         public override string TabItemDisabled( bool disabled ) => null;
 
-        public override string TabLinkDisabled( bool disabled ) => disabled ? "is-disabled" : null;
+        public override string TabLinkDisabled( bool disabled ) => disabled ? Disabled() : null;
 
         public override string TabLink() => null;
 
@@ -392,7 +392,31 @@ namespace Blazorise.Bulma
 
         public override string TabPanel() => "tab-pane";
 
-        public override string TabPanelActive( bool active ) => active ? $"{Active()}" : null;
+        public override string TabPanelActive( bool active ) => active ? Active() : null;
+
+        #endregion
+
+        #region Steps
+
+        public override string Steps() => "steps";
+
+        public override string StepItem() => "step-item";
+
+        public override string StepItemActive( bool active ) => active ? Active() : null;
+
+        public override string StepItemCompleted( bool completed ) => completed ? "is-completed" : null;
+
+        public override string StepItemColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string StepItemMarker() => "step-marker";
+
+        public override string StepItemDescription() => "step-details";
+
+        public override string StepsContent() => "steps-content";
+
+        public override string StepPanel() => "step-content";
+
+        public override string StepPanelActive( bool active ) => active ? "is-active" : null;
 
         #endregion
 

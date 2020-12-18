@@ -71,6 +71,8 @@ namespace Blazorise
 
             GenerateBreadcrumbVariables( theme, theme.BreadcrumbOptions );
 
+            GenerateStepsVariables( theme, theme.StepsOptions );
+
             // apply variables
             foreach ( var kv in variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value};" );
@@ -88,6 +90,8 @@ namespace Blazorise
             GenerateButtonColorVariables( theme, variant, value, value, theme.ButtonOptions );
             GenerateOutlineButtonColorVariables( theme, variant, value, theme.ButtonOptions );
             GenerateSnackbarColorVariables( theme, variant, value, theme.SnackbarOptions );
+            GenerateStepsColorVariables( theme, variant, value, theme.StepsOptions );
+            GenerateProgressColorVariables( theme, variant, value, theme.ProgressOptions );
         }
 
         protected virtual void GenerateButtonColorVariables( Theme theme, string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options )
@@ -168,6 +172,32 @@ namespace Blazorise
             variables[$"{ThemeVariables.SnackbarTextColor}-{ variant }"] = ToHex( textColor );
             variables[$"{ThemeVariables.SnackbarButtonColor}-{ variant }"] = ToHex( buttonColor );
             variables[$"{ThemeVariables.SnackbarButtonHoverColor}-{ variant }"] = ToHex( buttonHoverColor );
+        }
+
+        protected virtual void GenerateStepsColorVariables( Theme theme, string variant, string inColor, ThemeStepsOptions options )
+        {
+            var argbColor = ParseColor( inColor );
+
+            if ( argbColor.IsEmpty )
+                return;
+
+            var color = ToHex( argbColor );
+
+            variables[ThemeVariables.VariantStepsItemIcon( variant )] = color;
+            variables[ThemeVariables.VariantStepsItemIconYiq( variant )] = ToHex( Contrast( theme, color ) );
+            variables[ThemeVariables.VariantStepsItemText( variant )] = color;
+        }
+
+        protected virtual void GenerateProgressColorVariables( Theme theme, string variant, string inColor, ThemeProgressOptions options )
+        {
+            var inArgbColor = ParseColor( inColor );
+
+            if ( inArgbColor.IsEmpty )
+                return;
+
+            var color = ToHex( inArgbColor );
+
+            variables[ThemeVariables.VariantPageProgressIndicator( variant )] = color;
         }
 
         protected virtual void GenerateBackgroundVariables( Theme theme, string variant, string inColor )
@@ -357,6 +387,52 @@ namespace Blazorise
             }
         }
 
+        protected virtual void GenerateStepsVariables( Theme theme, ThemeStepsOptions stepsOptions )
+        {
+            if ( stepsOptions != null )
+            {
+                if ( !string.IsNullOrEmpty( stepsOptions.StepsItemIconColor ) )
+                {
+                    variables[ThemeVariables.StepsItemIcon] = ToHex( ParseColor( stepsOptions.StepsItemIconColor ) );
+                }
+
+                if ( !string.IsNullOrEmpty( stepsOptions.StepsItemIconCompleted ) )
+                {
+                    variables[ThemeVariables.StepsItemIconCompleted] = ToHex( ParseColor( stepsOptions.StepsItemIconCompleted ) );
+                }
+
+                if ( !string.IsNullOrEmpty( stepsOptions.StepsItemIconCompletedYiq ) )
+                {
+                    variables[ThemeVariables.StepsItemIconCompletedYiq] = ToHex( ParseColor( stepsOptions.StepsItemIconCompletedYiq ) );
+                }
+
+                if ( !string.IsNullOrEmpty( stepsOptions.StepsItemIconActive ) )
+                {
+                    variables[ThemeVariables.StepsItemIconActive] = ToHex( ParseColor( stepsOptions.StepsItemIconActive ) );
+                }
+
+                if ( !string.IsNullOrEmpty( stepsOptions.StepsItemIconActiveYiq ) )
+                {
+                    variables[ThemeVariables.StepsItemIconActiveYiq] = ToHex( ParseColor( stepsOptions.StepsItemIconActiveYiq ) );
+                }
+
+                if ( !string.IsNullOrEmpty( stepsOptions.StepsItemTextColor ) )
+                {
+                    variables[ThemeVariables.StepsItemText] = ToHex( ParseColor( stepsOptions.StepsItemTextColor ) );
+                }
+
+                if ( !string.IsNullOrEmpty( stepsOptions.StepsItemTextCompleted ) )
+                {
+                    variables[ThemeVariables.StepsItemTextCompleted] = ToHex( ParseColor( stepsOptions.StepsItemTextCompleted ) );
+                }
+
+                if ( !string.IsNullOrEmpty( stepsOptions.StepsItemTextActive ) )
+                {
+                    variables[ThemeVariables.StepsItemTextActive] = ToHex( ParseColor( stepsOptions.StepsItemTextActive ) );
+                }
+            }
+        }
+
         protected string Var( string name, string defaultValue = null )
         {
             if ( variables.TryGetValue( name, out var value ) )
@@ -414,6 +490,8 @@ namespace Blazorise
             GeneratePaginationStyles( sb, theme, theme.PaginationOptions );
 
             GenerateBarStyles( sb, theme, theme.BarOptions );
+
+            GenerateStepsStyles( sb, theme, theme.StepsOptions );
         }
 
         protected virtual void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpoint, string value )
@@ -444,6 +522,8 @@ namespace Blazorise
             GenerateButtonOutlineVariantStyles( sb, theme, variant, theme.ButtonOptions );
             GenerateBadgeVariantStyles( sb, theme, variant, color );
             GenerateSwitchVariantStyles( sb, theme, variant, color, theme.SwitchOptions );
+            GenerateStepsVariantStyles( sb, theme, variant, color, theme.StepsOptions );
+            GenerateProgressVariantStyles( sb, theme, variant, color, theme.ProgressOptions );
 
             GenerateAlertVariantStyles( sb, theme, variant,
                 ThemeColorLevelHex( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
@@ -483,6 +563,16 @@ namespace Blazorise
 
         protected abstract void GenerateSwitchVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeSwitchOptions switchOptions );
 
+        protected abstract void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions );
+
+        protected virtual void GenerateProgressVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeProgressOptions progressOptions )
+        {
+            sb
+                .Append( $".b-page-progress .b-page-progress-indicator.b-page-progress-indicator-{variant}" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.VariantPageProgressIndicator( variant ) )};" )
+                .AppendLine( "}" );
+        }
+
         protected abstract void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options );
 
         protected abstract void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor );
@@ -493,7 +583,16 @@ namespace Blazorise
 
         protected abstract void GenerateTabsStyles( StringBuilder sb, Theme theme, ThemeTabsOptions options );
 
-        protected abstract void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options );
+        protected virtual void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
+        {
+            if ( !string.IsNullOrEmpty( options?.PageProgressDefaultColor ) )
+            {
+                sb
+                    .Append( $".b-page-progress .b-page-progress-indicator" ).Append( "{" )
+                    .Append( $"background-color: {options.PageProgressDefaultColor};" )
+                    .AppendLine( "}" );
+            }
+        }
 
         protected abstract void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options );
 
@@ -504,6 +603,8 @@ namespace Blazorise
         protected abstract void GeneratePaginationStyles( StringBuilder sb, Theme theme, ThemePaginationOptions options );
 
         protected abstract void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options );
+
+        protected abstract void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions );
 
         protected abstract void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string color );
 
@@ -744,20 +845,20 @@ namespace Blazorise
             return Contrast( theme, color );
         }
 
-        protected static System.Drawing.Color Contrast( Theme theme, System.Drawing.Color color )
+        protected static System.Drawing.Color Contrast( Theme theme, System.Drawing.Color color, byte? luminanceThreshold = null )
         {
-            int d = 0;
-
             // Counting the perceptive luminance - human eye favors green color... 
             double luminance = ( 299 * color.R + 587 * color.G + 114 * color.B ) / 1000d;
 
-            // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
-            if ( luminance > theme.LuminanceThreshold )
-                d = 0; // bright colors - black font
-            else
-                d = 255; // dark colors - white font
+            System.Drawing.Color contrast;
 
-            return System.Drawing.Color.FromArgb( d, d, d );
+            // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+            if ( luminance > ( luminanceThreshold ?? theme.LuminanceThreshold ) )
+                contrast = ParseColor( theme.Black ); // bright colors - black font
+            else
+                contrast = ParseColor( theme.White ); // dark colors - white font
+
+            return contrast;
         }
 
         protected static System.Drawing.Color Blend( System.Drawing.Color color, System.Drawing.Color color2, float percentage )

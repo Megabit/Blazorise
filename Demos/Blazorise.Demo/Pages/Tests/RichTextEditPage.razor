@@ -11,9 +11,18 @@
                     <Fields>
                         <Field>
                             <FieldLabel>
+                                Options
                             </FieldLabel>
                             <FieldBody>
                                 <Switch @bind-Checked="@readOnly">Read only</Switch>
+                            </FieldBody>
+                        </Field>
+                        <Field>
+                            <FieldLabel>
+                                Last event raised:
+                            </FieldLabel>
+                            <FieldBody>
+                                @lastEvent
                             </FieldBody>
                         </Field>
                     </Fields>
@@ -25,6 +34,8 @@
                                   ReadOnly="@readOnly"
                                   SubmitOnEnter="false"
                                   EnterPressed="@OnSave"
+                                  EditorBlur="@(() => lastEvent = "Blur" )"
+                                  EditorFocus="@(() => lastEvent = "Focus" )"
                                   ToolbarPosition="Placement.Bottom">
                         <Editor>
                             <p><b>Hello </b><i>world</i>!</p>
@@ -157,6 +168,7 @@
     private string contentAsDeltaJson;
     private string contentAsText;
     private string savedContent;
+    private string lastEvent;
 
     public async Task OnContentChanged()
     {
@@ -171,4 +183,5 @@
         modalRef.Show();
         await richTextEditRef.ClearAsync();
     }
+
 }
