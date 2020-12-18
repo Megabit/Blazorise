@@ -58,6 +58,8 @@ namespace Blazorise.RichTextEdit
                 nameof( RichTextEdit.OnContentChanged ),
                 richTextEdit.SubmitOnEnter,
                 nameof( RichTextEdit.OnEnter ),
+                nameof( RichTextEdit.OnEditorFocus ),
+                nameof( RichTextEdit.OnEditorBlur ),
                 richTextEdit.ConfigureQuillJsMethod );
 
             return Disposable.Create( () =>
