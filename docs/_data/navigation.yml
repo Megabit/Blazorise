@@ -43,6 +43,8 @@ docs:
         url: /docs/components/memo/
       - title: "Numeric"
         url: /docs/components/numeric/
+      - title: "Progress"
+        url: /docs/components/progress/
       - title: "Radio"
         url: /docs/components/radio/
       - title: "Select"
