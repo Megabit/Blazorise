@@ -4,16 +4,25 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Rich Text Editor (based on <Blazorise.Link To="https://quilljs.com/">QuillJs</Blazorise.Link>) @lastEvent</CardTitle>
+                <CardTitle>Rich Text Editor (based on <Blazorise.Link To="https://quilljs.com/">QuillJs</Blazorise.Link>)</CardTitle>
             </CardHeader>
             <CardBody>
                 <CardBody>
                     <Fields>
                         <Field>
                             <FieldLabel>
+                                Options
                             </FieldLabel>
                             <FieldBody>
                                 <Switch @bind-Checked="@readOnly">Read only</Switch>
+                            </FieldBody>
+                        </Field>
+                        <Field>
+                            <FieldLabel>
+                                Last event raised:
+                            </FieldLabel>
+                            <FieldBody>
+                                @lastEvent
                             </FieldBody>
                         </Field>
                     </Fields>
@@ -25,8 +34,8 @@
                                   ReadOnly="@readOnly"
                                   SubmitOnEnter="false"
                                   EnterPressed="@OnSave"
-                                  EditorBlur="@(() => lastEvent = " Event rised: Blur" )"
-                                  EditorFocus="@(() => lastEvent = " Event rised: Focus" )"
+                                  EditorBlur="@(() => lastEvent = "Blur" )"
+                                  EditorFocus="@(() => lastEvent = "Focus" )"
                                   ToolbarPosition="Placement.Bottom">
                         <Editor>
                             <p><b>Hello </b><i>world</i>!</p>

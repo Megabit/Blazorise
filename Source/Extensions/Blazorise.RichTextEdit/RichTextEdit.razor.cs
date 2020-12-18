@@ -164,7 +164,6 @@ namespace Blazorise.RichTextEdit
         [JSInvokable]
         public Task OnEditorBlur() => EditorBlur.InvokeAsync( true );
 
-
         /// <summary>
         /// Toggles the readonly state
         /// </summary>
@@ -242,7 +241,6 @@ namespace Blazorise.RichTextEdit
         /// Only active when <see cref="SubmitOnEnter"/>
         /// </remarks>
         [Parameter] public EventCallback EnterPressed { get; set; }
-
 
         /// <summary>
         /// Occurs when the editor get focus.
