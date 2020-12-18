@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Main component for stacked progress bars.
+    /// </summary>
     public partial class Progress : BaseComponent
     {
         #region Members
@@ -15,6 +18,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Progress() );
@@ -27,6 +31,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Size of the progress bar.
+        /// </summary>
         [Parameter]
         public Size Size
         {
@@ -39,6 +46,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Progress"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

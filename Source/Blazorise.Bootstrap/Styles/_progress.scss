@@ -1,16 +1,4 @@
-﻿.ant-progress-inner {
-    display: inline-flex;
-}
-
-.b-ant-progress-text {
-    text-align: center;
-    display: flex;
-    color: #fff;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.b-page-progress {
+﻿.b-page-progress {
     .b-page-progress-indicator {
         @each $name, $value in $theme-colors {
             $color: $value;

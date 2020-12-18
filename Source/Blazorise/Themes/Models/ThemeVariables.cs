@@ -116,6 +116,8 @@ namespace Blazorise
         public static string StepsItemTextCompleted => $"--b-steps-item-text-completed";
         public static string StepsItemTextActive => $"--b-steps-item-text-active";
 
+        public static string VariantPageProgressIndicator( string variant ) => $"--b-page-progress-indicator-{variant}";
+
         public const string BreadcrumbColor = "--b-breadcrumb-color";
     }
 }

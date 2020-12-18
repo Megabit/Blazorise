@@ -238,6 +238,8 @@ namespace Blazorise.Material
                     .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
             }
+
+            base.GenerateProgressStyles( sb, theme, options );
         }
     }
 }

@@ -1721,6 +1721,33 @@
     justify-content: center;
     flex-direction: column; }
 
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-primary {
+    background-color: #1890ff; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-secondary {
+    background-color: #6c757d; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-success {
+    background-color: #35c613; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-info {
+    background-color: #60b6f4; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-warning {
+    background-color: #f7c12a; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-danger {
+    background-color: #ff4d4f; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-light {
+    background-color: #fafafa; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-dark {
+    background-color: #343a40; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
+    background-color: #3273dc; }
+
 .ant-table-primary,
 .ant-table-primary > th,
 .ant-table-primary > td {

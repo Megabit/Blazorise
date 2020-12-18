@@ -619,6 +619,8 @@ namespace Blazorise.AntDesign
                     .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
             }
+
+            base.GenerateProgressStyles( sb, theme, options );
         }
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )

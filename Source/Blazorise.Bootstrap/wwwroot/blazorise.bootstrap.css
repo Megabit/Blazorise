@@ -363,6 +363,33 @@
     border-top-right-radius: 0.4rem;
     border-bottom-right-radius: 0.4rem; }
 
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-primary {
+    background-color: #007bff; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-secondary {
+    background-color: #6c757d; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-success {
+    background-color: #28a745; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-info {
+    background-color: #17a2b8; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-warning {
+    background-color: #ffc107; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-danger {
+    background-color: #dc3545; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-light {
+    background-color: #f8f9fa; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-dark {
+    background-color: #343a40; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
+    background-color: #3273dc; }
+
 .steps {
     padding: 0;
     margin: 0;
