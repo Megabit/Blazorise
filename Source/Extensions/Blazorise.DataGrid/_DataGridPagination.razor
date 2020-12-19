@@ -39,7 +39,7 @@
                     </PaginationLink>
                 </PaginationItem>
             }
-            <PaginationItem Display="Blazorise.Display.InlineBlock.None.OnTablet">
+            <PaginationItem Display="Blazorise.Display.None.InlineBlock.OnTablet">
                 <Select @bind-SelectedValue="@PaginationContext.CurrentPage">
                     @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
                     {
