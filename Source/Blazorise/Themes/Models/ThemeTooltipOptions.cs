@@ -5,9 +5,10 @@ namespace Blazorise
 {
     public class ThemeTooltipOptions : BasicOptions
     {
-        public string BackgroundColor { get; set; } = "#808080";
-
-        public float? BackgroundOpacity { get; set; } = 90f;
+        /// <summary>
+        /// Tooltip background color. Can contain alpha value in 8-hex formated color.
+        /// </summary>
+        public string BackgroundColor { get; set; } = "#808080e6";
 
         public string Color { get; set; } = "#ffffff";
 
