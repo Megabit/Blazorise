@@ -299,7 +299,9 @@ namespace Blazorise.Providers
 
         public string DropdownItem() => null;
 
-        public string DropdownItemActive() => null;
+        public string DropdownItemActive( bool active ) => null;
+
+        public string DropdownItemDisabled( bool disabled ) => null;
 
         public string DropdownDivider() => null;
 
