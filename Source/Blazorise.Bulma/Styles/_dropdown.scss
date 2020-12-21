@@ -3,3 +3,8 @@
     animation-fill-mode: both;
     animation-name: fadeIn;
 }
+
+.dropdown .dropdown-menu > .dropdown-content > .dropdown-item.is-disabled {
+    pointer-events: none;
+    opacity: .65;
+}
