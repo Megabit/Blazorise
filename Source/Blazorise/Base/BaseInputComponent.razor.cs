@@ -117,7 +117,7 @@ namespace Blazorise
             if ( string.IsNullOrEmpty( value ) )
             {
                 empty = true;
-                CurrentValue = default;
+                CurrentValue = DefaultValue;
             }
 
             if ( !empty )
@@ -170,6 +170,12 @@ namespace Blazorise
         public virtual object ValidationValue => InternalValue;
 
         protected bool ParentIsFieldBody => ParentFieldBody != null;
+
+
+        /// <summary>
+        /// Returns the default value for the <typeparamref name="TValue"/> type.
+        /// </summary>
+        protected virtual TValue DefaultValue => default;
 
         /// <summary>
         /// Gets or sets the internal edit value.
