@@ -176,12 +176,13 @@ namespace Blazorise
         /// Gets or sets the unique id of the element.
         /// </summary>
         /// <remarks>
-        /// Note that this ID is not defined for the component but instead for the underlined component that it represents.
+        /// Note that this ID is not defined for the component but instead for the underlined element that it represents.
         /// eg: for the TextEdit the ID will be set on the input element.
         /// </remarks>
+        [Parameter]
         public string ElementId
         {
-            get => elementId ??= IDGenerator.Instance.Generate;
+            get => elementId ??= IdGenerator.Generate;
             set => elementId = value;
         }
 
@@ -209,6 +210,11 @@ namespace Blazorise
         /// Gets the built styles based on all the rules set by the component parameters.
         /// </summary>
         public string StyleNames => StyleBuilder.Styles;
+
+        /// <summary>
+        /// Gets or set the javascript runner.
+        /// </summary>
+        [Inject] protected IIdGenerator IdGenerator { get; set; }
 
         /// <summary>
         /// Gets or set the javascript runner.

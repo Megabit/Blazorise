@@ -136,7 +136,7 @@ namespace Blazorise.Snackbar
         {
             return new SnackbarOptions
             {
-                Key = IDGenerator.Instance.Generate,
+                Key = IdGenerator.Generate,
                 ShowCloseButton = true,
             };
         }

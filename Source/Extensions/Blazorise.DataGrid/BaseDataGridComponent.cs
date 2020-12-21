@@ -36,6 +36,11 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
+        /// <summary>
+        /// Gets or set the javascript runner.
+        /// </summary>
+        [Inject] protected IIdGenerator IdGenerator { get; set; }
+
         protected bool Disposed { get; private set; }
 
         /// <summary>
@@ -47,7 +52,7 @@ namespace Blazorise.DataGrid
             {
                 // generate ID only on first use
                 if ( elementId == null )
-                    elementId = IDGenerator.Instance.Generate;
+                    elementId = IdGenerator.Generate;
 
                 return elementId;
             }
