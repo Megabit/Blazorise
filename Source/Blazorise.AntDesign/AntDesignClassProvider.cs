@@ -318,7 +318,9 @@ namespace Blazorise.AntDesign
 
         public override string DropdownItem() => "ant-dropdown-menu-item";
 
-        public override string DropdownItemActive() => Active();
+        public override string DropdownItemActive( bool active ) => active ? Active() : null;
+
+        public override string DropdownItemDisabled( bool disabled ) => disabled ? "ant-dropdown-menu-item-disabled" : null;
 
         public override string DropdownDivider() => "ant-dropdown-menu-divider";
 
