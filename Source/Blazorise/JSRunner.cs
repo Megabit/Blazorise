@@ -21,19 +21,6 @@ namespace Blazorise
             this.runtime = runtime;
         }
 
-        public DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
-        {
-            return DotNetObjectReference.Create( value );
-        }
-
-        public void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
-        {
-            if ( value != null )
-            {
-                value.Dispose();
-            }
-        }
-
         public ValueTask<bool> InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementRef, elementId, maskType, editMask );

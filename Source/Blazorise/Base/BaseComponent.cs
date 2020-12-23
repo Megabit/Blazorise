@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
@@ -164,6 +165,16 @@ namespace Blazorise
         protected virtual void DirtyStyles()
         {
             StyleBuilder.Dirty();
+        }
+
+        protected DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
+        {
+            return DotNetObjectReference.Create( value );
+        }
+
+        protected void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
+        {
+            value?.Dispose();
         }
 
         #endregion

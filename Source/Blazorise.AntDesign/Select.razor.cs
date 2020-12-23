@@ -42,7 +42,7 @@ namespace Blazorise.AntDesign
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+            dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -54,7 +54,7 @@ namespace Blazorise.AntDesign
                 // TODO: switch to IAsyncDisposable
                 _ = JSRunner.UnregisterClosableComponent( this );
 
-                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
             base.Dispose( disposing );

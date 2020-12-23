@@ -24,7 +24,7 @@ namespace Blazorise
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+            dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -60,7 +60,7 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                    DisposeDotNetObjectRef( dotNetObjectRef );
                 }
             }
 

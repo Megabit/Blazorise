@@ -12,10 +12,6 @@ namespace Blazorise
 {
     public interface IJSRunner
     {
-        DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class;
-
-        void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class;
-
         ValueTask<bool> InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask );
 
         ValueTask<bool> DestroyTextEdit( ElementReference elementRef, string elementId );
