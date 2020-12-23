@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
 <CascadingValue Value=this>
-    <li class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+    <li id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
         @if ( Marker != null || Caption != null )
         {
             @if ( Marker != null )

@@ -3,7 +3,7 @@
     <CascadingValue Value="@Store">
         @ChildContent
 
-        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             <div class="@SlidesClassNames">
                 @for ( int i = 0; i < carouselSlides.Count; ++i )
                 {
