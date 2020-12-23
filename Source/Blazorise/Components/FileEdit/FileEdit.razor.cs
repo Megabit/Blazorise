@@ -209,6 +209,9 @@ namespace Blazorise
         #region Properties
 
         /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
+        /// <inheritdoc/>
         protected override IFileEntry[] InternalValue { get => files; set => files = value; }
 
         protected long ProgressProgress;

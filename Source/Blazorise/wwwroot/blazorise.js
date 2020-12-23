@@ -183,16 +183,20 @@ window.blazorise = {
         return false;
     },
 
-    registerClosableComponent: (elementId, dotnetAdapter) => {
-        if (window.blazorise.isClosableComponent(elementId) !== true) {
-            window.blazorise.addClosableComponent(elementId, dotnetAdapter);
+    registerClosableComponent: (element, dotnetAdapter) => {
+        if (element) {
+            if (window.blazorise.isClosableComponent(element.id) !== true) {
+                window.blazorise.addClosableComponent(element.id, dotnetAdapter);
+            }
         }
     },
 
-    unregisterClosableComponent: (elementId) => {
-        const index = window.blazorise.findClosableComponentIndex(elementId);
-        if (index !== -1) {
-            window.blazorise.closableComponents.splice(index, 1);
+    unregisterClosableComponent: (element) => {
+        if (element) {
+            const index = window.blazorise.findClosableComponentIndex(element.id);
+            if (index !== -1) {
+                window.blazorise.closableComponents.splice(index, 1);
+            }
         }
     },
 

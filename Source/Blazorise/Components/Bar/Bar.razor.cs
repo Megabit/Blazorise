@@ -140,6 +140,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         protected BarStore Store => store;
 
         protected string BrokenStateString => isBroken.ToString().ToLower();

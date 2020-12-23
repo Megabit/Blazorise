@@ -127,6 +127,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         /// <summary>
         /// True if parent dropdown is part of a button group.
         /// </summary>
@@ -207,7 +210,7 @@ namespace Blazorise
 
                     if ( Rendered )
                     {
-                        JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                        JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
                     }
                 }
                 else

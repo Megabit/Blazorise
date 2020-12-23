@@ -90,6 +90,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         [CascadingParameter]
         public BarDropdownStore ParentStore
         {
@@ -105,7 +108,7 @@ namespace Blazorise
                 {
                     isRegistered = true;
 
-                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
                 }
                 else
                 {

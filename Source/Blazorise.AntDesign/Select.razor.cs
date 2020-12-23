@@ -89,7 +89,7 @@ namespace Blazorise.AntDesign
             // when validation is trigered the input can be pushed down by the error messages.
             elementInfo = await JSRunner.GetElementInfo( ElementRef, ElementId );
 
-            await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+            await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
 
             Expanded = true;
         }

@@ -12,8 +12,6 @@ namespace Blazorise
     {
         #region Members
 
-        private string elementId;
-
         private string customClass;
 
         private string customStyle;
@@ -46,6 +44,16 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            if ( ShouldAutoGenerateId && ElementId == null )
+            {
+                ElementId = IdGenerator.Generate;
+            }
+
+            base.OnInitialized();
+        }
 
         /// <inheritdoc/>
         public void Dispose()
@@ -179,12 +187,15 @@ namespace Blazorise
         /// Note that this ID is not defined for the component but instead for the underlined element that it represents.
         /// eg: for the TextEdit the ID will be set on the input element.
         /// </remarks>
-        [Parameter]
-        public string ElementId
-        {
-            get => elementId ??= IdGenerator.Generate;
-            set => elementId = value;
-        }
+        [Parameter] public string ElementId { get; set; }
+
+        /// <summary>
+        /// If true, <see cref="ElementId"/> will be auto-generated on component initialize.
+        /// </summary>
+        /// <remarks>
+        /// Override this in components that need to have an id defined before calling JSInterop.
+        /// </remarks>
+        protected virtual bool ShouldAutoGenerateId => false;
 
         /// <summary>
         /// Gets the class builder.

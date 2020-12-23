@@ -164,6 +164,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         [Inject] protected BlazoriseOptions Options { get; set; }
 
         /// <inheritdoc/>

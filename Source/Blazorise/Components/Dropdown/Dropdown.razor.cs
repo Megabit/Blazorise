@@ -20,7 +20,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Methods
+        #region Methods        
 
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -108,6 +108,9 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
 
         protected DropdownStore Store => store;
 
