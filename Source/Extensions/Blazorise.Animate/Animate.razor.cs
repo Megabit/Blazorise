@@ -100,6 +100,11 @@ namespace Blazorise.Animate
         [Inject] private IOptionsSnapshot<AnimateOptions> OptionsAccessor { get; set; }
 
         /// <summary>
+        /// Gets or sets the animate element id.
+        /// </summary>
+        [Parameter] public string ElementId { get; set; }
+
+        /// <summary>
         /// Gets or sets the animation effect.
         /// </summary>
         /// <remarks>

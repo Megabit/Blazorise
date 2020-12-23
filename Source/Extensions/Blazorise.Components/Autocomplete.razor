@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @typeparam TValue
-<Dropdown @ref="dropdownRef" Class="@DropdownClassNames" Style="@Style" Attributes="@Attributes" Visible="@DropdownVisible">
+<Dropdown @ref="dropdownRef" ElementId="@ElementId" Class="@DropdownClassNames" Style="@Style" Attributes="@Attributes" Visible="@DropdownVisible">
     <TextEdit @ref="@textEditRef" Role="TextRole.Search" Text="@SelectedText" TextChanged="@HandleTextChanged" Placeholder="@Placeholder" Size="@Size" Disabled="@Disabled" KeyDown="@HandleTextKeyDown" ChangeTextOnKeyPress="@ChangeTextOnKeyPress" DelayTextOnKeyPress="@DelayTextOnKeyPress" DelayTextOnKeyPressInterval="@DelayTextOnKeyPressInterval" />
     <DropdownMenu>
         @if ( DropdownVisible )
