@@ -47,6 +47,9 @@ namespace Blazorise.Charts
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         protected DotNetObjectReference<ChartAdapter> DotNetObjectRef { get; set; }
 
         [Inject] protected IJSRuntime JSRuntime { get; set; }

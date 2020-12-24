@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<i class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<i id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     @if ( IconProvider.IconNameAsContent && Name != null )
     {
         if ( Name is IconName )

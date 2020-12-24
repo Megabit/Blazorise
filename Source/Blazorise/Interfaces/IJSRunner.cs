@@ -12,10 +12,6 @@ namespace Blazorise
 {
     public interface IJSRunner
     {
-        DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class;
-
-        void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class;
-
         ValueTask<bool> InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask );
 
         ValueTask<bool> DestroyTextEdit( ElementReference elementRef, string elementId );
@@ -58,9 +54,9 @@ namespace Blazorise
 
         ValueTask<int> GetCaret( ElementReference elementRef );
 
-        ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop );
+        ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop );
 
-        ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
+        ValueTask<bool> CloseModal( ElementReference elementRef );
 
         ValueTask<bool> OpenFileDialog( ElementReference elementRef, string elementId );
 
@@ -71,7 +67,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="component">Toggle component.</param>
         /// <returns></returns>
-        ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, string elementId );
+        ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef );
 
         ValueTask<object> UnregisterClosableComponent( ICloseActivator component );
 

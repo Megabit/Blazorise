@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
@@ -11,8 +12,6 @@ namespace Blazorise
     public abstract class BaseComponent : ComponentBase, IDisposable
     {
         #region Members
-
-        private string elementId;
 
         private string customClass;
 
@@ -46,6 +45,16 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            if ( ShouldAutoGenerateId && ElementId == null )
+            {
+                ElementId = IdGenerator.Generate;
+            }
+
+            base.OnInitialized();
+        }
 
         /// <inheritdoc/>
         public void Dispose()
@@ -158,6 +167,16 @@ namespace Blazorise
             StyleBuilder.Dirty();
         }
 
+        protected DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
+        {
+            return DotNetObjectReference.Create( value );
+        }
+
+        protected void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
+        {
+            value?.Dispose();
+        }
+
         #endregion
 
         #region Properties
@@ -176,14 +195,18 @@ namespace Blazorise
         /// Gets or sets the unique id of the element.
         /// </summary>
         /// <remarks>
-        /// Note that this ID is not defined for the component but instead for the underlined component that it represents.
+        /// Note that this ID is not defined for the component but instead for the underlined element that it represents.
         /// eg: for the TextEdit the ID will be set on the input element.
         /// </remarks>
-        public string ElementId
-        {
-            get => elementId ??= IDGenerator.Instance.Generate;
-            set => elementId = value;
-        }
+        [Parameter] public string ElementId { get; set; }
+
+        /// <summary>
+        /// If true, <see cref="ElementId"/> will be auto-generated on component initialize.
+        /// </summary>
+        /// <remarks>
+        /// Override this in components that need to have an id defined before calling JSInterop.
+        /// </remarks>
+        protected virtual bool ShouldAutoGenerateId => false;
 
         /// <summary>
         /// Gets the class builder.
@@ -209,6 +232,11 @@ namespace Blazorise
         /// Gets the built styles based on all the rules set by the component parameters.
         /// </summary>
         public string StyleNames => StyleBuilder.Styles;
+
+        /// <summary>
+        /// Gets or set the javascript runner.
+        /// </summary>
+        [Inject] protected IIdGenerator IdGenerator { get; set; }
 
         /// <summary>
         /// Gets or set the javascript runner.

@@ -51,6 +51,11 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
+        /// Gets or sets the dropdown element id.
+        /// </summary>
+        [Parameter] public string ElementId { get; set; }
+
+        /// <summary>
         /// Defines the color of toggle button.
         /// </summary>
         [Parameter] public Color Color { get; set; }
