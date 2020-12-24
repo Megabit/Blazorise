@@ -498,10 +498,12 @@ namespace Blazorise.DataGrid
             return Task.CompletedTask;
         }
 
-        protected async Task OnPaginationItemClick( string pageName )
+        protected Task OnPaginationItemClick( string pageName )
         {
             if ( int.TryParse( pageName, out var pageNumber ) )
+            {
                 CurrentPage = pageNumber;
+            }
             else
             {
                 if ( pageName == "prev" )
@@ -527,6 +529,8 @@ namespace Blazorise.DataGrid
                     CurrentPage = paginationContext.LastPage;
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         private void FilterData()
