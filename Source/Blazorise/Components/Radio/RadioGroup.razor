@@ -2,7 +2,7 @@
 @typeparam TValue
 @inherits BaseInputComponent<TValue>
 <CascadingValue Value=this>
-    <div class="@ClassNames" style="@StyleNames" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" @attributes="@Attributes">
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" @attributes="@Attributes">
         @ChildContent
     </div>
     @Feedback

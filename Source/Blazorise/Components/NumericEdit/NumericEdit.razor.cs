@@ -54,7 +54,7 @@ namespace Blazorise
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new NumericEditAdapter( this ) );
+            dotNetObjectRef ??= CreateDotNetObjectRef( new NumericEditAdapter( this ) );
 
             await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementRef, ElementId, Decimals, DecimalsSeparator, Step, Min, Max );
 
@@ -66,7 +66,7 @@ namespace Blazorise
             if ( disposing && Rendered )
             {
                 JSRunner.DestroyNumericEdit( ElementRef, ElementId );
-                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
             base.Dispose( disposing );
@@ -130,6 +130,9 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
 
         protected override TValue InternalValue { get => Value; set => Value = value; }
 

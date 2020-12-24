@@ -29,6 +29,7 @@ namespace Blazorise
             serviceCollection.AddSingleton( configureOptions );
             serviceCollection.AddSingleton<BlazoriseOptions>();
 
+            serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
             serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
             serviceCollection.AddScoped<IEditContextValidator, EditContextValidator>();
 

@@ -16,6 +16,8 @@ namespace Blazorise.Snackbar
     {
         #region Members
 
+        private string key;
+
         /// <summary>
         /// Indicates if snackbar is visible.
         /// </summary>
@@ -55,7 +57,6 @@ namespace Blazorise.Snackbar
         /// List of all action buttons placed inside of a snackbar.
         /// </summary>
         private List<SnackbarAction> snackbarActions = new List<SnackbarAction>();
-
 
         #endregion
 
@@ -210,7 +211,12 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Unique key associated by this snackbar.
         /// </summary>
-        [Parameter] public string Key { get; set; } = $"Snackbar_{IDGenerator.Instance.Generate}";
+        [Parameter]
+        public string Key
+        {
+            get => key ??= $"Snackbar_{IdGenerator.Generate}";
+            set => key = value;
+        }
 
         /// <summary>
         /// Defines the visibility of snackbar.

@@ -195,6 +195,11 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
+        /// Gets or sets the dropdown element id.
+        /// </summary>
+        [Parameter] public string ElementId { get; set; }
+
+        /// <summary>
         /// Gets or sets the current search value.
         /// </summary>
         protected string CurrentSearch { get; set; } = string.Empty;

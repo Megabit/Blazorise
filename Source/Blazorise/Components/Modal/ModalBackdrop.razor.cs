@@ -24,7 +24,7 @@ namespace Blazorise
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+            dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -46,7 +46,7 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                    DisposeDotNetObjectRef( dotNetObjectRef );
                 }
             }
 
@@ -78,6 +78,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         [CascadingParameter]
         protected ModalStore ParentModalStore
         {
@@ -93,7 +96,7 @@ namespace Blazorise
                 {
                     jsRegistered = true;
 
-                    ExecuteAfterRender( async () => await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId ) );
+                    ExecuteAfterRender( async () => await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef ) );
                 }
                 else
                 {

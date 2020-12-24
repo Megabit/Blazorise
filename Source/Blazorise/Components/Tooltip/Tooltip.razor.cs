@@ -53,6 +53,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         /// <summary>
         /// Gets or sets a regular tooltip's content. 
         /// </summary>
