@@ -238,7 +238,9 @@
                         <Text Style="opacity: .5;">--</Text>
                     </EmptyCellTemplate>
                     <ButtonRowTemplate>
-                        <Button Clicked="context.EditCommand.Clicked">Edit</Button>
+                        <Button Color="Color.Success" Clicked="context.EditCommand.Clicked">New</Button>
+                        <Button Color="Color.Primary" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
+                        <Button Color="Color.Danger" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Delete</Button>
                     </ButtonRowTemplate>
                 </DataGrid>
             </CardBody>
