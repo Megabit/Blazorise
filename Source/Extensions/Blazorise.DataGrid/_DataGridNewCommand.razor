@@ -4,7 +4,7 @@
 {
     @if ( ParentDataGrid?.CommandColumn?.NewCommandTemplate != null )
     {
-        @ParentDataGrid.CommandColumn.NewCommandTemplate( new CommandContext<TItem>
+        @ParentDataGrid.CommandColumn.NewCommandTemplate( new NewCommandContext
         {
             Clicked = New,
         } )

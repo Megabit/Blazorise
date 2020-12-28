@@ -19,9 +19,19 @@ namespace Blazorise.DataGrid
             base.BuildClasses( builder );
         }
 
+        private void NewClick()
+        {
+            New.InvokeAsync( SelectedRow );
+
+        }
         private void EditClick()
         {
             Edit.InvokeAsync( SelectedRow );
+        }
+
+        private void DeleteClick()
+        {
+            Delete.InvokeAsync( SelectedRow );
         }
         #endregion
 
@@ -69,6 +79,11 @@ namespace Blazorise.DataGrid
         [Parameter] public TItem SelectedRow { get; set; }
 
         /// <summary>
+        /// Activates the new command.
+        /// </summary>
+        [Parameter] public EventCallback New { get; set; }
+
+        /// <summary>
         /// Activates the edit command for current item.
         /// </summary>
         [Parameter] public EventCallback<TItem> Edit { get; set; }
@@ -77,16 +92,6 @@ namespace Blazorise.DataGrid
         /// Activates the delete command for current item.
         /// </summary>
         [Parameter] public EventCallback<TItem> Delete { get; set; }
-
-        /// <summary>
-        /// Activates the save command.
-        /// </summary>
-        [Parameter] public EventCallback Save { get; set; }
-
-        /// <summary>
-        /// Activates the cancel command.
-        /// </summary>
-        [Parameter] public EventCallback Cancel { get; set; }
 
         /// <summary>
         /// Gets or sets content of button row of pager.
@@ -128,8 +133,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get; set; }
 
-        [Parameter]
-        public Func<string, Task> OnPaginationItemClick { get; set; }
+        [Parameter] public Func<string, Task> OnPaginationItemClick { get; set; }
 
         #endregion
     }

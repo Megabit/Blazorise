@@ -57,7 +57,7 @@ else if ( EditState == DataGridEditState.None )
         {
             @if ( ParentDataGrid?.CommandColumn?.DeleteCommandTemplate != null )
             {
-                @ParentDataGrid.CommandColumn.DeleteCommandTemplate( new CommandContext<TItem>
+                @ParentDataGrid.CommandColumn.DeleteCommandTemplate( new DeleteCommandContext<TItem>
                 {
                     Clicked = Delete,
                     Item = Item,

@@ -7,7 +7,9 @@
             <Field Display="Blazorise.Display.None.InlineBlock.OnDesktop">
                     @ButtonRowTemplate(new ButtonRowContext<TItem>()
                     {
-                        EditCommand = new EditCommandContext<TItem>() { Clicked = EventCallback.Factory.Create(this, EditClick), Item = SelectedRow }
+                        NewCommand = new NewCommandContext() { Clicked = EventCallback.Factory.Create(this, NewClick)},
+                        EditCommand = new EditCommandContext<TItem>() { Clicked = EventCallback.Factory.Create(this, EditClick), Item = SelectedRow },
+                        DeleteCommand = new DeleteCommandContext<TItem>() { Clicked = EventCallback.Factory.Create(this, DeleteClick), Item = SelectedRow }
                     })
             </Field>
         </Column>

@@ -25,7 +25,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Template to customize new command button.
         /// </summary>
-        [Parameter] public RenderFragment<CommandContext> NewCommandTemplate { get; set; }
+        [Parameter] public RenderFragment<NewCommandContext> NewCommandTemplate { get; set; }
 
         /// <summary>
         /// Template to customize edit command button.
@@ -45,7 +45,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Template to customize delete command button.
         /// </summary>
-        [Parameter] public RenderFragment<CommandContext<TItem>> DeleteCommandTemplate { get; set; }
+        [Parameter] public RenderFragment<DeleteCommandContext<TItem>> DeleteCommandTemplate { get; set; }
 
         /// <summary>
         /// Template to customize clear-filter command button.
