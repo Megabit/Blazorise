@@ -465,13 +465,13 @@ namespace Blazorise.Bootstrap
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".table-hover table-{variant}:hover" )
+            sb.Append( $".table-hover .table-{variant}:hover" )
                 .Append( "{" )
                 .Append( $"background-color: {hoverBackground};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".table-hover table-{variant}:hover>td" )
-                .Append( $".table-hover table-{variant}:hover>th" )
+            sb.Append( $".table-hover .table-{variant}:hover>td," )
+                .Append( $".table-hover .table-{variant}:hover>th" )
                 .Append( "{" )
                 .Append( $"background-color: {hoverBackground};" )
                 .AppendLine( "}" );

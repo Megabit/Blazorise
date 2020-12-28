@@ -74,11 +74,21 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets the string representation of the input role.
+        /// </summary>
         protected string Type => Role.ToTextRoleString();
 
+        /// <summary>
+        /// Gets the string representation of the input mode.
+        /// </summary>
         protected string Mode => InputMode.ToTextInputMode();
 
+        /// <inheritdoc/>
         protected override string InternalValue { get => Text; set => Text = value; }
+
+        /// <inheritdoc/>
+        protected override string DefaultValue => string.Empty;
 
         /// <summary>
         /// Sets the role of the input text.

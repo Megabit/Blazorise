@@ -167,6 +167,9 @@ namespace Blazorise
 
         #region Properties 
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         /// <summary>
         /// True if button is part of an addons or dropdown group.
         /// </summary>

@@ -2,7 +2,7 @@
 @inherits BaseComponent
 <CascadingValue Value=this>
     <CascadingValue Value="@store">
-        <ul class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </ul>
     </CascadingValue>

@@ -13,7 +13,7 @@ window.blazoriseBootstrap = {
         }
     },
     modal: {
-        open: (element, elementId, scrollToTop) => {
+        open: (element, scrollToTop) => {
             window.blazorise.addClassToBody("modal-open");
 
             if (scrollToTop) {
@@ -22,7 +22,7 @@ window.blazoriseBootstrap = {
 
             return true;
         },
-        close: (element, elementId) => {
+        close: (element) => {
             window.blazorise.removeClassFromBody("modal-open");
 
             return true;

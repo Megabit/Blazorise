@@ -98,6 +98,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         protected override TValue InternalValue { get => Date; set => Date = value; }
 
         /// <summary>

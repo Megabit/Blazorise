@@ -12,6 +12,9 @@
                 <Fields>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if DataGrid can be editable.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
                         </FieldLabel>
                         <FieldBody>
                             <Check @bind-Checked="@editable">Editable</Check>
@@ -19,6 +22,9 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if DataGrid can be sorted by clicking the column headers.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
                         </FieldLabel>
                         <FieldBody>
                             <Check @bind-Checked="@sortable">Sortable</Check>
@@ -26,6 +32,9 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if DataGrid can be filtered through the column headers.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
                         </FieldLabel>
                         <FieldBody>
                             <Check @bind-Checked="@filterable">Filterable</Check>
@@ -33,6 +42,9 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if paginator buttons are visible.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
                         </FieldLabel>
                         <FieldBody>
                             <Check @bind-Checked="@showPager">Show Pager</Check>
@@ -40,9 +52,22 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if pagesize dropdown will be visible.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
                         </FieldLabel>
                         <FieldBody>
                             <Check @bind-Checked="@showPageSizes">Show Page sizes</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
+                            <Tooltip Text="If true, DataGrid will dynamicaly fetch data based on the current page and page size.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@largeDataMode">Large Data</Check>
                         </FieldBody>
                     </Field>
                     <Field>
@@ -91,7 +116,9 @@
             </CardBody>
             <CardBody>
                 <DataGrid TItem="Employee"
-                          Data="@dataModels"
+                          ReadData="@(largeDataMode ? OnReadData : null)"
+                          Data="@(largeDataMode ? employeeList : dataModels)"
+                          TotalItems="@(largeDataMode ? totalEmployees : null)"
                           EditMode="@editMode"
                           Editable="@editable"
                           Sortable="@sortable"
@@ -334,6 +361,7 @@
     bool filterable = true;
     bool showPager = true;
     bool showPageSizes = true;
+    bool largeDataMode = false;
 
     // TODO: add options to control the commands
     //bool newCommandAllowed = true;
@@ -478,5 +506,20 @@
             model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
             || model.LastName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
             || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
+    }
+
+    Employee[] employeeList;
+    int totalEmployees;
+
+    Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    {
+        // this can be call to anything, in this case we're calling a fictional api
+        var response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+
+        employeeList = response.ToArray(); // an actual data for the current page
+        totalEmployees = dataModels.Count; // this is used to tell datagrid how many items are available so that pagination will work
+
+        // always call StateHasChanged!
+        return InvokeAsync( StateHasChanged );
     }
 }

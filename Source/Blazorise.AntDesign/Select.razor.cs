@@ -15,6 +15,10 @@ namespace Blazorise.AntDesign
     {
         #region Members
 
+        private string selectorElementId;
+
+        private string inputElementId;
+
         /// <summary>
         /// Holds the information about the element location and size.
         /// </summary>
@@ -25,6 +29,7 @@ namespace Blazorise.AntDesign
         /// when the user leaves the component bounds.
         /// </summary>
         private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
+
 
         /// <summary>
         /// Internal string separator for selected values when Multiple mode is used.
@@ -37,7 +42,7 @@ namespace Blazorise.AntDesign
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+            dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -49,7 +54,7 @@ namespace Blazorise.AntDesign
                 // TODO: switch to IAsyncDisposable
                 _ = JSRunner.UnregisterClosableComponent( this );
 
-                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
             base.Dispose( disposing );
@@ -84,7 +89,7 @@ namespace Blazorise.AntDesign
             // when validation is trigered the input can be pushed down by the error messages.
             elementInfo = await JSRunner.GetElementInfo( ElementRef, ElementId );
 
-            await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+            await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
 
             Expanded = true;
         }
@@ -194,9 +199,17 @@ namespace Blazorise.AntDesign
 
         protected bool Expanded { get; set; }
 
-        protected string SelectorElementId { get; set; } = IDGenerator.Instance.Generate;
+        protected string SelectorElementId
+        {
+            get => selectorElementId ??= IdGenerator.Generate;
+            set => selectorElementId = value;
+        }
 
-        protected string InputElementId { get; set; } = IDGenerator.Instance.Generate;
+        protected string InputElementId
+        {
+            get => inputElementId ??= IdGenerator.Generate;
+            set => inputElementId = value;
+        }
 
         /// <summary>
         /// Gets the selected items render fragments.

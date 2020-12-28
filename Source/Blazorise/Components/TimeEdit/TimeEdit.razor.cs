@@ -95,6 +95,10 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
+        /// <inheritdoc/>
         protected override TValue InternalValue { get => Time; set => Time = value; }
 
         /// <summary>

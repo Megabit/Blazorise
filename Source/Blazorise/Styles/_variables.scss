@@ -17,7 +17,7 @@ $tooltip-arrow-size: 6px !default;
 $tooltip-background-color-r: var(--b-tooltip-background-color-r, 128) !default;
 $tooltip-background-color-g: var(--b-tooltip-background-color-g, 128) !default;
 $tooltip-background-color-b: var(--b-tooltip-background-color-b, 128) !default;
-$tooltip-background-opacity: 0.9 !default;
+$tooltip-background-opacity: var(--b-tooltip-background-opacity, 0.9) !default;
 $tooltip-color: var(--b-tooltip-color, #ffffff) !default;
 $tooltip-font-family: $font-family-base !default;
 $tooltip-font-size: var(--b-tooltip-font-size, $font-size-sm) !default;

@@ -104,6 +104,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         protected BarDropdownStore Store => store;
 
         protected string VisibleString => Store.Visible.ToString().ToLower();

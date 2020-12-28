@@ -7,7 +7,7 @@
         content: "";
         border-style: solid;
         border-width: $tooltip-arrow-size;
-        border-color: #{"rgba("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"} transparent transparent transparent;
+        border-color: #{"RGBA("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"} transparent transparent transparent;
         margin-bottom: $tooltip-arrow-size * -1 + 1;
     }
 
@@ -16,7 +16,7 @@
 
 @mixin tooltip-box {
     &::before {
-        background: #{"rgba("}#{$tooltip-background-color-r}, #{$tooltip-background-color-g}, #{$tooltip-background-color-b}, #{$tooltip-background-opacity}#{")"};
+        background: #{"RGBA("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"};
         border-radius: $tooltip-radius;
         content: attr(data-tooltip);
         padding: $tooltip-padding;
@@ -88,19 +88,19 @@
             &.b-tooltip-#{$name} {
                 &.b-tooltip-bottom {
                     &::after {
-                        border-color: transparent transparent rgba($color, $tooltip-background-opacity) transparent;
+                        border-color: transparent transparent RGBA($color, $tooltip-background-opacity) transparent;
                     }
                 }
 
                 &.b-tooltip-left {
                     &::after {
-                        border-color: transparent transparent transparent rgba($color, $tooltip-background-opacity);
+                        border-color: transparent transparent transparent RGBA($color, $tooltip-background-opacity);
                     }
                 }
 
                 &.b-tooltip-right {
                     &::after {
-                        border-color: transparent rgba($color, $tooltip-background-opacity) transparent transparent;
+                        border-color: transparent RGBA($color, $tooltip-background-opacity) transparent transparent;
                     }
                 }
 
@@ -108,12 +108,12 @@
                 &:not(.b-tooltip-left),
                 &:not(.b-tooltip-right) {
                     &::after {
-                        border-color: rgba($color, $tooltip-background-opacity) transparent transparent transparent;
+                        border-color: RGBA($color, $tooltip-background-opacity) transparent transparent transparent;
                     }
                 }
 
                 &:before {
-                    background-color: rgba($color, $tooltip-background-opacity);
+                    background-color: RGBA($color, $tooltip-background-opacity);
                     color: $color-invert;
                 }
             }

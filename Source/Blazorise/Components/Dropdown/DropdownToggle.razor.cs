@@ -32,7 +32,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+            dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -70,7 +70,7 @@ namespace Blazorise
                 }
                 if ( Rendered )
                 {
-                    JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                    DisposeDotNetObjectRef( dotNetObjectRef );
                 }
             }
 
@@ -126,6 +126,9 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
         /// True if parent dropdown is part of a button group.
@@ -207,7 +210,7 @@ namespace Blazorise
 
                     if ( Rendered )
                     {
-                        JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+                        JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
                     }
                 }
                 else

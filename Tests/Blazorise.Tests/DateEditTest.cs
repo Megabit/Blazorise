@@ -65,14 +65,14 @@ namespace Blazorise.Tests
         }
 
         [Fact]
-        public void OnClickedTest()
+        public async Task OnClickedTest()
         {
             // setup
             var edit = new MockDateEdit<DateTime>();
             var expected = edit.ElementId;
 
             // test
-            edit.Click();
+            await edit.Click();
 
             // validate
             Assert.Equal( expected, edit.ClickedId );

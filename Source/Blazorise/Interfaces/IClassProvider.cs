@@ -295,7 +295,9 @@ namespace Blazorise
 
         string DropdownItem();
 
-        string DropdownItemActive();
+        string DropdownItemActive( bool active );
+
+        string DropdownItemDisabled( bool disabled );
 
         string DropdownDivider();
 

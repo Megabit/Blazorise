@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
 <CascadingValue Value="@store">
-    <li class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <li id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </li>
 </CascadingValue>
