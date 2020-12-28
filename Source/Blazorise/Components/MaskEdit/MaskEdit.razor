@@ -1,0 +1,10 @@
+@namespace Blazorise
+@inherits TextEdit
+<input @ref="ElementRef" id="@ElementId" type="@Type" inputmode="@Mode" class="@ClassNames" style="@StyleNames" 
+        placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" maxlength="@MaxLength" 
+        size="@VisibleCharacters" pattern="@Pattern" value="@CurrentValue" @onchange="@OnChangeHandler" 
+        @oninput="@OnInputHandler" @onkeydown="@KeyDown" @onkeypress="@OnKeyPressHandler" @onkeyup="@KeyUp" @onfocus="@OnFocus" 
+        @onfocusin="@FocusIn" @onfocusout="@FocusOut" @attributes="@Attributes" 
+        @onkeypress:preventDefault/>
+@ChildContent
+@Feedback
