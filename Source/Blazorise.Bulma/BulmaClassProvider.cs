@@ -647,7 +647,7 @@ namespace Blazorise.Bulma
                 : $"is-{ToDisplayType( displayType )}";
 
             if ( direction != DisplayDirection.None )
-                return $"{baseClass} is-flex-{ToDisplayDirection( direction )}";
+                return $"{baseClass} is-flex-direction-{ToDisplayDirection( direction )}";
 
             return baseClass;
         }
@@ -950,9 +950,9 @@ namespace Blazorise.Bulma
         public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
         {
             if ( breakpoint != Blazorise.Breakpoint.None )
-                return $"is-{ToSpacing( spacing )}{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
+                return $"{ToSpacing( spacing )}{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
 
-            return $"is-{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
+            return $"{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
         }
 
         public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
