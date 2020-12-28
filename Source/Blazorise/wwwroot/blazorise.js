@@ -431,8 +431,13 @@ window.blazorise = {
         }
     },
     fileEdit: {
+        _instances: [],
+
         initialize: (adapter, element, elementId) => {
             var nextFileId = 0;
+
+            // save an instance of adapter
+            window.blazorise.fileEdit._instances[elementId] = new window.blazorise.FileEditInfo(adapter, element, elementId);
 
             element.addEventListener('change', function handleInputFileChange(event) {
                 // Reduce to purely serializable data, plus build an index by ID
@@ -461,13 +466,22 @@ window.blazorise = {
             return true;
         },
         destroy: (element, elementId) => {
-            // TODO:
+            var instances = window.blazorise.fileEdit._instances || {};
+            delete instances[elementId];
             return true;
         },
 
         reset: (element, elementId) => {
             if (element) {
                 element.value = '';
+
+                var fileEditInfo = window.blazorise.fileEdit._instances[elementId];
+
+                if (fileEditInfo) {
+                    fileEditInfo.adapter.invokeMethodAsync('NotifyChange', []).then(null, function (err) {
+                        throw new Error(err);
+                    });
+                }
             }
 
             return true;
@@ -518,6 +532,12 @@ window.blazorise = {
                 element.click();
             }
         }
+    },
+
+    FileEditInfo: function (adapter, element, elementId) {
+        this.adapter = adapter;
+        this.element = element;
+        this.elementId = elementId;
     },
 
     breakpoint: {
