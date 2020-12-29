@@ -1,13 +1,11 @@
 ﻿@inherits Blazorise.Fields
+@if ( Label != null )
+{
+    <Label>@Label</Label>
+}
 <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    @if ( Label != null )
-    {
-        <Label>@Label</Label>
-    }
     <CascadingValue Value=this>
-        <div class="field-body">
-            @ChildContent
-        </div>
+        @ChildContent
     </CascadingValue>
 </div>
 @if ( Help != null )
