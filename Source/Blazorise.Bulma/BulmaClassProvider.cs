@@ -183,7 +183,7 @@ namespace Blazorise.Bulma
 
         #region Fields
 
-        public override string Fields() => "field";
+        public override string Fields() => "columns is-multiline";
 
         public override string FieldsBody() => "field-body";
 
@@ -627,7 +627,7 @@ namespace Blazorise.Bulma
                 if ( columnWidth == Blazorise.ColumnWidth.None )
                     return $"column is-{baseClass}{ToBreakpoint( breakpoint )}";
 
-                return $"column is-{baseClass}{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
+                return $"column is-{ToColumnWidth( columnWidth )}-{baseClass}{ToBreakpoint( breakpoint )}";
             }
 
             return $"column is-{baseClass}{ToColumnWidth( columnWidth )}";
