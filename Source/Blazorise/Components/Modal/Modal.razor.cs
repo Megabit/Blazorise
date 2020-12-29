@@ -66,7 +66,7 @@ namespace Blazorise
                 // Sometimes user can navigates to another page based on the action runned on modal. The problem is 
                 // that for providers like Bootstrap, some classnames can be left behind. So to cover those situation
                 // we need to close modal and dispose of any claassnames in case there is any left. 
-                _ = JSRunner.CloseModal( ElementRef, ElementId );
+                _ = JSRunner.CloseModal( ElementRef );
 
                 if ( focusableComponents != null )
                 {
@@ -150,7 +150,7 @@ namespace Blazorise
             {
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.OpenModal( ElementRef, ElementId, ScrollToTop );
+                    await JSRunner.OpenModal( ElementRef, ScrollToTop );
                 } );
 
                 // only one component can be focused
@@ -166,7 +166,7 @@ namespace Blazorise
             {
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.CloseModal( ElementRef, ElementId );
+                    await JSRunner.CloseModal( ElementRef );
                 } );
             }
 

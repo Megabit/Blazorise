@@ -339,11 +339,7 @@ namespace Blazorise
                 variables[ThemeVariables.TooltipBackgroundColorR] = backgroundColor.R.ToString( CultureInfo.InvariantCulture );
                 variables[ThemeVariables.TooltipBackgroundColorG] = backgroundColor.G.ToString( CultureInfo.InvariantCulture );
                 variables[ThemeVariables.TooltipBackgroundColorB] = backgroundColor.B.ToString( CultureInfo.InvariantCulture );
-            }
-
-            if ( tooltipOptions?.BackgroundOpacity != null )
-            {
-                variables[ThemeVariables.TooltipBackgroundOpacity] = tooltipOptions.BackgroundOpacity.Value.ToString( CultureInfo.InvariantCulture );
+                variables[ThemeVariables.TooltipBackgroundOpacity] = ( backgroundColor.A / 255f ).ToString( "n2", CultureInfo.InvariantCulture );
             }
 
             if ( tooltipOptions?.Color != null )

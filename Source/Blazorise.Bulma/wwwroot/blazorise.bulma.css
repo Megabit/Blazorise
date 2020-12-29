@@ -30,18 +30,6 @@
 .is-table-cell {
     display: table-cell !important; }
 
-.is-flex-row {
-    flex-direction: row !important; }
-
-.is-flex-column {
-    flex-direction: column !important; }
-
-.is-flex-row-reverse {
-    flex-direction: row-reverse !important; }
-
-.is-flex-column-reverse {
-    flex-direction: column-reverse !important; }
-
 .is-borderless {
     border: 0 !important; }
 
@@ -2547,6 +2535,10 @@
     animation-duration: 0.3s;
     animation-fill-mode: both;
     animation-name: fadeIn; }
+
+.dropdown .dropdown-menu > .dropdown-content > .dropdown-item.is-disabled {
+    pointer-events: none;
+    opacity: .65; }
 
 label.radio.button {
     display: flex; }

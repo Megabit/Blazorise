@@ -20,14 +20,14 @@ window.blazoriseBulma = {
         return true;
     },
     modal: {
-        open: (element, elementId, scrollToTop) => {
+        open: (element, scrollToTop) => {
             if (scrollToTop) {
                 element.querySelector('.modal-card-body').scrollTop = 0;
             }
 
             return true;
         },
-        close: (element, elementId) => {
+        close: (element) => {
             return true;
         }
     }

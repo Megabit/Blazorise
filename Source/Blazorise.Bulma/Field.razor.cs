@@ -18,9 +18,13 @@ namespace Blazorise.Bulma
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            if ( !IsFields && ColumnSize != null )
+            if ( IsFields && ColumnSize == null )
             {
                 builder.Append( ClassProvider.FieldColumn() );
+            }
+
+            if ( ColumnSize != null )
+            {
                 builder.Append( ColumnSize.Class( ClassProvider ) );
             }
 

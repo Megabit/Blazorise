@@ -21,19 +21,6 @@ namespace Blazorise
             this.runtime = runtime;
         }
 
-        public DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
-        {
-            return DotNetObjectReference.Create( value );
-        }
-
-        public void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
-        {
-            if ( value != null )
-            {
-                value.Dispose();
-            }
-        }
-
         public ValueTask<bool> InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementRef, elementId, maskType, editMask );
@@ -181,9 +168,9 @@ namespace Blazorise
             return runtime.InvokeAsync<int>( $"{BLAZORISE_NAMESPACE}.getCaret", elementRef );
         }
 
-        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop );
+        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop );
 
-        public abstract ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
+        public abstract ValueTask<bool> CloseModal( ElementReference elementRef );
 
         public ValueTask<bool> OpenFileDialog( ElementReference elementRef, string elementId )
         {
@@ -195,14 +182,14 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.focus", elementRef, elementId, scrollToElement );
         }
 
-        public ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, string elementId )
+        public ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef )
         {
-            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", elementId, dotNetObjectRef );
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", elementRef, dotNetObjectRef );
         }
 
         public ValueTask<object> UnregisterClosableComponent( ICloseActivator component )
         {
-            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementId );
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementRef );
         }
 
         public ValueTask<object> RegisterBreakpointComponent( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId )

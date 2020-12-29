@@ -1,10 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
@@ -116,6 +113,22 @@ namespace Blazorise.DataGrid
             paginationContext.SubscribeOnPageSizeChanged( pageSize =>
             {
                 InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
+
+                // When using manual mode, a user is in control when StateHasChanged will be called
+                // so we just need to call HandleReadData.
+                if ( ManualReadMode )
+                {
+                    InvokeAsync( HandleReadData );
+                }
+                else
+                {
+                    InvokeAsync( StateHasChanged );
+                }
+            } );
+
+            paginationContext.SubscribeOnPageChanged( currentPage =>
+            {
+                InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
 
                 // When using manual mode, a user is in control when StateHasChanged will be called
                 // so we just need to call HandleReadData.
@@ -485,10 +498,12 @@ namespace Blazorise.DataGrid
             return Task.CompletedTask;
         }
 
-        protected async Task OnPaginationItemClick( string pageName )
+        protected Task OnPaginationItemClick( string pageName )
         {
             if ( int.TryParse( pageName, out var pageNumber ) )
+            {
                 CurrentPage = pageNumber;
+            }
             else
             {
                 if ( pageName == "prev" )
@@ -515,10 +530,7 @@ namespace Blazorise.DataGrid
                 }
             }
 
-            await PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( CurrentPage, PageSize ) );
-
-            if ( ManualReadMode )
-                await HandleReadData();
+            return Task.CompletedTask;
         }
 
         private void FilterData()

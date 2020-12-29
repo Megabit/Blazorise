@@ -60,7 +60,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new FileEditAdapter( this ) );
+            dotNetObjectRef ??= CreateDotNetObjectRef( new FileEditAdapter( this ) );
 
             await JSRunner.InitializeFileEdit( dotNetObjectRef, ElementRef, ElementId );
 
@@ -73,7 +73,7 @@ namespace Blazorise
             if ( disposing && Rendered )
             {
                 JSRunner.DestroyFileEdit( ElementRef, ElementId );
-                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
             base.Dispose( disposing );
@@ -207,6 +207,9 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
 
         /// <inheritdoc/>
         protected override IFileEntry[] InternalValue { get => files; set => files = value; }

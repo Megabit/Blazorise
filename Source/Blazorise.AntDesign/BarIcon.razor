@@ -1,11 +1,11 @@
 ﻿@inherits Blazorise.BarIcon
 <span class="anticon">
-    @if (IconName is RenderFragment)
+    @if ( IconName is RenderFragment )
     {
         @( IconName as RenderFragment )
     }
     else
     {
-        <Icon Name="@IconName" />
+        <Icon ElementId="@ElementId" Name="@IconName" />
     }
 </span>

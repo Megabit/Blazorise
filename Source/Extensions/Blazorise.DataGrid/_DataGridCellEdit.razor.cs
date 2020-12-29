@@ -12,7 +12,6 @@ namespace Blazorise.DataGrid
     {
         protected Task OnEditValueChanged<T>( T value )
         {
-            //Console.WriteLine( $"value: {value}, {value?.GetType()}" );
             CellEditContext.CellValue = value;
 
             return CellValueChanged.InvokeAsync( value );

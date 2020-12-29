@@ -1,4 +1,4 @@
 ﻿@inherits Blazorise.DropdownItem
-<li role="menuitem" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+<li id="@ElementId" role="menuitem" class="@ClassNames" style="@StyleNames" aria-disabled="@(Disabled.ToString().ToLowerInvariant())" @onclick="@ClickHandler" @attributes="@Attributes">
     @ChildContent
 </li>

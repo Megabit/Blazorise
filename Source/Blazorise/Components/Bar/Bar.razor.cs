@@ -51,7 +51,7 @@ namespace Blazorise
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
+            dotNetObjectRef ??= CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
 
             if ( Rendered )
             {
@@ -119,7 +119,7 @@ namespace Blazorise
                 {
                     _ = JSRunner.UnregisterBreakpointComponent( this );
 
-                    JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                    DisposeDotNetObjectRef( dotNetObjectRef );
                 }
 
                 if ( NavigationBreakpoint != Breakpoint.None )
@@ -139,6 +139,9 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
 
         protected BarStore Store => store;
 
