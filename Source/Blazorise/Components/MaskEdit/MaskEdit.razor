@@ -5,6 +5,6 @@
         size="@VisibleCharacters" pattern="@Pattern" value="@CurrentValue" @onchange="@OnChangeHandler" 
         @oninput="@OnInputHandler" @onkeydown="@KeyDown" @onkeypress="@OnKeyPressHandler" @onkeyup="@KeyUp" @onfocus="@OnFocus" 
         @onfocusin="@FocusIn" @onfocusout="@FocusOut" @attributes="@Attributes" 
-        @onkeypress:preventDefault/>
+        @onkeypress:preventDefault @onkeydown:preventDefault />
 @ChildContent
 @Feedback

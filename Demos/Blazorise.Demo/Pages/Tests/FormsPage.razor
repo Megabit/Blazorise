@@ -15,49 +15,49 @@
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Name</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Placeholder="Some text value..."/>
+                        <TextEdit Placeholder="Some text value..." />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Role="TextRole.Email" Placeholder="email"/>
+                        <TextEdit Role="TextRole.Email" Placeholder="email" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Role="TextRole.Password" Text="password"/>
+                        <TextEdit Role="TextRole.Password" Text="password" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Placeholder</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Placeholder="placeholder"/>
+                        <TextEdit Placeholder="placeholder" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Text area</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <MemoEdit Rows="5"/>
+                        <MemoEdit Rows="5" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Readonly</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Text="Readonly value" ReadOnly="true"/>
+                        <TextEdit Text="Readonly value" ReadOnly="true" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Disabled</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Text="Disabled value" Disabled="true"/>
+                        <TextEdit Text="Disabled value" Disabled="true" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Static control</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Text="email@example.com" Plaintext="true"/>
+                        <TextEdit Text="email@example.com" Plaintext="true" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
@@ -108,45 +108,66 @@
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Default file input</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <FileEdit/>
+                        <FileEdit />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <DateEdit TValue="DateTime?"/>
+                        <DateEdit TValue="DateTime?" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Time</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TimeEdit TValue="TimeSpan?" TimeChanged="@((v) => Console.WriteLine(v))"/>
+                        <TimeEdit TValue="TimeSpan?" TimeChanged="@((v) => Console.WriteLine(v))" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Number</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <NumericEdit TValue="decimal?"/>
+                        <NumericEdit TValue="decimal?" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Url</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <TextEdit Role="TextRole.Url"/>
+                        <TextEdit Role="TextRole.Url" />
                     </FieldBody>
                 </Field>
 
                 <Field Horizontal="true">
-                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">MaskEdit</FieldLabel>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Phone number</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <MaskEdit  EditMask="(XX) XXXXX-XXXX"/>
+                        <MaskEdit EditMask="99+ (99) 99999-9999" />
+                    </FieldBody>
+                </Field>
+
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Zip number</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <MaskEdit EditMask="XXXXX-XXX" />
+                    </FieldBody>
+                </Field>
+
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Code</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <MaskEdit EditMask="aaaa-9999" />
+                    </FieldBody>
+                </Field>
+
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Item price</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <MaskEdit IsCurrency="true" />
                     </FieldBody>
                 </Field>
 
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Range slider</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <Slider TValue="decimal" Value="25m" Max="100m"/>
+                        <Slider TValue="decimal" Value="25m" Max="100m" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
@@ -172,7 +193,7 @@
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Color</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <ColorEdit ColorChanged="@(c => Console.WriteLine(c))"/>
+                        <ColorEdit ColorChanged="@(c => Console.WriteLine(c))" />
                     </FieldBody>
                 </Field>
             </CardBody>

@@ -242,6 +242,19 @@
                             </FieldBody>
                         </Field>
                     </Validation>
+
+                    <Validation Validator="@ValidValue">
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Mask Edit</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                <MaskEdit IsCurrency="true" @bind-Text="@itemPrice">
+                                    <Feedback>
+                                        <ValidationError>The value is not valid!</ValidationError>
+                                    </Feedback>
+                                </MaskEdit>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
                     <Field Horizontal="true" JustifyContent="JustifyContent.End">
                         <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
                             <Button Color="Color.Primary" Clicked="@Submit">Submit</Button>
@@ -521,22 +534,42 @@
     User manualUser = new User();
 
     string password;
+    string itemPrice;
 
-    void ValidatePassword( ValidatorEventArgs e )
+    void ValidValue(ValidatorEventArgs e)
     {
-        e.Status = Convert.ToString( e.Value )?.Length >= 6 ? ValidationStatus.Success : ValidationStatus.Error;
+        decimal itemValue;
+
+        e.Status = ValidationStatus.Error;
+
+        if (string.IsNullOrEmpty(Convert.ToString(e.Value)))
+            return;
+
+
+        if (decimal.TryParse(e.Value.ToString(), out itemValue))
+        {
+            if (itemValue > 0)
+                e.Status = ValidationStatus.Success;
+
+        }
+
     }
 
-    void ValidatePassword2( ValidatorEventArgs e )
+    void ValidatePassword(ValidatorEventArgs e)
     {
-        var password2 = Convert.ToString( e.Value );
+        e.Status = Convert.ToString(e.Value)?.Length >= 6 ? ValidationStatus.Success : ValidationStatus.Error;
+    }
 
-        if ( password2?.Length < 6 )
+    void ValidatePassword2(ValidatorEventArgs e)
+    {
+        var password2 = Convert.ToString(e.Value);
+
+        if (password2?.Length < 6)
         {
             e.Status = ValidationStatus.Error;
             e.ErrorText = "Password must be at least 6 characters long!";
         }
-        else if ( password2 != password )
+        else if (password2 != password)
         {
             e.Status = ValidationStatus.Error;
         }
@@ -546,26 +579,26 @@
         }
     }
 
-    void ValidateCheck( ValidatorEventArgs e )
+    void ValidateCheck(ValidatorEventArgs e)
     {
-        e.Status = Convert.ToBoolean( e.Value ) ? ValidationStatus.Success : ValidationStatus.Error;
+        e.Status = Convert.ToBoolean(e.Value) ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
-    void ValidateSelect( ValidatorEventArgs e )
+    void ValidateSelect(ValidatorEventArgs e)
     {
-        var selectedValue = e.Value == null ? 0 : Convert.ToInt32( e.Value );
+        var selectedValue = e.Value == null ? 0 : Convert.ToInt32(e.Value);
         e.Status = selectedValue != 0 ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
-    void ValidateDateOfBirth( ValidatorEventArgs e )
+    void ValidateDateOfBirth(ValidatorEventArgs e)
     {
         var date = e.Value as DateTime?;
 
-        if ( date == null )
+        if (date == null)
         {
             e.Status = ValidationStatus.Error;
         }
-        else if ( date?.Year < 1900 )
+        else if (date?.Year < 1900)
         {
             e.Status = ValidationStatus.Error;
             e.ErrorText = "Date cannot be less then 01.01.1900!";
@@ -578,7 +611,7 @@
 
     void Submit()
     {
-        if ( validations.ValidateAll() )
+        if (validations.ValidateAll())
         {
             validations.ClearAll();
         }
@@ -586,7 +619,7 @@
 
     void AnnotationsSubmit()
     {
-        if ( annotationsValidations.ValidateAll() )
+        if (annotationsValidations.ValidateAll())
         {
             annotationsValidations.ClearAll();
         }
