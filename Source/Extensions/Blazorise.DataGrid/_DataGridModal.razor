@@ -31,14 +31,12 @@
                         @if ( column.CellValueIsEditable )
                         {
                             <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
-                                <Field>
-                                    <FieldLabel>
-                                        @column.Caption
-                                    </FieldLabel>
-                                    <FieldBody>
-                                        <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
-                                    </FieldBody>
-                                </Field>
+                                <FieldLabel>
+                                    @column.Caption
+                                </FieldLabel>
+                                <FieldBody>
+                                    <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
+                                </FieldBody>
                             </Field>
                         }
                     }

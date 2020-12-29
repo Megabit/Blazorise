@@ -11,25 +11,27 @@
                 </Row>
             }
             <Row>
-                @foreach ( var column in Columns )
-                {
-                    @if ( column.ExcludeFromEdit )
-                        continue;
+                <Column>
+                    <Fields>
+                        @foreach ( var column in Columns )
+                        {
+                            @if ( column.ExcludeFromEdit )
+                                continue;
 
-                    @if ( column.CellValueIsEditable )
-                    {
-                        <Column ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
-                            <Field>
-                                <FieldLabel>
-                                    @column.Caption
-                                </FieldLabel>
-                                <FieldBody>
-                                    <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
-                                </FieldBody>
-                            </Field>
-                        </Column>
-                    }
-                }
+                            @if ( column.CellValueIsEditable )
+                            {
+                                <Field ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                                    <FieldLabel>
+                                        @column.Caption
+                                    </FieldLabel>
+                                    <FieldBody>
+                                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
+                                    </FieldBody>
+                                </Field>
+                            }
+                        }
+                    </Fields>
+                </Column>
             </Row>
             <Row>
                 <Column>
