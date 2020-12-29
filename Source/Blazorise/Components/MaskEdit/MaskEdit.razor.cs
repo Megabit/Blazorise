@@ -77,7 +77,7 @@ namespace Blazorise
 
                 if ( EditMask[caretPosition] == 'a' )
                     if ( !char.IsLetter( value[caretPosition] ) )
-                        return; 
+                        return;
 
                 if ( EditMask[caretPosition] == '9' )
                     if ( !char.IsDigit( value[caretPosition] ) )
@@ -128,7 +128,7 @@ namespace Blazorise
         {
             var decimalDigits = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalDigits;
             var decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
-            var groupSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyGroupSeparator;          
+            var groupSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyGroupSeparator;
 
             int theValue;
             if ( !int.TryParse( value, out theValue ) )
@@ -137,13 +137,13 @@ namespace Blazorise
             ///var tempValue = new string( value.Reverse().ToArray() );
             if ( value.Length > decimalDigits )
             {
-                var decimalValue = int.Parse(value.Substring( value.Length - decimalDigits, decimalDigits ));
-                var integerValue = int.Parse(value.Substring( 0, value.Length - decimalDigits ));
+                var decimalValue = int.Parse( value.Substring( value.Length - decimalDigits, decimalDigits ) );
+                var integerValue = int.Parse( value.Substring( 0, value.Length - decimalDigits ) );
 
                 return $"{integerValue.ToString( "#,##0" )}{decimalSeparator}{decimalValue.ToString().PadLeft( decimalDigits, '0' )}";
             }
             else
-                return $"0{decimalSeparator}{value.PadLeft( decimalDigits, '0' )}";       
+                return $"0{decimalSeparator}{value.PadLeft( decimalDigits, '0' )}";
 
         }
 
@@ -183,7 +183,7 @@ namespace Blazorise
                 return;
 
             for ( int i = 0; i <= EditMask.Length - 1; i++ )
-                if ( EditMask[i] != 'X' && EditMask[i] != '9' && EditMask[i] != 'a')
+                if ( EditMask[i] != 'X' && EditMask[i] != '9' && EditMask[i] != 'a' )
                     positions.Add( i, EditMask[i] );
         }
 
