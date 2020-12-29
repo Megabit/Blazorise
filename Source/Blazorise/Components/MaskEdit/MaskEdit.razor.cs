@@ -13,7 +13,9 @@ namespace Blazorise
     public partial class MaskEdit : TextEdit
     {
         #region Members
-
+        /// <summary>
+        /// The characters to be inserted in input while is typping
+        /// </summary>
         private Dictionary<int, char> positions = new Dictionary<int, char>();
         int caretPosition = 0;
 
@@ -89,11 +91,21 @@ namespace Blazorise
                 await JSRunner.SetCaret( ElementRef, caretPosition + 1 );
         }
 
+        /// <summary>
+        /// Clear the mask to be rebuild
+        /// </summary>
+        /// <param name="value">The value in construction</param>
+        /// <returns></returns>
         private string ClearCurrencyMask( string value )
         {
             return new string( value.Where( c => char.IsDigit( c ) ).ToArray() );
         }
 
+        /// <summary>
+        /// Clear mask 
+        /// </summary>
+        /// <param name="value">value in construction</param>
+        /// <returns></returns>
         private string ClearMask( string value )
         {
             foreach ( var position in positions )
@@ -106,12 +118,17 @@ namespace Blazorise
             return value;
         }
 
+
+        /// <summary>
+        /// Do a simple currency format
+        /// </summary>
+        /// <param name="value">value in construction</param>
+        /// <returns></returns>
         private string DoCurrencyMask( string value )
         {
             var decimalDigits = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalDigits;
             var decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
-            var groupSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyGroupSeparator;
-            var groupSize = 4;
+            var groupSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyGroupSeparator;          
 
             int theValue;
             if ( !int.TryParse( value, out theValue ) )
@@ -126,38 +143,7 @@ namespace Blazorise
                 return $"{integerValue.ToString( "#,##0" )}{decimalSeparator}{decimalValue.ToString().PadLeft( decimalDigits, '0' )}";
             }
             else
-                return $"0{decimalSeparator}{value.PadLeft( decimalDigits, '0' )}";
-
-            //tempValue = tempValue.Remove( 0, decimalDigits );
-            //List<string> groups = new();
-            //StringBuilder newValue = new();
-            //while (tempValue.Length > groupSize )
-            //{
-            //    newValue.Append(tempValue.Substring( 0, groupSize ) + groupSeparator );
-            //    tempValue = tempValue.Remove( 0, groupSize );
-            //}
-
-
-                //if ( tempValue.Length > 0 )
-                //    newValue.Append( tempValue );
-                //else
-                //    newValue.Remove( newValue.Length - 1, 1 );
-
-
-                //decimal newValue;
-                //if ( value.Length > decimalDigits )
-                //{
-                //    var decimalValue = value.Substring( value.Length - decimalDigits, decimalDigits );
-                //    var integerValue = value.Substring( 0, value.Length - decimalDigits );
-                //    newValue = Convert.ToDecimal( $"{integerValue}{decimalSeparator}{decimalValue}" );
-                //}
-                //else
-                //    newValue = Convert.ToDecimal( $"0{decimalSeparator}{value}" );
-
-                //if ( newValue == 0 )
-                //    return newValue.ToString( "0.00" );
-
-                //return newValue.ToString( "#,###.#0" );
+                return $"0{decimalSeparator}{value.PadLeft( decimalDigits, '0' )}";       
 
         }
 
@@ -165,6 +151,12 @@ namespace Blazorise
         {
             return base.OnInputHandler( e );
         }
+
+        /// <summary>
+        /// Do the mask, insert the characters in the mask.
+        /// </summary>
+        /// <param name="value">value in construction</param>
+        /// <returns></returns>
         private string DoMask( string value )
         {
             if ( string.IsNullOrEmpty( value ) )
@@ -181,6 +173,10 @@ namespace Blazorise
             return value;
         }
 
+        /// <summary>
+        /// Identifie the characters to be insert in value while typping
+        /// that is not the domain value, just used to format the value
+        /// </summary>
         private void SetPositions()
         {
             if ( string.IsNullOrEmpty( EditMask ) )
@@ -194,7 +190,10 @@ namespace Blazorise
         #endregion
 
         #region properties
-
+        /// <summary>
+        /// Define if the MaskEdit is in the Currency mode. 
+        /// Only the numeric value will be accepted
+        /// </summary>
         [Parameter] public bool IsCurrency { get; set; }
 
         #endregion
