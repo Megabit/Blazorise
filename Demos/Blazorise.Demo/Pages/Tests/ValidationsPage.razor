@@ -536,40 +536,40 @@
     string password;
     string itemPrice;
 
-    void ValidValue(ValidatorEventArgs e)
+    void ValidValue( ValidatorEventArgs e )
     {
         decimal itemValue;
 
         e.Status = ValidationStatus.Error;
 
-        if (string.IsNullOrEmpty(Convert.ToString(e.Value)))
+        if ( string.IsNullOrEmpty( Convert.ToString( e.Value ) ) )
             return;
 
 
-        if (decimal.TryParse(e.Value.ToString(), out itemValue))
+        if ( decimal.TryParse( e.Value.ToString(), out itemValue ) )
         {
-            if (itemValue > 0)
+            if ( itemValue > 0 )
                 e.Status = ValidationStatus.Success;
 
         }
 
     }
 
-    void ValidatePassword(ValidatorEventArgs e)
+    void ValidatePassword( ValidatorEventArgs e )
     {
-        e.Status = Convert.ToString(e.Value)?.Length >= 6 ? ValidationStatus.Success : ValidationStatus.Error;
+        e.Status = Convert.ToString( e.Value )?.Length >= 6 ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
-    void ValidatePassword2(ValidatorEventArgs e)
+    void ValidatePassword2( ValidatorEventArgs e )
     {
-        var password2 = Convert.ToString(e.Value);
+        var password2 = Convert.ToString( e.Value );
 
-        if (password2?.Length < 6)
+        if ( password2?.Length < 6 )
         {
             e.Status = ValidationStatus.Error;
             e.ErrorText = "Password must be at least 6 characters long!";
         }
-        else if (password2 != password)
+        else if ( password2 != password )
         {
             e.Status = ValidationStatus.Error;
         }
@@ -579,26 +579,26 @@
         }
     }
 
-    void ValidateCheck(ValidatorEventArgs e)
+    void ValidateCheck( ValidatorEventArgs e )
     {
-        e.Status = Convert.ToBoolean(e.Value) ? ValidationStatus.Success : ValidationStatus.Error;
+        e.Status = Convert.ToBoolean( e.Value ) ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
-    void ValidateSelect(ValidatorEventArgs e)
+    void ValidateSelect( ValidatorEventArgs e )
     {
-        var selectedValue = e.Value == null ? 0 : Convert.ToInt32(e.Value);
+        var selectedValue = e.Value == null ? 0 : Convert.ToInt32( e.Value );
         e.Status = selectedValue != 0 ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
-    void ValidateDateOfBirth(ValidatorEventArgs e)
+    void ValidateDateOfBirth( ValidatorEventArgs e )
     {
         var date = e.Value as DateTime?;
 
-        if (date == null)
+        if ( date == null )
         {
             e.Status = ValidationStatus.Error;
         }
-        else if (date?.Year < 1900)
+        else if ( date?.Year < 1900 )
         {
             e.Status = ValidationStatus.Error;
             e.ErrorText = "Date cannot be less then 01.01.1900!";
@@ -611,7 +611,7 @@
 
     void Submit()
     {
-        if (validations.ValidateAll())
+        if ( validations.ValidateAll() )
         {
             validations.ClearAll();
         }
@@ -619,7 +619,7 @@
 
     void AnnotationsSubmit()
     {
-        if (annotationsValidations.ValidateAll())
+        if ( annotationsValidations.ValidateAll() )
         {
             annotationsValidations.ClearAll();
         }
