@@ -247,7 +247,7 @@
                         <Field Horizontal="true">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Mask Edit</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                                <MaskEdit IsCurrency="true" @bind-Text="@itemPrice">
+                                <MaskEdit Currency="R$" @bind-Text="@itemPrice">
                                     <Feedback>
                                         <ValidationError>The value is not valid!</ValidationError>
                                     </Feedback>

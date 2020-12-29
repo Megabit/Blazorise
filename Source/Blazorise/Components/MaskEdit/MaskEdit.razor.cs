@@ -14,7 +14,7 @@ namespace Blazorise
     {
         #region Members
         /// <summary>
-        /// The characters to be inserted in input while is typping
+        /// The characters to be inserted in the input while is typping
         /// </summary>
         private Dictionary<int, char> positions = new Dictionary<int, char>();
         int caretPosition = 0;
@@ -26,7 +26,7 @@ namespace Blazorise
         protected override Task OnInitializedAsync()
         {
             SetPositions();
-            if ( IsCurrency )
+            if ( !string.IsNullOrEmpty(Currency) )
             {
                 if ( Style?.Length == 0 )
                     Style = "text-align: right";
@@ -52,12 +52,17 @@ namespace Blazorise
 
             var value = CurrentValue;
 
-            if ( IsCurrency )
+            if ( !string.IsNullOrEmpty(Currency) )
             {
+                
                 if ( !char.IsDigit( e.Key[0] ) )
                     return;
                 value += e.Key;
                 value = ClearCurrencyMask( value );
+                if (value is not null)
+                if ( !IsValidCurrencyNumber(value) )
+                    return;
+
                 value = DoCurrencyMask( value );
             }
             else
@@ -77,7 +82,7 @@ namespace Blazorise
 
                 if ( EditMask[caretPosition] == 'a' )
                     if ( !char.IsLetter( value[caretPosition] ) )
-                        return; 
+                        return;
 
                 if ( EditMask[caretPosition] == '9' )
                     if ( !char.IsDigit( value[caretPosition] ) )
@@ -85,7 +90,8 @@ namespace Blazorise
             }
 
             await CurrentValueHandler( value );
-            if ( IsCurrency )
+
+            if (!string.IsNullOrEmpty(Currency) )
                 await JSRunner.SetCaret( ElementRef, value.Length );
             else
                 await JSRunner.SetCaret( ElementRef, caretPosition + 1 );
@@ -118,35 +124,49 @@ namespace Blazorise
             return value;
         }
 
-
         /// <summary>
         /// Do a simple currency format
         /// </summary>
         /// <param name="value">value in construction</param>
         /// <returns></returns>
         private string DoCurrencyMask( string value )
-        {
-            var decimalDigits = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalDigits;
-            var decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
-            var groupSeparator = CultureInfo.CurrentCulture.NumberFormat.CurrencyGroupSeparator;          
+        {          
+            var cultureInfo = CultureInfo.GetCultures( CultureTypes.AllCultures )
+                .Where( c => c.NumberFormat.CurrencySymbol == Currency )
+                .First();
 
-            int theValue;
-            if ( !int.TryParse( value, out theValue ) )
+            var decimalDigits = cultureInfo.NumberFormat.CurrencyDecimalDigits;
+            var decimalSeparator = cultureInfo.NumberFormat.CurrencyDecimalSeparator;
+            var groupSeparator = cultureInfo.NumberFormat.CurrencyGroupSeparator;         
+          
+            
+            decimal theValue;
+            if ( !decimal.TryParse( value, out theValue ) )
                 return theValue.ToString( "0.00" );
 
             ///var tempValue = new string( value.Reverse().ToArray() );
             if ( value.Length > decimalDigits )
             {
-                var decimalValue = int.Parse(value.Substring( value.Length - decimalDigits, decimalDigits ));
-                var integerValue = int.Parse(value.Substring( 0, value.Length - decimalDigits ));
+                var decimalValue = decimal.Parse( value.Substring( value.Length - decimalDigits, decimalDigits ) );
+                var integerValue = long.Parse( value.Substring( 0, value.Length - decimalDigits ) );
 
                 return $"{integerValue.ToString( "#,##0" )}{decimalSeparator}{decimalValue.ToString().PadLeft( decimalDigits, '0' )}";
             }
             else
-                return $"0{decimalSeparator}{value.PadLeft( decimalDigits, '0' )}";       
-
+                return $"0{decimalSeparator}{value.PadLeft( decimalDigits, '0' )}";
+        }
+        /// <summary>
+        /// Check if the number is valid to be a currency value
+        /// </summary>
+        /// <param name="value">value in the construction</param>
+        /// <returns></returns>
+        private bool IsValidCurrencyNumber (string value)
+        {
+            decimal validCurrencyNumber;
+            return decimal.TryParse( value, out validCurrencyNumber );
         }
 
+        //inherits
         protected override Task OnInputHandler( ChangeEventArgs e )
         {
             return base.OnInputHandler( e );
@@ -183,7 +203,7 @@ namespace Blazorise
                 return;
 
             for ( int i = 0; i <= EditMask.Length - 1; i++ )
-                if ( EditMask[i] != 'X' && EditMask[i] != '9' && EditMask[i] != 'a')
+                if ( EditMask[i] != '*' && EditMask[i] != '9' && EditMask[i] != 'a' )
                     positions.Add( i, EditMask[i] );
         }
 
@@ -193,8 +213,11 @@ namespace Blazorise
         /// <summary>
         /// Define if the MaskEdit is in the Currency mode. 
         /// Only the numeric value will be accepted
+        /// For example to Brazil currency we use "R$" 
+        /// that means Real, MaskEdit will search for the 
+        /// culture that use this currency symbol
         /// </summary>
-        [Parameter] public bool IsCurrency { get; set; }
+        [Parameter] public string Currency { get; set; }
 
         #endregion
     }
