@@ -24,18 +24,26 @@ namespace Blazorise
 
         #region Methods
         // inherits
-        protected override Task OnInitializedAsync()
+        protected override  async Task OnInitializedAsync()
         {
             SetPositions();
-            if ( !string.IsNullOrEmpty(Currency) )
+            if ( !string.IsNullOrEmpty( Currency ) )
             {
                 if ( Style?.Length == 0 )
                     Style = "text-align: right";
                 else
                     Style += ";text-align: right";
 
+                if ( Text != null )
+                   await  CurrentValueHandler( Text );
+
+                if ( CurrencyValue > 0 )
+                    CurrentValue = CurrencyValue.ToString( "#,###0.00", CultureInfo );
             }
-            return base.OnInitializedAsync();
+            else
+                Text = DoMask( Text );            
+
+            await base.OnInitializedAsync();
         }
 
         // inherits
@@ -55,16 +63,16 @@ namespace Blazorise
 
             var value = CurrentValue;
 
-            if ( !string.IsNullOrEmpty(Currency) )
+            if ( !string.IsNullOrEmpty( Currency ) )
             {
-                
+
                 if ( !char.IsDigit( e.Key[0] ) )
                     return;
                 value += e.Key;
                 value = ClearCurrencyMask( value );
-                if (value is not null)
-                if ( !IsValidCurrencyNumber(value) )
-                    return;
+                if ( value is not null )
+                    if ( !IsValidCurrencyNumber( value ) )
+                        return;
 
                 value = DoCurrencyMask( value );
             }
@@ -97,7 +105,7 @@ namespace Blazorise
 
             await CurrentValueHandler( value );
 
-            if (!string.IsNullOrEmpty(Currency) )
+            if ( !string.IsNullOrEmpty( Currency ) )
                 await JSRunner.SetCaret( ElementRef, value.Length );
             else
                 await JSRunner.SetCaret( ElementRef, caretPosition + 1 );
@@ -161,7 +169,6 @@ namespace Blazorise
             return value;
         }
 
-
         /// <summary>
         /// Do a simple currency format
         /// </summary>
@@ -169,13 +176,9 @@ namespace Blazorise
         /// <returns></returns>
         private string DoCurrencyMask( string value )
         {
-            var cultureInfo = CultureInfo.GetCultures( CultureTypes.AllCultures )
-                .Where( c => c.NumberFormat.CurrencySymbol == Currency )
-                .First();
-
-            var decimalDigits = cultureInfo.NumberFormat.CurrencyDecimalDigits;
-            var decimalSeparator = cultureInfo.NumberFormat.CurrencyDecimalSeparator;
-            var groupSeparator = cultureInfo.NumberFormat.CurrencyGroupSeparator;
+            var decimalDigits = CultureInfo.NumberFormat.CurrencyDecimalDigits;
+            var decimalSeparator = CultureInfo.NumberFormat.CurrencyDecimalSeparator;
+            var groupSeparator = CultureInfo.NumberFormat.CurrencyGroupSeparator;
 
 
             decimal theValue;
@@ -192,7 +195,7 @@ namespace Blazorise
             }
             else
                 return $"0{decimalSeparator}{value.PadLeft( decimalDigits, '0' )}";
-        }
+        }      
 
         /// <summary>
         /// Clear the mask to be rebuild
@@ -209,7 +212,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="value">value in the construction</param>
         /// <returns></returns>
-        private bool IsValidCurrencyNumber (string value)
+        private bool IsValidCurrencyNumber( string value )
         {
             decimal validCurrencyNumber;
             return decimal.TryParse( value, out validCurrencyNumber );
@@ -232,6 +235,16 @@ namespace Blazorise
         #endregion
 
         #region properties
+
+        /// <summary>
+        /// CultureInfo information for Currency mode MaskEdit
+        /// </summary>
+        private CultureInfo CultureInfo =>
+          CultureInfo.GetCultures( CultureTypes.AllCultures )
+              .Where( c => c.NumberFormat.CurrencySymbol == Currency )
+              .First();
+
+
         /// <summary>
         /// Define if the MaskEdit is in the Currency mode. 
         /// Only the numeric value will be accepted
@@ -241,6 +254,28 @@ namespace Blazorise
         /// </summary>
         [Parameter] public string Currency { get; set; }
 
+        /// <summary>
+        /// Return a currentValue as decimal value;
+        /// </summary>
+        public decimal CurrencyValue
+        {
+            get
+            {
+                decimal currencyValue = 0;
+
+                if ( !string.IsNullOrEmpty( Currency )  && CurrentValue != null)
+                {
+                    var value = new string( CurrentValue
+                        .Where( c => c != CultureInfo
+                                          .NumberFormat
+                                          .CurrencyGroupSeparator[0] ).ToArray() );
+
+                    decimal.TryParse( value, out currencyValue );
+                }
+
+                return currencyValue;
+            }
+        }
         #endregion
     }
 }
