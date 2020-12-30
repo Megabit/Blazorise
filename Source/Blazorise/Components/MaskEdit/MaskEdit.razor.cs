@@ -169,7 +169,15 @@ namespace Blazorise
         //inherits
         protected override Task OnInputHandler( ChangeEventArgs e )
         {
+             e.Value = RemovePositionsFromValue(e.Value.ToString() );
             return base.OnInputHandler( e );
+        }
+
+        private object RemovePositionsFromValue( string value )
+        {
+            while ( positions.ContainsKey( value.Length-1 ) )
+                value = value.Remove( value.Length - 1 );
+            return value;
         }
 
         /// <summary>
