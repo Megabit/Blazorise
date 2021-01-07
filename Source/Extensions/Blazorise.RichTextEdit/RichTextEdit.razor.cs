@@ -153,6 +153,18 @@ namespace Blazorise.RichTextEdit
         public Task OnEnter() => EnterPressed.InvokeAsync( true );
 
         /// <summary>
+        /// Javascript callback for when editor get focus.
+        /// </summary>
+        [JSInvokable]
+        public Task OnEditorFocus() => EditorFocus.InvokeAsync( true );
+
+        /// <summary>
+        /// Javascript callback for when editor lost focus.
+        /// </summary>
+        [JSInvokable]
+        public Task OnEditorBlur() => EditorBlur.InvokeAsync( true );
+
+        /// <summary>
         /// Toggles the readonly state
         /// </summary>
         private async Task SetReadOnly( bool value )
@@ -229,6 +241,16 @@ namespace Blazorise.RichTextEdit
         /// Only active when <see cref="SubmitOnEnter"/>
         /// </remarks>
         [Parameter] public EventCallback EnterPressed { get; set; }
+
+        /// <summary>
+        /// Occurs when the editor get focus.
+        /// </summary>
+        [Parameter] public EventCallback EditorFocus { get; set; }
+
+        /// <summary>
+        /// Occurs when the editor get focus.
+        /// </summary>
+        [Parameter] public EventCallback EditorBlur { get; set; }
 
         /// <summary>
         /// The toolbar element reference.

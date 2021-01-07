@@ -88,6 +88,8 @@ namespace Blazorise.Frolic
 
         public override string RadioGroupInline() => null;
 
+        public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
         #endregion
 
         #region Radio
@@ -324,7 +326,9 @@ namespace Blazorise.Frolic
 
         public override string DropdownItem() => "drop-item";
 
-        public override string DropdownItemActive() => Active();
+        public override string DropdownItemActive( bool active ) => active ? Active() : null;
+
+        public override string DropdownItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
         public override string DropdownDivider() => "dropdown-divider";
 
@@ -384,7 +388,7 @@ namespace Blazorise.Frolic
 
         #endregion
 
-        #region Tab
+        #region Tabs
 
         public override string Tabs( bool pills ) => pills ? "e-tabs nav-pills" : "e-tabs";
 
@@ -413,6 +417,30 @@ namespace Blazorise.Frolic
         public override string TabPanel() => "e-tabs-panel";
 
         public override string TabPanelActive( bool active ) => active ? Active() : null;
+
+        #endregion
+
+        #region Steps
+
+        public override string Steps() => "e-steps";
+
+        public override string StepItem() => "e-step-item";
+
+        public override string StepItemActive( bool active ) => active ? "e-step-item-active" : null;
+
+        public override string StepItemCompleted( bool completed ) => completed ? "e-step-item-completed" : null;
+
+        public override string StepItemColor( Color color ) => $"e-step-item-{ToColor( color )}";
+
+        public override string StepItemMarker() => "e-step-item-marker";
+
+        public override string StepItemDescription() => "e-step-item-details";
+
+        public override string StepsContent() => "e-steps-content";
+
+        public override string StepPanel() => "e-step-content";
+
+        public override string StepPanelActive( bool active ) => active ? "e-step-item-active" : null;
 
         #endregion
 

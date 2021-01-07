@@ -1,13 +1,13 @@
 ﻿@inherits Blazorise.CardTitle
 @if ( Size != null )
 {
-    <Dynamic TagName="@($"h{Size}")" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <Dynamic TagName="@($"h{Size}")" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </Dynamic>
 }
 else
 {
-    <Dynamic TagName="@(InsideHeader ? "span" : "div")" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <Dynamic TagName="@(InsideHeader ? "span" : "div")" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </Dynamic>
 }

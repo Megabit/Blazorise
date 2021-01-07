@@ -1,9 +1,8 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -47,6 +46,9 @@ namespace Blazorise.Charts
         #endregion
 
         #region Properties
+
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
 
         protected DotNetObjectReference<ChartAdapter> DotNetObjectRef { get; set; }
 

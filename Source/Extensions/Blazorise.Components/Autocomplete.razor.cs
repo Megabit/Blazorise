@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Blazorise.Utils;
+using Blazorise.Extensions;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -193,6 +193,11 @@ namespace Blazorise.Components
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the dropdown element id.
+        /// </summary>
+        [Parameter] public string ElementId { get; set; }
 
         /// <summary>
         /// Gets or sets the current search value.

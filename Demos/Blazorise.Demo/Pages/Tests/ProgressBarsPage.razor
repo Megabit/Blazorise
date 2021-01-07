@@ -124,3 +124,64 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Page Progress</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Shows a small progress at the top of the page.</CardText>
+            </CardBody>
+            <CardBody>
+                <PageProgress @ref="@pageProgress" Color="@pageProgressColor" Visible="@pageProgressVisible" />
+
+                <Button Color="Color.Primary" Disabled="@pageProgressVisible" Clicked="@OnShowPageProgress">Show</Button>
+                <Button Color="Color.Primary" Disabled="@pageProgressVisible" Clicked="@OnShowPageProgressIndeterminate">Indeterminate progress</Button>
+                <Button Color="Color.Danger" Disabled="@pageProgressVisible" Clicked="@OnShowPageProgressDanger">Danger progress</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code{
+    PageProgress pageProgress;
+    Color pageProgressColor = Color.None;
+    bool pageProgressVisible = false;
+
+    private async Task OnShowPageProgress()
+    {
+        pageProgressColor = Color.None;
+        pageProgressVisible = true;
+
+        for ( int i = 0; i <= 100; i += 10 )
+        {
+            await pageProgress.SetValueAsync( i );
+
+            await Task.Delay( TimeSpan.FromSeconds( .4 ) );
+        }
+
+        await pageProgress.SetValueAsync( null );
+
+        pageProgressVisible = false;
+    }
+
+    private async Task OnShowPageProgressIndeterminate()
+    {
+        pageProgressColor = Color.None;
+        pageProgressVisible = true;
+
+        await Task.Delay( TimeSpan.FromSeconds( 4 ) );
+
+        pageProgressVisible = false;
+    }
+
+    private async Task OnShowPageProgressDanger()
+    {
+        pageProgressColor = Color.Danger;
+        pageProgressVisible = true;
+
+        await Task.Delay( TimeSpan.FromSeconds( 4 ) );
+
+        pageProgressVisible = false;
+    }
+}

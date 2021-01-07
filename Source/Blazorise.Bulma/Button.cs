@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using Blazorise.Extensions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 #endregion
 
@@ -35,13 +37,20 @@ namespace Blazorise.Bulma
             }
             else
             {
-                builder.OnClick( this, Clicked );
+                builder.OnClick( this, EventCallback.Factory.Create( this, ClickHandler ) );
             }
 
             builder.Attributes( Attributes );
             builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
 
-            builder.Content( ChildContent );
+            if ( Loading && LoadingTemplate != null )
+            {
+                builder.Content( LoadingTemplate );
+            }
+            else
+            {
+                builder.Content( ChildContent );
+            }
 
             builder.CloseElement();
 

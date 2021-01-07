@@ -8,7 +8,7 @@ toc_label: "Questions"
 
 ### What is Blazorise?
 
-Blazorise is a user interface component library made on top of a web framework called [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor), and CSS frameworks like [Bootstrap](https://getbootstrap.com/), [AntDesign](https://ant.design/), [Bulma](https://bulma.io/) or [Material](http://daemonite.github.io/material/). Blazorise has two core principles:
+Blazorise is a user interface component library made on top of a web framework called [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor), and CSS frameworks like [Bootstrap](https://getbootstrap.com/), [AntDesign](https://ant.design/), [Bulma](https://bulma.io/) or [Material](https://djibe.github.io/material/). Blazorise has two core principles:
 
 1. keep stuff simple
 2. be extendable

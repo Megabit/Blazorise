@@ -1,16 +1,18 @@
 /*!
- * Daemonite Material v4.4.1 (https://djibe.github.io/material/)
- * Copyright 2011-2020 Daemon Pty Ltd
- * Licensed under MIT (https://github.com/Daemonite/material/blob/master/LICENSE)
+ * Daemonite Material v4.5.3 (https://djibe.github.io/material/)
+ * Copyright 2011-2020 Daemon Pty Ltd + djibe
+ * Licensed under MIT (https://github.com/djibe/material/blob/master/LICENSE)
  */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('jquery')) :
   typeof define === 'function' && define.amd ? define(['exports', 'jquery'], factory) :
-  (global = global || self, factory(global.material = {}, global.jQuery));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.material = {}, global.jQuery));
 }(this, (function (exports, $) { 'use strict';
 
-  $ = $ && Object.prototype.hasOwnProperty.call($, 'default') ? $['default'] : $;
+  function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+  var $__default = /*#__PURE__*/_interopDefaultLegacy($);
 
   /*
    * Expansion panel plugins expands a collapsed panel in full upon selecting
@@ -50,7 +52,7 @@
         predecessor.addClass(ClassName.SHOW_PREDECESSOR);
       }
     });
-  }($);
+  }($__default['default']);
 
   /*
    * Floating label plugin moves inline label to float above the field
@@ -137,7 +139,7 @@
     };
 
     return FloatingLabel;
-  }($);
+  }($__default['default']);
 
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
@@ -318,7 +320,7 @@
     };
     setTransitionEndSupport();
     return Util;
-  }($);
+  }($__default['default']);
 
   /*
    * Navigation drawer plguin
@@ -637,7 +639,7 @@
     };
 
     return NavDrawer;
-  }($);
+  }($__default['default']);
 
   function createCommonjsModule(fn, module) {
   	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -654,7 +656,7 @@
   (function ( factory ) {
 
       // AMD.
-      module.exports = factory( $ );
+      module.exports = factory( $__default['default'] );
 
   }(function( $ ) {
 
@@ -1867,7 +1869,7 @@
   (function ( factory ) {
 
       // AMD.
-      module.exports = factory( picker, $ );
+      module.exports = factory( picker, $__default['default'] );
 
   }(function( Picker, $ ) {
 
@@ -3431,7 +3433,214 @@
       $.fn[NAME] = NO_CONFLICT;
       return PickDate._jQueryInterface;
     };
-  }($);
+  }($__default['default']);
+
+  var defaultOptions = {
+      className: '',
+      color: 'currentcolor',
+      opacity: .1,
+      spreadingDuration: '.4s',
+      spreadingDelay: '0s',
+      spreadingTimingFunction: 'linear',
+      clearing: true,
+      clearingDuration: '1s',
+      clearingDelay: '0s',
+      clearingTimingFunction: 'ease-in-out',
+      centered: false,
+      appendTo: 'body',
+  };
+  var target2container2ripplet = new Map();
+  var copyStyles = function (destination, source, properties) {
+      for (var _i = 0, properties_1 = properties; _i < properties_1.length; _i++) {
+          var property = properties_1[_i];
+          destination[property] = source[property];
+      }
+  };
+  function ripplet(_a, _options) {
+      var currentTarget = _a.currentTarget, clientX = _a.clientX, clientY = _a.clientY;
+      if (!(currentTarget instanceof Element)) {
+          return;
+      }
+      var options = _options
+          ? Object.keys(defaultOptions).reduce(function (merged, field) { return (merged[field] = _options.hasOwnProperty(field) ? _options[field] : defaultOptions[field], merged); }, {})
+          : defaultOptions;
+      var targetRect = currentTarget.getBoundingClientRect();
+      if (options.centered && options.centered !== 'false') {
+          clientX = targetRect.left + targetRect.width * .5;
+          clientY = targetRect.top + targetRect.height * .5;
+      }
+      else if (typeof clientX !== 'number' || typeof clientY !== 'number') {
+          return;
+      }
+      var targetStyle = getComputedStyle(currentTarget);
+      var documentElement = document.documentElement, body = document.body;
+      var containerElement = document.createElement('div');
+      var appendToParent = options.appendTo === 'parent';
+      var removingElement = containerElement;
+      {
+          var containerStyle = containerElement.style;
+          if (targetStyle.position === 'fixed' || (targetStyle.position === 'absolute' && appendToParent)) {
+              if (appendToParent) {
+                  currentTarget.parentElement.insertBefore(containerElement, currentTarget);
+              }
+              else {
+                  body.appendChild(containerElement);
+              }
+              copyStyles(containerStyle, targetStyle, ['position', 'left', 'top', 'right', 'bottom', 'marginLeft', 'marginTop', 'marginRight', 'marginBottom']);
+          }
+          else if (appendToParent) {
+              var parentStyle = getComputedStyle(currentTarget.parentElement);
+              if (parentStyle.display === 'flex' || parentStyle.display === 'inline-flex') {
+                  currentTarget.parentElement.insertBefore(containerElement, currentTarget);
+                  containerStyle.position = 'absolute';
+                  containerStyle.left = currentTarget.offsetLeft + "px";
+                  containerStyle.top = currentTarget.offsetTop + "px";
+              }
+              else {
+                  var containerContainer = removingElement
+                      = currentTarget.parentElement.insertBefore(document.createElement('div'), currentTarget);
+                  var containerContainerStyle = containerContainer.style;
+                  containerContainerStyle.display = 'inline-block';
+                  containerContainerStyle.position = 'relative';
+                  containerContainerStyle.width = containerContainerStyle.height
+                      = '0';
+                  containerContainerStyle.cssFloat = targetStyle.cssFloat;
+                  var containerContainerRect = containerContainer.getBoundingClientRect(); // this may be a slow operation...
+                  containerContainer.appendChild(containerElement);
+                  containerStyle.position = 'absolute';
+                  containerStyle.top = targetRect.top - containerContainerRect.top + "px";
+                  containerStyle.left = targetRect.left - containerContainerRect.left + "px";
+              }
+          }
+          else {
+              body.appendChild(containerElement);
+              containerStyle.position = 'absolute';
+              containerStyle.left = targetRect.left + documentElement.scrollLeft + body.scrollLeft + "px";
+              containerStyle.top = targetRect.top + documentElement.scrollTop + body.scrollTop + "px";
+          }
+          containerStyle.overflow = 'hidden';
+          containerStyle.pointerEvents = 'none';
+          containerStyle.width = targetRect.width + "px";
+          containerStyle.height = targetRect.height + "px";
+          containerStyle.zIndex = (+targetStyle.zIndex || 0) + 1;
+          containerStyle.opacity = options.opacity;
+          copyStyles(containerStyle, targetStyle, ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomLeftRadius', 'borderBottomRightRadius', 'webkitClipPath', 'clipPath']);
+      }
+      {
+          var distanceX = Math.max(clientX - targetRect.left, targetRect.right - clientX);
+          var distanceY = Math.max(clientY - targetRect.top, targetRect.bottom - clientY);
+          var radius = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+          var rippletElement = containerElement.appendChild(document.createElement('div'));
+          var rippletStyle = rippletElement.style;
+          rippletElement.className = options.className;
+          rippletStyle.backgroundColor = /^currentcolor$/i.test(options.color) ? targetStyle.color : options.color;
+          rippletStyle.width = rippletStyle.height
+              = radius * 2 + "px";
+          if (getComputedStyle(appendToParent ? currentTarget.parentElement : body).direction === 'rtl') {
+              rippletStyle.marginRight = targetRect.right - clientX - radius + "px";
+          }
+          else {
+              rippletStyle.marginLeft = clientX - targetRect.left - radius + "px";
+          }
+          rippletStyle.marginTop = clientY - targetRect.top - radius + "px";
+          rippletStyle.borderRadius = '50%';
+          rippletStyle.transition =
+              "transform " + options.spreadingDuration + " " + options.spreadingTimingFunction + " " + options.spreadingDelay + ",opacity " + options.clearingDuration + " " + options.clearingTimingFunction + " " + options.clearingDelay;
+          rippletStyle.transform = 'scale(0)';
+          // reflect styles by force layout
+          // tslint:disable-next-line:no-unused-expression
+          rippletElement.offsetTop;
+          rippletStyle.transform = '';
+          rippletElement.addEventListener('transitionend', function (event) {
+              if (event.propertyName === 'opacity' && removingElement.parentElement) {
+                  removingElement.parentElement.removeChild(removingElement);
+              }
+          });
+          if (options.clearing && options.clearing !== 'false') {
+              rippletStyle.opacity = '0';
+          }
+          else {
+              var container2ripplet = target2container2ripplet.get(currentTarget);
+              if (!container2ripplet) {
+                  target2container2ripplet.set(currentTarget, container2ripplet = new Map());
+              }
+              container2ripplet.set(containerElement, rippletElement);
+          }
+      }
+      return containerElement;
+  }
+  ripplet.clear = function (targetElement, rippletContainerElement) {
+      if (targetElement) {
+          var container2ripplet = target2container2ripplet.get(targetElement);
+          if (container2ripplet) {
+              if (rippletContainerElement) {
+                  var rippletElement = container2ripplet.get(rippletContainerElement);
+                  rippletElement && (rippletElement.style.opacity = '0');
+                  container2ripplet.delete(rippletContainerElement);
+                  container2ripplet.size === 0 && target2container2ripplet.delete(targetElement);
+              }
+              else {
+                  container2ripplet.forEach(function (r) { return r.style.opacity = '0'; });
+                  target2container2ripplet.delete(targetElement);
+              }
+          }
+      }
+      else {
+          target2container2ripplet.forEach(function (container2ripplet) { return container2ripplet.forEach(function (r) { return r.style.opacity = '0'; }); });
+          target2container2ripplet.clear();
+      }
+  };
+  ripplet.defaultOptions = defaultOptions;
+  ripplet._ripplets = target2container2ripplet;
+
+  /*
+   * Config for ripplet.js by luncheon
+   */
+  // Values from https://github.com/material-components/material-components-web/blob/master/packages/mdc-ripple/_variables.scss
+
+  var Ripplet = function () {
+    /* eslint complexity: ["error", 40] */
+    addEventListener('pointerdown', function (event) {
+      defaultOptions.color = 'rgba(0,0,0,0.12)';
+      defaultOptions.opacity = 1;
+      defaultOptions.spreadingDelay = '15ms';
+      defaultOptions.spreadingDuration = '175ms';
+      defaultOptions.clearingDelay = '300ms';
+      defaultOptions.clearingDuration = '150ms';
+      defaultOptions.clearingTimingFunction = 'linear';
+
+      if (event.button !== 0) {
+        return;
+      }
+
+      var currentTarget = event.target.closest('.btn, .card-link, .card-primary-action, .list-group-item-action, [data-ripplet]');
+
+      if (!currentTarget || currentTarget.disabled) {
+        return;
+      }
+
+      var rippleTarget = {
+        currentTarget: currentTarget,
+        clientX: event.clientX,
+        clientY: event.clientY
+      };
+      currentTarget.setAttribute('data-ripplet', '');
+      var cls = currentTarget.classList;
+
+      if (cls.contains('btn-outline-primary') || cls.contains('btn-outline-secondary') || cls.contains('btn-outline-danger') || cls.contains('btn-outline-info') || cls.contains('btn-outline-success') || cls.contains('btn-outline-warning') || cls.contains('btn-outline-dark') || cls.contains('btn-outline-light') || cls.contains('btn-link') || cls.contains('card-link') || cls.contains('btn-flat-primary') || cls.contains('btn-flat-secondary') || cls.contains('btn-flat-danger') || cls.contains('btn-flat-info') || cls.contains('btn-flat-success') || cls.contains('btn-flat-warning') || cls.contains('btn-flat-dark') || cls.contains('btn-flat-light')) {
+        ripplet(rippleTarget, {
+          color: getComputedStyle(currentTarget).color,
+          opacity: 0.12
+        });
+      } else if (cls.contains('btn-primary') || cls.contains('btn-secondary') || cls.contains('btn-success') || cls.contains('btn-danger') || cls.contains('btn-warning') || cls.contains('btn-info') || cls.contains('btn-dark')) {
+        ripplet(rippleTarget, {
+          color: 'rgba(255,255,255,0.24)'
+        });
+      } else {
+        ripplet(rippleTarget);
+      }
+    });
+  }();
 
   /*
    * Selection control plugin fixes the focus state problem with
@@ -3472,7 +3681,7 @@
         LastInteraction.IS_MOUSEDOWN = false;
       }, 1);
     });
-  }($);
+  }($__default['default']);
 
   /*
    * Tab indicator animation
@@ -3597,12 +3806,13 @@
     };
 
     return TabSwitch;
-  }($);
+  }($__default['default']);
 
   exports.ExpansionPanel = ExpansionPanel;
   exports.FloatingLabel = FloatingLabel;
   exports.NavDrawer = NavDrawer;
   exports.PickDate = PickDate;
+  exports.Ripplet = Ripplet;
   exports.SelectionControlFocus = SelectionControlFocus;
   exports.TabSwitch = TabSwitch;
   exports.Util = Util;

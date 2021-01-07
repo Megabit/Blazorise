@@ -73,16 +73,16 @@ You can also define variant [colors]({{ "/docs/helpers/colors/#snackbarcolor" | 
 <Button Color="Color.Secondary" Clicked="@(()=>snackbarSecondary.Show())">Secondary</Button>
 
 <Snackbar @ref="snackbarPrimary" Color="SnackbarColor.Primary">
-    <SnackbarBody>
-        Single line of text directly related to the operation performed
-    </SnackbarBody>
+  <SnackbarBody>
+    Single line of text directly related to the operation performed
     <SnackbarAction Clicked="@(()=>snackbarPrimary.Hide())">ACTION</SnackbarAction>
+  </SnackbarBody>
 </Snackbar>
 <Snackbar @ref="snackbarSecondary" Color="SnackbarColor.Secondary">
-    <SnackbarBody>
-        Single line of text directly related to the operation performed
-    </SnackbarBody>
+  <SnackbarBody>
+    Single line of text directly related to the operation performed
     <SnackbarAction Clicked="@(()=>snackbarSecondary.Hide())">ACTION</SnackbarAction>
+  </SnackbarBody>
 </Snackbar>
 ```
 
@@ -101,11 +101,13 @@ When you want to show multiple snackbars stacked on top of each other you can us
 
 ## Attributes
 
-| Name               | Type                                                                                     | Default      | Description                                                                                  |
-|--------------------|------------------------------------------------------------------------------------------|--------------|----------------------------------------------------------------------------------------------|
-| Location           | [SnackbarLocation]({{ "/docs/helpers/enums/#snackbarlocation" | relative_url }})         | `None`       | Defines the snackbar location.                                                               |
-| Color              | [SnackbarColor]({{ "/docs/helpers/colors/#snackbarcolor" | relative_url }})              | `None`       | Defines the snackbar color.                                                                  |
-| Visible            | bool                                                                                     | false        | Defines the visibility of snackbar.                                                          |
-| Multiline          | bool                                                                                     | false        | Allow snackbar to show multiple lines of text.                                               |
-| Interval           | double                                                                                   | 3000         | Defines the interval(in milliseconds) after which the snackbar will be automatically closed. |
-| Closed             | `EventCallback<SnackbarClosedEventArgs>`                                                 |              | Occurs after the snackbar has closed.                                                        |
+| Name                      | Type                                                                                     | Default      | Description                                                                                  |
+|---------------------------|------------------------------------------------------------------------------------------|--------------|----------------------------------------------------------------------------------------------|
+| Location                  | [SnackbarLocation]({{ "/docs/helpers/enums/#snackbarlocation" | relative_url }})         | `None`       | Defines the snackbar location.                                                               |
+| Color                     | [SnackbarColor]({{ "/docs/helpers/colors/#snackbarcolor" | relative_url }})              | `None`       | Defines the snackbar color.                                                                  |
+| Visible                   | bool                                                                                     | false        | Defines the visibility of snackbar.                                                          |
+| Multiline                 | bool                                                                                     | false        | Allow snackbar to show multiple lines of text.                                               |
+| Interval                  | double                                                                                   | 5000         | Defines the interval(in milliseconds) after which the snackbar will be automatically closed. |
+| DelayCloseOnClick         | bool                                                                                     | false        | If clicked on snackbar, a close action will be delayed by increasing the Interval time.      |
+| DelayCloseOnClickInterval | double                                                                                   | 'null'       | Defines the interval(in milliseconds) by which the snackbar will be delayed from closing.    |
+| Closed                    | `EventCallback<SnackbarClosedEventArgs>`                                                 |              | Occurs after the snackbar has closed.                                                        |

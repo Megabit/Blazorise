@@ -88,6 +88,8 @@ namespace Blazorise.Bulma
 
         public override string RadioGroupInline() => null;
 
+        public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
         #endregion
 
         #region Radio
@@ -181,7 +183,7 @@ namespace Blazorise.Bulma
 
         #region Fields
 
-        public override string Fields() => "field";
+        public override string Fields() => "columns is-multiline";
 
         public override string FieldsBody() => "field-body";
 
@@ -319,7 +321,9 @@ namespace Blazorise.Bulma
 
         public override string DropdownItem() => "dropdown-item";
 
-        public override string DropdownItemActive() => Active();
+        public override string DropdownItemActive( bool active ) => active ? Active() : null;
+
+        public override string DropdownItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
         public override string DropdownDivider() => "dropdown-divider";
 
@@ -362,7 +366,7 @@ namespace Blazorise.Bulma
 
         #endregion
 
-        #region Tab
+        #region Tabs
 
         public override string Tabs( bool pills ) => pills ? "tabs is-toggle" : "tabs";
 
@@ -376,11 +380,11 @@ namespace Blazorise.Bulma
 
         public override string TabItem() => null;
 
-        public override string TabItemActive( bool active ) => active ? $"{Active()}" : null;
+        public override string TabItemActive( bool active ) => active ? Active() : null;
 
         public override string TabItemDisabled( bool disabled ) => null;
 
-        public override string TabLinkDisabled( bool disabled ) => disabled ? "is-disabled" : null;
+        public override string TabLinkDisabled( bool disabled ) => disabled ? Disabled() : null;
 
         public override string TabLink() => null;
 
@@ -390,7 +394,31 @@ namespace Blazorise.Bulma
 
         public override string TabPanel() => "tab-pane";
 
-        public override string TabPanelActive( bool active ) => active ? $"{Active()}" : null;
+        public override string TabPanelActive( bool active ) => active ? Active() : null;
+
+        #endregion
+
+        #region Steps
+
+        public override string Steps() => "steps";
+
+        public override string StepItem() => "step-item";
+
+        public override string StepItemActive( bool active ) => active ? Active() : null;
+
+        public override string StepItemCompleted( bool completed ) => completed ? "is-completed" : null;
+
+        public override string StepItemColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string StepItemMarker() => "step-marker";
+
+        public override string StepItemDescription() => "step-details";
+
+        public override string StepsContent() => "steps-content";
+
+        public override string StepPanel() => "step-content";
+
+        public override string StepPanelActive( bool active ) => active ? "is-active" : null;
 
         #endregion
 
@@ -599,7 +627,7 @@ namespace Blazorise.Bulma
                 if ( columnWidth == Blazorise.ColumnWidth.None )
                     return $"column is-{baseClass}{ToBreakpoint( breakpoint )}";
 
-                return $"column is-{baseClass}{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
+                return $"column is-{ToColumnWidth( columnWidth )}-{baseClass}{ToBreakpoint( breakpoint )}";
             }
 
             return $"column is-{baseClass}{ToColumnWidth( columnWidth )}";
@@ -619,7 +647,7 @@ namespace Blazorise.Bulma
                 : $"is-{ToDisplayType( displayType )}";
 
             if ( direction != DisplayDirection.None )
-                return $"{baseClass} is-flex-{ToDisplayDirection( direction )}";
+                return $"{baseClass} is-flex-direction-{ToDisplayDirection( direction )}";
 
             return baseClass;
         }

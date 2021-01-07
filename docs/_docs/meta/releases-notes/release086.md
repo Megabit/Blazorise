@@ -18,7 +18,7 @@ You need to update your _Visual Studio to 16.3_ and also install newest _.Net Co
 
 ### Static files
 
-Along with the new Blazorise comes the new way of consuming static files. Unlike in previous versions of Blazorise from now on you must set the static file manually. When consuming nuget packages that contains static files you must follow the convention `_content/{LIBRARY.NAME}/{FILE.NAME}`.
+Along with the new Blazorise comes the new way of consuming static files. Unlike in previous versions of Blazorise from now on you must set the static file manually. When consuming NuGet packages that contains static files you must follow the convention `_content/{LIBRARY.NAME}/{FILE.NAME}`.
 
 To upgrade your existing projects please look for more in the setup pages for your provider:
 
@@ -26,7 +26,7 @@ To upgrade your existing projects please look for more in the setup pages for yo
 - [Bulma]({{ "/docs/usage/bulma/#5-static-files" | relative_url }})
 - [Material]({{ "/docs/usage/material/#6-static-files" | relative_url }})
 
-> If you want to learn more about the reason behind this decision please look at the [oficial Blazor documentation.](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/ui-class?view=aspnetcore-3.0&tabs=visual-studio#consume-content-from-a-referenced-rcl)
+> If you want to learn more about the reason behind this decision please look at the [official Blazor documentation.](https://docs.microsoft.com/en-us/aspnet/core/razor-pages/ui-class?view=aspnetcore-3.0&tabs=visual-studio#consume-content-from-a-referenced-rcl)
 
 ## Closing notes
 
