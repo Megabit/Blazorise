@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -58,6 +58,8 @@ namespace Blazorise.RichTextEdit
                 nameof( RichTextEdit.OnContentChanged ),
                 richTextEdit.SubmitOnEnter,
                 nameof( RichTextEdit.OnEnter ),
+                nameof( RichTextEdit.OnEditorFocus ),
+                nameof( RichTextEdit.OnEditorBlur ),
                 richTextEdit.ConfigureQuillJsMethod );
 
             return Disposable.Create( () =>

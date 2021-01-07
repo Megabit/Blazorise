@@ -38,6 +38,11 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
+        /// Gets or sets the select element id.
+        /// </summary>
+        [Parameter] public string ElementId { get; set; }
+
+        /// <summary>
         /// Gets or sets the select data-source.
         /// </summary>
         [Parameter] public IEnumerable<TItem> Data { get; set; }

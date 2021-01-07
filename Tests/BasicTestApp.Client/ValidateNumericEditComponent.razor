@@ -72,7 +72,7 @@
 
     static void IsValidInteger( ValidatorEventArgs e )
     {
-        if ( Blazorise.Utils.Converters.TryChangeType<int>( e.Value, out var result ) )
+        if ( Blazorise.Utilities.Converters.TryChangeType<int>( e.Value, out var result ) )
         {
             if ( result > 0 )
             {

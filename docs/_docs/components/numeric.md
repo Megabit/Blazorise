@@ -39,3 +39,4 @@ NumericEdit is just a specialized version of `TextEdit` component so all of the 
 | Culture           | string                                                       | null    | Helps define the language of an element.                                                             |
 | Min               | TValue                                                       | default | The minimum value to accept for this input.                                                          |
 | Max               | TValue                                                       | default | The maximum value to accept for this input.                                                          |
+| Autofocus         | `bool`                                                       |  false  | Set's the focus to the component after the rendering is done.                                        |

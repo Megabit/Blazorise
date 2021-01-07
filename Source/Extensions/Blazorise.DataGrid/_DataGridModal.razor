@@ -25,20 +25,18 @@
                 <Fields>
                     @foreach ( var column in Columns )
                     {
-                        @if ( column.ColumnType == DataGridColumnType.Command )
+                        @if ( column.ExcludeFromEdit )
                             continue;
 
-                        @if ( column.Editable )
+                        @if ( column.CellValueIsEditable )
                         {
                             <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
-                                <Field>
-                                    <FieldLabel>
-                                        @column.Caption
-                                    </FieldLabel>
-                                    <FieldBody>
-                                        <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
-                                    </FieldBody>
-                                </Field>
+                                <FieldLabel>
+                                    @column.Caption
+                                </FieldLabel>
+                                <FieldBody>
+                                    <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
+                                </FieldBody>
                             </Field>
                         }
                     }

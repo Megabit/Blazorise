@@ -136,6 +136,11 @@ Defines the placement of an element.
 - `Single` The data grid can only be sorted by one column at a time.
 - `Multiple` The data grid can sorted by multiple columns.
 
+## DataGridSelectionMode
+
+- `Single` The data grid only supports a row selected at a time.
+- `Multiple` The data grid enables multiple rows to be selected.
+
 ## TextAlignment
 
 Defines the alignment of an text within element.

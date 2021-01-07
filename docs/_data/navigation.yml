@@ -43,6 +43,8 @@ docs:
         url: /docs/components/memo/
       - title: "Numeric"
         url: /docs/components/numeric/
+      - title: "Progress"
+        url: /docs/components/progress/
       - title: "Radio"
         url: /docs/components/radio/
       - title: "Select"
@@ -90,6 +92,8 @@ docs:
         url: /docs/components/modal/
       - title: "Pagination"
         url: /docs/components/pagination/
+      - title: "Repeater"
+        url: /docs/components/repeater/
       - title: "Tab"
         url: /docs/components/tab/
       - title: "Table"
@@ -98,6 +102,8 @@ docs:
         url: /docs/components/tooltip/
       - title: "Typography"
         url: /docs/components/typography/
+      - title: "Step"
+        url: /docs/components/step/
   - title: Extensions
     url: /docs/extensions/
     children:

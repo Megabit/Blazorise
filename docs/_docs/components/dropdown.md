@@ -110,6 +110,8 @@ By default a dropdown toggle will open and close a dropdown menu without the nee
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
 | Value          | object                                                                 | null      | Holds the item value.                                                                                                          |
 | Clicked        | event                                                                  |           | Occurs when the item is clicked.                                                                                               |
+| Active         | boolean                                                                | false     | Marks the item with an state.                                                                                                  |
+| Disabled       | boolean                                                                | false     | Marks the item with disabled state and doesn't allow the click event.                                                          |
 
 ### DropdownToggle
 

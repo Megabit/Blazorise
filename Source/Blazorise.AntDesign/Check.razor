@@ -12,10 +12,39 @@
 </label>
 @code{
     string WrapperClassNames
-        => $"ant-checkbox-wrapper {( Checked?.ToString() == bool.TrueString ? "ant-checkbox-wrapper-pointer" : "" )}";
+    {
+        get
+        {
+            var sb = new System.Text.StringBuilder( "ant-checkbox-wrapper" );
+
+            if ( Checked?.ToString() == bool.TrueString )
+            {
+                sb.Append( " ant-checkbox-wrapper-pointer" );
+            }
+
+            return sb.ToString();
+        }
+    }
 
     string CheckboxClassNames
-        => $"ant-checkbox {( Checked?.ToString() == bool.TrueString ? "ant-checkbox-checked" : "" )}";
+    {
+        get
+        {
+            var sb = new System.Text.StringBuilder( "ant-checkbox" );
+
+            if ( Checked?.ToString() == bool.TrueString )
+            {
+                sb.Append( " ant-checkbox-checked" );
+            }
+
+            if ( Indeterminate == true )
+            {
+                sb.Append( " ant-checkbox-indeterminate" );
+            }
+
+            return sb.ToString();
+        }
+    }
 
     string InnerClassNames
         => $"ant-checkbox-inner";

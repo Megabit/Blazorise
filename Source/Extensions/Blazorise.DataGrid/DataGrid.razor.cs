@@ -1,10 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
@@ -81,6 +78,27 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected PaginationContext<TItem> paginationContext;
 
+        /// <summary>
+        /// Trigger to unselect all rows.
+        /// Set it back to false.
+        /// </summary>
+        internal bool UnSelectAllRows { get; set; }
+
+        /// <summary>
+        /// Trigger to select all rows.
+        /// </summary>
+        internal bool SelectedAllRows { get; set; }
+
+        /// <summary>
+        /// Checks if the DataGrid is currently on single selection mode.
+        /// </summary>
+        internal bool SingleSelect => ( SelectionMode == DataGridSelectionMode.Single );
+
+        /// <summary>
+        /// Checks if the DataGrid is currently on multiple selection mode.
+        /// </summary>
+        internal bool MultiSelect => ( SelectionMode == DataGridSelectionMode.Multiple );
+
         #endregion
 
         #region Constructors
@@ -92,7 +110,37 @@ namespace Blazorise.DataGrid
             paginationTemplates = new PaginationTemplates<TItem>();
             paginationContext = new PaginationContext<TItem>( this );
 
-            paginationContext.SubscribeOnPageSizeChanged( pageSize => InvokeAsync( () => StateHasChanged() ) );
+            paginationContext.SubscribeOnPageSizeChanged( pageSize =>
+            {
+                InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
+
+                // When using manual mode, a user is in control when StateHasChanged will be called
+                // so we just need to call HandleReadData.
+                if ( ManualReadMode )
+                {
+                    InvokeAsync( HandleReadData );
+                }
+                else
+                {
+                    InvokeAsync( StateHasChanged );
+                }
+            } );
+
+            paginationContext.SubscribeOnPageChanged( currentPage =>
+            {
+                InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
+
+                // When using manual mode, a user is in control when StateHasChanged will be called
+                // so we just need to call HandleReadData.
+                if ( ManualReadMode )
+                {
+                    InvokeAsync( HandleReadData );
+                }
+                else
+                {
+                    InvokeAsync( StateHasChanged );
+                }
+            } );
         }
 
         #endregion
@@ -113,6 +161,11 @@ namespace Blazorise.DataGrid
             if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
             {
                 CommandColumn = commandColumn;
+            }
+
+            if ( MultiSelectColumn == null && column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
+            {
+                MultiSelectColumn = multiSelectColumn;
             }
         }
 
@@ -289,6 +342,44 @@ namespace Blazorise.DataGrid
                 PopupVisible = false;
         }
 
+        protected Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
+        {
+            SelectedAllRows = false;
+            UnSelectAllRows = false;
+
+            if ( SelectedRows is null )
+                SelectedRows = new List<TItem>();
+
+            if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) )
+                SelectedRows.Add( eventArgs.Item );
+
+            if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) )
+                SelectedRows.Remove( eventArgs.Item );
+
+            return SelectedRowsChanged.InvokeAsync( SelectedRows );
+        }
+
+        protected async Task OnMultiSelectAll( bool selectAll )
+        {
+            if ( SelectedRows is null )
+                SelectedRows = new List<TItem>();
+
+            if ( selectAll )
+            {
+                SelectedRows.Clear();
+                SelectedRows.AddRange( viewData );
+            }
+            else
+            {
+                SelectedRows.Clear();
+            }
+
+            SelectedAllRows = selectAll;
+            UnSelectAllRows = !selectAll;
+
+            await SelectedRowsChanged.InvokeAsync( SelectedRows );
+        }
+
         // this is to give user a way to stop save if necessary
         internal async Task<bool> IsSafeToProceed<TValues>( EventCallback<CancellableRowChange<TItem, TValues>> handler, TItem item, TValues editedCellValues )
         {
@@ -381,7 +472,7 @@ namespace Blazorise.DataGrid
             return Task.CompletedTask;
         }
 
-        internal protected Task OnFilterChanged( DataGridColumn<TItem> column, string value )
+        protected internal Task OnFilterChanged( DataGridColumn<TItem> column, string value )
         {
             column.Filter.SearchValue = value;
             dirtyFilter = dirtyView = true;
@@ -407,10 +498,12 @@ namespace Blazorise.DataGrid
             return Task.CompletedTask;
         }
 
-        protected async Task OnPaginationItemClick( string pageName )
+        protected Task OnPaginationItemClick( string pageName )
         {
             if ( int.TryParse( pageName, out var pageNumber ) )
+            {
                 CurrentPage = pageNumber;
+            }
             else
             {
                 if ( pageName == "prev" )
@@ -437,10 +530,7 @@ namespace Blazorise.DataGrid
                 }
             }
 
-            await PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( CurrentPage, PageSize ) );
-
-            if ( ManualReadMode )
-                await HandleReadData();
+            return Task.CompletedTask;
         }
 
         private void FilterData()
@@ -493,7 +583,7 @@ namespace Blazorise.DataGrid
 
                 foreach ( var column in Columns )
                 {
-                    if ( column.ColumnType == DataGridColumnType.Command )
+                    if ( column.ExcludeFromFilter )
                         continue;
 
                     if ( string.IsNullOrEmpty( column.Filter.SearchValue ) )
@@ -558,6 +648,7 @@ namespace Blazorise.DataGrid
                 return Task.CompletedTask;
 
             SelectedRow = item;
+
             return SelectedRowChanged.InvokeAsync( SelectedRow );
         }
 
@@ -580,12 +671,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets only columns that are available for editing.
         /// </summary>
-        protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => x.ColumnType != DataGridColumnType.Command && x.Editable );
+        protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
 
         /// <summary>
         /// Gets only columns that are available for display in the grid.
         /// </summary>
-        protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns => Columns.Where( x => x.ColumnType == DataGridColumnType.Command || x.Displayable );
+        protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns => Columns.Where( x => x.IsDisplayable || x.Displayable );
 
         /// <summary>
         /// Returns true if <see cref="Data"/> is safe to modify.
@@ -668,6 +759,11 @@ namespace Blazorise.DataGrid
         /// Gets the reference to the associated command column.
         /// </summary>
         public DataGridCommandColumn<TItem> CommandColumn { get; private set; }
+
+        /// <summary>
+        /// Gets the reference to the associated multiselect column.
+        /// </summary>
+        public DataGridMultiSelectColumn<TItem> MultiSelectColumn { get; private set; }
 
         /// <summary>
         /// Gets or sets the datagrid data-source.
@@ -807,6 +903,11 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment EmptyTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets content of cell body for empty DisplayData.
+        /// </summary>
+        [Parameter] public RenderFragment<TItem> EmptyCellTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets content of table body for handle ReadData.
         /// </summary>
         [Parameter] public RenderFragment LoadingTemplate { get; set; }
@@ -857,6 +958,11 @@ namespace Blazorise.DataGrid
         [Parameter] public int PageSize { get => paginationContext.CurrentPageSize; set => paginationContext.CurrentPageSize = value; }
 
         /// <summary>
+        /// Occurs after the <see cref="PageSize"/> has changed.
+        /// </summary>
+        [Parameter] public EventCallback<int> PageSizeChanged { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum number of visible pagination links. It has to be odd for well look.
         /// </summary>
         [Parameter] public int MaxPaginationLinks { get => paginationContext.MaxPaginationLinks; set => paginationContext.MaxPaginationLinks = value; }
@@ -872,9 +978,24 @@ namespace Blazorise.DataGrid
         [Parameter] public TItem SelectedRow { get; set; }
 
         /// <summary>
+        /// Gets or sets currently selected rows.
+        /// </summary>
+        [Parameter] public List<TItem> SelectedRows { get; set; }
+
+        /// <summary>
+        /// Gets or sets current selection mode.
+        /// </summary>
+        [Parameter] public DataGridSelectionMode SelectionMode { get; set; }
+
+        /// <summary>
         /// Occurs after the selected row has changed.
         /// </summary>
         [Parameter] public EventCallback<TItem> SelectedRowChanged { get; set; }
+
+        /// <summary>
+        /// Occurs after multi selection has changed.
+        /// </summary>
+        [Parameter] public EventCallback<List<TItem>> SelectedRowsChanged { get; set; }
 
         /// <summary>
         /// Cancelable event called before the row is inserted.

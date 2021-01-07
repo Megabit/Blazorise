@@ -1,8 +1,7 @@
 ﻿#region Using directives
-using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 

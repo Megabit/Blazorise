@@ -124,9 +124,32 @@ namespace Blazorise.DataGrid
             return FormatDisplayValue( GetValue( item ) );
         }
 
+        public bool CellValuesAreEditable()
+        {
+            return Editable &&
+                ( ( CellsEditableOnNewCommand && ParentDataGrid?.EditState == DataGridEditState.New )
+                || ( CellsEditableOnEditCommand && ParentDataGrid?.EditState == DataGridEditState.Edit ) );
+        }
+
         #endregion
 
         #region Properties
+
+        internal bool IsDisplayable => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+        internal bool ExcludeFromFilter => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+        internal bool ExcludeFromEdit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+        internal bool ExcludeFromInit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+        /// <summary>
+        /// Returns true if the cell value is editable.
+        /// </summary>
+        public bool CellValueIsEditable
+            => Editable &&
+            ( ( CellsEditableOnNewCommand && ParentDataGrid?.EditState == DataGridEditState.New )
+            || ( CellsEditableOnEditCommand && ParentDataGrid?.EditState == DataGridEditState.Edit ) );
 
         /// <summary>
         /// Gets or sets the current sort direction.

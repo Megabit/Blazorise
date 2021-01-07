@@ -11,25 +11,27 @@
                 </Row>
             }
             <Row>
-                @foreach ( var column in Columns )
-                {
-                    @if ( column.ColumnType == DataGridColumnType.Command )
-                        continue;
+                <Column>
+                    <Fields>
+                        @foreach ( var column in Columns )
+                        {
+                            @if ( column.ExcludeFromEdit )
+                                continue;
 
-                    @if ( CellAreEditable( column ) )
-                    {
-                        <Column ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
-                            <Field>
-                                <FieldLabel>
-                                    @column.Caption
-                                </FieldLabel>
-                                <FieldBody>
-                                    <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
-                                </FieldBody>
-                            </Field>
-                        </Column>
-                    }
-                }
+                            @if ( column.CellValueIsEditable )
+                            {
+                                <Field ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                                    <FieldLabel>
+                                        @column.Caption
+                                    </FieldLabel>
+                                    <FieldBody>
+                                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
+                                    </FieldBody>
+                                </Field>
+                            }
+                        }
+                    </Fields>
+                </Column>
             </Row>
             <Row>
                 <Column>
@@ -85,7 +87,7 @@ else if ( EditMode == DataGridEditMode.Inline )
             else if ( column.Displayable )
             {
                 <TableRowCell width="@column.Width">
-                    @if ( ParentDataGrid?.Editable == true && CellAreEditable( column ) )
+                    @if ( ParentDataGrid?.Editable == true && column.CellValueIsEditable )
                     {
                         <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@( ParentDataGrid?.ShowValidationFeedback ?? false )" />
                     }

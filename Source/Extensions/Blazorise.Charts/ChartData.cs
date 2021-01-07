@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Charts
@@ -83,6 +83,18 @@ namespace Blazorise.Charts
         /// </summary>
         [DataMember]
         public int BorderWidth { get; set; } = 1;
+
+        /// <summary>
+        /// Defines the type of a chart dataset.
+        /// </summary>
+        [DataMember]
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Drawing order of the dataset. Used mainly for mixed charts. 
+        /// </summary>
+        [DataMember]
+        public int Order { get; set; }
     }
 
     /// <remarks>
@@ -97,7 +109,9 @@ namespace Blazorise.Charts
             borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 3
         )
-        { }
+        {
+            Type = "line";
+        }
 
         /// <summary>
         /// Length and spacing of dashes.
@@ -184,7 +198,9 @@ namespace Blazorise.Charts
             borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 0
         )
-        { }
+        {
+            Type = "bar";
+        }
 
         /// <summary>
         /// The fill colour of the bars when hovered.
@@ -219,7 +235,9 @@ namespace Blazorise.Charts
             borderColor: new List<string> { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
             borderWidth: 2
         )
-        { }
+        {
+            Type = "pie";
+        }
 
         /// <summary>
         /// The fill colour of the arcs when hovered.
@@ -246,7 +264,11 @@ namespace Blazorise.Charts
     [DataContract]
     public class DoughnutChartDataset<T> : PieChartDataset<T>
     {
-        // same as pie chart
+        public DoughnutChartDataset()
+            : base()
+        {
+            Type = "doughnut";
+        }
     }
 
     /// <remarks>
@@ -261,7 +283,9 @@ namespace Blazorise.Charts
             borderColor: new List<string> { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
             borderWidth: 2
         )
-        { }
+        {
+            Type = "polarArea";
+        }
 
         /// <summary>
         /// The fill colour of the arcs when hovered.
@@ -297,7 +321,9 @@ namespace Blazorise.Charts
             borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 3
         )
-        { }
+        {
+            Type = "radar";
+        }
 
         /// <summary>
         /// How to fill the area under the line.

@@ -1,9 +1,7 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Snackbar.Utils;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -17,10 +15,33 @@ namespace Blazorise.Snackbar
 
         #region Methods
 
+        protected override void OnInitialized()
+        {
+            if ( ParentSnackbar != null )
+            {
+                ParentSnackbar.NotifySnackbarActionInitialized( this );
+            }
+
+            base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentSnackbar != null )
+                {
+                    ParentSnackbar.NotifySnackbarActionRemoved( this );
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( "snackbar-btn" );
-            builder.Append( $"snackbar-btn-{ ParentSnackbar.Color.GetName()}", ParentSnackbar != null && ParentSnackbar.Color != SnackbarColor.None );
+            builder.Append( "snackbar-action-button" );
+            builder.Append( $"snackbar-action-button-{ ParentSnackbar.Color.GetName()}", ParentSnackbar != null && ParentSnackbar.Color != SnackbarColor.None );
 
             base.BuildClasses( builder );
         }
@@ -41,6 +62,9 @@ namespace Blazorise.Snackbar
 
         [CascadingParameter] protected Snackbar ParentSnackbar { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="SnackbarAction"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
