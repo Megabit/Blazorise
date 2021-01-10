@@ -447,9 +447,9 @@ Edit template will give you a way to handle the editing of grid cell values. For
 </DataGridColumn>
 ```
 
-### RowDetailTemplate
+### DetailRowTemplate
 
-RowDetail template allows you to display nested structure bellow each row in the grid. One of the examples is "master-detail" relationship between two data-source inside the DataGrid.
+DetailRow template allows you to display nested structure bellow each row in the grid. One of the examples is "master-detail" relationship between two data-source inside the DataGrid.
 
 For this template the `context` value is the item from the parent grid.
 
@@ -470,7 +470,7 @@ For this template the `context` value is the item from the parent grid.
 </DetailRowTemplate>
 ```
 
-Once it's defined a DetailRow will be visible for every row in the grid. If you want to control the visibility of detail-row you can use `RowDetailTrigger` attribute that can be defined in it's parent grid.
+Once it's defined a DetailRow will be visible for every row in the grid. If you want to control the visibility of detail-row you can use `DetailRowTrigger` attribute that can be defined in it's parent grid.
 
 ```html
 <DataGrid TItem="Employee"
