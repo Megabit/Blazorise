@@ -16,4 +16,8 @@
     <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.IO.Pipelines" Version="5.0.0" />
+  </ItemGroup>
+
 </Project>
