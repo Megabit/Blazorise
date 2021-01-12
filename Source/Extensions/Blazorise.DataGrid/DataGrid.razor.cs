@@ -109,38 +109,6 @@ namespace Blazorise.DataGrid
 
             paginationTemplates = new PaginationTemplates<TItem>();
             paginationContext = new PaginationContext<TItem>( this );
-
-            paginationContext.SubscribeOnPageSizeChanged( pageSize =>
-            {
-                InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
-
-                // When using manual mode, a user is in control when StateHasChanged will be called
-                // so we just need to call HandleReadData.
-                if ( ManualReadMode )
-                {
-                    InvokeAsync( HandleReadData );
-                }
-                else
-                {
-                    InvokeAsync( StateHasChanged );
-                }
-            } );
-
-            paginationContext.SubscribeOnPageChanged( currentPage =>
-            {
-                InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
-
-                // When using manual mode, a user is in control when StateHasChanged will be called
-                // so we just need to call HandleReadData.
-                if ( ManualReadMode )
-                {
-                    InvokeAsync( HandleReadData );
-                }
-                else
-                {
-                    InvokeAsync( StateHasChanged );
-                }
-            } );
         }
 
         #endregion
@@ -182,6 +150,38 @@ namespace Blazorise.DataGrid
         {
             if ( firstRender )
             {
+                paginationContext.SubscribeOnPageSizeChanged( pageSize =>
+                {
+                    InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
+
+                    // When using manual mode, a user is in control when StateHasChanged will be called
+                    // so we just need to call HandleReadData.
+                    if ( ManualReadMode )
+                    {
+                        InvokeAsync( HandleReadData );
+                    }
+                    else
+                    {
+                        InvokeAsync( StateHasChanged );
+                    }
+                } );
+
+                paginationContext.SubscribeOnPageChanged( currentPage =>
+                {
+                    InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
+
+                    // When using manual mode, a user is in control when StateHasChanged will be called
+                    // so we just need to call HandleReadData.
+                    if ( ManualReadMode )
+                    {
+                        InvokeAsync( HandleReadData );
+                    }
+                    else
+                    {
+                        InvokeAsync( StateHasChanged );
+                    }
+                } );
+
                 if ( ManualReadMode )
                     return HandleReadData();
 
