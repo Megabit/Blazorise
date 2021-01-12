@@ -91,20 +91,6 @@ namespace Blazorise.DataGrid
 
             paginationTemplates = new PaginationTemplates<TItem>();
             paginationContext = new PaginationContext<TItem>( this );
-
-            paginationContext.SubscribeOnPageSizeChanged( pageSize =>
-            {
-                // When using manual mode, a user is in control when StateHasChanged will be called
-                // so we just need to call HandleReadData.
-                if ( ManualReadMode )
-                {
-                    InvokeAsync( HandleReadData );
-                }
-                else
-                {
-                    InvokeAsync( StateHasChanged );
-                }
-            } );
         }
 
         #endregion
@@ -141,6 +127,38 @@ namespace Blazorise.DataGrid
         {
             if ( firstRender )
             {
+                paginationContext.SubscribeOnPageSizeChanged( pageSize =>
+                {
+                    InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
+
+                    // When using manual mode, a user is in control when StateHasChanged will be called
+                    // so we just need to call HandleReadData.
+                    if ( ManualReadMode )
+                    {
+                        InvokeAsync( HandleReadData );
+                    }
+                    else
+                    {
+                        InvokeAsync( StateHasChanged );
+                    }
+                } );
+
+                paginationContext.SubscribeOnPageChanged( currentPage =>
+                {
+                    InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
+
+                    // When using manual mode, a user is in control when StateHasChanged will be called
+                    // so we just need to call HandleReadData.
+                    if ( ManualReadMode )
+                    {
+                        InvokeAsync( HandleReadData );
+                    }
+                    else
+                    {
+                        InvokeAsync( StateHasChanged );
+                    }
+                } );
+
                 if ( ManualReadMode )
                     return HandleReadData();
 
@@ -867,6 +885,11 @@ namespace Blazorise.DataGrid
         /// Gets or sets the maximum number of items for each page.
         /// </summary>
         [Parameter] public int PageSize { get => paginationContext.CurrentPageSize; set => paginationContext.CurrentPageSize = value; }
+
+        /// <summary>
+        /// Occurs after the <see cref="PageSize"/> has changed.
+        /// </summary>
+        [Parameter] public EventCallback<int> PageSizeChanged { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum number of visible pagination links. It has to be odd for well look.
