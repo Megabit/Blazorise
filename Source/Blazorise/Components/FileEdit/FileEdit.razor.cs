@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -195,6 +195,11 @@ namespace Blazorise
                 .WriteToStreamAsync( stream, CancellationToken.None );
         }
 
+        public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken )
+        {
+            return new RemoteFileEntryStream( JSRunner, ElementRef, fileEntry, this, MaxMessageSize, SegmentFetchTimeout, cancellationToken  );
+        }
+
         /// <summary>
         /// Manaully resets the input file value.
         /// </summary>
@@ -250,6 +255,11 @@ namespace Blazorise
         /// Gets or sets the max message size when uploading the file.
         /// </summary>
         [Parameter] public int MaxMessageSize { get; set; } = 20 * 1024;
+
+        /// <summary>
+        /// Gets or sets the Segment Fetch Timeout when uploading the file.
+        /// </summary>
+        [Parameter] public TimeSpan SegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
 
         /// <summary>
         /// Occurs every time the selected file(s) has changed.
