@@ -624,7 +624,7 @@ namespace Blazorise.Bootstrap
 
             sb.Append( $".text-{variant}" )
                 .Append( "{" )
-                .Append( $"color: {textColorHex};" )
+                .Append( $"color: {textColorHex} !important;" )
                 .AppendLine( "}" );
         }
 
