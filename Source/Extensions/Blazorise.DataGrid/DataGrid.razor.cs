@@ -940,17 +940,17 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets content of items per page of grid.
         /// </summary>
-        public RenderFragment ItemsPerPageTemplate { get; set; }
+        [Parameter] public RenderFragment ItemsPerPageTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets content of total items grid for small devices.
         /// </summary>
-        public RenderFragment<PaginationContext<TItem>> TotalItemsShortTemplate { get => paginationTemplates.TotalItemsShortTemplate; set => paginationTemplates.TotalItemsShortTemplate = value; }
+        [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsShortTemplate { get => paginationTemplates.TotalItemsShortTemplate; set => paginationTemplates.TotalItemsShortTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of total items grid.
         /// </summary>
-        public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get => paginationTemplates.TotalItemsTemplate; set => paginationTemplates.TotalItemsTemplate = value; }
+        [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get => paginationTemplates.TotalItemsTemplate; set => paginationTemplates.TotalItemsTemplate = value; }
 
         /// <summary>
         /// Gets or sets the maximum number of items for each page.
