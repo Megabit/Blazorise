@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Buffers;
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
+#if NET5_0
 using System.IO.Pipelines;
+#endif
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -16,9 +20,12 @@ namespace Blazorise
         private readonly FileEdit _fileEdit;
         private readonly int _maxMessageSize;
         private readonly TimeSpan _segmentFetchTimeout;
+#if NET5_0
         private readonly PipeReader _pipeReader;
+#elif NETSTANDARD2_1
+        private readonly IAsyncEnumerator<byte[]> _pipe;
+#endif
         private readonly CancellationTokenSource _fillBufferCts;
-        private bool _isReadingCompleted;
         private bool _isDisposed;
         private long _position;
 
@@ -30,14 +37,18 @@ namespace Blazorise
             _fileEdit = fileEdit;
             _maxMessageSize = maxMessageSize;
             _segmentFetchTimeout = segmentFetchTimeout;
-
+            _fillBufferCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+#if NET5_0
             var pipe = new Pipe( new PipeOptions( pauseWriterThreshold: _maxMessageSize, resumeWriterThreshold: _maxMessageSize ) );
             _pipeReader = pipe.Reader;
-            _fillBufferCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
 
             _ = FillBuffer( pipe.Writer, _fillBufferCts.Token );
+#elif NETSTANDARD2_1
+            _pipe = CreatePipe( _fillBufferCts.Token ).GetAsyncEnumerator(  );
+#endif
         }
 
+#if NET5_0
         private async Task FillBuffer( PipeWriter writer, CancellationToken cancellationToken )
         {
             long offset = 0;
@@ -129,6 +140,44 @@ namespace Blazorise
 
             return totalBytesCopied;
         }
+#elif NETSTANDARD2_1
+        private async IAsyncEnumerable<byte[]> CreatePipe( [EnumeratorCancellation] CancellationToken cancellationToken )
+        {
+            long offset = 0;
+
+            try
+            {
+                while ( offset < _fileEntry.Size )
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    using var readSegmentCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+                    readSegmentCts.CancelAfter( _segmentFetchTimeout );
+
+                    var length = (int)Math.Min( _maxMessageSize, _fileEntry.Size - offset );
+                    var base64 = await _jsRunner.ReadDataAsync( cancellationToken, _elementRef, _fileEntry.Id, offset, length );
+                    var bytes = Convert.FromBase64String( base64 );
+
+                    if ( bytes is null || bytes.Length != length )
+                    {
+                        throw new InvalidOperationException( $"A segment with size {bytes?.Length ?? 0} bytes was received, but {length} bytes were expected." );
+                    }
+
+                    offset += length;
+
+                    yield return bytes;
+
+                    await Task.WhenAll(
+                        _fileEdit.UpdateFileWrittenAsync( _fileEntry, offset, bytes ),
+                        _fileEdit.UpdateFileProgressAsync( _fileEntry, offset ) );
+                }
+            }
+            finally
+            {
+                await _fileEdit.UpdateFileEndedAsync( _fileEntry, offset == _fileEntry.Size );
+            }
+        }
+#endif
 
         public override bool CanRead => true;
 
@@ -175,9 +224,13 @@ namespace Blazorise
             {
                 return 0;
             }
-
+#if NET5_0
             var bytesRead = await CopyFileDataIntoBuffer( _position, buffer.Slice( 0, maxBytesToRead ), cancellationToken );
-
+#elif NETSTANDARD2_1
+            await _pipe.MoveNextAsync();
+            _pipe.Current.CopyTo( buffer );
+            var bytesRead = _pipe.Current.Length;
+#endif
             _position += bytesRead;
 
             return bytesRead;
@@ -196,5 +249,14 @@ namespace Blazorise
 
             base.Dispose( disposing );
         }
+
+
+#if NETSTANDARD2_1
+        public async override ValueTask DisposeAsync()
+        {
+            await _pipe.DisposeAsync();
+            await base.DisposeAsync();
+        }
+#endif
     }
 }
