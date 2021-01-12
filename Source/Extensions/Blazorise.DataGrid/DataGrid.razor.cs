@@ -108,7 +108,7 @@ namespace Blazorise.DataGrid
             newItemCreator = new Lazy<Func<TItem>>( () => FunctionCompiler.CreateNewItem<TItem>() );
 
             paginationTemplates = new PaginationTemplates<TItem>();
-            paginationContext = new PaginationContext<TItem>( this );            
+            paginationContext = new PaginationContext<TItem>( this );
         }
 
         #endregion
