@@ -7,10 +7,13 @@
         @ParentDataGrid.CommandColumn.NewCommandTemplate( new CommandContext<TItem>
         {
             Clicked = New,
+            LocalizationString = Localizer["New"],
         } )
     }
     else
     {
-        <Button Color="Color.Link" Clicked="@New">New</Button>
+        <Button Color="Color.Link" Clicked="@New">
+            @Localizer["New"]
+        </Button>
     }
 }

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,6 +38,13 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+            base.OnInitialized();
+        }
 
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -92,6 +100,8 @@ namespace Blazorise
                     autoplayTimer.Dispose();
                     autoplayTimer = null;
                 }
+
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
             base.Dispose( disposing );
@@ -167,6 +177,11 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+        private async void OnLocalizationChanged( object sender, EventArgs e )
+        {
+            await InvokeAsync( StateHasChanged );
+        }
+
         #endregion
 
         #region Properties
@@ -180,6 +195,10 @@ namespace Blazorise
         protected string IndicatorsClassNames => IndicatorsClassBuilder.Class;
 
         protected string SlidesClassNames => SlidesClassBuilder.Class;
+
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        [Inject] protected ITextLocalizer<Carousel> Localizer { get; set; }
 
         /// <summary>
         /// Autoplays the carousel slides from left to right.

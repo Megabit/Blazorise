@@ -10,12 +10,15 @@
                 @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
                 {
                     Clicked = Save,
+                    LocalizationString = Localizer["Save"],
                     Item = Item,
                 } )
             }
             else
             {
-                <Button Color="Color.Link" Clicked="@Save">Save</Button>
+                <Button Color="Color.Link" Clicked="@Save">
+                    @Localizer["Save"]
+                </Button>
             }
         }
         @if ( ParentDataGrid?.CommandColumn?.CancelCommandAllowed == true )
@@ -25,12 +28,15 @@
                 @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
                 {
                     Clicked = Cancel,
+                    LocalizationString = Localizer["Cancel"],
                     Item = Item,
                 } )
             }
             else
             {
-                <Button Color="Color.Link" Clicked="@Cancel">Cancel</Button>
+                <Button Color="Color.Link" Clicked="@Cancel">
+                    @Localizer["Cancel"]
+                </Button>
             }
         }
     </TableRowCell>
@@ -45,12 +51,15 @@ else if ( EditState == DataGridEditState.None )
                 @ParentDataGrid.CommandColumn.EditCommandTemplate( new CommandContext<TItem>
                 {
                     Clicked = Edit,
+                    LocalizationString = Localizer["Edit"],
                     Item = Item,
                 } )
             }
             else
             {
-                <Button Color="Color.Link" Clicked="@Edit">Edit</Button>
+                <Button Color="Color.Link" Clicked="@Edit">
+                    @Localizer["Edit"]
+                </Button>
             }
         }
         @if ( ParentDataGrid?.CommandColumn?.DeleteCommandAllowed == true )
@@ -60,12 +69,15 @@ else if ( EditState == DataGridEditState.None )
                 @ParentDataGrid.CommandColumn.DeleteCommandTemplate( new CommandContext<TItem>
                 {
                     Clicked = Delete,
+                    LocalizationString = Localizer["Delete"],
                     Item = Item,
                 } )
             }
             else
             {
-                <Button Color="Color.Link" Clicked="@Delete">Delete</Button>
+                <Button Color="Color.Link" Clicked="@Delete">
+                    @Localizer["Delete"]
+                </Button>
             }
         }
     </TableRowCell>

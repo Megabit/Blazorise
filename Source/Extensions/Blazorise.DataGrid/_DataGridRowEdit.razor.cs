@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase
+    public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     {
         #region Members    
 
@@ -21,6 +21,23 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+            base.OnInitialized();
+        }
+
+        public void Dispose()
+        {
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+        }
+
+        private async void OnLocalizationChanged( object sender, EventArgs e )
+        {
+            await InvokeAsync( StateHasChanged );
+        }
 
         protected void ValidationsStatusChanged( ValidationsStatusChangedEventArgs args )
         {
@@ -40,6 +57,10 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
+
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
 
         [Parameter] public TItem Item { get; set; }
 

@@ -11,7 +11,7 @@
                     }
                     else
                     {
-                        @("First")
+                        @Localizer["First"]
                     }
                 </PaginationLink>
             </PaginationItem>
@@ -23,7 +23,7 @@
                     }
                     else
                     {
-                        @("Prev")
+                        @Localizer["Prev"]
                     }
                 </PaginationLink>
             </PaginationItem>
@@ -56,7 +56,7 @@
                     }
                     else
                     {
-                        @("Next")
+                        @Localizer["Next"]
                     }
                 </PaginationLink>
             </PaginationItem>
@@ -68,7 +68,7 @@
                     }
                     else
                     {
-                        @("Last")
+                        @Localizer["Last"]
                     }
                 </PaginationLink>
             </PaginationItem>
@@ -89,7 +89,7 @@
                     }
                     else
                     {
-                        <Text>items per page</Text>
+                        <Text>@Localizer["items per page"]</Text>
                     }
                 </Field>
             }
@@ -105,8 +105,7 @@
             {
                 var curStart = ( ( PaginationContext.CurrentPage - 1 ) * PaginationContext.CurrentPageSize + 1 );
                 var curEnd = Math.Min( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, PaginationContext.TotalItems ?? default );
-                var text = curStart + " - " + curEnd + " of " + PaginationContext.TotalItems + " items";
-                <Text>@text</Text>
+                <Text>@Localizer["{0} - {1} of {2} items", curStart, curEnd, PaginationContext.TotalItems]</Text>
             }
         </Field>
         <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromLeft" Display="Blazorise.Display.InlineBlock.None.OnDesktop">
@@ -116,7 +115,7 @@
             }
             else
             {
-                var text = PaginationContext.TotalItems + " items";
+                var text = $"{PaginationContext.TotalItems} {Localizer["items"]}";
                 <Text>@text</Text>
             }
         </Field>

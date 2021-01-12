@@ -40,24 +40,30 @@
                         @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
                         {
                             Clicked = callbackFactory.Create( this, SaveWithValidation ),
+                            LocalizationString = Localizer["Save"],
                             Item = Item,
                         } );
                     }
                     else
                     {
-                        <Button Color="Color.Link" Clicked="@SaveWithValidation">Save</Button>
+                        <Button Color="Color.Link" Clicked="@SaveWithValidation">
+                            @Localizer["Save"]
+                        </Button>
                     }
                     @if ( ParentDataGrid?.CommandColumn?.CancelCommandTemplate != null )
                     {
                         @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
                         {
                             Clicked = Cancel,
+                            LocalizationString = Localizer["Cancel"],
                             Item = Item,
                         } );
                     }
                     else
                     {
-                        <Button Color="Color.Link" Clicked="@Cancel">Cancel</Button>
+                        <Button Color="Color.Link" Clicked="@Cancel">
+                            @Localizer["Cancel"]
+                        </Button>
                     }
                 </Column>
             </Row>

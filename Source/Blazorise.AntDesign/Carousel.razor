@@ -57,11 +57,11 @@
 
                 @if ( ShowControls )
                 {
-                    <button @onclick="@SelectPrevious" type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button" style="display: block;">
-                        Previous
+                    <button @onclick="@SelectPrevious" type="button" data-role="none" class="slick-prev slick-arrow" aria-label="@Localizer["Previous"]" role="button" style="display: block;">
+                        @Localizer["Previous"]
                     </button>
-                    <button @onclick="@SelectNext" type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button" style="display: block;">
-                        Next
+                    <button @onclick="@SelectNext" type="button" data-role="none" class="slick-next slick-arrow" aria-label="@Localizer["Next"]" role="button" style="display: block;">
+                        @Localizer["Next"]
                     </button>
                 }
             </div>

@@ -12,6 +12,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Resources\Localization\DataGrid\de-DE.json" />
+    <Content Remove="Resources\Localization\DataGrid\en-US.json" />
+    <Content Remove="Resources\Localization\DataGrid\hr-HR.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Localization\DataGrid\de-DE.json" />
+    <EmbeddedResource Include="Resources\Localization\DataGrid\en-US.json" />
+    <EmbeddedResource Include="Resources\Localization\DataGrid\hr-HR.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 

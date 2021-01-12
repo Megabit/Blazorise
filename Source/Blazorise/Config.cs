@@ -33,6 +33,9 @@ namespace Blazorise
             serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
             serviceCollection.AddScoped<IEditContextValidator, EditContextValidator>();
 
+            serviceCollection.AddScoped<ITextLocalizerService, TextLocalizerService>();
+            serviceCollection.AddScoped( typeof( ITextLocalizer<> ), typeof( TextLocalizer<> ) );
+
             return serviceCollection;
         }
 

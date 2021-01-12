@@ -7,11 +7,11 @@
             <ModalTitle>
                 @if ( TitleTemplate != null && EditItem != null )
                 {
-                    @TitleTemplate( new PopupTitleContext<TItem>( EditItem, EditState ) )
+                    @TitleTemplate( new PopupTitleContext<TItem>( EditItem, EditState, EditState == DataGridEditState.Edit ? Localizer["Edit"] : Localizer["Create"] ) )
                 }
                 else
                 {
-                    @(EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create")
+                    @(EditState == DataGridEditState.Edit ? Localizer["Row Edit"] : Localizer["Row Create"])
                 }
             </ModalTitle>
             <CloseButton Clicked="@Cancel" />
@@ -51,12 +51,15 @@
                     @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
                     {
                         Clicked = callbackFactory.Create( this, SaveWithValidation ),
+                        LocalizationString = Localizer["Save"],
                         Item = EditItem,
                     } )
                 }
                 else
                 {
-                    <Button Color="Color.Link" Clicked="@SaveWithValidation">Save</Button>
+                    <Button Color="Color.Link" Clicked="@SaveWithValidation">
+                        @Localizer["Save"]
+                    </Button>
                 }
             }
             @if ( ParentDataGrid?.CommandColumn?.CancelCommandAllowed == true )
@@ -66,12 +69,15 @@
                     @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
                     {
                         Clicked = Cancel,
+                        LocalizationString = Localizer["Cancel"],
                         Item = EditItem,
                     } )
                 }
                 else
                 {
-                    <Button Color="Color.Link" Clicked="@Cancel">Cancel</Button>
+                    <Button Color="Color.Link" Clicked="@Cancel">
+                        @Localizer["Cancel"]
+                    </Button>
                 }
             }
         </ModalFooter>

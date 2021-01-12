@@ -7,10 +7,13 @@
         @ParentDataGrid.CommandColumn.ClearFilterCommandTemplate( new CommandContext<TItem>
         {
             Clicked = ClearFilter,
+            LocalizationString = Localizer["Clear Filter"],
         } )
     }
     else
     {
-        <Button Color="Color.Link" Clicked="@ClearFilter">Clear Filter</Button>
+        <Button Color="Color.Link" Clicked="@ClearFilter">
+            @Localizer["Clear Filter"]
+        </Button>
     }
 }

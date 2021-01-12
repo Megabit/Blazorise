@@ -48,6 +48,22 @@ namespace Blazorise
             }
         }
 
+        protected override void OnInitialized()
+        {
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+            base.OnInitialized();
+        }
+
+        private async void OnLocalizationChanged( object sender, EventArgs e )
+        {
+            // no need to refresh if we're using custom localization
+            if ( CustomLocalization != null )
+                return;
+
+            await InvokeAsync( StateHasChanged );
+        }
+
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -74,6 +90,8 @@ namespace Blazorise
             {
                 JSRunner.DestroyFileEdit( ElementRef, ElementId );
                 DisposeDotNetObjectRef( dotNetObjectRef );
+
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
             base.Dispose( disposing );
@@ -220,6 +238,28 @@ namespace Blazorise
 
         protected double Progress;
 
+        [Inject] protected ITextLocalizer<FileEdit> Localizer { get; set; }
+
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        /// <summary>
+        /// Gets the localized browse button text.
+        /// </summary>
+        protected string BrowseButtonString
+        {
+            get
+            {
+                var baseString = Multiple
+                    ? "Choose files"
+                    : "Choose file";
+
+                if ( CustomLocalization != null )
+                    return CustomLocalization.Invoke( baseString );
+
+                return Localizer[baseString];
+            }
+        }
+
         /// <summary>
         /// Gets the list is selected filename
         /// </summary>
@@ -281,6 +321,13 @@ namespace Blazorise
         /// </summary>
         [Parameter] public bool AutoReset { get; set; } = true;
 
+        /// <summary>
+        /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
+        /// </summary>
+        [Parameter] public CustomLocalizationHandler CustomLocalization { get; set; }
+
         #endregion
     }
+
+    public delegate string CustomLocalizationHandler( string name, params string[] arguments );
 }
