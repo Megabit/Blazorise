@@ -23,6 +23,8 @@ namespace Blazorise
 
         protected Task ClickHandler()
         {
+            ParentAlert?.Hide();
+            ParentModal?.Hide();
             return Clicked.InvokeAsync( null );
         }
 

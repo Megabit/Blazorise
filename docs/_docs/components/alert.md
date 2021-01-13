@@ -13,6 +13,7 @@ Alert component for feedback.
 - `Alert` main container.
   - `AlertMessage` content of Alert.
   - `AlertDescription` additional content of Alert.
+  - [`CloseButton`](/docs/components/close-button) an optional button to close the Alert.
 
 ### When to use
 
@@ -34,7 +35,7 @@ Alert component for feedback.
 
 ### With close
 
-You can also add a close button.
+You can also add a [`CloseButton`](/docs/components/close-button).
 
 ```html
 <Alert Color="Color.Success">
@@ -52,7 +53,7 @@ You can also add a close button.
 
 ### With content
 
-You can also add a close button.
+You can also add a [`CloseButton`](/docs/components/close-button).
 
 ```html
 <Alert Color="Color.Info" Visible="true">

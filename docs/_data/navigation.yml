@@ -78,6 +78,8 @@ docs:
         url: /docs/components/card/
       - title: "Carousel"
         url: /docs/components/carousel/
+      - title: "Close Button"
+        url: "/docs/components/close-button"
       - title: "Dropdown"
         url: /docs/components/dropdown/
       - title: "Figure"

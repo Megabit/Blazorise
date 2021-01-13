@@ -16,7 +16,7 @@ The modal structure is very simple:
   - `<ModalContent>` a horizontally and vertically centered container, in which you can include _any_ content
     - `<ModalHeader>` top part of the modal, usually contains a title and close button
       - `<ModalTitle>` a modal title
-      - `<CloseButton>` a simple close button located in the top right corner
+      - [`<CloseButton>`](/docs/components/close-button) a simple close button located in the top right corner
     - `<ModalBody>` main part of the modal, holds the input fields, images, etc.
     - `<ModalFooter>` bottom part of the modal, usually contains the action buttons
 
@@ -35,7 +35,7 @@ Place the modal markup somewhere at root of you component layout.
     <ModalContent IsCentered="true">
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
-            <CloseButton Clicked="@HideModal" />
+            <CloseButton />
         </ModalHeader>
         <ModalBody>
             <Field>
