@@ -3,7 +3,7 @@ using System;
 using System.Globalization;
 #endregion
 
-namespace Blazorise
+namespace Blazorise.Localization
 {
     /// <summary>
     /// Provides the way to change the current culture and notify the app of the change.

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -58,7 +59,7 @@ namespace Blazorise
         private async void OnLocalizationChanged( object sender, EventArgs e )
         {
             // no need to refresh if we're using custom localization
-            if ( CustomLocalization != null )
+            if ( BrowseButtonLocalizer != null )
                 return;
 
             await InvokeAsync( StateHasChanged );
@@ -238,9 +239,9 @@ namespace Blazorise
 
         protected double Progress;
 
-        [Inject] protected ITextLocalizer<FileEdit> Localizer { get; set; }
-
         [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        [Inject] protected ITextLocalizer<FileEdit> Localizer { get; set; }
 
         /// <summary>
         /// Gets the localized browse button text.
@@ -249,14 +250,14 @@ namespace Blazorise
         {
             get
             {
-                var baseString = Multiple
+                var localizationString = Multiple
                     ? "Choose files"
                     : "Choose file";
 
-                if ( CustomLocalization != null )
-                    return CustomLocalization.Invoke( baseString );
+                if ( BrowseButtonLocalizer != null )
+                    return BrowseButtonLocalizer.Invoke( localizationString );
 
-                return Localizer[baseString];
+                return Localizer[localizationString];
             }
         }
 
@@ -324,10 +325,8 @@ namespace Blazorise
         /// <summary>
         /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
         /// </summary>
-        [Parameter] public CustomLocalizationHandler CustomLocalization { get; set; }
+        [Parameter] public TextLocalizerHandler BrowseButtonLocalizer { get; set; }
 
         #endregion
     }
-
-    public delegate string CustomLocalizationHandler( string name, params string[] arguments );
 }

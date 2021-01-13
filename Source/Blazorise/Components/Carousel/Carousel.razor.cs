@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using Blazorise.Localization;
 using Blazorise.Stores;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -201,6 +202,38 @@ namespace Blazorise
         [Inject] protected ITextLocalizer<Carousel> Localizer { get; set; }
 
         /// <summary>
+        /// Gets the localized previous button text.
+        /// </summary>
+        protected string PreviousButtonString
+        {
+            get
+            {
+                var localizationString = "Previous";
+
+                if ( PreviousButtonLocalizer != null )
+                    return PreviousButtonLocalizer.Invoke( localizationString );
+
+                return Localizer[localizationString];
+            }
+        }
+
+        /// <summary>
+        /// Gets the localized next button text.
+        /// </summary>
+        protected string NextButtonString
+        {
+            get
+            {
+                var localizationString = "Next";
+
+                if ( PreviousButtonLocalizer != null )
+                    return PreviousButtonLocalizer.Invoke( localizationString );
+
+                return Localizer[localizationString];
+            }
+        }
+
+        /// <summary>
         /// Autoplays the carousel slides from left to right.
         /// </summary>
         [Parameter]
@@ -269,6 +302,16 @@ namespace Blazorise
         /// Occurs after the selected slide has changed.
         /// </summary>
         [Parameter] public EventCallback<string> SelectedSlideChanged { get; set; }
+
+        /// <summary>
+        /// Function used to handle custom localization for previous buttun that will override a default <see cref="ITextLocalizer"/>.
+        /// </summary>
+        [Parameter] public TextLocalizerHandler PreviousButtonLocalizer { get; set; }
+
+        /// <summary>
+        /// Function used to handle custom localization for next buttun that will override a default <see cref="ITextLocalizer"/>.
+        /// </summary>
+        [Parameter] public TextLocalizerHandler NextButtonLocalizer { get; set; }
 
         #endregion
     }

@@ -1189,6 +1189,14 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public string ValidationsSummaryLabel { get; set; }
 
+        /// <summary>
+        /// Custom localizer handlers to override default <see cref="DataGrid{TItem}"/> localization.
+        /// </summary>
+        [Parameter] public DataGridLocalizers Localizers { get; set; }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="DataGrid{TItem}"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

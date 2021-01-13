@@ -2,7 +2,7 @@
 using Blazorise.Localization;
 #endregion
 
-namespace Blazorise
+namespace Blazorise.Localization
 {
     /// <summary>
     /// Represents a service that provides localized strings.

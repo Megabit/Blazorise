@@ -3,7 +3,7 @@ using System;
 using System.Globalization;
 #endregion
 
-namespace Blazorise.Utilities
+namespace Blazorise.Localization
 {
     public class TextLocalizerService : ITextLocalizerService
     {

@@ -10,7 +10,7 @@ using System.Text.Json;
 using Blazorise.Localization;
 #endregion
 
-namespace Blazorise.Utilities
+namespace Blazorise.Localization
 {
     /// <summary>
     /// A default implementation of <see cref="ITextLocalizer"/> that reads all localized JSON resources for <typeparamref name="T"/> and cache it.

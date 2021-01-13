@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -120,6 +121,8 @@ namespace Blazorise.DataGrid
 
         [Parameter]
         public Func<string, Task> OnPaginationItemClick { get; set; }
+
+        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
 
         #endregion
     }

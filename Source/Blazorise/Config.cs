@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using Blazorise.Localization;
 using Blazorise.Providers;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
