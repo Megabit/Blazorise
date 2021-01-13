@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 #endregion
 
@@ -25,5 +26,7 @@ namespace Blazorise.Localization
         /// Gets the current culture info.
         /// </summary>
         CultureInfo SelectedCulture { get; }
+
+        ICollection<CultureInfo> AvailableCultures { get; }
     }
 }

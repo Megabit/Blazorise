@@ -1,6 +1,12 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 #endregion
 
 namespace Blazorise.Localization
@@ -11,17 +17,48 @@ namespace Blazorise.Localization
 
         public event EventHandler LocalizationChanged;
 
+        private readonly ConcurrentDictionary<string, CultureInfo> availableCultures = new ConcurrentDictionary<string, CultureInfo>();
+
         #endregion
 
         #region Constructors
 
         public TextLocalizerService()
         {
+            ReadResource();
         }
 
         #endregion
 
         #region Methods
+
+        public void ReadResource()
+        {
+            var assembly = typeof( ITextLocalizerService ).Assembly;
+
+            var cultureNames =
+                ( from localizationResourceName in GetLocalizationResourceNames( assembly )
+                  let l1 = Path.GetFileNameWithoutExtension( localizationResourceName )
+                  let l2 = l1.Substring( l1.LastIndexOf( '.' ) + 1 )
+                  select l2 ).Distinct().ToList();
+
+            foreach ( var cultureName in cultureNames )
+            {
+                AddLanguageResource( cultureName );
+            }
+        }
+
+        public void AddLanguageResource( string cultureName )
+        {
+            availableCultures.TryAdd( cultureName, new CultureInfo( cultureName ) );
+        }
+
+        protected virtual string[] GetLocalizationResourceNames( Assembly assembly )
+        {
+            return assembly.GetManifestResourceNames()
+                .Where( r => r.Contains( $"Resources.Localization" ) && r.EndsWith( ".json" ) )
+                .ToArray();
+        }
 
         public void ChangeLanguage( string cultureName )
         {
@@ -47,6 +84,8 @@ namespace Blazorise.Localization
         #region Properties
 
         public CultureInfo SelectedCulture { get; private set; }
+
+        public ICollection<CultureInfo> AvailableCultures => availableCultures.Values;
 
         #endregion
     }

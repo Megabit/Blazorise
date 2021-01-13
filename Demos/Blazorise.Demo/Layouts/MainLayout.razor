@@ -193,15 +193,19 @@
                             <BarDropdown>
                                 <BarDropdownToggle><Icon Name="IconName.Language" /></BarDropdownToggle>
                                 <BarDropdownMenu RightAligned="true">
-                                    <BarDropdownItem Clicked="@(()=>SelectCulture("en-US"))">
-                                        English
-                                    </BarDropdownItem>
-                                    <BarDropdownItem Clicked="@(()=>SelectCulture("hr-HR"))">
-                                        Croatian
-                                    </BarDropdownItem>
-                                    <BarDropdownItem Clicked="@(()=>SelectCulture("de-DE"))">
-                                        German
-                                    </BarDropdownItem>
+                                    @foreach ( var cultureInfo in LocalizationService.AvailableCultures )
+                                    {
+                                        <BarDropdownItem @key="@cultureInfo.Name" Clicked="@(()=>SelectCulture(cultureInfo.Name))">
+                                            @if ( cultureInfo.IsNeutralCulture )
+                                            {
+                                                @cultureInfo.EnglishName;
+                                            }
+                                            else
+                                            {
+                                                @cultureInfo.Parent.EnglishName;
+                                            }
+                                        </BarDropdownItem>
+                                    }
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
