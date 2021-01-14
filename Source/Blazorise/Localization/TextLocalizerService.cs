@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
@@ -38,9 +37,9 @@ namespace Blazorise.Localization
 
             var cultureNames =
                 ( from localizationResourceName in GetLocalizationResourceNames( assembly )
-                  let l1 = Path.GetFileNameWithoutExtension( localizationResourceName )
-                  let l2 = l1.Substring( l1.LastIndexOf( '.' ) + 1 )
-                  select l2 ).Distinct().ToList();
+                  let path = Path.GetFileNameWithoutExtension( localizationResourceName )
+                  let file = path.Substring( path.LastIndexOf( '.' ) + 1 )
+                  select file ).Distinct().ToList();
 
             foreach ( var cultureName in cultureNames )
             {
@@ -50,7 +49,10 @@ namespace Blazorise.Localization
 
         public void AddLanguageResource( string cultureName )
         {
-            availableCultures.TryAdd( cultureName, new CultureInfo( cultureName ) );
+            if ( !availableCultures.ContainsKey( cultureName ) )
+            {
+                availableCultures.TryAdd( cultureName, new CultureInfo( cultureName ) );
+            }
         }
 
         protected virtual string[] GetLocalizationResourceNames( Assembly assembly )
@@ -60,7 +62,7 @@ namespace Blazorise.Localization
                 .ToArray();
         }
 
-        public void ChangeLanguage( string cultureName )
+        public void ChangeLanguage( string cultureName, bool changeThreadCulture = true )
         {
             if ( string.IsNullOrEmpty( cultureName ) )
                 throw new ArgumentNullException( nameof( cultureName ) );
@@ -70,11 +72,14 @@ namespace Blazorise.Localization
 
             SelectedCulture = new CultureInfo( cultureName );
 
-            CultureInfo.DefaultThreadCurrentCulture = SelectedCulture;
-            CultureInfo.DefaultThreadCurrentUICulture = SelectedCulture;
+            if ( changeThreadCulture )
+            {
+                CultureInfo.DefaultThreadCurrentCulture = SelectedCulture;
+                CultureInfo.DefaultThreadCurrentUICulture = SelectedCulture;
 
-            CultureInfo.CurrentCulture = SelectedCulture;
-            CultureInfo.CurrentUICulture = SelectedCulture;
+                CultureInfo.CurrentCulture = SelectedCulture;
+                CultureInfo.CurrentUICulture = SelectedCulture;
+            }
 
             LocalizationChanged?.Invoke( this, EventArgs.Empty );
         }
@@ -85,7 +90,7 @@ namespace Blazorise.Localization
 
         public CultureInfo SelectedCulture { get; private set; }
 
-        public ICollection<CultureInfo> AvailableCultures => availableCultures.Values;
+        public IEnumerable<CultureInfo> AvailableCultures => availableCultures.Values;
 
         #endregion
     }

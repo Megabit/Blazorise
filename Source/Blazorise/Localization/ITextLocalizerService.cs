@@ -16,17 +16,28 @@ namespace Blazorise.Localization
         /// </summary>
         event EventHandler LocalizationChanged;
 
+
+        /// <summary>
+        /// Add's a new culture name to the list of supported cultures.
+        /// </summary>
+        /// <param name="cultureName">Culture name.</param>
+        void AddLanguageResource( string cultureName );
+
         /// <summary>
         /// Changes the current thread culture.
         /// </summary>
-        /// <param name="cultureName">Predefined culture name.</param>
-        void ChangeLanguage( string cultureName );
+        /// <param name="cultureName">Culture name to be set by the current thread.</param>
+        /// <param name="changeThreadCulture">If true, the <see cref="CultureInfo.DefaultThreadCurrentCulture"/> and <see cref="CultureInfo.CurrentCulture"/> will also be updated.</param>
+        void ChangeLanguage( string cultureName, bool changeThreadCulture = true );
 
         /// <summary>
         /// Gets the current culture info.
         /// </summary>
         CultureInfo SelectedCulture { get; }
 
-        ICollection<CultureInfo> AvailableCultures { get; }
+        /// <summary>
+        /// Gets the list of all available cultures supported by the Blazorise.
+        /// </summary>
+        IEnumerable<CultureInfo> AvailableCultures { get; }
     }
 }

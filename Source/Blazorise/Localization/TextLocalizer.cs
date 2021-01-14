@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
-using Blazorise.Localization;
 #endregion
 
 namespace Blazorise.Localization
@@ -59,6 +58,8 @@ namespace Blazorise.Localization
         public void AddLanguageResource( TextLocalizationResource localizationResource )
         {
             translationsByCulture.TryAdd( localizationResource.Culture, localizationResource.Translations );
+
+            localizerService.AddLanguageResource( localizationResource.Culture );
         }
 
         protected virtual string GetResourceName( Type resourceType )
