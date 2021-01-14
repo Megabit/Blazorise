@@ -12,24 +12,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Resources\Localization\DataGrid\de-DE.json" />
-    <Content Remove="Resources\Localization\DataGrid\en-US.json" />
-    <Content Remove="Resources\Localization\DataGrid\hr-HR.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Localization\DataGrid\de-DE.json" />
-    <EmbeddedResource Include="Resources\Localization\DataGrid\en-US.json" />
-    <EmbeddedResource Include="Resources\Localization\DataGrid\hr-HR.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Localization\**\*.json" />
+    <EmbeddedResource Include="Resources\Localization\**\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Localization\*.json" />
+    <EmbeddedResource Include="Resources\Localization\*.json" />
   </ItemGroup>
 
 </Project>
