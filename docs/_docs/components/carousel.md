@@ -38,10 +38,12 @@ A slideshow component for cycling through elements - images or slides of text - 
 
 ### Carousel
 
-| Name                  | Type                                                                       | Default          | Description                                                                                                   |
-|-----------------------|----------------------------------------------------------------------------|------------------|---------------------------------------------------------------------------------------------------------------|
-| Autoplay              | boolean                                                                    | true             | Autoplays the carousel slides from left to right.                                                            |
-| ShowIndicators        | boolean                                                                    | true             | Specifies whether to show an indicator for each slide.                                                        |
-| ShowControls          | boolean                                                                    | true             | Specifies whether to show the controls that allows the user to navigate to the next or previous slide.        |
-| SelectedSlide         | string                                                                     |                  | Gets or sets currently selected slide name.                                                                   |
-| SelectedSlideChanged  | event                                                                      |                  | Occurs after the selected slide has changed.                                                                  |
+| Name                      | Type                                                                       | Default          | Description                                                                                                           |
+|---------------------------|----------------------------------------------------------------------------|------------------|-----------------------------------------------------------------------------------------------------------------------|
+| Autoplay                  | boolean                                                                    | true             | Autoplays the carousel slides from left to right.                                                                     |
+| ShowIndicators            | boolean                                                                    | true             | Specifies whether to show an indicator for each slide.                                                                |
+| ShowControls              | boolean                                                                    | true             | Specifies whether to show the controls that allows the user to navigate to the next or previous slide.                |
+| SelectedSlide             | string                                                                     |                  | Gets or sets currently selected slide name.                                                                           |
+| SelectedSlideChanged      | event                                                                      |                  | Occurs after the selected slide has changed.                                                                          |
+| PreviousButtonLocalizer   | `TextLocalizerHandler`                                                     |                  | Function used to handle custom localization for previous button that will override a default `ITextLocalizer`.        |
+| NextButtonLocalizer       | `TextLocalizerHandler`                                                     |                  | Function used to handle custom localization for next button that will override a default `ITextLocalizer`.            |

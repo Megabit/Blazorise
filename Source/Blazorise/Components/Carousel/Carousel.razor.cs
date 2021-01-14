@@ -304,12 +304,12 @@ namespace Blazorise
         [Parameter] public EventCallback<string> SelectedSlideChanged { get; set; }
 
         /// <summary>
-        /// Function used to handle custom localization for previous buttun that will override a default <see cref="ITextLocalizer"/>.
+        /// Function used to handle custom localization for previous button that will override a default <see cref="ITextLocalizer"/>.
         /// </summary>
         [Parameter] public TextLocalizerHandler PreviousButtonLocalizer { get; set; }
 
         /// <summary>
-        /// Function used to handle custom localization for next buttun that will override a default <see cref="ITextLocalizer"/>.
+        /// Function used to handle custom localization for next button that will override a default <see cref="ITextLocalizer"/>.
         /// </summary>
         [Parameter] public TextLocalizerHandler NextButtonLocalizer { get; set; }
 
