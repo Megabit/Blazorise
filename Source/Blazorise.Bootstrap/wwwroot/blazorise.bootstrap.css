@@ -885,7 +885,3 @@ table.table tbody tr.selected {
 
 tr.table-row-selectable:hover {
     cursor: pointer; }
-
-.table-responsive {
-    overflow-y: visible;
-    overflow-x: visible; }

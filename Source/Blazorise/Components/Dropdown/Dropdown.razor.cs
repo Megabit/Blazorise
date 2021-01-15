@@ -45,6 +45,7 @@ namespace Blazorise
             builder.Append( ClassProvider.DropdownShow(), Visible );
             builder.Append( ClassProvider.DropdownRight(), RightAligned );
             builder.Append( ClassProvider.DropdownDirection( Direction ), Direction != Direction.Down );
+            builder.Append( ClassProvider.DropdownTableResponsive(), InResponsiveTable );
 
             base.BuildClasses( builder );
         }
@@ -170,7 +171,12 @@ namespace Blazorise
         /// <summary>
         /// Makes the drop down to behave as a group for buttons(used for the split-button behaviour).
         /// </summary>
-        internal bool IsGroup => ParentButtons != null || buttonList?.Count >= 1;
+        protected internal bool IsGroup => ParentButtons != null || buttonList?.Count >= 1;
+
+        /// <summary>
+        /// Returns true if dropdown is placed inside of responsive table.
+        /// </summary>
+        protected internal bool InResponsiveTable => ParentTable?.Responsive == true;
 
         /// <summary>
         /// If true, a dropdown menu will be visible.
@@ -246,6 +252,11 @@ namespace Blazorise
         /// Gets or sets the cascaded parent buttons component.
         /// </summary>
         [CascadingParameter] protected Buttons ParentButtons { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cascaded parent table component.
+        /// </summary>
+        [CascadingParameter] protected Table ParentTable { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Dropdown"/>.
