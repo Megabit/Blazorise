@@ -1,8 +1,10 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using Blazorise.Localization;
 using Blazorise.Stores;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -37,6 +39,13 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+            base.OnInitialized();
+        }
 
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -92,6 +101,8 @@ namespace Blazorise
                     autoplayTimer.Dispose();
                     autoplayTimer = null;
                 }
+
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
             base.Dispose( disposing );
@@ -167,6 +178,11 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+        private async void OnLocalizationChanged( object sender, EventArgs e )
+        {
+            await InvokeAsync( StateHasChanged );
+        }
+
         #endregion
 
         #region Properties
@@ -180,6 +196,42 @@ namespace Blazorise
         protected string IndicatorsClassNames => IndicatorsClassBuilder.Class;
 
         protected string SlidesClassNames => SlidesClassBuilder.Class;
+
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        [Inject] protected ITextLocalizer<Carousel> Localizer { get; set; }
+
+        /// <summary>
+        /// Gets the localized previous button text.
+        /// </summary>
+        protected string PreviousButtonString
+        {
+            get
+            {
+                var localizationString = "Previous";
+
+                if ( PreviousButtonLocalizer != null )
+                    return PreviousButtonLocalizer.Invoke( localizationString );
+
+                return Localizer[localizationString];
+            }
+        }
+
+        /// <summary>
+        /// Gets the localized next button text.
+        /// </summary>
+        protected string NextButtonString
+        {
+            get
+            {
+                var localizationString = "Next";
+
+                if ( PreviousButtonLocalizer != null )
+                    return PreviousButtonLocalizer.Invoke( localizationString );
+
+                return Localizer[localizationString];
+            }
+        }
 
         /// <summary>
         /// Autoplays the carousel slides from left to right.
@@ -250,6 +302,16 @@ namespace Blazorise
         /// Occurs after the selected slide has changed.
         /// </summary>
         [Parameter] public EventCallback<string> SelectedSlideChanged { get; set; }
+
+        /// <summary>
+        /// Function used to handle custom localization for previous button that will override a default <see cref="ITextLocalizer"/>.
+        /// </summary>
+        [Parameter] public TextLocalizerHandler PreviousButtonLocalizer { get; set; }
+
+        /// <summary>
+        /// Function used to handle custom localization for next button that will override a default <see cref="ITextLocalizer"/>.
+        /// </summary>
+        [Parameter] public TextLocalizerHandler NextButtonLocalizer { get; set; }
 
         #endregion
     }
