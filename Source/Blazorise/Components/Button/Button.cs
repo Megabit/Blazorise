@@ -55,7 +55,7 @@ namespace Blazorise
         protected override void OnInitialized()
         {
             // notify dropdown that the button is inside of it
-            ParentDropdown?.Register( this );
+            ParentDropdown?.NotifyButtonInitialized( this );
 
             // notify addons that the button is inside of it
             ParentAddons?.Register( this );
@@ -85,7 +85,7 @@ namespace Blazorise
             if ( disposing )
             {
                 // remove button from parents
-                ParentDropdown?.UnRegister( this );
+                ParentDropdown?.NotifyButtonRemoved( this );
                 ParentAddons?.UnRegister( this );
 
                 if ( Rendered )
