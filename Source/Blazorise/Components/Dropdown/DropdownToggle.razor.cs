@@ -146,6 +146,12 @@ namespace Blazorise
         protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.DropdownOptions?.ToggleIconVisible ?? true );
 
         /// <summary>
+        /// Gets the data-boundary value.
+        /// </summary>
+        protected string DataBoundary
+            => ParentDropdown?.InResponsiveTable == true ? "window" : null;
+
+        /// <summary>
         /// Gets or sets the dropdown color.
         /// </summary>
         [Parameter] public Color Color { get; set; } = Color.None;
