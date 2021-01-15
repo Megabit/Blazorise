@@ -5,3 +5,13 @@
 tr.table-row-selectable:hover {
     cursor: pointer;
 }
+
+// Fixes the problem with dropdowns placed inside of responsive table.
+// Sources: - https://stackoverflow.com/questions/27081082/bootstrap-dropdown-menu-within-a-responsive-table
+//          - https://stackoverflow.com/questions/26018756/bootstrap-button-drop-down-inside-responsive-table-not-visible-because-of-scroll
+//          - https://stackoverflow.com/questions/45174905/make-dropdown-visible-in-bootstrap-responsive-table
+// This solution was the only one that worked. In case something else breaks with this I will remove it!
+.table-responsive {
+    overflow-y: visible;
+    overflow-x: visible;
+}

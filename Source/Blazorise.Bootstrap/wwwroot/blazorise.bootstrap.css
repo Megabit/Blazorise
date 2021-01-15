@@ -87,6 +87,9 @@
     animation-fill-mode: both;
     animation-name: fadeIn; }
 
+.dropdown-menu a:not([href]).dropdown-item:not(.disabled) {
+    cursor: pointer; }
+
 .figure-is-16x16 {
     height: 16px;
     width: 16px; }
@@ -882,3 +885,7 @@ table.table tbody tr.selected {
 
 tr.table-row-selectable:hover {
     cursor: pointer; }
+
+.table-responsive {
+    overflow-y: visible;
+    overflow-x: visible; }
