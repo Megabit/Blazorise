@@ -41,7 +41,9 @@ namespace Blazorise
         /// <returns></returns>
         Task WriteToStreamAsync( Stream stream );
 
-        /// <summary>Opens the stream for reading the uploaded file.</summary>
+        /// <summary>
+        /// Opens the stream for reading the uploaded file.
+        /// </summary>
         /// <param name="maxAllowedSize">
         /// The maximum number of bytes that can be supplied by the Stream. Defaults to 500 KB.
         /// <para>

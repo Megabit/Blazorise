@@ -1,45 +1,53 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Buffers;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
-#if NET5_0
 using System.IO.Pipelines;
-#endif
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise
 {
     internal class RemoteFileEntryStream : Stream
     {
-        private readonly IJSRunner _jsRunner;
-        private readonly ElementReference _elementRef;
-        private readonly FileEntry _fileEntry;
-        private readonly FileEdit _fileEdit;
-        private readonly int _maxMessageSize;
-        private readonly TimeSpan _segmentFetchTimeout;
-        private readonly PipeReader _pipeReader;
-        private readonly CancellationTokenSource _fillBufferCts;
-        private bool _isDisposed;
-        private long _position;
-        private bool _isReadingCompleted;
+        #region Members
+
+        private readonly IJSRunner jsRunner;
+        private readonly ElementReference elementRef;
+        private readonly FileEntry fileEntry;
+        private readonly FileEdit fileEdit;
+        private readonly int maxMessageSize;
+        private readonly TimeSpan segmentFetchTimeout;
+        private readonly PipeReader pipeReader;
+        private readonly CancellationTokenSource fillBufferCts;
+        private bool disposed;
+        private long position;
+        private bool isReadingCompleted;
+
+        #endregion
+
+        #region Constructors
 
         public RemoteFileEntryStream( IJSRunner jsRunner, ElementReference elementRef, FileEntry fileEntry, FileEdit fileEdit, int maxMessageSize, TimeSpan segmentFetchTimeout, CancellationToken cancellationToken )
         {
-            _jsRunner = jsRunner;
-            _elementRef = elementRef;
-            _fileEntry = fileEntry;
-            _fileEdit = fileEdit;
-            _maxMessageSize = maxMessageSize;
-            _segmentFetchTimeout = segmentFetchTimeout;
-            _fillBufferCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
-            var pipe = new Pipe( new PipeOptions( pauseWriterThreshold: _maxMessageSize, resumeWriterThreshold: _maxMessageSize ) );
-            _pipeReader = pipe.Reader;
+            this.jsRunner = jsRunner;
+            this.elementRef = elementRef;
+            this.fileEntry = fileEntry;
+            this.fileEdit = fileEdit;
+            this.maxMessageSize = maxMessageSize;
+            this.segmentFetchTimeout = segmentFetchTimeout;
+            fillBufferCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+            var pipe = new Pipe( new PipeOptions( pauseWriterThreshold: this.maxMessageSize, resumeWriterThreshold: this.maxMessageSize ) );
+            pipeReader = pipe.Reader;
 
-            _ = FillBuffer( pipe.Writer, _fillBufferCts.Token );
+            _ = FillBuffer( pipe.Writer, fillBufferCts.Token );
         }
+
+        #endregion
+
+        #region Methods
 
         private async Task FillBuffer( PipeWriter writer, CancellationToken cancellationToken )
         {
@@ -47,17 +55,17 @@ namespace Blazorise
 
             try
             {
-                while ( offset < _fileEntry.Size )
+                while ( offset < fileEntry.Size )
                 {
-                    var pipeBuffer = writer.GetMemory( _maxMessageSize );
+                    var pipeBuffer = writer.GetMemory( maxMessageSize );
 
                     try
                     {
                         using var readSegmentCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
-                        readSegmentCts.CancelAfter( _segmentFetchTimeout );
+                        readSegmentCts.CancelAfter( segmentFetchTimeout );
 
-                        var length = (int)Math.Min( _maxMessageSize, _fileEntry.Size - offset );
-                        var base64 = await _jsRunner.ReadDataAsync( cancellationToken, _elementRef, _fileEntry.Id, offset, length );
+                        var length = (int)Math.Min( maxMessageSize, fileEntry.Size - offset );
+                        var base64 = await jsRunner.ReadDataAsync( cancellationToken, elementRef, fileEntry.Id, offset, length );
                         var bytes = Convert.FromBase64String( base64 );
 
                         if ( bytes is null || bytes.Length != length )
@@ -73,8 +81,8 @@ namespace Blazorise
                         var result = await writer.FlushAsync( cancellationToken );
 
                         await Task.WhenAll(
-                            _fileEdit.UpdateFileWrittenAsync( _fileEntry, offset, bytes ),
-                            _fileEdit.UpdateFileProgressAsync( _fileEntry, bytes.Length ) );
+                            fileEdit.UpdateFileWrittenAsync( fileEntry, offset, bytes ),
+                            fileEdit.UpdateFileProgressAsync( fileEntry, bytes.Length ) );
 
                         if ( result.IsCompleted )
                         {
@@ -90,7 +98,7 @@ namespace Blazorise
             }
             finally
             {
-                await _fileEdit.UpdateFileEndedAsync( _fileEntry, offset == _fileEntry.Size );
+                await fileEdit.UpdateFileEndedAsync( fileEntry, offset == fileEntry.Size );
             }
 
             await writer.CompleteAsync();
@@ -98,7 +106,7 @@ namespace Blazorise
 
         protected async ValueTask<int> CopyFileDataIntoBuffer( long sourceOffset, Memory<byte> destination, CancellationToken cancellationToken )
         {
-            if ( _isReadingCompleted )
+            if ( isReadingCompleted )
             {
                 return 0;
             }
@@ -107,15 +115,15 @@ namespace Blazorise
 
             while ( destination.Length > 0 )
             {
-                var result = await _pipeReader.ReadAsync( cancellationToken );
+                var result = await pipeReader.ReadAsync( cancellationToken );
                 var bytesToCopy = (int)Math.Min( result.Buffer.Length, destination.Length );
 
                 if ( bytesToCopy == 0 )
                 {
                     if ( result.IsCompleted )
                     {
-                        _isReadingCompleted = true;
-                        await _pipeReader.CompleteAsync();
+                        isReadingCompleted = true;
+                        await pipeReader.CompleteAsync();
                     }
 
                     break;
@@ -124,27 +132,13 @@ namespace Blazorise
                 var slice = result.Buffer.Slice( 0, bytesToCopy );
                 slice.CopyTo( destination.Span );
 
-                _pipeReader.AdvanceTo( slice.End );
+                pipeReader.AdvanceTo( slice.End );
 
                 totalBytesCopied += bytesToCopy;
                 destination = destination.Slice( bytesToCopy );
             }
 
             return totalBytesCopied;
-        }
-
-        public override bool CanRead => true;
-
-        public override bool CanSeek => false;
-
-        public override bool CanWrite => false;
-
-        public override long Length => _fileEntry.Size;
-
-        public override long Position
-        {
-            get => _position;
-            set => throw new NotSupportedException();
         }
 
         public override void Flush()
@@ -178,24 +172,44 @@ namespace Blazorise
             {
                 return 0;
             }
-            var bytesRead = await CopyFileDataIntoBuffer( _position, buffer.Slice( 0, maxBytesToRead ), cancellationToken );
-            _position += bytesRead;
+            var bytesRead = await CopyFileDataIntoBuffer( position, buffer.Slice( 0, maxBytesToRead ), cancellationToken );
+            position += bytesRead;
 
             return bytesRead;
         }
 
         protected override void Dispose( bool disposing )
         {
-            if ( _isDisposed )
+            if ( disposed )
             {
                 return;
             }
 
-            _fillBufferCts.Cancel();
+            fillBufferCts.Cancel();
 
-            _isDisposed = true;
+            disposed = true;
 
             base.Dispose( disposing );
         }
+
+        #endregion
+
+        #region Properties
+
+        public override bool CanRead => true;
+
+        public override bool CanSeek => false;
+
+        public override bool CanWrite => false;
+
+        public override long Length => fileEntry.Size;
+
+        public override long Position
+        {
+            get => position;
+            set => throw new NotSupportedException();
+        }
+
+        #endregion
     }
 }
