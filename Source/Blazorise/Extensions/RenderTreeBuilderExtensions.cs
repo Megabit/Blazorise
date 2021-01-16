@@ -135,6 +135,13 @@ namespace Blazorise.Extensions
             return builder;
         }
 
+        public static RenderTreeBuilder TabIndex( this RenderTreeBuilder builder, int? value, [CallerLineNumber] int line = 0 )
+        {
+            builder.AddAttribute( GetSequence( line ), $"tabindex", value );
+
+            return builder;
+        }
+
         public static RenderTreeBuilder AriaPressed( this RenderTreeBuilder builder, object value, [CallerLineNumber] int line = 0 )
         {
             return Aria( builder, "pressed", value );

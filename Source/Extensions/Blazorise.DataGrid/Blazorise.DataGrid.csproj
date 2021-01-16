@@ -20,4 +20,14 @@
     <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\Localization\**\*.json" />
+    <EmbeddedResource Include="Resources\Localization\**\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Localization\*.json" />
+    <EmbeddedResource Include="Resources\Localization\*.json" />
+  </ItemGroup>
+
 </Project>

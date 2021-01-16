@@ -57,6 +57,9 @@
     animation-fill-mode: both;
     animation-name: fadeIn; }
 
+.dropdown-menu a:not([href]).dropdown-item:not(.disabled) {
+    cursor: pointer; }
+
 .form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .custom-checkbox > .custom-control-input.custom-control-input-pointer,

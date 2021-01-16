@@ -327,6 +327,8 @@ namespace Blazorise.Providers
 
         public string DropdownDirection( Direction direction ) => null;
 
+        public string DropdownTableResponsive() => null;
+
         #endregion
 
         #region Tabs

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// A menu item for a <see cref="Dropdown"/> component.
+    /// A menu item for the <see cref="DropdownMenu"/> component.
     /// </summary>
     public partial class DropdownItem : BaseComponent
     {

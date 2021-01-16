@@ -361,6 +361,8 @@ namespace Blazorise.AntDesign
             }
         }
 
+        public override string DropdownTableResponsive() => null;
+
         #endregion
 
         #region Tabs

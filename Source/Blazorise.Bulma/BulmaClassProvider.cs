@@ -364,6 +364,8 @@ namespace Blazorise.Bulma
             }
         }
 
+        public override string DropdownTableResponsive() => null;
+
         #endregion
 
         #region Tabs

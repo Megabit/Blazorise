@@ -36,3 +36,20 @@ Optionally you can use the new Datagrid column `<DataGridMultiSelectColumn>` to 
 You can either use your own `MultiSelectTemplate` render fragment to customize the input that will appear in the column and trigger the multiple selection by then binding to the provided `SelectedChanged` event callback or just use the provided default by not specifying a `MultiSelectTemplate` render fragment. When using this extra column, the top row column, will provide the ability to select or unselect all rows.
 
 An example can be found in [DataGrid]({{ "/docs/extensions/datagrid/#datagrid-multiple-selection" | relative_url }}) page section.
+
+### Localization
+
+Localization _s*ck_. There, I said it. Well, at least a default .Net localization, more specifically `IStringLocalizer`. I guess it is OK for regular .Net Core server-side apps but for Blazor single-page apps where everything has to be dynamic, it just doesn't make sense. All I wanted was just a basic feature. The ability to change languages while the app is running. No-can-do! `IStringLocalizer` caches language on app startup and there is no way to change it later. Whenever you change the language you must refresh and reload the page 🤯. I hate it.
+
+So, naturally, I had to implement my own localization that will support:
+
+- Dynamically change the language
+- JSON files for resources
+- Add custom languages while the app is running
+- Ability to override localization for each component individually
+
+As a result I created `ITextLocalizer` and `ITextLocalizerService`.
+
+`ITextLocalizer` is used exactly the same as `IStringLocalizer`, but it behaves differently. Instead of caching everything on startup and not able to change anything afterward like `IStringLocalizer`, with `ITextLocalizer` you can read or add additional languages dynamically while the app is running. To change the language, a new `ITextLocalizerService` is used. With a simple `textLocalizerService.ChangeLanguage("fr-FR")` Blazorise components will react and redraw their localization texts, where needed. Best of all, there are no additional setup steps required like for native Blazor localization.
+
+To learn more on how to use new localization please look at the [localization page]({{ "/docs/helpers/localization" | relative_url }})
