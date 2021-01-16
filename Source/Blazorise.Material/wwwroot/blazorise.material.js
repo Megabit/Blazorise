@@ -26,6 +26,8 @@ window.blazoriseMaterial = {
             firstDay: 1, // monday
             format: 'dd.mm.yyyy',
             formatSubmit: formatSubmit,
+            selectMonths: true,
+            selectYears: true,
             onClose: function (s) {
                 // trigger onchange event on the DateEdit component
                 mutateDOMChange(elementId);
