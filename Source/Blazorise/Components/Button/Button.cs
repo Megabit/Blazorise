@@ -132,7 +132,8 @@ namespace Blazorise
                 .Class( ClassNames )
                 .Style( StyleNames )
                 .Disabled( Disabled )
-                .AriaPressed( Active );
+                .AriaPressed( Active )
+                .TabIndex( TabIndex );
 
             if ( Type == ButtonType.Link && To != null )
             {
@@ -367,6 +368,11 @@ namespace Blazorise
         /// The target attribute specifies where to open the linked document for a <see cref="ButtonType.Link"/>.
         /// </summary>
         [Parameter] public Target Target { get; set; } = Target.None;
+
+        /// <summary>
+        /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
+        /// </summary>
+        [Parameter] public int? TabIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the component child content.
