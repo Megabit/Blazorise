@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using Blazorise.Stores;
 using Blazorise.Utilities;
@@ -7,21 +8,36 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Dropdown is toggleable, contextual overlay for displaying lists of links and more.
+    /// </summary>
     public partial class Dropdown : BaseComponent
     {
         #region Members
 
+        /// <summary>
+        /// Store used to holds the dropdown state.
+        /// </summary>
         private DropdownStore store = new DropdownStore
         {
             Direction = Direction.Down,
         };
 
-        private List<Button> registeredButtons;
+        /// <summary>
+        /// An event raised after the <see cref="Visible"/> parameter has changed.
+        /// </summary>
+        public event EventHandler<bool> VisibleChanged;
+
+        /// <summary>
+        /// A list of all buttons placed inside of this dropdown.
+        /// </summary>
+        private List<Button> buttonList;
 
         #endregion
 
         #region Methods        
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Dropdown() );
@@ -29,21 +45,28 @@ namespace Blazorise
             builder.Append( ClassProvider.DropdownShow(), Visible );
             builder.Append( ClassProvider.DropdownRight(), RightAligned );
             builder.Append( ClassProvider.DropdownDirection( Direction ), Direction != Direction.Down );
+            builder.Append( ClassProvider.DropdownTableResponsive(), InResponsiveTable );
 
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void OnAfterRender( bool firstRender )
         {
-            if ( firstRender && registeredButtons?.Count > 0 )
+            if ( firstRender && buttonList?.Count > 0 )
             {
                 DirtyClasses();
-                StateHasChanged();
+                DirtyStyles();
+
+                InvokeAsync( StateHasChanged );
             }
 
             base.OnAfterRender( firstRender );
         }
 
+        /// <summary>
+        /// Show the dropdown menu.
+        /// </summary>
         public void Show()
         {
             // used to prevent toggle event call if Open() is called multiple times
@@ -51,11 +74,13 @@ namespace Blazorise
                 return;
 
             Visible = true;
-            Toggled.InvokeAsync( Visible );
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
+        /// <summary>
+        /// Hide the dropdown menu.
+        /// </summary>
         public void Hide()
         {
             // used to prevent toggle event call if Close() is called multiple times
@@ -63,46 +88,72 @@ namespace Blazorise
                 return;
 
             Visible = false;
-            Toggled.InvokeAsync( Visible );
 
-            StateHasChanged();
-        }
-
-        public void Toggle()
-        {
-            Visible = !Visible;
-            Toggled.InvokeAsync( Visible );
-
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
-        /// Registers a child button reference.
+        /// Toggle the visibility of the dropdown menu.
         /// </summary>
-        /// <param name="button">Button to register.</param>
-        internal void Register( Button button )
+        public void Toggle()
+        {
+            Visible = !Visible;
+
+            InvokeAsync( StateHasChanged );
+        }
+
+        /// <summary>
+        /// Notifies the <see cref="Dropdown"/> that it has a child button component.
+        /// </summary>
+        /// <param name="button">Reference to the <see cref="Button"/> that is placed inside of this <see cref="Dropdown"/>.</param>
+        internal void NotifyButtonInitialized( Button button )
         {
             if ( button == null )
                 return;
 
-            if ( registeredButtons == null )
-                registeredButtons = new List<Button>();
+            if ( buttonList == null )
+                buttonList = new List<Button>();
 
-            if ( !registeredButtons.Contains( button ) )
+            if ( !buttonList.Contains( button ) )
             {
-                registeredButtons.Add( button );
+                buttonList.Add( button );
             }
         }
 
-        internal void UnRegister( Button button )
+        /// <summary>
+        /// Notifies the <see cref="Dropdown"/> that it's a child button component should be removed.
+        /// </summary>
+        /// <param name="button">Reference to the <see cref="Button"/> that is placed inside of this <see cref="Dropdown"/>.</param>
+        internal void NotifyButtonRemoved( Button button )
         {
             if ( button == null )
                 return;
 
-            if ( registeredButtons != null && registeredButtons.Contains( button ) )
+            if ( buttonList != null && buttonList.Contains( button ) )
             {
-                registeredButtons.Remove( button );
+                buttonList.Remove( button );
             }
+        }
+
+        /// <summary>
+        /// Handles the styles based on the visibility flag.
+        /// </summary>
+        /// <param name="visible">Dropdown menu visibility flag.</param>
+        private void HandleVisibilityStyles( bool visible )
+        {
+            DirtyClasses();
+            DirtyStyles();
+        }
+
+        /// <summary>
+        /// Handles all the events in this <see cref="Dropdown"/> based on the visibility flag.
+        /// </summary>
+        /// <param name="visible">Dropdown menu visibility flag.</param>
+        private void HandleVisibilityEvents( bool visible )
+        {
+            VisibleChanged?.Invoke( this, visible );
+
+            Toggled.InvokeAsync( visible );
         }
 
         #endregion
@@ -112,15 +163,23 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
+        /// <summary>
+        /// Gets the referemce to the <see cref="DropdownStore"/>.
+        /// </summary>
         protected DropdownStore Store => store;
 
         /// <summary>
         /// Makes the drop down to behave as a group for buttons(used for the split-button behaviour).
         /// </summary>
-        internal bool IsGroup => Buttons != null || registeredButtons?.Count >= 1;
+        protected internal bool IsGroup => ParentButtons != null || buttonList?.Count >= 1;
 
         /// <summary>
-        /// Handles the visibility of dropdown menu.
+        /// Returns true if dropdown is placed inside of responsive table.
+        /// </summary>
+        protected internal bool InResponsiveTable => ParentTable?.Responsive == true;
+
+        /// <summary>
+        /// If true, a dropdown menu will be visible.
         /// </summary>
         [Parameter]
         public bool Visible
@@ -128,14 +187,19 @@ namespace Blazorise
             get => store.Visible;
             set
             {
-                store.Visible = value;
+                // prevent from calling the same code multiple times
+                if ( value == store.Visible )
+                    return;
 
-                DirtyClasses();
+                store = store with { Visible = value };
+
+                HandleVisibilityStyles( value );
+                HandleVisibilityEvents( value );
             }
         }
 
         /// <summary>
-        /// Right aligned dropdown menu.
+        /// If true, a dropdown menu will be right aligned.
         /// </summary>
         [Parameter]
         public bool RightAligned
@@ -143,14 +207,14 @@ namespace Blazorise
             get => store.RightAligned;
             set
             {
-                store.RightAligned = value;
+                store = store with { RightAligned = value };
 
                 DirtyClasses();
             }
         }
 
         /// <summary>
-        /// Right aligned dropdown menu.
+        /// If true, dropdown would not react to button click.
         /// </summary>
         [Parameter]
         public bool Disabled
@@ -158,7 +222,7 @@ namespace Blazorise
             get => store.Disabled;
             set
             {
-                store.Disabled = value;
+                store = store with { Disabled = value };
 
                 DirtyClasses();
             }
@@ -173,7 +237,7 @@ namespace Blazorise
             get => store.Direction;
             set
             {
-                store.Direction = value;
+                store = store with { Direction = value };
 
                 DirtyClasses();
             }
@@ -184,8 +248,19 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<bool> Toggled { get; set; }
 
-        [CascadingParameter] protected Buttons Buttons { get; set; }
+        /// <summary>
+        /// Gets or sets the cascaded parent buttons component.
+        /// </summary>
+        [CascadingParameter] protected Buttons ParentButtons { get; set; }
 
+        /// <summary>
+        /// Gets or sets the cascaded parent table component.
+        /// </summary>
+        [CascadingParameter] protected Table ParentTable { get; set; }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Dropdown"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

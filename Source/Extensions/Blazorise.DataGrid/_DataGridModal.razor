@@ -7,11 +7,15 @@
             <ModalTitle>
                 @if ( TitleTemplate != null && EditItem != null )
                 {
-                    @TitleTemplate( new PopupTitleContext<TItem>( EditItem, EditState ) )
+                    @TitleTemplate( new PopupTitleContext<TItem>( EditItem, EditState, EditState == DataGridEditState.Edit
+                        ? Localizer.Localize( ParentDataGrid?.Localizers?.EditLocalizer, "Edit" )
+                        : Localizer.Localize( ParentDataGrid?.Localizers?.CreateLocalizer, "Create" ) ) )
                 }
                 else
                 {
-                    @(EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create")
+                    @(EditState == DataGridEditState.Edit
+                        ? Localizer.Localize( ParentDataGrid?.Localizers?.ModalRowEditLocalizer, "Row Edit" )
+                        : Localizer.Localize( ParentDataGrid?.Localizers?.ModalRowCreateLocalizer, "Row Create" ))
                 }
             </ModalTitle>
             <CloseButton Clicked="@Cancel" />
@@ -31,14 +35,12 @@
                         @if ( column.CellValueIsEditable )
                         {
                             <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
-                                <Field>
-                                    <FieldLabel>
-                                        @column.Caption
-                                    </FieldLabel>
-                                    <FieldBody>
-                                        <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
-                                    </FieldBody>
-                                </Field>
+                                <FieldLabel>
+                                    @column.Caption
+                                </FieldLabel>
+                                <FieldBody>
+                                    <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
+                                </FieldBody>
                             </Field>
                         }
                     }
@@ -48,32 +50,42 @@
         <ModalFooter>
             @if ( ParentDataGrid?.CommandColumn?.SaveCommandAllowed == true )
             {
+                var saveButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.SaveButtonLocalizer, "Save" );
+
                 @if ( ParentDataGrid?.CommandColumn?.SaveCommandTemplate != null )
                 {
                     @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
                     {
                         Clicked = callbackFactory.Create( this, SaveWithValidation ),
+                        LocalizationString = saveButtonString,
                         Item = EditItem,
                     } )
                 }
                 else
                 {
-                    <Button Color="Color.Link" Clicked="@SaveWithValidation">Save</Button>
+                    <Button Color="Color.Link" Clicked="@SaveWithValidation">
+                        @saveButtonString
+                    </Button>
                 }
             }
             @if ( ParentDataGrid?.CommandColumn?.CancelCommandAllowed == true )
             {
+                var cancelButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.CancelButtonLocalizer, "Cancel" );
+
                 @if ( ParentDataGrid?.CommandColumn?.CancelCommandTemplate != null )
                 {
                     @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
                     {
                         Clicked = Cancel,
+                        LocalizationString = cancelButtonString,
                         Item = EditItem,
                     } )
                 }
                 else
                 {
-                    <Button Color="Color.Link" Clicked="@Cancel">Cancel</Button>
+                    <Button Color="Color.Link" Clicked="@Cancel">
+                        @cancelButtonString
+                    </Button>
                 }
             }
         </ModalFooter>

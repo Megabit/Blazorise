@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -48,6 +49,22 @@ namespace Blazorise
             }
         }
 
+        protected override void OnInitialized()
+        {
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+            base.OnInitialized();
+        }
+
+        private async void OnLocalizationChanged( object sender, EventArgs e )
+        {
+            // no need to refresh if we're using custom localization
+            if ( BrowseButtonLocalizer != null )
+                return;
+
+            await InvokeAsync( StateHasChanged );
+        }
+
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -74,6 +91,8 @@ namespace Blazorise
             {
                 JSRunner.DestroyFileEdit( ElementRef, ElementId );
                 DisposeDotNetObjectRef( dotNetObjectRef );
+
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
             base.Dispose( disposing );
@@ -220,6 +239,28 @@ namespace Blazorise
 
         protected double Progress;
 
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        [Inject] protected ITextLocalizer<FileEdit> Localizer { get; set; }
+
+        /// <summary>
+        /// Gets the localized browse button text.
+        /// </summary>
+        protected string BrowseButtonString
+        {
+            get
+            {
+                var localizationString = Multiple
+                    ? "Choose files"
+                    : "Choose file";
+
+                if ( BrowseButtonLocalizer != null )
+                    return BrowseButtonLocalizer.Invoke( localizationString );
+
+                return Localizer[localizationString];
+            }
+        }
+
         /// <summary>
         /// Gets the list is selected filename
         /// </summary>
@@ -280,6 +321,11 @@ namespace Blazorise
         /// If true file input will be automatically reset after it has being uploaded.
         /// </summary>
         [Parameter] public bool AutoReset { get; set; } = true;
+
+        /// <summary>
+        /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
+        /// </summary>
+        [Parameter] public TextLocalizerHandler BrowseButtonLocalizer { get; set; }
 
         #endregion
     }

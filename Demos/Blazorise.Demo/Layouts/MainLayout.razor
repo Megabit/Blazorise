@@ -1,6 +1,7 @@
 ﻿@layout RootLayout
 @inherits LayoutComponentBase
-
+@using System.Globalization
+@using Blazorise.Localization
 <Layout Sider="true">
     <LayoutSider>
         <LayoutSiderContent>
@@ -190,6 +191,26 @@
                     <BarEnd>
                         <BarItem>
                             <BarDropdown>
+                                <BarDropdownToggle><Icon Name="IconName.Language" /></BarDropdownToggle>
+                                <BarDropdownMenu RightAligned="true">
+                                    @foreach ( var cultureInfo in LocalizationService.AvailableCultures )
+                                    {
+                                        <BarDropdownItem @key="@cultureInfo.Name" Clicked="@(()=>SelectCulture(cultureInfo.Name))">
+                                            @if ( cultureInfo.IsNeutralCulture )
+                                            {
+                                                @cultureInfo.EnglishName;
+                                            }
+                                            else
+                                            {
+                                                @cultureInfo.Parent.EnglishName;
+                                            }
+                                        </BarDropdownItem>
+                                    }
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
                                 <BarDropdownToggle><Icon Name="IconName.Tint" /> Theme</BarDropdownToggle>
                                 <BarDropdownMenu Style="padding: 15px; min-width:550px;" RightAligned="true">
                                     <Row>
@@ -233,6 +254,22 @@
 </Layout>
 
 @code{
+    [Inject] protected ITextLocalizerService LocalizationService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SelectCulture( "en-US" );
+
+        await base.OnInitializedAsync();
+    }
+
+    Task SelectCulture( string name )
+    {
+        LocalizationService.ChangeLanguage( name );
+
+        return Task.CompletedTask;
+    }
+
     void OnThemeEnabledChanged( bool value )
     {
         if ( Theme == null )

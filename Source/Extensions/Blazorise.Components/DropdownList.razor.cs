@@ -95,9 +95,20 @@ namespace Blazorise.Components
         /// </summary>
         [Parameter] public string Style { get; set; }
 
+        /// <summary>
+        /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
+        /// </summary>
+        [Parameter] public int? TabIndex { get; set; }
+
+        /// <summary>
+        /// Captures all the custom attribute that are not part of Blazorise component.
+        /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="DropdownList{TItem, TValue}"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
