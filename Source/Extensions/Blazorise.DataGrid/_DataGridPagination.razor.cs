@@ -19,19 +19,24 @@ namespace Blazorise.DataGrid
             base.BuildClasses( builder );
         }
 
-        private void NewClick()
+        private Task NewClick()
         {
-            New.InvokeAsync( SelectedRow );
+            return New.InvokeAsync( SelectedRow );
 
         }
-        private void EditClick()
+        private Task EditClick()
         {
-            Edit.InvokeAsync( SelectedRow );
+            return Edit.InvokeAsync( SelectedRow );
         }
 
-        private void DeleteClick()
+        private Task DeleteClick()
         {
-            Delete.InvokeAsync( SelectedRow );
+            return Delete.InvokeAsync( SelectedRow );
+        }
+
+        private Task ClearFilterClick()
+        {
+            return ClearFilter.InvokeAsync();
         }
         #endregion
 
@@ -92,6 +97,11 @@ namespace Blazorise.DataGrid
         /// Activates the delete command for current item.
         /// </summary>
         [Parameter] public EventCallback<TItem> Delete { get; set; }
+
+        /// <summary>
+        /// Activates the clear filter command.
+        /// </summary>
+        [Parameter] public EventCallback ClearFilter { get; set; }
 
         /// <summary>
         /// Gets or sets content of button row of pager.

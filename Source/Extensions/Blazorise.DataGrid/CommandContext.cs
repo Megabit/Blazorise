@@ -36,5 +36,6 @@ namespace Blazorise.DataGrid
         public NewCommandContext NewCommand { get; set; }
         public EditCommandContext<TItem> EditCommand { get; set; }
         public DeleteCommandContext<TItem> DeleteCommand { get; set; }
+        public CommandContext ClearFilterCommand { get; set; }
     }
 }

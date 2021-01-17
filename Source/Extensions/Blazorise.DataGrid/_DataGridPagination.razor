@@ -7,9 +7,10 @@
             <Field Display="Blazorise.Display.None.InlineBlock.OnDesktop">
                     @ButtonRowTemplate(new ButtonRowContext<TItem>()
                     {
-                        NewCommand = new NewCommandContext() { Clicked = EventCallback.Factory.Create(this, NewClick)},
+                        NewCommand = new NewCommandContext() { Clicked = EventCallback.Factory.Create(this, NewClick) },
                         EditCommand = new EditCommandContext<TItem>() { Clicked = EventCallback.Factory.Create(this, EditClick), Item = SelectedRow },
-                        DeleteCommand = new DeleteCommandContext<TItem>() { Clicked = EventCallback.Factory.Create(this, DeleteClick), Item = SelectedRow }
+                        DeleteCommand = new DeleteCommandContext<TItem>() { Clicked = EventCallback.Factory.Create(this, DeleteClick), Item = SelectedRow },
+                        ClearFilterCommand = new CommandContext() { Clicked = EventCallback.Factory.Create(this, ClearFilter) }
                     })
             </Field>
         </Column>
