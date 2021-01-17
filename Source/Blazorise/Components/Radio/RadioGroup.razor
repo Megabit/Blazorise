@@ -1,0 +1,9 @@
+﻿@namespace Blazorise
+@typeparam TValue
+@inherits BaseInputComponent<TValue>
+<CascadingValue Value=this>
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="@TabIndex" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" @attributes="@Attributes">
+        @ChildContent
+    </div>
+    @Feedback
+</CascadingValue>

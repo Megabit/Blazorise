@@ -550,6 +550,52 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 }
 ```
 
+
+### Empty Cell Template
+
+If you want to change cell content display when cell's value is null, use `EmptyCellTemplate`.
+
+```html
+<DataGrid TItem="Employee"
+    Data="@employeeList"
+    TotalItems="@totalEmployees"
+    ReadData="@LoadEmployeesFromService">
+    <ChildContent>
+    	<!--DataGridColumns-->
+    </ChildContent>
+    <EmptyCellTemplate>
+    	<Text Style="opacity: .5;">-</Text>
+    </EmptyTemplate>
+</DataGrid>
+```
+
+### DataGrid Multiple Selection
+
+Set `SelectionMode` to `DataGridSelectionMode.Multiple` to enable multiple selection on Datagrid. 
+
+```html
+<DataGrid TItem="Employee"
+    Data="@employeeList"
+    SelectionMode="DataGridSelectionMode.Multiple"
+    @bind-SelectedRows="@selectedEmployees">
+</DataGrid>
+```
+
+Clicking rows will now select multiple records at a time. You can now access them by using the `SelectedRows` parameter and also bind to the `SelectedRowsChanged` event callback.
+
+Optionally you can use the new Datagrid column `<DataGridMultiSelectColumn>` to enable a checkbox column that works exclusively with multiple selection. You can either use your own `MultiSelectTemplate` render fragment to customize the input that will appear in the column and trigger the multiple selection by then binding to the provided `SelectedChanged` event callback or just use the provided default by not specifying a `MultiSelectTemplate` render fragment. When using this extra column, the top row column, will provide the ability to select or unselect all rows.
+
+```html
+<DataGrid TItem="Employee"
+    Data="@employeeList"
+    SelectionMode="DataGridSelectionMode.Multiple">
+    <DataGridColumns>
+        <DataGridMultiSelectColumn TItem="Employee" Width="30px"></DataGridMultiSelectColumn>
+        ...
+    </DataGridColumns>
+</DataGrid>
+```
+
 ## Attributes
 
 ### DataGrid
@@ -584,6 +630,7 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | RowRemoving            | Action                                                              |         | Cancelable event called before the row is removed.                                                          |
 | RowRemoved             | EventCallback                                                       |         | Event called after the row is removed.                                                                      |
 | PageChanged            | EventCallback                                                       |         | Occurs after the selected page has changed.                                                                 |
+| EmptyCellTemplate      | RenderingFragment                                                   |         | Define the format for empty data cell                                                                 |
 | EmptyTemplate          | RenderingFragment                                                   |         | Define the format for empty data collection                                                                 |
 | LoadingTemplate        | RenderingFragment                                                   |         | Define the format for signal of loading data                                                                |
 | PopupTitleTemplate     | `RenderFragment<PopupTitleContext<TItem>>`                          |         | Template for custom title of edit popup dialog                                                              |
@@ -593,6 +640,8 @@ If you want to change display of content, while grid is empty or `ReadData` is e
 | ShowValidationsSummary | boolean                                                             | true    | Hide or show validations summary                                                                            |
 | ValidationsSummaryLabel| string                                                              | null    | Set label of validations summary                                                                            |
 | SortMode               | [DataGridSortMode]({{ "/docs/helpers/enums/#datagridsortmode" | relative_url }})  | `Multiple`          | Defines whether the user can sort only by one column or by multiple.              |
+| SelectionMode          | [DataGridSelectionMode]({{ "/docs/helpers/enums/#datagridselectionmode" | relative_url }})  | `Single`          | Defines whether the datagrid is set to single or multiple selection mode. |
+| Localizers             | `DataGridLocalizers`                                                |         | Custom localizer handlers to override default  localization.                                                |
 
 ### EditMode
 

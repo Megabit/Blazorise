@@ -1,8 +1,8 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using Blazorise.Localization;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -11,6 +11,28 @@ namespace Blazorise.DataGrid
     partial class _DataGridPagination<TItem> : BaseComponent
     {
         #region Methods
+
+        protected override void OnInitialized()
+        {
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+            base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+            }
+
+            base.Dispose( disposing );
+        }
+
+        private async void OnLocalizationChanged( object sender, EventArgs e )
+        {
+            await InvokeAsync( StateHasChanged );
+        }
 
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -21,6 +43,10 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
+
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
 
         /// <summary>
         /// Gets or sets the pagination context.
@@ -95,6 +121,8 @@ namespace Blazorise.DataGrid
 
         [Parameter]
         public Func<string, Task> OnPaginationItemClick { get; set; }
+
+        [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
 
         #endregion
     }

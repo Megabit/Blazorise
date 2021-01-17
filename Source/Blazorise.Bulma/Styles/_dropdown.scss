@@ -1,0 +1,10 @@
+﻿.dropdown.is-active .dropdown-menu {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
+}
+
+.dropdown .dropdown-menu > .dropdown-content > .dropdown-item.is-disabled {
+    pointer-events: none;
+    opacity: .65;
+}

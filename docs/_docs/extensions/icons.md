@@ -37,14 +37,6 @@ builder.Services
 +  .AddFontAwesomeIcons();
 ```
 
-and
-
-```diff
-host.Services
-  .UseBootstrapProviders()
-+  .UseFontAwesomeIcons();
-```
-
 ## Usage
 
 ### Basic

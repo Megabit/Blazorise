@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase
+    public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     {
         #region Members    
 
@@ -22,11 +23,21 @@ namespace Blazorise.DataGrid
 
         #region Methods
 
-        protected bool CellAreEditable( DataGridColumn<TItem> column )
+        protected override void OnInitialized()
         {
-            return column.Editable &&
-                ( ( column.CellsEditableOnNewCommand && ParentDataGrid?.EditState == DataGridEditState.New )
-                || ( column.CellsEditableOnEditCommand && ParentDataGrid?.EditState == DataGridEditState.Edit ) );
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
+
+            base.OnInitialized();
+        }
+
+        public void Dispose()
+        {
+            LocalizerService.LocalizationChanged -= OnLocalizationChanged;
+        }
+
+        private async void OnLocalizationChanged( object sender, EventArgs e )
+        {
+            await InvokeAsync( StateHasChanged );
         }
 
         protected void ValidationsStatusChanged( ValidationsStatusChangedEventArgs args )
@@ -48,11 +59,15 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
+
         [Parameter] public TItem Item { get; set; }
 
         [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
-        [Parameter] public Dictionary<string, CellEditContext> CellValues { get; set; }
+        [Parameter] public Dictionary<string, CellEditContext<TItem>> CellValues { get; set; }
 
         [Parameter] public DataGridEditMode EditMode { get; set; }
 

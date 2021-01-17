@@ -17,12 +17,12 @@ namespace Blazorise.Providers
 
         }
 
-        public override ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop )
+        public override ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop )
         {
             throw new NotImplementedException();
         }
 
-        public override ValueTask<bool> CloseModal( ElementReference elementRef, string elementId )
+        public override ValueTask<bool> CloseModal( ElementReference elementRef )
         {
             throw new NotImplementedException();
         }

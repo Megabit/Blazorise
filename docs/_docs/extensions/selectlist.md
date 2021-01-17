@@ -65,10 +65,11 @@ Install-Package Blazorise.Components
 
 | Name                 | Type                       | Default    | Description                                           |
 |----------------------|----------------------------|------------|-------------------------------------------------------|
-| TItem                | generic                    |            | Model data type.                                      |
-| TValue               | generic                    |            | Bound value data type.                                |
+| TItem                | typeparam                  |            | Model data type.                                      |
+| TValue               | typeparam                  |            | Bound value data type.                                |
 | Data                 | IEnumerable<TItem>         |            | Data used for selection.                              |
 | TextField            | `Func<TItem, string>`      |            | Selector for the display name field.                  |
 | ValueField           | `Func<TItem, TValue>`      |            | Selector for the value field.                         |
 | SelectedValue        | TValue                     |            | Currently selected value.                             |
 | SelectedValueChanged | `EventCallback<TValue>`    |            | Raises an event after the selected value has changed. |
+| MaxVisibleItems      | `int?`                     | `null`     | Specifies how many options should be shown at once.   |

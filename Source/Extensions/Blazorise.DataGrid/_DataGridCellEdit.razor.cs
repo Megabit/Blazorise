@@ -8,15 +8,19 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public abstract class _BaseDataGridCellEdit : ComponentBase
+    public partial class _DataGridCellEdit<TItem> : ComponentBase
     {
         protected Task OnEditValueChanged<T>( T value )
         {
-            //Console.WriteLine( $"value: {value}, {value?.GetType()}" );
             CellEditContext.CellValue = value;
 
             return CellValueChanged.InvokeAsync( value );
         }
+
+        /// <summary>
+        /// Row model.
+        /// </summary>
+        [Parameter] public TItem Item { get; set; }
 
         /// <summary>
         /// Value data type.
@@ -26,7 +30,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Currently editing cell value.
         /// </summary>
-        [Parameter] public CellEditContext CellEditContext { get; set; }
+        [Parameter] public CellEditContext<TItem> CellEditContext { get; set; }
 
         /// <summary>
         /// Prevents user from editing the cell value.

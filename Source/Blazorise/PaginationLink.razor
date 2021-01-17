@@ -1,9 +1,0 @@
-﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
-{
-    <a class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">@ChildContent</a>
-}
-else
-{
-    @RenderCustomComponent()
-}

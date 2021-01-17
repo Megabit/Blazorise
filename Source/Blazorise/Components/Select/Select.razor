@@ -1,0 +1,9 @@
+﻿@namespace Blazorise
+@typeparam TValue
+@inherits BaseInputComponent<IReadOnlyList<TValue>>
+<select @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" @attributes="@Attributes">
+    <CascadingValue Value=this>
+        @ChildContent
+    </CascadingValue>
+</select>
+@Feedback

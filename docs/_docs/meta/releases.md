@@ -594,12 +594,6 @@ For detail description of changes please look at [v0.8 release page]({{ "/docs/r
       .AddBootstrapProviders()
       .AddFontAwesomeIcons();
   }
-
-  public void Configure( IComponentsApplicationBuilder app ) {
-    app
-      .UseBootstrapProviders()
-      .UseFontAwesomeIcons();
-  }
   ```
 
   See the [usage page]({{ "/docs/usage/" | relative_url }}) for each provider on how to use it.

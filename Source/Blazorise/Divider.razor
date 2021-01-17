@@ -1,9 +1,0 @@
-﻿@inherits BaseComponent
-@if ( !HasCustomRegistration )
-{
-    <hr id="@ElementId" class="@ClassNames" style="@StyleNames" data-content="@Text" />
-}
-else
-{
-    @RenderCustomComponent()
-}

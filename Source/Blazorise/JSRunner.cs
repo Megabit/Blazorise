@@ -1,10 +1,9 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazorise.Utils;
+using Blazorise.Extensions;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -20,19 +19,6 @@ namespace Blazorise
         public JSRunner( IJSRuntime runtime )
         {
             this.runtime = runtime;
-        }
-
-        public DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
-        {
-            return DotNetObjectReference.Create( value );
-        }
-
-        public void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
-        {
-            if ( value != null )
-            {
-                value.Dispose();
-            }
         }
 
         public ValueTask<bool> InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask )
@@ -57,8 +43,8 @@ namespace Blazorise
                 decimals,
                 decimalsSeparator,
                 step,
-                EqualityComparer<TValue>.Default.Equals( min, default ) ? minFromType : (object)min,
-                EqualityComparer<TValue>.Default.Equals( max, default ) ? maxFromType : (object)max );
+                min.IsEqual( default ) ? minFromType : min,
+                max.IsEqual( default ) ? maxFromType : max );
         }
 
         public ValueTask<bool> DestroyNumericEdit( ElementReference elementRef, string elementId )
@@ -109,6 +95,11 @@ namespace Blazorise
         public ValueTask<bool> ParentHasClass( ElementReference elementRef, string classaname )
         {
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.parentHasClass", elementRef, classaname );
+        }
+
+        public async ValueTask SetProperty( ElementReference elementRef, string property, object value )
+        {
+            await runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setProperty", elementRef, property, value );
         }
 
         public ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId )
@@ -177,9 +168,9 @@ namespace Blazorise
             return runtime.InvokeAsync<int>( $"{BLAZORISE_NAMESPACE}.getCaret", elementRef );
         }
 
-        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop );
+        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop );
 
-        public abstract ValueTask<bool> CloseModal( ElementReference elementRef, string elementId );
+        public abstract ValueTask<bool> CloseModal( ElementReference elementRef );
 
         public ValueTask<bool> OpenFileDialog( ElementReference elementRef, string elementId )
         {
@@ -191,14 +182,14 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.focus", elementRef, elementId, scrollToElement );
         }
 
-        public ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, string elementId )
+        public ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef )
         {
-            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", elementId, dotNetObjectRef );
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", elementRef, dotNetObjectRef );
         }
 
         public ValueTask<object> UnregisterClosableComponent( ICloseActivator component )
         {
-            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementId );
+            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementRef );
         }
 
         public ValueTask<object> RegisterBreakpointComponent( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId )

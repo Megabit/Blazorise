@@ -187,5 +187,59 @@ namespace Blazorise.Material
                 .Append( $"background-color: {disabledBackground};" )
                 .AppendLine( "}" );
         }
+
+        protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
+        {
+        }
+
+        protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
+        {
+            sb
+                .Append( $".stepper-{variant}.done .stepper-icon" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".stepper-{variant}.done .stepper-text" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantStepsItemText( variant ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".stepper-{variant}.active .stepper-icon" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq )};" )
+                .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".stepper-{variant}.active .stepper-text" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantStepsItemText( variant ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".stepper-{variant} .stepper-icon" ).Append( "{" )
+                .Append( $"background-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".stepper-{variant} .stepper-icon" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantStepsItemIconYiq( variant ) )};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateProgressStyles( StringBuilder sb, Theme theme, ThemeProgressOptions options )
+        {
+            sb.Append( $".progress" ).Append( "{" )
+                 .Append( $"border-radius: {GetBorderRadius( theme, options?.BorderRadius, Var( ThemeVariables.BorderRadius ) )};" )
+                 .AppendLine( "}" );
+
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                sb.Append( $".progress-bar" ).Append( "{" )
+                    .Append( $"border-color: {Var( ThemeVariables.Color( "primary" ) )};" )
+                    .AppendLine( "}" );
+            }
+
+            base.GenerateProgressStyles( sb, theme, options );
+        }
     }
 }

@@ -1,17 +1,19 @@
 ﻿@inherits Blazorise.Table
-@if ( Responsive )
-{
-    <div style="display: grid;">
-        <div class="@ResponsiveClassNames">
-            <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                @ChildContent
-            </table>
+<CascadingValue Value="this">
+    @if ( Responsive )
+    {
+        <div style="display: grid;">
+            <div class="@ResponsiveClassNames">
+                <table id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                    @ChildContent
+                </table>
+            </div>
         </div>
-    </div>
-}
-else
-{
-    <table class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </table>
-}
+    }
+    else
+    {
+        <table id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </table>
+    }
+</CascadingValue>

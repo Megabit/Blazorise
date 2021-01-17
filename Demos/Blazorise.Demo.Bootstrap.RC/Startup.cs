@@ -54,10 +54,6 @@ namespace Blazorise.Demo.Bootstrap.RC
 
             app.UseRouting();
 
-            app.ApplicationServices
-                .UseBootstrapProviders()
-                .UseFontAwesomeIcons();
-
             // this is required to be here or otherwise the messages between server and client will be too large and
             // the connection will be lost.
             //app.UseSignalR( route => route.MapHub<ComponentHub>( ComponentHub.DefaultPath, o =>

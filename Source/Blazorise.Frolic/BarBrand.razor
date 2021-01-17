@@ -1,13 +1,13 @@
 ﻿@inherits Blazorise.BarBrand
 @if ( ParentStore.Mode == BarMode.Horizontal )
 {
-    <h6 class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <h6 id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </h6>
 }
 else
 {
-    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
         @if ( ParentStore.Mode != BarMode.Horizontal )
         {

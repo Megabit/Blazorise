@@ -8,9 +8,19 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Components
 {
+    /// <summary>
+    /// Dynamically builds select component and it's items based in the supplied data.
+    /// </summary>
+    /// <typeparam name="TItem">Data item type.</typeparam>
+    /// <typeparam name="TValue">Type if the value inside of <see cref="TItem"/>.</typeparam>
     public partial class SelectList<TItem, TValue> : ComponentBase
     {
         #region Members
+
+        /// <summary>
+        /// Reference to the <see cref="Select{TValue}"/> component.
+        /// </summary>
+        protected Select<TValue> selectRef;
 
         #endregion
 
@@ -28,14 +38,17 @@ namespace Blazorise.Components
         /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
         public void Focus( bool scrollToElement = true )
         {
-            select.Focus( scrollToElement );
+            selectRef.Focus( scrollToElement );
         }
 
         #endregion
 
         #region Properties
 
-        protected Select<TValue> select;
+        /// <summary>
+        /// Gets or sets the select element id.
+        /// </summary>
+        [Parameter] public string ElementId { get; set; }
 
         /// <summary>
         /// Gets or sets the select data-source.
@@ -77,9 +90,25 @@ namespace Blazorise.Components
         /// </summary>
         [Parameter] public Size Size { get; set; } = Size.None;
 
+        /// <summary>
+        /// Specifies how many options should be shown at once.
+        /// </summary>
+        [Parameter] public int? MaxVisibleItems { get; set; }
+
+        /// <summary>
+        /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
+        /// </summary>
+        [Parameter] public int? TabIndex { get; set; }
+
+        /// <summary>
+        /// Captures all the custom attribute that are not part of Blazorise component.
+        /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="SelectList{TItem, TValue}"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

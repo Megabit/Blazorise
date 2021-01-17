@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -48,7 +49,7 @@ namespace Blazorise.TreeView
             get => store.SelectedNode;
             set
             {
-                if ( EqualityComparer<TNode>.Default.Equals( store.SelectedNode, value ) )
+                if ( store.SelectedNode.IsEqual( value ) )
                     return;
 
                 store.SelectedNode = value;

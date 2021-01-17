@@ -91,6 +91,8 @@ namespace Blazorise.Providers
 
         public string RadioGroupInline() => null;
 
+        public string RadioGroupValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region Radio
@@ -297,7 +299,9 @@ namespace Blazorise.Providers
 
         public string DropdownItem() => null;
 
-        public string DropdownItemActive() => null;
+        public string DropdownItemActive( bool active ) => null;
+
+        public string DropdownItemDisabled( bool disabled ) => null;
 
         public string DropdownDivider() => null;
 
@@ -323,9 +327,11 @@ namespace Blazorise.Providers
 
         public string DropdownDirection( Direction direction ) => null;
 
+        public string DropdownTableResponsive() => null;
+
         #endregion
 
-        #region Tab
+        #region Tabs
 
         public string Tabs( bool pills ) => null;
 
@@ -354,6 +360,30 @@ namespace Blazorise.Providers
         public string TabPanel() => null;
 
         public string TabPanelActive( bool active ) => null;
+
+        #endregion
+
+        #region Steps
+
+        public string Steps() => null;
+
+        public string StepItem() => null;
+
+        public string StepItemActive( bool active ) => null;
+
+        public string StepItemCompleted( bool completed ) => null;
+
+        public string StepItemColor( Color color ) => null;
+
+        public string StepItemMarker() => null;
+
+        public string StepItemDescription() => null;
+
+        public string StepsContent() => null;
+
+        public string StepPanel() => null;
+
+        public string StepPanelActive( bool active ) => null;
 
         #endregion
 

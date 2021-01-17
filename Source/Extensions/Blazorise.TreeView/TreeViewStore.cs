@@ -1,8 +1,6 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Resources;
-using System.Text;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.TreeView
@@ -16,7 +14,7 @@ namespace Blazorise.TreeView
 
         public bool Equals( TreeViewStore<TNode> other )
         {
-            return EqualityComparer<TNode>.Default.Equals( SelectedNode, other.SelectedNode );
+            return SelectedNode.IsEqual( other.SelectedNode );
         }
 
         public override int GetHashCode()

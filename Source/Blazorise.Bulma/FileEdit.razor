@@ -1,11 +1,11 @@
 ﻿@inherits Blazorise.FileEdit
 <Control Role="ControlRole.File">
     <Label Type="LabelType.File" For="@ElementId">
-        <input @ref="@ElementRef" id="@ElementId" type="file" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" multiple="@Multiple" accept="@Filter" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="file" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" multiple="@Multiple" accept="@Filter" tabindex="@TabIndex" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" @attributes="@Attributes" />
         @ChildContent
         <span class="file-cta">
             <span class="file-label">
-                Browse
+                @BrowseButtonString
             </span>
         </span>
         <span class="file-name">

@@ -1,4 +1,6 @@
 ﻿@page "/tests/components"
+@using System.Collections.ObjectModel
+
 <Row>
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
@@ -35,7 +37,9 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <Autocomplete Data="@myDdlData"
+                        <Autocomplete TItem="MySelectModel"
+                                      TValue="string"
+                                      Data="@myDdlData"
                                       TextField="@((item)=>item.MyTextField)"
                                       ValueField="@((item)=>item.MyTextField)"
                                       SelectedValue="@selectedSearchValue"
@@ -62,7 +66,9 @@
                 <Field Horizontal="true" JustifyContent="JustifyContent.End">
                     <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.Is10">
-                        <DropdownList Data="@myDdlData"
+                        <DropdownList TItem="MySelectModel"
+                                      TValue="int"
+                                      Data="@myDdlData"
                                       TextField="@((item)=>item.MyTextField)"
                                       ValueField="@((item)=>item.MyValueField)"
                                       SelectedValue="@selectedDropValue"
@@ -80,7 +86,48 @@
             </CardBody>
         </Card>
     </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Repeater</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is6">
+                        <Buttons>
+                            <Button Color="Color.Primary" Clicked="@(() => items.Add(items.Count + 1))">Add</Button>
+                            <Button Color="Color.Warning" Disabled="@(items.Count == 0)" Clicked="@(() => items.RemoveAt(items.Count - 1))">Remove</Button>
+                            <Button Color="Color.Danger" Clicked="@(() => items.Clear())">Clear</Button>
+                            <Button Color="Color.Secondary" Disabled="@(items.Count == 0)" Clicked="ShuffleList">Shuffle</Button>
+                        </Buttons>
+                    </FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is6">
+                        <Dropdown>
+                            <DropdownToggle Color="Color.Primary">
+                                Updating dropdown
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <Repeater Items="@items">
+                                    <DropdownItem>@context</DropdownItem>
+                                </Repeater>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true" JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is12">
+                        <ul>
+                            <Repeater Items="@items">
+                                <li style="@GetColor(context)">@context</li>
+                            </Repeater>
+                        </ul>
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
+
 @code{
     public class MySelectModel
     {
@@ -92,21 +139,50 @@
     IEnumerable<MySelectModel> myDdlData = Enumerable.Range( 1, Countries.Length ).Select( x => new MySelectModel { MyTextField = Countries[x - 1], MyValueField = x } );
 
     object selectedListValue { get; set; } = 3;
-    object selectedDropValue { get; set; } = 2;
-    object selectedSearchValue { get; set; }
+    int selectedDropValue { get; set; } = 2;
+    string selectedSearchValue { get; set; }
+    ObservableCollection<int> items { get; } = new ObservableCollection<int>( Enumerable.Range( 1, 4 ) );
+    Random random = new Random();
 
     void MyListValueChangedHandler( object newValue )
     {
         selectedListValue = newValue;
     }
 
-    void MyDropValueChangedHandler( object newValue )
+    void MyDropValueChangedHandler( int newValue )
     {
         selectedDropValue = newValue;
     }
 
-    void MySearchHandler( object newValue )
+    void MySearchHandler( string newValue )
     {
         selectedSearchValue = newValue;
+    }
+
+    private void ShuffleList()
+    {
+        var maxIndex = items.Count - 1;
+
+        if ( maxIndex == -1 )
+            return;
+
+        var orgPos = random.Next( maxIndex );
+        var newPos = random.Next( maxIndex );
+
+        items.Move( orgPos, newPos );
+    }
+
+    private static string GetColor( int number )
+    {
+        const string letters = "0123456789ABCDEF";
+
+        var color = "";
+
+        for ( var i = 0; i < 6; i++ )
+        {
+            color += letters[( 3 * number + i ) % letters.Length];
+        }
+
+        return $"color: #{color}";
     }
 }
