@@ -386,6 +386,8 @@ namespace Blazorise.Frolic
             }
         }
 
+        public override string DropdownTableResponsive() => null;
+
         #endregion
 
         #region Tabs
