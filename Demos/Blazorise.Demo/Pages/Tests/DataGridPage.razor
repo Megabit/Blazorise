@@ -62,6 +62,16 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if Datagrid shows a button row on the pager.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@showButtonRow">Show Button Row</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
                             <Tooltip Text="If true, DataGrid will dynamicaly fetch data based on the current page and page size.">
                                 <Icon Name="IconName.QuestionCircle" />
                             </Tooltip>
@@ -265,10 +275,13 @@
                         <Text Style="opacity: .5;">--</Text>
                     </EmptyCellTemplate>
                     <ButtonRowTemplate>
-                        <Button Color="Color.Success" Clicked="context.NewCommand.Clicked">New</Button>
-                        <Button Color="Color.Primary" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
-                        <Button Color="Color.Danger" Disabled="@(selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
-                        <Button Color="Color.Link" Clicked="@context.ClearFilterCommand.Clicked">Clear Filter</Button>
+                        @if (showButtonRow)
+                        {
+                            <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">New</Button>
+                            <Button Color="Color.Primary" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
+                            <Button Color="Color.Danger" Disabled="@(selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
+                            <Button Color="Color.Link" Clicked="@context.ClearFilterCommand.Clicked">Clear Filter</Button>
+                        }
                     </ButtonRowTemplate>
                 </DataGrid>
             </CardBody>
@@ -363,6 +376,7 @@
     bool showPager = true;
     bool showPageSizes = true;
     bool largeDataMode = false;
+    bool showButtonRow = true;
 
     // TODO: add options to control the commands
     //bool newCommandAllowed = true;
