@@ -176,7 +176,7 @@
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable="true">
                             <FilterTemplate>
-                                <TextEdit Placeholder="Search name" TextChanged="@(v=>context.TriggerFilterChange(v))" />
+                                <TextEdit Placeholder="Search name" Text="@context.SearchValue"  TextChanged="@(v=> context.TriggerFilterChange(v))" />
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
@@ -186,13 +186,16 @@
                                 <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
                             <FilterTemplate>
-                                <Select TValue="string" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
+                                @{ 
+                                    var selectedValue = @context.SearchValue ?? "*";
+                                <Select TValue="string" SelectedValue="@selectedValue" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
                                     <SelectItem Value="@("*")">All</SelectItem>
                                     @foreach ( var item in dataModels )
                                     {
                                         <SelectItem Value="@item.City">@item.City</SelectItem>
                                     }
                                 </Select>
+                                }
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable="true" />
