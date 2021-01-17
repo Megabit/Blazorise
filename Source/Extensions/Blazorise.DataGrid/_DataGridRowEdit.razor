@@ -97,6 +97,14 @@ else if ( EditMode == DataGridEditMode.Inline )
                     <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@SaveWithValidation" Cancel="@Cancel" Width="@column.Width" />
                 }
             }
+            else if ( column.ColumnType == DataGridColumnType.MultiSelect )
+            {
+                @if ( ParentDataGrid.MultiSelect )
+                {
+                    <TableRowCell></TableRowCell>
+
+                }
+            }
             else if ( column.Displayable )
             {
                 <TableRowCell width="@column.Width">
