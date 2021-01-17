@@ -6,10 +6,19 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
+    /// <summary>
+    /// Base class for all <see cref="DataGrid{TItem}"/> commands.
+    /// </summary>
     public class CommandContext
     {
+        /// <summary>
+        /// Activates the click event for a command context.
+        /// </summary>
         public EventCallback Clicked { get; set; }
 
+        /// <summary>
+        /// Gets the localized string for this command.
+        /// </summary>
         public string LocalizationString { get; set; }
     }
 
