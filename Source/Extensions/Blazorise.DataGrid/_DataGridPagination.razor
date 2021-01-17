@@ -1,17 +1,17 @@
 ﻿@typeparam TItem
 @inherits BaseComponent
 <Row class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    @if (ButtonRowTemplate != null)
+    @if ( ButtonRowTemplate != null )
     {
         <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
             <Field Display="Blazorise.Display.None.InlineBlock.OnDesktop">
-                    @ButtonRowTemplate(new ButtonRowContext<TItem>()
-                    {
-                        NewCommand = new NewCommandContext() { Clicked = EventCallback.Factory.Create(this, NewClick) },
-                        EditCommand = new EditCommandContext<TItem>() { Clicked = EventCallback.Factory.Create(this, EditClick), Item = SelectedRow },
-                        DeleteCommand = new DeleteCommandContext<TItem>() { Clicked = EventCallback.Factory.Create(this, DeleteClick), Item = SelectedRow },
-                        ClearFilterCommand = new CommandContext() { Clicked = EventCallback.Factory.Create(this, ClearFilter) }
-                    })
+                @ButtonRowTemplate( new ButtonRowContext<TItem>()
+                {
+                    NewCommand = new NewCommandContext() { Clicked = EventCallback.Factory.Create( this, NewClick ) },
+                    EditCommand = new EditCommandContext<TItem>() { Clicked = EventCallback.Factory.Create( this, EditClick ), Item = SelectedRow },
+                    DeleteCommand = new DeleteCommandContext<TItem>() { Clicked = EventCallback.Factory.Create( this, DeleteClick ), Item = SelectedRow },
+                    ClearFilterCommand = new CommandContext() { Clicked = EventCallback.Factory.Create( this, ClearFilter ) }
+                } )
             </Field>
         </Column>
     }

@@ -62,6 +62,7 @@ namespace Blazorise.DataGrid
         {
             return ClearFilter.InvokeAsync();
         }
+
         #endregion
 
         #region Properties

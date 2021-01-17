@@ -275,7 +275,7 @@
                         <Text Style="opacity: .5;">--</Text>
                     </EmptyCellTemplate>
                     <ButtonRowTemplate>
-                        @if (showButtonRow)
+                        @if ( showButtonRow )
                         {
                             <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">New</Button>
                             <Button Color="Color.Primary" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
