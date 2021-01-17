@@ -146,6 +146,12 @@ namespace Blazorise
         protected bool IsToggleIconVisible => ToggleIconVisible.GetValueOrDefault( Theme?.DropdownOptions?.ToggleIconVisible ?? true );
 
         /// <summary>
+        /// Gets the data-boundary value.
+        /// </summary>
+        protected string DataBoundary
+            => ParentDropdown?.InResponsiveTable == true ? "window" : null;
+
+        /// <summary>
         /// Gets or sets the dropdown color.
         /// </summary>
         [Parameter] public Color Color { get; set; } = Color.None;
@@ -228,16 +234,6 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets or sets the reference to the parent dropdown.
-        /// </summary>
-        [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
-
-        /// <summary>
-        /// Gets or sets the component child content.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether the dropdown toggle icon is visible.
         /// </summary>
         /// <value>
@@ -247,9 +243,24 @@ namespace Blazorise
         [Parameter] public bool? ToggleIconVisible { get; set; }
 
         /// <summary>
+        /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
+        /// </summary>
+        [Parameter] public int? TabIndex { get; set; }
+
+        /// <summary>
         /// The applied theme.
         /// </summary>
         [CascadingParameter] protected Theme Theme { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent dropdown.
+        /// </summary>
+        [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
+
+        /// <summary>
+        /// Gets or sets the component child content.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

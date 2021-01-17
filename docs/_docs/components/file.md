@@ -143,14 +143,15 @@ By default after each file upload has finished, file input will automatically re
 
 ## Attributes
 
-| Name                  | Type      | Default     | Description                                                                                  |
-|-----------------------|-----------|-------------|----------------------------------------------------------------------------------------------|
-| Multiple              | boolean   | false       | Specifies that multiple files can be selected.                                               |
-| Filter                | string    | null        | Types of files that the input accepts.                                                       |
-| MaxMessageSize        | int       | 20480       | Max message size (in bytes) when uploading the file.                                         |
-| Changed               | event     |             | Occurs every time the file(s) has changed.                                                   |
-| Written               | event     |             | Occurs every time the part of file has being uploaded.                                       |
-| Progressed            | event     |             | Notifies the progress of file being uploaded.                                                |
-| Started               | event     |             | Occurs when an individual file upload has started.                                           |
-| Ended                 | event     |             | Occurs when an individual file upload has ended.                                             |
-| AutoReset             | boolean   | true        | If true file input will be automatically reset after it has being uploaded.                  |
+| Name                  | Type                      | Default     | Description                                                                                             |
+|-----------------------|---------------------------|-------------|---------------------------------------------------------------------------------------------------------|
+| Multiple              | boolean                   | false       | Specifies that multiple files can be selected.                                                          |
+| Filter                | string                    | null        | Types of files that the input accepts.                                                                  |
+| MaxMessageSize        | int                       | 20480       | Max message size (in bytes) when uploading the file.                                                    |
+| Changed               | event                     |             | Occurs every time the file(s) has changed.                                                              |
+| Written               | event                     |             | Occurs every time the part of file has being uploaded.                                                  |
+| Progressed            | event                     |             | Notifies the progress of file being uploaded.                                                           |
+| Started               | event                     |             | Occurs when an individual file upload has started.                                                      |
+| Ended                 | event                     |             | Occurs when an individual file upload has ended.                                                        |
+| AutoReset             | boolean                   | true        | If true file input will be automatically reset after it has being uploaded.                             |
+| BrowseButtonLocalizer | `TextLocalizerHandler`    | `null`      | Function used to handle browse button localization that will override a default `ITextLocalizer`.       |

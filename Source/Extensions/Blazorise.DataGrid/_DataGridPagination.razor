@@ -19,23 +19,29 @@
         <Pagination>
             <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
                 <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
-                    @if (FirstPageButtonTemplate != null)
+                    @if ( FirstPageButtonTemplate != null )
                     {
-                        @FirstPageButtonTemplate }
+                        @FirstPageButtonTemplate
+                    }
                     else
-                    { @("First")}
+                    {
+                        @Localizer.Localize( ParentDataGrid?.Localizers?.FirstPageButtonLocalizer, "First" )
+                    }
                 </PaginationLink>
             </PaginationItem>
             <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
                 <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
-                    @if (PreviousPageButtonTemplate != null)
+                    @if ( PreviousPageButtonTemplate != null )
                     {
-                        @PreviousPageButtonTemplate }
+                        @PreviousPageButtonTemplate
+                    }
                     else
-                    { @("Prev")}
+                    {
+                        @Localizer.Localize( ParentDataGrid?.Localizers?.PreviousPageButtonLocalizer, "Prev" )
+                    }
                 </PaginationLink>
             </PaginationItem>
-            @for (int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i)
+            @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
             {
                 var pageNumber = i;
                 var pageNumberString = i.ToString();
@@ -45,10 +51,11 @@
                     <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
                         @pageNumberString
                     </PaginationLink>
-                </PaginationItem>}
+                </PaginationItem>
+            }
             <PaginationItem Display="Blazorise.Display.InlineBlock.None.OnTablet">
                 <Select @bind-SelectedValue="@PaginationContext.CurrentPage">
-                    @for (int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i)
+                    @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
                     {
                         var pageNumber = i;
                         <SelectItem Value="@pageNumber">@pageNumber</SelectItem>
@@ -57,62 +64,74 @@
             </PaginationItem>
             <PaginationItem Disabled="@(PaginationContext.CurrentPage >= PaginationContext.LastPage)">
                 <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
-                    @if (NextPageButtonTemplate != null)
+                    @if ( NextPageButtonTemplate != null )
                     {
-                        @NextPageButtonTemplate }
+                        @NextPageButtonTemplate
+                    }
                     else
-                    { @("Next")}
+                    {
+                        @Localizer.Localize( ParentDataGrid?.Localizers?.NextPageButtonLocalizer, "Next" )
+                    }
                 </PaginationLink>
             </PaginationItem>
             <PaginationItem Disabled="@(PaginationContext.CurrentPage >= PaginationContext.LastPage)">
                 <PaginationLink Page="last" Clicked="@OnPaginationItemClick">
-                    @if (LastPageButtonTemplate != null)
+                    @if ( LastPageButtonTemplate != null )
                     {
-                        @LastPageButtonTemplate }
+                        @LastPageButtonTemplate
+                    }
                     else
-                    { @("Last")}
+                    {
+                        @Localizer.Localize( ParentDataGrid?.Localizers?.LastPageButtonLocalizer, "Last" )
+                    }
                 </PaginationLink>
             </PaginationItem>
-            @if (PaginationContext.ShowPageSizes)
+            @if ( PaginationContext.ShowPageSizes )
             {
                 <PaginationItem Margin="Blazorise.Margin.Is0.FromBottom.Is3.FromLeft">
                     <Select @bind-SelectedValue="@PaginationContext.CurrentPageSize">
-                        @foreach (var curPageSize in PaginationContext.PageSizes)
+                        @foreach ( var curPageSize in PaginationContext.PageSizes )
                             {
                             <SelectItem Value="@curPageSize">@curPageSize</SelectItem>
                             }
                     </Select>
                 </PaginationItem>
                 <Field Margin="Blazorise.Margin.IsAuto.OnY.Is0.FromBottom.Is2.FromLeft" Display="Blazorise.Display.None.InlineBlock.OnDesktop">
-                    @if (ItemsPerPageTemplate != null)
+                    @if ( ItemsPerPageTemplate != null )
                     {
-                        @ItemsPerPageTemplate }
+                        @ItemsPerPageTemplate
+                    }
                     else
                     {
-                        <Text>items per page</Text>}
-                </Field>}
+                        <Text>@Localizer.Localize( ParentDataGrid?.Localizers?.ItemsPerPageLocalizer, "items per page" )</Text>
+                    }
+                </Field>
+            }
         </Pagination>
     </Column>
     <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.ReverseRow">
         <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromLeft" Display="Blazorise.Display.None.InlineBlock.OnDesktop">
-            @if (TotalItemsTemplate != null)
+            @if ( TotalItemsTemplate != null )
             {
-                @TotalItemsTemplate(PaginationContext) }
+                @TotalItemsTemplate( PaginationContext )
+            }
             else
             {
-                var curStart = ((PaginationContext.CurrentPage - 1) * PaginationContext.CurrentPageSize + 1);
-                var curEnd = Math.Min(PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, PaginationContext.TotalItems ?? default);
-                var text = curStart + " - " + curEnd + " of " + PaginationContext.TotalItems + " items";
-                <Text>@text</Text>}
+                var curStart = ( ( PaginationContext.CurrentPage - 1 ) * PaginationContext.CurrentPageSize + 1 );
+                var curEnd = Math.Min( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, PaginationContext.TotalItems ?? default );
+                <Text>@Localizer.Localize( ParentDataGrid?.Localizers?.NumbersOfItemsLocalizer, "{0} - {1} of {2} items", curStart, curEnd, PaginationContext.TotalItems )</Text>
+            }
         </Field>
         <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromLeft" Display="Blazorise.Display.InlineBlock.None.OnDesktop">
-            @if (TotalItemsTemplate != null)
+            @if ( TotalItemsTemplate != null )
             {
-                @TotalItemsTemplate(PaginationContext) }
+                @TotalItemsTemplate( PaginationContext )
+            }
             else
             {
-                var text = PaginationContext.TotalItems + " items";
-                <Text>@text</Text>}
+                var text = $"{PaginationContext.TotalItems} {Localizer.Localize( ParentDataGrid?.Localizers?.ItemsLocalizer, "items" )}";
+                <Text>@text</Text>
+            }
         </Field>
     </Column>
 </Row>

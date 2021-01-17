@@ -165,22 +165,22 @@
                         <DataGridMultiSelectColumn TItem="Employee" Width="30px"></DataGridMultiSelectColumn>
                         <DataGridCommandColumn TItem="Employee" Width="170px">
                             <NewCommandTemplate>
-                                <Button Color="Color.Success" Clicked="@context.Clicked">New</Button>
+                                <Button Color="Color.Success" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </NewCommandTemplate>
                             <EditCommandTemplate>
-                                <Button Color="Color.Primary" Clicked="@context.Clicked">Edit</Button>
+                                <Button Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </EditCommandTemplate>
                             <SaveCommandTemplate>
-                                <Button Color="Color.Primary" Clicked="@context.Clicked">Save</Button>
+                                <Button Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </SaveCommandTemplate>
                             <DeleteCommandTemplate>
-                                <Button Color="Color.Danger" Clicked="@context.Clicked">Delete</Button>
+                                <Button Color="Color.Danger" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </DeleteCommandTemplate>
                             <CancelCommandTemplate>
-                                <Button Color="Color.Secondary" Clicked="@context.Clicked">Cancel</Button>
+                                <Button Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </CancelCommandTemplate>
                             <ClearFilterCommandTemplate>
-                                <Button Color="Color.Warning" Clicked="@context.Clicked">Clear Filter</Button>
+                                <Button Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
@@ -264,11 +264,11 @@
                     <PopupTitleTemplate>
                         @if ( context.EditState == DataGridEditState.Edit )
                         {
-                            @($"Edit Employee {context.Item.FirstName} {context.Item.LastName}")
+                            @($"{context.LocalizationString} Employee {context.Item.FirstName} {context.Item.LastName}")
                         }
                         else
                         {
-                            @("Create Employee")
+                            @($"{context.LocalizationString} Employee")
                         }
                     </PopupTitleTemplate>
                     <EmptyCellTemplate>

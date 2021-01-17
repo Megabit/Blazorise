@@ -9,6 +9,8 @@ namespace Blazorise.DataGrid
     public class CommandContext
     {
         public EventCallback Clicked { get; set; }
+
+        public string LocalizationString { get; set; }
     }
 
     public class CommandContext<TItem> : CommandContext

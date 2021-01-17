@@ -1,10 +1,12 @@
 ﻿@inherits Blazorise.Table
-<div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <div class="ant-table-container">
-        <div class="ant-table-content">
-            <table style="table-layout: auto;">
-                @ChildContent
-            </table>
+<CascadingValue Value="this">
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div class="ant-table-container">
+            <div class="ant-table-content">
+                <table style="table-layout: auto;">
+                    @ChildContent
+                </table>
+            </div>
         </div>
     </div>
-</div> 
+</CascadingValue>

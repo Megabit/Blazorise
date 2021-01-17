@@ -30,18 +30,6 @@
 .is-table-cell {
     display: table-cell !important; }
 
-.is-flex-row {
-    flex-direction: row !important; }
-
-.is-flex-column {
-    flex-direction: column !important; }
-
-.is-flex-row-reverse {
-    flex-direction: row-reverse !important; }
-
-.is-flex-column-reverse {
-    flex-direction: column-reverse !important; }
-
 .is-borderless {
     border: 0 !important; }
 
