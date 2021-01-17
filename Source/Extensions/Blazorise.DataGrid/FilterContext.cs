@@ -47,12 +47,5 @@ namespace Blazorise.DataGrid
         public string SearchValue { get; set; }
 
         #endregion
-
-
-
-
-
-
-
     }
 }

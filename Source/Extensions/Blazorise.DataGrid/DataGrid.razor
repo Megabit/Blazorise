@@ -92,7 +92,7 @@
                             <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
                                 @if ( column.FilterTemplate != null )
                                 {
-                                    @(column.FilterTemplate(column.Filter))
+                                    @(column.FilterTemplate( column.Filter ))
                                 }
                                 else
                                 {
