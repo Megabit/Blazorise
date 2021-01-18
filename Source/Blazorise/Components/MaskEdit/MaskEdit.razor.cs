@@ -13,15 +13,16 @@ namespace Blazorise
     {
         #region Members
 
-        /// <summary>
-        /// The positions of characters to be inserted in the input while is typping.
-        /// </summary>
-        private Dictionary<int, char> positions = new Dictionary<int, char>();
+        protected const char AnyChar = '*';
+
+        protected const char NumberChar = '9';
+
+        protected const char LetterChar = 'a';
 
         /// <summary>
-        /// Current carret position.
+        /// The positions of characters to be inserted in the input while is typing.
         /// </summary>
-        private int caretPosition = 0;
+        private Dictionary<int, char> positions = new Dictionary<int, char>();
 
         #endregion
 
@@ -51,16 +52,9 @@ namespace Blazorise
             await base.OnInitializedAsync();
         }
 
-        /// <inheritdoc/>
-        protected override async Task OnFirstAfterRenderAsync()
-        {
-            await Task.CompletedTask;
-        }
-
-        /// <inheritdoc/>
         protected async Task OnKeyPressHandler( KeyboardEventArgs e )
         {
-            caretPosition = await JSRunner.GetCaret( ElementRef );
+            var caretPosition = await JSRunner.GetCaret( ElementRef );
 
             if ( CurrentValue != null )
                 if ( CurrentValue?.Length >= EditMask?.Length )
@@ -73,8 +67,10 @@ namespace Blazorise
 
                 if ( !char.IsDigit( e.Key[0] ) )
                     return;
+
                 value += e.Key;
                 value = ClearCurrencyMask( value );
+
                 if ( value is not null )
                     if ( !IsValidCurrencyNumber( value ) )
                         return;
@@ -92,18 +88,21 @@ namespace Blazorise
                     value += e.Key;
 
                 value = ClearMask( value );
+
                 value = DoMask( value );
+
                 while ( positions.ContainsKey( caretPosition ) )
                     caretPosition++;
 
-                if ( EditMask[caretPosition] == 'a' )
+                if ( EditMask[caretPosition] == LetterChar )
                     if ( !char.IsLetter( value[caretPosition] ) )
                         return;
 
-                if ( EditMask[caretPosition] == '9' )
+                if ( EditMask[caretPosition] == NumberChar )
                     if ( !char.IsDigit( value[caretPosition] ) )
                         return;
-                if ( EditMask[caretPosition] == '*' )
+
+                if ( EditMask[caretPosition] == AnyChar )
                     if ( !char.IsLetterOrDigit( value[caretPosition] ) )
                         return;
             }
@@ -226,8 +225,7 @@ namespace Blazorise
         /// <returns></returns>
         private bool IsValidCurrencyNumber( string value )
         {
-            decimal validCurrencyNumber;
-            return decimal.TryParse( value, out validCurrencyNumber );
+            return decimal.TryParse( value, out var validCurrencyNumber );
         }
 
         /// <summary>
@@ -241,7 +239,7 @@ namespace Blazorise
 
             for ( int i = 0; i <= EditMask.Length - 1; i++ )
             {
-                if ( EditMask[i] != '*' && EditMask[i] != '9' && EditMask[i] != 'a' )
+                if ( EditMask[i] != AnyChar && EditMask[i] != NumberChar && EditMask[i] != LetterChar )
                     positions.Add( i, EditMask[i] );
             }
         }
