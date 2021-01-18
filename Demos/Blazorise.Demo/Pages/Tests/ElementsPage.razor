@@ -292,6 +292,32 @@
     </Column>
 </Row>
 <Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Stacked snackbars with custom intervals</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    You can have a dynamicaly stacked snackbars with custom interval before close.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Interval</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <NumericEdit @bind-Value="this.intervalBeforeMsgClose" />
+                    </FieldBody>
+                </Field>
+                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.Push("Some success message! Timeout: " + intervalBeforeMsgClose, intervalBeforeMsgClose, SnackbarColor.Success, "Ok"))">Show Success message</Button>
+                <Button Color="Color.Info" Clicked="@(()=>snackbarStack.Push("Some info message! Timeout: " + intervalBeforeMsgClose, intervalBeforeMsgClose, SnackbarColor.Info, "Ok"))">Show Info message</Button>
+                <Button Color="Color.Warning" Clicked="@(()=>snackbarStack.Push("Some warning message! Timeout: " + intervalBeforeMsgClose, intervalBeforeMsgClose, SnackbarColor.Warning, "Ok"))">Show Warning message</Button>
+                <Button Color="Color.Danger" Clicked="@(()=>snackbarStack.Push("Some danger message! Timeout: " + intervalBeforeMsgClose, intervalBeforeMsgClose, SnackbarColor.Danger, "Ok"))">Show Danger message</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
     <Column ColumnSize="ColumnSize.Is12.OnMobile">
         <Jumbotron Background="Background.Primary" Margin="Margin.Is4.FromBottom">
             <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, world!</JumbotronTitle>
@@ -509,6 +535,8 @@
     Snackbar snackbarDark;
 
     SnackbarStack snackbarStack;
+
+    double intervalBeforeMsgClose = 2000;
 
     bool dismisableAlert1 = true;
     bool dismisableAlert2 = true;

@@ -93,6 +93,8 @@ When you want to show multiple snackbars stacked on top of each other you can us
 ```html
 <Button Color="Color.Primary" Clicked="@(()=>snackbarStack.Push("Current time is: " + DateTime.Now, SnackbarColor.Info))">Primary</Button>
 
+<Button Color="Color.Primary" Clicked="@(()=>snackbarStack.Push(message: "Current time is: " + DateTime.Now, intervalBeforeClose: 10000, color: SnackbarColor.Info))">Primary</Button>
+
 <SnackbarStack @ref="snackbarStack" Location="SnackbarStackLocation.Right" />
 @code{
     SnackbarStack snackbarStack;
@@ -101,11 +103,11 @@ When you want to show multiple snackbars stacked on top of each other you can us
 
 ## Attributes
 
-| Name               | Type                                                                                     | Default      | Description                                                                                  |
-|--------------------|------------------------------------------------------------------------------------------|--------------|----------------------------------------------------------------------------------------------|
-| Location           | [SnackbarLocation]({{ "/docs/helpers/enums/#snackbarlocation" | relative_url }})         | `None`       | Defines the snackbar location.                                                               |
-| Color              | [SnackbarColor]({{ "/docs/helpers/colors/#snackbarcolor" | relative_url }})              | `None`       | Defines the snackbar color.                                                                  |
-| Visible            | bool                                                                                     | false        | Defines the visibility of snackbar.                                                          |
-| Multiline          | bool                                                                                     | false        | Allow snackbar to show multiple lines of text.                                               |
-| Interval           | double                                                                                   | 3000         | Defines the interval(in milliseconds) after which the snackbar will be automatically closed. |
-| Closed             | `EventCallback<SnackbarClosedEventArgs>`                                                 |              | Occurs after the snackbar has closed.                                                        |
+| Name               | Type                                                                                     | Default      | Description                                                                                                                                          |
+|--------------------|------------------------------------------------------------------------------------------|--------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Location           | [SnackbarLocation]({{ "/docs/helpers/enums/#snackbarlocation" | relative_url }})         | `None`       | Defines the snackbar location.                                                                                                                       |
+| Color              | [SnackbarColor]({{ "/docs/helpers/colors/#snackbarcolor" | relative_url }})              | `None`       | Defines the snackbar color.                                                                                                                          |
+| Visible            | bool                                                                                     | false        | Defines the visibility of snackbar.                                                                                                                  |
+| Multiline          | bool                                                                                     | false        | Allow snackbar to show multiple lines of text.                                                                                                       |
+| DefaultInterval    | double                                                                                   | 3000         | Defines the interval (in milliseconds) after which the snackbar will be automatically closed by default (if no value is provided in the Push method) |
+| Closed             | `EventCallback<SnackbarClosedEventArgs>`                                                 |              | Occurs after the snackbar has closed.                                                                                                                |

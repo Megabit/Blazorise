@@ -17,13 +17,14 @@ namespace Blazorise.Snackbar
 
         private class SnackbarInfo
         {
-            public SnackbarInfo( string key, string message, RenderFragment messageTemplate, SnackbarColor color, string actionButtonText )
+            public SnackbarInfo( string key, string message, RenderFragment messageTemplate, SnackbarColor color, string actionButtonText, double intervalBeforeClose )
             {
                 Key = key ?? Guid.NewGuid().ToString();
                 Message = message;
                 MessageTemplate = messageTemplate;
                 Color = color;
                 ActionButtonText = actionButtonText;
+                IntervalBeforeClose = intervalBeforeClose;
             }
 
             public string Key { get; }
@@ -37,6 +38,8 @@ namespace Blazorise.Snackbar
             public string ActionButtonText { get; }
 
             public bool Visible { get; } = true;
+
+            public double IntervalBeforeClose { get; set; }
         }
 
         private SnackbarStackLocation location = SnackbarStackLocation.Center;
@@ -60,14 +63,29 @@ namespace Blazorise.Snackbar
             Push( null, message, null, color, actionButtonText );
         }
 
+        public void Push( string message, double intervalBeforeClose, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
+        {
+            Push( null, message, null, intervalBeforeClose, color, actionButtonText );
+        }
+
         public void Push( RenderFragment messageTemplate, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
         {
             Push( null, null, messageTemplate, color, actionButtonText );
         }
 
+        public void Push( RenderFragment messageTemplate, double intervalBeforeClose, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
+        {
+            Push( null, null, messageTemplate, intervalBeforeClose, color, actionButtonText );
+        }
+
         public void Push( string key, string message, RenderFragment messageTemplate, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
         {
-            snackbarInfos.Add( new SnackbarInfo( key, message, messageTemplate, color, actionButtonText ) );
+            Push( key, message, messageTemplate, DefaultInterval, color, actionButtonText );
+        }
+
+        public void Push( string key, string message, RenderFragment messageTemplate, double intervalBeforeClose, SnackbarColor color = SnackbarColor.None, string actionButtonText = null )
+        {
+            snackbarInfos.Add( new SnackbarInfo( key, message, messageTemplate, color, actionButtonText, intervalBeforeClose ) );
 
             StateHasChanged();
         }
@@ -111,7 +129,7 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Defines the interval(in milliseconds) after which the snackbars will be automatically closed.
         /// </summary>
-        [Parameter] public double Interval { get; set; } = 3000;
+        [Parameter] public double DefaultInterval { get; set; } = 3000;
 
         /// <summary>
         /// Defines a text to show for snackbar action button. Leave as null to not show it!
