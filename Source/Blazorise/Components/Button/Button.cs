@@ -55,7 +55,7 @@ namespace Blazorise
         protected override void OnInitialized()
         {
             // notify dropdown that the button is inside of it
-            ParentDropdown?.Register( this );
+            ParentDropdown?.NotifyButtonInitialized( this );
 
             // notify addons that the button is inside of it
             ParentAddons?.Register( this );
@@ -85,7 +85,7 @@ namespace Blazorise
             if ( disposing )
             {
                 // remove button from parents
-                ParentDropdown?.UnRegister( this );
+                ParentDropdown?.NotifyButtonRemoved( this );
                 ParentAddons?.UnRegister( this );
 
                 if ( Rendered )
@@ -132,7 +132,8 @@ namespace Blazorise
                 .Class( ClassNames )
                 .Style( StyleNames )
                 .Disabled( Disabled )
-                .AriaPressed( Active );
+                .AriaPressed( Active )
+                .TabIndex( TabIndex );
 
             if ( Type == ButtonType.Link && To != null )
             {
@@ -367,6 +368,11 @@ namespace Blazorise
         /// The target attribute specifies where to open the linked document for a <see cref="ButtonType.Link"/>.
         /// </summary>
         [Parameter] public Target Target { get; set; } = Target.None;
+
+        /// <summary>
+        /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
+        /// </summary>
+        [Parameter] public int? TabIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the component child content.

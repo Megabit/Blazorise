@@ -6,10 +6,11 @@ namespace Blazorise.DataGrid
 {
     public class PopupTitleContext<TItem>
     {
-        public PopupTitleContext( TItem item, DataGridEditState editState )
+        public PopupTitleContext( TItem item, DataGridEditState editState, string localizationString )
         {
             Item = item;
             EditState = editState;
+            LocalizationString = localizationString;
         }
 
         /// <summary>
@@ -21,5 +22,10 @@ namespace Blazorise.DataGrid
         /// Gets the edit state of data grid.
         /// </summary>
         public DataGridEditState EditState { get; }
+
+        /// <summary>
+        /// Gets the localized text for modal header.
+        /// </summary>
+        public string LocalizationString { get; }
     }
 }
