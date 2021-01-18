@@ -1,32 +1,37 @@
-using System;
+#region Using directives
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+#endregion
 
 namespace Blazorise
 {
     public partial class MaskEdit : TextEdit
     {
         #region Members
+
         /// <summary>
-        /// The characters to be inserted in the input while is typping
+        /// The positions of characters to be inserted in the input while is typping.
         /// </summary>
         private Dictionary<int, char> positions = new Dictionary<int, char>();
-        int caretPosition = 0;
+
+        /// <summary>
+        /// Current carret position.
+        /// </summary>
+        private int caretPosition = 0;
 
         #endregion
 
         #region Methods
-        // inherits
-        protected override  async Task OnInitializedAsync()
+
+        /// <inheritdoc/>
+        protected override async Task OnInitializedAsync()
         {
             SetPositions();
+
             if ( !string.IsNullOrEmpty( Currency ) )
             {
                 if ( Style?.Length == 0 )
@@ -35,24 +40,24 @@ namespace Blazorise
                     Style += ";text-align: right";
 
                 if ( Text != null )
-                   await  CurrentValueHandler( Text );
+                    await CurrentValueHandler( Text );
 
                 if ( CurrencyValue > 0 )
                     CurrentValue = CurrencyValue.ToString( "#,###0.00", CultureInfo );
             }
             else
-                Text = DoMask( Text );            
+                Text = DoMask( Text );
 
             await base.OnInitializedAsync();
         }
 
-        // inherits
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             await Task.CompletedTask;
         }
 
-        //inherits
+        /// <inheritdoc/>
         protected async Task OnKeyPressHandler( KeyboardEventArgs e )
         {
             caretPosition = await JSRunner.GetCaret( ElementRef );
@@ -111,7 +116,7 @@ namespace Blazorise
                 await JSRunner.SetCaret( ElementRef, caretPosition + 1 );
         }
 
-        //inherits
+        /// <inheritdoc/>
         protected override Task OnInputHandler( ChangeEventArgs e )
         {
             e.Value = RemovePositionsFromValue( e.Value.ToString() );
@@ -129,12 +134,14 @@ namespace Blazorise
                 return value;
 
             foreach ( var position in positions )
+            {
                 if ( value.Length >= position.Key + 1 )
                 {
                     var maskValue = position.Value.ToString();
                     if ( value.Substring( position.Key, 1 ) != maskValue )
                         value = value.Insert( position.Key, maskValue );
                 }
+            }
 
             return value;
         }
@@ -147,12 +154,16 @@ namespace Blazorise
         private string ClearMask( string value )
         {
             foreach ( var position in positions )
+            {
                 if ( value.Length >= position.Key + 1 )
                 {
                     var maskValue = position.Value.ToString();
+
                     if ( value.Substring( position.Key, 1 ) == maskValue )
                         value = value.Remove( position.Key, 1 );
                 }
+            }
+
             return value;
         }
 
@@ -165,7 +176,10 @@ namespace Blazorise
         private object RemovePositionsFromValue( string value )
         {
             while ( positions.ContainsKey( value.Length - 1 ) )
+            {
                 value = value.Remove( value.Length - 1 );
+            }
+
             return value;
         }
 
@@ -180,10 +194,8 @@ namespace Blazorise
             var decimalSeparator = CultureInfo.NumberFormat.CurrencyDecimalSeparator;
             var groupSeparator = CultureInfo.NumberFormat.CurrencyGroupSeparator;
 
-
-            decimal theValue;
-            if ( !decimal.TryParse( value, out theValue ) )
-                return theValue.ToString( "0.00" );
+            if ( !decimal.TryParse( value, out var parsedValue ) )
+                return parsedValue.ToString( CultureInfo.InvariantCulture );
 
             ///var tempValue = new string( value.Reverse().ToArray() );
             if ( value.Length > decimalDigits )
@@ -195,7 +207,7 @@ namespace Blazorise
             }
             else
                 return $"0{decimalSeparator}{value.PadLeft( decimalDigits, '0' )}";
-        }      
+        }
 
         /// <summary>
         /// Clear the mask to be rebuild
@@ -228,13 +240,15 @@ namespace Blazorise
                 return;
 
             for ( int i = 0; i <= EditMask.Length - 1; i++ )
+            {
                 if ( EditMask[i] != '*' && EditMask[i] != '9' && EditMask[i] != 'a' )
                     positions.Add( i, EditMask[i] );
+            }
         }
 
         #endregion
 
-        #region properties
+        #region Properties
 
         /// <summary>
         /// CultureInfo information for Currency mode MaskEdit
@@ -242,8 +256,7 @@ namespace Blazorise
         private CultureInfo CultureInfo =>
           CultureInfo.GetCultures( CultureTypes.AllCultures )
               .Where( c => c.NumberFormat.CurrencySymbol == Currency )
-              .First();
-
+              .FirstOrDefault();
 
         /// <summary>
         /// Define if the MaskEdit is in the Currency mode. 
@@ -263,7 +276,7 @@ namespace Blazorise
             {
                 decimal currencyValue = 0;
 
-                if ( !string.IsNullOrEmpty( Currency )  && CurrentValue != null)
+                if ( !string.IsNullOrEmpty( Currency ) && CurrentValue != null )
                 {
                     var value = new string( CurrentValue
                         .Where( c => c != CultureInfo
