@@ -141,7 +141,7 @@ namespace Blazorise
                         // is also set.
                         // In case a custom ErrorMessage in the DataAnnotation like [Required(ErrorMessage="{0} is very important"]
                         // the ErrorMessage is not initialized with null.
-                        if (validationAttribute.ErrorMessageResourceName == null)
+                        if ( validationAttribute.ErrorMessageResourceName == null )
                         {
                             ValidationAttributeHelper.SetDefaultErrorMessage( validationAttribute );
                         }
@@ -161,7 +161,7 @@ namespace Blazorise
 
             return validationPropertyInfo != null;
         }
-    }
 
-    #endregion
+        #endregion
+    }
 }
