@@ -287,6 +287,11 @@ namespace Blazorise
         [Parameter] public EventCallback<FocusEventArgs> FocusOut { get; set; }
 
         /// <summary>
+        /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
+        /// </summary>
+        [Parameter] public int? TabIndex { get; set; }
+
+        /// <summary>
         /// Parent validation container.
         /// </summary>
         [CascadingParameter] protected Validation ParentValidation { get; set; }

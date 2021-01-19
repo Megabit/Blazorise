@@ -16,6 +16,33 @@ namespace Blazorise
 
         #region Methods
 
+        protected override void OnInitialized()
+        {
+            if ( ParentDropdown != null )
+            {
+                ParentDropdown.VisibleChanged += OnVisibleChanged;
+            }
+
+            base.OnInitialized();
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( ParentDropdown != null )
+                {
+                    ParentDropdown.VisibleChanged -= OnVisibleChanged;
+                }
+            }
+
+            base.Dispose( disposing );
+        }
+
+        protected virtual void OnVisibleChanged( object sender, bool e )
+        {
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DropdownMenu() );

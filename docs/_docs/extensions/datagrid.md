@@ -632,6 +632,7 @@ Optionally you can use the new Datagrid column `<DataGridMultiSelectColumn>` to 
 | ValidationsSummaryLabel| string                                                              | null    | Set label of validations summary                                                                            |
 | SortMode               | [DataGridSortMode]({{ "/docs/helpers/enums/#datagridsortmode" | relative_url }})  | `Multiple`          | Defines whether the user can sort only by one column or by multiple.              |
 | SelectionMode          | [DataGridSelectionMode]({{ "/docs/helpers/enums/#datagridselectionmode" | relative_url }})  | `Single`          | Defines whether the datagrid is set to single or multiple selection mode. |
+| Localizers             | `DataGridLocalizers`                                                |         | Custom localizer handlers to override default  localization.                                                |
 
 ### EditMode
 
