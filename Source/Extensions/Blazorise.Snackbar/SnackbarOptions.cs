@@ -49,5 +49,10 @@ namespace Blazorise.Snackbar
         /// Custom action button icon. Can be either enum <see cref="IconName"/> or string eg. "fa-times".
         /// </summary>
         public object ActionButtonIcon { get; set; }
+
+        /// <summary>
+        /// Notification lifetime
+        /// </summary>
+        public double IntervalBeforeClose { get; set; }
     }
 }
