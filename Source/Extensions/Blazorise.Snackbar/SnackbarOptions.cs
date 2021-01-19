@@ -51,7 +51,7 @@ namespace Blazorise.Snackbar
         public object ActionButtonIcon { get; set; }
 
         /// <summary>
-        /// Notification lifetime
+        /// Time in millisecond until snackbar is automatically closed.
         /// </summary>
         public double IntervalBeforeClose { get; set; }
     }
