@@ -26,7 +26,8 @@ namespace Blazorise.Snackbar
                 object closeButtonIcon,
                 bool showActionButton,
                 string actionButtonText,
-                object actionButtonIcon )
+                object actionButtonIcon,
+                double intervalBeforeClose )
             {
                 Message = message;
                 Title = title;
@@ -39,6 +40,7 @@ namespace Blazorise.Snackbar
                 ShowActionButton = showActionButton;
                 ActionButtonText = actionButtonText;
                 ActionButtonIcon = actionButtonIcon;
+                IntervalBeforeClose = intervalBeforeClose;
             }
 
             public string Message { get; }
@@ -62,6 +64,8 @@ namespace Blazorise.Snackbar
             public string ActionButtonText { get; }
 
             public object ActionButtonIcon { get; }
+
+            public double IntervalBeforeClose { get; }
 
             public bool Visible { get; } = true;
         }
@@ -115,7 +119,8 @@ namespace Blazorise.Snackbar
                 snackbarOptions.CloseButtonIcon,
                 snackbarOptions.ShowActionButton,
                 snackbarOptions.ActionButtonText,
-                snackbarOptions.ActionButtonIcon ) );
+                snackbarOptions.ActionButtonIcon,
+                snackbarOptions.IntervalBeforeClose ) );
 
             return InvokeAsync( () => StateHasChanged() );
         }
@@ -138,6 +143,7 @@ namespace Blazorise.Snackbar
             {
                 Key = IdGenerator.Generate,
                 ShowCloseButton = true,
+                IntervalBeforeClose = DefaultInterval
             };
         }
 
@@ -166,12 +172,12 @@ namespace Blazorise.Snackbar
         [Parameter] public bool Multiline { get; set; }
 
         /// <summary>
-        /// Defines the interval(in milliseconds) after which the snackbars will be automatically closed.
+        /// Defines the default interval (in milliseconds) after which the snackbars will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).
         /// </summary>
-        [Parameter] public double Interval { get; set; } = 5000;
+        [Parameter] public double DefaultInterval { get; set; } = 5000;
 
         /// <summary>
-        /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="Interval"/> time.
+        /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="DefaultInterval"/> time.
         /// </summary>
         [Parameter] public bool DelayCloseOnClick { get; set; }
 
