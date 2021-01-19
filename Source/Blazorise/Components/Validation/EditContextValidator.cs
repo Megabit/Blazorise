@@ -80,9 +80,10 @@ namespace Blazorise
                     // to have custom messages on validation attributes
                     Validator.TryValidateValue( propertyValue, validationContext, results, validationPropertyInfo.ValidationAttributes );
 
-                    // OPTIMIZE THIS: we run two validations because we need to have the formated 
-                    // and non-formated error messages in the same order so we can extract message attribute names.
+                    // OPTIMIZE THIS: we run two validations because we need to have the formatted 
+                    // and non-formatted error messages in the same order so we can extract message attribute names.
                     var formatedResults = new List<ValidationResult>();
+
                     Validator.TryValidateValue( propertyValue, validationContext, formatedResults, validationPropertyInfo.FormatedValidationAttributes );
 
                     // We will assume that both validation will return the same number of errors 
@@ -92,8 +93,8 @@ namespace Blazorise
                         var errorMessage = results[i].ErrorMessage;
                         var errorMessageString = ValidationAttributeHelper.RevertErrorMessagePlaceholders( formatedResults[i].ErrorMessage );
 
-                        // Compare both error messages and find the diferences. This should later be used
-                        // for manuall formating by the library users.
+                        // Compare both error messages and find the differences. This should later be used
+                        // for manual formatting by the library users.
                         var errorMessageArguments = validationMessageLocalizerAttributeFinder.FindAll( errorMessage, errorMessageString )
                             ?.OrderBy( x => x.Index ) // sort arguments by index in the message eg, {0}, {1}, {2}
                             ?.Select( x => x.Argument );
@@ -126,9 +127,9 @@ namespace Blazorise
                 // If we can't find it, cache 'null' so we don't have to try again next time
                 var propertyInfo = cacheKey.ModelType.GetProperty( cacheKey.FieldName );
 
-                // This is used only for custom localization. We assume that unformated ErrorMessage will be
+                // This is used only for custom localization. We assume that unformatted ErrorMessage will be
                 // used as an localization key, so we need to replace it in case it is undefined with
-                // the internal ErrorMessageString that has unformated message. eg. "The field {0} is invalid."
+                // the internal ErrorMessageString that has unformatted message. eg. "The field {0} is invalid."
                 var validationAttributes = ValidationAttributeHelper.GetValidationAttributes( propertyInfo );
                 var formatedValidationAttributes = ValidationAttributeHelper.GetValidationAttributes( propertyInfo );
 
@@ -136,7 +137,11 @@ namespace Blazorise
                 {
                     foreach ( var validationAttribute in formatedValidationAttributes )
                     {
-                        if ( validationAttribute.ErrorMessage == null )
+                        // In case the ErrorMessageResourceName is set, validation will fail if the ErrorMessage
+                        // is also set.
+                        // In case a custom ErrorMessage in the DataAnnotation like [Required(ErrorMessage="{0} is very important"]
+                        // the ErrorMessage is not initialized with null.
+                        if ( validationAttribute.ErrorMessageResourceName == null )
                         {
                             ValidationAttributeHelper.SetDefaultErrorMessage( validationAttribute );
                         }
@@ -156,7 +161,7 @@ namespace Blazorise
 
             return validationPropertyInfo != null;
         }
-    }
 
-    #endregion
+        #endregion
+    }
 }
