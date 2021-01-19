@@ -98,6 +98,7 @@ When you want to show multiple snackbars stacked on top of each other you can us
 <SnackbarStack @ref="snackbarStack" Location="SnackbarStackLocation.Right" />
 @code{
     SnackbarStack snackbarStack;
+    int intervalBeforeMsgClose = 2000;
 }
 ```
 
