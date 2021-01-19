@@ -30,4 +30,8 @@
     <EmbeddedResource Include="Resources\Localization\*.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="Resources\Localization\DataGrid\nl-NL.json" />
+  </ItemGroup>
+
 </Project>
