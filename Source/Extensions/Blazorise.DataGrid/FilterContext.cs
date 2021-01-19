@@ -33,6 +33,7 @@ namespace Blazorise.DataGrid
 
         public void TriggerFilterChange( string value )
         {
+            SearchValue = value;
             FilterChanged?.Invoke( value );
         }
 
@@ -46,12 +47,5 @@ namespace Blazorise.DataGrid
         public string SearchValue { get; set; }
 
         #endregion
-
-
-
-
-
-
-
     }
 }
