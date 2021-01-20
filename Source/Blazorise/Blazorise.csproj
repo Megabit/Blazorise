@@ -27,8 +27,4 @@
     <EmbeddedResource Include="Resources\Localization\*.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="Resources\Localization\FileEdit\nl-NL.json" />
-  </ItemGroup>
-
 </Project>
