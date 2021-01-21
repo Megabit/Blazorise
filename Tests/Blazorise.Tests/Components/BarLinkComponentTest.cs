@@ -53,7 +53,6 @@ namespace Blazorise.Tests.Components
             link.Find( "a" ).Click();
 
             // validate
-            Assert.Equal( link.Instance.Clicked, testCallback );
             Assert.True( wasClicked );
         }
     }
