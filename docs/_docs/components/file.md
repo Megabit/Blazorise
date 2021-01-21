@@ -66,7 +66,9 @@ This event will be called each time one of the selected file(s) has started the 
 
 This event is fired after the file has ended the upload process. If there was no error it will have `Success` property set to true.
 
-## Full example
+## Examples
+
+### WriteToStreamAsync
 
 In this example you can see the usage of all events, including the `Written` and `Progressed`. For your own use case you can just focus on `Changed` event.
 
@@ -124,7 +126,7 @@ In this example you can see the usage of all events, including the `Written` and
 }
 ```
 
-## Full example - Open Read Stream
+### OpenReadStream
 
 Using `OpenReadStream` on the file you can process the file as it is streamed from the browser to your code, this is mirrors the API found in [ASP.NET Core Input File component](https://docs.microsoft.com/en-us/aspnet/core/blazor/file-uploads?view=aspnetcore-5.0), for example
 
@@ -140,30 +142,30 @@ Using `OpenReadStream` on the file you can process the file as it is streamed fr
         {
             var file = e.Files.FirstOrDefault();
             if (file == null)
-			{
-			   return;
-			}
+            {
+                return;
+            }
 
-			var buffer = new byte[OneMb];
-			using ( var bufferedStream = new BufferedStream( file.OpenReadStream( long.MaxValue ), OneMb ) )
-			{
-				int readCount = 0;
-				int readBytes;
-				while ( ( readBytes = await bufferedStream.ReadAsync( buffer, 0, OneMb ) ) > 0 )
-				{
-					Console.WriteLine( $"Read:{readCount++} {readBytes / (double)OneMb} MB" );
-					// Do work on the first 1MB of data
-				}
-			}
-		}
-		catch ( Exception exc )
-		{
-			Console.WriteLine( exc.Message );
-		}
-		finally
-		{
-			this.StateHasChanged();
-		}
+            var buffer = new byte[OneMb];
+            using ( var bufferedStream = new BufferedStream( file.OpenReadStream( long.MaxValue ), OneMb ) )
+            {
+                int readCount = 0;
+                int readBytes;
+                while ( ( readBytes = await bufferedStream.ReadAsync( buffer, 0, OneMb ) ) > 0 )
+                {
+                    Console.WriteLine( $"Read:{readCount++} {readBytes / (double)OneMb} MB" );
+                    // Do work on the first 1MB of data
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
     }
 
     void OnWritten( FileWrittenEventArgs e )
