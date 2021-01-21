@@ -1,6 +1,4 @@
 ﻿using System;
-using AngleSharp.Dom;
-using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Blazorise.Tests.TestServices;
 using Bunit;
@@ -14,8 +12,8 @@ namespace Blazorise.Tests.Components
     {
         public BarLinkComponentTest()
         {
-            var testServices = new TestServiceProvider( Services.AddSingleton<NavigationManager, TestNavigationManager>());
-            BlazoriseConfig.AddBootstrapProviders( testServices ) ;
+            var testServices = new TestServiceProvider( Services.AddSingleton<NavigationManager, TestNavigationManager>() );
+            BlazoriseConfig.AddBootstrapProviders( testServices );
         }
 
         [Fact]
@@ -23,38 +21,39 @@ namespace Blazorise.Tests.Components
         {
             // setup
             bool wasClicked = false;
-            var testCallback = new EventCallback( null, (Action)( () => 
-                wasClicked = true ));
+            var testCallback = new EventCallback( null, (Action)( () =>
+                wasClicked = true ) );
 
             // test
-            var comp = RenderComponent<BarLink>(builder => 
+            var comp = RenderComponent<BarLink>( builder =>
                 builder
-                    .Add( p => p.Clicked, testCallback ));
+                    .Add( p => p.Clicked, testCallback ) );
+
             comp.Find( "a" ).Click();
 
             // validate
             Assert.True( wasClicked );
         }
-        
+
         [Fact]
         public void CanRaiseClicked_WithToParameterSet()
         {
             // setup
             bool wasClicked = false;
-            var testCallback = new EventCallback( null, (Action)( () => 
-                wasClicked = true ));
+            var testCallback = new EventCallback( null, (Action)( () =>
+                wasClicked = true ) );
+
             // test
-            var comp = RenderComponent<BarLink>(builder => 
+            var comp = RenderComponent<BarLink>( builder =>
                 builder
-                    .Add( p => p.To, "test")
-                    .Add( p => p.Clicked, testCallback ));
-            
+                    .Add( p => p.To, "test" )
+                    .Add( p => p.Clicked, testCallback ) );
+
             var link = comp.FindComponent<Link>();
-            var a = link.Find( "a" );
-            a.Click();
+            link.Find( "a" ).Click();
 
             // validate
-            Assert.Equal(link.Instance.Clicked, testCallback); 
+            Assert.Equal( link.Instance.Clicked, testCallback );
             Assert.True( wasClicked );
         }
     }
