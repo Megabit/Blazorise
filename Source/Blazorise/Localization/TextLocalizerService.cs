@@ -88,7 +88,7 @@ namespace Blazorise.Localization
 
         #region Properties
 
-        public CultureInfo SelectedCulture { get; private set; }
+        public CultureInfo SelectedCulture { get; private set; } = CultureInfo.DefaultThreadCurrentUICulture ?? CultureInfo.CurrentUICulture;
 
         public IEnumerable<CultureInfo> AvailableCultures => availableCultures.Values;
 
