@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 #endregion
 
@@ -20,6 +21,16 @@ namespace Blazorise
         public async Task WriteToStreamAsync( Stream stream )
         {
             await Owner.WriteToStreamAsync( this, stream );
+        }
+
+        public Stream OpenReadStream( long maxAllowedSize = 512000, CancellationToken cancellationToken = default )
+        {
+            if ( Size > maxAllowedSize )
+            {
+                throw new IOException( $"Supplied file with size {Size} bytes exceeds the maximum of {maxAllowedSize} bytes." );
+            }
+
+            return Owner.OpenReadStream( this, cancellationToken );
         }
 
         #endregion
