@@ -6,18 +6,9 @@
     }
     else
     {
-        @if ( To != null )
-        {
-            <Blazorise.Link ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Attributes="@Attributes">
-                @ChildContent
-            </Blazorise.Link>
-        }
-        else
-        {
-            <a id="@ElementId" class="@ClassNames" style="@StyleNames" title="@Title" @onclick="@ClickHandler" @attributes="@Attributes">
-                @ChildContent
-            </a>
-        }
+        <Blazorise.Link ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Clicked="@ClickHandler" Attributes="@Attributes">
+            @ChildContent
+        </Blazorise.Link>
     }
 </span>
 <span class="ant-breadcrumb-separator">/</span>
