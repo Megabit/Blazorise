@@ -419,6 +419,24 @@ namespace Blazorise.DataGrid
 
         #region Filtering
 
+        /// <summary>
+        /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
+        /// </summary>
+        /// <returns>Returns the awaitable task.</returns>
+        public Task Reload()
+        {
+            dirtyFilter = dirtyView = true;
+
+            if ( ManualReadMode )
+            {
+                return InvokeAsync( HandleReadData );
+            }
+            else
+            {
+                return InvokeAsync( StateHasChanged );
+            }
+        }
+
         protected async Task HandleReadData()
         {
             try
