@@ -1076,6 +1076,11 @@ namespace Blazorise.DataGrid
         [Parameter] public DataGridEditMode EditMode { get; set; } = DataGridEditMode.Form;
 
         /// <summary>
+        /// Specifies the grid command mode.
+        /// </summary>
+        [Parameter] public DataGridCommandMode CommandMode { get; set; }
+
+        /// <summary>
         /// A trigger function used to handle the visibility of detail row.
         /// </summary>
         [Parameter] public Func<TItem, bool> DetailRowTrigger { get; set; }
@@ -1221,6 +1226,9 @@ namespace Blazorise.DataGrid
         /// Specifies the content to be rendered inside this <see cref="DataGrid{TItem}"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        public bool ShouldRenderButtonRow() => CommandMode is DataGridCommandMode.Default or DataGridCommandMode.ButtonRow;
+        public bool ShouldRenderCommands() => Editable && CommandMode is DataGridCommandMode.Default or DataGridCommandMode.Commands;
 
         #endregion
     }

@@ -105,6 +105,18 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            Command Mode
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select @bind-SelectedValue="@commandsMode">
+                                <SelectItem Value="DataGridCommandMode.Default">Default</SelectItem>
+                                <SelectItem Value="DataGridCommandMode.ButtonRow">Button Row</SelectItem>
+                                <SelectItem Value="DataGridCommandMode.Commands">Commands</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
                             Sort mode
                         </FieldLabel>
                         <FieldBody>
@@ -134,6 +146,7 @@
                           Sortable="@sortable"
                           SortMode="@sortMode"
                           SelectionMode="@selectionMode"
+                          CommandMode="@commandsMode"
                           Filterable="@filterable"
                           ShowPager="@showPager"
                           PagerPosition="DataGridPagerPosition.TopAndBottom"
@@ -373,6 +386,7 @@
     DataGridEditMode editMode = DataGridEditMode.Form;
     DataGridSortMode sortMode = DataGridSortMode.Multiple;
     DataGridSelectionMode selectionMode = DataGridSelectionMode.Single;
+    DataGridCommandMode commandsMode = DataGridCommandMode.Default;
     bool editable = true;
     bool sortable = true;
     bool filterable = true;

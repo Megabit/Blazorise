@@ -1,92 +1,95 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridRowCommand<TItem>
-@if ( EditState == DataGridEditState.Edit )
-{
-    <TableRowCell Class="@Class" Style="@Style" width="@Width" TextAlignment="@TextAlignment">
-        @if ( ParentDataGrid?.CommandColumn?.SaveCommandAllowed == true )
-        {
-            var saveButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.SaveButtonLocalizer, "Save" );
+@if ( ParentDataGrid.ShouldRenderCommands() )
+{ 
+    @if ( EditState == DataGridEditState.Edit )
+    {
+        <TableRowCell Class="@Class" Style="@Style" width="@Width" TextAlignment="@TextAlignment">
+            @if ( ParentDataGrid?.CommandColumn?.SaveCommandAllowed == true )
+            {
+                var saveButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.SaveButtonLocalizer, "Save" );
 
-            @if ( ParentDataGrid?.CommandColumn?.SaveCommandTemplate != null )
-            {
-                @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
+                @if ( ParentDataGrid?.CommandColumn?.SaveCommandTemplate != null )
                 {
-                    Clicked = Save,
-                    LocalizationString = saveButtonString,
-                    Item = Item,
-                } )
+                    @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
+                    {
+                        Clicked = Save,
+                        LocalizationString = saveButtonString,
+                        Item = Item,
+                    } )
+                }
+                else
+                {
+                    <Button Color="Color.Link" Clicked="@Save">
+                        @saveButtonString
+                    </Button>
+                }
             }
-            else
+            @if ( ParentDataGrid?.CommandColumn?.CancelCommandAllowed == true )
             {
-                <Button Color="Color.Link" Clicked="@Save">
-                    @saveButtonString
-                </Button>
-            }
-        }
-        @if ( ParentDataGrid?.CommandColumn?.CancelCommandAllowed == true )
-        {
-            var cancelButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.CancelButtonLocalizer, "Cancel" );
+                var cancelButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.CancelButtonLocalizer, "Cancel" );
 
-            @if ( ParentDataGrid?.CommandColumn?.CancelCommandTemplate != null )
-            {
-                @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
+                @if ( ParentDataGrid?.CommandColumn?.CancelCommandTemplate != null )
                 {
-                    Clicked = Cancel,
-                    LocalizationString = cancelButtonString,
-                    Item = Item,
-                } )
+                    @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
+                    {
+                        Clicked = Cancel,
+                        LocalizationString = cancelButtonString,
+                        Item = Item,
+                    } )
+                }
+                else
+                {
+                    <Button Color="Color.Link" Clicked="@Cancel">
+                        @cancelButtonString
+                    </Button>
+                }
             }
-            else
+        </TableRowCell>
+    }
+    else if ( EditState == DataGridEditState.None )
+    {
+        <TableRowCell Class="@Class" Style="@Style" width="@Width" TextAlignment="@TextAlignment">
+            @if ( ParentDataGrid?.CommandColumn?.EditCommandAllowed == true )
             {
-                <Button Color="Color.Link" Clicked="@Cancel">
-                    @cancelButtonString
-                </Button>
-            }
-        }
-    </TableRowCell>
-}
-else if ( EditState == DataGridEditState.None )
-{
-    <TableRowCell Class="@Class" Style="@Style" width="@Width" TextAlignment="@TextAlignment">
-        @if ( ParentDataGrid?.CommandColumn?.EditCommandAllowed == true )
-        {
-            var editButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.EditButtonLocalizer, "Edit" );
+                var editButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.EditButtonLocalizer, "Edit" );
 
-            @if ( ParentDataGrid?.CommandColumn?.EditCommandTemplate != null )
-            {
-                @ParentDataGrid.CommandColumn.EditCommandTemplate( new EditCommandContext<TItem>
+                @if ( ParentDataGrid?.CommandColumn?.EditCommandTemplate != null )
                 {
-                    Clicked = Edit,
-                    LocalizationString = editButtonString,
-                    Item = Item,
-                } )
+                    @ParentDataGrid.CommandColumn.EditCommandTemplate( new EditCommandContext<TItem>
+                    {
+                        Clicked = Edit,
+                        LocalizationString = editButtonString,
+                        Item = Item,
+                    } )
+                }
+                else
+                {
+                    <Button Color="Color.Link" Clicked="@Edit">
+                        @editButtonString
+                    </Button>
+                }
             }
-            else
+            @if ( ParentDataGrid?.CommandColumn?.DeleteCommandAllowed == true )
             {
-                <Button Color="Color.Link" Clicked="@Edit">
-                    @editButtonString
-                </Button>
-            }
-        }
-        @if ( ParentDataGrid?.CommandColumn?.DeleteCommandAllowed == true )
-        {
-            var deleteButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.DeleteButtonLocalizer, "Delete" );
+                var deleteButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.DeleteButtonLocalizer, "Delete" );
 
-            @if ( ParentDataGrid?.CommandColumn?.DeleteCommandTemplate != null )
-            {
-                @ParentDataGrid.CommandColumn.DeleteCommandTemplate( new DeleteCommandContext<TItem>
+                @if ( ParentDataGrid?.CommandColumn?.DeleteCommandTemplate != null )
                 {
-                    Clicked = Delete,
-                    LocalizationString = deleteButtonString,
-                    Item = Item,
-                } )
+                    @ParentDataGrid.CommandColumn.DeleteCommandTemplate( new DeleteCommandContext<TItem>
+                    {
+                        Clicked = Delete,
+                        LocalizationString = deleteButtonString,
+                        Item = Item,
+                    } )
+                }
+                else
+                {
+                    <Button Color="Color.Link" Clicked="@Delete">
+                        @deleteButtonString
+                    </Button>
+                }
             }
-            else
-            {
-                <Button Color="Color.Link" Clicked="@Delete">
-                    @deleteButtonString
-                </Button>
-            }
-        }
-    </TableRowCell>
+        </TableRowCell>
+    }
 }

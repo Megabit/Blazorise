@@ -92,14 +92,14 @@ else if ( EditMode == DataGridEditMode.Inline )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )
             {
-                @if ( ParentDataGrid?.Editable == true )
+                @if ( ParentDataGrid?.ShouldRenderCommands() == true )
                 {
                     <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@SaveWithValidation" Cancel="@Cancel" Width="@column.Width" />
                 }
             }
             else if ( column.ColumnType == DataGridColumnType.MultiSelect )
             {
-                @if ( ParentDataGrid.MultiSelect )
+                @if ( ParentDataGrid?.MultiSelect == true )
                 {
                     <TableRowCell></TableRowCell>
 
@@ -108,7 +108,7 @@ else if ( EditMode == DataGridEditMode.Inline )
             else if ( column.Displayable )
             {
                 <TableRowCell width="@column.Width">
-                    @if ( ParentDataGrid?.Editable == true && column.CellValueIsEditable )
+                    @if ( ParentDataGrid?.ShouldRenderCommands() == true && column.CellValueIsEditable )
                     {
                         <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@( ParentDataGrid?.ShowValidationFeedback ?? false )" />
                     }
