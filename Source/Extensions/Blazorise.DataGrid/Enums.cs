@@ -213,6 +213,6 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Only button row will render.
         /// </summary>
-        ButtonRow,
+        ButtonRow
     }
 }

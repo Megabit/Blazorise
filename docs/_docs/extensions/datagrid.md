@@ -596,6 +596,20 @@ Optionally you can use the new Datagrid column `<DataGridMultiSelectColumn>` to 
 </DataGrid>
 ```
 
+### DataGrid Button Row
+
+Provide a `ButtonRowTemplate` and have the DataGridCommandMode set to either `Default` or `ButtonRow`. 
+
+The template has access to the internal commands so you're also able to construct your own buttons on the pager that can also trigger the Datagrid's CRUD and clear filter operations as shown in the example below:
+```html
+<ButtonRowTemplate>
+    <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">New</Button>
+    <Button Color="Color.Primary" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
+    <Button Color="Color.Danger" Disabled="@(selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
+    <Button Color="Color.Link" Clicked="@context.ClearFilterCommand.Clicked">Clear Filter</Button>
+</ButtonRowTemplate>
+```
+
 ## Attributes
 
 ### DataGrid
@@ -642,6 +656,7 @@ Optionally you can use the new Datagrid column `<DataGridMultiSelectColumn>` to 
 | SortMode               | [DataGridSortMode]({{ "/docs/helpers/enums/#datagridsortmode" | relative_url }})  | `Multiple`          | Defines whether the user can sort only by one column or by multiple.              |
 | SelectionMode          | [DataGridSelectionMode]({{ "/docs/helpers/enums/#datagridselectionmode" | relative_url }})  | `Single`          | Defines whether the datagrid is set to single or multiple selection mode. |
 | Localizers             | `DataGridLocalizers`                                                |         | Custom localizer handlers to override default  localization.                                                |
+| CommandMode            | [DataGridCommandMode]({{ "/docs/helpers/enums/#datagridcommandmode" | relative_url }})  | `Default`          | Defines whether the datagrid renders both commands and button row or just either one of them. |
 
 ### EditMode
 
