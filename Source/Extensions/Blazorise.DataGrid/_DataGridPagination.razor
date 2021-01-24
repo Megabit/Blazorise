@@ -25,7 +25,7 @@
                     }
                     else
                     {
-                        @Localizer.Localize( ParentDataGrid?.Localizers?.FirstPageButtonLocalizer, "First" )
+                        @Localizer.Localize( ParentDataGrid.Localizers?.FirstPageButtonLocalizer, "First" )
                     }
                 </PaginationLink>
             </PaginationItem>
@@ -37,7 +37,7 @@
                     }
                     else
                     {
-                        @Localizer.Localize( ParentDataGrid?.Localizers?.PreviousPageButtonLocalizer, "Prev" )
+                        @Localizer.Localize( ParentDataGrid.Localizers?.PreviousPageButtonLocalizer, "Prev" )
                     }
                 </PaginationLink>
             </PaginationItem>
@@ -70,7 +70,7 @@
                     }
                     else
                     {
-                        @Localizer.Localize( ParentDataGrid?.Localizers?.NextPageButtonLocalizer, "Next" )
+                        @Localizer.Localize( ParentDataGrid.Localizers?.NextPageButtonLocalizer, "Next" )
                     }
                 </PaginationLink>
             </PaginationItem>
@@ -82,7 +82,7 @@
                     }
                     else
                     {
-                        @Localizer.Localize( ParentDataGrid?.Localizers?.LastPageButtonLocalizer, "Last" )
+                        @Localizer.Localize( ParentDataGrid.Localizers?.LastPageButtonLocalizer, "Last" )
                     }
                 </PaginationLink>
             </PaginationItem>
@@ -103,7 +103,7 @@
                     }
                     else
                     {
-                        <Text>@Localizer.Localize( ParentDataGrid?.Localizers?.ItemsPerPageLocalizer, "items per page" )</Text>
+                        <Text>@Localizer.Localize( ParentDataGrid.Localizers?.ItemsPerPageLocalizer, "items per page" )</Text>
                     }
                 </Field>
             }
@@ -119,7 +119,7 @@
             {
                 var curStart = ( ( PaginationContext.CurrentPage - 1 ) * PaginationContext.CurrentPageSize + 1 );
                 var curEnd = Math.Min( PaginationContext.CurrentPage * PaginationContext.CurrentPageSize, PaginationContext.TotalItems ?? default );
-                <Text>@Localizer.Localize( ParentDataGrid?.Localizers?.NumbersOfItemsLocalizer, "{0} - {1} of {2} items", curStart, curEnd, PaginationContext.TotalItems )</Text>
+                <Text>@Localizer.Localize( ParentDataGrid.Localizers?.NumbersOfItemsLocalizer, "{0} - {1} of {2} items", curStart, curEnd, PaginationContext.TotalItems )</Text>
             }
         </Field>
         <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromLeft" Display="Blazorise.Display.InlineBlock.None.OnDesktop">
@@ -129,7 +129,7 @@
             }
             else
             {
-                var text = $"{PaginationContext.TotalItems} {Localizer.Localize( ParentDataGrid?.Localizers?.ItemsLocalizer, "items" )}";
+                var text = $"{PaginationContext.TotalItems} {Localizer.Localize( ParentDataGrid.Localizers?.ItemsLocalizer, "items" )}";
                 <Text>@text</Text>
             }
         </Field>

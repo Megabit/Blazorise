@@ -4,10 +4,10 @@
 {
     <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged">
         <TableRowCell ColumnSpan="@(Columns.Count() + 1)">
-            @if ( ParentDataGrid?.ShowValidationsSummary ?? true )
+            @if ( ParentDataGrid.ShowValidationsSummary )
             {
                 <Row>
-                    <ValidationSummary Label="@ParentDataGrid?.ValidationsSummaryLabel" />
+                    <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" />
                 </Row>
             }
             <Row>
@@ -25,7 +25,7 @@
                                         @column.Caption
                                     </FieldLabel>
                                     <FieldBody>
-                                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
+                                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                                     </FieldBody>
                                 </Field>
                             }
@@ -36,9 +36,9 @@
             <Row>
                 <Column>
                     @{
-                        var saveButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.SaveButtonLocalizer, "Save" );
+                        var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
 
-                        @if ( ParentDataGrid?.CommandColumn?.SaveCommandTemplate != null )
+                        @if ( ParentDataGrid.CommandColumn.SaveCommandTemplate != null )
                         {
                             @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
                             {
@@ -54,9 +54,9 @@
                             </Button>
                         }
 
-                        var cancelButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.CancelButtonLocalizer, "Cancel" );
+                        var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
 
-                        @if ( ParentDataGrid?.CommandColumn?.CancelCommandTemplate != null )
+                        @if ( ParentDataGrid.CommandColumn.CancelCommandTemplate != null )
                         {
                             @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
                             {
@@ -80,11 +80,11 @@
 else if ( EditMode == DataGridEditMode.Inline )
 {
     <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged">
-        @if ( ParentDataGrid?.ShowValidationsSummary ?? true )
+        @if ( ParentDataGrid.ShowValidationsSummary )
         {
             <TableRow Display="@(isInvalid ? Display.TableRow : Display.None)">
                 <TableRowCell ColumnSpan="@Columns.Count()" Display="@(isInvalid ? Display.TableCell : Display.None)">
-                    <ValidationSummary Label="@ParentDataGrid?.ValidationsSummaryLabel" />
+                    <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" />
                 </TableRowCell>
             </TableRow>
         }
@@ -92,14 +92,14 @@ else if ( EditMode == DataGridEditMode.Inline )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )
             {
-                @if ( ParentDataGrid?.ShouldRenderCommands() == true )
+                @if ( ParentDataGrid.ShouldRenderCommands() == true )
                 {
                     <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@SaveWithValidation" Cancel="@Cancel" Width="@column.Width" />
                 }
             }
             else if ( column.ColumnType == DataGridColumnType.MultiSelect )
             {
-                @if ( ParentDataGrid?.MultiSelect == true )
+                @if ( ParentDataGrid.MultiSelect )
                 {
                     <TableRowCell></TableRowCell>
 
@@ -108,9 +108,9 @@ else if ( EditMode == DataGridEditMode.Inline )
             else if ( column.Displayable )
             {
                 <TableRowCell width="@column.Width">
-                    @if ( ParentDataGrid?.ShouldRenderCommands() == true && column.CellValueIsEditable )
+                    @if ( ParentDataGrid.ShouldRenderCommands() == true && column.CellValueIsEditable )
                     {
-                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@( ParentDataGrid?.ShowValidationFeedback ?? false )" />
+                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                     }
                     else
                     {
