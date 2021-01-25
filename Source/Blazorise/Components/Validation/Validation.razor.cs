@@ -1,12 +1,10 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
@@ -33,17 +31,17 @@ namespace Blazorise
         /// <summary>
         /// Pattern that is being applied for the validation.
         /// </summary>
-        private string pattern;
+        private string patternString;
 
         /// <summary>
         /// Regex pattern used to override the validator handler.
         /// </summary>
-        private Regex patternRegex;
+        private Regex pattern;
 
         /// <summary>
         /// Flag that indicates pattern validation has being applied.
         /// </summary>
-        private bool hasPatternRegex;
+        private bool hasPattern;
 
         // Flag that indicates validation has already being initialized.
         private bool initialized;
@@ -115,20 +113,20 @@ namespace Blazorise
             {
                 // We need to re-instantiate patternRegex only if the pattern has changed.
                 // Otherwise it could get pretty slow for larger forms.
-                if ( !hasPatternRegex || this.pattern != pattern )
+                if ( !hasPattern || this.patternString != pattern )
                 {
-                    this.pattern = pattern;
-                    patternRegex = new Regex( pattern );
+                    this.patternString = pattern;
+                    this.pattern = new Regex( pattern );
 
                     // Re-run validation based on the new value for the new pattern,
                     // but ONLY if validation has being previously initialized!
-                    if ( hasPatternRegex && Mode == ValidationMode.Auto && ValidateOnLoad && initialized )
+                    if ( hasPattern && Mode == ValidationMode.Auto && ValidateOnLoad && initialized )
                     {
                         NotifyInputChanged( value, true );
                     }
                 }
 
-                hasPatternRegex = true;
+                hasPattern = true;
             }
         }
 
@@ -204,85 +202,47 @@ namespace Blazorise
         /// <summary>
         /// Runs the validation process.
         /// </summary>
-        /// <param name="newValidationValue">New validation value.</param>
+        /// <param name="newValidationValue">New validation value to validate.</param>
+        /// <returns>Returns the validation result.</returns>
         public ValidationStatus Validate( object newValidationValue )
         {
-            if ( Validator != null )
+            var validationHandlerType = DetermineHandlerType();
+
+            if ( validationHandlerType != null )
             {
-                ValidateUsingValidator( Validator, newValidationValue );
-            }
-            else if ( UsePattern && hasPatternRegex )
-            {
-                ValidateUsingPattern( newValidationValue );
-            }
-            else if ( EditContext != null && hasFieldIdentifier )
-            {
-                ValidateUsingDataAnnotation( newValidationValue );
+                var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
+
+                validationHandler.Validate( this, newValidationValue );
             }
 
             return Status;
         }
 
-        protected virtual void ValidateUsingValidator( Action<ValidatorEventArgs> validatorHandler, object newValidationValue )
+        /// <summary>
+        /// Determines the validation handler based on the priority.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual Type DetermineHandlerType()
         {
-            ValidationStarted?.Invoke();
-
-            var validatorEventArgs = new ValidatorEventArgs( newValidationValue );
-
-            validatorHandler( validatorEventArgs );
-
-            var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
-                ? new string[] { validatorEventArgs.ErrorText }
-                : null;
-
-            if ( Status != validatorEventArgs.Status || ( Messages?.ToArray()?.AreEqual( matchMessages ) == false ) )
+            if ( HandlerType == null )
             {
-                Status = validatorEventArgs.Status;
-                Messages = matchMessages;
-
-                NotifyValidationStatusChanged( Status, Messages );
+                if ( Validator != null )
+                {
+                    return typeof( ValidatorValidationHandler );
+                }
+                else if ( UsePattern && hasPattern )
+                {
+                    return typeof( PatternValidationHandler );
+                }
+                else if ( EditContext != null && hasFieldIdentifier )
+                {
+                    return typeof( DataAnnotationValidationHandler );
+                }
+                else
+                    throw new ArgumentNullException();
             }
-        }
 
-        protected virtual void ValidateUsingDataAnnotation( object newValidationValue )
-        {
-            ValidationStarted?.Invoke();
-
-            var messages = new ValidationMessageStore( EditContext );
-
-            EditContextValidator.ValidateField( EditContext, messages, fieldIdentifier, MessageLocalizer ?? Options.ValidationMessageLocalizer );
-
-            var matchStatus = messages[fieldIdentifier].Any()
-                ? ValidationStatus.Error
-                : ValidationStatus.Success;
-
-            var matchMessages = matchStatus == ValidationStatus.Error
-                ? messages[fieldIdentifier]
-                : null;
-
-            // Sometime status will stay the same and error message will change
-            // eg. StringLength > empty string > Required
-            if ( Status != matchStatus || ( Messages?.ToArray()?.AreEqual( matchMessages?.ToArray() ) == false ) )
-            {
-                Status = matchStatus;
-                Messages = matchMessages;
-
-                NotifyValidationStatusChanged( Status, Messages );
-            }
-        }
-
-        protected virtual void ValidateUsingPattern( object newValidationValue )
-        {
-            var matchStatus = patternRegex.IsMatch( newValidationValue?.ToString() ?? string.Empty )
-                      ? ValidationStatus.Success
-                      : ValidationStatus.Error;
-
-            if ( Status != matchStatus )
-            {
-                Status = matchStatus;
-
-                NotifyValidationStatusChanged( Status );
-            }
+            return HandlerType;
         }
 
         /// <summary>
@@ -290,12 +250,19 @@ namespace Blazorise
         /// </summary>
         public void Clear()
         {
-            Status = ValidationStatus.None;
-            NotifyValidationStatusChanged( Status );
+            NotifyValidationStatusChanged( ValidationStatus.None );
         }
 
-        private void NotifyValidationStatusChanged( ValidationStatus status, IEnumerable<string> messages = null )
+        public void NotifyValidationStarted()
         {
+            ValidationStarted?.Invoke();
+        }
+
+        public void NotifyValidationStatusChanged( ValidationStatus status, IEnumerable<string> messages = null )
+        {
+            Status = status;
+            Messages = messages;
+
             ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, messages ) );
             StatusChanged.InvokeAsync( status );
 
@@ -316,29 +283,18 @@ namespace Blazorise
         /// </summary>
         private bool ValidateOnLoad => ParentValidations?.ValidateOnLoad ?? true;
 
-        /// <summary>
-        /// Gets the list of last validation messages.
-        /// </summary>
+        /// <inheritdoc/>
         public IEnumerable<string> Messages { get; private set; }
 
-        /// <summary>
-        /// Overrides the message that is going to be shown on the <see cref="ValidationError"/> or <see cref="ValidationSuccess"/>.
-        /// </summary>
-        [Parameter] public Func<string, IEnumerable<string>, string> MessageLocalizer { get; set; }
+        /// <inheritdoc/>
+        public FieldIdentifier FieldIdentifier => fieldIdentifier;
 
-        /// <summary>
-        /// Injects a default or custom EditContext validator.
-        /// </summary>
-        [Inject] protected IEditContextValidator EditContextValidator { get; set; }
+        /// <inheritdoc/>
+        public Regex Pattern => pattern;
 
-        /// <summary>
-        /// Global blazorise options.
-        /// </summary>
-        [Inject] protected BlazoriseOptions Options { get; set; }
+        [Inject] protected IValidationHandlerFactory ValidationHandlerFactory { get; set; }
 
-        /// <summary>
-        /// Gets or sets the current validation status.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter] public ValidationStatus Status { get; set; }
 
         /// <summary>
@@ -346,10 +302,17 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<ValidationStatus> StatusChanged { get; set; }
 
-        /// <summary>
-        /// Validates the input value after it has being changed.
-        /// </summary>
+        /// <inheritdoc/>
         [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
+
+        /// <inheritdoc/>
+        [Parameter] public Func<string, IEnumerable<string>, string> MessageLocalizer { get; set; }
+
+        /// <inheritdoc/>
+        [CascadingParameter] public Validations ParentValidations { get; protected set; }
+
+        /// <inheritdoc/>
+        [CascadingParameter] public EditContext EditContext { get; protected set; }
 
         /// <summary>
         /// Forces validation to use regex pattern matching instead of default validator handler.
@@ -357,14 +320,9 @@ namespace Blazorise
         [Parameter] public bool UsePattern { get; set; }
 
         /// <summary>
-        /// Parent validation group.
+        /// Forces the custom validation handler to be uses while validating the values.
         /// </summary>
-        [CascadingParameter] protected Validations ParentValidations { get; set; }
-
-        /// <summary>
-        /// Parent validation edit context.
-        /// </summary>
-        [CascadingParameter] protected EditContext EditContext { get; set; }
+        [Parameter] public Type HandlerType { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Validation"/>.
