@@ -77,8 +77,40 @@ namespace Blazorise
             return CurrentValueHandler( value );
         }
 
+
+
         protected override Task OnInternalValueChanged( TValue value )
         {
+            TValue newValue;
+            BindConverter.TryConvertTo<TValue>( $"{value}", System.Globalization.CultureInfo.CurrentCulture, out newValue );
+
+            decimal? newValueAsDecimal = value != null ? (decimal)Convert.ChangeType( value, typeof( decimal ) ) : (decimal)Convert.ChangeType( default( decimal ), typeof( decimal ) );
+
+            if ( newValueAsDecimal != null )
+            {
+                if ( !ValidateMinMax( newValueAsDecimal.Value ) )
+                {
+                    if ( object.Equals( Value, newValue ) )
+                    {
+                        return Task.CompletedTask;
+                    }
+
+                    if ( Max.HasValue && newValueAsDecimal > Max.Value )
+                    {
+                        newValueAsDecimal = Max.Value;
+                    }
+
+                    if ( Min.HasValue && newValueAsDecimal < Min.Value )
+                    {
+                        newValueAsDecimal = Min.Value;
+                    }
+
+                    if ( newValueAsDecimal.HasValue )
+                    {
+                        value = (TValue)Convert.ChangeType( newValueAsDecimal, typeof( TValue ) );
+                    }
+                }
+            }
             return ValueChanged.InvokeAsync( value );
         }
 
@@ -125,6 +157,49 @@ namespace Blazorise
                 default:
                     throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
             }
+        }
+
+        private async System.Threading.Tasks.Task UpdateValueWithStep( bool stepUp )
+        {
+            if ( Disabled || ReadOnly )
+            {
+                return;
+            }
+
+            var step = Step.GetValueOrDefault( 1 );
+
+            var valueToUpdate = Value != null ? Convert.ChangeType( Value, typeof( decimal ) ) : (decimal)Convert.ChangeType( default( decimal ), typeof( decimal ) );
+
+            var newValue = ( (decimal)Convert.ChangeType( valueToUpdate, typeof( decimal ) ) ) + (decimal)Convert.ChangeType( stepUp ? step : -step, typeof( decimal ) );
+
+            if ( !ValidateMinMax( newValue ) )
+            {
+                return;
+            }
+
+            if ( Converters.TryChangeType<string>( newValue, out var newStringValue ) )
+            {
+                await SetValue( newStringValue );
+                StateHasChanged();
+            }
+        }
+
+        protected virtual bool ValidateMinMax( decimal comparativeValue )
+        {
+            if ( object.Equals( Value, comparativeValue ) )
+            {
+                return false;
+            }
+
+            decimal min = Min.GetValueOrDefault( decimal.MinValue );
+            decimal max = Max.GetValueOrDefault( decimal.MaxValue );
+
+            if ( comparativeValue > max || comparativeValue < min )
+            {
+                return false;
+            }
+
+            return true;
         }
 
         #endregion
@@ -198,18 +273,23 @@ namespace Blazorise
         /// <summary>
         /// The minimum value to accept for this input.
         /// </summary>
-        [Parameter] public TValue Min { get; set; }
+        [Parameter] public decimal? Min { get; set; }
 
         /// <summary>
         /// The maximum value to accept for this input.
         /// </summary>
-        [Parameter] public TValue Max { get; set; }
+        [Parameter] public decimal? Max { get; set; }
 
         /// <summary>
         /// The size attribute specifies the visible width, in characters, of an <input> element.
         /// </summary>
         /// <see cref="https://www.w3schools.com/tags/att_input_size.asp"/>
         [Parameter] public int? VisibleCharacters { get; set; }
+
+
+        [Parameter] public bool ShowUpDown { get; set; } = true;
+
+        [Parameter] public bool AutoComplete { get; set; }
 
         #endregion
     }
