@@ -27,7 +27,7 @@ namespace Blazorise.Demo.Bootstrap
                     options.UseBubbleTheme = true;
                     options.UseShowTheme = true;
                 } )
-                .AddBootstrapProviders()
+                .AddBootstrapProviders(options => options.UseCustomInputStyles = false)
                 .AddFontAwesomeIcons();
 
             builder.Services.AddSingleton( new HttpClient

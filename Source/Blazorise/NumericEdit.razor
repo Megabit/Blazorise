@@ -1,0 +1,26 @@
+﻿@* This has to be name TextEdit because Razor(not Blazor) still doesn't support case sensitive components. *@
+@typeparam TValue
+@inherits Blazorise.BaseTextInput<TValue>
+@if (!HasCustomRegistration)
+{
+    @if (ShowUpDown)
+    {
+        <div class="input-group input-spinner">
+            <input @ref="@ElementRef" id="@ElementId" inputmode="numeric" class="b-input-spinner @ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" @attributes="@Attributes" autocomplete="@(AutoComplete ? "on" : "off")" />
+            <div class="input-group-addon-spinner">
+                <Button Class="b-spinner-button b-spinner-up" Clicked="@((args) => UpdateValueWithStep(true))" tabindex="-1"><Icon Name="IconName.SortUp"></Icon></Button>
+                <Button Class="b-spinner-button b-spinner-down" Clicked="@((args) => UpdateValueWithStep(false))" tabindex="-1"><Icon Name="IconName.SortDown"></Icon></Button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <input @ref="ElementRef" id="@ElementId" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" @attributes="@Attributes" autocomplete="@(AutoComplete ? "on" : "off")" />
+    }
+    @ChildContent
+    @Feedback
+}
+else
+{
+    @RenderCustomComponent()
+}

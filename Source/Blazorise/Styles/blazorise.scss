@@ -64,3 +64,30 @@ hr {
         }
     }
 }
+
+
+/*EditNumeric with UpDown*/ 
+.b-input-spinner {
+  
+}
+
+.input-group .input-spinner {
+    padding-right: 35px;
+}
+
+.b-spinner-button {
+    position: absolute;
+    padding: 0;
+    height: 50%;
+    border-radius: 2px;
+    right: 15px;
+}
+
+.b-spinner-up {
+    top: 4px;
+}
+
+.b-spinner-down {
+    bottom: 4px;
+}
+/*---------------- */
