@@ -21,6 +21,10 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton<IJSRunner>( new BootstrapJSRunner( new Mock<IJSRuntime>().Object ) );
             services.AddSingleton<IThemeGenerator>( new BootstrapThemeGenerator() );
             services.AddSingleton<IIconProvider>( new Mock<IIconProvider>().Object );
+            services.AddSingleton<IValidationHandlerFactory, ValidationHandlerFactory>();
+            services.AddSingleton<ValidatorValidationHandler>();
+            services.AddSingleton<PatternValidationHandler>();
+            services.AddSingleton<DataAnnotationValidationHandler>();
 
             Action<BlazoriseOptions> configureOptions = ( options ) =>
             {

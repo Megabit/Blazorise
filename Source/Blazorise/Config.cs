@@ -37,6 +37,11 @@ namespace Blazorise
             serviceCollection.AddScoped<ITextLocalizerService, TextLocalizerService>();
             serviceCollection.AddScoped( typeof( ITextLocalizer<> ), typeof( TextLocalizer<> ) );
 
+            serviceCollection.AddScoped<IValidationHandlerFactory, ValidationHandlerFactory>();
+            serviceCollection.AddScoped<ValidatorValidationHandler>();
+            serviceCollection.AddScoped<PatternValidationHandler>();
+            serviceCollection.AddScoped<DataAnnotationValidationHandler>();
+
             return serviceCollection;
         }
 
