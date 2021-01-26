@@ -107,16 +107,16 @@ namespace Blazorise
             initialized = true;
         }
 
-        internal void InitializeInputPattern( string pattern, object value )
+        internal void InitializeInputPattern( string patternString, object value )
         {
-            if ( !string.IsNullOrEmpty( pattern ) )
+            if ( !string.IsNullOrEmpty( patternString ) )
             {
                 // We need to re-instantiate patternRegex only if the pattern has changed.
                 // Otherwise it could get pretty slow for larger forms.
-                if ( !hasPattern || this.patternString != pattern )
+                if ( !hasPattern || this.patternString != patternString )
                 {
-                    this.patternString = pattern;
-                    this.pattern = new Regex( pattern );
+                    this.patternString = patternString;
+                    pattern = new Regex( patternString );
 
                     // Re-run validation based on the new value for the new pattern,
                     // but ONLY if validation has being previously initialized!
