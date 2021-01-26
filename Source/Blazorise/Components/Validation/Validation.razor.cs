@@ -133,11 +133,13 @@ namespace Blazorise
         internal void InitializeInputExpression<T>( Expression<Func<T>> expression )
         {
             // Data-Annotation validation can only work if parent validationa and expression are defined.
-            if ( ParentValidations != null && expression != null )
+            if ( ( ParentValidations != null || EditContext != null ) && expression != null )
             {
                 // We need to re-instantiate FieldIdentifier only if the model has changed.
                 // Otherwise it could get pretty slow for larger forms.
-                if ( !hasFieldIdentifier || ParentValidations.Model != fieldIdentifier.Model )
+                if ( !hasFieldIdentifier
+                    || ( ParentValidations?.Model?.IsEqual( fieldIdentifier.Model ) == false )
+                    || ( EditContext?.Model?.IsEqual( fieldIdentifier.Model ) == false ) )
                 {
                     fieldIdentifier = FieldIdentifier.Create( expression );
 
