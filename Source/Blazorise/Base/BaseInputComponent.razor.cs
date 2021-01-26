@@ -99,10 +99,11 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
-        private void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs e )
+        protected async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs e )
         {
+            Console.WriteLine( "OnValidationStatusChanged" );
             DirtyClasses();
-            StateHasChanged();
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
