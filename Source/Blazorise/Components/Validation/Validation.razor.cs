@@ -167,7 +167,7 @@ namespace Blazorise
 
             var valueChanged = newValidationValue is Array newArrayValue && lastValidationValue is Array lastArrayValue
                 ? !lastArrayValue.AreArraysEqual( newArrayValue )
-                : lastValidationValue != newValidationValue;
+                : !lastValidationValue.IsEqual( newValidationValue );
 
             if ( valueChanged )
             {
