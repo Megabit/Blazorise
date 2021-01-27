@@ -95,6 +95,16 @@ namespace Blazorise.Charts
             return runtime.InvokeVoidAsync( "blazoriseCharts.addData", canvasId, dataSetIndex, newData );
         }
 
+        public static ValueTask ShiftLabel( IJSRuntime runtime, string canvasId )
+        {
+            return runtime.InvokeVoidAsync( "blazoriseCharts.shiftLabel", canvasId );
+        }
+
+        public static ValueTask ShiftData( IJSRuntime runtime, string canvasId, int dataSetIndex )
+        {
+            return runtime.InvokeVoidAsync( "blazoriseCharts.shiftData", canvasId, dataSetIndex );
+        }
+
         public static string ToChartTypeString( ChartType type )
         {
             return type switch

@@ -7,6 +7,7 @@
             </CardHeader>
             <CardBody>
                 <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( lineChart, GetLineChartDataset ))">Redraw</Button>
+                <Button Color="Color.Primary" Outline="true" @onclick="async ()=>await ShiftLineChart()">Shift</Button>
             </CardBody>
             <CardBody>
                 <LineChart @ref="lineChart" TItem="double" />
@@ -234,6 +235,15 @@
             LineTension = 0.0f,
             BorderWidth = 1
         };
+    }
+
+    async Task ShiftLineChart()
+    {
+        await lineChart.ShiftData(0);
+        await lineChart.ShiftLabel();
+        await lineChart.AddLabels(Labels[random.Next(0, Labels.Length)]);
+        await lineChart.AddData(0, random.Next(3, 50) * random.NextDouble());
+        await lineChart.Update();
     }
 
     List<double> RandomizeData()

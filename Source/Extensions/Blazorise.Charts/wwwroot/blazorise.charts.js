@@ -144,6 +144,22 @@ window.blazoriseCharts = {
         }
     },
 
+    shiftLabel: (canvasId) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
+
+        if (chart) {
+            chart.data.labels.shift();
+        }
+    },
+
+    shiftData: (canvasId, datasetIndex) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
+
+        if (chart) {
+            chart.data.datasets[datasetIndex].data.shift();
+        }
+    },
+
     wireEvents: (dotnetAdapter, hasClickEvent, hasHoverEvent, canvas, chart) => {
         if (hasClickEvent) {
             canvas.onclick = function (evt) {
