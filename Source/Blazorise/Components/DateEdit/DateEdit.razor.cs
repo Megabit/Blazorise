@@ -122,12 +122,12 @@ namespace Blazorise
         /// <summary>
         /// The earliest date to accept.
         /// </summary>
-        [Parameter] public DateTime? Min { get; set; }
+        [Parameter] public DateTimeOffset? Min { get; set; }
 
         /// <summary>
         /// The latest date to accept.
         /// </summary>
-        [Parameter] public DateTime? Max { get; set; }
+        [Parameter] public DateTimeOffset? Max { get; set; }
 
         #endregion
     }
