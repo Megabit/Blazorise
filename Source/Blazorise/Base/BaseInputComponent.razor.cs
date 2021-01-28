@@ -101,7 +101,6 @@ namespace Blazorise
 
         protected async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs e )
         {
-            Console.WriteLine( "OnValidationStatusChanged" );
             DirtyClasses();
             await InvokeAsync( StateHasChanged );
         }

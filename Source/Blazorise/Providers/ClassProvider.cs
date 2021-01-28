@@ -42,11 +42,25 @@ namespace Blazorise
 
         #endregion
 
+        #region NumericEdit
+
+        public abstract string NumericEdit( bool plaintext );
+
+        public abstract string NumericEditSize( Size size );
+
+        public abstract string NumericEditColor( Color color );
+
+        public abstract string NumericEditValidation( ValidationStatus validationStatus );
+
+        #endregion
+
         #region DateEdit
 
-        public abstract string DateEdit();
+        public abstract string DateEdit( bool plaintext );
 
         public abstract string DateEditSize( Size size );
+
+        public abstract string DateEditColor( Color color );
 
         public abstract string DateEditValidation( ValidationStatus validationStatus );
 
@@ -54,9 +68,11 @@ namespace Blazorise
 
         #region TimeEdit
 
-        public abstract string TimeEdit();
+        public abstract string TimeEdit( bool plaintext );
 
         public abstract string TimeEditSize( Size size );
+
+        public abstract string TimeEditColor( Color color );
 
         public abstract string TimeEditValidation( ValidationStatus validationStatus );
 
@@ -99,6 +115,10 @@ namespace Blazorise
         public abstract string RadioSize( bool button, Size size );
 
         public abstract string RadioInline();
+
+        public abstract string RadioCursor( Cursor cursor );
+
+        public abstract string RadioValidation( ValidationStatus validationStatus );
 
         #endregion
 

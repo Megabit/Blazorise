@@ -22,16 +22,6 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.TextEdit( Plaintext ) );
-            builder.Append( ClassProvider.TextEditColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.TextEditSize( Size ), Size != Size.None );
-            builder.Append( ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
-
-            base.BuildClasses( builder );
-        }
-
         protected override void OnInitialized()
         {
             if ( IsDelayTextOnKeyPress )

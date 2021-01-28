@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -58,6 +59,16 @@ namespace Blazorise
             }
 
             base.Dispose( disposing );
+        }
+
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.TextEdit( Plaintext ) );
+            builder.Append( ClassProvider.TextEditColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.TextEditSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+
+            base.BuildClasses( builder );
         }
 
         protected override Task OnInternalValueChanged( string value )
