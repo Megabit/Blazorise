@@ -131,7 +131,7 @@ namespace Blazorise
             }
 
             // send the value to the validation for processing
-            ParentValidation?.NotifyInputChanged();
+            ParentValidation?.NotifyInputChanged<TValue>( default );
         }
 
         protected abstract Task<ParseValue<TValue>> ParseValueFromStringAsync( string value );
