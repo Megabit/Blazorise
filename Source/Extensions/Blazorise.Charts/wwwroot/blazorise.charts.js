@@ -159,7 +159,21 @@ window.blazoriseCharts = {
             chart.data.datasets[datasetIndex].data.shift();
         }
     },
+    popLabel: (canvasId) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
 
+        if (chart) {
+            chart.data.labels.pop();
+        }
+    },
+
+    popData: (canvasId, datasetIndex) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
+
+        if (chart) {
+            chart.data.datasets[datasetIndex].data.pop();
+        }
+    },
     wireEvents: (dotnetAdapter, hasClickEvent, hasHoverEvent, canvas, chart) => {
         if (hasClickEvent) {
             canvas.onclick = function (evt) {

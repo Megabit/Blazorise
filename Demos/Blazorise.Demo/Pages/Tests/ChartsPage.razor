@@ -245,6 +245,12 @@
         await lineChart.AddData(0, random.Next(3, 50) * random.NextDouble());
         await lineChart.Update();
     }
+    async Task PopLineChart()
+    {
+        await lineChart.PopData(0);
+        await lineChart.PopLabel();        
+        await lineChart.Update();
+    }
 
     List<double> RandomizeData()
     {

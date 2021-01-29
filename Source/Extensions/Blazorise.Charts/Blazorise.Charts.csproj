@@ -3,12 +3,22 @@
   <Import Project="..\..\..\Build\Blazorise.props" />
 
   <PropertyGroup>
-    <PackageId>Blazorise.Charts</PackageId>
+    <PackageId>Blazorise.Charts.Private</PackageId>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageIcon>Blazorise.png</PackageIcon>
     <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
     <PackageTags>blazorise blazor components chart</PackageTags>
+    <Product>Blazorise.Charts</Product>
+    <Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
+    <Copyright>Copyright 2018-2020 Mladen Macanovic</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageReleaseNotes>Add shift</PackageReleaseNotes>
+    <Version>0.9.3.2</Version>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Company>Mladen Macanovic</Company>
+    <Authors>Mladen Macanovic</Authors>
   </PropertyGroup>
 
   <ItemGroup>
