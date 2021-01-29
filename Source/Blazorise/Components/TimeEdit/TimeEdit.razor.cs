@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// An editor that displays a time value and allows a user to edit the value.
+    /// </summary>
+    /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
     public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     {
         #region Members
@@ -17,6 +21,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -40,6 +45,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TimeEdit( Plaintext ) );
@@ -50,6 +56,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override Task OnChangeHandler( ChangeEventArgs e )
         {
             return CurrentValueHandler( e?.Value?.ToString() );
@@ -60,11 +67,13 @@ namespace Blazorise
             await JSRunner.ActivateTimePicker( ElementId, Parsers.InternalTimeFormat );
         }
 
+        /// <inheritdoc/>
         protected override Task OnInternalValueChanged( TValue value )
         {
             return TimeChanged.InvokeAsync( value );
         }
 
+        /// <inheritdoc/>
         protected override string FormatValueAsString( TValue value )
         {
             switch ( value )
@@ -92,6 +101,20 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
+        protected override Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
+        {
+            // just call eventcallback without using debouncer in BaseTextInput
+            return KeyPress.InvokeAsync( eventArgs );
+        }
+
+        /// <inheritdoc/>
+        protected override Task OnBlurHandler( FocusEventArgs eventArgs )
+        {
+            // just call eventcallback without using debouncer in BaseTextInput
+            return Blur.InvokeAsync( eventArgs );
+        }
+
         #endregion
 
         #region Properties
@@ -105,8 +128,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the input date value.
         /// </summary>
-        [Parameter]
-        public TValue Time { get; set; }
+        [Parameter] public TValue Time { get; set; }
 
         /// <summary>
         /// Occurs when the date has changed.
