@@ -8,6 +8,7 @@
             <CardBody>
                 <Button Color="Color.Primary" Outline="true" Clicked="@(async () => await HandleRedraw( lineChart, GetLineChartDataset ))">Redraw</Button>
                 <Button Color="Color.Primary" Outline="true" @onclick="async ()=>await ShiftLineChart()">Shift</Button>
+                <Button Color="Color.Primary" Outline="true" @onclick="async ()=>await PopLineChart()">Pop</Button>
             </CardBody>
             <CardBody>
                 <LineChart @ref="lineChart" TItem="double" />
