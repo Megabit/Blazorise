@@ -13,14 +13,14 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Component that allows you to display and edit single-line text.
+    /// </summary>
     public partial class TextEdit : BaseTextInput<string>
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -44,6 +44,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected async override Task OnFirstAfterRenderAsync()
         {
             await JSRunner.InitializeTextEdit( ElementRef, ElementId, MaskType.ToMaskTypeString(), EditMask );
@@ -51,6 +52,7 @@ namespace Blazorise
             await base.OnFirstAfterRenderAsync();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing && Rendered )
@@ -61,6 +63,7 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TextEdit( Plaintext ) );
@@ -71,11 +74,13 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override Task OnInternalValueChanged( string value )
         {
             return TextChanged.InvokeAsync( value );
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
         {
             return Task.FromResult( new ParseValue<string>( true, value, null ) );
@@ -102,10 +107,13 @@ namespace Blazorise
         protected override string DefaultValue => string.Empty;
 
         /// <summary>
-        /// Sets the role of the input text.
+        /// Defines the role of the input text.
         /// </summary>
         [Parameter] public TextRole Role { get; set; } = TextRole.Text;
 
+        /// <summary>
+        /// Hints at the type of data that might be entered by the user while editing the element or its contents.
+        /// </summary>
         [Parameter] public TextInputMode InputMode { get; set; } = TextInputMode.None;
 
         /// <summary>
@@ -122,21 +130,6 @@ namespace Blazorise
         /// Gets or sets an expression that identifies the text value.
         /// </summary>
         [Parameter] public Expression<Func<string>> TextExpression { get; set; }
-
-        /// <summary>
-        /// Occurs when a key is pressed down while the control has focus.
-        /// </summary>
-        [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
-
-        /// <summary>
-        /// Occurs when a key is pressed while the control has focus.
-        /// </summary>
-        [Parameter] public EventCallback<KeyboardEventArgs> KeyPress { get; set; }
-
-        /// <summary>
-        /// Occurs when a key is released while the control has focus.
-        /// </summary>
-        [Parameter] public EventCallback<KeyboardEventArgs> KeyUp { get; set; }
 
         /// <summary>
         /// A string representing a edit mask expression.
