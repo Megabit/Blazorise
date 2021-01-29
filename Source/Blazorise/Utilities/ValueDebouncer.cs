@@ -1,21 +1,19 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Timers;
 #endregion
 
 namespace Blazorise.Utilities
 {
     /// <summary>
-    /// Delays the entered value by the defined interval.
+    /// Debounces the value by the defined interval.
     /// </summary>
-    public class ValueDelayer : IDisposable
+    public class ValueDebouncer : IDisposable
     {
         #region Members
 
         /// <summary>
-        /// Internal timer used to delay the value.
+        /// Internal timer used to debounce the value.
         /// </summary>
         private Timer timer;
 
@@ -27,17 +25,17 @@ namespace Blazorise.Utilities
         /// <summary>
         /// Event raised after the interval has passed and with new updated value.
         /// </summary>
-        public event EventHandler<string> Delayed;
+        public event EventHandler<string> Debounced;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Default constructor.
+        /// Default debouncer constructor.
         /// </summary>
-        /// <param name="interval">Interval by which the value will be delayed.</param>
-        public ValueDelayer( int interval )
+        /// <param name="interval">Interval by which the value will be debounced.</param>
+        public ValueDebouncer( int interval )
         {
             timer = new Timer( interval );
             timer.Elapsed += OnElapsed;
@@ -48,9 +46,14 @@ namespace Blazorise.Utilities
 
         #region Events
 
-        private void OnElapsed( object source, ElapsedEventArgs e )
+        /// <summary>
+        /// Invokes the <see cref="Debounced"/> event.
+        /// </summary>
+        /// <param name="source">Reference to the object tha raised the event.</param>
+        /// <param name="eventArgs">Timer event arguments.</param>
+        private void OnElapsed( object source, ElapsedEventArgs eventArgs )
         {
-            Delayed?.Invoke( this, value );
+            Debounced?.Invoke( this, value );
         }
 
         #endregion
@@ -71,6 +74,19 @@ namespace Blazorise.Utilities
         }
 
         /// <summary>
+        /// Stops the debouncer and raises the <see cref="Debounced"/> event if <see cref="Running"/> is enabled.
+        /// </summary>
+        public void Flush()
+        {
+            if ( Running )
+            {
+                timer.Stop();
+
+                Debounced?.Invoke( this, value );
+            }
+        }
+
+        /// <summary>
         /// Releases all subscribed events.
         /// </summary>
         public void Dispose()
@@ -82,6 +98,15 @@ namespace Blazorise.Utilities
                 timer = null;
             }
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Returns true if debouncer timer is running.
+        /// </summary>
+        public bool Running => timer.Enabled;
 
         #endregion
     }

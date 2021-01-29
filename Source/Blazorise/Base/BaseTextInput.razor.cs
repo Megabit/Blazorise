@@ -1,7 +1,9 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -16,82 +18,130 @@ namespace Blazorise
 
         private Color color;
 
-        private ValueDelayer inputValueDelayer;
+        private ValueDebouncer inputValueDebouncer;
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( IsDelayTextOnKeyPress )
             {
-                inputValueDelayer = new ValueDelayer( DelayTextOnKeyPressIntervalValue );
-                inputValueDelayer.Delayed += OnInputValueDelayed;
+                inputValueDebouncer = new ValueDebouncer( DelayTextOnKeyPressIntervalValue );
+                inputValueDebouncer.Debounced += OnInputValueDebounced;
             }
 
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
-            if ( inputValueDelayer != null )
+            if ( inputValueDebouncer != null )
             {
-                inputValueDelayer.Delayed -= OnInputValueDelayed;
-                inputValueDelayer = null;
+                inputValueDebouncer.Debounced -= OnInputValueDebounced;
+                inputValueDebouncer = null;
             }
 
             base.Dispose( disposing );
         }
 
-        protected virtual Task OnChangeHandler( ChangeEventArgs e )
+        /// <summary>
+        /// Handler for @onchange event.
+        /// </summary>
+        /// <param name="eventArgs">Information about the changed event.</param>
+        /// <returns>Returns awaitable task</returns>
+        protected virtual Task OnChangeHandler( ChangeEventArgs eventArgs )
         {
             if ( !IsChangeTextOnKeyPress )
             {
-                return CurrentValueHandler( e?.Value?.ToString() );
+                return CurrentValueHandler( eventArgs?.Value?.ToString() );
             }
 
             return Task.CompletedTask;
         }
 
-        protected virtual async Task OnInputHandler( ChangeEventArgs e )
+        /// <summary>
+        /// Handler for @oninput event.
+        /// </summary>
+        /// <param name="eventArgs">Information about the changed event.</param>
+        /// <returns>Returns awaitable task</returns>
+        protected virtual async Task OnInputHandler( ChangeEventArgs eventArgs )
         {
             if ( IsChangeTextOnKeyPress )
             {
                 if ( IsDelayTextOnKeyPress )
                 {
-                    inputValueDelayer?.Update( e?.Value?.ToString() );
+                    inputValueDebouncer?.Update( eventArgs?.Value?.ToString() );
                 }
                 else
                 {
                     var caret = await JSRunner.GetCaret( ElementRef );
 
-                    await CurrentValueHandler( e?.Value?.ToString() );
+                    await CurrentValueHandler( eventArgs?.Value?.ToString() );
 
                     await JSRunner.SetCaret( ElementRef, caret );
                 }
             }
         }
 
-        private void OnInputValueDelayed( object sender, string value )
+        /// <inheritdoc/>
+        protected override Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
         {
-            InvokeAsync( async () =>
+            if ( IsChangeTextOnKeyPress
+                && IsDelayTextOnKeyPress
+                && ( eventArgs?.Key?.Equals( "Enter", StringComparison.OrdinalIgnoreCase ) ?? false ) )
             {
-                await CurrentValueHandler( value );
-            } );
+                inputValueDebouncer?.Flush();
+            }
+
+            return base.OnKeyPressHandler( eventArgs );
+        }
+
+        /// <inheritdoc/>
+        protected override Task OnBlurHandler( FocusEventArgs eventArgs )
+        {
+            if ( IsChangeTextOnKeyPress
+                && IsDelayTextOnKeyPress )
+            {
+                inputValueDebouncer?.Flush();
+            }
+
+            return base.OnBlurHandler( eventArgs );
+        }
+
+        /// <summary>
+        /// Event raised after the delayed value time has expired.
+        /// </summary>
+        /// <param name="sender">Object that raised an event.</param>
+        /// <param name="value">Latest received value.</param>
+        private void OnInputValueDebounced( object sender, string value )
+        {
+            InvokeAsync( () => CurrentValueHandler( value ) );
         }
 
         #endregion
 
         #region Properties
 
-        private bool IsChangeTextOnKeyPress
+        /// <summary>
+        /// Returns true if internal value should be updated with each key press.
+        /// </summary>
+        protected bool IsChangeTextOnKeyPress
             => ChangeTextOnKeyPress.GetValueOrDefault( Options?.ChangeTextOnKeyPress ?? true );
 
-        private bool IsDelayTextOnKeyPress
+        /// <summary>
+        /// Returns true if updating of internal value should be delayed.
+        /// </summary>
+        protected bool IsDelayTextOnKeyPress
             => DelayTextOnKeyPress.GetValueOrDefault( Options?.DelayTextOnKeyPress ?? false );
 
-        private int DelayTextOnKeyPressIntervalValue
+        /// <summary>
+        /// Time in milliseconds by which internal value update should be delayed.
+        /// </summary>
+        protected int DelayTextOnKeyPressIntervalValue
             => DelayTextOnKeyPressInterval.GetValueOrDefault( Options?.DelayTextOnKeyPressInterval ?? 300 );
 
         /// <summary>
