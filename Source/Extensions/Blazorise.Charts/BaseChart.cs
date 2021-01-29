@@ -229,7 +229,7 @@ namespace Blazorise.Charts
         /// </summary>
         /// <param name="dataSetIndex">Dataset index from which the oldest data point is to be removed from.</param>
         /// <returns></returns>
-        public async Task PopData( int dataSetIndex )
+        public async Task ShiftData( int dataSetIndex )
         {
             dirty = true;
 
@@ -252,7 +252,7 @@ namespace Blazorise.Charts
         /// </summary>
         /// <param name="dataSetIndex">Dataset index from which the newest data point is to be removed from.</param>
         /// <returns></returns>
-        public async Task ShiftData( int dataSetIndex )
+        public async Task PopData( int dataSetIndex )
         {
             dirty = true;
 
