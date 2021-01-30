@@ -240,16 +240,14 @@
 
     async Task ShiftLineChart()
     {
-        await lineChart.ShiftData(0);
+        await lineChart.ShiftData( 0 );
         await lineChart.ShiftLabel();
-        await lineChart.AddLabels(Labels[random.Next(0, Labels.Length)]);
-        await lineChart.AddData(0, random.Next(3, 50) * random.NextDouble());
         await lineChart.Update();
     }
     async Task PopLineChart()
     {
-        await lineChart.PopData(0);
-        await lineChart.PopLabel();        
+        await lineChart.PopData( 0 );
+        await lineChart.PopLabel();
         await lineChart.Update();
     }
 
