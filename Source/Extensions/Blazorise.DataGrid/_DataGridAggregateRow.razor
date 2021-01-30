@@ -6,7 +6,7 @@
     {
         @if ( column.ColumnType == DataGridColumnType.Command )
         {
-            @if ( ParentDataGrid.Editable == true )
+            @if ( ParentDataGrid.IsCommandVisible )
             {
                 <TableRowCell></TableRowCell>
             }

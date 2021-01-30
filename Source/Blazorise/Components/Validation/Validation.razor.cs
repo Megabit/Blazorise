@@ -107,7 +107,7 @@ namespace Blazorise
             initialized = true;
         }
 
-        internal void InitializeInputPattern( string patternString, object value )
+        internal void InitializeInputPattern<T>( string patternString, T value )
         {
             if ( !string.IsNullOrEmpty( patternString ) )
             {
@@ -159,14 +159,14 @@ namespace Blazorise
             }
         }
 
-        internal void NotifyInputChanged( object newExpressionValue = null, bool overrideNewValue = false )
+        internal void NotifyInputChanged<T>( T newExpressionValue, bool overrideNewValue = false )
         {
             var newValidationValue = overrideNewValue
                 ? newExpressionValue
                 : inputComponent.ValidationValue;
 
-            var valueChanged = newValidationValue is Array newArrayValue && lastValidationValue is Array lastArrayValue
-                ? !lastArrayValue.AreArraysEqual( newArrayValue )
+            var valueChanged = newValidationValue is IEnumerable<T> newArrayValue && lastValidationValue is IEnumerable<T> lastArrayValue
+                ? !lastArrayValue.AreEqual( newArrayValue )
                 : !lastValidationValue.IsEqual( newValidationValue );
 
             if ( valueChanged )

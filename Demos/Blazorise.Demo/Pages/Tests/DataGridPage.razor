@@ -62,6 +62,16 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if Datagrid shows a button row on the pager.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@showButtonRow">Show Button Row</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
                             <Tooltip Text="If true, DataGrid will dynamicaly fetch data based on the current page and page size.">
                                 <Icon Name="IconName.QuestionCircle" />
                             </Tooltip>
@@ -90,6 +100,18 @@
                                 <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
                                 <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
                                 <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
+                            Command Mode
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select @bind-SelectedValue="@commandsMode">
+                                <SelectItem Value="DataGridCommandMode.Default">Default</SelectItem>
+                                <SelectItem Value="DataGridCommandMode.ButtonRow">Button Row</SelectItem>
+                                <SelectItem Value="DataGridCommandMode.Commands">Commands</SelectItem>
                             </Select>
                         </FieldBody>
                     </Field>
@@ -124,6 +146,7 @@
                           Sortable="@sortable"
                           SortMode="@sortMode"
                           SelectionMode="@selectionMode"
+                          CommandMode="@commandsMode"
                           Filterable="@filterable"
                           ShowPager="@showPager"
                           PagerPosition="DataGridPagerPosition.TopAndBottom"
@@ -267,6 +290,15 @@
                     <EmptyCellTemplate>
                         <Text Style="opacity: .5;">--</Text>
                     </EmptyCellTemplate>
+                    <ButtonRowTemplate>
+                        @if ( showButtonRow )
+                        {
+                            <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">New</Button>
+                            <Button Color="Color.Primary" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
+                            <Button Color="Color.Danger" Disabled="@(selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
+                            <Button Color="Color.Link" Clicked="@context.ClearFilterCommand.Clicked">Clear Filter</Button>
+                        }
+                    </ButtonRowTemplate>
                 </DataGrid>
             </CardBody>
         </Card>
@@ -354,12 +386,14 @@
     DataGridEditMode editMode = DataGridEditMode.Form;
     DataGridSortMode sortMode = DataGridSortMode.Multiple;
     DataGridSelectionMode selectionMode = DataGridSelectionMode.Single;
+    DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
     bool editable = true;
     bool sortable = true;
     bool filterable = true;
     bool showPager = true;
     bool showPageSizes = true;
     bool largeDataMode = false;
+    bool showButtonRow = true;
 
     // TODO: add options to control the commands
     //bool newCommandAllowed = true;

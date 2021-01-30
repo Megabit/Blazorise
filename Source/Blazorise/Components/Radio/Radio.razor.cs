@@ -61,6 +61,8 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Radio( AsButton ) );
             builder.Append( ClassProvider.RadioSize( AsButton, Size ), Size != Size.None );
+            builder.Append( ClassProvider.RadioCursor( Cursor ), Cursor != Cursor.Default );
+            builder.Append( ClassProvider.RadioValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }

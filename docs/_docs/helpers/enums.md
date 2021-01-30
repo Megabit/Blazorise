@@ -141,6 +141,12 @@ Defines the placement of an element.
 - `Single` The data grid only supports a row selected at a time.
 - `Multiple` The data grid enables multiple rows to be selected.
 
+## DataGridCommandMode
+
+- `Default` Default state which means that both defined commands and button row will render.
+- `Commands` Only defined commands will render.
+- `ButtonRow` Only button row will render.
+
 ## TextAlignment
 
 Defines the alignment of an text within element.

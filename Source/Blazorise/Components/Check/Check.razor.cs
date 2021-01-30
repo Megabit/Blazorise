@@ -50,6 +50,8 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Check() );
             builder.Append( ClassProvider.CheckSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.CheckCursor( Cursor ), Cursor != Cursor.Default );
+            builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }

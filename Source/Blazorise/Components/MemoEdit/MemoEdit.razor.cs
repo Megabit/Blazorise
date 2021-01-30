@@ -4,15 +4,19 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Component that allows you to display and edit multi-line text.
+    /// </summary>
     public partial class MemoEdit : BaseInputComponent<string>
     {
         #region Members
 
-        private ValueDelayer inputValueDelayer;
+        private ValueDebouncer inputValueDebouncer;
 
         #endregion
 
@@ -35,8 +39,8 @@ namespace Blazorise
         {
             if ( IsDelayTextOnKeyPress )
             {
-                inputValueDelayer = new ValueDelayer( DelayTextOnKeyPressIntervalValue );
-                inputValueDelayer.Delayed += OnInputValueDelayed;
+                inputValueDebouncer = new ValueDebouncer( DelayTextOnKeyPressIntervalValue );
+                inputValueDebouncer.Debounced += OnInputValueDebounced;
             }
 
             base.OnInitialized();
@@ -50,6 +54,19 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
+        protected override Task OnInternalValueChanged( string value )
+        {
+            return TextChanged.InvokeAsync( value );
+        }
+
+        /// <inheritdoc/>
+        protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
+        {
+            return Task.FromResult( new ParseValue<string>( true, value, null ) );
+        }
+
+        /// <inheritdoc/>
         protected Task OnChangeHandler( ChangeEventArgs e )
         {
             if ( !IsChangeTextOnKeyPress )
@@ -60,13 +77,14 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc/>
         protected async Task OnInputHandler( ChangeEventArgs e )
         {
             if ( IsChangeTextOnKeyPress )
             {
                 if ( IsDelayTextOnKeyPress )
                 {
-                    inputValueDelayer?.Update( e?.Value?.ToString() );
+                    inputValueDebouncer?.Update( e?.Value?.ToString() );
                 }
                 else
                 {
@@ -79,17 +97,37 @@ namespace Blazorise
             }
         }
 
-        protected override Task OnInternalValueChanged( string value )
+        /// <inheritdoc/>
+        protected override Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
         {
-            return TextChanged.InvokeAsync( value );
+            if ( IsChangeTextOnKeyPress
+                && IsDelayTextOnKeyPress
+                && ( eventArgs?.Key?.Equals( "Enter", StringComparison.OrdinalIgnoreCase ) ?? false ) )
+            {
+                inputValueDebouncer?.Flush();
+            }
+
+            return base.OnKeyPressHandler( eventArgs );
         }
 
-        protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
+        /// <inheritdoc/>
+        protected override Task OnBlurHandler( FocusEventArgs eventArgs )
         {
-            return Task.FromResult( new ParseValue<string>( true, value, null ) );
+            if ( IsChangeTextOnKeyPress
+                && IsDelayTextOnKeyPress )
+            {
+                inputValueDebouncer?.Flush();
+            }
+
+            return base.OnBlurHandler( eventArgs );
         }
 
-        private void OnInputValueDelayed( object sender, string value )
+        /// <summary>
+        /// Event raised after the delayed value time has expired.
+        /// </summary>
+        /// <param name="sender">Object that raised an event.</param>
+        /// <param name="value">Latest received value.</param>
+        private void OnInputValueDebounced( object sender, string value )
         {
             InvokeAsync( async () =>
             {
@@ -101,15 +139,28 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
         protected override string InternalValue { get => Text; set => Text = value; }
 
-        private bool IsChangeTextOnKeyPress
-           => ChangeTextOnKeyPress.GetValueOrDefault( Options?.ChangeTextOnKeyPress ?? true );
+        /// <inheritdoc/>
+        protected override string DefaultValue => string.Empty;
 
-        private bool IsDelayTextOnKeyPress
-           => DelayTextOnKeyPress.GetValueOrDefault( Options?.DelayTextOnKeyPress ?? false );
+        /// <summary>
+        /// Returns true if internal value should be updated with each key press.
+        /// </summary>
+        protected bool IsChangeTextOnKeyPress
+            => ChangeTextOnKeyPress.GetValueOrDefault( Options?.ChangeTextOnKeyPress ?? true );
 
-        private int DelayTextOnKeyPressIntervalValue
+        /// <summary>
+        /// Returns true if updating of internal value should be delayed.
+        /// </summary>
+        protected bool IsDelayTextOnKeyPress
+            => DelayTextOnKeyPress.GetValueOrDefault( Options?.DelayTextOnKeyPress ?? false );
+
+        /// <summary>
+        /// Time in milliseconds by which internal value update should be delayed.
+        /// </summary>
+        protected int DelayTextOnKeyPressIntervalValue
             => DelayTextOnKeyPressInterval.GetValueOrDefault( Options?.DelayTextOnKeyPressInterval ?? 300 );
 
         /// <summary>

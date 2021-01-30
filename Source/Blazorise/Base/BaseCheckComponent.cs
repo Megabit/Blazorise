@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Base class for check components.
+    /// Base class for all check-able components.
     /// </summary>
     /// <typeparam name="TValue">Checked value type.</typeparam>
     public abstract class BaseCheckComponent<TValue> : BaseInputComponent<TValue>
@@ -23,15 +23,7 @@ namespace Blazorise
 
         #endregion
 
-        #region Methods        
-
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.CheckCursor( Cursor ), Cursor != Cursor.Default );
-            builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
-
-            base.BuildClasses( builder );
-        }
+        #region Methods
 
         protected virtual Task OnChangeHandler( ChangeEventArgs e )
         {

@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<CascadingValue Value=this>
+<CascadingValue Value=this IsFixed="true">
     <CascadingValue Value="@store">
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="-1" role="dialog" @attributes="@Attributes">
             @ChildContent
