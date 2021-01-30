@@ -8,23 +8,23 @@
                 @if ( TitleTemplate != null && EditItem != null )
                 {
                     @TitleTemplate( new PopupTitleContext<TItem>( EditItem, EditState, EditState == DataGridEditState.Edit
-                        ? Localizer.Localize( ParentDataGrid?.Localizers?.EditLocalizer, "Edit" )
-                        : Localizer.Localize( ParentDataGrid?.Localizers?.CreateLocalizer, "Create" ) ) )
+                        ? Localizer.Localize( ParentDataGrid.Localizers?.EditLocalizer, "Edit" )
+                        : Localizer.Localize( ParentDataGrid.Localizers?.CreateLocalizer, "Create" ) ) )
                 }
                 else
                 {
                     @(EditState == DataGridEditState.Edit
-                        ? Localizer.Localize( ParentDataGrid?.Localizers?.ModalRowEditLocalizer, "Row Edit" )
-                        : Localizer.Localize( ParentDataGrid?.Localizers?.ModalRowCreateLocalizer, "Row Create" ))
+                        ? Localizer.Localize( ParentDataGrid.Localizers?.ModalRowEditLocalizer, "Row Edit" )
+                        : Localizer.Localize( ParentDataGrid.Localizers?.ModalRowCreateLocalizer, "Row Create" ))
                 }
             </ModalTitle>
             <CloseButton Clicked="@Cancel" />
         </ModalHeader>
         <ModalBody>
             <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged">
-                @if ( ParentDataGrid?.ShowValidationsSummary ?? true )
+                @if ( ParentDataGrid.ShowValidationsSummary )
                 {
-                    <ValidationSummary Label="@ParentDataGrid?.ValidationsSummaryLabel" />
+                    <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" />
                 }
                 <Fields>
                     @foreach ( var column in Columns )
@@ -39,7 +39,7 @@
                                     @column.Caption
                                 </FieldLabel>
                                 <FieldBody>
-                                    <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@(ParentDataGrid?.ShowValidationFeedback ?? false)" />
+                                    <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                                 </FieldBody>
                             </Field>
                         }
@@ -48,11 +48,11 @@
             </Validations>
         </ModalBody>
         <ModalFooter>
-            @if ( ParentDataGrid?.CommandColumn?.SaveCommandAllowed == true )
+            @if ( ParentDataGrid.CommandColumn?.SaveCommandAllowed == true )
             {
-                var saveButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.SaveButtonLocalizer, "Save" );
+                var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
 
-                @if ( ParentDataGrid?.CommandColumn?.SaveCommandTemplate != null )
+                @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
                 {
                     @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
                     {
@@ -68,11 +68,11 @@
                     </Button>
                 }
             }
-            @if ( ParentDataGrid?.CommandColumn?.CancelCommandAllowed == true )
+            @if ( ParentDataGrid.CommandColumn?.CancelCommandAllowed == true )
             {
-                var cancelButtonString = Localizer.Localize( ParentDataGrid?.Localizers?.CancelButtonLocalizer, "Cancel" );
+                var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
 
-                @if ( ParentDataGrid?.CommandColumn?.CancelCommandTemplate != null )
+                @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
                 {
                     @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
                     {

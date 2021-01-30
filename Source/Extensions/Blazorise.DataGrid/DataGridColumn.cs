@@ -117,8 +117,8 @@ namespace Blazorise.DataGrid
         public bool CellValuesAreEditable()
         {
             return Editable &&
-                ( ( CellsEditableOnNewCommand && ParentDataGrid?.EditState == DataGridEditState.New )
-                || ( CellsEditableOnEditCommand && ParentDataGrid?.EditState == DataGridEditState.Edit ) );
+                ( ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
+                || ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit ) );
         }
 
         #endregion
@@ -138,8 +138,8 @@ namespace Blazorise.DataGrid
         /// </summary>
         public bool CellValueIsEditable
             => Editable &&
-            ( ( CellsEditableOnNewCommand && ParentDataGrid?.EditState == DataGridEditState.New )
-            || ( CellsEditableOnEditCommand && ParentDataGrid?.EditState == DataGridEditState.Edit ) );
+            ( ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
+            || ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit ) );
 
         /// <summary>
         /// Gets or sets the current sort direction.

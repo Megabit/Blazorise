@@ -61,6 +61,15 @@ Default method for filtering is `Contains`. If you want to change it you can set
 - `Equals` search must match the entire value
 - `NotEquals` opposite of Equals
 
+**Example:**
+
+```html
+<DataGrid TItem="Employee"
+    Data="@employeeList"
+    Filterable="true"
+    FilterMethod="DataGridFilterMethod.StartsWith">
+```
+
 ### Custom Filtering
 
 Regular filter works on per field basis. To enable advanced search capabilities you can use an attribute `CustomFilter`. More can be found in Usage section.
@@ -438,9 +447,9 @@ Edit template will give you a way to handle the editing of grid cell values. For
 </DataGridColumn>
 ```
 
-### RowDetailTemplate
+### DetailRowTemplate
 
-RowDetail template allows you to display nested structure bellow each row in the grid. One of the examples is "master-detail" relationship between two data-source inside the DataGrid.
+DetailRow template allows you to display nested structure bellow each row in the grid. One of the examples is "master-detail" relationship between two data-source inside the DataGrid.
 
 For this template the `context` value is the item from the parent grid.
 
@@ -461,7 +470,7 @@ For this template the `context` value is the item from the parent grid.
 </DetailRowTemplate>
 ```
 
-Once it's defined a DetailRow will be visible for every row in the grid. If you want to control the visibility of detail-row you can use `RowDetailTrigger` attribute that can be defined in it's parent grid.
+Once it's defined a DetailRow will be visible for every row in the grid. If you want to control the visibility of detail-row you can use `DetailRowTrigger` attribute that can be defined in it's parent grid.
 
 ```html
 <DataGrid TItem="Employee"
@@ -587,6 +596,20 @@ Optionally you can use the new Datagrid column `<DataGridMultiSelectColumn>` to 
 </DataGrid>
 ```
 
+### DataGrid Button Row
+
+Provide a `ButtonRowTemplate` and have the DataGridCommandMode set to either `Default` or `ButtonRow`. 
+
+The template has access to the internal commands so you're also able to construct your own buttons on the pager that can also trigger the Datagrid's CRUD and clear filter operations as shown in the example below:
+```html
+<ButtonRowTemplate>
+    <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">New</Button>
+    <Button Color="Color.Primary" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
+    <Button Color="Color.Danger" Disabled="@(selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
+    <Button Color="Color.Link" Clicked="@context.ClearFilterCommand.Clicked">Clear Filter</Button>
+</ButtonRowTemplate>
+```
+
 ## Attributes
 
 ### DataGrid
@@ -633,6 +656,7 @@ Optionally you can use the new Datagrid column `<DataGridMultiSelectColumn>` to 
 | SortMode               | [DataGridSortMode]({{ "/docs/helpers/enums/#datagridsortmode" | relative_url }})  | `Multiple`          | Defines whether the user can sort only by one column or by multiple.              |
 | SelectionMode          | [DataGridSelectionMode]({{ "/docs/helpers/enums/#datagridselectionmode" | relative_url }})  | `Single`          | Defines whether the datagrid is set to single or multiple selection mode. |
 | Localizers             | `DataGridLocalizers`                                                |         | Custom localizer handlers to override default  localization.                                                |
+| CommandMode            | [DataGridCommandMode]({{ "/docs/helpers/enums/#datagridcommandmode" | relative_url }})  | `Default`          | Defines whether the datagrid renders both commands and button row or just either one of them. |
 
 ### EditMode
 

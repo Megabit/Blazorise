@@ -752,6 +752,16 @@ namespace Blazorise.DataGrid
         protected List<DataGridColumn<TItem>> SortByColumns => sortByColumnsDictionary[SortMode];
 
         /// <summary>
+        /// True if button row should be rendered.
+        /// </summary>
+        public bool IsButtonRowVisible => CommandMode is DataGridCommandMode.Default or DataGridCommandMode.ButtonRow;
+
+        /// <summary>
+        /// True if command buttons should be rendered.
+        /// </summary>
+        public bool IsCommandVisible => Editable && CommandMode is DataGridCommandMode.Default or DataGridCommandMode.Commands;
+
+        /// <summary>
         /// Gets template for title of popup modal.
         /// </summary>
         [Parameter]
@@ -931,6 +941,11 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment LoadingTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets content of button row of pager.
+        /// </summary>
+        [Parameter] public RenderFragment<ButtonRowContext<TItem>> ButtonRowTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets content of first button of pager.
         /// </summary>
         [Parameter] public RenderFragment FirstPageButtonTemplate { get => paginationTemplates.FirstPageButtonTemplate; set => paginationTemplates.FirstPageButtonTemplate = value; }
@@ -1069,6 +1084,11 @@ namespace Blazorise.DataGrid
         /// Specifes the grid editing modes.
         /// </summary>
         [Parameter] public DataGridEditMode EditMode { get; set; } = DataGridEditMode.Form;
+
+        /// <summary>
+        /// Specifies the grid command mode.
+        /// </summary>
+        [Parameter] public DataGridCommandMode CommandMode { get; set; }
 
         /// <summary>
         /// A trigger function used to handle the visibility of detail row.

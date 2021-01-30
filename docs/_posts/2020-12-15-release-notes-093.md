@@ -37,6 +37,15 @@ You can either use your own `MultiSelectTemplate` render fragment to customize t
 
 An example can be found in [DataGrid]({{ "/docs/extensions/datagrid/#datagrid-multiple-selection" | relative_url }}) page section.
 
+### Datagrid: Button Row
+
+Introduced a new Button Row to Datagrid. You can now provide a Button Row Template that will render your template in the pager section.
+The template has access to the internal commands so you're also able to construct your own buttons on the pager that can also trigger the Datagrid's CRUD and clear filter operations.
+
+A new enum `DataGridCommandMode` was also introduced so you are able to control if you'd like to show both the commands and the new Button Row or just either one of them.
+
+An example can be found in [DataGrid]({{ "/docs/extensions/datagrid/#datagrid-buttonrow" | relative_url }}) page section.
+
 ### Localization
 
 Localization _s*ck_. There, I said it. Well, at least a default .Net localization, more specifically `IStringLocalizer`. I guess it is OK for regular .Net Core server-side apps but for Blazor single-page apps where everything has to be dynamic, it just doesn't make sense. All I wanted was just a basic feature. The ability to change languages while the app is running. No-can-do! `IStringLocalizer` caches language on app startup and there is no way to change it later. Whenever you change the language you must refresh and reload the page 🤯. I hate it.

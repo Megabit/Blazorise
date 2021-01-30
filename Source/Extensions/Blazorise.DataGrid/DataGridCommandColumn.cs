@@ -1,8 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -10,14 +6,6 @@ namespace Blazorise.DataGrid
 {
     public partial class DataGridCommandColumn<TItem> : DataGridColumn<TItem>
     {
-        #region Members
-
-        #endregion
-
-        #region Methods
-
-        #endregion
-
         #region Properties
 
         public override DataGridColumnType ColumnType => DataGridColumnType.Command;
@@ -25,12 +13,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Template to customize new command button.
         /// </summary>
-        [Parameter] public RenderFragment<CommandContext> NewCommandTemplate { get; set; }
+        [Parameter] public RenderFragment<NewCommandContext> NewCommandTemplate { get; set; }
 
         /// <summary>
         /// Template to customize edit command button.
         /// </summary>
-        [Parameter] public RenderFragment<CommandContext<TItem>> EditCommandTemplate { get; set; }
+        [Parameter] public RenderFragment<EditCommandContext<TItem>> EditCommandTemplate { get; set; }
 
         /// <summary>
         /// Template to customize save command button.
@@ -45,7 +33,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Template to customize delete command button.
         /// </summary>
-        [Parameter] public RenderFragment<CommandContext<TItem>> DeleteCommandTemplate { get; set; }
+        [Parameter] public RenderFragment<DeleteCommandContext<TItem>> DeleteCommandTemplate { get; set; }
 
         /// <summary>
         /// Template to customize clear-filter command button.

@@ -23,7 +23,7 @@ Default line style is solid.
 ### Dashed
 
 ```html
-<Divider Type="DividerType.Dashed" />
+<Divider DividerType="DividerType.Dashed" />
 ```
 
 <iframe src="/examples/elements/divider-dashed/" frameborder="0" scrolling="no" style="width:100%;height:35px;"></iframe>
@@ -31,7 +31,7 @@ Default line style is solid.
 ### Dotted
 
 ```html
-<Divider Type="DividerType.Dotted" />
+<Divider DividerType="DividerType.Dotted" />
 ```
 
 <iframe src="/examples/elements/divider-dotted/" frameborder="0" scrolling="no" style="width:100%;height:35px;"></iframe>
@@ -39,7 +39,7 @@ Default line style is solid.
 ### Text Content
 
 ```html
-<Divider Type="DividerType.TextContent" Text="Hello Blazorise" />
+<Divider DividerType="DividerType.TextContent" Text="Hello Blazorise" />
 ```
 
 <iframe src="/examples/elements/divider-text/" frameborder="0" scrolling="no" style="width:100%;height:35px;"></iframe>
