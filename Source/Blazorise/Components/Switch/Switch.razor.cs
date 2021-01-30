@@ -41,6 +41,8 @@ namespace Blazorise
             builder.Append( ClassProvider.SwitchColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.SwitchSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.SwitchChecked( IsChecked ) );
+            builder.Append( ClassProvider.SwitchCursor( Cursor ), Cursor != Cursor.Default );
+            builder.Append( ClassProvider.SwitchValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }

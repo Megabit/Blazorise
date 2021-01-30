@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// An editor that displays a date value and allows a user to edit the value.
+    /// </summary>
+    /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
     public partial class DateEdit<TValue> : BaseTextInput<TValue>
     {
         #region Members
@@ -17,6 +21,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -40,20 +45,24 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.DateEdit() );
+            builder.Append( ClassProvider.DateEdit( Plaintext ) );
             builder.Append( ClassProvider.DateEditSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.DateEditColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.DateEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override Task OnChangeHandler( ChangeEventArgs e )
         {
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
+        /// <inheritdoc/>
         protected async Task OnClickHandler( MouseEventArgs e )
         {
             if ( Disabled || ReadOnly )
@@ -62,11 +71,13 @@ namespace Blazorise
             await JSRunner.ActivateDatePicker( ElementId, Parsers.InternalDateFormat );
         }
 
+        /// <inheritdoc/>
         protected override Task OnInternalValueChanged( TValue value )
         {
             return DateChanged.InvokeAsync( value );
         }
 
+        /// <inheritdoc/>
         protected override string FormatValueAsString( TValue value )
         {
             switch ( value )
@@ -82,6 +93,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
             if ( Parsers.TryParseDate<TValue>( value, out var result ) )
@@ -94,6 +106,20 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
+        protected override Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
+        {
+            // just call eventcallback without using debouncer in BaseTextInput
+            return KeyPress.InvokeAsync( eventArgs );
+        }
+
+        /// <inheritdoc/>
+        protected override Task OnBlurHandler( FocusEventArgs eventArgs )
+        {
+            // just call eventcallback without using debouncer in BaseTextInput
+            return Blur.InvokeAsync( eventArgs );
+        }
+
         #endregion
 
         #region Properties
@@ -101,13 +127,13 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
+        /// <inheritdoc/>
         protected override TValue InternalValue { get => Date; set => Date = value; }
 
         /// <summary>
         /// Gets or sets the input date value.
         /// </summary>
-        [Parameter]
-        public TValue Date { get; set; }
+        [Parameter] public TValue Date { get; set; }
 
         /// <summary>
         /// Occurs when the date has changed.
@@ -122,12 +148,12 @@ namespace Blazorise
         /// <summary>
         /// The earliest date to accept.
         /// </summary>
-        [Parameter] public DateTime? Min { get; set; }
+        [Parameter] public DateTimeOffset? Min { get; set; }
 
         /// <summary>
         /// The latest date to accept.
         /// </summary>
-        [Parameter] public DateTime? Max { get; set; }
+        [Parameter] public DateTimeOffset? Max { get; set; }
 
         #endregion
     }
