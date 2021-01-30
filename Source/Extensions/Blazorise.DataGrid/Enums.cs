@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Blazorise.DataGrid
+﻿namespace Blazorise.DataGrid
 {
     /// <summary>
     /// States of the row items.
@@ -201,7 +197,7 @@ namespace Blazorise.DataGrid
     public enum DataGridCommandMode
     {
         /// <summary>
-        /// Default state which means that both defined commands and button row will render.
+        /// Default state which means that both defined commands and button row will render(only if ButtonRowTemplate is defined).
         /// </summary>
         Default,
 

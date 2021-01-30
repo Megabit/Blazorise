@@ -17,7 +17,7 @@
                     {
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {
-                            @if ( ShouldRenderCommands() )
+                            @if ( IsCommandVisible )
                             {
                                 <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.HeaderCellStyle" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
                                     @if ( CanInsertNewItem && editState != DataGridEditState.New )
@@ -72,7 +72,7 @@
 
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {
-                            @if ( ShouldRenderCommands() )
+                            @if ( IsCommandVisible )
                             {
                                 // since Clear Filter is located in the command column it can be visible onle when Edit is enabled
                                 <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">

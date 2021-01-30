@@ -38,7 +38,7 @@
                     @{
                         var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
 
-                        @if ( ParentDataGrid.CommandColumn.SaveCommandTemplate != null )
+                        @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
                         {
                             @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
                             {
@@ -56,7 +56,7 @@
 
                         var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
 
-                        @if ( ParentDataGrid.CommandColumn.CancelCommandTemplate != null )
+                        @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
                         {
                             @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
                             {
@@ -92,7 +92,7 @@ else if ( EditMode == DataGridEditMode.Inline )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )
             {
-                @if ( ParentDataGrid.ShouldRenderCommands() == true )
+                @if ( ParentDataGrid.IsCommandVisible )
                 {
                     <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@SaveWithValidation" Cancel="@Cancel" Width="@column.Width" />
                 }
@@ -108,7 +108,7 @@ else if ( EditMode == DataGridEditMode.Inline )
             else if ( column.Displayable )
             {
                 <TableRowCell width="@column.Width">
-                    @if ( ParentDataGrid.ShouldRenderCommands() == true && column.CellValueIsEditable )
+                    @if ( ParentDataGrid.IsCommandVisible && column.CellValueIsEditable )
                     {
                         <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                     }

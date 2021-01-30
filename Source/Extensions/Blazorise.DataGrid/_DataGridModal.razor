@@ -48,11 +48,11 @@
             </Validations>
         </ModalBody>
         <ModalFooter>
-            @if ( ParentDataGrid.CommandColumn.SaveCommandAllowed )
+            @if ( ParentDataGrid.CommandColumn?.SaveCommandAllowed == true )
             {
                 var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
 
-                @if ( ParentDataGrid.CommandColumn.SaveCommandTemplate != null )
+                @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
                 {
                     @ParentDataGrid.CommandColumn.SaveCommandTemplate( new CommandContext<TItem>
                     {
@@ -68,11 +68,11 @@
                     </Button>
                 }
             }
-            @if ( ParentDataGrid.CommandColumn.CancelCommandAllowed )
+            @if ( ParentDataGrid.CommandColumn?.CancelCommandAllowed == true )
             {
                 var cancelButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelButtonLocalizer, "Cancel" );
 
-                @if ( ParentDataGrid.CommandColumn.CancelCommandTemplate != null )
+                @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
                 {
                     @ParentDataGrid.CommandColumn.CancelCommandTemplate( new CommandContext<TItem>
                     {

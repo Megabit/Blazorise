@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -42,7 +40,7 @@ namespace Blazorise.DataGrid
 
     }
 
-    public class ButtonRowContext<TItem> 
+    public class ButtonRowContext<TItem>
     {
         public NewCommandContext NewCommand { get; set; }
         public EditCommandContext<TItem> EditCommand { get; set; }

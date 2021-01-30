@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 @inherits BaseComponent
 <Row class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    @if ( ButtonRowTemplate != null && ParentDataGrid.ShouldRenderButtonRow() )
+    @if ( ButtonRowTemplate != null && ParentDataGrid.IsButtonRowVisible )
     {
         <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
             <Field Display="Blazorise.Display.None.InlineBlock.OnDesktop">

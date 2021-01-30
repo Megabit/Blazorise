@@ -752,6 +752,16 @@ namespace Blazorise.DataGrid
         protected List<DataGridColumn<TItem>> SortByColumns => sortByColumnsDictionary[SortMode];
 
         /// <summary>
+        /// True if button row should be rendered.
+        /// </summary>
+        public bool IsButtonRowVisible => CommandMode is DataGridCommandMode.Default or DataGridCommandMode.ButtonRow;
+
+        /// <summary>
+        /// True if command buttons should be rendered.
+        /// </summary>
+        public bool IsCommandVisible => Editable && CommandMode is DataGridCommandMode.Default or DataGridCommandMode.Commands;
+
+        /// <summary>
         /// Gets template for title of popup modal.
         /// </summary>
         [Parameter]
@@ -1226,9 +1236,6 @@ namespace Blazorise.DataGrid
         /// Specifies the content to be rendered inside this <see cref="DataGrid{TItem}"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
-
-        public bool ShouldRenderButtonRow() => CommandMode is DataGridCommandMode.Default or DataGridCommandMode.ButtonRow;
-        public bool ShouldRenderCommands() => Editable && CommandMode is DataGridCommandMode.Default or DataGridCommandMode.Commands;
 
         #endregion
     }
