@@ -159,6 +159,7 @@ window.blazoriseCharts = {
             chart.data.datasets[datasetIndex].data.shift();
         }
     },
+
     popLabel: (canvasId) => {
         const chart = window.blazoriseCharts.getChart(canvasId);
 
@@ -174,6 +175,7 @@ window.blazoriseCharts = {
             chart.data.datasets[datasetIndex].data.pop();
         }
     },
+
     wireEvents: (dotnetAdapter, hasClickEvent, hasHoverEvent, canvas, chart) => {
         if (hasClickEvent) {
             canvas.onclick = function (evt) {
