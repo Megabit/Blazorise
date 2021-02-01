@@ -273,3 +273,11 @@ The target attribute specifies where to open the linked document.
 - `Blank` - Opens the linked document in a new window or tab.
 - `Parent` - Opens the linked document in the parent frame.
 - `Top` - Opens the linked document in the full body of the window.
+
+
+## DateInputMode
+
+Hints at the type of data that might be entered into DateEdit by the user while editing the element or its contents.
+
+- `Date` - Only date is allowed to be entered.
+- `DateTime` - Both date and time are allowed to be entered.
