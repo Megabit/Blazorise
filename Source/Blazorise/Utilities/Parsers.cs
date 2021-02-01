@@ -16,9 +16,19 @@ namespace Blazorise.Utilities
         public const string InternalDateFormat = "yyyy-MM-dd";
 
         /// <summary>
+        /// Internal date-time format. Compatible with HTML date inputs.
+        /// </summary>
+        public const string InternalDateTimeFormat = "yyyy-MM-ddTHH:mm";
+
+        /// <summary>
         /// Default date format.
         /// </summary>
         public const string ExternalDateFormat = "dd.MM.yyyy";
+
+        /// <summary>
+        /// Default date format.
+        /// </summary>
+        public const string ExternalDateTimeFormat = "dd.MM.yyyy HH:mm";
 
         /// <summary>
         /// Internal time format. Compatible with HTML time inputs.
@@ -39,6 +49,19 @@ namespace Blazorise.Utilities
         };
 
         /// <summary>
+        /// Possible date-time formats.
+        /// </summary>
+        public static readonly string[] SupportedDateTimeFormats = new string[]
+        {
+            InternalDateTimeFormat,
+            ExternalDateTimeFormat,
+            "yyyy-MM-ddTHH:mm",
+            CultureInfo.InvariantCulture.DateTimeFormat.LongDatePattern,
+            CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern,
+            "o", // a string representing UTC
+        };
+
+        /// <summary>
         /// Possible time formats.
         /// </summary>
         public static readonly string[] SupportedTimeFormats = new string[]
@@ -48,7 +71,7 @@ namespace Blazorise.Utilities
             CultureInfo.InvariantCulture.DateTimeFormat.ShortTimePattern,
         };
 
-        public static bool TryParseDate<TValue>( string value, out TValue result )
+        public static bool TryParseDate<TValue>( string value, DateInputMode inputMode, out TValue result )
         {
             if ( string.IsNullOrWhiteSpace( value ) )
             {
@@ -56,9 +79,13 @@ namespace Blazorise.Utilities
                 return false;
             }
 
+            var supportedFormats = inputMode == DateInputMode.DateTime
+                ? SupportedDateTimeFormats
+                : SupportedDateFormats;
+
             var type = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
 
-            if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, SupportedDateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt ) )
+            if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, supportedFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt ) )
             {
                 result = (TValue)(object)dt;
                 return true;
