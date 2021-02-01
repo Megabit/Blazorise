@@ -2,6 +2,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -68,7 +69,7 @@ namespace Blazorise
             if ( Disabled || ReadOnly )
                 return;
 
-            await JSRunner.ActivateDatePicker( ElementId, Parsers.InternalDateFormat );
+            await JSRunner.ActivateDatePicker( ElementId, DateFormat );
         }
 
         /// <inheritdoc/>
@@ -85,9 +86,9 @@ namespace Blazorise
                 case null:
                     return null;
                 case DateTime datetime:
-                    return datetime.ToString( Parsers.InternalDateFormat );
+                    return datetime.ToString( DateFormat );
                 case DateTimeOffset datetimeOffset:
-                    return datetimeOffset.ToString( Parsers.InternalDateFormat );
+                    return datetimeOffset.ToString( DateFormat );
                 default:
                     throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
             }
@@ -96,7 +97,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
-            if ( Parsers.TryParseDate<TValue>( value, out var result ) )
+            if ( Parsers.TryParseDate<TValue>( value, InputMode, out var result ) )
             {
                 return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
             }
@@ -129,6 +130,23 @@ namespace Blazorise
 
         /// <inheritdoc/>
         protected override TValue InternalValue { get => Date; set => Date = value; }
+
+        /// <summary>
+        /// Gets the string representation of the input mode.
+        /// </summary>
+        protected string Mode => InputMode.ToDateInputMode();
+
+        /// <summary>
+        /// Gets the date format based on the current <see cref="InputMode"/> settings.
+        /// </summary>
+        protected string DateFormat => InputMode == DateInputMode.DateTime
+            ? Parsers.InternalDateTimeFormat
+            : Parsers.InternalDateFormat;
+
+        /// <summary>
+        /// Hints at the type of data that might be entered by the user while editing the element or its contents.
+        /// </summary>
+        [Parameter] public DateInputMode InputMode { get; set; } = DateInputMode.Date;
 
         /// <summary>
         /// Gets or sets the input date value.
