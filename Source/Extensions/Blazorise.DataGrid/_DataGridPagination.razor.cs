@@ -67,6 +67,11 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets content of button row of pager.
+        /// </summary>
+        public RenderFragment<ButtonRowContext<TItem>> ButtonRowTemplate => ParentDataGrid?.ButtonRowTemplate;
+
         [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
         [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
@@ -131,11 +136,6 @@ namespace Blazorise.DataGrid
         /// Activates the clear filter command.
         /// </summary>
         [Parameter] public EventCallback ClearFilter { get; set; }
-
-        /// <summary>
-        /// Gets or sets content of button row of pager.
-        /// </summary>
-        [Parameter] public RenderFragment<ButtonRowContext<TItem>> ButtonRowTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets content of first button of pager.
