@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<section @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <CascadingValue Value=this>
+<CascadingValue Value="@this" IsFixed="true">
+    <section @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @if ( Loading )
         {
             @if ( LoadingTemplate != null )
@@ -14,5 +14,5 @@
             }
         }
         @ChildContent
-    </CascadingValue>
-</section>
+    </section>
+</CascadingValue>

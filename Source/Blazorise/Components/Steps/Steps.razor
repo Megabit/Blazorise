@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<CascadingValue Value=this>
+<CascadingValue Value="@this" IsFixed="true">
     <CascadingValue Value="@store">
         @if ( Items != null && Content != null )
         {

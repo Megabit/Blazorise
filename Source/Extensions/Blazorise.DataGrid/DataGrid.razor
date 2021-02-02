@@ -3,7 +3,7 @@
 @using Blazorise.Extensions
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
-<CascadingValue Value=this>
+<CascadingValue Value="@this" IsFixed="true">
     @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
         <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@OnPaginationItemClick" New="@OnNewCommand" Edit="@OnEditCommand" Delete="@OnDeleteCommand" SelectedRow="@SelectedRow" ClearFilter="@OnClearFilterCommand" />
@@ -173,7 +173,7 @@
     }
 </CascadingValue>
 @* This one is to hold information about columns *@
-<CascadingValue Value=this>
+<CascadingValue Value="@this" IsFixed="true">
     @DataGridAggregates
     @DataGridColumns
     @ChildContent
