@@ -6,16 +6,23 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A container for page numbers links.
+    /// </summary>
     public partial class PaginationItem : BaseComponent
     {
         #region Members
 
-        private PaginationItemStore store = new PaginationItemStore();
+        /// <summary>
+        /// Holds the state of this pagination item.
+        /// </summary>
+        private PaginationItemStore store = new();
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.PaginationItem() );
@@ -38,7 +45,10 @@ namespace Blazorise
             get => store.Active;
             set
             {
-                store.Active = value;
+                if ( value == store.Active )
+                    return;
+
+                store = store with { Active = value };
 
                 DirtyClasses();
             }
@@ -53,12 +63,18 @@ namespace Blazorise
             get => store.Disabled;
             set
             {
-                store.Disabled = value;
+                if ( value == store.Disabled )
+                    return;
+
+                store = store with { Disabled = value };
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="PaginationItem"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

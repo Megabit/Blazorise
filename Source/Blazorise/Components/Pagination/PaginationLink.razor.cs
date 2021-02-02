@@ -8,16 +8,23 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Clickable element for page numbers.
+    /// </summary>
     public partial class PaginationLink : BaseComponent
     {
         #region Members
 
+        /// <summary>
+        /// Holds the state of the parent item store.
+        /// </summary>
         private PaginationItemStore paginationItemStore;
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.PaginationLink() );
@@ -26,6 +33,11 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Handles the link onclick event.
+        /// </summary>
+        /// <param name="eventArgs">Information about the mouse event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task ClickHandler( MouseEventArgs eventArgs )
         {
             return Clicked.InvokeAsync( Page );
@@ -45,8 +57,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<string> Clicked { get; set; }
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
+        /// <summary>
+        /// Cascaded <see cref="PaginationItemStore"/> for the <see cref="PaginationItem"/> in which this link is placed.
+        /// </summary>
         [CascadingParameter]
         protected PaginationItemStore PaginationItemStore
         {
@@ -61,6 +74,11 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="PaginationLink"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }
