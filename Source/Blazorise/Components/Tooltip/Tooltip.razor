@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tooltip" data-tooltip="@Text" @attributes="@Attributes">
-    <CascadingValue Value="this">
+<CascadingValue Value="@this" IsFixed="true">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="tooltip" data-tooltip="@Text" @attributes="@Attributes">
         @ChildContent
-    </CascadingValue>
-</div>
+    </div>
+</CascadingValue>
