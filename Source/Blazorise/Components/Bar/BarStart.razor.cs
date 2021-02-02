@@ -27,7 +27,7 @@ namespace Blazorise
 
         #region Properties
 
-        [CascadingParameter] 
+        [CascadingParameter]
         protected BarStore ParentStore
         {
             get => parentStore;

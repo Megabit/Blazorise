@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A clickable link, the sibling of a <see cref="BarItem"/> or <see cref="BarDropdown"/>.
+    /// </summary>
     public partial class BarLink : BaseComponent
     {
         #region Members
@@ -17,14 +20,19 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarLink( ParentStore.Mode ) );
-            builder.Append( ClassProvider.BarLinkDisabled( ParentStore.Mode ), ParentStore.Disabled );
+            builder.Append( ClassProvider.BarLink( ParentStore?.Mode ?? BarMode.Horizontal ) );
+            builder.Append( ClassProvider.BarLinkDisabled( ParentStore?.Mode ?? BarMode.Horizontal ), ParentStore?.Disabled ?? false );
 
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Handles the link onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task ClickHandler()
         {
             return Clicked.InvokeAsync( null );
@@ -59,6 +67,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public string Title { get; set; }
 
+        /// <summary>
+        /// Cascaded <see cref="Bar"/> component store.
+        /// </summary>
         [CascadingParameter]
         protected BarItemStore ParentStore
         {
@@ -74,6 +85,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarLink"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

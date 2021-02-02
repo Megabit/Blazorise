@@ -27,7 +27,7 @@ namespace Blazorise
 
         #region Properties
 
-        [CascadingParameter] 
+        [CascadingParameter]
         protected BarStore ParentStore
         {
             get => parentStore;
@@ -35,7 +35,7 @@ namespace Blazorise
             {
                 if ( parentStore == value )
                     return;
-                
+
                 parentStore = value;
 
                 DirtyClasses();

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// The dropdown menu, which can include bar items and dividers.
+    /// </summary>
     public partial class BarDropdown : BaseComponent
     {
         #region Members
@@ -35,7 +38,7 @@ namespace Blazorise
         protected override Task OnInitializedAsync()
         {
             // link to the parent component
-            ParentBarItem?.Hook( this );
+            ParentBarItem?.NotifyBarDropdownInitialized( this );
 
             return base.OnInitializedAsync();
         }
@@ -46,7 +49,7 @@ namespace Blazorise
             // Otherwise the internal value would not be set in the right order.
             if ( parameters.TryGetValue<bool>( nameof( Visible ), out var newVisible ) )
             {
-                store.Visible = newVisible;
+                store = store with { Visible = newVisible };
             }
 
             return base.SetParametersAsync( parameters );
@@ -107,8 +110,14 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
+        /// <summary>
+        /// Gets the reference to the store object for this <see cref="BarDropdown"/> component.
+        /// </summary>
         protected BarDropdownStore Store => store;
 
+        /// <summary>
+        /// Gets the <see cref="Visible"/> flag represented as a string.
+        /// </summary>
         protected string VisibleString => Store.Visible.ToString().ToLower();
 
         /// <summary>
@@ -124,7 +133,7 @@ namespace Blazorise
                 if ( value == store.Visible )
                     return;
 
-                store.Visible = value;
+                store = store with { Visible = value };
 
                 VisibleChanged.InvokeAsync( value );
 
@@ -137,6 +146,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
+        /// <summary>
+        /// Cascaded <see cref="BarItem"/> component in which this <see cref="BarDropdown"/> is placed.
+        /// </summary>
         [CascadingParameter] protected BarItem ParentBarItem { get; set; }
 
         [CascadingParameter]
@@ -150,8 +162,7 @@ namespace Blazorise
 
                 parentBarItemStore = value;
 
-                store.Mode = parentBarItemStore.Mode;
-                store.BarVisible = parentBarItemStore.BarVisible;
+                store = store with { Mode = parentBarItemStore.Mode, BarVisible = parentBarItemStore.BarVisible };
 
                 if ( !store.BarVisible )
                     Visible = false;
@@ -171,7 +182,7 @@ namespace Blazorise
 
                 parentBarDropdownStore = value;
 
-                store.NestedIndex = parentBarDropdownStore.NestedIndex + 1;
+                store = store with { NestedIndex = parentBarDropdownStore.NestedIndex + 1 };
 
                 DirtyClasses();
             }

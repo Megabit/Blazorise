@@ -9,6 +9,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// The <see cref="Bar"/> component is a wrapper that positions branding, navigation, and other elements into a concise header or sidebar.
+    /// </summary>
     public partial class Bar : BaseComponent, IBreakpointActivator
     {
         #region Members
@@ -18,29 +21,31 @@ namespace Blazorise
         /// </summary>
         private bool isBroken;
 
-        private Breakpoint breakpoint = Breakpoint.None;
-
-        private Breakpoint navigationBreakpoint = Breakpoint.None;
-
-        private ThemeContrast themeContrast = ThemeContrast.Light;
-
-        private Alignment alignment = Alignment.None;
-
-        private Background background = Background.None;
-
+        /// <summary>
+        /// Reference to the object that should be accessed through JSInterop.
+        /// </summary>
         private DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef;
 
+        /// <summary>
+        /// Holds the state for this bar component.
+        /// </summary>
         private BarStore store = new BarStore
         {
             Visible = true,
             Mode = BarMode.Horizontal,
-            CollapseMode = BarCollapseMode.Hide
+            CollapseMode = BarCollapseMode.Hide,
+            Breakpoint = Breakpoint.None,
+            NavigationBreakpoint = Breakpoint.None,
+            ThemeContrast = ThemeContrast.Light,
+            Alignment = Alignment.None,
+            Background = Background.None,
         };
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override async Task OnInitializedAsync()
         {
             if ( NavigationBreakpoint != Breakpoint.None )
@@ -49,6 +54,7 @@ namespace Blazorise
             await base.OnInitializedAsync();
         }
 
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
@@ -67,7 +73,7 @@ namespace Blazorise
                     if ( Visible == isBroken )
                     {
                         Visible = !isBroken;
-                        StateHasChanged();
+                        await InvokeAsync( StateHasChanged );
                     }
                 }
             }
@@ -75,6 +81,7 @@ namespace Blazorise
             await base.OnFirstAfterRenderAsync();
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Bar() );
@@ -87,11 +94,14 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Toggle()
+        /// <summary>
+        /// Toggles the <see cref="Visible"/> state of the <see cref="Bar"/> component.
+        /// </summary>
+        internal Task Toggle()
         {
             Visible = !Visible;
 
-            StateHasChanged();
+            return InvokeAsync( StateHasChanged );
         }
 
         public Task OnBreakpoint( bool broken )
@@ -105,11 +115,10 @@ namespace Blazorise
             isBroken = broken;
             Visible = !isBroken;
 
-            StateHasChanged();
-
-            return Task.CompletedTask;
+            return InvokeAsync( StateHasChanged );
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -129,11 +138,16 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
+        /// <summary>
+        /// An event that fires when the navigation location has changed.
+        /// </summary>
+        /// <param name="sender">Object the fired the notification.</param>
+        /// <param name="args">New location arguments.</param>
         private async void OnLocationChanged( object sender, LocationChangedEventArgs args )
         {
             // Collapse the bar automatically
             if ( Visible && BreakpointActivatorAdapter.IsBroken( NavigationBreakpoint, await JSRunner.GetBreakpoint() ) )
-                Toggle();
+                await Toggle();
         }
 
         #endregion
@@ -143,10 +157,19 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
+        /// <summary>
+        /// Gets the reference to the store for this <see cref="Bar"/> component.
+        /// </summary>
         protected BarStore Store => store;
 
+        /// <summary>
+        /// Gets the string representation of the <see cref="isBroken"/> flag.
+        /// </summary>
         protected string BrokenStateString => isBroken.ToString().ToLower();
 
+        /// <summary>
+        /// Gets the string representation of the <see cref="CollapseMode"/>.
+        /// </summary>
         protected string CollapseModeString
         {
             get
@@ -157,6 +180,11 @@ namespace Blazorise
                 return ClassProvider.ToBarCollapsedMode( CollapseMode );
             }
         }
+
+        /// <summary>
+        /// Injects the navigation manager.
+        /// </summary>
+        [Inject] protected NavigationManager NavigationManager { get; set; }
 
         /// <summary>
         /// Controlls the state of toggler and the menu.
@@ -171,7 +199,8 @@ namespace Blazorise
                 if ( value == store.Visible )
                     return;
 
-                store.Visible = value;
+                store = store with { Visible = value };
+
                 VisibleChanged.InvokeAsync( value );
 
                 DirtyClasses();
@@ -189,10 +218,10 @@ namespace Blazorise
         [Parameter]
         public Breakpoint Breakpoint
         {
-            get => breakpoint;
+            get => store.Breakpoint;
             set
             {
-                breakpoint = value;
+                store = store with { Breakpoint = value };
 
                 DirtyClasses();
             }
@@ -200,27 +229,30 @@ namespace Blazorise
 
 
         /// <summary>
-        /// Used for responsive collapsing after Navigation
+        /// Used for responsive collapsing after Navigation.
         /// </summary>
         [Parameter]
         public Breakpoint NavigationBreakpoint
         {
-            get => navigationBreakpoint;
+            get => store.NavigationBreakpoint;
             set
             {
-                navigationBreakpoint = value;
+                store = store with { NavigationBreakpoint = value };
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Defines the prefered theme contrast for this <see cref="Bar"/> component.
+        /// </summary>
         [Parameter]
         public ThemeContrast ThemeContrast
         {
-            get => themeContrast;
+            get => store.ThemeContrast;
             set
             {
-                themeContrast = value;
+                store = store with { ThemeContrast = value };
 
                 DirtyClasses();
             }
@@ -232,10 +264,10 @@ namespace Blazorise
         [Parameter]
         public Alignment Alignment
         {
-            get => alignment;
+            get => store.Alignment;
             set
             {
-                alignment = value;
+                store = store with { Alignment = value };
 
                 DirtyClasses();
             }
@@ -247,17 +279,17 @@ namespace Blazorise
         [Parameter]
         public Background Background
         {
-            get => background;
+            get => store.Background;
             set
             {
-                background = value;
+                store = store with { Background = value };
 
                 DirtyClasses();
             }
         }
 
         /// <summary>
-        /// Defines the Orientation for the bar. Vertical is required when using inside Sidebar.
+        /// Defines the orientation for the bar. Vertical is required when using as a Sidebar.
         /// </summary>
         [Parameter]
         public virtual BarMode Mode
@@ -268,12 +300,15 @@ namespace Blazorise
                 if ( store.Mode == value )
                     return;
 
-                store.Mode = value;
+                store = store with { Mode = value };
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Defines how the bar will be collapsed.
+        /// </summary>
         [Parameter]
         public BarCollapseMode CollapseMode
         {
@@ -283,15 +318,16 @@ namespace Blazorise
                 if ( store.CollapseMode == value )
                     return;
 
-                store.CollapseMode = value;
+                store = store with { CollapseMode = value };
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Bar"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
-
-        [Inject] protected NavigationManager NavigationManager { get; set; }
 
         #endregion
     }

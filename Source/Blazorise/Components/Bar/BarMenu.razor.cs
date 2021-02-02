@@ -18,7 +18,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarMenu( ParentStore.Mode ));
+            builder.Append( ClassProvider.BarMenu( ParentStore.Mode ) );
             builder.Append( ClassProvider.BarMenuShow( ParentStore.Mode ), ParentStore.Visible );
 
             base.BuildClasses( builder );
@@ -28,7 +28,7 @@ namespace Blazorise
 
         #region Properties
 
-        [CascadingParameter] 
+        [CascadingParameter]
         protected BarStore ParentStore
         {
             get => parentStore;

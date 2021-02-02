@@ -1,62 +1,21 @@
-﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Resources;
-using System.Text;
-#endregion
-
-namespace Blazorise.Stores
+﻿namespace Blazorise.Stores
 {
-    public struct BarStore : IEquatable<BarStore>
+    public record BarStore
     {
-        #region Methods
+        public bool Visible { get; init; }
 
-        public override bool Equals( object obj )
-            => obj is BarStore store && Equals( store );
+        public BarMode Mode { get; init; }
 
-        public bool Equals( BarStore other )
-        {
-            return Visible == other.Visible
-                && Mode == other.Mode
-                && CollapseMode == other.CollapseMode;
-        }
+        public BarCollapseMode CollapseMode { get; init; }
 
-        public override int GetHashCode()
-        {
-            // Use a different bit for bool fields: bool.GetHashCode() will return 0 (false) or 1 (true). So we would
-            // end up having the same hash code for e.g. two instances where one has only noCache set and the other
-            // only noStore.
-            var result = Visible.GetHashCode();
+        public Breakpoint Breakpoint { get; init; }
 
-            result = result
-                ^ ( Mode.GetHashCode() ^ 1 ); // power of two for every other field(^1, ^2, ^4, ^8, ^16, ...)
+        public Breakpoint NavigationBreakpoint { get; init; }
 
-            result = result
-                ^ ( CollapseMode.GetHashCode() ^ 2 );
+        public ThemeContrast ThemeContrast { get; init; }
 
-            return result;
-        }
+        public Alignment Alignment { get; init; }
 
-        public static bool operator ==( BarStore lhs, BarStore rhs )
-        {
-            return lhs.Equals( rhs );
-        }
-
-        public static bool operator !=( BarStore lhs, BarStore rhs )
-        {
-            return !lhs.Equals( rhs );
-        }
-
-        #endregion
-
-        #region Properties
-
-        public bool Visible { readonly get; set; }
-
-        public BarMode Mode { readonly get; set; }
-
-        public BarCollapseMode CollapseMode { readonly get; set; }
-
-        #endregion
+        public Background Background { get; init; }
     }
 }
