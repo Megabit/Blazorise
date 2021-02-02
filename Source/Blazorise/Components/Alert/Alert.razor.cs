@@ -6,23 +6,36 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.
+    /// </summary>
     public partial class Alert : BaseComponent
     {
         #region Members
 
+        /// <summary>
+        /// Holds the state of the <see cref="Alert"/> component.
+        /// </summary>
         private AlertStore store = new AlertStore
         {
             Color = Color.None,
         };
 
+        /// <summary>
+        /// Flag that indicates if <see cref="Alert"/> contains the <see cref="AlertMessage"/> component.
+        /// </summary>
         private bool hasMessage;
 
+        /// <summary>
+        /// Flag that indicates if <see cref="Alert"/> contains the <see cref="AlertDescription"/> component.
+        /// </summary>
         private bool hasDescription;
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Alert() );
@@ -36,6 +49,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             HandleVisibilityState( Visible );
@@ -70,15 +84,23 @@ namespace Blazorise
             StateHasChanged();
         }
 
-        private void HandleVisibilityState( bool active )
+        /// <summary>
+        /// Sets the visibility state of this <see cref="Alert"/> component.
+        /// </summary>
+        /// <param name="visible">True if <see cref="Alert"/> is visible.</param>
+        private void HandleVisibilityState( bool visible )
         {
-            Display = active
+            Display = visible
                 ? Blazorise.Display.Always
                 : Blazorise.Display.None;
 
             DirtyClasses();
         }
 
+        /// <summary>
+        /// Raises all registered events for this <see cref="Alert"/> component.
+        /// </summary>
+        /// <param name="visible">True if <see cref="Alert"/> is visible.</param>
         private void RaiseEvents( bool visible )
         {
             VisibleChanged.InvokeAsync( visible );
@@ -92,7 +114,7 @@ namespace Blazorise
             hasMessage = true;
 
             DirtyClasses();
-            StateHasChanged();
+            InvokeAsync( () => StateHasChanged() );
         }
 
         /// <summary>
@@ -103,7 +125,7 @@ namespace Blazorise
             hasDescription = true;
 
             DirtyClasses();
-            StateHasChanged();
+            InvokeAsync( () => StateHasChanged() );
         }
 
         #endregion
@@ -119,7 +141,7 @@ namespace Blazorise
             get => store.Dismisable;
             set
             {
-                store.Dismisable = value;
+                store = store with { Dismisable = value };
 
                 DirtyClasses();
             }
@@ -137,7 +159,7 @@ namespace Blazorise
                 if ( value == store.Visible )
                     return;
 
-                store.Visible = value;
+                store = store with { Visible = value };
 
                 HandleVisibilityState( value );
                 RaiseEvents( value );
@@ -145,7 +167,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Occurs when the alert visibility changes.
+        /// Occurs when the alert visibility state changes.
         /// </summary>
         [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
@@ -158,12 +180,15 @@ namespace Blazorise
             get => store.Color;
             set
             {
-                store.Color = value;
+                store = store with { Color = value };
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Alert"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
