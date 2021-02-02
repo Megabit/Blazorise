@@ -13,6 +13,9 @@ namespace Blazorise
     {
         #region Members
 
+        /// <summary>
+        /// Holds the state of this list group.
+        /// </summary>
         private ListGroupStore store = new ListGroupStore
         {
             Mode = ListGroupMode.Static,
@@ -39,7 +42,7 @@ namespace Blazorise
         {
             SelectedItem = name;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion
@@ -60,7 +63,7 @@ namespace Blazorise
             get => store.Flush;
             set
             {
-                store.Flush = value;
+                store = store with { Flush = value };
 
                 DirtyClasses();
             }
@@ -75,7 +78,7 @@ namespace Blazorise
             get => store.Mode;
             set
             {
-                store.Mode = value;
+                store = store with { Mode = value };
 
                 DirtyClasses();
             }
@@ -94,7 +97,7 @@ namespace Blazorise
                 if ( value == store.SelectedItem )
                     return;
 
-                store.SelectedItem = value;
+                store = store with { SelectedItem = value };
 
                 // raise the SelectedItemChanged notification                
                 SelectedItemChanged.InvokeAsync( store.SelectedItem );

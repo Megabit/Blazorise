@@ -14,8 +14,14 @@ namespace Blazorise
     {
         #region Members
 
+        /// <summary>
+        /// Holds the reference to the parent group store.
+        /// </summary>
         private ListGroupStore parentListGroupStore;
 
+        /// <summary>
+        /// Flag to indicate item disabled state.
+        /// </summary>
         private bool disabled;
 
         #endregion
@@ -35,7 +41,7 @@ namespace Blazorise
         /// <summary>
         /// Handles the item onclick event.
         /// </summary>
-        /// <returns>Returns the awaitable task.</returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected async Task ClickHandler()
         {
             if ( Disabled )
@@ -85,6 +91,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback Clicked { get; set; }
 
+        /// <summary>
+        /// Cascaded <see cref="ListGroup"/> component store.
+        /// </summary>
         [CascadingParameter]
         protected ListGroupStore ParentListGroupStore
         {
@@ -101,12 +110,12 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets or sets the parent list group.
+        /// Cascaded parent <see cref="ListGroup"/>.
         /// </summary>
         [CascadingParameter] protected ListGroup ParentListGroup { get; set; }
 
         /// <summary>
-        /// Gets or sets the component child content.
+        /// Specifies the content to be rendered inside this <see cref="ListGroupItem"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
