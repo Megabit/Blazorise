@@ -45,7 +45,7 @@ namespace Blazorise
                 {
                     if ( ParentModal != null )
                     {
-                        ParentModal.AddFocusableComponent( this );
+                        ParentModal.NotifyFocusableComponentInitialized( this );
                     }
                     else
                     {
@@ -59,7 +59,7 @@ namespace Blazorise
                 {
                     if ( ParentModal != null )
                     {
-                        ParentModal.RemoveFocusableComponent( this );
+                        ParentModal.NotifyFocusableComponentRemoved( this );
                     }
                 }
             }
@@ -78,7 +78,7 @@ namespace Blazorise
 
                 if ( ParentModal != null )
                 {
-                    ParentModal.RemoveFocusableComponent( this );
+                    ParentModal.NotifyFocusableComponentRemoved( this );
                 }
             }
 
