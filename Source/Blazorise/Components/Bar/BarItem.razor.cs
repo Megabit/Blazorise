@@ -17,7 +17,7 @@ namespace Blazorise
         /// <summary>
         /// Reference to the <see cref="Bar"/> store object.
         /// </summary>
-        private BarStore parentStore;
+        private BarStore parentBarStore;
 
         /// <summary>
         /// Holds the state for this <see cref="BarItem"/>.
@@ -120,17 +120,17 @@ namespace Blazorise
         /// Cascaded <see cref="Bar"/> component store.
         /// </summary>
         [CascadingParameter]
-        protected BarStore ParentStore
+        protected BarStore ParentBarStore
         {
-            get => parentStore;
+            get => parentBarStore;
             set
             {
-                if ( parentStore == value )
+                if ( parentBarStore == value )
                     return;
 
-                parentStore = value;
+                parentBarStore = value;
 
-                store = store with { Mode = parentStore.Mode, BarVisible = parentStore.Visible };
+                store = store with { Mode = parentBarStore.Mode, BarVisible = parentBarStore.Visible };
 
                 DirtyClasses();
             }
