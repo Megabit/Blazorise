@@ -1,9 +1,9 @@
-﻿namespace Blazorise.Stores
+﻿namespace Blazorise.States
 {
     /// <summary>
     /// Holds the information about the current state of the <see cref="BarItem"/> component.
     /// </summary>
-    public record BarItemStore
+    public record BarItemState
     {
         /// <summary>
         /// Gets or sets the flag to indicate if <see cref="BarItem"/> is active, or focused.

@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -15,14 +15,14 @@ namespace Blazorise
         #region Members
 
         /// <summary>
-        /// Reference to the <see cref="Bar"/> store object.
+        /// Reference to the <see cref="Bar"/> state object.
         /// </summary>
-        private BarStore parentBarStore;
+        private BarState parentBarState;
 
         /// <summary>
         /// Holds the state for this <see cref="BarItem"/>.
         /// </summary>
-        private BarItemStore store = new BarItemStore
+        private BarItemState state = new BarItemState
         {
             Mode = BarMode.Horizontal,
         };
@@ -55,10 +55,10 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarItem( Store.Mode ) );
-            builder.Append( ClassProvider.BarItemActive( Store.Mode ), Store.Active );
-            builder.Append( ClassProvider.BarItemDisabled( Store.Mode ), Store.Disabled );
-            builder.Append( ClassProvider.BarItemHasDropdown( Store.Mode ), HasDropdown );
+            builder.Append( ClassProvider.BarItem( State.Mode ) );
+            builder.Append( ClassProvider.BarItemActive( State.Mode ), State.Active );
+            builder.Append( ClassProvider.BarItemDisabled( State.Mode ), State.Disabled );
+            builder.Append( ClassProvider.BarItemHasDropdown( State.Mode ), HasDropdown );
 
             base.BuildClasses( builder );
         }
@@ -77,9 +77,9 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Gets the reference to the store for this <see cref="BarItem"/> component.
+        /// Gets the reference to the state object for this <see cref="BarItem"/> component.
         /// </summary>
-        protected BarItemStore Store => store;
+        protected BarItemState State => state;
 
         /// <summary>
         /// True if <see cref="BarDropdown"/> component is placed inside of this <see cref="BarItem"/>.
@@ -92,10 +92,10 @@ namespace Blazorise
         [Parameter]
         public bool Active
         {
-            get => store.Active;
+            get => state.Active;
             set
             {
-                store = store with { Active = value };
+                state = state with { Active = value };
 
                 DirtyClasses();
             }
@@ -107,30 +107,30 @@ namespace Blazorise
         [Parameter]
         public bool Disabled
         {
-            get => store.Disabled;
+            get => state.Disabled;
             set
             {
-                store = store with { Disabled = value };
+                state = state with { Disabled = value };
 
                 DirtyClasses();
             }
         }
 
         /// <summary>
-        /// Cascaded <see cref="Bar"/> component store.
+        /// Cascaded <see cref="Bar"/> component state object.
         /// </summary>
         [CascadingParameter]
-        protected BarStore ParentBarStore
+        protected BarState ParentBarState
         {
-            get => parentBarStore;
+            get => parentBarState;
             set
             {
-                if ( parentBarStore == value )
+                if ( parentBarState == value )
                     return;
 
-                parentBarStore = value;
+                parentBarState = value;
 
-                store = store with { Mode = parentBarStore.Mode, BarVisible = parentBarStore.Visible };
+                state = state with { Mode = parentBarState.Mode, BarVisible = parentBarState.Visible };
 
                 DirtyClasses();
             }

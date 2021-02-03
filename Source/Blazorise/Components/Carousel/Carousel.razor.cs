@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using Blazorise.Localization;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -22,7 +22,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state of this carousel.
         /// </summary>
-        private CarouselStore store = new CarouselStore
+        private CarouselState state = new CarouselState
         {
             Autoplay = true,
             Crossfade = false,
@@ -225,7 +225,7 @@ namespace Blazorise
 
         #region Properties
 
-        protected CarouselStore Store => store;
+        protected CarouselState State => state;
 
         protected ClassBuilder IndicatorsClassBuilder { get; private set; }
 
@@ -277,10 +277,10 @@ namespace Blazorise
         [Parameter]
         public bool Autoplay
         {
-            get => store.Autoplay;
+            get => state.Autoplay;
             set
             {
-                store = store with { Autoplay = value };
+                state = state with { Autoplay = value };
 
                 DirtyClasses();
             }
@@ -292,10 +292,10 @@ namespace Blazorise
         //[Parameter]
         //public bool Crossfade
         //{
-        //    get => store.Crossfade;
+        //    get => state.Crossfade;
         //    set
         //    {
-        //        store = store with { Crossfade = value };
+        //        state = state with { Crossfade = value };
 
         //        DirtyClasses();
         //    }
@@ -322,15 +322,15 @@ namespace Blazorise
         [Parameter]
         public string SelectedSlide
         {
-            get => store.CurrentSlide;
+            get => state.CurrentSlide;
             set
             {
-                if ( value == store.CurrentSlide )
+                if ( value == state.CurrentSlide )
                     return;
 
-                store = store with { CurrentSlide = value };
+                state = state with { CurrentSlide = value };
 
-                SelectedSlideChanged.InvokeAsync( store.CurrentSlide );
+                SelectedSlideChanged.InvokeAsync( state.CurrentSlide );
 
                 DirtyClasses();
             }

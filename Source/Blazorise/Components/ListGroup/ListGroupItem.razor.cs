@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -15,9 +15,9 @@ namespace Blazorise
         #region Members
 
         /// <summary>
-        /// Holds the reference to the parent group store.
+        /// Holds the reference to the parent group state object.
         /// </summary>
-        private ListGroupStore parentListGroupStore;
+        private ListGroupState parentListGroupState;
 
         /// <summary>
         /// Flag to indicate item disabled state.
@@ -64,7 +64,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the flag indicating the item is selected.
         /// </summary>
-        protected bool Active => parentListGroupStore.Mode == ListGroupMode.Selectable && parentListGroupStore.SelectedItem == Name;
+        protected bool Active => parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItem == Name;
 
         /// <summary>
         /// Defines the item name.
@@ -92,18 +92,18 @@ namespace Blazorise
         [Parameter] public EventCallback Clicked { get; set; }
 
         /// <summary>
-        /// Cascaded <see cref="ListGroup"/> component store.
+        /// Cascaded <see cref="ListGroup"/> component state object.
         /// </summary>
         [CascadingParameter]
-        protected ListGroupStore ParentListGroupStore
+        protected ListGroupState ParentListGroupState
         {
-            get => parentListGroupStore;
+            get => parentListGroupState;
             set
             {
-                if ( parentListGroupStore == value )
+                if ( parentListGroupState == value )
                     return;
 
-                parentListGroupStore = value;
+                parentListGroupState = value;
 
                 DirtyClasses();
             }

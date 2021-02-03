@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -17,7 +17,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state of this tabs component.
         /// </summary>
-        private TabsStore store = new()
+        private TabsState state = new()
         {
             TabPosition = TabPosition.Top,
         };
@@ -127,7 +127,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the reference to the tabs state object.
         /// </summary>
-        protected TabsStore Store => store;
+        protected TabsState State => state;
 
         /// <summary>
         /// True if <see cref="Tabs"/> is placed inside of <see cref="CardHeader"/> component.
@@ -147,7 +147,7 @@ namespace Blazorise
         /// <summary>
         /// Get the index of the currently selected tab.
         /// </summary>
-        protected int IndexOfSelectedTab => tabItems.IndexOf( store.SelectedTab );
+        protected int IndexOfSelectedTab => tabItems.IndexOf( state.SelectedTab );
 
         /// <summary>
         /// Gets the list of all tab item names that are placed inside of this container.
@@ -165,10 +165,10 @@ namespace Blazorise
         [Parameter]
         public bool Pills
         {
-            get => store.Pills;
+            get => state.Pills;
             set
             {
-                store = store with { Pills = value };
+                state = state with { Pills = value };
 
                 DirtyClasses();
             }
@@ -180,10 +180,10 @@ namespace Blazorise
         [Parameter]
         public bool FullWidth
         {
-            get => store.FullWidth;
+            get => state.FullWidth;
             set
             {
-                store = store with { FullWidth = value };
+                state = state with { FullWidth = value };
 
                 DirtyClasses();
             }
@@ -195,10 +195,10 @@ namespace Blazorise
         [Parameter]
         public bool Justified
         {
-            get => store.Justified;
+            get => state.Justified;
             set
             {
-                store = store with { Justified = value };
+                state = state with { Justified = value };
 
                 DirtyClasses();
             }
@@ -210,10 +210,10 @@ namespace Blazorise
         [Parameter]
         public TabPosition TabPosition
         {
-            get => store.TabPosition;
+            get => state.TabPosition;
             set
             {
-                store = store with { TabPosition = value };
+                state = state with { TabPosition = value };
 
                 DirtyClasses();
             }
@@ -225,17 +225,17 @@ namespace Blazorise
         [Parameter]
         public string SelectedTab
         {
-            get => store.SelectedTab;
+            get => state.SelectedTab;
             set
             {
                 // prevent tabs from calling the same code multiple times
-                if ( value == store.SelectedTab )
+                if ( value == state.SelectedTab )
                     return;
 
-                store = store with { SelectedTab = value };
+                state = state with { SelectedTab = value };
 
                 // raise the tabchanged notification                
-                SelectedTabChanged.InvokeAsync( store.SelectedTab );
+                SelectedTabChanged.InvokeAsync( state.SelectedTab );
 
                 DirtyClasses();
             }

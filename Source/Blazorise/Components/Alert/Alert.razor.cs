@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -16,7 +16,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state of the <see cref="Alert"/> component.
         /// </summary>
-        private AlertStore store = new AlertStore
+        private AlertState state = new()
         {
             Color = Color.None,
         };
@@ -138,10 +138,10 @@ namespace Blazorise
         [Parameter]
         public bool Dismisable
         {
-            get => store.Dismisable;
+            get => state.Dismisable;
             set
             {
-                store = store with { Dismisable = value };
+                state = state with { Dismisable = value };
 
                 DirtyClasses();
             }
@@ -153,13 +153,13 @@ namespace Blazorise
         [Parameter]
         public bool Visible
         {
-            get => store.Visible;
+            get => state.Visible;
             set
             {
-                if ( value == store.Visible )
+                if ( value == state.Visible )
                     return;
 
-                store = store with { Visible = value };
+                state = state with { Visible = value };
 
                 HandleVisibilityState( value );
                 RaiseEvents( value );
@@ -177,10 +177,10 @@ namespace Blazorise
         [Parameter]
         public Color Color
         {
-            get => store.Color;
+            get => state.Color;
             set
             {
-                store = store with { Color = value };
+                state = state with { Color = value };
 
                 DirtyClasses();
             }

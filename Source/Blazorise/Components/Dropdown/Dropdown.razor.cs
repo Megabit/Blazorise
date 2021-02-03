@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -16,9 +16,9 @@ namespace Blazorise
         #region Members
 
         /// <summary>
-        /// Store used to holds the dropdown state.
+        /// State object used to holds the dropdown state.
         /// </summary>
-        private DropdownStore store = new DropdownStore
+        private DropdownState state = new DropdownState
         {
             Direction = Direction.Down,
         };
@@ -164,9 +164,9 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
-        /// Gets the referemce to the <see cref="DropdownStore"/>.
+        /// Gets the referemce to the <see cref="DropdownState"/>.
         /// </summary>
-        protected DropdownStore Store => store;
+        protected DropdownState State => state;
 
         /// <summary>
         /// Makes the drop down to behave as a group for buttons(used for the split-button behaviour).
@@ -184,14 +184,14 @@ namespace Blazorise
         [Parameter]
         public bool Visible
         {
-            get => store.Visible;
+            get => state.Visible;
             set
             {
                 // prevent from calling the same code multiple times
-                if ( value == store.Visible )
+                if ( value == state.Visible )
                     return;
 
-                store = store with { Visible = value };
+                state = state with { Visible = value };
 
                 HandleVisibilityStyles( value );
                 HandleVisibilityEvents( value );
@@ -204,10 +204,10 @@ namespace Blazorise
         [Parameter]
         public bool RightAligned
         {
-            get => store.RightAligned;
+            get => state.RightAligned;
             set
             {
-                store = store with { RightAligned = value };
+                state = state with { RightAligned = value };
 
                 DirtyClasses();
             }
@@ -219,10 +219,10 @@ namespace Blazorise
         [Parameter]
         public bool Disabled
         {
-            get => store.Disabled;
+            get => state.Disabled;
             set
             {
-                store = store with { Disabled = value };
+                state = state with { Disabled = value };
 
                 DirtyClasses();
             }
@@ -234,10 +234,10 @@ namespace Blazorise
         [Parameter]
         public Direction Direction
         {
-            get => store.Direction;
+            get => state.Direction;
             set
             {
-                store = store with { Direction = value };
+                state = state with { Direction = value };
 
                 DirtyClasses();
             }

@@ -33,7 +33,7 @@ namespace Blazorise.AntDesign
             set
             {
                 // prevent bar from calling the same code multiple times
-                if ( value == Store.Visible )
+                if ( value == State.Visible )
                     return;
 
                 base.Mode = !value && CollapseMode == BarCollapseMode.Small ?

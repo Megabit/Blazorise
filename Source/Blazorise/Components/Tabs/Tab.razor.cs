@@ -1,7 +1,6 @@
 ﻿#region Using directives
-using System;
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -18,7 +17,7 @@ namespace Blazorise
         /// <summary>
         /// A reference to the parent tabs state.
         /// </summary>
-        private TabsStore parentTabsStore;
+        private TabsState parentTabsState;
 
         /// <summary>
         /// Flag to indicate that the tab is not responsive for user interaction.
@@ -111,7 +110,7 @@ namespace Blazorise
         /// <summary>
         /// True if this tab is currently set as selected.
         /// </summary>
-        protected bool Active => ParentTabsStore?.SelectedTab == Name;
+        protected bool Active => ParentTabsState?.SelectedTab == Name;
 
         /// <summary>
         /// Defines the tab name. Must match the coresponding panel name.
@@ -142,15 +141,15 @@ namespace Blazorise
         /// Cascaded parent <see cref="Tabs"/> state.
         /// </summary>
         [CascadingParameter]
-        protected TabsStore ParentTabsStore
+        protected TabsState ParentTabsState
         {
-            get => parentTabsStore;
+            get => parentTabsState;
             set
             {
-                if ( parentTabsStore == value )
+                if ( parentTabsState == value )
                     return;
 
-                parentTabsStore = value;
+                parentTabsState = value;
 
                 DirtyClasses();
             }

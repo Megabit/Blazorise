@@ -1,9 +1,9 @@
-﻿namespace Blazorise.Stores
+﻿namespace Blazorise.States
 {
     /// <summary>
     /// Holds the information about the current state of the <see cref="BarDropdown"/> component.
     /// </summary>
-    public record BarDropdownStore
+    public record BarDropdownState
     {
         /// <summary>
         /// Gets or sets the dropdown menu visibilty state.

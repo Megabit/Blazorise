@@ -1,15 +1,15 @@
 ﻿@inherits Blazorise.BarItem
 <CascadingValue Value="@this" IsFixed="true">
-    @if ( Store.Mode == BarMode.Horizontal )
-    {
-        @ChildContent
-    }
-    else
-    {
-        <CascadingValue Value="@Store">
+    <CascadingValue Value="@State">
+        @if ( State.Mode == BarMode.Horizontal )
+        {
+            @ChildContent
+        }
+        else
+        {
             <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                 @ChildContent
             </div>
-        </CascadingValue>
-    }
+        }
+    </CascadingValue>
 </CascadingValue>

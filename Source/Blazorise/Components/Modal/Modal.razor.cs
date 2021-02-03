@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -19,7 +19,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state of this modal dialog.
         /// </summary>
-        private ModalStore store = new ModalStore
+        private ModalState state = new ModalState
         {
             Visible = false,
         };
@@ -114,7 +114,7 @@ namespace Blazorise
 
             if ( IsSafeToClose() )
             {
-                store = store with { Visible = false };
+                state = state with { Visible = false };
 
                 HandleVisibilityStyles( false );
                 RaiseEvents( false );
@@ -219,9 +219,9 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Gets the reference to store for this modal.
+        /// Gets the reference to state object for this modal.
         /// </summary>
-        protected ModalStore Store => store;
+        protected ModalState State => state;
 
         /// <summary>
         /// Gets the list of focusable components.
@@ -235,23 +235,23 @@ namespace Blazorise
         [Parameter]
         public bool Visible
         {
-            get => store.Visible;
+            get => state.Visible;
             set
             {
                 // prevent modal from calling the same code multiple times
-                if ( value == store.Visible )
+                if ( value == state.Visible )
                     return;
 
                 if ( value == true )
                 {
-                    store = store with { Visible = true };
+                    state = state with { Visible = true };
 
                     HandleVisibilityStyles( true );
                     RaiseEvents( true );
                 }
                 else if ( value == false && IsSafeToClose() )
                 {
-                    store = store with { Visible = false };
+                    state = state with { Visible = false };
 
                     HandleVisibilityStyles( false );
                     RaiseEvents( false );

@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private BarDropdownStore parentStore;
+        private BarDropdownState parentDropdownState;
 
         private bool isRegistered;
 
@@ -31,7 +31,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownToggle( ParentStore.Mode ) );
+            builder.Append( ClassProvider.BarDropdownToggle( ParentDropdownState.Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -40,7 +40,7 @@ namespace Blazorise
         {
             base.BuildStyles( builder );
 
-            builder.Append( $"padding-left: { 1.5d * ParentStore.NestedIndex }rem", ParentStore.IsInlineDisplay );
+            builder.Append( $"padding-left: { 1.5d * ParentDropdownState.NestedIndex }rem", ParentDropdownState.IsInlineDisplay );
         }
 
         protected override void Dispose( bool disposing )
@@ -94,17 +94,17 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         [CascadingParameter]
-        public BarDropdownStore ParentStore
+        public BarDropdownState ParentDropdownState
         {
-            get => parentStore;
+            get => parentDropdownState;
             set
             {
-                if ( parentStore == value )
+                if ( parentDropdownState == value )
                     return;
 
-                parentStore = value;
+                parentDropdownState = value;
 
-                if ( parentStore.Visible && !( parentStore.Mode == BarMode.VerticalInline && parentStore.BarVisible ) )
+                if ( parentDropdownState.Visible && !( parentDropdownState.Mode == BarMode.VerticalInline && parentDropdownState.BarVisible ) )
                 {
                     isRegistered = true;
 

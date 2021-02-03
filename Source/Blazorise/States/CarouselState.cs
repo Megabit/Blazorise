@@ -1,9 +1,9 @@
-﻿namespace Blazorise.Stores
+﻿namespace Blazorise.States
 {
     /// <summary>
     /// Holds the information about the current state of the <see cref="Carousel"/> component.
     /// </summary>
-    public record CarouselStore
+    public record CarouselState
     {
         /// <summary>
         /// Autoplays the carousel slides from left to right.

@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -14,9 +14,9 @@ namespace Blazorise
         #region Members
 
         /// <summary>
-        /// Holds the reference to the parent carousel store.
+        /// Holds the reference to the parent carousel state object.
         /// </summary>
-        private CarouselStore parentCarouselStore;
+        private CarouselState parentCarouselState;
 
         #endregion
 
@@ -89,7 +89,7 @@ namespace Blazorise
         /// <summary>
         /// True if this slide is currently active.
         /// </summary>
-        public bool Active => ParentCarouselStore?.CurrentSlide == Name;
+        public bool Active => ParentCarouselState?.CurrentSlide == Name;
 
         /// <summary>
         /// Gets or sets the class builder for the indicator element.
@@ -112,18 +112,18 @@ namespace Blazorise
         [Parameter] public string Name { get; set; }
 
         /// <summary>
-        /// Cascaded <see cref="Carousel"/> component store.
+        /// Cascaded <see cref="Carousel"/> component state object.
         /// </summary>
         [CascadingParameter]
-        protected CarouselStore ParentCarouselStore
+        protected CarouselState ParentCarouselState
         {
-            get => parentCarouselStore;
+            get => parentCarouselState;
             set
             {
-                if ( parentCarouselStore == value )
+                if ( parentCarouselState == value )
                     return;
 
-                parentCarouselStore = value;
+                parentCarouselState = value;
 
                 DirtyClasses();
             }

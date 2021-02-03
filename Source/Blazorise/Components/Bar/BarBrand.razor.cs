@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -10,7 +10,7 @@ namespace Blazorise
     {
         #region Members
 
-        private BarStore parentStore;
+        private BarState parentBarState;
 
         #endregion
 
@@ -18,7 +18,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarBrand( ParentStore.Mode ) );
+            builder.Append( ClassProvider.BarBrand( ParentBarState.Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -28,15 +28,15 @@ namespace Blazorise
         #region Properties
 
         [CascadingParameter]
-        protected BarStore ParentStore
+        protected BarState ParentBarState
         {
-            get => parentStore;
+            get => parentBarState;
             set
             {
-                if ( parentStore == value )
+                if ( parentBarState == value )
                     return;
 
-                parentStore = value;
+                parentBarState = value;
 
                 DirtyClasses();
             }

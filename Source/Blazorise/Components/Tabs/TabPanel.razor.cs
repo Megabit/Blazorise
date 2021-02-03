@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -16,12 +16,12 @@ namespace Blazorise
         /// <summary>
         /// A reference to the parent tabs state.
         /// </summary>
-        private TabsStore parentTabsStore;
+        private TabsState parentTabsState;
 
         /// <summary>
         /// A reference to the parent tabs content state.
         /// </summary>
-        private TabsContentStore parentTabsContentStore;
+        private TabsContentState parentTabsContentState;
 
         #endregion
 
@@ -78,7 +78,7 @@ namespace Blazorise
         /// <summary>
         /// True if this panel is currently set as selected.
         /// </summary>
-        protected bool Active => ParentTabsStore?.SelectedTab == Name || ParentTabsContentStore?.SelectedPanel == Name;
+        protected bool Active => ParentTabsState?.SelectedTab == Name || ParentTabsContentState?.SelectedPanel == Name;
 
         /// <summary>
         /// Defines the panel name. Must match the coresponding tab name.
@@ -89,15 +89,15 @@ namespace Blazorise
         /// Cascaded parent <see cref="Tabs"/> state.
         /// </summary>
         [CascadingParameter]
-        protected TabsStore ParentTabsStore
+        protected TabsState ParentTabsState
         {
-            get => parentTabsStore;
+            get => parentTabsState;
             set
             {
-                if ( parentTabsStore == value )
+                if ( parentTabsState == value )
                     return;
 
-                parentTabsStore = value;
+                parentTabsState = value;
 
                 DirtyClasses();
             }
@@ -107,15 +107,15 @@ namespace Blazorise
         /// Cascaded parent <see cref="TabsContent"/> state.
         /// </summary>
         [CascadingParameter]
-        protected TabsContentStore ParentTabsContentStore
+        protected TabsContentState ParentTabsContentState
         {
-            get => parentTabsContentStore;
+            get => parentTabsContentState;
             set
             {
-                if ( parentTabsContentStore == value )
+                if ( parentTabsContentState == value )
                     return;
 
-                parentTabsContentStore = value;
+                parentTabsContentState = value;
 
                 DirtyClasses();
             }

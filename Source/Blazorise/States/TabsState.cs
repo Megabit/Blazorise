@@ -1,9 +1,9 @@
-﻿namespace Blazorise.Stores
+﻿namespace Blazorise.States
 {
     /// <summary>
     /// Holds the information about the current state of the <see cref="Tabs"/> component.
     /// </summary>
-    public record TabsStore
+    public record TabsState
     {
         /// <summary>
         /// Makes the tab items to appear as pills.

@@ -1,9 +1,9 @@
-﻿namespace Blazorise.Stores
+﻿namespace Blazorise.States
 {
     /// <summary>
     /// Holds the information about the current state of the <see cref="PaginationItem"/> component.
     /// </summary>
-    public record PaginationItemStore
+    public record PaginationItemState
     {
         /// <summary>
         /// Indicate the currently active page.

@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -16,9 +16,9 @@ namespace Blazorise
         #region Members
 
         /// <summary>
-        /// Holds the state of the parent item store.
+        /// Holds the state of the parent item state object.
         /// </summary>
-        private PaginationItemStore paginationItemStore;
+        private PaginationItemState parentPaginationItemState;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.PaginationLink() );
-            builder.Append( ClassProvider.PaginationLinkActive(), PaginationItemStore.Active );
+            builder.Append( ClassProvider.PaginationLinkActive(), ParentPaginationItemState.Active );
 
             base.BuildClasses( builder );
         }
@@ -58,18 +58,18 @@ namespace Blazorise
         [Parameter] public EventCallback<string> Clicked { get; set; }
 
         /// <summary>
-        /// Cascaded <see cref="PaginationItemStore"/> for the <see cref="PaginationItem"/> in which this link is placed.
+        /// Cascaded <see cref="PaginationItemState"/> for the <see cref="PaginationItem"/> in which this link is placed.
         /// </summary>
         [CascadingParameter]
-        protected PaginationItemStore PaginationItemStore
+        protected PaginationItemState ParentPaginationItemState
         {
-            get => paginationItemStore;
+            get => parentPaginationItemState;
             set
             {
-                if ( paginationItemStore == value )
+                if ( parentPaginationItemState == value )
                     return;
 
-                paginationItemStore = value;
+                parentPaginationItemState = value;
 
                 DirtyClasses();
             }

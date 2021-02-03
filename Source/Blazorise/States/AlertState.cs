@@ -1,9 +1,9 @@
-﻿namespace Blazorise.Stores
+﻿namespace Blazorise.States
 {
     /// <summary>
     /// Holds the information about the current state of the <see cref="Alert"/> component.
     /// </summary>
-    public record AlertStore
+    public record AlertState
     {
         /// <summary>
         /// Enables the alert to be closed by placing the padding for close button.

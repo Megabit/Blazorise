@@ -1,9 +1,9 @@
-﻿namespace Blazorise.Stores
+﻿namespace Blazorise.States
 {
     /// <summary>
     /// Holds the information about the current state of the <see cref="Bar"/> component.
     /// </summary>
-    public record BarStore
+    public record BarState
     {
         /// <summary>
         /// Controlls the state of toggler and the menu.

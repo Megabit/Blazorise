@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -16,7 +16,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state of this pagination item.
         /// </summary>
-        private PaginationItemStore store = new();
+        private PaginationItemState state = new();
 
         #endregion
 
@@ -37,18 +37,23 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Gets the reference to the pagination item state object.
+        /// </summary>
+        protected PaginationItemState State => state;
+
+        /// <summary>
         /// Indicate the currently active page.
         /// </summary>
         [Parameter]
         public bool Active
         {
-            get => store.Active;
+            get => state.Active;
             set
             {
-                if ( value == store.Active )
+                if ( value == state.Active )
                     return;
 
-                store = store with { Active = value };
+                state = state with { Active = value };
 
                 DirtyClasses();
             }
@@ -60,13 +65,13 @@ namespace Blazorise
         [Parameter]
         public bool Disabled
         {
-            get => store.Disabled;
+            get => state.Disabled;
             set
             {
-                if ( value == store.Disabled )
+                if ( value == state.Disabled )
                     return;
 
-                store = store with { Disabled = value };
+                state = state with { Disabled = value };
 
                 DirtyClasses();
             }

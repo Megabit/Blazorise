@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -14,7 +14,7 @@ namespace Blazorise
     {
         #region Members
 
-        private BarItemStore parentStore;
+        private BarItemState parentItemState;
 
         #endregion
 
@@ -23,8 +23,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarLink( ParentStore?.Mode ?? BarMode.Horizontal ) );
-            builder.Append( ClassProvider.BarLinkDisabled( ParentStore?.Mode ?? BarMode.Horizontal ), ParentStore?.Disabled ?? false );
+            builder.Append( ClassProvider.BarLink( ParentBarItemState?.Mode ?? BarMode.Horizontal ) );
+            builder.Append( ClassProvider.BarLinkDisabled( ParentBarItemState?.Mode ?? BarMode.Horizontal ), ParentBarItemState?.Disabled ?? false );
 
             base.BuildClasses( builder );
         }
@@ -68,18 +68,18 @@ namespace Blazorise
         [Parameter] public string Title { get; set; }
 
         /// <summary>
-        /// Cascaded <see cref="Bar"/> component store.
+        /// Cascaded <see cref="Bar"/> component state object.
         /// </summary>
         [CascadingParameter]
-        protected BarItemStore ParentStore
+        protected BarItemState ParentBarItemState
         {
-            get => parentStore;
+            get => parentItemState;
             set
             {
-                if ( parentStore == value )
+                if ( parentItemState == value )
                     return;
 
-                parentStore = value;
+                parentItemState = value;
 
                 DirtyClasses();
             }

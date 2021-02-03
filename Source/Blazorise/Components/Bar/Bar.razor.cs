@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
@@ -29,7 +29,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state for this bar component.
         /// </summary>
-        private BarStore store = new BarStore
+        private BarState state = new BarState
         {
             Visible = true,
             Mode = BarMode.Horizontal,
@@ -158,9 +158,9 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
-        /// Gets the reference to the store for this <see cref="Bar"/> component.
+        /// Gets the reference to the state object for this <see cref="Bar"/> component.
         /// </summary>
-        protected BarStore Store => store;
+        protected BarState State => state;
 
         /// <summary>
         /// Gets the string representation of the <see cref="isBroken"/> flag.
@@ -192,14 +192,14 @@ namespace Blazorise
         [Parameter]
         public virtual bool Visible
         {
-            get => store.Visible;
+            get => state.Visible;
             set
             {
                 // prevent bar from calling the same code multiple times
-                if ( value == store.Visible )
+                if ( value == state.Visible )
                     return;
 
-                store = store with { Visible = value };
+                state = state with { Visible = value };
 
                 VisibleChanged.InvokeAsync( value );
 
@@ -218,10 +218,10 @@ namespace Blazorise
         [Parameter]
         public Breakpoint Breakpoint
         {
-            get => store.Breakpoint;
+            get => state.Breakpoint;
             set
             {
-                store = store with { Breakpoint = value };
+                state = state with { Breakpoint = value };
 
                 DirtyClasses();
             }
@@ -234,10 +234,10 @@ namespace Blazorise
         [Parameter]
         public Breakpoint NavigationBreakpoint
         {
-            get => store.NavigationBreakpoint;
+            get => state.NavigationBreakpoint;
             set
             {
-                store = store with { NavigationBreakpoint = value };
+                state = state with { NavigationBreakpoint = value };
 
                 DirtyClasses();
             }
@@ -249,10 +249,10 @@ namespace Blazorise
         [Parameter]
         public ThemeContrast ThemeContrast
         {
-            get => store.ThemeContrast;
+            get => state.ThemeContrast;
             set
             {
-                store = store with { ThemeContrast = value };
+                state = state with { ThemeContrast = value };
 
                 DirtyClasses();
             }
@@ -264,10 +264,10 @@ namespace Blazorise
         [Parameter]
         public Alignment Alignment
         {
-            get => store.Alignment;
+            get => state.Alignment;
             set
             {
-                store = store with { Alignment = value };
+                state = state with { Alignment = value };
 
                 DirtyClasses();
             }
@@ -279,10 +279,10 @@ namespace Blazorise
         [Parameter]
         public Background Background
         {
-            get => store.Background;
+            get => state.Background;
             set
             {
-                store = store with { Background = value };
+                state = state with { Background = value };
 
                 DirtyClasses();
             }
@@ -294,13 +294,13 @@ namespace Blazorise
         [Parameter]
         public virtual BarMode Mode
         {
-            get => store.Mode;
+            get => state.Mode;
             set
             {
-                if ( store.Mode == value )
+                if ( state.Mode == value )
                     return;
 
-                store = store with { Mode = value };
+                state = state with { Mode = value };
 
                 DirtyClasses();
             }
@@ -312,13 +312,13 @@ namespace Blazorise
         [Parameter]
         public BarCollapseMode CollapseMode
         {
-            get => store.CollapseMode;
+            get => state.CollapseMode;
             set
             {
-                if ( store.CollapseMode == value )
+                if ( state.CollapseMode == value )
                     return;
 
-                store = store with { CollapseMode = value };
+                state = state with { CollapseMode = value };
 
                 DirtyClasses();
             }

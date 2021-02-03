@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -14,11 +14,11 @@ namespace Blazorise
     {
         #region Members
 
-        private BarItemStore parentBarItemStore;
+        private BarItemState parentBarItemState;
 
-        private BarDropdownStore parentBarDropdownStore;
+        private BarDropdownState parentBarDropdownState;
 
-        private BarDropdownStore store = new BarDropdownStore
+        private BarDropdownState state = new()
         {
             NestedIndex = 1
         };
@@ -29,8 +29,8 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdown( Store.Mode ) );
-            builder.Append( ClassProvider.BarDropdownShow( Store.Mode ), Store.Visible );
+            builder.Append( ClassProvider.BarDropdown( State.Mode ) );
+            builder.Append( ClassProvider.BarDropdownShow( State.Mode ), State.Visible );
 
             base.BuildClasses( builder );
         }
@@ -49,7 +49,7 @@ namespace Blazorise
             // Otherwise the internal value would not be set in the right order.
             if ( parameters.TryGetValue<bool>( nameof( Visible ), out var newVisible ) )
             {
-                store = store with { Visible = newVisible };
+                state = state with { Visible = newVisible };
             }
 
             return base.SetParametersAsync( parameters );
@@ -79,7 +79,7 @@ namespace Blazorise
         {
             // Don't allow Toggle when menu is in a vertical "popout" style mode.
             // This will be handled by mouse over actions below.
-            if ( ParentBarItemStore.Mode != BarMode.Horizontal && !Store.IsInlineDisplay )
+            if ( ParentBarItemState.Mode != BarMode.Horizontal && !State.IsInlineDisplay )
                 return;
 
             Visible = !Visible;
@@ -89,7 +89,7 @@ namespace Blazorise
 
         public void OnMouseEnter()
         {
-            if ( ParentBarItemStore.Mode == BarMode.Horizontal || Store.IsInlineDisplay )
+            if ( ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
                 return;
 
             Show();
@@ -97,7 +97,7 @@ namespace Blazorise
 
         public void OnMouseLeave()
         {
-            if ( ParentBarItemStore.Mode == BarMode.Horizontal || Store.IsInlineDisplay )
+            if ( ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
                 return;
 
             Hide();
@@ -111,14 +111,14 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <summary>
-        /// Gets the reference to the store object for this <see cref="BarDropdown"/> component.
+        /// Gets the reference to the state object for this <see cref="BarDropdown"/> component.
         /// </summary>
-        protected BarDropdownStore Store => store;
+        protected BarDropdownState State => state;
 
         /// <summary>
         /// Gets the <see cref="Visible"/> flag represented as a string.
         /// </summary>
-        protected string VisibleString => Store.Visible.ToString().ToLower();
+        protected string VisibleString => State.Visible.ToString().ToLower();
 
         /// <summary>
         /// Sets a value indicating whether the dropdown menu and all its child controls are visible.
@@ -126,14 +126,14 @@ namespace Blazorise
         [Parameter]
         public bool Visible
         {
-            get => store.Visible;
+            get => state.Visible;
             set
             {
                 // prevent dropdown from calling the same code multiple times
-                if ( value == store.Visible )
+                if ( value == state.Visible )
                     return;
 
-                store = store with { Visible = value };
+                state = state with { Visible = value };
 
                 VisibleChanged.InvokeAsync( value );
 
@@ -152,19 +152,19 @@ namespace Blazorise
         [CascadingParameter] protected BarItem ParentBarItem { get; set; }
 
         [CascadingParameter]
-        protected BarItemStore ParentBarItemStore
+        protected BarItemState ParentBarItemState
         {
-            get => parentBarItemStore;
+            get => parentBarItemState;
             set
             {
-                if ( parentBarItemStore == value )
+                if ( parentBarItemState == value )
                     return;
 
-                parentBarItemStore = value;
+                parentBarItemState = value;
 
-                store = store with { Mode = parentBarItemStore.Mode, BarVisible = parentBarItemStore.BarVisible };
+                state = state with { Mode = parentBarItemState.Mode, BarVisible = parentBarItemState.BarVisible };
 
-                if ( !store.BarVisible )
+                if ( !state.BarVisible )
                     Visible = false;
 
                 DirtyClasses();
@@ -172,17 +172,17 @@ namespace Blazorise
         }
 
         [CascadingParameter]
-        protected BarDropdownStore ParentBarDropdownStore
+        protected BarDropdownState ParentBarDropdownState
         {
-            get => parentBarDropdownStore;
+            get => parentBarDropdownState;
             set
             {
-                if ( parentBarDropdownStore == value )
+                if ( parentBarDropdownState == value )
                     return;
 
-                parentBarDropdownStore = value;
+                parentBarDropdownState = value;
 
-                store = store with { NestedIndex = parentBarDropdownStore.NestedIndex + 1 };
+                state = state with { NestedIndex = parentBarDropdownState.NestedIndex + 1 };
 
                 DirtyClasses();
             }

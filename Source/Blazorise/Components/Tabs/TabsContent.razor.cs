@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -17,7 +17,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state of this tabs content component.
         /// </summary>
-        private TabsContentStore store = new();
+        private TabsContentState state = new();
 
         /// <summary>
         /// List of all panel names that are placed inside if this component.
@@ -74,12 +74,12 @@ namespace Blazorise
         /// <summary>
         /// Gets the reference to the tabs content state object.
         /// </summary>
-        protected TabsContentStore Store => store;
+        protected TabsContentState State => state;
 
         /// <summary>
         /// Get the index of the currently selected panel.
         /// </summary>
-        protected int IndexOfSelectedPanel => tabPanels.IndexOf( store.SelectedPanel );
+        protected int IndexOfSelectedPanel => tabPanels.IndexOf( state.SelectedPanel );
 
         /// <summary>
         /// Gets or sets currently selected panel name.
@@ -87,17 +87,17 @@ namespace Blazorise
         [Parameter]
         public string SelectedPanel
         {
-            get => store.SelectedPanel;
+            get => state.SelectedPanel;
             set
             {
                 // prevent panels from calling the same code multiple times
-                if ( value == store.SelectedPanel )
+                if ( value == state.SelectedPanel )
                     return;
 
-                store = store with { SelectedPanel = value };
+                state = state with { SelectedPanel = value };
 
                 // raise the tabchanged notification
-                SelectedPanelChanged.InvokeAsync( store.SelectedPanel );
+                SelectedPanelChanged.InvokeAsync( state.SelectedPanel );
 
                 DirtyClasses();
             }

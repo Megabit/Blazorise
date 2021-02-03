@@ -1,9 +1,9 @@
-﻿namespace Blazorise.Stores
+﻿namespace Blazorise.States
 {
     /// <summary>
     /// Holds the information about the current state of the <see cref="Dropdown"/> component.
     /// </summary>
-    public record DropdownStore
+    public record DropdownState
     {
         #region Properties
 
