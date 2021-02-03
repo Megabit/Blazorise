@@ -1,21 +1,19 @@
 ﻿@inherits Blazorise.BarDropdownMenu
-<CascadingValue Value="@ParentDropdownState">
-    @if ( ParentDropdownState != null && ParentDropdownState.Mode != BarMode.VerticalInline )
-    {
-        <div class="@( ParentDropdownState.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )" @onmouseenter="@ParentBarDropdown.OnMouseEnter" @onmouseleave="@ParentBarDropdown.OnMouseLeave">
-            <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
-                @ChildContent
-            </ul>
-        </div>
-
-    }
-    else
-    {
+@if ( ParentDropdownState != null && ParentDropdownState.Mode != BarMode.VerticalInline )
+{
+    <div class="@( ParentDropdownState.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )" @onmouseenter="@ParentBarDropdown.OnMouseEnter" @onmouseleave="@ParentBarDropdown.OnMouseLeave">
         <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
             @ChildContent
         </ul>
-    }
-</CascadingValue>
+    </div>
+
+}
+else
+{
+    <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
+        @ChildContent
+    </ul>
+}
 @code{
     string HorizontalMenuClass
         => $"ant-menu-submenu ant-menu-submenu-popup {( RightAligned ? "ant-menu-submenu-placement-bottomRight" : "ant-menu-submenu-placement-bottomLeft" )} {( ParentDropdownState?.Visible == true ? "" : "ant-menu-submenu-hidden" )}";

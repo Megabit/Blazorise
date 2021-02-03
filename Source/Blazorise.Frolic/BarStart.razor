@@ -1,13 +1,11 @@
 ﻿@inherits Blazorise.BarStart
-<CascadingValue Value="@ParentBarState">
-    @if ( ParentBarState?.Mode == BarMode.Horizontal )
-    {
+@if ( ParentBarState?.Mode == BarMode.Horizontal )
+{
+    @ChildContent
+}
+else
+{
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
-    }
-    else
-    {
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-            @ChildContent
-        </div>
-    }
-</CascadingValue>
+    </div>
+}

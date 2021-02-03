@@ -6,9 +6,7 @@
 }
 else
 {
-    <CascadingValue Value="@ParentBarState">
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-            @ChildContent
-        </div>
-    </CascadingValue>
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </div>
 }
