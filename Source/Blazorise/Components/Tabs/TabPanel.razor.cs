@@ -6,18 +6,28 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A container for each <see cref="Tab"/> inside of <see cref="Tabs"/> component.
+    /// </summary>
     public partial class TabPanel : BaseComponent
     {
         #region Members
 
+        /// <summary>
+        /// A reference to the parent tabs state.
+        /// </summary>
         private TabsStore parentTabsStore;
 
+        /// <summary>
+        /// A reference to the parent tabs content state.
+        /// </summary>
         private TabsContentStore parentTabsContentStore;
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabPanel() );
@@ -26,6 +36,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( ParentTabs != null )
@@ -41,6 +52,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -63,13 +75,19 @@ namespace Blazorise
 
         #region Properties
 
-        protected bool Active => parentTabsStore.SelectedTab == Name || parentTabsContentStore.SelectedPanel == Name;
+        /// <summary>
+        /// True if this panel is currently set as selected.
+        /// </summary>
+        protected bool Active => ParentTabsStore?.SelectedTab == Name || ParentTabsContentStore?.SelectedPanel == Name;
 
         /// <summary>
         /// Defines the panel name. Must match the coresponding tab name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 
+        /// <summary>
+        /// Cascaded parent <see cref="Tabs"/> state.
+        /// </summary>
         [CascadingParameter]
         protected TabsStore ParentTabsStore
         {
@@ -85,6 +103,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Cascaded parent <see cref="TabsContent"/> state.
+        /// </summary>
         [CascadingParameter]
         protected TabsContentStore ParentTabsContentStore
         {
@@ -100,10 +121,19 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Cascaded parent <see cref="Tabs"/> component.
+        /// </summary>
         [CascadingParameter] protected Tabs ParentTabs { get; set; }
 
+        /// <summary>
+        /// Cascaded parent <see cref="TabsContent"/> component.
+        /// </summary>
         [CascadingParameter] protected TabsContent ParentTabsContent { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="TabPanel"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

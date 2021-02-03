@@ -8,18 +8,30 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A clickable item for <see cref="Tabs"/> component.
+    /// </summary>
     public partial class Tab : BaseComponent
     {
         #region Members
 
+        /// <summary>
+        /// A reference to the parent tabs state.
+        /// </summary>
         private TabsStore parentTabsStore;
 
+        /// <summary>
+        /// Flag to indicate that the tab is not responsive for user interaction.
+        /// </summary>
         private bool disabled;
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Default <see cref="Tab"/> constructor.
+        /// </summary>
         public Tab()
         {
             LinkClassBuilder = new ClassBuilder( BuildLinkClasses );
@@ -29,29 +41,7 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.TabItem() );
-            builder.Append( ClassProvider.TabItemActive( Active ) );
-            builder.Append( ClassProvider.TabItemDisabled( Disabled ) );
-
-            base.BuildClasses( builder );
-        }
-
-        private void BuildLinkClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.TabLink() );
-            builder.Append( ClassProvider.TabLinkActive( Active ) );
-            builder.Append( ClassProvider.TabLinkDisabled( Disabled ) );
-        }
-
-        internal protected override void DirtyClasses()
-        {
-            LinkClassBuilder.Dirty();
-
-            base.DirtyClasses();
-        }
-
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( ParentTabs != null )
@@ -62,18 +52,55 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        protected Task ClickHandler()
+        /// <inheritdoc/>
+        protected override void BuildClasses( ClassBuilder builder )
         {
-            Clicked?.Invoke();
-            ParentTabs?.SelectTab( Name );
+            builder.Append( ClassProvider.TabItem() );
+            builder.Append( ClassProvider.TabItemActive( Active ) );
+            builder.Append( ClassProvider.TabItemDisabled( Disabled ) );
 
-            return Task.CompletedTask;
+            base.BuildClasses( builder );
+        }
+
+        /// <summary>
+        /// Builds a list of classnames for the link element.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
+        private void BuildLinkClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.TabLink() );
+            builder.Append( ClassProvider.TabLinkActive( Active ) );
+            builder.Append( ClassProvider.TabLinkDisabled( Disabled ) );
+        }
+
+        /// <summary>
+        /// Marks the classnames as dirty so they can be rebuilt.
+        /// </summary>
+        internal protected override void DirtyClasses()
+        {
+            LinkClassBuilder.Dirty();
+
+            base.DirtyClasses();
+        }
+
+        /// <summary>
+        /// Handles the item onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected async Task ClickHandler()
+        {
+            await Clicked.InvokeAsync();
+
+            ParentTabs?.SelectTab( Name );
         }
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the class builder for the link element.
+        /// </summary>
         protected ClassBuilder LinkClassBuilder { get; private set; }
 
         /// <summary>
@@ -81,7 +108,10 @@ namespace Blazorise
         /// </summary>
         protected string LinkClassNames => LinkClassBuilder.Class;
 
-        protected bool Active => parentTabsStore.SelectedTab == Name;
+        /// <summary>
+        /// True if this tab is currently set as selected.
+        /// </summary>
+        protected bool Active => ParentTabsStore?.SelectedTab == Name;
 
         /// <summary>
         /// Defines the tab name. Must match the coresponding panel name.
@@ -89,7 +119,7 @@ namespace Blazorise
         [Parameter] public string Name { get; set; }
 
         /// <summary>
-        /// Determines is the tab is disabled.
+        /// Flag to indicate that the tab is not responsive for user interaction.
         /// </summary>
         [Parameter]
         public bool Disabled
@@ -106,8 +136,11 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the item is clicked.
         /// </summary>
-        [Parameter] public Action Clicked { get; set; }
+        [Parameter] public EventCallback Clicked { get; set; }
 
+        /// <summary>
+        /// Cascaded parent <see cref="Tabs"/> state.
+        /// </summary>
         [CascadingParameter]
         protected TabsStore ParentTabsStore
         {
@@ -123,8 +156,14 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Cascaded parent <see cref="Tabs"/> component.
+        /// </summary>
         [CascadingParameter] protected Tabs ParentTabs { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Tab"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
