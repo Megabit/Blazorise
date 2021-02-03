@@ -1,24 +1,34 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A container for tab panels.
+    /// </summary>
     public partial class TabsContent : BaseComponent
     {
         #region Members
 
-        private List<string> tabPanels = new List<string>();
+        /// <summary>
+        /// Holds the state of this tabs content component.
+        /// </summary>
+        private TabsContentState state = new();
 
-        private TabsContentStore store = new TabsContentStore();
+        /// <summary>
+        /// List of all panel names that are placed inside if this component.
+        /// </summary>
+        private readonly List<string> tabPanels = new();
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabsContent() );
@@ -26,32 +36,50 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Notify this <see cref="Tabs"/> component that it's <see cref="TabPanel"/> child component is placed inside of it.
+        /// </summary>
+        /// <param name="name">The name of the panel.</param>
         internal void NotifyTabPanelInitialized( string name )
         {
             if ( !tabPanels.Contains( name ) )
                 tabPanels.Add( name );
         }
 
+        /// <summary>
+        /// Notify this <see cref="Tabs"/> component that it's <see cref="TabPanel"/> child component is removed from it.
+        /// </summary>
+        /// <param name="name">The name of the panel.</param>
         internal void NotifyTabPanelRemoved( string name )
         {
             if ( tabPanels.Contains( name ) )
                 tabPanels.Remove( name );
         }
 
+        /// <summary>
+        /// Sets the active panel by the name.
+        /// </summary>
+        /// <param name="tabName">The name of the panel.</param>
         public void SelectPanel( string name )
         {
             SelectedPanel = name;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion
 
         #region Properties
 
-        protected TabsContentStore Store => store;
+        /// <summary>
+        /// Gets the reference to the tabs content state object.
+        /// </summary>
+        protected TabsContentState State => state;
 
-        protected int IndexOfSelectedPanel => tabPanels.IndexOf( store.SelectedPanel );
+        /// <summary>
+        /// Get the index of the currently selected panel.
+        /// </summary>
+        protected int IndexOfSelectedPanel => tabPanels.IndexOf( state.SelectedPanel );
 
         /// <summary>
         /// Gets or sets currently selected panel name.
@@ -59,17 +87,17 @@ namespace Blazorise
         [Parameter]
         public string SelectedPanel
         {
-            get => store.SelectedPanel;
+            get => state.SelectedPanel;
             set
             {
                 // prevent panels from calling the same code multiple times
-                if ( value == store.SelectedPanel )
+                if ( value == state.SelectedPanel )
                     return;
 
-                store.SelectedPanel = value;
+                state = state with { SelectedPanel = value };
 
                 // raise the tabchanged notification
-                SelectedPanelChanged.InvokeAsync( store.SelectedPanel );
+                SelectedPanelChanged.InvokeAsync( state.SelectedPanel );
 
                 DirtyClasses();
             }
@@ -80,6 +108,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<string> SelectedPanelChanged { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="TabsContent"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

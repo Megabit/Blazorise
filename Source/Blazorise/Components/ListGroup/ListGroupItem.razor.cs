@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -14,8 +14,14 @@ namespace Blazorise
     {
         #region Members
 
-        private ListGroupStore parentListGroupStore;
+        /// <summary>
+        /// Holds the reference to the parent group state object.
+        /// </summary>
+        private ListGroupState parentListGroupState;
 
+        /// <summary>
+        /// Flag to indicate item disabled state.
+        /// </summary>
         private bool disabled;
 
         #endregion
@@ -35,7 +41,7 @@ namespace Blazorise
         /// <summary>
         /// Handles the item onclick event.
         /// </summary>
-        /// <returns>Returns the awaitable task.</returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected async Task ClickHandler()
         {
             if ( Disabled )
@@ -58,7 +64,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the flag indicating the item is selected.
         /// </summary>
-        protected bool Active => parentListGroupStore.Mode == ListGroupMode.Selectable && parentListGroupStore.SelectedItem == Name;
+        protected bool Active => parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItem == Name;
 
         /// <summary>
         /// Defines the item name.
@@ -85,28 +91,31 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback Clicked { get; set; }
 
+        /// <summary>
+        /// Cascaded <see cref="ListGroup"/> component state object.
+        /// </summary>
         [CascadingParameter]
-        protected ListGroupStore ParentListGroupStore
+        protected ListGroupState ParentListGroupState
         {
-            get => parentListGroupStore;
+            get => parentListGroupState;
             set
             {
-                if ( parentListGroupStore == value )
+                if ( parentListGroupState == value )
                     return;
 
-                parentListGroupStore = value;
+                parentListGroupState = value;
 
                 DirtyClasses();
             }
         }
 
         /// <summary>
-        /// Gets or sets the parent list group.
+        /// Cascaded parent <see cref="ListGroup"/>.
         /// </summary>
         [CascadingParameter] protected ListGroup ParentListGroup { get; set; }
 
         /// <summary>
-        /// Gets or sets the component child content.
+        /// Specifies the content to be rendered inside this <see cref="ListGroupItem"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 

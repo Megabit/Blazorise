@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -23,7 +23,7 @@ namespace Blazorise
 
         private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
-        private DropdownStore parentDropdownStore;
+        private DropdownState parentDropdownState;
 
         #endregion
 
@@ -197,20 +197,20 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets or sets the parent dropdown store object.
+        /// Gets or sets the parent dropdown state object.
         /// </summary>
         [CascadingParameter]
-        protected DropdownStore ParentDropdownStore
+        protected DropdownState ParentDropdownState
         {
-            get => parentDropdownStore;
+            get => parentDropdownState;
             set
             {
-                if ( parentDropdownStore == value )
+                if ( parentDropdownState == value )
                     return;
 
-                parentDropdownStore = value;
+                parentDropdownState = value;
 
-                if ( parentDropdownStore.Visible )
+                if ( parentDropdownState.Visible )
                 {
                     jsRegistered = true;
 

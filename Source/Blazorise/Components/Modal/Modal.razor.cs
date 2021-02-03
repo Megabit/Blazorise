@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -16,7 +16,10 @@ namespace Blazorise
     {
         #region Members
 
-        ModalStore store = new ModalStore
+        /// <summary>
+        /// Holds the state of this modal dialog.
+        /// </summary>
+        private ModalState state = new ModalState
         {
             Visible = false,
         };
@@ -41,6 +44,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Modal() );
@@ -50,6 +54,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void BuildStyles( StyleBuilder builder )
         {
             builder.Append( StyleProvider.ModalShow(), Visible );
@@ -57,6 +62,7 @@ namespace Blazorise
             base.BuildStyles( builder );
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing && Rendered )
@@ -88,7 +94,7 @@ namespace Blazorise
 
             Visible = true;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -108,7 +114,7 @@ namespace Blazorise
 
             if ( IsSafeToClose() )
             {
-                store.Visible = false;
+                state = state with { Visible = false };
 
                 HandleVisibilityStyles( false );
                 RaiseEvents( false );
@@ -116,10 +122,14 @@ namespace Blazorise
                 // finally reset close reason so it doesn't interfere with internal closing by Visible property
                 this.closeReason = CloseReason.None;
 
-                StateHasChanged();
+                InvokeAsync( StateHasChanged );
             }
         }
 
+        /// <summary>
+        /// Determines if modal can be closed.
+        /// </summary>
+        /// <returns>True if modal can be closed.</returns>
         private bool IsSafeToClose()
         {
             var safeToClose = true;
@@ -182,7 +192,7 @@ namespace Blazorise
             }
         }
 
-        public void AddFocusableComponent( IFocusableComponent focusableComponent )
+        public void NotifyFocusableComponentInitialized( IFocusableComponent focusableComponent )
         {
             if ( focusableComponent == null )
                 return;
@@ -193,7 +203,7 @@ namespace Blazorise
             }
         }
 
-        public void RemoveFocusableComponent( IFocusableComponent focusableComponent )
+        public void NotifyFocusableComponentRemoved( IFocusableComponent focusableComponent )
         {
             if ( focusableComponent == null )
                 return;
@@ -209,6 +219,11 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Gets the reference to state object for this modal.
+        /// </summary>
+        protected ModalState State => state;
+
+        /// <summary>
         /// Gets the list of focusable components.
         /// </summary>
         protected IList<IFocusableComponent> FocusableComponents
@@ -220,23 +235,23 @@ namespace Blazorise
         [Parameter]
         public bool Visible
         {
-            get => store.Visible;
+            get => state.Visible;
             set
             {
                 // prevent modal from calling the same code multiple times
-                if ( value == store.Visible )
+                if ( value == state.Visible )
                     return;
 
                 if ( value == true )
                 {
-                    store.Visible = true;
+                    state = state with { Visible = true };
 
                     HandleVisibilityStyles( true );
                     RaiseEvents( true );
                 }
                 else if ( value == false && IsSafeToClose() )
                 {
-                    store.Visible = false;
+                    state = state with { Visible = false };
 
                     HandleVisibilityStyles( false );
                     RaiseEvents( false );

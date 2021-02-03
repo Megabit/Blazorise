@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -10,9 +10,9 @@ namespace Blazorise
     {
         #region Members
 
-        private StepsStore parentStepsStore;
+        private StepsState parentStepsState;
 
-        private StepsContentStore parentStepsContentStore;
+        private StepsContentState parentStepsContentState;
 
         #endregion
 
@@ -63,7 +63,7 @@ namespace Blazorise
 
         #region Properties
 
-        protected bool Active => ParentStepsStore?.SelectedStep == Name || ParentStepsContentStore?.SelectedPanel == Name;
+        protected bool Active => ParentStepsState?.SelectedStep == Name || ParentStepsContentStore?.SelectedPanel == Name;
 
         /// <summary>
         /// Defines the panel name. Must match the coresponding step name.
@@ -71,30 +71,30 @@ namespace Blazorise
         [Parameter] public string Name { get; set; }
 
         [CascadingParameter]
-        protected StepsStore ParentStepsStore
+        protected StepsState ParentStepsState
         {
-            get => parentStepsStore;
+            get => parentStepsState;
             set
             {
-                if ( parentStepsStore == value )
+                if ( parentStepsState == value )
                     return;
 
-                parentStepsStore = value;
+                parentStepsState = value;
 
                 DirtyClasses();
             }
         }
 
         [CascadingParameter]
-        protected StepsContentStore ParentStepsContentStore
+        protected StepsContentState ParentStepsContentStore
         {
-            get => parentStepsContentStore;
+            get => parentStepsContentState;
             set
             {
-                if ( parentStepsContentStore == value )
+                if ( parentStepsContentState == value )
                     return;
 
-                parentStepsContentStore = value;
+                parentStepsContentState = value;
 
                 DirtyClasses();
             }

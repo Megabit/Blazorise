@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.Carousel
 <CascadingValue Value="@this" IsFixed="true">
-    <CascadingValue Value="@Store">
+    <CascadingValue Value="@State">
         @ChildContent
 
         <div id="@ElementId" class="@ClassNames" style="@StyleNames" data-ride="carousel" @attributes="@Attributes">

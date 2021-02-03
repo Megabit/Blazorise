@@ -1,21 +1,28 @@
 ﻿#region Using directives
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A container for page numbers links.
+    /// </summary>
     public partial class PaginationItem : BaseComponent
     {
         #region Members
 
-        private PaginationItemStore store = new PaginationItemStore();
+        /// <summary>
+        /// Holds the state of this pagination item.
+        /// </summary>
+        private PaginationItemState state = new();
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.PaginationItem() );
@@ -30,15 +37,23 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// Gets the reference to the pagination item state object.
+        /// </summary>
+        protected PaginationItemState State => state;
+
+        /// <summary>
         /// Indicate the currently active page.
         /// </summary>
         [Parameter]
         public bool Active
         {
-            get => store.Active;
+            get => state.Active;
             set
             {
-                store.Active = value;
+                if ( value == state.Active )
+                    return;
+
+                state = state with { Active = value };
 
                 DirtyClasses();
             }
@@ -50,15 +65,21 @@ namespace Blazorise
         [Parameter]
         public bool Disabled
         {
-            get => store.Disabled;
+            get => state.Disabled;
             set
             {
-                store.Disabled = value;
+                if ( value == state.Disabled )
+                    return;
+
+                state = state with { Disabled = value };
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="PaginationItem"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

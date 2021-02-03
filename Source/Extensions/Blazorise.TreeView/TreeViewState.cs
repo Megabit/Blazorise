@@ -5,14 +5,14 @@ using Blazorise.Extensions;
 
 namespace Blazorise.TreeView
 {
-    public struct TreeViewStore<TNode> : IEquatable<TreeViewStore<TNode>>
+    public struct TreeViewState<TNode> : IEquatable<TreeViewState<TNode>>
     {
         #region Methods
 
         public override bool Equals( object obj )
-            => obj is TreeViewStore<TNode> store && Equals( store );
+            => obj is TreeViewState<TNode> state && Equals( state );
 
-        public bool Equals( TreeViewStore<TNode> other )
+        public bool Equals( TreeViewState<TNode> other )
         {
             return SelectedNode.IsEqual( other.SelectedNode );
         }
@@ -27,12 +27,12 @@ namespace Blazorise.TreeView
             return result;
         }
 
-        public static bool operator ==( TreeViewStore<TNode> lhs, TreeViewStore<TNode> rhs )
+        public static bool operator ==( TreeViewState<TNode> lhs, TreeViewState<TNode> rhs )
         {
             return lhs.Equals( rhs );
         }
 
-        public static bool operator !=( TreeViewStore<TNode> lhs, TreeViewStore<TNode> rhs )
+        public static bool operator !=( TreeViewState<TNode> lhs, TreeViewState<TNode> rhs )
         {
             return !lhs.Equals( rhs );
         }

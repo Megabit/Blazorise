@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -11,7 +11,7 @@ namespace Blazorise
     {
         #region Members
 
-        private BarDropdownStore parentStore;
+        private BarDropdownState parentDropdownState;
 
         #endregion
 
@@ -19,7 +19,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownItem( ParentStore.Mode ) );
+            builder.Append( ClassProvider.BarDropdownItem( ParentDropdownState.Mode ) );
 
             base.BuildClasses( builder );
         }
@@ -28,7 +28,7 @@ namespace Blazorise
         {
             base.BuildStyles( builder );
 
-            builder.Append( $"padding-left: { 1.5d * ( ParentStore.NestedIndex + 1 ) }rem", ParentStore.IsInlineDisplay );
+            builder.Append( $"padding-left: { 1.5d * ( ParentDropdownState.NestedIndex + 1 ) }rem", ParentDropdownState.IsInlineDisplay );
         }
 
         protected Task ClickHandler()
@@ -66,15 +66,15 @@ namespace Blazorise
         [Parameter] public string Title { get; set; }
 
         [CascadingParameter]
-        protected BarDropdownStore ParentStore
+        protected BarDropdownState ParentDropdownState
         {
-            get => parentStore;
+            get => parentDropdownState;
             set
             {
-                if ( parentStore == value )
+                if ( parentDropdownState == value )
                     return;
 
-                parentStore = value;
+                parentDropdownState = value;
 
                 DirtyClasses();
                 DirtyStyles();
