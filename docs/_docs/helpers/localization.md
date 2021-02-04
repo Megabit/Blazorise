@@ -21,6 +21,7 @@ List of predefined language that comes with Blazorise is:
 - `fr-FR` French
 - `hr-HR` Croatian
 - `nl-NL` Dutch
+- `pt-PT` Portuguese
 
 **Note:** If not specified, a default language(or culture) will be `en-US`.
 {: .notice--info}
