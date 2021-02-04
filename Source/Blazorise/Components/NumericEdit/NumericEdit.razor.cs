@@ -3,8 +3,10 @@ using System;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
 
@@ -138,6 +140,42 @@ namespace Blazorise
                     return Converters.FormatValue( @ulong, CurrentCultureInfo );
                 default:
                     throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override async Task OnBlurHandler( FocusEventArgs eventArgs )
+        {
+            await base.OnBlurHandler( eventArgs );
+
+            if ( !string.IsNullOrEmpty( CurrentValueAsString )
+                && CurrentValue is IComparable number
+                && number != null )
+            {
+                var defaultValue = DefaultValue as IComparable;
+
+                // We still need to allow for default value to be entered.
+                // - Non nullable value: 0 or empty
+                // - Nullable value:     null or empty
+                if ( number.CompareTo( defaultValue ) != 0 )
+                {
+                    if ( Max is IComparable max && number.CompareTo( max ) > 0 )
+                    {
+                        number = max;
+                    }
+                    else if ( Min is IComparable min && number.CompareTo( min ) < 0 )
+                    {
+                        number = min;
+                    }
+
+                    // cast back to TValue and check if number has changed
+                    if ( Converters.TryChangeType<TValue>( number, out var currentValue, CurrentCultureInfo )
+                        && !CurrentValue.IsEqual( currentValue ) )
+                    {
+                        // number has changed so we need to re-set the CurrentValue and re-run any validation
+                        await CurrentValueHandler( FormatValueAsString( currentValue ) );
+                    }
+                }
             }
         }
 

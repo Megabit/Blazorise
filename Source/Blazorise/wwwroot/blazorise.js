@@ -351,7 +351,7 @@ window.blazorise = {
                 selection = this.carret();
 
             if (value = value.substring(0, selection[0]) + currentValue + value.substring(selection[1]), !!this.regex().test(value)) {
-                return value = (value || "").replace(this.separator, "."), value === "-" && this.min < 0 || value >= this.min && value <= this.max;
+                return value = (value || "").replace(this.separator, ".");
             }
 
             return false;
