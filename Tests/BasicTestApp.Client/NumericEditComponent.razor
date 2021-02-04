@@ -59,7 +59,16 @@
 
     <span>The Value should update automatically as you type in the numeric field</span>
 
-    <span id="decimal-separator-with-comma-result">@decimalSeparator2.ToString( System.Globalization.CultureInfo.GetCultureInfo( "hr" ))</span>
+    <span id="decimal-separator-with-comma-result">@decimalSeparator2.ToString( System.Globalization.CultureInfo.GetCultureInfo( "hr" ) )</span>
+</p>
+
+<h2>Min And Max</h2>
+<p id="decimal-min-max-non-nullable">
+    <NumericEdit id="decimal-min-max-non-nullable-numeric" TValue="decimal" @bind-Value="@minMax1" Min="10" Max="20" />
+
+    <span>The Value should update automatically as you type in the numeric field</span>
+
+    <span id="decimal-min-max-non-nullable-result">@minMax1.ToString( System.Globalization.CultureInfo.InvariantCulture )</span>
 </p>
 @code{
     int intValue;
@@ -73,4 +82,6 @@
 
     decimal decimalSeparator1 = 42.5m;
     decimal decimalSeparator2 = 42.5m;
+
+    decimal minMax1 = 0;
 }
