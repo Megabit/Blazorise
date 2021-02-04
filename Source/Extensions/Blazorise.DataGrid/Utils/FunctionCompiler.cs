@@ -30,7 +30,7 @@ namespace Blazorise.DataGrid.Utils
 
             Expression field = null;
 
-            MemberInfo memberInfo = GetSafeMember( item.Type, propertyOrFieldName );
+            MemberInfo memberInfo = GetSafeMember( item.Type, parts[0] );
 
             if ( memberInfo is PropertyInfo propertyInfo )
                 field = Expression.Property( item, propertyInfo );
