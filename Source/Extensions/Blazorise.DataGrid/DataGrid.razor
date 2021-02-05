@@ -19,7 +19,7 @@
                         {
                             @if ( IsCommandVisible )
                             {
-                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.HeaderCellStyle" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
+                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment">
                                     @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                     {
                                         <_DataGridNewCommand TItem="TItem" New="@OnNewCommand" />
@@ -31,14 +31,14 @@
                         {
                             @if ( MultiSelect )
                             {
-                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.HeaderCellStyle" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
+                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment">
                                     <_DataGridMultiSelectAll TItem="TItem" MultiSelectAll="OnMultiSelectAll"></_DataGridMultiSelectAll>
                                 </TableHeaderCell>
                             }
                         }
                         else
                         {
-                            <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable ? " cursor: pointer" : "")}")" Clicked="@(async () => await OnSortClicked( column ) )" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
+                            <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable ? "; cursor: pointer" : "")}{(column.Width != null ? $"; width: {column.Width}" : "")}".TrimStart( ' ', ';' ))" Clicked="@(async () => await OnSortClicked( column ) )" TextAlignment="@column.HeaderTextAlignment">
                                 @if ( column.ShowCaption )
                                 {
                                     @if ( column.CaptionTemplate != null )
@@ -66,7 +66,7 @@
                     {
                         @if ( !column.Filterable )
                         {
-                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width"></TableHeaderCell>
+                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()"></TableHeaderCell>
                             continue;
                         }
 
@@ -75,7 +75,7 @@
                             @if ( IsCommandVisible )
                             {
                                 // since Clear Filter is located in the command column it can be visible onle when Edit is enabled
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
                                     <_DataGridClearFilterCommand TItem="TItem" ClearFilter="@OnClearFilterCommand" />
                                 </TableHeaderCell>
                             }
@@ -89,7 +89,7 @@
                         }
                         else
                         {
-                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
+                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
                                 @if ( column.FilterTemplate != null )
                                 {
                                     @(column.FilterTemplate( column.Filter ))
