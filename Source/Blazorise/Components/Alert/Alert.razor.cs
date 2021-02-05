@@ -62,6 +62,9 @@ namespace Blazorise
         /// </summary>
         public void Show()
         {
+            if ( Visible )
+                return;
+
             Visible = true;
             InvokeAsync( StateHasChanged );
         }
@@ -71,6 +74,9 @@ namespace Blazorise
         /// </summary>
         public void Hide()
         {
+            if ( !Visible )
+                return;
+
             Visible = false;
             InvokeAsync( StateHasChanged );
         }
