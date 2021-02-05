@@ -74,7 +74,7 @@ namespace Blazorise
         {
             SelectedStep = stepName;
 
-            InvokeAsync( () => StateHasChanged() );
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>

@@ -42,7 +42,7 @@ namespace Blazorise.Sidebar
             {
                 Visible = !Visible;
 
-                StateHasChanged();
+                await InvokeAsync( StateHasChanged );
 
                 await Toggled.InvokeAsync( Visible );
             }

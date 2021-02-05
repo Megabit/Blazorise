@@ -40,7 +40,7 @@ namespace Blazorise.DataGrid
 
         protected void ValidationsStatusChanged( ValidationsStatusChangedEventArgs args )
         {
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         protected void SaveWithValidation()

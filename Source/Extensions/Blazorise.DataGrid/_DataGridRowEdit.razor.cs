@@ -44,7 +44,7 @@ namespace Blazorise.DataGrid
         {
             isInvalid = args.Status == ValidationStatus.Error;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         protected void SaveWithValidation()

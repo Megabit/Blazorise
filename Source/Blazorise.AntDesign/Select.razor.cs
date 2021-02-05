@@ -79,7 +79,7 @@ namespace Blazorise.AntDesign
         {
             await Collapse();
 
-            StateHasChanged();
+            await InvokeAsync( StateHasChanged );
         }
 
         private async Task Expand()
@@ -140,7 +140,7 @@ namespace Blazorise.AntDesign
                 await Collapse();
             }
 
-            StateHasChanged();
+            await InvokeAsync( StateHasChanged );
         }
 
         protected override Task<ParseValue<IReadOnlyList<TValue>>> ParseValueFromStringAsync( string value )

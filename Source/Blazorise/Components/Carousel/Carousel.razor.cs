@@ -81,7 +81,7 @@ namespace Blazorise
                     }
                 }
 
-                StateHasChanged();
+                InvokeAsync( StateHasChanged );
             }
 
             base.OnAfterRender( firstRender );
@@ -154,7 +154,7 @@ namespace Blazorise
 
             SelectedSlide = slideName;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         private CarouselSlide FindNextSlide( string slideName )

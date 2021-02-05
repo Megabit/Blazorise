@@ -25,10 +25,10 @@ namespace Blazorise
         {
             ErrorClassBuilder = new ClassBuilder( BuildErrorClasses );
 
-            validationsStatusChangedEventHandler += ( eventArgs ) =>
+            validationsStatusChangedEventHandler += async ( eventArgs ) =>
             {
                 OnValidationsStatusChanged( eventArgs );
-                StateHasChanged();
+                await InvokeAsync( StateHasChanged );
             };
         }
 

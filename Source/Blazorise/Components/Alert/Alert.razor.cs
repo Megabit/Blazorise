@@ -63,7 +63,7 @@ namespace Blazorise
         public void Show()
         {
             Visible = true;
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Blazorise
         public void Hide()
         {
             Visible = false;
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Blazorise
         public void Toggle()
         {
             Visible = !Visible;
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Blazorise
             hasMessage = true;
 
             DirtyClasses();
-            InvokeAsync( () => StateHasChanged() );
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Blazorise
             hasDescription = true;
 
             DirtyClasses();
-            InvokeAsync( () => StateHasChanged() );
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion

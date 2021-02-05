@@ -23,7 +23,7 @@ namespace Blazorise.TreeView
         {
             SelectedNode = node;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion

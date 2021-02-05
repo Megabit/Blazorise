@@ -37,7 +37,7 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
-        protected override Task OnAfterRenderAsync( bool firstRender )
+        protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
             {
@@ -45,11 +45,11 @@ namespace Blazorise
                 {
                     DirtyClasses();
 
-                    StateHasChanged();
+                    await InvokeAsync( StateHasChanged );
                 }
             }
 
-            return base.OnAfterRenderAsync( firstRender );
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         /// <inheritdoc/>

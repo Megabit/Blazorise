@@ -64,7 +64,7 @@ namespace Blazorise
 
                 DirtyClasses();
 
-                StateHasChanged();
+                InvokeAsync( StateHasChanged );
             }
         }
 
