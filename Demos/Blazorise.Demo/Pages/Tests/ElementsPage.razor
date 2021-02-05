@@ -378,44 +378,44 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Alert Color="Color.Success" Visible="@dismisableAlert1" Dismisable="true">
+                <Alert Color="Color.Success" @bind-Visible="@dismisableAlert1" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>
                         Alert Link.
                     </AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert1 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Info" Visible="@dismisableAlert2" Dismisable="true">
+                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert2" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>
                         Alert Link.
                     </AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert2 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Warning" Visible="@dismisableAlert3" Dismisable="true">
+                <Alert Color="Color.Warning" @bind-Visible="@dismisableAlert3" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>
                         Alert Link.
                     </AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert3 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Danger" Visible="@dismisableAlert4" Dismisable="true">
+                <Alert Color="Color.Danger" @bind-Visible="@dismisableAlert4" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>Alert Link.</AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert4 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Info" Visible="@dismisableAlert5" Dismisable="true">
+                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert5" Dismisable="true">
                     <Heading Size="HeadingSize.Is4" Color="TextColor.Success">
                         Big one!
-                        <CloseButton Clicked="@(()=>dismisableAlert5 = false)" />
+                        <CloseButton />
                     </Heading>
                     <Paragraph>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.
