@@ -111,7 +111,7 @@ namespace Blazorise
         {
             await CurrentValueHandler( radio.Value?.ToString() );
 
-            StateHasChanged();
+            await InvokeAsync( StateHasChanged );
         }
 
         #endregion

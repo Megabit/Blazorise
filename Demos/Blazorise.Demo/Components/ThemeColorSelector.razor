@@ -44,7 +44,9 @@
                 return;
             }
             _value = value;
-            this.StateHasChanged();
+
+            InvokeAsync( StateHasChanged );
+
             ValueChanged.InvokeAsync( value );
         }
     }

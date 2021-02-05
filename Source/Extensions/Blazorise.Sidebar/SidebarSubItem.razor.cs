@@ -41,7 +41,7 @@ namespace Blazorise.Sidebar
         {
             Visible = visible ?? !Visible;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion

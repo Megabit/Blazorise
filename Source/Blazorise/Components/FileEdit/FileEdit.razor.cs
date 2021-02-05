@@ -124,7 +124,7 @@ namespace Blazorise
 
             await Changed.InvokeAsync( new FileChangedEventArgs( files ) );
 
-            await InvokeAsync( () => StateHasChanged() );
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <inheritdoc/>

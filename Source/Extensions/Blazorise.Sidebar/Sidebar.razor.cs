@@ -33,7 +33,7 @@ namespace Blazorise.Sidebar
         {
             Visible = true;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Blazorise.Sidebar
         {
             Visible = false;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Blazorise.Sidebar
         {
             Visible = !Visible;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion

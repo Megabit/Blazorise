@@ -1,8 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -22,10 +19,10 @@ namespace Blazorise
 
         public BaseValidationResult()
         {
-            validationStatusChangedHandler += ( sender, eventArgs ) =>
+            validationStatusChangedHandler += async ( sender, eventArgs ) =>
             {
                 OnValidationStatusChanged( sender, eventArgs );
-                StateHasChanged();
+                await InvokeAsync( StateHasChanged );
             };
         }
 

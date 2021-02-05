@@ -122,19 +122,19 @@ namespace Blazorise.Snackbar
                 snackbarOptions.ActionButtonIcon,
                 snackbarOptions.IntervalBeforeClose ) );
 
-            return InvokeAsync( () => StateHasChanged() );
+            return InvokeAsync( StateHasChanged );
         }
 
-        private Task OnSnackbarClosed( string key, SnackbarCloseReason closeReason )
+        private async Task OnSnackbarClosed( string key, SnackbarCloseReason closeReason )
         {
             var info = snackbarInfos.FirstOrDefault( x => x.Key == key );
 
             if ( info != null )
                 snackbarInfos.Remove( info );
 
-            StateHasChanged();
+            await InvokeAsync( StateHasChanged );
 
-            return Closed.InvokeAsync( new SnackbarClosedEventArgs( key, closeReason ) );
+            await Closed.InvokeAsync( new SnackbarClosedEventArgs( key, closeReason ) );
         }
 
         protected virtual SnackbarOptions CreateDefaultOptions()

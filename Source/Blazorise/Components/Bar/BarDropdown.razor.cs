@@ -62,7 +62,7 @@ namespace Blazorise
 
             Visible = true;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         internal void Hide()
@@ -72,7 +72,7 @@ namespace Blazorise
 
             Visible = false;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         internal void Toggle()
@@ -84,7 +84,7 @@ namespace Blazorise
 
             Visible = !Visible;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         public void OnMouseEnter()
