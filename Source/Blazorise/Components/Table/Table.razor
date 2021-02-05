@@ -1,16 +1,18 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-@if ( Responsive )
-{
-    <div class="@ResponsiveClassNames">
+<CascadingValue Value="@this" IsFixed="true">
+    @if ( Responsive )
+    {
+        <div class="@ResponsiveClassNames">
+            <table id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @ChildContent
+            </table>
+        </div>
+    }
+    else
+    {
         <table id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </table>
-    </div>
-}
-else
-{
-    <table id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </table>
-}
+    }
+</CascadingValue>

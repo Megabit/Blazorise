@@ -19,7 +19,8 @@ namespace Blazorise.Bootstrap
                 .Class( ClassNames )
                 .Style( StyleNames )
                 .Disabled( Disabled )
-                .AriaPressed( Active );
+                .AriaPressed( Active )
+                .TabIndex( TabIndex );
 
             if ( Type == ButtonType.Link && To != null )
             {

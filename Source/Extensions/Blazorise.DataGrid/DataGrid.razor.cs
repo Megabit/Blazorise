@@ -109,38 +109,6 @@ namespace Blazorise.DataGrid
 
             paginationTemplates = new PaginationTemplates<TItem>();
             paginationContext = new PaginationContext<TItem>( this );
-
-            paginationContext.SubscribeOnPageSizeChanged( pageSize =>
-            {
-                InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
-
-                // When using manual mode, a user is in control when StateHasChanged will be called
-                // so we just need to call HandleReadData.
-                if ( ManualReadMode )
-                {
-                    InvokeAsync( HandleReadData );
-                }
-                else
-                {
-                    InvokeAsync( StateHasChanged );
-                }
-            } );
-
-            paginationContext.SubscribeOnPageChanged( currentPage =>
-            {
-                InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
-
-                // When using manual mode, a user is in control when StateHasChanged will be called
-                // so we just need to call HandleReadData.
-                if ( ManualReadMode )
-                {
-                    InvokeAsync( HandleReadData );
-                }
-                else
-                {
-                    InvokeAsync( StateHasChanged );
-                }
-            } );
         }
 
         #endregion
@@ -182,11 +150,43 @@ namespace Blazorise.DataGrid
         {
             if ( firstRender )
             {
+                paginationContext.SubscribeOnPageSizeChanged( pageSize =>
+                {
+                    InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
+
+                    // When using manual mode, a user is in control when StateHasChanged will be called
+                    // so we just need to call HandleReadData.
+                    if ( ManualReadMode )
+                    {
+                        InvokeAsync( HandleReadData );
+                    }
+                    else
+                    {
+                        InvokeAsync( StateHasChanged );
+                    }
+                } );
+
+                paginationContext.SubscribeOnPageChanged( currentPage =>
+                {
+                    InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
+
+                    // When using manual mode, a user is in control when StateHasChanged will be called
+                    // so we just need to call HandleReadData.
+                    if ( ManualReadMode )
+                    {
+                        InvokeAsync( HandleReadData );
+                    }
+                    else
+                    {
+                        InvokeAsync( StateHasChanged );
+                    }
+                } );
+
                 if ( ManualReadMode )
                     return HandleReadData();
 
                 // after all the columns have being "hooked" we need to resfresh the grid
-                InvokeAsync( () => StateHasChanged() );
+                InvokeAsync( StateHasChanged );
             }
 
             return base.OnAfterRenderAsync( firstRender );
@@ -419,6 +419,24 @@ namespace Blazorise.DataGrid
 
         #region Filtering
 
+        /// <summary>
+        /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
+        /// </summary>
+        /// <returns>Returns the awaitable task.</returns>
+        public Task Reload()
+        {
+            dirtyFilter = dirtyView = true;
+
+            if ( ManualReadMode )
+            {
+                return InvokeAsync( HandleReadData );
+            }
+            else
+            {
+                return InvokeAsync( StateHasChanged );
+            }
+        }
+
         protected async Task HandleReadData()
         {
             try
@@ -431,7 +449,7 @@ namespace Blazorise.DataGrid
             {
                 IsLoading = false;
 
-                await InvokeAsync( () => StateHasChanged() );
+                await InvokeAsync( StateHasChanged );
             }
         }
 
@@ -734,6 +752,16 @@ namespace Blazorise.DataGrid
         protected List<DataGridColumn<TItem>> SortByColumns => sortByColumnsDictionary[SortMode];
 
         /// <summary>
+        /// True if button row should be rendered.
+        /// </summary>
+        public bool IsButtonRowVisible => CommandMode is DataGridCommandMode.Default or DataGridCommandMode.ButtonRow;
+
+        /// <summary>
+        /// True if command buttons should be rendered.
+        /// </summary>
+        public bool IsCommandVisible => Editable && CommandMode is DataGridCommandMode.Default or DataGridCommandMode.Commands;
+
+        /// <summary>
         /// Gets template for title of popup modal.
         /// </summary>
         [Parameter]
@@ -913,6 +941,11 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment LoadingTemplate { get; set; }
 
         /// <summary>
+        /// Gets or sets content of button row of pager.
+        /// </summary>
+        [Parameter] public RenderFragment<ButtonRowContext<TItem>> ButtonRowTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets content of first button of pager.
         /// </summary>
         [Parameter] public RenderFragment FirstPageButtonTemplate { get => paginationTemplates.FirstPageButtonTemplate; set => paginationTemplates.FirstPageButtonTemplate = value; }
@@ -940,17 +973,17 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets content of items per page of grid.
         /// </summary>
-        public RenderFragment ItemsPerPageTemplate { get; set; }
+        [Parameter] public RenderFragment ItemsPerPageTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets content of total items grid for small devices.
         /// </summary>
-        public RenderFragment<PaginationContext<TItem>> TotalItemsShortTemplate { get => paginationTemplates.TotalItemsShortTemplate; set => paginationTemplates.TotalItemsShortTemplate = value; }
+        [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsShortTemplate { get => paginationTemplates.TotalItemsShortTemplate; set => paginationTemplates.TotalItemsShortTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of total items grid.
         /// </summary>
-        public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get => paginationTemplates.TotalItemsTemplate; set => paginationTemplates.TotalItemsTemplate = value; }
+        [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get => paginationTemplates.TotalItemsTemplate; set => paginationTemplates.TotalItemsTemplate = value; }
 
         /// <summary>
         /// Gets or sets the maximum number of items for each page.
@@ -1051,6 +1084,11 @@ namespace Blazorise.DataGrid
         /// Specifes the grid editing modes.
         /// </summary>
         [Parameter] public DataGridEditMode EditMode { get; set; } = DataGridEditMode.Form;
+
+        /// <summary>
+        /// Specifies the grid command mode.
+        /// </summary>
+        [Parameter] public DataGridCommandMode CommandMode { get; set; }
 
         /// <summary>
         /// A trigger function used to handle the visibility of detail row.
@@ -1189,6 +1227,14 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public string ValidationsSummaryLabel { get; set; }
 
+        /// <summary>
+        /// Custom localizer handlers to override default <see cref="DataGrid{TItem}"/> localization.
+        /// </summary>
+        [Parameter] public DataGridLocalizers Localizers { get; set; }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="DataGrid{TItem}"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

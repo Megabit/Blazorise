@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -11,9 +11,9 @@ namespace Blazorise
     {
         #region Members
 
-        private List<string> stepPanels = new List<string>();
+        private StepsContentState state = new();
 
-        private StepsContentStore store = new StepsContentStore();
+        private readonly List<string> stepPanels = new();
 
         #endregion
 
@@ -42,16 +42,22 @@ namespace Blazorise
         {
             SelectedPanel = name;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion
 
         #region Properties
 
-        protected StepsContentStore Store => store;
+        /// <summary>
+        /// Gets the reference to the steps content state object.
+        /// </summary>
+        protected StepsContentState State => state;
 
-        protected int IndexOfSelectedPanel => stepPanels.IndexOf( store.SelectedPanel ) + 1;
+        /// <summary>
+        /// Get the index of the currently selected panel.
+        /// </summary>
+        protected int IndexOfSelectedPanel => stepPanels.IndexOf( state.SelectedPanel ) + 1;
 
         /// <summary>
         /// Gets or sets currently selected panel name.
@@ -59,17 +65,17 @@ namespace Blazorise
         [Parameter]
         public string SelectedPanel
         {
-            get => store.SelectedPanel;
+            get => state.SelectedPanel;
             set
             {
                 // prevent panels from calling the same code multiple times
-                if ( value == store.SelectedPanel )
+                if ( value == state.SelectedPanel )
                     return;
 
-                store = store with { SelectedPanel = value };
+                state = state with { SelectedPanel = value };
 
                 // raise the changed notification
-                SelectedPanelChanged.InvokeAsync( store.SelectedPanel );
+                SelectedPanelChanged.InvokeAsync( state.SelectedPanel );
 
                 DirtyClasses();
             }

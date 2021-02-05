@@ -47,7 +47,7 @@ namespace Blazorise.TreeView
                 ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
             }
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion

@@ -93,7 +93,8 @@ namespace Blazorise
                 previousValidationStatus = eventArgs.Status;
 
                 DirtyClasses();
-                StateHasChanged();
+
+                InvokeAsync( StateHasChanged );
             }
         }
 

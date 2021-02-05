@@ -3,10 +3,10 @@
 @using Blazorise.Extensions
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
-<CascadingValue Value=this>
+<CascadingValue Value="@this" IsFixed="true">
     @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
-        <_DataGridPagination PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="OnPaginationItemClick" />
+        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@OnPaginationItemClick" New="@OnNewCommand" Edit="@OnEditCommand" Delete="@OnDeleteCommand" SelectedRow="@SelectedRow" ClearFilter="@OnClearFilterCommand" />
     }
     <Table ElementId="@ElementId" Class="@Class" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive">
         <TableHeader>
@@ -17,7 +17,7 @@
                     {
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {
-                            @if ( Editable )
+                            @if ( IsCommandVisible )
                             {
                                 <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.HeaderCellStyle" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
                                     @if ( CanInsertNewItem && editState != DataGridEditState.New )
@@ -72,7 +72,7 @@
 
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {
-                            @if ( Editable )
+                            @if ( IsCommandVisible )
                             {
                                 // since Clear Filter is located in the command column it can be visible onle when Edit is enabled
                                 <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
@@ -92,7 +92,7 @@
                             <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
                                 @if ( column.FilterTemplate != null )
                                 {
-                                    @(column.FilterTemplate(column.FilterContext))
+                                    @(column.FilterTemplate( column.Filter ))
                                 }
                                 else
                                 {
@@ -156,7 +156,7 @@
     </Table>
     @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
-        <_DataGridPagination PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="OnPaginationItemClick" />
+        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@OnPaginationItemClick" New="@OnNewCommand" Edit="@OnEditCommand" Delete="@OnDeleteCommand" SelectedRow="@SelectedRow" ClearFilter="@OnClearFilterCommand" />
     }
     @if ( editItem != null && EditMode == DataGridEditMode.Popup )
     {
@@ -173,7 +173,7 @@
     }
 </CascadingValue>
 @* This one is to hold information about columns *@
-<CascadingValue Value=this>
+<CascadingValue Value="@this" IsFixed="true">
     @DataGridAggregates
     @DataGridColumns
     @ChildContent

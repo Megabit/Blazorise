@@ -88,6 +88,18 @@
             }
         }
 
+        public static string ToDateInputMode( this DateInputMode dateInputMode )
+        {
+            switch ( dateInputMode )
+            {
+                case DateInputMode.DateTime:
+                    return "datetime-local";
+                case DateInputMode.Date:
+                default:
+                    return "date";
+            }
+        }
+
         /// <summary>
         /// Gets the link target name.
         /// </summary>

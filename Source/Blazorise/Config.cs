@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using Blazorise.Localization;
 using Blazorise.Providers;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -32,6 +33,14 @@ namespace Blazorise
             serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
             serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
             serviceCollection.AddScoped<IEditContextValidator, EditContextValidator>();
+
+            serviceCollection.AddScoped<ITextLocalizerService, TextLocalizerService>();
+            serviceCollection.AddScoped( typeof( ITextLocalizer<> ), typeof( TextLocalizer<> ) );
+
+            serviceCollection.AddScoped<IValidationHandlerFactory, ValidationHandlerFactory>();
+            serviceCollection.AddScoped<ValidatorValidationHandler>();
+            serviceCollection.AddScoped<PatternValidationHandler>();
+            serviceCollection.AddScoped<DataAnnotationValidationHandler>();
 
             return serviceCollection;
         }

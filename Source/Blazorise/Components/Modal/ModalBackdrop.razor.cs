@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -12,7 +12,7 @@ namespace Blazorise
     {
         #region Members
 
-        private ModalStore parentModalStore;
+        private ModalState parentModalState;
 
         private bool jsRegistered;
 
@@ -57,7 +57,7 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.ModalBackdrop() );
             builder.Append( ClassProvider.ModalBackdropFade() );
-            builder.Append( ClassProvider.ModalBackdropVisible( parentModalStore.Visible ) );
+            builder.Append( ClassProvider.ModalBackdropVisible( parentModalState.Visible ) );
 
             base.BuildClasses( builder );
         }
@@ -82,17 +82,17 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         [CascadingParameter]
-        protected ModalStore ParentModalStore
+        protected ModalState ParentModalState
         {
-            get => parentModalStore;
+            get => parentModalState;
             set
             {
-                if ( parentModalStore == value )
+                if ( parentModalState == value )
                     return;
 
-                parentModalStore = value;
+                parentModalState = value;
 
-                if ( parentModalStore.Visible )
+                if ( parentModalState.Visible )
                 {
                     jsRegistered = true;
 

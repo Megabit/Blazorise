@@ -14,7 +14,7 @@ namespace Blazorise.Frolic
 
         public override string TextEdit( bool plaintext ) => "e-control";
 
-        public override string TextEditSize( Size size ) => $"{TextEdit( false )}-{ToSize( size )}";
+        public override string TextEditSize( Size size ) => $"e-control-{ToSize( size )}";
 
         public override string TextEditColor( Color color ) => $"text-{ToColor( color )}";
 
@@ -42,11 +42,25 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region NumericEdit
+
+        public override string NumericEdit( bool plaintext ) => "e-control";
+
+        public override string NumericEditSize( Size size ) => $"e-control-{ToSize( size )}";
+
+        public override string NumericEditColor( Color color ) => $"text-{ToColor( color )}";
+
+        public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region DateEdit
 
-        public override string DateEdit() => "e-control";
+        public override string DateEdit( bool plaintext ) => "e-control";
 
-        public override string DateEditSize( Size size ) => $"{DateEdit()}-{ToSize( size )}";
+        public override string DateEditSize( Size size ) => $"e-control-{ToSize( size )}";
+
+        public override string DateEditColor( Color color ) => $"text-{ToColor( color )}";
 
         public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -54,9 +68,11 @@ namespace Blazorise.Frolic
 
         #region TimeEdit
 
-        public override string TimeEdit() => "e-control";
+        public override string TimeEdit( bool plaintext ) => "e-control";
 
-        public override string TimeEditSize( Size size ) => $"{TimeEdit()}-{ToSize( size )}";
+        public override string TimeEditSize( Size size ) => $"e-control-{ToSize( size )}";
+
+        public override string TimeEditColor( Color color ) => $"text-{ToColor( color )}";
 
         public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -99,6 +115,10 @@ namespace Blazorise.Frolic
         public override string RadioSize( bool button, Size size ) => button ? null : $"{Radio( button )}-{ToSize( size )}";
 
         public override string RadioInline() => null;
+
+        public override string RadioCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
+
+        public override string RadioValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -385,6 +405,8 @@ namespace Blazorise.Frolic
                     return null;
             }
         }
+
+        public override string DropdownTableResponsive() => null;
 
         #endregion
 

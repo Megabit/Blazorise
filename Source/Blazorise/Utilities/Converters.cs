@@ -104,14 +104,26 @@ namespace Blazorise.Utilities
         }
 
         // https://stackoverflow.com/a/1107090/833106
-        public static TValue ChangeType<TValue>( object o )
+        public static TValue ChangeType<TValue>( object value )
         {
             Type conversionType = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
 
-            if ( conversionType.IsEnum && EnumTryParse( o?.ToString(), conversionType, out TValue value ) )
-                return value;
+            if ( conversionType.IsEnum && EnumTryParse( value?.ToString(), conversionType, out TValue parsedValue ) )
+                return parsedValue;
 
-            return (TValue)Convert.ChangeType( o, conversionType );
+            try
+            {
+                return (TValue)Convert.ChangeType( value, conversionType );
+            }
+            catch
+            {
+                // If source value or TResult does not implement IConvertible the Convert.ChangeType will fail.
+                // (One example is converting [Guid] to [object] type).
+                //
+                // So, as a fall-back mechanism we can just try casting it. It already failed so we can try this
+                // additonal step anyways.
+                return (TValue)value;
+            }
         }
 
         public static bool TryChangeType<TValue>( object value, out TValue result, CultureInfo cultureInfo = null )

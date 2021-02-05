@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.Tabs
-<CascadingValue Value=this>
-    <CascadingValue Value="@Store">
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@State">
         @if ( TabPosition == TabPosition.Top )
         {
             @if ( Items != null )

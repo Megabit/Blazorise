@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -18,23 +19,26 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
+        protected override async Task OnAfterRenderAsync( bool firstRender )
+        {
+            if ( firstRender && registeredButtons?.Count > 0 )
+            {
+                DirtyClasses();
+
+                await InvokeAsync( StateHasChanged );
+            }
+
+            await base.OnAfterRenderAsync( firstRender );
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Addons() );
             builder.Append( ClassProvider.AddonsHasButton( registeredButtons?.Count > 0 ) );
 
             base.BuildClasses( builder );
-        }
-
-        protected override void OnAfterRender( bool firstRender )
-        {
-            if ( firstRender && registeredButtons?.Count > 0 )
-            {
-                DirtyClasses();
-                StateHasChanged();
-            }
-
-            base.OnAfterRender( firstRender );
         }
 
         internal void Register( Button button )

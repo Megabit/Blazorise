@@ -2,7 +2,7 @@
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -13,7 +13,7 @@ namespace Blazorise
     {
         #region Members
 
-        private StepsStore parentStepsStore;
+        private StepsState parentStepsState;
 
         private bool completed;
 
@@ -47,7 +47,7 @@ namespace Blazorise
         {
             if ( disposing )
             {
-                if ( ParentStepsStore != null )
+                if ( ParentStepsState != null )
                 {
                     ParentSteps.NotifyStepRemoved( Name );
                 }
@@ -100,7 +100,7 @@ namespace Blazorise
 
         protected ClassBuilder DescriptionClassBuilder { get; private set; }
 
-        protected bool Active => parentStepsStore?.SelectedStep == Name;
+        protected bool Active => parentStepsState?.SelectedStep == Name;
 
         protected int? CalculatedIndex => Index ?? ParentSteps?.IndexOfStep( Name );
 
@@ -174,15 +174,15 @@ namespace Blazorise
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         [CascadingParameter]
-        protected StepsStore ParentStepsStore
+        protected StepsState ParentStepsState
         {
-            get => parentStepsStore;
+            get => parentStepsState;
             set
             {
-                if ( parentStepsStore == value )
+                if ( parentStepsState == value )
                     return;
 
-                parentStepsStore = value;
+                parentStepsState = value;
 
                 DirtyClasses();
             }

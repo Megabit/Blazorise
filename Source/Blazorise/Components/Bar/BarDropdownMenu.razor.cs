@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -12,7 +12,7 @@ namespace Blazorise
 
         private bool rightAligned;
 
-        private BarDropdownStore parentStore;
+        private BarDropdownState parentDropdownState;
 
         #endregion
 
@@ -29,17 +29,17 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownMenu( ParentStore.Mode ) );
-            builder.Append( ClassProvider.BarDropdownMenuVisible( ParentStore.Mode, ParentStore.Visible ) );
-            builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), RightAligned );
+            builder.Append( ClassProvider.BarDropdownMenu( ParentDropdownState.Mode ) );
+            builder.Append( ClassProvider.BarDropdownMenuVisible( ParentDropdownState.Mode, ParentDropdownState.Visible ) );
+            builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode ), RightAligned );
 
             base.BuildClasses( builder );
         }
 
         protected virtual void BuildContainerClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownMenuContainer( ParentStore.Mode ) );
-            builder.Append( ClassProvider.BarDropdownMenuRight( ParentStore.Mode ), RightAligned );
+            builder.Append( ClassProvider.BarDropdownMenuContainer( ParentDropdownState.Mode ) );
+            builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode ), RightAligned );
         }
 
         internal protected override void DirtyClasses()
@@ -55,7 +55,7 @@ namespace Blazorise
 
         protected string ContainerClassNames => ContainerClassBuilder.Class;
 
-        protected string VisibleString => ParentStore.Visible.ToString().ToLower();
+        protected string VisibleString => ParentDropdownState.Visible.ToString().ToLower();
 
         protected ClassBuilder ContainerClassBuilder { get; private set; }
 
@@ -72,15 +72,15 @@ namespace Blazorise
         }
 
         [CascadingParameter]
-        protected BarDropdownStore ParentStore
+        protected BarDropdownState ParentDropdownState
         {
-            get => parentStore;
+            get => parentDropdownState;
             set
             {
-                if ( parentStore == value )
+                if ( parentDropdownState == value )
                     return;
 
-                parentStore = value;
+                parentDropdownState = value;
 
                 DirtyClasses();
             }

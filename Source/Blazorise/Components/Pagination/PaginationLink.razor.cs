@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -8,24 +8,36 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Clickable element for page numbers.
+    /// </summary>
     public partial class PaginationLink : BaseComponent
     {
         #region Members
 
-        private PaginationItemStore paginationItemStore;
+        /// <summary>
+        /// Holds the state of the parent item state object.
+        /// </summary>
+        private PaginationItemState parentPaginationItemState;
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.PaginationLink() );
-            builder.Append( ClassProvider.PaginationLinkActive(), PaginationItemStore.Active );
+            builder.Append( ClassProvider.PaginationLinkActive(), ParentPaginationItemState.Active );
 
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Handles the link onclick event.
+        /// </summary>
+        /// <param name="eventArgs">Information about the mouse event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task ClickHandler( MouseEventArgs eventArgs )
         {
             return Clicked.InvokeAsync( Page );
@@ -45,22 +57,28 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<string> Clicked { get; set; }
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
+        /// <summary>
+        /// Cascaded <see cref="PaginationItemState"/> for the <see cref="PaginationItem"/> in which this link is placed.
+        /// </summary>
         [CascadingParameter]
-        protected PaginationItemStore PaginationItemStore
+        protected PaginationItemState ParentPaginationItemState
         {
-            get => paginationItemStore;
+            get => parentPaginationItemState;
             set
             {
-                if ( paginationItemStore == value )
+                if ( parentPaginationItemState == value )
                     return;
 
-                paginationItemStore = value;
+                parentPaginationItemState = value;
 
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="PaginationLink"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

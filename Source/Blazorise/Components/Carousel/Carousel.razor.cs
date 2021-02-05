@@ -1,27 +1,41 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
-using Blazorise.Stores;
+using Blazorise.Localization;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A slideshow component for cycling through elements - images or slides of text.
+    /// </summary>
     public partial class Carousel : BaseContainerComponent
     {
         #region Members
 
-        private CarouselStore store = new CarouselStore
+        /// <summary>
+        /// Holds the state of this carousel.
+        /// </summary>
+        private CarouselState state = new CarouselState
         {
             Autoplay = true,
             Crossfade = false,
         };
 
+        /// <summary>
+        /// A times used to activate the slide animation.
+        /// </summary>
         private Timer autoplayTimer;
 
+        /// <summary>
+        /// A list of slides placed inside of this carousel.
+        /// </summary>
         protected List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
 
         #endregion
@@ -38,24 +52,15 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void BuildClasses( ClassBuilder builder )
+        /// <inheritdoc/>
+        protected override void OnInitialized()
         {
-            builder.Append( ClassProvider.Carousel() );
-            //builder.Append( ClassProvider.CarouselFade( Crossfade ) );
+            LocalizerService.LocalizationChanged += OnLocalizationChanged;
 
-            base.BuildClasses( builder );
+            base.OnInitialized();
         }
 
-        private void BuildIndicatorsClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.CarouselIndicators() );
-        }
-
-        private void BuildSlidesClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.CarouselSlides() );
-        }
-
+        /// <inheritdoc/>
         protected override void OnAfterRender( bool firstRender )
         {
             if ( firstRender )
@@ -67,7 +72,7 @@ namespace Blazorise
                         Interval = AutoplayInterval
                     };
 
-                    autoplayTimer.Elapsed += OnAutoplayTimer_Elapsed;
+                    autoplayTimer.Elapsed += OnAutoplayTimerElapsed;
                     autoplayTimer.AutoReset = true;
 
                     if ( Autoplay )
@@ -76,28 +81,61 @@ namespace Blazorise
                     }
                 }
 
-                StateHasChanged();
+                InvokeAsync( StateHasChanged );
             }
 
             base.OnAfterRender( firstRender );
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
             {
                 if ( autoplayTimer != null )
                 {
-                    autoplayTimer.Elapsed -= OnAutoplayTimer_Elapsed;
+                    autoplayTimer.Elapsed -= OnAutoplayTimerElapsed;
                     autoplayTimer.Dispose();
                     autoplayTimer = null;
                 }
+
+                LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
             base.Dispose( disposing );
         }
 
-        internal void AddSlide( CarouselSlide slide )
+        /// <inheritdoc/>
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.Carousel() );
+
+            base.BuildClasses( builder );
+        }
+
+        /// <summary>
+        /// Builds a list of classnames for the indicators container element.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
+        private void BuildIndicatorsClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.CarouselIndicators() );
+        }
+
+        /// <summary>
+        /// Builds a list of classnames for the slides element.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
+        private void BuildSlidesClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.CarouselSlides() );
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="slide"></param>
+        internal void NotifyCarouselSlideInitialized( CarouselSlide slide )
         {
             carouselSlides.Add( slide );
         }
@@ -116,10 +154,10 @@ namespace Blazorise
 
             SelectedSlide = slideName;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
-        private CarouselSlide FindNext( string slideName )
+        private CarouselSlide FindNextSlide( string slideName )
         {
             var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == slideName ) ) + 1;
 
@@ -129,7 +167,7 @@ namespace Blazorise
             return carouselSlides[slideIndex];
         }
 
-        private CarouselSlide FindPrevious( string slideName )
+        private CarouselSlide FindPreviousSlide( string slideName )
         {
             var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == SelectedSlide ) ) - 1;
 
@@ -139,27 +177,33 @@ namespace Blazorise
             return carouselSlides[slideIndex];
         }
 
+        /// <summary>
+        /// Selects the next slide in a sequence, relative to the current slide.
+        /// </summary>
         public void SelectNext()
         {
             if ( carouselSlides.Count == 0 )
                 return;
 
-            Select( FindNext( SelectedSlide ).Name );
+            Select( FindNextSlide( SelectedSlide ).Name );
         }
 
+        /// <summary>
+        /// Selects the previous slide in a sequence, relative to the current slide.
+        /// </summary>
         public void SelectPrevious()
         {
             if ( carouselSlides.Count == 0 )
                 return;
 
-            Select( FindPrevious( SelectedSlide ).Name );
+            Select( FindPreviousSlide( SelectedSlide ).Name );
         }
 
-        private async void OnAutoplayTimer_Elapsed( object sender, ElapsedEventArgs e )
-        {
-            await InvokeAsync( () => SelectNext() );
-        }
-
+        /// <summary>
+        /// Handles the indicator clicked event.
+        /// </summary>
+        /// <param name="slideName">Slide name for which the indicator was clicked.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task OnIndicatorClicked( string slideName )
         {
             Select( slideName );
@@ -167,11 +211,21 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+        private async void OnAutoplayTimerElapsed( object sender, ElapsedEventArgs e )
+        {
+            await InvokeAsync( () => SelectNext() );
+        }
+
+        private async void OnLocalizationChanged( object sender, EventArgs e )
+        {
+            await InvokeAsync( StateHasChanged );
+        }
+
         #endregion
 
         #region Properties
 
-        protected CarouselStore Store => store;
+        protected CarouselState State => state;
 
         protected ClassBuilder IndicatorsClassBuilder { get; private set; }
 
@@ -181,16 +235,52 @@ namespace Blazorise
 
         protected string SlidesClassNames => SlidesClassBuilder.Class;
 
+        [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+        [Inject] protected ITextLocalizer<Carousel> Localizer { get; set; }
+
+        /// <summary>
+        /// Gets the localized previous button text.
+        /// </summary>
+        protected string PreviousButtonString
+        {
+            get
+            {
+                var localizationString = "Previous";
+
+                if ( PreviousButtonLocalizer != null )
+                    return PreviousButtonLocalizer.Invoke( localizationString );
+
+                return Localizer[localizationString];
+            }
+        }
+
+        /// <summary>
+        /// Gets the localized next button text.
+        /// </summary>
+        protected string NextButtonString
+        {
+            get
+            {
+                var localizationString = "Next";
+
+                if ( PreviousButtonLocalizer != null )
+                    return PreviousButtonLocalizer.Invoke( localizationString );
+
+                return Localizer[localizationString];
+            }
+        }
+
         /// <summary>
         /// Autoplays the carousel slides from left to right.
         /// </summary>
         [Parameter]
         public bool Autoplay
         {
-            get => store.Autoplay;
+            get => state.Autoplay;
             set
             {
-                store.Autoplay = value;
+                state = state with { Autoplay = value };
 
                 DirtyClasses();
             }
@@ -202,10 +292,10 @@ namespace Blazorise
         //[Parameter]
         //public bool Crossfade
         //{
-        //    get => store.Crossfade;
+        //    get => state.Crossfade;
         //    set
         //    {
-        //        store.Crossfade = value;
+        //        state = state with { Crossfade = value };
 
         //        DirtyClasses();
         //    }
@@ -232,15 +322,15 @@ namespace Blazorise
         [Parameter]
         public string SelectedSlide
         {
-            get => store.CurrentSlide;
+            get => state.CurrentSlide;
             set
             {
-                if ( value == store.CurrentSlide )
+                if ( value == state.CurrentSlide )
                     return;
 
-                store.CurrentSlide = value;
+                state = state with { CurrentSlide = value };
 
-                SelectedSlideChanged.InvokeAsync( store.CurrentSlide );
+                SelectedSlideChanged.InvokeAsync( state.CurrentSlide );
 
                 DirtyClasses();
             }
@@ -250,6 +340,16 @@ namespace Blazorise
         /// Occurs after the selected slide has changed.
         /// </summary>
         [Parameter] public EventCallback<string> SelectedSlideChanged { get; set; }
+
+        /// <summary>
+        /// Function used to handle custom localization for previous button that will override a default <see cref="ITextLocalizer"/>.
+        /// </summary>
+        [Parameter] public TextLocalizerHandler PreviousButtonLocalizer { get; set; }
+
+        /// <summary>
+        /// Function used to handle custom localization for next button that will override a default <see cref="ITextLocalizer"/>.
+        /// </summary>
+        [Parameter] public TextLocalizerHandler NextButtonLocalizer { get; set; }
 
         #endregion
     }

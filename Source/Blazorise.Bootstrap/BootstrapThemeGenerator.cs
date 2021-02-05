@@ -219,10 +219,12 @@ namespace Blazorise.Bootstrap
                 if ( !backgroundColor.IsEmpty )
                 {
                     var background = ToHex( backgroundColor );
+                    var color = ToHex( Contrast( theme, background ) );
 
                     sb.Append( $".dropdown-item.active," )
                         .Append( $".dropdown-item:active" ).Append( "{" )
                         .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+                        .Append( $"color: {color} !important;" )
                         .AppendLine( "}" );
                 }
             }
@@ -624,7 +626,7 @@ namespace Blazorise.Bootstrap
 
             sb.Append( $".text-{variant}" )
                 .Append( "{" )
-                .Append( $"color: {textColorHex};" )
+                .Append( $"color: {textColorHex} !important;" )
                 .AppendLine( "}" );
         }
 
