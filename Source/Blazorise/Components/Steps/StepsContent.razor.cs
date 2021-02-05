@@ -42,7 +42,7 @@ namespace Blazorise
         {
             SelectedPanel = name;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion

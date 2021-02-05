@@ -62,9 +62,9 @@ namespace Blazorise
             return sb.ToString();
         }
 
-        private void OnOptionsChanged( object sender, EventArgs e )
+        private async void OnOptionsChanged( object sender, EventArgs e )
         {
-            StateHasChanged();
+            await InvokeAsync( StateHasChanged );
         }
 
         #endregion

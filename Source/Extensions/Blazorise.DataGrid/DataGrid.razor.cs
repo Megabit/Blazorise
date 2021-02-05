@@ -186,7 +186,7 @@ namespace Blazorise.DataGrid
                     return HandleReadData();
 
                 // after all the columns have being "hooked" we need to resfresh the grid
-                InvokeAsync( () => StateHasChanged() );
+                InvokeAsync( StateHasChanged );
             }
 
             return base.OnAfterRenderAsync( firstRender );
@@ -449,7 +449,7 @@ namespace Blazorise.DataGrid
             {
                 IsLoading = false;
 
-                await InvokeAsync( () => StateHasChanged() );
+                await InvokeAsync( StateHasChanged );
             }
         }
 
