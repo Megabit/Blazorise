@@ -38,7 +38,7 @@ Alert component for feedback.
 You can also add a [`CloseButton`](/docs/components/close-button).
 
 ```html
-<Alert Color="Color.Success">
+<Alert Color="Color.Success" @bind-Visible="@visible">
     <AlertDescription>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
     </AlertDescription>
@@ -47,6 +47,9 @@ You can also add a [`CloseButton`](/docs/components/close-button).
     </AlertMessage>
     <CloseButton />
 </Alert>
+@code {
+    bool visible = true;
+}
 ```
 
 <iframe class="frame" src="/examples/elements/alert-close/" frameborder="0" scrolling="no" style="width:100%;height:100px;"></iframe>
@@ -56,7 +59,7 @@ You can also add a [`CloseButton`](/docs/components/close-button).
 You can also add a [`CloseButton`](/docs/components/close-button).
 
 ```html
-<Alert Color="Color.Info" Visible="true">
+<Alert Color="Color.Info" @bind-Visible="@visible">
     <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
         Big one!
         <CloseButton />
@@ -69,6 +72,9 @@ You can also add a [`CloseButton`](/docs/components/close-button).
         <Button Color="Color.Light">Or do this</Button>
     </Paragraph>
 </Alert>
+@code {
+    bool visible = true;
+}
 ```
 
 <iframe class="frame" src="/examples/elements/alert-close-big/" frameborder="0" scrolling="no" style="width:100%;height:265px;"></iframe>
@@ -78,9 +84,12 @@ You can also add a [`CloseButton`](/docs/components/close-button).
 To show alert just set `Visible` attribute to true.
 
 ```html
-<Alert Color="Color.Success" Visible="true">
+<Alert Color="Color.Success" @bind-Visible="@visible">
     ...
 </Alert>
+@code {
+    bool visible = true;
+}
 ```
 
 or programmatically
