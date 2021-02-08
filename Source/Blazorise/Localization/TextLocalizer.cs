@@ -98,8 +98,6 @@ namespace Blazorise.Localization
 
         protected virtual IReadOnlyDictionary<string, string> GetTranslations()
         {
-            // Get translation for selected culture
-            
             // The selected culture can either be a neutral culture (2-digit:"cn") or a specific culture
             // (5-digit:"en-UK").
             // Both is possible depending on application, user or browser settings.
@@ -111,16 +109,23 @@ namespace Blazorise.Localization
             // 4. Current thread ui culture: match of parent neutral culture (e.g. "es-CR" will fallback to "es")
             // 5. Invariant culture (defaults to "en")
             IReadOnlyDictionary<string, string> result;
-            if ( translationsByCulture.TryGetValue( localizerService.SelectedCulture.Name, out result ) )
+
+            if ( localizerService.SelectedCulture != null
+                && translationsByCulture.TryGetValue( localizerService.SelectedCulture.Name, out result ) )
                 return result;
-            if ( !localizerService.SelectedCulture.IsNeutralCulture &&
-                 translationsByCulture.TryGetValue( localizerService.SelectedCulture.Parent.Name, out result ) )
+
+            if ( localizerService.SelectedCulture?.Parent != null && !localizerService.SelectedCulture.IsNeutralCulture
+                 && translationsByCulture.TryGetValue( localizerService.SelectedCulture.Parent.Name, out result ) )
                 return result;
-            if ( translationsByCulture.TryGetValue( CultureInfo.CurrentUICulture.Name, out result ) )
+
+            if ( CultureInfo.CurrentUICulture != null
+                && translationsByCulture.TryGetValue( CultureInfo.CurrentUICulture.Name, out result ) )
                 return result;
-            if ( !CultureInfo.CurrentUICulture.IsNeutralCulture && 
-                 translationsByCulture.TryGetValue( CultureInfo.CurrentUICulture.Parent.Name, out result ) )
+
+            if ( CultureInfo.CurrentUICulture?.Parent != null && !CultureInfo.CurrentUICulture.IsNeutralCulture
+                && translationsByCulture.TryGetValue( CultureInfo.CurrentUICulture.Parent.Name, out result ) )
                 return result;
+
             if ( translationsByCulture.TryGetValue( "en", out result ) )
                 return result;
 
