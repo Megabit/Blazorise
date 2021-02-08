@@ -55,6 +55,15 @@ namespace Blazorise
         public bool ChangeSliderOnHold { get; set; } = true;
 
         /// <summary>
+        /// If true, the component that can control it's parent will automatically close it.
+        /// </summary>
+        /// <remarks>
+        /// This behavior can be seen on <see cref="CloseButton"/> that can auto-close it's <see cref="Alert"/>
+        /// or it's <see cref="Modal"/> parent component.
+        /// </remarks>
+        public bool AutoCloseParent { get; set; } = true;
+
+        /// <summary>
         /// Global handler that can be used to override and localize validation messages before they
         /// are shown on the <see cref="ValidationError"/> or <see cref="ValidationSuccess"/>.
         /// </summary>
