@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class TableFooter : BaseComponent
+    /// <summary>
+    /// Defines a set of rows summarizing the columns of the table.
+    /// </summary>
+    public partial class TableFooter : BaseDraggableComponent
     {
         #region Members
 
@@ -13,6 +16,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableFooter() );
@@ -24,6 +28,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="TableFooter"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

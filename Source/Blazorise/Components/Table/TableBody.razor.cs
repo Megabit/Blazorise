@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class TableBody : BaseComponent
+    /// <summary>
+    /// Table Body element encapsulates a set of table rows, indicating that they comprise the body of the table.
+    /// </summary>
+    public partial class TableBody : BaseDraggableComponent
     {
         #region Members
 
@@ -13,6 +16,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableBody() );
@@ -24,6 +28,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="TableBody"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class TableHeader : BaseComponent
+    /// <summary>
+    /// Defines a set of rows defining the head of the columns of the table.
+    /// </summary>
+    public partial class TableHeader : BaseDraggableComponent
     {
         #region Members
 
@@ -15,6 +18,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableHeader() );
@@ -28,7 +32,7 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Sets the background color to the header.
+        /// Sets the prefered color contrast for the header.
         /// </summary>
         [Parameter]
         public ThemeContrast ThemeContrast
@@ -42,6 +46,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="TableHeader"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
