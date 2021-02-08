@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Text;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -23,6 +24,19 @@ namespace Blazorise.DataGrid
         private async void OnLocalizationChanged( object sender, EventArgs e )
         {
             await InvokeAsync( StateHasChanged );
+        }
+
+        protected string BuildCellStyle()
+        {
+            var sb = new StringBuilder();
+
+            if ( !string.IsNullOrEmpty( Style ) )
+                sb.Append( Style );
+
+            if ( Width != null )
+                sb.Append( $"; width: {Width}" );
+
+            return sb.ToString().TrimStart( ' ', ';' );
         }
 
         [Inject] protected ITextLocalizerService LocalizerService { get; set; }

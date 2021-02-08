@@ -38,7 +38,7 @@
             }
             else
             {
-                <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" width="@column.Width" TextAlignment="@column.TextAlignment">
+                <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment">
                     @if ( column.DisplayTemplate != null )
                     {
                         @column.DisplayTemplate( Item )
