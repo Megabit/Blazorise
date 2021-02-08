@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public partial class TableHeaderCell : BaseComponent
+    /// <summary>
+    /// Defines a cell as header of a group of table cells.
+    /// </summary>
+    public partial class TableHeaderCell : BaseDraggableComponent
     {
         #region Members
 
@@ -17,6 +20,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableHeaderCell() );
@@ -25,9 +29,14 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected Task ClickHandler( MouseEventArgs e )
+        /// <summary>
+        /// Handles the header cell clicked event.
+        /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected Task OnClickHandler( MouseEventArgs eventArgs )
         {
-            return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
+            return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
         }
 
         #endregion
@@ -65,7 +74,7 @@ namespace Blazorise
         [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }
 
         /// <summary>
-        /// Gets or sets the component child content.
+        /// Specifies the content to be rendered inside this <see cref="TableHeaderCell"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 

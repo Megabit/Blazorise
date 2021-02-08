@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public partial class TableRowCell : BaseComponent
+    /// <summary>
+    /// Defines a cell of a table that contains data.
+    /// </summary>
+    public partial class TableRowCell : BaseDraggableComponent
     {
         #region Members
 
@@ -23,6 +26,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableRowCell() );
@@ -34,15 +38,23 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected Task ClickHandler( MouseEventArgs e )
+        /// <summary>
+        /// Handles the header cell clicked event.
+        /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected Task OnClickHandler( MouseEventArgs eventArgs )
         {
-            return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );
+            return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
         }
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the cell variant color.
+        /// </summary>
         [Parameter]
         public Color Color
         {
@@ -55,6 +67,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the cell background color.
+        /// </summary>
         [Parameter]
         public Background Background
         {
@@ -67,6 +82,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the cell text color.
+        /// </summary>
         [Parameter]
         public TextColor TextColor
         {
@@ -79,6 +97,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the cell text alignment.
+        /// </summary>
         [Parameter]
         public TextAlignment TextAlignment
         {
@@ -106,6 +127,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="TableRowCell"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
