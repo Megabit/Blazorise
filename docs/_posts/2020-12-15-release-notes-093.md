@@ -16,6 +16,12 @@ tags:
 
 Blazorise is now running fully on .Net 5, and .Net Core 3.1 is not supported any more. This decision was hard but needed, mainly because of a new IComponentActivator that finally gave me a way to initialize components the way I wanted it from the start. Until now I had to do a lot of workarounds to make every component overridden for each of the supported CSS providers. While it worked for the most part, it was slow and unoptimized, meaning each component had to be created twice. Not any more. IComponentActivator gave me a way to register custom components through DI and then initialize only those components that I want. As a result Blazorise should now be a lot faster, and finally I can implement some outstanding features that were impossible until now.
 
+### CloseButton
+
+A default behavior of `CloseButton` is now changed so that it will auto-close it's parent component. For example if you place `<CloseButton />` inside of `Alert` or `Modal`, once clicked it will now automatically close them.
+
+This behavior can be controlled by setting the `AutoClose="false"` parameter(default is `AutoClose="true"`), or it can be changed with global settings:  `.AddBlazorise( options => { options.AutoCloseParent = false; } )`.
+
 ## Features
 
 ### Snackbar

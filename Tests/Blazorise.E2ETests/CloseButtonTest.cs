@@ -37,5 +37,18 @@ namespace Blazorise.E2ETests
             button.Click();
             WaitAssert.Equal( "2", () => result.Text );
         }
+
+        [Fact]
+        public void CanAutoClose()
+        {
+            var paragraph = Browser.FindElement( By.Id( "autoclose-button-event" ) );
+            var button = paragraph.FindElement( By.Id( "autoclose-button" ) );
+            var result = paragraph.FindElement( By.Id( "autoclose-button-event-result" ) );
+
+            WaitAssert.Equal( "0", () => result.Text );
+
+            button.Click();
+            WaitAssert.Equal( "1", () => result.Text );
+        }
     }
 }
