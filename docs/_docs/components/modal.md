@@ -7,6 +7,10 @@ toc_label: "Guide"
 redirect_from: /docs/components/modals/
 ---
 
+**v0.9.3 Breaking changes** `ModalBackdrop` component is removed so you should also remove any usage of it from your project.
+`CloseButton` will now automatically close the Modal dialog.
+{: .notice--warning}
+
 ## Basics
 
 The modal structure is very simple:
@@ -18,7 +22,6 @@ The modal structure is very simple:
       - [`<CloseButton>`](/docs/components/close-button) a simple close button located in the top right corner
     - `<ModalBody>` main part of the modal, holds the input fields, images, etc.
     - `<ModalFooter>` bottom part of the modal, usually contains the action buttons
-
 
 ## Usage
 
