@@ -21,7 +21,24 @@ namespace Blazorise.AntDesign
 
         #region Methods
 
-        protected override void DirtyClasses()
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+
+            ParentModal.NotifyCloseActivatorIdInitialized( WrapperElementId ??= IdGenerator.Generate );
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing )
+            {
+                ParentModal.NotifyCloseActivatorIdRemoved( WrapperElementId );
+            }
+
+            base.Dispose( disposing );
+        }
+
+        protected internal override void DirtyClasses()
         {
             DialogClassBuilder.Dirty();
 
@@ -37,6 +54,8 @@ namespace Blazorise.AntDesign
         #endregion
 
         #region Properties
+
+        protected string WrapperElementId { get; set; }
 
         protected ClassBuilder DialogClassBuilder { get; private set; }
 
