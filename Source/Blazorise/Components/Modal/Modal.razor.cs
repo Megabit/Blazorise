@@ -261,12 +261,20 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Registers a new element that can close the modal.
+        /// </summary>
+        /// <param name="elementId">Element id.</param>
         internal void NotifyCloseActivatorIdInitialized( string elementId )
         {
             if ( !closeActivatorElementIds.Contains( elementId ) )
                 closeActivatorElementIds.Add( elementId );
         }
 
+        /// <summary>
+        /// Removes the element that can close the modal.
+        /// </summary>
+        /// <param name="elementId">Element id.</param>
         internal void NotifyCloseActivatorIdRemoved( string elementId )
         {
             if ( closeActivatorElementIds.Contains( elementId ) )

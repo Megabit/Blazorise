@@ -44,11 +44,6 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
-        /// <summary>
-        /// If true, backdrop will not be responsible for closing the modal.
-        /// </summary>
-        [Parameter] public bool CloseActivatorDisabled { get; set; } = false;
-
         [CascadingParameter]
         protected ModalState ParentModalState
         {
