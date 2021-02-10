@@ -346,9 +346,6 @@ input.form-control[type=color] {
     background-color: #3273dc;
     color: #fff; }
 
-.modal-backdrop {
-    z-index: -1; }
-
 .modal.show {
     animation-duration: 0.25s;
     animation-fill-mode: both;
