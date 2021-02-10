@@ -21,7 +21,7 @@ namespace Blazorise.Bootstrap
 
         #region Methods
 
-        protected override void DirtyClasses()
+        protected internal override void DirtyClasses()
         {
             DialogClassBuilder.Dirty();
 

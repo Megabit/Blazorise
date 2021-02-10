@@ -23,7 +23,7 @@ namespace Blazorise.Bootstrap
             builder.Append( "step-container" );
         }
 
-        protected override void DirtyClasses()
+        protected internal override void DirtyClasses()
         {
             ContainerClassBuilder.Dirty();
 
