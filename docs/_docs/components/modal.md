@@ -12,7 +12,6 @@ redirect_from: /docs/components/modals/
 The modal structure is very simple:
 
 - `<Modal>` the main container
-  - `<ModalBackdrop>` a transparent overlay that can act as a click target to close the modal
   - `<ModalContent>` a horizontally and vertically centered container, in which you can include _any_ content
     - `<ModalHeader>` top part of the modal, usually contains a title and close button
       - `<ModalTitle>` a modal title
@@ -31,7 +30,6 @@ Place the modal markup somewhere at root of you component layout.
 <Button Clicked="@ShowModal">Show Modal</Button>
 
 <Modal @ref="modalRef">
-    <ModalBackdrop />
     <ModalContent IsCentered="true">
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
@@ -113,6 +111,7 @@ If you want to prevent modal from closing you can use `Closing` event.
 | Visible        | boolean                                                                | false     | Handles the visibility of modal dialog.                                                                                        |
 | Closing        | event                                                                  |           | Occurs before the modal is closed and can be used to prevent the modal from closing.                                           |
 | ScrollToTop    | boolean                                                                | true      | If true modal will scroll to top when opened.                                                                                  |
+| ShowBackdrop   | boolean                                                                | true      | If true the the backdrop will be rendered.                                                                                     |
 
 ### ModalContent
 
