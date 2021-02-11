@@ -470,7 +470,7 @@ namespace Blazorise.Bulma
 
         public override string Jumbotron() => "hero";
 
-        public override string JumbotronBackground( Background background ) => $"hero-{ToBackground( background )}";
+        public override string JumbotronBackground( Background background ) => $"is-{ToBackground( background )}";
 
         public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"title is-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 
