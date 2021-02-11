@@ -2581,39 +2581,39 @@ label.radio.button {
 .textarea.is-extra-large, .field.has-addons.are-extra-large > .control > .textarea.button {
     font-size: 2rem; }
 
-.hero.hero-primary {
+.hero.is-primary {
     background-color: #00d1b2;
     color: #fff; }
 
-.hero.hero-secondary {
+.hero.is-secondary {
     background-color: #6c757d;
     color: #fff; }
 
-.hero.hero-success {
+.hero.is-success {
     background-color: #48c774;
     color: #212529; }
 
-.hero.hero-info {
+.hero.is-info {
     background-color: #238cd1;
     color: #fff; }
 
-.hero.hero-warning {
+.hero.is-warning {
     background-color: #ffd83d;
     color: #212529; }
 
-.hero.hero-danger {
+.hero.is-danger {
     background-color: #ef2e55;
     color: #fff; }
 
-.hero.hero-light {
+.hero.is-light {
     background-color: #f5f5f5;
     color: #212529; }
 
-.hero.hero-dark {
+.hero.is-dark {
     background-color: #363636;
     color: #fff; }
 
-.hero.hero-link {
+.hero.is-link {
     background-color: #3273dc;
     color: #fff; }
 

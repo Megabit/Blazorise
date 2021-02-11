@@ -16,7 +16,7 @@ namespace Blazorise.Bulma
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
 
-            sb.Append( $".hero-{variant}" ).Append( "{" )
+            sb.Append( $".hero.is-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
                 .AppendLine( "}" );
