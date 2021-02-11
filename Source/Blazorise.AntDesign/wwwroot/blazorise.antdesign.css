@@ -1561,7 +1561,8 @@
         .ant-modal-xl {
             width: 1140px; } }
 
-.ant-modal-root[style*="display: block;"] {
+.ant-modal-root[style*="display: block;"] > .ant-modal-wrap,
+.ant-modal-mask {
     animation-duration: 0.25s;
     animation-fill-mode: both;
     animation-name: fadeIn; }

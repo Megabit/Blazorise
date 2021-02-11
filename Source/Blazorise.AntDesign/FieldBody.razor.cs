@@ -23,7 +23,7 @@ namespace Blazorise.AntDesign
 
         #region Methods
 
-        protected override void DirtyClasses()
+        protected internal override void DirtyClasses()
         {
             containerClassBuilder.Dirty();
 
