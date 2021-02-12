@@ -15,9 +15,15 @@ namespace Blazorise
     {
         #region Members
 
-        private bool inline;
-
+        /// <summary>
+        /// Flag which indicates that radios will appear as button.
+        /// </summary>
         private bool buttons;
+
+        /// <summary>
+        /// Defines the orientation of the radio elements.
+        /// </summary>
+        private Orientation orientation = Orientation.Horizontal;
 
         /// <summary>
         /// Flag needed for radiogroup to work property. Since the group is notified of it's state
@@ -67,7 +73,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.RadioGroup( Buttons, Inline ) );
+            builder.Append( ClassProvider.RadioGroup( Buttons, Orientation ) );
             builder.Append( ClassProvider.RadioGroupValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
@@ -121,27 +127,17 @@ namespace Blazorise
         protected override TValue InternalValue { get => CheckedValue; set => CheckedValue = value; }
 
         /// <summary>
+        /// True of radio elements should be inlined.
+        /// </summary>
+        public bool Inline => Orientation == Orientation.Horizontal;
+
+        /// <summary>
         /// Radio group name.
         /// </summary>
         [Parameter] public string Name { get; set; }
 
         /// <summary>
-        /// Group radios on the same horizontal row.
-        /// </summary>
-        [Parameter]
-        public bool Inline
-        {
-            get => inline;
-            set
-            {
-                inline = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// The combination of radio button style.
+        /// Flag which indicates that radios will appear as button.
         /// </summary>
         [Parameter]
         public bool Buttons
@@ -150,6 +146,21 @@ namespace Blazorise
             set
             {
                 buttons = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Defines the orientation of the radio elements.
+        /// </summary>
+        [Parameter]
+        public Orientation Orientation
+        {
+            get => orientation;
+            set
+            {
+                orientation = value;
 
                 DirtyClasses();
             }

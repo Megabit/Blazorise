@@ -100,8 +100,8 @@ namespace Blazorise.Bootstrap
 
         #region RadioGroup
 
-        public override string RadioGroup( bool buttons, bool inline ) => buttons
-            ? inline ? "btn-group btn-group-toggle" : "btn-group-vertical btn-group-toggle"
+        public override string RadioGroup( bool buttons, Orientation orientation ) => buttons
+            ? orientation == Orientation.Horizontal ? "btn-group btn-group-toggle" : "btn-group-vertical btn-group-toggle"
             : null;
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );

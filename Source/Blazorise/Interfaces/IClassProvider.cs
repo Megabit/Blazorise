@@ -99,7 +99,7 @@ namespace Blazorise
 
         #region RadioGroup
 
-        string RadioGroup( bool buttons, bool inline );
+        string RadioGroup( bool buttons, Orientation orientation );
 
         string RadioGroupValidation( ValidationStatus validationStatus );
 

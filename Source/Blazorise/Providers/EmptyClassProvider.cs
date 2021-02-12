@@ -103,7 +103,7 @@ namespace Blazorise.Providers
 
         #region RadioGroup
 
-        public string RadioGroup( bool buttons, bool inline ) => null;
+        public string RadioGroup( bool buttons, Orientation orientation ) => null;
 
         public string RadioGroupValidation( ValidationStatus validationStatus ) => null;
 

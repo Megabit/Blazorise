@@ -100,8 +100,8 @@ namespace Blazorise.Frolic
 
         #region RadioGroup
 
-        public override string RadioGroup( bool buttons, bool inline )
-            => $"{( buttons ? "e-buttons unified" : null )}{( inline ? null : " e-buttons-vertical" )}";
+        public override string RadioGroup( bool buttons, Orientation orientation )
+            => $"{( buttons ? "e-buttons unified" : null )}{( orientation == Orientation.Horizontal ? null : " e-buttons-vertical" )}";
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 

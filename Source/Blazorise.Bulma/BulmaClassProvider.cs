@@ -100,8 +100,8 @@ namespace Blazorise.Bulma
 
         #region RadioGroup
 
-        public override string RadioGroup( bool buttons, bool inline )
-            => $"{( buttons ? "buttons has-addons" : "control" )}{( inline ? null : " are-vertical" )}";
+        public override string RadioGroup( bool buttons, Orientation orientation )
+            => $"{( buttons ? "buttons has-addons" : "control" )}{( orientation == Orientation.Horizontal ? null : " are-vertical" )}";
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 

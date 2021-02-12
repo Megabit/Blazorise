@@ -100,8 +100,8 @@ namespace Blazorise.AntDesign
 
         #region RadioGroup
 
-        public override string RadioGroup( bool buttons, bool inline )
-            => "ant-radio-group ant-radio-group-outline" + ( inline ? "" : " ant-radio-group-vertical" );
+        public override string RadioGroup( bool buttons, Orientation orientation )
+            => "ant-radio-group ant-radio-group-outline" + ( orientation == Orientation.Horizontal ? "" : " ant-radio-group-vertical" );
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
