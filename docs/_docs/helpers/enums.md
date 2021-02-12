@@ -281,3 +281,10 @@ Hints at the type of data that might be entered into DateEdit by the user while 
 
 - `Date` - Only date is allowed to be entered.
 - `DateTime` - Both date and time are allowed to be entered.
+
+## Orientation
+
+Defines the orientation of the elements.
+
+- `Horizontal` - Elements will be stacked horizontally.
+- `Vertical` - - Elements will be stacked vertically.

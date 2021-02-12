@@ -1404,6 +1404,14 @@
     width: 9.33333px;
     height: 16.47059px; }
 
+.ant-radio-group.ant-radio-group-vertical .ant-radio-wrapper {
+    display: block;
+    height: 32px;
+    line-height: 32px; }
+
+.ant-radio-group.ant-radio-group-vertical .ant-radio-button-wrapper {
+    display: block; }
+
 .ant-radio > .ant-radio-input.ant-radio-input-xs + .ant-radio-inner {
     width: 8px;
     height: 8px; }

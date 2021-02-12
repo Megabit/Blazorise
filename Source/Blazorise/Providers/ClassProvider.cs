@@ -100,9 +100,7 @@ namespace Blazorise
 
         #region RadioGroup
 
-        public abstract string RadioGroup( bool buttons );
-
-        public abstract string RadioGroupInline();
+        public abstract string RadioGroup( bool buttons, Orientation orientation );
 
         public abstract string RadioGroupValidation( ValidationStatus validationStatus );
 
@@ -114,7 +112,7 @@ namespace Blazorise
 
         public abstract string RadioSize( bool button, Size size );
 
-        public abstract string RadioInline();
+        public abstract string RadioInline( bool inline );
 
         public abstract string RadioCursor( Cursor cursor );
 
@@ -294,7 +292,7 @@ namespace Blazorise
 
         public abstract string ButtonsSize( Size size );
 
-        public abstract string ButtonsVertical();
+        public abstract string ButtonsOrientation( Orientation orientation );
 
         #endregion
 

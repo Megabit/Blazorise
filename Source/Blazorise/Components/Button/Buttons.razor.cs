@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Group a series of buttons together on a single line.
+    /// </summary>
     public partial class Buttons : BaseComponent
     {
         #region Members
@@ -19,12 +22,13 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ButtonsAddons(), Role == ButtonsRole.Addons );
             builder.Append( ClassProvider.ButtonsToolbar(), Role == ButtonsRole.Toolbar );
-            builder.Append( ClassProvider.ButtonsVertical(), Orientation == Orientation.Vertical );
             builder.Append( ClassProvider.ButtonsSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.ButtonsOrientation( Orientation ) );
 
             base.BuildClasses( builder );
         }
@@ -33,6 +37,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the role of the button group.
+        /// </summary>
         [Parameter]
         public ButtonsRole Role
         {
@@ -45,6 +52,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the button group orientation mode.
+        /// </summary>
         [Parameter]
         public Orientation Orientation
         {
@@ -72,6 +82,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Buttons"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

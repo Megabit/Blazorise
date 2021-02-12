@@ -26,6 +26,10 @@ A default behavior of `CloseButton` is now changed so that it will auto-close it
 
 This behavior can be controlled by setting the `AutoClose="false"` parameter(default is `AutoClose="true"`), or it can be changed with global settings:  `.AddBlazorise( options => { options.AutoCloseParent = false; } )`.
 
+### Other
+
+- `RadioGroup`: `bool Inline` parameter replaced with enum `Orientation`.
+
 ## Features
 
 ### Snackbar

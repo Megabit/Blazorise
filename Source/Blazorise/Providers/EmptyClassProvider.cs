@@ -103,9 +103,7 @@ namespace Blazorise.Providers
 
         #region RadioGroup
 
-        public string RadioGroup( bool buttons ) => null;
-
-        public string RadioGroupInline() => null;
+        public string RadioGroup( bool buttons, Orientation orientation ) => null;
 
         public string RadioGroupValidation( ValidationStatus validationStatus ) => null;
 
@@ -117,7 +115,7 @@ namespace Blazorise.Providers
 
         public string RadioSize( bool button, Size size ) => null;
 
-        public string RadioInline() => null;
+        public string RadioInline( bool inline ) => null;
 
         public string RadioCursor( Cursor cursor ) => null;
 
@@ -297,7 +295,7 @@ namespace Blazorise.Providers
 
         public string ButtonsSize( Size size ) => null;
 
-        public string ButtonsVertical() => null;
+        public string ButtonsOrientation( Orientation orientation ) => null;
 
         #endregion
 

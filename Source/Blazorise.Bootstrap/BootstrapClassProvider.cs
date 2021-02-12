@@ -100,9 +100,9 @@ namespace Blazorise.Bootstrap
 
         #region RadioGroup
 
-        public override string RadioGroup( bool buttons ) => buttons ? "btn-group btn-group-toggle" : null;
-
-        public override string RadioGroupInline() => null;
+        public override string RadioGroup( bool buttons, Orientation orientation ) => buttons
+            ? orientation == Orientation.Horizontal ? "btn-group btn-group-toggle" : "btn-group-vertical btn-group-toggle"
+            : null;
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -114,7 +114,9 @@ namespace Blazorise.Bootstrap
 
         public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
 
-        public override string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+        public override string RadioInline( bool inline ) => inline
+            ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline"
+            : null;
 
         public override string RadioCursor( Cursor cursor ) => $"{( UseCustomInputStyles ? "custom-control-input" : "form-check-input" )}-{ToCursor( cursor )}";
 
@@ -319,7 +321,7 @@ namespace Blazorise.Bootstrap
 
         public override string ButtonsSize( Size size ) => $"{ButtonsAddons()}-{ToSize( size )}";
 
-        public override string ButtonsVertical() => "btn-group-vertical";
+        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
 
         #endregion
 
