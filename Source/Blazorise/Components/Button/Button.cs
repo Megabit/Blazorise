@@ -375,7 +375,7 @@ namespace Blazorise
         [Parameter] public int? TabIndex { get; set; }
 
         /// <summary>
-        /// Gets or sets the component child content.
+        /// Specifies the content to be rendered inside this <see cref="Button"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
