@@ -100,9 +100,8 @@ namespace Blazorise.Frolic
 
         #region RadioGroup
 
-        public override string RadioGroup( bool buttons ) => buttons ? "e-buttons unified" : null;
-
-        public override string RadioGroupInline() => null;
+        public override string RadioGroup( bool buttons, bool inline )
+            => $"{( buttons ? "e-buttons unified" : null )}{( inline ? null : " e-buttons-vertical" )}";
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -114,7 +113,7 @@ namespace Blazorise.Frolic
 
         public override string RadioSize( bool button, Size size ) => button ? null : $"{Radio( button )}-{ToSize( size )}";
 
-        public override string RadioInline() => null;
+        public override string RadioInline( bool inline ) => null;
 
         public override string RadioCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
 
@@ -324,7 +323,7 @@ namespace Blazorise.Frolic
 
         public override string ButtonsSize( Size size ) => $"e-buttons-{ToSize( size )}";
 
-        public override string ButtonsVertical() => "btn-group-vertical";
+        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
 
         #endregion
 

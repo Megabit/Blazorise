@@ -100,9 +100,8 @@ namespace Blazorise.Bulma
 
         #region RadioGroup
 
-        public override string RadioGroup( bool buttons ) => buttons ? "field has-addons" : "control";
-
-        public override string RadioGroupInline() => null;
+        public override string RadioGroup( bool buttons, bool inline )
+            => $"{( buttons ? "buttons has-addons" : "control" )}{( inline ? null : " are-vertical" )}";
 
         public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -114,7 +113,7 @@ namespace Blazorise.Bulma
 
         public override string RadioSize( bool button, Size size ) => $"is-{ToSize( size )}";
 
-        public override string RadioInline() => "is-inline";
+        public override string RadioInline( bool inline ) => inline ? "is-inline" : null;
 
         public override string RadioCursor( Cursor cursor ) => $"is-checkradio-{ToCursor( cursor )}";
 
@@ -319,7 +318,7 @@ namespace Blazorise.Bulma
 
         public override string ButtonsSize( Size size ) => $"are-{ToSize( size )}";
 
-        public override string ButtonsVertical() => "buttons";
+        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "buttons" : null;
 
         #endregion
 

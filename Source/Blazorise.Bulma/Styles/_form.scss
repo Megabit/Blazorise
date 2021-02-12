@@ -16,6 +16,23 @@ label.radio.button {
     }
 }
 
+
+.buttons.has-addons.are-vertical {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .button {
+        display: block;
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .button:not(:last-child) {
+        margin: -1px;
+    }
+}
+
 .field-body {
     .switch[type="checkbox"] {
         + label {

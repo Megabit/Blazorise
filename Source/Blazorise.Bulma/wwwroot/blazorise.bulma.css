@@ -2554,6 +2554,17 @@ label.radio.button {
         outline: none;
         z-index: -1; }
 
+.buttons.has-addons.are-vertical {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; }
+    .buttons.has-addons.are-vertical .button {
+        display: block;
+        width: 100%;
+        border-radius: 0; }
+    .buttons.has-addons.are-vertical .button:not(:last-child) {
+        margin: -1px; }
+
 .field-body .switch[type="checkbox"] + label {
     margin-top: .375em; }
 
