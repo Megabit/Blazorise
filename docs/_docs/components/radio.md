@@ -100,6 +100,7 @@ By setting the `Buttons` flag, radios will be grouped together and will appear a
 | CheckedValue            | boolean                                                                    | false        | Gets or sets the checked value.                                                       |
 | CheckedValueChanged     | event                                                                      |              | Occurs when the checked value is changed.                                             |
 | Name                    | string                                                                     | null         | Sets the radio group name.                                                            |
+| Inline                  | boolean                                                                    | false        | Group radios on the same horizontal row.                                              |
 
 ### Radio
 
