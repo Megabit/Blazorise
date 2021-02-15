@@ -102,6 +102,7 @@ By setting the `Buttons` flag, radios will be grouped together and will appear a
 | Name                    | string                                                                     | null         | Sets the radio group name.                                                            |
 | Inline                  | boolean                                                                    | false        | Group radios on the same horizontal row.                                              |
 | Orientation             | [Orientation]({{ "/docs/helpers/sizes/#orientation" | relative_url }})     | `Horizontal` | Defines the orientation of the radio elements.                                        |
+| Color                   | [Color]({{ "/docs/helpers/colors/#color" | relative_url }})                | `Secondary`  | Defines the color or radio buttons(only when `Buttons` is true).                      |
 
 ### Radio
 
