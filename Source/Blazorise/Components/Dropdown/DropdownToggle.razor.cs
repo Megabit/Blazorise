@@ -56,22 +56,17 @@ namespace Blazorise
         /// <param name="disposing">True if object is disposing.</param>
         protected override void Dispose( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
                 // make sure to unregister listener
                 if ( jsRegistered )
                 {
                     jsRegistered = false;
 
-                    if ( Rendered )
-                    {
-                        _ = JSRunner.UnregisterClosableComponent( this );
-                    }
+                    _ = JSRunner.UnregisterClosableComponent( this );
                 }
-                if ( Rendered )
-                {
-                    DisposeDotNetObjectRef( dotNetObjectRef );
-                }
+
+                DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
             base.Dispose( disposing );
@@ -121,6 +116,31 @@ namespace Blazorise
         public void Focus( bool scrollToElement = true )
         {
             _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
+        }
+
+        protected virtual void HandleVisibilityStyles( bool visible )
+        {
+            if ( visible )
+            {
+                jsRegistered = true;
+
+                ExecuteAfterRender( async () =>
+                {
+                    await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
+                } );
+            }
+            else
+            {
+                jsRegistered = false;
+
+                ExecuteAfterRender( async () =>
+                {
+                    await JSRunner.UnregisterClosableComponent( this );
+                } );
+            }
+
+            DirtyClasses();
+            DirtyStyles();
         }
 
         #endregion
@@ -210,26 +230,7 @@ namespace Blazorise
 
                 parentDropdownState = value;
 
-                if ( parentDropdownState.Visible )
-                {
-                    jsRegistered = true;
-
-                    if ( Rendered )
-                    {
-                        JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
-                    }
-                }
-                else
-                {
-                    jsRegistered = false;
-
-                    if ( Rendered )
-                    {
-                        JSRunner.UnregisterClosableComponent( this );
-                    }
-                }
-
-                DirtyClasses();
+                HandleVisibilityStyles( parentDropdownState.Visible );
             }
         }
 
