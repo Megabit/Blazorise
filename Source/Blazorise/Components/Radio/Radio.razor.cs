@@ -134,6 +134,11 @@ namespace Blazorise
         protected bool AsButton => ParentRadioGroup?.Buttons == true;
 
         /// <summary>
+        /// Returns the button color.
+        /// </summary>
+        protected Color ButtonColor => ParentRadioGroup?.Color ?? Color.Secondary;
+
+        /// <summary>
         /// Sets the radio group name.
         /// </summary>
         [Parameter]

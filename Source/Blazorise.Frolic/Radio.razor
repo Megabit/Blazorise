@@ -2,7 +2,7 @@
 @inherits Blazorise.Radio<TValue>
 @if ( AsButton )
 {
-    <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor" Class="@LabelRadioButtonClassName">
+    <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor" Class="@LabelButtonClassName">
         <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
         @ChildContent
     </Label>
@@ -15,6 +15,6 @@ else
     @Feedback
 }
 @code{
-    string LabelRadioButtonClassName
-        => AsButton ? $"{( AsButton ? "e-btn" : "" )}{( Checked ? " gray" : "" )}" : null;
+    string LabelButtonClassName
+        => $"{ClassProvider.Button()} {ClassProvider.ButtonColor( ButtonColor )} {( Checked ? ClassProvider.ButtonActive() : null )}";
 }
