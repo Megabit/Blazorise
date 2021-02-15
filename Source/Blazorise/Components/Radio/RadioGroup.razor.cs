@@ -26,6 +26,11 @@ namespace Blazorise
         private Orientation orientation = Orientation.Horizontal;
 
         /// <summary>
+        /// Defines the color or radio buttons(only when <see cref="Buttons"/> is true).
+        /// </summary>
+        private Color color = Color.Secondary;
+
+        /// <summary>
         /// Flag needed for radiogroup to work property. Since the group is notified of it's state
         /// from child radio component we need to skip calling event callback when we get the new
         /// state through the param from outside. And it happens as a consequence of calling the
@@ -161,6 +166,21 @@ namespace Blazorise
             set
             {
                 orientation = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Defines the color or radio buttons(only when <see cref="Buttons"/> is true).
+        /// </summary>
+        [Parameter]
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                color = value;
 
                 DirtyClasses();
             }

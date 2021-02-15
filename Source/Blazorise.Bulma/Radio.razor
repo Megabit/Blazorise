@@ -4,7 +4,7 @@
 {
     @if ( AsButton )
     {
-        <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor" Class="@LabelRadioButtonClassName">
+        <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor" Class="@LabelButtonClassName">
             <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
             @ChildContent
         </Label>
@@ -46,6 +46,6 @@ else
     }
 }
 @code{
-    string LabelRadioButtonClassName
-=> AsButton ? $"button{( Checked ? " is-secondary" : "" )}" : null;
+    string LabelButtonClassName
+        => $"{ClassProvider.Button()} {ClassProvider.ButtonColor( ButtonColor )} {( Checked ? ClassProvider.ButtonActive() : null )}";
 }
