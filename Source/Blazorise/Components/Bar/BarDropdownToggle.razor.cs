@@ -14,7 +14,7 @@ namespace Blazorise
 
         private BarDropdownState parentDropdownState;
 
-        private bool isRegistered;
+        private bool jsRegistered;
 
         private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
@@ -45,23 +45,17 @@ namespace Blazorise
 
         protected override void Dispose( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
                 // make sure to unregister listener
-                if ( isRegistered )
+                if ( jsRegistered )
                 {
-                    isRegistered = false;
+                    jsRegistered = false;
 
-                    if ( Rendered )
-                    {
-                        _ = JSRunner.UnregisterClosableComponent( this );
-                    }
+                    _ = JSRunner.UnregisterClosableComponent( this );
                 }
 
-                if ( Rendered )
-                {
-                    DisposeDotNetObjectRef( dotNetObjectRef );
-                }
+                DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
             base.Dispose( disposing );
@@ -86,6 +80,31 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+        protected virtual void HandleVisibilityStyles( bool visible )
+        {
+            if ( visible )
+            {
+                jsRegistered = true;
+
+                ExecuteAfterRender( async () =>
+                {
+                    await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
+                } );
+            }
+            else
+            {
+                jsRegistered = false;
+
+                ExecuteAfterRender( async () =>
+                {
+                    await JSRunner.UnregisterClosableComponent( this );
+                } );
+            }
+
+            DirtyClasses();
+            DirtyStyles();
+        }
+
         #endregion
 
         #region Properties
@@ -106,19 +125,12 @@ namespace Blazorise
 
                 if ( parentDropdownState.Visible && !( parentDropdownState.Mode == BarMode.VerticalInline && parentDropdownState.BarVisible ) )
                 {
-                    isRegistered = true;
-
-                    JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
+                    HandleVisibilityStyles( true );
                 }
                 else
                 {
-                    isRegistered = false;
-
-                    JSRunner.UnregisterClosableComponent( this );
+                    HandleVisibilityStyles( false );
                 }
-
-                DirtyClasses();
-                DirtyStyles();
             }
         }
 

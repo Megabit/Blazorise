@@ -59,22 +59,19 @@ namespace Blazorise
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
 
-            if ( Rendered )
+            _ = JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+
+            if ( Mode != BarMode.Horizontal )
             {
-                _ = JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+                // Check if we need to collapse the Bar based on the current screen width against the breakpoint defined for this component.
+                // This needs to be run to set the inital state, RegisterBreakpointComponent and OnBreakpoint will handle
+                // additional changes to responsive breakpoints from there.
+                isBroken = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
 
-                if ( Mode != BarMode.Horizontal )
+                if ( Visible == isBroken )
                 {
-                    // Check if we need to collapse the Bar based on the current screen width against the breakpoint defined for this component.
-                    // This needs to be run to set the inital state, RegisterBreakpointComponent and OnBreakpoint will handle
-                    // additional changes to responsive breakpoints from there.
-                    isBroken = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
-
-                    if ( Visible == isBroken )
-                    {
-                        Visible = !isBroken;
-                        await InvokeAsync( StateHasChanged );
-                    }
+                    Visible = !isBroken;
+                    await InvokeAsync( StateHasChanged );
                 }
             }
 
