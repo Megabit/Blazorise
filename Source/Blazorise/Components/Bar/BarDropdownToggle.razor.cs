@@ -40,7 +40,7 @@ namespace Blazorise
         {
             base.BuildStyles( builder );
 
-            builder.Append( $"padding-left: { 1.5d * ParentDropdownState.NestedIndex }rem", ParentDropdownState.IsInlineDisplay );
+            builder.Append( $"padding-left: { Indentation * ParentDropdownState.NestedIndex }rem", ParentDropdownState.IsInlineDisplay );
         }
 
         protected override void Dispose( bool disposing )
@@ -111,6 +111,11 @@ namespace Blazorise
 
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
+
+        /// <summary>
+        /// Determines how much left padding will be applied to the dropdown toggle. (in rem unit)
+        /// </summary>
+        [Parameter] public double Indentation { get; set; } = 1.5d;
 
         [CascadingParameter]
         public BarDropdownState ParentDropdownState
