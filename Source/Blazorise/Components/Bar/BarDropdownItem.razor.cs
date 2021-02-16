@@ -28,7 +28,7 @@ namespace Blazorise
         {
             base.BuildStyles( builder );
 
-            builder.Append( $"padding-left: { 1.5d * ( ParentDropdownState.NestedIndex + 1 ) }rem", ParentDropdownState.IsInlineDisplay );
+            builder.Append( $"padding-left: { Indentation * ( ParentDropdownState.NestedIndex + 1 ) }rem", ParentDropdownState.IsInlineDisplay );
         }
 
         protected Task ClickHandler()
@@ -64,6 +64,11 @@ namespace Blazorise
         /// Specify extra information about the link element.
         /// </summary>
         [Parameter] public string Title { get; set; }
+
+        /// <summary>
+        /// Determines how much left padding will be applied to the dropdown item. (in rem unit)
+        /// </summary>
+        [Parameter] public double Indentation { get; set; } = 1.5d;
 
         [CascadingParameter]
         protected BarDropdownState ParentDropdownState
