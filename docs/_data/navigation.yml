@@ -43,6 +43,8 @@ docs:
         url: /docs/components/memo/
       - title: "Numeric"
         url: /docs/components/numeric/
+      - title: "Progress"
+        url: /docs/components/progress/
       - title: "Radio"
         url: /docs/components/radio/
       - title: "Select"
@@ -76,6 +78,8 @@ docs:
         url: /docs/components/card/
       - title: "Carousel"
         url: /docs/components/carousel/
+      - title: "Close Button"
+        url: "/docs/components/close-button"
       - title: "Dropdown"
         url: /docs/components/dropdown/
       - title: "Figure"
@@ -90,6 +94,8 @@ docs:
         url: /docs/components/modal/
       - title: "Pagination"
         url: /docs/components/pagination/
+      - title: "Repeater"
+        url: /docs/components/repeater/
       - title: "Tab"
         url: /docs/components/tab/
       - title: "Table"
@@ -98,6 +104,8 @@ docs:
         url: /docs/components/tooltip/
       - title: "Typography"
         url: /docs/components/typography/
+      - title: "Step"
+        url: /docs/components/step/
   - title: Extensions
     url: /docs/extensions/
     children:
@@ -128,6 +136,8 @@ docs:
         url: /docs/helpers/colors/
       - title: "Enums"
         url: /docs/helpers/enums/
+      - title: "Localization"
+        url: /docs/helpers/localization/
       - title: "Sizes"
         url: /docs/helpers/sizes/
       - title: "Utilities"

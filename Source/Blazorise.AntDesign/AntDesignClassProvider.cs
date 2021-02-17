@@ -14,7 +14,7 @@ namespace Blazorise.AntDesign
 
         public override string TextEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-        public override string TextEditSize( Size size ) => $"{TextEdit( false )}-{ToSize( size )}";
+        public override string TextEditSize( Size size ) => $"ant-input-{ToSize( size )}";
 
         public override string TextEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
 
@@ -42,11 +42,25 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region NumericEdit
+
+        public override string NumericEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
+
+        public override string NumericEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+
+        public override string NumericEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+
+        public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region DateEdit
 
-        public override string DateEdit() => "ant-input";
+        public override string DateEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-        public override string DateEditSize( Size size ) => $"{DateEdit()}-{ToSize( size )}";
+        public override string DateEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+
+        public override string DateEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
 
         public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -54,9 +68,11 @@ namespace Blazorise.AntDesign
 
         #region TimeEdit
 
-        public override string TimeEdit() => "ant-input";
+        public override string TimeEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-        public override string TimeEditSize( Size size ) => $"{TimeEdit()}-{ToSize( size )}";
+        public override string TimeEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+
+        public override string TimeEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
 
         public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -84,9 +100,10 @@ namespace Blazorise.AntDesign
 
         #region RadioGroup
 
-        public override string RadioGroup( bool buttons ) => "ant-radio-group ant-radio-group-outline";
+        public override string RadioGroup( bool buttons, Orientation orientation )
+            => "ant-radio-group ant-radio-group-outline" + ( orientation == Orientation.Horizontal ? "" : " ant-radio-group-vertical" );
 
-        public override string RadioGroupInline() => null;
+        public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -96,7 +113,11 @@ namespace Blazorise.AntDesign
 
         public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
 
-        public override string RadioInline() => null;
+        public override string RadioInline( bool inline ) => null;
+
+        public override string RadioCursor( Cursor cursor ) => null;
+
+        public override string RadioValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -294,7 +315,7 @@ namespace Blazorise.AntDesign
 
         public override string ButtonsSize( Size size ) => $"ant-btn-group-{ToSize( size )}";
 
-        public override string ButtonsVertical() => "btn-group-vertical";
+        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
 
         #endregion
 
@@ -316,7 +337,9 @@ namespace Blazorise.AntDesign
 
         public override string DropdownItem() => "ant-dropdown-menu-item";
 
-        public override string DropdownItemActive() => Active();
+        public override string DropdownItemActive( bool active ) => active ? Active() : null;
+
+        public override string DropdownItemDisabled( bool disabled ) => disabled ? "ant-dropdown-menu-item-disabled" : null;
 
         public override string DropdownDivider() => "ant-dropdown-menu-divider";
 
@@ -357,9 +380,11 @@ namespace Blazorise.AntDesign
             }
         }
 
+        public override string DropdownTableResponsive() => null;
+
         #endregion
 
-        #region Tab
+        #region Tabs
 
         public override string Tabs( bool pills ) => pills ? "ant-tabs ant-tabs-top ant-tabs-line ant-tabs-pills" : "ant-tabs ant-tabs-top ant-tabs-line";
 
@@ -388,6 +413,30 @@ namespace Blazorise.AntDesign
         public override string TabPanel() => "ant-tabs-tabpane";
 
         public override string TabPanelActive( bool active ) => active ? "ant-tabs-tabpane-active" : "ant-tabs-tabpane-inactive";
+
+        #endregion
+
+        #region Steps
+
+        public override string Steps() => "ant-steps ant-steps-horizontal ant-steps-label-horizontal";
+
+        public override string StepItem() => "ant-steps-item";
+
+        public override string StepItemActive( bool active ) => active ? "ant-steps-item-process ant-steps-item-active" : "ant-steps-item-wait";
+
+        public override string StepItemCompleted( bool completed ) => completed ? "ant-steps-item-finish" : null;
+
+        public override string StepItemColor( Color color ) => $"ant-steps-item-{ToColor( color )}";
+
+        public override string StepItemMarker() => "ant-steps-item-icon";
+
+        public override string StepItemDescription() => "ant-steps-item-content";
+
+        public override string StepsContent() => "ant-steps-content";
+
+        public override string StepPanel() => "ant-steps-panel";
+
+        public override string StepPanelActive( bool active ) => active ? "ant-steps-panel-active" : null;
 
         #endregion
 

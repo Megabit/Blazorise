@@ -1,4 +1,23 @@
 ﻿/*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
+@keyframes fadeIn {
+    0% {
+        opacity: 0; }
+    100% {
+        opacity: 1; }
+    0% {
+        opacity: 0; } }
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(1rem);
+        opacity: 0; }
+    100% {
+        transform: translateY(0rem);
+        opacity: 1; }
+    0% {
+        transform: translateY(1rem);
+        opacity: 0; } }
+
 .is-none {
     display: none; }
 
@@ -10,18 +29,6 @@
 
 .is-table-cell {
     display: table-cell !important; }
-
-.is-flex-row {
-    flex-direction: row !important; }
-
-.is-flex-column {
-    flex-direction: column !important; }
-
-.is-flex-row-reverse {
-    flex-direction: row-reverse !important; }
-
-.is-flex-column-reverse {
-    flex-direction: column-reverse !important; }
 
 .is-borderless {
     border: 0 !important; }
@@ -1243,6 +1250,11 @@
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
     color: #fff !important; }
+
+.navbar-dropdown[data-visible="true"] {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-name: fadeIn; }
 
 .button.is-secondary {
     background-color: #6c757d;
@@ -2519,6 +2531,15 @@
     .accordion > .card .card-header {
         margin-bottom: 1px; }
 
+.dropdown.is-active .dropdown-menu {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-name: fadeIn; }
+
+.dropdown .dropdown-menu > .dropdown-content > .dropdown-item.is-disabled {
+    pointer-events: none;
+    opacity: .65; }
+
 label.radio.button {
     display: flex; }
 
@@ -2532,6 +2553,17 @@ label.radio.button {
         opacity: 0;
         outline: none;
         z-index: -1; }
+
+.buttons.has-addons.are-vertical {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; }
+    .buttons.has-addons.are-vertical .button {
+        display: block;
+        width: 100%;
+        border-radius: 0; }
+    .buttons.has-addons.are-vertical .button:not(:last-child) {
+        margin: -1px; }
 
 .field-body .switch[type="checkbox"] + label {
     margin-top: .375em; }
@@ -2560,39 +2592,39 @@ label.radio.button {
 .textarea.is-extra-large, .field.has-addons.are-extra-large > .control > .textarea.button {
     font-size: 2rem; }
 
-.hero.hero-primary {
+.hero.is-primary {
     background-color: #00d1b2;
     color: #fff; }
 
-.hero.hero-secondary {
+.hero.is-secondary {
     background-color: #6c757d;
     color: #fff; }
 
-.hero.hero-success {
+.hero.is-success {
     background-color: #48c774;
     color: #212529; }
 
-.hero.hero-info {
+.hero.is-info {
     background-color: #238cd1;
     color: #fff; }
 
-.hero.hero-warning {
+.hero.is-warning {
     background-color: #ffd83d;
     color: #212529; }
 
-.hero.hero-danger {
+.hero.is-danger {
     background-color: #ef2e55;
     color: #fff; }
 
-.hero.hero-light {
+.hero.is-light {
     background-color: #f5f5f5;
     color: #212529; }
 
-.hero.hero-dark {
+.hero.is-dark {
     background-color: #363636;
     color: #fff; }
 
-.hero.hero-link {
+.hero.is-link {
     background-color: #3273dc;
     color: #fff; }
 
@@ -2654,11 +2686,309 @@ body::-webkit-scrollbar {
     .modal-xl {
         width: 1140px; } }
 
+.modal.is-active {
+    animation-duration: 0.25s;
+    animation-fill-mode: both;
+    animation-name: fadeIn; }
+
 .pagination.is-extra-small, .field.has-addons.are-extra-small > .control > .pagination.button {
     font-size: 0.65rem; }
 
 .pagination.is-extra-large, .field.has-addons.are-extra-large > .control > .pagination.button {
     font-size: 2rem; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-primary {
+    background-color: #00d1b2; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-secondary {
+    background-color: #6c757d; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-success {
+    background-color: #48c774; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-info {
+    background-color: #238cd1; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-warning {
+    background-color: #ffd83d; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-danger {
+    background-color: #ef2e55; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-light {
+    background-color: #f5f5f5; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-dark {
+    background-color: #363636; }
+
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
+    background-color: #3273dc; }
+
+.steps {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 1rem;
+    min-height: 2rem; }
+    .steps:not(:last-child) {
+        margin-bottom: 1.5rem; }
+    .steps .step-item {
+        margin-top: 0;
+        position: relative;
+        flex-grow: 1;
+        flex-basis: 0; }
+        .steps .step-item:not(:first-child) {
+            flex-basis: 1em;
+            flex-grow: 1;
+            flex-shrink: 1; }
+            .steps .step-item:not(:first-child)::before {
+                content: " ";
+                display: block;
+                position: absolute; }
+        .steps .step-item::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #00d1b2 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+            .steps .step-item::before .step-marker {
+                color: #fff; }
+        .steps .step-item.is-completed::before {
+            background-position: left bottom; }
+        .steps .step-item.is-completed .step-marker {
+            color: #fff;
+            background-color: #48c774; }
+        .steps .step-item.is-active::before {
+            background-position: left bottom; }
+        .steps .step-item.is-active.is-completed .step-marker,
+        .steps .step-item.is-active .step-marker {
+            background-color: #00d1b2;
+            color: #fff; }
+        .steps .step-item .step-marker {
+            align-items: center;
+            display: flex;
+            border-radius: 50%;
+            font-weight: 700;
+            justify-content: center;
+            background: #b5b5b5;
+            color: #fff;
+            border: 0.2em solid #fff;
+            z-index: 1; }
+        .steps .step-item .step-details {
+            text-align: center; }
+        .steps .step-item.is-primary::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #00d1b2 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .steps .step-item.is-primary .step-marker {
+            background-color: #00d1b2;
+            color: #fff; }
+        .steps .step-item.is-primary.is-completed::before {
+            background-position: left bottom; }
+        .steps .step-item.is-primary.is-completed .step-marker {
+            background-color: #00d1b2;
+            color: #fff; }
+        .steps .step-item.is-primary.is-active::before {
+            background-position: left bottom; }
+        .steps .step-item.is-primary.is-active.is-completed .step-marker,
+        .steps .step-item.is-primary.is-active .step-marker {
+            background-color: #00d1b2;
+            border-color: #00d1b2;
+            color: #fff; }
+        .steps .step-item.is-secondary::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #6c757d 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .steps .step-item.is-secondary .step-marker {
+            background-color: #6c757d;
+            color: #fff; }
+        .steps .step-item.is-secondary.is-completed::before {
+            background-position: left bottom; }
+        .steps .step-item.is-secondary.is-completed .step-marker {
+            background-color: #6c757d;
+            color: #fff; }
+        .steps .step-item.is-secondary.is-active::before {
+            background-position: left bottom; }
+        .steps .step-item.is-secondary.is-active.is-completed .step-marker,
+        .steps .step-item.is-secondary.is-active .step-marker {
+            background-color: #00d1b2;
+            border-color: #00d1b2;
+            color: #fff; }
+        .steps .step-item.is-success::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #48c774 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .steps .step-item.is-success .step-marker {
+            background-color: #48c774;
+            color: #fff; }
+        .steps .step-item.is-success.is-completed::before {
+            background-position: left bottom; }
+        .steps .step-item.is-success.is-completed .step-marker {
+            background-color: #48c774;
+            color: #fff; }
+        .steps .step-item.is-success.is-active::before {
+            background-position: left bottom; }
+        .steps .step-item.is-success.is-active.is-completed .step-marker,
+        .steps .step-item.is-success.is-active .step-marker {
+            background-color: #00d1b2;
+            border-color: #00d1b2;
+            color: #fff; }
+        .steps .step-item.is-info::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #238cd1 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .steps .step-item.is-info .step-marker {
+            background-color: #238cd1;
+            color: #fff; }
+        .steps .step-item.is-info.is-completed::before {
+            background-position: left bottom; }
+        .steps .step-item.is-info.is-completed .step-marker {
+            background-color: #238cd1;
+            color: #fff; }
+        .steps .step-item.is-info.is-active::before {
+            background-position: left bottom; }
+        .steps .step-item.is-info.is-active.is-completed .step-marker,
+        .steps .step-item.is-info.is-active .step-marker {
+            background-color: #00d1b2;
+            border-color: #00d1b2;
+            color: #fff; }
+        .steps .step-item.is-warning::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #ffd83d 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .steps .step-item.is-warning .step-marker {
+            background-color: #ffd83d;
+            color: #fff; }
+        .steps .step-item.is-warning.is-completed::before {
+            background-position: left bottom; }
+        .steps .step-item.is-warning.is-completed .step-marker {
+            background-color: #ffd83d;
+            color: #fff; }
+        .steps .step-item.is-warning.is-active::before {
+            background-position: left bottom; }
+        .steps .step-item.is-warning.is-active.is-completed .step-marker,
+        .steps .step-item.is-warning.is-active .step-marker {
+            background-color: #00d1b2;
+            border-color: #00d1b2;
+            color: #fff; }
+        .steps .step-item.is-danger::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #ef2e55 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .steps .step-item.is-danger .step-marker {
+            background-color: #ef2e55;
+            color: #fff; }
+        .steps .step-item.is-danger.is-completed::before {
+            background-position: left bottom; }
+        .steps .step-item.is-danger.is-completed .step-marker {
+            background-color: #ef2e55;
+            color: #fff; }
+        .steps .step-item.is-danger.is-active::before {
+            background-position: left bottom; }
+        .steps .step-item.is-danger.is-active.is-completed .step-marker,
+        .steps .step-item.is-danger.is-active .step-marker {
+            background-color: #00d1b2;
+            border-color: #00d1b2;
+            color: #fff; }
+        .steps .step-item.is-light::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #f5f5f5 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .steps .step-item.is-light .step-marker {
+            background-color: #f5f5f5;
+            color: #fff; }
+        .steps .step-item.is-light.is-completed::before {
+            background-position: left bottom; }
+        .steps .step-item.is-light.is-completed .step-marker {
+            background-color: #f5f5f5;
+            color: #fff; }
+        .steps .step-item.is-light.is-active::before {
+            background-position: left bottom; }
+        .steps .step-item.is-light.is-active.is-completed .step-marker,
+        .steps .step-item.is-light.is-active .step-marker {
+            background-color: #00d1b2;
+            border-color: #00d1b2;
+            color: #fff; }
+        .steps .step-item.is-dark::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #363636 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .steps .step-item.is-dark .step-marker {
+            background-color: #363636;
+            color: #fff; }
+        .steps .step-item.is-dark.is-completed::before {
+            background-position: left bottom; }
+        .steps .step-item.is-dark.is-completed .step-marker {
+            background-color: #363636;
+            color: #fff; }
+        .steps .step-item.is-dark.is-active::before {
+            background-position: left bottom; }
+        .steps .step-item.is-dark.is-active.is-completed .step-marker,
+        .steps .step-item.is-dark.is-active .step-marker {
+            background-color: #00d1b2;
+            border-color: #00d1b2;
+            color: #fff; }
+        .steps .step-item.is-link::before {
+            background: linear-gradient(to left, #dbdbdb 50%, #3273dc 50%);
+            background-size: 200% 100%;
+            background-position: right bottom; }
+        .steps .step-item.is-link .step-marker {
+            background-color: #3273dc;
+            color: #fff; }
+        .steps .step-item.is-link.is-completed::before {
+            background-position: left bottom; }
+        .steps .step-item.is-link.is-completed .step-marker {
+            background-color: #3273dc;
+            color: #fff; }
+        .steps .step-item.is-link.is-active::before {
+            background-position: left bottom; }
+        .steps .step-item.is-link.is-active.is-completed .step-marker,
+        .steps .step-item.is-link.is-active .step-marker {
+            background-color: #00d1b2;
+            border-color: #00d1b2;
+            color: #fff; }
+    .steps .steps-content {
+        align-items: stretch;
+        flex-basis: 100%;
+        margin: 2rem 0; }
+        .steps .steps-content .step-content {
+            display: none; }
+            .steps .steps-content .step-content.is-active {
+                display: block; }
+    .steps .steps-actions {
+        display: flex;
+        align-items: stretch;
+        flex-basis: 100%; }
+        .steps .steps-actions .steps-action {
+            display: flex;
+            flex-basis: 0;
+            flex-grow: 1;
+            margin: .5rem;
+            justify-content: center;
+            align-items: center; }
+    .steps.is-animated .step-item::before {
+        transition: all 2s ease; }
+    .steps.is-animated .step-item .step-marker {
+        transition: all 0s ease;
+        transition-delay: 1.5s; }
+    .steps .step-item:not(:first-child)::before {
+        height: 0.2em;
+        width: 100%;
+        bottom: 0;
+        left: -50%;
+        top: 1rem; }
+    .steps .step-item .step-marker {
+        height: 2rem;
+        width: 2rem;
+        position: absolute;
+        left: calc(50% - 1rem); }
+        .steps .step-item .step-marker .icon * {
+            font-size: 1rem; }
+    .steps .step-item .step-details {
+        margin-top: 2rem;
+        margin-left: .5em;
+        margin-right: .5em;
+        padding-top: .2em; }
+        .steps .step-item .step-details .step-title {
+            font-size: 1.2rem;
+            font-weight: 600; }
 
 /*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
 .switch[type="checkbox"] {

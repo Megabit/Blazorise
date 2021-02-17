@@ -1,7 +1,5 @@
 ﻿#region Using directives
-using System;
-using System.Collections;
-using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -16,6 +14,19 @@ namespace Blazorise.DataGrid
         {
             Checked = @checked;
             return CheckedChanged.InvokeAsync( @checked );
+        }
+
+        protected string BuildCellStyle()
+        {
+            var sb = new StringBuilder();
+
+            if ( !string.IsNullOrEmpty( Style ) )
+                sb.Append( Style );
+
+            if ( Width != null )
+                sb.Append( $"; width: {Width}" );
+
+            return sb.ToString().TrimStart( ' ', ';' );
         }
 
         #endregion

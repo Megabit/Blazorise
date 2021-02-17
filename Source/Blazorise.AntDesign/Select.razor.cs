@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -14,6 +14,10 @@ namespace Blazorise.AntDesign
     public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator
     {
         #region Members
+
+        private string selectorElementId;
+
+        private string inputElementId;
 
         /// <summary>
         /// Holds the information about the element location and size.
@@ -26,6 +30,7 @@ namespace Blazorise.AntDesign
         /// </summary>
         private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
+
         /// <summary>
         /// Internal string separator for selected values when Multiple mode is used.
         /// </summary>
@@ -37,7 +42,7 @@ namespace Blazorise.AntDesign
 
         protected override async Task OnFirstAfterRenderAsync()
         {
-            dotNetObjectRef ??= JSRunner.CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+            dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -49,7 +54,7 @@ namespace Blazorise.AntDesign
                 // TODO: switch to IAsyncDisposable
                 _ = JSRunner.UnregisterClosableComponent( this );
 
-                JSRunner.DisposeDotNetObjectRef( dotNetObjectRef );
+                DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
             base.Dispose( disposing );
@@ -74,7 +79,7 @@ namespace Blazorise.AntDesign
         {
             await Collapse();
 
-            StateHasChanged();
+            await InvokeAsync( StateHasChanged );
         }
 
         private async Task Expand()
@@ -84,7 +89,7 @@ namespace Blazorise.AntDesign
             // when validation is trigered the input can be pushed down by the error messages.
             elementInfo = await JSRunner.GetElementInfo( ElementRef, ElementId );
 
-            await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementId );
+            await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
 
             Expanded = true;
         }
@@ -135,7 +140,7 @@ namespace Blazorise.AntDesign
                 await Collapse();
             }
 
-            StateHasChanged();
+            await InvokeAsync( StateHasChanged );
         }
 
         protected override Task<ParseValue<IReadOnlyList<TValue>>> ParseValueFromStringAsync( string value )
@@ -194,9 +199,17 @@ namespace Blazorise.AntDesign
 
         protected bool Expanded { get; set; }
 
-        protected string SelectorElementId { get; set; } = IDGenerator.Instance.Generate;
+        protected string SelectorElementId
+        {
+            get => selectorElementId ??= IdGenerator.Generate;
+            set => selectorElementId = value;
+        }
 
-        protected string InputElementId { get; set; } = IDGenerator.Instance.Generate;
+        protected string InputElementId
+        {
+            get => inputElementId ??= IdGenerator.Generate;
+            set => inputElementId = value;
+        }
 
         /// <summary>
         /// Gets the selected items render fragments.

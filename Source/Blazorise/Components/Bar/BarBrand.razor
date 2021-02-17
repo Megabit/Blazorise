@@ -1,0 +1,9 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+<div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    @ChildContent
+    @if ( ParentBarState.Mode != BarMode.Horizontal )
+    {
+        <BarToggler Class="b-bar-mobile-toggle" />
+    }
+</div>

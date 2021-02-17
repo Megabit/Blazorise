@@ -1,8 +1,7 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -36,7 +35,7 @@ namespace Blazorise.AntDesign
                 slickWidth = (int)listRect.BoundingClientRect.Width;
                 totalWidth = slickWidth * ( carouselSlides.Count * 2 + 1 );
 
-                StateHasChanged();
+                await InvokeAsync( StateHasChanged );
             }
 
             await base.OnAfterRenderAsync( firstRender );

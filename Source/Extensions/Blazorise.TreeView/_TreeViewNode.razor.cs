@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -47,7 +47,7 @@ namespace Blazorise.TreeView
                 ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
             }
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion

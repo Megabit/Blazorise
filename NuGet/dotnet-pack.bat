@@ -7,6 +7,7 @@ dotnet pack ../Source/Blazorise.Bulma/Blazorise.Bulma.csproj --force -o . -c Rel
 dotnet pack ../Source/Blazorise.AntDesign/Blazorise.AntDesign.csproj --force -o . -c Release
 dotnet pack ../Source/Blazorise.Frolic/Blazorise.Frolic.csproj --force -o . -c Release
 
+dotnet pack ../Source/Extensions/Blazorise.Animate/Blazorise.Animate.csproj --force -o . -c Release
 dotnet pack ../Source/Extensions/Blazorise.Charts/Blazorise.Charts.csproj --force -o . -c Release
 dotnet pack ../Source/Extensions/Blazorise.Charts.Streaming/Blazorise.Charts.Streaming.csproj --force -o . -c Release
 dotnet pack ../Source/Extensions/Blazorise.DataGrid/Blazorise.DataGrid.csproj --force -o . -c Release

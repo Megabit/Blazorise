@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using System.Timers;
 using Blazorise.Snackbar.Utils;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -28,7 +26,8 @@ namespace Blazorise.Snackbar
                 object closeButtonIcon,
                 bool showActionButton,
                 string actionButtonText,
-                object actionButtonIcon )
+                object actionButtonIcon,
+                double intervalBeforeClose )
             {
                 Message = message;
                 Title = title;
@@ -41,6 +40,7 @@ namespace Blazorise.Snackbar
                 ShowActionButton = showActionButton;
                 ActionButtonText = actionButtonText;
                 ActionButtonIcon = actionButtonIcon;
+                IntervalBeforeClose = intervalBeforeClose;
             }
 
             public string Message { get; }
@@ -64,6 +64,8 @@ namespace Blazorise.Snackbar
             public string ActionButtonText { get; }
 
             public object ActionButtonIcon { get; }
+
+            public double IntervalBeforeClose { get; }
 
             public bool Visible { get; } = true;
         }
@@ -117,29 +119,31 @@ namespace Blazorise.Snackbar
                 snackbarOptions.CloseButtonIcon,
                 snackbarOptions.ShowActionButton,
                 snackbarOptions.ActionButtonText,
-                snackbarOptions.ActionButtonIcon ) );
+                snackbarOptions.ActionButtonIcon,
+                snackbarOptions.IntervalBeforeClose ) );
 
-            return InvokeAsync( () => StateHasChanged() );
+            return InvokeAsync( StateHasChanged );
         }
 
-        private Task OnSnackbarClosed( string key, SnackbarCloseReason closeReason )
+        private async Task OnSnackbarClosed( string key, SnackbarCloseReason closeReason )
         {
             var info = snackbarInfos.FirstOrDefault( x => x.Key == key );
 
             if ( info != null )
                 snackbarInfos.Remove( info );
 
-            StateHasChanged();
+            await InvokeAsync( StateHasChanged );
 
-            return Closed.InvokeAsync( new SnackbarClosedEventArgs( key, closeReason ) );
+            await Closed.InvokeAsync( new SnackbarClosedEventArgs( key, closeReason ) );
         }
 
         protected virtual SnackbarOptions CreateDefaultOptions()
         {
             return new SnackbarOptions
             {
-                Key = IDGenerator.Instance.Generate,
+                Key = IdGenerator.Generate,
                 ShowCloseButton = true,
+                IntervalBeforeClose = DefaultInterval
             };
         }
 
@@ -168,12 +172,12 @@ namespace Blazorise.Snackbar
         [Parameter] public bool Multiline { get; set; }
 
         /// <summary>
-        /// Defines the interval(in milliseconds) after which the snackbars will be automatically closed.
+        /// Defines the default interval (in milliseconds) after which the snackbars will be automatically closed (used if IntervalBeforeClose is not set on PushAsync call).
         /// </summary>
-        [Parameter] public double Interval { get; set; } = 5000;
+        [Parameter] public double DefaultInterval { get; set; } = 5000;
 
         /// <summary>
-        /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="Interval"/> time.
+        /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="DefaultInterval"/> time.
         /// </summary>
         [Parameter] public bool DelayCloseOnClick { get; set; }
 

@@ -14,7 +14,7 @@ namespace Blazorise.Frolic
 
         public override string TextEdit( bool plaintext ) => "e-control";
 
-        public override string TextEditSize( Size size ) => $"{TextEdit( false )}-{ToSize( size )}";
+        public override string TextEditSize( Size size ) => $"e-control-{ToSize( size )}";
 
         public override string TextEditColor( Color color ) => $"text-{ToColor( color )}";
 
@@ -42,11 +42,25 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region NumericEdit
+
+        public override string NumericEdit( bool plaintext ) => "e-control";
+
+        public override string NumericEditSize( Size size ) => $"e-control-{ToSize( size )}";
+
+        public override string NumericEditColor( Color color ) => $"text-{ToColor( color )}";
+
+        public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region DateEdit
 
-        public override string DateEdit() => "e-control";
+        public override string DateEdit( bool plaintext ) => "e-control";
 
-        public override string DateEditSize( Size size ) => $"{DateEdit()}-{ToSize( size )}";
+        public override string DateEditSize( Size size ) => $"e-control-{ToSize( size )}";
+
+        public override string DateEditColor( Color color ) => $"text-{ToColor( color )}";
 
         public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -54,9 +68,11 @@ namespace Blazorise.Frolic
 
         #region TimeEdit
 
-        public override string TimeEdit() => "e-control";
+        public override string TimeEdit( bool plaintext ) => "e-control";
 
-        public override string TimeEditSize( Size size ) => $"{TimeEdit()}-{ToSize( size )}";
+        public override string TimeEditSize( Size size ) => $"e-control-{ToSize( size )}";
+
+        public override string TimeEditColor( Color color ) => $"text-{ToColor( color )}";
 
         public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -84,9 +100,10 @@ namespace Blazorise.Frolic
 
         #region RadioGroup
 
-        public override string RadioGroup( bool buttons ) => buttons ? "e-buttons unified" : null;
+        public override string RadioGroup( bool buttons, Orientation orientation )
+            => $"{( buttons ? "e-buttons unified" : null )}{( orientation == Orientation.Horizontal ? null : " e-buttons-vertical" )}";
 
-        public override string RadioGroupInline() => null;
+        public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -96,7 +113,11 @@ namespace Blazorise.Frolic
 
         public override string RadioSize( bool button, Size size ) => button ? null : $"{Radio( button )}-{ToSize( size )}";
 
-        public override string RadioInline() => null;
+        public override string RadioInline( bool inline ) => null;
+
+        public override string RadioCursor( Cursor cursor ) => $"e-check-{ToCursor( cursor )}";
+
+        public override string RadioValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -302,7 +323,7 @@ namespace Blazorise.Frolic
 
         public override string ButtonsSize( Size size ) => $"e-buttons-{ToSize( size )}";
 
-        public override string ButtonsVertical() => "btn-group-vertical";
+        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
 
         #endregion
 
@@ -324,7 +345,9 @@ namespace Blazorise.Frolic
 
         public override string DropdownItem() => "drop-item";
 
-        public override string DropdownItemActive() => Active();
+        public override string DropdownItemActive( bool active ) => active ? Active() : null;
+
+        public override string DropdownItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
         public override string DropdownDivider() => "dropdown-divider";
 
@@ -382,9 +405,11 @@ namespace Blazorise.Frolic
             }
         }
 
+        public override string DropdownTableResponsive() => null;
+
         #endregion
 
-        #region Tab
+        #region Tabs
 
         public override string Tabs( bool pills ) => pills ? "e-tabs nav-pills" : "e-tabs";
 
@@ -413,6 +438,30 @@ namespace Blazorise.Frolic
         public override string TabPanel() => "e-tabs-panel";
 
         public override string TabPanelActive( bool active ) => active ? Active() : null;
+
+        #endregion
+
+        #region Steps
+
+        public override string Steps() => "e-steps";
+
+        public override string StepItem() => "e-step-item";
+
+        public override string StepItemActive( bool active ) => active ? "e-step-item-active" : null;
+
+        public override string StepItemCompleted( bool completed ) => completed ? "e-step-item-completed" : null;
+
+        public override string StepItemColor( Color color ) => $"e-step-item-{ToColor( color )}";
+
+        public override string StepItemMarker() => "e-step-item-marker";
+
+        public override string StepItemDescription() => "e-step-item-details";
+
+        public override string StepsContent() => "e-steps-content";
+
+        public override string StepPanel() => "e-step-content";
+
+        public override string StepPanelActive( bool active ) => active ? "e-step-item-active" : null;
 
         #endregion
 

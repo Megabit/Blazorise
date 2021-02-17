@@ -1,9 +1,9 @@
 ﻿#region Using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 
 #endregion
@@ -136,16 +136,16 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the row background color.
         /// </summary>
-        protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => IsSelected
-            ? ( selectedStyling?.Background ?? Blazorise.Background.Primary )
-            : ( styling?.Background ?? Blazorise.Background.None );
+        protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
+            ? selectedStyling?.Background
+            : styling?.Background ) ?? Blazorise.Background.None;
 
         /// <summary>
         /// Gets the row color.
         /// </summary>
         protected Color GetColor( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
             ? selectedStyling?.Color
-            : styling?.Color ) ?? Blazorise.Color.None;
+            : styling?.Color ) ?? Blazorise.Color.Primary;
 
         /// <summary>
         /// Gets the row classnames.

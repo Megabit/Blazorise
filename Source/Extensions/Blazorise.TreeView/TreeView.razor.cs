@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -10,7 +11,7 @@ namespace Blazorise.TreeView
     {
         #region Members
 
-        private TreeViewStore<TNode> store = new TreeViewStore<TNode>
+        private TreeViewState<TNode> state = new()
         {
         };
 
@@ -22,7 +23,7 @@ namespace Blazorise.TreeView
         {
             SelectedNode = node;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion
@@ -45,15 +46,15 @@ namespace Blazorise.TreeView
         [Parameter]
         public TNode SelectedNode
         {
-            get => store.SelectedNode;
+            get => state.SelectedNode;
             set
             {
-                if ( store.SelectedNode.IsEqual( value ) )
+                if ( state.SelectedNode.IsEqual( value ) )
                     return;
 
-                store.SelectedNode = value;
+                state.SelectedNode = value;
 
-                SelectedNodeChanged.InvokeAsync( store.SelectedNode );
+                SelectedNodeChanged.InvokeAsync( state.SelectedNode );
 
                 DirtyClasses();
             }

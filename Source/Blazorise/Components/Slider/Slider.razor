@@ -1,0 +1,6 @@
+﻿@namespace Blazorise
+@typeparam TValue
+@inherits Blazorise.BaseInputComponent<TValue>
+<input id="@ElementId" type="range" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" step="@Step" min="@Min" max="@Max" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @oninput="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+@ChildContent
+@Feedback

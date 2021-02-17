@@ -1,9 +1,8 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -52,6 +51,11 @@ namespace Blazorise.Components
         #region Properties
 
         /// <summary>
+        /// Gets or sets the dropdown element id.
+        /// </summary>
+        [Parameter] public string ElementId { get; set; }
+
+        /// <summary>
         /// Defines the color of toggle button.
         /// </summary>
         [Parameter] public Color Color { get; set; }
@@ -91,9 +95,20 @@ namespace Blazorise.Components
         /// </summary>
         [Parameter] public string Style { get; set; }
 
+        /// <summary>
+        /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
+        /// </summary>
+        [Parameter] public int? TabIndex { get; set; }
+
+        /// <summary>
+        /// Captures all the custom attribute that are not part of Blazorise component.
+        /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="DropdownList{TItem, TValue}"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

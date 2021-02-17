@@ -159,5 +159,39 @@ namespace Blazorise.E2ETests
             numeric.SendKeys( ",3" );
             WaitAssert.Equal( "42,3", () => result.Text );
         }
+
+        [Fact]
+        public void CanTypeMinMax()
+        {
+            var paragraph = Browser.FindElement( By.Id( "decimal-min-max-non-nullable" ) );
+            var numeric = paragraph.FindElement( By.TagName( "input" ) );
+            var result = paragraph.FindElement( By.Id( "decimal-min-max-non-nullable-result" ) );
+
+            WaitAssert.Equal( "0", () => result.Text );
+
+            numeric.SendKeys( "2" );
+            WaitAssert.Equal( "2", () => result.Text );
+
+            result.Click(); // leave input by clicking on other element so that onblur can happen
+            WaitAssert.Equal( "10", () => result.Text );
+
+            numeric.Clear();
+            numeric.SendKeys( "15" );
+            WaitAssert.Equal( "15", () => result.Text );
+            result.Click();
+            WaitAssert.Equal( "15", () => result.Text );
+
+            numeric.Clear();
+            numeric.SendKeys( "21" );
+            WaitAssert.Equal( "21", () => result.Text );
+            result.Click();
+            WaitAssert.Equal( "20", () => result.Text );
+
+            numeric.Clear();
+            numeric.SendKeys( "0" );
+            WaitAssert.Equal( "0", () => result.Text );
+            result.Click();
+            WaitAssert.Equal( "0", () => result.Text );
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@typeparam TValue
 @inherits Blazorise.Slider<TValue>
-<div @ref="@ElementRef" id="@ElementId" class="ant-slider" @onmousedown="@OnSliderMouseDown" @onmouseup="@OnSliderMouseUp" @onmousemove="@OnSliderMouseMove">
+<div @ref="@ElementRef" id="@ElementId" class="ant-slider" tabindex="@TabIndex" @onmousedown="@OnSliderMouseDown" @onmouseup="@OnSliderMouseUp" @onmousemove="@OnSliderMouseMove">
     <div class="ant-slider-rail"></div>
     <div class="ant-slider-track" style="@TrackStyle"></div>
     <div class="ant-slider-step"></div>

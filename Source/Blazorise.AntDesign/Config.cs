@@ -64,7 +64,6 @@ namespace Blazorise.AntDesign
             serviceCollection.AddTransient<Blazorise.FieldLabel, AntDesign.FieldLabel>();
             serviceCollection.AddTransient<Blazorise.FileEdit, AntDesign.FileEdit>();
             serviceCollection.AddTransient<Blazorise.ListGroup, AntDesign.ListGroup>();
-            serviceCollection.AddTransient<Blazorise.ModalBackdrop, AntDesign.ModalBackdrop>();
             serviceCollection.AddTransient<Blazorise.ModalContent, AntDesign.ModalContent>();
             serviceCollection.AddTransient<Blazorise.Progress, AntDesign.Progress>();
             serviceCollection.AddTransient( typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) );
@@ -80,6 +79,7 @@ namespace Blazorise.AntDesign
             serviceCollection.AddTransient<Blazorise.Table, AntDesign.Table>();
             serviceCollection.AddTransient<Blazorise.TableRowHeader, AntDesign.TableRowHeader>();
             serviceCollection.AddTransient<Blazorise.TextEdit, AntDesign.TextEdit>();
+            serviceCollection.AddTransient<Blazorise.Step, AntDesign.Step>();
 
             return serviceCollection;
         }

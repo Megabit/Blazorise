@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 #endregion
@@ -25,7 +26,8 @@ namespace Blazorise.Bulma
                 .Class( ClassNames )
                 .Style( StyleNames )
                 .Disabled( Disabled )
-                .AriaPressed( Active );
+                .AriaPressed( Active )
+                .TabIndex( TabIndex );
 
             if ( Type == ButtonType.Link && To != null )
             {
@@ -42,7 +44,14 @@ namespace Blazorise.Bulma
             builder.Attributes( Attributes );
             builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
 
-            builder.Content( ChildContent );
+            if ( Loading && LoadingTemplate != null )
+            {
+                builder.Content( LoadingTemplate );
+            }
+            else
+            {
+                builder.Content( ChildContent );
+            }
 
             builder.CloseElement();
 

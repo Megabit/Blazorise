@@ -47,13 +47,25 @@ When using the event `DateChanged`, you also must define the `Date` value attrib
 }
 ```
 
+## DateTime
+
+DateEdit component also support entering a time part. To enable it just set `InputMode` parameter.
+
+```html
+<DateEdit TValue="DateTime?" InputMode="DateInputMode.DateTime" />
+```
+
+<iframe src="/examples/forms/datetime/" frameborder="0" scrolling="no" style="width:100%;height:55px;"></iframe>
+
 ## Attributes
 
 | Name          | Type                                                                       | Default      | Description                                                                                                                    |
 |---------------|----------------------------------------------------------------------------|--------------|--------------------------------------------------------------------------------------------------------------------------------|
-| Date          | DateTime?                                                                  | null         | Gets or sets the input date value.                                                                                             |
-| DateChanged   | event                                                                      |              | Occurs when the date has changed.                                                                                              |
-| Min           | DateTime?                                                                  | null         | The earliest date to accept.                                                                                                   |
-| Max           | DateTime?                                                                  | null         | The latest date to accept.                                                                                                     |
-| Pattern       | string                                                                     | null         | The pattern attribute specifies a regular expression that the input element's value is checked against on form submission.     |
-| Placeholder   | string                                                                     | null         | Sets the placeholder for the empty date.                                                                                       |
+| Date          | `TValue`                                                                   | `default`    | Gets or sets the input date value.                                                                                             |
+| DateChanged   | `EventCallback<TValue>`                                                    |              | Occurs when the date has changed.                                                                                              |
+| InputMode     | [DateInputMode]({{ "/docs/helpers/enums/#dateinputmode" | relative_url }}) | `Date`       | Hints at the type of data that might be entered by the user while editing the element or its contents.                         |
+| Min           | `DateTimeOffset?`                                                          | null         | The earliest date to accept.                                                                                                   |
+| Max           | `DateTimeOffset?`                                                          | null         | The latest date to accept.                                                                                                     |
+| Pattern       | `string`                                                                   | null         | The pattern attribute specifies a regular expression that the input element's value is checked against on form submission.     |
+| Placeholder   | `string`                                                                   | null         | Sets the placeholder for the empty date.                                                                                       |
+| Autofocus     | `bool`                                                                     |  false       | Set's the focus to the component after the rendering is done.                                                                  |

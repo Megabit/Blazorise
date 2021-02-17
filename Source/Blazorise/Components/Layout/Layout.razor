@@ -1,0 +1,18 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed="true">
+    <section @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @if ( Loading )
+        {
+            @if ( LoadingTemplate != null )
+            {
+                @LoadingTemplate
+            }
+            else
+            {
+                <div class="@LoadingClassNames"></div>
+            }
+        }
+        @ChildContent
+    </section>
+</CascadingValue>

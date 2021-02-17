@@ -12,6 +12,9 @@
                 <Fields>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if DataGrid can be editable.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
                         </FieldLabel>
                         <FieldBody>
                             <Check @bind-Checked="@editable">Editable</Check>
@@ -19,6 +22,9 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if DataGrid can be sorted by clicking the column headers.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
                         </FieldLabel>
                         <FieldBody>
                             <Check @bind-Checked="@sortable">Sortable</Check>
@@ -26,6 +32,9 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if DataGrid can be filtered through the column headers.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
                         </FieldLabel>
                         <FieldBody>
                             <Check @bind-Checked="@filterable">Filterable</Check>
@@ -33,6 +42,9 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if paginator buttons are visible.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
                         </FieldLabel>
                         <FieldBody>
                             <Check @bind-Checked="@showPager">Show Pager</Check>
@@ -40,9 +52,32 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if pagesize dropdown will be visible.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
                         </FieldLabel>
                         <FieldBody>
                             <Check @bind-Checked="@showPageSizes">Show Page sizes</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
+                            <Tooltip Text="Defines if Datagrid shows a button row on the pager.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@showButtonRow">Show Button Row</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
+                            <Tooltip Text="If true, DataGrid will dynamicaly fetch data based on the current page and page size.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@largeDataMode">Large Data</Check>
                         </FieldBody>
                     </Field>
                     <Field>
@@ -70,6 +105,18 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            Command Mode
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select @bind-SelectedValue="@commandsMode">
+                                <SelectItem Value="DataGridCommandMode.Default">Default</SelectItem>
+                                <SelectItem Value="DataGridCommandMode.ButtonRow">Button Row</SelectItem>
+                                <SelectItem Value="DataGridCommandMode.Commands">Commands</SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
                             Sort mode
                         </FieldLabel>
                         <FieldBody>
@@ -91,12 +138,15 @@
             </CardBody>
             <CardBody>
                 <DataGrid TItem="Employee"
-                          Data="@dataModels"
+                          ReadData="@(largeDataMode ? OnReadData : null)"
+                          Data="@(largeDataMode ? employeeList : dataModels)"
+                          TotalItems="@(largeDataMode ? totalEmployees : null)"
                           EditMode="@editMode"
                           Editable="@editable"
                           Sortable="@sortable"
                           SortMode="@sortMode"
                           SelectionMode="@selectionMode"
+                          CommandMode="@commandsMode"
                           Filterable="@filterable"
                           ShowPager="@showPager"
                           PagerPosition="DataGridPagerPosition.TopAndBottom"
@@ -128,28 +178,28 @@
                         <DataGridMultiSelectColumn TItem="Employee" Width="30px"></DataGridMultiSelectColumn>
                         <DataGridCommandColumn TItem="Employee" Width="170px">
                             <NewCommandTemplate>
-                                <Button Color="Color.Success" Clicked="@context.Clicked">New</Button>
+                                <Button Color="Color.Success" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </NewCommandTemplate>
                             <EditCommandTemplate>
-                                <Button Color="Color.Primary" Clicked="@context.Clicked">Edit</Button>
+                                <Button Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </EditCommandTemplate>
                             <SaveCommandTemplate>
-                                <Button Color="Color.Primary" Clicked="@context.Clicked">Save</Button>
+                                <Button Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </SaveCommandTemplate>
                             <DeleteCommandTemplate>
-                                <Button Color="Color.Danger" Clicked="@context.Clicked">Delete</Button>
+                                <Button Color="Color.Danger" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </DeleteCommandTemplate>
                             <CancelCommandTemplate>
-                                <Button Color="Color.Secondary" Clicked="@context.Clicked">Cancel</Button>
+                                <Button Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </CancelCommandTemplate>
                             <ClearFilterCommandTemplate>
-                                <Button Color="Color.Warning" Clicked="@context.Clicked">Clear Filter</Button>
+                                <Button Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable="true">
                             <FilterTemplate>
-                                <TextEdit Placeholder="Search name" TextChanged="@(v=>context.TriggerFilterChange(v))" />
+                                <TextEdit Placeholder="Search name" Text="@context.SearchValue" TextChanged="@(v=> context.TriggerFilterChange(v))" />
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
@@ -159,13 +209,16 @@
                                 <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
                             <FilterTemplate>
-                                <Select TValue="string" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
-                                    <SelectItem Value="@("*")">All</SelectItem>
-                                    @foreach ( var item in dataModels )
-                                    {
-                                        <SelectItem Value="@item.City">@item.City</SelectItem>
-                                    }
-                                </Select>
+                                @{
+                                    var selectedValue = @context.SearchValue ?? "*";
+                                    <Select TValue="string" SelectedValue="@selectedValue" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
+                                        <SelectItem Value="@("*")">All</SelectItem>
+                                        @foreach ( var item in dataModels )
+                                        {
+                                            <SelectItem Value="@item.City">@item.City</SelectItem>
+                                        }
+                                    </Select>
+                                }
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable="true" />
@@ -227,13 +280,25 @@
                     <PopupTitleTemplate>
                         @if ( context.EditState == DataGridEditState.Edit )
                         {
-                            @($"Edit Employee {context.Item.FirstName} {context.Item.LastName}")
+                            @($"{context.LocalizationString} Employee {context.Item.FirstName} {context.Item.LastName}")
                         }
                         else
                         {
-                            @("Create Employee")
+                            @($"{context.LocalizationString} Employee")
                         }
                     </PopupTitleTemplate>
+                    <EmptyCellTemplate>
+                        <Text Style="opacity: .5;">--</Text>
+                    </EmptyCellTemplate>
+                    <ButtonRowTemplate>
+                        @if ( showButtonRow )
+                        {
+                            <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">New</Button>
+                            <Button Color="Color.Primary" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
+                            <Button Color="Color.Danger" Disabled="@(selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
+                            <Button Color="Color.Link" Clicked="@context.ClearFilterCommand.Clicked">Clear Filter</Button>
+                        }
+                    </ButtonRowTemplate>
                 </DataGrid>
             </CardBody>
         </Card>
@@ -321,11 +386,14 @@
     DataGridEditMode editMode = DataGridEditMode.Form;
     DataGridSortMode sortMode = DataGridSortMode.Multiple;
     DataGridSelectionMode selectionMode = DataGridSelectionMode.Single;
+    DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
     bool editable = true;
     bool sortable = true;
     bool filterable = true;
     bool showPager = true;
     bool showPageSizes = true;
+    bool largeDataMode = false;
+    bool showButtonRow = true;
 
     // TODO: add options to control the commands
     //bool newCommandAllowed = true;
@@ -470,5 +538,20 @@
             model.FirstName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
             || model.LastName?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true
             || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
+    }
+
+    Employee[] employeeList;
+    int totalEmployees;
+
+    Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+    {
+        // this can be call to anything, in this case we're calling a fictional api
+        var response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+
+        employeeList = response.ToArray(); // an actual data for the current page
+        totalEmployees = dataModels.Count; // this is used to tell datagrid how many items are available so that pagination will work
+
+        // always call StateHasChanged!
+        return InvokeAsync( StateHasChanged );
     }
 }

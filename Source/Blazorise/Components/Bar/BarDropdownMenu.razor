@@ -1,0 +1,7 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+<div class="@ContainerClassNames">
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnter" @onmouseleave="@ParentBarDropdown.OnMouseLeave" data-visible="@VisibleString">
+        @ChildContent
+    </div>
+</div>

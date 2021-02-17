@@ -1,7 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 #endregion
 
@@ -9,13 +6,9 @@ namespace Blazorise.AntDesign
 {
     public partial class Tabs : Blazorise.Tabs
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
-        protected override void OnAfterRender( bool firstRender )
+        protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
             {
@@ -23,11 +16,11 @@ namespace Blazorise.AntDesign
                 // This is needed because selected tab will not work unless we know all properly initialized.
                 if ( TabItems.Count > 0 && TabItems.Count == TabPanels.Count )
                 {
-                    StateHasChanged();
+                    await InvokeAsync( StateHasChanged );
                 }
             }
 
-            base.OnAfterRender( firstRender );
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         #endregion

@@ -1,9 +1,5 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.AntDesign
@@ -27,7 +23,7 @@ namespace Blazorise.AntDesign
 
         #region Methods
 
-        protected override void DirtyClasses()
+        protected internal override void DirtyClasses()
         {
             containerClassBuilder.Dirty();
 

@@ -1,8 +1,8 @@
 ﻿@inherits Blazorise.BarDropdown
-<CascadingValue Value=this>
-    <CascadingValue Value="@Store">
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@State">
         <CascadingValue Value="@SubMenuId" Name="SubMenuId">
-            <li class="@ClassNames" style="@StyleNames" role="menuitem" @attributes="@Attributes">
+            <li id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" @attributes="@Attributes">
                 @ChildContent
             </li>
         </CascadingValue>

@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
-<div class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @attributes="@Attributes">
-    <CascadingValue Value="this">
+<CascadingValue Value="@this" IsFixed="true">
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @attributes="@Attributes">
         @ChildContent
-    </CascadingValue>
-</div>
+    </div>
+</CascadingValue>

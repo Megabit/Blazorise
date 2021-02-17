@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 @typeparam TValue
-<Dropdown @ref="@dropdownRef" Class="@Class" Style="@Style" Attributes="@Attributes">
-    <DropdownToggle @ref="@dropdownToggleRef" Color="@Color">@ChildContent</DropdownToggle>
+<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@Class" Style="@Style" Attributes="@Attributes">
+    <DropdownToggle @ref="@dropdownToggleRef" Color="@Color" TabIndex="@TabIndex">@ChildContent</DropdownToggle>
     <DropdownMenu>
         @if ( Data != null )
         {

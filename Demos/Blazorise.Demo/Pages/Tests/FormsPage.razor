@@ -72,10 +72,10 @@
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                         <Select SelectedValue="3">
-                            <SelectItem Value="1">1</SelectItem>
-                            <SelectItem Value="2">2</SelectItem>
-                            <SelectItem Value="3">3</SelectItem>
-                            <SelectItem Value="4">4</SelectItem>
+                            <SelectItem Value="1">One</SelectItem>
+                            <SelectItem Value="2">Two</SelectItem>
+                            <SelectItem Value="3">Three</SelectItem>
+                            <SelectItem Value="4">Four</SelectItem>
                         </Select>
                     </FieldBody>
                 </Field>
@@ -83,10 +83,10 @@
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Multiple Select</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                         <Select TValue="int" Multiple="true">
-                            <SelectItem Value="1">1</SelectItem>
-                            <SelectItem Value="2">2</SelectItem>
-                            <SelectItem Value="3">3</SelectItem>
-                            <SelectItem Value="4">4</SelectItem>
+                            <SelectItem Value="1">One</SelectItem>
+                            <SelectItem Value="2">Two</SelectItem>
+                            <SelectItem Value="3">Three</SelectItem>
+                            <SelectItem Value="4">Four</SelectItem>
                         </Select>
                     </FieldBody>
                 </Field>
@@ -95,12 +95,12 @@
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                         <Select SelectedValue="3">
                             <SelectGroup Label="first group">
-                                <SelectItem Value="1">1</SelectItem>
-                                <SelectItem Value="2">2</SelectItem>
+                                <SelectItem Value="1">One</SelectItem>
+                                <SelectItem Value="2">Two</SelectItem>
                             </SelectGroup>
                             <SelectGroup Label="second group">
-                                <SelectItem Value="3">3</SelectItem>
-                                <SelectItem Value="4">4</SelectItem>
+                                <SelectItem Value="3">Three</SelectItem>
+                                <SelectItem Value="4">Four</SelectItem>
                             </SelectGroup>
                         </Select>
                     </FieldBody>
@@ -115,6 +115,12 @@
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                         <DateEdit TValue="DateTime?" />
+                    </FieldBody>
+                </Field>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date and Time</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <DateEdit TValue="DateTime?" InputMode="DateInputMode.DateTime" />
                     </FieldBody>
                 </Field>
                 <Field Horizontal="true">
@@ -144,7 +150,7 @@
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Radios</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <RadioGroup TValue="string" Name="colors" Inline="true" CheckedValue="@("blue")">
+                        <RadioGroup TValue="string" Name="colors" CheckedValue="@("blue")">
                             <Radio TValue="string" Value="@("red")">Red</Radio>
                             <Radio TValue="string" Value="@("green")">Green</Radio>
                             <Radio TValue="string" Value="@("blue")">Blue</Radio>
@@ -154,7 +160,7 @@
                 <Field Horizontal="true">
                     <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Radio buttons</FieldLabel>
                     <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                        <RadioGroup TValue="string" Name="colors2" Inline="true" Buttons="true" CheckedValue="@("green")">
+                        <RadioGroup TValue="string" Name="colors2" Buttons="true" CheckedValue="@("green")">
                             <Radio TValue="string" Value="@("red")">Red</Radio>
                             <Radio TValue="string" Value="@("green")">Green</Radio>
                             <Radio TValue="string" Value="@("blue")">Blue</Radio>

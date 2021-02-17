@@ -194,3 +194,4 @@ public void ConfigureServices( IServiceCollection services )
 | OnFocus                       | `EventCallback<FocusEventArgs>`                                     |         | Occurs when the input box gains or loses focus.                                                      |
 | FocusIn                       | `EventCallback<FocusEventArgs>`                                     |         | Occurs when the input box gains focus.                                                               |
 | FocusOut                      | `EventCallback<FocusEventArgs>`                                     |         | Occurs when the input box loses focus.                                                               |
+| Autofocus                     | `bool`                                                              |  false  | Set's the focus to the component after the rendering is done.                                        |

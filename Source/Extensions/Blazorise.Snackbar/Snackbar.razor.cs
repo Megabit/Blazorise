@@ -1,11 +1,9 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
 using Blazorise.Snackbar.Utils;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -17,6 +15,8 @@ namespace Blazorise.Snackbar
     public partial class Snackbar : BaseComponent
     {
         #region Members
+
+        private string key;
 
         /// <summary>
         /// Indicates if snackbar is visible.
@@ -57,7 +57,6 @@ namespace Blazorise.Snackbar
         /// List of all action buttons placed inside of a snackbar.
         /// </summary>
         private List<SnackbarAction> snackbarActions = new List<SnackbarAction>();
-
 
         #endregion
 
@@ -127,7 +126,7 @@ namespace Blazorise.Snackbar
 
             Visible = true;
 
-            InvokeAsync( () => StateHasChanged() );
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -152,7 +151,7 @@ namespace Blazorise.Snackbar
             // finally reset close reason so it doesn't interfere with internal closing by Visible property
             this.closeReason = SnackbarCloseReason.None;
 
-            InvokeAsync( () => StateHasChanged() );
+            InvokeAsync( StateHasChanged );
         }
 
         private void OnCountdownTimerElapsed( object sender, EventArgs e )
@@ -212,7 +211,12 @@ namespace Blazorise.Snackbar
         /// <summary>
         /// Unique key associated by this snackbar.
         /// </summary>
-        [Parameter] public string Key { get; set; } = $"Snackbar_{IDGenerator.Instance.Generate}";
+        [Parameter]
+        public string Key
+        {
+            get => key ??= $"Snackbar_{IdGenerator.Generate}";
+            set => key = value;
+        }
 
         /// <summary>
         /// Defines the visibility of snackbar.

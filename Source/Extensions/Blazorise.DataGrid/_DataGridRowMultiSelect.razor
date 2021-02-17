@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridRowMultiSelect<TItem>
-<TableRowCell Class="@Class" Style="@Style" width="@Width" TextAlignment="@TextAlignment">
-    @if ( ParentDataGrid?.MultiSelectColumn?.MultiSelectTemplate != null )
+<TableRowCell Class="@Class" Style="@BuildCellStyle()" TextAlignment="@TextAlignment">
+    @if ( ParentDataGrid.MultiSelectColumn?.MultiSelectTemplate != null )
     {
         <Label @onclick:stopPropagation>
             @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>( CheckedChanged, Item ) )

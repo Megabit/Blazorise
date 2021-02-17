@@ -1,5 +1,5 @@
 ﻿@inherits BaseComponent
-<div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     @ChildContent
     @foreach ( var snackbarInfo in snackbarInfos )
     {
@@ -8,7 +8,7 @@
                   Visible="@snackbarInfo.Visible"
                   Color="@snackbarInfo.Color"
                   Multiline="@Multiline"
-                  Interval="@Interval"
+                  Interval="@snackbarInfo.IntervalBeforeClose"
                   DelayCloseOnClick="@DelayCloseOnClick"
                   DelayCloseOnClickInterval="@DelayCloseOnClickInterval"
                   Closed="@(async (e)=> await OnSnackbarClosed(e.Key, e.CloseReason))">
