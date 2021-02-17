@@ -152,6 +152,8 @@ namespace Blazorise.Components
 
             await SelectedValueChanged.InvokeAsync( SelectedValue );
             await SearchChanged.InvokeAsync( CurrentSearch );
+
+            textEditRef?.Revalidate();
         }
 
         private void FilterData()
@@ -398,6 +400,11 @@ namespace Blazorise.Components
         /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
         /// </summary>
         [Parameter] public int? TabIndex { get; set; }
+
+        /// <summary>
+        /// Validation handler used to validate selected value.
+        /// </summary>
+        [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
 
         /// <summary>
         /// Captures all the custom attribute that are not part of Blazorise component.

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -247,6 +248,14 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Forces the <see cref="Validation"/>(if any is used) to re-validate with the new custom or internal value.
+        /// </summary>
+        public void Revalidate()
+        {
+            ParentValidation?.NotifyInputChanged<TValue>( default );
+        }
+
+        /// <summary>
         /// Handler for validation status change event.
         /// </summary>
         /// <param name="sender">Object that raised the event.</param>
@@ -265,7 +274,9 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <inheritdoc/>
-        public virtual object ValidationValue => InternalValue;
+        public virtual object ValidationValue => CustomValidationValue != null
+            ? CustomValidationValue.Invoke()
+            : InternalValue;
 
         /// <summary>
         /// Returns true if input belong to a <see cref="FieldBody"/>.
@@ -418,6 +429,16 @@ namespace Blazorise
         /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
         /// </summary>
         [Parameter] public int? TabIndex { get; set; }
+
+        /// <summary>
+        /// Used to provide custom validation value on which the validation will be processed with
+        /// the <see cref="Validation.Validator"/> handler.
+        /// </summary>
+        /// <remarks>
+        /// Should be used carefully as it's only meant for some special cases when input is used
+        /// in a wrapper component, like Autocomplete or SelectList.
+        /// </remarks>
+        [Parameter] public Func<TValue> CustomValidationValue { get; set; }
 
         /// <summary>
         /// Parent validation container.
