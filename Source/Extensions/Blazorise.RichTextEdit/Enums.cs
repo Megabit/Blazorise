@@ -23,7 +23,8 @@
         Font,
         Align,
         Clean,
-        Link
+        Link,
+        Image
     }
 
     /// <summary>
