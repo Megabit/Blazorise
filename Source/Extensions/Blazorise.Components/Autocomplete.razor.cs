@@ -217,6 +217,14 @@ namespace Blazorise.Components
                 activeItemIndex = FilteredData.Count - 1;
 
             ActiveItemIndex = activeItemIndex;
+
+            // update search text with the currently focused item text
+            if ( FilteredData.Count > 0 && ActiveItemIndex >= 0 && ActiveItemIndex <= ( FilteredData.Count - 1 ) )
+            {
+                var item = FilteredData[ActiveItemIndex];
+
+                SelectedText = item != null ? TextField?.Invoke( item ) : string.Empty;
+            }
         }
 
         /// <summary>
