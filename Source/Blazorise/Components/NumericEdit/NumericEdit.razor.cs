@@ -159,11 +159,11 @@ namespace Blazorise
                 // - Nullable value:     null or empty
                 if ( number.CompareTo( defaultValue ) != 0 )
                 {
-                    if ( Max is IComparable max && number.CompareTo( max ) > 0 )
+                    if ( Max is IComparable max && max.CompareTo( defaultValue ) != 0 && number.CompareTo( max ) > 0 )
                     {
                         number = max;
                     }
-                    else if ( Min is IComparable min && number.CompareTo( min ) < 0 )
+                    else if ( Min is IComparable min && min.CompareTo( defaultValue ) != 0 && number.CompareTo( min ) < 0 )
                     {
                         number = min;
                     }
