@@ -22,7 +22,9 @@
         Background,
         Font,
         Align,
-        Clean
+        Clean,
+        Link,
+        Image
     }
 
     /// <summary>
