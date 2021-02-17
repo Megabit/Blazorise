@@ -29,6 +29,7 @@
                 RichTextEditAction.Align => "ql-align",
                 RichTextEditAction.Clean => "ql-clean",
                 RichTextEditAction.Link => "ql-link",
+                RichTextEditAction.Image => "ql-image",
                 null => "",
                 _ => $"ql-{action.ToString().ToLower()}"
             };
