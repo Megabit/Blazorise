@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -354,7 +355,11 @@ namespace Blazorise.DataGrid
                 SelectedRows.Add( eventArgs.Item );
 
             if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) )
+            { 
                 SelectedRows.Remove( eventArgs.Item );
+                if ( SelectedRow.IsEqual( eventArgs.Item ) )
+                    SelectedRowChanged.InvokeAsync( default( TItem ) );
+            }
 
             return SelectedRowsChanged.InvokeAsync( SelectedRows );
         }
@@ -372,6 +377,7 @@ namespace Blazorise.DataGrid
             else
             {
                 SelectedRows.Clear();
+                await SelectedRowChanged.InvokeAsync( default( TItem ) );
             }
 
             SelectedAllRows = selectAll;
