@@ -50,8 +50,7 @@ namespace Blazorise.RichTextEdit
 
             await jsRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.initialize",
                 dotNetRef,
-                richTextEdit.EditorRef,
-                richTextEdit.Toolbar != null ? richTextEdit.ToolbarRef : default,
+                richTextEdit.ElementRef,
                 richTextEdit.ReadOnly,
                 richTextEdit.PlaceHolder,
                 richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
@@ -170,6 +169,7 @@ namespace Blazorise.RichTextEdit
 
                 await LoadElementAsync( $@"https://cdn.quilljs.com/{qjsVersion}/quill.js", true );
                 await LoadElementAsync( @"_content/Blazorise.RichTextEdit/blazorise.richtextedit.js", true );
+                await LoadElementAsync( @"_content/Blazorise.RichTextEdit/Blazorise.RichTextEdit.bundle.scp.css", false );
 
                 if ( options.UseBubbleTheme )
                 {
