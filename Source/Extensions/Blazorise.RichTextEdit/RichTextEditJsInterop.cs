@@ -64,7 +64,15 @@ namespace Blazorise.RichTextEdit
 
             return Disposable.Create( () =>
             {
-                DestroyEditor( richTextEdit.EditorRef );
+                try
+                {
+                    DestroyEditor( richTextEdit.EditorRef );
+                }
+                catch ( TaskCanceledException )
+                {
+                    //Connection closed
+                }
+
                 dotNetRef.Dispose();
             } );
         }
