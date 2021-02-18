@@ -3,18 +3,18 @@
 
     @if ( Toolbar != null && ToolbarPosition != Placement.Bottom )
     {
-        <div @ref="@ToolbarRef">
+        <div @ref="@ToolbarRef" class="rte-toolbar">
             @Toolbar
         </div>
     }
 
-    <div @ref="@EditorRef">
+    <div @ref="@EditorRef" class="rte-editor">
         @Editor
     </div>
 
     @if ( Toolbar != null && ToolbarPosition == Placement.Bottom )
     {
-        <div @ref="@ToolbarRef" style="border-top: 0">
+        <div @ref="@ToolbarRef" class="rte-toolbar" style="border-top: 0">
             @Toolbar
         </div>
     }

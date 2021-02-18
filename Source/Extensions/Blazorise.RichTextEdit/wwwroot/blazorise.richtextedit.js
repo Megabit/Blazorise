@@ -1,13 +1,18 @@
 ﻿window.blazoriseRichTextEdit = {
-    initialize: (dotnetAdapter, editorRef, toolbarRef, readOnly, placeholder, theme, onContentChanged, bindEnter,
+    initialize: (dotnetAdapter, containerRef, readOnly, placeholder, theme, onContentChanged, bindEnter,
         onEnter, onFocus, onBlur, configure) => {
-        if (!editorRef)
+        if (!containerRef)
             return false;
+
+        const editorRef = containerRef.getElementsByClassName("rte-editor")[0];
+        const toolbarRef = containerRef.getElementsByClassName("rte-toolbar")[0];
+
         let options = {
             modules: {
                 toolbar: toolbarRef,
                 keyboard: undefined
             },
+            bounds: containerRef,
             placeholder: placeholder,
             readOnly: readOnly,
             theme: theme
@@ -23,7 +28,7 @@
                         altKey: false,
                         handler: (range, context) => {
                             if (context.format.list) {
-                                editorRef.quill.insertText(range.index, '\n');
+                                editorRef.quill.insertText(range.index, "\n");
                             } else {
                                 dotnetAdapter.invokeMethodAsync(onEnter);
                             }
@@ -43,13 +48,13 @@
             }
         }
         const quill = new Quill(editorRef, options);
-        quill.on('text-change',
+        quill.on("text-change",
             (_dx, _dy, source) => {
-                if (source === 'user') {
+                if (source === "user") {
                     dotnetAdapter.invokeMethodAsync(onContentChanged);
                 }
             });
-        quill.on('selection-change', function (range, oldRange, source) {
+        quill.on("selection-change", function (range, oldRange, source) {
             if (range === null && oldRange !== null) {
                 dotnetAdapter.invokeMethodAsync(onBlur);
             } else if (range !== null && oldRange === null)
