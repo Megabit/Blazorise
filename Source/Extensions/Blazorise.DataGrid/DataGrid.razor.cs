@@ -349,16 +349,23 @@ namespace Blazorise.DataGrid
             UnSelectAllRows = false;
 
             if ( SelectedRows is null )
+            {
                 SelectedRows = new List<TItem>();
+            }
 
             if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) )
+            {
                 SelectedRows.Add( eventArgs.Item );
+            }
 
             if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) )
-            { 
+            {
                 SelectedRows.Remove( eventArgs.Item );
+
                 if ( SelectedRow.IsEqual( eventArgs.Item ) )
+                {
                     SelectedRowChanged.InvokeAsync( default( TItem ) );
+                }
             }
 
             return SelectedRowsChanged.InvokeAsync( SelectedRows );
@@ -367,7 +374,9 @@ namespace Blazorise.DataGrid
         protected async Task OnMultiSelectAll( bool selectAll )
         {
             if ( SelectedRows is null )
+            {
                 SelectedRows = new List<TItem>();
+            }
 
             if ( selectAll )
             {
@@ -377,6 +386,7 @@ namespace Blazorise.DataGrid
             else
             {
                 SelectedRows.Clear();
+
                 await SelectedRowChanged.InvokeAsync( default( TItem ) );
             }
 
