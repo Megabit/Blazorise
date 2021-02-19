@@ -68,10 +68,9 @@ namespace Blazorise
                 // additional changes to responsive breakpoints from there.
                 isBroken = BreakpointActivatorAdapter.IsBroken( Breakpoint, await JSRunner.GetBreakpoint() );
 
-                if ( Visible == isBroken )
+                if ( isBroken )
                 {
-                    Visible = !isBroken;
-                    await InvokeAsync( StateHasChanged );
+                    await Toggle();
                 }
             }
 
