@@ -710,7 +710,14 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets only columns that are available for display in the grid.
         /// </summary>
-        protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns => Columns.Where( x => x.IsDisplayable || x.Displayable );
+        protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns
+        {
+            get
+            {
+                Columns.Sort( ( x, y ) => x.SortOrder.CompareTo( y.SortOrder ) );
+                return Columns.Where( x => x.IsDisplayable || x.Displayable );
+            }
+        }
 
         /// <summary>
         /// Returns true if <see cref="Data"/> is safe to modify.
