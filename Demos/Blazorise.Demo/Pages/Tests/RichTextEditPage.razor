@@ -133,8 +133,15 @@
                     <AlertMessage>Note:</AlertMessage>
                     <AlertDescription>Start typing and change format by key bindings or by selecting the text</AlertDescription>
                 </Alert>
-                <RichTextEdit Style="border: 1px solid" Theme="RichTextEditTheme.Bubble" PlaceHolder="My message" />
+                <RichTextEdit @ref="richTextEditRef2" Style="border: 1px solid" Theme="RichTextEditTheme.Bubble" PlaceHolder="My message" ContentChanged="OnContentChanged2">
+                    <Editor>
+                        @((MarkupString)contentFromCode)
+                    </Editor>
+                </RichTextEdit>
             </CardBody>
+            <CardFooter>
+                <Button Clicked="OnUpdateContent">Update content</Button>
+            </CardFooter>
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.IsFull.OnTablet.IsHalf.OnDesktop">
@@ -166,12 +173,19 @@
 @code {
     private Modal modalRef;
     private RichTextEdit richTextEditRef;
+    private RichTextEdit richTextEditRef2;
     private bool readOnly;
     private string contentAsHtml;
     private string contentAsDeltaJson;
     private string contentAsText;
     private string savedContent;
+    private string contentFromCode;
     private string lastEvent;
+
+    protected async Task OnUpdateContent()
+    {
+        contentFromCode = $"<p>Content from code {DateTime.Now}</p>";
+    }
 
     public async Task OnContentChanged()
     {
@@ -180,11 +194,16 @@
         contentAsText = await richTextEditRef.GetTextAsync();
     }
 
+    public async Task OnContentChanged2()
+    {
+        var content = await richTextEditRef2.GetHtmlAsync();
+        Console.WriteLine(content);
+    }
+
     public async Task OnSave()
     {
         savedContent = await richTextEditRef.GetHtmlAsync();
         modalRef.Show();
         await richTextEditRef.ClearAsync();
     }
-
 }
