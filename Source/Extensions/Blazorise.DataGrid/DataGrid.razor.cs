@@ -714,7 +714,7 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                Columns.Sort( ( x, y ) => x.SortOrder.CompareTo( y.SortOrder ) );
+                Columns.Sort( ( x, y ) => x.DisplayOrder.CompareTo( y.DisplayOrder ) );
                 return Columns.Where( x => x.IsDisplayable || x.Displayable );
             }
         }

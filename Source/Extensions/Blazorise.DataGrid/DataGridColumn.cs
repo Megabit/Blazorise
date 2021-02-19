@@ -254,7 +254,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets where column will be displayed on a grid.
         /// </summary>
-        [Parameter] public int SortOrder { get; set; }
+        [Parameter] public int DisplayOrder { get; set; }
 
         /// <summary>
         /// Allows the cell values to be entered while the grid is in the new-item state.
