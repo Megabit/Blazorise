@@ -30,7 +30,7 @@ namespace Blazorise
         /// <summary>
         /// A stack of functions to execute after the rendering.
         /// </summary>
-        private Queue<Func<Task>> executeAfterRendereQueue;
+        private Queue<Func<Task>> executeAfterRenderQueue;
 
         #endregion
 
@@ -80,10 +80,10 @@ namespace Blazorise
         /// <param name="action"></param>
         protected void ExecuteAfterRender( Func<Task> action )
         {
-            if ( executeAfterRendereQueue == null )
-                executeAfterRendereQueue = new Queue<Func<Task>>();
+            if ( executeAfterRenderQueue == null )
+                executeAfterRenderQueue = new Queue<Func<Task>>();
 
-            executeAfterRendereQueue.Enqueue( action );
+            executeAfterRenderQueue.Enqueue( action );
         }
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -95,10 +95,10 @@ namespace Blazorise
                 await OnFirstAfterRenderAsync();
             }
 
-            if ( executeAfterRendereQueue?.Count > 0 )
+            if ( executeAfterRenderQueue?.Count > 0 )
             {
-                var actions = executeAfterRendereQueue.ToArray();
-                executeAfterRendereQueue.Clear();
+                var actions = executeAfterRenderQueue.ToArray();
+                executeAfterRenderQueue.Clear();
 
                 foreach ( var action in actions )
                 {
