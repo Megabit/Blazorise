@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Base;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -9,7 +10,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
-    public abstract class BaseComponent : ComponentBase, IDisposable
+    public abstract class BaseComponent : BaseAfterRenderComponent, IDisposable
     {
         #region Members
 
@@ -26,11 +27,6 @@ namespace Blazorise
         private IFluentDisplay display;
 
         private CharacterCasing characterCasing = CharacterCasing.Normal;
-
-        /// <summary>
-        /// A stack of functions to execute after the rendering.
-        /// </summary>
-        private Queue<Func<Task>> executeAfterRenderQueue;
 
         #endregion
 
@@ -74,36 +70,11 @@ namespace Blazorise
             }
         }
 
-        /// <summary>
-        /// Pushes an action to the stack to be executed after the rendering is done.
-        /// </summary>
-        /// <param name="action"></param>
-        protected void ExecuteAfterRender( Func<Task> action )
-        {
-            if ( executeAfterRenderQueue == null )
-                executeAfterRenderQueue = new Queue<Func<Task>>();
-
-            executeAfterRenderQueue.Enqueue( action );
-        }
-
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
-            Rendered = true;
-
             if ( firstRender )
             {
                 await OnFirstAfterRenderAsync();
-            }
-
-            if ( executeAfterRenderQueue?.Count > 0 )
-            {
-                var actions = executeAfterRenderQueue.ToArray();
-                executeAfterRenderQueue.Clear();
-
-                foreach ( var action in actions )
-                {
-                    await action();
-                }
             }
 
             await base.OnAfterRenderAsync( firstRender );
@@ -217,11 +188,6 @@ namespace Blazorise
         /// Gets the built class-names based on all the rules set by the component parameters.
         /// </summary>
         public string ClassNames => ClassBuilder.Class;
-
-        /// <summary>
-        /// Indicates if component has been rendered in the browser.
-        /// </summary>
-        protected bool Rendered { get; private set; }
 
         /// <summary>
         /// Gets the style mapper.
