@@ -113,6 +113,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected PaginationContext<TItem> paginationContext;
 
+        /// <summary>
+        /// Gets the DataGrid standard class and other existing Class
+        /// </summary>
         protected string ClassNames
         {
             get
