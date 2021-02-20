@@ -192,7 +192,11 @@ namespace Blazorise.DataGrid
                 } );
 
                 if ( ManualReadMode )
+                {
                     await HandleReadData( CancellationToken.None );
+
+                    return;
+                }
 
                 // after all the columns have being "hooked" we need to resfresh the grid
                 await InvokeAsync( StateHasChanged );
