@@ -175,16 +175,21 @@ namespace Blazorise.Demo.Pages.Tests
                 || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
         }
 
-        Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+        async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
         {
-            // this can be call to anything, in this case we're calling a fictional api
-            var response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+            Random random = new Random();
+            await Task.Delay( random.Next( 2500 ) );
+            if( !e.CancellationToken.IsCancellationRequested )
+            { 
+                // this can be call to anything, in this case we're calling a fictional api
+                var response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
 
-            employeeList = new List<Employee>( response ); // an actual data for the current page
-            totalEmployees = dataModels.Count; // this is used to tell datagrid how many items are available so that pagination will work
-
-            // always call StateHasChanged!
-            return InvokeAsync( StateHasChanged );
+                employeeList = new List<Employee>( response ); // an actual data for the current page
+                totalEmployees = dataModels.Count; // this is used to tell datagrid how many items are available so that pagination will work
+            
+                // always call StateHasChanged!
+                await InvokeAsync( StateHasChanged );
+            }
         }
 
         #endregion
