@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Text;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
@@ -197,40 +198,51 @@ namespace Blazorise.DataGrid
         {
             if ( firstRender )
             {
-                paginationContext.SubscribeOnPageSizeChanged( pageSize =>
+                paginationContext.SubscribeOnPageSizeChanged( async pageSize =>
                 {
-                    InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
+                    paginationContext.CancellationTokenSource?.Cancel();
+                    paginationContext.CancellationTokenSource = new CancellationTokenSource();
+
+                    await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
 
                     // When using manual mode, a user is in control when StateHasChanged will be called
                     // so we just need to call HandleReadData.
                     if ( ManualReadMode )
                     {
-                        InvokeAsync( HandleReadData );
+                        await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
                     }
                     else
                     {
-                        InvokeAsync( StateHasChanged );
+                        await InvokeAsync( StateHasChanged );
                     }
+
                 } );
 
-                paginationContext.SubscribeOnPageChanged( currentPage =>
+                paginationContext.SubscribeOnPageChanged( async currentPage =>
                 {
-                    InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
+                    paginationContext.CancellationTokenSource?.Cancel();
+                    paginationContext.CancellationTokenSource = new CancellationTokenSource();
+
+                    await InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
 
                     // When using manual mode, a user is in control when StateHasChanged will be called
                     // so we just need to call HandleReadData.
                     if ( ManualReadMode )
                     {
-                        InvokeAsync( HandleReadData );
+                        await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
                     }
                     else
                     {
-                        InvokeAsync( StateHasChanged );
+                        await InvokeAsync( StateHasChanged );
                     }
                 } );
 
                 if ( ManualReadMode )
-                    await HandleReadData();
+                {
+                    await HandleReadData( CancellationToken.None );
+
+                    return;
+                }
 
                 // after all the columns have being "hooked" we need to resfresh the grid
                 await InvokeAsync( StateHasChanged );
@@ -370,7 +382,7 @@ namespace Blazorise.DataGrid
                     // If a new item is added, the data should be refreshed
                     // to account for paging, sorting, and filtering
                     if ( ManualReadMode )
-                        await HandleReadData();
+                        await HandleReadData( CancellationToken.None );
                 }
                 else
                     await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
@@ -390,7 +402,7 @@ namespace Blazorise.DataGrid
                 PopupVisible = false;
         }
 
-        protected Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
+        protected async Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
         {
             SelectedAllRows = false;
             UnSelectAllRows = false;
@@ -411,11 +423,11 @@ namespace Blazorise.DataGrid
 
                 if ( SelectedRow.IsEqual( eventArgs.Item ) )
                 {
-                    SelectedRowChanged.InvokeAsync( default( TItem ) );
+                    await SelectedRowChanged.InvokeAsync( default( TItem ) );
                 }
             }
 
-            return SelectedRowsChanged.InvokeAsync( SelectedRows );
+            await SelectedRowsChanged.InvokeAsync( SelectedRows );
         }
 
         protected async Task OnMultiSelectAll( bool selectAll )
@@ -492,7 +504,7 @@ namespace Blazorise.DataGrid
 
             if ( ManualReadMode )
             {
-                return InvokeAsync( HandleReadData );
+                return InvokeAsync( () => HandleReadData( CancellationToken.None ) );
             }
             else
             {
@@ -500,13 +512,13 @@ namespace Blazorise.DataGrid
             }
         }
 
-        protected async Task HandleReadData()
+        protected async Task HandleReadData( CancellationToken cancellationToken )
         {
             try
             {
                 IsLoading = true;
-
-                await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns ) );
+                if ( !cancellationToken.IsCancellationRequested )
+                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns, cancellationToken ) );
             }
             finally
             {
@@ -547,7 +559,7 @@ namespace Blazorise.DataGrid
                 dirtyFilter = dirtyView = true;
 
                 if ( ManualReadMode )
-                    return HandleReadData();
+                    return HandleReadData( CancellationToken.None );
             }
 
             return Task.CompletedTask;
@@ -559,7 +571,7 @@ namespace Blazorise.DataGrid
             dirtyFilter = dirtyView = true;
 
             if ( ManualReadMode )
-                return HandleReadData();
+                return HandleReadData( CancellationToken.None );
 
             return Task.CompletedTask;
         }
@@ -574,7 +586,7 @@ namespace Blazorise.DataGrid
             dirtyFilter = dirtyView = true;
 
             if ( ManualReadMode )
-                return HandleReadData();
+                return HandleReadData( CancellationToken.None );
 
             return Task.CompletedTask;
         }
