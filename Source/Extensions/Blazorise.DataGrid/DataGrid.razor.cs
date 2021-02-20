@@ -65,6 +65,20 @@ namespace Blazorise.DataGrid
         private bool dirtyView = true;
 
         /// <summary>
+        /// If DataGrid is resizable. 
+        /// Resizable columns should be constantly recalculated to keep up with the current Datagrid's height dimensions.
+        /// </summary>
+        /// <returns></returns>
+        private async Task RecalculateResize()
+        {
+            if ( resizable )
+            {
+                await jSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, dataGridTable.ElementRef );
+                await jSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, dataGridTable.ElementRef );
+            }
+        }
+
+        /// <summary>
         /// Holds the state of sorted columns grouped by the sort-mode.
         /// </summary>
         protected Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>> sortByColumnsDictionary = new Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>>
@@ -188,9 +202,6 @@ namespace Blazorise.DataGrid
 
             if ( firstRender )
             {
-                if ( resizable )
-                    await jSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, dataGridTable.ElementRef );
-
                 paginationContext.SubscribeOnPageSizeChanged( pageSize =>
                 {
                     InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
@@ -230,6 +241,7 @@ namespace Blazorise.DataGrid
                 await InvokeAsync( StateHasChanged );
             }
 
+            await RecalculateResize();
             await base.OnAfterRenderAsync( firstRender );
         }
 
