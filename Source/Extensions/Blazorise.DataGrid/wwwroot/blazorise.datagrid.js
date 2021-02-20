@@ -1,6 +1,21 @@
 ﻿window.blazoriseDataGrid = {
     initResizable: function (table) {
         const cols = table.querySelectorAll('th');
+        const tableHeadRows = table.querySelector('thead').querySelectorAll('tr').length;
+
+        const calculateActualHeight = function () {
+            let height = 0;
+            const tableRows = table.querySelectorAll('tr');
+
+            tableRows.forEach(x => {
+                let firstCol = x.querySelector('th:first-child,td:first-child').offsetHeight;
+                if (firstCol != null) {
+                    height += firstCol;
+                }
+            });
+            return height; 
+        };
+        let actualHeight = calculateActualHeight();
 
         const createResizableColumn = function (col) {
             // Add a resizer element to the column
@@ -8,8 +23,8 @@
             resizer.classList.add('b-datagrid-resizer');
 
             // Set the height
-            resizer.style.top = `-${col.offsetHeight}px`;
-            resizer.style.height = `${table.offsetHeight}px`;
+            resizer.style.top = `-${col.offsetHeight * (tableHeadRows - 1)}px`;
+            resizer.style.height = `${actualHeight}px`;
 
             col.appendChild(resizer);
 
@@ -46,6 +61,10 @@
 
                 document.removeEventListener('pointermove', mouseMoveHandler);
                 document.removeEventListener('pointerup', mouseUpHandler);
+
+                // Recalculate resizer height
+                window.blazoriseDataGrid.destroyResizable(table);
+                window.blazoriseDataGrid.initResizable(table);
             };
 
             resizer.addEventListener('pointerdown', mouseDownHandler);
@@ -56,6 +75,6 @@
         });
     },
     destroyResizable: function (table) {
-        table.querySelectorAll('.b-datagrid-resizer').forEach(n => n.remove());
+        table.querySelectorAll('.b-datagrid-resizer').forEach(x => x.remove());
     }
 }; 
