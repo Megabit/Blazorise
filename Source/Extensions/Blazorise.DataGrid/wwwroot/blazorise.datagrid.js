@@ -8,6 +8,7 @@
             resizer.classList.add('b-datagrid-resizer');
 
             // Set the height
+            resizer.style.top = `-${col.offsetHeight}px`;
             resizer.style.height = `${table.offsetHeight}px`;
 
             col.appendChild(resizer);
