@@ -179,7 +179,7 @@ namespace Blazorise.Demo.Pages.Tests
 
         async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
         {
-            await Task.Delay( random.Next( 2500 ) );
+            await Task.Delay( random.Next( 800 ) );
 
             if ( !e.CancellationToken.IsCancellationRequested )
             {
