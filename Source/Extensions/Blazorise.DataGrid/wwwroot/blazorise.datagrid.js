@@ -2,7 +2,16 @@
     initResizable: function (table) {
         const cols = table.querySelectorAll('th');
 
-        const createResizableColumn = function (col, resizer) {
+        const createResizableColumn = function (col) {
+            // Add a resizer element to the column
+            const resizer = document.createElement('div');
+            resizer.classList.add('b-datagrid-resizer');
+
+            // Set the height
+            resizer.style.height = `${table.offsetHeight}px`;
+
+            col.appendChild(resizer);
+
             // Track the current position of mouse
             let x = 0;
             let w = 0;
@@ -42,16 +51,10 @@
         };
 
         [].forEach.call(cols, function (col) {
-            // Add a resizer element to the column
-            const resizer = document.createElement('div');
-            resizer.classList.add('b-datagrid-resizer');
-
-            // Set the height
-            resizer.style.height = `${table.offsetHeight}px`;
-
-            col.appendChild(resizer);
-
-            createResizableColumn(col, resizer);
+            createResizableColumn(col);
         });
+    },
+    destroyResizable: function (table) {
+        table.querySelectorAll('.b-datagrid-resizer').forEach(n => n.remove());
     }
 }; 

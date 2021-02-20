@@ -24,6 +24,17 @@ namespace Blazorise.DataGrid
         private Table dataGridTable;
 
         /// <summary>
+        /// Gets or sets whether users can resize datagrid columns.
+        /// </summary>
+        private bool resizable;
+
+        /// <summary>
+        /// Gets or sets whether datagrid has rendered.
+        /// </summary>
+        private bool hasRendered;
+
+
+        /// <summary>
         /// Original data-source.
         /// </summary>
         private IEnumerable<TItem> data;
@@ -173,9 +184,11 @@ namespace Blazorise.DataGrid
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
+            hasRendered = true;
+
             if ( firstRender )
             {
-                if ( Resizable )
+                if ( resizable )
                     await jSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, dataGridTable.ElementRef );
 
                 paginationContext.SubscribeOnPageSizeChanged( pageSize =>
@@ -930,7 +943,17 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets whether users can resize datagrid columns.
         /// </summary>
-        [Parameter] public bool Resizable { get; set; }
+        [Parameter] public bool Resizable { 
+            get => resizable; 
+            set { 
+                resizable = value; 
+                if( hasRendered )
+                    if( resizable )
+                        jSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, dataGridTable.ElementRef );
+                    else
+                        jSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, dataGridTable.ElementRef );
+            } 
+        }
 
         /// <summary>
         /// Gets or sets whether end-users can sort data by the column's values.
