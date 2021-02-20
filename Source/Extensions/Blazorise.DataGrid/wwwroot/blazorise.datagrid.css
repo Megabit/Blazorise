@@ -9,6 +9,7 @@
     width: 5px;
     cursor: col-resize;
     user-select: none;
+    z-index: 1;
 }
 
 .b-datagrid-resizer:hover, .b-datagrid-resizing {
