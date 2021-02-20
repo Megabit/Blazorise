@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -13,6 +15,13 @@ namespace Blazorise.DataGrid
     public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         #region Members
+
+        [Inject] private IJSRuntime jSRuntime { get; set; }
+
+        /// <summary>
+        /// Element reference to the DataGrid's inner table.
+        /// </summary>
+        private Table dataGridTable;
 
         /// <summary>
         /// Original data-source.
@@ -78,6 +87,21 @@ namespace Blazorise.DataGrid
         /// Holds the pagination context
         /// </summary>
         protected PaginationContext<TItem> paginationContext;
+
+        protected string ClassNames
+        {
+            get
+            {
+                var sb = new StringBuilder();
+
+                sb.Append( "b-datagrid" );
+
+                if ( Class != null )
+                    sb.Append( $" {Class}" );
+
+                return sb.ToString();
+            }
+        }
 
         /// <summary>
         /// Trigger to unselect all rows.
@@ -147,10 +171,13 @@ namespace Blazorise.DataGrid
             Aggregates.Add( aggregate );
         }
 
-        protected override Task OnAfterRenderAsync( bool firstRender )
+        protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
             {
+                if ( Resizable )
+                    await jSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, dataGridTable.ElementRef );
+
                 paginationContext.SubscribeOnPageSizeChanged( pageSize =>
                 {
                     InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
@@ -184,13 +211,13 @@ namespace Blazorise.DataGrid
                 } );
 
                 if ( ManualReadMode )
-                    return HandleReadData();
+                    await HandleReadData();
 
                 // after all the columns have being "hooked" we need to resfresh the grid
-                InvokeAsync( StateHasChanged );
+                await InvokeAsync( StateHasChanged );
             }
 
-            return base.OnAfterRenderAsync( firstRender );
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         #endregion
@@ -899,6 +926,11 @@ namespace Blazorise.DataGrid
         /// Gets or sets whether users can edit datagrid rows.
         /// </summary>
         [Parameter] public bool Editable { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether users can resize datagrid columns.
+        /// </summary>
+        [Parameter] public bool Resizable { get; set; }
 
         /// <summary>
         /// Gets or sets whether end-users can sort data by the column's values.

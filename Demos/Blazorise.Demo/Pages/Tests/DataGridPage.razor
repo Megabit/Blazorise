@@ -22,6 +22,16 @@
                     </Field>
                     <Field>
                         <FieldLabel>
+                            <Tooltip Text="Defines if DataGrid can be resizable.">
+                                <Icon Name="IconName.QuestionCircle" />
+                            </Tooltip>
+                        </FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@resizable">Resizable</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
                             <Tooltip Text="Defines if DataGrid can be sorted by clicking the column headers.">
                                 <Icon Name="IconName.QuestionCircle" />
                             </Tooltip>
@@ -143,6 +153,7 @@
                           TotalItems="@(largeDataMode ? totalEmployees : null)"
                           EditMode="@editMode"
                           Editable="@editable"
+                          Resizable="@resizable"
                           Sortable="@sortable"
                           SortMode="@sortMode"
                           SelectionMode="@selectionMode"
