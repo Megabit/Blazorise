@@ -208,13 +208,16 @@ namespace Blazorise
         /// <returns>Returns the validation result.</returns>
         public ValidationStatus Validate( object newValidationValue )
         {
-            var validationHandlerType = DetermineHandlerType();
-
-            if ( validationHandlerType != null )
+            if ( !inputComponent.Disabled )
             {
-                var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
+                var validationHandlerType = DetermineHandlerType();
 
-                validationHandler.Validate( this, newValidationValue );
+                if ( validationHandlerType != null )
+                {
+                    var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
+
+                    validationHandler.Validate( this, newValidationValue );
+                }
             }
 
             return Status;
