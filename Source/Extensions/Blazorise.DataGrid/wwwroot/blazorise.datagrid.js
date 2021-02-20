@@ -8,12 +8,12 @@
             const tableRows = table.querySelectorAll('tr');
 
             tableRows.forEach(x => {
-                let firstCol = x.querySelector('th:first-child,td:first-child').offsetHeight;
+                let firstCol = x.querySelector('th:first-child,td:first-child');
                 if (firstCol != null) {
-                    height += firstCol;
+                    height += firstCol.offsetHeight;
                 }
             });
-            return height; 
+            return height;
         };
         let actualHeight = calculateActualHeight();
 
