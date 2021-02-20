@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 #endregion
 
@@ -122,11 +123,12 @@ namespace Blazorise.DataGrid
         /// <param name="page">Page number at the moment of initialization.</param>
         /// <param name="pageSize">Maximum number of items per page.</param>
         /// <param name="columns">List of all the columns in the grid.</param>
-        public DataGridReadDataEventArgs( int page, int pageSize, IEnumerable<DataGridColumn<TItem>> columns )
+        public DataGridReadDataEventArgs( int page, int pageSize, IEnumerable<DataGridColumn<TItem>> columns, CancellationToken cancellationToken )
         {
             Page = page;
             PageSize = pageSize;
             Columns = columns?.Select( x => new DataGridColumnInfo( x.Field, x.Filter?.SearchValue, x.CurrentDirection, x.ColumnType ) );
+            CancellationToken = cancellationToken;
         }
 
         /// <summary>
@@ -143,6 +145,11 @@ namespace Blazorise.DataGrid
         /// Gets the list of columns.
         /// </summary>
         public IEnumerable<DataGridColumnInfo> Columns { get; }
+
+        /// <summary>
+        /// Gets the CancellationToken
+        /// </summary>
+        public CancellationToken CancellationToken { get; set; }
     }
 
     /// <summary>
