@@ -16,5 +16,10 @@ namespace Blazorise
         /// value types. For example a Select component can have single-value and multi-value.
         /// </remarks>
         object ValidationValue { get; }
+
+        /// <summary>
+        /// Returns true if input is disabled.
+        /// </summary>
+        bool Disabled { get; }
     }
 }
