@@ -58,6 +58,8 @@ namespace Blazorise.Demo.Pages.Tests
         List<Employee> employeeList;
         int totalEmployees;
 
+        Random random = new Random();
+
         // generated with https://mockaroo.com/
         List<Employee> dataModels = new List<Employee>{
             new Employee {Id = 1,FirstName = "Caro",LastName = "Nizard",EMail = "cnizard0@hc360.com",City = "Faīẕābād",Zip = null,Salary = 51724.19m, DateOfBirth = new DateTime(1983,5,8),
@@ -177,16 +179,16 @@ namespace Blazorise.Demo.Pages.Tests
 
         async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
         {
-            Random random = new Random();
             await Task.Delay( random.Next( 2500 ) );
-            if( !e.CancellationToken.IsCancellationRequested )
-            { 
+
+            if ( !e.CancellationToken.IsCancellationRequested )
+            {
                 // this can be call to anything, in this case we're calling a fictional api
                 var response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
 
                 employeeList = new List<Employee>( response ); // an actual data for the current page
                 totalEmployees = dataModels.Count; // this is used to tell datagrid how many items are available so that pagination will work
-            
+
                 // always call StateHasChanged!
                 await InvokeAsync( StateHasChanged );
             }

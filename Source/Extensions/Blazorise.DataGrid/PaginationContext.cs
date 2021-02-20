@@ -49,7 +49,7 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Methods
-                
+
         public void SubscribeOnPageChanged( CurrentPageChangedEventHandler listener )
         {
             CurrentPageChanged += listener;

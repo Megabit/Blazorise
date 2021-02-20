@@ -169,7 +169,7 @@ namespace Blazorise.DataGrid
                     {
                         await InvokeAsync( StateHasChanged );
                     }
-                    
+
                 } );
 
                 paginationContext.SubscribeOnPageChanged( async currentPage =>
@@ -453,7 +453,7 @@ namespace Blazorise.DataGrid
 
             if ( ManualReadMode )
             {
-                return InvokeAsync( () => HandleReadData ( CancellationToken.None ) );
+                return InvokeAsync( () => HandleReadData( CancellationToken.None ) );
             }
             else
             {
