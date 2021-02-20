@@ -29,12 +29,6 @@ namespace Blazorise.DataGrid
         private bool resizable;
 
         /// <summary>
-        /// Gets or sets whether datagrid has rendered.
-        /// </summary>
-        private bool hasRendered;
-
-
-        /// <summary>
         /// Original data-source.
         /// </summary>
         private IEnumerable<TItem> data;
@@ -201,8 +195,6 @@ namespace Blazorise.DataGrid
 
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
-            hasRendered = true;
-
             if ( firstRender )
             {
                 paginationContext.SubscribeOnPageSizeChanged( pageSize =>
@@ -962,11 +954,10 @@ namespace Blazorise.DataGrid
             get => resizable; 
             set { 
                 resizable = value; 
-                if( hasRendered )
                     if( resizable )
-                        jSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, dataGridTable.ElementRef );
+                        ExecuteAfterRender( () => jSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, dataGridTable.ElementRef ).AsTask() );
                     else
-                        jSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, dataGridTable.ElementRef );
+                        ExecuteAfterRender( () => jSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, dataGridTable.ElementRef ).AsTask() );
             } 
         }
 

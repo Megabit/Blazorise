@@ -52,21 +52,16 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            Dispose( true );
-        }
-
         /// <summary>
         /// Releases the unmanaged resources used by the <see cref="BaseComponent"/> and optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing">True if the component is in the disposing process.</param>
-        protected virtual void Dispose( bool disposing )
+        protected override void Dispose( bool disposing )
         {
             if ( !Disposed )
             {
                 Disposed = true;
+                base.Dispose();
             }
         }
 

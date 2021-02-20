@@ -52,13 +52,14 @@ namespace Blazorise.Base
         {
             if ( !disposedValue )
             {
+                disposedValue = true;
+
                 if ( disposing )
                 {
-                    executeAfterRenderQueue.Clear();
+                    executeAfterRenderQueue?.Clear();
                     executeAfterRenderQueue = null;
                 }
 
-                disposedValue = true;
             }
         }
 
