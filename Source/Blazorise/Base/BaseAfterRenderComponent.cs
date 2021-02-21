@@ -44,7 +44,9 @@ namespace Blazorise.Base
             {
                 while ( executeAfterRenderQueue.Count > 0 )
                 {
-                    await executeAfterRenderQueue.Dequeue()();
+                    var action = executeAfterRenderQueue.Dequeue();
+
+                    await action();
                 }
             }
 
