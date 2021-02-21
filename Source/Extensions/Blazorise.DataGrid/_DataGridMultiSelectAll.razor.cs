@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -11,8 +12,12 @@ namespace Blazorise.DataGrid
 
         internal Task IsCheckedChanged( bool e )
         {
-            IsChecked = e;
-            return MultiSelectAll.InvokeAsync( e );
+            if ( IsIndeterminate )
+                IsChecked = false;
+            else
+                IsChecked = e;
+
+            return MultiSelectAll.InvokeAsync( IsChecked );
         }
 
         protected override Task OnParametersSetAsync()
@@ -26,6 +31,9 @@ namespace Blazorise.DataGrid
         #region Properties
 
         internal bool IsChecked { get; set; }
+
+        [Parameter]
+        public bool IsIndeterminate { get; set; }
 
         [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
 

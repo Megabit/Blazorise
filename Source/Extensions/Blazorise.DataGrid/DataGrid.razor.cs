@@ -101,6 +101,12 @@ namespace Blazorise.DataGrid
         /// </summary>
         internal bool MultiSelect => ( SelectionMode == DataGridSelectionMode.Multiple );
 
+
+        /// <summary>
+        /// Checks if the MultiSelectAll is indeterminate, meaning that only some of the current view rows are selected.
+        /// </summary>
+        private bool IsMultiSelectAllIndeterminate => ( MultiSelect && ( this.SelectedRows?.Any() ?? false) && !(this.viewData.Except(this.SelectedRows).Count() == 0) );
+
         #endregion
 
         #region Constructors
