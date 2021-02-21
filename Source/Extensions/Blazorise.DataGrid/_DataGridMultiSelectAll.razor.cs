@@ -12,17 +12,15 @@ namespace Blazorise.DataGrid
 
         internal Task IsCheckedChanged( bool e )
         {
-            if ( IsIndeterminate )
-                IsChecked = false;
-            else
-                IsChecked = e;
+            IsChecked = e;
 
             return MultiSelectAll.InvokeAsync( IsChecked );
         }
 
         protected override Task OnParametersSetAsync()
         {
-            //IsChecked = ( ParentDataGrid.PageSize == ParentDataGrid.SelectedRows.Count );
+            if ( ( ParentDataGrid.PageSize == ParentDataGrid.SelectedRows?.Count ) )
+                IsChecked = true;
             return base.OnParametersSetAsync();
         }
 
@@ -32,10 +30,9 @@ namespace Blazorise.DataGrid
 
         internal bool IsChecked { get; set; }
 
-        [Parameter]
-        public bool IsIndeterminate { get; set; }
-
         [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+
+        [Parameter] public bool IsIndeterminate { get; set; }
 
         [Parameter] public EventCallback<bool> MultiSelectAll { get; set; }
 
