@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public partial class DataGrid<TItem> : BaseDataGridComponent
+    public partial class DataGrid<TItem> : BaseDataGridComponent, IDisposable
     {
         #region Members
 
@@ -44,6 +44,11 @@ namespace Blazorise.DataGrid
         /// Marks the grid to refresh currently visible page.
         /// </summary>
         private bool dirtyView = true;
+
+        /// <summary>
+        /// Keeps track of whether the object has already been disposed.
+        /// </summary>
+        private bool disposed;
 
         /// <summary>
         /// Holds the state of sorted columns grouped by the sort-mode.
@@ -152,44 +157,8 @@ namespace Blazorise.DataGrid
         {
             if ( firstRender )
             {
-                paginationContext.SubscribeOnPageSizeChanged( async pageSize =>
-                {
-                    paginationContext.CancellationTokenSource?.Cancel();
-                    paginationContext.CancellationTokenSource = new CancellationTokenSource();
-
-                    await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
-
-                    // When using manual mode, a user is in control when StateHasChanged will be called
-                    // so we just need to call HandleReadData.
-                    if ( ManualReadMode )
-                    {
-                        await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
-                    }
-                    else
-                    {
-                        await InvokeAsync( StateHasChanged );
-                    }
-
-                } );
-
-                paginationContext.SubscribeOnPageChanged( async currentPage =>
-                {
-                    paginationContext.CancellationTokenSource?.Cancel();
-                    paginationContext.CancellationTokenSource = new CancellationTokenSource();
-
-                    await InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
-
-                    // When using manual mode, a user is in control when StateHasChanged will be called
-                    // so we just need to call HandleReadData.
-                    if ( ManualReadMode )
-                    {
-                        await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
-                    }
-                    else
-                    {
-                        await InvokeAsync( StateHasChanged );
-                    }
-                } );
+                paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
+                paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
                 if ( ManualReadMode )
                 {
@@ -205,7 +174,58 @@ namespace Blazorise.DataGrid
             await base.OnAfterRenderAsync( firstRender );
         }
 
+        protected override void Dispose( bool disposing )
+        {
+            if ( !disposed )
+            {
+                disposed = true;
+
+                paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
+                paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
+
+                base.Dispose();
+            }
+        }
+
         #endregion
+
+        #region Events
+
+        private async void OnPageSizeChanged(int pageSize)
+        {
+            paginationContext.CancellationTokenSource?.Cancel();
+            paginationContext.CancellationTokenSource = new CancellationTokenSource();
+
+            await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
+
+            if ( ManualReadMode )
+            {
+                await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
+            }
+            else
+            {
+                await InvokeAsync( StateHasChanged );
+            }
+        }
+
+        private async void OnPageChanged( int currentPage )
+        {
+            paginationContext.CancellationTokenSource?.Cancel();
+            paginationContext.CancellationTokenSource = new CancellationTokenSource();
+
+            await InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
+
+            if ( ManualReadMode )
+            {
+                await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
+            }
+            else
+            {
+                await InvokeAsync( StateHasChanged );
+            }
+        }
+
+        #endregion Events
 
         #region Editing
 
