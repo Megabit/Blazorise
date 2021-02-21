@@ -12,7 +12,11 @@ namespace Blazorise.DataGrid
     /// </summary>
     public class BaseDataGridComponent : BaseAfterRenderComponent, IDisposable
     {
+        #region Members
+        
         private bool disposedValue;
+
+        #endregion
 
         #region Methods
 

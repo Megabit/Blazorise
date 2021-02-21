@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
@@ -9,16 +7,23 @@ namespace Blazorise.Base
 {
     public abstract class BaseAfterRenderComponent : ComponentBase, IDisposable
     {
+        #region Members
+
+        private bool disposedValue;
+
+        /// <summary>
+        /// A stack of functions to execute after the rendering.
+        /// </summary>
+        protected Queue<Func<Task>> executeAfterRenderQueue;
 
         /// <summary>
         /// Indicates if component has been rendered in the browser.
         /// </summary>
         protected bool Rendered { get; private set; }
 
-        /// <summary>
-        /// A stack of functions to execute after the rendering.
-        /// </summary>
-        protected Queue<Func<Task>> executeAfterRenderQueue;
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Pushes an action to the stack to be executed after the rendering is done.
@@ -46,8 +51,6 @@ namespace Blazorise.Base
             await base.OnAfterRenderAsync( firstRender );
         }
 
-        private bool disposedValue;
-
         protected virtual void Dispose( bool disposing )
         {
             if ( !disposedValue )
@@ -59,7 +62,6 @@ namespace Blazorise.Base
                     executeAfterRenderQueue?.Clear();
                     executeAfterRenderQueue = null;
                 }
-
             }
         }
 
@@ -68,5 +70,8 @@ namespace Blazorise.Base
             Dispose( disposing: true );
             GC.SuppressFinalize( this );
         }
+
+        #endregion 
+
     }
 }
