@@ -12,12 +12,6 @@ namespace Blazorise.DataGrid
     /// </summary>
     public class BaseDataGridComponent : BaseAfterRenderComponent, IDisposable
     {
-        #region Members
-        
-        private bool disposedValue;
-
-        #endregion
-
         #region Methods
 
         protected override void OnInitialized()
@@ -26,20 +20,6 @@ namespace Blazorise.DataGrid
                 ElementId = IdGenerator.Generate;
 
             base.OnInitialized();
-        }
-
-        protected override void Dispose( bool disposing )
-        {
-            if ( !disposedValue )
-            {
-                disposedValue = true;
-
-                if ( disposing )
-                {
-                    base.Dispose();
-                }
-
-            }
         }
 
         #endregion
