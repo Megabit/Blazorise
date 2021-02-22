@@ -12,6 +12,6 @@
     z-index: 1;
 }
 
-.b-datagrid-resizer:hover, .b-datagrid-resizing {
-    border-right: 2px solid var(--b-theme-primary, blue);
-}
+    .b-datagrid-resizer:hover, .b-datagrid-resizing {
+        border-right: 2px solid var(--b-theme-primary, blue);
+    }
