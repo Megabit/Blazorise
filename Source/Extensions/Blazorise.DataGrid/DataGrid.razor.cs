@@ -17,12 +17,10 @@ namespace Blazorise.DataGrid
     {
         #region Members
 
-        [Inject] private IJSRuntime jSRuntime { get; set; }
-
         /// <summary>
         /// Element reference to the DataGrid's inner table.
         /// </summary>
-        private Table dataGridTable;
+        private Table tableRef;
 
         /// <summary>
         /// Gets or sets whether users can resize datagrid columns.
@@ -100,24 +98,6 @@ namespace Blazorise.DataGrid
         protected PaginationContext<TItem> paginationContext;
 
         /// <summary>
-        /// Gets the DataGrid standard class and other existing Class
-        /// </summary>
-        protected string ClassNames
-        {
-            get
-            {
-                var sb = new StringBuilder();
-
-                sb.Append( "b-datagrid" );
-
-                if ( Class != null )
-                    sb.Append( $" {Class}" );
-
-                return sb.ToString();
-            }
-        }
-
-        /// <summary>
         /// Trigger to unselect all rows.
         /// Set it back to false.
         /// </summary>
@@ -155,20 +135,6 @@ namespace Blazorise.DataGrid
         #region Methods
 
         #region Setup
-
-        /// <summary>
-        /// If DataGrid is resizable. 
-        /// Resizable columns should be constantly recalculated to keep up with the current Datagrid's height dimensions.
-        /// </summary>
-        /// <returns></returns>
-        private async Task RecalculateResize()
-        {
-            if ( resizable )
-            {
-                await jSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, dataGridTable.ElementRef );
-                await jSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, dataGridTable.ElementRef );
-            }
-        }
 
         /// <summary>
         /// Links the child column with this datagrid.
@@ -218,6 +184,7 @@ namespace Blazorise.DataGrid
             }
 
             await RecalculateResize();
+
             await base.OnAfterRenderAsync( firstRender );
         }
 
@@ -231,6 +198,20 @@ namespace Blazorise.DataGrid
                 paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
 
                 base.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// If DataGrid is resizable. 
+        /// Resizable columns should be constantly recalculated to keep up with the current Datagrid's height dimensions.
+        /// </summary>
+        /// <returns></returns>
+        private async Task RecalculateResize()
+        {
+            if ( resizable )
+            {
+                await JSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, tableRef.ElementRef );
+                await JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef );
             }
         }
 
@@ -771,6 +752,26 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
+        [Inject] private IJSRuntime JSRuntime { get; set; }
+
+        /// <summary>
+        /// Gets the DataGrid standard class and other existing Class
+        /// </summary>
+        protected string ClassNames
+        {
+            get
+            {
+                var sb = new StringBuilder();
+
+                sb.Append( "b-datagrid" );
+
+                if ( Class != null )
+                    sb.Append( $" {Class}" );
+
+                return sb.ToString();
+            }
+        }
+
         /// <summary>
         /// List of all the columns associated with this datagrid.
         /// </summary>
@@ -982,15 +983,26 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets whether users can resize datagrid columns.
         /// </summary>
-        [Parameter] public bool Resizable { 
-            get => resizable; 
-            set { 
-                resizable = value; 
-                    if( resizable )
-                        ExecuteAfterRender( () => jSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, dataGridTable.ElementRef ).AsTask() );
-                    else
-                        ExecuteAfterRender( () => jSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, dataGridTable.ElementRef ).AsTask() );
-            } 
+        [Parameter]
+        public bool Resizable
+        {
+            get => resizable;
+            set
+            {
+                if ( resizable == value )
+                    return;
+
+                resizable = value;
+
+                if ( resizable )
+                {
+                    ExecuteAfterRender( () => JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef ).AsTask() );
+                }
+                else
+                {
+                    ExecuteAfterRender( () => JSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, tableRef.ElementRef ).AsTask() );
+                }
+            }
         }
 
         /// <summary>
