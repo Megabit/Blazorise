@@ -52,19 +52,6 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        /// <summary>
-        /// Releases the unmanaged resources used by the <see cref="BaseComponent"/> and optionally releases the managed resources.
-        /// </summary>
-        /// <param name="disposing">True if the component is in the disposing process.</param>
-        protected override void Dispose( bool disposing )
-        {
-            if ( !Disposed )
-            {
-                Disposed = true;
-                base.Dispose();
-            }
-        }
-
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
@@ -146,11 +133,6 @@ namespace Blazorise
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Flag that indicates if the component is already fully disposed.
-        /// </summary>
-        protected bool Disposed { get; private set; }
 
         /// <summary>
         /// Gets or sets the reference to the rendered element.
