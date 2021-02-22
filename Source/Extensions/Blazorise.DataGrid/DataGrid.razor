@@ -32,7 +32,7 @@
                             @if ( MultiSelect )
                             {
                                 <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment">
-                                    <_DataGridMultiSelectAll TItem="TItem" MultiSelectAll="OnMultiSelectAll"></_DataGridMultiSelectAll>
+                                    <_DataGridMultiSelectAll TItem="TItem" MultiSelectAll="@OnMultiSelectAll" IsIndeterminate="@IsMultiSelectAllIndeterminate"></_DataGridMultiSelectAll>
                                 </TableHeaderCell>
                             }
                         }

@@ -97,27 +97,6 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected PaginationContext<TItem> paginationContext;
 
-        /// <summary>
-        /// Trigger to unselect all rows.
-        /// Set it back to false.
-        /// </summary>
-        internal bool UnSelectAllRows { get; set; }
-
-        /// <summary>
-        /// Trigger to select all rows.
-        /// </summary>
-        internal bool SelectedAllRows { get; set; }
-
-        /// <summary>
-        /// Checks if the DataGrid is currently on single selection mode.
-        /// </summary>
-        internal bool SingleSelect => ( SelectionMode == DataGridSelectionMode.Single );
-
-        /// <summary>
-        /// Checks if the DataGrid is currently on multiple selection mode.
-        /// </summary>
-        internal bool MultiSelect => ( SelectionMode == DataGridSelectionMode.Multiple );
-
         #endregion
 
         #region Constructors
@@ -864,6 +843,35 @@ namespace Blazorise.DataGrid
         /// True if command buttons should be rendered.
         /// </summary>
         public bool IsCommandVisible => Editable && CommandMode is DataGridCommandMode.Default or DataGridCommandMode.Commands;
+
+        /// <summary>
+        /// Trigger to unselect all rows.
+        /// Set it back to false.
+        /// </summary>
+        internal bool UnSelectAllRows { get; set; }
+
+        /// <summary>
+        /// Trigger to select all rows.
+        /// </summary>
+        internal bool SelectedAllRows { get; set; }
+
+        /// <summary>
+        /// Checks if the DataGrid is currently on single selection mode.
+        /// </summary>
+        internal bool SingleSelect
+            => ( SelectionMode == DataGridSelectionMode.Single );
+
+        /// <summary>
+        /// Checks if the DataGrid is currently on multiple selection mode.
+        /// </summary>
+        internal bool MultiSelect
+            => ( SelectionMode == DataGridSelectionMode.Multiple );
+
+        /// <summary>
+        /// Checks if the MultiSelectAll is indeterminate, meaning that only some of the current view rows are selected.
+        /// </summary>
+        private bool IsMultiSelectAllIndeterminate
+            => ( MultiSelect && ( SelectedRows?.Any() ?? false ) && !( viewData.Except( SelectedRows ).Count() == 0 ) );
 
         /// <summary>
         /// Gets template for title of popup modal.
