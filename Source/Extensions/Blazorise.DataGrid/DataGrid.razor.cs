@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Text;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -14,6 +16,16 @@ namespace Blazorise.DataGrid
     public partial class DataGrid<TItem> : BaseDataGridComponent, IDisposable
     {
         #region Members
+
+        /// <summary>
+        /// Element reference to the DataGrid's inner table.
+        /// </summary>
+        private Table tableRef;
+
+        /// <summary>
+        /// Gets or sets whether users can resize datagrid columns.
+        /// </summary>
+        private bool resizable;
 
         /// <summary>
         /// Original data-source.
@@ -171,6 +183,8 @@ namespace Blazorise.DataGrid
                 await InvokeAsync( StateHasChanged );
             }
 
+            await RecalculateResize();
+
             await base.OnAfterRenderAsync( firstRender );
         }
 
@@ -184,6 +198,20 @@ namespace Blazorise.DataGrid
                 paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
 
                 base.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// If DataGrid is resizable. 
+        /// Resizable columns should be constantly recalculated to keep up with the current Datagrid's height dimensions.
+        /// </summary>
+        /// <returns></returns>
+        private async Task RecalculateResize()
+        {
+            if ( resizable )
+            {
+                await JSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, tableRef.ElementRef );
+                await JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef );
             }
         }
 
@@ -724,6 +752,26 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
+        [Inject] private IJSRuntime JSRuntime { get; set; }
+
+        /// <summary>
+        /// Gets the DataGrid standard class and other existing Class
+        /// </summary>
+        protected string ClassNames
+        {
+            get
+            {
+                var sb = new StringBuilder();
+
+                sb.Append( "b-datagrid" );
+
+                if ( Class != null )
+                    sb.Append( $" {Class}" );
+
+                return sb.ToString();
+            }
+        }
+
         /// <summary>
         /// List of all the columns associated with this datagrid.
         /// </summary>
@@ -931,6 +979,31 @@ namespace Blazorise.DataGrid
         /// Gets or sets whether users can edit datagrid rows.
         /// </summary>
         [Parameter] public bool Editable { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether users can resize datagrid columns.
+        /// </summary>
+        [Parameter]
+        public bool Resizable
+        {
+            get => resizable;
+            set
+            {
+                if ( resizable == value )
+                    return;
+
+                resizable = value;
+
+                if ( resizable )
+                {
+                    ExecuteAfterRender( () => JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef ).AsTask() );
+                }
+                else
+                {
+                    ExecuteAfterRender( () => JSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, tableRef.ElementRef ).AsTask() );
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets whether end-users can sort data by the column's values.

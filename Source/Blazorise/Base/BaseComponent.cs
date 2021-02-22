@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Base;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -9,7 +10,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
-    public abstract class BaseComponent : ComponentBase, IDisposable
+    public abstract class BaseComponent : BaseAfterRenderComponent, IDisposable
     {
         #region Members
 
@@ -26,11 +27,6 @@ namespace Blazorise
         private IFluentDisplay display;
 
         private CharacterCasing characterCasing = CharacterCasing.Normal;
-
-        /// <summary>
-        /// A stack of functions to execute after the rendering.
-        /// </summary>
-        private Queue<Func<Task>> executeAfterRendereQueue;
 
         #endregion
 
@@ -56,54 +52,11 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            Dispose( true );
-        }
-
-        /// <summary>
-        /// Releases the unmanaged resources used by the <see cref="BaseComponent"/> and optionally releases the managed resources.
-        /// </summary>
-        /// <param name="disposing">True if the component is in the disposing process.</param>
-        protected virtual void Dispose( bool disposing )
-        {
-            if ( !Disposed )
-            {
-                Disposed = true;
-            }
-        }
-
-        /// <summary>
-        /// Pushes an action to the stack to be executed after the rendering is done.
-        /// </summary>
-        /// <param name="action"></param>
-        protected void ExecuteAfterRender( Func<Task> action )
-        {
-            if ( executeAfterRendereQueue == null )
-                executeAfterRendereQueue = new Queue<Func<Task>>();
-
-            executeAfterRendereQueue.Enqueue( action );
-        }
-
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
-            Rendered = true;
-
             if ( firstRender )
             {
                 await OnFirstAfterRenderAsync();
-            }
-
-            if ( executeAfterRendereQueue?.Count > 0 )
-            {
-                var actions = executeAfterRendereQueue.ToArray();
-                executeAfterRendereQueue.Clear();
-
-                foreach ( var action in actions )
-                {
-                    await action();
-                }
             }
 
             await base.OnAfterRenderAsync( firstRender );
@@ -182,11 +135,6 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Flag that indicates if the component is already fully disposed.
-        /// </summary>
-        protected bool Disposed { get; private set; }
-
-        /// <summary>
         /// Gets or sets the reference to the rendered element.
         /// </summary>
         public ElementReference ElementRef { get; set; }
@@ -217,11 +165,6 @@ namespace Blazorise
         /// Gets the built class-names based on all the rules set by the component parameters.
         /// </summary>
         public string ClassNames => ClassBuilder.Class;
-
-        /// <summary>
-        /// Indicates if component has been rendered in the browser.
-        /// </summary>
-        protected bool Rendered { get; private set; }
 
         /// <summary>
         /// Gets the style mapper.
