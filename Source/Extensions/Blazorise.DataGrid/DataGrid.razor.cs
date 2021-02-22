@@ -3,17 +3,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Text;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.DataGrid
 {
-    public partial class DataGrid<TItem> : BaseDataGridComponent
+    public partial class DataGrid<TItem> : BaseDataGridComponent, IDisposable
     {
         #region Members
+
+        /// <summary>
+        /// Element reference to the DataGrid's inner table.
+        /// </summary>
+        private Table tableRef;
+
+        /// <summary>
+        /// Gets or sets whether users can resize datagrid columns.
+        /// </summary>
+        private bool resizable;
 
         /// <summary>
         /// Original data-source.
@@ -44,6 +56,11 @@ namespace Blazorise.DataGrid
         /// Marks the grid to refresh currently visible page.
         /// </summary>
         private bool dirtyView = true;
+
+        /// <summary>
+        /// Keeps track of whether the object has already been disposed.
+        /// </summary>
+        private bool disposed;
 
         /// <summary>
         /// Holds the state of sorted columns grouped by the sort-mode.
@@ -158,44 +175,8 @@ namespace Blazorise.DataGrid
         {
             if ( firstRender )
             {
-                paginationContext.SubscribeOnPageSizeChanged( async pageSize =>
-                {
-                    paginationContext.CancellationTokenSource?.Cancel();
-                    paginationContext.CancellationTokenSource = new CancellationTokenSource();
-
-                    await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
-
-                    // When using manual mode, a user is in control when StateHasChanged will be called
-                    // so we just need to call HandleReadData.
-                    if ( ManualReadMode )
-                    {
-                        await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
-                    }
-                    else
-                    {
-                        await InvokeAsync( StateHasChanged );
-                    }
-
-                } );
-
-                paginationContext.SubscribeOnPageChanged( async currentPage =>
-                {
-                    paginationContext.CancellationTokenSource?.Cancel();
-                    paginationContext.CancellationTokenSource = new CancellationTokenSource();
-
-                    await InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
-
-                    // When using manual mode, a user is in control when StateHasChanged will be called
-                    // so we just need to call HandleReadData.
-                    if ( ManualReadMode )
-                    {
-                        await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
-                    }
-                    else
-                    {
-                        await InvokeAsync( StateHasChanged );
-                    }
-                } );
+                paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
+                paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
                 if ( ManualReadMode )
                 {
@@ -208,7 +189,74 @@ namespace Blazorise.DataGrid
                 await InvokeAsync( StateHasChanged );
             }
 
+            await RecalculateResize();
+
             await base.OnAfterRenderAsync( firstRender );
+        }
+
+        protected override void Dispose( bool disposing )
+        {
+            if ( !disposed )
+            {
+                disposed = true;
+
+                paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
+                paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
+
+                base.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// If DataGrid is resizable. 
+        /// Resizable columns should be constantly recalculated to keep up with the current Datagrid's height dimensions.
+        /// </summary>
+        /// <returns></returns>
+        private async Task RecalculateResize()
+        {
+            if ( resizable )
+            {
+                await JSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, tableRef.ElementRef );
+                await JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef );
+            }
+        }
+
+        #endregion
+
+        #region Events
+
+        private async void OnPageSizeChanged( int pageSize )
+        {
+            paginationContext.CancellationTokenSource?.Cancel();
+            paginationContext.CancellationTokenSource = new CancellationTokenSource();
+
+            await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
+
+            if ( ManualReadMode )
+            {
+                await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
+            }
+            else
+            {
+                await InvokeAsync( StateHasChanged );
+            }
+        }
+
+        private async void OnPageChanged( int currentPage )
+        {
+            paginationContext.CancellationTokenSource?.Cancel();
+            paginationContext.CancellationTokenSource = new CancellationTokenSource();
+
+            await InvokeAsync( () => PageChanged.InvokeAsync( new DataGridPageChangedEventArgs( currentPage, PageSize ) ) );
+
+            if ( ManualReadMode )
+            {
+                await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
+            }
+            else
+            {
+                await InvokeAsync( StateHasChanged );
+            }
         }
 
         #endregion
@@ -710,6 +758,26 @@ namespace Blazorise.DataGrid
 
         #region Properties
 
+        [Inject] private IJSRuntime JSRuntime { get; set; }
+
+        /// <summary>
+        /// Gets the DataGrid standard class and other existing Class
+        /// </summary>
+        protected string ClassNames
+        {
+            get
+            {
+                var sb = new StringBuilder();
+
+                sb.Append( "b-datagrid" );
+
+                if ( Class != null )
+                    sb.Append( $" {Class}" );
+
+                return sb.ToString();
+            }
+        }
+
         /// <summary>
         /// List of all the columns associated with this datagrid.
         /// </summary>
@@ -917,6 +985,31 @@ namespace Blazorise.DataGrid
         /// Gets or sets whether users can edit datagrid rows.
         /// </summary>
         [Parameter] public bool Editable { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether users can resize datagrid columns.
+        /// </summary>
+        [Parameter]
+        public bool Resizable
+        {
+            get => resizable;
+            set
+            {
+                if ( resizable == value )
+                    return;
+
+                resizable = value;
+
+                if ( resizable )
+                {
+                    ExecuteAfterRender( () => JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef ).AsTask() );
+                }
+                else
+                {
+                    ExecuteAfterRender( () => JSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, tableRef.ElementRef ).AsTask() );
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets whether end-users can sort data by the column's values.

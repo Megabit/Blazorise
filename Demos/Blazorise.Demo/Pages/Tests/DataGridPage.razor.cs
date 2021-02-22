@@ -45,6 +45,7 @@ namespace Blazorise.Demo.Pages.Tests
         DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
 
         bool editable = true;
+        bool resizable = true;
         bool sortable = true;
         bool filterable = true;
         bool showPager = true;

@@ -26,6 +26,15 @@ A default behavior of `CloseButton` is now changed so that it will auto-close it
 
 This behavior can be controlled by setting the `AutoClose="false"` parameter(default is `AutoClose="true"`), or it can be changed with global settings:  `.AddBlazorise( options => { options.AutoCloseParent = false; } )`.
 
+### Datagrid new dependencies
+
+Datagrid now has new resource dependencies.
+When using Datagrid, you must now additionally add the Datagrid resources to your app:
+
+`<link href="_content/Blazorise.DataGrid/blazorise.datagrid.css" rel="stylesheet" />`
+
+`<script src="_content/Blazorise.DataGrid/blazorise.datagrid.js"></script>`
+
 ### Other
 
 - `RadioGroup`: `bool Inline` parameter replaced with enum `Orientation`.
@@ -59,6 +68,10 @@ The template has access to the internal commands so you're also able to construc
 A new enum `DataGridCommandMode` was also introduced so you are able to control if you'd like to show both the commands and the new Button Row or just either one of them.
 
 An example can be found in [DataGrid]({{ "/docs/extensions/datagrid/#datagrid-buttonrow" | relative_url }}) page section.
+
+### Datagrid: Resizable
+
+Introduced resize feature to Datagrid. You are now able to set the new `Resizable` parameter to `true` and you'll be able to resize the datagrid columns. 
 
 ### Localization
 

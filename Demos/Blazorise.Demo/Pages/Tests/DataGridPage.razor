@@ -9,132 +9,152 @@
                 <CardText>Combine diferent datagrid options</CardText>
             </CardBody>
             <CardBody>
-                <Fields>
-                    <Field>
-                        <FieldLabel>
-                            <Tooltip Text="Defines if DataGrid can be editable.">
-                                <Icon Name="IconName.QuestionCircle" />
-                            </Tooltip>
-                        </FieldLabel>
-                        <FieldBody>
-                            <Check @bind-Checked="@editable">Editable</Check>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>
-                            <Tooltip Text="Defines if DataGrid can be sorted by clicking the column headers.">
-                                <Icon Name="IconName.QuestionCircle" />
-                            </Tooltip>
-                        </FieldLabel>
-                        <FieldBody>
-                            <Check @bind-Checked="@sortable">Sortable</Check>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>
-                            <Tooltip Text="Defines if DataGrid can be filtered through the column headers.">
-                                <Icon Name="IconName.QuestionCircle" />
-                            </Tooltip>
-                        </FieldLabel>
-                        <FieldBody>
-                            <Check @bind-Checked="@filterable">Filterable</Check>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>
-                            <Tooltip Text="Defines if paginator buttons are visible.">
-                                <Icon Name="IconName.QuestionCircle" />
-                            </Tooltip>
-                        </FieldLabel>
-                        <FieldBody>
-                            <Check @bind-Checked="@showPager">Show Pager</Check>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>
-                            <Tooltip Text="Defines if pagesize dropdown will be visible.">
-                                <Icon Name="IconName.QuestionCircle" />
-                            </Tooltip>
-                        </FieldLabel>
-                        <FieldBody>
-                            <Check @bind-Checked="@showPageSizes">Show Page sizes</Check>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>
-                            <Tooltip Text="Defines if Datagrid shows a button row on the pager.">
-                                <Icon Name="IconName.QuestionCircle" />
-                            </Tooltip>
-                        </FieldLabel>
-                        <FieldBody>
-                            <Check @bind-Checked="@showButtonRow">Show Button Row</Check>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>
-                            <Tooltip Text="If true, DataGrid will dynamicaly fetch data based on the current page and page size.">
-                                <Icon Name="IconName.QuestionCircle" />
-                            </Tooltip>
-                        </FieldLabel>
-                        <FieldBody>
-                            <Check @bind-Checked="@largeDataMode">Large Data</Check>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>
-                            Selection mode
-                        </FieldLabel>
-                        <FieldBody>
-                            <Select @bind-SelectedValue="@selectionMode">
-                                <SelectItem Value="@DataGridSelectionMode.Single">Single</SelectItem>
-                                <SelectItem Value="@DataGridSelectionMode.Multiple">Multiple</SelectItem>
-                            </Select>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>
-                            Edit Mode
-                        </FieldLabel>
-                        <FieldBody>
-                            <Select @bind-SelectedValue="@editMode">
-                                <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
-                                <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
-                                <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
-                            </Select>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>
-                            Command Mode
-                        </FieldLabel>
-                        <FieldBody>
-                            <Select @bind-SelectedValue="@commandsMode">
-                                <SelectItem Value="DataGridCommandMode.Default">Default</SelectItem>
-                                <SelectItem Value="DataGridCommandMode.ButtonRow">Button Row</SelectItem>
-                                <SelectItem Value="DataGridCommandMode.Commands">Commands</SelectItem>
-                            </Select>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>
-                            Sort mode
-                        </FieldLabel>
-                        <FieldBody>
-                            <Select @bind-SelectedValue="@sortMode">
-                                <SelectItem Value="@DataGridSortMode.Single">Single</SelectItem>
-                                <SelectItem Value="@DataGridSortMode.Multiple">Multiple</SelectItem>
-                            </Select>
-                        </FieldBody>
-                    </Field>
-                    <Field>
-                        <FieldLabel>
-                            Custom Search
-                        </FieldLabel>
-                        <FieldBody>
-                            <TextEdit @bind-Text="@customFilterValue" />
-                        </FieldBody>
-                    </Field>
-                </Fields>
+                <Row>
+                    <Column>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid can be editable.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@editable">Editable</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid can be resizable.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@resizable">Resizable</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid can be sorted by clicking the column headers.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@sortable">Sortable</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if DataGrid can be filtered through the column headers.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@filterable">Filterable</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if paginator buttons are visible.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@showPager">Show Pager</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if pagesize dropdown will be visible.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@showPageSizes">Show Page sizes</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="Defines if Datagrid shows a button row on the pager.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@showButtonRow">Show Button Row</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    <Tooltip Text="If true, DataGrid will dynamicaly fetch data based on the current page and page size.">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@largeDataMode">Large Data</Check>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>
+                                    Selection mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@selectionMode">
+                                        <SelectItem Value="@DataGridSelectionMode.Single">Single</SelectItem>
+                                        <SelectItem Value="@DataGridSelectionMode.Multiple">Multiple</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Edit Mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@editMode">
+                                        <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
+                                        <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
+                                        <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Command Mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@commandsMode">
+                                        <SelectItem Value="DataGridCommandMode.Default">Default</SelectItem>
+                                        <SelectItem Value="DataGridCommandMode.ButtonRow">Button Row</SelectItem>
+                                        <SelectItem Value="DataGridCommandMode.Commands">Commands</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Sort mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@sortMode">
+                                        <SelectItem Value="@DataGridSortMode.Single">Single</SelectItem>
+                                        <SelectItem Value="@DataGridSortMode.Multiple">Multiple</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Custom Search
+                                </FieldLabel>
+                                <FieldBody>
+                                    <TextEdit @bind-Text="@customFilterValue" />
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </Column>
+                </Row>
             </CardBody>
             <CardBody>
                 <DataGrid TItem="Employee"
@@ -143,6 +163,7 @@
                           TotalItems="@(largeDataMode ? totalEmployees : null)"
                           EditMode="@editMode"
                           Editable="@editable"
+                          Resizable="@resizable"
                           Sortable="@sortable"
                           SortMode="@sortMode"
                           SelectionMode="@selectionMode"
