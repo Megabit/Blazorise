@@ -234,7 +234,7 @@
                                     var selectedValue = @context.SearchValue ?? "*";
                                     <Select TValue="string" SelectedValue="@selectedValue" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
                                         <SelectItem Value="@("*")">All</SelectItem>
-                                        @foreach (var item in dataModels)
+                                        @foreach ( var item in dataModels )
                                         {
                                             <SelectItem Value="@item.City">@item.City</SelectItem>
                                         }
@@ -248,17 +248,17 @@
                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
                             <DisplayTemplate>
                                 @{
-                                    var gender = (context as Employee)?.Gender;
+                                    var gender = ( context as Employee )?.Gender;
 
-                                    @if (gender == "M")
+                                    @if ( gender == "M" )
                                     {
                                         @("Male")
                                     }
-                                    else if (gender == "F")
+                                    else if ( gender == "F" )
                                     {
                                         @("Female")
                                     }
-                                    else if (gender == "D")
+                                    else if ( gender == "D" )
                                     {
                                         @("Diverse")
                                     }
@@ -286,7 +286,7 @@
                     </DataGridColumns>
                     <DetailRowTemplate>
                         @{
-                            var salaries = (context as Employee).Salaries;
+                            var salaries = ( context as Employee ).Salaries;
 
                             <DataGrid TItem="Salary"
                                       Data="salaries"
@@ -299,7 +299,7 @@
                         }
                     </DetailRowTemplate>
                     <PopupTitleTemplate>
-                        @if (context.EditState == DataGridEditState.Edit)
+                        @if ( context.EditState == DataGridEditState.Edit )
                         {
                             @($"{context.LocalizationString} Employee {context.Item.FirstName} {context.Item.LastName}")
                         }
@@ -312,7 +312,7 @@
                         <Text Style="opacity: .5;">--</Text>
                     </EmptyCellTemplate>
                     <ButtonRowTemplate>
-                        @if (showButtonRow)
+                        @if ( showButtonRow )
                         {
                             <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">New</Button>
                             <Button Color="Color.Primary" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
@@ -361,10 +361,10 @@
     </Column>
 </Row>
 
-@if (selectionMode == DataGridSelectionMode.Multiple && selectedEmployees?.Count > 0)
+@if ( selectionMode == DataGridSelectionMode.Multiple && selectedEmployees?.Count > 0 )
 {
     <Heading Size="HeadingSize.Is2" Margin="Margin.Is2">Multiple Employees</Heading>
-    @foreach (var employee in selectedEmployees)
+    @foreach ( var employee in selectedEmployees )
     {
         <Row @key="employee" Margin="Margin.Is1.FromTop">
             <Column>
