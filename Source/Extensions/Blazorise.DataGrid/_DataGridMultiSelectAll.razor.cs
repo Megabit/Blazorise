@@ -19,12 +19,16 @@ namespace Blazorise.DataGrid
 
         protected override Task OnParametersSetAsync()
         {
-            if ( ParentDataGrid.PageSize == ParentDataGrid.SelectedRows?.Count )
-                IsChecked = true;
+            var hasSelectedRows = ParentDataGrid.SelectedRows?.Any() ?? false;
+            if ( hasSelectedRows )
+            { 
+                var unselectedRows = ParentDataGrid.DisplayData.Except( ParentDataGrid.SelectedRows ).Any();
+                if ( ( hasSelectedRows ) && !unselectedRows )
+                    IsChecked = true;
 
-            if ( ParentDataGrid.SelectedRows?.Count == 0 )
-                IsChecked = false;
-
+                if ( !hasSelectedRows || unselectedRows )
+                    IsChecked = false;
+            }
             return base.OnParametersSetAsync();
         }
 
