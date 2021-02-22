@@ -191,7 +191,7 @@ namespace Blazorise.DataGrid
 
         #region Events
 
-        private async void OnPageSizeChanged(int pageSize)
+        private async void OnPageSizeChanged( int pageSize )
         {
             paginationContext.CancellationTokenSource?.Cancel();
             paginationContext.CancellationTokenSource = new CancellationTokenSource();
@@ -225,7 +225,7 @@ namespace Blazorise.DataGrid
             }
         }
 
-        #endregion Events
+        #endregion
 
         #region Editing
 
