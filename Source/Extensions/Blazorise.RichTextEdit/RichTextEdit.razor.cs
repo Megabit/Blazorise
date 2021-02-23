@@ -7,7 +7,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.RichTextEdit
 {
-    public partial class RichTextEdit : BaseComponent
+    public partial class RichTextEdit : BaseRichTextEditComponent
     {
         #region Members
 

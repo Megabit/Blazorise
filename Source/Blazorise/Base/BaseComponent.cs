@@ -86,30 +86,6 @@ namespace Blazorise
             executeAfterRendereQueue.Enqueue( action );
         }
 
-        /// <summary>
-        /// Executes given action after the rendering is done.
-        /// </summary>
-        /// <remarks>Don't await this on the UI thread, because that will cause a deadlock.</remarks>
-        protected async Task<T> ExecuteAfterRender<T>( Func<Task<T>> action )
-        {
-            var source = new TaskCompletionSource<T>();
-
-            ExecuteAfterRender( async () =>
-            {
-                try
-                {
-                    var result = await action();
-                    source.TrySetResult( result );
-                }
-                catch ( Exception e )
-                {
-                    source.TrySetException( e );
-                }
-            } );
-
-            return await source.Task.ConfigureAwait( false );
-        }
-
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             Rendered = true;
