@@ -29,6 +29,7 @@
                 </CardBody>
                 <CardBody Padding="Padding.Is0.OnAll">
                     <RichTextEdit @ref="richTextEditRef"
+                                  ConfigureQuillJsMethod="blazoriseDemo.configureQuillJs"
                                   ContentChanged="@OnContentChanged"
                                   PlaceHolder="Type your post here..."
                                   ReadOnly="@readOnly"
