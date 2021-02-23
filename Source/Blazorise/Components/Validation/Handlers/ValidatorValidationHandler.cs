@@ -23,10 +23,7 @@ namespace Blazorise
                 ? new string[] { validatorEventArgs.ErrorText }
                 : null;
 
-            if ( validation.Status != validatorEventArgs.Status || ( validation.Messages?.ToArray()?.AreEqual( matchMessages ) == false ) )
-            {
-                validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
-            }
+            validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
         }
     }
 }
