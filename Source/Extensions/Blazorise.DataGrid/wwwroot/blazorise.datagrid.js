@@ -50,6 +50,8 @@
                     // Determine how far the mouse has been moved
                     const dx = e.clientX - x;
 
+                    resizer.style.height = `${calculateActualHeight()}px`;
+
                     // Update the width of column
                     col.style.width = `${w + dx}px`;
                 };
@@ -60,10 +62,6 @@
 
                     document.removeEventListener('pointermove', mouseMoveHandler);
                     document.removeEventListener('pointerup', mouseUpHandler);
-
-                    // Recalculate resizer height
-                    window.blazoriseDataGrid.destroyResizable(table);
-                    window.blazoriseDataGrid.initResizable(table);
                 };
 
                 resizer.addEventListener('pointerdown', mouseDownHandler);
