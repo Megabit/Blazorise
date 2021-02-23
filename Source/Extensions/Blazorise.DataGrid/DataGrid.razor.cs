@@ -727,21 +727,6 @@ namespace Blazorise.DataGrid
 
         #endregion
 
-        /// <summary>
-        /// Checks if the MultiSelectAll is indeterminate, meaning that only some of the current view rows are selected.
-        /// </summary>
-        private bool IsMultiSelectAllIndeterminate()
-        {
-            var isIndeterminate = false;
-            var hasSelectedRows = SelectedRows?.Any() ?? false;
-            if ( hasSelectedRows )
-            {
-                var unselectedRows = viewData.Except( SelectedRows ).Count();
-                isIndeterminate = MultiSelect && hasSelectedRows && ( unselectedRows > 0 ) && ( unselectedRows < viewData.Count() );
-            }
-            return isIndeterminate;
-        }
-
         #endregion
 
         #region Properties
@@ -913,6 +898,26 @@ namespace Blazorise.DataGrid
         /// Gets the reference to the associated multiselect column.
         /// </summary>
         public DataGridMultiSelectColumn<TItem> MultiSelectColumn { get; private set; }
+
+        /// <summary>
+        /// Checks if the MultiSelectAll is indeterminate, meaning that only some of the current view rows are selected.
+        /// </summary>
+        private bool IsMultiSelectAllIndeterminate
+        {
+            get
+            {
+                var hasSelectedRows = SelectedRows?.Any() ?? false;
+
+                if ( hasSelectedRows )
+                {
+                    var unselectedRows = viewData.Except( SelectedRows ).Count();
+
+                    return MultiSelect && hasSelectedRows && unselectedRows > 0 && unselectedRows < viewData.Count();
+                }
+
+                return false;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the datagrid data-source.
