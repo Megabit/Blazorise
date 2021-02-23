@@ -134,6 +134,38 @@ The `RichTextEdit` toolbar can be completely customized. QuillJS defines a numbe
 
 See [QuillJS Toolbar module](https://quilljs.com/docs/modules/toolbar/) for more information.
 
+### QuillJS Configuration
+
+The `RichTextEdit` has the option to inject additional QuillJS configuration logic or load additional [modules](https://github.com/quilljs/awesome-quill). Use the `ConfigureQuillJSMethod` property to indicate which javascript method needs to be called during initialization. 
+
+If you for example want to change the way how links are sanitized you can use the following logic. Default all user typed url's are relative to your pages base url. So when a user types `google.com` this will result in something like `https://baseurl/google.com`, but if you would probably like `https://google.com` then use the following configuration routine.
+
+```html
+<RichTextEdit ConfigureQuillJsMethod="myComponent.configureQuillJs" />
+```
+
+```javascript
+window.myComponent = {
+    configureQuillJs: () => {
+        var link = Quill.import("formats/link");
+
+        link.sanitize = url => {
+            let newUrl = window.decodeURIComponent(url);
+            newUrl = newUrl.trim().replace(/\s/g, "");
+
+            if (/^(:\/\/)/.test(newUrl)) {
+                return `http${newUrl}`;
+            }
+
+            if (!/^(f|ht)tps?:\/\//i.test(newUrl)) {
+                return `http://${newUrl}`;
+            }
+
+            return newUrl;
+        }
+    }
+}
+```
 
 ## Attributes
 

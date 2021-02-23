@@ -40,10 +40,7 @@
         }
         if (configure) {
             try {
-                const updatedOptions = blazoriseRichTextEdit.configure(configure, window, options);
-                if (updatedOptions) {
-                    options = updatedOptions;
-                }
+                blazoriseRichTextEdit.configure(configure, window, [ options ]);
             } catch (err) {
                 console.error(err);
             }
@@ -81,13 +78,13 @@
         editorRef.quill = quill;
         return true;
     },
-    configure: (functionName, context, options) => {
+    configure: (functionName, context, args) => {
         const namespaces = functionName.split(".");
         const func = namespaces.pop();
         for (let i = 0; i < namespaces.length; i++) {
             context = context[namespaces[i]];
         }
-        return context[func].apply(context, options);
+        return context[func].apply(context, args);
     },
     destroy: (editorRef) => {
         if (!editorRef)
