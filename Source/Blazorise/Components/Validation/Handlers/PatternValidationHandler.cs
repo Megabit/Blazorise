@@ -17,10 +17,7 @@ namespace Blazorise
                 ? ValidationStatus.Success
                 : ValidationStatus.Error;
 
-            if ( validation.Status != matchStatus )
-            {
-                validation.NotifyValidationStatusChanged( matchStatus );
-            }
+            validation.NotifyValidationStatusChanged( matchStatus );
         }
     }
 }
