@@ -185,14 +185,20 @@ namespace Blazorise.DataGrid
         /// Resizable columns should be constantly recalculated to keep up with the current Datagrid's height dimensions.
         /// </summary>
         /// <returns></returns>
-        private async Task RecalculateResize()
+        private async ValueTask RecalculateResize()
         {
             if ( resizable )
             {
-                await JSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, tableRef.ElementRef );
-                await JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef );
+                await DestroyResizable();
+                await InitResizable();
             }
         }
+
+        private ValueTask InitResizable()
+            => JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef, ResizeMode );
+
+        private ValueTask DestroyResizable()
+            => JSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, tableRef.ElementRef );
 
         #endregion
 
@@ -1018,14 +1024,19 @@ namespace Blazorise.DataGrid
 
                 if ( resizable )
                 {
-                    ExecuteAfterRender( () => JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef ).AsTask() );
+                    ExecuteAfterRender( () => InitResizable().AsTask() );
                 }
                 else
                 {
-                    ExecuteAfterRender( () => JSRuntime.InvokeVoidAsync( JSInteropFunction.DESTROY_RESIZABLE, tableRef.ElementRef ).AsTask() );
+                    ExecuteAfterRender( () => DestroyResizable().AsTask() );
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets whether the user can resize on header or columns.
+        /// </summary>
+        [Parameter] public DataGridResizeMode ResizeMode { get; set; }
 
         /// <summary>
         /// Gets or sets whether end-users can sort data by the column's values.

@@ -1,9 +1,14 @@
 ﻿window.blazoriseDataGrid = {
-    initResizable: function (table) {
+
+    initResizable: function (table, mode) {
+        const resizerClass = "b-datagrid-resizer";
+        const resizingClass = "b-datagrid-resizing";
+        const resizerHeaderMode = 0;
+
         const cols = table.querySelectorAll('tr:first-child > th');
         if (cols != null) {
 
-            const calculateActualHeight = function () {
+            const calculateTableActualHeight = function () {
                 let height = 0;
                 const tableRows = table.querySelectorAll('tr');
 
@@ -15,12 +20,17 @@
                 });
                 return height;
             };
-            let actualHeight = calculateActualHeight();
+
+            const calculateModeHeight = () => {
+                return mode == resizerHeaderMode ? table.querySelector('tr:first-child > th:first-child').offsetHeight : calculateTableActualHeight();
+            };
+
+            let actualHeight = calculateModeHeight();
 
             const createResizableColumn = function (col) {
                 // Add a resizer element to the column
                 const resizer = document.createElement('div');
-                resizer.classList.add('b-datagrid-resizer');
+                resizer.classList.add(resizerClass);
 
                 // Set the height
                 resizer.style.height = `${actualHeight}px`;
@@ -43,14 +53,14 @@
                     document.addEventListener('pointermove', mouseMoveHandler);
                     document.addEventListener('pointerup', mouseUpHandler);
 
-                    resizer.classList.add('b-datagrid-resizing');
+                    resizer.classList.add(resizingClass);
                 };
 
                 const mouseMoveHandler = function (e) {
                     // Determine how far the mouse has been moved
                     const dx = e.clientX - x;
 
-                    resizer.style.height = `${calculateActualHeight()}px`;
+                    resizer.style.height = `${calculateTableActualHeight()}px`;
 
                     // Update the width of column
                     col.style.width = `${w + dx}px`;
@@ -58,7 +68,9 @@
 
                 // When user releases the mouse, remove the existing event listeners
                 const mouseUpHandler = function () {
-                    resizer.classList.remove('b-datagrid-resizing');
+                    resizer.classList.remove(resizingClass);
+
+                    table.querySelectorAll(`.${resizerClass}`).forEach(x => x.style.height = `${calculateModeHeight()}px`);
 
                     document.removeEventListener('pointermove', mouseMoveHandler);
                     document.removeEventListener('pointerup', mouseUpHandler);

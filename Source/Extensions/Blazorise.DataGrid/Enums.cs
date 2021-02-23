@@ -211,4 +211,20 @@
         /// </summary>
         ButtonRow
     }
+
+    /// <summary>
+    /// Defines the resize mode of the data grid.
+    /// </summary>
+    public enum DataGridResizeMode
+    {
+        /// <summary>
+        /// The data grid can only be resized on the header.
+        /// </summary>
+        Header,
+
+        /// <summary>
+        /// The data grid can only be resized on every column.
+        /// </summary>
+        Columns
+    }
 }
