@@ -868,12 +868,6 @@ namespace Blazorise.DataGrid
             => ( SelectionMode == DataGridSelectionMode.Multiple );
 
         /// <summary>
-        /// Checks if the MultiSelectAll is indeterminate, meaning that only some of the current view rows are selected.
-        /// </summary>
-        private bool IsMultiSelectAllIndeterminate
-            => ( MultiSelect && ( SelectedRows?.Any() ?? false ) && !( viewData.Except( SelectedRows ).Count() == 0 ) );
-
-        /// <summary>
         /// Gets template for title of popup modal.
         /// </summary>
         [Parameter]
@@ -904,6 +898,26 @@ namespace Blazorise.DataGrid
         /// Gets the reference to the associated multiselect column.
         /// </summary>
         public DataGridMultiSelectColumn<TItem> MultiSelectColumn { get; private set; }
+
+        /// <summary>
+        /// Checks if the MultiSelectAll is indeterminate, meaning that only some of the current view rows are selected.
+        /// </summary>
+        private bool IsMultiSelectAllIndeterminate
+        {
+            get
+            {
+                var hasSelectedRows = SelectedRows?.Any() ?? false;
+
+                if ( hasSelectedRows )
+                {
+                    var unselectedRows = viewData.Except( SelectedRows ).Count();
+
+                    return MultiSelect && hasSelectedRows && unselectedRows > 0 && unselectedRows < viewData.Count();
+                }
+
+                return false;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the datagrid data-source.
@@ -964,7 +978,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets the data to show on grid based on the filter and current page.
         /// </summary>
-        protected IEnumerable<TItem> DisplayData
+        internal IEnumerable<TItem> DisplayData
         {
             get
             {
