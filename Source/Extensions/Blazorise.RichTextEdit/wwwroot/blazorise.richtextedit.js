@@ -93,7 +93,7 @@
         if (!editorRef)
             return false;
 
-        if (editorRef.quill.contentObserver) 
+        if (editorRef.quill.contentObserver)
             editorRef.quill.contentObserver.disconnect();
 
         delete editorRef.quill;
