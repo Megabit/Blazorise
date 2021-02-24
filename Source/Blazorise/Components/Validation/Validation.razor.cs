@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -24,11 +25,6 @@ namespace Blazorise
         private IValidationInput inputComponent;
 
         /// <summary>
-        /// Holds the last input value.
-        /// </summary>
-        private object lastValidationValue;
-
-        /// <summary>
         /// Pattern that is being applied for the validation.
         /// </summary>
         private string patternString;
@@ -43,7 +39,9 @@ namespace Blazorise
         /// </summary>
         private bool hasPattern;
 
-        // Flag that indicates validation has already being initialized.
+        /// <summary>
+        /// Flag that indicates validation has already being initialized.
+        /// </summary>
         private bool initialized;
 
         /// <summary>
@@ -97,9 +95,6 @@ namespace Blazorise
         internal void InitializeInput( IValidationInput inputComponent )
         {
             this.inputComponent = inputComponent;
-
-            // save the input value
-            lastValidationValue = inputComponent.ValidationValue;
 
             if ( Mode == ValidationMode.Auto && ValidateOnLoad )
                 Validate( inputComponent.ValidationValue );
@@ -165,21 +160,14 @@ namespace Blazorise
                 ? newExpressionValue
                 : inputComponent.ValidationValue;
 
-            var valueChanged = newValidationValue is IEnumerable<T> newArrayValue && lastValidationValue is IEnumerable<T> lastArrayValue
-                ? !lastArrayValue.AreEqual( newArrayValue )
-                : !lastValidationValue.IsEqual( newValidationValue );
-
-            if ( valueChanged )
+            if ( EditContext != null && hasFieldIdentifier )
             {
-                lastValidationValue = newValidationValue;
+                EditContext.NotifyFieldChanged( fieldIdentifier );
+            }
 
-                if ( EditContext != null && hasFieldIdentifier )
-                {
-                    EditContext.NotifyFieldChanged( fieldIdentifier );
-                }
-
-                if ( Mode == ValidationMode.Auto )
-                    Validate( newValidationValue );
+            if ( Mode == ValidationMode.Auto )
+            {
+                Validate( newValidationValue );
             }
         }
 
@@ -208,13 +196,16 @@ namespace Blazorise
         /// <returns>Returns the validation result.</returns>
         public ValidationStatus Validate( object newValidationValue )
         {
-            var validationHandlerType = DetermineHandlerType();
-
-            if ( validationHandlerType != null )
+            if ( !inputComponent.Disabled )
             {
-                var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
+                var validationHandlerType = DetermineHandlerType();
 
-                validationHandler.Validate( this, newValidationValue );
+                if ( validationHandlerType != null )
+                {
+                    var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
+
+                    validationHandler.Validate( this, newValidationValue );
+                }
             }
 
             return Status;
@@ -262,13 +253,17 @@ namespace Blazorise
 
         public void NotifyValidationStatusChanged( ValidationStatus status, IEnumerable<string> messages = null )
         {
-            Status = status;
-            Messages = messages;
+            // raise events only if status or message is changed to prevent unnecessary re-renders
+            if ( Status != status || ( Messages?.AreEqual( messages ) == false ) )
+            {
+                Status = status;
+                Messages = messages;
 
-            ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, messages ) );
-            StatusChanged.InvokeAsync( status );
+                ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, messages ) );
+                StatusChanged.InvokeAsync( status );
 
-            ParentValidations?.NotifyValidationStatusChanged( this );
+                ParentValidations?.NotifyValidationStatusChanged( this );
+            }
         }
 
         #endregion

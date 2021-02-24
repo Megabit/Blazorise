@@ -4,7 +4,7 @@
     @if ( Responsive )
     {
         <div class="@ResponsiveClassNames">
-            <table id="@ElementId" class="@ClassNames" style="@StyleNames"
+            <table @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
                    draggable="@Draggable"
                    @ondrag="@OnDragHandler"
                    @ondrag:preventDefault="@DragPreventDefault"
@@ -27,7 +27,7 @@
     }
     else
     {
-        <table id="@ElementId" class="@ClassNames" style="@StyleNames"
+        <table @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
                draggable="@Draggable"
                @ondrag="@OnDragHandler"
                @ondrag:preventDefault="@DragPreventDefault"

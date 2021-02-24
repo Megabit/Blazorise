@@ -45,6 +45,7 @@ namespace Blazorise.Demo.Pages.Tests
         DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
 
         bool editable = true;
+        bool resizable = true;
         bool sortable = true;
         bool filterable = true;
         bool showPager = true;
@@ -57,6 +58,8 @@ namespace Blazorise.Demo.Pages.Tests
 
         List<Employee> employeeList;
         int totalEmployees;
+
+        Random random = new Random();
 
         // generated with https://mockaroo.com/
         List<Employee> dataModels = new List<Employee>{
@@ -175,16 +178,21 @@ namespace Blazorise.Demo.Pages.Tests
                 || model.EMail?.Contains( customFilterValue, StringComparison.OrdinalIgnoreCase ) == true;
         }
 
-        Task OnReadData( DataGridReadDataEventArgs<Employee> e )
+        async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
         {
-            // this can be call to anything, in this case we're calling a fictional api
-            var response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+            await Task.Delay( random.Next( 800 ) );
 
-            employeeList = new List<Employee>( response ); // an actual data for the current page
-            totalEmployees = dataModels.Count; // this is used to tell datagrid how many items are available so that pagination will work
+            if ( !e.CancellationToken.IsCancellationRequested )
+            {
+                // this can be call to anything, in this case we're calling a fictional api
+                var response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
 
-            // always call StateHasChanged!
-            return InvokeAsync( StateHasChanged );
+                employeeList = new List<Employee>( response ); // an actual data for the current page
+                totalEmployees = dataModels.Count; // this is used to tell datagrid how many items are available so that pagination will work
+
+                // always call StateHasChanged!
+                await InvokeAsync( StateHasChanged );
+            }
         }
 
         #endregion

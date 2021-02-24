@@ -610,6 +610,10 @@ The template has access to the internal commands so you're also able to construc
 </ButtonRowTemplate>
 ```
 
+### DataGrid Resizable
+
+Set `Resizable` to `true` and you'll be able to resize the datagrid columns. 
+
 ## Attributes
 
 ### DataGrid
@@ -620,6 +624,7 @@ The template has access to the internal commands so you're also able to construc
 | EditMode               | [EditMode]({{ "/docs/extensions/datagrid/#editmode" | relative_url }})| `Form` | Specifies the grid editing modes.                                                                          |
 | UseInternalEditing     | boolean                                                             | `true`  | Specifies the behavior of DataGrid editing.                                                                 |
 | Editable               | boolean                                                             | `false` | Whether users can edit DataGrid rows.                                                                       |
+| Resizable              | boolean                                                             | `false` | Whether users can resize DataGrid columns.                                                                  |
 | Sortable               | boolean                                                             | `true`  | Whether end-users can sort data by the column's values.                                                     |
 | ShowCaptions           | boolean                                                             | `true`  | Gets or sets whether user can see a column captions.                                                        |
 | Filterable             | boolean                                                             | `false` | Whether users can filter rows by its cell values.                                                           |

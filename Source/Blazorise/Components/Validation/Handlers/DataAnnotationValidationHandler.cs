@@ -40,12 +40,7 @@ namespace Blazorise
                 ? messages[validation.FieldIdentifier]
                 : null;
 
-            // Sometime status will stay the same and error message will change
-            // eg. StringLength > empty string > Required
-            if ( validation.Status != matchStatus || ( validation.Messages?.ToArray()?.AreEqual( matchMessages?.ToArray() ) == false ) )
-            {
-                validation.NotifyValidationStatusChanged( matchStatus, matchMessages );
-            }
+            validation.NotifyValidationStatusChanged( matchStatus, matchMessages );
         }
 
         /// <summary>
