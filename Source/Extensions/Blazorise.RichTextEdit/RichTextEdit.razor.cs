@@ -7,7 +7,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.RichTextEdit
 {
-    public partial class RichTextEdit : BaseComponent
+    public partial class RichTextEdit : BaseRichTextEditComponent
     {
         #region Members
 
@@ -21,11 +21,6 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         private bool readOnly;
 
-        /// <summary>
-        /// Is the editor initialized.
-        /// </summary>
-        private bool initialized;
-
         #endregion
 
         #region Methods
@@ -36,7 +31,7 @@ namespace Blazorise.RichTextEdit
         /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected override void Dispose( bool disposing )
         {
-            if ( disposing && initialized && Rendered )
+            if ( disposing && Rendered )
             {
                 cleanup.Dispose();
             }
@@ -51,18 +46,10 @@ namespace Blazorise.RichTextEdit
         {
             cleanup = await RteJsInterop.InitializeEditor( this );
 
-            initialized = true;
-
             if ( Editor != null )
             {
                 await OnContentChanged();
             }
-        }
-
-        void InitializationCheck()
-        {
-            if ( !initialized )
-                throw new InvalidOperationException( "RichTextEdit not initialized yet" );
         }
 
         /// <summary>
@@ -70,9 +57,7 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask SetHtmlAsync( string html )
         {
-            InitializationCheck();
-
-            await RteJsInterop.SetHtmlAsync( EditorRef, html );
+            await InvokeAsync( () => ExecuteAfterRender( async () => await RteJsInterop.SetHtmlAsync( EditorRef, html ) ) );
         }
 
         /// <summary>
@@ -80,9 +65,7 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask<string> GetHtmlAsync()
         {
-            InitializationCheck();
-
-            return await RteJsInterop.GetHtmlAsync( EditorRef );
+            return await ExecuteAfterRender( async () => await RteJsInterop.GetHtmlAsync( EditorRef ) );
         }
 
         /// <summary>
@@ -91,9 +74,7 @@ namespace Blazorise.RichTextEdit
         /// <seealso href="https://quilljs.com/docs/delta/"/>
         public async ValueTask SetDeltaAsync( string deltaJson )
         {
-            InitializationCheck();
-
-            await RteJsInterop.SetDeltaAsync( EditorRef, deltaJson );
+            await InvokeAsync( () => ExecuteAfterRender( async () => await RteJsInterop.SetDeltaAsync( EditorRef, deltaJson ) ) );
         }
 
         /// <summary>
@@ -102,9 +83,7 @@ namespace Blazorise.RichTextEdit
         /// <seealso href="https://quilljs.com/docs/delta/"/>
         public async ValueTask<string> GetDeltaAsync()
         {
-            InitializationCheck();
-
-            return await RteJsInterop.GetDeltaAsync( EditorRef );
+            return await ExecuteAfterRender( async () => await RteJsInterop.GetDeltaAsync( EditorRef ) );
         }
 
         /// <summary>
@@ -112,9 +91,7 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask SetTextAsync( string text )
         {
-            InitializationCheck();
-
-            await RteJsInterop.SetTextAsync( EditorRef, text );
+            await InvokeAsync( () => ExecuteAfterRender( async () => await RteJsInterop.SetTextAsync( EditorRef, text ) ) );
         }
 
         /// <summary>
@@ -123,9 +100,7 @@ namespace Blazorise.RichTextEdit
         /// <seealso href="https://quilljs.com/docs/delta/"/>
         public async ValueTask<string> GetTextAsync()
         {
-            InitializationCheck();
-
-            return await RteJsInterop.GetTextAsync( EditorRef );
+            return await ExecuteAfterRender( async () => await RteJsInterop.GetTextAsync( EditorRef ) );
         }
 
         /// <summary>
@@ -133,11 +108,11 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask ClearAsync()
         {
-            InitializationCheck();
-
-            await RteJsInterop.ClearAsync( EditorRef );
-
-            await OnContentChanged();
+            await InvokeAsync( () => ExecuteAfterRender( async () =>
+            {
+                await RteJsInterop.ClearAsync( EditorRef );
+                await OnContentChanged();
+            } ) );
         }
 
         /// <summary>
@@ -169,10 +144,7 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         private async Task SetReadOnly( bool value )
         {
-            if ( initialized )
-            {
-                await RteJsInterop.SetReadOnly( EditorRef, value );
-            }
+            await InvokeAsync( () => ExecuteAfterRender( async () => await RteJsInterop.SetReadOnly( EditorRef, value ) ) );
         }
 
         #endregion
@@ -189,7 +161,8 @@ namespace Blazorise.RichTextEdit
         /// <summary>
         /// [Optional] Gets or sets the content visible in the editor.
         /// </summary>
-        [Parameter] public RenderFragment Editor { get; set; }
+        [Parameter]
+        public RenderFragment Editor { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the editor is ReadOnly.

@@ -6,6 +6,7 @@
 
         const editorRef = containerRef.getElementsByClassName("rte-editor")[0];
         const toolbarRef = containerRef.getElementsByClassName("rte-toolbar")[0];
+        const contentRef = containerRef.getElementsByClassName("rte-content")[0];
 
         let options = {
             modules: {
@@ -57,6 +58,23 @@
             } else if (range !== null && oldRange === null)
                 dotnetAdapter.invokeMethodAsync(onFocus);
         });
+
+        function setContent() {
+            quill.setContents(quill.clipboard.convert(contentRef.innerHTML));
+            dotnetAdapter.invokeMethodAsync(onContentChanged);
+        }
+
+        // create an observer for content changes
+        quill.contentObserver = new MutationObserver(() => setContent());
+        quill.contentObserver.observe(contentRef,
+            {
+                attributes: true,
+                childList: true,
+                characterData: true
+            });
+
+        setContent();
+
         editorRef.quill = quill;
         return true;
     },
@@ -71,6 +89,10 @@
     destroy: (editorRef) => {
         if (!editorRef)
             return false;
+
+        if (editorRef.quill.contentObserver)
+            editorRef.quill.contentObserver.disconnect();
+
         delete editorRef.quill;
         return true;
     },
