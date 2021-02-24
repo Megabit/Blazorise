@@ -123,6 +123,17 @@
                             </Field>
                             <Field>
                                 <FieldLabel>
+                                    Resizable Mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@resizableMode">
+                                        <SelectItem Value="DataGridResizeMode.Header">Header</SelectItem>
+                                        <SelectItem Value="DataGridResizeMode.Columns">Columns</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
                                     Command Mode
                                 </FieldLabel>
                                 <FieldBody>
@@ -164,6 +175,7 @@
                           EditMode="@editMode"
                           Editable="@editable"
                           Resizable="@resizable"
+                          ResizeMode="@resizableMode"
                           Sortable="@sortable"
                           SortMode="@sortMode"
                           SelectionMode="@selectionMode"
