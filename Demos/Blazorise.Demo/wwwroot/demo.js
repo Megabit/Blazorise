@@ -18,6 +18,6 @@
         }
 
         // See https://github.com/quilljs/awesome-quill for various modules
-        options.modules.myCustomModule = {};
+        // options.modules.myCustomModule = ...;
     }
 }
