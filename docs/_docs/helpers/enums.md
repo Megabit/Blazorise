@@ -288,3 +288,10 @@ Defines the orientation of the elements.
 
 - `Horizontal` - Elements will be stacked horizontally.
 - `Vertical` - - Elements will be stacked vertically.
+
+## DataGridResizeMode
+
+Defines the resize mode of the data grid columns.
+
+- `Header` - The data grid can only be resized from the columns header.
+- `Columns` - The data grid can be resized from the entire column area.
