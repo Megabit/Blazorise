@@ -44,7 +44,7 @@ namespace Blazorise.Demo.Pages.Tests
         DataGridSelectionMode selectionMode = DataGridSelectionMode.Single;
         DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
         DataGridResizeMode resizableMode = DataGridResizeMode.Header;
-        
+
 
         bool editable = true;
         bool resizable = true;

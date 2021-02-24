@@ -213,17 +213,17 @@
     }
 
     /// <summary>
-    /// Defines the resize mode of the data grid.
+    /// Defines the resize mode of the data grid columns.
     /// </summary>
     public enum DataGridResizeMode
     {
         /// <summary>
-        /// The data grid can only be resized on the header.
+        /// The data grid can only be resized from the columns header.
         /// </summary>
         Header,
 
         /// <summary>
-        /// The data grid can only be resized on every column.
+        /// The data grid can be resized from the entire column area.
         /// </summary>
         Columns
     }
