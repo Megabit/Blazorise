@@ -214,6 +214,53 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
+        /// Removes the oldest label.
+        /// </summary>       
+        public async Task ShiftLabel()
+        {
+            dirty = true;
+
+            if ( initialized )
+                await JS.ShiftLabel( JSRuntime, ElementId );
+        }
+
+        /// <summary>
+        /// Removes the oldest data point from the specified dataset.
+        /// </summary>
+        /// <param name="dataSetIndex">Dataset index from which the oldest data point is to be removed from.</param>
+        /// <returns></returns>
+        public async Task ShiftData( int dataSetIndex )
+        {
+            dirty = true;
+
+            if ( initialized )
+                await JS.ShiftData( JSRuntime, ElementId, dataSetIndex );
+        }
+        /// <summary>
+        /// Removes the newest label.
+        /// </summary>       
+        public async Task PopLabel()
+        {
+            dirty = true;
+
+            if ( initialized )
+                await JS.PopLabel( JSRuntime, ElementId );
+        }
+
+        /// <summary>
+        /// Removes the newest data point from the specified dataset.
+        /// </summary>
+        /// <param name="dataSetIndex">Dataset index from which the newest data point is to be removed from.</param>
+        /// <returns></returns>
+        public async Task PopData( int dataSetIndex )
+        {
+            dirty = true;
+
+            if ( initialized )
+                await JS.PopData( JSRuntime, ElementId, dataSetIndex );
+        }
+
+        /// <summary>
         /// Sets the charts options manually. Must call 
         /// </summary>
         /// <param name="options">New chart options.</param>

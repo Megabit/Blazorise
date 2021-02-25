@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Blazorise.Extensions;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -31,7 +31,7 @@ namespace Blazorise
 
         private bool loading;
 
-        private DropdownStore parentDropdownStore;
+        private DropdownState parentDropdownState;
 
         #endregion
 
@@ -332,18 +332,18 @@ namespace Blazorise
         [CascadingParameter] protected Field ParentField { get; set; }
 
         /// <summary>
-        /// Gets or sets the parent dropdown store object.
+        /// Gets or sets the parent dropdown state object.
         /// </summary>
         [CascadingParameter]
-        protected DropdownStore ParentDropdownStore
+        protected DropdownState ParentDropdownState
         {
-            get => parentDropdownStore;
+            get => parentDropdownState;
             set
             {
-                if ( parentDropdownStore == value )
+                if ( parentDropdownState == value )
                     return;
 
-                parentDropdownStore = value;
+                parentDropdownState = value;
 
                 DirtyClasses();
             }
@@ -375,7 +375,7 @@ namespace Blazorise
         [Parameter] public int? TabIndex { get; set; }
 
         /// <summary>
-        /// Gets or sets the component child content.
+        /// Specifies the content to be rendered inside this <see cref="Button"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 

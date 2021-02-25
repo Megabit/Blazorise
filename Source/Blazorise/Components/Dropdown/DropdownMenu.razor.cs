@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -10,7 +10,7 @@ namespace Blazorise
     {
         #region Members
 
-        private DropdownStore parentDropdownStore;
+        private DropdownState parentDropdownState;
 
         #endregion
 
@@ -46,8 +46,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DropdownMenu() );
-            builder.Append( ClassProvider.DropdownMenuVisible( ParentDropdownStore.Visible ) );
-            builder.Append( ClassProvider.DropdownMenuRight(), ParentDropdownStore.RightAligned );
+            builder.Append( ClassProvider.DropdownMenuVisible( ParentDropdownState.Visible ) );
+            builder.Append( ClassProvider.DropdownMenuRight(), ParentDropdownState.RightAligned );
 
             base.BuildClasses( builder );
         }
@@ -57,15 +57,15 @@ namespace Blazorise
         #region Properties
 
         [CascadingParameter]
-        protected DropdownStore ParentDropdownStore
+        protected DropdownState ParentDropdownState
         {
-            get => parentDropdownStore;
+            get => parentDropdownState;
             set
             {
-                if ( parentDropdownStore == value )
+                if ( parentDropdownState == value )
                     return;
 
-                parentDropdownStore = value;
+                parentDropdownState = value;
 
                 DirtyClasses();
             }

@@ -27,13 +27,7 @@ namespace Blazorise
 
         #region Methods
 
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.Active(), active );
-
-            base.BuildClasses( builder );
-        }
-
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             NavigationManager.LocationChanged += OnLocationChanged;
@@ -41,6 +35,46 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
+        protected override void OnParametersSet()
+        {
+            PreventDefault = false;
+
+            // in case the user has specified href instead of To we need to use that instead
+            if ( Attributes?.ContainsKey( "href" ) == true )
+                To = $"{Attributes["href"]}";
+
+            if ( To != null && To.StartsWith( "#" ) )
+            {
+                // If the href contains an anchor link we don't want the default click action to occur, but
+                // rather take care of the click in our own method.
+                anchorTarget = To[1..];
+                PreventDefault = true;
+            }
+
+            absoluteUri = GetAbsoluteUri( To );
+
+            var shouldBeActiveNow = ShouldMatch( NavigationManager.Uri );
+
+            if ( shouldBeActiveNow != active )
+            {
+                active = shouldBeActiveNow;
+
+                DirtyClasses();
+            }
+
+            base.OnParametersSet();
+        }
+
+        /// <inheritdoc/>
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.Active(), active );
+
+            base.BuildClasses( builder );
+        }
+
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -64,40 +98,14 @@ namespace Blazorise
 
                 DirtyClasses();
 
-                StateHasChanged();
+                InvokeAsync( StateHasChanged );
             }
         }
 
-        protected override void OnParametersSet()
-        {
-            PreventDefault = false;
-
-            // in case the user has specified href instead of To we need to use that instead
-            if ( Attributes?.ContainsKey( "href" ) == true )
-                To = $"{Attributes["href"]}";
-
-            if ( To != null && To.StartsWith( "#" ) )
-            {
-                // If the href contains an anchor link we don't want the default click action to occur, but
-                // rather take care of the click in our own method.
-                anchorTarget = To[1..];
-                PreventDefault = true;
-            }
-
-            absoluteUri = To == null ? string.Empty : NavigationManager.ToAbsoluteUri( To ).AbsoluteUri;
-
-            var shouldBeActiveNow = ShouldMatch( NavigationManager.Uri );
-
-            if ( shouldBeActiveNow != active )
-            {
-                active = shouldBeActiveNow;
-
-                DirtyClasses();
-            }
-
-            base.OnParametersSet();
-        }
-
+        /// <summary>
+        /// Handles the link onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected async Task OnClickHandler()
         {
             if ( !string.IsNullOrEmpty( anchorTarget ) )
@@ -121,6 +129,30 @@ namespace Blazorise
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Converts a relative URI into an absolute one (by resolving it relative to the
+        /// current absolute URI).
+        /// </summary>
+        /// <param name="relativeUri">The relative URI.</param>
+        /// <returns>The absolute URI.</returns>
+        private string GetAbsoluteUri( string relativeUri )
+        {
+            try
+            {
+                if ( relativeUri == null )
+                    return string.Empty;
+
+                if ( relativeUri.StartsWith( "mailto:", StringComparison.OrdinalIgnoreCase ) )
+                    return relativeUri;
+
+                return NavigationManager.ToAbsoluteUri( To ).AbsoluteUri;
+            }
+            catch
+            {
+                return relativeUri;
+            }
         }
 
         private bool EqualsHrefExactlyOrIfTrailingSlashAdded( string currentUriAbsolute )

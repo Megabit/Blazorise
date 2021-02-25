@@ -3,21 +3,19 @@ using System;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
 {
     /// <summary>
-    /// This is needed to set the value from javascript because calling generic component directly is not supported by Blazor.
+    /// An editor that displays a numeric value and allows a user to edit the value.
     /// </summary>
-    public interface INumericEdit
-    {
-        Task SetValue( string value );
-    }
-
+    /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
     public partial class NumericEdit<TValue> : BaseTextInput<TValue>, INumericEdit
     {
         #region Members
@@ -29,6 +27,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -52,6 +51,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new NumericEditAdapter( this ) );
@@ -61,6 +61,7 @@ namespace Blazorise
             await base.OnFirstAfterRenderAsync();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing && Rendered )
@@ -72,16 +73,30 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
+        /// <inheritdoc/>
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.NumericEdit( Plaintext ) );
+            builder.Append( ClassProvider.NumericEditSize( Size ), Size != Size.None );
+            builder.Append( ClassProvider.NumericEditColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.NumericEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+
+            base.BuildClasses( builder );
+        }
+
+        /// <inheritdoc/>
         public Task SetValue( string value )
         {
             return CurrentValueHandler( value );
         }
 
+        /// <inheritdoc/>
         protected override Task OnInternalValueChanged( TValue value )
         {
             return ValueChanged.InvokeAsync( value );
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
             if ( Converters.TryChangeType<TValue>( value, out var result, CurrentCultureInfo ) )
@@ -94,6 +109,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override string FormatValueAsString( TValue value )
         {
             switch ( value )
@@ -127,6 +143,42 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
+        protected override async Task OnBlurHandler( FocusEventArgs eventArgs )
+        {
+            await base.OnBlurHandler( eventArgs );
+
+            if ( !string.IsNullOrEmpty( CurrentValueAsString )
+                && CurrentValue is IComparable number
+                && number != null )
+            {
+                var defaultValue = DefaultValue as IComparable;
+
+                // We still need to allow for default value to be entered.
+                // - Non nullable value: 0 or empty
+                // - Nullable value:     null or empty
+                if ( number.CompareTo( defaultValue ) != 0 )
+                {
+                    if ( Max is IComparable max && max.CompareTo( defaultValue ) != 0 && number.CompareTo( max ) > 0 )
+                    {
+                        number = max;
+                    }
+                    else if ( Min is IComparable min && min.CompareTo( defaultValue ) != 0 && number.CompareTo( min ) < 0 )
+                    {
+                        number = min;
+                    }
+
+                    // cast back to TValue and check if number has changed
+                    if ( Converters.TryChangeType<TValue>( number, out var currentValue, CurrentCultureInfo )
+                        && !CurrentValue.IsEqual( currentValue ) )
+                    {
+                        // number has changed so we need to re-set the CurrentValue and re-run any validation
+                        await CurrentValueHandler( FormatValueAsString( currentValue ) );
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -134,6 +186,7 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
+        /// <inheritdoc/>
         protected override TValue InternalValue { get => Value; set => Value = value; }
 
         /// <summary>
@@ -192,8 +245,7 @@ namespace Blazorise
         /// <remarks>
         /// https://www.w3schools.com/tags/ref_language_codes.asp
         /// </remarks>
-        [Parameter]
-        public string Culture { get; set; }
+        [Parameter] public string Culture { get; set; }
 
         /// <summary>
         /// The minimum value to accept for this input.

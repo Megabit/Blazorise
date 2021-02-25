@@ -35,7 +35,7 @@ namespace Blazorise.AntDesign
                 slickWidth = (int)listRect.BoundingClientRect.Width;
                 totalWidth = slickWidth * ( carouselSlides.Count * 2 + 1 );
 
-                StateHasChanged();
+                await InvokeAsync( StateHasChanged );
             }
 
             await base.OnAfterRenderAsync( firstRender );

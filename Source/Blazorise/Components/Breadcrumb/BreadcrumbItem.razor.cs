@@ -34,7 +34,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        protected override Task OnAfterRenderAsync( bool firstRender )
+        protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
             {
@@ -42,11 +42,11 @@ namespace Blazorise
                 {
                     Active = true;
 
-                    StateHasChanged();
+                    await InvokeAsync( StateHasChanged );
                 }
             }
 
-            return base.OnAfterRenderAsync( firstRender );
+            await base.OnAfterRenderAsync( firstRender );
         }
 
         protected override void Dispose( bool disposing )
@@ -66,7 +66,7 @@ namespace Blazorise
             {
                 Active = args.Location == absoluteUri;
 
-                StateHasChanged();
+                InvokeAsync( StateHasChanged );
             }
         }
 

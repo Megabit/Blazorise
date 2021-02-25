@@ -1380,6 +1380,17 @@ select.e-select {
     padding: .65rem 1.2rem;
     font-size: 1.4rem; }
 
+.e-buttons.unified.e-buttons-vertical {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; }
+    .e-buttons.unified.e-buttons-vertical .e-btn {
+        display: block;
+        width: 100%;
+        border-radius: 0; }
+    .e-buttons.unified.e-buttons-vertical .e-btn:not(:last-child) {
+        margin: -1px; }
+
 .e-face-subtitle {
     font-size: 1.25rem;
     font-weight: 300; }

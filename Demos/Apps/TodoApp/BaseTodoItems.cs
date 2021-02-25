@@ -67,7 +67,7 @@ namespace TodoApp
 
         protected void OnTodoStatusChanged( bool isChecked )
         {
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
     }
 }

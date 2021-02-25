@@ -1,28 +1,41 @@
 ﻿#region Using directives
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.
+    /// </summary>
     public partial class Alert : BaseComponent
     {
         #region Members
 
-        private AlertStore store = new AlertStore
+        /// <summary>
+        /// Holds the state of the <see cref="Alert"/> component.
+        /// </summary>
+        private AlertState state = new()
         {
             Color = Color.None,
         };
 
+        /// <summary>
+        /// Flag that indicates if <see cref="Alert"/> contains the <see cref="AlertMessage"/> component.
+        /// </summary>
         private bool hasMessage;
 
+        /// <summary>
+        /// Flag that indicates if <see cref="Alert"/> contains the <see cref="AlertDescription"/> component.
+        /// </summary>
         private bool hasDescription;
 
         #endregion
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Alert() );
@@ -36,6 +49,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             HandleVisibilityState( Visible );
@@ -48,8 +62,11 @@ namespace Blazorise
         /// </summary>
         public void Show()
         {
+            if ( Visible )
+                return;
+
             Visible = true;
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -57,8 +74,11 @@ namespace Blazorise
         /// </summary>
         public void Hide()
         {
+            if ( !Visible )
+                return;
+
             Visible = false;
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -67,18 +87,26 @@ namespace Blazorise
         public void Toggle()
         {
             Visible = !Visible;
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
-        private void HandleVisibilityState( bool active )
+        /// <summary>
+        /// Sets the visibility state of this <see cref="Alert"/> component.
+        /// </summary>
+        /// <param name="visible">True if <see cref="Alert"/> is visible.</param>
+        private void HandleVisibilityState( bool visible )
         {
-            Display = active
+            Display = visible
                 ? Blazorise.Display.Always
                 : Blazorise.Display.None;
 
             DirtyClasses();
         }
 
+        /// <summary>
+        /// Raises all registered events for this <see cref="Alert"/> component.
+        /// </summary>
+        /// <param name="visible">True if <see cref="Alert"/> is visible.</param>
         private void RaiseEvents( bool visible )
         {
             VisibleChanged.InvokeAsync( visible );
@@ -92,7 +120,7 @@ namespace Blazorise
             hasMessage = true;
 
             DirtyClasses();
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -103,7 +131,7 @@ namespace Blazorise
             hasDescription = true;
 
             DirtyClasses();
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion
@@ -116,10 +144,10 @@ namespace Blazorise
         [Parameter]
         public bool Dismisable
         {
-            get => store.Dismisable;
+            get => state.Dismisable;
             set
             {
-                store.Dismisable = value;
+                state = state with { Dismisable = value };
 
                 DirtyClasses();
             }
@@ -131,13 +159,13 @@ namespace Blazorise
         [Parameter]
         public bool Visible
         {
-            get => store.Visible;
+            get => state.Visible;
             set
             {
-                if ( value == store.Visible )
+                if ( value == state.Visible )
                     return;
 
-                store.Visible = value;
+                state = state with { Visible = value };
 
                 HandleVisibilityState( value );
                 RaiseEvents( value );
@@ -145,7 +173,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Occurs when the alert visibility changes.
+        /// Occurs when the alert visibility state changes.
         /// </summary>
         [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
@@ -155,15 +183,18 @@ namespace Blazorise
         [Parameter]
         public Color Color
         {
-            get => store.Color;
+            get => state.Color;
             set
             {
-                store.Color = value;
+                state = state with { Color = value };
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Alert"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

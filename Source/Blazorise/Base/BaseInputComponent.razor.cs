@@ -1,7 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -34,6 +32,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -47,7 +46,7 @@ namespace Blazorise
                 {
                     if ( ParentModal != null )
                     {
-                        ParentModal.AddFocusableComponent( this );
+                        ParentModal.NotifyFocusableComponentInitialized( this );
                     }
                     else
                     {
@@ -61,25 +60,13 @@ namespace Blazorise
                 {
                     if ( ParentModal != null )
                     {
-                        ParentModal.RemoveFocusableComponent( this );
+                        ParentModal.NotifyFocusableComponentRemoved( this );
                     }
                 }
             }
         }
 
-        protected void InitializeValidation()
-        {
-            if ( validationInitialized )
-                return;
-
-            // link to the parent component
-            ParentValidation.InitializeInput( this );
-
-            ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
-
-            validationInitialized = true;
-        }
-
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -92,17 +79,27 @@ namespace Blazorise
 
                 if ( ParentModal != null )
                 {
-                    ParentModal.RemoveFocusableComponent( this );
+                    ParentModal.NotifyFocusableComponentRemoved( this );
                 }
             }
 
             base.Dispose( disposing );
         }
 
-        private void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs e )
+        /// <summary>
+        /// Initializes input component for validation.
+        /// </summary>
+        protected void InitializeValidation()
         {
-            DirtyClasses();
-            StateHasChanged();
+            if ( validationInitialized )
+                return;
+
+            // link to the parent component
+            ParentValidation.InitializeInput( this );
+
+            ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
+
+            validationInitialized = true;
         }
 
         /// <summary>
@@ -131,14 +128,34 @@ namespace Blazorise
             }
 
             // send the value to the validation for processing
-            ParentValidation?.NotifyInputChanged();
+            ParentValidation?.NotifyInputChanged<TValue>( default );
         }
 
+        /// <summary>
+        /// Parses a string value and convert it to a <see cref="TValue"/>.
+        /// </summary>
+        /// <param name="value">A string value to convert.</param>
+        /// <returns>Returns the result of parse operation.</returns>
         protected abstract Task<ParseValue<TValue>> ParseValueFromStringAsync( string value );
 
+        /// <summary>
+        /// Formats the supplied value to it's valid string representation.
+        /// </summary>
+        /// <param name="value">Value to format.</param>
+        /// <returns>Reterns value formated as string.</returns>
         protected virtual string FormatValueAsString( TValue value )
             => value?.ToString();
 
+        /// <summary>
+        /// Prepares the right value to be sent for validation.
+        /// </summary>
+        /// <remarks>
+        /// In some special cases we need to know what is the right value of the underline component.
+        /// Like for example for <see cref="Select{TValue}"/> component where we can have value represented as
+        /// a single or multiple value, depending on the context where it is used.
+        /// </remarks>
+        /// <param name="value">Value to prepare for valudation.</param>
+        /// <returns>Returns the value that is going to be validated.</returns>
         protected virtual object PrepareValueForValidation( TValue value )
             => value;
 
@@ -151,13 +168,102 @@ namespace Blazorise
         /// <inheritdoc/>
         public void Focus( bool scrollToElement = true )
         {
-            _ = FocusAsync( scrollToElement );
+            InvokeAsync( () => FocusAsync( scrollToElement ) );
         }
 
         /// <inheritdoc/>
         public async Task FocusAsync( bool scrollToElement = true )
         {
             await JSRunner.Focus( ElementRef, ElementId, scrollToElement );
+        }
+
+        /// <summary>
+        /// Handler for @onkeydown event.
+        /// </summary>
+        /// <param name="eventArgs">Information about the keyboard down event.</param>
+        /// <returns>Returns awaitable task</returns>
+        protected virtual Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
+        {
+            return KeyDown.InvokeAsync( eventArgs );
+        }
+
+        /// <summary>
+        /// Handler for @onkeypress event.
+        /// </summary>
+        /// <param name="eventArgs">Information about the keyboard pressed event.</param>
+        /// <returns>Returns awaitable task</returns>
+        protected virtual Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
+        {
+            return KeyPress.InvokeAsync( eventArgs );
+        }
+
+        /// <summary>
+        /// Handler for @onkeyup event.
+        /// </summary>
+        /// <param name="eventArgs">Information about the keyboard up event.</param>
+        /// <returns>Returns awaitable task</returns>
+        protected virtual Task OnKeyUpHandler( KeyboardEventArgs eventArgs )
+        {
+            return KeyUp.InvokeAsync( eventArgs );
+        }
+
+        /// <summary>
+        /// Handler for @onblur event.
+        /// </summary>
+        /// <param name="eventArgs">Information about the focus event.</param>
+        /// <returns>Returns awaitable task</returns>
+        protected virtual Task OnBlurHandler( FocusEventArgs eventArgs )
+        {
+            return Blur.InvokeAsync( eventArgs );
+        }
+
+        /// <summary>
+        /// Handler for @onfocus event.
+        /// </summary>
+        /// <param name="eventArgs">Information about the focus event.</param>
+        /// <returns>Returns awaitable task</returns>
+        protected virtual Task OnFocusHandler( FocusEventArgs eventArgs )
+        {
+            return OnFocus.InvokeAsync( eventArgs );
+        }
+
+        /// <summary>
+        /// Handler for @onfocusin event.
+        /// </summary>
+        /// <param name="eventArgs">Information about the focus event.</param>
+        /// <returns>Returns awaitable task</returns>
+        protected virtual Task OnFocusInHandler( FocusEventArgs eventArgs )
+        {
+            return FocusIn.InvokeAsync( eventArgs );
+        }
+
+        /// <summary>
+        /// Handler for @onfocusout event.
+        /// </summary>
+        /// <param name="eventArgs">Information about the focus event.</param>
+        /// <returns>Returns awaitable task</returns>
+        protected virtual Task OnFocusOutHandler( FocusEventArgs eventArgs )
+        {
+            return FocusOut.InvokeAsync( eventArgs );
+        }
+
+        /// <summary>
+        /// Forces the <see cref="Validation"/>(if any is used) to re-validate with the new custom or internal value.
+        /// </summary>
+        public void Revalidate()
+        {
+            ParentValidation?.NotifyInputChanged<TValue>( default );
+        }
+
+        /// <summary>
+        /// Handler for validation status change event.
+        /// </summary>
+        /// <param name="sender">Object that raised the event.</param>
+        /// <param name="eventArgs">Information about the validation status.</param>
+        protected async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+        {
+            DirtyClasses();
+            await InvokeAsync( StateHasChanged );
         }
 
         #endregion
@@ -167,13 +273,15 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
-        [Inject] protected BlazoriseOptions Options { get; set; }
-
         /// <inheritdoc/>
-        public virtual object ValidationValue => InternalValue;
+        public virtual object ValidationValue => CustomValidationValue != null
+            ? CustomValidationValue.Invoke()
+            : InternalValue;
 
+        /// <summary>
+        /// Returns true if input belong to a <see cref="FieldBody"/>.
+        /// </summary>
         protected bool ParentIsFieldBody => ParentFieldBody != null;
-
 
         /// <summary>
         /// Returns the default value for the <typeparamref name="TValue"/> type.
@@ -189,6 +297,9 @@ namespace Blazorise
         /// </remarks>
         protected abstract TValue InternalValue { get; set; }
 
+        /// <summary>
+        /// Gets or sets the current input value.
+        /// </summary>
         protected TValue CurrentValue
         {
             get => InternalValue;
@@ -197,19 +308,27 @@ namespace Blazorise
                 if ( !value.IsEqual( InternalValue ) )
                 {
                     InternalValue = value;
-                    _ = OnInternalValueChanged( value );
+                    InvokeAsync( () => OnInternalValueChanged( value ) );
                 }
             }
         }
 
+        /// <summary>
+        /// Gets or sets the current input value represented as a string.
+        /// </summary>
         protected string CurrentValueAsString
         {
             get => FormatValueAsString( CurrentValue );
             set
             {
-                _ = CurrentValueHandler( value );
+                InvokeAsync( () => CurrentValueHandler( value ) );
             }
         }
+
+        /// <summary>
+        /// Holds the information about the Blazorise global options.
+        /// </summary>
+        [Inject] protected BlazoriseOptions Options { get; set; }
 
         /// <summary>
         /// Sets the size of the input control.
@@ -272,6 +391,26 @@ namespace Blazorise
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>
+        /// Occurs when a key is pressed down while the control has focus.
+        /// </summary>
+        [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
+
+        /// <summary>
+        /// Occurs when a key is pressed while the control has focus.
+        /// </summary>
+        [Parameter] public EventCallback<KeyboardEventArgs> KeyPress { get; set; }
+
+        /// <summary>
+        /// Occurs when a key is released while the control has focus.
+        /// </summary>
+        [Parameter] public EventCallback<KeyboardEventArgs> KeyUp { get; set; }
+
+        /// <summary>
+        /// The blur event fires when an element has lost focus.
+        /// </summary>
+        [Parameter] public EventCallback<FocusEventArgs> Blur { get; set; }
+
+        /// <summary>
         /// Occurs when the input box gains or loses focus.
         /// </summary>
         [Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; }
@@ -290,6 +429,16 @@ namespace Blazorise
         /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
         /// </summary>
         [Parameter] public int? TabIndex { get; set; }
+
+        /// <summary>
+        /// Used to provide custom validation value on which the validation will be processed with
+        /// the <see cref="Validation.Validator"/> handler.
+        /// </summary>
+        /// <remarks>
+        /// Should be used carefully as it's only meant for some special cases when input is used
+        /// in a wrapper component, like Autocomplete or SelectList.
+        /// </remarks>
+        [Parameter] public Func<TValue> CustomValidationValue { get; set; }
 
         /// <summary>
         /// Parent validation container.

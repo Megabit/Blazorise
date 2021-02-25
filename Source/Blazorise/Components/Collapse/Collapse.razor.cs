@@ -26,7 +26,7 @@ namespace Blazorise
         public void Toggle()
         {
             Visible = !Visible;
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion

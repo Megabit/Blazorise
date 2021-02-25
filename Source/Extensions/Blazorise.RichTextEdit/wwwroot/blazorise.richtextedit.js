@@ -1,13 +1,19 @@
 ﻿window.blazoriseRichTextEdit = {
-    initialize: (dotnetAdapter, editorRef, toolbarRef, readOnly, placeholder, theme, onContentChanged, bindEnter,
+    initialize: (dotnetAdapter, containerRef, readOnly, placeholder, theme, onContentChanged, bindEnter,
         onEnter, onFocus, onBlur, configure) => {
-        if (!editorRef)
+        if (!containerRef)
             return false;
+
+        const editorRef = containerRef.getElementsByClassName("rte-editor")[0];
+        const toolbarRef = containerRef.getElementsByClassName("rte-toolbar")[0];
+        const contentRef = containerRef.getElementsByClassName("rte-content")[0];
+
         let options = {
             modules: {
                 toolbar: toolbarRef,
                 keyboard: undefined
             },
+            bounds: containerRef,
             placeholder: placeholder,
             readOnly: readOnly,
             theme: theme
@@ -23,7 +29,7 @@
                         altKey: false,
                         handler: (range, context) => {
                             if (context.format.list) {
-                                editorRef.quill.insertText(range.index, '\n');
+                                editorRef.quill.insertText(range.index, "\n");
                             } else {
                                 dotnetAdapter.invokeMethodAsync(onEnter);
                             }
@@ -34,41 +40,59 @@
         }
         if (configure) {
             try {
-                const updatedOptions = blazoriseRichTextEdit.configure(configure, window, options);
-                if (updatedOptions) {
-                    options = updatedOptions;
-                }
+                blazoriseRichTextEdit.configure(configure, window, [ options ]);
             } catch (err) {
                 console.error(err);
             }
         }
         const quill = new Quill(editorRef, options);
-        quill.on('text-change',
+        quill.on("text-change",
             (_dx, _dy, source) => {
-                if (source === 'user') {
+                if (source === "user") {
                     dotnetAdapter.invokeMethodAsync(onContentChanged);
                 }
             });
-        quill.on('selection-change', function (range, oldRange, source) {
+        quill.on("selection-change", function (range, oldRange, source) {
             if (range === null && oldRange !== null) {
                 dotnetAdapter.invokeMethodAsync(onBlur);
             } else if (range !== null && oldRange === null)
                 dotnetAdapter.invokeMethodAsync(onFocus);
         });
+
+        function setContent() {
+            quill.setContents(quill.clipboard.convert(contentRef.innerHTML));
+            dotnetAdapter.invokeMethodAsync(onContentChanged);
+        }
+
+        // create an observer for content changes
+        quill.contentObserver = new MutationObserver(() => setContent());
+        quill.contentObserver.observe(contentRef,
+            {
+                attributes: true,
+                childList: true,
+                characterData: true
+            });
+
+        setContent();
+
         editorRef.quill = quill;
         return true;
     },
-    configure: (functionName, context, options) => {
+    configure: (functionName, context, args) => {
         const namespaces = functionName.split(".");
         const func = namespaces.pop();
         for (let i = 0; i < namespaces.length; i++) {
             context = context[namespaces[i]];
         }
-        return context[func].apply(context, options);
+        return context[func].apply(context, args);
     },
     destroy: (editorRef) => {
         if (!editorRef)
             return false;
+
+        if (editorRef.quill.contentObserver)
+            editorRef.quill.contentObserver.disconnect();
+
         delete editorRef.quill;
         return true;
     },

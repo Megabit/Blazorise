@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.Steps
-<CascadingValue Value=this>
-    <CascadingValue Value="Store">
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="State">
         @if ( Items != null && Content != null )
         {
             <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">

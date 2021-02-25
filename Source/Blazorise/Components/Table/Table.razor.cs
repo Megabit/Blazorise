@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-    public partial class Table : BaseComponent
+    /// <summary>
+    /// The <see cref="Table"/> component is used for displaying tabular data.
+    /// </summary>
+    public partial class Table : BaseDraggableComponent
     {
         #region Members
 
@@ -27,6 +30,9 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// Default <see cref="Table"/> constructor.
+        /// </summary>
         public Table()
         {
             ResponsiveClassBuilder = new ClassBuilder( BuildResponsiveClasses );
@@ -36,6 +42,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Table() );
@@ -49,6 +56,10 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Builds a list of classnames for the responsive container element.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
         private void BuildResponsiveClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableResponsive() );
@@ -58,8 +69,14 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Class builder used to build the classnames for responsive element.
+        /// </summary>
         protected ClassBuilder ResponsiveClassBuilder { get; private set; }
 
+        /// <summary>
+        /// Gets the classname for a responsive element.
+        /// </summary>
         protected string ResponsiveClassNames => ResponsiveClassBuilder.Class;
 
         /// <summary>
@@ -167,6 +184,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Table"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

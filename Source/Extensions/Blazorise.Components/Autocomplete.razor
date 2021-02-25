@@ -1,7 +1,29 @@
 ﻿@typeparam TItem
 @typeparam TValue
-<Dropdown @ref="dropdownRef" ElementId="@ElementId" Class="@DropdownClassNames" Style="@Style" Attributes="@Attributes" Visible="@DropdownVisible">
-    <TextEdit @ref="@textEditRef" Role="TextRole.Search" Text="@SelectedText" TextChanged="@HandleTextChanged" Placeholder="@Placeholder" Size="@Size" Disabled="@Disabled" TabIndex="@TabIndex" KeyDown="@HandleTextKeyDown" ChangeTextOnKeyPress="@ChangeTextOnKeyPress" DelayTextOnKeyPress="@DelayTextOnKeyPress" DelayTextOnKeyPressInterval="@DelayTextOnKeyPressInterval" />
+<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@DropdownClassNames" Style="@Style" Attributes="@Attributes" Visible="@DropdownVisible">
+    <Validation Validator="@(Validator ?? ValidationRule.None)">
+        <TextEdit @ref="@textEditRef"
+                  Role="TextRole.Search"
+                  Text="@SelectedText"
+                  TextChanged="@OnTextChangedHandler"
+                  Placeholder="@Placeholder"
+                  Size="@Size"
+                  Disabled="@Disabled"
+                  TabIndex="@TabIndex"
+                  KeyDown="@OnTextKeyDownHandler"
+                  FocusIn="@OnTextFocusInHandler"
+                  Blur="@OnTextBlurHandler"
+                  ChangeTextOnKeyPress="@ChangeTextOnKeyPress"
+                  DelayTextOnKeyPress="@DelayTextOnKeyPress"
+                  DelayTextOnKeyPressInterval="@DelayTextOnKeyPressInterval"
+                  CustomValidationValue="@(()=>SelectedValue?.ToString())">
+            <Feedback>
+                <ValidationError />
+                <ValidationSuccess />
+                <ValidationNone />
+            </Feedback>
+        </TextEdit>
+    </Validation>
     <DropdownMenu>
         @if ( DropdownVisible )
         {
@@ -12,7 +34,7 @@
                 var text = TextField?.Invoke( item );
                 var value = ValueField != null ? ValueField.Invoke( item ) : default;
 
-                <DropdownItem Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@HandleDropdownItemClicked">@text</DropdownItem>
+                <DropdownItem Active="@(i == ActiveItemIndex)" Value="@value" Clicked="@OnDropdownItemClicked">@text</DropdownItem>
             }
         }
     </DropdownMenu>

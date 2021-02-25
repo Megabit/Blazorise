@@ -4,17 +4,17 @@
 namespace Blazorise
 {
     /// <summary>
-    /// Element orientation.
+    /// Defines the orientation of the elements.
     /// </summary>
     public enum Orientation
     {
         /// <summary>
-        /// Horizontal orientation.
+        /// Elements will be stacked horizontally.
         /// </summary>
         Horizontal,
 
         /// <summary>
-        /// Vertical orientation.
+        /// Elements will be stacked vertically.
         /// </summary>
         Vertical,
     }

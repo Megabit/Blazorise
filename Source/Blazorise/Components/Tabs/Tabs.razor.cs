@@ -1,29 +1,44 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Tabs organize content across different screens, data sets, and other interactions.
+    /// </summary>
     public partial class Tabs : BaseComponent
     {
         #region Members
 
-        private TabsStore store = new TabsStore
+        /// <summary>
+        /// Holds the state of this tabs component.
+        /// </summary>
+        private TabsState state = new()
         {
             TabPosition = TabPosition.Top,
         };
 
-        private List<string> tabItems = new List<string>();
+        /// <summary>
+        /// List of all tab names that are placed inside if this component.
+        /// </summary>
+        private List<string> tabItems = new();
 
-        private List<string> tabPanels = new List<string>();
+        /// <summary>
+        /// List of all panel names that are placed inside if this component.
+        /// </summary>
+        private List<string> tabPanels = new();
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Default <see cref="Tabs"/> constructor.
+        /// </summary>
         public Tabs()
         {
             ContentClassBuilder = new ClassBuilder( BuildContentClasses );
@@ -33,6 +48,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Tabs( Pills ) );
@@ -44,29 +60,49 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        private void BuildContentClasses( ClassBuilder builder )
+        /// <summary>
+        /// Builds a list of classnames for the content container element.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
+        protected virtual void BuildContentClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TabsContent() );
         }
 
+        /// <summary>
+        /// Notify this <see cref="Tabs"/> component that it's <see cref="Tab"/> child component is placed inside of it.
+        /// </summary>
+        /// <param name="name">The name of the tab.</param>
         internal void NotifyTabInitialized( string name )
         {
             if ( !tabItems.Contains( name ) )
                 tabItems.Add( name );
         }
 
+        /// <summary>
+        /// Notify this <see cref="Tabs"/> component that it's <see cref="Tab"/> child component is removed from it.
+        /// </summary>
+        /// <param name="name">The name of the tab.</param>
         internal void NotifyTabRemoved( string name )
         {
             if ( tabItems.Contains( name ) )
                 tabItems.Remove( name );
         }
 
+        /// <summary>
+        /// Notify this <see cref="Tabs"/> component that it's <see cref="TabPanel"/> child component is placed inside of it.
+        /// </summary>
+        /// <param name="name">The name of the panel.</param>
         internal void NotifyTabPanelInitialized( string name )
         {
             if ( !tabPanels.Contains( name ) )
                 tabPanels.Add( name );
         }
 
+        /// <summary>
+        /// Notify this <see cref="Tabs"/> component that it's <see cref="TabPanel"/> child component is removed from it.
+        /// </summary>
+        /// <param name="name">The name of the panel.</param>
         internal void NotifyTabPanelRemoved( string name )
         {
             if ( tabPanels.Contains( name ) )
@@ -76,22 +112,31 @@ namespace Blazorise
         /// <summary>
         /// Sets the active tab by the name.
         /// </summary>
-        /// <param name="tabName"></param>
+        /// <param name="tabName">The name of the tab.</param>
         public void SelectTab( string tabName )
         {
             SelectedTab = tabName;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion
 
         #region Properties
 
-        protected TabsStore Store => store;
+        /// <summary>
+        /// Gets the reference to the tabs state object.
+        /// </summary>
+        protected TabsState State => state;
 
+        /// <summary>
+        /// True if <see cref="Tabs"/> is placed inside of <see cref="CardHeader"/> component.
+        /// </summary>
         protected bool IsCards => CardHeader != null;
 
+        /// <summary>
+        /// Gets or sets the class builder for the content container element.
+        /// </summary>
         protected ClassBuilder ContentClassBuilder { get; private set; }
 
         /// <summary>
@@ -99,10 +144,19 @@ namespace Blazorise
         /// </summary>
         protected string ContentClassNames => ContentClassBuilder.Class;
 
-        protected int IndexOfSelectedTab => tabItems.IndexOf( store.SelectedTab );
+        /// <summary>
+        /// Get the index of the currently selected tab.
+        /// </summary>
+        protected int IndexOfSelectedTab => tabItems.IndexOf( state.SelectedTab );
 
+        /// <summary>
+        /// Gets the list of all tab item names that are placed inside of this container.
+        /// </summary>
         protected IReadOnlyList<string> TabItems => tabItems;
 
+        /// <summary>
+        /// Gets the list of all tab panel names that are placed inside of this container.
+        /// </summary>
         protected IReadOnlyList<string> TabPanels => tabPanels;
 
         /// <summary>
@@ -111,10 +165,10 @@ namespace Blazorise
         [Parameter]
         public bool Pills
         {
-            get => store.Pills;
+            get => state.Pills;
             set
             {
-                store.Pills = value;
+                state = state with { Pills = value };
 
                 DirtyClasses();
             }
@@ -126,10 +180,10 @@ namespace Blazorise
         [Parameter]
         public bool FullWidth
         {
-            get => store.FullWidth;
+            get => state.FullWidth;
             set
             {
-                store.FullWidth = value;
+                state = state with { FullWidth = value };
 
                 DirtyClasses();
             }
@@ -141,10 +195,10 @@ namespace Blazorise
         [Parameter]
         public bool Justified
         {
-            get => store.Justified;
+            get => state.Justified;
             set
             {
-                store.Justified = value;
+                state = state with { Justified = value };
 
                 DirtyClasses();
             }
@@ -156,10 +210,10 @@ namespace Blazorise
         [Parameter]
         public TabPosition TabPosition
         {
-            get => store.TabPosition;
+            get => state.TabPosition;
             set
             {
-                store.TabPosition = value;
+                state = state with { TabPosition = value };
 
                 DirtyClasses();
             }
@@ -171,17 +225,17 @@ namespace Blazorise
         [Parameter]
         public string SelectedTab
         {
-            get => store.SelectedTab;
+            get => state.SelectedTab;
             set
             {
                 // prevent tabs from calling the same code multiple times
-                if ( value == store.SelectedTab )
+                if ( value == state.SelectedTab )
                     return;
 
-                store.SelectedTab = value;
+                state = state with { SelectedTab = value };
 
                 // raise the tabchanged notification                
-                SelectedTabChanged.InvokeAsync( store.SelectedTab );
+                SelectedTabChanged.InvokeAsync( state.SelectedTab );
 
                 DirtyClasses();
             }
@@ -192,12 +246,24 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<string> SelectedTabChanged { get; set; }
 
+        /// <summary>
+        /// Cascaded parent <see cref="CardHeader"/> when <see cref="Tabs"/> is placed inside of card.
+        /// </summary>
         [CascadingParameter] protected CardHeader CardHeader { get; set; }
 
+        /// <summary>
+        /// Container for tab items.
+        /// </summary>
         [Parameter] public RenderFragment Items { get; set; }
 
+        /// <summary>
+        /// Container for tab panes.
+        /// </summary>
         [Parameter] public RenderFragment Content { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Tabs"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

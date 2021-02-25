@@ -346,8 +346,14 @@ input.form-control[type=color] {
     background-color: #3273dc;
     color: #fff; }
 
-.modal-backdrop {
-    z-index: -1; }
+.b-layout-header-fixed {
+    z-index: 1020; }
+
+.b-layout-footer-fixed {
+    z-index: 1020; }
+
+.b-layout-sider-content {
+    z-index: 1021; }
 
 .modal.show {
     animation-duration: 0.25s;

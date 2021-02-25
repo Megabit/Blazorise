@@ -1,7 +1,7 @@
 ﻿@typeparam TValue
 @inherits Blazorise.Select<TValue>
 @using Blazorise.Extensions
-<CascadingValue Value=this>
+<CascadingValue Value="@this" IsFixed="true">
     <div @ref="@ElementRef" id="@ElementId" class="@ContainerClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" @attributes="@Attributes">
         <div id="@SelectorElementId" class="ant-select-selector" @onclick="@OnSelectorClickHandler">
             @if ( Multiple )
@@ -25,7 +25,7 @@
             else
             {
                 <span class="ant-select-selection-search">
-                    <input id="@InputElementId" class="ant-select-selection-search-input" role="combobox" tabindex="@TabIndex" @onfocus="@OnFocus" @onfocusin="@FocusIn" @onfocusout="@FocusOut" readonly="true" multiple="@Multiple" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="false" autocomplete="off" aria-autocomplete="list" unselectable="on">
+                    <input id="@InputElementId" class="ant-select-selection-search-input" role="combobox" tabindex="@TabIndex" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" readonly="true" multiple="@Multiple" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="false" autocomplete="off" aria-autocomplete="list" unselectable="on">
                 </span>
                 <span class="ant-select-selection-item">
                     @SelectedItem

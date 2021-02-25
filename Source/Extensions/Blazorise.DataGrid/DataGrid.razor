@@ -3,12 +3,12 @@
 @using Blazorise.Extensions
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
-<CascadingValue Value=this>
+<CascadingValue Value="@this" IsFixed="true">
     @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
-        <_DataGridPagination PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="OnPaginationItemClick" />
+        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@OnPaginationItemClick" New="@OnNewCommand" Edit="@OnEditCommand" Delete="@OnDeleteCommand" SelectedRow="@SelectedRow" ClearFilter="@OnClearFilterCommand" />
     }
-    <Table ElementId="@ElementId" Class="@Class" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive">
+    <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive">
         <TableHeader>
             @if ( ShowCaptions )
             {
@@ -17,9 +17,9 @@
                     {
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {
-                            @if ( Editable )
+                            @if ( IsCommandVisible )
                             {
-                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.HeaderCellStyle" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
+                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment">
                                     @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                     {
                                         <_DataGridNewCommand TItem="TItem" New="@OnNewCommand" />
@@ -31,14 +31,14 @@
                         {
                             @if ( MultiSelect )
                             {
-                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.HeaderCellStyle" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
-                                    <_DataGridMultiSelectAll TItem="TItem" MultiSelectAll="OnMultiSelectAll"></_DataGridMultiSelectAll>
+                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment">
+                                    <_DataGridMultiSelectAll TItem="TItem" MultiSelectAll="@OnMultiSelectAll" IsIndeterminate="@IsMultiSelectAllIndeterminate"></_DataGridMultiSelectAll>
                                 </TableHeaderCell>
                             }
                         }
                         else
                         {
-                            <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable ? " cursor: pointer" : "")}")" Clicked="@(async () => await OnSortClicked( column ) )" width="@column.Width" TextAlignment="@column.HeaderTextAlignment">
+                            <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable ? "; cursor: pointer" : "")}{(column.Width != null ? $"; width: {column.Width}" : "")}".TrimStart( ' ', ';' ))" Clicked="@(async () => await OnSortClicked( column ) )" TextAlignment="@column.HeaderTextAlignment">
                                 @if ( column.ShowCaption )
                                 {
                                     @if ( column.CaptionTemplate != null )
@@ -66,16 +66,16 @@
                     {
                         @if ( !column.Filterable )
                         {
-                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width"></TableHeaderCell>
+                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()"></TableHeaderCell>
                             continue;
                         }
 
                         @if ( column.ColumnType == DataGridColumnType.Command )
                         {
-                            @if ( Editable )
+                            @if ( IsCommandVisible )
                             {
                                 // since Clear Filter is located in the command column it can be visible onle when Edit is enabled
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
                                     <_DataGridClearFilterCommand TItem="TItem" ClearFilter="@OnClearFilterCommand" />
                                 </TableHeaderCell>
                             }
@@ -89,7 +89,7 @@
                         }
                         else
                         {
-                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.FilterCellStyle" width="@column.Width">
+                            <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
                                 @if ( column.FilterTemplate != null )
                                 {
                                     @(column.FilterTemplate( column.Filter ))
@@ -156,7 +156,7 @@
     </Table>
     @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
-        <_DataGridPagination PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="OnPaginationItemClick" />
+        <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@OnPaginationItemClick" New="@OnNewCommand" Edit="@OnEditCommand" Delete="@OnDeleteCommand" SelectedRow="@SelectedRow" ClearFilter="@OnClearFilterCommand" />
     }
     @if ( editItem != null && EditMode == DataGridEditMode.Popup )
     {
@@ -173,7 +173,7 @@
     }
 </CascadingValue>
 @* This one is to hold information about columns *@
-<CascadingValue Value=this>
+<CascadingValue Value="@this" IsFixed="true">
     @DataGridAggregates
     @DataGridColumns
     @ChildContent

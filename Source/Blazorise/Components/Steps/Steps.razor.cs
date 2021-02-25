@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -11,11 +11,11 @@ namespace Blazorise
     {
         #region Members
 
-        private StepsStore store = new StepsStore();
+        private StepsState state = new();
 
-        private List<string> stepItems = new List<string>();
+        private readonly List<string> stepItems = new();
 
-        private List<string> stepPanels = new List<string>();
+        private readonly List<string> stepPanels = new();
 
         #endregion
 
@@ -74,7 +74,7 @@ namespace Blazorise
         {
             SelectedStep = stepName;
 
-            InvokeAsync( () => StateHasChanged() );
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Blazorise
 
         #region Properties
 
-        protected StepsStore Store => store;
+        protected StepsState State => state;
 
         protected IReadOnlyList<string> StepItems => stepItems;
 
@@ -107,17 +107,17 @@ namespace Blazorise
         [Parameter]
         public string SelectedStep
         {
-            get => store.SelectedStep;
+            get => state.SelectedStep;
             set
             {
                 // prevent steps from calling the same code multiple times
-                if ( value == store.SelectedStep )
+                if ( value == state.SelectedStep )
                     return;
 
-                store = store with { SelectedStep = value };
+                state = state with { SelectedStep = value };
 
                 // raise the changed notification
-                SelectedStepChanged.InvokeAsync( store.SelectedStep );
+                SelectedStepChanged.InvokeAsync( state.SelectedStep );
 
                 DirtyClasses();
             }

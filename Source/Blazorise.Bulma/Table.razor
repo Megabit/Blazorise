@@ -1,10 +1,26 @@
 ﻿@inherits Blazorise.Table
-<CascadingValue Value="this">
+<CascadingValue Value="@this" IsFixed="true">
     @if ( Responsive )
     {
         <div style="display: grid;">
             <div class="@ResponsiveClassNames">
-                <table id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                <table @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
+                       draggable="@Draggable"
+                       @ondrag="@OnDragHandler"
+                       @ondrag:preventDefault="@DragPreventDefault"
+                       @ondragend="@OnDragEndHandler"
+                       @ondragend:preventDefault="@DragEndPreventDefault"
+                       @ondragenter="@OnDragEnterHandler"
+                       @ondragenter:preventDefault="@DragEnterPreventDefault"
+                       @ondragleave="@OnDragLeaveHandler"
+                       @ondragleave:preventDefault="@DragLeavePreventDefault"
+                       @ondragover="@OnDragOverHandler"
+                       @ondragover:preventDefault="@DragOverPreventDefault"
+                       @ondragstart="@OnDragStartHandler"
+                       @ondragstart:preventDefault="@DragStartPreventDefault"
+                       @ondrop="@OnDropHandler"
+                       @ondrop:preventDefault="@DropPreventDefault"
+                       @attributes="@Attributes">
                     @ChildContent
                 </table>
             </div>
@@ -12,7 +28,23 @@
     }
     else
     {
-        <table id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <table @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
+               draggable="@Draggable"
+               @ondrag="@OnDragHandler"
+               @ondrag:preventDefault="@DragPreventDefault"
+               @ondragend="@OnDragEndHandler"
+               @ondragend:preventDefault="@DragEndPreventDefault"
+               @ondragenter="@OnDragEnterHandler"
+               @ondragenter:preventDefault="@DragEnterPreventDefault"
+               @ondragleave="@OnDragLeaveHandler"
+               @ondragleave:preventDefault="@DragLeavePreventDefault"
+               @ondragover="@OnDragOverHandler"
+               @ondragover:preventDefault="@DragOverPreventDefault"
+               @ondragstart="@OnDragStartHandler"
+               @ondragstart:preventDefault="@DragStartPreventDefault"
+               @ondrop="@OnDropHandler"
+               @ondrop:preventDefault="@DropPreventDefault"
+               @attributes="@Attributes">
             @ChildContent
         </table>
     }

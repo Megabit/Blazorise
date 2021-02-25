@@ -29,6 +29,7 @@
                 </CardBody>
                 <CardBody Padding="Padding.Is0.OnAll">
                     <RichTextEdit @ref="richTextEditRef"
+                                  ConfigureQuillJsMethod="blazoriseDemo.configureQuillJs"
                                   ContentChanged="@OnContentChanged"
                                   PlaceHolder="Type your post here..."
                                   ReadOnly="@readOnly"
@@ -74,6 +75,10 @@
                             <RichTextEditToolbarGroup>
                                 <RichTextEditToolbarSelect Action="RichTextEditAction.Color" />
                                 <RichTextEditToolbarSelect Action="RichTextEditAction.Background" />
+                            </RichTextEditToolbarGroup>
+                            <RichTextEditToolbarGroup>
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Link" />
+                                <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
                             </RichTextEditToolbarGroup>
                             <RichTextEditToolbarGroup Float="Float.Right">
                                 <Button Class="btn-icon" Size="Size.ExtraSmall" onClick="window.open('https://www.quilljs.com/','quilljs')"><Icon Name="IconName.InfoCircle" /></Button>
@@ -129,8 +134,15 @@
                     <AlertMessage>Note:</AlertMessage>
                     <AlertDescription>Start typing and change format by key bindings or by selecting the text</AlertDescription>
                 </Alert>
-                <RichTextEdit Style="border: 1px solid" Theme="RichTextEditTheme.Bubble" PlaceHolder="My message" />
+                <RichTextEdit @ref="richTextEditRef2" Style="border: 1px solid" Theme="RichTextEditTheme.Bubble" PlaceHolder="My message" ContentChanged="OnContentChanged2">
+                    <Editor>
+                        @((MarkupString)contentFromCode)
+                    </Editor>
+                </RichTextEdit>
             </CardBody>
+            <CardFooter>
+                <Button Clicked="OnUpdateContent">Update content</Button>
+            </CardFooter>
         </Card>
     </Column>
     <Column ColumnSize="ColumnSize.IsFull.OnTablet.IsHalf.OnDesktop">
@@ -145,11 +157,10 @@
     </Column>
 </Row>
 <Modal @ref="modalRef">
-    <ModalBackdrop />
     <ModalContent Size="ModalSize.Default" Centered="true">
         <ModalHeader>
             <ModalTitle>Saved content</ModalTitle>
-            <CloseButton Clicked="@(() => modalRef.Hide())" />
+            <CloseButton />
         </ModalHeader>
         <ModalBody>
             @((MarkupString) savedContent)
@@ -163,12 +174,19 @@
 @code {
     private Modal modalRef;
     private RichTextEdit richTextEditRef;
+    private RichTextEdit richTextEditRef2;
     private bool readOnly;
     private string contentAsHtml;
     private string contentAsDeltaJson;
     private string contentAsText;
     private string savedContent;
+    private string contentFromCode;
     private string lastEvent;
+
+    protected async Task OnUpdateContent()
+    {
+        contentFromCode = $"<p>Content from code {DateTime.Now}</p>";
+    }
 
     public async Task OnContentChanged()
     {
@@ -177,11 +195,16 @@
         contentAsText = await richTextEditRef.GetTextAsync();
     }
 
+    public async Task OnContentChanged2()
+    {
+        var content = await richTextEditRef2.GetHtmlAsync();
+        Console.WriteLine( content );
+    }
+
     public async Task OnSave()
     {
         savedContent = await richTextEditRef.GetHtmlAsync();
         modalRef.Show();
         await richTextEditRef.ClearAsync();
     }
-
 }

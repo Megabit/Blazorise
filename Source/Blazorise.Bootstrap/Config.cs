@@ -47,6 +47,7 @@ namespace Blazorise.Bootstrap
             serviceCollection.AddTransient<Blazorise.Field, Bootstrap.Field>();
             serviceCollection.AddTransient<Blazorise.FieldBody, Bootstrap.FieldBody>();
             serviceCollection.AddTransient<Blazorise.FileEdit, Bootstrap.FileEdit>();
+            serviceCollection.AddTransient<Blazorise.Modal, Bootstrap.Modal>();
             serviceCollection.AddTransient<Blazorise.ModalContent, Bootstrap.ModalContent>();
             serviceCollection.AddTransient<Blazorise.Button, Bootstrap.Button>();
             serviceCollection.AddTransient( typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) );

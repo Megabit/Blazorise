@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.Tabs
-<CascadingValue Value=this>
-    <CascadingValue Value="@Store">
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@State">
         <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             <div role="tablist" class="@TabsBarClassNames">
                 <div class="ant-tabs-nav-container">

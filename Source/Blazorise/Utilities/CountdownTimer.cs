@@ -83,18 +83,38 @@ namespace Blazorise.Utilities
             timer.Start();
         }
 
-        /// <summary>
-        /// Releases all subscribed events.
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
-            if ( timer != null )
+            Dispose( true );
+        }
+
+        /// <summary>
+        /// Releases the unmanaged resources used by the <see cref="CountdownTimer"/> and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">True if the component is in the disposing process.</param>
+        protected virtual void Dispose( bool disposing )
+        {
+            if ( !Disposed )
             {
-                timer.Stop();
-                timer.Elapsed -= OnElapsed;
-                timer = null;
+                if ( timer != null )
+                {
+                    timer.Stop();
+                    timer.Elapsed -= OnElapsed;
+                }
+
+                Disposed = true;
             }
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Flag that indicates if the component is already fully disposed.
+        /// </summary>
+        protected bool Disposed { get; private set; }
 
         #endregion
     }

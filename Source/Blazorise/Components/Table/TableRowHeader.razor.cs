@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public partial class TableRowHeader : BaseComponent
+    /// <summary>
+    /// Defines a cell as header of a group of table cells.
+    /// </summary>
+    public partial class TableRowHeader : BaseDraggableComponent
     {
         #region Members
 
@@ -36,6 +39,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="TableRowHeader"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

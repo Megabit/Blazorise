@@ -15,11 +15,13 @@ Localization within Blazorise can be done in multiple ways:
 
 List of predefined language that comes with Blazorise is:
 
-- `en-US` English
-- `hr-HR` Croatian
 - `de-DE` German
-- `fr-FR` French
+- `en-US` English
 - `es-ES` Spanish
+- `fr-FR` French
+- `hr-HR` Croatian
+- `nl-NL` Dutch
+- `pt-PT` Portuguese
 
 **Note:** If not specified, a default language(or culture) will be `en-US`.
 {: .notice--info}

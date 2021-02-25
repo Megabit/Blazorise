@@ -181,7 +181,7 @@ When using a submit button inside of `<Form>` element the browser will automatic
 
 | Name                      | Type                                                                    | Default  			| Description                                                                  |
 |---------------------------|-------------------------------------------------------------------------|---------------------|------------------------------------------------------------------------------|
-| Color                     | [Colors]({{ "/docs/helpers/colors/#color" | relative_url }})            | `None`   			| Component visual or contextual style variants                                |
+| Color                     | [Color]({{ "/docs/helpers/colors/#color" | relative_url }})             | `None`   			| Component visual or contextual style variants                                |
 | Size                      | [Size]({{ "/docs/helpers/sizes/#size" | relative_url }})                | `None`   			| Button size variations.                                                      |
 | Type                      | [ButtonType]({{ "/docs/helpers/enums/#buttontype" | relative_url }})    | `Button` 			| Defines the button type.                                                     |
 | Clicked                   | event                                                                   |          			| Occurs when the button is clicked.                                           |

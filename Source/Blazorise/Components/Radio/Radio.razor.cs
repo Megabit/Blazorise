@@ -23,6 +23,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -38,6 +39,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( ParentRadioGroup != null )
@@ -57,14 +59,18 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Radio( AsButton ) );
             builder.Append( ClassProvider.RadioSize( AsButton, Size ), Size != Size.None );
+            builder.Append( ClassProvider.RadioCursor( Cursor ), Cursor != Cursor.Default );
+            builder.Append( ClassProvider.RadioValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -78,6 +84,7 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
+        /// <inheritdoc/>
         protected override Task OnChangeHandler( ChangeEventArgs e )
         {
             if ( ParentRadioGroup != null )
@@ -89,14 +96,20 @@ namespace Blazorise
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<bool>> ParseValueFromStringAsync( string value )
         {
             return base.ParseValueFromStringAsync( value );
         }
 
-        private async void OnRadioChanged( object sender, RadioCheckedChangedEventArgs<TValue> e )
+        /// <summary>
+        /// Event that raises after one of other radios inside of group changes.
+        /// </summary>
+        /// <param name="sender">Reference to the object that raised the event.</param>
+        /// <param name="eventArgs">Information about the currently checked radio.</param>
+        private async void OnRadioChanged( object sender, RadioCheckedChangedEventArgs<TValue> eventArgs )
         {
-            await CurrentValueHandler( e?.Value?.ToString() );
+            await CurrentValueHandler( eventArgs?.Value?.ToString() );
 
             // Some providers like AntDesign need additional changes on classes or styles.
             DirtyClasses();
@@ -107,11 +120,23 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
         protected override string TrueValueName => Value?.ToString();
 
+        /// <summary>
+        /// True if radio belongs to the <see cref="RadioGroup{TValue}"/>.
+        /// </summary>
         protected bool ParentIsRadioGroup => ParentRadioGroup != null;
 
+        /// <summary>
+        /// True if radio should look as a regular button.
+        /// </summary>
         protected bool AsButton => ParentRadioGroup?.Buttons == true;
+
+        /// <summary>
+        /// Returns the button color.
+        /// </summary>
+        protected Color ButtonColor => ParentRadioGroup?.Color ?? Color.Secondary;
 
         /// <summary>
         /// Sets the radio group name.
@@ -128,8 +153,14 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the radio value.
+        /// </summary>
         [Parameter] public TValue Value { get; set; }
 
+        /// <summary>
+        /// Radio group in which this radio is placed.
+        /// </summary>
         [CascadingParameter] protected RadioGroup<TValue> ParentRadioGroup { get; set; }
 
         #endregion

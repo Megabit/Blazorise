@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -120,11 +120,11 @@ namespace Blazorise
             InternalValue = files;
 
             // send the value to the validation for processing
-            ParentValidation?.NotifyInputChanged();
+            ParentValidation?.NotifyInputChanged<IFileEntry[]>( default );
 
             await Changed.InvokeAsync( new FileChangedEventArgs( files ) );
 
-            await InvokeAsync( () => StateHasChanged() );
+            await InvokeAsync( StateHasChanged );
         }
 
         /// <inheritdoc/>
@@ -215,6 +215,17 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Opens the stream for reading the uploaded file.
+        /// </summary>
+        /// <param name="fileEntry">Currently processed file entry.</param>
+        /// <param name="cancellationToken">A cancellation token to signal the cancellation of streaming file data.</param>
+        /// <returns>Returns the stream for the uploaded file entry.</returns>
+        public Stream OpenReadStream( FileEntry fileEntry, CancellationToken cancellationToken )
+        {
+            return new RemoteFileEntryStream( JSRunner, ElementRef, fileEntry, this, MaxMessageSize, SegmentFetchTimeout, cancellationToken );
+        }
+
+        /// <summary>
         /// Manaully resets the input file value.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
@@ -291,6 +302,11 @@ namespace Blazorise
         /// Gets or sets the max message size when uploading the file.
         /// </summary>
         [Parameter] public int MaxMessageSize { get; set; } = 20 * 1024;
+
+        /// <summary>
+        /// Gets or sets the Segment Fetch Timeout when uploading the file.
+        /// </summary>
+        [Parameter] public TimeSpan SegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
 
         /// <summary>
         /// Occurs every time the selected file(s) has changed.

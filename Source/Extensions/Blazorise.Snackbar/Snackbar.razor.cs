@@ -126,7 +126,7 @@ namespace Blazorise.Snackbar
 
             Visible = true;
 
-            InvokeAsync( () => StateHasChanged() );
+            InvokeAsync( StateHasChanged );
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Blazorise.Snackbar
             // finally reset close reason so it doesn't interfere with internal closing by Visible property
             this.closeReason = SnackbarCloseReason.None;
 
-            InvokeAsync( () => StateHasChanged() );
+            InvokeAsync( StateHasChanged );
         }
 
         private void OnCountdownTimerElapsed( object sender, EventArgs e )

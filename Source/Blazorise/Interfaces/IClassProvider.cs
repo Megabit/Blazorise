@@ -41,11 +41,25 @@ namespace Blazorise
 
         #endregion
 
+        #region NumericEdit
+
+        string NumericEdit( bool plaintext );
+
+        string NumericEditSize( Size size );
+
+        string NumericEditColor( Color color );
+
+        string NumericEditValidation( ValidationStatus validationStatus );
+
+        #endregion
+
         #region DateEdit
 
-        string DateEdit();
+        string DateEdit( bool plaintext );
 
         string DateEditSize( Size size );
+
+        string DateEditColor( Color color );
 
         string DateEditValidation( ValidationStatus validationStatus );
 
@@ -53,9 +67,11 @@ namespace Blazorise
 
         #region TimeEdit
 
-        string TimeEdit();
+        string TimeEdit( bool plaintext );
 
         string TimeEditSize( Size size );
+
+        string TimeEditColor( Color color );
 
         string TimeEditValidation( ValidationStatus validationStatus );
 
@@ -83,9 +99,7 @@ namespace Blazorise
 
         #region RadioGroup
 
-        string RadioGroup( bool buttons );
-
-        string RadioGroupInline();
+        string RadioGroup( bool buttons, Orientation orientation );
 
         string RadioGroupValidation( ValidationStatus validationStatus );
 
@@ -97,7 +111,11 @@ namespace Blazorise
 
         string RadioSize( bool button, Size size );
 
-        string RadioInline();
+        string RadioInline( bool inline );
+
+        string RadioCursor( Cursor cursor );
+
+        string RadioValidation( ValidationStatus validationStatus );
 
         #endregion
 
@@ -273,7 +291,7 @@ namespace Blazorise
 
         string ButtonsSize( Size size );
 
-        string ButtonsVertical();
+        string ButtonsOrientation( Orientation orientation );
 
         #endregion
 

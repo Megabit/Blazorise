@@ -1,6 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -23,7 +23,7 @@ namespace Blazorise
 
         private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
-        private DropdownStore parentDropdownStore;
+        private DropdownState parentDropdownState;
 
         #endregion
 
@@ -56,22 +56,17 @@ namespace Blazorise
         /// <param name="disposing">True if object is disposing.</param>
         protected override void Dispose( bool disposing )
         {
-            if ( disposing )
+            if ( disposing && Rendered )
             {
                 // make sure to unregister listener
                 if ( jsRegistered )
                 {
                     jsRegistered = false;
 
-                    if ( Rendered )
-                    {
-                        _ = JSRunner.UnregisterClosableComponent( this );
-                    }
+                    _ = JSRunner.UnregisterClosableComponent( this );
                 }
-                if ( Rendered )
-                {
-                    DisposeDotNetObjectRef( dotNetObjectRef );
-                }
+
+                DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
             base.Dispose( disposing );
@@ -121,6 +116,31 @@ namespace Blazorise
         public void Focus( bool scrollToElement = true )
         {
             _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
+        }
+
+        protected virtual void HandleVisibilityStyles( bool visible )
+        {
+            if ( visible )
+            {
+                jsRegistered = true;
+
+                ExecuteAfterRender( async () =>
+                {
+                    await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
+                } );
+            }
+            else
+            {
+                jsRegistered = false;
+
+                ExecuteAfterRender( async () =>
+                {
+                    await JSRunner.UnregisterClosableComponent( this );
+                } );
+            }
+
+            DirtyClasses();
+            DirtyStyles();
         }
 
         #endregion
@@ -197,39 +217,20 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets or sets the parent dropdown store object.
+        /// Gets or sets the parent dropdown state object.
         /// </summary>
         [CascadingParameter]
-        protected DropdownStore ParentDropdownStore
+        protected DropdownState ParentDropdownState
         {
-            get => parentDropdownStore;
+            get => parentDropdownState;
             set
             {
-                if ( parentDropdownStore == value )
+                if ( parentDropdownState == value )
                     return;
 
-                parentDropdownStore = value;
+                parentDropdownState = value;
 
-                if ( parentDropdownStore.Visible )
-                {
-                    jsRegistered = true;
-
-                    if ( Rendered )
-                    {
-                        JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
-                    }
-                }
-                else
-                {
-                    jsRegistered = false;
-
-                    if ( Rendered )
-                    {
-                        JSRunner.UnregisterClosableComponent( this );
-                    }
-                }
-
-                DirtyClasses();
+                HandleVisibilityStyles( parentDropdownState.Visible );
             }
         }
 

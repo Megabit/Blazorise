@@ -1,20 +1,21 @@
-﻿@inherits BaseComponent
+﻿@inherits BaseRichTextEditComponent
+
 <div @ref="ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
 
     @if ( Toolbar != null && ToolbarPosition != Placement.Bottom )
     {
-        <div @ref="@ToolbarRef">
+        <div @ref="@ToolbarRef" class="rte-toolbar">
             @Toolbar
         </div>
     }
 
-    <div @ref="@EditorRef">
-        @Editor
-    </div>
+    <span style="display: none" class="rte-content">@Editor</span>
+
+    <div @ref="@EditorRef" class="rte-editor"></div>
 
     @if ( Toolbar != null && ToolbarPosition == Placement.Bottom )
     {
-        <div @ref="@ToolbarRef" style="border-top: 0">
+        <div @ref="@ToolbarRef" class="rte-toolbar" style="border-top: 0">
             @Toolbar
         </div>
     }

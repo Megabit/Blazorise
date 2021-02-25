@@ -45,11 +45,25 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region NumericEdit
+
+        public string NumericEdit( bool plaintext ) => null;
+
+        public string NumericEditSize( Size size ) => null;
+
+        public string NumericEditColor( Color color ) => null;
+
+        public string NumericEditValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
         #region DateEdit
 
-        public string DateEdit() => null;
+        public string DateEdit( bool plaintext ) => null;
 
         public string DateEditSize( Size size ) => null;
+
+        public string DateEditColor( Color color ) => null;
 
         public string DateEditValidation( ValidationStatus validationStatus ) => null;
 
@@ -57,9 +71,11 @@ namespace Blazorise.Providers
 
         #region TimeEdit
 
-        public string TimeEdit() => null;
+        public string TimeEdit( bool plaintext ) => null;
 
         public string TimeEditSize( Size size ) => null;
+
+        public string TimeEditColor( Color color ) => null;
 
         public string TimeEditValidation( ValidationStatus validationStatus ) => null;
 
@@ -87,9 +103,7 @@ namespace Blazorise.Providers
 
         #region RadioGroup
 
-        public string RadioGroup( bool buttons ) => null;
-
-        public string RadioGroupInline() => null;
+        public string RadioGroup( bool buttons, Orientation orientation ) => null;
 
         public string RadioGroupValidation( ValidationStatus validationStatus ) => null;
 
@@ -101,7 +115,11 @@ namespace Blazorise.Providers
 
         public string RadioSize( bool button, Size size ) => null;
 
-        public string RadioInline() => null;
+        public string RadioInline( bool inline ) => null;
+
+        public string RadioCursor( Cursor cursor ) => null;
+
+        public string RadioValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
 
@@ -277,7 +295,7 @@ namespace Blazorise.Providers
 
         public string ButtonsSize( Size size ) => null;
 
-        public string ButtonsVertical() => null;
+        public string ButtonsOrientation( Orientation orientation ) => null;
 
         #endregion
 

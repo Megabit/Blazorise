@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -12,12 +13,25 @@ namespace Blazorise.DataGrid
         internal Task IsCheckedChanged( bool e )
         {
             IsChecked = e;
-            return MultiSelectAll.InvokeAsync( e );
+
+            return MultiSelectAll.InvokeAsync( IsChecked );
         }
 
         protected override Task OnParametersSetAsync()
         {
-            //IsChecked = ( ParentDataGrid.PageSize == ParentDataGrid.SelectedRows.Count );
+            var hasSelectedRows = ParentDataGrid.SelectedRows?.Any() ?? false;
+
+            if ( hasSelectedRows )
+            {
+                var unselectedRows = ParentDataGrid.DisplayData.Except( ParentDataGrid.SelectedRows ).Any();
+
+                if ( hasSelectedRows && !unselectedRows )
+                    IsChecked = true;
+
+                if ( !hasSelectedRows || unselectedRows )
+                    IsChecked = false;
+            }
+
             return base.OnParametersSetAsync();
         }
 
@@ -28,6 +42,8 @@ namespace Blazorise.DataGrid
         internal bool IsChecked { get; set; }
 
         [CascadingParameter] protected DataGrid<TItem> ParentDataGrid { get; set; }
+
+        [Parameter] public bool IsIndeterminate { get; set; }
 
         [Parameter] public EventCallback<bool> MultiSelectAll { get; set; }
 

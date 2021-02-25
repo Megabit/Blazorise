@@ -1,37 +1,43 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Container for <see cref="BarLink"/> or <see cref="BarDropdown"/> components.
+    /// </summary>
     public partial class BarItem : BaseComponent
     {
         #region Members
 
-        private BarStore parentStore;
+        /// <summary>
+        /// Reference to the <see cref="Bar"/> state object.
+        /// </summary>
+        private BarState parentBarState;
 
-        private BarItemStore store;
+        /// <summary>
+        /// Holds the state for this <see cref="BarItem"/>.
+        /// </summary>
+        private BarItemState state = new BarItemState
+        {
+            Mode = BarMode.Horizontal,
+        };
 
+        /// <summary>
+        /// Reference to the <see cref="BarDropdown"/> placed inside of this <see cref="BarItem"/>.
+        /// </summary>
         private BarDropdown barDropdown;
 
         #endregion
 
         #region Methods
 
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.BarItem( Store.Mode ) );
-            builder.Append( ClassProvider.BarItemActive( Store.Mode ), Store.Active );
-            builder.Append( ClassProvider.BarItemDisabled( Store.Mode ), Store.Disabled );
-            builder.Append( ClassProvider.BarItemHasDropdown( Store.Mode ), HasDropdown );
-
-            base.BuildClasses( builder );
-        }
-
-        protected override Task OnAfterRenderAsync( bool firstRender )
+        /// <inheritdoc/>
+        protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
             {
@@ -39,14 +45,29 @@ namespace Blazorise
                 {
                     DirtyClasses();
 
-                    StateHasChanged();
+                    await InvokeAsync( StateHasChanged );
                 }
             }
 
-            return base.OnAfterRenderAsync( firstRender );
+            await base.OnAfterRenderAsync( firstRender );
         }
 
-        internal void Hook( BarDropdown barDropdown )
+        /// <inheritdoc/>
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.BarItem( State.Mode ) );
+            builder.Append( ClassProvider.BarItemActive( State.Mode ), State.Active );
+            builder.Append( ClassProvider.BarItemDisabled( State.Mode ), State.Disabled );
+            builder.Append( ClassProvider.BarItemHasDropdown( State.Mode ), HasDropdown );
+
+            base.BuildClasses( builder );
+        }
+
+        /// <summary>
+        /// Notifies this <see cref="BarItem"/> that one of it's child component is a <see cref="BarDropdown"/>.
+        /// </summary>
+        /// <param name="barDropdown">Reference to the <see cref="BarDropdown"/> placed inside of this <see cref="BarItem"/>.</param>
+        internal void NotifyBarDropdownInitialized( BarDropdown barDropdown )
         {
             this.barDropdown = barDropdown;
         }
@@ -55,52 +76,69 @@ namespace Blazorise
 
         #region Properties
 
-        protected BarItemStore Store => store;
+        /// <summary>
+        /// Gets the reference to the state object for this <see cref="BarItem"/> component.
+        /// </summary>
+        protected BarItemState State => state;
 
+        /// <summary>
+        /// True if <see cref="BarDropdown"/> component is placed inside of this <see cref="BarItem"/>.
+        /// </summary>
         protected bool HasDropdown => barDropdown != null;
 
+        /// <summary>
+        /// Gets or sets the flag to indicate if <see cref="BarItem"/> is active, or focused.
+        /// </summary>
         [Parameter]
         public bool Active
         {
-            get => store.Active;
+            get => state.Active;
             set
             {
-                store.Active = value;
+                state = state with { Active = value };
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Gets or sets the disabled state to make <see cref="BarItem"/> inactive.
+        /// </summary>
         [Parameter]
         public bool Disabled
         {
-            get => store.Disabled;
+            get => state.Disabled;
             set
             {
-                store.Disabled = value;
+                state = state with { Disabled = value };
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Cascaded <see cref="Bar"/> component state object.
+        /// </summary>
         [CascadingParameter]
-        protected BarStore ParentStore
+        protected BarState ParentBarState
         {
-            get => parentStore;
+            get => parentBarState;
             set
             {
-                if ( parentStore == value )
+                if ( parentBarState == value )
                     return;
 
-                parentStore = value;
+                parentBarState = value;
 
-                store.Mode = parentStore.Mode;
-                store.BarVisible = parentStore.Visible;
+                state = state with { Mode = parentBarState.Mode, BarVisible = parentBarState.Visible };
 
                 DirtyClasses();
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarItem"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

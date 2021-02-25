@@ -1,5 +1,5 @@
 ﻿#region Using directives
-using Blazorise.Stores;
+using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -13,7 +13,10 @@ namespace Blazorise
     {
         #region Members
 
-        private ListGroupStore store = new ListGroupStore
+        /// <summary>
+        /// Holds the state of this list group.
+        /// </summary>
+        private ListGroupState state = new ListGroupState
         {
             Mode = ListGroupMode.Static,
         };
@@ -39,7 +42,7 @@ namespace Blazorise
         {
             SelectedItem = name;
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
         }
 
         #endregion
@@ -47,9 +50,9 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Gets the list group store object.
+        /// Gets the list group state object.
         /// </summary>
-        protected ListGroupStore Store => store;
+        protected ListGroupState State => state;
 
         /// <summary>
         /// Remove some borders and rounded corners to render list group items edge-to-edge in a parent container (e.g., cards).
@@ -57,10 +60,10 @@ namespace Blazorise
         [Parameter]
         public bool Flush
         {
-            get => store.Flush;
+            get => state.Flush;
             set
             {
-                store.Flush = value;
+                state = state with { Flush = value };
 
                 DirtyClasses();
             }
@@ -72,10 +75,10 @@ namespace Blazorise
         [Parameter]
         public ListGroupMode Mode
         {
-            get => store.Mode;
+            get => state.Mode;
             set
             {
-                store.Mode = value;
+                state = state with { Mode = value };
 
                 DirtyClasses();
             }
@@ -87,17 +90,17 @@ namespace Blazorise
         [Parameter]
         public string SelectedItem
         {
-            get => store.SelectedItem;
+            get => state.SelectedItem;
             set
             {
                 // prevent item from calling the same code multiple times
-                if ( value == store.SelectedItem )
+                if ( value == state.SelectedItem )
                     return;
 
-                store.SelectedItem = value;
+                state = state with { SelectedItem = value };
 
                 // raise the SelectedItemChanged notification                
-                SelectedItemChanged.InvokeAsync( store.SelectedItem );
+                SelectedItemChanged.InvokeAsync( state.SelectedItem );
 
                 DirtyClasses();
             }

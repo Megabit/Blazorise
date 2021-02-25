@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.BarBrand
-@if ( ParentStore.Mode == BarMode.Horizontal )
+@if ( ParentBarState?.Mode == BarMode.Horizontal )
 {
     <h6 id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
@@ -9,7 +9,7 @@ else
 {
     <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
-        @if ( ParentStore.Mode != BarMode.Horizontal )
+        @if ( ParentBarState?.Mode != BarMode.Horizontal )
         {
             <Blazorise.BarToggler Class="b-bar-mobile-toggle" />
         }

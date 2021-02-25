@@ -275,18 +275,32 @@
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>Stacked snackbars</CardTitle>
+                <CardTitle>Stacked snackbars with custom intervals</CardTitle>
             </CardHeader>
             <CardBody>
                 <CardText>
-                    You can have a dynamicaly stacked snackbars.
+                    You can have a dynamicaly stacked snackbars with custom interval before close.
                 </CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.PushAsync("Some success message!", "Hello", SnackbarColor.Success, (options) => { options.CloseButtonIcon = IconName.Times; options.ActionButtonText = "OK"; }))">Show Success message</Button>
-                <Button Color="Color.Info" Clicked="@(()=>snackbarStack.PushAsync("Some info message!", SnackbarColor.Info, (options) => { options.ActionButtonText = "Ok"; }))">Show Info message</Button>
-                <Button Color="Color.Warning" Clicked="@(()=>snackbarStack.PushAsync("Some warning message!", SnackbarColor.Warning, (options) => { options.ActionButtonText = "Ok"; }))">Show Warning message</Button>
-                <Button Color="Color.Danger" Clicked="@(()=>snackbarStack.PushAsync("Some danger message!", SnackbarColor.Danger, (options) => { options.ActionButtonText = "Dismiss"; }))">Show Danger message</Button>
+                <Field Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Interval(ms)</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <NumericEdit @bind-Value="this.intervalBeforeMsgClose" />
+                    </FieldBody>
+                </Field>
+                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.PushAsync("Some success message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Success, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Success message
+                </Button>
+                <Button Color="Color.Info" Clicked="@(()=>snackbarStack.PushAsync("Some info message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Info, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Info message
+                </Button>
+                <Button Color="Color.Warning" Clicked="@(()=>snackbarStack.PushAsync("Some warning message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Warning, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Warning message
+                </Button>
+                <Button Color="Color.Danger" Clicked="@(()=>snackbarStack.PushAsync("Some danger message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Danger, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Danger message
+                </Button>
             </CardBody>
         </Card>
     </Column>
@@ -364,44 +378,44 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Alert Color="Color.Success" Visible="@dismisableAlert1" Dismisable="true">
+                <Alert Color="Color.Success" @bind-Visible="@dismisableAlert1" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>
                         Alert Link.
                     </AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert1 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Info" Visible="@dismisableAlert2" Dismisable="true">
+                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert2" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>
                         Alert Link.
                     </AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert2 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Warning" Visible="@dismisableAlert3" Dismisable="true">
+                <Alert Color="Color.Warning" @bind-Visible="@dismisableAlert3" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>
                         Alert Link.
                     </AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert3 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Danger" Visible="@dismisableAlert4" Dismisable="true">
+                <Alert Color="Color.Danger" @bind-Visible="@dismisableAlert4" Dismisable="true">
                     <AlertDescription>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                     </AlertDescription>
                     <AlertMessage>Alert Link.</AlertMessage>
-                    <CloseButton Clicked="@(()=>dismisableAlert4 = false)" />
+                    <CloseButton />
                 </Alert>
-                <Alert Color="Color.Info" Visible="@dismisableAlert5" Dismisable="true">
+                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert5" Dismisable="true">
                     <Heading Size="HeadingSize.Is4" Color="TextColor.Success">
                         Big one!
-                        <CloseButton Clicked="@(()=>dismisableAlert5 = false)" />
+                        <CloseButton />
                     </Heading>
                     <Paragraph>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.
@@ -512,6 +526,8 @@
     Snackbar snackbarDark;
 
     SnackbarStack snackbarStack;
+
+    double intervalBeforeMsgClose = 2000;
 
     bool dismisableAlert1 = true;
     bool dismisableAlert2 = true;

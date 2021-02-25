@@ -127,6 +127,12 @@ namespace Blazorise
         /// <param name="e"></param>
         public static void IsLowercase( ValidatorEventArgs e ) => e.Status = IsLowercase( e.Value as string ) ? ValidationStatus.Success : ValidationStatus.Error;
 
+        /// <summary>
+        /// Empty validator.
+        /// </summary>
+        /// <param name="e"></param>
+        public static void None( ValidatorEventArgs e ) => e.Status = ValidationStatus.None;
+
         #endregion
     }
 }

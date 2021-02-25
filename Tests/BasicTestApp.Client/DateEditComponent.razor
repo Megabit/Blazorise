@@ -1,14 +1,14 @@
 ﻿<h3>DateEdit - DateTime</h3>
 
 <p id="date-event-initially-undefined">
-    <DateEdit id="date-control" TValue="DateTime" Value="@DateValue" DateChanged="@((v)=> { DateValue = v; } )" />
+    <DateEdit id="date-control" TValue="DateTime" Date="@DateValue" DateChanged="@((v)=> { DateValue = v; } )" />
 
     <span>The Value should update automatically as you edit in the date field</span>
 
     <span id="date-event-initially-undefined-result">@DateValue</span>
 </p>
 <p id="nullable-date-event-initially-null">
-    <DateEdit id="nullable-date-control" TValue="DateTime?" Value="@NullableDateValue" DateChanged="@((v)=> { NullableDateValue = v; } )" />
+    <DateEdit id="nullable-date-control" TValue="DateTime?" Date="@NullableDateValue" DateChanged="@((v)=> { NullableDateValue = v; } )" />
 
     <span>The Value should update automatically as you type in the date field</span>
 
@@ -18,14 +18,14 @@
 <h3>DateEdit - DateTimeOffset</h3>
 
 <p id="date-offset-event-initially-undefined">
-    <DateEdit id="date-offset-control" TValue="DateTimeOffset" Value="@OffsetValue" DateChanged="@((v)=> { OffsetValue = v; } )" />
+    <DateEdit id="date-offset-control" TValue="DateTimeOffset" Date="@OffsetValue" DateChanged="@((v)=> { OffsetValue = v; } )" />
 
     <span>The Value should update automatically as you edit in the date field</span>
 
     <span id="date-offset-event-initially-undefined-result">@OffsetValue</span>
 </p>
 <p id="nullable-date-offset-event-initially-null">
-    <DateEdit id="nullable-date-offset-control" TValue="DateTimeOffset?" Value="@NullableOffsetValue" DateChanged="@((v)=> { NullableOffsetValue = v; } )" />
+    <DateEdit id="nullable-date-offset-control" TValue="DateTimeOffset?" Date="@NullableOffsetValue" DateChanged="@((v)=> { NullableOffsetValue = v; } )" />
 
     <span>The Value should update automatically as you type in the date field</span>
 
@@ -36,8 +36,8 @@
 
 <p id="validation-initially-undefined">
     <Validations>
-        <Validation>
-            <DateEdit id="date-validation-control" TValue="DateTime" Value="@DateValue" DateChanged="@((v)=> { DateValue = v; } )" />
+        <Validation Validator="@ValidationRule.IsNotEmpty">
+            <DateEdit id="date-validation-control" TValue="DateTime" Date="@DateValue" DateChanged="@((v)=> { DateValue = v; } )" />
         </Validation>
     </Validations>
 

@@ -1,8 +1,8 @@
 ﻿<DateEdit TValue="DateTime?"></DateEdit>
 <Button Clicked="@OnClick"></Button>
 @code{
-    void OnClick()
+    Task OnClick()
     {
-        StateHasChanged();
+        return InvokeAsync( StateHasChanged );
     }
 }
