@@ -70,7 +70,6 @@ namespace Blazorise.Base
                 if ( disposing )
                 {
                     executeAfterRenderQueue?.Clear();
-                    executeAfterRenderQueue = null;
                 }
             }
         }
