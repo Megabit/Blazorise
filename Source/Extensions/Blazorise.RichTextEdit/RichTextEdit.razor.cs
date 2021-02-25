@@ -14,7 +14,7 @@ namespace Blazorise.RichTextEdit
         /// <summary>
         /// The disposables to cleanup.
         /// </summary>
-        private IDisposable cleanup;
+        private IAsyncDisposable cleanup;
 
         /// <summary>
         /// ReadOnly state.
@@ -33,7 +33,8 @@ namespace Blazorise.RichTextEdit
         {
             if ( disposing && Rendered )
             {
-                cleanup.Dispose();
+                // TODO: should be done in DisposeAsync() but it only works properly in .Net 6
+                _ = cleanup.DisposeAsync();
             }
 
             base.Dispose( disposing );
