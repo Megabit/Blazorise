@@ -198,6 +198,7 @@
                           Responsive="true"
                           ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter">
+                    <EmptyTemplate>No records...</EmptyTemplate>
                     <DataGridAggregates>
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
                             <DisplayTemplate>
