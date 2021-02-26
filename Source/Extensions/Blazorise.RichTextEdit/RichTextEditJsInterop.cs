@@ -41,7 +41,7 @@ namespace Blazorise.RichTextEdit
         /// Initializes given editor
         /// </summary>
         /// <returns>the cleanup routine</returns>
-        public async ValueTask<IDisposable> InitializeEditor( RichTextEdit richTextEdit )
+        public async ValueTask<IAsyncDisposable> InitializeEditor( RichTextEdit richTextEdit )
         {
             await InitializeJsInterop();
 
@@ -61,22 +61,15 @@ namespace Blazorise.RichTextEdit
                 nameof( RichTextEdit.OnEditorBlur ),
                 richTextEdit.ConfigureQuillJsMethod );
 
-            return Disposable.Create( () =>
+            return AsyncDisposable.Create( async () =>
             {
-                try
-                {
-                    DestroyEditor( richTextEdit.EditorRef );
-                }
-                catch ( TaskCanceledException )
-                {
-                    //Connection closed
-                }
+                await DestroyEditor( richTextEdit.EditorRef );
 
                 dotNetRef.Dispose();
             } );
         }
 
-        private async void DestroyEditor( ElementReference editorRef )
+        private async ValueTask DestroyEditor( ElementReference editorRef )
         {
             await jsRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.destroy", editorRef );
         }
