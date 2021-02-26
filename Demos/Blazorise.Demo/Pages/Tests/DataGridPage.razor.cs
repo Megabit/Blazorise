@@ -45,6 +45,14 @@ namespace Blazorise.Demo.Pages.Tests
         DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
         DataGridResizeMode resizableMode = DataGridResizeMode.Header;
 
+        Button _btnClearFilter;
+        Button btnClearFilter { 
+            get => _btnClearFilter; 
+            set {
+                _btnClearFilter = value;
+                StateHasChanged();
+            } 
+        }
 
         bool editable = true;
         bool resizable = true;

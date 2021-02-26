@@ -209,7 +209,14 @@
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" Aggregate="DataGridAggregateType.TrueCount" />
                     </DataGridAggregates>
                     <DataGridColumns>
-                        <DataGridMultiSelectColumn TItem="Employee" Width="30px"></DataGridMultiSelectColumn>
+                        <DataGridMultiSelectColumn TItem="Employee" Width="30px">
+                            <FilterTemplate>
+                                @if(btnClearFilter is not null)
+                                {
+                                    <Button Color="Color.Warning" Clicked="@btnClearFilter.Clicked"><Icon Name="IconName.Clear" /></Button>
+                                }
+                            </FilterTemplate>
+                        </DataGridMultiSelectColumn>
                         <DataGridCommandColumn TItem="Employee" Width="170px">
                             <NewCommandTemplate>
                                 <Button Color="Color.Success" Clicked="@context.Clicked">@context.LocalizationString</Button>
@@ -227,7 +234,7 @@
                                 <Button Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </CancelCommandTemplate>
                             <ClearFilterCommandTemplate>
-                                <Button Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
+                                <Button @ref="btnClearFilter" Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
@@ -330,7 +337,7 @@
                             <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">New</Button>
                             <Button Color="Color.Primary" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
                             <Button Color="Color.Danger" Disabled="@(selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
-                            <Button Color="Color.Link" Clicked="@context.ClearFilterCommand.Clicked">Clear Filter</Button>
+                            <Button Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">Clear Filter</Button>
                         }
                     </ButtonRowTemplate>
                 </DataGrid>
