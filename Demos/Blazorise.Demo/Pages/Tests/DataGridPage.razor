@@ -216,6 +216,11 @@
                                     <Button Color="Color.Warning" Clicked="@btnClearFilter.Clicked"><Icon Name="IconName.Clear" /></Button>
                                 }
                             </FilterTemplate>
+                            <MultiSelectTemplate>
+                                    <Label @onclick:stopPropagation>
+                                        <Check TValue="bool" Checked="@context.IsSelected" CheckedChanged="@context.SelectedChanged" @onclick:stopPropagation></Check>
+                                    </Label>
+                            </MultiSelectTemplate>
                         </DataGridMultiSelectColumn>
                         <DataGridCommandColumn TItem="Employee" Width="170px">
                             <NewCommandTemplate>
