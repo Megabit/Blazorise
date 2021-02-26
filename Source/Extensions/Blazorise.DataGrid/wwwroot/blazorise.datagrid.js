@@ -35,6 +35,36 @@
                 // Set the height
                 resizer.style.height = `${actualHeight}px`;
 
+                resizer.addEventListener("click", function (e)
+                {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+
+                let mouseDownDate;
+                let mouseUpDate;
+                col.addEventListener('click', function (e) {
+                    let resized = (mouseDownDate != null && mouseUpDate != null);
+                    if (resized) {
+                        let currentDate = new Date();
+
+                        // Checks if mouse down was some ms ago, which means click from resizing
+                        let elapsedFromMouseDown = currentDate - mouseDownDate;
+                        let clickFromResize = elapsedFromMouseDown > 100;
+
+                        // Checks if mouse up was some ms ago, which either means: 
+                        // we clicked from resizing just now or 
+                        // did not click from resizing and should handle click normally.
+                        let elapsedFromMouseUp = currentDate - mouseUpDate;
+                        let clickFromResizeJustNow = elapsedFromMouseUp < 100;
+
+                        if (resized && clickFromResize && clickFromResizeJustNow) {
+                            e.stopPropagation();
+                        }
+                        mouseDownDate = null;
+                        mouseUpDate = null;
+                    }
+                });
                 col.appendChild(resizer);
 
                 // Track the current position of mouse
@@ -42,6 +72,8 @@
                 let w = 0;
 
                 const mouseDownHandler = function (e) {
+                    mouseDownDate = new Date();
+
                     // Get the current mouse position
                     x = e.clientX;
 
@@ -68,6 +100,8 @@
 
                 // When user releases the mouse, remove the existing event listeners
                 const mouseUpHandler = function () {
+                    mouseUpDate = new Date();
+
                     resizer.classList.remove(resizingClass);
 
                     table.querySelectorAll(`.${resizerClass}`).forEach(x => x.style.height = `${calculateModeHeight()}px`);
