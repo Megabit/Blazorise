@@ -21,7 +21,10 @@ namespace Blazorise.TreeView
             builder.Append( $"{ClassProvider.Spacing( Spacing.Padding, SpacingSize.Is1, Side.All, Breakpoint.None )} cursor-pointer" );
 
             if ( Selected )
-                builder.Append( $"{ClassProvider.BackgroundColor( Background.Primary )} {ClassProvider.TextColor( TextColor.White )}" );
+                if( string.IsNullOrWhiteSpace( SelectedNodeClass ) )
+                    builder.Append( $"{ClassProvider.BackgroundColor( Background.Primary )} {ClassProvider.TextColor( TextColor.White )}" );
+                else
+                    builder.Append( $"{SelectedNodeClass}" );
 
             base.BuildClasses( builder );
         }
@@ -61,6 +64,11 @@ namespace Blazorise.TreeView
         }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets selected node class.
+        /// </summary>
+        [Parameter] public string SelectedNodeClass { get; set; }
 
         #endregion
     }

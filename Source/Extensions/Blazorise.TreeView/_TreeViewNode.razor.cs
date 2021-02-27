@@ -85,6 +85,11 @@ namespace Blazorise.TreeView
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
+        /// <summary>
+        /// Gets or sets selected node class.
+        /// </summary>
+        [Parameter] public string SelectedNodeClass { get; set; }
+
         #endregion
     }
 }

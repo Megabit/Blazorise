@@ -16,7 +16,7 @@
                     </span>
                 }
 
-                <_TreeViewNodeContent TNode="TNode" Node="@node">
+                <_TreeViewNodeContent TNode="TNode" Node="@node" SelectedNodeClass="@SelectedNodeClass">
                     @NodeContent( node )
                 </_TreeViewNodeContent>
 
@@ -28,7 +28,8 @@
                                    ExpandedNodes="ExpandedNodes"
                                    ExpandedNodesChanged="ExpandedNodesChanged"
                                    Expanded="nodeExpanded"
-                                   HasChildNodes="HasChildNodes" />
+                                   HasChildNodes="HasChildNodes"
+                                   SelectedNodeClass="@SelectedNodeClass" />
                 }
             </div>
         }
