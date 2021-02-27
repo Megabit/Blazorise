@@ -28,6 +28,8 @@
             let actualHeight = calculateModeHeight();
 
             const createResizableColumn = function (col) {
+                if (col.querySelector(`.${resizerClass}`) != null)
+                    return;
                 // Add a resizer element to the column
                 const resizer = document.createElement('div');
                 resizer.classList.add(resizerClass);
