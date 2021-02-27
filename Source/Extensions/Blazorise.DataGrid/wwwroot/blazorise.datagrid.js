@@ -1,6 +1,4 @@
-﻿var r;
-window.blazoriseDataGrid = {
-
+﻿window.blazoriseDataGrid = {
     initResizable: function (table, mode) {
         const resizerClass = "b-datagrid-resizer";
         const resizingClass = "b-datagrid-resizing";
@@ -46,7 +44,8 @@ window.blazoriseDataGrid = {
 
                 let mouseDownDate;
                 let mouseUpDate;
-                r = function (e) {
+
+                col.addEventListener('click', function (e) {
                     let resized = (mouseDownDate != null && mouseUpDate != null);
                     if (resized) {
                         let currentDate = new Date();
@@ -68,8 +67,7 @@ window.blazoriseDataGrid = {
                         mouseDownDate = null;
                         mouseUpDate = null;
                     }
-                };
-                col.addEventListener('click', r );
+                });
                 col.appendChild(resizer);
 
                 // Track the current position of mouse
@@ -128,9 +126,7 @@ window.blazoriseDataGrid = {
             });
         }
     },
-    r: function (e) { },
     destroyResizable: function (table) {
         table.querySelectorAll('.b-datagrid-resizer').forEach(x => x.remove());
-        table.querySelectorAll('tr:first-child > th').forEach(x => x.removeEventListener('click',r));
     }
 }; 
