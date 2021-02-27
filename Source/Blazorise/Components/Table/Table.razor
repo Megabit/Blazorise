@@ -3,7 +3,8 @@
 <CascadingValue Value="@this" IsFixed="true">
     @if ( Responsive )
     {
-        <div class="@ResponsiveClassNames">
+        //TODO : REMOVE THIS TEMPORARY STYLE IS SET TO TEST VIRTUALIZE
+        <div class="@ResponsiveClassNames" style='@($"{StyleNames} overflow: scroll; height: 575px;")'>
             <table @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
                    draggable="@Draggable"
                    @ondrag="@OnDragHandler"

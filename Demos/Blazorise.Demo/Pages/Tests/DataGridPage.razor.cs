@@ -109,6 +109,18 @@ namespace Blazorise.Demo.Pages.Tests
 
         #region Methods
 
+        protected override Task OnInitializedAsync()
+        {
+            for ( int i = 0; i < 6; i++ )
+            {
+                var serialized = System.Text.Json.JsonSerializer.Serialize( dataModels );
+                var newReferenceList = System.Text.Json.JsonSerializer.Deserialize<List<Employee>>( serialized );
+                dataModels.AddRange( newReferenceList );
+
+            }
+            return base.OnInitializedAsync();
+        }
+
         public void CheckEMail( ValidatorEventArgs validationArgs )
         {
             ValidationRule.IsEmail( validationArgs );
