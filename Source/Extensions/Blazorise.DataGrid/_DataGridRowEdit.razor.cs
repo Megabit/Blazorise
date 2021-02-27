@@ -67,6 +67,26 @@ namespace Blazorise.DataGrid
 
         [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
+        protected IEnumerable<DataGridColumn<TItem>> OrderedEditableColumns
+        {
+            get
+            {
+                return Columns
+                    .Where( column => !column.ExcludeFromEdit && column.CellValueIsEditable )
+                    .OrderBy( column => column.EditOrder );
+            }
+        }
+
+        protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns
+        {
+            get
+            {
+                return Columns
+                    .Where( column => column.IsCommandColumn || column.IsMultiSelectColumn || column.Displayable )
+                    .OrderBy( column => column.DisplayOrder );
+            }
+        }
+
         [Parameter] public Dictionary<string, CellEditContext<TItem>> CellValues { get; set; }
 
         [Parameter] public DataGridEditMode EditMode { get; set; }

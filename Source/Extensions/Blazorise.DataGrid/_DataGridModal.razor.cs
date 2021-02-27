@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -64,6 +65,16 @@ namespace Blazorise.DataGrid
         [Parameter] public RenderFragment<PopupTitleContext<TItem>> TitleTemplate { get; set; }
 
         [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
+
+        protected IEnumerable<DataGridColumn<TItem>> OrderedEditableColumns
+        {
+            get
+            {
+                return Columns
+                    .Where( column => !column.ExcludeFromEdit && column.CellValueIsEditable )
+                    .OrderBy( column => column.EditOrder );
+            }
+        }
 
         [Parameter] public IReadOnlyDictionary<string, CellEditContext<TItem>> EditItemCellValues { get; set; }
 

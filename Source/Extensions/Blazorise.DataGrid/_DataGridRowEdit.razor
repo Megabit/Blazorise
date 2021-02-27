@@ -13,22 +13,16 @@
             <Row>
                 <Column>
                     <Fields>
-                        @foreach ( var column in Columns )
+                        @foreach ( var column in OrderedEditableColumns )
                         {
-                            @if ( column.ExcludeFromEdit )
-                                continue;
-
-                            @if ( column.CellValueIsEditable )
-                            {
-                                <Field ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
-                                    <FieldLabel>
-                                        @column.Caption
-                                    </FieldLabel>
-                                    <FieldBody>
-                                        <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
-                                    </FieldBody>
-                                </Field>
-                            }
+                            <Field ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                                <FieldLabel>
+                                    @column.Caption
+                                </FieldLabel>
+                                <FieldBody>
+                                    <_DataGridCell TItem="TItem" Column="@column" Item="@Item" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
+                                </FieldBody>
+                            </Field>
                         }
                     </Fields>
                 </Column>
@@ -88,21 +82,20 @@ else if ( EditMode == DataGridEditMode.Inline )
                 </TableRowCell>
             </TableRow>
         }
-        @foreach ( var column in Columns )
+        @foreach ( var column in DisplayableColumns )
         {
-            @if ( column.ColumnType == DataGridColumnType.Command )
+            @if ( column.IsCommandColumn )
             {
                 @if ( ParentDataGrid.IsCommandVisible )
                 {
                     <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@SaveWithValidation" Cancel="@Cancel" Width="@column.Width" />
                 }
             }
-            else if ( column.ColumnType == DataGridColumnType.MultiSelect )
+            else if ( column.IsMultiSelectColumn )
             {
                 @if ( ParentDataGrid.MultiSelect )
                 {
                     <TableRowCell></TableRowCell>
-
                 }
             }
             else if ( column.Displayable )
