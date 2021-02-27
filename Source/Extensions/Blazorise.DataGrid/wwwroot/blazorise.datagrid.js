@@ -1,4 +1,5 @@
-﻿window.blazoriseDataGrid = {
+﻿var r;
+window.blazoriseDataGrid = {
 
     initResizable: function (table, mode) {
         const resizerClass = "b-datagrid-resizer";
@@ -45,7 +46,7 @@
 
                 let mouseDownDate;
                 let mouseUpDate;
-                col.addEventListener('click', function (e) {
+                r = function (e) {
                     let resized = (mouseDownDate != null && mouseUpDate != null);
                     if (resized) {
                         let currentDate = new Date();
@@ -61,12 +62,14 @@
                         let clickFromResizeJustNow = elapsedFromMouseUp < 100;
 
                         if (resized && clickFromResize && clickFromResizeJustNow) {
+                            e.preventDefault();
                             e.stopPropagation();
                         }
                         mouseDownDate = null;
                         mouseUpDate = null;
                     }
-                });
+                };
+                col.addEventListener('click', r );
                 col.appendChild(resizer);
 
                 // Track the current position of mouse
@@ -75,6 +78,8 @@
 
                 const mouseDownHandler = function (e) {
                     mouseDownDate = new Date();
+
+                    cols.forEach(x => x.classList.add('b-datagrid-resizing'));
 
                     // Get the current mouse position
                     x = e.clientX;
@@ -104,6 +109,8 @@
                 const mouseUpHandler = function () {
                     mouseUpDate = new Date();
 
+                    cols.forEach(x => x.classList.remove('b-datagrid-resizing'));
+
                     resizer.classList.remove(resizingClass);
 
                     table.querySelectorAll(`.${resizerClass}`).forEach(x => x.style.height = `${calculateModeHeight()}px`);
@@ -121,7 +128,9 @@
             });
         }
     },
+    r: function (e) { },
     destroyResizable: function (table) {
         table.querySelectorAll('.b-datagrid-resizer').forEach(x => x.remove());
+        table.querySelectorAll('tr:first-child > th').forEach(x => x.removeEventListener('click',r));
     }
 }; 
