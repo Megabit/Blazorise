@@ -113,25 +113,21 @@
             {
                 @foreach ( var item in DisplayData )
                 {
-                    @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem ) )
-                    {
-                        <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
-                    }
-                    else
-                    {
-                        <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
-                        @if ( DetailRowTemplate != null )
-                        {
-                            var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
-
-                            @if ( canShow )
-                            {
-                                <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
-                                    @DetailRowTemplate( item )
-                                </_DataGridDetailRow>
-                            }
-                        }
-                    }
+                    <_DataGridRowDisplay 
+                                         TItem="TItem" 
+                                         @key="@item" 
+                                         Item="@item" 
+                                         EditItem="@editItem"
+                                         IsEdit="@( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem ) )"
+                                         Columns="@Columns" EditItemCellValues="@editItemCellValues"
+                                         HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" 
+                                         Edit="@OnEditCommand" Delete="@OnDeleteCommand" 
+                                         Save="@OnSaveCommand" Cancel="@OnCancelCommand" 
+                                         Selected="@OnSelectedCommand" MultiSelect="OnMultiSelectCommand" 
+                                         Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" 
+                                         DisplayDetailRowTemplate="@( DetailRowTemplate != null &&  ( DetailRowTrigger?.Invoke( item ) ?? true ) )" 
+                                         DetailRowTemplate="@DetailRowTemplate">
+                    </_DataGridRowDisplay>
                 }
             }
             @if ( IsEmptyTemplateVisible )
