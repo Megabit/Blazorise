@@ -16,7 +16,9 @@
                     </span>
                 }
 
-                <_TreeViewNodeContent TNode="TNode" Node="@node" SelectedNodeClass="@SelectedNodeClass">
+                <_TreeViewNodeContent TNode="TNode" Node="@node"                                    
+                                      NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
+                                      SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))">
                     @NodeContent( node )
                 </_TreeViewNodeContent>
 
@@ -29,7 +31,8 @@
                                    ExpandedNodesChanged="ExpandedNodesChanged"
                                    Expanded="nodeExpanded"
                                    HasChildNodes="HasChildNodes"
-                                   SelectedNodeClass="@SelectedNodeClass" />
+                                   NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
+                                   SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))" />
                 }
             </div>
         }

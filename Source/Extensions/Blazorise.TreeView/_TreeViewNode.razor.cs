@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -50,6 +51,11 @@ namespace Blazorise.TreeView
             InvokeAsync( StateHasChanged );
         }
 
+        private Action<TNode, NodeStyling> ResolveNodeStylingAction( Action<TNode, NodeStyling> action)
+        {
+            return action ?? new Action<TNode, NodeStyling>( ( item, style ) => { return; } );
+        }
+
         #endregion
 
         #region Properties
@@ -86,9 +92,14 @@ namespace Blazorise.TreeView
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         /// <summary>
-        /// Gets or sets selected node class.
+        /// Gets or sets selected node styling.
         /// </summary>
-        [Parameter] public string SelectedNodeClass { get; set; }
+        [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
+
+        /// <summary>
+        /// Gets or sets node styling.
+        /// </summary>
+        [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
 
         #endregion
     }
