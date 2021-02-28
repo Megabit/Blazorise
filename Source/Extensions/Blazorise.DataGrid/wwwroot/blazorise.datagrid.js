@@ -36,8 +36,7 @@
                 // Set the height
                 resizer.style.height = `${actualHeight}px`;
 
-                resizer.addEventListener("click", function (e)
-                {
+                resizer.addEventListener("click", function (e) {
                     e.preventDefault();
                     e.stopPropagation();
                 });
