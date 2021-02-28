@@ -52,7 +52,14 @@
                                 }
                                 @if ( Sortable && column.Sortable && column.CurrentDirection != SortDirection.None )
                                 {
-                                    <Icon Name="@(column.CurrentDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                                    @if ( column.SortDirectionTemplate != null )
+                                    {
+                                        @column.SortDirectionTemplate( column.CurrentDirection )
+                                    }
+                                    else
+                                    {
+                                        <Icon Name="@(column.CurrentDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                                    }
                                 }
                             </TableHeaderCell>
                         }
