@@ -263,7 +263,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets where column will be displayed on edit row/popup.
         /// </summary>
-        [Parameter] public int EditOrder { get; set; }
+        [Parameter] public int? EditOrder { get; set; }
 
         /// <summary>
         /// Allows the cell values to be entered while the grid is in the new-item state.

@@ -71,9 +71,14 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                return Columns
-                    .Where( column => !column.ExcludeFromEdit && column.CellValueIsEditable )
-                    .OrderBy( column => column.EditOrder );
+                if( Columns.Any( column => column.EditOrder.HasValue ) )
+                    return Columns
+                        .Where( column => !column.ExcludeFromEdit && column.CellValueIsEditable )
+                        .OrderBy( column => column.EditOrder.GetValueOrDefault() );
+                else
+                    return Columns
+                        .Where( column => !column.ExcludeFromEdit && column.CellValueIsEditable )
+                        .OrderBy( column => column.DisplayOrder );
             }
         }
 
