@@ -211,15 +211,15 @@
                     <DataGridColumns>
                         <DataGridMultiSelectColumn TItem="Employee" Width="30px">
                             <FilterTemplate>
-                                @if(btnClearFilter is not null)
+                                @if ( btnClearFilter is not null )
                                 {
                                     <Button Color="Color.Warning" Clicked="@btnClearFilter.Clicked"><Icon Name="IconName.Clear" /></Button>
                                 }
                             </FilterTemplate>
                             <MultiSelectTemplate>
-                                    <Label @onclick:stopPropagation>
-                                        <Check TValue="bool" Checked="@context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged" @onclick:stopPropagation></Check>
-                                    </Label>
+                                <Label @onclick:stopPropagation>
+                                    <Check TValue="bool" Checked="@context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged" @onclick:stopPropagation></Check>
+                                </Label>
                             </MultiSelectTemplate>
                         </DataGridMultiSelectColumn>
                         <DataGridCommandColumn TItem="Employee" Width="170px">

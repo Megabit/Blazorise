@@ -4,7 +4,7 @@
     @if ( ParentDataGrid.MultiSelectColumn?.MultiSelectTemplate != null )
     {
         <Label @onclick:stopPropagation>
-            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>( EventCallback.Factory.Create(this, new Func<bool, Task>( OnCheckedChanged )), Checked, false, Item ) )
+            @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>( EventCallback.Factory.Create( this, new Func<bool, Task>( OnCheckedChanged ) ), Checked, false, Item ) )
         </Label>
     }
     else

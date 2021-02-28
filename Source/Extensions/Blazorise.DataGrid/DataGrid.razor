@@ -82,10 +82,10 @@
                         }
                         else if ( column.ColumnType == DataGridColumnType.MultiSelect )
                         {
-                            @if (MultiSelect)
+                            @if ( MultiSelect )
                             {
                                 <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
-                                    @if (column.FilterTemplate != null)
+                                    @if ( column.FilterTemplate != null )
                                     {
                                         @(column.FilterTemplate( column.Filter ))
                                     }
