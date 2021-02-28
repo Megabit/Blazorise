@@ -5,7 +5,7 @@
         const resizerHeaderMode = 0;
 
         const cols = table.querySelectorAll('tr:first-child > th');
-        if (cols != null) {
+        if (cols !== null) {
 
             const calculateTableActualHeight = function () {
                 let height = 0;
@@ -13,7 +13,7 @@
 
                 tableRows.forEach(x => {
                     let firstCol = x.querySelector('th:first-child,td:first-child');
-                    if (firstCol != null) {
+                    if (firstCol !== null) {
                         height += firstCol.offsetHeight;
                     }
                 });
@@ -21,13 +21,13 @@
             };
 
             const calculateModeHeight = () => {
-                return mode == resizerHeaderMode ? table.querySelector('tr:first-child > th:first-child').offsetHeight : calculateTableActualHeight();
+                return mode === resizerHeaderMode ? table.querySelector('tr:first-child > th:first-child').offsetHeight : calculateTableActualHeight();
             };
 
             let actualHeight = calculateModeHeight();
 
             const createResizableColumn = function (col) {
-                if (col.querySelector(`.${resizerClass}`) != null)
+                if (col.querySelector(`.${resizerClass}`) !== null)
                     return;
                 // Add a resizer element to the column
                 const resizer = document.createElement('div');
@@ -45,7 +45,7 @@
                 let mouseUpDate;
 
                 col.addEventListener('click', function (e) {
-                    let resized = (mouseDownDate != null && mouseUpDate != null);
+                    let resized = (mouseDownDate !== null && mouseUpDate !== null);
                     if (resized) {
                         let currentDate = new Date();
 
