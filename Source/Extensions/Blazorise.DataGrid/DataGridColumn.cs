@@ -232,7 +232,7 @@ namespace Blazorise.DataGrid
         [Parameter] public SortDirection Direction { get; set; }
 
         /// <summary>
-        /// Gets or sets the column's display sorte direction template.
+        /// Gets or sets the column's display sort direction template.
         /// </summary>
         [Parameter] public RenderFragment<SortDirection> SortDirectionTemplate { get; set; }
 
