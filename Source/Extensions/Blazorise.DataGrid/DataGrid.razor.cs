@@ -1022,14 +1022,8 @@ namespace Blazorise.DataGrid
 
                 resizable = value;
 
-                if ( resizable )
-                {
-                    ExecuteAfterRender( () => InitResizable().AsTask() );
-                }
-                else
-                {
+                if ( !resizable )
                     ExecuteAfterRender( () => DestroyResizable().AsTask() );
-                }
             }
         }
 
