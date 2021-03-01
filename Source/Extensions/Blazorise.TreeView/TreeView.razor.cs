@@ -87,6 +87,16 @@ namespace Blazorise.TreeView
 
         [Parameter] public RenderFragment ChildContent { get; set; }
 
+        /// <summary>
+        /// Gets or sets selected node styling.
+        /// </summary>
+        [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
+
+        /// <summary>
+        /// Gets or sets node styling.
+        /// </summary>
+        [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
+
         #endregion
     }
 }
