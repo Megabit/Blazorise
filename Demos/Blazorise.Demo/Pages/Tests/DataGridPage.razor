@@ -218,9 +218,9 @@
                                     <Button Color="Color.Info" Clicked="@Reload" title="Reload"><Icon Name="IconName.CompactDisc" /></Button>
                             </FilterTemplate>
                             <MultiSelectTemplate>
-                                    <Label @onclick:stopPropagation>
-                                        <Check TValue="bool" Checked="@context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged" @onclick:stopPropagation></Check>
-                                    </Label>
+                                <Label @onclick:stopPropagation>
+                                    <Check TValue="bool" Checked="@context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged" @onclick:stopPropagation></Check>
+                                </Label>
                             </MultiSelectTemplate>
                         </DataGridMultiSelectColumn>
                         <DataGridCommandColumn TItem="Employee" Width="170px">
