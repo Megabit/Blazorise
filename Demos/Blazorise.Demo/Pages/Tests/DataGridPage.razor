@@ -168,7 +168,8 @@
                 </Row>
             </CardBody>
             <CardBody>
-                <DataGrid TItem="Employee"
+                <DataGrid @ref="dataGrid"
+                          TItem="Employee"
                           ReadData="@(largeDataMode ? OnReadData : null)"
                           Data="@(largeDataMode ? employeeList : dataModels)"
                           TotalItems="@(largeDataMode ? totalEmployees : null)"
@@ -197,7 +198,10 @@
                           Hoverable="true"
                           Responsive="true"
                           ValidationsSummaryLabel="Following error occurs..."
-                          CustomFilter="@OnCustomFilter">
+                          CustomFilter="@OnCustomFilter"
+                          CurrentPage="currentPage"
+                          PageChanged="(e) => currentPage = e.Page"
+                          >
                     <EmptyTemplate>No records...</EmptyTemplate>
                     <DataGridAggregates>
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
@@ -211,10 +215,7 @@
                     <DataGridColumns>
                         <DataGridMultiSelectColumn TItem="Employee" Width="30px">
                             <FilterTemplate>
-                                @if(btnClearFilter is not null)
-                                {
-                                    <Button Color="Color.Warning" Clicked="@btnClearFilter.Clicked"><Icon Name="IconName.Clear" /></Button>
-                                }
+                                    <Button Color="Color.Info" Clicked="@Reload" title="Reload"><Icon Name="IconName.CompactDisc" /></Button>
                             </FilterTemplate>
                             <MultiSelectTemplate>
                                     <Label @onclick:stopPropagation>
@@ -239,7 +240,7 @@
                                 <Button Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </CancelCommandTemplate>
                             <ClearFilterCommandTemplate>
-                                <Button @ref="btnClearFilter" Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
+                                <Button Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </ClearFilterCommandTemplate>
                         </DataGridCommandColumn>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
