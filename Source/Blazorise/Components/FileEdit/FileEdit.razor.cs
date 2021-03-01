@@ -85,17 +85,30 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
-                JSRunner.DestroyFileEdit( ElementRef, ElementId );
+                var task = JSRunner.DestroyFileEdit( ElementRef, ElementId );
+
+                try
+                {
+                    await task;
+                }
+                catch
+                {
+                    if ( !task.IsCanceled )
+                    {
+                        throw;
+                    }
+                }
+
                 DisposeDotNetObjectRef( dotNetObjectRef );
 
                 LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         /// <summary>

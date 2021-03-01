@@ -43,7 +43,7 @@ namespace Blazorise
             builder.Append( $"padding-left: { Indentation * ParentDropdownState.NestedIndex }rem", ParentDropdownState.IsInlineDisplay );
         }
 
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
@@ -52,13 +52,25 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    _ = JSRunner.UnregisterClosableComponent( this );
+                    var task = JSRunner.UnregisterClosableComponent( this );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
+                    }
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         protected Task ClickHandler()

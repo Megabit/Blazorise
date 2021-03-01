@@ -1,3 +1,4 @@
+using System;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
@@ -33,6 +34,9 @@ namespace Blazorise.Demo.Bootstrap.RC
             services.AddServerSideBlazor().AddHubOptions( ( o ) =>
             {
                 o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
+            } ).AddCircuitOptions( o =>
+            {
+                o.JSInteropDefaultCallTimeout = TimeSpan.FromSeconds( 5 );
             } );
         }
 
