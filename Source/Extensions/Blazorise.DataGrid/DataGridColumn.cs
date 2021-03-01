@@ -236,6 +236,11 @@ namespace Blazorise.DataGrid
         [Parameter] public SortDirection Direction { get; set; }
 
         /// <summary>
+        /// Gets or sets the column's display sort direction template.
+        /// </summary>
+        [Parameter] public RenderFragment<SortDirection> SortDirectionTemplate { get; set; }
+
+        /// <summary>
         /// Defines the alignment for display cell.
         /// </summary>
         [Parameter] public TextAlignment TextAlignment { get; set; }
