@@ -10,7 +10,6 @@ namespace Blazorise.TreeView
 {
     public partial class _TreeViewNodeContent<TNode> : BaseComponent
     {
-
         #region Constructors
 
         public _TreeViewNodeContent()
@@ -70,6 +69,7 @@ namespace Blazorise.TreeView
                 SelectedNodeStyling?.Invoke( Node, selectedNodeStyling );
             else
                 NodeStyling?.Invoke( Node, nodeStyling );
+
             return base.OnParametersSetAsync();
         }
 

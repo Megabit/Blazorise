@@ -15,7 +15,6 @@
         /// </summary>
         public string Style { get; set; }
 
-
         /// <summary>
         /// Custom text color.
         /// </summary>

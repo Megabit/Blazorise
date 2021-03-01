@@ -51,7 +51,7 @@ namespace Blazorise.TreeView
             InvokeAsync( StateHasChanged );
         }
 
-        private Action<TNode, NodeStyling> ResolveNodeStylingAction( Action<TNode, NodeStyling> action)
+        private Action<TNode, NodeStyling> ResolveNodeStylingAction( Action<TNode, NodeStyling> action )
         {
             return action ?? new Action<TNode, NodeStyling>( ( item, style ) => { return; } );
         }
