@@ -71,7 +71,7 @@ namespace Blazorise.DataGrid
         {
             get
             {
-                if( Columns.Any( column => column.EditOrder.HasValue ) )
+                if ( Columns.Any( column => column.EditOrder.HasValue ) )
                     return Columns
                         .Where( column => !column.ExcludeFromEdit && column.CellValueIsEditable )
                         .OrderBy( column => column.EditOrder.GetValueOrDefault() );
