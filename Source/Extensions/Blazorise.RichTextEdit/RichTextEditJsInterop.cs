@@ -63,7 +63,19 @@ namespace Blazorise.RichTextEdit
 
             return AsyncDisposable.Create( async () =>
             {
-                await DestroyEditor( richTextEdit.EditorRef );
+                var task = DestroyEditor( richTextEdit.EditorRef );
+
+                try
+                {
+                    await task;
+                }
+                catch
+                {
+                    if ( !task.IsCanceled )
+                    {
+                        throw;
+                    }
+                }
 
                 dotNetRef.Dispose();
             } );

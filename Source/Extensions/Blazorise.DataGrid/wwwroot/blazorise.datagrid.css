@@ -13,5 +13,10 @@
 }
 
     .b-datagrid-resizer:hover, .b-datagrid-resizing {
+        cursor: col-resize !important;
         border-right: 2px solid var(--b-theme-primary, blue);
     }
+
+.b-datagrid-resizing {
+    cursor: col-resize !important;
+}

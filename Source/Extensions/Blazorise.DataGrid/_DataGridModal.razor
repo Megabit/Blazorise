@@ -26,22 +26,16 @@
                     <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" />
                 }
                 <Fields>
-                    @foreach ( var column in Columns )
+                    @foreach ( var column in OrderedEditableColumns )
                     {
-                        @if ( column.ExcludeFromEdit )
-                            continue;
-
-                        @if ( column.CellValueIsEditable )
-                        {
-                            <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
-                                <FieldLabel>
-                                    @column.Caption
-                                </FieldLabel>
-                                <FieldBody>
-                                    <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
-                                </FieldBody>
-                            </Field>
-                        }
+                        <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                            <FieldLabel>
+                                @column.Caption
+                            </FieldLabel>
+                            <FieldBody>
+                                <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
+                            </FieldBody>
+                        </Field>
                     }
                 </Fields>
             </Validations>
