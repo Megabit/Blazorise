@@ -29,6 +29,13 @@ namespace Blazorise
         {
             await base.SetParametersAsync( parameters );
 
+            if ( Multiple && parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( SelectedValues ), out var selectedValues ) )
+            {
+                // For Multiple mode we need to update select options DOM through the javascript or otherwise
+                // the newly selected values would not be re-rendered and not visible on the UI.
+                ExecuteAfterRender( async () => await JSRunner.SetSelectedOptions( ElementId, selectedValues ) );
+            }
+
             if ( ParentValidation != null )
             {
                 if ( Multiple )
