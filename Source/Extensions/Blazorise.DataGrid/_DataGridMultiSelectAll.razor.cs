@@ -23,9 +23,10 @@ namespace Blazorise.DataGrid
 
             if ( hasSelectedRows )
             {
+                var hasData = ParentDataGrid.DisplayData.Any();
                 var unselectedRows = ParentDataGrid.DisplayData.Except( ParentDataGrid.SelectedRows ).Any();
 
-                if ( hasSelectedRows && !unselectedRows )
+                if ( hasSelectedRows && !unselectedRows && hasData )
                     IsChecked = true;
 
                 if ( !hasSelectedRows || unselectedRows )

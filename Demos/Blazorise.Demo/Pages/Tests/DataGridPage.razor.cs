@@ -45,6 +45,8 @@ namespace Blazorise.Demo.Pages.Tests
         DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
         DataGridResizeMode resizableMode = DataGridResizeMode.Header;
 
+        DataGrid<Employee> dataGrid;
+        public int currentPage { get; set; } = 1;
 
         bool editable = true;
         bool resizable = true;
@@ -195,6 +197,12 @@ namespace Blazorise.Demo.Pages.Tests
                 // always call StateHasChanged!
                 await InvokeAsync( StateHasChanged );
             }
+        }
+
+        Task Reload()
+        {
+            currentPage = 1;
+            return dataGrid.Reload();
         }
 
         #endregion
