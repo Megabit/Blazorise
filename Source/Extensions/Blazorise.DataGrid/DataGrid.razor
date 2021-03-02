@@ -91,7 +91,12 @@
                         {
                             @if ( MultiSelect )
                             {
-                                <TableHeaderCell></TableHeaderCell>
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
+                                    @if ( column.FilterTemplate != null )
+                                    {
+                                        @(column.FilterTemplate( column.Filter ))
+                                    }
+                                </TableHeaderCell>
                             }
                         }
                         else
