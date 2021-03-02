@@ -200,8 +200,7 @@
                           ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter"
                           CurrentPage="currentPage"
-                          PageChanged="(e) => currentPage = e.Page"
-                          >
+                          PageChanged="(e) => currentPage = e.Page">
                     <EmptyTemplate>No records...</EmptyTemplate>
                     <DataGridAggregates>
                         <DataGridAggregate TItem="Employee" Field="@nameof( Employee.EMail )" Aggregate="DataGridAggregateType.Count">
@@ -215,7 +214,9 @@
                     <DataGridColumns>
                         <DataGridMultiSelectColumn TItem="Employee" Width="30px">
                             <FilterTemplate>
-                                    <Button Color="Color.Info" Clicked="@Reload" title="Reload"><Icon Name="IconName.CompactDisc" /></Button>
+                                <Button Clicked="@Reload" title="Reload">
+                                    <Icon Name="IconName.Sync" />
+                                </Button>
                             </FilterTemplate>
                             <MultiSelectTemplate>
                                 <Label @onclick:stopPropagation>
@@ -344,10 +345,10 @@
                     <ButtonRowTemplate>
                         @if ( showButtonRow )
                         {
-                            <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">New</Button>
-                            <Button Color="Color.Primary" Disabled="@(selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
-                            <Button Color="Color.Danger" Disabled="@(selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
-                            <Button Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">Clear Filter</Button>
+                            <Button Color="Color.Success" Clicked="@context.NewCommand.Clicked">@context.NewCommand.LocalizationString</Button>
+                            <Button Color="Color.Primary" Clicked="@context.EditCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.EditCommand.LocalizationString</Button>
+                            <Button Color="Color.Danger" Clicked="@context.DeleteCommand.Clicked" Disabled="@(selectedEmployee is null)">@context.DeleteCommand.LocalizationString</Button>
+                            <Button Color="Color.Warning" Clicked="@context.ClearFilterCommand.Clicked">@context.ClearFilterCommand.LocalizationString</Button>
                         }
                     </ButtonRowTemplate>
                 </DataGrid>
