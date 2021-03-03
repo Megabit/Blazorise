@@ -32,6 +32,10 @@ namespace Blazorise.DataGrid
                 if ( !hasSelectedRows || unselectedRows )
                     IsChecked = false;
             }
+            else
+            {
+                IsChecked = false;
+            }
 
             return base.OnParametersSetAsync();
         }
