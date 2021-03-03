@@ -43,10 +43,6 @@ When using Datagrid, you must now additionally add the Datagrid resources to you
 
 `<script src="_content/Blazorise.DataGrid/blazorise.datagrid.js"></script>`
 
-### Other
-
-- `RadioGroup`: `bool Inline` parameter replaced with enum `Orientation`.
-
 ## Migration 🛠
 
 - Migrate your .Net Core 3.1 project to .Net 5 by following [Microsoft migration guide](https://docs.microsoft.com/en-us/aspnet/core/migration/31-to-50?view=aspnetcore-5.0&tabs=visual-studio).
