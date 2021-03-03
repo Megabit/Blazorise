@@ -3,7 +3,7 @@
 {
     <div class="field">
         <div class="control">
-            <textarea @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" value="@CurrentValue" maxlength="@MaxLength" rows="@Rows" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @attributes="@Attributes" />
+            <textarea @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" value="@CurrentValue" maxlength="@MaxLength" rows="@Rows" tabindex="@TabIndex" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
             @ChildContent
         </div>
         @Feedback
@@ -12,7 +12,7 @@
 else
 {
     <div class="control">
-        <textarea @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" value="@CurrentValue" maxlength="@MaxLength" rows="@Rows" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @attributes="@Attributes" />
+        <textarea @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" value="@CurrentValue" maxlength="@MaxLength" rows="@Rows" tabindex="@TabIndex" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
         @ChildContent
     </div>
     @Feedback

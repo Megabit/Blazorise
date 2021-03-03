@@ -1,11 +1,11 @@
 ﻿@inherits Blazorise.Tabs
-<CascadingValue Value=this>
-    <CascadingValue Value="@Store">
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@State">
         @if ( TabPosition == TabPosition.Top )
         {
             @if ( Items != null )
             {
-                <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                     <ul>
                         @Items
                     </ul>
@@ -24,7 +24,7 @@
                 <Column ColumnSize="ColumnSize.Is2">
                     @if ( Items != null )
                     {
-                        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                             <ul>
                                 @Items
                             </ul>
@@ -55,7 +55,7 @@
                 <Column ColumnSize="ColumnSize.Is2">
                     @if ( Items != null )
                     {
-                        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                             <ul>
                                 @Items
                             </ul>

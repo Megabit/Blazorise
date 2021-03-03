@@ -1,9 +1,8 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -47,6 +46,9 @@ namespace Blazorise.Charts
         #endregion
 
         #region Properties
+
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
 
         protected DotNetObjectReference<ChartAdapter> DotNetObjectRef { get; set; }
 
@@ -209,6 +211,53 @@ namespace Blazorise.Charts
 
             if ( initialized )
                 await JS.AddLabelsDatasetsAndUpdate( JSRuntime, ElementId, labels, datasets );
+        }
+
+        /// <summary>
+        /// Removes the oldest label.
+        /// </summary>       
+        public async Task ShiftLabel()
+        {
+            dirty = true;
+
+            if ( initialized )
+                await JS.ShiftLabel( JSRuntime, ElementId );
+        }
+
+        /// <summary>
+        /// Removes the oldest data point from the specified dataset.
+        /// </summary>
+        /// <param name="dataSetIndex">Dataset index from which the oldest data point is to be removed from.</param>
+        /// <returns></returns>
+        public async Task ShiftData( int dataSetIndex )
+        {
+            dirty = true;
+
+            if ( initialized )
+                await JS.ShiftData( JSRuntime, ElementId, dataSetIndex );
+        }
+        /// <summary>
+        /// Removes the newest label.
+        /// </summary>       
+        public async Task PopLabel()
+        {
+            dirty = true;
+
+            if ( initialized )
+                await JS.PopLabel( JSRuntime, ElementId );
+        }
+
+        /// <summary>
+        /// Removes the newest data point from the specified dataset.
+        /// </summary>
+        /// <param name="dataSetIndex">Dataset index from which the newest data point is to be removed from.</param>
+        /// <returns></returns>
+        public async Task PopData( int dataSetIndex )
+        {
+            dirty = true;
+
+            if ( initialized )
+                await JS.PopData( JSRuntime, ElementId, dataSetIndex );
         }
 
         /// <summary>

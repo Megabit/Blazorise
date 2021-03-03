@@ -1,15 +1,16 @@
 ﻿@typeparam TItem
-<Dropdown @ref="@dropdown" Class="@Class" Style="@Style" Attributes="@Attributes">
-    <DropdownToggle @ref="@dropdownToggle" Color="@Color">@ChildContent</DropdownToggle>
+@typeparam TValue
+<Dropdown @ref="@dropdownRef" ElementId="@ElementId" Class="@Class" Style="@Style" Attributes="@Attributes">
+    <DropdownToggle @ref="@dropdownToggleRef" Color="@Color" TabIndex="@TabIndex">@ChildContent</DropdownToggle>
     <DropdownMenu>
         @if ( Data != null )
         {
             foreach ( var item in Data )
             {
                 var text = TextField?.Invoke( item );
-                var value = ValueField?.Invoke( item );
+                var value = ValueField != null ? ValueField.Invoke( item ) : default;
 
-                <DropdownItem Clicked="@HandleItemClicked" Value="@value">@text</DropdownItem>
+                <DropdownItem Clicked="@HandleDropdownItemClicked" Value="@value">@text</DropdownItem>
             }
         }
     </DropdownMenu>

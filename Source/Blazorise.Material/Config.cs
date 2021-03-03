@@ -20,32 +20,16 @@ namespace Blazorise.Material
             serviceCollection.AddSingleton<IClassProvider>( classProvider );
             serviceCollection.AddSingleton<IStyleProvider, MaterialStyleProvider>();
             serviceCollection.AddScoped<IJSRunner, MaterialJSRunner>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
             serviceCollection.AddScoped<IThemeGenerator, MaterialThemeGenerator>();
 
+            serviceCollection.AddBootstrapComponents();
+
+            // material overrides
+            serviceCollection.AddTransient( typeof( Blazorise.Switch<> ), typeof( Material.Switch<> ) );
+            serviceCollection.AddTransient<Blazorise.Step, Material.Step>();
+            serviceCollection.AddTransient<Blazorise.Steps, Material.Steps>();
+
             return serviceCollection;
-        }
-
-        private static void RegisterComponents( IComponentMapper componentMapper )
-        {
-            componentMapper.Replace( typeof( Blazorise.Switch<> ), typeof( Material.Switch<> ) );
-        }
-
-        /// <summary>
-        /// Registers the custom rules for material components.
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IServiceProvider UseMaterialProviders( this IServiceProvider serviceProvider )
-        {
-            // same components as in bootstrap provider
-            serviceProvider.UseBootstrapProviders();
-
-            var componentMapper = serviceProvider.GetRequiredService<IComponentMapper>();
-
-            RegisterComponents( componentMapper );
-
-            return serviceProvider;
         }
     }
 }

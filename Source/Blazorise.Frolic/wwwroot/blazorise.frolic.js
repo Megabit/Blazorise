@@ -14,14 +14,14 @@ window.blazoriseFrolic = {
         }
     },
     modal: {
-        open: (element, elementId, scrollToTop) => {
+        open: (element, scrollToTop) => {
             if (scrollToTop) {
                 element.querySelector('.e-modal-body').scrollTop = 0;
             }
 
             return true;
         },
-        close: (element, elementId) => {
+        close: (element) => {
             return true;
         }
     }

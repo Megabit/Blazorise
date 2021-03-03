@@ -39,10 +39,6 @@ namespace Blazorise.Demo.AntDesign
 
             var host = builder.Build();
 
-            host.Services
-                .UseAntDesignProviders()
-                .UseFontAwesomeIcons();
-
             await host.RunAsync();
         }
     }

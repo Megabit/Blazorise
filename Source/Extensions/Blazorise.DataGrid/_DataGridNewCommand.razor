@@ -1,16 +1,21 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridNewCommand<TItem>
-@if ( ParentDataGrid?.CommandColumn?.NewCommandAllowed == true )
+@if ( ParentDataGrid.CommandColumn?.NewCommandAllowed == true )
 {
-    @if ( ParentDataGrid?.CommandColumn?.NewCommandTemplate != null )
+    var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
+
+    @if ( ParentDataGrid.CommandColumn?.NewCommandTemplate != null )
     {
-        @ParentDataGrid.CommandColumn.NewCommandTemplate( new CommandContext<TItem>
+        @ParentDataGrid.CommandColumn.NewCommandTemplate( new NewCommandContext
         {
             Clicked = New,
+            LocalizationString = newButtonString,
         } )
     }
     else
     {
-        <Button Color="Color.Link" Clicked="@New">New</Button>
+        <Button Color="Color.Link" Clicked="@New">
+            @newButtonString
+        </Button>
     }
 }

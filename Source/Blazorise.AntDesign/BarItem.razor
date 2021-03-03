@@ -1,15 +1,15 @@
 ﻿@inherits Blazorise.BarItem
-<CascadingValue Value=this>
-    <CascadingValue Value="@Store">
-            @if ( HasDropdown && Store.Mode != BarMode.Horizontal )
-            {
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@State">
+        @if ( HasDropdown && State.Mode != BarMode.Horizontal )
+        {
+            @ChildContent
+        }
+        else
+        {
+            <li id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@State.Disabled.ToString().ToLowerInvariant()" @attributes="@Attributes">
                 @ChildContent
-            }
-            else
-            {
-                <li class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@Store.Disabled.ToString().ToLowerInvariant()" @attributes="@Attributes">
-                    @ChildContent
-                </li>
-            }
+            </li>
+        }
     </CascadingValue>
 </CascadingValue>

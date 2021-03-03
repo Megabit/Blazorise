@@ -1,7 +1,8 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -9,9 +10,34 @@ namespace Blazorise.TreeView
 {
     public partial class _TreeViewNodeContent<TNode> : BaseComponent
     {
+        #region Constructors
+
+        public _TreeViewNodeContent()
+        {
+            selectedNodeStyling = new NodeStyling()
+            {
+                Background = Background.Primary,
+                TextColor = TextColor.White
+            };
+
+            nodeStyling = new NodeStyling()
+            {
+                Background = Background.None,
+                TextColor = TextColor.None
+            };
+
+
+        }
+
+        #endregion
+
         #region Members
 
-        private TreeViewStore<TNode> treeViewStore;
+        private TreeViewState<TNode> treeViewState;
+
+        private NodeStyling selectedNodeStyling;
+
+        private NodeStyling nodeStyling;
 
         #endregion
 
@@ -22,7 +48,9 @@ namespace Blazorise.TreeView
             builder.Append( $"{ClassProvider.Spacing( Spacing.Padding, SpacingSize.Is1, Side.All, Breakpoint.None )} cursor-pointer" );
 
             if ( Selected )
-                builder.Append( $"{ClassProvider.BackgroundColor( Background.Primary )} {ClassProvider.TextColor( TextColor.White )}" );
+                builder.Append( $"{ClassProvider.BackgroundColor( selectedNodeStyling.Background )} {ClassProvider.TextColor( selectedNodeStyling.TextColor )} {selectedNodeStyling.Class}" );
+            else
+                builder.Append( $"{ClassProvider.BackgroundColor( nodeStyling.Background )} {ClassProvider.TextColor( nodeStyling.TextColor )} {nodeStyling.Class}" );
 
             base.BuildClasses( builder );
         }
@@ -35,33 +63,53 @@ namespace Blazorise.TreeView
             return Task.CompletedTask;
         }
 
+        protected override Task OnParametersSetAsync()
+        {
+            if ( Selected )
+                SelectedNodeStyling?.Invoke( Node, selectedNodeStyling );
+            else
+                NodeStyling?.Invoke( Node, nodeStyling );
+
+            return base.OnParametersSetAsync();
+        }
+
         #endregion
 
         #region Properties
 
         protected bool Selected
-            => TreeViewStore.SelectedNode != null && TreeViewStore.SelectedNode.Equals( Node );
+            => TreeViewState.SelectedNode != null && TreeViewState.SelectedNode.Equals( Node );
 
         [Parameter] public TNode Node { get; set; }
 
         [CascadingParameter] public TreeView<TNode> Parent { get; set; }
 
         [CascadingParameter]
-        protected TreeViewStore<TNode> TreeViewStore
+        protected TreeViewState<TNode> TreeViewState
         {
-            get => treeViewStore;
+            get => treeViewState;
             set
             {
-                if ( treeViewStore == value )
+                if ( treeViewState == value )
                     return;
 
-                treeViewStore = value;
+                treeViewState = value;
 
                 DirtyClasses();
             }
         }
 
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets selected node styling.
+        /// </summary>
+        [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
+
+        /// <summary>
+        /// Gets or sets node styling.
+        /// </summary>
+        [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
 
         #endregion
     }

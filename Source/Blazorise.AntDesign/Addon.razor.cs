@@ -1,8 +1,6 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.AntDesign
@@ -24,15 +22,16 @@ namespace Blazorise.AntDesign
             base.BuildClasses( builder );
         }
 
-        protected override Task OnFirstAfterRenderAsync()
+        protected override async Task OnFirstAfterRenderAsync()
         {
             if ( hasDropdown )
             {
                 DirtyClasses();
-                StateHasChanged();
+
+                await InvokeAsync( StateHasChanged );
             }
 
-            return base.OnFirstAfterRenderAsync();
+            await base.OnFirstAfterRenderAsync();
         }
 
         internal void Register( AntDesign.Dropdown dropdown )

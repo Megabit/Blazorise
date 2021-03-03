@@ -19,14 +19,14 @@ namespace Blazorise.Frolic
             return runtime.InvokeAsync<bool>( $"blazoriseFrolic.tooltip.initialize", elementRef, elementId );
         }
 
-        public override ValueTask<bool> OpenModal( ElementReference elementRef, string elementId, bool scrollToTop )
+        public override ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop )
         {
-            return runtime.InvokeAsync<bool>( $"blazoriseFrolic.modal.open", elementRef, elementId, scrollToTop );
+            return runtime.InvokeAsync<bool>( $"blazoriseFrolic.modal.open", elementRef, scrollToTop );
         }
 
-        public override ValueTask<bool> CloseModal( ElementReference elementRef, string elementId )
+        public override ValueTask<bool> CloseModal( ElementReference elementRef )
         {
-            return runtime.InvokeAsync<bool>( $"blazoriseFrolic.modal.close", elementRef, elementId );
+            return runtime.InvokeAsync<bool>( $"blazoriseFrolic.modal.close", elementRef );
         }
     }
 }

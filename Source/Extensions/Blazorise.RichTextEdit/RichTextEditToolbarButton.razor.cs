@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using Blazorise.RichTextEdit.Providers;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 

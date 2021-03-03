@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 using Xunit;
 
 namespace Blazorise.Tests.Utils

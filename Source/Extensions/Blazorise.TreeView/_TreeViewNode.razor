@@ -1,6 +1,6 @@
 ﻿@typeparam TNode
 @inherits BaseComponent
-<CascadingValue Value=this>
+<CascadingValue Value="@this" IsFixed="true">
     <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @foreach ( TNode node in Nodes ?? Enumerable.Empty<TNode>() )
         {
@@ -16,7 +16,9 @@
                     </span>
                 }
 
-                <_TreeViewNodeContent TNode="TNode" Node="@node">
+                <_TreeViewNodeContent TNode="TNode" Node="@node"
+                                      NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
+                                      SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))">
                     @NodeContent( node )
                 </_TreeViewNodeContent>
 
@@ -28,7 +30,9 @@
                                    ExpandedNodes="ExpandedNodes"
                                    ExpandedNodesChanged="ExpandedNodesChanged"
                                    Expanded="nodeExpanded"
-                                   HasChildNodes="HasChildNodes" />
+                                   HasChildNodes="HasChildNodes"
+                                   NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
+                                   SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))" />
                 }
             </div>
         }

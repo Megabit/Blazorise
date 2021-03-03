@@ -1,0 +1,5 @@
+﻿@namespace Blazorise
+@inherits BaseTextInput<string>
+<input @ref="ElementRef" id="@ElementId" type="@Type" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" value="@CurrentValue" tabindex="@TabIndex" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+@ChildContent
+@Feedback

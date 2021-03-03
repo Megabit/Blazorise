@@ -1,8 +1,5 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Bootstrap
@@ -24,7 +21,7 @@ namespace Blazorise.Bootstrap
 
         #region Methods
 
-        protected override void DirtyClasses()
+        protected internal override void DirtyClasses()
         {
             DialogClassBuilder.Dirty();
 

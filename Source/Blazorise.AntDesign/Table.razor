@@ -1,10 +1,27 @@
 ﻿@inherits Blazorise.Table
-<div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <div class="ant-table-container">
-        <div class="ant-table-content">
-            <table style="table-layout: auto;">
-                @ChildContent
-            </table>
+<CascadingValue Value="@this" IsFixed="true">
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div class="ant-table-container">
+            <div class="ant-table-content">
+                <table @ref="@ElementRef" style="table-layout: auto;"
+                       draggable="@Draggable"
+                       @ondrag="@OnDragHandler"
+                       @ondrag:preventDefault="@DragPreventDefault"
+                       @ondragend="@OnDragEndHandler"
+                       @ondragend:preventDefault="@DragEndPreventDefault"
+                       @ondragenter="@OnDragEnterHandler"
+                       @ondragenter:preventDefault="@DragEnterPreventDefault"
+                       @ondragleave="@OnDragLeaveHandler"
+                       @ondragleave:preventDefault="@DragLeavePreventDefault"
+                       @ondragover="@OnDragOverHandler"
+                       @ondragover:preventDefault="@DragOverPreventDefault"
+                       @ondragstart="@OnDragStartHandler"
+                       @ondragstart:preventDefault="@DragStartPreventDefault"
+                       @ondrop="@OnDropHandler"
+                       @ondrop:preventDefault="@DropPreventDefault">
+                    @ChildContent
+                </table>
+            </div>
         </div>
     </div>
-</div> 
+</CascadingValue>

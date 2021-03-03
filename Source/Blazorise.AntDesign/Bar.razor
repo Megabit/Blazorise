@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Bar
-<CascadingValue Value=this>
-    <CascadingValue Value="@Store">
-        <ul class="@ClassNames" style="@StyleNames" direction="ltr" role="menu" @attributes="@Attributes">
+<CascadingValue Value="@this" IsFixed="true">
+    <CascadingValue Value="@State">
+        <ul id="@ElementId" class="@ClassNames" style="@StyleNames" direction="ltr" role="menu" @attributes="@Attributes">
             @ChildContent
         </ul>
     </CascadingValue>

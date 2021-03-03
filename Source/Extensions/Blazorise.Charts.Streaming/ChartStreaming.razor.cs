@@ -71,6 +71,9 @@ namespace Blazorise.Charts.Streaming
 
         #region Properties
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         [Inject] IJSRuntime JSRuntime { get; set; }
 
         [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }

@@ -90,10 +90,6 @@ public class Program
 
     var host = builder.Build();
 
-    host.Services
-      .UseAntDesignProviders()
-      .UseFontAwesomeIcons();
-
     await host.RunAsync();
   }
 }
@@ -128,10 +124,6 @@ public class Startup
     
     app.UseRouting();
     
-    app.ApplicationServices
-      .UseAntDesignProviders()
-      .UseFontAwesomeIcons();
-
     app.UseEndpoints( endpoints =>
     {
         endpoints.MapBlazorHub();

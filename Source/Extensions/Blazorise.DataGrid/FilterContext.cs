@@ -1,10 +1,4 @@
-﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-#endregion
-
-namespace Blazorise.DataGrid
+﻿namespace Blazorise.DataGrid
 {
     /// <summary>
     /// Context for editors in datagrid filter section.
@@ -13,7 +7,7 @@ namespace Blazorise.DataGrid
     {
         #region Members
 
-        private event FilterChangedEventHandler FilterChanged;
+        private event FilterChangedEventHandler SearchValueChanged;
 
         public delegate void FilterChangedEventHandler( string value );
 
@@ -23,17 +17,18 @@ namespace Blazorise.DataGrid
 
         public void Subscribe( FilterChangedEventHandler listener )
         {
-            FilterChanged += listener;
+            SearchValueChanged += listener;
         }
 
         public void Unsubscribe( FilterChangedEventHandler listener )
         {
-            FilterChanged -= listener;
+            SearchValueChanged -= listener;
         }
 
         public void TriggerFilterChange( string value )
         {
-            FilterChanged?.Invoke( value );
+            SearchValue = value;
+            SearchValueChanged?.Invoke( value );
         }
 
         #endregion
@@ -46,12 +41,5 @@ namespace Blazorise.DataGrid
         public string SearchValue { get; set; }
 
         #endregion
-
-
-
-
-
-
-
     }
 }

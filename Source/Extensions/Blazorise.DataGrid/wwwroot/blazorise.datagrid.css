@@ -1,0 +1,22 @@
+﻿.b-datagrid.table th {
+    position: relative;
+}
+
+.b-datagrid-resizer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    cursor: col-resize;
+    user-select: none;
+    z-index: 1;
+}
+
+    .b-datagrid-resizer:hover, .b-datagrid-resizing {
+        cursor: col-resize !important;
+        border-right: 2px solid var(--b-theme-primary, blue);
+    }
+
+.b-datagrid-resizing {
+    cursor: col-resize !important;
+}

@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
-using Blazorise.Utils;
+using System.Text.Json.Serialization;
+using Blazorise.Utilities;
 #endregion
 
 namespace Blazorise.Charts
@@ -70,19 +71,35 @@ namespace Blazorise.Charts
         ///List of background colors for each of the data items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public object BackgroundColor { get; set; }
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> BackgroundColor { get; set; }
 
         /// <summary>
         /// List of border colors for each of the data items.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public object BorderColor { get; set; }
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> BorderColor { get; set; }
 
         /// <summary>
         /// Defines the border width.
         /// </summary>
         [DataMember]
         public int BorderWidth { get; set; } = 1;
+
+        /// <summary>
+        /// Defines the type of a chart dataset.
+        /// </summary>
+        [DataMember]
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Drawing order of the dataset. Used mainly for mixed charts. 
+        /// </summary>
+        [DataMember]
+        public int Order { get; set; }
     }
 
     /// <remarks>
@@ -97,7 +114,9 @@ namespace Blazorise.Charts
             borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 3
         )
-        { }
+        {
+            Type = "line";
+        }
 
         /// <summary>
         /// Length and spacing of dashes.
@@ -127,13 +146,17 @@ namespace Blazorise.Charts
         /// The fill color for points.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> PointBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> PointBackgroundColor { get; set; }
 
         /// <summary>
         /// The border color for points.
         /// </summary>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> PointBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> PointBorderColor { get; set; }
 
         /// <summary>
         /// The width of the point border in pixels.
@@ -184,21 +207,27 @@ namespace Blazorise.Charts
             borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 0
         )
-        { }
+        {
+            Type = "bar";
+        }
 
         /// <summary>
         /// The fill colour of the bars when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#rectangle-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBackgroundColor { get; set; }
 
         /// <summary>
         /// The stroke colour of the bars when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#rectangle-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBorderColor { get; set; }
 
         /// <summary>
         /// The stroke width of the bars when hovered.
@@ -219,21 +248,27 @@ namespace Blazorise.Charts
             borderColor: new List<string> { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
             borderWidth: 2
         )
-        { }
+        {
+            Type = "pie";
+        }
 
         /// <summary>
         /// The fill colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBackgroundColor { get; set; }
 
         /// <summary>
         /// The stroke colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBorderColor { get; set; }
 
         /// <summary>
         /// The stroke width of the arcs when hovered.
@@ -246,7 +281,11 @@ namespace Blazorise.Charts
     [DataContract]
     public class DoughnutChartDataset<T> : PieChartDataset<T>
     {
-        // same as pie chart
+        public DoughnutChartDataset()
+            : base()
+        {
+            Type = "doughnut";
+        }
     }
 
     /// <remarks>
@@ -261,21 +300,27 @@ namespace Blazorise.Charts
             borderColor: new List<string> { ChartColor.FromRgba( 0xF, 0xF, 0xF, 1.0f ) },
             borderWidth: 2
         )
-        { }
+        {
+            Type = "polarArea";
+        }
 
         /// <summary>
         /// The fill colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBackgroundColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBackgroundColor { get; set; }
 
         /// <summary>
         /// The stroke colour of the arcs when hovered.
         /// </summary>
         /// <remarks>Default as per https://www.chartjs.org/docs/latest/configuration/elements.html#arc-configuration </remarks>
         [DataMember( EmitDefaultValue = false )]
-        public List<string> HoverBorderColor { get; set; } = new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) };
+        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+        public IndexableOption<object> HoverBorderColor { get; set; }
 
         /// <summary>
         /// The stroke width of the arcs when hovered.
@@ -297,7 +342,9 @@ namespace Blazorise.Charts
             borderColor: new List<string> { ChartColor.FromRgba( 0, 0, 0, 0.1f ) },
             borderWidth: 3
         )
-        { }
+        {
+            Type = "radar";
+        }
 
         /// <summary>
         /// How to fill the area under the line.

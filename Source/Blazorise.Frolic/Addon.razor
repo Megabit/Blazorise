@@ -1,12 +1,12 @@
 ﻿@inherits Blazorise.Addon
-<CascadingValue Value="this">
+<CascadingValue Value="@this" IsFixed="true">
     @if ( AddonType == AddonType.Body || NoContainer )
     {
         @ChildContent
     }
     else
     {
-        <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </div>
     }
@@ -17,7 +17,8 @@
     internal void Hook( BaseComponent child )
     {
         this.child = child;
-        StateHasChanged();
+
+        InvokeAsync( StateHasChanged );
     }
 
     bool NoContainer => child is Frolic.Button || child is Frolic.Dropdown;

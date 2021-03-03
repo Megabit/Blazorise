@@ -1,0 +1,26 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+@if ( Link != null )
+{
+    <a id="@ElementId" href="@Link" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+        @if ( Closable )
+        {
+            <span class="@CloseClassBuilder.Class" aria-label="Close" @onclick="@OnCloseClickedHandler" @onclick:preventDefault="true">
+                <span aria-hidden="true">&times;</span>
+            </span>
+        }
+    </a>
+}
+else
+{
+    <span id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+        @if ( Closable )
+        {
+            <span class="@CloseClassBuilder.Class" aria-label="Close" @onclick="@OnCloseClickedHandler">
+                <span aria-hidden="true">&times;</span>
+            </span>
+        }
+    </span>
+}

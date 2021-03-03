@@ -12,7 +12,7 @@
     <SkipTests Condition="'$(BlazorAllTests)' != 'true'">true</SkipTests>
     <!-- https://github.com/aspnet/AspNetCore/issues/6857 -->
     <BuildHelixPayload>false</BuildHelixPayload>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

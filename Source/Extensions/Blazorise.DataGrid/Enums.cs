@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Blazorise.DataGrid
+﻿namespace Blazorise.DataGrid
 {
     /// <summary>
     /// States of the row items.
@@ -80,6 +76,11 @@ namespace Blazorise.DataGrid
         /// Column is used only to represent commands like edit, save, etc.
         /// </summary>
         Command,
+
+        /// <summary>
+        /// Column is used only to represent the multiselect command.
+        /// </summary>
+        MultiSelect,
     }
 
     public enum DataGridFilterMethod
@@ -172,5 +173,58 @@ namespace Blazorise.DataGrid
         /// The data grid can sorted by multiple columns.
         /// </summary>
         Multiple
+    }
+
+    /// <summary>
+    /// Defines the selection mode of the data grid.
+    /// </summary>
+    public enum DataGridSelectionMode
+    {
+        /// <summary>
+        /// The data grid can only select a row at a time.
+        /// </summary>
+        Single,
+
+        /// <summary>
+        /// The data grid can select multiple rows with checkbox support.
+        /// </summary>
+        Multiple
+    }
+
+    /// <summary>
+    /// Defines the command mode of the data grid.
+    /// </summary>
+    public enum DataGridCommandMode
+    {
+        /// <summary>
+        /// Default state which means that both defined commands and button row will render(only if ButtonRowTemplate is defined).
+        /// </summary>
+        Default,
+
+        /// <summary>
+        /// Only defined commands will render.
+        /// </summary>
+        Commands,
+
+        /// <summary>
+        /// Only button row will render.
+        /// </summary>
+        ButtonRow
+    }
+
+    /// <summary>
+    /// Defines the resize mode of the data grid columns.
+    /// </summary>
+    public enum DataGridResizeMode
+    {
+        /// <summary>
+        /// The data grid can only be resized from the columns header.
+        /// </summary>
+        Header,
+
+        /// <summary>
+        /// The data grid can be resized from the entire column area.
+        /// </summary>
+        Columns
     }
 }

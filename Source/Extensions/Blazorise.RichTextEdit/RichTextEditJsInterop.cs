@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazorise.Utils;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -41,7 +41,7 @@ namespace Blazorise.RichTextEdit
         /// Initializes given editor
         /// </summary>
         /// <returns>the cleanup routine</returns>
-        public async ValueTask<IDisposable> InitializeEditor( RichTextEdit richTextEdit )
+        public async ValueTask<IAsyncDisposable> InitializeEditor( RichTextEdit richTextEdit )
         {
             await InitializeJsInterop();
 
@@ -50,24 +50,38 @@ namespace Blazorise.RichTextEdit
 
             await jsRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.initialize",
                 dotNetRef,
-                richTextEdit.EditorRef,
-                richTextEdit.Toolbar != null ? richTextEdit.ToolbarRef : default,
+                richTextEdit.ElementRef,
                 richTextEdit.ReadOnly,
                 richTextEdit.PlaceHolder,
                 richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
                 nameof( RichTextEdit.OnContentChanged ),
                 richTextEdit.SubmitOnEnter,
                 nameof( RichTextEdit.OnEnter ),
+                nameof( RichTextEdit.OnEditorFocus ),
+                nameof( RichTextEdit.OnEditorBlur ),
                 richTextEdit.ConfigureQuillJsMethod );
 
-            return Disposable.Create( () =>
+            return AsyncDisposable.Create( async () =>
             {
-                DestroyEditor( richTextEdit.EditorRef );
+                var task = DestroyEditor( richTextEdit.EditorRef );
+
+                try
+                {
+                    await task;
+                }
+                catch
+                {
+                    if ( !task.IsCanceled )
+                    {
+                        throw;
+                    }
+                }
+
                 dotNetRef.Dispose();
             } );
         }
 
-        private async void DestroyEditor( ElementReference editorRef )
+        private async ValueTask DestroyEditor( ElementReference editorRef )
         {
             await jsRuntime.InvokeVoidAsync( "blazoriseRichTextEdit.destroy", editorRef );
         }
@@ -160,6 +174,7 @@ namespace Blazorise.RichTextEdit
 
                 await LoadElementAsync( $@"https://cdn.quilljs.com/{qjsVersion}/quill.js", true );
                 await LoadElementAsync( @"_content/Blazorise.RichTextEdit/blazorise.richtextedit.js", true );
+                await LoadElementAsync( @"_content/Blazorise.RichTextEdit/Blazorise.RichTextEdit.bundle.scp.css", false );
 
                 if ( options.UseBubbleTheme )
                 {

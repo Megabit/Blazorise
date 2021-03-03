@@ -219,10 +219,12 @@ namespace Blazorise.Bootstrap
                 if ( !backgroundColor.IsEmpty )
                 {
                     var background = ToHex( backgroundColor );
+                    var color = ToHex( Contrast( theme, background ) );
 
                     sb.Append( $".dropdown-item.active," )
                         .Append( $".dropdown-item:active" ).Append( "{" )
                         .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+                        .Append( $"color: {color} !important;" )
                         .AppendLine( "}" );
                 }
             }
@@ -341,6 +343,81 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
+        {
+            sb
+                .Append( $".step-completed .step-circle" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.White )};" )
+                .Append( $"background-color: {Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
+                .Append( $"border-color: {Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".step-completed .step-circle::before" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemIconCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".step-completed .step-text" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemTextCompleted, Var( ThemeVariables.Color( "success" ) ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".step-active .step-circle" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.White )};" )
+                .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .Append( $"border-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".step-active .step-text" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemTextActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
+        {
+            sb
+                .Append( $".step-{variant} .step-circle" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
+                .Append( $"border-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".step-{variant}.step-completed .step-circle" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantStepsItemIconYiq( variant ) )};" )
+                .Append( $"background-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
+                .Append( $"border-color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".step-{variant}.step-completed .step-circle::before" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantStepsItemIcon( variant ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".step-{variant}.step-completed .step-text" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantStepsItemText( variant ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".step-{variant}.step-active .step-circle" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq, Var( ThemeVariables.White ) )};" )
+                .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .Append( $"border-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".step-{variant}.step-active::before" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".step-{variant}.step-active .step-text" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
+        }
+
         protected override void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options )
         {
             var backgroundColor = ParseColor( inBackgroundColor );
@@ -390,13 +467,13 @@ namespace Blazorise.Bootstrap
                 .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".table-hover table-{variant}:hover" )
+            sb.Append( $".table-hover .table-{variant}:hover" )
                 .Append( "{" )
                 .Append( $"background-color: {hoverBackground};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".table-hover table-{variant}:hover>td" )
-                .Append( $".table-hover table-{variant}:hover>th" )
+            sb.Append( $".table-hover .table-{variant}:hover>td," )
+                .Append( $".table-hover .table-{variant}:hover>th" )
                 .Append( "{" )
                 .Append( $"background-color: {hoverBackground};" )
                 .AppendLine( "}" );
@@ -462,6 +539,8 @@ namespace Blazorise.Bootstrap
                     .Append( $"background-color: {Var( ThemeVariables.Color( "primary" ) )};" )
                     .AppendLine( "}" );
             }
+
+            base.GenerateProgressStyles( sb, theme, options );
         }
 
         protected override void GenerateAlertStyles( StringBuilder sb, Theme theme, ThemeAlertOptions options )
@@ -547,7 +626,7 @@ namespace Blazorise.Bootstrap
 
             sb.Append( $".text-{variant}" )
                 .Append( "{" )
-                .Append( $"color: {textColorHex};" )
+                .Append( $"color: {textColorHex} !important;" )
                 .AppendLine( "}" );
         }
 

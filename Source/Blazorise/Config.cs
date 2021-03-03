@@ -1,8 +1,11 @@
 ﻿#region Using directives
 using System;
+using Blazorise.Localization;
 using Blazorise.Providers;
-using Blazorise.Utils;
+using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 #endregion
 
 namespace Blazorise
@@ -17,6 +20,8 @@ namespace Blazorise
         /// <returns></returns>
         public static IServiceCollection AddBlazorise( this IServiceCollection serviceCollection, Action<BlazoriseOptions> configureOptions = null )
         {
+            serviceCollection.Replace( ServiceDescriptor.Singleton<IComponentActivator, ComponentActivator>() );
+
             // If options handler is not defined we will get an exception so
             // we need to initialize and empty action.
             if ( configureOptions == null )
@@ -25,8 +30,17 @@ namespace Blazorise
             serviceCollection.AddSingleton( configureOptions );
             serviceCollection.AddSingleton<BlazoriseOptions>();
 
+            serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
             serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
             serviceCollection.AddScoped<IEditContextValidator, EditContextValidator>();
+
+            serviceCollection.AddScoped<ITextLocalizerService, TextLocalizerService>();
+            serviceCollection.AddScoped( typeof( ITextLocalizer<> ), typeof( TextLocalizer<> ) );
+
+            serviceCollection.AddScoped<IValidationHandlerFactory, ValidationHandlerFactory>();
+            serviceCollection.AddScoped<ValidatorValidationHandler>();
+            serviceCollection.AddScoped<PatternValidationHandler>();
+            serviceCollection.AddScoped<DataAnnotationValidationHandler>();
 
             return serviceCollection;
         }
@@ -43,7 +57,6 @@ namespace Blazorise
         {
             serviceCollection.AddSingleton<IClassProvider, EmptyClassProvider>();
             serviceCollection.AddSingleton<IStyleProvider, EmptyStyleProvider>();
-            serviceCollection.AddSingleton<IComponentMapper, ComponentMapper>();
 
             serviceCollection.AddScoped<IJSRunner, EmptyJSRunner>();
 

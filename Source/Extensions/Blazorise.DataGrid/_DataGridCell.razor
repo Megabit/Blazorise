@@ -65,7 +65,7 @@ else
         {
             var type = Column.GetValueType();
 
-            <_DataGridCellEdit ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" />
+            <_DataGridCellEdit Item="@Item" ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" />
         }
         else
         {

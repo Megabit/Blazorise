@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 #endregion
 
@@ -124,6 +125,12 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the CancellationTokenSource which could be used to issue a cancellation.
+        /// </summary>
+        public CancellationTokenSource CancellationTokenSource { get; set; }
+
         /// <summary>
         /// Gets or sets the current page
         /// </summary>

@@ -14,7 +14,7 @@ namespace Blazorise.Bootstrap
 
         public override string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-        public override string TextEditSize( Size size ) => $"{TextEdit( false )}-{ToSize( size )}";
+        public override string TextEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
         public override string TextEditColor( Color color ) => $"text-{ToColor( color )}";
 
@@ -42,11 +42,25 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region NumericEdit
+
+        public override string NumericEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+
+        public override string NumericEditSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        public override string NumericEditColor( Color color ) => $"text-{ToColor( color )}";
+
+        public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
         #region DateEdit
 
-        public override string DateEdit() => "form-control";
+        public override string DateEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-        public override string DateEditSize( Size size ) => $"{DateEdit()}-{ToSize( size )}";
+        public override string DateEditSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        public override string DateEditColor( Color color ) => $"text-{ToColor( color )}";
 
         public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -54,9 +68,11 @@ namespace Blazorise.Bootstrap
 
         #region TimeEdit
 
-        public override string TimeEdit() => "form-control";
+        public override string TimeEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-        public override string TimeEditSize( Size size ) => $"{TimeEdit()}-{ToSize( size )}";
+        public override string TimeEditSize( Size size ) => $"form-control-{ToSize( size )}";
+
+        public override string TimeEditColor( Color color ) => $"text-{ToColor( color )}";
 
         public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -84,9 +100,11 @@ namespace Blazorise.Bootstrap
 
         #region RadioGroup
 
-        public override string RadioGroup( bool buttons ) => buttons ? "btn-group btn-group-toggle" : null;
+        public override string RadioGroup( bool buttons, Orientation orientation ) => buttons
+            ? orientation == Orientation.Horizontal ? "btn-group btn-group-toggle" : "btn-group-vertical btn-group-toggle"
+            : null;
 
-        public override string RadioGroupInline() => null;
+        public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -96,7 +114,13 @@ namespace Blazorise.Bootstrap
 
         public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
 
-        public override string RadioInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+        public override string RadioInline( bool inline ) => inline
+            ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline"
+            : null;
+
+        public override string RadioCursor( Cursor cursor ) => $"{( UseCustomInputStyles ? "custom-control-input" : "form-check-input" )}-{ToCursor( cursor )}";
+
+        public override string RadioValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
@@ -297,7 +321,7 @@ namespace Blazorise.Bootstrap
 
         public override string ButtonsSize( Size size ) => $"{ButtonsAddons()}-{ToSize( size )}";
 
-        public override string ButtonsVertical() => "btn-group-vertical";
+        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
 
         #endregion
 
@@ -319,7 +343,9 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownItem() => "dropdown-item";
 
-        public override string DropdownItemActive() => Active();
+        public override string DropdownItemActive( bool active ) => active ? Active() : null;
+
+        public override string DropdownItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
         public override string DropdownDivider() => "dropdown-divider";
 
@@ -360,9 +386,11 @@ namespace Blazorise.Bootstrap
             }
         }
 
+        public override string DropdownTableResponsive() => "position-static";
+
         #endregion
 
-        #region Tab
+        #region Tabs
 
         public override string Tabs( bool pills ) => pills ? "nav nav-pills" : "nav nav-tabs";
 
@@ -391,6 +419,30 @@ namespace Blazorise.Bootstrap
         public override string TabPanel() => "tab-pane";
 
         public override string TabPanelActive( bool active ) => active ? $"{Active()} {Show()}" : null;
+
+        #endregion
+
+        #region Steps
+
+        public override string Steps() => "steps";
+
+        public override string StepItem() => "step";
+
+        public override string StepItemActive( bool active ) => active ? "step-active" : null;
+
+        public override string StepItemCompleted( bool completed ) => completed ? "step-completed" : null;
+
+        public override string StepItemColor( Color color ) => $"{StepItem()}-{ToColor( color )}";
+
+        public override string StepItemMarker() => "step-circle";
+
+        public override string StepItemDescription() => "step-text";
+
+        public override string StepsContent() => "steps-content";
+
+        public override string StepPanel() => "step-panel";
+
+        public override string StepPanelActive( bool active ) => active ? "active" : null;
 
         #endregion
 

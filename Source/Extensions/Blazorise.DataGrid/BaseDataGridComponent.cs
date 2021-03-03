@@ -1,8 +1,7 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Blazorise.Utils;
+using Blazorise.Base;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -11,53 +10,31 @@ namespace Blazorise.DataGrid
     /// <summary>
     /// Minimal base class for datagrid components.
     /// </summary>
-    public class BaseDataGridComponent : ComponentBase, IDisposable
+    public class BaseDataGridComponent : BaseAfterRenderComponent, IDisposable
     {
-        #region Members
-
-        private string elementId;
-
-        #endregion
-
         #region Methods
 
-        public void Dispose()
+        protected override void OnInitialized()
         {
-            Dispose( true );
-        }
+            if ( ElementId == null )
+                ElementId = IdGenerator.Generate;
 
-        protected virtual void Dispose( bool disposing )
-        {
-            if ( !Disposed )
-            {
-                Disposed = true;
-            }
+            base.OnInitialized();
         }
 
         #endregion
 
         #region Properties
 
-        protected bool Disposed { get; private set; }
+        /// <summary>
+        /// Gets or set the javascript runner.
+        /// </summary>
+        [Inject] protected IIdGenerator IdGenerator { get; set; }
 
         /// <summary>
-        /// Gets or sets the element id.
+        /// Gets or sets the datagrid element id.
         /// </summary>
-        public string ElementId
-        {
-            get
-            {
-                // generate ID only on first use
-                if ( elementId == null )
-                    elementId = IDGenerator.Instance.Generate;
-
-                return elementId;
-            }
-            private set
-            {
-                elementId = value;
-            }
-        }
+        [Parameter] public string ElementId { get; set; }
 
         #endregion
     }

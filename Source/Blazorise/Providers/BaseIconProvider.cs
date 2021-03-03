@@ -16,10 +16,6 @@ namespace Blazorise.Providers
 
         #endregion
 
-        #region Constructors
-
-        #endregion
-
         #region Methods
 
         public virtual string Icon( object name, IconStyle style )
