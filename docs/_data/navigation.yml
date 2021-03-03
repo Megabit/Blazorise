@@ -96,6 +96,8 @@ docs:
         url: /docs/components/pagination/
       - title: "Repeater"
         url: /docs/components/repeater/
+      - title: "Step"
+        url: /docs/components/step/
       - title: "Tab"
         url: /docs/components/tab/
       - title: "Table"
@@ -104,8 +106,6 @@ docs:
         url: /docs/components/tooltip/
       - title: "Typography"
         url: /docs/components/typography/
-      - title: "Step"
-        url: /docs/components/step/
   - title: Extensions
     url: /docs/extensions/
     children:

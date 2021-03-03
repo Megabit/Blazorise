@@ -130,7 +130,11 @@ Also, `Validation` component can now work with `EditContext` coming from Blazor 
 
 ### PageProgress
 
-A new `PageProgress` component was created to be used as a loading indicator for pages. You can learn more on [progress page]({{ "/docs/components/progress##page-progress" | relative_url }})
+A new `PageProgress` component was created to be used as a loading indicator for pages. You can learn more on [progress page]({{ "/docs/components/progress/#page-progress" | relative_url }})
+
+### Steps
+
+The new `Steps` is a simple navigational component that is meant to be used with the wizard-like parts of the UI. You can learn more about it on the [steps]({{ "/docs/components/step" | relative_url }}) page.
 
 ### Animate extension
 
