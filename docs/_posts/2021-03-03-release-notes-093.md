@@ -141,6 +141,10 @@ The new `Steps` is a simple navigational component that is meant to be used with
 Starting with this release we also bring you a great [Blazor.Animate](https://github.com/mikoskinen/Blazor.Animate) extension from [@mikoskinen](https://github.com/mikoskinen) that is now fully integrated into Blazorise. I would like to thank [@mikoskinen](https://github.com/mikoskinen) for making it possible!
 
 
+## List of all changes
+
+Usually, I would copy-paste a list of all changes along with the release notes, but this time the number of items is too big so I decided to just give you a [link](https://github.com/stsrki/Blazorise/issues/1472) instead. So click on it if you want to see every new feature or bug fix in this release.
+
 ## PRs
 
 Every new Blazorise release brings many new users. And along with them the number of community PRs has also increased, a lot. It would be a shame to not give them the credits for improving Blazorise.
@@ -154,10 +158,6 @@ While I would like to mention all of them it would take too much space for this 
 [@njannink](https://github.com/njannink) continued to work on his `RichTextEdit` extension and improved it even more. All while fixing reported bugs and optimizing the code.
 
 Many thanks to all of you. You're the reason why I continue to work on Blazorise. Thank you, once again!
-
-## List of all changes
-
-Usually, I would copy-paste a list of all changes along with the release notes, but this time the number of items is too big so I decided to just give you a [link](https://github.com/stsrki/Blazorise/issues/1472) instead. So click on it if you want to see every new feature or bug fix in this release.
 
 ## Closing Notes
 
