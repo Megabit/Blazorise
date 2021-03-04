@@ -25,7 +25,7 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public Task Validate( IValidation validation, object newValidationValue )
+        public void Validate( IValidation validation, object newValidationValue )
         {
             validation.NotifyValidationStarted();
 
@@ -42,6 +42,12 @@ namespace Blazorise
                 : null;
 
             validation.NotifyValidationStatusChanged( matchStatus, matchMessages );
+        }
+
+        /// <inheritdoc/>
+        public Task ValidateAsync( IValidation validation, object newValidationValue )
+        {
+            Validate( validation, newValidationValue );
 
             return Task.CompletedTask;
         }

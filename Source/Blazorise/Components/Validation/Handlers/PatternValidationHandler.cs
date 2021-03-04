@@ -11,7 +11,7 @@ namespace Blazorise
     public class PatternValidationHandler : IValidationHandler
     {
         /// <inheritdoc/>
-        public Task Validate( IValidation validation, object newValidationValue )
+        public void Validate( IValidation validation, object newValidationValue )
         {
             validation.NotifyValidationStarted();
 
@@ -20,6 +20,12 @@ namespace Blazorise
                 : ValidationStatus.Error;
 
             validation.NotifyValidationStatusChanged( matchStatus );
+        }
+
+        /// <inheritdoc/>
+        public Task ValidateAsync( IValidation validation, object newValidationValue )
+        {
+            Validate( validation, newValidationValue );
 
             return Task.CompletedTask;
         }

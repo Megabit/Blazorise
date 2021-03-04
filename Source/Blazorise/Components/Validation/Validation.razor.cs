@@ -97,7 +97,7 @@ namespace Blazorise
             this.inputComponent = inputComponent;
 
             if ( Mode == ValidationMode.Auto && ValidateOnLoad )
-                await Validate( inputComponent.ValidationValue );
+                await ValidateAsync( inputComponent.ValidationValue );
 
             initialized = true;
         }
@@ -167,13 +167,13 @@ namespace Blazorise
 
             if ( Mode == ValidationMode.Auto )
             {
-                await Validate( newValidationValue );
+                await ValidateAsync( newValidationValue );
             }
         }
 
         private async void OnValidatingAll( ValidatingAllEventArgs e )
         {
-            e.Cancel = ( await Validate( inputComponent.ValidationValue ) ) == ValidationStatus.Error;
+            e.Cancel = ( await ValidateAsync( inputComponent.ValidationValue ) ) == ValidationStatus.Error;
         }
 
         private void OnClearingAll()
@@ -184,7 +184,7 @@ namespace Blazorise
         /// <summary>
         /// Runs the validation process based on the last available value.
         /// </summary>
-        public Task<ValidationStatus> Validate()
+        public ValidationStatus Validate()
         {
             return Validate( inputComponent.ValidationValue );
         }
@@ -194,7 +194,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="newValidationValue">New validation value to validate.</param>
         /// <returns>Returns the validation result.</returns>
-        public async Task<ValidationStatus> Validate( object newValidationValue )
+        public ValidationStatus Validate( object newValidationValue )
         {
             if ( !inputComponent.Disabled )
             {
@@ -204,11 +204,41 @@ namespace Blazorise
                 {
                     var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
 
-                    await validationHandler.Validate( this, newValidationValue );
+                    validationHandler.Validate( this, newValidationValue );
                 }
             }
 
             return Status;
+        }
+
+        /// <summary>
+        /// Runs the asynchronous validation process based on the last available value.
+        /// </summary>
+        public Task<ValidationStatus> ValidateAsync()
+        {
+            return ValidateAsync( inputComponent.ValidationValue );
+        }
+
+        /// <summary>
+        /// Runs the asynchronous validation process.
+        /// </summary>
+        /// <param name="newValidationValue">New validation value to validate.</param>
+        /// <returns>Returns the validation result.</returns>
+        public async Task<ValidationStatus> ValidateAsync( object newValidationValue )
+        {
+            if ( !inputComponent.Disabled )
+            {
+                var validationHandlerType = DetermineHandlerType();
+
+                if ( validationHandlerType != null )
+                {
+                    var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
+
+                    await validationHandler.ValidateAsync( this, newValidationValue );
+                }
+            }
+
+            return await Task.FromResult( Status );
         }
 
         /// <summary>

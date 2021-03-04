@@ -12,7 +12,23 @@ namespace Blazorise
     public class ValidatorValidationHandler : IValidationHandler
     {
         /// <inheritdoc/>
-        public async Task Validate( IValidation validation, object newValidationValue )
+        public void Validate( IValidation validation, object newValidationValue )
+        {
+            validation.NotifyValidationStarted();
+
+            var validatorEventArgs = new ValidatorEventArgs( newValidationValue );
+
+            validation.Validator?.Invoke( validatorEventArgs );
+
+            var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
+                ? new string[] { validatorEventArgs.ErrorText }
+                : null;
+
+            validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
+        }
+
+        /// <inheritdoc/>
+        public async Task ValidateAsync( IValidation validation, object newValidationValue )
         {
             validation.NotifyValidationStarted();
 

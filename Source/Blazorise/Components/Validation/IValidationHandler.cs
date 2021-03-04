@@ -12,6 +12,14 @@ namespace Blazorise
         /// </summary>
         /// <param name="validation">Reference to the validation component.</param>
         /// <param name="newValidationValue">Value to validate.</param>
-        Task Validate( IValidation validation, object newValidationValue );
+        void Validate( IValidation validation, object newValidationValue );
+
+        /// <summary>
+        /// Asynchronously validates the <see cref="IValidation"/> component.
+        /// </summary>
+        /// <param name="validation">Reference to the validation component.</param>
+        /// <param name="newValidationValue">Value to validate.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        Task ValidateAsync( IValidation validation, object newValidationValue );
     }
 }
