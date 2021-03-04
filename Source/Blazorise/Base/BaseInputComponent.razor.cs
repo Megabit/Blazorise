@@ -89,13 +89,13 @@ namespace Blazorise
         /// <summary>
         /// Initializes input component for validation.
         /// </summary>
-        protected void InitializeValidation()
+        protected async Task InitializeValidation()
         {
             if ( validationInitialized )
                 return;
 
             // link to the parent component
-            ParentValidation.InitializeInput( this );
+            await ParentValidation.InitializeInput( this );
 
             ParentValidation.ValidationStatusChanged += OnValidationStatusChanged;
 
@@ -128,7 +128,8 @@ namespace Blazorise
             }
 
             // send the value to the validation for processing
-            ParentValidation?.NotifyInputChanged<TValue>( default );
+            if ( ParentValidation != null )
+                await ParentValidation.NotifyInputChanged<TValue>( default );
         }
 
         /// <summary>
@@ -250,9 +251,12 @@ namespace Blazorise
         /// <summary>
         /// Forces the <see cref="Validation"/>(if any is used) to re-validate with the new custom or internal value.
         /// </summary>
-        public void Revalidate()
+        public Task Revalidate()
         {
-            ParentValidation?.NotifyInputChanged<TValue>( default );
+            if ( ParentValidation != null )
+                return ParentValidation.NotifyInputChanged<TValue>( default );
+
+            return Task.CompletedTask;
         }
 
         /// <summary>

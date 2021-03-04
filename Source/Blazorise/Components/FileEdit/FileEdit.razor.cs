@@ -45,7 +45,7 @@ namespace Blazorise
 
             if ( ParentValidation != null )
             {
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 
@@ -120,7 +120,8 @@ namespace Blazorise
             InternalValue = files;
 
             // send the value to the validation for processing
-            ParentValidation?.NotifyInputChanged<IFileEntry[]>( default );
+            if ( ParentValidation != null )
+                await ParentValidation.NotifyInputChanged<IFileEntry[]>( default );
 
             await Changed.InvokeAsync( new FileChangedEventArgs( files ) );
 

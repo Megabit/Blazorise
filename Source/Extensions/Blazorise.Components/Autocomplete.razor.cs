@@ -153,7 +153,7 @@ namespace Blazorise.Components
             await SelectedValueChanged.InvokeAsync( SelectedValue );
             await SearchChanged.InvokeAsync( CurrentSearch );
 
-            textEditRef?.Revalidate();
+            await textEditRef?.Revalidate();
         }
 
         private void FilterData()

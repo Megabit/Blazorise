@@ -1,6 +1,8 @@
 ﻿#region Using directives
 #endregion
 
+using System.Threading.Tasks;
+
 namespace Blazorise
 {
     /// <summary>
@@ -9,7 +11,7 @@ namespace Blazorise
     public class PatternValidationHandler : IValidationHandler
     {
         /// <inheritdoc/>
-        public void Validate( IValidation validation, object newValidationValue )
+        public Task Validate( IValidation validation, object newValidationValue )
         {
             validation.NotifyValidationStarted();
 
@@ -18,6 +20,8 @@ namespace Blazorise
                 : ValidationStatus.Error;
 
             validation.NotifyValidationStatusChanged( matchStatus );
+
+            return Task.CompletedTask;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Blazorise
+﻿using System.Threading.Tasks;
+
+namespace Blazorise
 {
     /// <summary>
     /// Main interface used to handle the validation for the given <see cref="IValidation"/> and it's value.
@@ -10,6 +12,6 @@
         /// </summary>
         /// <param name="validation">Reference to the validation component.</param>
         /// <param name="newValidationValue">Value to validate.</param>
-        void Validate( IValidation validation, object newValidationValue );
+        Task Validate( IValidation validation, object newValidationValue );
     }
 }
