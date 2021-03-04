@@ -18,6 +18,8 @@ namespace Blazorise.Demo.Bootstrap.RC
                 .AddBlazorise( options =>
                 {
                     options.ChangeTextOnKeyPress = true;
+                    options.DelayTextOnKeyPress = true;
+                    options.DelayTextOnKeyPressInterval = 800;
                 } )
                 .AddBlazoriseRichTextEdit( options =>
                 {
