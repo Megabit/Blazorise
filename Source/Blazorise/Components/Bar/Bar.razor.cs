@@ -115,14 +115,26 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
                 // make sure to unregister listener
                 if ( Rendered )
                 {
-                    _ = JSRunner.UnregisterBreakpointComponent( this );
+                    var task = JSRunner.UnregisterBreakpointComponent( this );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
+                    }
 
                     DisposeDotNetObjectRef( dotNetObjectRef );
                 }
@@ -131,7 +143,7 @@ namespace Blazorise
                     NavigationManager.LocationChanged -= OnLocationChanged;
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         /// <summary>
