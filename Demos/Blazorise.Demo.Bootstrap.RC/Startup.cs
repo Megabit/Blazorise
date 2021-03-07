@@ -34,10 +34,6 @@ namespace Blazorise.Demo.Bootstrap.RC
             services.AddServerSideBlazor().AddHubOptions( ( o ) =>
             {
                 o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
-            } )
-            .AddCircuitOptions( o => // WARNING: Only for testing! Should be removed before merge!
-            {
-                o.JSInteropDefaultCallTimeout = TimeSpan.FromSeconds( 5 );
             } );
         }
 
