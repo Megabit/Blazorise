@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
-    public abstract class BaseAfterRenderComponent : ComponentBase, IAsyncDisposable
+    public abstract class BaseAfterRenderComponent : ComponentBase, IDisposable, IAsyncDisposable
     {
         #region Members
 
@@ -51,9 +51,10 @@ namespace Blazorise.Base
         }
 
         /// <inheritdoc/>
-        public ValueTask DisposeAsync()
+        public void Dispose()
         {
-            return DisposeAsync( true );
+            Dispose( true );
+            GC.SuppressFinalize( this );
         }
 
         /// <summary>
@@ -73,20 +74,33 @@ namespace Blazorise.Base
             }
         }
 
+        /// <inheritdoc/>
+        public ValueTask DisposeAsync()
+        {
+            return DisposeAsync( true );
+        }
+
         /// <summary>
         /// Releases the unmanaged resources used by the <see cref="BaseComponent"/> and optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing">True if the component is in the disposing process.</param>
         protected virtual ValueTask DisposeAsync( bool disposing )
         {
-            if ( !AsyncDisposed )
+            try
             {
-                AsyncDisposed = true;
+                if ( !AsyncDisposed )
+                {
+                    AsyncDisposed = true;
 
-                Dispose( disposing );
+                    Dispose();
+                }
+
+                return default;
             }
-
-            return ValueTask.CompletedTask;
+            catch ( Exception exc )
+            {
+                return new ValueTask( Task.FromException( exc ) );
+            }
         }
 
         #endregion
