@@ -128,10 +128,15 @@ namespace Blazorise
                     {
                         await task;
                     }
-                    finally
+                    catch
                     {
-                        DisposeDotNetObjectRef( dotNetObjectRef );
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
                     }
+
+                    DisposeDotNetObjectRef( dotNetObjectRef );
                 }
 
                 if ( NavigationBreakpoint != Breakpoint.None )
