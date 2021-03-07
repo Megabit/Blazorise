@@ -49,6 +49,7 @@ namespace Blazorise.Demo.Pages.Tests
         public int currentPage { get; set; } = 1;
 
         bool editable = true;
+        bool virtualize = true;
         bool resizable = true;
         bool sortable = true;
         bool filterable = true;
@@ -110,6 +111,18 @@ namespace Blazorise.Demo.Pages.Tests
         #endregion
 
         #region Methods
+
+        protected override Task OnInitializedAsync()
+        {
+            for ( int i = 0; i < 6; i++ )
+            {
+                var serialized = System.Text.Json.JsonSerializer.Serialize( dataModels );
+                var newReferenceList = System.Text.Json.JsonSerializer.Deserialize<List<Employee>>( serialized );
+                dataModels.AddRange( newReferenceList );
+
+            }
+            return base.OnInitializedAsync();
+        }
 
         public void CheckEMail( ValidatorEventArgs validationArgs )
         {

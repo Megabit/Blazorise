@@ -1,5 +1,6 @@
 @typeparam TItem
 @inherits BaseDataGridComponent
+@using Microsoft.AspNetCore.Components.Web.Virtualization 
 @using Blazorise.Extensions
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
@@ -123,26 +124,58 @@
             }
             @if ( IsDisplayDataVisible )
             {
-                @foreach ( var item in DisplayData )
+                @if( Virtualize)
                 {
-                    @if ( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem ) )
+                    <Virtualize TItem="TItem" Context="item" Items="@DisplayData.ToList()" OverscanCount="10" >
+                        <ChildContent>
+                            <_DataGridRowDisplay 
+                                TItem="TItem" 
+                                @key="@item" 
+                                Item="@item" 
+                                EditItem="@editItem"
+                                EditMode="@EditMode"
+                                IsEdit="@( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem ) )"
+                                Columns="@Columns" DisplayableColumns="@DisplayableColumns" EditItemCellValues="@editItemCellValues"
+                                HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" 
+                                Edit="@OnEditCommand" Delete="@OnDeleteCommand" 
+                                Save="@OnSaveCommand" Cancel="@OnCancelCommand" 
+                                Selected="@OnSelectedCommand" MultiSelect="OnMultiSelectCommand" 
+                                Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" 
+                                DisplayDetailRowTemplate="@( DetailRowTemplate != null &&  ( DetailRowTrigger?.Invoke( item ) ?? true ) )" >
+                                    <DetailRowTemplate>
+                                        @if( DetailRowTemplate != null )
+                                            @DetailRowTemplate(context)
+                                    </DetailRowTemplate>
+                            </_DataGridRowDisplay>
+                        </ChildContent>
+                        <Placeholder>
+                            Loading...
+                        </Placeholder>
+                    </Virtualize>
+                }
+                else
+                { 
+                    @foreach ( var item in DisplayData )
                     {
-                        <_DataGridRowEdit TItem="TItem" Item="@editItem" Columns="@Columns" CellValues="@editItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
-                    }
-                    else
-                    {
-                        <_DataGridRow @key="@item" TItem="TItem" Item="@item" Columns="@DisplayableColumns" HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@OnSelectedCommand" Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" MultiSelect="OnMultiSelectCommand" />
-                        @if ( DetailRowTemplate != null )
-                        {
-                            var canShow = DetailRowTrigger?.Invoke( item ) ?? true;
-
-                            @if ( canShow )
-                            {
-                                <_DataGridDetailRow TItem="TItem" Item="@item" Columns="@Columns">
-                                    @DetailRowTemplate( item )
-                                </_DataGridDetailRow>
-                            }
-                        }
+                        <_DataGridRowDisplay 
+                            TItem="TItem" 
+                            @key="@item" 
+                            Item="@item" 
+                            EditItem="@editItem"
+                            EditMode="@EditMode"
+                            IsEdit="@( Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem ) )"
+                            Columns="@Columns" DisplayableColumns="@DisplayableColumns" EditItemCellValues="@editItemCellValues"
+                            HoverCursor="@(RowHoverCursor?.Invoke(item) ?? Cursor.Pointer)" 
+                            Edit="@OnEditCommand" Delete="@OnDeleteCommand" 
+                            Save="@OnSaveCommand" Cancel="@OnCancelCommand" 
+                            Selected="@OnSelectedCommand" MultiSelect="OnMultiSelectCommand" 
+                            Clicked="@OnRowClickedCommand" DoubleClicked="@OnRowDoubleClickedCommand" 
+                            DisplayDetailRowTemplate="@( DetailRowTemplate != null &&  ( DetailRowTrigger?.Invoke( item ) ?? true ) )" >
+                                <DetailRowTemplate>
+                                    @if( DetailRowTemplate != null )
+                                        @DetailRowTemplate(context)
+                                </DetailRowTemplate>
+                        </_DataGridRowDisplay>
                     }
                 }
             }

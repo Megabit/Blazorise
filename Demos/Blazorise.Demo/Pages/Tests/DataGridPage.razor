@@ -24,6 +24,16 @@
                             </Field>
                             <Field>
                                 <FieldLabel>
+                                    <Tooltip Text="Defines DataGrid Virtualize">
+                                        <Icon Name="IconName.QuestionCircle" />
+                                    </Tooltip>
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Check @bind-Checked="@virtualize">Virtualize</Check>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
                                     <Tooltip Text="Defines if DataGrid can be resizable.">
                                         <Icon Name="IconName.QuestionCircle" />
                                     </Tooltip>
@@ -175,6 +185,7 @@
                           TotalItems="@(largeDataMode ? totalEmployees : null)"
                           EditMode="@editMode"
                           Editable="@editable"
+                          Virtualize="@virtualize"
                           Resizable="@resizable"
                           ResizeMode="@resizableMode"
                           Sortable="@sortable"

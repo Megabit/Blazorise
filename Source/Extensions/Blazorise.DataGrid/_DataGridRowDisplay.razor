@@ -1,0 +1,18 @@
+@inherits _DataGridRow<TItem>
+@typeparam TItem
+@{
+@if ( IsEdit  )
+{
+    <_DataGridRowEdit TItem="TItem" Item="@EditItem" Columns="@Columns" CellValues="@EditItemCellValues" Save="@OnSaveCommand" Cancel="@OnCancelCommand" EditMode="@EditMode" />
+}
+else
+{
+    <_DataGridRow @key="@Item" TItem="TItem" Item="@Item" Columns="@DisplayableColumns" HoverCursor="@HoverCursor" Edit="@OnEditCommand" Delete="@OnDeleteCommand" Save="@OnSaveCommand" Cancel="@OnCancelCommand" Selected="@Selected" Clicked="@Clicked" DoubleClicked="@DoubleClicked" MultiSelect="MultiSelect" />
+    @if ( DisplayDetailRowTemplate )
+    {
+        <_DataGridDetailRow TItem="TItem" Item="@Item" Columns="@Columns.ToList()">
+            @DetailRowTemplate( Item )
+        </_DataGridDetailRow>
+    }
+}
+}

@@ -9,6 +9,7 @@ using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Blazorise.DataGrid.Configuration;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -707,7 +708,7 @@ namespace Blazorise.DataGrid
                 FilterData();
 
             // only use pagination if the custom data loading is not used
-            if ( !ManualReadMode )
+            if ( !ManualReadMode && !Virtualize )
             {
                 var skipElements = ( CurrentPage - 1 ) * PageSize;
                 if ( skipElements > filteredData.Count )
@@ -1007,6 +1008,16 @@ namespace Blazorise.DataGrid
         /// Gets or sets whether users can edit datagrid rows.
         /// </summary>
         [Parameter] public bool Editable { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the datagrid will use the Virtualize functionality.
+        /// </summary>
+        [Parameter] public bool Virtualize { get; set; }
+
+        /// <summary>
+        /// Gets or sets Virtualize options when using the Virtualize functionality.
+        /// </summary>
+        [Parameter] public VirtualizeOptions VirtualizeOptions { get; set; }
 
         /// <summary>
         /// Gets or sets whether users can resize datagrid columns.
