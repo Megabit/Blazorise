@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 #endregion
@@ -28,20 +29,32 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public async Task ValidateAsync( IValidation validation, object newValidationValue )
+        public async Task ValidateAsync( IValidation validation, CancellationToken cancellationToken, object newValidationValue )
         {
+            if ( cancellationToken.IsCancellationRequested )
+                cancellationToken.ThrowIfCancellationRequested();
+
             validation.NotifyValidationStarted();
+
+            if ( cancellationToken.IsCancellationRequested )
+                cancellationToken.ThrowIfCancellationRequested();
 
             var validatorEventArgs = new ValidatorEventArgs( newValidationValue );
 
             if ( validation.AsyncValidator != null )
-                await validation.AsyncValidator( validatorEventArgs );
+                await validation.AsyncValidator( validatorEventArgs, cancellationToken );
             else
                 validation.Validator?.Invoke( validatorEventArgs );
+
+            if ( cancellationToken.IsCancellationRequested )
+                cancellationToken.ThrowIfCancellationRequested();
 
             var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
                 ? new string[] { validatorEventArgs.ErrorText }
                 : null;
+
+            if ( cancellationToken.IsCancellationRequested )
+                cancellationToken.ThrowIfCancellationRequested();
 
             validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
         }

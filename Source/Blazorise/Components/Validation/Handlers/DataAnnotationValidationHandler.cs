@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components.Forms;
@@ -45,7 +46,7 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public Task ValidateAsync( IValidation validation, object newValidationValue )
+        public Task ValidateAsync( IValidation validation, CancellationToken cancellationToken, object newValidationValue )
         {
             Validate( validation, newValidationValue );
 

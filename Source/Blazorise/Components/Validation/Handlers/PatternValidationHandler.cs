@@ -1,6 +1,7 @@
 ﻿#region Using directives
 #endregion
 
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Blazorise
@@ -23,7 +24,7 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public Task ValidateAsync( IValidation validation, object newValidationValue )
+        public Task ValidateAsync( IValidation validation, CancellationToken cancellationToken, object newValidationValue )
         {
             Validate( validation, newValidationValue );
 

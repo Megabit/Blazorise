@@ -126,10 +126,11 @@ namespace Blazorise
                     CurrentValue = result.ParsedValue;
                 }
             }
-
             // send the value to the validation for processing
             if ( ParentValidation != null )
+            {
                 await ParentValidation.NotifyInputChanged<TValue>( default );
+            }
         }
 
         /// <summary>

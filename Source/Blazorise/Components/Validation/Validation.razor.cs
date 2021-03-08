@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -63,6 +64,11 @@ namespace Blazorise
         /// Raises every time a validation state has changed.
         /// </summary>
         public event EventHandler<ValidationStatusChangedEventArgs> ValidationStatusChanged;
+
+        /// <summary>
+        /// Define the cancellation token.
+        /// </summary>
+        private CancellationTokenSource cancellationTokenSource;
 
         #endregion
 
@@ -219,6 +225,8 @@ namespace Blazorise
             return ValidateAsync( inputComponent.ValidationValue );
         }
 
+
+
         /// <summary>
         /// Runs the asynchronous validation process.
         /// </summary>
@@ -228,13 +236,36 @@ namespace Blazorise
         {
             if ( !inputComponent.Disabled )
             {
-                var validationHandlerType = DetermineHandlerType();
+                if ( cancellationTokenSource != null )
+                    cancellationTokenSource.Cancel();
 
-                if ( validationHandlerType != null )
+                // Create a CTS for this request.
+                cancellationTokenSource = new CancellationTokenSource();
+
+                var cancellationToken = cancellationTokenSource.Token;
+
+                try
                 {
-                    var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
+                    var validationHandlerType = DetermineHandlerType();
 
-                    await validationHandler.ValidateAsync( this, newValidationValue );
+                    if ( cancellationToken.IsCancellationRequested )
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                    if ( validationHandlerType != null )
+                    {
+                        if ( cancellationToken.IsCancellationRequested )
+                            cancellationToken.ThrowIfCancellationRequested();
+
+                        var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
+
+                        if ( cancellationToken.IsCancellationRequested )
+                            cancellationToken.ThrowIfCancellationRequested();
+
+                        await validationHandler.ValidateAsync( this, cancellationTokenSource.Token, newValidationValue );
+                    }
+                }
+                catch ( OperationCanceledException )
+                {
                 }
             }
 
@@ -333,7 +364,7 @@ namespace Blazorise
         [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
 
         /// <inheritdoc/>
-        [Parameter] public Func<ValidatorEventArgs, Task> AsyncValidator { get; set; }
+        [Parameter] public Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; set; }
 
         /// <inheritdoc/>
         [Parameter] public Func<string, IEnumerable<string>, string> MessageLocalizer { get; set; }
