@@ -38,7 +38,7 @@
                         }
                         else
                         {
-                            <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable ? "; cursor: pointer" : "")}{(column.Width != null ? $"; width: {column.Width}" : "")}".TrimStart( ' ', ';' ))" Clicked="@(async () => await OnSortClicked( column ) )" TextAlignment="@column.HeaderTextAlignment">
+                            <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable && column.Sortable ? "; cursor: pointer" : "")}{(column.Width != null ? $"; width: {column.Width}" : "")}".TrimStart( ' ', ';' ))" Clicked="@(async () => await OnSortClicked( column ) )" TextAlignment="@column.HeaderTextAlignment">
                                 @if ( column.ShowCaption )
                                 {
                                     @if ( column.CaptionTemplate != null )
@@ -52,7 +52,14 @@
                                 }
                                 @if ( Sortable && column.Sortable && column.CurrentDirection != SortDirection.None )
                                 {
-                                    <Icon Name="@(column.CurrentDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                                    @if ( column.SortDirectionTemplate != null )
+                                    {
+                                        @column.SortDirectionTemplate( column.CurrentDirection )
+                                    }
+                                    else
+                                    {
+                                        <Icon Name="@(column.CurrentDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                                    }
                                 }
                             </TableHeaderCell>
                         }
@@ -84,7 +91,12 @@
                         {
                             @if ( MultiSelect )
                             {
-                                <TableHeaderCell></TableHeaderCell>
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()">
+                                    @if ( column.FilterTemplate != null )
+                                    {
+                                        @(column.FilterTemplate( column.Filter ))
+                                    }
+                                </TableHeaderCell>
                             }
                         }
                         else

@@ -5,13 +5,38 @@
     {
         <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
             <Field Display="Blazorise.Display.None.InlineBlock.OnDesktop">
-                @ButtonRowTemplate( new ButtonRowContext<TItem>()
-                {
-                    NewCommand = new NewCommandContext() { Clicked = EventCallback.Factory.Create( this, NewClick ) },
-                    EditCommand = new EditCommandContext<TItem>() { Clicked = EventCallback.Factory.Create( this, EditClick ), Item = SelectedRow },
-                    DeleteCommand = new DeleteCommandContext<TItem>() { Clicked = EventCallback.Factory.Create( this, DeleteClick ), Item = SelectedRow },
-                    ClearFilterCommand = new CommandContext() { Clicked = EventCallback.Factory.Create( this, ClearFilter ) }
-                } )
+                @{
+                    var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
+                    var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
+                    var deleteButtonString = Localizer.Localize( ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete" );
+                    var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
+
+                    @ButtonRowTemplate( new ButtonRowContext<TItem>()
+                    {
+                        NewCommand = new NewCommandContext()
+                        {
+                            Clicked = EventCallback.Factory.Create( this, NewClick ),
+                            LocalizationString = newButtonString,
+                        },
+                        EditCommand = new EditCommandContext<TItem>()
+                        {
+                            Clicked = EventCallback.Factory.Create( this, EditClick ),
+                            LocalizationString = editButtonString,
+                            Item = SelectedRow
+                        },
+                        DeleteCommand = new DeleteCommandContext<TItem>()
+                        {
+                            Clicked = EventCallback.Factory.Create( this, DeleteClick ),
+                            LocalizationString = deleteButtonString,
+                            Item = SelectedRow
+                        },
+                        ClearFilterCommand = new CommandContext()
+                        {
+                            Clicked = EventCallback.Factory.Create( this, ClearFilter ),
+                            LocalizationString = clearFilterButtonString,
+                        }
+                    } );
+                }
             </Field>
         </Column>
     }

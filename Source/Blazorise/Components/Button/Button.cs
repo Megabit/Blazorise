@@ -80,7 +80,7 @@ namespace Blazorise
         protected virtual RenderFragment ProvideDefaultLoadingTemplate() => null;
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing )
             {
@@ -90,11 +90,23 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    JSRunner.DestroyButton( ElementId );
+                    var task = JSRunner.DestroyButton( ElementId );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
+                    }
                 }
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         /// <summary>

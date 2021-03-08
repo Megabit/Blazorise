@@ -88,7 +88,7 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
@@ -97,7 +97,19 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    _ = JSRunner.UnregisterClosableComponent( this );
+                    var task = JSRunner.UnregisterClosableComponent( this );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
+                    }
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
@@ -107,7 +119,19 @@ namespace Blazorise
                 // Sometimes user can navigates to another page based on the action runned on modal. The problem is 
                 // that for providers like Bootstrap, some classnames can be left behind. So to cover those situation
                 // we need to close modal and dispose of any claassnames in case there is any left. 
-                _ = JSRunner.CloseModal( ElementRef );
+                var closeModalTask = JSRunner.CloseModal( ElementRef );
+
+                try
+                {
+                    await closeModalTask;
+                }
+                catch
+                {
+                    if ( !closeModalTask.IsCanceled )
+                    {
+                        throw;
+                    }
+                }
 
                 if ( focusableComponents != null )
                 {
@@ -116,7 +140,7 @@ namespace Blazorise
                 }
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         /// <summary>

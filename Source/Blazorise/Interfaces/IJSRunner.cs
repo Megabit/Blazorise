@@ -48,6 +48,8 @@ namespace Blazorise
 
         ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
 
+        ValueTask SetSelectedOptions<TValue>( string elementId, IReadOnlyList<TValue> values );
+
         ValueTask<bool> SetTextValue( ElementReference elementRef, object value );
 
         ValueTask SetCaret( ElementReference elementRef, int caret );

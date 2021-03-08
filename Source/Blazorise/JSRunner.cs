@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -151,6 +152,11 @@ namespace Blazorise
                     return default;
                 }
             } ).Distinct().ToArray();
+        }
+
+        public ValueTask SetSelectedOptions<TValue>( string elementId, IReadOnlyList<TValue> values )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setSelectedOptions", elementId, values );
         }
 
         public ValueTask<bool> SetTextValue( ElementReference elementRef, object value )

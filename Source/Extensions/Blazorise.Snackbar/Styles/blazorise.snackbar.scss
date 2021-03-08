@@ -43,7 +43,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
     line-height: $snackbar-line-height;
     opacity: 0;
     padding: $snackbar-padding-y $snackbar-padding-x;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     transform: translateY(100%);

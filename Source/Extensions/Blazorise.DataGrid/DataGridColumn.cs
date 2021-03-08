@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>, IDisposable
+    public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     {
         #region Members
 
@@ -210,6 +210,10 @@ namespace Blazorise.DataGrid
         /// </summary>
         public virtual DataGridColumnType ColumnType { get; } = DataGridColumnType.Text;
 
+        public bool IsMultiSelectColumn => ColumnType == DataGridColumnType.MultiSelect;
+
+        public bool IsCommandColumn => ColumnType == DataGridColumnType.Command;
+
         /// <summary>
         /// Gets or sets the column's display caption.
         /// </summary>
@@ -230,6 +234,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// </remarks>
         [Parameter] public SortDirection Direction { get; set; }
+
+        /// <summary>
+        /// Gets or sets the column's display sort direction template.
+        /// </summary>
+        [Parameter] public RenderFragment<SortDirection> SortDirectionTemplate { get; set; }
 
         /// <summary>
         /// Defines the alignment for display cell.
@@ -255,6 +264,11 @@ namespace Blazorise.DataGrid
         /// Gets or sets where column will be displayed on a grid.
         /// </summary>
         [Parameter] public int DisplayOrder { get; set; }
+
+        /// <summary>
+        /// Gets or sets where column will be displayed on edit row/popup.
+        /// </summary>
+        [Parameter] public int? EditOrder { get; set; }
 
         /// <summary>
         /// Allows the cell values to be entered while the grid is in the new-item state.
