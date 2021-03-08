@@ -19,15 +19,12 @@ namespace Blazorise.Utilities
 
         private static long LastId = DateTime.UtcNow.Ticks;
 
-        private static readonly SpanAction<char, long> GenerateImplDelegate = GenerateImpl;
-
         #endregion
 
         #region Methods
 
         private static void GenerateImpl( Span<char> buffer, long id )
         {
-
             var Encode32Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
             // Accessing the last item in the beginning elides range checks for all the subsequent items.
             buffer[12] = Encode32Chars[(int)id & 31];
@@ -43,7 +40,6 @@ namespace Blazorise.Utilities
             buffer[9] = Encode32Chars[(int)( id >> 15 ) & 31];
             buffer[10] = Encode32Chars[(int)( id >> 10 ) & 31];
             buffer[11] = Encode32Chars[(int)( id >> 5 ) & 31];
-
         }
 
         #endregion
@@ -58,7 +54,7 @@ namespace Blazorise.Utilities
             get
             {
                 var id = Interlocked.Increment( ref LastId );
-                return string.Create(IdLength, id, GenerateImplDelegate);
+                return string.Create( IdLength, id, GenerateImpl );
             }
         }
 
