@@ -68,41 +68,41 @@ namespace Blazorise.Tests
         }
 
         [Fact]
-        public void SetParentDropdown()
+        public async Task SetParentDropdown()
         {
             // setup
             var drop = new Dropdown();
             var button = new MockButton( drop );
 
             // test
-            button.Dispose();
+            await button.DisposeAsync();
 
             // validate
         }
 
         [Fact]
-        public void SetParentAddons()
+        public async Task SetParentAddons()
         {
             // setup
             var a = new Addons();
             var button = new MockButton( parentAddons: a );
 
             // test
-            button.Dispose();
+            await button.DisposeAsync();
 
             // validate
             Assert.False( button.IsAddons );
         }
 
         [Fact]
-        public void SetParentButtons()
+        public async Task SetParentButtons()
         {
             // setup
             var b = new Buttons();
             var button = new MockButton( parentButtons: b );
 
             // test
-            button.Dispose();
+            await button.DisposeAsync();
 
             // validate
             Assert.True( button.IsAddons );

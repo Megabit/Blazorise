@@ -13,7 +13,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.DataGrid
 {
-    public partial class DataGrid<TItem> : BaseDataGridComponent, IDisposable
+    public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -176,7 +176,7 @@ namespace Blazorise.DataGrid
                 paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
 
-                base.Dispose();
+                base.Dispose( disposing );
             }
         }
 

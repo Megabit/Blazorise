@@ -10,7 +10,7 @@ namespace Blazorise.DataGrid
     /// <summary>
     /// Minimal base class for datagrid components.
     /// </summary>
-    public class BaseDataGridComponent : BaseAfterRenderComponent, IDisposable
+    public class BaseDataGridComponent : BaseAfterRenderComponent
     {
         #region Methods
 
