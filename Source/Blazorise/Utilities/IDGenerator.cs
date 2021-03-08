@@ -19,6 +19,8 @@ namespace Blazorise.Utilities
 
         private static long LastId = DateTime.UtcNow.Ticks;
 
+        private static readonly SpanAction<char, long> GenerateImplDelegate = GenerateImpl;
+
         #endregion
 
         #region Methods
@@ -54,7 +56,7 @@ namespace Blazorise.Utilities
             get
             {
                 var id = Interlocked.Increment( ref LastId );
-                return string.Create( IdLength, id, GenerateImpl );
+                return string.Create( IdLength, id, GenerateImplDelegate );
             }
         }
 
