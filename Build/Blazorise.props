@@ -16,12 +16,6 @@
 		<LangVersion>9.0</LangVersion>
 
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		
-		<RestoreAdditionalProjectSources>
-			https://dotnet.myget.org/F/aspnetcore-dev/api/v3/index.json;
-			https://dotnet.myget.org/F/blazor-dev/api/v3/index.json;
-		</RestoreAdditionalProjectSources>
-
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 	</PropertyGroup>
 
