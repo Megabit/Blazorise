@@ -154,15 +154,18 @@ window.blazorise = {
 
     setSelectedOptions: (elementId, values) => {
         const element = document.getElementById(elementId);
-        const len = element.options.length;
 
-        for (var i = 0; i < len; i++) {
-            const opt = element.options[i];
+        if (element && element.options) {
+            const len = element.options.length;
 
-            if (values && values.find(x => x?.toString() === opt.value)) {
-                opt.selected = true;
-            } else {
-                opt.selected = false;
+            for (var i = 0; i < len; i++) {
+                const opt = element.options[i];
+
+                if (values && values.find(x => x?.toString() === opt.value)) {
+                    opt.selected = true;
+                } else {
+                    opt.selected = false;
+                }
             }
         }
     },

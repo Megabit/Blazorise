@@ -1,15 +1,20 @@
 ﻿@typeparam TItem
 @typeparam TValue
-<Select @ref="@selectRef" ElementId="@ElementId" TValue="TValue" SelectedValue="@SelectedValue" SelectedValueChanged="@HandleSelectedValueChanged" Class="@Class" Style="@Style" Size="@Size" MaxVisibleItems="@MaxVisibleItems" TabIndex="@TabIndex" Attributes="@Attributes">
-    @if ( Data != null )
-    {
-        @foreach ( var item in Data )
+<Select @ref="@selectRef" ElementId="@ElementId" TValue="TValue" SelectedValue="@SelectedValue" SelectedValueChanged="@HandleSelectedValueChanged" Class="@Class" Style="@Style" Size="@Size" MaxVisibleItems="@MaxVisibleItems" TabIndex="@TabIndex" Attributes="@Attributes" SelectedValueExpression="@SelectedValueExpression">
+    <ChildContent>
+        @if ( Data != null )
         {
-            var text = TextField?.Invoke( item );
-            var value = ValueField != null ? ValueField.Invoke( item ) : default;
+            @foreach ( var item in Data )
+            {
+                var text = TextField?.Invoke( item );
+                var value = ValueField != null ? ValueField.Invoke( item ) : default;
 
-            <SelectItem @key="@value" TValue="TValue" Value="@value">@text</SelectItem>
+                <SelectItem @key="@value" TValue="TValue" Value="@value">@text</SelectItem>
+            }
         }
-    }
-    @ChildContent
+        @ChildContent
+    </ChildContent>
+    <Feedback>
+        @Feedback
+    </Feedback>
 </Select>

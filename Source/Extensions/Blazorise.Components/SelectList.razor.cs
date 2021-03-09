@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -76,6 +76,11 @@ namespace Blazorise.Components
         [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
 
         /// <summary>
+        /// Gets or sets an expression that identifies the selected value.
+        /// </summary>
+        [Parameter] public Expression<Func<TValue>> SelectedValueExpression { get; set; }
+
+        /// <summary>
         /// Custom css class-names.
         /// </summary>
         [Parameter] public string Class { get; set; }
@@ -105,6 +110,11 @@ namespace Blazorise.Components
         /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]
         public Dictionary<string, object> Attributes { get; set; }
+
+        /// <summary>
+        /// Placeholder for validation messages.
+        /// </summary>
+        [Parameter] public RenderFragment Feedback { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="SelectList{TItem, TValue}"/>.
