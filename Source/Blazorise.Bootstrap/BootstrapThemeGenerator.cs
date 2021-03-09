@@ -370,6 +370,11 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
 
             sb
+                .Append( $".step-active .step-circle::before" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
+
+            sb
                 .Append( $".step-active .step-text" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.StepsItemTextActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
                 .AppendLine( "}" );
