@@ -261,6 +261,8 @@ namespace Blazorise
             {
                 Closed.InvokeAsync( null );
             }
+
+            VisibleChanged.InvokeAsync( visible );
         }
 
         internal void NotifyFocusableComponentInitialized( IFocusableComponent focusableComponent )
@@ -372,6 +374,11 @@ namespace Blazorise
                 }
             }
         }
+
+        /// <summary>
+        /// Occurs when the modal visibility state changes.
+        /// </summary>
+        [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
         /// <summary>
         /// If true modal will scroll to top when opened.
