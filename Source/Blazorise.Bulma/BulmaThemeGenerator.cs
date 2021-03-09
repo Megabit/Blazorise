@@ -253,6 +253,11 @@ namespace Blazorise.Bulma
                 .Append( $"color: {Var( ThemeVariables.White )};" )
                 .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
                 .AppendLine( "}" );
+
+            sb
+                .Append( $".steps .step-item.is-active::before" ).Append( "{" )
+                .Append( $"background: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
