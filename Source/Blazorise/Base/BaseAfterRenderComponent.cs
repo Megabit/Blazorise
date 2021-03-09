@@ -75,9 +75,12 @@ namespace Blazorise.Base
         }
 
         /// <inheritdoc/>
-        public ValueTask DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
-            return DisposeAsync( true );
+            await DisposeAsync( true );
+
+            Dispose( false );
+            GC.SuppressFinalize( this );
         }
 
         /// <summary>
@@ -91,8 +94,6 @@ namespace Blazorise.Base
                 if ( !AsyncDisposed )
                 {
                     AsyncDisposed = true;
-
-                    Dispose();
                 }
 
                 return default;
