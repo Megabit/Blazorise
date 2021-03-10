@@ -69,7 +69,7 @@ namespace Blazorise
             if ( Disabled || ReadOnly )
                 return;
 
-            await JSRunner.ActivateDatePicker( ElementId, DateFormat );
+            await JSRunner.ActivateDatePicker( ElementId, DateFormat, StartDayOfWeek );
         }
 
         /// <inheritdoc/>
@@ -152,6 +152,12 @@ namespace Blazorise
         /// Gets or sets the input date value.
         /// </summary>
         [Parameter] public TValue Date { get; set; }
+
+        /// <summary>
+        /// Gets or sets the startDayOfWeek, 0 = Sunday, ..., 6 = Saturday
+        /// Only applies to Blazorise material and defaults at Monday
+        /// </summary>
+        [Parameter] public int StartDayOfWeek { get; set; } = 1;
 
         /// <summary>
         /// Occurs when the date has changed.

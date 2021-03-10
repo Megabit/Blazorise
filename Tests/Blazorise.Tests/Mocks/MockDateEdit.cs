@@ -15,7 +15,7 @@ namespace Blazorise.Tests.Mocks
             var mockRunner = new Mock<IJSRunner>();
 
             mockRunner
-                .Setup( r => r.ActivateDatePicker( It.IsAny<string>(), It.IsAny<string>() ) )
+                .Setup( r => r.ActivateDatePicker( It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>() ) )
                 .Callback( ( string id, string f ) => this.OnActivateDatePicker( id, f ) );
 
             base.JSRunner = mockRunner.Object;

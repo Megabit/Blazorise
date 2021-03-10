@@ -42,7 +42,7 @@ namespace Blazorise
 
         ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId );
 
-        ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit );
+        ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit, int startDayOfWeek );
 
         ValueTask<bool> ActivateTimePicker( string elementId, string formatSubmit );
 

@@ -12,8 +12,10 @@ window.blazoriseMaterial = {
             return true;
         }
     },
-    activateDatePicker: (elementId, formatSubmit) => {
+    activateDatePicker: (elementId, formatSubmit, startDayOfWeek) => {
         const element = $(`#${elementId}`);
+        startDayOfWeek = startDayOfWeek || 0;
+        startDayOfWeek = startDayOfWeek < 0 ? 0 : startDayOfWeek > 6 ? 6 : startDayOfWeek;
 
         element.pickdate({
             ok: '',
@@ -23,7 +25,7 @@ window.blazoriseMaterial = {
             closeOnSelect: true,
             container: 'body',
             containerHidden: 'body',
-            firstDay: 1, // monday
+            firstDay: startDayOfWeek,
             format: 'dd.mm.yyyy',
             selectMonths: true,
             selectYears: true,

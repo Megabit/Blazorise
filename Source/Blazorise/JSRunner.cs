@@ -113,7 +113,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="elementId">Input element id.</param>
         /// <param name="formatSubmit">Date format to submit.</param>
-        public virtual ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit )
+        public virtual ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit, int startDayOfWeek )
         {
             // must be implemented by a framework provider!
             return new ValueTask<bool>( true );

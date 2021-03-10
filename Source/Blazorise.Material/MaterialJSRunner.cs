@@ -18,9 +18,9 @@ namespace Blazorise.Material
             return runtime.InvokeAsync<bool>( $"blazoriseMaterial.tooltip.initialize", elementRef, elementId );
         }
 
-        public override ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit )
-        {
-            return runtime.InvokeAsync<bool>( $"blazoriseMaterial.activateDatePicker", elementId, formatSubmit );
+        public override ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit, int startDayOfWeek )
+        {            
+            return runtime.InvokeAsync<bool>( $"blazoriseMaterial.activateDatePicker", elementId, formatSubmit, startDayOfWeek );
         }
 
         public override ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop )
