@@ -41,7 +41,7 @@ In your main _Imports.razor_ add:
 @using Blazorise.RichTextEdit
 ```
 
-## Static Files
+### Static Files
 
 Include CSS link into your index.html or _Host.cshtml file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
 
