@@ -2,6 +2,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -15,15 +16,26 @@ namespace Blazorise
     /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
     public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            if ( parameters.TryGetValue<TValue>( nameof( Time ), out var time )
+                && !Time.IsEqual( time ) )
+            {
+                var timeString = FormatValueAsString( time );
+
+                await CurrentValueHandler( timeString );
+
+                if ( Rendered )
+                {
+                    // In case a provider needs to update it's own implementation but only after the component was
+                    // rendered, meaning it was already initialized.
+                    ExecuteAfterRender( async () => await JSRunner.UpdateTimePicker( ElementRef, ElementId, timeString ) );
+                }
+            }
+
             await base.SetParametersAsync( parameters );
 
             if ( ParentValidation != null )
@@ -45,6 +57,42 @@ namespace Blazorise
             }
         }
 
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            await JSRunner.InitializeTimePicker( ElementRef, ElementId, new
+            {
+                DefaultValue = FormatValueAsString( Time )
+            } );
+
+            await base.OnFirstAfterRenderAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Rendered )
+                {
+                    var task = JSRunner.DestroyTimePicker( ElementRef, ElementId );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+
+            await base.DisposeAsync( disposing );
+        }
+
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -64,7 +112,10 @@ namespace Blazorise
 
         protected async Task OnClickHandler( MouseEventArgs e )
         {
-            await JSRunner.ActivateTimePicker( ElementId, Parsers.InternalTimeFormat );
+            if ( Disabled || ReadOnly )
+                return;
+
+            await JSRunner.ActivateTimePicker( ElementRef, ElementId, Parsers.InternalTimeFormat );
         }
 
         /// <inheritdoc/>
@@ -126,17 +177,17 @@ namespace Blazorise
         protected override TValue InternalValue { get => Time; set => Time = value; }
 
         /// <summary>
-        /// Gets or sets the input date value.
+        /// Gets or sets the input time value.
         /// </summary>
         [Parameter] public TValue Time { get; set; }
 
         /// <summary>
-        /// Occurs when the date has changed.
+        /// Occurs when the time has changed.
         /// </summary>
         [Parameter] public EventCallback<TValue> TimeChanged { get; set; }
 
         /// <summary>
-        /// Gets or sets an expression that identifies the date value.
+        /// Gets or sets an expression that identifies the time field.
         /// </summary>
         [Parameter] public Expression<Func<TValue>> TimeExpression { get; set; }
 

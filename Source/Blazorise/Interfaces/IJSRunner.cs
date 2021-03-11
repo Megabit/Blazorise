@@ -42,9 +42,21 @@ namespace Blazorise
 
         ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId );
 
-        ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit );
+        ValueTask InitializeDatePicker( ElementReference elementRef, string elementId, object options );
 
-        ValueTask<bool> ActivateTimePicker( string elementId, string formatSubmit );
+        ValueTask DestroyDatePicker( ElementReference elementRef, string elementId );
+
+        ValueTask ActivateDatePicker( ElementReference elementRef, string elementId, object options );
+
+        ValueTask UpdateDatePicker( ElementReference elementRef, string elementId, object value );
+
+        ValueTask InitializeTimePicker( ElementReference elementRef, string elementId, object options );
+
+        ValueTask DestroyTimePicker( ElementReference elementRef, string elementId );
+
+        ValueTask ActivateTimePicker( ElementReference elementRef, string elementId, object options );
+
+        ValueTask UpdateTimePicker( ElementReference elementRef, string elementId, object value );
 
         ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
 

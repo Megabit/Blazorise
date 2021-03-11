@@ -108,26 +108,44 @@ namespace Blazorise
             return runtime.InvokeAsync<DomElement>( $"{BLAZORISE_NAMESPACE}.getElementInfo", elementRef, elementId );
         }
 
-        /// <summary>
-        /// Activates the date picker for a given element id.
-        /// </summary>
-        /// <param name="elementId">Input element id.</param>
-        /// <param name="formatSubmit">Date format to submit.</param>
-        public virtual ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit )
+        public virtual ValueTask InitializeDatePicker( ElementReference elementRef, string elementId, object options )
         {
-            // must be implemented by a framework provider!
-            return new ValueTask<bool>( true );
+            return ValueTask.CompletedTask;
         }
 
-        /// <summary>
-        /// Activates the time picker for a given element id.
-        /// </summary>
-        /// <param name="elementId">Input element id.</param>
-        /// <param name="formatSubmit">Date format to submit.</param>
-        public virtual ValueTask<bool> ActivateTimePicker( string elementId, string formatSubmit )
+        public virtual ValueTask DestroyDatePicker( ElementReference elementRef, string elementId )
         {
-            // must be implemented by a framework provider!
-            return new ValueTask<bool>( true );
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask ActivateDatePicker( ElementReference elementRef, string elementId, object options )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask UpdateDatePicker( ElementReference elementRef, string elementId, object value )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask InitializeTimePicker( ElementReference elementRef, string elementId, object options )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask DestroyTimePicker( ElementReference elementRef, string elementId )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask ActivateTimePicker( ElementReference elementRef, string elementId, object options )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask UpdateTimePicker( ElementReference elementRef, string elementId, object value )
+        {
+            return ValueTask.CompletedTask;
         }
 
         public async ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId )

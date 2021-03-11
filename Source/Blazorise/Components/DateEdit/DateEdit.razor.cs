@@ -16,15 +16,26 @@ namespace Blazorise
     /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
     public partial class DateEdit<TValue> : BaseTextInput<TValue>
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            if ( parameters.TryGetValue<TValue>( nameof( Date ), out var date )
+                && !Date.Equals( date ) )
+            {
+                var dateString = FormatValueAsString( date );
+
+                await CurrentValueHandler( dateString );
+
+                if ( Rendered )
+                {
+                    // In case a provider needs to update it's own implementation but only after the component was
+                    // rendered, meaning it was already initialized.
+                    ExecuteAfterRender( async () => await JSRunner.UpdateDatePicker( ElementRef, ElementId, dateString ) );
+                }
+            }
+
             await base.SetParametersAsync( parameters );
 
             if ( ParentValidation != null )
@@ -44,6 +55,44 @@ namespace Blazorise
 
                 InitializeValidation();
             }
+        }
+
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            await JSRunner.InitializeDatePicker( ElementRef, ElementId, new
+            {
+                InputMode = InputMode,
+                FirstDayOfWeek = FirstDayOfWeek,
+                DefaultValue = FormatValueAsString( Date ),
+            } );
+
+            await base.OnFirstAfterRenderAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Rendered )
+                {
+                    var task = JSRunner.DestroyDatePicker( ElementRef, ElementId );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+
+            await base.DisposeAsync( disposing );
         }
 
         /// <inheritdoc/>
@@ -69,7 +118,7 @@ namespace Blazorise
             if ( Disabled || ReadOnly )
                 return;
 
-            await JSRunner.ActivateDatePicker( ElementId, DateFormat );
+            await JSRunner.ActivateDatePicker( ElementRef, ElementId, DateFormat );
         }
 
         /// <inheritdoc/>
@@ -172,6 +221,16 @@ namespace Blazorise
         /// The latest date to accept.
         /// </summary>
         [Parameter] public DateTimeOffset? Max { get; set; }
+
+        /// <summary>
+        /// Defines the first day of the week.
+        /// </summary>
+        /// <remarks>
+        /// Be aware that not all providers support setting the first day of the week. This is more
+        /// the limitations with browsers than it is with the Blazorise. Currently only the material
+        /// provider support it because it uses the custom plugin for date picker.
+        /// </remarks>
+        [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
 
         #endregion
     }
