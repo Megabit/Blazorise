@@ -1,0 +1,13 @@
+﻿@namespace  Blazorise
+@inherits BaseComponent
+
+<span>
+    <CascadingValue Value="this">
+        @for (int i = 1; i <= MaxValue; i++)
+        {
+            <RatingItem Class="@RatingItemsClass" Style="@RatingItemsStyle" ItemValue="@i"
+                        Disabled="Disabled" ReadOnly="ReadOnly" Color="Color"
+                        Size="Size" ItemClicked="HandleItemClicked" ItemHovered="HandleItemHovered" />
+        }
+    </CascadingValue>
+</span>

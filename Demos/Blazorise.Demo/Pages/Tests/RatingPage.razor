@@ -1,0 +1,20 @@
+﻿@page "/tests/ratings"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Basic Example</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Default rating.</CardText>
+            </CardBody>
+            <CardBody>
+                <Rating MaxValue="10" SelectedValue="@SelectedValue" SelectedValueChanged="@((i) => SelectedValue = i)"></Rating>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    public int SelectedValue { get; set; } = 2;
+}
