@@ -86,8 +86,6 @@
                 const mouseDownHandler = function (e) {
                     mouseDownDate = new Date();
 
-                    cols.forEach(x => x.classList.add('b-datagrid-resizing'));
-
                     // Get the current mouse position
                     x = e.clientX;
 
@@ -115,8 +113,6 @@
                 // When user releases the mouse, remove the existing event listeners
                 const mouseUpHandler = function () {
                     mouseUpDate = new Date();
-
-                    cols.forEach(x => x.classList.remove('b-datagrid-resizing'));
 
                     resizer.classList.remove(resizingClass);
 
