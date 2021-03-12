@@ -1,10 +1,7 @@
-﻿@namespace Blazorise
-@inherits BaseComponent
-
-@if (ReadOnly)
+﻿@if (ReadOnly)
 {
     <span style="@Style">
-        <Icon Icon="@Name" Size="@Size"></Icon>
+        <Icon Name="@Name" Size="@Size" IconStyle="@IconStyle"></Icon>
     </span>
 }
 else

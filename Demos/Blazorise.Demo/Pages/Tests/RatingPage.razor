@@ -6,7 +6,7 @@
                 <CardTitle>Basic Example</CardTitle>
             </CardHeader>
             <CardBody>
-                <CardText>Default rating.</CardText>
+                <CardText>Rating.</CardText>
             </CardBody>
             <CardBody>
                 <Rating MaxValue="10" SelectedValue="@SelectedValue" SelectedValueChanged="@((i) => SelectedValue = i)"></Rating>
@@ -15,6 +15,49 @@
     </Column>
 </Row>
 
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Read Only</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Default rating.</CardText>
+            </CardBody>
+            <CardBody>
+                <Rating SelectedValue="@SelectedValue"
+                  SelectedValueChanged="@((i) => SelectedValue = i)"
+                  MaxValue="10"
+                  ReadOnly="true">
+                </Rating>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Material Icon Example</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Default rating.</CardText>
+            </CardBody>
+            <CardBody>
+                <Rating SelectedValue="@SelectedMaterialValue"
+                          SelectedValueChanged="@((i) => SelectedMaterialValue = i)"
+                          FullIcon="@("star")"
+                          EmptyIcon="@("star_outline")"
+                          FullIconStyle="@(IconStyle.Solid)"
+                          EmptyIconStyle="@(IconStyle.Solid)">
+                </Rating>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
 @code {
     public int SelectedValue { get; set; } = 2;
+    public int SelectedMaterialValue { get; set; } = 1;
 }

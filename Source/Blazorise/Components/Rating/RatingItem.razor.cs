@@ -8,7 +8,7 @@ namespace Blazorise
     public partial class RatingItem : BaseComponent
     {
         [CascadingParameter]
-        private Rating Rating { get; set; }
+        private AwRating Rating { get; set; }
 
         [Inject] public IClassProvider classProvider { get; set; }
 
@@ -21,42 +21,29 @@ namespace Blazorise
         private bool IsChecked => ItemValue == Rating?.SelectedValue;
 
         /// <summary>
-        /// The Size of the icon.
+        /// Not work now
         /// </summary>
         [Parameter] public Size Size { get; set; } = Size.Medium;
 
         /// <summary>
-        /// The color of the component. It supports the theme colors.
+        /// Not work
         /// </summary>
         [Parameter] public Color Color { get; set; } = Color.Primary;
 
-        /// <summary>
-        /// If true, the controls will be disabled.
-        /// </summary>
         [Parameter] public bool Disabled { get; set; }
 
-        /// <summary>
-        /// If true, the item will be readonly.
-        /// </summary>
         [Parameter] public bool ReadOnly { get; set; }
 
         [Parameter] public IconStyle IconStyle { get; set; }
 
-        /// <summary>
-        /// Fires when element clicked.
-        /// </summary>
         [Parameter] public EventCallback<int> ItemClicked { get; set; }
 
-        /// <summary>
-        /// Fires when element hovered.
-        /// </summary>
         [Parameter] public EventCallback<int?> ItemHovered { get; set; }
 
-        protected override void BuildClasses( ClassBuilder builder )
+        protected override void BuildClasses(ClassBuilder builder)
         {
-            // I need to color icon, but not work fine
-            builder.Append( $"color: {classProvider.ToColor( Color )}" );
-            base.BuildClasses( builder );
+            builder.Append($"color: {classProvider.ToColor(Color)}");
+            base.BuildClasses(builder);
         }
 
         protected override void OnParametersSet()
@@ -67,68 +54,65 @@ namespace Blazorise
             IconStyle = select.IconStyle;
         }
 
-        private (string Name, IconStyle IconStyle) SelectIcon()
+        private (string Name, IconStyle  IconStyle) SelectIcon()
         {
-            if ( Rating == null )
-                return (null, IconStyle.Regular);
-            if ( Rating.HoveredValue.HasValue && Rating.HoveredValue.Value >= ItemValue )
+            if (Rating == null)
+                return (null, IconStyle.Solid);
+            if (Rating.HoveredValue.HasValue && Rating.HoveredValue.Value >= ItemValue)
             {
                 // full icon when @RatingItem hovered
-                return (Rating.FullIcon, IconStyle.Solid);
+                return (Rating.FullIconName, Rating.FullIconStyle.Value);
             }
-            else if ( Rating.SelectedValue >= ItemValue )
+            else if (Rating.SelectedValue >= ItemValue)
             {
-                if ( Rating.HoveredValue.HasValue && Rating.HoveredValue.Value < ItemValue )
+                if (Rating.HoveredValue.HasValue && Rating.HoveredValue.Value < ItemValue)
                 {
                     // empty icon when equal or higher RatingItem value clicked, but less value hovered 
-                    return (Rating.EmptyIcon, IconStyle.Regular);
+                    return (Rating.EmptyIconName, Rating.EmptyIconStyle.Value);
                 }
                 else
                 {
                     // full icon when equal or higher RatingItem value clicked
-                    return (Rating.FullIcon, IconStyle.Solid);
+                    return (Rating.FullIconName, Rating.FullIconStyle.Value);
                 }
             }
             else
             {
                 // empty icon when this or higher RatingItem is not clicked and not hovered
-                return (Rating.EmptyIcon, IconStyle.Regular);
+                return (Rating.EmptyIconName, Rating.EmptyIconStyle.Value);
             }
         }
 
         // rating item lose hover
-        private async Task HandleMouseOut( MouseEventArgs e )
+        private async Task HandleMouseOut(MouseEventArgs e)
         {
-            if ( Disabled )
-                return;
-            if ( Rating == null )
+            if (Disabled) return;
+            if (Rating == null)
                 return;
 
             IsActive = false;
-            await ItemHovered.InvokeAsync( null );
+            await ItemHovered.InvokeAsync(null);
         }
 
-        private void HandleMouseOver( MouseEventArgs e )
+        private void HandleMouseOver(MouseEventArgs e)
         {
-            if ( Disabled )
-                return;
+            if (Disabled) return;
 
             IsActive = true;
-            ItemHovered.InvokeAsync( ItemValue );
+            ItemHovered.InvokeAsync(ItemValue);
         }
 
-        private void HandleClick( MouseEventArgs e )
+        private void HandleClick(MouseEventArgs e)
         {
-            if ( Disabled )
-                return;
+            if (Disabled) return;
             IsActive = false;
-            if ( Rating?.SelectedValue == ItemValue )
+            if (Rating?.SelectedValue == ItemValue)
             {
-                ItemClicked.InvokeAsync( 0 );
+                ItemClicked.InvokeAsync(0);
             }
             else
             {
-                ItemClicked.InvokeAsync( ItemValue );
+                ItemClicked.InvokeAsync(ItemValue);
             }
         }
     }
