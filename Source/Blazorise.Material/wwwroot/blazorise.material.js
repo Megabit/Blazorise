@@ -8,8 +8,6 @@ if (!window.blazoriseMaterial) {
 }
 
 window.blazoriseMaterial = {
-
-
     tooltip: {
         initialize: (element, elementId) => {
             if (element.querySelector(".custom-control-input,.btn")) {
@@ -31,7 +29,9 @@ window.blazoriseMaterial = {
                 allowInput: true,
                 altInput: true,
                 altFormat: options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d',
-                defaultValue: options.defaultValue
+                defaultValue: options.default,
+                minDate: options.min,
+                maxDate: options.max
             });
 
             window.blazoriseMaterial.dateEdit._flatPickers[elementId] = picker;
@@ -42,11 +42,29 @@ window.blazoriseMaterial = {
             delete instances[elementId];
         },
 
-        update: (element, elementId, value) => {
+        updateValue: (element, elementId, value) => {
             const picker = window.blazoriseMaterial.dateEdit._flatPickers[elementId];
 
             if (picker) {
                 picker.setDate(value);
+            }
+        },
+
+        updateOptions: (element, elementId, options) => {
+            const picker = window.blazoriseMaterial.dateEdit._flatPickers[elementId];
+
+            if (picker) {
+                if (options.firstDayOfWeek.changed) {
+                    picker.set("firstDayOfWeek", options.firstDayOfWeek.value);
+                }
+
+                if (options.min.changed) {
+                    picker.set("minDate", options.min.value);
+                }
+
+                if (options.max.changed) {
+                    picker.set("maxDate", options.max.value);
+                }
             }
         },
     },
@@ -62,7 +80,9 @@ window.blazoriseMaterial = {
                 allowInput: true,
                 altInput: true,
                 altFormat: "H:i",
-                defaultValue: options.defaultValue
+                defaultValue: options.default,
+                minTime: options.min,
+                maxTime: options.max
             });
 
             window.blazoriseMaterial.timeEdit._flatPickers[elementId] = picker;
@@ -73,13 +93,27 @@ window.blazoriseMaterial = {
             delete instances[elementId];
         },
 
-        update: (element, elementId, value) => {
+        updateValue: (element, elementId, value) => {
             const picker = window.blazoriseMaterial.timeEdit._flatPickers[elementId];
 
             if (picker) {
                 picker.setDate(value);
             }
         },
+
+        updateOptions: (element, elementId, options) => {
+            const picker = window.blazoriseMaterial.timeEdit._flatPickers[elementId];
+
+            if (picker) {
+                if (options.min.changed) {
+                    picker.set("minTime", options.min.value);
+                }
+
+                if (options.max.changed) {
+                    picker.set("maxTime", options.max.value);
+                }
+            }
+        }
     },
 
     modal: {

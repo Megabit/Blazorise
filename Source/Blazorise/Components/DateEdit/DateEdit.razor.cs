@@ -21,8 +21,12 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            if ( parameters.TryGetValue<TValue>( nameof( Date ), out var date )
-                && !Date.Equals( date ) )
+            var dateChanged = parameters.TryGetValue<TValue>( nameof( Date ), out var date ) && !Date.Equals( date );
+            var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? min ) && !Min.IsEqual( min );
+            var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? max ) && !Max.IsEqual( max );
+            var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek firstDayOfWeek ) && !FirstDayOfWeek.IsEqual( firstDayOfWeek );
+
+            if ( dateChanged )
             {
                 var dateString = FormatValueAsString( date );
 
@@ -30,12 +34,21 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    // In case a provider needs to update it's own implementation but only after the component was
-                    // rendered, meaning it was already initialized.
-                    ExecuteAfterRender( async () => await JSRunner.UpdateDatePicker( ElementRef, ElementId, dateString ) );
+                    ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerValue( ElementRef, ElementId, dateString ) );
                 }
             }
 
+            if ( Rendered && ( minChanged || maxChanged || firstDayOfWeekChanged ) )
+            {
+                ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerOptions( ElementRef, ElementId, new
+                {
+                    FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = firstDayOfWeek },
+                    Min = new { Changed = minChanged, Value = min?.ToString( DateFormat ) },
+                    Max = new { Changed = maxChanged, Value = max?.ToString( DateFormat ) },
+                } ) );
+            }
+
+            // Let blazor do its thing!
             await base.SetParametersAsync( parameters );
 
             if ( ParentValidation != null )
@@ -63,7 +76,9 @@ namespace Blazorise
             {
                 InputMode = InputMode,
                 FirstDayOfWeek = FirstDayOfWeek,
-                DefaultValue = FormatValueAsString( Date ),
+                Default = FormatValueAsString( Date ),
+                Min = Min?.ToString( DateFormat ),
+                Max = Max?.ToString( DateFormat ),
             } );
 
             await base.OnFirstAfterRenderAsync();

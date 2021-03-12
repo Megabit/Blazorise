@@ -123,7 +123,12 @@ namespace Blazorise
             return ValueTask.CompletedTask;
         }
 
-        public virtual ValueTask UpdateDatePicker( ElementReference elementRef, string elementId, object value )
+        public virtual ValueTask UpdateDatePickerValue( ElementReference elementRef, string elementId, object value )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask UpdateDatePickerOptions( ElementReference elementRef, string elementId, object options )
         {
             return ValueTask.CompletedTask;
         }
@@ -143,7 +148,12 @@ namespace Blazorise
             return ValueTask.CompletedTask;
         }
 
-        public virtual ValueTask UpdateTimePicker( ElementReference elementRef, string elementId, object value )
+        public virtual ValueTask UpdateTimePickerOptions( ElementReference elementRef, string elementId, object options )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask UpdateTimePickerValue( ElementReference elementRef, string elementId, object value )
         {
             return ValueTask.CompletedTask;
         }

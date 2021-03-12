@@ -21,8 +21,11 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            if ( parameters.TryGetValue<TValue>( nameof( Time ), out var time )
-                && !Time.IsEqual( time ) )
+            var timeChanged = parameters.TryGetValue( nameof( Time ), out TValue time ) && !Time.IsEqual( time );
+            var minChanged = parameters.TryGetValue( nameof( Min ), out TimeSpan? min ) && !Min.IsEqual( min );
+            var maxChanged = parameters.TryGetValue( nameof( Max ), out TimeSpan? max ) && !Max.IsEqual( max );
+
+            if ( timeChanged )
             {
                 var timeString = FormatValueAsString( time );
 
@@ -30,12 +33,20 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    // In case a provider needs to update it's own implementation but only after the component was
-                    // rendered, meaning it was already initialized.
-                    ExecuteAfterRender( async () => await JSRunner.UpdateTimePicker( ElementRef, ElementId, timeString ) );
+                    ExecuteAfterRender( async () => await JSRunner.UpdateTimePickerValue( ElementRef, ElementId, timeString ) );
                 }
             }
 
+            if ( Rendered && ( minChanged || maxChanged ) )
+            {
+                ExecuteAfterRender( async () => await JSRunner.UpdateTimePickerOptions( ElementRef, ElementId, new
+                {
+                    Min = new { Changed = minChanged, Value = min?.ToString( Parsers.InternalTimeFormat ) },
+                    Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat ) },
+                } ) );
+            }
+
+            // Let blazor do its thing!
             await base.SetParametersAsync( parameters );
 
             if ( ParentValidation != null )
@@ -61,7 +72,9 @@ namespace Blazorise
         {
             await JSRunner.InitializeTimePicker( ElementRef, ElementId, new
             {
-                DefaultValue = FormatValueAsString( Time )
+                Default = FormatValueAsString( Time ),
+                Min = Min?.ToString( Parsers.InternalTimeFormat ),
+                Max = Max?.ToString( Parsers.InternalTimeFormat ),
             } );
 
             await base.OnFirstAfterRenderAsync();
@@ -190,6 +203,16 @@ namespace Blazorise
         /// Gets or sets an expression that identifies the time field.
         /// </summary>
         [Parameter] public Expression<Func<TValue>> TimeExpression { get; set; }
+
+        /// <summary>
+        /// The earliest time to accept.
+        /// </summary>
+        [Parameter] public TimeSpan? Min { get; set; }
+
+        /// <summary>
+        /// The latest time to accept.
+        /// </summary>
+        [Parameter] public TimeSpan? Max { get; set; }
 
         #endregion
     }

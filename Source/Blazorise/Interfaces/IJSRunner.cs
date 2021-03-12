@@ -48,7 +48,9 @@ namespace Blazorise
 
         ValueTask ActivateDatePicker( ElementReference elementRef, string elementId, object options );
 
-        ValueTask UpdateDatePicker( ElementReference elementRef, string elementId, object value );
+        ValueTask UpdateDatePickerValue( ElementReference elementRef, string elementId, object value );
+
+        ValueTask UpdateDatePickerOptions( ElementReference elementRef, string elementId, object options );
 
         ValueTask InitializeTimePicker( ElementReference elementRef, string elementId, object options );
 
@@ -56,7 +58,9 @@ namespace Blazorise
 
         ValueTask ActivateTimePicker( ElementReference elementRef, string elementId, object options );
 
-        ValueTask UpdateTimePicker( ElementReference elementRef, string elementId, object value );
+        ValueTask UpdateTimePickerValue( ElementReference elementRef, string elementId, object value );
+
+        ValueTask UpdateTimePickerOptions( ElementReference elementRef, string elementId, object options );
 
         ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
 
