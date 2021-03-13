@@ -23,7 +23,6 @@ window.blazoriseMaterial = {
 
         initialize: (element, elementId, options) => {
             const picker = flatpickr(element, {
-                firstDayOfWeek: options.firstDayOfWeek,
                 enableTime: options.inputMode === 1,
                 dateFormat: options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d',
                 allowInput: true,
@@ -31,7 +30,10 @@ window.blazoriseMaterial = {
                 altFormat: options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d',
                 defaultValue: options.default,
                 minDate: options.min,
-                maxDate: options.max
+                maxDate: options.max,
+                locale: {
+                    firstDayOfWeek: options.firstDayOfWeek
+                }
             });
 
             window.blazoriseMaterial.dateEdit._flatPickers[elementId] = picker;
