@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -7,6 +6,9 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Ratings provide insight regarding others opinions and experiences with a product.
+    /// </summary>
     public partial class Rating : BaseComponent
     {
         #region Members
@@ -64,8 +66,6 @@ namespace Blazorise
 
         #region Properties
 
-        [Inject] IIconProvider IconProvider { get; set; }
-
         /// <summary>
         /// User class names for RatingItems, separated by space
         /// </summary>
@@ -76,29 +76,54 @@ namespace Blazorise
         /// </summary>
         [Parameter] public string RatingItemsStyle { get; set; }
 
+        /// <summary>
+        /// Maximum rating value that is allowed to be selected.
+        /// </summary>
         [Parameter] public int MaxValue { get; set; } = 5;
 
+        /// <summary>
+        /// Defines the selected icon name.
+        /// </summary>
         [Parameter] public object FullIcon { get; set; } = IconName.Star;
 
+        /// <summary>
+        /// Defines the non-selected icon name.
+        /// </summary>
         [Parameter] public object EmptyIcon { get; set; } = IconName.Star;
 
+        /// <summary>
+        /// Defines the selected icon style.
+        /// </summary>
         [Parameter] public IconStyle? FullIconStyle { get; set; } = IconStyle.Solid;
 
+        /// <summary>
+        /// Defines the non-selected icon style.
+        /// </summary>
         [Parameter] public IconStyle? EmptyIconStyle { get; set; } = IconStyle.Regular;
+
+        /// <summary>
+        /// Prevent the user interactions and make it appear lighter.
+        /// </summary>
+        [Parameter] public bool Disabled { get; set; }
+
+        /// <summary>
+        /// Prevent the user interactions and make it appear normal.
+        /// </summary>
+        [Parameter] public bool ReadOnly { get; set; }
 
         /// <summary>
         /// Not work now
         /// </summary>
         [Parameter] public Color Color { get; set; } = Color.Primary;
+
         /// <summary>
         /// Not work now
         /// </summary>
         [Parameter] public Size Size { get; set; } = Size.Medium;
 
-        [Parameter] public bool Disabled { get; set; }
-
-        [Parameter] public bool ReadOnly { get; set; }
-
+        /// <summary>
+        /// Gets or sets the currently selected rating value.
+        /// </summary>
         [Parameter]
         public int SelectedValue
         {
@@ -114,14 +139,20 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Occurs after the <see cref="SelectedValue"/> has changed.
+        /// </summary>
         [Parameter] public EventCallback<int> SelectedValueChanged { get; set; }
 
+        /// <summary>
+        /// Gets or sets the currently hovered rating value.
+        /// </summary>
         internal int? HoveredValue
         {
             get => hoveredValue;
             set
             {
-                if ( value == null || hoveredValue == value )
+                if ( hoveredValue == value )
                     return;
 
                 hoveredValue = value;
@@ -129,6 +160,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Occurs after the <see cref="HoveredValue"/> has changed.
+        /// </summary>
         [Parameter] public EventCallback<int?> HoveredValueChanged { get; set; }
 
         #endregion
