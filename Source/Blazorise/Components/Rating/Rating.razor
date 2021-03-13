@@ -1,10 +1,12 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed="true">
-    <span>
+    <span @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler">
         @for ( int i = 1; i <= MaxValue; i++ )
         {
-            <RatingItem Class="@RatingItemsClass" Style="@RatingItemsStyle"
+            <RatingItem @key="@i"
+                        Class="@RatingItemsClass"
+                        Style="@RatingItemsStyle"
                         Value="@i"
                         Color="Color"
                         Disabled="Disabled"

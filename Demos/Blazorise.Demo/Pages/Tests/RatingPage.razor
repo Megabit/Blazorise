@@ -9,7 +9,7 @@
                 <CardText>Rating.</CardText>
             </CardBody>
             <CardBody>
-                <Rating MaxValue="10" SelectedValue="@SelectedValue" SelectedValueChanged="@((i) => SelectedValue = i)"></Rating>
+                <Rating @bind-SelectedValue="@SelectedValue" MaxValue="10" />
             </CardBody>
         </Card>
     </Column>
@@ -24,11 +24,7 @@
                 <CardText>Default rating.</CardText>
             </CardBody>
             <CardBody>
-                <Rating SelectedValue="@SelectedValue"
-                        SelectedValueChanged="@((i) => SelectedValue = i)"
-                        MaxValue="10"
-                        ReadOnly="true">
-                </Rating>
+                <Rating SelectedValue="@SelectedValue" MaxValue="10" ReadOnly="true" />
             </CardBody>
         </Card>
     </Column>

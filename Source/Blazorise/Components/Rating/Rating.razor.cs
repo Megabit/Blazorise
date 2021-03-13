@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -14,15 +15,17 @@ namespace Blazorise
 
         private int? hoveredValue = null;
 
+        private bool hovering;
+
         #endregion
 
         #region Methods
 
-        private Task HandleItemClicked( int itemValue )
+        private Task HandleItemClicked( int value )
         {
-            SelectedValue = itemValue;
+            SelectedValue = value;
 
-            if ( itemValue == 0 )
+            if ( value == 0 )
             {
                 HoveredValue = null;
             }
@@ -30,22 +33,36 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        private Task HandleItemHovered( int? itemValue )
+        private Task HandleItemHovered( int? value )
         {
-            HoveredValue = itemValue;
+            HoveredValue = value;
 
             return Task.CompletedTask;
         }
 
-        internal protected bool IsChecked( int value )
+        protected Task OnMouseOverHandler( MouseEventArgs eventArgs )
+        {
+            hovering = true;
+
+            return Task.CompletedTask;
+        }
+
+        protected Task OnMouseOutHandler( MouseEventArgs eventArgs )
+        {
+            hovering = false;
+
+            return Task.CompletedTask;
+        }
+
+        internal protected bool IsSelected( int value )
             => value >= 1 && value <= SelectedValue;
+
+        internal protected bool IsHovered( int value )
+           => hovering && value >= 1 && value <= HoveredValue;
 
         #endregion
 
         #region Properties
-
-        internal bool IsRatingHover
-            => HoveredValue.HasValue;
 
         [Inject] IIconProvider IconProvider { get; set; }
 

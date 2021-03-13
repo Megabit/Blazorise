@@ -11,29 +11,22 @@ namespace Blazorise
     {
         #region Members
 
-        //internal string Name { get; set; }
-
-        //internal bool IsActive { get; set; }
-
-        //private bool IsChecked => ItemValue == Rating?.SelectedValue;
-
         #endregion
 
         #region Methods
 
-        //protected override void OnParametersSet()
-        //{
-        //    base.OnParametersSet();
-        //    var select = SelectIcon();
-        //    Name = select.Name;
-        //    IconStyle = select.IconStyle;
-        //}
-
         protected override void BuildStyles( StyleBuilder builder )
         {
-            if ( Rating.IsChecked( Value ) )
+            var selected = Rating.IsSelected( Value );
+            var hovered = Rating.IsHovered( Value );
+
+            if ( selected )
             {
                 builder.Append( "color: orange;" );
+            }
+            else if ( hovered )
+            {
+                builder.Append( "color: orange; opacity: 0.5;" );
             }
 
             base.BuildStyles( builder );
@@ -46,7 +39,7 @@ namespace Blazorise
 
             IsActive = false;
 
-            if ( Rating?.SelectedValue == Value )
+            if ( Rating.SelectedValue == Value )
             {
                 await ItemClicked.InvokeAsync( 0 );
             }
@@ -70,54 +63,23 @@ namespace Blazorise
         {
             if ( Disabled )
                 return;
-            if ( Rating == null )
-                return;
 
             IsActive = false;
 
             await ItemHovered.InvokeAsync( null );
         }
 
-        //private (string Name, IconStyle IconStyle) SelectIcon()
-        //{
-        //    if ( Rating == null )
-        //        return (null, IconStyle.Solid);
-        //    if ( Rating.HoveredValue.HasValue && Rating.HoveredValue.Value >= ItemValue )
-        //    {
-        //        // full icon when @RatingItem hovered
-        //        return (Rating.FullIconName, Rating.FullIconStyle.Value);
-        //    }
-        //    else if ( Rating.SelectedValue >= ItemValue )
-        //    {
-        //        if ( Rating.HoveredValue.HasValue && Rating.HoveredValue.Value < ItemValue )
-        //        {
-        //            // empty icon when equal or higher RatingItem value clicked, but less value hovered 
-        //            return (Rating.EmptyIconName, Rating.EmptyIconStyle.Value);
-        //        }
-        //        else
-        //        {
-        //            // full icon when equal or higher RatingItem value clicked
-        //            return (Rating.FullIconName, Rating.FullIconStyle.Value);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // empty icon when this or higher RatingItem is not clicked and not hovered
-        //        return (Rating.EmptyIconName, Rating.EmptyIconStyle.Value);
-        //    }
-        //}
-
         #endregion
 
         #region Properties
 
-        protected object IconName => Rating.IsChecked( Value ) || IsActive
+        protected object IconName => Rating.IsSelected( Value )
             ? Rating.FullIcon
             : Rating.EmptyIcon;
 
-        protected IconStyle IconStyle => ( Rating.IsChecked( Value ) || IsActive
+        protected IconStyle IconStyle => ( Rating.IsSelected( Value ) || Rating.IsHovered( Value )
             ? Rating.FullIconStyle
-            : Rating.EmptyIconStyle ) ?? Blazorise.IconStyle.Solid;
+            : Rating.EmptyIconStyle ) ?? IconStyle.Solid;
 
         protected bool IsActive { get; set; }
 
