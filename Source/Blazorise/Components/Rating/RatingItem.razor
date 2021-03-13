@@ -1,12 +1,10 @@
-﻿@if (ReadOnly)
+﻿@namespace Blazorise
+@inherits BaseComponent
+@if ( ReadOnly )
 {
-    <span style="@Style">
-        <Icon Name="@Name" Size="@Size" IconStyle="@IconStyle"></Icon>
-    </span>
+    <Icon Class="@ClassNames" Style="@StyleNames" Name="@IconName" IconStyle="@IconStyle"></Icon>
 }
 else
 {
-    <span style="@Style" @onmouseover="HandleMouseOver" @onclick="HandleClick" @onmouseout="HandleMouseOut ">
-        <Icon Name="@Name" Size="@Size" IconStyle="@IconStyle"></Icon>
-    </span>
+    <Icon Class="@ClassNames" Style="@StyleNames" Name="@IconName" IconStyle="@IconStyle" Clicked="@HandleClick" MouseOver="@HandleMouseOver" MouseOut="@HandleMouseOut" />
 }

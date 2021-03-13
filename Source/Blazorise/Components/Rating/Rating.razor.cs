@@ -1,22 +1,53 @@
-﻿using System;
+﻿#region Using directives
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise
 {
     public partial class Rating : BaseComponent
     {
-        [Inject] IIconProvider IconProvider { get; set; }
+        #region Members
 
-        protected override void OnInitialized()
+        private int selectedValue = 0;
+
+        private int? hoveredValue = null;
+
+        #endregion
+
+        #region Methods
+
+        private Task HandleItemClicked( int itemValue )
         {
-            base.OnInitializedAsync();
-            if (FullIconStyle == null)
-                FullIconStyle = IconStyle.Solid;
-            if (EmptyIconStyle == null)
-                EmptyIconStyle = IconStyle.Regular;
-            FullIconName = string.IsNullOrEmpty(FullIcon) ? IconProvider.GetIconName(IconName.Star) : FullIcon;
-            EmptyIconName = string.IsNullOrEmpty(EmptyIcon) ? IconProvider.GetIconName(IconName.Star) : EmptyIcon;
+            SelectedValue = itemValue;
+
+            if ( itemValue == 0 )
+            {
+                HoveredValue = null;
+            }
+
+            return Task.CompletedTask;
         }
+
+        private Task HandleItemHovered( int? itemValue )
+        {
+            HoveredValue = itemValue;
+
+            return Task.CompletedTask;
+        }
+
+        internal protected bool IsChecked( int value )
+            => value >= 1 && value <= SelectedValue;
+
+        #endregion
+
+        #region Properties
+
+        internal bool IsRatingHover
+            => HoveredValue.HasValue;
+
+        [Inject] IIconProvider IconProvider { get; set; }
 
         /// <summary>
         /// User class names for RatingItems, separated by space
@@ -28,19 +59,15 @@ namespace Blazorise
         /// </summary>
         [Parameter] public string RatingItemsStyle { get; set; }
 
-        [Parameter] public string Name { get; set; } = Guid.NewGuid().ToString();
-
         [Parameter] public int MaxValue { get; set; } = 5;
 
-        [Parameter] public string FullIcon { get; set; }
-        public string FullIconName { get; set; }
+        [Parameter] public object FullIcon { get; set; } = IconName.Star;
 
-        [Parameter] public string EmptyIcon { get; set; }
-        public string EmptyIconName { get; set; }
+        [Parameter] public object EmptyIcon { get; set; } = IconName.Star;
 
-        [Parameter] public IconStyle? FullIconStyle { get; set; }
-        
-        [Parameter] public IconStyle? EmptyIconStyle { get; set; }
+        [Parameter] public IconStyle? FullIconStyle { get; set; } = IconStyle.Solid;
+
+        [Parameter] public IconStyle? EmptyIconStyle { get; set; } = IconStyle.Regular;
 
         /// <summary>
         /// Not work now
@@ -50,56 +77,43 @@ namespace Blazorise
         /// Not work now
         /// </summary>
         [Parameter] public Size Size { get; set; } = Size.Medium;
+
         [Parameter] public bool Disabled { get; set; }
+
         [Parameter] public bool ReadOnly { get; set; }
-        [Parameter] public EventCallback<int> SelectedValueChanged { get; set; }
 
         [Parameter]
         public int SelectedValue
         {
-            get => _selectedValue;
+            get => selectedValue;
             set
             {
-                if (_selectedValue == value)
+                if ( selectedValue == value )
                     return;
 
-                _selectedValue = value;
+                selectedValue = value;
 
-                SelectedValueChanged.InvokeAsync(_selectedValue);
+                SelectedValueChanged.InvokeAsync( selectedValue );
             }
         }
 
-        private int _selectedValue = 0;
-
-        [Parameter] public EventCallback<int?> HoveredValueChanged { get; set; }
+        [Parameter] public EventCallback<int> SelectedValueChanged { get; set; }
 
         internal int? HoveredValue
         {
-            get => _hoveredValue;
+            get => hoveredValue;
             set
             {
-                if (value == null || _hoveredValue == value)
+                if ( value == null || hoveredValue == value )
                     return;
 
-                _hoveredValue = value;
-                HoveredValueChanged.InvokeAsync(value);
+                hoveredValue = value;
+                HoveredValueChanged.InvokeAsync( value );
             }
         }
 
-        private int? _hoveredValue = null;
+        [Parameter] public EventCallback<int?> HoveredValueChanged { get; set; }
 
-        internal bool IsRatingHover => HoveredValue.HasValue;
-
-        private void HandleItemClicked(int itemValue)
-        {
-            SelectedValue = itemValue;
-
-            if (itemValue == 0)
-            {
-                HoveredValue = null;
-            }
-        }
-
-        private void HandleItemHovered(int? itemValue) => HoveredValue = itemValue;
+        #endregion
     }
 }

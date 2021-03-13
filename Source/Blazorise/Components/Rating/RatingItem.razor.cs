@@ -1,29 +1,129 @@
-﻿using System.Threading.Tasks;
+﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+#endregion
 
 namespace Blazorise
 {
     public partial class RatingItem : BaseComponent
     {
-        [CascadingParameter]
-        private AwRating Rating { get; set; }
+        #region Members
 
-        [Inject] public IClassProvider classProvider { get; set; }
+        //internal string Name { get; set; }
 
-        [Parameter] public int ItemValue { get; set; }
+        //internal bool IsActive { get; set; }
 
-        internal string Name { get; set; }
+        //private bool IsChecked => ItemValue == Rating?.SelectedValue;
 
-        internal bool IsActive { get; set; }
+        #endregion
 
-        private bool IsChecked => ItemValue == Rating?.SelectedValue;
+        #region Methods
 
-        /// <summary>
-        /// Not work now
-        /// </summary>
-        [Parameter] public Size Size { get; set; } = Size.Medium;
+        //protected override void OnParametersSet()
+        //{
+        //    base.OnParametersSet();
+        //    var select = SelectIcon();
+        //    Name = select.Name;
+        //    IconStyle = select.IconStyle;
+        //}
+
+        protected override void BuildStyles( StyleBuilder builder )
+        {
+            if ( Rating.IsChecked( Value ) )
+            {
+                builder.Append( "color: orange;" );
+            }
+
+            base.BuildStyles( builder );
+        }
+
+        private async Task HandleClick()
+        {
+            if ( Disabled )
+                return;
+
+            IsActive = false;
+
+            if ( Rating?.SelectedValue == Value )
+            {
+                await ItemClicked.InvokeAsync( 0 );
+            }
+            else
+            {
+                await ItemClicked.InvokeAsync( Value );
+            }
+        }
+
+        private async Task HandleMouseOver( MouseEventArgs e )
+        {
+            if ( Disabled )
+                return;
+
+            IsActive = true;
+
+            await ItemHovered.InvokeAsync( Value );
+        }
+
+        private async Task HandleMouseOut( MouseEventArgs e )
+        {
+            if ( Disabled )
+                return;
+            if ( Rating == null )
+                return;
+
+            IsActive = false;
+
+            await ItemHovered.InvokeAsync( null );
+        }
+
+        //private (string Name, IconStyle IconStyle) SelectIcon()
+        //{
+        //    if ( Rating == null )
+        //        return (null, IconStyle.Solid);
+        //    if ( Rating.HoveredValue.HasValue && Rating.HoveredValue.Value >= ItemValue )
+        //    {
+        //        // full icon when @RatingItem hovered
+        //        return (Rating.FullIconName, Rating.FullIconStyle.Value);
+        //    }
+        //    else if ( Rating.SelectedValue >= ItemValue )
+        //    {
+        //        if ( Rating.HoveredValue.HasValue && Rating.HoveredValue.Value < ItemValue )
+        //        {
+        //            // empty icon when equal or higher RatingItem value clicked, but less value hovered 
+        //            return (Rating.EmptyIconName, Rating.EmptyIconStyle.Value);
+        //        }
+        //        else
+        //        {
+        //            // full icon when equal or higher RatingItem value clicked
+        //            return (Rating.FullIconName, Rating.FullIconStyle.Value);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // empty icon when this or higher RatingItem is not clicked and not hovered
+        //        return (Rating.EmptyIconName, Rating.EmptyIconStyle.Value);
+        //    }
+        //}
+
+        #endregion
+
+        #region Properties
+
+        protected object IconName => Rating.IsChecked( Value ) || IsActive
+            ? Rating.FullIcon
+            : Rating.EmptyIcon;
+
+        protected IconStyle IconStyle => ( Rating.IsChecked( Value ) || IsActive
+            ? Rating.FullIconStyle
+            : Rating.EmptyIconStyle ) ?? Blazorise.IconStyle.Solid;
+
+        protected bool IsActive { get; set; }
+
+        [CascadingParameter] private Rating Rating { get; set; }
+
+        [Parameter] public int Value { get; set; }
 
         /// <summary>
         /// Not work
@@ -34,86 +134,10 @@ namespace Blazorise
 
         [Parameter] public bool ReadOnly { get; set; }
 
-        [Parameter] public IconStyle IconStyle { get; set; }
-
         [Parameter] public EventCallback<int> ItemClicked { get; set; }
 
         [Parameter] public EventCallback<int?> ItemHovered { get; set; }
 
-        protected override void BuildClasses(ClassBuilder builder)
-        {
-            builder.Append($"color: {classProvider.ToColor(Color)}");
-            base.BuildClasses(builder);
-        }
-
-        protected override void OnParametersSet()
-        {
-            base.OnParametersSet();
-            var select = SelectIcon();
-            Name = select.Name;
-            IconStyle = select.IconStyle;
-        }
-
-        private (string Name, IconStyle  IconStyle) SelectIcon()
-        {
-            if (Rating == null)
-                return (null, IconStyle.Solid);
-            if (Rating.HoveredValue.HasValue && Rating.HoveredValue.Value >= ItemValue)
-            {
-                // full icon when @RatingItem hovered
-                return (Rating.FullIconName, Rating.FullIconStyle.Value);
-            }
-            else if (Rating.SelectedValue >= ItemValue)
-            {
-                if (Rating.HoveredValue.HasValue && Rating.HoveredValue.Value < ItemValue)
-                {
-                    // empty icon when equal or higher RatingItem value clicked, but less value hovered 
-                    return (Rating.EmptyIconName, Rating.EmptyIconStyle.Value);
-                }
-                else
-                {
-                    // full icon when equal or higher RatingItem value clicked
-                    return (Rating.FullIconName, Rating.FullIconStyle.Value);
-                }
-            }
-            else
-            {
-                // empty icon when this or higher RatingItem is not clicked and not hovered
-                return (Rating.EmptyIconName, Rating.EmptyIconStyle.Value);
-            }
-        }
-
-        // rating item lose hover
-        private async Task HandleMouseOut(MouseEventArgs e)
-        {
-            if (Disabled) return;
-            if (Rating == null)
-                return;
-
-            IsActive = false;
-            await ItemHovered.InvokeAsync(null);
-        }
-
-        private void HandleMouseOver(MouseEventArgs e)
-        {
-            if (Disabled) return;
-
-            IsActive = true;
-            ItemHovered.InvokeAsync(ItemValue);
-        }
-
-        private void HandleClick(MouseEventArgs e)
-        {
-            if (Disabled) return;
-            IsActive = false;
-            if (Rating?.SelectedValue == ItemValue)
-            {
-                ItemClicked.InvokeAsync(0);
-            }
-            else
-            {
-                ItemClicked.InvokeAsync(ItemValue);
-            }
-        }
+        #endregion
     }
 }

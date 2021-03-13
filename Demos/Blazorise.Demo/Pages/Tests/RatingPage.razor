@@ -14,7 +14,6 @@
         </Card>
     </Column>
 </Row>
-
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -26,15 +25,14 @@
             </CardBody>
             <CardBody>
                 <Rating SelectedValue="@SelectedValue"
-                  SelectedValueChanged="@((i) => SelectedValue = i)"
-                  MaxValue="10"
-                  ReadOnly="true">
+                        SelectedValueChanged="@((i) => SelectedValue = i)"
+                        MaxValue="10"
+                        ReadOnly="true">
                 </Rating>
             </CardBody>
         </Card>
     </Column>
 </Row>
-
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -46,11 +44,11 @@
             </CardBody>
             <CardBody>
                 <Rating SelectedValue="@SelectedMaterialValue"
-                          SelectedValueChanged="@((i) => SelectedMaterialValue = i)"
-                          FullIcon="@("star")"
-                          EmptyIcon="@("star_outline")"
-                          FullIconStyle="@(IconStyle.Solid)"
-                          EmptyIconStyle="@(IconStyle.Solid)">
+                        SelectedValueChanged="@((i) => SelectedMaterialValue = i)"
+                        FullIcon="@("star")"
+                        EmptyIcon="@("star_outline")"
+                        FullIconStyle="@(IconStyle.Solid)"
+                        EmptyIconStyle="@(IconStyle.Solid)">
                 </Rating>
             </CardBody>
         </Card>
