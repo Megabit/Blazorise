@@ -151,6 +151,16 @@ namespace Blazorise
 
         #endregion
 
+        #region Rating
+
+        string Rating();
+
+        string RatingItem();
+
+        string RatingItemColor( Color color );
+
+        #endregion
+
         #region Label
 
         string Label();

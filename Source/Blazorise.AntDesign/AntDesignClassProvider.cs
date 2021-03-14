@@ -153,6 +153,16 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Rating
+
+        public override string Rating() => "ant-rating";
+
+        public override string RatingItem() => "ant-rating-item";
+
+        public override string RatingItemColor( Color color ) => $"ant-rating-item-{ToColor( color )}";
+
+        #endregion
+
         #region Label
 
         public override string Label() => null;

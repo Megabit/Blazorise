@@ -1757,6 +1757,33 @@
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
     background-color: #3273dc; }
 
+.ant-rating .ant-rating-item.ant-rating-item-primary {
+    color: #1890ff; }
+
+.ant-rating .ant-rating-item.ant-rating-item-secondary {
+    color: #6c757d; }
+
+.ant-rating .ant-rating-item.ant-rating-item-success {
+    color: #35c613; }
+
+.ant-rating .ant-rating-item.ant-rating-item-info {
+    color: #60b6f4; }
+
+.ant-rating .ant-rating-item.ant-rating-item-warning {
+    color: #f7c12a; }
+
+.ant-rating .ant-rating-item.ant-rating-item-danger {
+    color: #ff4d4f; }
+
+.ant-rating .ant-rating-item.ant-rating-item-light {
+    color: #fafafa; }
+
+.ant-rating .ant-rating-item.ant-rating-item-dark {
+    color: #343a40; }
+
+.ant-rating .ant-rating-item.ant-rating-item-link {
+    color: #3273dc; }
+
 .ant-table-primary,
 .ant-table-primary > th,
 .ant-table-primary > td {

@@ -1,0 +1,13 @@
+﻿@import "variables";
+
+.rating {
+    @each $name, $value in $theme-colors {
+        $color: $value;
+
+        .rating-item {
+            &.rating-item-#{$name} {
+                color: $color;
+            }
+        }
+    }
+}

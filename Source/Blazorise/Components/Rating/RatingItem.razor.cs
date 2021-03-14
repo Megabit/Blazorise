@@ -15,18 +15,25 @@ namespace Blazorise
 
         #region Methods
 
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            var selected = Rating.IsSelected( Value );
+            var hovered = Rating.IsHovered( Value );
+
+            builder.Append( ClassProvider.RatingItem() );
+            builder.Append( ClassProvider.RatingItemColor( Color ), Color != Color.None && ( selected || hovered ) );
+
+            base.BuildClasses( builder );
+        }
+
         protected override void BuildStyles( StyleBuilder builder )
         {
             var selected = Rating.IsSelected( Value );
             var hovered = Rating.IsHovered( Value );
 
-            if ( selected )
+            if ( hovered /*&& !selected*/ )
             {
-                builder.Append( "color: orange;" );
-            }
-            else if ( hovered )
-            {
-                builder.Append( "color: orange; opacity: 0.5;" );
+                builder.Append( "opacity: 0.5;" );
             }
 
             base.BuildStyles( builder );
@@ -77,9 +84,19 @@ namespace Blazorise
             ? Rating.FullIcon
             : Rating.EmptyIcon;
 
-        protected IconStyle IconStyle => ( Rating.IsSelected( Value ) || Rating.IsHovered( Value )
-            ? Rating.FullIconStyle
-            : Rating.EmptyIconStyle ) ?? IconStyle.Solid;
+        protected IconStyle IconStyle
+        {
+            get
+            {
+                if ( Rating.IsSelected( Value ) )
+                    return Rating.FullIconStyle ?? IconStyle.Solid;
+
+                if ( Rating.IsHovered( Value ) )
+                    return Rating.EmptyIconStyle ?? IconStyle.Regular;
+
+                return Rating.EmptyIconStyle ?? IconStyle.Regular;
+            }
+        }
 
         protected bool IsActive { get; set; }
 
@@ -87,10 +104,7 @@ namespace Blazorise
 
         [Parameter] public int Value { get; set; }
 
-        /// <summary>
-        /// Not work
-        /// </summary>
-        [Parameter] public Color Color { get; set; } = Color.Primary;
+        [Parameter] public Color Color { get; set; } = Color.Warning;
 
         [Parameter] public bool Disabled { get; set; }
 

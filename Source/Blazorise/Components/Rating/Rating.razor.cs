@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -19,9 +20,18 @@ namespace Blazorise
 
         private bool hovering;
 
+        private Color color = Color.Warning;
+
         #endregion
 
         #region Methods
+
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.Rating() );
+
+            base.BuildClasses( builder );
+        }
 
         private Task HandleItemClicked( int value )
         {
@@ -60,7 +70,11 @@ namespace Blazorise
             => value >= 1 && value <= SelectedValue;
 
         internal protected bool IsHovered( int value )
-           => hovering && value >= 1 && value <= HoveredValue;
+           => hovering
+            && (
+            ( value >= SelectedValue && value <= HoveredValue )
+            ||
+            ( value >= HoveredValue && value <= SelectedValue ) );
 
         #endregion
 
@@ -114,8 +128,20 @@ namespace Blazorise
         /// <summary>
         /// Not work now
         /// </summary>
-        [Parameter] public Color Color { get; set; } = Color.Primary;
+        [Parameter]
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                if ( color == value )
+                    return;
 
+                color = value;
+
+                DirtyClasses();
+            }
+        }
         /// <summary>
         /// Not work now
         /// </summary>

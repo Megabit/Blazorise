@@ -155,6 +155,16 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Rating
+
+        public string Rating() => null;
+
+        public string RatingItem() => null;
+
+        public string RatingItemColor( Color color ) => null;
+
+        #endregion
+
         #region Label
 
         public string Label() => null;
