@@ -2,9 +2,13 @@
 @inherits BaseComponent
 @if ( ReadOnly )
 {
-    <Icon Class="@ClassNames" Style="@StyleNames" Name="@IconName" IconStyle="@IconStyle"></Icon>
+    <span id="@ElementId" class="@ClassNames" style="@StyleNames">
+        <Icon Name="@IconName" IconStyle="@IconStyle" />
+    </span>
 }
 else
 {
-    <Icon Class="@ClassNames" Style="@StyleNames" Name="@IconName" IconStyle="@IconStyle" Clicked="@HandleClick" MouseOver="@HandleMouseOver" MouseOut="@HandleMouseOut" />
+    <span id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @onmouseover="@HandleMouseOver" @onmouseout="@HandleMouseOut">
+        <Icon Name="@IconName" IconStyle="@IconStyle" />
+    </span>
 }

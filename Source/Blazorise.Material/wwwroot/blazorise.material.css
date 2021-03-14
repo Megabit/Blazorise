@@ -402,6 +402,33 @@ input.form-control[type=color] {
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
     background-color: #3273dc; }
 
+.rating .rating-item.rating-item-primary {
+    color: #9c27b0; }
+
+.rating .rating-item.rating-item-secondary {
+    color: #ff4081; }
+
+.rating .rating-item.rating-item-success {
+    color: #4caf50; }
+
+.rating .rating-item.rating-item-info {
+    color: #2196f3; }
+
+.rating .rating-item.rating-item-warning {
+    color: #ff9800; }
+
+.rating .rating-item.rating-item-danger {
+    color: #f44336; }
+
+.rating .rating-item.rating-item-light {
+    color: #f5f5f5; }
+
+.rating .rating-item.rating-item-dark {
+    color: #424242; }
+
+.rating .rating-item.rating-item-link {
+    color: #3273dc; }
+
 @-webkit-keyframes spinner-border {
     to {
         -webkit-transform: rotate(360deg);

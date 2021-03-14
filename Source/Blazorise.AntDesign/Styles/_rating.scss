@@ -1,0 +1,13 @@
+﻿@import "variables";
+
+.ant-rating {
+    @each $name, $value in $theme-colors {
+        $color: $value;
+
+        .ant-rating-item {
+            &.ant-rating-item-#{$name} {
+                color: $color;
+            }
+        }
+    }
+}

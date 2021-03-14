@@ -156,6 +156,16 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Rating
+
+        public override string Rating() => "rating";
+
+        public override string RatingItem() => "rating-item";
+
+        public override string RatingItemColor( Color color ) => $"rating-item-{ToColor( color )}";
+
+        #endregion
+
         #region Label
 
         public override string Label() => null;

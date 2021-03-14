@@ -153,6 +153,16 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Rating
+
+        public override string Rating() => "e-rating";
+
+        public override string RatingItem() => "e-rating-item";
+
+        public override string RatingItemColor( Color color ) => $"e-rating-item-{ToColor( color )}";
+
+        #endregion
+
         #region Label
 
         public override string Label() => "e-label";
