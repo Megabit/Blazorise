@@ -6,7 +6,7 @@ toc: true
 toc_label: "Guide"
 ---
 
-## Basic Memo
+## Basic Rating
 
 Rating is used to create multiline text input (text-area).
 
@@ -29,8 +29,7 @@ By using `bind-*` attribute the text will be automatically assigned to the membe
 ```
 ## Settings
 
-**Note:** All of the options above can also be defined on each `MemoEdit` individually. Defining them on `MemoEdit` will override any global settings.
-{: .notice--info}
+**Note:** All of the options above can also be defined on each `Rating` individually.
 
 ## Attributes
 
