@@ -94,6 +94,8 @@ docs:
         url: /docs/components/modal/
       - title: "Pagination"
         url: /docs/components/pagination/
+      - title: "Rating"
+        url: /docs/components/rating/
       - title: "Repeater"
         url: /docs/components/repeater/
       - title: "Step"

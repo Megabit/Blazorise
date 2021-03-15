@@ -6,19 +6,19 @@ toc: true
 toc_label: "Guide"
 ---
 
-## Basic Rating
+## Rating
 
-Rating is used to create multiline text input (text-area).
+Ratings provide insight regarding others opinions and experiences with a product. Users can also rate products they’ve purchased.
 
 ```html
-<Rating @bind-SelectedValue="@SelectedValue" />
+<Rating />
 ```
 
 ## Usage
 
 ### With bind attribute
 
-By using `bind-*` attribute the text will be automatically assigned to the member variable.
+By using `bind-*` attribute the selected value will be automatically assigned to the member variable.
 
 ```html
 <Rating @bind-SelectedValue="@SelectedValue" MaxValue="10" />
@@ -27,21 +27,18 @@ By using `bind-*` attribute the text will be automatically assigned to the membe
     int SelectedValue;
 }
 ```
-## Settings
-
-**Note:** All of the options above can also be defined on each `Rating` individually.
 
 ## Attributes
 
-| Name                          | Type                                                         | Default | Description                                                                                          |
-|-------------------------------|--------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
-| MaxValue                          | int                                                       | 5        | Maximum rating value that is allowed to be selected.                                                                                         |
-| ReadOnly                   | boolean                                                        | false        | Prevents modification of the input’s value.                                                                       |
-| Disabled                     | boolean                                                      | false   | Prevent the user interactions and make it appear lighter.                   |
-| ReadOnly                      | boolean                                                      | false   | Prevents modification of the input’s value.                                                          |
-| Disabled                      | boolean                                                      | false   | Prevents user interactions and make it appear lighter.                                               |
-| FullIcon                     | `object`                                                       | IconName.Star    | Defines the selected icon name.                             |
-| EmptyIcon                   | `object`                                                       | IconName.Star    | Defines the non-selected icon name.                                                             |                                                    |
-| FullIconStyle                     | `IconStyle?`                                                       | IconStyle.Solid    | Defines the selected icon style.                             |
-| EmptyIconStyle                   | `IconStyle?`                                                       | IconStyle.Regular        | Defines the non-selected icon style.                                                             | 
-| Size                          | [Sizes]({{ "/docs/helpers/sizes/#size" | relative_url }})    | `None`  | Component size variations.                                                                           |
+| Name                          | Type                                                                          | Default           | Description                                                                                          |
+|-------------------------------|-------------------------------------------------------------------------------|-------------------|------------------------------------------------------------------------------------------------------|
+| MaxValue                      | int                                                                           | 5                 | Maximum rating value that is allowed to be selected.                                                 |
+| ReadOnly                      | boolean                                                                       | false             | Prevents modification of the input’s value.                                                          |
+| Disabled                      | boolean                                                                       | false             | Prevent the user interactions and make it appear lighter.                                            |
+| ReadOnly                      | boolean                                                                       | false             | Prevents modification of the input’s value.                                                          |
+| Disabled                      | boolean                                                                       | false             | Prevents user interactions and make it appear lighter.                                               |
+| FullIcon                      | `object`                                                                      | `IconName.Star`   | Defines the selected icon name.                                                                      |
+| EmptyIcon                     | `object`                                                                      | `IconName.Star`   | Defines the non-selected icon name.                                                                  |
+| FullIconStyle                 | [`IconStyle?`]({{ "/docs/helpers/enums/#iconstyle" | relative_url }})         | `Solid`           | Defines the selected icon style.                                                                     |
+| EmptyIconStyle                | [`IconStyle?`]({{ "/docs/helpers/enums/#iconstyle" | relative_url }})         | `Regular`         | Defines the non-selected icon style.                                                                 |
+| Color                         | [`Color`]({{ "/docs/helpers/colors/#color" | relative_url }})                 | `Warning`         | Defines the color or icons.                                                                          |
