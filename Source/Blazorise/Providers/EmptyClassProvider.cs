@@ -29,6 +29,8 @@ namespace Blazorise.Providers
 
         public string MemoEdit() => null;
 
+        public string MemoEditSize( Size size ) => null;
+
         public string MemoEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
