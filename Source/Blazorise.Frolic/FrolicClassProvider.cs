@@ -151,6 +151,8 @@ namespace Blazorise.Frolic
 
         public override string SliderColor( Color color ) => ToColor( color );
 
+        public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
         #endregion
 
         #region Label
