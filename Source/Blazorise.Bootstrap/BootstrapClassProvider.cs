@@ -26,6 +26,8 @@ namespace Blazorise.Bootstrap
 
         public override string MemoEdit() => "form-control";
 
+        public override string MemoEditSize( Size size ) => $"form-control-{ToSize( size )}";
+
         public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
