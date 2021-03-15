@@ -42,9 +42,12 @@ namespace Blazorise.AntDesign
 
         protected override async Task OnFirstAfterRenderAsync()
         {
+            await base.OnFirstAfterRenderAsync();
+
             dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
-            await base.OnFirstAfterRenderAsync();
+            // since we do some custom rendering we need to refresh component statet to trigger first valid render.
+            await InvokeAsync( StateHasChanged );
         }
 
         protected override void Dispose( bool disposing )
