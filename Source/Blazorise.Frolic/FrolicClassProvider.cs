@@ -26,6 +26,8 @@ namespace Blazorise.Frolic
 
         public override string MemoEdit() => "e-control";
 
+        public override string MemoEditSize( Size size ) => $"e-control-{ToSize( size )}";
+
         public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion

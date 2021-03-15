@@ -26,6 +26,8 @@ namespace Blazorise.AntDesign
 
         public override string MemoEdit() => "ant-input";
 
+        public override string MemoEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+
         public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
