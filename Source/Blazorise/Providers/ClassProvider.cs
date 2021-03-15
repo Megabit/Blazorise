@@ -150,6 +150,8 @@ namespace Blazorise
 
         public abstract string SliderColor( Color color );
 
+        public abstract string SliderValidation( ValidationStatus validationStatus );
+
         #endregion
 
         #region Label

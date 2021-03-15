@@ -151,6 +151,8 @@ namespace Blazorise.AntDesign
 
         public override string SliderColor( Color color ) => $"ant-slider-{ToColor( color )}";
 
+        public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
         #endregion
 
         #region Label

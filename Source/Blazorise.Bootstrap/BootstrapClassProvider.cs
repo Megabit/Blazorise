@@ -154,6 +154,8 @@ namespace Blazorise.Bootstrap
 
         public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
 
+        public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
         #endregion
 
         #region Label
