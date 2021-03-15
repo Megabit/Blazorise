@@ -153,6 +153,8 @@ namespace Blazorise.Providers
 
         public string SliderColor( Color color ) => null;
 
+        public string SliderValidation( ValidationStatus validationStatus ) => null;
+
         #endregion
 
         #region Label
