@@ -27,7 +27,7 @@ window.blazoriseMaterial = {
                 dateFormat: options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d',
                 allowInput: true,
                 altInput: true,
-                altFormat: options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d',
+                altFormat: options.displayFormat ?? (options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d'),
                 defaultValue: options.default,
                 minDate: options.min,
                 maxDate: options.max,
@@ -58,6 +58,10 @@ window.blazoriseMaterial = {
             if (picker) {
                 if (options.firstDayOfWeek.changed) {
                     picker.set("firstDayOfWeek", options.firstDayOfWeek.value);
+                }
+
+                if (options.displayFormat.changed) {
+                    picker.set("altFormat", options.displayFormat.value);
                 }
 
                 if (options.min.changed) {

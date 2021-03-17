@@ -25,6 +25,7 @@ namespace Blazorise
             var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? min ) && !Min.IsEqual( min );
             var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? max ) && !Max.IsEqual( max );
             var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek firstDayOfWeek ) && !FirstDayOfWeek.IsEqual( firstDayOfWeek );
+            var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
 
             if ( dateChanged )
             {
@@ -38,11 +39,12 @@ namespace Blazorise
                 }
             }
 
-            if ( Rendered && ( minChanged || maxChanged || firstDayOfWeekChanged ) )
+            if ( Rendered && ( minChanged || maxChanged || firstDayOfWeekChanged || displayFormatChanged ) )
             {
                 ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerOptions( ElementRef, ElementId, new
                 {
                     FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = firstDayOfWeek },
+                    DisplayFormat = new { Changed = displayFormatChanged, Value = displayFormat },
                     Min = new { Changed = minChanged, Value = min?.ToString( DateFormat ) },
                     Max = new { Changed = maxChanged, Value = max?.ToString( DateFormat ) },
                 } ) );
@@ -76,6 +78,7 @@ namespace Blazorise
             {
                 InputMode = InputMode,
                 FirstDayOfWeek = FirstDayOfWeek,
+                DisplayFormat = DisplayFormat,
                 Default = FormatValueAsString( Date ),
                 Min = Min?.ToString( DateFormat ),
                 Max = Max?.ToString( DateFormat ),
@@ -246,6 +249,16 @@ namespace Blazorise
         /// provider support it because it uses the custom plugin for date picker.
         /// </remarks>
         [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
+
+        /// <summary>
+        /// Defines the display format of the date.
+        /// </summary>
+        /// <remarks>
+        /// Be aware that not all providers support setting the display format. This is more
+        /// the limitations with browsers than it is with the Blazorise. Currently only the material
+        /// provider support it because it uses the custom plugin for date picker.
+        /// </remarks>
+        [Parameter] public string DisplayFormat { get; set; }
 
         #endregion
     }
