@@ -2,6 +2,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -102,6 +103,16 @@ namespace Blazorise
             await CurrentValueHandler( radio.Value?.ToString() );
 
             await InvokeAsync( StateHasChanged );
+        }
+
+        /// <inheritdoc/>
+        protected override void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+        {
+            base.OnValidationStatusChanged( sender, eventArgs );
+
+            // Since radios validation works little diferent when placed in radio group we need
+            // to notify them to re-render when validation changes.
+            RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( CheckedValue ) );
         }
 
         #endregion
