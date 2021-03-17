@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.BarStart
-@if ( ParentBarState?.Mode == BarMode.Horizontal )
+@if ( ParentBarState != null && ParentBarState?.Mode == BarMode.Horizontal )
 {
     @ChildContent
 }

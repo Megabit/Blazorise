@@ -18,7 +18,7 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarEnd( ParentBarState.Mode ) );
+            builder.Append( ClassProvider.BarEnd( ParentBarState?.Mode ?? BarMode.Horizontal ) );
 
             base.BuildClasses( builder );
         }

@@ -211,6 +211,11 @@ namespace Blazorise.Material
 
         protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
         {
+            sb
+                .Append( $".stepper.active .stepper-icon" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq )};" )
+                .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
