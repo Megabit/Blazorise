@@ -31,14 +31,6 @@ namespace Blazorise
         private Color color = Color.Secondary;
 
         /// <summary>
-        /// Flag needed for radiogroup to work property. Since the group is notified of it's state
-        /// from child radio component we need to skip calling event callback when we get the new
-        /// state through the param from outside. And it happens as a consequence of calling the
-        /// infamous StateHasChanged().
-        /// </summary>
-        private bool skipCheckedValueChangedCallback = false;
-
-        /// <summary>
         /// An event raised after the internal radio group value has changed.
         /// </summary>
         public event EventHandler<RadioCheckedChangedEventArgs<TValue>> RadioCheckedChanged;
@@ -50,28 +42,19 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            try
+            if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) && !CheckedValue.IsEqual( result ) )
             {
-                skipCheckedValueChangedCallback = true;
-
-                if ( parameters.TryGetValue<TValue>( nameof( CheckedValue ), out var result ) )
-                {
-                    await CurrentValueHandler( result?.ToString() );
-                }
-
-                await base.SetParametersAsync( parameters );
-
-                if ( ParentValidation != null )
-                {
-                    if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedValueExpression ), out var expression ) )
-                        ParentValidation.InitializeInputExpression( expression );
-
-                    InitializeValidation();
-                }
+                await CurrentValueHandler( result?.ToString() );
             }
-            finally
+
+            await base.SetParametersAsync( parameters );
+
+            if ( ParentValidation != null )
             {
-                skipCheckedValueChangedCallback = false;
+                if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedValueExpression ), out var expression ) )
+                    ParentValidation.InitializeInputExpression( expression );
+
+                InitializeValidation();
             }
         }
 
@@ -106,10 +89,7 @@ namespace Blazorise
             // notify child radios they need to update their states
             RadioCheckedChanged?.Invoke( this, new RadioCheckedChangedEventArgs<TValue>( value ) );
 
-            if ( !skipCheckedValueChangedCallback )
-            {
-                await CheckedValueChanged.InvokeAsync( value );
-            }
+            await CheckedValueChanged.InvokeAsync( value );
         }
 
         /// <summary>
