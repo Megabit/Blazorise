@@ -67,6 +67,7 @@ namespace Blazorise.Utilities
         public static readonly string[] SupportedTimeFormats = new string[]
         {
             InternalTimeFormat,
+            "hh\\:mm",
             CultureInfo.InvariantCulture.DateTimeFormat.LongTimePattern,
             CultureInfo.InvariantCulture.DateTimeFormat.ShortTimePattern,
         };

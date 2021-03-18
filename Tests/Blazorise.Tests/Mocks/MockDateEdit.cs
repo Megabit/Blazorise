@@ -15,8 +15,8 @@ namespace Blazorise.Tests.Mocks
             var mockRunner = new Mock<IJSRunner>();
 
             mockRunner
-                .Setup( r => r.ActivateDatePicker( It.IsAny<string>(), It.IsAny<string>() ) )
-                .Callback( ( string id, string f ) => this.OnActivateDatePicker( id, f ) );
+                .Setup( r => r.ActivateDatePicker( It.IsAny<ElementReference>(), It.IsAny<string>(), It.IsAny<object>() ) )
+                .Callback( ( ElementReference reference, string id, object o ) => this.OnActivateDatePicker( reference, id, o ) );
 
             base.JSRunner = mockRunner.Object;
 
@@ -56,11 +56,10 @@ namespace Blazorise.Tests.Mocks
             base.OnChangeHandler( e );
         }
 
-        private bool OnActivateDatePicker( string elementId, string formatString )
+        private bool OnActivateDatePicker( ElementReference elementRef, string elementId, object options )
         {
             this.ClickedId = elementId;
             return true;
         }
-
     }
 }
