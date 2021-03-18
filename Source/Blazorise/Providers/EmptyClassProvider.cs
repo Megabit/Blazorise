@@ -163,6 +163,10 @@ namespace Blazorise.Providers
 
         public string Rating() => null;
 
+        public string RatingDisabled( bool disabled ) => null;
+
+        public string RatingReadonly( bool @readonly ) => null;
+
         public string RatingItem() => null;
 
         public string RatingItemColor( Color color ) => null;

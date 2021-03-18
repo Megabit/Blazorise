@@ -159,6 +159,10 @@ namespace Blazorise
 
         string Rating();
 
+        string RatingDisabled( bool disabled );
+
+        string RatingReadonly( bool @readonly );
+
         string RatingItem();
 
         string RatingItemColor( Color color );

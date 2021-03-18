@@ -1757,59 +1757,31 @@
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
     background-color: #3273dc; }
 
-.ant-rate .ant-rate-star.ant-rate-star-primary {
-    color: #1890ff; }
+.ant-rate:not(.ant-rate-disabled):not(.ant-rate-readonly):hover .ant-rate-star {
+    cursor: pointer; }
 
-.ant-rate .ant-rate-star.ant-rate-star-focused {
-    opacity: 0.7; }
-
-.ant-rate .ant-rate-star.ant-rate-star-secondary {
-    color: #6c757d; }
-
-.ant-rate .ant-rate-star.ant-rate-star-focused {
-    opacity: 0.7; }
-
-.ant-rate .ant-rate-star.ant-rate-star-success {
-    color: #35c613; }
-
-.ant-rate .ant-rate-star.ant-rate-star-focused {
-    opacity: 0.7; }
-
-.ant-rate .ant-rate-star.ant-rate-star-info {
-    color: #60b6f4; }
-
-.ant-rate .ant-rate-star.ant-rate-star-focused {
-    opacity: 0.7; }
-
-.ant-rate .ant-rate-star.ant-rate-star-warning {
-    color: #f7c12a; }
-
-.ant-rate .ant-rate-star.ant-rate-star-focused {
-    opacity: 0.7; }
-
-.ant-rate .ant-rate-star.ant-rate-star-danger {
-    color: #ff4d4f; }
-
-.ant-rate .ant-rate-star.ant-rate-star-focused {
-    opacity: 0.7; }
-
-.ant-rate .ant-rate-star.ant-rate-star-light {
-    color: #fafafa; }
-
-.ant-rate .ant-rate-star.ant-rate-star-focused {
-    opacity: 0.7; }
-
-.ant-rate .ant-rate-star.ant-rate-star-dark {
-    color: #343a40; }
-
-.ant-rate .ant-rate-star.ant-rate-star-focused {
-    opacity: 0.7; }
-
-.ant-rate .ant-rate-star.ant-rate-star-link {
-    color: #3273dc; }
-
-.ant-rate .ant-rate-star.ant-rate-star-focused {
-    opacity: 0.7; }
+.ant-rate .ant-rate-star {
+    cursor: default; }
+    .ant-rate .ant-rate-star.ant-rate-star-primary {
+        color: #1890ff; }
+    .ant-rate .ant-rate-star.ant-rate-star-secondary {
+        color: #6c757d; }
+    .ant-rate .ant-rate-star.ant-rate-star-success {
+        color: #35c613; }
+    .ant-rate .ant-rate-star.ant-rate-star-info {
+        color: #60b6f4; }
+    .ant-rate .ant-rate-star.ant-rate-star-warning {
+        color: #f7c12a; }
+    .ant-rate .ant-rate-star.ant-rate-star-danger {
+        color: #ff4d4f; }
+    .ant-rate .ant-rate-star.ant-rate-star-light {
+        color: #fafafa; }
+    .ant-rate .ant-rate-star.ant-rate-star-dark {
+        color: #343a40; }
+    .ant-rate .ant-rate-star.ant-rate-star-link {
+        color: #3273dc; }
+    .ant-rate .ant-rate-star.ant-rate-star-focused {
+        opacity: 0.7; }
 
 .ant-table-primary,
 .ant-table-primary > th,

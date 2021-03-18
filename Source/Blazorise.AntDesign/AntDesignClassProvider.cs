@@ -161,6 +161,10 @@ namespace Blazorise.AntDesign
 
         public override string Rating() => "ant-rate";
 
+        public override string RatingDisabled( bool disabled ) => disabled ? "ant-rate-disabled" : null;
+
+        public override string RatingReadonly( bool @readonly ) => @readonly ? "ant-rate-readonly" : null;
+
         public override string RatingItem() => "ant-rate-star";
 
         public override string RatingItemColor( Color color ) => $"ant-rate-star-{ToColor( color )}";

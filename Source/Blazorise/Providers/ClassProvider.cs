@@ -160,6 +160,10 @@ namespace Blazorise
 
         public abstract string Rating();
 
+        public abstract string RatingDisabled( bool disabled );
+
+        public abstract string RatingReadonly( bool @readonly );
+
         public abstract string RatingItem();
 
         public abstract string RatingItemColor( Color color );

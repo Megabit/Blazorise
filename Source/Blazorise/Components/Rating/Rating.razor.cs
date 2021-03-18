@@ -29,6 +29,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Rating() );
+            builder.Append( ClassProvider.RatingDisabled( Disabled ) );
+            builder.Append( ClassProvider.RatingReadonly( ReadOnly ) );
 
             base.BuildClasses( builder );
         }
