@@ -144,10 +144,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-        /// <summary>
-        /// Not work now
-        /// </summary>
-        [Parameter] public Size Size { get; set; } = Size.Medium;
 
         /// <summary>
         /// Gets or sets the currently selected rating value.
