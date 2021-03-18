@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Globalization;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -18,10 +19,24 @@ namespace Blazorise
 
         #region Methods
 
+        public override async Task SetParametersAsync( ParameterView parameters )
+        {
+            await base.SetParametersAsync( parameters );
+
+            if ( ParentValidation != null )
+            {
+                if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
+                    ParentValidation.InitializeInputExpression( expression );
+
+                InitializeValidation();
+            }
+        }
+
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Slider() );
             //builder.Append( ClassProvider.SliderColor( Color ), Color != Color.None );
+            builder.Append( ClassProvider.SliderValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }
@@ -109,6 +124,11 @@ namespace Blazorise
         /// This will be converted to EventCallback once the Blazor team fix the error for generic components. see https://github.com/aspnet/AspNetCore/issues/8385
         /// </remarks>
         [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets an expression that identifies the checked value.
+        /// </summary>
+        [Parameter] public Expression<Func<TValue>> ValueExpression { get; set; }
 
         /// <summary>
         /// The minimum value to accept for this input.

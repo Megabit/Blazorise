@@ -79,7 +79,7 @@ namespace Blazorise
         {
             // Don't allow Toggle when menu is in a vertical "popout" style mode.
             // This will be handled by mouse over actions below.
-            if ( ParentBarItemState.Mode != BarMode.Horizontal && !State.IsInlineDisplay )
+            if ( ParentBarItemState != null && ParentBarItemState.Mode != BarMode.Horizontal && !State.IsInlineDisplay )
                 return;
 
             Visible = !Visible;
@@ -87,20 +87,24 @@ namespace Blazorise
             InvokeAsync( StateHasChanged );
         }
 
-        public void OnMouseEnter()
+        public async Task OnMouseEnter()
         {
-            if ( ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
+            if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
                 return;
 
             Show();
+
+            await Task.CompletedTask;
         }
 
-        public void OnMouseLeave()
+        public async Task OnMouseLeave()
         {
-            if ( ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
+            if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
                 return;
 
             Hide();
+
+            await Task.CompletedTask;
         }
 
         #endregion

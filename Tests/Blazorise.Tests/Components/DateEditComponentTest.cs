@@ -105,7 +105,7 @@ namespace Blazorise.Tests.Components
         public void SetDateTimeOffset()
         {
             // setup
-            var offset = new DateTimeOffset( new DateTime( 2020, 4, 13 ), new TimeSpan( 0, 0, 0 ) );
+            var offset = new DateTimeOffset( new DateTime( 2020, 4, 13 ) );
             var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + offset.ToString().Replace( "+", "&#x2B;" ) + "</span>";
             var comp = RenderComponent<DateEditComponent>();
 
@@ -121,7 +121,7 @@ namespace Blazorise.Tests.Components
         public void SetNullableDateTimeOffset()
         {
             // setup
-            var offset = new DateTimeOffset( new DateTime( 2020, 4, 13 ), new TimeSpan( 0, 0, 0 ) );
+            var offset = new DateTimeOffset( new DateTime( 2020, 4, 13 ) );
             var dateOutput = @"<span id=""nullable-date-offset-event-initially-null-result"">" + offset.ToString().Replace( "+", "&#x2B;" ) + "</span>";
             var comp = RenderComponent<DateEditComponent>();
 

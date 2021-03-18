@@ -3,6 +3,8 @@ if (!window.blazorise) {
 }
 
 window.blazorise = {
+    lastClickedDocumentElement: null,
+
     utils: {
         getRequiredElement: (element, elementId) => {
             if (element)
@@ -620,8 +622,14 @@ window.blazorise = {
     }
 };
 
-document.addEventListener('click', function handler(evt) {
-    if (window.blazorise.closableComponents && window.blazorise.closableComponents.length > 0) {
+
+
+document.addEventListener('mousedown', function handler(evt) {
+    window.blazorise.lastClickedDocumentElement = evt.target;
+});
+
+document.addEventListener('mouseup', function handler(evt) {
+    if (evt.target === window.blazorise.lastClickedDocumentElement && window.blazorise.closableComponents && window.blazorise.closableComponents.length > 0) {
         const lastClosable = window.blazorise.closableComponents[window.blazorise.closableComponents.length - 1];
 
         if (lastClosable) {

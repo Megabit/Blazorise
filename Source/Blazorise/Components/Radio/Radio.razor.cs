@@ -96,12 +96,6 @@ namespace Blazorise
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
-        /// <inheritdoc/>
-        protected override Task<ParseValue<bool>> ParseValueFromStringAsync( string value )
-        {
-            return base.ParseValueFromStringAsync( value );
-        }
-
         /// <summary>
         /// Event that raises after one of other radios inside of group changes.
         /// </summary>

@@ -26,6 +26,8 @@ namespace Blazorise.Bulma
 
         public override string MemoEdit() => "textarea";
 
+        public override string MemoEditSize( Size size ) => $"is-{ToSize( size )}";
+
         public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
@@ -150,6 +152,8 @@ namespace Blazorise.Bulma
         public override string Slider() => "slider";
 
         public override string SliderColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
 
