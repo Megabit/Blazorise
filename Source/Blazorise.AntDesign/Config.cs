@@ -80,6 +80,8 @@ namespace Blazorise.AntDesign
             serviceCollection.AddTransient<Blazorise.TableRowHeader, AntDesign.TableRowHeader>();
             serviceCollection.AddTransient<Blazorise.TextEdit, AntDesign.TextEdit>();
             serviceCollection.AddTransient<Blazorise.Step, AntDesign.Step>();
+            serviceCollection.AddTransient<Blazorise.Rating, AntDesign.Rating>();
+            serviceCollection.AddTransient<Blazorise.RatingItem, AntDesign.RatingItem>();
 
             return serviceCollection;
         }

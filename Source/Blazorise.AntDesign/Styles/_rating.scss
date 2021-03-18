@@ -1,15 +1,15 @@
 ﻿@import "variables";
 
-.ant-rating {
+.ant-rate {
     @each $name, $value in $theme-colors {
         $color: $value;
 
-        .ant-rating-item {
-            &.ant-rating-item-#{$name} {
+        .ant-rate-star {
+            &.ant-rate-star-#{$name} {
                 color: $color;
             }
 
-            &.ant-rating-item-hover {
+            &.ant-rate-star-focused {
                 opacity: 0.7;
             }
         }

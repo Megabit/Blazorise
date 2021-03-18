@@ -163,6 +163,8 @@ namespace Blazorise
 
         string RatingItemColor( Color color );
 
+        string RatingItemSelected( bool selected );
+
         string RatingItemHover( bool hover );
 
         #endregion

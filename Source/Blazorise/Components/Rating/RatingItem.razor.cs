@@ -22,19 +22,20 @@ namespace Blazorise
 
             builder.Append( ClassProvider.RatingItem() );
             builder.Append( ClassProvider.RatingItemColor( Color ), Color != Color.None && ( selected || hovered ) );
+            builder.Append( ClassProvider.RatingItemSelected( selected ) );
             builder.Append( ClassProvider.RatingItemHover( hovered ) );
 
             base.BuildClasses( builder );
         }
 
-        private async Task HandleClick()
+        protected virtual async Task HandleClick()
         {
             if ( Disabled )
                 return;
 
             IsActive = false;
 
-            if ( Rating.SelectedValue == Value )
+            if ( IsSelected )
             {
                 await ItemClicked.InvokeAsync( 0 );
             }
@@ -44,7 +45,7 @@ namespace Blazorise
             }
         }
 
-        private async Task HandleMouseOver( MouseEventArgs e )
+        protected virtual async Task HandleMouseOver( MouseEventArgs e )
         {
             if ( Disabled )
                 return;
@@ -54,7 +55,7 @@ namespace Blazorise
             await ItemHovered.InvokeAsync( Value );
         }
 
-        private async Task HandleMouseOut( MouseEventArgs e )
+        protected virtual async Task HandleMouseOut( MouseEventArgs e )
         {
             if ( Disabled )
                 return;
@@ -87,6 +88,8 @@ namespace Blazorise
         }
 
         protected bool IsActive { get; set; }
+
+        protected bool IsSelected => Rating.IsSelected( Value );
 
         [CascadingParameter] private Rating Rating { get; set; }
 

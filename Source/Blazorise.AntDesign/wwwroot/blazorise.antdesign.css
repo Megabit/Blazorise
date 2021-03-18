@@ -1757,58 +1757,58 @@
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
     background-color: #3273dc; }
 
-.ant-rating .ant-rating-item.ant-rating-item-primary {
+.ant-rate .ant-rate-star.ant-rate-star-primary {
     color: #1890ff; }
 
-.ant-rating .ant-rating-item.ant-rating-item-hover {
+.ant-rate .ant-rate-star.ant-rate-star-focused {
     opacity: 0.7; }
 
-.ant-rating .ant-rating-item.ant-rating-item-secondary {
+.ant-rate .ant-rate-star.ant-rate-star-secondary {
     color: #6c757d; }
 
-.ant-rating .ant-rating-item.ant-rating-item-hover {
+.ant-rate .ant-rate-star.ant-rate-star-focused {
     opacity: 0.7; }
 
-.ant-rating .ant-rating-item.ant-rating-item-success {
+.ant-rate .ant-rate-star.ant-rate-star-success {
     color: #35c613; }
 
-.ant-rating .ant-rating-item.ant-rating-item-hover {
+.ant-rate .ant-rate-star.ant-rate-star-focused {
     opacity: 0.7; }
 
-.ant-rating .ant-rating-item.ant-rating-item-info {
+.ant-rate .ant-rate-star.ant-rate-star-info {
     color: #60b6f4; }
 
-.ant-rating .ant-rating-item.ant-rating-item-hover {
+.ant-rate .ant-rate-star.ant-rate-star-focused {
     opacity: 0.7; }
 
-.ant-rating .ant-rating-item.ant-rating-item-warning {
+.ant-rate .ant-rate-star.ant-rate-star-warning {
     color: #f7c12a; }
 
-.ant-rating .ant-rating-item.ant-rating-item-hover {
+.ant-rate .ant-rate-star.ant-rate-star-focused {
     opacity: 0.7; }
 
-.ant-rating .ant-rating-item.ant-rating-item-danger {
+.ant-rate .ant-rate-star.ant-rate-star-danger {
     color: #ff4d4f; }
 
-.ant-rating .ant-rating-item.ant-rating-item-hover {
+.ant-rate .ant-rate-star.ant-rate-star-focused {
     opacity: 0.7; }
 
-.ant-rating .ant-rating-item.ant-rating-item-light {
+.ant-rate .ant-rate-star.ant-rate-star-light {
     color: #fafafa; }
 
-.ant-rating .ant-rating-item.ant-rating-item-hover {
+.ant-rate .ant-rate-star.ant-rate-star-focused {
     opacity: 0.7; }
 
-.ant-rating .ant-rating-item.ant-rating-item-dark {
+.ant-rate .ant-rate-star.ant-rate-star-dark {
     color: #343a40; }
 
-.ant-rating .ant-rating-item.ant-rating-item-hover {
+.ant-rate .ant-rate-star.ant-rate-star-focused {
     opacity: 0.7; }
 
-.ant-rating .ant-rating-item.ant-rating-item-link {
+.ant-rate .ant-rate-star.ant-rate-star-link {
     color: #3273dc; }
 
-.ant-rating .ant-rating-item.ant-rating-item-hover {
+.ant-rate .ant-rate-star.ant-rate-star-focused {
     opacity: 0.7; }
 
 .ant-table-primary,

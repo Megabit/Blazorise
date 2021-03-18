@@ -33,7 +33,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        private Task HandleItemClicked( int value )
+        protected virtual Task HandleItemClicked( int value )
         {
             SelectedValue = value;
 
@@ -45,21 +45,21 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        private Task HandleItemHovered( int? value )
+        protected virtual Task HandleItemHovered( int? value )
         {
             HoveredValue = value;
 
             return Task.CompletedTask;
         }
 
-        protected Task OnMouseOverHandler( MouseEventArgs eventArgs )
+        protected virtual Task OnMouseOverHandler( MouseEventArgs eventArgs )
         {
             hovering = true;
 
             return Task.CompletedTask;
         }
 
-        protected Task OnMouseOutHandler( MouseEventArgs eventArgs )
+        protected virtual Task OnMouseOutHandler( MouseEventArgs eventArgs )
         {
             hovering = false;
 

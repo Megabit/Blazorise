@@ -488,7 +488,7 @@ namespace Blazorise.AntDesign
             if ( ratingOptions?.HoverOpacity != null )
             {
                 sb
-                    .Append( $".ant-rating .ant-rating-item.ant-rating-item-hover" ).Append( "{" )
+                    .Append( $".ant-rate .ant-rate-star.ant-rate-star-focused" ).Append( "{" )
                     .Append( $"opacity: {string.Format( CultureInfo.InvariantCulture, "{0:F1}", ratingOptions.HoverOpacity )};" )
                     .AppendLine( "}" );
             }
@@ -497,7 +497,7 @@ namespace Blazorise.AntDesign
         protected override void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions )
         {
             sb
-                .Append( $".ant-rating .ant-rating-item.ant-rating-item-{variant}" ).Append( "{" )
+                .Append( $".ant-rate .ant-rate-star.ant-rate-star-{variant}" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.VariantRatingColor( variant ) )};" )
                 .AppendLine( "}" );
         }

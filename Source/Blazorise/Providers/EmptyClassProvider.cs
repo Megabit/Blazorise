@@ -167,6 +167,8 @@ namespace Blazorise.Providers
 
         public string RatingItemColor( Color color ) => null;
 
+        public string RatingItemSelected( bool selected ) => null;
+
         public string RatingItemHover( bool hover ) => null;
 
         #endregion
