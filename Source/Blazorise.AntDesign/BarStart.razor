@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.BarStart
 @ChildContent
-@if ( ParentBarState.Mode != BarMode.Horizontal )
+@if ( ParentBarState != null && ParentBarState.Mode != BarMode.Horizontal )
 {
     <li style="flex-grow: 1"></li>
 }
