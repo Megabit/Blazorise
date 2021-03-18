@@ -169,7 +169,7 @@ namespace Blazorise.Providers
 
         public string RatingItemSelected( bool selected ) => null;
 
-        public string RatingItemHover( bool hover ) => null;
+        public string RatingItemHovered( bool hover ) => null;
 
         #endregion
 

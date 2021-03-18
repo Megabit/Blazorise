@@ -167,7 +167,7 @@ namespace Blazorise.Frolic
 
         public override string RatingItemSelected( bool selected ) => null;
 
-        public override string RatingItemHover( bool hover ) => hover ? "e-rating-item-hover" : null;
+        public override string RatingItemHovered( bool hover ) => hover ? "e-rating-item-hover" : null;
 
         #endregion
 

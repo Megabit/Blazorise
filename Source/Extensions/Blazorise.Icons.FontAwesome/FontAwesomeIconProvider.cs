@@ -341,7 +341,7 @@ namespace Blazorise.Icons.FontAwesome
 
         #region Methods
 
-        public override string GetIconName( IconName iconName )
+        public override string GetIconName( IconName iconName, IconStyle iconStyle )
         {
             names.TryGetValue( iconName, out var name );
 

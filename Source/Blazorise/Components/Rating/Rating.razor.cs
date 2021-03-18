@@ -66,10 +66,10 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        internal protected bool IsSelected( int value )
+        internal protected bool IsSelectedRange( int value )
             => value >= 1 && value <= SelectedValue;
 
-        internal protected bool IsHovered( int value )
+        internal protected bool IsHoveredRange( int value )
            => hovering
             && (
             ( value >= SelectedValue && value <= HoveredValue )

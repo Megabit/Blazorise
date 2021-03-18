@@ -167,7 +167,7 @@ namespace Blazorise.AntDesign
 
         public override string RatingItemSelected( bool selected ) => selected ? "ant-rate-star-full" : "ant-rate-star-zero";
 
-        public override string RatingItemHover( bool hover ) => hover ? "ant-rate-star-focused" : null;
+        public override string RatingItemHovered( bool hover ) => hover ? "ant-rate-star-focused" : null;
 
         #endregion
 

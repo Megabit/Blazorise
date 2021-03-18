@@ -170,7 +170,7 @@ namespace Blazorise.Bootstrap
 
         public override string RatingItemSelected( bool selected ) => null;
 
-        public override string RatingItemHover( bool hover ) => hover ? "rating-item-hover" : null;
+        public override string RatingItemHovered( bool hover ) => hover ? "rating-item-hover" : null;
 
         #endregion
 

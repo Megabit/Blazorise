@@ -167,7 +167,7 @@ namespace Blazorise.Bulma
 
         public override string RatingItemSelected( bool selected ) => null;
 
-        public override string RatingItemHover( bool hover ) => hover ? "is-hover" : null;
+        public override string RatingItemHovered( bool hover ) => hover ? "is-hover" : null;
 
         #endregion
 

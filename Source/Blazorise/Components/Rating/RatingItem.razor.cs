@@ -17,13 +17,13 @@ namespace Blazorise
 
         protected override void BuildClasses( ClassBuilder builder )
         {
-            var selected = Rating.IsSelected( Value );
-            var hovered = Rating.IsHovered( Value );
+            var selected = Rating.IsSelectedRange( Value );
+            var hovered = Rating.IsHoveredRange( Value );
 
             builder.Append( ClassProvider.RatingItem() );
-            builder.Append( ClassProvider.RatingItemColor( Color ), Color != Color.None && ( selected || hovered ) );
+            builder.Append( ClassProvider.RatingItemColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.RatingItemSelected( selected ) );
-            builder.Append( ClassProvider.RatingItemHover( hovered ) );
+            builder.Append( ClassProvider.RatingItemHovered( hovered ) );
 
             base.BuildClasses( builder );
         }
@@ -69,7 +69,7 @@ namespace Blazorise
 
         #region Properties
 
-        protected object IconName => Rating.IsSelected( Value )
+        protected object IconName => Rating.IsSelectedRange( Value )
             ? Rating.FullIcon
             : Rating.EmptyIcon;
 
@@ -77,10 +77,10 @@ namespace Blazorise
         {
             get
             {
-                if ( Rating.IsSelected( Value ) )
+                if ( Rating.IsSelectedRange( Value ) )
                     return Rating.FullIconStyle ?? IconStyle.Solid;
 
-                if ( Rating.IsHovered( Value ) )
+                if ( Rating.IsHoveredRange( Value ) )
                     return Rating.EmptyIconStyle ?? IconStyle.Regular;
 
                 return Rating.EmptyIconStyle ?? IconStyle.Regular;
@@ -89,7 +89,7 @@ namespace Blazorise
 
         protected bool IsActive { get; set; }
 
-        protected bool IsSelected => Rating.IsSelected( Value );
+        protected bool IsSelected => Rating.SelectedValue == Value;
 
         [CascadingParameter] private Rating Rating { get; set; }
 

@@ -165,7 +165,7 @@ namespace Blazorise
 
         string RatingItemSelected( bool selected );
 
-        string RatingItemHover( bool hover );
+        string RatingItemHovered( bool hover );
 
         #endregion
 
