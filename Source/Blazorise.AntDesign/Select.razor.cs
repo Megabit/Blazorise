@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
 
@@ -194,6 +195,20 @@ namespace Blazorise.AntDesign
             ClearSelectedItems();
 
             return Task.CompletedTask;
+        }
+
+        protected override async Task OnBlurHandler( FocusEventArgs eventArgs )
+        {
+            await base.OnBlurHandler( eventArgs );
+
+            if ( Expanded )
+            {
+                // Give enought time for other events to do their stuff before closing
+                // the select menu.
+                await Task.Delay( 100 );
+
+                await Collapse();
+            }
         }
 
         #endregion
