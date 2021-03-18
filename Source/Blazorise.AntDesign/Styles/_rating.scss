@@ -8,6 +8,10 @@
             &.ant-rating-item-#{$name} {
                 color: $color;
             }
+
+            &.ant-rating-item-hover {
+                opacity: 0.7;
+            }
         }
     }
 }

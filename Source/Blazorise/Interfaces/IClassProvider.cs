@@ -159,6 +159,8 @@ namespace Blazorise
 
         string RatingItemColor( Color color );
 
+        string RatingItemHover( bool hover );
+
         #endregion
 
         #region Label

@@ -8,6 +8,10 @@
             &.is-#{$name} {
                 color: $color;
             }
+
+            &.is-hover {
+                opacity: 0.7;
+            }
         }
     }
 }

@@ -164,6 +164,8 @@ namespace Blazorise.Bootstrap
 
         public override string RatingItemColor( Color color ) => $"rating-item-{ToColor( color )}";
 
+        public override string RatingItemHover( bool hover ) => hover ? "rating-item-hover" : null;
+
         #endregion
 
         #region Label

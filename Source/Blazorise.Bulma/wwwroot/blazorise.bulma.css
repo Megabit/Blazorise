@@ -2728,29 +2728,56 @@ body::-webkit-scrollbar {
 .rating .rating-item.is-primary {
     color: #00d1b2; }
 
+.rating .rating-item.is-hover {
+    opacity: 0.7; }
+
 .rating .rating-item.is-secondary {
     color: #6c757d; }
+
+.rating .rating-item.is-hover {
+    opacity: 0.7; }
 
 .rating .rating-item.is-success {
     color: #48c774; }
 
+.rating .rating-item.is-hover {
+    opacity: 0.7; }
+
 .rating .rating-item.is-info {
     color: #238cd1; }
+
+.rating .rating-item.is-hover {
+    opacity: 0.7; }
 
 .rating .rating-item.is-warning {
     color: #ffd83d; }
 
+.rating .rating-item.is-hover {
+    opacity: 0.7; }
+
 .rating .rating-item.is-danger {
     color: #ef2e55; }
+
+.rating .rating-item.is-hover {
+    opacity: 0.7; }
 
 .rating .rating-item.is-light {
     color: #f5f5f5; }
 
+.rating .rating-item.is-hover {
+    opacity: 0.7; }
+
 .rating .rating-item.is-dark {
     color: #363636; }
 
+.rating .rating-item.is-hover {
+    opacity: 0.7; }
+
 .rating .rating-item.is-link {
     color: #3273dc; }
+
+.rating .rating-item.is-hover {
+    opacity: 0.7; }
 
 .steps {
     display: flex;

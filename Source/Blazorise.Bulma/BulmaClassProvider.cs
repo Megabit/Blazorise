@@ -161,6 +161,8 @@ namespace Blazorise.Bulma
 
         public override string RatingItemColor( Color color ) => $"is-{ToColor( color )}";
 
+        public override string RatingItemHover( bool hover ) => hover ? "is-hover" : null;
+
         #endregion
 
         #region Label

@@ -161,6 +161,8 @@ namespace Blazorise.AntDesign
 
         public override string RatingItemColor( Color color ) => $"ant-rating-item-{ToColor( color )}";
 
+        public override string RatingItemHover( bool hover ) => hover ? "ant-rating-item-hover" : null;
+
         #endregion
 
         #region Label

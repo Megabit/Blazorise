@@ -163,6 +163,8 @@ namespace Blazorise.Providers
 
         public string RatingItemColor( Color color ) => null;
 
+        public string RatingItemHover( bool hover ) => null;
+
         #endregion
 
         #region Label

@@ -161,6 +161,8 @@ namespace Blazorise.Frolic
 
         public override string RatingItemColor( Color color ) => $"e-rating-item-{ToColor( color )}";
 
+        public override string RatingItemHover( bool hover ) => hover ? "e-rating-item-hover" : null;
+
         #endregion
 
         #region Label

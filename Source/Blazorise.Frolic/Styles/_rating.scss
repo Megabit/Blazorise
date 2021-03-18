@@ -1,15 +1,15 @@
 ﻿@import "variables";
 
-.rating {
+.e-rating {
     @each $name, $value in $theme-colors {
         $color: $value;
 
-        .rating-item {
-            &.rating-item-#{$name} {
+        .e-rating-item {
+            &.e-rating-item-#{$name} {
                 color: $color;
             }
 
-            &.rating-item-hover {
+            &.e-rating-item-hover {
                 opacity: 0.7;
             }
         }

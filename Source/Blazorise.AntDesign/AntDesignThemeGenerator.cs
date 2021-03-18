@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 #endregion
 
@@ -479,6 +480,25 @@ namespace Blazorise.AntDesign
             sb
                 .Append( $".ant-steps-item-{variant} .ant-steps-item-content .ant-steps-item-title" ).Append( "{" )
                 .Append( $"color: {Var( ThemeVariables.VariantStepsItemText( variant ) )};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateRatingStyles( StringBuilder sb, Theme theme, ThemeRatingOptions ratingOptions )
+        {
+            if ( ratingOptions?.HoverOpacity != null )
+            {
+                sb
+                    .Append( $".ant-rating .ant-rating-item.ant-rating-item-hover" ).Append( "{" )
+                    .Append( $"opacity: {string.Format( CultureInfo.InvariantCulture, "{0:F1}", ratingOptions.HoverOpacity )};" )
+                    .AppendLine( "}" );
+            }
+        }
+
+        protected override void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions )
+        {
+            sb
+                .Append( $".ant-rating .ant-rating-item.ant-rating-item-{variant}" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantRatingColor( variant ) )};" )
                 .AppendLine( "}" );
         }
 

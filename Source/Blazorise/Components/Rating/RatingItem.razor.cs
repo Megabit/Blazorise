@@ -22,21 +22,9 @@ namespace Blazorise
 
             builder.Append( ClassProvider.RatingItem() );
             builder.Append( ClassProvider.RatingItemColor( Color ), Color != Color.None && ( selected || hovered ) );
+            builder.Append( ClassProvider.RatingItemHover( hovered ) );
 
             base.BuildClasses( builder );
-        }
-
-        protected override void BuildStyles( StyleBuilder builder )
-        {
-            var selected = Rating.IsSelected( Value );
-            var hovered = Rating.IsHovered( Value );
-
-            if ( hovered /*&& !selected*/ )
-            {
-                builder.Append( "opacity: 0.5;" );
-            }
-
-            base.BuildStyles( builder );
         }
 
         private async Task HandleClick()

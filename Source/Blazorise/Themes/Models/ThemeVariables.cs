@@ -118,6 +118,8 @@ namespace Blazorise
 
         public static string VariantPageProgressIndicator( string variant ) => $"--b-page-progress-indicator-{variant}";
 
+        public static string VariantRatingColor( string variant ) => $"--b-rating-{variant}-color";
+
         public const string BreadcrumbColor = "--b-breadcrumb-color";
     }
 }
