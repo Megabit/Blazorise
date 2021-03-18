@@ -435,7 +435,7 @@ input.form-control[type=color] {
 .rating .rating-item.is-link {
     color: #3273dc; }
 
-.rating .rating-item.is-hover {
+.rating .rating-item.rating-item-hover {
     opacity: 0.7; }
 
 @-webkit-keyframes spinner-border {
