@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Represents the each individual item in the <see cref="Blazorise.Rating"/> component.
+    /// </summary>
     public partial class RatingItem : BaseComponent
     {
         #region Members
@@ -15,6 +18,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             var selected = Rating.IsSelectedRange( Value );
@@ -30,7 +34,7 @@ namespace Blazorise
 
         protected virtual async Task HandleClick()
         {
-            if ( Disabled )
+            if ( Rating.Disabled )
                 return;
 
             IsActive = false;
@@ -47,7 +51,7 @@ namespace Blazorise
 
         protected virtual async Task HandleMouseOver( MouseEventArgs e )
         {
-            if ( Disabled )
+            if ( Rating.Disabled )
                 return;
 
             IsActive = true;
@@ -57,7 +61,7 @@ namespace Blazorise
 
         protected virtual async Task HandleMouseOut( MouseEventArgs e )
         {
-            if ( Disabled )
+            if ( Rating.Disabled )
                 return;
 
             IsActive = false;
@@ -69,10 +73,16 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets the icon name based on the item state.
+        /// </summary>
         protected object IconName => Rating.IsSelectedRange( Value )
             ? Rating.FullIcon
             : Rating.EmptyIcon;
 
+        /// <summary>
+        /// Gets the icon style based on the item state.
+        /// </summary>
         protected IconStyle IconStyle
         {
             get
@@ -87,23 +97,40 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Indicates if the item has a focus.
+        /// </summary>
         protected bool IsActive { get; set; }
 
+        /// <summary>
+        /// Indicate if the item is selected.
+        /// </summary>
         protected bool IsSelected => Rating.SelectedValue == Value;
 
-        [CascadingParameter] private Rating Rating { get; set; }
-
+        /// <summary>
+        /// Gets or sets the item value.
+        /// </summary>
         [Parameter] public int Value { get; set; }
 
+        /// <summary>
+        /// Gets or sets the item color.
+        /// </summary>
         [Parameter] public Color Color { get; set; } = Color.Warning;
 
-        [Parameter] public bool Disabled { get; set; }
-
-        [Parameter] public bool ReadOnly { get; set; }
-
+        /// <summary>
+        /// Occurs when the item is clicked.
+        /// </summary>
         [Parameter] public EventCallback<int> ItemClicked { get; set; }
 
+        /// <summary>
+        /// Occurs when the item is hovered.
+        /// </summary>
         [Parameter] public EventCallback<int?> ItemHovered { get; set; }
+
+        /// <summary>
+        /// Cascaded parent rating component.
+        /// </summary>
+        [CascadingParameter] protected Rating Rating { get; set; }
 
         #endregion
     }
