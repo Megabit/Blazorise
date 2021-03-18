@@ -7,6 +7,10 @@
         }
     }
 
+    &.ant-rate-disabled {
+        opacity: .65;
+    }
+
     .ant-rate-star {
         cursor: default;
 

@@ -2728,6 +2728,9 @@ body::-webkit-scrollbar {
 .rating:not(.rating-disabled):not(.rating-readonly):hover .rating-item {
     cursor: pointer; }
 
+.rating.rating-disabled {
+    opacity: .65; }
+
 .rating .rating-item.is-primary {
     color: #00d1b2; }
 

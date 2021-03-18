@@ -1482,6 +1482,9 @@ select.e-select {
 .e-rating:not(.e-rating-disabled):not(.e-rating-readonly):hover .e-rating-item {
     cursor: pointer; }
 
+.e-rating.rating-disabled {
+    opacity: .65; }
+
 .e-rating .e-rating-item.e-rating-item-primary {
     color: #1da1f2; }
 

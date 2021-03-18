@@ -405,6 +405,9 @@ input.form-control[type=color] {
 .rating:not(.rating-disabled):not(.rating-readonly):hover .rating-item {
     cursor: pointer; }
 
+.rating.rating-disabled {
+    opacity: .65; }
+
 .rating .rating-item.is-primary {
     color: #9c27b0; }
 

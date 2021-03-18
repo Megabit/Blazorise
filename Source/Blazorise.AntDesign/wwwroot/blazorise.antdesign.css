@@ -1760,6 +1760,9 @@
 .ant-rate:not(.ant-rate-disabled):not(.ant-rate-readonly):hover .ant-rate-star {
     cursor: pointer; }
 
+.ant-rate.ant-rate-disabled {
+    opacity: .65; }
+
 .ant-rate .ant-rate-star {
     cursor: default; }
     .ant-rate .ant-rate-star.ant-rate-star-primary {

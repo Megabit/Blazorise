@@ -7,6 +7,10 @@
         }
     }
 
+    &.rating-disabled {
+        opacity: .65;
+    }
+
     .e-rating-item {
         @each $name, $value in $theme-colors {
             $color: $value;
