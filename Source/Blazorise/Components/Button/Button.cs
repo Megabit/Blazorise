@@ -132,10 +132,8 @@ namespace Blazorise
             {
                 await Clicked.InvokeAsync( null );
 
-                if ( Command?.CanExecute( CommandParameter ) ?? false )
-                {
-                    Command.Execute( CommandParameter );
-                }
+                // Don't need to check CanExecute again is already part of Disabled check
+                Command?.Execute( CommandParameter );
             }
         }
 
