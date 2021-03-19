@@ -1,4 +1,6 @@
 ﻿#region Using directives
+
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Blazorise.Extensions;
@@ -32,6 +34,12 @@ namespace Blazorise
         private bool loading;
 
         private DropdownState parentDropdownState;
+
+        private ICommand command;
+
+        private object commandParameter;
+
+        private bool? canExecuteCommand;
 
         #endregion
 
@@ -103,6 +111,11 @@ namespace Blazorise
                             throw;
                         }
                     }
+                }
+
+                if ( command != null )
+                {
+                    command.CanExecuteChanged -= CommandCanExecuteChanged;
                 }
             }
 
@@ -176,6 +189,37 @@ namespace Blazorise
             base.BuildRenderTree( builder );
         }
 
+        private void BindCommand( ICommand value )
+        {
+            if ( command != null )
+            {
+                command.CanExecuteChanged -= CommandCanExecuteChanged;
+            }
+
+            command = value;
+
+            if ( command != null )
+            {
+                command.CanExecuteChanged += CommandCanExecuteChanged;
+            }
+
+            CommandCanExecuteChanged( value, EventArgs.Empty );
+        }
+
+        protected virtual void CommandCanExecuteChanged( object sender, EventArgs e )
+        {
+            var canExecute = Command?.CanExecute( CommandParameter );
+
+            if ( canExecute != canExecuteCommand )
+            {
+                canExecuteCommand = canExecute;
+
+                if ( Rendered )
+                {
+                    StateHasChanged();
+                }
+            }
+        }
         #endregion
 
         #region Properties 
@@ -259,7 +303,7 @@ namespace Blazorise
         [Parameter]
         public bool Disabled
         {
-            get => disabled;
+            get => disabled || !canExecuteCommand.GetValueOrDefault( true );
             set
             {
                 disabled = value;
@@ -364,12 +408,26 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the command to be executed when clicked on a button.
         /// </summary>
-        [Parameter] public ICommand Command { get; set; }
+        [Parameter]
+        public ICommand Command
+        {
+            get => command;
+            set => BindCommand( value );
+        }
 
         /// <summary>
         /// Reflects the parameter to pass to the CommandProperty upon execution.
         /// </summary>
-        [Parameter] public object CommandParameter { get; set; }
+        [Parameter]
+        public object CommandParameter
+        {
+            get => commandParameter;
+            set
+            {
+                commandParameter = value;
+                CommandCanExecuteChanged( this, EventArgs.Empty );
+            }
+        }
 
         /// <summary>
         /// Denotes the target route of the <see cref="ButtonType.Link"/> button.
