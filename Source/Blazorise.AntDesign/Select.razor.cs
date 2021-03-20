@@ -96,6 +96,9 @@ namespace Blazorise.AntDesign
             await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
 
             Expanded = true;
+
+            // automatically set focus to the dropdown so that we can make it auto-close on blur event
+            ExecuteAfterRender( async () => await DropdownElementRef.FocusAsync() );
         }
 
         private async Task Collapse()
@@ -197,10 +200,9 @@ namespace Blazorise.AntDesign
             return Task.CompletedTask;
         }
 
-        protected override async Task OnBlurHandler( FocusEventArgs eventArgs )
+        // NOTE: Don't remove tabindex from dropdown `<div tabindex="-1" @onblur="@OnDropdownBlur">`! It must be defined for focus-out to work.
+        protected async Task OnDropdownBlur( FocusEventArgs eventArgs )
         {
-            await base.OnBlurHandler( eventArgs );
-
             if ( Expanded )
             {
                 // Give enought time for other events to do their stuff before closing
@@ -228,6 +230,8 @@ namespace Blazorise.AntDesign
             get => inputElementId ??= IdGenerator.Generate;
             set => inputElementId = value;
         }
+
+        protected ElementReference DropdownElementRef { get; set; }
 
         /// <summary>
         /// Gets the selected items render fragments.
@@ -281,7 +285,7 @@ namespace Blazorise.AntDesign
                     sb.Append( " ant-select-single" );
 
                 if ( Expanded )
-                    sb.Append( " ant-select-open" );
+                    sb.Append( " ant-select-focused ant-select-open" );
 
                 if ( Disabled )
                     sb.Append( " ant-select-disabled" );
