@@ -157,6 +157,24 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Rating
+
+        public override string Rating() => "rating";
+
+        public override string RatingDisabled( bool disabled ) => disabled ? "rating-disabled" : null;
+
+        public override string RatingReadonly( bool @readonly ) => @readonly ? "rating-readonly" : null;
+
+        public override string RatingItem() => "rating-item";
+
+        public override string RatingItemColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string RatingItemSelected( bool selected ) => null;
+
+        public override string RatingItemHovered( bool hover ) => hover ? "is-hover" : null;
+
+        #endregion
+
         #region Label
 
         public override string Label() => "label";

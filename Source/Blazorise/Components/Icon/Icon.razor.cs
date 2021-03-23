@@ -1,6 +1,8 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -26,6 +28,21 @@ namespace Blazorise
             builder.Append( IconProvider.Icon( Name, IconStyle ) );
 
             base.BuildClasses( builder );
+        }
+
+        protected Task OnClickHandler()
+        {
+            return Clicked.InvokeAsync( null );
+        }
+
+        protected Task OnMouseOverHandler( MouseEventArgs eventArgs )
+        {
+            return MouseOver.InvokeAsync( eventArgs );
+        }
+
+        protected Task OnMouseOutHandler( MouseEventArgs eventArgs )
+        {
+            return MouseOut.InvokeAsync( eventArgs );
         }
 
         #endregion
@@ -66,6 +83,15 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
+
+        /// <summary>
+        /// Occurs when the icon is clicked.
+        /// </summary>
+        [Parameter] public EventCallback Clicked { get; set; }
+
+        [Parameter] public EventCallback<MouseEventArgs> MouseOver { get; set; }
+
+        [Parameter] public EventCallback<MouseEventArgs> MouseOut { get; set; }
 
         #endregion
     }

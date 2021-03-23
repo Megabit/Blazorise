@@ -157,6 +157,24 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Rating
+
+        public override string Rating() => "ant-rate";
+
+        public override string RatingDisabled( bool disabled ) => disabled ? "ant-rate-disabled" : null;
+
+        public override string RatingReadonly( bool @readonly ) => @readonly ? "ant-rate-readonly" : null;
+
+        public override string RatingItem() => "ant-rate-star";
+
+        public override string RatingItemColor( Color color ) => $"ant-rate-star-{ToColor( color )}";
+
+        public override string RatingItemSelected( bool selected ) => selected ? "ant-rate-star-full" : "ant-rate-star-zero";
+
+        public override string RatingItemHovered( bool hover ) => hover ? "ant-rate-star-focused" : null;
+
+        #endregion
+
         #region Label
 
         public override string Label() => null;

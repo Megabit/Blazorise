@@ -159,6 +159,24 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Rating
+
+        public string Rating() => null;
+
+        public string RatingDisabled( bool disabled ) => null;
+
+        public string RatingReadonly( bool @readonly ) => null;
+
+        public string RatingItem() => null;
+
+        public string RatingItemColor( Color color ) => null;
+
+        public string RatingItemSelected( bool selected ) => null;
+
+        public string RatingItemHovered( bool hover ) => null;
+
+        #endregion
+
         #region Label
 
         public string Label() => null;
