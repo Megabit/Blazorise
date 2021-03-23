@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -115,7 +114,7 @@ namespace Blazorise
 
                 if ( command != null )
                 {
-                    command.CanExecuteChanged -= CommandCanExecuteChanged;
+                    command.CanExecuteChanged -= OnCanExecuteChanged;
                 }
             }
 
@@ -191,20 +190,20 @@ namespace Blazorise
         {
             if ( command != null )
             {
-                command.CanExecuteChanged -= CommandCanExecuteChanged;
+                command.CanExecuteChanged -= OnCanExecuteChanged;
             }
 
             command = value;
 
             if ( command != null )
             {
-                command.CanExecuteChanged += CommandCanExecuteChanged;
+                command.CanExecuteChanged += OnCanExecuteChanged;
             }
 
-            CommandCanExecuteChanged( value, EventArgs.Empty );
+            OnCanExecuteChanged( value, EventArgs.Empty );
         }
 
-        protected virtual void CommandCanExecuteChanged( object sender, EventArgs e )
+        protected virtual void OnCanExecuteChanged( object sender, EventArgs e )
         {
             var canExecute = Command?.CanExecute( CommandParameter );
 
@@ -214,10 +213,15 @@ namespace Blazorise
 
                 if ( Rendered )
                 {
-                    StateHasChanged();
+                    // in case some provider is using Disabled flag for custom styles
+                    DirtyStyles();
+                    DirtyClasses();
+
+                    InvokeAsync( StateHasChanged );
                 }
             }
         }
+
         #endregion
 
         #region Properties 
@@ -422,8 +426,12 @@ namespace Blazorise
             get => commandParameter;
             set
             {
+                if ( commandParameter.IsEqual( value ) )
+                    return;
+
                 commandParameter = value;
-                CommandCanExecuteChanged( this, EventArgs.Empty );
+
+                OnCanExecuteChanged( this, EventArgs.Empty );
             }
         }
 
