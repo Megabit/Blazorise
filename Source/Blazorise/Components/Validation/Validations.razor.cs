@@ -161,7 +161,7 @@ namespace Blazorise
         {
             _StatusChanged?.Invoke( new ValidationsStatusChangedEventArgs( status, messages ) );
 
-            StatusChanged.InvokeAsync( new ValidationsStatusChangedEventArgs( status, messages ) );
+            InvokeAsync( () => StatusChanged.InvokeAsync( new ValidationsStatusChangedEventArgs( status, messages ) ) );
         }
 
         #endregion

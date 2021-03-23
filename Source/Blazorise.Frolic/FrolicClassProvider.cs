@@ -157,6 +157,24 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Rating
+
+        public override string Rating() => "e-rating";
+
+        public override string RatingDisabled( bool disabled ) => disabled ? "e-rating-disabled" : null;
+
+        public override string RatingReadonly( bool @readonly ) => @readonly ? "e-rating-readonly" : null;
+
+        public override string RatingItem() => "e-rating-item";
+
+        public override string RatingItemColor( Color color ) => $"e-rating-item-{ToColor( color )}";
+
+        public override string RatingItemSelected( bool selected ) => null;
+
+        public override string RatingItemHovered( bool hover ) => hover ? "e-rating-item-hover" : null;
+
+        #endregion
+
         #region Label
 
         public override string Label() => "e-label";

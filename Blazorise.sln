@@ -84,7 +84,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.RichTextEdit", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.TreeView", "Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj", "{83B3D727-2C23-4A95-8478-85A854BA8325}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Animate", "Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj", "{4D0B561C-B957-4D02-861F-2E1968D6BC1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Animate", "Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj", "{4D0B561C-B957-4D02-861F-2E1968D6BC1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

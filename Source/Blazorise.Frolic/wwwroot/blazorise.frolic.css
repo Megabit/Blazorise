@@ -1479,6 +1479,39 @@ select.e-select {
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-dark {
     background-color: #343a40; }
 
+.e-rating:not(.e-rating-disabled):not(.e-rating-readonly):hover .e-rating-item {
+    cursor: pointer; }
+
+.e-rating.rating-disabled {
+    opacity: .65; }
+
+.e-rating .e-rating-item.e-rating-item-primary {
+    color: #1da1f2; }
+
+.e-rating .e-rating-item.e-rating-item-gray {
+    color: #6c757d; }
+
+.e-rating .e-rating-item.e-rating-item-success {
+    color: #4fd69c; }
+
+.e-rating .e-rating-item.e-rating-item-info {
+    color: #54c7ec; }
+
+.e-rating .e-rating-item.e-rating-item-warning {
+    color: #ffdd57; }
+
+.e-rating .e-rating-item.e-rating-item-danger {
+    color: #f64669; }
+
+.e-rating .e-rating-item.e-rating-item-light {
+    color: #f5f5f5; }
+
+.e-rating .e-rating-item.e-rating-item-dark {
+    color: #343a40; }
+
+.e-rating .e-rating-item.e-rating-item-hover {
+    opacity: 0.7; }
+
 .e-steps {
     display: flex;
     flex-wrap: wrap;
