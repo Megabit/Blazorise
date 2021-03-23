@@ -321,7 +321,7 @@ namespace Blazorise
                 Messages = messages;
 
                 ValidationStatusChanged?.Invoke( this, new ValidationStatusChangedEventArgs( status, messages ) );
-                StatusChanged.InvokeAsync( status );
+                InvokeAsync( () => StatusChanged.InvokeAsync( status ) );
 
                 ParentValidations?.NotifyValidationStatusChanged( this );
             }

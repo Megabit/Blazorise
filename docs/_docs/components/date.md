@@ -59,13 +59,17 @@ DateEdit component also support entering a time part. To enable it just set `Inp
 
 ## Attributes
 
-| Name          | Type                                                                       | Default      | Description                                                                                                                    |
-|---------------|----------------------------------------------------------------------------|--------------|--------------------------------------------------------------------------------------------------------------------------------|
-| Date          | `TValue`                                                                   | `default`    | Gets or sets the input date value.                                                                                             |
-| DateChanged   | `EventCallback<TValue>`                                                    |              | Occurs when the date has changed.                                                                                              |
-| InputMode     | [DateInputMode]({{ "/docs/helpers/enums/#dateinputmode" | relative_url }}) | `Date`       | Hints at the type of data that might be entered by the user while editing the element or its contents.                         |
-| Min           | `DateTimeOffset?`                                                          | null         | The earliest date to accept.                                                                                                   |
-| Max           | `DateTimeOffset?`                                                          | null         | The latest date to accept.                                                                                                     |
-| Pattern       | `string`                                                                   | null         | The pattern attribute specifies a regular expression that the input element's value is checked against on form submission.     |
-| Placeholder   | `string`                                                                   | null         | Sets the placeholder for the empty date.                                                                                       |
-| Autofocus     | `bool`                                                                     |  false       | Set's the focus to the component after the rendering is done.                                                                  |
+| Name              | Type                                                                       | Default      | Description                                                                                                                    |
+|-------------------|----------------------------------------------------------------------------|--------------|--------------------------------------------------------------------------------------------------------------------------------|
+| Date              | `TValue`                                                                   | `default`    | Gets or sets the input date value.                                                                                             |
+| DateChanged       | `EventCallback<TValue>`                                                    |              | Occurs when the date has changed.                                                                                              |
+| InputMode         | [DateInputMode]({{ "/docs/helpers/enums/#dateinputmode" | relative_url }}) | `Date`       | Hints at the type of data that might be entered by the user while editing the element or its contents.                         |
+| Min               | `DateTimeOffset?`                                                          | null         | The earliest date to accept.                                                                                                   |
+| Max               | `DateTimeOffset?`                                                          | null         | The latest date to accept.                                                                                                     |
+| Pattern           | `string`                                                                   | null         | The pattern attribute specifies a regular expression that the input element's value is checked against on form submission.     |
+| Placeholder       | `string`                                                                   | null         | Sets the placeholder for the empty date.                                                                                       |
+| FirstDayOfWeek    | `DayOfWeek`                                                                | `Sunday`     | Defines the first day of the week.                                                                                             |
+| DisplayFormat     | `string`                                                                   |  null        | Defines the display format of the date.                                                                                        |
+
+**Warning:** Be aware that not all providers support setting the `FirstDayOfWeek` and `DisplayFormat`. This is more the limitations with browsers than it is with the Blazorise. Currently only the material provider support it because it uses the custom plugin for date picker.
+{: .notice--warning}

@@ -265,9 +265,11 @@ namespace Blazorise
         /// </summary>
         /// <param name="sender">Object that raised the event.</param>
         /// <param name="eventArgs">Information about the validation status.</param>
-        protected async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
+        protected virtual async void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
         {
+            DirtyStyles();
             DirtyClasses();
+
             await InvokeAsync( StateHasChanged );
         }
 

@@ -51,6 +51,7 @@ The next step is to change your `index.html` or `_Host.cshtml` file and include 
 
 <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
 <link href="_content/Blazorise.Material/blazorise.material.css" rel="stylesheet" />
+<link href="_content/Blazorise.Material/blazorise.material.flatpickr.css" rel="stylesheet" />
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Material JS -->
