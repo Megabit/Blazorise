@@ -50,17 +50,12 @@ namespace Blazorise
 
             await base.SetParametersAsync( parameters );
 
-                if ( ParentValidation != null )
-                {
-                    if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedValueExpression ), out var expression ) )
-                        await ParentValidation.InitializeInputExpression( expression );
-
-                    await InitializeValidation();
-                }
-            }
-            finally
+            if ( ParentValidation != null )
             {
-                skipCheckedValueChangedCallback = false;
+                if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedValueExpression ), out var expression ) )
+                    await ParentValidation.InitializeInputExpression( expression );
+
+                await InitializeValidation();
             }
         }
 
