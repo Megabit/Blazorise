@@ -261,7 +261,7 @@ namespace Blazorise
                         if ( cancellationToken.IsCancellationRequested )
                             cancellationToken.ThrowIfCancellationRequested();
 
-                        await validationHandler.ValidateAsync( this, cancellationTokenSource.Token, newValidationValue );
+                        await validationHandler.ValidateAsync( this, newValidationValue );
                     }
                 }
                 catch ( OperationCanceledException )
@@ -364,7 +364,7 @@ namespace Blazorise
         [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
 
         /// <inheritdoc/>
-        [Parameter] public Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; set; }
+        [Parameter] public Func<ValidatorEventArgs, Task> AsyncValidator { get; set; }
 
         /// <inheritdoc/>
         [Parameter] public Func<string, IEnumerable<string>, string> MessageLocalizer { get; set; }

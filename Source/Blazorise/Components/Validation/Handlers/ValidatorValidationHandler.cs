@@ -29,32 +29,20 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public async Task ValidateAsync( IValidation validation, CancellationToken cancellationToken, object newValidationValue )
+        public async Task ValidateAsync( IValidation validation, object newValidationValue )
         {
-            if ( cancellationToken.IsCancellationRequested )
-                cancellationToken.ThrowIfCancellationRequested();
-
             validation.NotifyValidationStarted();
-
-            if ( cancellationToken.IsCancellationRequested )
-                cancellationToken.ThrowIfCancellationRequested();
 
             var validatorEventArgs = new ValidatorEventArgs( newValidationValue );
 
             if ( validation.AsyncValidator != null )
-                await validation.AsyncValidator( validatorEventArgs, cancellationToken );
+                await validation.AsyncValidator( validatorEventArgs );
             else
                 validation.Validator?.Invoke( validatorEventArgs );
-
-            if ( cancellationToken.IsCancellationRequested )
-                cancellationToken.ThrowIfCancellationRequested();
 
             var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
                 ? new string[] { validatorEventArgs.ErrorText }
                 : null;
-
-            if ( cancellationToken.IsCancellationRequested )
-                cancellationToken.ThrowIfCancellationRequested();
 
             validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
         }

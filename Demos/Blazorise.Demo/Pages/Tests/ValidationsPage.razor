@@ -523,15 +523,9 @@
 
     Random random = new Random();
 
-    async Task ValidateNameAsync( ValidatorEventArgs e, System.Threading.CancellationToken cancellationToken )
+    async Task ValidateNameAsync( ValidatorEventArgs e )
     {
-        if ( cancellationToken.IsCancellationRequested )
-            cancellationToken.ThrowIfCancellationRequested();
-
         await Task.Delay( random.Next( 600 ) );
-
-        if ( cancellationToken.IsCancellationRequested )
-            cancellationToken.ThrowIfCancellationRequested();
 
         e.Status = string.IsNullOrEmpty( Convert.ToString( e.Value ) )
             ? ValidationStatus.Error
