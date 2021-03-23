@@ -155,6 +155,24 @@ namespace Blazorise
 
         #endregion
 
+        #region Rating
+
+        string Rating();
+
+        string RatingDisabled( bool disabled );
+
+        string RatingReadonly( bool @readonly );
+
+        string RatingItem();
+
+        string RatingItemColor( Color color );
+
+        string RatingItemSelected( bool selected );
+
+        string RatingItemHovered( bool hover );
+
+        #endregion
+
         #region Label
 
         string Label();

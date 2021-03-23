@@ -160,6 +160,24 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Rating
+
+        public override string Rating() => "rating";
+
+        public override string RatingDisabled( bool disabled ) => disabled ? "rating-disabled" : null;
+
+        public override string RatingReadonly( bool @readonly ) => @readonly ? "rating-readonly" : null;
+
+        public override string RatingItem() => "rating-item";
+
+        public override string RatingItemColor( Color color ) => $"rating-item-{ToColor( color )}";
+
+        public override string RatingItemSelected( bool selected ) => null;
+
+        public override string RatingItemHovered( bool hover ) => hover ? "rating-item-hover" : null;
+
+        #endregion
+
         #region Label
 
         public override string Label() => null;

@@ -92,6 +92,7 @@ namespace Blazorise
             GenerateSnackbarColorVariables( theme, variant, value, theme.SnackbarOptions );
             GenerateStepsColorVariables( theme, variant, value, theme.StepsOptions );
             GenerateProgressColorVariables( theme, variant, value, theme.ProgressOptions );
+            GenerateRatingColorVariables( theme, variant, value, theme.RatingOptions );
         }
 
         protected virtual void GenerateButtonColorVariables( Theme theme, string variant, string inBackgroundColor, string inBorderColor, ThemeButtonOptions options )
@@ -198,6 +199,18 @@ namespace Blazorise
             var color = ToHex( inArgbColor );
 
             variables[ThemeVariables.VariantPageProgressIndicator( variant )] = color;
+        }
+
+        protected virtual void GenerateRatingColorVariables( Theme theme, string variant, string inColor, ThemeRatingOptions options )
+        {
+            var inArgbColor = ParseColor( inColor );
+
+            if ( inArgbColor.IsEmpty )
+                return;
+
+            var color = ToHex( inArgbColor );
+
+            variables[ThemeVariables.VariantRatingColor( variant )] = color;
         }
 
         protected virtual void GenerateBackgroundVariables( Theme theme, string variant, string inColor )
@@ -488,6 +501,8 @@ namespace Blazorise
             GenerateBarStyles( sb, theme, theme.BarOptions );
 
             GenerateStepsStyles( sb, theme, theme.StepsOptions );
+
+            GenerateRatingStyles( sb, theme, theme.RatingOptions );
         }
 
         protected virtual void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpoint, string value )
@@ -520,6 +535,7 @@ namespace Blazorise
             GenerateSwitchVariantStyles( sb, theme, variant, color, theme.SwitchOptions );
             GenerateStepsVariantStyles( sb, theme, variant, color, theme.StepsOptions );
             GenerateProgressVariantStyles( sb, theme, variant, color, theme.ProgressOptions );
+            GenerateRatingVariantStyles( sb, theme, variant, color, theme.RatingOptions );
 
             GenerateAlertVariantStyles( sb, theme, variant,
                 ThemeColorLevelHex( theme, color, theme.AlertOptions?.BackgroundLevel ?? -10 ),
@@ -569,6 +585,8 @@ namespace Blazorise
                 .AppendLine( "}" );
         }
 
+        protected abstract void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions );
+
         protected abstract void GenerateAlertVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor, string inColor, ThemeAlertOptions options );
 
         protected abstract void GenerateTableVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inBorderColor );
@@ -601,6 +619,8 @@ namespace Blazorise
         protected abstract void GenerateBarStyles( StringBuilder sb, Theme theme, ThemeBarOptions options );
 
         protected abstract void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions );
+
+        protected abstract void GenerateRatingStyles( StringBuilder sb, Theme theme, ThemeRatingOptions ratingOptions );
 
         protected abstract void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string color );
 
