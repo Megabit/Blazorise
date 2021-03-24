@@ -293,7 +293,7 @@ namespace Blazorise
                     return typeof( DataAnnotationValidationHandler );
                 }
                 else
-                    throw new ArgumentNullException();
+                    throw new NotSupportedException( "Unable to determine the validation handler type!" );
             }
 
             return HandlerType;
