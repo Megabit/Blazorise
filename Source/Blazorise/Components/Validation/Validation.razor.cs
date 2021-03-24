@@ -227,8 +227,6 @@ namespace Blazorise
             return ValidateAsync( inputComponent.ValidationValue );
         }
 
-
-
         /// <summary>
         /// Runs the asynchronous validation process.
         /// </summary>
@@ -304,11 +302,13 @@ namespace Blazorise
             NotifyValidationStatusChanged( ValidationStatus.None );
         }
 
+        /// <inheritdoc/>
         public void NotifyValidationStarted()
         {
             ValidationStarted?.Invoke();
         }
 
+        /// <inheritdoc/>
         public void NotifyValidationStatusChanged( ValidationStatus status, IEnumerable<string> messages = null )
         {
             // raise events only if status or message is changed to prevent unnecessary re-renders
