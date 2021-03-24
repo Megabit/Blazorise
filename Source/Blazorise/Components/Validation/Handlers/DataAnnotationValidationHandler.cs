@@ -1,5 +1,7 @@
 ﻿#region Using directives
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
@@ -41,6 +43,18 @@ namespace Blazorise
                 : null;
 
             validation.NotifyValidationStatusChanged( matchStatus, matchMessages );
+        }
+
+        /// <inheritdoc/>
+        public Task ValidateAsync( IValidation validation, CancellationToken cancellationToken, object newValidationValue )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            Validate( validation, newValidationValue );
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Task.CompletedTask;
         }
 
         /// <summary>
