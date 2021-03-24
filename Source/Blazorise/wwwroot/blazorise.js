@@ -163,7 +163,7 @@ window.blazorise = {
             for (var i = 0; i < len; i++) {
                 const opt = element.options[i];
 
-                if (values && values.find(x => x?.toString() === opt.value)) {
+                if (values && values.find(x => x !== null && x.toString() === opt.value)) {
                     opt.selected = true;
                 } else {
                     opt.selected = false;
