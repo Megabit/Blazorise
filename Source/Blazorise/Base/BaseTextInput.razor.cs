@@ -78,11 +78,7 @@ namespace Blazorise
                 }
                 else
                 {
-                    var caret = await JSRunner.GetCaret( ElementRef );
-
                     await CurrentValueHandler( eventArgs?.Value?.ToString() );
-
-                    await JSRunner.SetCaret( ElementRef, caret );
                 }
             }
         }
