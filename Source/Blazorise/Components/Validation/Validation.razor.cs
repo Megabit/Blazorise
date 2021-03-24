@@ -179,7 +179,9 @@ namespace Blazorise
 
         private async void OnValidatingAll( ValidatingAllEventArgs e )
         {
-            e.Cancel = ( await ValidateAsync( inputComponent.ValidationValue ) ) == ValidationStatus.Error;
+            var status = await ValidateAsync( inputComponent.ValidationValue );
+
+            e.Cancel = status == ValidationStatus.Error;
         }
 
         private void OnClearingAll()
