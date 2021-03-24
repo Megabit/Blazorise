@@ -33,9 +33,9 @@ namespace Blazorise
             if ( ParentValidation != null && ParentRadioGroup == null )
             {
                 if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
+                    await ParentValidation.InitializeInputExpression( expression );
 
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 
@@ -94,12 +94,6 @@ namespace Blazorise
             // be activated like it should be. I will leave this just in case that users want to use it
             // but I will need to state in the documentation that it's generally not supported.
             return CurrentValueHandler( e?.Value?.ToString() );
-        }
-
-        /// <inheritdoc/>
-        protected override Task<ParseValue<bool>> ParseValueFromStringAsync( string value )
-        {
-            return base.ParseValueFromStringAsync( value );
         }
 
         /// <summary>

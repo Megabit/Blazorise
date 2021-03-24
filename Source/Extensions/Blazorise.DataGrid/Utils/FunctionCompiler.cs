@@ -111,7 +111,7 @@ namespace Blazorise.DataGrid.Utils
 
             Expression subPropertyOrField = null;
 
-            MemberInfo memberInfo = GetSafeMember( item.Type, propertyOrFieldName );
+            MemberInfo memberInfo = GetSafeMember( item.Type, parts[0] );
 
             if ( memberInfo is PropertyInfo propertyInfo )
                 subPropertyOrField = Expression.Property( item, propertyInfo );

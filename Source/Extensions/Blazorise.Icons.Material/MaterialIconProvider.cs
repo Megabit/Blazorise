@@ -333,6 +333,12 @@ namespace Blazorise.Icons.Material
             { IconStyle.DuoTone, "material-icons-two-tone" },
         };
 
+        // Some material icons have a special outline names so we need to override them.
+        private static Dictionary<string, string> outlineNameOverrides = new Dictionary<string, string>
+        {
+            { "star", "star_outline" }
+        };
+
         #endregion
 
         #region Constructors
@@ -341,11 +347,17 @@ namespace Blazorise.Icons.Material
 
         #region Methods
 
-        public override string GetIconName( IconName iconName )
+        public override string GetIconName( IconName iconName, IconStyle iconStyle )
         {
-            names.TryGetValue( iconName, out var value );
+            if ( names.TryGetValue( iconName, out var value ) )
+            {
+                if ( iconStyle == IconStyle.Regular && outlineNameOverrides.TryGetValue( value, out var valueOverride ) )
+                    return valueOverride;
 
-            return value;
+                return value;
+            }
+
+            return null;
         }
 
         public override void SetIconName( IconName name, string newName )

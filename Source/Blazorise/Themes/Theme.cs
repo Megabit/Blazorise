@@ -125,6 +125,8 @@ namespace Blazorise
 
         public ThemeProgressOptions ProgressOptions { get; set; }
 
+        public ThemeRatingOptions RatingOptions { get; set; }
+
         public ThemeAlertOptions AlertOptions { get; set; }
 
         public ThemeTableOptions TableOptions { get; set; }

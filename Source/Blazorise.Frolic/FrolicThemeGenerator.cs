@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 #endregion
 
@@ -306,6 +307,25 @@ namespace Blazorise.Frolic
                 .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq, Var( ThemeVariables.White ) )} !important;" )
                 .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )} !important;" )
                 .Append( $"border-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )} !important;" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateRatingStyles( StringBuilder sb, Theme theme, ThemeRatingOptions ratingOptions )
+        {
+            if ( ratingOptions?.HoverOpacity != null )
+            {
+                sb
+                    .Append( $".e-rating .e-rating-item.e-rating-item-hover" ).Append( "{" )
+                    .Append( $"opacity: {string.Format( CultureInfo.InvariantCulture, "{0:F1}", ratingOptions.HoverOpacity )};" )
+                    .AppendLine( "}" );
+            }
+        }
+
+        protected override void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions )
+        {
+            sb
+                .Append( $".e-rating .e-rating-item.e-rating-item-{variant}" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantRatingColor( variant ) )};" )
                 .AppendLine( "}" );
         }
 

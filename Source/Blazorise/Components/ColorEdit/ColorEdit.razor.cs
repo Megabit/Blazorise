@@ -23,9 +23,9 @@ namespace Blazorise
             if ( ParentValidation != null )
             {
                 if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
+                    await ParentValidation.InitializeInputExpression( expression );
 
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 

@@ -29,6 +29,8 @@ namespace Blazorise.Providers
 
         public string MemoEdit() => null;
 
+        public string MemoEditSize( Size size ) => null;
+
         public string MemoEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
@@ -152,6 +154,26 @@ namespace Blazorise.Providers
         public string Slider() => null;
 
         public string SliderColor( Color color ) => null;
+
+        public string SliderValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region Rating
+
+        public string Rating() => null;
+
+        public string RatingDisabled( bool disabled ) => null;
+
+        public string RatingReadonly( bool @readonly ) => null;
+
+        public string RatingItem() => null;
+
+        public string RatingItemColor( Color color ) => null;
+
+        public string RatingItemSelected( bool selected ) => null;
+
+        public string RatingItemHovered( bool hover ) => null;
 
         #endregion
 

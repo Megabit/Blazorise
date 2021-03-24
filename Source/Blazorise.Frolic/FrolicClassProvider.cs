@@ -26,6 +26,8 @@ namespace Blazorise.Frolic
 
         public override string MemoEdit() => "e-control";
 
+        public override string MemoEditSize( Size size ) => $"e-control-{ToSize( size )}";
+
         public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
@@ -150,6 +152,26 @@ namespace Blazorise.Frolic
         public override string Slider() => "e-range";
 
         public override string SliderColor( Color color ) => ToColor( color );
+
+        public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region Rating
+
+        public override string Rating() => "e-rating";
+
+        public override string RatingDisabled( bool disabled ) => disabled ? "e-rating-disabled" : null;
+
+        public override string RatingReadonly( bool @readonly ) => @readonly ? "e-rating-readonly" : null;
+
+        public override string RatingItem() => "e-rating-item";
+
+        public override string RatingItemColor( Color color ) => $"e-rating-item-{ToColor( color )}";
+
+        public override string RatingItemSelected( bool selected ) => null;
+
+        public override string RatingItemHovered( bool hover ) => hover ? "e-rating-item-hover" : null;
 
         #endregion
 

@@ -25,6 +25,8 @@ namespace Blazorise
 
         string MemoEdit();
 
+        string MemoEditSize( Size size );
+
         string MemoEditValidation( ValidationStatus validationStatus );
 
         #endregion
@@ -148,6 +150,26 @@ namespace Blazorise
         string Slider();
 
         string SliderColor( Color color );
+
+        string SliderValidation( ValidationStatus validationStatus );
+
+        #endregion
+
+        #region Rating
+
+        string Rating();
+
+        string RatingDisabled( bool disabled );
+
+        string RatingReadonly( bool @readonly );
+
+        string RatingItem();
+
+        string RatingItemColor( Color color );
+
+        string RatingItemSelected( bool selected );
+
+        string RatingItemHovered( bool hover );
 
         #endregion
 

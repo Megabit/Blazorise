@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
@@ -26,6 +28,11 @@ namespace Blazorise
         /// Gets the validator handler attched to this validation.
         /// </summary>
         Action<ValidatorEventArgs> Validator { get; }
+
+        /// <summary>
+        /// Gets the asynchronous validator handler attched to this validation.
+        /// </summary>
+        Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; }
 
         /// <summary>
         /// Gets the pattern regex attached to this validation.
