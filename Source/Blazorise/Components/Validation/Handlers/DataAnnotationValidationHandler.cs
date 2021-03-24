@@ -46,9 +46,13 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        public Task ValidateAsync( IValidation validation, object newValidationValue )
+        public Task ValidateAsync( IValidation validation, CancellationToken cancellationToken, object newValidationValue )
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             Validate( validation, newValidationValue );
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             return Task.CompletedTask;
         }

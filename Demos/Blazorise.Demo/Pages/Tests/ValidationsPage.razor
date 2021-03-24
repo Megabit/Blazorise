@@ -523,8 +523,10 @@
 
     Random random = new Random();
 
-    async Task ValidateNameAsync( ValidatorEventArgs e )
+    async Task ValidateNameAsync( ValidatorEventArgs e, System.Threading.CancellationToken cancellationToken )
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         await Task.Delay( random.Next( 600 ) );
 
         e.Status = string.IsNullOrEmpty( Convert.ToString( e.Value ) )

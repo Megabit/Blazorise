@@ -248,20 +248,15 @@ namespace Blazorise
                 {
                     var validationHandlerType = DetermineHandlerType();
 
-                    if ( cancellationToken.IsCancellationRequested )
-                        cancellationToken.ThrowIfCancellationRequested();
+                    cancellationToken.ThrowIfCancellationRequested();
 
                     if ( validationHandlerType != null )
                     {
-                        if ( cancellationToken.IsCancellationRequested )
-                            cancellationToken.ThrowIfCancellationRequested();
-
                         var validationHandler = ValidationHandlerFactory.Create( validationHandlerType );
 
-                        if ( cancellationToken.IsCancellationRequested )
-                            cancellationToken.ThrowIfCancellationRequested();
+                        cancellationToken.ThrowIfCancellationRequested();
 
-                        await validationHandler.ValidateAsync( this, newValidationValue );
+                        await validationHandler.ValidateAsync( this, cancellationToken, newValidationValue );
                     }
                 }
                 catch ( OperationCanceledException )
@@ -293,7 +288,7 @@ namespace Blazorise
                     return typeof( DataAnnotationValidationHandler );
                 }
                 else
-                    throw new NotSupportedException( "Unable to determine the validation handler type!" );
+                    throw new NotImplementedException( "Unable to determine the validator " );
             }
 
             return HandlerType;
@@ -364,7 +359,7 @@ namespace Blazorise
         [Parameter] public Action<ValidatorEventArgs> Validator { get; set; }
 
         /// <inheritdoc/>
-        [Parameter] public Func<ValidatorEventArgs, Task> AsyncValidator { get; set; }
+        [Parameter] public Func<ValidatorEventArgs, CancellationToken, Task> AsyncValidator { get; set; }
 
         /// <inheritdoc/>
         [Parameter] public Func<string, IEnumerable<string>, string> MessageLocalizer { get; set; }

@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿#region Using directives
+using System.Threading;
 using System.Threading.Tasks;
+#endregion
 
 namespace Blazorise
 {
@@ -19,8 +21,9 @@ namespace Blazorise
         /// Asynchronously validates the <see cref="IValidation"/> component.
         /// </summary>
         /// <param name="validation">Reference to the validation component.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="newValidationValue">Value to validate.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        Task ValidateAsync( IValidation validation, object newValidationValue );
+        Task ValidateAsync( IValidation validation, CancellationToken cancellationToken, object newValidationValue );
     }
 }
