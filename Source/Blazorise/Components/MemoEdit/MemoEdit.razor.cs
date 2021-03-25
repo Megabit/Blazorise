@@ -165,6 +165,12 @@ namespace Blazorise
             => DelayTextOnKeyPressInterval.GetValueOrDefault( Options?.DelayTextOnKeyPressInterval ?? 300 );
 
         /// <summary>
+        /// The name of the event for the textarea element.
+        /// </summary>
+        protected string BindValueEventName
+            => IsChangeTextOnKeyPress ? "oninput" : "onchange";
+
+        /// <summary>
         /// Sets the placeholder for the empty text.
         /// </summary>
         [Parameter] public string Placeholder { get; set; }
