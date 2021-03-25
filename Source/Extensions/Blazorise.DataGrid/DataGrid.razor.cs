@@ -1379,9 +1379,14 @@ namespace Blazorise.DataGrid
         [Parameter] public bool ShowValidationsSummary { get; set; } = true;
 
         /// <summary>
-        /// Label for validaitons summary.
+        /// Label for validations summary.
         /// </summary>
         [Parameter] public string ValidationsSummaryLabel { get; set; }
+
+        /// <summary>
+        /// List of custom error messages for the validations summary.
+        /// </summary>
+        [Parameter] public string[] ValidationsSummaryErrors { get; set; }
 
         /// <summary>
         /// Custom localizer handlers to override default <see cref="DataGrid{TItem}"/> localization.
