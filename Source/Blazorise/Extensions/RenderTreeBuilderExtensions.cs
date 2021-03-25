@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.Extensions
@@ -174,6 +174,13 @@ namespace Blazorise.Extensions
         public static RenderTreeBuilder OnClick( this RenderTreeBuilder builder, object receiver, EventCallback callback, [CallerLineNumber] int line = 0 )
         {
             builder.AddAttribute( GetSequence( line ), "onclick", EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.MouseEventArgs>( receiver, callback ) );
+
+            return builder;
+        }
+
+        public static RenderTreeBuilder OnClickPreventDefault( this RenderTreeBuilder builder, bool preventDefault, [CallerLineNumber] int line = 0 )
+        {
+            builder.AddEventPreventDefaultAttribute( GetSequence( line ), "onclick", preventDefault );
 
             return builder;
         }
