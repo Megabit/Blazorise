@@ -20,7 +20,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Reference to the <see cref="Select{TValue}"/> component.
         /// </summary>
-        protected Select<TValue> selectRef;
+        private Select<TValue> selectRef;
 
         #endregion
 
@@ -79,6 +79,21 @@ namespace Blazorise.Components
         /// Gets or sets an expression that identifies the selected value.
         /// </summary>
         [Parameter] public Expression<Func<TValue>> SelectedValueExpression { get; set; }
+
+        /// <summary>
+        /// Display text of the default select item.
+        /// </summary>
+        [Parameter] public string DefaultItemText { get; set; }
+
+        /// <summary>
+        /// Value of the default select item.
+        /// </summary>
+        [Parameter] public TValue DefaultItemValue { get; set; }
+
+        /// <summary>
+        /// If true, disables the default item.
+        /// </summary>
+        [Parameter] public bool DefaultItemDisabled { get; set; } = false;
 
         /// <summary>
         /// Custom css class-names.

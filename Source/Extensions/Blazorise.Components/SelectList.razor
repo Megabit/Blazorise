@@ -2,6 +2,10 @@
 @typeparam TValue
 <Select @ref="@selectRef" ElementId="@ElementId" TValue="TValue" SelectedValue="@SelectedValue" SelectedValueChanged="@HandleSelectedValueChanged" Class="@Class" Style="@Style" Size="@Size" MaxVisibleItems="@MaxVisibleItems" TabIndex="@TabIndex" Attributes="@Attributes" SelectedValueExpression="@SelectedValueExpression">
     <ChildContent>
+        @if ( DefaultItemText != null )
+        {
+            <SelectItem @key="@DefaultItemValue" TValue="TValue" Value="@DefaultItemValue" Disabled="@DefaultItemDisabled">@DefaultItemText</SelectItem>
+        }
         @if ( Data != null )
         {
             @foreach ( var item in Data )
