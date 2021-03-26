@@ -197,8 +197,8 @@
 
     public async Task OnContentChanged2()
     {
-        var content = await richTextEditRef2.GetHtmlAsync();
-        Console.WriteLine( content );
+        contentFromCode = await richTextEditRef2.GetHtmlAsync();
+        Console.WriteLine( contentFromCode );
     }
 
     public async Task OnSave()
