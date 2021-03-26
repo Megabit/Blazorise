@@ -72,4 +72,6 @@ Install-Package Blazorise.Components
 | ValueField           | `Func<TItem, TValue>`      |            | Selector for the value field.                         |
 | SelectedValue        | TValue                     |            | Currently selected value.                             |
 | SelectedValueChanged | `EventCallback<TValue>`    |            | Raises an event after the selected value has changed. |
-| MaxVisibleItems      | `int?`                     | `null`     | Specifies how many options should be shown at once.   |
+| DefaultItemText      | string                     | `null`     | Display text of the default select item.              |
+| DefaultItemValue     | TValue                     | `default`  | Value of the default select item.                     |
+| DefaultItemDisabled  | bool                       | false      | If true, disables the default item.                   |
