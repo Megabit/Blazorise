@@ -10,6 +10,9 @@ toc_label: "Guide"
 
 Display a tooltip attached to any kind of element with different positioning.
 
+Starting with **v0.9.4**, Tooltip component is powered by [Tippy.js](https://atomiks.github.io/tippyjs/).
+{: .notice--info}
+
 ### Basic
 
 ```html
