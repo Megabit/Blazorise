@@ -1,0 +1,49 @@
+﻿.tippy-box[data-animation=scale][data-placement^=top] {
+    transform-origin: bottom
+}
+
+.tippy-box[data-animation=scale][data-placement^=bottom] {
+    transform-origin: top
+}
+
+.tippy-box[data-animation=scale][data-placement^=left] {
+    transform-origin: right
+}
+
+.tippy-box[data-animation=scale][data-placement^=right] {
+    transform-origin: left
+}
+
+.tippy-box[data-animation=scale][data-state=hidden] {
+    transform: scale(.5);
+    opacity: 0
+}
+
+.tippy-box[data-theme~='blazorise'] {
+    background-color: #{"RGBA("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"};
+    color: $tooltip-color;
+}
+
+.tippy-box[data-theme~='blazorise'][data-placement^='top'] > .tippy-arrow::before {
+    border-top-color: #{"RGBA("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"};
+}
+
+.tippy-box[data-theme~='blazorise'][data-placement^='bottom'] > .tippy-arrow::before {
+    border-bottom-color: #{"RGBA("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"};
+}
+
+.tippy-box[data-theme~='blazorise'][data-placement^='left'] > .tippy-arrow::before {
+    border-left-color: #{"RGBA("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"};
+}
+
+.tippy-box[data-theme~='blazorise'][data-placement^='right'] > .tippy-arrow::before {
+    border-right-color: #{"RGBA("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"};
+}
+
+.tippy-box[data-theme~='blazorise'] > .tippy-svg-arrow {
+    fill: #{"RGBA("}$tooltip-background-color-r, $tooltip-background-color-g, $tooltip-background-color-b, $tooltip-background-opacity#{")"};
+}
+
+.b-tooltip-inline {
+    display: inline-block;
+}

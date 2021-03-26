@@ -53,9 +53,9 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementRef, elementId );
         }
 
-        public virtual ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId )
+        public virtual ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementRef, elementId );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
         }
 
         public virtual ValueTask<bool> InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit )

@@ -19,6 +19,8 @@ namespace Blazorise
 
         private bool fade;
 
+        private int fadeDuration = 300;
+
         #endregion
 
         #region Methods
@@ -42,7 +44,15 @@ namespace Blazorise
                 // try to detect if inline is needed
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.InitializeTooltip( ElementRef, ElementId );
+                    await JSRunner.InitializeTooltip( ElementRef, ElementId, new
+                    {
+                        Text = Text,
+                        Placement = ClassProvider.ToPlacement( Placement ),
+                        Multiline = Multiline,
+                        AlwaysActive = AlwaysActive,
+                        Fade = Fade,
+                        FadeDuration = FadeDuration,
+                    } );
                 } );
             }
 
@@ -131,6 +141,21 @@ namespace Blazorise
             set
             {
                 fade = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Duration in ms of the fade transition animation.
+        /// </summary>
+        [Parameter]
+        public int FadeDuration
+        {
+            get => fadeDuration;
+            set
+            {
+                fadeDuration = value;
 
                 DirtyClasses();
             }

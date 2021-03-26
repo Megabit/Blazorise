@@ -20,7 +20,7 @@ namespace Blazorise
 
         ValueTask<bool> DestroyNumericEdit( ElementReference elementRef, string elementId );
 
-        ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId );
+        ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options );
 
         ValueTask<bool> InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit );
 

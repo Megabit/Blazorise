@@ -56,3 +56,4 @@ You can use one of the following modifiers to change positions of the tooltip:
 | AlwaysActive      | bool                                                               | false            | Always show tooltip, instead of just when hovering over the element.      |
 | Inline            | bool                                                               | false            | Force inline block instead of trying to detect the element block.         |
 | Fade              | bool                                                               | false            | Controls the fade effect.                                                 |
+| FadeDuration      | int                                                                | 300              | Duration in ms of the fade transition animation.                          |
