@@ -39,7 +39,7 @@
         }
         if (configure) {
             try {
-                blazoriseRichTextEdit.configure(configure, window, [ options ]);
+                blazoriseRichTextEdit.configure(configure, window, [options]);
             } catch (err) {
                 console.error(err);
             }
