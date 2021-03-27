@@ -1,6 +1,5 @@
 ﻿window.blazoriseRichTextEdit = {
-    initialize: (dotnetAdapter, containerRef, readOnly, placeholder, theme, onContentChanged, bindEnter,
-        onEnter, onFocus, onBlur, configure) => {
+    initialize: (dotnetAdapter, containerRef, readOnly, placeholder, theme, bindEnter, configure) => {
         if (!containerRef)
             return false;
 
@@ -31,7 +30,7 @@
                             if (context.format.list) {
                                 editorRef.quill.insertText(range.index, "\n");
                             } else {
-                                dotnetAdapter.invokeMethodAsync(onEnter);
+                                dotnetAdapter.invokeMethodAsync("OnEnter");
                             }
                         }
                     }
@@ -40,28 +39,32 @@
         }
         if (configure) {
             try {
-                blazoriseRichTextEdit.configure(configure, window, [ options ]);
+                blazoriseRichTextEdit.configure(configure, window, [options]);
             } catch (err) {
                 console.error(err);
             }
         }
+        var contentUpdating = false;
         const quill = new Quill(editorRef, options);
-        quill.on("text-change",
-            (_dx, _dy, source) => {
-                if (source === "user") {
-                    dotnetAdapter.invokeMethodAsync(onContentChanged);
-                }
-            });
+        quill.on("text-change", function (dx, dy, source) {
+            if (source === "user") {
+                contentUpdating = true;
+                dotnetAdapter.invokeMethodAsync("OnContentChanged")
+                    .finally(_ => contentUpdating = false);
+            }
+        });
         quill.on("selection-change", function (range, oldRange, source) {
             if (range === null && oldRange !== null) {
-                dotnetAdapter.invokeMethodAsync(onBlur);
+                dotnetAdapter.invokeMethodAsync("OnEditorBlur");
             } else if (range !== null && oldRange === null)
-                dotnetAdapter.invokeMethodAsync(onFocus);
+                dotnetAdapter.invokeMethodAsync("OnEditorFocus");
         });
 
         function setContent() {
-            quill.setContents(quill.clipboard.convert(contentRef.innerHTML));
-            dotnetAdapter.invokeMethodAsync(onContentChanged);
+            if (contentUpdating) return;
+
+            const content = quill.clipboard.convert(contentRef.innerHTML);
+            quill.setContents(content);
         }
 
         // create an observer for content changes

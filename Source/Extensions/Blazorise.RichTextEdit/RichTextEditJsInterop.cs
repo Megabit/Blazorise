@@ -54,11 +54,7 @@ namespace Blazorise.RichTextEdit
                 richTextEdit.ReadOnly,
                 richTextEdit.PlaceHolder,
                 richTextEdit.Theme == RichTextEditTheme.Snow ? "snow" : "bubble",
-                nameof( RichTextEdit.OnContentChanged ),
                 richTextEdit.SubmitOnEnter,
-                nameof( RichTextEdit.OnEnter ),
-                nameof( RichTextEdit.OnEditorFocus ),
-                nameof( RichTextEdit.OnEditorBlur ),
                 richTextEdit.ConfigureQuillJsMethod );
 
             return AsyncDisposable.Create( async () =>
