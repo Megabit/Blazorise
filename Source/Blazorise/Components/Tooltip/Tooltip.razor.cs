@@ -15,6 +15,8 @@ namespace Blazorise
 
         private bool alwaysActive;
 
+        private bool showArrow = true;
+
         private bool inline;
 
         private bool fade;
@@ -50,6 +52,7 @@ namespace Blazorise
                         Placement = ClassProvider.ToPlacement( Placement ),
                         Multiline = Multiline,
                         AlwaysActive = AlwaysActive,
+                        ShowArrow = ShowArrow,
                         Fade = Fade,
                         FadeDuration = FadeDuration,
                     } );
@@ -111,6 +114,21 @@ namespace Blazorise
             set
             {
                 alwaysActive = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the tooltip arrow visibility.
+        /// </summary>
+        [Parameter]
+        public bool ShowArrow
+        {
+            get => showArrow;
+            set
+            {
+                showArrow = value;
 
                 DirtyClasses();
             }

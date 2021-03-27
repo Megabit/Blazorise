@@ -263,6 +263,7 @@ window.blazorise = {
                 placement: options.placement,
                 maxWidth: options.multiline ? "15rem" : null,
                 duration: options.fade ? [options.fadeDuration, options.fadeDuration] : [0, 0],
+                arrow: options.showArrow,
                 allowHTML: true
             };
 
