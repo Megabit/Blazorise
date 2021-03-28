@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 #endregion
 
@@ -18,6 +19,17 @@ namespace Blazorise
 
         #region Methods
 
+        public override bool Equals( object obj )
+        {
+            return obj is ThemeColor color &&
+                     Key == color.Key;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine( Key );
+        }
+
         #endregion
 
         #region Properties
@@ -29,5 +41,6 @@ namespace Blazorise
         public Dictionary<string, ThemeColorShade> Shades { get; protected set; }
 
         #endregion
+
     }
 }

@@ -1,6 +1,9 @@
 ﻿#region Using directives
 #endregion
 
+using System;
+using System.Collections.Generic;
+
 namespace Blazorise
 {
     public class ThemeBarOptions
@@ -18,5 +21,22 @@ namespace Blazorise
         public ThemeBarColorOptions DarkColors { get; set; }
 
         public ThemeBarColorOptions LightColors { get; set; }
+
+        public override bool Equals( object obj )
+        {
+            return obj is ThemeBarOptions options &&
+                     VerticalWidth == options.VerticalWidth &&
+                     VerticalSmallWidth == options.VerticalSmallWidth &&
+                     VerticalBrandHeight == options.VerticalBrandHeight &&
+                     VerticalPopoutMenuWidth == options.VerticalPopoutMenuWidth &&
+                     HorizontalHeight == options.HorizontalHeight &&
+                    EqualityComparer<ThemeBarColorOptions>.Default.Equals( DarkColors, options.DarkColors ) &&
+                    EqualityComparer<ThemeBarColorOptions>.Default.Equals( LightColors, options.LightColors );
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine( VerticalWidth, VerticalSmallWidth, VerticalBrandHeight, VerticalPopoutMenuWidth, HorizontalHeight, DarkColors, LightColors );
+        }
     }
 }

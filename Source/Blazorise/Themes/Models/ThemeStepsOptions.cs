@@ -1,4 +1,6 @@
-﻿namespace Blazorise
+﻿using System;
+
+namespace Blazorise
 {
     public class ThemeStepsOptions
     {
@@ -17,5 +19,23 @@
         public string StepsItemTextCompleted { get; set; } = "#28a745";
 
         public string StepsItemTextActive { get; set; } = "#28a745";
+
+        public override bool Equals( object obj )
+        {
+            return obj is ThemeStepsOptions options &&
+                     StepsItemIconColor == options.StepsItemIconColor &&
+                     StepsItemIconCompleted == options.StepsItemIconCompleted &&
+                     StepsItemIconCompletedYiq == options.StepsItemIconCompletedYiq &&
+                     StepsItemIconActive == options.StepsItemIconActive &&
+                     StepsItemIconActiveYiq == options.StepsItemIconActiveYiq &&
+                     StepsItemTextColor == options.StepsItemTextColor &&
+                     StepsItemTextCompleted == options.StepsItemTextCompleted &&
+                     StepsItemTextActive == options.StepsItemTextActive;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine( StepsItemIconColor, StepsItemIconCompleted, StepsItemIconCompletedYiq, StepsItemIconActive, StepsItemIconActiveYiq, StepsItemTextColor, StepsItemTextCompleted, StepsItemTextActive );
+        }
     }
 }

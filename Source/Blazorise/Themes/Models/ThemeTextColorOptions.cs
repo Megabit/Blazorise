@@ -66,5 +66,42 @@ namespace Blazorise
         public string Black50 { get; set; } = "#000000";
 
         public string White50 { get; set; } = "#FFFFFF";
+
+        public override bool Equals( object obj )
+        {
+            return obj is ThemeTextColorOptions options &&
+                     Primary == options.Primary &&
+                     Secondary == options.Secondary &&
+                     Success == options.Success &&
+                     Info == options.Info &&
+                     Warning == options.Warning &&
+                     Danger == options.Danger &&
+                     Light == options.Light &&
+                     Dark == options.Dark &&
+                     Body == options.Body &&
+                     Muted == options.Muted &&
+                     White == options.White &&
+                     Black50 == options.Black50 &&
+                     White50 == options.White50;
+        }
+
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+            hash.Add( Primary );
+            hash.Add( Secondary );
+            hash.Add( Success );
+            hash.Add( Info );
+            hash.Add( Warning );
+            hash.Add( Danger );
+            hash.Add( Light );
+            hash.Add( Dark );
+            hash.Add( Body );
+            hash.Add( Muted );
+            hash.Add( White );
+            hash.Add( Black50 );
+            hash.Add( White50 );
+            return hash.ToHashCode();
+        }
     }
 }
