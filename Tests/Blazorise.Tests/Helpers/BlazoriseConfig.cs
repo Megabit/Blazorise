@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using Blazorise.Bootstrap;
+using Blazorise.Interfaces;
 using Blazorise.Utilities;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,7 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton<IClassProvider>( new BootstrapClassProvider() );
             services.AddSingleton<IStyleProvider>( new BootstrapStyleProvider() );
             services.AddSingleton<IJSRunner>( new BootstrapJSRunner( new Mock<IJSRuntime>().Object ) );
-            services.AddSingleton<IThemeGenerator>( new BootstrapThemeGenerator() );
+            services.AddSingleton<IThemeGenerator>( new BootstrapThemeGenerator( new Mock<IThemeCache>().Object ) );
             services.AddSingleton<IIconProvider>( new Mock<IIconProvider>().Object );
             services.AddSingleton<IValidationHandlerFactory, ValidationHandlerFactory>();
             services.AddSingleton<ValidatorValidationHandler>();
