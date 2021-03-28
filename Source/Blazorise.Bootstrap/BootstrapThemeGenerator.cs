@@ -4,12 +4,19 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http.Headers;
 using System.Text;
+using Blazorise.Interfaces;
 #endregion
 
 namespace Blazorise.Bootstrap
 {
     public class BootstrapThemeGenerator : ThemeGenerator
     {
+        #region Constructors
+
+        public BootstrapThemeGenerator( IThemeCache themeCache ) : base( themeCache ) { }
+
+        #endregion
+
         #region Methods
 
         protected override void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpointName, string breakpointSize )

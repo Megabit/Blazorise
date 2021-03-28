@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Blazorise.Interfaces;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -20,9 +21,9 @@ namespace Blazorise
 
         #region Constructors
 
-        public ThemeGenerator()
+        public ThemeGenerator(IThemeCache themeCache)
         {
-
+            ThemeCache = themeCache;
         }
 
         #endregion
@@ -31,8 +32,15 @@ namespace Blazorise
 
         #region Variables
 
-        public virtual void GenerateVariables( StringBuilder sb, Theme theme )
+        public virtual string GenerateVariables( Theme theme )
         {
+            if (ThemeCache.TryGetVariablesFromCache(theme, out var variableCss))
+            {
+                return variableCss;
+            }
+
+            var sb = new StringBuilder();
+
             if ( !string.IsNullOrEmpty( theme.White ) )
                 variables[ThemeVariables.White] = theme.White;
 
@@ -76,6 +84,10 @@ namespace Blazorise
             // apply variables
             foreach ( var kv in variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value};" );
+
+            var variableString = sb.ToString();
+            ThemeCache.CacheVariables( theme, variableString );
+            return variableString;
         }
 
         protected virtual void GenerateBreakpointVariables( Theme theme, string name, string size )
@@ -454,8 +466,15 @@ namespace Blazorise
 
         #region Styles
 
-        public virtual void GenerateStyles( StringBuilder sb, Theme theme )
+        public virtual string GenerateStyles( Theme theme )
         {
+            if ( ThemeCache.TryGetStylesFromCache( theme, out var styleCss ) )
+            {
+                return styleCss;
+            }
+
+            var sb = new StringBuilder();
+
             foreach ( var (name, size) in theme.ValidBreakpoints )
             {
                 GenerateBreakpointStyles( sb, theme, name, size );
@@ -503,6 +522,11 @@ namespace Blazorise
             GenerateStepsStyles( sb, theme, theme.StepsOptions );
 
             GenerateRatingStyles( sb, theme, theme.RatingOptions );
+
+            var styleString = sb.ToString();
+            ThemeCache.CacheStyles( theme, styleString );
+
+            return styleString;
         }
 
         protected virtual void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpoint, string value )
@@ -911,7 +935,7 @@ namespace Blazorise
 
         #region Properties
 
-        [Inject] protected IClassProvider ClassProvider { get; set; }
+        protected IThemeCache ThemeCache { get; set; }
 
         #endregion
     }

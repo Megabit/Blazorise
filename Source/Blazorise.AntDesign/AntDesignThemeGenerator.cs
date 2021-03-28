@@ -3,12 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using Blazorise.Interfaces;
 #endregion
 
 namespace Blazorise.AntDesign
 {
     public class AntDesignThemeGenerator : ThemeGenerator
     {
+        #region Constructors
+
+        public AntDesignThemeGenerator( IThemeCache themeCache ) : base( themeCache ) { }
+
+        #endregion
+
         #region Methods
 
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )

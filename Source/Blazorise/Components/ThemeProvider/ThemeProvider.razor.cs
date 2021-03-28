@@ -38,7 +38,7 @@ namespace Blazorise
             sb.AppendLine( ":root" );
             sb.AppendLine( "{" );
 
-            ThemeGenerator.GenerateVariables( sb, Theme );
+            sb.AppendLine( ThemeGenerator.GenerateVariables( Theme ) );
 
             sb.AppendLine( "}" );
             sb.AppendLine( "</style>" );
@@ -55,7 +55,7 @@ namespace Blazorise
 
             sb.AppendLine( $"<style type=\"text/css\" scoped>" );
 
-            ThemeGenerator.GenerateStyles( sb, Theme );
+            sb.AppendLine( ThemeGenerator.GenerateStyles( Theme ) );
 
             sb.AppendLine( "</style>" );
 

@@ -3,20 +3,27 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using Blazorise.Interfaces;
 #endregion
 
 namespace Blazorise.Frolic
 {
     public class FrolicThemeGenerator : ThemeGenerator
     {
+        #region Constructors
+
+        public FrolicThemeGenerator( IThemeCache themeCache ) : base( themeCache ) { }
+
+        #endregion
+
         #region Methods
 
-        public override void GenerateVariables( StringBuilder sb, Theme theme )
+        public override string GenerateVariables( Theme theme )
         {
             variables["--b-frolic-btn-padding-sm"] = "0.27rem 0.85rem";
             variables["--b-frolic-btn-padding-lg"] = "0.75rem 2rem";
 
-            base.GenerateVariables( sb, theme );
+            return base.GenerateVariables( theme );
         }
 
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )

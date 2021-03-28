@@ -3,12 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using Blazorise.Interfaces;
 #endregion
 
 namespace Blazorise.Bulma
 {
     public class BulmaThemeGenerator : ThemeGenerator
     {
+        #region Constructors
+
+        public BulmaThemeGenerator( IThemeCache themeCache ) : base( themeCache ) { }
+
+        #endregion
+
         #region Methods
 
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
