@@ -82,7 +82,7 @@ namespace Blazorise.Components
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
         /// <returns>Returns awaitable task</returns>
-        protected async Task OnTextKeyDownHandler( KeyboardEventArgs e )
+        protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
         {
             if ( !DropdownVisible )
                 return;
@@ -93,22 +93,22 @@ namespace Blazorise.Components
 
             var activeItemIndex = ActiveItemIndex;
 
-            if ( ( e.Code == "Enter" || e.Code == "NumpadEnter" || e.Code == "Tab" ) )
+            if ( eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab" )
             {
                 var item = FilteredData.ElementAtOrDefault( activeItemIndex );
 
                 if ( item != null && ValueField != null )
                     await OnDropdownItemClicked( ValueField.Invoke( item ) );
             }
-            else if ( e.Code == "Escape" )
+            else if ( eventArgs.Code == "Escape" )
             {
                 await Clear();
             }
-            else if ( e.Code == "ArrowUp" )
+            else if ( eventArgs.Code == "ArrowUp" )
             {
                 UpdateActiveFilterIndex( --activeItemIndex );
             }
-            else if ( e.Code == "ArrowDown" )
+            else if ( eventArgs.Code == "ArrowDown" )
             {
                 UpdateActiveFilterIndex( ++activeItemIndex );
             }
