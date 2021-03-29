@@ -160,33 +160,26 @@ namespace Blazorise.RichTextEdit
                 return;
             }
 
-            await LoadScript();
+            await LoadDynamicReferences();
+            await CheckIsLoaded();
 
             isLoaded = true;
         }
 
-        private async ValueTask LoadScript()
+        private async ValueTask LoadDynamicReferences()
         {
             // Make sure only one thread loads the javascript files
-            if ( options.DynamicLoadReferences && Interlocked.Increment( ref loadStarted ) == 1 )
+            if ( options.DynamicallyLoadReferences && Interlocked.Increment( ref loadStarted ) == 1 )
             {
-                var qjsVersion = options.QuillJsVersion;
-
-                await LoadElementAsync( $@"https://cdn.quilljs.com/{qjsVersion}/quill.js", true );
-                await LoadElementAsync( @"_content/Blazorise.RichTextEdit/blazorise.richtextedit.js", true );
-                await LoadElementAsync( @"_content/Blazorise.RichTextEdit/Blazorise.RichTextEdit.bundle.scp.css", false );
-
-                if ( options.UseBubbleTheme )
+                foreach ( var reference in options.DynamicReferences )
                 {
-                    await LoadElementAsync( $@"https://cdn.quilljs.com/{qjsVersion}/quill.bubble.css", false );
-                }
-
-                if ( options.UseShowTheme )
-                {
-                    await LoadElementAsync( $@"https://cdn.quilljs.com/{qjsVersion}/quill.snow.css", false );
+                    await LoadElementAsync( reference );
                 }
             }
+        }
 
+        private async ValueTask CheckIsLoaded()
+        {
             var loaderLoopBreaker = 0;
             while ( !await IsLoaded() )
             {
@@ -208,16 +201,19 @@ namespace Blazorise.RichTextEdit
             return quillLoaded && await jsRuntime.InvokeAsync<bool>( "window.hasOwnProperty", JsRoot );
         }
 
-        private async ValueTask LoadElementAsync( string uri, bool isScript )
+        /// <summary>
+        /// Dynamically load an additional script or stylesheet.
+        /// </summary>
+        public async ValueTask LoadElementAsync( DynamicReference reference )
         {
             string bootStrapScript;
-            if ( isScript )
+            if ( reference.Type == DynamicReferenceType.Script )
             {
                 bootStrapScript = "(function()" +
                                   "{" +
                                   "var s = document.createElement('script'); " +
                                   "s.type = 'text/javascript';" +
-                                  $"s.src='{uri}'; " +
+                                  $"s.src='{reference.Uri}'; " +
                                   "document['body'].appendChild(s); " +
                                   "})();";
             }
@@ -227,7 +223,7 @@ namespace Blazorise.RichTextEdit
                                   "{" +
                                   "var l = document.createElement('link'); " +
                                   "l.rel = 'stylesheet';" +
-                                  $"l.href='{uri}'; " +
+                                  $"l.href='{reference.Uri}'; " +
                                   "document['head'].appendChild(l); " +
                                   "})();";
             }
