@@ -9,14 +9,19 @@
 		<Copyright>Copyright 2018-2021 Mladen Macanovic</Copyright>
 		<RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		
+
 		<TargetFramework>net5.0</TargetFramework>
 		<OutputType>Library</OutputType>
-		<IsPackable>true</IsPackable>   
+		<IsPackable>true</IsPackable>
 		<LangVersion>9.0</LangVersion>
 
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>1591</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
