@@ -81,7 +81,7 @@ namespace Blazorise
         [CascadingParameter] protected Alert ParentAlert { get; set; }
 
         /// <summary>
-        /// Cascaded <see cref="Modal/> component in which this <see cref="CloseButton"/> is placed.
+        /// Cascaded <see cref="Modal"/> component in which this <see cref="CloseButton"/> is placed.
         /// </summary>
         [CascadingParameter] protected Modal ParentModal { get; set; }
 

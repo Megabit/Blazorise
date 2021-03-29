@@ -138,7 +138,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Links the child column with this datagrid.
         /// </summary>
-        /// <param name="column">Column to link with this datagrid.</param>
+        /// <param name="aggregate">Aggregate column to link with this datagrid.</param>
         internal void Hook( DataGridAggregate<TItem> aggregate )
         {
             Aggregates.Add( aggregate );

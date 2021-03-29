@@ -13,7 +13,7 @@ namespace Blazorise
     /// <summary>
     /// An editor that displays a date value and allows a user to edit the value.
     /// </summary>
-    /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
+    /// <typeparam name="TValue">Data-type to be binded by the <see cref="DateEdit{TValue}"/> property.</typeparam>
     public partial class DateEdit<TValue> : BaseTextInput<TValue>
     {
         #region Members
