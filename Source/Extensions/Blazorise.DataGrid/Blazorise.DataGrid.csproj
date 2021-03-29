@@ -11,6 +11,11 @@
     <PackageTags>blazorise blazor components datagrid</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
   </ItemGroup>
