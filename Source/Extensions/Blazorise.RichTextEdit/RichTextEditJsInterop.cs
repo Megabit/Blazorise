@@ -1,5 +1,8 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -171,10 +174,7 @@ namespace Blazorise.RichTextEdit
             // Make sure only one thread loads the javascript files
             if ( options.DynamicallyLoadReferences && Interlocked.Increment( ref loadStarted ) == 1 )
             {
-                foreach ( var reference in options.DynamicReferences )
-                {
-                    await LoadElementAsync( reference );
-                }
+                await LoadElementsAsync( options.DynamicReferences );
             }
         }
 
@@ -204,31 +204,32 @@ namespace Blazorise.RichTextEdit
         /// <summary>
         /// Dynamically load an additional script or stylesheet.
         /// </summary>
-        public async ValueTask LoadElementAsync( DynamicReference reference )
+        public async ValueTask LoadElementsAsync( IEnumerable<DynamicReference> references )
         {
-            string bootStrapScript;
-            if ( reference.Type == DynamicReferenceType.Script )
+            StringBuilder bootStrapScript = new( "(function() {" );
+
+            foreach ( var (reference, index) in references.Select( ( reference, index ) => (reference, index) ) )
             {
-                bootStrapScript = "(function()" +
-                                  "{" +
-                                  "var s = document.createElement('script'); " +
-                                  "s.type = 'text/javascript';" +
-                                  $"s.src='{reference.Uri}'; " +
-                                  "document['body'].appendChild(s); " +
-                                  "})();";
-            }
-            else
-            {
-                bootStrapScript = "(function()" +
-                                  "{" +
-                                  "var l = document.createElement('link'); " +
-                                  "l.rel = 'stylesheet';" +
-                                  $"l.href='{reference.Uri}'; " +
-                                  "document['head'].appendChild(l); " +
-                                  "})();";
+                var element = $"e{index}";
+                if ( reference.Type == DynamicReferenceType.Script )
+                {
+                    bootStrapScript.AppendLine( $"    var {element} = document.createElement( 'script' ); " );
+                    bootStrapScript.AppendLine( $"    {element}.type = 'text/javascript';" );
+                    bootStrapScript.AppendLine( $"    {element}.src='{reference.Uri}'; " );
+                    bootStrapScript.AppendLine( $"    document['body'].appendChild( {element} );" );
+                }
+                else
+                {
+                    bootStrapScript.AppendLine( $"    var {element} = document.createElement( 'link' ); " );
+                    bootStrapScript.AppendLine( $"    {element}.rel = 'stylesheet';" );
+                    bootStrapScript.AppendLine( $"    {element}.href='{reference.Uri}'; " );
+                    bootStrapScript.AppendLine( $"    document['head'].appendChild( {element} );" );
+                }
             }
 
-            await jsRuntime.InvokeVoidAsync( "eval", bootStrapScript );
+            bootStrapScript.AppendLine( "} )();" );
+
+            await jsRuntime.InvokeVoidAsync( "eval", bootStrapScript.ToString() );
         }
 
         #endregion
