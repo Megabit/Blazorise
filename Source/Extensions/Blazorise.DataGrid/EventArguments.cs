@@ -123,6 +123,7 @@ namespace Blazorise.DataGrid
         /// <param name="page">Page number at the moment of initialization.</param>
         /// <param name="pageSize">Maximum number of items per page.</param>
         /// <param name="columns">List of all the columns in the grid.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         public DataGridReadDataEventArgs( int page, int pageSize, IEnumerable<DataGridColumn<TItem>> columns, CancellationToken cancellationToken )
         {
             Page = page;
