@@ -106,7 +106,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Sets a table row as selected by appending "selected" modifier on a <tr>.
+        /// Sets a table row as selected by appending "selected" modifier on a tr element.
         /// </summary>
         [Parameter]
         public bool Selected

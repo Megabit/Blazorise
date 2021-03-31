@@ -24,7 +24,7 @@ namespace Blazorise
         /// <param name="editContext">Edit context</param>
         /// <param name="messages">Holds the list of error messages if any error is found.</param>
         /// <param name="fieldIdentifier">Identifies the field for validation.</param>
-        /// <param name="forLocalization">If true, error messages will be returned as raw messages that needs to be manually localized.</param>
+        /// <param name="messageLocalizer">Handler for message localizer..</param>
         void ValidateField( EditContext editContext, ValidationMessageStore messages, in FieldIdentifier fieldIdentifier, Func<string, IEnumerable<string>, string> messageLocalizer );
     }
 

@@ -134,7 +134,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Parses a string value and convert it to a <see cref="TValue"/>.
+        /// Parses a string value and convert it to a <see cref="BaseInputComponent{TValue}"/>.
         /// </summary>
         /// <param name="value">A string value to convert.</param>
         /// <returns>Returns the result of parse operation.</returns>

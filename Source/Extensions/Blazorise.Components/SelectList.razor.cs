@@ -12,7 +12,7 @@ namespace Blazorise.Components
     /// Dynamically builds select component and it's items based in the supplied data.
     /// </summary>
     /// <typeparam name="TItem">Data item type.</typeparam>
-    /// <typeparam name="TValue">Type if the value inside of <see cref="TItem"/>.</typeparam>
+    /// <typeparam name="TValue">Type if the value inside of <see cref="SelectList{TItem, TValue}"/>.</typeparam>
     public partial class SelectList<TItem, TValue> : ComponentBase
     {
         #region Members
