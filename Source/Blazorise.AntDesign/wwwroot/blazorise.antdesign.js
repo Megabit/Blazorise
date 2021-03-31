@@ -4,7 +4,9 @@ if (!window.antDesign) {
 
 window.antDesign = {
     tooltip: {
-        initialize: (element, elementId) => {
+        initialize: (element, elementId, options) => {
+            window.blazorise.tooltip.initialize(element, elementId, options);
+
             if (element.querySelector(".ant-input,.ant-btn")) {
                 element.classList.add("b-tooltip-inline");
             }

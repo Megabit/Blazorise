@@ -10,6 +10,9 @@ toc_label: "Guide"
 
 Display a tooltip attached to any kind of element with different positioning.
 
+Starting with **v0.9.4**, Tooltip component is powered by [Tippy.js](https://atomiks.github.io/tippyjs/).
+{: .notice--info}
+
 ### Basic
 
 ```html
@@ -56,3 +59,4 @@ You can use one of the following modifiers to change positions of the tooltip:
 | AlwaysActive      | bool                                                               | false            | Always show tooltip, instead of just when hovering over the element.      |
 | Inline            | bool                                                               | false            | Force inline block instead of trying to detect the element block.         |
 | Fade              | bool                                                               | false            | Controls the fade effect.                                                 |
+| FadeDuration      | int                                                                | 300              | Duration in ms of the fade transition animation.                          |
