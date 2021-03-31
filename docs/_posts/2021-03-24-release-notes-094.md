@@ -10,6 +10,10 @@ tags:
   - 0.9.4
 ---
 
+## Migration
+
+- In `RichTextEditOptions`, rename `DynamicLoadReferences` to `DynamicallyLoadReferences`
+
 ## Highlights 🚀
 
 ### Async Validation
