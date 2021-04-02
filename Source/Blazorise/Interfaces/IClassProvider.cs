@@ -305,15 +305,9 @@ namespace Blazorise
 
         #region Buttons
 
-        //string Buttons();
-
-        string ButtonsAddons();
-
-        string ButtonsToolbar();
+        string Buttons( ButtonsRole role, Orientation orientation );
 
         string ButtonsSize( Size size );
-
-        string ButtonsOrientation( Orientation orientation );
 
         #endregion
 

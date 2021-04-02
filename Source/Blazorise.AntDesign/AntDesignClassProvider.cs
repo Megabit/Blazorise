@@ -329,15 +329,18 @@ namespace Blazorise.AntDesign
 
         #region Buttons
 
-        //public override string Buttons() => "btn-group";
+        public override string Buttons( ButtonsRole role, Orientation orientation )
+        {
+            if ( role == ButtonsRole.Toolbar )
+                return "btn-toolbar";
 
-        public override string ButtonsAddons() => "ant-btn-group";
+            if ( orientation == Orientation.Vertical )
+                return "ant-btn-group btn-group-vertical";
 
-        public override string ButtonsToolbar() => "btn-toolbar";
+            return "ant-btn-group";
+        }
 
         public override string ButtonsSize( Size size ) => $"ant-btn-group-{ToSize( size )}";
-
-        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
 
         #endregion
 
