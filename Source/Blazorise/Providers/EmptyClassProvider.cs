@@ -291,15 +291,9 @@ namespace Blazorise.Providers
 
         #region Buttons
 
-        //public  string Buttons() => null;
-
-        public string ButtonsAddons() => null;
-
-        public string ButtonsToolbar() => null;
+        public string Buttons( ButtonsRole role, Orientation orientation ) => null;
 
         public string ButtonsSize( Size size ) => null;
-
-        public string ButtonsOrientation( Orientation orientation ) => null;
 
         #endregion
 

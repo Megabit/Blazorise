@@ -317,15 +317,18 @@ namespace Blazorise.Bootstrap
 
         #region Buttons
 
-        //public override string Buttons() => "btn-group";
+        public override string Buttons( ButtonsRole role, Orientation orientation )
+        {
+            if ( role == ButtonsRole.Toolbar )
+                return "btn-toolbar";
 
-        public override string ButtonsAddons() => "btn-group";
+            if ( orientation == Orientation.Vertical )
+                return "btn-group-vertical";
 
-        public override string ButtonsToolbar() => "btn-toolbar";
+            return "btn-group";
+        }
 
-        public override string ButtonsSize( Size size ) => $"{ButtonsAddons()}-{ToSize( size )}";
-
-        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
+        public override string ButtonsSize( Size size ) => $"btn-group-{ToSize( size )}";
 
         #endregion
 
