@@ -97,6 +97,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected PaginationContext<TItem> paginationContext;
 
+        /// <summary>
+        /// Holds the last known selected row index.
+        /// </summary>
+        protected internal short _lastSelectedIndex;
+
         #endregion
 
         #region Constructors
@@ -388,32 +393,66 @@ namespace Blazorise.DataGrid
                 PopupVisible = false;
         }
 
+        protected internal short ResolveItemIndex( TItem item )
+        {
+            short index = 0;
+            foreach ( var displayItem in DisplayData )
+            {
+                if ( item.IsEqual( displayItem ) )
+                    break;
+                index++;
+            }
+            return index;
+        }
+
         protected async Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
         {
             SelectedAllRows = false;
             UnSelectAllRows = false;
 
-            if ( SelectedRows is null )
-            {
-                SelectedRows = new List<TItem>();
-            }
+            SelectedRows ??= new List<TItem>();
 
-            if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) )
+            await HandleShiftClick( eventArgs );
+
+            if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftClick )
             {
                 SelectedRows.Add( eventArgs.Item );
             }
-
-            if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) )
+            else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftClick )
             {
-                SelectedRows.Remove( eventArgs.Item );
-
-                if ( SelectedRow.IsEqual( eventArgs.Item ) )
+                if ( SelectedRows.Contains( eventArgs.Item ) )
                 {
-                    await SelectedRowChanged.InvokeAsync( default( TItem ) );
+                    SelectedRows.Remove( eventArgs.Item );
+
+                    if ( SelectedRow.IsEqual( eventArgs.Item ) )
+                    {
+                        await SelectedRowChanged.InvokeAsync( default( TItem ) );
+                    }
                 }
             }
 
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
+        }
+
+        private async Task HandleShiftClick( MultiSelectEventArgs<TItem> eventArgs )
+        {
+            if ( eventArgs.ShiftClick )
+            {
+                SelectedRows.Clear();
+                var currIndex = ResolveItemIndex( eventArgs.Item );
+
+                if ( currIndex >= _lastSelectedIndex )
+                    foreach ( var item in DisplayData.Skip( _lastSelectedIndex ).Take( currIndex - _lastSelectedIndex + 1 ) )
+                        SelectedRows.Add( item );
+                else
+                    foreach ( var item in DisplayData.Skip( currIndex ).Take( _lastSelectedIndex - currIndex + 1 ) )
+                        SelectedRows.Add( item );
+
+                if ( !SelectedRows.Contains( SelectedRow ) )
+                    await SelectedRowChanged.InvokeAsync( default( TItem ) );
+            }
+            else
+                _lastSelectedIndex = ResolveItemIndex( eventArgs.Item );
         }
 
         protected async Task OnMultiSelectAll( bool selectAll )

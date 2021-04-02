@@ -187,10 +187,12 @@ namespace Blazorise.DataGrid
         /// </summary>
         /// <param name="item">Model that belongs to the grid row.</param>
         /// <param name="selected">Indicates if the row is selected or not.</param>
-        public MultiSelectEventArgs( TItem item, bool selected )
+        /// <param name="shiftClick">True if user has ShiftClicked</param>
+        public MultiSelectEventArgs( TItem item, bool selected, bool shiftClick )
         {
             Item = item;
             Selected = selected;
+            ShiftClick = shiftClick;
         }
 
         /// <summary>
@@ -202,5 +204,10 @@ namespace Blazorise.DataGrid
         /// Returns true if the row is selected.
         /// </summary>
         public bool Selected { get; }
+
+        /// <summary>
+        /// Returns true if user has ShiftClicked.
+        /// </summary>
+        public bool ShiftClick { get; }
     }
 }
