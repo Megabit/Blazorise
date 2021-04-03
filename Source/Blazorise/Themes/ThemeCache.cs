@@ -10,7 +10,7 @@ namespace Blazorise.Themes
     {
         #region Fields
 
-        private const int cacheSize = 10;
+        private readonly int cacheSize;
 
         private readonly Queue<Theme> cachedThemes = new();
 
@@ -21,10 +21,22 @@ namespace Blazorise.Themes
 
         #endregion
 
+        #region Constructors
+
+        public ThemeCache(BlazoriseOptions options )
+        {
+            cacheSize = options.ThemeCacheSize;
+        }
+
+        #endregion
+
         #region Methods
 
         public void CacheVariables( Theme theme, string variables )
         {
+            if ( cacheSize < 1 )
+                return;
+
             lock ( mutex )
             {
                 PrepareCache( theme );
@@ -35,6 +47,9 @@ namespace Blazorise.Themes
 
         public void CacheStyles( Theme theme, string styles )
         {
+            if ( cacheSize < 1 )
+                return;
+
             lock ( mutex )
             {
                 PrepareCache( theme );

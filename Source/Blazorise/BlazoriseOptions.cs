@@ -1,8 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Options;
 #endregion
 
 namespace Blazorise
@@ -68,6 +66,12 @@ namespace Blazorise
         /// are shown on the <see cref="ValidationError"/> or <see cref="ValidationSuccess"/>.
         /// </summary>
         public Func<string, IEnumerable<string>, string> ValidationMessageLocalizer { get; set; }
+
+        /// <summary>
+        /// Maximum amount of <see cref="Theme">Themes</see> that are cached at the same time.
+        /// When set to a value &lt; 1, the <see cref="Themes.ThemeCache">ThemeCache</see> is deactivated.
+        /// </summary>
+        public int ThemeCacheSize { get; set; } = 10;
 
         /// <summary>
         /// Gets the service provider.

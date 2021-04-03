@@ -14,7 +14,7 @@ namespace Blazorise.Tests
 
         public ThemeCacheTest()
         {
-            themeCache = new ThemeCache();
+            themeCache = new ThemeCache( new( null, options => { } ) );
         }
 
         [Fact]
