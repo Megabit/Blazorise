@@ -78,15 +78,41 @@ namespace Blazorise.Tests
             themeCache.CacheStyles( firstCachedTheme, "xyz" );
 
             // test
-            for ( var i = 0; i < maxCachedStyles; i++)
+            for ( var i = 0; i < maxCachedStyles; i++ )
             {
                 themeCache.CacheStyles( new Theme() { Black = i.ToString() }, i.ToString() );
-            } 
+            }
             var success = themeCache.TryGetStylesFromCache( firstCachedTheme, out var styles );
 
             // validate
             Assert.False( success );
             Assert.Null( styles );
+        }
+
+        [Fact]
+        public void CacheStyles_ExpelsLastUsedTheme_IfCacheIsFull()
+        {
+            // setup
+            var maxCachedStyles = 10;
+
+            var firstCachedTheme = new Theme() { Black = "0" };
+            var secondCachedTheme = new Theme() { Black = "1" };
+
+            for ( var i = 0; i < maxCachedStyles; i++ )
+            {
+                themeCache.CacheStyles( new Theme() { Black = i.ToString() }, i.ToString() );
+            }
+
+            _ = themeCache.TryGetStylesFromCache( firstCachedTheme, out _ );
+            themeCache.CacheStyles( new Theme() { Black = "10" }, "10" );
+
+            // test
+            var firstThemeStillInCache = themeCache.TryGetStylesFromCache( firstCachedTheme, out _ );
+            var secondThemeStillInCache  = themeCache.TryGetStylesFromCache( secondCachedTheme, out _ );
+
+            // validate
+            Assert.True( firstThemeStillInCache );
+            Assert.False( secondThemeStillInCache );
         }
 
         [Fact]

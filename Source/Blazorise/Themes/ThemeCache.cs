@@ -10,9 +10,9 @@ namespace Blazorise.Themes
     {
         #region Fields
 
-        private readonly int cacheSize;
+        private readonly int maxCacheSize;
 
-        private readonly Queue<Theme> cachedThemes = new();
+        private readonly List<Theme> cachedThemes = new();
 
         private readonly Dictionary<Theme, string> variableCache = new();
         private readonly Dictionary<Theme, string> styleCache = new();
@@ -25,7 +25,7 @@ namespace Blazorise.Themes
 
         public ThemeCache(BlazoriseOptions options )
         {
-            cacheSize = options.ThemeCacheSize;
+            maxCacheSize = options.ThemeCacheSize;
         }
 
         #endregion
@@ -34,7 +34,7 @@ namespace Blazorise.Themes
 
         public void CacheVariables( Theme theme, string variables )
         {
-            if ( cacheSize < 1 )
+            if ( maxCacheSize < 1 )
                 return;
 
             lock ( mutex )
@@ -47,7 +47,7 @@ namespace Blazorise.Themes
 
         public void CacheStyles( Theme theme, string styles )
         {
-            if ( cacheSize < 1 )
+            if ( maxCacheSize < 1 )
                 return;
 
             lock ( mutex )
@@ -62,16 +62,24 @@ namespace Blazorise.Themes
         {
             if ( !cachedThemes.Contains( theme ) )
             {
-                cachedThemes.Enqueue( theme );
+                cachedThemes.Add( theme );
 
-                if ( cachedThemes.Count > cacheSize )
+                if ( cachedThemes.Count > maxCacheSize )
                 {
-                    if ( cachedThemes.TryDequeue( out var uncachedTheme ) )
-                    {
-                        variableCache.Remove( uncachedTheme );
-                        styleCache.Remove( uncachedTheme );
-                    }
+                    UncacheTheme();
                 }
+            }
+        }
+
+        private void UncacheTheme()
+        {
+            var uncachedTheme = cachedThemes.FirstOrDefault();
+
+            if ( uncachedTheme != null )
+            {
+                cachedThemes.Remove( uncachedTheme );
+                variableCache.Remove( uncachedTheme );
+                styleCache.Remove( uncachedTheme );
             }
         }
 
@@ -79,6 +87,8 @@ namespace Blazorise.Themes
         {
             lock ( mutex )
             {
+                MoveLastRecentlyUsedThemeToBackOfList( theme );
+
                 variables = variableCache.GetValueOrDefault( theme );
                 return variables != null;
             }
@@ -88,8 +98,19 @@ namespace Blazorise.Themes
         {
             lock ( mutex )
             {
+                MoveLastRecentlyUsedThemeToBackOfList( theme );
+
                 styles = styleCache.GetValueOrDefault( theme );
                 return styles != null;
+            }
+        }
+
+        private void MoveLastRecentlyUsedThemeToBackOfList( Theme lastUsedTheme)
+        {
+            if ( cachedThemes.Contains( lastUsedTheme ) )
+            {
+                cachedThemes.Remove( lastUsedTheme );
+                cachedThemes.Add( lastUsedTheme );
             }
         }
 
