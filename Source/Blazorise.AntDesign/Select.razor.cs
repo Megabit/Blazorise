@@ -207,7 +207,7 @@ namespace Blazorise.AntDesign
             {
                 // Give enought time for other events to do their stuff before closing
                 // the select menu.
-                await Task.Delay( 100 );
+                await Task.Delay( 250 );
 
                 await Collapse();
             }

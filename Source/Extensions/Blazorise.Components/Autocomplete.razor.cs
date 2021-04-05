@@ -135,7 +135,7 @@ namespace Blazorise.Components
         {
             // Give enought time for other events to do their stuff before closing
             // the dropdown.
-            await Task.Delay( 100 );
+            await Task.Delay( 250 );
 
             TextFocused = false;
         }
