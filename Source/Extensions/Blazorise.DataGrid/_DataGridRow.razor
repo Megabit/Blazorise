@@ -33,7 +33,7 @@
             {
                 @if ( ParentDataGrid.MultiSelect )
                 {
-                    <_DataGridRowMultiSelect @ref="multiSelect" TItem="TItem" Item="Item" Checked="@IsSelected" CheckedClicked="( ) => _clickFromCheck = true" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" TextAlignment="@column.TextAlignment"></_DataGridRowMultiSelect>
+                    <_DataGridRowMultiSelect @ref="multiSelect" TItem="TItem" Item="Item" Checked="@IsSelected" CheckedClicked="@OnMultiSelecteCheckClicked" Class="@column.CellClass?.Invoke(Item)" Style="@column.CellStyle?.Invoke(Item)" Width="@column.Width" TextAlignment="@column.TextAlignment"></_DataGridRowMultiSelect>
                 }
             }
             else

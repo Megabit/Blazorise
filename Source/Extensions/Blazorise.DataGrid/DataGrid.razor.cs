@@ -100,7 +100,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Holds the last known selected row index.
         /// </summary>
-        protected internal short _lastSelectedIndex;
+        protected internal short lastSelectedRowIndex;
 
         #endregion
 
@@ -414,11 +414,11 @@ namespace Blazorise.DataGrid
 
             await HandleShiftClick( eventArgs );
 
-            if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftClick )
+            if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
             {
                 SelectedRows.Add( eventArgs.Item );
             }
-            else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftClick )
+            else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
             {
                 if ( SelectedRows.Contains( eventArgs.Item ) )
                 {
@@ -436,23 +436,34 @@ namespace Blazorise.DataGrid
 
         private async Task HandleShiftClick( MultiSelectEventArgs<TItem> eventArgs )
         {
-            if ( eventArgs.ShiftClick )
+            if ( eventArgs.ShiftKey )
             {
                 SelectedRows.Clear();
+
                 var currIndex = ResolveItemIndex( eventArgs.Item );
 
-                if ( currIndex >= _lastSelectedIndex )
-                    foreach ( var item in DisplayData.Skip( _lastSelectedIndex ).Take( currIndex - _lastSelectedIndex + 1 ) )
+                if ( currIndex >= lastSelectedRowIndex )
+                {
+                    foreach ( var item in DisplayData.Skip( lastSelectedRowIndex ).Take( currIndex - lastSelectedRowIndex + 1 ) )
+                    {
                         SelectedRows.Add( item );
+                    }
+                }
                 else
-                    foreach ( var item in DisplayData.Skip( currIndex ).Take( _lastSelectedIndex - currIndex + 1 ) )
+                {
+                    foreach ( var item in DisplayData.Skip( currIndex ).Take( lastSelectedRowIndex - currIndex + 1 ) )
+                    {
                         SelectedRows.Add( item );
+                    }
+                }
 
                 if ( !SelectedRows.Contains( SelectedRow ) )
+                {
                     await SelectedRowChanged.InvokeAsync( default( TItem ) );
+                }
             }
             else
-                _lastSelectedIndex = ResolveItemIndex( eventArgs.Item );
+                lastSelectedRowIndex = ResolveItemIndex( eventArgs.Item );
         }
 
         protected async Task OnMultiSelectAll( bool selectAll )

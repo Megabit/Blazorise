@@ -3,13 +3,13 @@
 <TableRowCell Class="@Class" Style="@BuildCellStyle()" TextAlignment="@TextAlignment">
     @if ( ParentDataGrid.MultiSelectColumn?.MultiSelectTemplate != null )
     {
-        <Label @onclick="OnCheckedClicked">
+        <Label @onclick="@OnCheckedClicked">
             @ParentDataGrid.MultiSelectColumn.MultiSelectTemplate( new MultiSelectContext<TItem>( EventCallback.Factory.Create( this, new Func<bool, Task>( OnCheckedChanged ) ), Checked, false, Item ) )
         </Label>
     }
     else
     {
-        <Label @onclick="OnCheckedClicked">
+        <Label @onclick="@OnCheckedClicked">
             <Check TValue="bool" Checked="@Checked" CheckedChanged="@OnCheckedChanged" CheckedExpression="@(()=> Checked)"></Check>
         </Label>
     }
