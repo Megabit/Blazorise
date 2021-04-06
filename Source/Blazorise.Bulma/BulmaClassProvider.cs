@@ -332,15 +332,18 @@ namespace Blazorise.Bulma
 
         #region Buttons
 
-        //public override string Buttons() => "buttons has-addons";
+        public override string Buttons( ButtonsRole role, Orientation orientation )
+        {
+            if ( role == ButtonsRole.Toolbar )
+                return "field is-grouped";
 
-        public override string ButtonsAddons() => "field has-addons";
+            if ( orientation == Orientation.Vertical )
+                return "field has-addons buttons";
 
-        public override string ButtonsToolbar() => "field is-grouped";
+            return "field has-addons";
+        }
 
         public override string ButtonsSize( Size size ) => $"are-{ToSize( size )}";
-
-        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "buttons" : null;
 
         #endregion
 
