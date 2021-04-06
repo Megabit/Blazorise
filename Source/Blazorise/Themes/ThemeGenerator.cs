@@ -548,6 +548,7 @@ namespace Blazorise
         /// Generates styles that are based on the variant colors.
         /// </summary>
         /// <param name="sb">Target string builder.</param>
+        /// <param name="theme">Theme settings.</param>
         /// <param name="variant">Variant name.</param>
         /// <param name="color">Color value.</param>
         protected virtual void GenerateColorStyles( StringBuilder sb, Theme theme, string variant, string color )
