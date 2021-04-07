@@ -1944,6 +1944,10 @@
     padding-left: 2rem;
     padding-right: 2rem; }
 
+.ant-tabs.ant-tabs-top .ant-tabs-bar.ant-tabs-top-bar .ant-tabs-nav-scroll {
+    overflow: hidden;
+    overflow-x: auto; }
+
 .ant-display-1 {
     font-size: 6rem;
     font-weight: 300;
