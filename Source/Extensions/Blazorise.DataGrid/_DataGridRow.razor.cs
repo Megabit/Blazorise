@@ -144,7 +144,7 @@ namespace Blazorise.DataGrid
             return MultiSelect.InvokeAsync( new MultiSelectEventArgs<TItem>( Item, selected, shiftClick ) );
         }
 
-        protected Task OnMultiSelecteCheckClicked()
+        protected Task OnMultiSelectCheckClicked()
         {
             clickFromCheck = true;
 
