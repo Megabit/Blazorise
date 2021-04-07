@@ -328,8 +328,10 @@ window.blazorise = {
     numericEdit: {
         _instances: [],
 
-        initialize: (dotnetAdapter, element, elementId, decimals, separator, step, min, max) => {
-            window.blazorise.numericEdit._instances[elementId] = new window.blazorise.NumericMaskValidator(dotnetAdapter, element, elementId, decimals, separator, step, min, max);
+        initialize: (dotnetAdapter, element, elementId, options) => {
+            const instance = new window.blazorise.NumericMaskValidator(dotnetAdapter, element, elementId, options);
+
+            window.blazorise.numericEdit._instances[elementId] = instance;
 
             element.addEventListener("keypress", (e) => {
                 window.blazorise.numericEdit.keyPress(window.blazorise.numericEdit._instances[elementId], e);
@@ -342,12 +344,21 @@ window.blazorise = {
             element.addEventListener("paste", (e) => {
                 window.blazorise.numericEdit.paste(window.blazorise.numericEdit._instances[elementId], e);
             });
-            return true;
+
+            if (instance.decimals && instance.decimals !== 2) {
+                instance.truncate();
+            }
+        },
+        update: (element, elementId, options) => {
+            const instance = window.blazorise.numericEdit._instances[elementId];
+
+            if (instance) {
+                instance.update(options);
+            }
         },
         destroy: (element, elementId) => {
             var instances = window.blazorise.numericEdit._instances || {};
             delete instances[elementId];
-            return true;
         },
         keyDown: (validator, e) => {
             if (e.which === 38) {
@@ -373,15 +384,16 @@ window.blazorise = {
             return true;
         };
     },
-    NumericMaskValidator: function (dotnetAdapter, element, elementId, decimals, separator, step, min, max) {
+    NumericMaskValidator: function (dotnetAdapter, element, elementId, options) {
         this.dotnetAdapter = dotnetAdapter;
         this.elementId = elementId;
         this.element = element;
-        this.decimals = decimals === null || decimals === undefined ? 2 : decimals;
-        this.separator = separator || ".";
-        this.step = step || 1;
-        this.min = min;
-        this.max = max;
+        this.decimals = options.decimals === null || options.decimals === undefined ? 2 : options.decimals;
+        this.separator = options.separator || ".";
+        this.step = options.step || 1;
+        this.min = options.min;
+        this.max = options.max;
+
         this.regex = function () {
             var sep = "\\" + this.separator,
                 dec = this.decimals,
@@ -411,6 +423,24 @@ window.blazorise = {
                 this.element.value = newValue;
                 this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
             }
+        };
+        this.update = function (options) {
+            if (options.decimals && options.decimals.changed) {
+                this.decimals = options.decimals.value;
+
+                this.truncate();
+            }
+        };
+        this.truncate = function () {
+            let value = (this.element.value || "").replace(this.separator, ".");
+            let number = Number(value);
+
+            number = Math.trunc(number * Math.pow(10, this.decimals)) / Math.pow(10, this.decimals);
+
+            let newValue = number.toString().replace(".", this.separator);
+
+            this.element.value = newValue;
+            this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
         };
     },
     DateTimeMaskValidator: function (element, elementId) {

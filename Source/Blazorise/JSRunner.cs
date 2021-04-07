@@ -32,25 +32,19 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementRef, elementId );
         }
 
-        public ValueTask<bool> InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, int decimals, string decimalsSeparator, decimal? step, TValue min, TValue max )
+        public ValueTask InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
         {
-            // find the min and max possible value based on the supplied value type
-            var (minFromType, maxFromType) = Converters.GetMinMaxValueOfType<TValue>();
-
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize",
-                dotNetObjectRef,
-                elementRef,
-                elementId,
-                decimals,
-                decimalsSeparator,
-                step,
-                min.IsEqual( default ) ? minFromType : min,
-                max.IsEqual( default ) ? maxFromType : max );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementRef, elementId, options );
         }
 
-        public ValueTask<bool> DestroyNumericEdit( ElementReference elementRef, string elementId )
+        public ValueTask UpdateNumericEdit( ElementReference elementRef, string elementId, object options )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementRef, elementId );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.update", elementRef, elementId, options );
+        }
+
+        public ValueTask DestroyNumericEdit( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementRef, elementId );
         }
 
         public virtual ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options )
