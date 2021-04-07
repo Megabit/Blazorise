@@ -1,0 +1,29 @@
+﻿hr {
+    &.divider {
+        @each $type in ("solid", "dashed", "dotted") {
+            @include divider($type, $divider-thickness, $divider-color);
+        }
+
+        &.divider-text {
+            position: relative;
+            border: none;
+            height: $divider-thickness;
+            background: $divider-color;
+
+            &::before {
+                content: attr(data-content);
+                display: inline-block;
+                background: #fff;
+                font-weight: bold;
+                font-size: $divider-text-size;
+                color: $divider-color;
+                border-radius: 30rem;
+                padding: 0.2rem 2rem;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+}
