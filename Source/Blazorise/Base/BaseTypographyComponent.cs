@@ -14,7 +14,7 @@ namespace Blazorise
 
         private TextColor color = TextColor.None;
 
-        private TextAlignment alignment = TextAlignment.Left;
+        private TextAlignment alignment = TextAlignment.None;
 
         private TextTransform textTransform = TextTransform.None;
 
@@ -26,6 +26,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TextColor( Color ), Color != TextColor.None );
@@ -116,6 +117,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this component.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
