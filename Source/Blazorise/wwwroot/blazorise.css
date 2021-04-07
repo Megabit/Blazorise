@@ -20,18 +20,18 @@
         content: "fullhd"; } }
 
 hr.divider.divider-solid {
-    border-top: var(--b-divider-thickness, 2px) solid var(--b-divider-color, #999); }
+    border-top: var(--b-divider-thickness, 1px) solid var(--b-divider-color, #999); }
 
 hr.divider.divider-dashed {
-    border-top: var(--b-divider-thickness, 2px) dashed var(--b-divider-color, #999); }
+    border-top: var(--b-divider-thickness, 1px) dashed var(--b-divider-color, #999); }
 
 hr.divider.divider-dotted {
-    border-top: var(--b-divider-thickness, 2px) dotted var(--b-divider-color, #999); }
+    border-top: var(--b-divider-thickness, 1px) dotted var(--b-divider-color, #999); }
 
 hr.divider.divider-text {
     position: relative;
     border: none;
-    height: var(--b-divider-thickness, 2px);
+    height: var(--b-divider-thickness, 1px);
     background: var(--b-divider-color, #999); }
     hr.divider.divider-text::before {
         content: attr(data-content);
