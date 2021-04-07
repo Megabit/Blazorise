@@ -16,9 +16,11 @@ namespace Blazorise
 
         ValueTask<bool> DestroyTextEdit( ElementReference elementRef, string elementId );
 
-        ValueTask<bool> InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, int decimals, string decimalsSeparator, decimal? step, TValue min, TValue max );
+        ValueTask InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options );
 
-        ValueTask<bool> DestroyNumericEdit( ElementReference elementRef, string elementId );
+        ValueTask UpdateNumericEdit( ElementReference elementRef, string elementId, object options );
+
+        ValueTask DestroyNumericEdit( ElementReference elementRef, string elementId );
 
         ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options );
 

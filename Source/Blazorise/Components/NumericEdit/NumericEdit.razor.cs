@@ -30,6 +30,16 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            var decimalsChanged = parameters.TryGetValue( nameof( Decimals ), out int decimals ) && !Decimals.IsEqual( decimals );
+
+            if ( Rendered && decimalsChanged )
+            {
+                ExecuteAfterRender( async () => await JSRunner.UpdateNumericEdit( ElementRef, ElementId, new
+                {
+                    Decimals = new { Changed = decimalsChanged, Value = decimals },
+                } ) );
+            }
+
             await base.SetParametersAsync( parameters );
 
             if ( ParentValidation != null )
@@ -56,7 +66,17 @@ namespace Blazorise
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new NumericEditAdapter( this ) );
 
-            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementRef, ElementId, Decimals, DecimalsSeparator, Step, Min, Max );
+            // find the min and max possible value based on the supplied value type
+            var (minFromType, maxFromType) = Converters.GetMinMaxValueOfType<TValue>();
+
+            await JSRunner.InitializeNumericEdit<TValue>( dotNetObjectRef, ElementRef, ElementId, new
+            {
+                Decimals = Decimals,
+                Separator = DecimalsSeparator,
+                Step,
+                Min = Min.IsEqual( default ) ? minFromType : Min,
+                Max = Max.IsEqual( default ) ? maxFromType : Max
+            } );
 
             await base.OnFirstAfterRenderAsync();
         }
