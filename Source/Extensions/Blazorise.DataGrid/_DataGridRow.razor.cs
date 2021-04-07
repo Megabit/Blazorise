@@ -79,9 +79,6 @@ namespace Blazorise.DataGrid
                 var shiftClick = ( eventArgs.ShiftKey && eventArgs.Button == MouseButton.Left );
 
                 await OnMultiSelectCommand( isSelected || shiftClick, shiftClick );
-
-                if ( multiSelect != null )
-                    await multiSelect.OnCheckedChanged( isSelected || shiftClick );
             }
         }
 
