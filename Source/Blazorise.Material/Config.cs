@@ -25,6 +25,8 @@ namespace Blazorise.Material
             serviceCollection.AddBootstrapComponents();
 
             // material overrides
+            serviceCollection.AddTransient( typeof( Blazorise.DateEdit<> ), typeof( Material.DateEdit<> ) );
+            serviceCollection.AddTransient( typeof( Blazorise.TimeEdit<> ), typeof( Material.TimeEdit<> ) );
             serviceCollection.AddTransient( typeof( Blazorise.Switch<> ), typeof( Material.Switch<> ) );
             serviceCollection.AddTransient<Blazorise.Step, Material.Step>();
             serviceCollection.AddTransient<Blazorise.Steps, Material.Steps>();

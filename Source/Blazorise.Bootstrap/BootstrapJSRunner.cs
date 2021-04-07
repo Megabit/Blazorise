@@ -16,9 +16,9 @@ namespace Blazorise.Bootstrap
         {
         }
 
-        public override ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId )
+        public override ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options )
         {
-            return runtime.InvokeAsync<bool>( $"{BOOTSTRAP_NAMESPACE}.tooltip.initialize", elementRef, elementId );
+            return runtime.InvokeAsync<bool>( $"{BOOTSTRAP_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
         }
 
         public override ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop )

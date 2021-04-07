@@ -399,6 +399,42 @@
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
     background-color: #3273dc; }
 
+.rating:not(.rating-disabled):not(.rating-readonly):hover .rating-item {
+    cursor: pointer; }
+
+.rating.rating-disabled {
+    opacity: .65; }
+
+.rating .rating-item.rating-item-primary {
+    color: #007bff; }
+
+.rating .rating-item.rating-item-secondary {
+    color: #6c757d; }
+
+.rating .rating-item.rating-item-success {
+    color: #28a745; }
+
+.rating .rating-item.rating-item-info {
+    color: #17a2b8; }
+
+.rating .rating-item.rating-item-warning {
+    color: #ffc107; }
+
+.rating .rating-item.rating-item-danger {
+    color: #dc3545; }
+
+.rating .rating-item.rating-item-light {
+    color: #f8f9fa; }
+
+.rating .rating-item.rating-item-dark {
+    color: #343a40; }
+
+.rating .rating-item.rating-item-link {
+    color: #3273dc; }
+
+.rating .rating-item.rating-item-hover {
+    opacity: 0.7; }
+
 .steps {
     padding: 0;
     margin: 0;

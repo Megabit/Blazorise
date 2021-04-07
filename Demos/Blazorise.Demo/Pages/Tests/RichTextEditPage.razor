@@ -183,9 +183,11 @@
     private string contentFromCode;
     private string lastEvent;
 
-    protected async Task OnUpdateContent()
+    protected Task OnUpdateContent()
     {
         contentFromCode = $"<p>Content from code {DateTime.Now}</p>";
+
+        return Task.CompletedTask;
     }
 
     public async Task OnContentChanged()
@@ -197,8 +199,7 @@
 
     public async Task OnContentChanged2()
     {
-        var content = await richTextEditRef2.GetHtmlAsync();
-        Console.WriteLine( content );
+        contentFromCode = await richTextEditRef2.GetHtmlAsync();
     }
 
     public async Task OnSave()

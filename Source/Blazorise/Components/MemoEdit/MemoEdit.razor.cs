@@ -29,9 +29,9 @@ namespace Blazorise
             if ( ParentValidation != null )
             {
                 if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( TextExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
+                    await ParentValidation.InitializeInputExpression( expression );
 
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 
@@ -49,6 +49,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.MemoEdit() );
+            builder.Append( ClassProvider.MemoEditSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
@@ -162,6 +163,12 @@ namespace Blazorise
         /// </summary>
         protected int DelayTextOnKeyPressIntervalValue
             => DelayTextOnKeyPressInterval.GetValueOrDefault( Options?.DelayTextOnKeyPressInterval ?? 300 );
+
+        /// <summary>
+        /// The name of the event for the textarea element.
+        /// </summary>
+        protected string BindValueEventName
+            => IsChangeTextOnKeyPress ? "oninput" : "onchange";
 
         /// <summary>
         /// Sets the placeholder for the empty text.

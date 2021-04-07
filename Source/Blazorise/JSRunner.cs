@@ -53,9 +53,9 @@ namespace Blazorise
             return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementRef, elementId );
         }
 
-        public virtual ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId )
+        public virtual ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementRef, elementId );
+            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
         }
 
         public virtual ValueTask<bool> InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit )
@@ -108,26 +108,54 @@ namespace Blazorise
             return runtime.InvokeAsync<DomElement>( $"{BLAZORISE_NAMESPACE}.getElementInfo", elementRef, elementId );
         }
 
-        /// <summary>
-        /// Activates the date picker for a given element id.
-        /// </summary>
-        /// <param name="elementId">Input element id.</param>
-        /// <param name="formatSubmit">Date format to submit.</param>
-        public virtual ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit )
+        public virtual ValueTask InitializeDatePicker( ElementReference elementRef, string elementId, object options )
         {
-            // must be implemented by a framework provider!
-            return new ValueTask<bool>( true );
+            return ValueTask.CompletedTask;
         }
 
-        /// <summary>
-        /// Activates the time picker for a given element id.
-        /// </summary>
-        /// <param name="elementId">Input element id.</param>
-        /// <param name="formatSubmit">Date format to submit.</param>
-        public virtual ValueTask<bool> ActivateTimePicker( string elementId, string formatSubmit )
+        public virtual ValueTask DestroyDatePicker( ElementReference elementRef, string elementId )
         {
-            // must be implemented by a framework provider!
-            return new ValueTask<bool>( true );
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask ActivateDatePicker( ElementReference elementRef, string elementId, object options )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask UpdateDatePickerValue( ElementReference elementRef, string elementId, object value )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask UpdateDatePickerOptions( ElementReference elementRef, string elementId, object options )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask InitializeTimePicker( ElementReference elementRef, string elementId, object options )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask DestroyTimePicker( ElementReference elementRef, string elementId )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask ActivateTimePicker( ElementReference elementRef, string elementId, object options )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask UpdateTimePickerOptions( ElementReference elementRef, string elementId, object options )
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        public virtual ValueTask UpdateTimePickerValue( ElementReference elementRef, string elementId, object value )
+        {
+            return ValueTask.CompletedTask;
         }
 
         public async ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId )

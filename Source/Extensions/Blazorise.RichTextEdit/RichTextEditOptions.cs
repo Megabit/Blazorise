@@ -1,10 +1,15 @@
-﻿namespace Blazorise.RichTextEdit
+﻿using System.Collections.Generic;
+using static Blazorise.RichTextEdit.DynamicReferenceType;
+
+namespace Blazorise.RichTextEdit
 {
     /// <summary>
     /// Blazorise RichTextEdit extension options
     /// </summary>
     public sealed class RichTextEditOptions
     {
+        private List<DynamicReference> dynamicReferences;
+
         /// <summary>
         /// Load the QuillJs snow theme related resources
         /// </summary>
@@ -23,6 +28,37 @@
         /// <summary>
         /// Load the RichTextEdit scripts and stylesheets on demand.
         /// </summary>
-        public bool DynamicLoadReferences { get; set; } = true;
+        public bool DynamicallyLoadReferences { get; set; } = true;
+
+        /// <summary>
+        /// Dynamic references to be loaded when initializing the RichTextEdit component.
+        /// </summary>
+        public List<DynamicReference> DynamicReferences
+        {
+            get => dynamicReferences ?? GetDefaultReferences();
+            set => dynamicReferences = value;
+        }
+
+        private List<DynamicReference> GetDefaultReferences()
+        {
+            List<DynamicReference> references = new()
+            {
+                new( $@"https://cdn.quilljs.com/{QuillJsVersion}/quill.js", Script ),
+                new( @"_content/Blazorise.RichTextEdit/blazorise.richtextedit.js", Script ),
+                new( @"_content/Blazorise.RichTextEdit/blazorise.richtextedit.bundle.scp.css", Stylesheet )
+            };
+
+            if ( UseBubbleTheme )
+            {
+                references.Add( new( $@"https://cdn.quilljs.com/{QuillJsVersion}/quill.bubble.css", Stylesheet ) );
+            }
+
+            if ( UseShowTheme )
+            {
+                references.Add( new( $@"https://cdn.quilljs.com/{QuillJsVersion}/quill.snow.css", Stylesheet ) );
+            }
+
+            return references;
+        }
     }
 }

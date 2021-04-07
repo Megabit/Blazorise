@@ -347,13 +347,13 @@ input.form-control[type=color] {
     color: #fff; }
 
 .b-layout-header-fixed {
-    z-index: 1020; }
+    z-index: 160; }
 
 .b-layout-footer-fixed {
-    z-index: 1020; }
+    z-index: 160; }
 
 .b-layout-sider-content {
-    z-index: 1021; }
+    z-index: 161; }
 
 .modal.show {
     animation-duration: 0.25s;
@@ -401,6 +401,42 @@ input.form-control[type=color] {
 
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
     background-color: #3273dc; }
+
+.rating:not(.rating-disabled):not(.rating-readonly):hover .rating-item {
+    cursor: pointer; }
+
+.rating.rating-disabled {
+    opacity: .65; }
+
+.rating .rating-item.is-primary {
+    color: #9c27b0; }
+
+.rating .rating-item.is-secondary {
+    color: #ff4081; }
+
+.rating .rating-item.is-success {
+    color: #4caf50; }
+
+.rating .rating-item.is-info {
+    color: #2196f3; }
+
+.rating .rating-item.is-warning {
+    color: #ff9800; }
+
+.rating .rating-item.is-danger {
+    color: #f44336; }
+
+.rating .rating-item.is-light {
+    color: #f5f5f5; }
+
+.rating .rating-item.is-dark {
+    color: #424242; }
+
+.rating .rating-item.is-link {
+    color: #3273dc; }
+
+.rating .rating-item.rating-item-hover {
+    opacity: 0.7; }
 
 @-webkit-keyframes spinner-border {
     to {

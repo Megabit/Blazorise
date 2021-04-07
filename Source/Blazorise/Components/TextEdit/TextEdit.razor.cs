@@ -28,7 +28,7 @@ namespace Blazorise
             if ( ParentValidation != null )
             {
                 if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( TextExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
+                    await ParentValidation.InitializeInputExpression( expression );
 
                 if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
                 {
@@ -37,10 +37,10 @@ namespace Blazorise
                         ? inText
                         : InternalValue;
 
-                    ParentValidation.InitializeInputPattern( pattern, value );
+                    await ParentValidation.InitializeInputPattern( pattern, value );
                 }
 
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 
@@ -53,14 +53,26 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
-                JSRunner.DestroyTextEdit( ElementRef, ElementId );
+                var task = JSRunner.DestroyTextEdit( ElementRef, ElementId );
+
+                try
+                {
+                    await task;
+                }
+                catch
+                {
+                    if ( !task.IsCanceled )
+                    {
+                        throw;
+                    }
+                }
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         /// <inheritdoc/>
@@ -147,9 +159,8 @@ namespace Blazorise
         [Parameter] public int? MaxLength { get; set; }
 
         /// <summary>
-        /// The size attribute specifies the visible width, in characters, of an <input> element.
+        /// The size attribute specifies the visible width, in characters, of an input element. https://www.w3schools.com/tags/att_input_size.asp".
         /// </summary>
-        /// <see cref="https://www.w3schools.com/tags/att_input_size.asp"/>
         [Parameter] public int? VisibleCharacters { get; set; }
 
         #endregion

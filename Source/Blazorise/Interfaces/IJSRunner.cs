@@ -20,7 +20,7 @@ namespace Blazorise
 
         ValueTask<bool> DestroyNumericEdit( ElementReference elementRef, string elementId );
 
-        ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId );
+        ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options );
 
         ValueTask<bool> InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit );
 
@@ -42,9 +42,25 @@ namespace Blazorise
 
         ValueTask<DomElement> GetElementInfo( ElementReference elementRef, string elementId );
 
-        ValueTask<bool> ActivateDatePicker( string elementId, string formatSubmit );
+        ValueTask InitializeDatePicker( ElementReference elementRef, string elementId, object options );
 
-        ValueTask<bool> ActivateTimePicker( string elementId, string formatSubmit );
+        ValueTask DestroyDatePicker( ElementReference elementRef, string elementId );
+
+        ValueTask ActivateDatePicker( ElementReference elementRef, string elementId, object options );
+
+        ValueTask UpdateDatePickerValue( ElementReference elementRef, string elementId, object value );
+
+        ValueTask UpdateDatePickerOptions( ElementReference elementRef, string elementId, object options );
+
+        ValueTask InitializeTimePicker( ElementReference elementRef, string elementId, object options );
+
+        ValueTask DestroyTimePicker( ElementReference elementRef, string elementId );
+
+        ValueTask ActivateTimePicker( ElementReference elementRef, string elementId, object options );
+
+        ValueTask UpdateTimePickerValue( ElementReference elementRef, string elementId, object value );
+
+        ValueTask UpdateTimePickerOptions( ElementReference elementRef, string elementId, object options );
 
         ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId );
 
@@ -64,11 +80,6 @@ namespace Blazorise
 
         ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement );
 
-        /// <summary>
-        /// Handles the closing of the components that can be toggled.
-        /// </summary>
-        /// <param name="component">Toggle component.</param>
-        /// <returns></returns>
         ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef );
 
         ValueTask<object> UnregisterClosableComponent( ICloseActivator component );

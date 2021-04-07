@@ -26,6 +26,8 @@ namespace Blazorise.Frolic
 
         public override string MemoEdit() => "e-control";
 
+        public override string MemoEditSize( Size size ) => $"e-control-{ToSize( size )}";
+
         public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
@@ -150,6 +152,26 @@ namespace Blazorise.Frolic
         public override string Slider() => "e-range";
 
         public override string SliderColor( Color color ) => ToColor( color );
+
+        public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region Rating
+
+        public override string Rating() => "e-rating";
+
+        public override string RatingDisabled( bool disabled ) => disabled ? "e-rating-disabled" : null;
+
+        public override string RatingReadonly( bool @readonly ) => @readonly ? "e-rating-readonly" : null;
+
+        public override string RatingItem() => "e-rating-item";
+
+        public override string RatingItemColor( Color color ) => $"e-rating-item-{ToColor( color )}";
+
+        public override string RatingItemSelected( bool selected ) => null;
+
+        public override string RatingItemHovered( bool hover ) => hover ? "e-rating-item-hover" : null;
 
         #endregion
 
@@ -315,15 +337,18 @@ namespace Blazorise.Frolic
 
         #region Buttons
 
-        //public override string Buttons() => "btn-group";
+        public override string Buttons( ButtonsRole role, Orientation orientation )
+        {
+            if ( role == ButtonsRole.Toolbar )
+                return "e-toolbar";
 
-        public override string ButtonsAddons() => "e-buttons unified";
+            if ( orientation == Orientation.Vertical )
+                return "e-buttons unified btn-group-vertical";
 
-        public override string ButtonsToolbar() => "e-toolbar";
+            return "e-buttons unified";
+        }
 
         public override string ButtonsSize( Size size ) => $"e-buttons-{ToSize( size )}";
-
-        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
 
         #endregion
 

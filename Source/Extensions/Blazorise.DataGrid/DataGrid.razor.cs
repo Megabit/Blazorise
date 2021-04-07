@@ -13,7 +13,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.DataGrid
 {
-    public partial class DataGrid<TItem> : BaseDataGridComponent, IDisposable
+    public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         #region Members
 
@@ -97,6 +97,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected PaginationContext<TItem> paginationContext;
 
+        /// <summary>
+        /// Holds the last known selected row index.
+        /// </summary>
+        protected internal short lastSelectedRowIndex;
+
         #endregion
 
         #region Constructors
@@ -138,7 +143,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Links the child column with this datagrid.
         /// </summary>
-        /// <param name="column">Column to link with this datagrid.</param>
+        /// <param name="aggregate">Aggregate column to link with this datagrid.</param>
         internal void Hook( DataGridAggregate<TItem> aggregate )
         {
             Aggregates.Add( aggregate );
@@ -176,7 +181,7 @@ namespace Blazorise.DataGrid
                 paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
 
-                base.Dispose();
+                base.Dispose( disposing );
             }
         }
 
@@ -388,32 +393,77 @@ namespace Blazorise.DataGrid
                 PopupVisible = false;
         }
 
+        protected internal short ResolveItemIndex( TItem item )
+        {
+            short index = 0;
+            foreach ( var displayItem in DisplayData )
+            {
+                if ( item.IsEqual( displayItem ) )
+                    break;
+                index++;
+            }
+            return index;
+        }
+
         protected async Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
         {
             SelectedAllRows = false;
             UnSelectAllRows = false;
 
-            if ( SelectedRows is null )
-            {
-                SelectedRows = new List<TItem>();
-            }
+            SelectedRows ??= new List<TItem>();
 
-            if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) )
+            await HandleShiftClick( eventArgs );
+
+            if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
             {
                 SelectedRows.Add( eventArgs.Item );
             }
-
-            if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) )
+            else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
             {
-                SelectedRows.Remove( eventArgs.Item );
-
-                if ( SelectedRow.IsEqual( eventArgs.Item ) )
+                if ( SelectedRows.Contains( eventArgs.Item ) )
                 {
-                    await SelectedRowChanged.InvokeAsync( default( TItem ) );
+                    SelectedRows.Remove( eventArgs.Item );
+
+                    if ( SelectedRow.IsEqual( eventArgs.Item ) )
+                    {
+                        await SelectedRowChanged.InvokeAsync( default( TItem ) );
+                    }
                 }
             }
 
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
+        }
+
+        private async Task HandleShiftClick( MultiSelectEventArgs<TItem> eventArgs )
+        {
+            if ( eventArgs.ShiftKey )
+            {
+                SelectedRows.Clear();
+
+                var currIndex = ResolveItemIndex( eventArgs.Item );
+
+                if ( currIndex >= lastSelectedRowIndex )
+                {
+                    foreach ( var item in DisplayData.Skip( lastSelectedRowIndex ).Take( currIndex - lastSelectedRowIndex + 1 ) )
+                    {
+                        SelectedRows.Add( item );
+                    }
+                }
+                else
+                {
+                    foreach ( var item in DisplayData.Skip( currIndex ).Take( lastSelectedRowIndex - currIndex + 1 ) )
+                    {
+                        SelectedRows.Add( item );
+                    }
+                }
+
+                if ( !SelectedRows.Contains( SelectedRow ) )
+                {
+                    await SelectedRowChanged.InvokeAsync( default( TItem ) );
+                }
+            }
+            else
+                lastSelectedRowIndex = ResolveItemIndex( eventArgs.Item );
         }
 
         protected async Task OnMultiSelectAll( bool selectAll )
@@ -1379,9 +1429,14 @@ namespace Blazorise.DataGrid
         [Parameter] public bool ShowValidationsSummary { get; set; } = true;
 
         /// <summary>
-        /// Label for validaitons summary.
+        /// Label for validations summary.
         /// </summary>
         [Parameter] public string ValidationsSummaryLabel { get; set; }
+
+        /// <summary>
+        /// List of custom error messages for the validations summary.
+        /// </summary>
+        [Parameter] public string[] ValidationsSummaryErrors { get; set; }
 
         /// <summary>
         /// Custom localizer handlers to override default <see cref="DataGrid{TItem}"/> localization.

@@ -16,6 +16,11 @@ namespace Blazorise.DataGrid
             return CheckedChanged.InvokeAsync( @checked );
         }
 
+        internal Task OnCheckedClicked()
+        {
+            return CheckedClicked.InvokeAsync();
+        }
+
         protected string BuildCellStyle()
         {
             var sb = new StringBuilder();
@@ -48,6 +53,8 @@ namespace Blazorise.DataGrid
         [Parameter] public bool Checked { get; set; }
 
         [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+
+        [Parameter] public EventCallback CheckedClicked { get; set; }
 
         #endregion
     }

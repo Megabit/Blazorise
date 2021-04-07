@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
 
@@ -42,9 +43,12 @@ namespace Blazorise.AntDesign
 
         protected override async Task OnFirstAfterRenderAsync()
         {
+            await base.OnFirstAfterRenderAsync();
+
             dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
 
-            await base.OnFirstAfterRenderAsync();
+            // since we do some custom rendering we need to refresh component statet to trigger first valid render.
+            await InvokeAsync( StateHasChanged );
         }
 
         protected override void Dispose( bool disposing )
@@ -92,6 +96,9 @@ namespace Blazorise.AntDesign
             await JSRunner.RegisterClosableComponent( dotNetObjectRef, ElementRef );
 
             Expanded = true;
+
+            // automatically set focus to the dropdown so that we can make it auto-close on blur event
+            ExecuteAfterRender( async () => await DropdownElementRef.FocusAsync() );
         }
 
         private async Task Collapse()
@@ -193,6 +200,19 @@ namespace Blazorise.AntDesign
             return Task.CompletedTask;
         }
 
+        // NOTE: Don't remove tabindex from dropdown `<div tabindex="-1" @onblur="@OnDropdownBlur">`! It must be defined for focus-out to work.
+        protected async Task OnDropdownBlur( FocusEventArgs eventArgs )
+        {
+            if ( Expanded )
+            {
+                // Give enought time for other events to do their stuff before closing
+                // the select menu.
+                await Task.Delay( 250 );
+
+                await Collapse();
+            }
+        }
+
         #endregion
 
         #region Properties
@@ -210,6 +230,8 @@ namespace Blazorise.AntDesign
             get => inputElementId ??= IdGenerator.Generate;
             set => inputElementId = value;
         }
+
+        protected ElementReference DropdownElementRef { get; set; }
 
         /// <summary>
         /// Gets the selected items render fragments.
@@ -263,7 +285,7 @@ namespace Blazorise.AntDesign
                     sb.Append( " ant-select-single" );
 
                 if ( Expanded )
-                    sb.Append( " ant-select-open" );
+                    sb.Append( " ant-select-focused ant-select-open" );
 
                 if ( Disabled )
                     sb.Append( " ant-select-disabled" );

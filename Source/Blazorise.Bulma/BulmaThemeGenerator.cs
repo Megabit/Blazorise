@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 #endregion
 
@@ -253,6 +254,11 @@ namespace Blazorise.Bulma
                 .Append( $"color: {Var( ThemeVariables.White )};" )
                 .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
                 .AppendLine( "}" );
+
+            sb
+                .Append( $".steps .step-item.is-active::before" ).Append( "{" )
+                .Append( $"background: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )
@@ -292,6 +298,25 @@ namespace Blazorise.Bulma
                 .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq, Var( ThemeVariables.White ) )};" )
                 .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
                 .Append( $"border-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateRatingStyles( StringBuilder sb, Theme theme, ThemeRatingOptions ratingOptions )
+        {
+            if ( ratingOptions?.HoverOpacity != null )
+            {
+                sb
+                    .Append( $".rating .rating-item.is-hover" ).Append( "{" )
+                    .Append( $"opacity: {string.Format( CultureInfo.InvariantCulture, "{0:F1}", ratingOptions.HoverOpacity )};" )
+                    .AppendLine( "}" );
+            }
+        }
+
+        protected override void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions )
+        {
+            sb
+                .Append( $".rating .rating-item.is-{variant}" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantRatingColor( variant ) )};" )
                 .AppendLine( "}" );
         }
 

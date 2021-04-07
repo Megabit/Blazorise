@@ -22,7 +22,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        string GetIconName( IconName name );
+        string GetIconName( IconName name, IconStyle iconStyle );
 
         /// <summary>
         /// Overrides the predefined icon name.

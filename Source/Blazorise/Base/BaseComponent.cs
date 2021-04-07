@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Base;
@@ -10,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
-    public abstract class BaseComponent : BaseAfterRenderComponent, IDisposable
+    public abstract class BaseComponent : BaseAfterRenderComponent
     {
         #region Members
 

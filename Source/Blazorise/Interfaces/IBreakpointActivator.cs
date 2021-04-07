@@ -22,7 +22,7 @@ namespace Blazorise
         /// <summary>
         /// Triggers the component to activate breakpoint
         /// </summary>
-        /// <param name="closeReason">The reason for closing the component.</param>
+        /// <param name="broken">The reason for closing the component.</param>
         Task OnBreakpoint( bool broken );
     }
 }

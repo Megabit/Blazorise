@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid
 {
-    public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>, IDisposable
+    public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     {
         #region Members
 
@@ -232,7 +232,6 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets the column initial sort direction.
         /// </summary>
-        /// </remarks>
         [Parameter] public SortDirection Direction { get; set; }
 
         /// <summary>

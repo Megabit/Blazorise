@@ -26,6 +26,8 @@ namespace Blazorise.Bulma
 
         public override string MemoEdit() => "textarea";
 
+        public override string MemoEditSize( Size size ) => $"is-{ToSize( size )}";
+
         public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
@@ -150,6 +152,26 @@ namespace Blazorise.Bulma
         public override string Slider() => "slider";
 
         public override string SliderColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region Rating
+
+        public override string Rating() => "rating";
+
+        public override string RatingDisabled( bool disabled ) => disabled ? "rating-disabled" : null;
+
+        public override string RatingReadonly( bool @readonly ) => @readonly ? "rating-readonly" : null;
+
+        public override string RatingItem() => "rating-item";
+
+        public override string RatingItemColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string RatingItemSelected( bool selected ) => null;
+
+        public override string RatingItemHovered( bool hover ) => hover ? "is-hover" : null;
 
         #endregion
 
@@ -310,15 +332,18 @@ namespace Blazorise.Bulma
 
         #region Buttons
 
-        //public override string Buttons() => "buttons has-addons";
+        public override string Buttons( ButtonsRole role, Orientation orientation )
+        {
+            if ( role == ButtonsRole.Toolbar )
+                return "field is-grouped";
 
-        public override string ButtonsAddons() => "field has-addons";
+            if ( orientation == Orientation.Vertical )
+                return "field has-addons buttons";
 
-        public override string ButtonsToolbar() => "field is-grouped";
+            return "field has-addons";
+        }
 
         public override string ButtonsSize( Size size ) => $"are-{ToSize( size )}";
-
-        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "buttons" : null;
 
         #endregion
 

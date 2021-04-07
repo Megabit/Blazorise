@@ -7,7 +7,7 @@
             @if ( ParentDataGrid.ShowValidationsSummary )
             {
                 <Row>
-                    <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" />
+                    <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
                 </Row>
             }
             <Row>
@@ -78,7 +78,7 @@ else if ( EditMode == DataGridEditMode.Inline )
         {
             <TableRow Display="@(isInvalid ? Display.TableRow : Display.None)">
                 <TableRowCell ColumnSpan="@Columns.Count()" Display="@(isInvalid ? Display.TableCell : Display.None)">
-                    <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" />
+                    <ValidationSummary Label="@ParentDataGrid.ValidationsSummaryLabel" Errors="@ParentDataGrid.ValidationsSummaryErrors" />
                 </TableRowCell>
             </TableRow>
         }
@@ -88,14 +88,22 @@ else if ( EditMode == DataGridEditMode.Inline )
             {
                 @if ( ParentDataGrid.IsCommandVisible )
                 {
-                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Save="@SaveWithValidation" Cancel="@Cancel" Width="@column.Width" />
+                    <_DataGridRowCommand TItem="TItem"
+                                         Item="@Item"
+                                         Class="@column.CellClass?.Invoke(Item)"
+                                         Style="@column.BuildCellStyle(Item)"
+                                         EditState="DataGridEditState.Edit"
+                                         Save="@SaveWithValidation"
+                                         Cancel="@Cancel"
+                                         Width="@column.Width" />
                 }
             }
             else if ( column.IsMultiSelectColumn )
             {
                 @if ( ParentDataGrid.MultiSelect )
                 {
-                    <TableRowCell></TableRowCell>
+                    <TableRowCell Class="@column.CellClass?.Invoke(Item)"
+                                  Style="@column.BuildCellStyle(Item)"></TableRowCell>
                 }
             }
             else if ( column.Displayable )

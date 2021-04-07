@@ -27,8 +27,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarToggler( ParentBarState.Mode, Mode ) );
-            builder.Append( ClassProvider.BarTogglerCollapsed( ParentBarState.Mode, Mode, ParentBarState.Visible ) );
+            builder.Append( ClassProvider.BarToggler( ParentBarState?.Mode ?? BarMode.Horizontal, Mode ) );
+            builder.Append( ClassProvider.BarTogglerCollapsed( ParentBarState?.Mode ?? BarMode.Horizontal, Mode, ParentBarState.Visible ) );
 
             base.BuildClasses( builder );
         }

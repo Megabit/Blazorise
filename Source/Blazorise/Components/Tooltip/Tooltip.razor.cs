@@ -15,9 +15,13 @@ namespace Blazorise
 
         private bool alwaysActive;
 
+        private bool showArrow = true;
+
         private bool inline;
 
         private bool fade;
+
+        private int fadeDuration = 300;
 
         #endregion
 
@@ -42,7 +46,16 @@ namespace Blazorise
                 // try to detect if inline is needed
                 ExecuteAfterRender( async () =>
                 {
-                    await JSRunner.InitializeTooltip( ElementRef, ElementId );
+                    await JSRunner.InitializeTooltip( ElementRef, ElementId, new
+                    {
+                        Text = Text,
+                        Placement = ClassProvider.ToPlacement( Placement ),
+                        Multiline = Multiline,
+                        AlwaysActive = AlwaysActive,
+                        ShowArrow = ShowArrow,
+                        Fade = Fade,
+                        FadeDuration = FadeDuration,
+                    } );
                 } );
             }
 
@@ -107,6 +120,21 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Gets or sets the tooltip arrow visibility.
+        /// </summary>
+        [Parameter]
+        public bool ShowArrow
+        {
+            get => showArrow;
+            set
+            {
+                showArrow = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Force inline block instead of trying to detect the element block.
         /// </summary>
         [Parameter]
@@ -131,6 +159,21 @@ namespace Blazorise
             set
             {
                 fade = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Duration in ms of the fade transition animation.
+        /// </summary>
+        [Parameter]
+        public int FadeDuration
+        {
+            get => fadeDuration;
+            set
+            {
+                fadeDuration = value;
 
                 DirtyClasses();
             }

@@ -4,7 +4,7 @@
 {
     <div class="field">
         <div class="control">
-            <input @ref="ElementRef" id="@ElementId" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+            <input @ref="ElementRef" id="@ElementId" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
             @ChildContent
         </div>
         @Feedback
@@ -13,7 +13,7 @@
 else
 {
     <div class="control">
-        <input @ref="ElementRef" id="@ElementId" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="ElementRef" id="@ElementId" inputmode="numeric" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@Step" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
         @ChildContent
     </div>
     @Feedback

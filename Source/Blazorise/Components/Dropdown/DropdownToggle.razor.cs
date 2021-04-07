@@ -54,7 +54,7 @@ namespace Blazorise
         /// Disposes all the used resources.
         /// </summary>
         /// <param name="disposing">True if object is disposing.</param>
-        protected override void Dispose( bool disposing )
+        protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
             {
@@ -63,13 +63,25 @@ namespace Blazorise
                 {
                     jsRegistered = false;
 
-                    _ = JSRunner.UnregisterClosableComponent( this );
+                    var task = JSRunner.UnregisterClosableComponent( this );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
+                    }
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
             }
 
-            base.Dispose( disposing );
+            await base.DisposeAsync( disposing );
         }
 
         /// <summary>
@@ -91,6 +103,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="elementId">Id of an element.</param>
         /// <param name="closeReason">Close reason.</param>
+        /// <param name="isChildClicked">Indicates if the child element was clicked.</param>
         /// <returns>True if it's safe to be closed.</returns>
         public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
         {

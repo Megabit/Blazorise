@@ -25,10 +25,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.ButtonsAddons(), Role == ButtonsRole.Addons );
-            builder.Append( ClassProvider.ButtonsToolbar(), Role == ButtonsRole.Toolbar );
+            builder.Append( ClassProvider.Buttons( Role, Orientation ) );
             builder.Append( ClassProvider.ButtonsSize( Size ), Size != Size.None );
-            builder.Append( ClassProvider.ButtonsOrientation( Orientation ) );
 
             base.BuildClasses( builder );
         }

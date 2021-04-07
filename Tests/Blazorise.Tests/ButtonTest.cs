@@ -68,41 +68,41 @@ namespace Blazorise.Tests
         }
 
         [Fact]
-        public void SetParentDropdown()
+        public async Task SetParentDropdown()
         {
             // setup
             var drop = new Dropdown();
             var button = new MockButton( drop );
 
             // test
-            button.Dispose();
+            await button.DisposeAsync();
 
             // validate
         }
 
         [Fact]
-        public void SetParentAddons()
+        public async Task SetParentAddons()
         {
             // setup
             var a = new Addons();
             var button = new MockButton( parentAddons: a );
 
             // test
-            button.Dispose();
+            await button.DisposeAsync();
 
             // validate
             Assert.False( button.IsAddons );
         }
 
         [Fact]
-        public void SetParentButtons()
+        public async Task SetParentButtons()
         {
             // setup
             var b = new Buttons();
             var button = new MockButton( parentButtons: b );
 
             // test
-            button.Dispose();
+            await button.DisposeAsync();
 
             // validate
             Assert.True( button.IsAddons );
@@ -130,7 +130,7 @@ namespace Blazorise.Tests
             var button = new MockButton();
             string result = null;
             button.Command = new TestCommand( p => result = p );
-            button.CommandParameter = "foo";
+            button.CommandParameter = new TestCommandParameter { Message = "foo" };
 
             // test
             await button.Click();
@@ -138,6 +138,32 @@ namespace Blazorise.Tests
             // validate
             Assert.NotNull( result );
             Assert.Equal( "foo", result );
+        }
+
+        [Fact]
+        public void CommandCantExecuteDisablesButton()
+        {
+            var button = new MockButton();
+            Assert.False( button.Disabled );
+
+            var command = new TestCommand( _ => { } );
+            var parameter = new TestCommandParameter { Message = "foo" };
+
+            button.Command = command;
+            Assert.True( button.Disabled );
+
+            button.CommandParameter = parameter;
+            Assert.False( button.Disabled );
+
+            command.FireCanExecuteChanged();
+            Assert.False( button.Disabled );
+
+            parameter.Message = null;
+            command.FireCanExecuteChanged();
+            Assert.True( button.Disabled );
+
+            button.Command = null;
+            Assert.False( button.Disabled );
         }
 
         class TestCommand : System.Windows.Input.ICommand
@@ -152,15 +178,20 @@ namespace Blazorise.Tests
             public event EventHandler CanExecuteChanged;
 
             public bool CanExecute( object parameter )
-            {
-                return true;
-            }
+                => parameter is TestCommandParameter param && !string.IsNullOrWhiteSpace( param.Message );
 
             public void Execute( object parameter )
             {
-                var result = parameter.ToString() ?? "NoParam";
+                var result = parameter is TestCommandParameter param ? param.Message : "NoParam";
                 this.callback.Invoke( result );
             }
+
+            public void FireCanExecuteChanged() => CanExecuteChanged?.Invoke( this, EventArgs.Empty );
+        }
+
+        class TestCommandParameter
+        {
+            public string Message { get; set; }
         }
     }
 }
