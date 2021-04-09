@@ -19,6 +19,34 @@
     body:before {
         content: "fullhd"; } }
 
+hr.divider.divider-solid {
+    border-top: var(--b-divider-thickness, 1px) solid var(--b-divider-color, #999); }
+
+hr.divider.divider-dashed {
+    border-top: var(--b-divider-thickness, 1px) dashed var(--b-divider-color, #999); }
+
+hr.divider.divider-dotted {
+    border-top: var(--b-divider-thickness, 1px) dotted var(--b-divider-color, #999); }
+
+hr.divider.divider-text {
+    position: relative;
+    border: none;
+    height: var(--b-divider-thickness, 1px);
+    background: var(--b-divider-color, #999); }
+    hr.divider.divider-text::before {
+        content: attr(data-content);
+        display: inline-block;
+        background: #fff;
+        font-weight: bold;
+        font-size: var(--b-divider-font-size, 0.85rem);
+        color: var(--b-divider-color, #999);
+        border-radius: 30rem;
+        padding: 0.2rem 2rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
+
 .progress.progress-xs {
     height: .25rem; }
 
@@ -719,31 +747,3 @@
     text-transform: lowercase; }
     .b-character-casing-title::first-letter {
         text-transform: uppercase; }
-
-hr.divider.divider-solid {
-    border-top: var(--b-divider-thickness, 2px) solid var(--b-divider-color, #999); }
-
-hr.divider.divider-dashed {
-    border-top: var(--b-divider-thickness, 2px) dashed var(--b-divider-color, #999); }
-
-hr.divider.divider-dotted {
-    border-top: var(--b-divider-thickness, 2px) dotted var(--b-divider-color, #999); }
-
-hr.divider.divider-text {
-    position: relative;
-    border: none;
-    height: 1px;
-    background: var(--b-divider-color, #999); }
-    hr.divider.divider-text::before {
-        content: attr(data-content);
-        display: inline-block;
-        background: #fff;
-        font-weight: bold;
-        font-size: var(--b-divider-font-size, 0.85rem);
-        color: var(--b-divider-color, #999);
-        border-radius: 30rem;
-        padding: 0.2rem 2rem;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%); }

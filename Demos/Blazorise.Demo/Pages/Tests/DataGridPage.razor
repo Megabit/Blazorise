@@ -208,8 +208,12 @@
                                 @($"Total emails: {context.Value}")
                             </DisplayTemplate>
                         </DataGridAggregate>
-                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Salary )" Aggregate="DataGridAggregateType.Sum" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" />
-                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" Aggregate="DataGridAggregateType.TrueCount" />
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Salary )"                                             
+                                           AggregationFunction=@((values,col)=>values.Where(v=>v.IsActive).Sum(v=>v.Salary))
+                                           DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
+                        </DataGridAggregate>
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" 
+                                           AggregationFunction=@(DataGridAggregate<Employee>.TrueCount) />
                     </DataGridAggregates>
                     <DataGridColumns>
                         <DataGridMultiSelectColumn TItem="Employee" Width="30px">

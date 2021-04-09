@@ -28,3 +28,7 @@ $tooltip-z-index: var(--b-tooltip-z-index, 1020) !default;
 $tooltip-fade-time: var(--b-tooltip-fade-time, 0.3s) !default;
 
 $colors: ("primary": (#8e3329, #8e3329));
+
+$divider-color: var(--b-divider-color, #999);
+$divider-thickness: var(--b-divider-thickness, 1px);
+$divider-text-size: var(--b-divider-font-size, 0.85rem);

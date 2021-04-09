@@ -552,6 +552,7 @@ namespace Blazorise
         protected virtual void GenerateBackgroundStyles( StringBuilder sb, Theme theme, string variant, string color )
         {
             GenerateBackgroundVariantStyles( sb, theme, variant );
+            GenerateBorderVariantStyles( sb, theme, variant );
         }
 
         protected virtual void GenerateTypographyVariantStyles( StringBuilder sb, Theme theme, string variant, string color )
@@ -561,6 +562,8 @@ namespace Blazorise
         }
 
         protected abstract void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant );
+
+        protected abstract void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant );
 
         protected abstract void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options );
 
