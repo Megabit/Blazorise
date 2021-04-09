@@ -25,6 +25,8 @@ namespace Blazorise
 
         private IFluentDisplay display;
 
+        private IFluentBorder border;
+
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
         #endregion
@@ -85,6 +87,9 @@ namespace Blazorise
 
             if ( Display != null )
                 builder.Append( Display.Class( ClassProvider ) );
+
+            if ( Border != null )
+                builder.Append( Border.Class( ClassProvider ) );
 
             if ( Float != Float.None )
                 builder.Append( ClassProvider.ToFloat( Float ) );
@@ -282,6 +287,21 @@ namespace Blazorise
             set
             {
                 display = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Specifies the border of an element.
+        /// </summary>
+        [Parameter]
+        public IFluentBorder Border
+        {
+            get => border;
+            set
+            {
+                border = value;
 
                 DirtyClasses();
             }

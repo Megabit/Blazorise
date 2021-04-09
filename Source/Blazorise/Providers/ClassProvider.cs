@@ -952,6 +952,17 @@ namespace Blazorise
 
         #endregion
 
+        #region Borders
+
+        public abstract string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor );
+
+        public abstract string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules );
+
+        public virtual string BorderRadius( BorderRadius borderRadius )
+            => ToBorderRadius( borderRadius );
+
+        #endregion
+
         #region Flex
 
         public abstract string FlexAlignment( Alignment alignment );
@@ -1116,6 +1127,31 @@ namespace Blazorise
                     return "float-left";
                 case Blazorise.Float.Right:
                     return "float-right";
+                default:
+                    return null;
+            }
+        }
+
+        public virtual string ToBorderRadius( BorderRadius borderRadius )
+        {
+            switch ( borderRadius )
+            {
+                case Blazorise.BorderRadius.Rounded:
+                    return "rounded";
+                case Blazorise.BorderRadius.RoundedTop:
+                    return "rounded-top";
+                case Blazorise.BorderRadius.RoundedRight:
+                    return "rounded-right";
+                case Blazorise.BorderRadius.RoundedBottom:
+                    return "rounded-bottom";
+                case Blazorise.BorderRadius.RoundedLeft:
+                    return "rounded-left";
+                case Blazorise.BorderRadius.RoundedCircle:
+                    return "rounded-circle";
+                case Blazorise.BorderRadius.RoundedPill:
+                    return "rounded-pill";
+                case Blazorise.BorderRadius.RoundedZero:
+                    return "rounded-0";
                 default:
                     return null;
             }
@@ -1551,6 +1587,49 @@ namespace Blazorise
                     return "hide";
                 case BarCollapseMode.Small:
                     return "small";
+                default:
+                    return null;
+            }
+        }
+
+        public string ToBorderSide( BorderSide borderSide )
+        {
+            switch ( borderSide )
+            {
+                case Blazorise.BorderSide.Bottom:
+                    return "bottom";
+                case Blazorise.BorderSide.Left:
+                    return "left";
+                case Blazorise.BorderSide.Right:
+                    return "right";
+                case Blazorise.BorderSide.Top:
+                default:
+                    return "top";
+            }
+        }
+
+        public virtual string ToBorderColor( BorderColor borderColor )
+        {
+            switch ( borderColor )
+            {
+                case Blazorise.BorderColor.Primary:
+                    return "primary";
+                case Blazorise.BorderColor.Secondary:
+                    return "secondary";
+                case Blazorise.BorderColor.Success:
+                    return "success";
+                case Blazorise.BorderColor.Danger:
+                    return "danger";
+                case Blazorise.BorderColor.Warning:
+                    return "warning";
+                case Blazorise.BorderColor.Info:
+                    return "info";
+                case Blazorise.BorderColor.Light:
+                    return "light";
+                case Blazorise.BorderColor.Dark:
+                    return "dark";
+                case Blazorise.BorderColor.White:
+                    return "white";
                 default:
                     return null;
             }
