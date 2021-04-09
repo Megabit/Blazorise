@@ -8,6 +8,9 @@
 @code {
     async Task HandleButtonClick()
     {
+        if ( ReadOnly )
+            return;
+
         await CurrentValueHandler( CurrentValueAsString == bool.FalseString
             ? bool.TrueString
             : bool.FalseString );
