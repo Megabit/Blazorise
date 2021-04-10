@@ -208,11 +208,11 @@
                                 @($"Total emails: {context.Value}")
                             </DisplayTemplate>
                         </DataGridAggregate>
-                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Salary )"                                             
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.Salary )"
                                            AggregationFunction=@((values,col)=>values.Where(v=>v.IsActive).Sum(v=>v.Salary))
                                            DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")">
                         </DataGridAggregate>
-                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )" 
+                        <DataGridAggregate TItem="Employee" Field="@nameof( Employee.IsActive )"
                                            AggregationFunction=@(DataGridAggregate<Employee>.TrueCount) />
                     </DataGridAggregates>
                     <DataGridColumns>
@@ -251,7 +251,7 @@
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Sortable="false" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Validator="@CheckFirstName" Editable="true">
                             <FilterTemplate>
-                                <TextEdit Placeholder="Search name" Text="@context.SearchValue" TextChanged="@(v=> context.TriggerFilterChange(v))" />
+                                <TextEdit Placeholder="Search name" Text="@context.SearchValue?.ToString()" TextChanged="@(v=> context.TriggerFilterChange(v))" />
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="true" ValidationPattern="[A-Za-z]{3}" />
@@ -262,7 +262,7 @@
                             </CaptionTemplate>
                             <FilterTemplate>
                                 @{
-                                    var selectedValue = @context.SearchValue ?? "*";
+                                    var selectedValue = @context.SearchValue?.ToString() ?? "*";
                                     <Select TValue="string" SelectedValue="@selectedValue" SelectedValueChanged="@(e => context.TriggerFilterChange(e == "*" ? "" : e.ToString()))">
                                         <SelectItem Value="@("*")">All</SelectItem>
                                         @foreach ( var item in dataModels )
@@ -280,7 +280,18 @@
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                        <DataGridSelectColumn CustomFilter="@CustomGenderFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                            <FilterTemplate>
+                                <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
+                                    <SelectItem TValue="string" Value="@("*")">All</SelectItem>
+                                    <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
+                                    <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                                    <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
+                                </Select>
+                            </FilterTemplate>
+                            @code{
+                                
+                            }
                             <DisplayTemplate>
                                 @{
                                     var gender = ( context as Employee )?.Gender;

@@ -71,7 +71,7 @@ namespace Blazorise.DataGrid
             base.Dispose( disposing );
         }
 
-        public async void OnSearchValueChanged( string filterValue )
+        public async void OnSearchValueChanged( object filterValue )
         {
             await ParentDataGrid.OnFilterChanged( this, filterValue );
         }
@@ -228,6 +228,11 @@ namespace Blazorise.DataGrid
         /// Filter value for this column.
         /// </summary>
         [Parameter] public FilterContext Filter { get; set; } = new FilterContext();
+
+        /// <summary>
+        /// Custom filter function used to override internal filtering.
+        /// </summary>
+        [Parameter] public Func<object, bool> CustomFilter { get; set; }
 
         /// <summary>
         /// Gets or sets the column initial sort direction.
