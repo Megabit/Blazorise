@@ -370,6 +370,45 @@ Filter API is fairly straightforward. All you need is to attach `CustomFilter` t
 }
 ```
 
+### Custom Column Filtering
+
+Similar to the DataGrid custom filtering it is also possible to use custom filtering on per-column basis.
+
+```html
+<TextEdit @bind-Text="@customFilterValue" />
+
+<DataGrid TItem="Employee"
+        Data="@employeeList">
+    <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+        <FilterTemplate>
+            <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
+                <SelectItem TValue="string" Value="@("*")">All</SelectItem>
+                <SelectItem TValue="string" Value="@("M")">Male</SelectItem>
+                <SelectItem TValue="string" Value="@("F")">Female</SelectItem>
+                <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
+            </Select>
+        </FilterTemplate>
+    </DataGridSelectColumn>
+</DataGrid>
+```
+
+```cs
+@code
+{
+    string selectedGenderFilter;
+
+    private bool OnGenderCustomFilter( object itemValue, object searchValue )
+    {
+        if ( searchValue is string genderFilter )
+        {
+            return genderFilter == "*" || genderFilter == itemValue?.ToString();
+        }
+
+        return true;
+    }
+}
+```
+
 ### Custom Row Colors
 
 You have full control over appearance of each row, including the selected rows.
@@ -720,3 +759,4 @@ Specifies the grid editing modes.
 | SortDirectionTemplate     | `RenderingFragment<SortDirection>`                                  |                     | Template for custom sort direction icon.                                                                      |
 | Validator                 | `Action<ValidatorEventArgs>`                                        |                     | Validates the input value after trying to save.                                                               |
 | ValidationPattern         | string                                                              |                     | Forces validation to use regex pattern matching instead of default validator handler.                         |
+| CustomFilter              | DataGridColumnCustomFilter                                          |                     | Custom filter function used to override internal filtering.                                                   |
