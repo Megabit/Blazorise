@@ -232,7 +232,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Custom filter function used to override internal filtering.
         /// </summary>
-        [Parameter] public Func<object, bool> CustomFilter { get; set; }
+        [Parameter] public DataGridColumnCustomFilter CustomFilter { get; set; }
 
         /// <summary>
         /// Gets or sets the column initial sort direction.

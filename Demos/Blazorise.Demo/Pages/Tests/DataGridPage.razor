@@ -280,7 +280,7 @@
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable="true" />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable="true" Filterable="false" />
-                        <DataGridSelectColumn CustomFilter="@CustomGenderFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
+                        <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable="true">
                             <FilterTemplate>
                                 <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
                                     <SelectItem TValue="string" Value="@("*")">All</SelectItem>

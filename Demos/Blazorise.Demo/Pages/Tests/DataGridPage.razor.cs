@@ -207,9 +207,14 @@ namespace Blazorise.Demo.Pages.Tests
             return dataGrid.Reload();
         }
 
-        private bool CustomGenderFilter( object searchValue )
+        private bool OnGenderCustomFilter( object itemValue, object searchValue )
         {
-            return selectedGenderFilter == "*" || selectedGenderFilter == searchValue?.ToString();
+            if ( searchValue is string genderFilter )
+            {
+                return genderFilter == "*" || genderFilter == itemValue?.ToString();
+            }
+
+            return true;
         }
 
         #endregion

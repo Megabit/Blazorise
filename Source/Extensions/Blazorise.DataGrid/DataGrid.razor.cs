@@ -669,7 +669,7 @@ namespace Blazorise.DataGrid
                     {
                         query = from item in query
                                 let cellRealValue = column.GetValue( item )
-                                where column.CustomFilter( cellRealValue )
+                                where column.CustomFilter( cellRealValue, column.Filter.SearchValue )
                                 select item;
                     }
                     else
@@ -1353,7 +1353,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Handler for custom filtering on datagrid item.
         /// </summary>
-        [Parameter] public Func<TItem, bool> CustomFilter { get; set; }
+        [Parameter] public DataGridCustomFilter<TItem> CustomFilter { get; set; }
 
         /// <summary>
         /// Custom styles for header row.
