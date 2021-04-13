@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Tooltips display informative text when users hover over, focus on, or tap an element.
+    /// </summary>
     public partial class Tooltip : BaseComponent
     {
         #region Members
@@ -22,6 +25,8 @@ namespace Blazorise
         private bool fade;
 
         private int fadeDuration = 300;
+
+        private TooltipTrigger trigger = TooltipTrigger.MouseEnterFocus;
 
         #endregion
 
@@ -55,11 +60,28 @@ namespace Blazorise
                         ShowArrow = ShowArrow,
                         Fade = Fade,
                         FadeDuration = FadeDuration,
+                        Trigger = ToTippyTrigger( Trigger ),
                     } );
                 } );
             }
 
             base.OnInitialized();
+        }
+
+        private static string ToTippyTrigger( TooltipTrigger trigger )
+        {
+            switch ( trigger )
+            {
+                case TooltipTrigger.Click:
+                    return "click";
+                case TooltipTrigger.Focus:
+                    return "focusin";
+                case TooltipTrigger.MouseEnterClick:
+                    return "mouseenter click";
+                case TooltipTrigger.MouseEnterFocus:
+                default:
+                    return "mouseenter focus";
+            }
         }
 
         #endregion
@@ -179,6 +201,24 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Determines the events that cause the tooltip to show.
+        /// </summary>
+        [Parameter]
+        public TooltipTrigger Trigger
+        {
+            get => trigger;
+            set
+            {
+                trigger = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
