@@ -151,6 +151,11 @@ namespace Blazorise.Bulma
                 sb.Append( $".button" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
                     .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".button[disabled], fieldset[disabled] .button" ).Append( "{" )
+                    .Append( $"opacity: {options.DisabledOpacity};" )
+                    .AppendLine( "}" );
         }
 
         protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )
