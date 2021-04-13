@@ -280,6 +280,12 @@
     line-height: 2.5rem;
     padding-left: 10px; }
 
+select[readonly] {
+    pointer-events: none; }
+    select[readonly] option,
+    select[readonly] optgroup {
+        display: none; }
+
 .jumbotron.jumbotron-primary {
     background-color: #007bff;
     color: #fff; }
