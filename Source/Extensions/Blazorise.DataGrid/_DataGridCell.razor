@@ -9,8 +9,8 @@ else
     @if ( HasValidator || HasValidationPattern )
     {
         @if ( Column.ColumnType == DataGridColumnType.Numeric
-            || Column.ColumnType == DataGridColumnType.Check
-            || Column.ColumnType == DataGridColumnType.Date )
+           || Column.ColumnType == DataGridColumnType.Check
+           || Column.ColumnType == DataGridColumnType.Date )
         {
             var type = Column.GetValueType();
 
@@ -65,7 +65,14 @@ else
         {
             var type = Column.GetValueType();
 
-            <_DataGridCellEdit Item="@Item" ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" />
+            if ( Column is DataGridNumericColumn<TItem> numericColumn )
+            {
+                <_DataGridCellEdit Item="@Item" ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" Step="@numericColumn.Step" Decimals="@numericColumn.Decimals" DecimalsSeparator="@numericColumn.DecimalsSeparator" Culture="@numericColumn.Culture" />
+            }
+            else
+            {
+                <_DataGridCellEdit Item="@Item" ValueType="@type" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" />
+            }
         }
         else
         {
