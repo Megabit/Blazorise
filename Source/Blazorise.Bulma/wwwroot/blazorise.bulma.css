@@ -2680,6 +2680,12 @@ label.radio.button {
 .textarea.is-extra-large, .field.has-addons.are-extra-large > .control > .textarea.button {
     font-size: 2rem; }
 
+select[readonly] {
+    pointer-events: none; }
+    select[readonly] option,
+    select[readonly] optgroup {
+        display: none; }
+
 .hero.is-primary {
     background-color: #00d1b2;
     color: #fff; }
