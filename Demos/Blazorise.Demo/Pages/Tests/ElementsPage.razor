@@ -59,6 +59,22 @@
                     </Column>
                 </Row>
             </CardBody>
+            <CardBody>
+                <CardText>Tooltips can also be triggered by <code>click</code> or <code>focus</code> events.</CardText>
+                <Row>
+                    <Column>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.Click">
+                            <Button Color="Color.Primary">Click</Button>
+                        </Tooltip>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.Focus">
+                            <Button Color="Color.Primary">Focus</Button>
+                        </Tooltip>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.MouseEnterClick">
+                            <Button Color="Color.Primary">MouseEnterClick</Button>
+                        </Tooltip>
+                    </Column>
+                </Row>
+            </CardBody>
         </Card>
     </Column>
 </Row>

@@ -264,7 +264,8 @@ window.blazorise = {
                 maxWidth: options.multiline ? "15rem" : null,
                 duration: options.fade ? [options.fadeDuration, options.fadeDuration] : [0, 0],
                 arrow: options.showArrow,
-                allowHTML: true
+                allowHTML: true,
+                trigger: options.trigger
             };
 
             const alwaysActiveOptions = options.alwaysActive
