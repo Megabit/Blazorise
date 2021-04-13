@@ -147,7 +147,7 @@ namespace Blazorise.Components
 
             var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
 
-            SelectedText = item != null ? TextField?.Invoke( item ) : string.Empty;
+            SelectedText = TextField?.Invoke( item ) ?? string.Empty;
             SelectedValue = Converters.ChangeType<TValue>( value );
 
             await SelectedValueChanged.InvokeAsync( SelectedValue );
@@ -175,14 +175,14 @@ namespace Blazorise.Components
             if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
-                        let text = TextField.Invoke( q )
+                        let text = TextField.Invoke( q ) ?? string.Empty
                         where text.IndexOf( CurrentSearch ?? string.Empty, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
-                        let text = TextField.Invoke( q )
+                        let text = TextField.Invoke( q ) ?? string.Empty
                         where text.StartsWith( CurrentSearch ?? string.Empty, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
@@ -223,7 +223,7 @@ namespace Blazorise.Components
             {
                 var item = FilteredData[ActiveItemIndex];
 
-                SelectedText = item != null ? TextField?.Invoke( item ) : string.Empty;
+                SelectedText = TextField?.Invoke( item ) ?? string.Empty;
             }
         }
 
