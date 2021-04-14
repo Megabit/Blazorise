@@ -112,3 +112,12 @@
 @include radio('md', 1.25rem, 1.7rem, 3px);
 @include radio('lg', 1.55rem, 2rem, 6px);
 @include radio('xl', 1.85rem, 2.5rem, 10px);
+
+select[readonly] {
+    pointer-events: none;
+
+    option,
+    optgroup {
+        display: none;
+    }
+}

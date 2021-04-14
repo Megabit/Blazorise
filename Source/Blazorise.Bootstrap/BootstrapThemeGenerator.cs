@@ -212,6 +212,11 @@ namespace Blazorise.Bootstrap
                 sb.Append( $".btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
                     .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".btn.disabled, .btn:disabled" ).Append( "{" )
+                    .Append( $"opacity: {options.DisabledOpacity};" )
+                    .AppendLine( "}" );
         }
 
         protected override void GenerateDropdownStyles( StringBuilder sb, Theme theme, ThemeDropdownOptions options )

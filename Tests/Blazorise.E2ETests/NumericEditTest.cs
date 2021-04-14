@@ -191,7 +191,7 @@ namespace Blazorise.E2ETests
             numeric.SendKeys( "0" );
             WaitAssert.Equal( "0", () => result.Text );
             result.Click();
-            WaitAssert.Equal( "0", () => result.Text );
+            WaitAssert.Equal( "10", () => result.Text );
         }
     }
 }

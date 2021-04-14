@@ -302,6 +302,12 @@ input.form-control[type=color] {
     line-height: 3rem;
     padding-left: 10px; }
 
+select[readonly] {
+    pointer-events: none; }
+    select[readonly] option,
+    select[readonly] optgroup {
+        display: none; }
+
 .no-gutters {
     margin-right: 0;
     margin-left: 0; }

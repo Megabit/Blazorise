@@ -264,7 +264,8 @@ window.blazorise = {
                 maxWidth: options.multiline ? "15rem" : null,
                 duration: options.fade ? [options.fadeDuration, options.fadeDuration] : [0, 0],
                 arrow: options.showArrow,
-                allowHTML: true
+                allowHTML: true,
+                trigger: options.trigger
             };
 
             const alwaysActiveOptions = options.alwaysActive
@@ -337,10 +338,6 @@ window.blazorise = {
                 window.blazorise.numericEdit.keyPress(window.blazorise.numericEdit._instances[elementId], e);
             });
 
-            element.addEventListener("keydown", (e) => {
-                window.blazorise.numericEdit.keyDown(window.blazorise.numericEdit._instances[elementId], e);
-            });
-
             element.addEventListener("paste", (e) => {
                 window.blazorise.numericEdit.paste(window.blazorise.numericEdit._instances[elementId], e);
             });
@@ -359,14 +356,6 @@ window.blazorise = {
         destroy: (element, elementId) => {
             var instances = window.blazorise.numericEdit._instances || {};
             delete instances[elementId];
-        },
-        keyDown: (validator, e) => {
-            if (e.which === 38) {
-                validator.stepApply(1);
-            } else if (e.which === 40) {
-                validator.stepApply(-1);
-            }
-            return true;
         },
         keyPress: (validator, e) => {
             var currentValue = String.fromCharCode(e.which);
@@ -413,16 +402,6 @@ window.blazorise = {
             }
 
             return false;
-        };
-        this.stepApply = function (sign) {
-            var value = (this.element.value || "").replace(this.separator, ".");
-            var number = Number(value) + this.step * sign;
-
-            if (number >= this.min && number <= this.max) {
-                var newValue = number.toString().replace(".", this.separator);
-                this.element.value = newValue;
-                this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
-            }
         };
         this.update = function (options) {
             if (options.decimals && options.decimals.changed) {

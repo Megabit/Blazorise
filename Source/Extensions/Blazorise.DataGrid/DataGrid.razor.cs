@@ -13,6 +13,10 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.DataGrid
 {
+    /// <summary>
+    /// The DataGrid component llows you to display and manage data in a tabular (rows/columns) format.
+    /// </summary>
+    /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
     public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         #region Members
@@ -601,7 +605,7 @@ namespace Blazorise.DataGrid
             return Task.CompletedTask;
         }
 
-        protected internal Task OnFilterChanged( DataGridColumn<TItem> column, string value )
+        protected internal Task OnFilterChanged( DataGridColumn<TItem> column, object value )
         {
             column.Filter.SearchValue = value;
             dirtyFilter = dirtyView = true;
@@ -715,14 +719,26 @@ namespace Blazorise.DataGrid
                     if ( column.ExcludeFromFilter )
                         continue;
 
-                    if ( string.IsNullOrEmpty( column.Filter.SearchValue ) )
-                        continue;
+                    if ( column.CustomFilter != null )
+                    {
+                        query = from item in query
+                                let cellRealValue = column.GetValue( item )
+                                where column.CustomFilter( cellRealValue, column.Filter.SearchValue )
+                                select item;
+                    }
+                    else
+                    {
+                        var stringSearchValue = column.Filter.SearchValue?.ToString();
 
-                    query = from item in query
-                            let cellRealValue = column.GetValue( item )
-                            let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, column.Filter.SearchValue )
-                            select item;
+                        if ( string.IsNullOrEmpty( stringSearchValue ) )
+                            continue;
+
+                        query = from item in query
+                                let cellRealValue = column.GetValue( item )
+                                let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
+                                where CompareFilterValues( cellStringValue, stringSearchValue )
+                                select item;
+                    }
                 }
             }
 
@@ -1391,7 +1407,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Handler for custom filtering on datagrid item.
         /// </summary>
-        [Parameter] public Func<TItem, bool> CustomFilter { get; set; }
+        [Parameter] public DataGridCustomFilter<TItem> CustomFilter { get; set; }
 
         /// <summary>
         /// Custom styles for header row.
