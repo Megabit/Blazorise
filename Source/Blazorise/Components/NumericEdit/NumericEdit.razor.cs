@@ -220,6 +220,20 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Handles the spin-up button click event.
+        /// </summary>
+        /// <returns>Returns the awaitable task.</returns>
+        protected virtual Task OnSpinUpClicked()
+            => ProcessNumber( AddStep( CurrentValue, 1 ) );
+
+        /// <summary>
+        /// Handles the spin-down button click event.
+        /// </summary>
+        /// <returns>Returns the awaitable task.</returns>
+        protected virtual Task OnSpinDownClicked()
+            => ProcessNumber( AddStep( CurrentValue, -1 ) );
+
+        /// <summary>
         /// Applies the step to the supplied value and returns the result.
         /// </summary>
         /// <param name="value">Value to which we apply the step.</param>
