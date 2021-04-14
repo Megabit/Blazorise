@@ -91,7 +91,8 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( default );
             }
-            else if ( ParentDataGrid.MultiSelect
+            else if ( !eventArgs.ShiftKey 
+                && ParentDataGrid.MultiSelect
                 && ParentDataGrid.SelectedRows != null
                 && ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) )
             {
