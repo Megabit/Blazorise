@@ -295,3 +295,12 @@ Defines the resize mode of the data grid columns.
 
 - `Header` - The data grid can only be resized from the columns header.
 - `Columns` - The data grid can be resized from the entire column area.
+
+## TooltipTrigger
+
+Determines the events that cause the tooltip to show.
+
+- `MouseEnterFocus` - Tooltip will show on mouse enter and focus event (default option).
+- `Click` - Tooltip will show on click event only.
+- `Focus` - Tooltip will show on focus event only.
+- `MouseEnterClick` - Tooltip will show on mouse enter and click event.

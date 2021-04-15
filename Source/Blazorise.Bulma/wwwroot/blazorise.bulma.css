@@ -1247,6 +1247,94 @@
     height: 512px;
     width: 512px; }
 
+.has-border {
+    border: 1px solid #adb5bd !important; }
+
+.has-border-top {
+    border-top: 1px solid #adb5bd !important; }
+
+.has-border-right {
+    border-right: 1px solid #adb5bd !important; }
+
+.has-border-bottom {
+    border-bottom: 1px solid #adb5bd !important; }
+
+.has-border-left {
+    border-left: 1px solid #adb5bd !important; }
+
+.has-border-0 {
+    border: 0 !important; }
+
+.has-border-top-0 {
+    border-top: 0 !important; }
+
+.has-border-right-0 {
+    border-right: 0 !important; }
+
+.has-border-bottom-0 {
+    border-bottom: 0 !important; }
+
+.has-border-left-0 {
+    border-left: 0 !important; }
+
+.has-border-primary {
+    border-color: #00d1b2 !important; }
+
+.has-border-secondary {
+    border-color: #6c757d !important; }
+
+.has-border-success {
+    border-color: #48c774 !important; }
+
+.has-border-info {
+    border-color: #238cd1 !important; }
+
+.has-border-warning {
+    border-color: #ffd83d !important; }
+
+.has-border-danger {
+    border-color: #ef2e55 !important; }
+
+.has-border-light {
+    border-color: #f5f5f5 !important; }
+
+.has-border-dark {
+    border-color: #363636 !important; }
+
+.has-border-link {
+    border-color: #3273dc !important; }
+
+.has-border-white {
+    border-color: white !important; }
+
+.is-rounded {
+    border-radius: 4px !important; }
+
+.is-rounded-top {
+    border-top-left-radius: 4px !important;
+    border-top-right-radius: 4px !important; }
+
+.is-rounded-right {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important; }
+
+.is-rounded-bottom {
+    border-bottom-right-radius: 4px !important;
+    border-bottom-left-radius: 4px !important; }
+
+.is-rounded-left {
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important; }
+
+.is-rounded-circle {
+    border-radius: 50% !important; }
+
+.is-rounded-pill {
+    border-radius: 50rem !important; }
+
+.is-rounded-0 {
+    border-radius: 0 !important; }
+
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
     color: #fff !important; }
@@ -2592,6 +2680,12 @@ label.radio.button {
 .textarea.is-extra-large, .field.has-addons.are-extra-large > .control > .textarea.button {
     font-size: 2rem; }
 
+select[readonly] {
+    pointer-events: none; }
+    select[readonly] option,
+    select[readonly] optgroup {
+        display: none; }
+
 .hero.is-primary {
     background-color: #00d1b2;
     color: #fff; }
@@ -2723,6 +2817,43 @@ body::-webkit-scrollbar {
 
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
     background-color: #3273dc; }
+
+/*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
+.rating:not(.rating-disabled):not(.rating-readonly):hover .rating-item {
+    cursor: pointer; }
+
+.rating.rating-disabled {
+    opacity: .65; }
+
+.rating .rating-item.is-primary {
+    color: #00d1b2; }
+
+.rating .rating-item.is-secondary {
+    color: #6c757d; }
+
+.rating .rating-item.is-success {
+    color: #48c774; }
+
+.rating .rating-item.is-info {
+    color: #238cd1; }
+
+.rating .rating-item.is-warning {
+    color: #ffd83d; }
+
+.rating .rating-item.is-danger {
+    color: #ef2e55; }
+
+.rating .rating-item.is-light {
+    color: #f5f5f5; }
+
+.rating .rating-item.is-dark {
+    color: #363636; }
+
+.rating .rating-item.is-link {
+    color: #3273dc; }
+
+.rating .rating-item.is-hover {
+    opacity: 0.7; }
 
 .steps {
     display: flex;

@@ -75,3 +75,12 @@ label.radio.button {
 .textarea.is-extra-large {
     font-size: $size-extra-large;
 }
+
+select[readonly] {
+    pointer-events: none;
+
+    option,
+    optgroup {
+        display: none;
+    }
+}

@@ -244,17 +244,17 @@ namespace Blazorise
         public IFluentDisplayWithDisplayOnBreakpointWithDirection InlineBlock { get { return WithDisplay( DisplayType.InlineBlock ); } }
 
         /// <summary>
-        /// Let the element behave like a <table> element.
+        /// Let the element behave like a table element.
         /// </summary>
         public IFluentDisplayWithDisplayOnBreakpointWithDirection Table { get { return WithDisplay( DisplayType.Table ); } }
 
         /// <summary>
-        /// Let the element behave like a <tr> element.
+        /// Let the element behave like a tr element.
         /// </summary>
         public IFluentDisplayWithDisplayOnBreakpointWithDirection TableRow { get { return WithDisplay( DisplayType.TableRow ); } }
 
         /// <summary>
-        /// Let the element behave like a <td> element.
+        /// Let the element behave like a td element.
         /// </summary>
         public IFluentDisplayWithDisplayOnBreakpointWithDirection TableCell { get { return WithDisplay( DisplayType.TableCell ); } }
 
@@ -325,17 +325,17 @@ namespace Blazorise
         public static IFluentDisplayWithDisplayOnBreakpointWithDirection InlineBlock { get { return new FluentDisplay().InlineBlock; } }
 
         /// <summary>
-        /// Let the element behave like a <table> element.
+        /// Let the element behave like a table element.
         /// </summary>
         public static IFluentDisplayWithDisplayOnBreakpointWithDirection Table { get { return new FluentDisplay().Table; } }
 
         /// <summary>
-        /// Let the element behave like a <tr> element.
+        /// Let the element behave like a tr element.
         /// </summary>
         public static IFluentDisplayWithDisplayOnBreakpointWithDirection TableRow { get { return new FluentDisplay().TableRow; } }
 
         /// <summary>
-        /// Let the element behave like a <td> element.
+        /// Let the element behave like a td element.
         /// </summary>
         public static IFluentDisplayWithDisplayOnBreakpointWithDirection TableCell { get { return new FluentDisplay().TableCell; } }
 

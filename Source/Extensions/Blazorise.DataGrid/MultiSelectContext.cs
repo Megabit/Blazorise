@@ -19,6 +19,8 @@ namespace Blazorise.DataGrid
         /// Constructor for event handler.
         /// </summary>
         /// <param name="selectedChanged">Holds the event handler for <see cref="SelectedChanged"/>.</param>
+        /// <param name="isSelected">Indicates if the item is selected.</param>
+        /// <param name="isIndeterminate">Indicates if the item is in indeterminate state.</param>
         public MultiSelectContext( EventCallback<bool> selectedChanged, bool isSelected, bool isIndeterminate )
         {
             SelectedChanged = selectedChanged;
@@ -30,6 +32,8 @@ namespace Blazorise.DataGrid
         /// Constructor for event handler and a model.
         /// </summary>
         /// <param name="selectedChanged">Holds the event handler for <see cref="SelectedChanged"/>.</param>
+        /// <param name="isSelected">Indicates if the item is selected.</param>
+        /// <param name="isIndeterminate">Indicates if the item is in indeterminate state.</param>
         /// <param name="item">Model associated with the row.</param>
         public MultiSelectContext( EventCallback<bool> selectedChanged, bool isSelected, bool isIndeterminate, TItem item )
             : this( selectedChanged, isSelected, isIndeterminate )

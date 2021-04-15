@@ -41,15 +41,15 @@ namespace Blazorise
                 if ( Multiple )
                 {
                     if ( parameters.TryGetValue<Expression<Func<IReadOnlyList<TValue>>>>( nameof( SelectedValuesExpression ), out var expression ) )
-                        ParentValidation.InitializeInputExpression( expression );
+                        await ParentValidation.InitializeInputExpression( expression );
                 }
                 else
                 {
                     if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( SelectedValueExpression ), out var expression ) )
-                        ParentValidation.InitializeInputExpression( expression );
+                        await ParentValidation.InitializeInputExpression( expression );
                 }
 
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 

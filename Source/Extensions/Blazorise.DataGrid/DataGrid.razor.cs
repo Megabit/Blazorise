@@ -14,6 +14,10 @@ using Blazorise.DataGrid.Configuration;
 
 namespace Blazorise.DataGrid
 {
+    /// <summary>
+    /// The DataGrid component llows you to display and manage data in a tabular (rows/columns) format.
+    /// </summary>
+    /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
     public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         #region Members
@@ -98,6 +102,11 @@ namespace Blazorise.DataGrid
         /// </summary>
         protected PaginationContext<TItem> paginationContext;
 
+        /// <summary>
+        /// Holds the last known selected row index.
+        /// </summary>
+        protected internal short lastSelectedRowIndex;
+
         #endregion
 
         #region Constructors
@@ -139,7 +148,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Links the child column with this datagrid.
         /// </summary>
-        /// <param name="column">Column to link with this datagrid.</param>
+        /// <param name="aggregate">Aggregate column to link with this datagrid.</param>
         internal void Hook( DataGridAggregate<TItem> aggregate )
         {
             Aggregates.Add( aggregate );
@@ -389,32 +398,77 @@ namespace Blazorise.DataGrid
                 PopupVisible = false;
         }
 
+        protected internal short ResolveItemIndex( TItem item )
+        {
+            short index = 0;
+            foreach ( var displayItem in DisplayData )
+            {
+                if ( item.IsEqual( displayItem ) )
+                    break;
+                index++;
+            }
+            return index;
+        }
+
         protected async Task OnMultiSelectCommand( MultiSelectEventArgs<TItem> eventArgs )
         {
             SelectedAllRows = false;
             UnSelectAllRows = false;
 
-            if ( SelectedRows is null )
-            {
-                SelectedRows = new List<TItem>();
-            }
+            SelectedRows ??= new List<TItem>();
 
-            if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) )
+            await HandleShiftClick( eventArgs );
+
+            if ( eventArgs.Selected && !SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
             {
                 SelectedRows.Add( eventArgs.Item );
             }
-
-            if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) )
+            else if ( !eventArgs.Selected && SelectedRows.Contains( eventArgs.Item ) && !eventArgs.ShiftKey )
             {
-                SelectedRows.Remove( eventArgs.Item );
-
-                if ( SelectedRow.IsEqual( eventArgs.Item ) )
+                if ( SelectedRows.Contains( eventArgs.Item ) )
                 {
-                    await SelectedRowChanged.InvokeAsync( default( TItem ) );
+                    SelectedRows.Remove( eventArgs.Item );
+
+                    if ( SelectedRow.IsEqual( eventArgs.Item ) )
+                    {
+                        await SelectedRowChanged.InvokeAsync( default( TItem ) );
+                    }
                 }
             }
 
             await SelectedRowsChanged.InvokeAsync( SelectedRows );
+        }
+
+        private async Task HandleShiftClick( MultiSelectEventArgs<TItem> eventArgs )
+        {
+            if ( eventArgs.ShiftKey )
+            {
+                SelectedRows.Clear();
+
+                var currIndex = ResolveItemIndex( eventArgs.Item );
+
+                if ( currIndex >= lastSelectedRowIndex )
+                {
+                    foreach ( var item in DisplayData.Skip( lastSelectedRowIndex ).Take( currIndex - lastSelectedRowIndex + 1 ) )
+                    {
+                        SelectedRows.Add( item );
+                    }
+                }
+                else
+                {
+                    foreach ( var item in DisplayData.Skip( currIndex ).Take( lastSelectedRowIndex - currIndex + 1 ) )
+                    {
+                        SelectedRows.Add( item );
+                    }
+                }
+
+                if ( !SelectedRows.Contains( SelectedRow ) )
+                {
+                    await SelectedRowChanged.InvokeAsync( default( TItem ) );
+                }
+            }
+            else
+                lastSelectedRowIndex = ResolveItemIndex( eventArgs.Item );
         }
 
         protected async Task OnMultiSelectAll( bool selectAll )
@@ -552,7 +606,7 @@ namespace Blazorise.DataGrid
             return Task.CompletedTask;
         }
 
-        protected internal Task OnFilterChanged( DataGridColumn<TItem> column, string value )
+        protected internal Task OnFilterChanged( DataGridColumn<TItem> column, object value )
         {
             column.Filter.SearchValue = value;
             dirtyFilter = dirtyView = true;
@@ -666,14 +720,26 @@ namespace Blazorise.DataGrid
                     if ( column.ExcludeFromFilter )
                         continue;
 
-                    if ( string.IsNullOrEmpty( column.Filter.SearchValue ) )
-                        continue;
+                    if ( column.CustomFilter != null )
+                    {
+                        query = from item in query
+                                let cellRealValue = column.GetValue( item )
+                                where column.CustomFilter( cellRealValue, column.Filter.SearchValue )
+                                select item;
+                    }
+                    else
+                    {
+                        var stringSearchValue = column.Filter.SearchValue?.ToString();
 
-                    query = from item in query
-                            let cellRealValue = column.GetValue( item )
-                            let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, column.Filter.SearchValue )
-                            select item;
+                        if ( string.IsNullOrEmpty( stringSearchValue ) )
+                            continue;
+
+                        query = from item in query
+                                let cellRealValue = column.GetValue( item )
+                                let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
+                                where CompareFilterValues( cellStringValue, stringSearchValue )
+                                select item;
+                    }
                 }
             }
 
@@ -1352,7 +1418,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Handler for custom filtering on datagrid item.
         /// </summary>
-        [Parameter] public Func<TItem, bool> CustomFilter { get; set; }
+        [Parameter] public DataGridCustomFilter<TItem> CustomFilter { get; set; }
 
         /// <summary>
         /// Custom styles for header row.
@@ -1390,9 +1456,14 @@ namespace Blazorise.DataGrid
         [Parameter] public bool ShowValidationsSummary { get; set; } = true;
 
         /// <summary>
-        /// Label for validaitons summary.
+        /// Label for validations summary.
         /// </summary>
         [Parameter] public string ValidationsSummaryLabel { get; set; }
+
+        /// <summary>
+        /// List of custom error messages for the validations summary.
+        /// </summary>
+        [Parameter] public string[] ValidationsSummaryErrors { get; set; }
 
         /// <summary>
         /// Custom localizer handlers to override default <see cref="DataGrid{TItem}"/> localization.

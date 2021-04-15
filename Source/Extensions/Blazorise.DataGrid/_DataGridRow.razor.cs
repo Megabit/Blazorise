@@ -1,11 +1,9 @@
 ﻿#region Using directives
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise.DataGrid
@@ -23,6 +21,12 @@ namespace Blazorise.DataGrid
         /// Holds the reference to the multiSelect cell.
         /// </summary>
         protected _DataGridRowMultiSelect<TItem> multiSelect;
+
+        /// <summary>
+        /// If click came propagated from MultiSelect Check
+        /// Funels the selection logic into HandleClick.
+        /// </summary>
+        protected bool clickFromCheck;
 
         #endregion
 
@@ -50,13 +54,34 @@ namespace Blazorise.DataGrid
 
         protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
         {
-            await Clicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
+            if ( !clickFromCheck )
+                await Clicked.InvokeAsync( new DataGridRowMouseEventArgs<TItem>( Item, eventArgs ) );
 
             var selectable = ParentDataGrid.RowSelectable?.Invoke( Item ) ?? true;
 
             if ( !selectable )
                 return;
 
+            if ( !clickFromCheck )
+                await HandleSingleSelectClick( eventArgs );
+
+            await HandleMultiSelectClick( eventArgs );
+            clickFromCheck = false;
+        }
+
+        private async Task HandleMultiSelectClick( BLMouseEventArgs eventArgs )
+        {
+            if ( ParentDataGrid.MultiSelect )
+            {
+                var isSelected = ( ParentDataGrid.SelectedRows == null || ( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) ) );
+                var shiftClick = ( eventArgs.ShiftKey && eventArgs.Button == MouseButton.Left );
+
+                await OnMultiSelectCommand( isSelected || shiftClick, shiftClick );
+            }
+        }
+
+        private async Task HandleSingleSelectClick( BLMouseEventArgs eventArgs )
+        {
             // Un-select row if the user is holding the ctrl key on already selected row.
             if ( ParentDataGrid.SingleSelect && eventArgs.CtrlKey && eventArgs.Button == MouseButton.Left
                 && ParentDataGrid.SelectedRow != null
@@ -64,7 +89,8 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( default );
             }
-            else if ( ParentDataGrid.MultiSelect
+            else if ( !eventArgs.ShiftKey
+                && ParentDataGrid.MultiSelect
                 && ParentDataGrid.SelectedRows != null
                 && ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) )
             {
@@ -76,18 +102,6 @@ namespace Blazorise.DataGrid
             else
             {
                 await Selected.InvokeAsync( Item );
-            }
-
-            if ( ParentDataGrid.MultiSelect )
-            {
-                if ( multiSelect != null )
-                {
-                    await multiSelect.OnCheckedChanged( !multiSelect.Checked );
-                }
-                else
-                {
-                    await OnMultiSelectCommand( ParentDataGrid.SelectedRows != null && !ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) );
-                }
             }
         }
 
@@ -118,7 +132,19 @@ namespace Blazorise.DataGrid
 
         protected internal Task OnMultiSelectCommand( bool selected )
         {
-            return MultiSelect.InvokeAsync( new MultiSelectEventArgs<TItem>( Item, selected ) );
+            return MultiSelect.InvokeAsync( new MultiSelectEventArgs<TItem>( Item, selected, false ) );
+        }
+
+        protected internal Task OnMultiSelectCommand( bool selected, bool shiftClick )
+        {
+            return MultiSelect.InvokeAsync( new MultiSelectEventArgs<TItem>( Item, selected, shiftClick ) );
+        }
+
+        protected Task OnMultiSelectCheckClicked()
+        {
+            clickFromCheck = true;
+
+            return Task.CompletedTask;
         }
 
         #endregion

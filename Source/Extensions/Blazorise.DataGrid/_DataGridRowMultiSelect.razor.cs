@@ -12,8 +12,13 @@ namespace Blazorise.DataGrid
 
         internal Task OnCheckedChanged( bool @checked )
         {
-            Checked = @checked;
-            return CheckedChanged.InvokeAsync( @checked );
+            //Multi Select Checked State is bound to the Row Selected State
+            return CheckedChanged.InvokeAsync( Checked );
+        }
+
+        internal Task OnCheckedClicked()
+        {
+            return CheckedClicked.InvokeAsync();
         }
 
         protected string BuildCellStyle()
@@ -48,6 +53,8 @@ namespace Blazorise.DataGrid
         [Parameter] public bool Checked { get; set; }
 
         [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+
+        [Parameter] public EventCallback CheckedClicked { get; set; }
 
         #endregion
     }

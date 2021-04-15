@@ -1757,6 +1757,35 @@
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
     background-color: #3273dc; }
 
+.ant-rate:not(.ant-rate-disabled):not(.ant-rate-readonly):hover .ant-rate-star {
+    cursor: pointer; }
+
+.ant-rate.ant-rate-disabled {
+    opacity: .65; }
+
+.ant-rate .ant-rate-star {
+    cursor: default; }
+    .ant-rate .ant-rate-star.ant-rate-star-primary {
+        color: #1890ff; }
+    .ant-rate .ant-rate-star.ant-rate-star-secondary {
+        color: #6c757d; }
+    .ant-rate .ant-rate-star.ant-rate-star-success {
+        color: #35c613; }
+    .ant-rate .ant-rate-star.ant-rate-star-info {
+        color: #60b6f4; }
+    .ant-rate .ant-rate-star.ant-rate-star-warning {
+        color: #f7c12a; }
+    .ant-rate .ant-rate-star.ant-rate-star-danger {
+        color: #ff4d4f; }
+    .ant-rate .ant-rate-star.ant-rate-star-light {
+        color: #fafafa; }
+    .ant-rate .ant-rate-star.ant-rate-star-dark {
+        color: #343a40; }
+    .ant-rate .ant-rate-star.ant-rate-star-link {
+        color: #3273dc; }
+    .ant-rate .ant-rate-star.ant-rate-star-focused {
+        opacity: 0.7; }
+
 .ant-table-primary,
 .ant-table-primary > th,
 .ant-table-primary > td {
@@ -1914,6 +1943,10 @@
 .ant-tabs-pills .ant-tabs-bar.ant-tabs-bottom-bar .ant-tabs-nav > div > .ant-tabs-tab {
     padding-left: 2rem;
     padding-right: 2rem; }
+
+.ant-tabs.ant-tabs-top .ant-tabs-bar.ant-tabs-top-bar .ant-tabs-nav-scroll {
+    overflow: hidden;
+    overflow-x: auto; }
 
 .ant-display-1 {
     font-size: 6rem;
@@ -4311,3 +4344,91 @@
 
 .ant-text-justify {
     text-align: justify !important; }
+
+.ant-border {
+    border: 1px solid #adb5bd !important; }
+
+.ant-border-top {
+    border-top: 1px solid #adb5bd !important; }
+
+.ant-border-right {
+    border-right: 1px solid #adb5bd !important; }
+
+.ant-border-bottom {
+    border-bottom: 1px solid #adb5bd !important; }
+
+.ant-border-left {
+    border-left: 1px solid #adb5bd !important; }
+
+.ant-border-0 {
+    border: 0 !important; }
+
+.ant-border-top-0 {
+    border-top: 0 !important; }
+
+.ant-border-right-0 {
+    border-right: 0 !important; }
+
+.ant-border-bottom-0 {
+    border-bottom: 0 !important; }
+
+.ant-border-left-0 {
+    border-left: 0 !important; }
+
+.ant-border-primary {
+    border-color: #1890ff !important; }
+
+.ant-border-secondary {
+    border-color: #6c757d !important; }
+
+.ant-border-success {
+    border-color: #35c613 !important; }
+
+.ant-border-info {
+    border-color: #60b6f4 !important; }
+
+.ant-border-warning {
+    border-color: #f7c12a !important; }
+
+.ant-border-danger {
+    border-color: #ff4d4f !important; }
+
+.ant-border-light {
+    border-color: #fafafa !important; }
+
+.ant-border-dark {
+    border-color: #343a40 !important; }
+
+.ant-border-link {
+    border-color: #3273dc !important; }
+
+.ant-border-white {
+    border-color: white !important; }
+
+.ant-rounded {
+    border-radius: 4px !important; }
+
+.ant-rounded-top {
+    border-top-left-radius: 4px !important;
+    border-top-right-radius: 4px !important; }
+
+.ant-rounded-right {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important; }
+
+.ant-rounded-bottom {
+    border-bottom-right-radius: 4px !important;
+    border-bottom-left-radius: 4px !important; }
+
+.ant-rounded-left {
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important; }
+
+.ant-rounded-circle {
+    border-radius: 50% !important; }
+
+.ant-rounded-pill {
+    border-radius: 50rem !important; }
+
+.ant-rounded-0 {
+    border-radius: 0 !important; }

@@ -29,7 +29,7 @@ namespace Blazorise.Providers
 
             if ( name is IconName iconEnum )
             {
-                return $"{iconStyle} {GetIconName( iconEnum )}".Trim();
+                return $"{iconStyle} {GetIconName( iconEnum, style )}".Trim();
             }
             else if ( name is string iconName )
             {
@@ -42,7 +42,7 @@ namespace Blazorise.Providers
             return iconStyle;
         }
 
-        public abstract string GetIconName( IconName name );
+        public abstract string GetIconName( IconName name, IconStyle style );
 
         public abstract void SetIconName( IconName name, string newName );
 

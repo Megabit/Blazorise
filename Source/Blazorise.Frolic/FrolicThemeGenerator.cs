@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 #endregion
 
@@ -27,6 +28,13 @@ namespace Blazorise.Frolic
             sb.Append( $".e-face-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
+        {
+            sb.Append( $".e-border-{variant}" ).Append( "{" )
+                .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
         }
 
@@ -149,6 +157,11 @@ namespace Blazorise.Frolic
             if ( !string.IsNullOrEmpty( options?.Margin ) )
                 sb.Append( $".e-btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
+                    .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".e-btn[disabled]" ).Append( "{" )
+                    .Append( $"opacity: {options.DisabledOpacity};" )
                     .AppendLine( "}" );
         }
 
@@ -306,6 +319,25 @@ namespace Blazorise.Frolic
                 .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq, Var( ThemeVariables.White ) )} !important;" )
                 .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )} !important;" )
                 .Append( $"border-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )} !important;" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateRatingStyles( StringBuilder sb, Theme theme, ThemeRatingOptions ratingOptions )
+        {
+            if ( ratingOptions?.HoverOpacity != null )
+            {
+                sb
+                    .Append( $".e-rating .e-rating-item.e-rating-item-hover" ).Append( "{" )
+                    .Append( $"opacity: {string.Format( CultureInfo.InvariantCulture, "{0:F1}", ratingOptions.HoverOpacity )};" )
+                    .AppendLine( "}" );
+            }
+        }
+
+        protected override void GenerateRatingVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeRatingOptions ratingOptions )
+        {
+            sb
+                .Append( $".e-rating .e-rating-item.e-rating-item-{variant}" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.VariantRatingColor( variant ) )};" )
                 .AppendLine( "}" );
         }
 

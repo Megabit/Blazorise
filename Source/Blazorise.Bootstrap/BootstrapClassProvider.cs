@@ -26,6 +26,8 @@ namespace Blazorise.Bootstrap
 
         public override string MemoEdit() => "form-control";
 
+        public override string MemoEditSize( Size size ) => $"form-control-{ToSize( size )}";
+
         public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
         #endregion
@@ -153,6 +155,26 @@ namespace Blazorise.Bootstrap
         public override string Slider() => "form-control-range";
 
         public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
+
+        public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+
+        #endregion
+
+        #region Rating
+
+        public override string Rating() => "rating";
+
+        public override string RatingDisabled( bool disabled ) => disabled ? "rating-disabled" : null;
+
+        public override string RatingReadonly( bool @readonly ) => @readonly ? "rating-readonly" : null;
+
+        public override string RatingItem() => "rating-item";
+
+        public override string RatingItemColor( Color color ) => $"rating-item-{ToColor( color )}";
+
+        public override string RatingItemSelected( bool selected ) => null;
+
+        public override string RatingItemHovered( bool hover ) => hover ? "rating-item-hover" : null;
 
         #endregion
 
@@ -313,15 +335,18 @@ namespace Blazorise.Bootstrap
 
         #region Buttons
 
-        //public override string Buttons() => "btn-group";
+        public override string Buttons( ButtonsRole role, Orientation orientation )
+        {
+            if ( role == ButtonsRole.Toolbar )
+                return "btn-toolbar";
 
-        public override string ButtonsAddons() => "btn-group";
+            if ( orientation == Orientation.Vertical )
+                return "btn-group-vertical";
 
-        public override string ButtonsToolbar() => "btn-toolbar";
+            return "btn-group";
+        }
 
-        public override string ButtonsSize( Size size ) => $"{ButtonsAddons()}-{ToSize( size )}";
-
-        public override string ButtonsOrientation( Orientation orientation ) => orientation == Orientation.Vertical ? "btn-group-vertical" : null;
+        public override string ButtonsSize( Size size ) => $"btn-group-{ToSize( size )}";
 
         #endregion
 
@@ -971,6 +996,31 @@ namespace Blazorise.Bootstrap
         }
 
         public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
+
+        #endregion
+
+        #region Borders
+
+        public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
+        {
+            var sb = new StringBuilder( "border" );
+
+            if ( borderSide != BorderSide.All )
+                sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
+
+            if ( borderSize == BorderSize.Is0 )
+                sb.Append( "-0" );
+
+            if ( borderColor != BorderColor.None )
+            {
+                sb.Append( " border-" ).Append( ToBorderColor( borderColor ) );
+            }
+
+            return sb.ToString();
+        }
+
+        public override string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules )
+            => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
 
         #endregion
 

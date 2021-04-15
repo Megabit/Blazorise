@@ -26,5 +26,7 @@ namespace Blazorise
         public string SmallBorderRadius { get; set; } = ".2rem";
 
         public float GradientBlendPercentage { get; set; } = 15f;
+
+        public float? DisabledOpacity { get; set; } = .65f;
     }
 }

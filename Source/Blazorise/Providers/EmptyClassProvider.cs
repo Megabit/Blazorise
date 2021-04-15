@@ -29,6 +29,8 @@ namespace Blazorise.Providers
 
         public string MemoEdit() => null;
 
+        public string MemoEditSize( Size size ) => null;
+
         public string MemoEditValidation( ValidationStatus validationStatus ) => null;
 
         #endregion
@@ -152,6 +154,26 @@ namespace Blazorise.Providers
         public string Slider() => null;
 
         public string SliderColor( Color color ) => null;
+
+        public string SliderValidation( ValidationStatus validationStatus ) => null;
+
+        #endregion
+
+        #region Rating
+
+        public string Rating() => null;
+
+        public string RatingDisabled( bool disabled ) => null;
+
+        public string RatingReadonly( bool @readonly ) => null;
+
+        public string RatingItem() => null;
+
+        public string RatingItemColor( Color color ) => null;
+
+        public string RatingItemSelected( bool selected ) => null;
+
+        public string RatingItemHovered( bool hover ) => null;
 
         #endregion
 
@@ -287,15 +309,9 @@ namespace Blazorise.Providers
 
         #region Buttons
 
-        //public  string Buttons() => null;
-
-        public string ButtonsAddons() => null;
-
-        public string ButtonsToolbar() => null;
+        public string Buttons( ButtonsRole role, Orientation orientation ) => null;
 
         public string ButtonsSize( Size size ) => null;
-
-        public string ButtonsOrientation( Orientation orientation ) => null;
 
         #endregion
 
@@ -939,6 +955,16 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Borders
+
+        public string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor ) => null;
+
+        public string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules ) => null;
+
+        public string BorderRadius( BorderRadius borderRadius ) => null;
+
+        #endregion
+
         #region Flex
 
         public string FlexAlignment( Alignment alignment ) => null;
@@ -966,6 +992,8 @@ namespace Blazorise.Providers
         public string ToThemeContrast( ThemeContrast themeContrast ) => null;
 
         public string ToFloat( Float @float ) => null;
+
+        public string ToBorderRadius( BorderRadius borderRadius ) => null;
 
         public string ToSpacing( Spacing spacing ) => null;
 

@@ -2,6 +2,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -12,24 +13,46 @@ namespace Blazorise
     /// <summary>
     /// An editor that displays a time value and allows a user to edit the value.
     /// </summary>
-    /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
+    /// <typeparam name="TValue">Data-type to be binded by the <see cref="TimeEdit{TValue}"/> property.</typeparam>
     public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            var timeChanged = parameters.TryGetValue( nameof( Time ), out TValue time ) && !Time.IsEqual( time );
+            var minChanged = parameters.TryGetValue( nameof( Min ), out TimeSpan? min ) && !Min.IsEqual( min );
+            var maxChanged = parameters.TryGetValue( nameof( Max ), out TimeSpan? max ) && !Max.IsEqual( max );
+
+            if ( timeChanged )
+            {
+                var timeString = FormatValueAsString( time );
+
+                await CurrentValueHandler( timeString );
+
+                if ( Rendered )
+                {
+                    ExecuteAfterRender( async () => await JSRunner.UpdateTimePickerValue( ElementRef, ElementId, timeString ) );
+                }
+            }
+
+            if ( Rendered && ( minChanged || maxChanged ) )
+            {
+                ExecuteAfterRender( async () => await JSRunner.UpdateTimePickerOptions( ElementRef, ElementId, new
+                {
+                    Min = new { Changed = minChanged, Value = min?.ToString( Parsers.InternalTimeFormat ) },
+                    Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat ) },
+                } ) );
+            }
+
+            // Let blazor do its thing!
             await base.SetParametersAsync( parameters );
 
             if ( ParentValidation != null )
             {
                 if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( TimeExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
+                    await ParentValidation.InitializeInputExpression( expression );
 
                 if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
                 {
@@ -38,11 +61,49 @@ namespace Blazorise
                         ? inTime
                         : InternalValue;
 
-                    ParentValidation.InitializeInputPattern( pattern, value );
+                    await ParentValidation.InitializeInputPattern( pattern, value );
                 }
 
-                InitializeValidation();
+                await InitializeValidation();
             }
+        }
+
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            await JSRunner.InitializeTimePicker( ElementRef, ElementId, new
+            {
+                Default = FormatValueAsString( Time ),
+                Min = Min?.ToString( Parsers.InternalTimeFormat ),
+                Max = Max?.ToString( Parsers.InternalTimeFormat ),
+            } );
+
+            await base.OnFirstAfterRenderAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Rendered )
+                {
+                    var task = JSRunner.DestroyTimePicker( ElementRef, ElementId );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+
+            await base.DisposeAsync( disposing );
         }
 
         /// <inheritdoc/>
@@ -64,7 +125,10 @@ namespace Blazorise
 
         protected async Task OnClickHandler( MouseEventArgs e )
         {
-            await JSRunner.ActivateTimePicker( ElementId, Parsers.InternalTimeFormat );
+            if ( Disabled || ReadOnly )
+                return;
+
+            await JSRunner.ActivateTimePicker( ElementRef, ElementId, Parsers.InternalTimeFormat );
         }
 
         /// <inheritdoc/>
@@ -126,19 +190,29 @@ namespace Blazorise
         protected override TValue InternalValue { get => Time; set => Time = value; }
 
         /// <summary>
-        /// Gets or sets the input date value.
+        /// Gets or sets the input time value.
         /// </summary>
         [Parameter] public TValue Time { get; set; }
 
         /// <summary>
-        /// Occurs when the date has changed.
+        /// Occurs when the time has changed.
         /// </summary>
         [Parameter] public EventCallback<TValue> TimeChanged { get; set; }
 
         /// <summary>
-        /// Gets or sets an expression that identifies the date value.
+        /// Gets or sets an expression that identifies the time field.
         /// </summary>
         [Parameter] public Expression<Func<TValue>> TimeExpression { get; set; }
+
+        /// <summary>
+        /// The earliest time to accept.
+        /// </summary>
+        [Parameter] public TimeSpan? Min { get; set; }
+
+        /// <summary>
+        /// The latest time to accept.
+        /// </summary>
+        [Parameter] public TimeSpan? Max { get; set; }
 
         #endregion
     }

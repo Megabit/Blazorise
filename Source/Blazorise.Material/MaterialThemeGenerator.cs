@@ -120,6 +120,27 @@ namespace Blazorise.Material
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateInputStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
+        {
+            sb
+                .Append( $".flatpickr-day.selected" ).Append( "{" )
+                .Append( $"background: { Var( ThemeVariables.Color( "primary" ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".flatpickr-time .flatpickr-am-pm" ).Append( "{" )
+                .Append( $"color: { Var( ThemeVariables.Color( "primary" ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".flatpickr-time .flatpickr-am-pm:focus, .flatpickr-time input:focus" ).Append( "{" )
+                .Append( $"background: { ToHex( Transparency( Var( ThemeVariables.Color( "primary" ) ), 16 ) )};" )
+                .Append( $"color: { Var( ThemeVariables.Color( "primary" ) )};" )
+                .AppendLine( "}" );
+
+            base.GenerateInputStyles( sb, theme, options );
+        }
+
         protected override void GenerateInputCheckEditStyles( StringBuilder sb, Theme theme, ThemeInputOptions options )
         {
             sb
@@ -190,6 +211,11 @@ namespace Blazorise.Material
 
         protected override void GenerateStepsStyles( StringBuilder sb, Theme theme, ThemeStepsOptions stepsOptions )
         {
+            sb
+                .Append( $".stepper.active .stepper-icon" ).Append( "{" )
+                .Append( $"color: {Var( ThemeVariables.StepsItemIconActiveYiq )};" )
+                .Append( $"background-color: {Var( ThemeVariables.StepsItemIconActive, Var( ThemeVariables.Color( "primary" ) ) )};" )
+                .AppendLine( "}" );
         }
 
         protected override void GenerateStepsVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, ThemeStepsOptions stepsOptions )

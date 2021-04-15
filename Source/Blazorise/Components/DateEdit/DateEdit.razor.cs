@@ -13,24 +13,50 @@ namespace Blazorise
     /// <summary>
     /// An editor that displays a date value and allows a user to edit the value.
     /// </summary>
-    /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
+    /// <typeparam name="TValue">Data-type to be binded by the <see cref="DateEdit{TValue}"/> property.</typeparam>
     public partial class DateEdit<TValue> : BaseTextInput<TValue>
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            var dateChanged = parameters.TryGetValue<TValue>( nameof( Date ), out var date ) && !Date.Equals( date );
+            var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? min ) && !Min.IsEqual( min );
+            var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? max ) && !Max.IsEqual( max );
+            var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek firstDayOfWeek ) && !FirstDayOfWeek.IsEqual( firstDayOfWeek );
+            var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
+
+            if ( dateChanged )
+            {
+                var dateString = FormatValueAsString( date );
+
+                await CurrentValueHandler( dateString );
+
+                if ( Rendered )
+                {
+                    ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerValue( ElementRef, ElementId, dateString ) );
+                }
+            }
+
+            if ( Rendered && ( minChanged || maxChanged || firstDayOfWeekChanged || displayFormatChanged ) )
+            {
+                ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerOptions( ElementRef, ElementId, new
+                {
+                    FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = firstDayOfWeek },
+                    DisplayFormat = new { Changed = displayFormatChanged, Value = displayFormat },
+                    Min = new { Changed = minChanged, Value = min?.ToString( DateFormat ) },
+                    Max = new { Changed = maxChanged, Value = max?.ToString( DateFormat ) },
+                } ) );
+            }
+
+            // Let blazor do its thing!
             await base.SetParametersAsync( parameters );
 
             if ( ParentValidation != null )
             {
                 if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
+                    await ParentValidation.InitializeInputExpression( expression );
 
                 if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
                 {
@@ -39,11 +65,52 @@ namespace Blazorise
                         ? inDate
                         : InternalValue;
 
-                    ParentValidation.InitializeInputPattern( pattern, value );
+                    await ParentValidation.InitializeInputPattern( pattern, value );
                 }
 
-                InitializeValidation();
+                await InitializeValidation();
             }
+        }
+
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            await JSRunner.InitializeDatePicker( ElementRef, ElementId, new
+            {
+                InputMode = InputMode,
+                FirstDayOfWeek = FirstDayOfWeek,
+                DisplayFormat = DisplayFormat,
+                Default = FormatValueAsString( Date ),
+                Min = Min?.ToString( DateFormat ),
+                Max = Max?.ToString( DateFormat ),
+            } );
+
+            await base.OnFirstAfterRenderAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Rendered )
+                {
+                    var task = JSRunner.DestroyDatePicker( ElementRef, ElementId );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+
+            await base.DisposeAsync( disposing );
         }
 
         /// <inheritdoc/>
@@ -69,7 +136,7 @@ namespace Blazorise
             if ( Disabled || ReadOnly )
                 return;
 
-            await JSRunner.ActivateDatePicker( ElementId, DateFormat );
+            await JSRunner.ActivateDatePicker( ElementRef, ElementId, DateFormat );
         }
 
         /// <inheritdoc/>
@@ -172,6 +239,26 @@ namespace Blazorise
         /// The latest date to accept.
         /// </summary>
         [Parameter] public DateTimeOffset? Max { get; set; }
+
+        /// <summary>
+        /// Defines the first day of the week.
+        /// </summary>
+        /// <remarks>
+        /// Be aware that not all providers support setting the first day of the week. This is more
+        /// the limitations with browsers than it is with the Blazorise. Currently only the material
+        /// provider support it because it uses the custom plugin for date picker.
+        /// </remarks>
+        [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
+
+        /// <summary>
+        /// Defines the display format of the date.
+        /// </summary>
+        /// <remarks>
+        /// Be aware that not all providers support setting the display format. This is more
+        /// the limitations with browsers than it is with the Blazorise. Currently only the material
+        /// provider support it because it uses the custom plugin for date picker.
+        /// </remarks>
+        [Parameter] public string DisplayFormat { get; set; }
 
         #endregion
     }

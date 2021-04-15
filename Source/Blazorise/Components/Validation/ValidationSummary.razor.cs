@@ -15,7 +15,7 @@ namespace Blazorise
 
         private readonly ValidationsStatusChangedEventHandler validationsStatusChangedEventHandler;
 
-        private IReadOnlyCollection<string> errorMessages;
+        private IReadOnlyCollection<string> internalErrorMessages;
 
         #endregion
 
@@ -80,7 +80,7 @@ namespace Blazorise
 
         private void OnValidationsStatusChanged( ValidationsStatusChangedEventArgs eventArgs )
         {
-            errorMessages = eventArgs.Messages;
+            internalErrorMessages = eventArgs.Messages;
         }
 
         #endregion
@@ -92,18 +92,23 @@ namespace Blazorise
         protected string ErrorClassNames => ErrorClassBuilder.Class;
 
         protected bool HasErrorMessages
-            => errorMessages?.Count > 0;
+            => internalErrorMessages?.Count > 0 || Errors?.Count() > 0;
 
         /// <summary>
         /// Gets the list of error messages.
         /// </summary>
-        protected IReadOnlyCollection<string> ErrorMessages
-            => errorMessages ?? Enumerable.Empty<string>().ToList();
+        protected IEnumerable<string> ErrorMessages
+            => ( internalErrorMessages ?? Enumerable.Empty<string>().ToList() ).Concat( Errors ?? Enumerable.Empty<string>() );
 
         /// <summary>
         /// Label showed before the error messages.
         /// </summary>
         [Parameter] public string Label { get; set; }
+
+        /// <summary>
+        /// List of custom error messages for the validations summary.
+        /// </summary>
+        [Parameter] public string[] Errors { get; set; }
 
         [CascadingParameter] protected Validations ParentValidations { get; set; }
 

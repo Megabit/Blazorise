@@ -153,3 +153,92 @@ $dimensions: 16 24 32 48 64 96 128 256 512 !default
         }
     }
 }
+
+
+.e-border {
+    border: $border-width solid $border-color !important;
+}
+
+.e-border-top {
+    border-top: $border-width solid $border-color !important;
+}
+
+.e-border-right {
+    border-right: $border-width solid $border-color !important;
+}
+
+.e-border-bottom {
+    border-bottom: $border-width solid $border-color !important;
+}
+
+.e-border-left {
+    border-left: $border-width solid $border-color !important;
+}
+
+.e-border-0 {
+    border: 0 !important;
+}
+
+.e-border-top-0 {
+    border-top: 0 !important;
+}
+
+.e-border-right-0 {
+    border-right: 0 !important;
+}
+
+.e-border-bottom-0 {
+    border-bottom: 0 !important;
+}
+
+.e-border-left-0 {
+    border-left: 0 !important;
+}
+
+@each $name, $value in $theme-colors {
+    $color: $value;
+
+    .e-border-#{$name} {
+        border-color: $color !important;
+    }
+}
+
+.e-border-white {
+    border-color: white !important;
+}
+
+.e-rounded {
+    border-radius: $radius !important;
+}
+
+.e-rounded-top {
+    border-top-left-radius: $radius !important;
+    border-top-right-radius: $radius !important;
+}
+
+.e-rounded-right {
+    border-top-right-radius: $radius !important;
+    border-bottom-right-radius: $radius !important;
+}
+
+.e-rounded-bottom {
+    border-bottom-right-radius: $radius !important;
+    border-bottom-left-radius: $radius !important;
+}
+
+.e-rounded-left {
+    border-top-left-radius: $radius !important;
+    border-bottom-left-radius: $radius !important;
+}
+
+.e-rounded-circle {
+    border-radius: 50% !important;
+}
+
+.e-rounded-pill {
+    border-radius: $radius-pill !important;
+}
+
+.e-rounded-0 {
+    border-radius: 0 !important;
+}

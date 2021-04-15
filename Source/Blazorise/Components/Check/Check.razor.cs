@@ -29,9 +29,9 @@ namespace Blazorise
             if ( ParentValidation != null )
             {
                 if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
+                    await ParentValidation.InitializeInputExpression( expression );
 
-                InitializeValidation();
+                await InitializeValidation();
             }
 
             if ( parameters.TryGetValue<bool?>( nameof( Indeterminate ), out var indeterminate ) && this.indeterminate != indeterminate )

@@ -59,7 +59,7 @@ namespace Blazorise
         /// <summary>
         /// Sets the active panel by the name.
         /// </summary>
-        /// <param name="tabName">The name of the panel.</param>
+        /// <param name="name">The name of the panel.</param>
         public void SelectPanel( string name )
         {
             SelectedPanel = name;

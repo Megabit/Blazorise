@@ -4,7 +4,9 @@ if (!window.blazoriseBootstrap) {
 
 window.blazoriseBootstrap = {
     tooltip: {
-        initialize: (element, elementId) => {
+        initialize: (element, elementId, options) => {
+            window.blazorise.tooltip.initialize(element, elementId, options);
+
             if (element.querySelector(".custom-control-input,.btn")) {
                 element.classList.add("b-tooltip-inline");
             }
@@ -34,6 +36,10 @@ window.blazoriseBootstrap = {
             var modals = Number(document.body.getAttribute("data-modals") || "0");
 
             modals -= 1;
+
+            if (modals < 0) {
+                modals = 0;
+            }
 
             if (modals === 0) {
                 window.blazorise.removeClassFromBody("modal-open");

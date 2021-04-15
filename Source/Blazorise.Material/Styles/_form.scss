@@ -201,3 +201,12 @@ input.form-control[type=color] {
 @include radio('md', 2rem, 2rem, 3px);
 @include radio('lg', 2.5rem, 2.5rem, 6px);
 @include radio('xl', 3rem, 3rem, 10px);
+
+select[readonly] {
+    pointer-events: none;
+
+    option,
+    optgroup {
+        display: none;
+    }
+}

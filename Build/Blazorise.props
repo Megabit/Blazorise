@@ -1,18 +1,18 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version>0.9.3</Version>
-		<PackageVersion>0.9.3</PackageVersion>
+		<Version>0.9.4-preview1</Version>
+		<PackageVersion>0.9.4-preview1</PackageVersion>
 
 		<Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
 		<Authors>Mladen Macanovic</Authors>
 		<Company></Company>
-		<Copyright>Copyright 2018-2020 Mladen Macanovic</Copyright>
+		<Copyright>Copyright 2018-2021 Mladen Macanovic</Copyright>
 		<RepositoryUrl>https://github.com/stsrki/Blazorise</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		
+
 		<TargetFramework>net5.0</TargetFramework>
 		<OutputType>Library</OutputType>
-		<IsPackable>true</IsPackable>   
+		<IsPackable>true</IsPackable>
 		<LangVersion>9.0</LangVersion>
 
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>

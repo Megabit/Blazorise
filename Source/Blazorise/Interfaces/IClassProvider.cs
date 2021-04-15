@@ -1,8 +1,5 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise
@@ -24,6 +21,8 @@ namespace Blazorise
         #region MemoEdit
 
         string MemoEdit();
+
+        string MemoEditSize( Size size );
 
         string MemoEditValidation( ValidationStatus validationStatus );
 
@@ -148,6 +147,26 @@ namespace Blazorise
         string Slider();
 
         string SliderColor( Color color );
+
+        string SliderValidation( ValidationStatus validationStatus );
+
+        #endregion
+
+        #region Rating
+
+        string Rating();
+
+        string RatingDisabled( bool disabled );
+
+        string RatingReadonly( bool @readonly );
+
+        string RatingItem();
+
+        string RatingItemColor( Color color );
+
+        string RatingItemSelected( bool selected );
+
+        string RatingItemHovered( bool hover );
 
         #endregion
 
@@ -283,15 +302,9 @@ namespace Blazorise
 
         #region Buttons
 
-        //string Buttons();
-
-        string ButtonsAddons();
-
-        string ButtonsToolbar();
+        string Buttons( ButtonsRole role, Orientation orientation );
 
         string ButtonsSize( Size size );
-
-        string ButtonsOrientation( Orientation orientation );
 
         #endregion
 
@@ -929,6 +942,16 @@ namespace Blazorise
 
         #endregion
 
+        #region Borders
+
+        string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor );
+
+        string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules );
+
+        string BorderRadius( BorderRadius borderRadius );
+
+        #endregion
+
         #region Flex
 
         string FlexAlignment( Alignment alignment );
@@ -961,6 +984,8 @@ namespace Blazorise
         string ToThemeContrast( ThemeContrast themeContrast );
 
         string ToFloat( Float @float );
+
+        string ToBorderRadius( BorderRadius borderRadius );
 
         string ToSpacing( Spacing spacing );
 
