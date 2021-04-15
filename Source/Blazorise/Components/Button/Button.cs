@@ -65,7 +65,7 @@ namespace Blazorise
             ParentDropdown?.NotifyButtonInitialized( this );
 
             // notify addons that the button is inside of it
-            ParentAddons?.Register( this );
+            ParentAddons?.NotifyButtonInitialized( this );
 
             ExecuteAfterRender( async () =>
             {
@@ -93,7 +93,7 @@ namespace Blazorise
             {
                 // remove button from parents
                 ParentDropdown?.NotifyButtonRemoved( this );
-                ParentAddons?.UnRegister( this );
+                ParentAddons?.NotifyButtonRemoved( this );
 
                 if ( Rendered )
                 {
