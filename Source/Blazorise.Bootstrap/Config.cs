@@ -49,6 +49,7 @@ namespace Blazorise.Bootstrap
             serviceCollection.AddTransient<Blazorise.FileEdit, Bootstrap.FileEdit>();
             serviceCollection.AddTransient<Blazorise.Modal, Bootstrap.Modal>();
             serviceCollection.AddTransient<Blazorise.ModalContent, Bootstrap.ModalContent>();
+            serviceCollection.AddTransient( typeof( Blazorise.NumericEdit<> ), typeof( Bootstrap.NumericEdit<> ) );
             serviceCollection.AddTransient<Blazorise.Button, Bootstrap.Button>();
             serviceCollection.AddTransient( typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) );
             serviceCollection.AddTransient( typeof( Blazorise.Switch<> ), typeof( Bootstrap.Switch<> ) );
