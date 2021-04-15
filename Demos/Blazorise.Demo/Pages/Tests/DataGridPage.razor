@@ -223,9 +223,7 @@
                                 </Button>
                             </FilterTemplate>
                             <MultiSelectTemplate>
-                                <Label @onclick:stopPropagation>
-                                    <Check TValue="bool" Checked="@context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged" @onclick:stopPropagation></Check>
-                                </Label>
+                                <Check TValue="bool" Checked="@context.IsSelected" CheckedExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged"></Check>
                             </MultiSelectTemplate>
                         </DataGridMultiSelectColumn>
                         <DataGridCommandColumn TItem="Employee" Width="170px">
@@ -289,9 +287,6 @@
                                     <SelectItem TValue="string" Value="@("D")">Diverse</SelectItem>
                                 </Select>
                             </FilterTemplate>
-                            @code{
-                                
-                            }
                             <DisplayTemplate>
                                 @{
                                     var gender = ( context as Employee )?.Gender;
