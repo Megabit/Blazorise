@@ -211,11 +211,11 @@ namespace Blazorise
 
             if ( eventArgs.Code == "ArrowUp" )
             {
-                await ProcessNumber( AddStep( CurrentValue, 1 ) );
+                await OnSpinUpClicked();
             }
             else if ( eventArgs.Code == "ArrowDown" )
             {
-                await ProcessNumber( AddStep( CurrentValue, -1 ) );
+                await OnSpinDownClicked();
             }
         }
 
@@ -224,14 +224,24 @@ namespace Blazorise
         /// </summary>
         /// <returns>Returns the awaitable task.</returns>
         protected virtual Task OnSpinUpClicked()
-            => ProcessNumber( AddStep( CurrentValue, 1 ) );
+        {
+            if ( ReadOnly || Disabled )
+                return Task.CompletedTask;
+
+            return ProcessNumber( AddStep( CurrentValue, 1 ) );
+        }
 
         /// <summary>
         /// Handles the spin-down button click event.
         /// </summary>
         /// <returns>Returns the awaitable task.</returns>
         protected virtual Task OnSpinDownClicked()
-            => ProcessNumber( AddStep( CurrentValue, -1 ) );
+        {
+            if ( ReadOnly || Disabled )
+                return Task.CompletedTask;
+
+            return ProcessNumber( AddStep( CurrentValue, -1 ) );
+        }
 
         /// <summary>
         /// Applies the step to the supplied value and returns the result.
@@ -285,6 +295,11 @@ namespace Blazorise
 
         /// <inheritdoc/>
         protected override TValue InternalValue { get => Value; set => Value = value; }
+
+        /// <summary>
+        /// True if spin buttons can be shown.
+        /// </summary>
+        protected bool IsShowSpinButtons => ShowSpinButtons && !( ReadOnly || Disabled );
 
         /// <summary>
         /// Gets the culture info defined on the input field.
@@ -358,6 +373,11 @@ namespace Blazorise
         /// The size attribute specifies the visible width, in characters, of an input element. https://www.w3schools.com/tags/att_input_size.asp
         /// </summary>
         [Parameter] public int? VisibleCharacters { get; set; }
+
+        /// <summary>
+        /// Sets the visibility of spin buttons.
+        /// </summary>
+        [Parameter] public bool ShowSpinButtons { get; set; } = true;
 
         #endregion
     }
