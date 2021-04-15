@@ -1,11 +1,9 @@
 ﻿#region Using directives
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
-
 #endregion
 
 namespace Blazorise.DataGrid
@@ -91,7 +89,7 @@ namespace Blazorise.DataGrid
             {
                 await Selected.InvokeAsync( default );
             }
-            else if ( !eventArgs.ShiftKey 
+            else if ( !eventArgs.ShiftKey
                 && ParentDataGrid.MultiSelect
                 && ParentDataGrid.SelectedRows != null
                 && ParentDataGrid.SelectedRows.Any( x => x.IsEqual( Item ) ) )
