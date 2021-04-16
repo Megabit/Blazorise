@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Blazorise
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public abstract class ClassProvider : IClassProvider
     {
         #region TextEdit
@@ -1641,4 +1642,5 @@ namespace Blazorise
 
         public abstract string Provider { get; }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
