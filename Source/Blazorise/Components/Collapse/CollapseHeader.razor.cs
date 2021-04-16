@@ -33,12 +33,17 @@ namespace Blazorise
         {
             ParentCollapse.Toggle();
 
-            return Task.CompletedTask;
+            return Clicked.InvokeAsync( null );
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Occurs when the header is clicked.
+        /// </summary>
+        [Parameter] public EventCallback Clicked { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="CollapseHeader"/>.
