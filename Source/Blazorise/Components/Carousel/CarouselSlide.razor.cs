@@ -23,7 +23,7 @@ namespace Blazorise
         #region Constructors
 
         /// <summary>
-        /// Default constructor.
+        /// A default carousel slide constructor.
         /// </summary>
         public CarouselSlide()
         {
