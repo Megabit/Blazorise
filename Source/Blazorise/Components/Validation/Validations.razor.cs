@@ -45,6 +45,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void OnParametersSet()
         {
             if ( hasSetEditContextExplicitly && Model != null )

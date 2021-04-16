@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Placeholder for the <see cref="Validation"/> error message.
+    /// </summary>
     public partial class ValidationError : BaseValidationResult
     {
         #region Members
@@ -16,6 +19,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             ErrorText = ParentValidation?.Messages?.Count() > 0
@@ -25,6 +29,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             if ( !Tooltip )
@@ -35,6 +40,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
         {
             if ( eventArgs.Status == ValidationStatus.Error )
