@@ -72,6 +72,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             await JSRunner.InitializeDatePicker( ElementRef, ElementId, new

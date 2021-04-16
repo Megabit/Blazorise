@@ -68,6 +68,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             await JSRunner.InitializeTimePicker( ElementRef, ElementId, new
@@ -153,6 +154,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
             if ( Parsers.TryParseTime<TValue>( value, out var result ) )
