@@ -18,6 +18,11 @@ namespace Blazorise
     /// </summary>
     public interface IFileEdit
     {
+        /// <summary>
+        /// Notify us that one or more files has changed.
+        /// </summary>
+        /// <param name="files">List of changed files.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         Task NotifyChange( FileEntry[] files );
     }
 
