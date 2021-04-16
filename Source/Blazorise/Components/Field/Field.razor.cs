@@ -32,6 +32,9 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default constructor for <see cref="Field"/>.
+        /// </summary>
         public Field()
         {
             validationStatusChangedHandler += ( sender, eventArgs ) =>
