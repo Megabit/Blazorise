@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
-
+    /// <summary>
+    /// Static text that can be placed inside of an <see cref="Addon"/>.
+    /// </summary>
     public partial class AddonLabel : BaseComponent
     {
         #region Methods
