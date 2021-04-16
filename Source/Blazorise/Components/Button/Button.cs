@@ -145,6 +145,7 @@ namespace Blazorise
             _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
         }
 
+        /// <inheritdoc/>
         protected override void BuildRenderTree( RenderTreeBuilder builder )
         {
             builder
@@ -202,7 +203,12 @@ namespace Blazorise
             OnCanExecuteChanged( value, EventArgs.Empty );
         }
 
-        protected virtual void OnCanExecuteChanged( object sender, EventArgs e )
+        /// <summary>
+        /// Occurs when changes occur that affect whether or not the command should execute.
+        /// </summary>
+        /// <param name="sender">Reference of the object that raised the event.</param>
+        /// <param name="eventArgs">Event arguments.</param>
+        protected virtual void OnCanExecuteChanged( object sender, EventArgs eventArgs )
         {
             var canExecute = Command?.CanExecute( CommandParameter );
 
