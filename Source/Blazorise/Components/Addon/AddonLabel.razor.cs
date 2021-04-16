@@ -5,14 +5,12 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+
     public partial class AddonLabel : BaseComponent
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.AddonLabel() );
@@ -24,6 +22,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Addon"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
