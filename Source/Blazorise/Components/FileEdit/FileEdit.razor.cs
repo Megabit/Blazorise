@@ -286,7 +286,7 @@ namespace Blazorise
         [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
         /// <summary>
-        /// Gets or sets the DI registered <see cref="ITextLocalizer<FileEdit>"/>.
+        /// Gets or sets the DI registered <see cref="ITextLocalizer{FileEdit}"/>.
         /// </summary>
         [Inject] protected ITextLocalizer<FileEdit> Localizer { get; set; }
 
