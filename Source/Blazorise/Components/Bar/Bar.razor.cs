@@ -100,6 +100,7 @@ namespace Blazorise
             return InvokeAsync( StateHasChanged );
         }
 
+        /// <inheritdoc/>
         public Task OnBreakpoint( bool broken )
         {
             // If the breakpoint state has changed, we need to toggle the visibility of this component.

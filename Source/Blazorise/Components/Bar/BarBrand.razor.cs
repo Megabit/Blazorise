@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Part of the <see cref="Bar"/> component that is always visible, and which usually contains
+    /// the logo and optionally some links or icons.
+    /// </summary>
     public partial class BarBrand : BaseComponent
     {
         #region Members
@@ -42,6 +46,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

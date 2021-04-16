@@ -27,6 +27,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdown( State.Mode ) );
@@ -35,6 +36,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
             // link to the parent component
@@ -43,6 +45,7 @@ namespace Blazorise
             return base.OnInitializedAsync();
         }
 
+        /// <inheritdoc/>
         public override Task SetParametersAsync( ParameterView parameters )
         {
             // This is needed for the two-way binding to work properly.
@@ -55,6 +58,9 @@ namespace Blazorise
             return base.SetParametersAsync( parameters );
         }
 
+        /// <summary>
+        /// Shows the dropdown menu.
+        /// </summary>
         internal void Show()
         {
             if ( Visible )
@@ -65,6 +71,9 @@ namespace Blazorise
             InvokeAsync( StateHasChanged );
         }
 
+        /// <summary>
+        /// Hides the dropdown menu.
+        /// </summary>
         internal void Hide()
         {
             if ( !Visible )
@@ -75,6 +84,9 @@ namespace Blazorise
             InvokeAsync( StateHasChanged );
         }
 
+        /// <summary>
+        /// Toggles the visibility of the dropdown menu.
+        /// </summary>
         internal void Toggle()
         {
             // Don't allow Toggle when menu is in a vertical "popout" style mode.
@@ -87,6 +99,10 @@ namespace Blazorise
             InvokeAsync( StateHasChanged );
         }
 
+        /// <summary>
+        /// Handles the onmouseenter event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task OnMouseEnter()
         {
             if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
@@ -97,6 +113,10 @@ namespace Blazorise
             await Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Handles the onmouseleave event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task OnMouseLeave()
         {
             if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
@@ -155,6 +175,9 @@ namespace Blazorise
         /// </summary>
         [CascadingParameter] protected BarItem ParentBarItem { get; set; }
 
+        /// <summary>
+        /// Cascaded parent <see cref="BarItem"/> state.
+        /// </summary>
         [CascadingParameter]
         protected BarItemState ParentBarItemState
         {
@@ -175,6 +198,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Cascaded parent <see cref="BarDropdown"/> state.
+        /// </summary>
         [CascadingParameter]
         protected BarDropdownState ParentBarDropdownState
         {
@@ -192,6 +218,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

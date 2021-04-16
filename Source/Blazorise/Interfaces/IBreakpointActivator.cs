@@ -20,7 +20,7 @@ namespace Blazorise
         Breakpoint Breakpoint { get; }
 
         /// <summary>
-        /// Triggers the component to activate breakpoint
+        /// Triggers the component to activate breakpoint.
         /// </summary>
         /// <param name="broken">The reason for closing the component.</param>
         Task OnBreakpoint( bool broken );
