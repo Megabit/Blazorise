@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Wrapper for form input conponents like label, text, button, etc.
+    /// </summary>
     public partial class Field : BaseComponent
     {
         #region Members
@@ -41,6 +44,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void OnParametersSet()
         {
             if ( ParentValidation != previousParentValidation )
@@ -51,6 +55,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             previousValidationStatus = ParentValidation?.Status ?? ValidationStatus.None;
@@ -58,6 +63,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -68,6 +74,9 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
+        /// <summary>
+        /// Unsubscribe from <see cref="Validation.StatusChanged"/> event.
+        /// </summary>
         private void DetachValidationStatusChangedListener()
         {
             if ( previousParentValidation != null )
@@ -76,6 +85,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Field() );
@@ -86,6 +96,11 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Handles the <see cref="Validation.StatusChanged"/> event.
+        /// </summary>
+        /// <param name="sender">Object that raised the event.</param>
+        /// <param name="eventArgs">Data about the <see cref="Validation"/> status change event.</param>
         protected void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
         {
             if ( previousValidationStatus != eventArgs.Status )
@@ -98,6 +113,10 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Notifies the field that one of it's child components needs a special treatment.
+        /// </summary>
+        /// <param name="component">Reference to the child component.</param>
         internal void Hook( BaseComponent component )
         {
             if ( hookables == null )
@@ -162,11 +181,20 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Field"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Fields"/> component.
+        /// </summary>
         [CascadingParameter] protected Fields ParentFields { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Validation"/> component.
+        /// </summary>
         [CascadingParameter] protected Validation ParentValidation { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }
