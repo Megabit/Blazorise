@@ -9,6 +9,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Base class for all DOM based components.
+    /// </summary>
     public abstract class BaseComponent : BaseAfterRenderComponent
     {
         #region Members
@@ -33,6 +36,9 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor for <see cref="BaseComponent"/>.
+        /// </summary>
         public BaseComponent()
         {
             ClassBuilder = new ClassBuilder( BuildClasses );
@@ -43,6 +49,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( ShouldAutoGenerateId && ElementId == null )
@@ -53,6 +60,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )

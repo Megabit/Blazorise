@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Base class for validation result messages.
+    /// </summary>
     public abstract class BaseValidationResult : BaseComponent
     {
         #region Members
@@ -15,8 +18,11 @@ namespace Blazorise
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
+        /// <summary>
+        /// A default constructors for <see cref="BaseValidationResult"/>.
+        /// </summary>
         public BaseValidationResult()
         {
             validationStatusChangedHandler += async ( sender, eventArgs ) =>
@@ -26,6 +32,11 @@ namespace Blazorise
             };
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )
@@ -36,6 +47,7 @@ namespace Blazorise
             base.Dispose( disposing );
         }
 
+        /// <inheritdoc/>
         protected override void OnParametersSet()
         {
             if ( ParentValidation != previousParentValidation )
@@ -54,6 +66,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected virtual void OnValidationStatusChanged( object sender, ValidationStatusChangedEventArgs eventArgs )
         {
         }
@@ -62,8 +75,14 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the reference to the parent validation.
+        /// </summary>
         [CascadingParameter] protected Validation ParentValidation { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BaseValidationResult"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
