@@ -70,6 +70,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Cascaded parent <see cref="Field"/> component.
+        /// </summary>
         [CascadingParameter] protected Field ParentField { get; set; }
 
         #endregion
