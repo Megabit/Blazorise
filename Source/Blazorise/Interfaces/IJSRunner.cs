@@ -10,6 +10,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public interface IJSRunner
     {
         ValueTask<bool> InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask );
@@ -102,4 +103,5 @@ namespace Blazorise
 
         ValueTask ResetFileEdit( ElementReference elementRef, string elementId );
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

@@ -11,6 +11,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public abstract class JSRunner : IJSRunner
     {
         protected readonly IJSRuntime runtime;
@@ -260,4 +261,5 @@ namespace Blazorise
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.reset", elementRef, elementId );
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
