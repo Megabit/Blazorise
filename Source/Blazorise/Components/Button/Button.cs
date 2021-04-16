@@ -299,7 +299,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Makes button look inactive.
+        /// When set to 'true', disables the component's functionality and places it in a disabled state.
         /// </summary>
         [Parameter]
         public bool Disabled
@@ -314,7 +314,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Makes the button to appear as pressed.
+        /// When set to 'true', places the component in the active state with active styling.
         /// </summary>
         [Parameter]
         public bool Active
