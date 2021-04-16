@@ -217,6 +217,10 @@ namespace Blazorise
             return safeToClose;
         }
 
+        /// <summary>
+        /// Handles the styles based on the visibility flag.
+        /// </summary>
+        /// <param name="visible">Modal visibility flag.</param>
         protected virtual void HandleVisibilityStyles( bool visible )
         {
             if ( visible )
@@ -255,6 +259,10 @@ namespace Blazorise
             DirtyStyles();
         }
 
+        /// <summary>
+        /// Fires all the events for this modal
+        /// </summary>
+        /// <param name="visible"></param>
         protected virtual void RaiseEvents( bool visible )
         {
             if ( !visible )

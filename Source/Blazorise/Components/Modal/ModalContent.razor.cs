@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Main wrapper for the content area of the modal component.
+    /// </summary>
     public partial class ModalContent : BaseComponent
     {
         #region Members
@@ -19,6 +22,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ModalContent( Dialog ) );
@@ -76,9 +80,15 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected Modal ParentModal { get; set; }
-
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="ModalContent"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Modal"/> component.
+        /// </summary>
+        [CascadingParameter] protected Modal ParentModal { get; set; }
 
         #endregion
     }
