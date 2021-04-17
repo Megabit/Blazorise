@@ -124,6 +124,10 @@ namespace Blazorise
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
+        /// <summary>
+        /// Handles the element onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected async Task OnClickHandler( MouseEventArgs e )
         {
             if ( Disabled || ReadOnly )
