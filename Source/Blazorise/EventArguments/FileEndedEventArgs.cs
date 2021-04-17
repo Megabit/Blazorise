@@ -9,6 +9,11 @@ namespace Blazorise
     /// </summary>
     public class FileEndedEventArgs : EventArgs
     {
+        /// <summary>
+        /// A default <see cref="FileEndedEventArgs"/> constructor.
+        /// </summary>
+        /// <param name="file">File that is ended.</param>
+        /// <param name="success">Result of file end upload.</param>
         public FileEndedEventArgs( IFileEntry file, bool success )
         {
             File = file;

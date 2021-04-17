@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Drawing;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
@@ -10,6 +11,16 @@ namespace Blazorise
     /// </summary>
     public class BLMouseEventArgs : EventArgs
     {
+        /// <summary>
+        /// A default <see cref="BLMouseEventArgs"/> constructor.
+        /// </summary>
+        /// <param name="button">Mouse button that was pressed.</param>
+        /// <param name="clicks">Number of times the mouse button was pressed and released.</param>
+        /// <param name="screen">Coordinate of the mouse pointer in global (screen) coordinates.</param>
+        /// <param name="client">Coordinate of the mouse pointer in local (DOM content) coordinates.</param>
+        /// <param name="ctrl">true if the control key was down when the event was fired. false otherwise.</param>
+        /// <param name="shift">true if the shift key was down when the event was fired. false otherwise.</param>
+        /// <param name="alt">true if the alt key was down when the event was fired. false otherwise.</param>
         public BLMouseEventArgs( MouseButton button, long clicks, Point screen, Point client, bool ctrl, bool shift, bool alt )
         {
             Button = button;

@@ -9,6 +9,10 @@ namespace Blazorise
     /// </summary>
     public class FileStartedEventArgs : EventArgs
     {
+        /// <summary>
+        /// A default <see cref="FileStartedEventArgs"/> constructor.
+        /// </summary>
+        /// <param name="file">File that is started with upload.</param>
         public FileStartedEventArgs( IFileEntry file )
         {
             File = file;
