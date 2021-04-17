@@ -16,19 +16,19 @@ namespace Blazorise.Bootstrap
         {
         }
 
-        public override ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options )
+        public override ValueTask InitializeTooltip( ElementReference elementRef, string elementId, object options )
         {
-            return Runtime.InvokeAsync<bool>( $"{BOOTSTRAP_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
+            return Runtime.InvokeVoidAsync( $"{BOOTSTRAP_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
         }
 
-        public override ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop )
+        public override ValueTask OpenModal( ElementReference elementRef, bool scrollToTop )
         {
-            return Runtime.InvokeAsync<bool>( $"{BOOTSTRAP_NAMESPACE}.modal.open", elementRef, scrollToTop );
+            return Runtime.InvokeVoidAsync( $"{BOOTSTRAP_NAMESPACE}.modal.open", elementRef, scrollToTop );
         }
 
-        public override ValueTask<bool> CloseModal( ElementReference elementRef )
+        public override ValueTask CloseModal( ElementReference elementRef )
         {
-            return Runtime.InvokeAsync<bool>( $"{BOOTSTRAP_NAMESPACE}.modal.close", elementRef );
+            return Runtime.InvokeVoidAsync( $"{BOOTSTRAP_NAMESPACE}.modal.close", elementRef );
         }
 
         //public override Task<bool> ActivateDatePicker( string elementId )

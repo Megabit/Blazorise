@@ -15,25 +15,19 @@ namespace Blazorise.Bulma
 
         }
 
-        public override ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options )
+        public override ValueTask InitializeTooltip( ElementReference elementRef, string elementId, object options )
         {
-            return Runtime.InvokeAsync<bool>( $"blazoriseBulma.tooltip.initialize", elementRef, elementId, options );
+            return Runtime.InvokeVoidAsync( $"blazoriseBulma.tooltip.initialize", elementRef, elementId, options );
         }
 
-        public override ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop )
+        public override ValueTask OpenModal( ElementReference elementRef, bool scrollToTop )
         {
-            return Runtime.InvokeAsync<bool>( $"blazoriseBulma.modal.open", elementRef, scrollToTop );
+            return Runtime.InvokeVoidAsync( $"blazoriseBulma.modal.open", elementRef, scrollToTop );
         }
 
-        public override ValueTask<bool> CloseModal( ElementReference elementRef )
+        public override ValueTask CloseModal( ElementReference elementRef )
         {
-            return Runtime.InvokeAsync<bool>( $"blazoriseBulma.modal.close", elementRef );
+            return Runtime.InvokeVoidAsync( $"blazoriseBulma.modal.close", elementRef );
         }
-
-        //public override Task<bool> ActivateDatePicker( string elementId, string formatSubmit )
-        //{
-        //    Console.WriteLine( "Bulma date not implemented." );
-        //    return Task.FromResult( true );
-        //}
     }
 }

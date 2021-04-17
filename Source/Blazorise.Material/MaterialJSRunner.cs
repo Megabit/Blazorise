@@ -13,9 +13,9 @@ namespace Blazorise.Material
         {
         }
 
-        public override ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options )
+        public override ValueTask InitializeTooltip( ElementReference elementRef, string elementId, object options )
         {
-            return Runtime.InvokeAsync<bool>( $"blazoriseMaterial.tooltip.initialize", elementRef, elementId, options );
+            return Runtime.InvokeVoidAsync( $"blazoriseMaterial.tooltip.initialize", elementRef, elementId, options );
         }
 
         public override ValueTask InitializeDatePicker( ElementReference elementRef, string elementId, object options )
@@ -58,14 +58,14 @@ namespace Blazorise.Material
             return Runtime.InvokeVoidAsync( $"blazoriseMaterial.timeEdit.updateOptions", elementRef, elementId, options );
         }
 
-        public override ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop )
+        public override ValueTask OpenModal( ElementReference elementRef, bool scrollToTop )
         {
-            return Runtime.InvokeAsync<bool>( $"blazoriseMaterial.modal.open", elementRef, scrollToTop );
+            return Runtime.InvokeVoidAsync( $"blazoriseMaterial.modal.open", elementRef, scrollToTop );
         }
 
-        public override ValueTask<bool> CloseModal( ElementReference elementRef )
+        public override ValueTask CloseModal( ElementReference elementRef )
         {
-            return Runtime.InvokeAsync<bool>( $"blazoriseMaterial.modal.close", elementRef );
+            return Runtime.InvokeVoidAsync( $"blazoriseMaterial.modal.close", elementRef );
         }
     }
 }
