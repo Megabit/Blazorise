@@ -89,7 +89,7 @@ namespace Blazorise
             await JSRunner.InitializeNumericEdit<TValue>( dotNetObjectRef, ElementRef, ElementId, new
             {
                 Decimals,
-                DecimalsSeparator,
+                Separator = DecimalsSeparator,
                 Step,
                 Min = Min.IsEqual( default ) ? minFromType : Min,
                 Max = Max.IsEqual( default ) ? maxFromType : Max
