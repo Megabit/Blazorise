@@ -10,18 +10,27 @@ using System.Reflection;
 
 namespace Blazorise.Localization
 {
+    /// <summary>
+    /// A default implementation of <see cref="ITextLocalizerService"/>.
+    /// </summary>
     public class TextLocalizerService : ITextLocalizerService
     {
         #region Members
 
+        /// <summary>
+        /// An event that is raised after localization has changed.
+        /// </summary>
         public event EventHandler LocalizationChanged;
 
-        private readonly ConcurrentDictionary<string, CultureInfo> availableCultures = new ConcurrentDictionary<string, CultureInfo>();
+        private readonly ConcurrentDictionary<string, CultureInfo> availableCultures = new();
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// A default constructor for <see cref="TextLocalizerService"/>.
+        /// </summary>
         public TextLocalizerService()
         {
             ReadResource();
@@ -31,6 +40,9 @@ namespace Blazorise.Localization
 
         #region Methods
 
+        /// <summary>
+        /// Raads all resources in the current assembly.
+        /// </summary>
         public void ReadResource()
         {
             var assembly = typeof( ITextLocalizerService ).Assembly;
@@ -47,6 +59,7 @@ namespace Blazorise.Localization
             }
         }
 
+        /// <inheritdoc/>
         public void AddLanguageResource( string cultureName )
         {
             if ( !availableCultures.ContainsKey( cultureName ) )
@@ -55,6 +68,11 @@ namespace Blazorise.Localization
             }
         }
 
+        /// <summary>
+        /// Gets the list of all resources names in the given assembly.
+        /// </summary>
+        /// <param name="assembly">Assembly that contains the resources.</param>
+        /// <returns>List of resource names.</returns>
         protected virtual string[] GetLocalizationResourceNames( Assembly assembly )
         {
             return assembly.GetManifestResourceNames()
@@ -62,6 +80,7 @@ namespace Blazorise.Localization
                 .ToArray();
         }
 
+        /// <inheritdoc/>
         public void ChangeLanguage( string cultureName, bool changeThreadCulture = true )
         {
             if ( string.IsNullOrEmpty( cultureName ) )
@@ -88,8 +107,10 @@ namespace Blazorise.Localization
 
         #region Properties
 
+        /// <inheritdoc/>
         public CultureInfo SelectedCulture { get; private set; } = CultureInfo.DefaultThreadCurrentUICulture ?? CultureInfo.CurrentUICulture;
 
+        /// <inheritdoc/>
         public IEnumerable<CultureInfo> AvailableCultures => availableCultures.Values;
 
         #endregion

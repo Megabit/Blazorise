@@ -27,6 +27,10 @@ namespace Blazorise.Localization
 
         #region Constructors
 
+        /// <summary>
+        /// A default constructor for <see cref="TextLocalizer{T}"/>.
+        /// </summary>
+        /// <param name="localizerService">Service that is responsible for trigerring the localization change.</param>
         public TextLocalizer( ITextLocalizerService localizerService )
         {
             this.localizerService = localizerService;
@@ -38,6 +42,10 @@ namespace Blazorise.Localization
 
         #region Methods
 
+        /// <summary>
+        /// Reads the localization resource for the given type.
+        /// </summary>
+        /// <param name="resourceType">A resource type.</param>
         public void ReadResources( Type resourceType )
         {
             var assembly = resourceType.Assembly;
@@ -54,6 +62,10 @@ namespace Blazorise.Localization
             }
         }
 
+        /// <summary>
+        /// Adds a language resource to the list.
+        /// </summary>
+        /// <param name="localizationResource">Localization resource to add.</param>
         public void AddLanguageResource( TextLocalizationResource localizationResource )
         {
             translationsByCulture.TryAdd( localizationResource.Culture, localizationResource.Translations );
@@ -61,6 +73,11 @@ namespace Blazorise.Localization
             localizerService.AddLanguageResource( localizationResource.Culture );
         }
 
+        /// <summary>
+        /// Gets the resource name by the resource type.
+        /// </summary>
+        /// <param name="resourceType">A resource type.</param>
+        /// <returns>A resource name.</returns>
         protected virtual string GetResourceName( Type resourceType )
         {
             if ( resourceType.IsGenericType )
@@ -69,6 +86,12 @@ namespace Blazorise.Localization
             return resourceType.Name;
         }
 
+        /// <summary>
+        /// Deserializes a resource from the given assembly as the json string.
+        /// </summary>
+        /// <param name="assembly">Assembly that contains the resource.</param>
+        /// <param name="resourceName">A resource name.</param>
+        /// <returns>A deserialized resource object.</returns>
         protected virtual TextLocalizationResource DeserializeResourceAsJson( Assembly assembly, string resourceName )
         {
             return JsonSerializer.Deserialize<TextLocalizationResource>( ReadResourceAsString( assembly, resourceName ), new JsonSerializerOptions
@@ -77,6 +100,12 @@ namespace Blazorise.Localization
             } );
         }
 
+        /// <summary>
+        /// Reads the resource from the given assembly and returns it as a string.
+        /// </summary>
+        /// <param name="assembly">Assembly that contains the resource.</param>
+        /// <param name="resourceName">A resource name.</param>
+        /// <returns>A resource content as a string.</returns>
         protected virtual string ReadResourceAsString( Assembly assembly, string resourceName )
         {
             using ( var stream = assembly.GetManifestResourceStream( resourceName ) )
@@ -88,6 +117,12 @@ namespace Blazorise.Localization
             }
         }
 
+        /// <summary>
+        /// Search for all localization resource names in a given assembly.
+        /// </summary>
+        /// <param name="assembly">Assembly that contains the resource.</param>
+        /// <param name="resourceName">Part of a resource name to search.</param>
+        /// <returns>List of resource names.</returns>
         protected virtual string[] GetLocalizationResourceNames( Assembly assembly, string resourceName )
         {
             return assembly.GetManifestResourceNames()
@@ -95,6 +130,10 @@ namespace Blazorise.Localization
                 .ToArray();
         }
 
+        /// <summary>
+        /// Gets all of the translations.
+        /// </summary>
+        /// <returns>Key/value pairs of translations.</returns>
         protected virtual IReadOnlyDictionary<string, string> GetTranslations()
         {
             // The selected culture can either be a neutral culture (2-digit:"cn") or a specific culture
@@ -131,6 +170,12 @@ namespace Blazorise.Localization
             return null;
         }
 
+        /// <summary>
+        /// Gets the localized string by the name with the optional list object for formating.
+        /// </summary>
+        /// <param name="name">A name to localize.</param>
+        /// <param name="arguments">An object array that contains zero or more objects to format.</param>
+        /// <returns></returns>
         protected virtual string GetString( string name, params object[] arguments )
         {
             var translations = GetTranslations();
@@ -148,8 +193,10 @@ namespace Blazorise.Localization
 
         #region Properties
 
+        /// <inheritdoc/>
         public string this[string name] => GetString( name );
 
+        /// <inheritdoc/>
         public string this[string name, params object[] arguments] => GetString( name, arguments );
 
         #endregion
