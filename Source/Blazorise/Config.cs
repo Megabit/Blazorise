@@ -10,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Extension methods for building the blazorise options.
+    /// </summary>
     public static class Config
     {
         /// <summary>

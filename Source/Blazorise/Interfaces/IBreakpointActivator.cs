@@ -17,6 +17,9 @@ namespace Blazorise
         /// </summary>
         string ElementId { get; }
 
+        /// <summary>
+        /// Gets the breakpoint.
+        /// </summary>
         Breakpoint Breakpoint { get; }
 
         /// <summary>

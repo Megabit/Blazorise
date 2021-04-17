@@ -1,5 +1,6 @@
 ﻿namespace Blazorise.Extensions
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public static class EnumExtensions
     {
         public static string ToButtonTagName( this ButtonType buttonType )
@@ -112,4 +113,5 @@
             _ => null,
         };
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
