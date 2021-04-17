@@ -1,7 +1,4 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
     /// <summary>
     /// Defines the styling of a label for the component it belongs to.
