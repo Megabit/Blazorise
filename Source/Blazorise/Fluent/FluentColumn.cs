@@ -24,6 +24,9 @@ namespace Blazorise
         bool HasSizes { get; }
     }
 
+    /// <summary>
+    /// Contains all the rules for column sizes.
+    /// </summary>
     public interface IFluentColumnOnBreakpointWithOffsetAndSize :
         IFluentColumn,
         IFluentColumnOnBreakpoint,
@@ -32,6 +35,9 @@ namespace Blazorise
     {
     }
 
+    /// <summary>
+    /// Allowed breakpoints for column rules.
+    /// </summary>
     public interface IFluentColumnOnBreakpoint :
         IFluentColumn
     {
@@ -61,6 +67,9 @@ namespace Blazorise
         IFluentColumnWithSize OnFullHD { get; }
     }
 
+    /// <summary>
+    /// Offset rule for column rules.
+    /// </summary>
     public interface IFluentColumnWithOffset :
         IFluentColumn
     {
@@ -70,6 +79,9 @@ namespace Blazorise
         IFluentColumnOnBreakpoint WithOffset { get; }
     }
 
+    /// <summary>
+    /// Allowed sizes for column rules.
+    /// </summary>
     public interface IFluentColumnWithSize :
         IFluentColumn
     {
@@ -165,6 +177,9 @@ namespace Blazorise
         IFluentColumnWithSize Is( string value );
     }
 
+    /// <summary>
+    /// Default implementation of fluent column builder.
+    /// </summary>
     public class FluentColumn :
         IFluentColumn,
         IFluentColumnOnBreakpointWithOffsetAndSize,
@@ -195,6 +210,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public string Class( IClassProvider classProvider )
         {
             if ( dirty )
@@ -223,6 +239,11 @@ namespace Blazorise
             dirty = true;
         }
 
+        /// <summary>
+        /// Appends the new size rule.
+        /// </summary>
+        /// <param name="columnSize">Column size to start the rule.</param>
+        /// <returns>Next rule reference.</returns>
         public IFluentColumnOnBreakpointWithOffsetAndSize WithColumnSize( ColumnWidth columnSize )
         {
             HasSizes = true;
@@ -240,6 +261,11 @@ namespace Blazorise
             return this;
         }
 
+        /// <summary>
+        /// Appends the new custom size rule.
+        /// </summary>
+        /// <param name="value">Custom size to append.</param>
+        /// <returns>Next rule reference.</returns>
         public IFluentColumnWithSize WithColumnSize( string value )
         {
             if ( customRules == null )
@@ -252,6 +278,11 @@ namespace Blazorise
             return this;
         }
 
+        /// <summary>
+        /// Appends the new breakpoint rule.
+        /// </summary>
+        /// <param name="breakpoint">Breakpoint to append.</param>
+        /// <returns>Next rule reference.</returns>
         public IFluentColumnWithSize WithBreakpoint( Breakpoint breakpoint )
         {
             currentColumn.Breakpoint = breakpoint;
@@ -270,6 +301,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Defines if column has any size rule defined.
+        /// </summary>
         public bool HasSizes { get; private set; }
 
         /// <summary>
