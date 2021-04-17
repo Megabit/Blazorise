@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Extensions
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public static class RenderTreeBuilderExtensions
     {
         public static RenderTreeBuilder OpenElement( this RenderTreeBuilder builder, string name, [CallerLineNumber] int line = 0 )
@@ -219,4 +220,5 @@ namespace Blazorise.Extensions
             return line;
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
