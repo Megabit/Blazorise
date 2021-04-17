@@ -50,7 +50,7 @@ namespace Blazorise.Localization
             var cultureNames =
                 ( from localizationResourceName in GetLocalizationResourceNames( assembly )
                   let path = Path.GetFileNameWithoutExtension( localizationResourceName )
-                  let file = path.Substring( path.LastIndexOf( '.' ) + 1 )
+                  let file = path[( path.LastIndexOf( '.' ) + 1 )..]
                   select file ).Distinct().ToList();
 
             foreach ( var cultureName in cultureNames )

@@ -77,9 +77,9 @@ namespace Blazorise
         {
             await JSRunner.InitializeDatePicker( ElementRef, ElementId, new
             {
-                InputMode = InputMode,
-                FirstDayOfWeek = FirstDayOfWeek,
-                DisplayFormat = DisplayFormat,
+                InputMode,
+                FirstDayOfWeek,
+                DisplayFormat,
                 Default = FormatValueAsString( Date ),
                 Min = Min?.ToString( DateFormat ),
                 Max = Max?.ToString( DateFormat ),
