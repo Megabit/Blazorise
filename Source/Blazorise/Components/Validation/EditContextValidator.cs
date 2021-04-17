@@ -38,13 +38,12 @@ namespace Blazorise
         /// <summary>
         /// Comparer for message localizer.
         /// </summary>
-        protected readonly IValidationMessageLocalizerAttributeFinder validationMessageLocalizerAttributeFinder;
+        private readonly IValidationMessageLocalizerAttributeFinder validationMessageLocalizerAttributeFinder;
 
         /// <summary>
         /// Cached list of fields for validation.
         /// </summary>
-        protected readonly ConcurrentDictionary<(Type ModelType, string FieldName), ValidationPropertyInfo> propertyInfoCache
-           = new ConcurrentDictionary<(Type, string), ValidationPropertyInfo>();
+        private readonly ConcurrentDictionary<(Type ModelType, string FieldName), ValidationPropertyInfo> propertyInfoCache = new();
 
         /// <summary>
         /// Helper object to hold all infomation about validated field.

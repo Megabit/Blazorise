@@ -9,7 +9,7 @@
         /// <summary>
         /// Gets the default value.
         /// </summary>
-        public static readonly ParseValue<TValue> Empty = new ParseValue<TValue>();
+        public static readonly ParseValue<TValue> Empty = new();
 
         /// <summary>
         /// A default <see cref="ParseValue{TValue}"/> constructor.

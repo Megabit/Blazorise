@@ -180,11 +180,11 @@ namespace Blazorise
         /// <summary>
         /// Spacing type.
         /// </summary>
-        protected readonly Spacing spacing;
+        private readonly Spacing spacing;
 
         private SpacingDefinition currentSpacing;
 
-        private Dictionary<SpacingSize, List<SpacingDefinition>> rules = new Dictionary<SpacingSize, List<SpacingDefinition>>();
+        private readonly Dictionary<SpacingSize, List<SpacingDefinition>> rules = new();
 
         private List<string> customRules;
 
@@ -304,6 +304,11 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the spacing type.
+        /// </summary>
+        protected Spacing Spacing => spacing;
 
         /// <summary>
         /// For classes that eliminate the margin or padding by setting it to 0.

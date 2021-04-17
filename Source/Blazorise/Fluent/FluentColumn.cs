@@ -198,7 +198,7 @@ namespace Blazorise
 
         private ColumnDefinition currentColumn;
 
-        private Dictionary<ColumnWidth, List<ColumnDefinition>> rules = new Dictionary<ColumnWidth, List<ColumnDefinition>>();
+        private readonly Dictionary<ColumnWidth, List<ColumnDefinition>> rules = new();
 
         private List<string> customRules;
 

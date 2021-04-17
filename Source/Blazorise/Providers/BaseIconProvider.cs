@@ -15,7 +15,7 @@ namespace Blazorise.Providers
     {
         #region Members
 
-        private readonly ConcurrentDictionary<string, string> customIcons = new ConcurrentDictionary<string, string>();
+        private readonly ConcurrentDictionary<string, string> customIcons = new();
 
         #endregion
 

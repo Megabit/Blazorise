@@ -20,19 +20,19 @@ namespace Blazorise.Utilities
 
         public async Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken )
         {
-            await fileEdit.UpdateFileStartedAsync( fileEntry );
+            await FileEdit.UpdateFileStartedAsync( FileEntry );
 
             long position = 0;
 
             try
             {
-                while ( position < fileEntry.Size )
+                while ( position < FileEntry.Size )
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    var length = Math.Min( maxMessageSize, fileEntry.Size - position );
+                    var length = Math.Min( maxMessageSize, FileEntry.Size - position );
 
-                    var base64 = await jsRunner.ReadDataAsync( cancellationToken, elementRef, fileEntry.Id, position, length );
+                    var base64 = await JSRunner.ReadDataAsync( cancellationToken, ElementRef, FileEntry.Id, position, length );
                     var buffer = Convert.FromBase64String( base64 );
 
                     if ( length != buffer.Length )
@@ -48,8 +48,8 @@ namespace Blazorise.Utilities
 
                     // notify of all the changes
                     await Task.WhenAll(
-                        fileEdit.UpdateFileWrittenAsync( fileEntry, position, buffer ),
-                        fileEdit.UpdateFileProgressAsync( fileEntry, buffer.Length ) );
+                        FileEdit.UpdateFileWrittenAsync( FileEntry, position, buffer ),
+                        FileEdit.UpdateFileProgressAsync( FileEntry, buffer.Length ) );
                 }
             }
             catch
@@ -58,7 +58,7 @@ namespace Blazorise.Utilities
             }
             finally
             {
-                await fileEdit.UpdateFileEndedAsync( fileEntry, position == fileEntry.Size );
+                await FileEdit.UpdateFileEndedAsync( FileEntry, position == FileEntry.Size );
             }
         }
     }

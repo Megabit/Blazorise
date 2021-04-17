@@ -17,17 +17,17 @@ namespace Blazorise.Bulma
 
         public override ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options )
         {
-            return runtime.InvokeAsync<bool>( $"blazoriseBulma.tooltip.initialize", elementRef, elementId, options );
+            return Runtime.InvokeAsync<bool>( $"blazoriseBulma.tooltip.initialize", elementRef, elementId, options );
         }
 
         public override ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop )
         {
-            return runtime.InvokeAsync<bool>( $"blazoriseBulma.modal.open", elementRef, scrollToTop );
+            return Runtime.InvokeAsync<bool>( $"blazoriseBulma.modal.open", elementRef, scrollToTop );
         }
 
         public override ValueTask<bool> CloseModal( ElementReference elementRef )
         {
-            return runtime.InvokeAsync<bool>( $"blazoriseBulma.modal.close", elementRef );
+            return Runtime.InvokeAsync<bool>( $"blazoriseBulma.modal.close", elementRef );
         }
 
         //public override Task<bool> ActivateDatePicker( string elementId, string formatSubmit )

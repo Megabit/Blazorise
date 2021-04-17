@@ -23,7 +23,7 @@ namespace Blazorise
 
         private bool loading;
 
-        private List<ISelectItem<TValue>> selectItems = new List<ISelectItem<TValue>>();
+        private readonly List<ISelectItem<TValue>> selectItems = new();
 
         #endregion
 

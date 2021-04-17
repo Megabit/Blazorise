@@ -55,7 +55,7 @@ namespace Blazorise
         /// <summary>
         /// A list of all elements id that could potentially trigger the modal close event.
         /// </summary>
-        private List<string> closeActivatorElementIds = new List<string>();
+        private readonly List<string> closeActivatorElementIds = new();
 
         #endregion
 

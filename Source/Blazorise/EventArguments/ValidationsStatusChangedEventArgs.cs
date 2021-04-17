@@ -13,7 +13,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the default <see cref="ValidationsStatusChangedEventArgs"/>.
         /// </summary>
-        public static new readonly ValidationsStatusChangedEventArgs Empty = new ValidationsStatusChangedEventArgs( ValidationStatus.None, null );
+        public static new readonly ValidationsStatusChangedEventArgs Empty = new( ValidationStatus.None, null );
 
         /// <summary>
         /// A default <see cref="ValidationsStatusChangedEventArgs"/> constructor.

@@ -25,15 +25,12 @@ namespace Blazorise.Utilities
 
         private static MouseButton ToMouseButton( long button )
         {
-            switch ( button )
+            return button switch
             {
-                case 1:
-                    return MouseButton.Middle;
-                case 2:
-                    return MouseButton.Right;
-                default:
-                    return MouseButton.Left;
-            }
+                1 => MouseButton.Middle,
+                2 => MouseButton.Right,
+                _ => MouseButton.Left,
+            };
         }
     }
 }

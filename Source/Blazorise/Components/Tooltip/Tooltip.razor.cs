@@ -55,13 +55,13 @@ namespace Blazorise
                 {
                     await JSRunner.InitializeTooltip( ElementRef, ElementId, new
                     {
-                        Text = Text,
+                        Text,
                         Placement = ClassProvider.ToPlacement( Placement ),
-                        Multiline = Multiline,
-                        AlwaysActive = AlwaysActive,
-                        ShowArrow = ShowArrow,
-                        Fade = Fade,
-                        FadeDuration = FadeDuration,
+                        Multiline,
+                        AlwaysActive,
+                        ShowArrow,
+                        Fade,
+                        FadeDuration,
                         Trigger = ToTippyTrigger( Trigger ),
                     } );
                 } );
@@ -72,18 +72,13 @@ namespace Blazorise
 
         private static string ToTippyTrigger( TooltipTrigger trigger )
         {
-            switch ( trigger )
+            return trigger switch
             {
-                case TooltipTrigger.Click:
-                    return "click";
-                case TooltipTrigger.Focus:
-                    return "focusin";
-                case TooltipTrigger.MouseEnterClick:
-                    return "mouseenter click";
-                case TooltipTrigger.MouseEnterFocus:
-                default:
-                    return "mouseenter focus";
-            }
+                TooltipTrigger.Click => "click",
+                TooltipTrigger.Focus => "focusin",
+                TooltipTrigger.MouseEnterClick => "mouseenter click",
+                _ => "mouseenter focus",
+            };
         }
 
         #endregion

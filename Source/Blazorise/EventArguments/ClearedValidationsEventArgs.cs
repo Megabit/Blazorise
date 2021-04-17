@@ -12,7 +12,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the default instance of <see cref="ClearedValidationsEventArgs"/>.
         /// </summary>
-        public static new readonly ClearedValidationsEventArgs Empty = new ClearedValidationsEventArgs();
+        public static new readonly ClearedValidationsEventArgs Empty = new();
 
         /// <summary>
         /// A default <see cref="ClearedValidationsEventArgs"/> constructor.

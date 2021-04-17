@@ -21,8 +21,7 @@ namespace Blazorise.Localization
 
         private readonly ITextLocalizerService localizerService;
 
-        private ConcurrentDictionary<string, IReadOnlyDictionary<string, string>> translationsByCulture
-            = new ConcurrentDictionary<string, IReadOnlyDictionary<string, string>>();
+        private readonly ConcurrentDictionary<string, IReadOnlyDictionary<string, string>> translationsByCulture = new();
 
         #endregion
 

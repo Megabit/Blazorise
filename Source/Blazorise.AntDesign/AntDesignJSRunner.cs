@@ -18,17 +18,17 @@ namespace Blazorise.AntDesign
 
         public override ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options )
         {
-            return runtime.InvokeAsync<bool>( $"{ANTDESIGN_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
+            return Runtime.InvokeAsync<bool>( $"{ANTDESIGN_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
         }
 
         public override ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop )
         {
-            return runtime.InvokeAsync<bool>( $"{ANTDESIGN_NAMESPACE}.modal.open", elementRef, scrollToTop );
+            return Runtime.InvokeAsync<bool>( $"{ANTDESIGN_NAMESPACE}.modal.open", elementRef, scrollToTop );
         }
 
         public override ValueTask<bool> CloseModal( ElementReference elementRef )
         {
-            return runtime.InvokeAsync<bool>( $"{ANTDESIGN_NAMESPACE}.modal.close", elementRef );
+            return Runtime.InvokeAsync<bool>( $"{ANTDESIGN_NAMESPACE}.modal.close", elementRef );
         }
     }
 }

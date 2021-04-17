@@ -145,17 +145,17 @@ namespace Blazorise.Extensions
 
         public static RenderTreeBuilder AriaPressed( this RenderTreeBuilder builder, object value, [CallerLineNumber] int line = 0 )
         {
-            return Aria( builder, "pressed", value );
+            return Aria( builder, "pressed", value, line );
         }
 
         public static RenderTreeBuilder AriaHidden( this RenderTreeBuilder builder, object value, [CallerLineNumber] int line = 0 )
         {
-            return Aria( builder, "hidden", value );
+            return Aria( builder, "hidden", value, line );
         }
 
         public static RenderTreeBuilder AriaLabel( this RenderTreeBuilder builder, object value, [CallerLineNumber] int line = 0 )
         {
-            return Aria( builder, "label", value );
+            return Aria( builder, "label", value, line );
         }
 
         public static RenderTreeBuilder Data( this RenderTreeBuilder builder, string name, object value, [CallerLineNumber] int line = 0 )

@@ -14,9 +14,15 @@ namespace Blazorise
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public abstract class JSRunner : IJSRunner
     {
-        protected readonly IJSRuntime runtime;
+        #region Members
+
+        private readonly IJSRuntime runtime;
 
         private const string BLAZORISE_NAMESPACE = "blazorise";
+
+        #endregion
+
+        #region Methods
 
         public JSRunner( IJSRuntime runtime )
         {
@@ -260,6 +266,14 @@ namespace Blazorise
         {
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.reset", elementRef, elementId );
         }
+
+        #endregion
+
+        #region Properties
+
+        protected IJSRuntime Runtime => runtime;
+
+        #endregion
     }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

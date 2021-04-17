@@ -145,17 +145,13 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override string FormatValueAsString( TValue value )
         {
-            switch ( value )
+            return value switch
             {
-                case null:
-                    return null;
-                case TimeSpan timeSpan:
-                    return timeSpan.ToString( Parsers.InternalTimeFormat );
-                case DateTime datetime:
-                    return datetime.ToString( Parsers.InternalTimeFormat );
-                default:
-                    throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
-            }
+                null => null,
+                TimeSpan timeSpan => timeSpan.ToString( Parsers.InternalTimeFormat ),
+                DateTime datetime => datetime.ToString( Parsers.InternalTimeFormat ),
+                _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
+            };
         }
 
         /// <inheritdoc/>

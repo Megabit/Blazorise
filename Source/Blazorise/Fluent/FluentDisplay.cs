@@ -161,7 +161,7 @@ namespace Blazorise
 
         private DisplayDefinition currentDisplay;
 
-        private readonly Dictionary<DisplayType, List<DisplayDefinition>> rules = new Dictionary<DisplayType, List<DisplayDefinition>>();
+        private readonly Dictionary<DisplayType, List<DisplayDefinition>> rules = new();
 
         private bool dirty = true;
 

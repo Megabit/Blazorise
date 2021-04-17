@@ -18,7 +18,7 @@ namespace Blazorise.Utilities
 
         private readonly Action<ClassBuilder> buildClasses;
 
-        private StringBuilder builder = new StringBuilder();
+        private StringBuilder builder = new();
 
         private string classNames;
 

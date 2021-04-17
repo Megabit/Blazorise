@@ -12,7 +12,7 @@ namespace Blazorise.Utilities
     {
         #region Members
 
-        private Func<ValueTask> action;
+        private readonly Func<ValueTask> action;
 
         #endregion
 

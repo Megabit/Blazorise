@@ -35,7 +35,7 @@ namespace Blazorise
         /// <summary>
         /// List of validations placed inside of this container.
         /// </summary>
-        private List<IValidation> validations = new List<IValidation>();
+        private readonly List<IValidation> validations = new();
 
         private EditContext editContext;
 
@@ -256,7 +256,7 @@ namespace Blazorise
                             && ( v.Messages == null || v.Messages.Count() == 0 )
                             && !validations.Where( v2 => v2.Status == ValidationStatus.Error && v2.Messages?.Count() > 0 ).Contains( v ) )
                         ? new string[] { MissingFieldsErrorMessage ?? "One or more fields have an error. Please check and try again." }
-                        : new string[] { } )
+                        : Array.Empty<string>() )
                     .ToList();
             }
         }

@@ -252,33 +252,21 @@ namespace Blazorise.Utilities
         {
             var type = typeof( TValue );
 
-            switch ( type )
+            return type switch
             {
-                case Type byteType when byteType == typeof( byte ) || byteType == typeof( byte? ):
-                    return (byte.MinValue, byte.MaxValue);
-                case Type shortType when shortType == typeof( short ) || shortType == typeof( short? ):
-                    return (short.MinValue, short.MaxValue);
-                case Type intType when intType == typeof( int ) || intType == typeof( int? ):
-                    return (int.MinValue, int.MaxValue);
-                case Type longType when longType == typeof( long ) || longType == typeof( long? ):
-                    return (long.MinValue, long.MaxValue);
-                case Type floatType when floatType == typeof( float ) || floatType == typeof( float? ):
-                    return (float.MinValue, float.MaxValue);
-                case Type doubleType when doubleType == typeof( double ) || doubleType == typeof( double? ):
-                    return (double.MinValue, double.MaxValue);
-                case Type decimalType when decimalType == typeof( decimal ) || decimalType == typeof( decimal? ):
-                    return (decimal.MinValue, decimal.MaxValue);
-                case Type sbyteType when sbyteType == typeof( sbyte ) || sbyteType == typeof( sbyte? ):
-                    return (sbyte.MinValue, sbyte.MaxValue);
-                case Type ushortType when ushortType == typeof( ushort ) || ushortType == typeof( ushort? ):
-                    return (ushort.MinValue, ushort.MaxValue);
-                case Type uintType when uintType == typeof( uint ) || uintType == typeof( uint? ):
-                    return (uint.MinValue, uint.MaxValue);
-                case Type ulongType when ulongType == typeof( ulong ) || ulongType == typeof( ulong? ):
-                    return (ulong.MinValue, ulong.MaxValue);
-                default:
-                    throw new InvalidOperationException( $"Unsupported type {type}" );
-            }
+                Type byteType when byteType == typeof( byte ) || byteType == typeof( byte? ) => (byte.MinValue, byte.MaxValue),
+                Type shortType when shortType == typeof( short ) || shortType == typeof( short? ) => (short.MinValue, short.MaxValue),
+                Type intType when intType == typeof( int ) || intType == typeof( int? ) => (int.MinValue, int.MaxValue),
+                Type longType when longType == typeof( long ) || longType == typeof( long? ) => (long.MinValue, long.MaxValue),
+                Type floatType when floatType == typeof( float ) || floatType == typeof( float? ) => (float.MinValue, float.MaxValue),
+                Type doubleType when doubleType == typeof( double ) || doubleType == typeof( double? ) => (double.MinValue, double.MaxValue),
+                Type decimalType when decimalType == typeof( decimal ) || decimalType == typeof( decimal? ) => (decimal.MinValue, decimal.MaxValue),
+                Type sbyteType when sbyteType == typeof( sbyte ) || sbyteType == typeof( sbyte? ) => (sbyte.MinValue, sbyte.MaxValue),
+                Type ushortType when ushortType == typeof( ushort ) || ushortType == typeof( ushort? ) => (ushort.MinValue, ushort.MaxValue),
+                Type uintType when uintType == typeof( uint ) || uintType == typeof( uint? ) => (uint.MinValue, uint.MaxValue),
+                Type ulongType when ulongType == typeof( ulong ) || ulongType == typeof( ulong? ) => (ulong.MinValue, ulong.MaxValue),
+                _ => throw new InvalidOperationException( $"Unsupported type {type}" ),
+            };
         }
 
         private static bool IsSimpleType( Type type )

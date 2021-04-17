@@ -14,13 +14,13 @@ namespace Blazorise.Utilities
     {
         #region Constants
 
-        private static readonly Regex HtmlColorRegex = new Regex( @"^#((?'R'[0-9a-f]{2})(?'G'[0-9a-f]{2})(?'B'[0-9a-f]{2}))|((?'R'[0-9a-f])(?'G'[0-9a-f])(?'B'[0-9a-f]))$", RegexOptions.Compiled | RegexOptions.IgnoreCase );
+        private static readonly Regex HtmlColorRegex = new( @"^#((?'R'[0-9a-f]{2})(?'G'[0-9a-f]{2})(?'B'[0-9a-f]{2}))|((?'R'[0-9a-f])(?'G'[0-9a-f])(?'B'[0-9a-f]))$", RegexOptions.Compiled | RegexOptions.IgnoreCase );
 
         #endregion
 
         #region HTML Color name to Hex-code
 
-        private static readonly Dictionary<string, int> Mapping = new Dictionary<string, int>( StringComparer.OrdinalIgnoreCase )
+        private static readonly Dictionary<string, int> Mapping = new( StringComparer.OrdinalIgnoreCase )
         {
             { "AlgaeGreen", 0x64E986 },
             { "AliceBlue", 0xF0F8FF },

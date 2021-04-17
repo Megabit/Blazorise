@@ -19,10 +19,10 @@ namespace Blazorise.Utilities
         public static Func<TValue, Task> AsNonRenderingEventHandler<TValue>( Func<TValue, Task> callback )
             => new AsyncReceiver<TValue>( callback ).Invoke;
 
-        record SyncReceiver( Action callback ) : ReceiverBase { public void Invoke() => callback(); }
-        record SyncReceiver<T>( Action<T> callback ) : ReceiverBase { public void Invoke( T arg ) => callback( arg ); }
-        record AsyncReceiver( Func<Task> callback ) : ReceiverBase { public Task Invoke() => callback(); }
-        record AsyncReceiver<T>( Func<T, Task> callback ) : ReceiverBase { public Task Invoke( T arg ) => callback( arg ); }
+        record SyncReceiver( Action Callback ) : ReceiverBase { public void Invoke() => Callback(); }
+        record SyncReceiver<T>( Action<T> Callback ) : ReceiverBase { public void Invoke( T arg ) => Callback( arg ); }
+        record AsyncReceiver( Func<Task> Callback ) : ReceiverBase { public Task Invoke() => Callback(); }
+        record AsyncReceiver<T>( Func<T, Task> Callback ) : ReceiverBase { public Task Invoke( T arg ) => Callback( arg ); }
 
         // By implementing IHandleEvent, we can override the event handling logic on a per-handler basis
         // The logic here just calls the callback without triggering any re-rendering
