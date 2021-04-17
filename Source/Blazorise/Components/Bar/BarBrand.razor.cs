@@ -20,6 +20,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarBrand( ParentBarState?.Mode ?? BarMode.Horizontal ) );
@@ -31,6 +32,14 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Cascaded <see cref="Bar"/> component state object.
+        /// </summary>
         [CascadingParameter]
         protected BarState ParentBarState
         {
@@ -45,11 +54,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-
-        /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }
