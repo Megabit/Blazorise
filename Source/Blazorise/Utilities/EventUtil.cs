@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Utilities
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public static class EventUtil
     {
         // The repetition in here is because of the four combinations of handlers (sync/async * with/without arg)
@@ -30,4 +31,5 @@ namespace Blazorise.Utilities
             public Task HandleEventAsync( EventCallbackWorkItem item, object arg ) => item.InvokeAsync( arg );
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

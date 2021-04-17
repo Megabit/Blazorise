@@ -9,6 +9,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Utilities
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public abstract class FileEntryStreamReader
     {
         protected readonly IJSRunner jsRunner;
@@ -24,4 +25,5 @@ namespace Blazorise.Utilities
             this.fileEdit = fileEdit;
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

@@ -13,6 +13,9 @@ using Blazorise.Extensions;
 
 namespace Blazorise.Utilities
 {
+    /// <summary>
+    /// Helper methods for easier conversion between diferent data types.
+    /// </summary>
     public static class Converters
     {
         #region Constants
@@ -103,7 +106,15 @@ namespace Blazorise.Utilities
             return dictionary;
         }
 
-        // https://stackoverflow.com/a/1107090/833106
+        /// <summary>
+        /// Returns an object of the specified type and whose value is equivalent to the specified object.
+        /// </summary>
+        /// <typeparam name="TValue">The type of object to return.</typeparam>
+        /// <param name="value">An object that implements the <see cref="IConvertible"/> interface.</param>
+        /// <returns>An object whose type is conversionType and whose value is equivalent to value.</returns>
+        /// <remarks>
+        /// https://stackoverflow.com/a/1107090/833106
+        /// </remarks>
         public static TValue ChangeType<TValue>( object value )
         {
             Type conversionType = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
@@ -126,6 +137,14 @@ namespace Blazorise.Utilities
             }
         }
 
+        /// <summary>
+        /// Returns an object of the specified type and whose value is equivalent to the specified object.
+        /// </summary>
+        /// <typeparam name="TValue">The type of object to return.</typeparam>
+        /// <param name="value">An object that implements the <see cref="IConvertible"/> interface.</param>
+        /// <param name="result">New instance of objact whose value is equivalent to the specified object.</param>
+        /// <param name="cultureInfo">Culture info to use for conversion.</param>
+        /// <returns>True if conversion was successful.</returns>
         public static bool TryChangeType<TValue>( object value, out TValue result, CultureInfo cultureInfo = null )
         {
             try
@@ -150,6 +169,7 @@ namespace Blazorise.Utilities
             }
         }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member     
         // modified version of https://stackoverflow.com/a/11521834/833106
         public static bool EnumTryParse<TValue>( string input, Type conversionType, out TValue theEnum )
         {
@@ -220,6 +240,7 @@ namespace Blazorise.Utilities
         public static string FormatValue( DateTimeOffset value, CultureInfo culture = null ) => value.ToString( culture ?? CultureInfo.CurrentCulture );
 
         public static string FormatValue( DateTimeOffset? value, CultureInfo culture = null ) => value?.ToString( culture ?? CultureInfo.CurrentCulture );
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Gets the min and max possible value based on the supplied value type

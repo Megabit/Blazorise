@@ -7,6 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace Blazorise.Utilities
 {
+    /// <summary>
+    /// Utility methods for parsing of color codes.
+    /// </summary>
     public static class HtmlColorCodeParser
     {
         #region Constants

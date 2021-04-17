@@ -6,6 +6,9 @@ using Blazorise.Extensions;
 
 namespace Blazorise.Utilities
 {
+    /// <summary>
+    /// Helper class for easier building of html styles with additional conditions and rules.
+    /// </summary>
     public class StyleBuilder
     {
         #region Members
@@ -37,12 +40,21 @@ namespace Blazorise.Utilities
 
         #region Methods
 
+        /// <summary>
+        /// Appends a copy of the specified string to this instance.
+        /// </summary>
+        /// <param name="value">The string to append.</param>
         public void Append( string value )
         {
             if ( value != null )
                 builder.Append( value ).Append( Delimiter );
         }
 
+        /// <summary>
+        /// Appends a copy of the specified string to this instance if <paramref name="condition"/> is true.
+        /// </summary>
+        /// <param name="value">The string to append.</param>
+        /// <param name="condition">Condition that must be true.</param>
         public void Append( string value, bool condition )
         {
             if ( condition )
