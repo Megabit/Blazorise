@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Blazorise.Providers
 {
+    /// <summary>
+    /// Default implementation of <see cref="IIconProvider"/>.
+    /// </summary>
     public abstract class BaseIconProvider : IIconProvider
     {
         #region Members
@@ -18,6 +21,7 @@ namespace Blazorise.Providers
 
         #region Methods
 
+        /// <inheritdoc/>
         public virtual string Icon( object name, IconStyle style )
         {
             var iconStyle = GetStyleName( style );
@@ -42,23 +46,35 @@ namespace Blazorise.Providers
             return iconStyle;
         }
 
+        /// <inheritdoc/>
         public abstract string GetIconName( IconName name, IconStyle style );
 
+        /// <inheritdoc/>
         public abstract void SetIconName( IconName name, string newName );
 
+        /// <inheritdoc/>
         public string GetIconName( string customName )
         {
             return customIcons.GetOrAdd( customName, customName );
         }
 
+        /// <inheritdoc/>
         public abstract string GetStyleName( IconStyle iconStyle );
 
+        /// <summary>
+        /// Determines if style contains the icon name.
+        /// </summary>
+        /// <param name="iconName">Icon name to search.</param>
+        /// <returns>True if icon name is found within the style.</returns>
         protected abstract bool ContainsStyleName( string iconName );
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// True if icon name should be placed as en element content.
+        /// </summary>
         public abstract bool IconNameAsContent { get; }
 
         #endregion
