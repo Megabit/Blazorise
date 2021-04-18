@@ -65,15 +65,12 @@ namespace Blazorise
         /// <returns>Returns a close reason.</returns>
         private static CloseReason GetCloseReason( string reason )
         {
-            switch ( reason )
+            return reason switch
             {
-                case "leave":
-                    return CloseReason.FocusLostClosing;
-                case "escape":
-                    return CloseReason.EscapeClosing;
-                default:
-                    return CloseReason.None;
-            }
+                "leave" => CloseReason.FocusLostClosing,
+                "escape" => CloseReason.EscapeClosing,
+                _ => CloseReason.None,
+            };
         }
     }
 }
