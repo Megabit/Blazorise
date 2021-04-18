@@ -18,6 +18,9 @@ namespace Blazorise.Utilities
         IEnumerable<(string Index, string Argument)> FindAll( string first, string second );
     }
 
+    /// <summary>
+    /// Default implementation of <see cref="IValidationMessageLocalizerAttributeFinder"/>.
+    /// </summary>
     public class ValidationMessageLocalizerAttributeFinder : IValidationMessageLocalizerAttributeFinder
     {
         #region Methods

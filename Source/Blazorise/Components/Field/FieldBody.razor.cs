@@ -10,12 +10,9 @@ namespace Blazorise
     /// </summary>
     public partial class FieldBody : BaseSizableFieldComponent
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.FieldBody() );
@@ -27,6 +24,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="FieldBody"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

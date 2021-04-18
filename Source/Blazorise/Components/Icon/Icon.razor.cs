@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 namespace Blazorise
 {
     /// <summary>
-    /// An icon component.
+    /// Container for any type of icon font.
     /// </summary>
     public partial class Icon : BaseComponent
     {
@@ -30,16 +30,28 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Handles the icon onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task OnClickHandler()
         {
             return Clicked.InvokeAsync( null );
         }
 
+        /// <summary>
+        /// Handles the icon onmouseover event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task OnMouseOverHandler( MouseEventArgs eventArgs )
         {
             return MouseOver.InvokeAsync( eventArgs );
         }
 
+        /// <summary>
+        /// Handles the icon onmouseout event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task OnMouseOutHandler( MouseEventArgs eventArgs )
         {
             return MouseOut.InvokeAsync( eventArgs );
@@ -89,8 +101,14 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback Clicked { get; set; }
 
+        /// <summary>
+        /// Occurs when the mouse has entered the icon area.
+        /// </summary>
         [Parameter] public EventCallback<MouseEventArgs> MouseOver { get; set; }
 
+        /// <summary>
+        /// Occurs when the mouse has left the icon area.
+        /// </summary>
         [Parameter] public EventCallback<MouseEventArgs> MouseOut { get; set; }
 
         #endregion

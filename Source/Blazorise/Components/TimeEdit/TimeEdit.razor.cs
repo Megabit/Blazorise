@@ -68,6 +68,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             await JSRunner.InitializeTimePicker( ElementRef, ElementId, new
@@ -123,6 +124,10 @@ namespace Blazorise
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
+        /// <summary>
+        /// Handles the element onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected async Task OnClickHandler( MouseEventArgs e )
         {
             if ( Disabled || ReadOnly )
@@ -140,19 +145,16 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override string FormatValueAsString( TValue value )
         {
-            switch ( value )
+            return value switch
             {
-                case null:
-                    return null;
-                case TimeSpan timeSpan:
-                    return timeSpan.ToString( Parsers.InternalTimeFormat );
-                case DateTime datetime:
-                    return datetime.ToString( Parsers.InternalTimeFormat );
-                default:
-                    throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
-            }
+                null => null,
+                TimeSpan timeSpan => timeSpan.ToString( Parsers.InternalTimeFormat ),
+                DateTime datetime => datetime.ToString( Parsers.InternalTimeFormat ),
+                _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
+            };
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
             if ( Parsers.TryParseTime<TValue>( value, out var result ) )

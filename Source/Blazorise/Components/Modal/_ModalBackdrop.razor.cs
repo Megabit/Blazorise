@@ -44,6 +44,14 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
+        /// <summary>
+        /// Gets or sets the cascaded parent modal component.
+        /// </summary>
+        [CascadingParameter] protected Modal ParentModal { get; set; }
+
+        /// <summary>
+        /// Cascaded <see cref="Modal"/> component state object.
+        /// </summary>
         [CascadingParameter]
         protected ModalState ParentModalState
         {
@@ -58,11 +66,6 @@ namespace Blazorise
                 DirtyClasses();
             }
         }
-
-        /// <summary>
-        /// Gets or sets the cascaded parent modal component.
-        /// </summary>
-        [CascadingParameter] protected Modal ParentModal { get; set; }
 
         #endregion
     }

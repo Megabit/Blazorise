@@ -9,6 +9,10 @@ namespace Blazorise
     /// </summary>
     public class TabsStateEventArgs : EventArgs
     {
+        /// <summary>
+        /// A default <see cref="TabsStateEventArgs"/> constructor.
+        /// </summary>
+        /// <param name="tabName">Tab name.</param>
         public TabsStateEventArgs( string tabName )
         {
             TabName = tabName;

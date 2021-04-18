@@ -20,7 +20,7 @@ namespace Blazorise.Utilities
         /// <summary>
         /// Internal timer used to delay the value.
         /// </summary>
-        private Timer timer;
+        private readonly Timer timer;
 
         /// <summary>
         /// Event raised after the interval has passed.
@@ -87,6 +87,7 @@ namespace Blazorise.Utilities
         public void Dispose()
         {
             Dispose( true );
+            GC.SuppressFinalize( this );
         }
 
         /// <summary>

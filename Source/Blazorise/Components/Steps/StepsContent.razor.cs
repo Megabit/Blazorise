@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Main content area of <see cref="Steps"/> component that can be placed anywhere on a page.
+    /// </summary>
     public partial class StepsContent : BaseComponent
     {
         #region Members
@@ -19,6 +22,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.StepsContent() );
@@ -38,6 +42,10 @@ namespace Blazorise
                 stepPanels.Remove( name );
         }
 
+        /// <summary>
+        /// Select the panel by name.
+        /// </summary>
+        /// <param name="name">Panel name.</param>
         public void SelectPanel( string name )
         {
             SelectedPanel = name;
@@ -86,6 +94,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public EventCallback<string> SelectedPanelChanged { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="StepsContent"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

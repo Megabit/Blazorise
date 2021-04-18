@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Toggle visibility of almost any content on your pages in a vertically collapsing container.
+    /// </summary>
     public partial class Collapse : BaseComponent
     {
         #region Members
@@ -15,6 +18,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Collapse() );
@@ -23,6 +27,9 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Toggles the collapse visibility state.
+        /// </summary>
         public void Toggle()
         {
             Visible = !Visible;
@@ -33,6 +40,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the collapse visibilty state.
+        /// </summary>
         [Parameter]
         public bool Visible
         {
@@ -45,6 +55,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Collapse"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

@@ -6,11 +6,22 @@ using Blazorise.Utilities;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Base interface for all fluent display builders.
+    /// </summary>
     public interface IFluentDisplay
     {
+        /// <summary>
+        /// Builds the classnames based on display rules.
+        /// </summary>
+        /// <param name="classProvider">Currently used class provider.</param>
+        /// <returns>List of classnames for the given rules and the class provider.</returns>
         string Class( IClassProvider classProvider );
     }
 
+    /// <summary>
+    /// Contains all the allowed display rules.
+    /// </summary>
     public interface IFluentDisplayWithDisplayOnBreakpointWithDirection :
         IFluentDisplay,
         IFluentDisplayOnBreakpoint,
@@ -18,6 +29,9 @@ namespace Blazorise
     {
     }
 
+    /// <summary>
+    /// Allowed breakpoints for display rules.
+    /// </summary>
     public interface IFluentDisplayOnBreakpoint :
         IFluentDisplay
     {
@@ -47,40 +61,88 @@ namespace Blazorise
         IFluentDisplayWithDisplay OnFullHD { get; }
     }
 
+    /// <summary>
+    /// Allowed rules for flex display.
+    /// </summary>
     public interface IFluentDisplayWithDisplayFlexWithDirection :
         IFluentDisplay
     {
+        /// <summary>
+        /// Default value. The flexible items are displayed horizontally, as a row.
+        /// </summary>
         IFluentDisplayWithDisplayOnBreakpointWithDirection Row { get; }
 
+        /// <summary>
+        /// Same as row, but in reverse order.
+        /// </summary>
         IFluentDisplayWithDisplayOnBreakpointWithDirection ReverseRow { get; }
 
+        /// <summary>
+        /// The flexible items are displayed vertically, as a column.
+        /// </summary>
         IFluentDisplayWithDisplayOnBreakpointWithDirection Column { get; }
 
+        /// <summary>
+        /// Same as column, but in reverse order.
+        /// </summary>
         IFluentDisplayWithDisplayOnBreakpointWithDirection ReverseColumn { get; }
     }
 
+    /// <summary>
+    /// All allowed display rules.
+    /// </summary>
     public interface IFluentDisplayWithDisplay :
         IFluentDisplay
     {
+        /// <summary>
+        /// The element is completely removed.
+        /// </summary>
         IFluentDisplayWithDisplayOnBreakpointWithDirection None { get; }
 
+        /// <summary>
+        /// Displays an element as a block element. It starts on a new line, and takes up the whole width.
+        /// </summary>
         IFluentDisplayWithDisplayOnBreakpointWithDirection Block { get; }
 
+        /// <summary>
+        /// Displays an element as an inline element. Any height and width properties will have no effect.
+        /// </summary>
         IFluentDisplayWithDisplayOnBreakpointWithDirection Inline { get; }
 
+        /// <summary>
+        /// Displays an element as an inline-level block container. The element itself is formatted as an inline element, but you can apply height and width values
+        /// </summary>
         IFluentDisplayWithDisplayOnBreakpointWithDirection InlineBlock { get; }
 
+        /// <summary>
+        /// Let the element behave like a table element.
+        /// </summary>
         IFluentDisplayWithDisplayOnBreakpointWithDirection Table { get; }
 
+        /// <summary>
+        /// Let the element behave like a table row element.
+        /// </summary>
         IFluentDisplayWithDisplayOnBreakpointWithDirection TableRow { get; }
 
+        /// <summary>
+        /// Let the element behave like a table cell element.
+        /// </summary>
         IFluentDisplayWithDisplayOnBreakpointWithDirection TableCell { get; }
 
+        /// <summary>
+        /// Displays an element as a block-level flex container.
+        /// </summary>
         IFluentDisplayWithDisplayFlexWithDirection Flex { get; }
 
+        /// <summary>
+        /// Displays an element as an inline-level flex container.
+        /// </summary>
         IFluentDisplayWithDisplayFlexWithDirection InlineFlex { get; }
     }
 
+    /// <summary>
+    /// Default implementation of <see cref="IFluentDisplay"/>.
+    /// </summary>
     public class FluentDisplay :
         IFluentDisplay,
         IFluentDisplayWithDisplayOnBreakpointWithDirection,
@@ -99,7 +161,7 @@ namespace Blazorise
 
         private DisplayDefinition currentDisplay;
 
-        private readonly Dictionary<DisplayType, List<DisplayDefinition>> rules = new Dictionary<DisplayType, List<DisplayDefinition>>();
+        private readonly Dictionary<DisplayType, List<DisplayDefinition>> rules = new();
 
         private bool dirty = true;
 
@@ -109,6 +171,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public string Class( IClassProvider classProvider )
         {
             if ( dirty )
@@ -134,6 +197,11 @@ namespace Blazorise
             dirty = true;
         }
 
+        /// <summary>
+        /// Appends the new display rule.
+        /// </summary>
+        /// <param name="displayType">Display type to append.</param>
+        /// <returns>Next rule reference.</returns>
         public IFluentDisplayWithDisplayOnBreakpointWithDirection WithDisplay( DisplayType displayType )
         {
             var columnDefinition = new DisplayDefinition { Breakpoint = Breakpoint.None };
@@ -149,6 +217,11 @@ namespace Blazorise
             return this;
         }
 
+        /// <summary>
+        /// Appends the new flex rule.
+        /// </summary>
+        /// <param name="displayType">Display type to append.</param>
+        /// <returns>Next rule reference.</returns>
         public IFluentDisplayWithDisplayFlexWithDirection WithFlex( DisplayType displayType )
         {
             var columnDefinition = new DisplayDefinition { Breakpoint = Breakpoint.None };
@@ -164,6 +237,11 @@ namespace Blazorise
             return this;
         }
 
+        /// <summary>
+        /// Appends the new breakpoint rule.
+        /// </summary>
+        /// <param name="breakpoint">Breakpoint to append</param>
+        /// <returns>Next rule reference.</returns>
         public IFluentDisplayWithDisplay WithBreakpoint( Breakpoint breakpoint )
         {
             currentDisplay.Breakpoint = breakpoint;
@@ -172,6 +250,11 @@ namespace Blazorise
             return this;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <returns>Next rule reference.</returns>
         public IFluentDisplayWithDisplayOnBreakpointWithDirection WithDirection( DisplayDirection direction )
         {
             currentDisplay.Direction = direction;
@@ -296,8 +379,14 @@ namespace Blazorise
     /// </summary>
     public static class Display
     {
+        /// <summary>
+        /// The element is always present.
+        /// </summary>
         public static IFluentDisplayWithDisplayOnBreakpointWithDirection Always { get { return new FluentDisplay().Always; } }
 
+        /// <summary>
+        /// The element is completely removed.
+        /// </summary>
         public static IFluentDisplayWithDisplayOnBreakpointWithDirection None { get { return new FluentDisplay().None; } }
 
         /// <summary>

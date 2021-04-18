@@ -26,6 +26,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Rating() );
@@ -35,6 +36,11 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Handles the item onclick event.
+        /// </summary>
+        /// <param name="value">Item value.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual Task HandleItemClicked( int value )
         {
             SelectedValue = value;
@@ -47,6 +53,11 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Handles the item hover event.
+        /// </summary>
+        /// <param name="value">Item value.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual Task HandleItemHovered( int? value )
         {
             HoveredValue = value;
@@ -54,6 +65,11 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Handles the item onmouseover event.
+        /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual Task OnMouseOverHandler( MouseEventArgs eventArgs )
         {
             hovering = true;
@@ -61,6 +77,11 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Handles the item onmouseout event.
+        /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual Task OnMouseOutHandler( MouseEventArgs eventArgs )
         {
             hovering = false;
@@ -68,9 +89,19 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Indicates if item value is in the selected range.
+        /// </summary>
+        /// <param name="value">Item value.</param>
+        /// <returns>True if item value is in the selected range.</returns>
         internal protected bool IsSelectedRange( int value )
             => value >= 1 && value <= SelectedValue;
 
+        /// <summary>
+        /// Indicates if item value is in the hovered range.
+        /// </summary>
+        /// <param name="value">Item value.</param>
+        /// <returns>True if item value is in the hovered range.</returns>
         internal protected bool IsHoveredRange( int value )
            => hovering
             && (

@@ -65,7 +65,7 @@ namespace Blazorise
             ParentDropdown?.NotifyButtonInitialized( this );
 
             // notify addons that the button is inside of it
-            ParentAddons?.Register( this );
+            ParentAddons?.NotifyButtonInitialized( this );
 
             ExecuteAfterRender( async () =>
             {
@@ -93,7 +93,7 @@ namespace Blazorise
             {
                 // remove button from parents
                 ParentDropdown?.NotifyButtonRemoved( this );
-                ParentAddons?.UnRegister( this );
+                ParentAddons?.NotifyButtonRemoved( this );
 
                 if ( Rendered )
                 {
@@ -145,6 +145,7 @@ namespace Blazorise
             _ = JSRunner.Focus( ElementRef, ElementId, scrollToElement );
         }
 
+        /// <inheritdoc/>
         protected override void BuildRenderTree( RenderTreeBuilder builder )
         {
             builder
@@ -202,7 +203,12 @@ namespace Blazorise
             OnCanExecuteChanged( value, EventArgs.Empty );
         }
 
-        protected virtual void OnCanExecuteChanged( object sender, EventArgs e )
+        /// <summary>
+        /// Occurs when changes occur that affect whether or not the command should execute.
+        /// </summary>
+        /// <param name="sender">Reference of the object that raised the event.</param>
+        /// <param name="eventArgs">Event arguments.</param>
+        protected virtual void OnCanExecuteChanged( object sender, EventArgs eventArgs )
         {
             var canExecute = Command?.CanExecute( CommandParameter );
 
@@ -299,7 +305,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Makes button look inactive.
+        /// When set to 'true', disables the component's functionality and places it in a disabled state.
         /// </summary>
         [Parameter]
         public bool Disabled
@@ -314,7 +320,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Makes the button to appear as pressed.
+        /// When set to 'true', places the component in the active state with active styling.
         /// </summary>
         [Parameter]
         public bool Active

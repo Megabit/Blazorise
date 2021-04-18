@@ -18,6 +18,11 @@ namespace Blazorise
     /// </summary>
     public interface IFileEdit
     {
+        /// <summary>
+        /// Notify us that one or more files has changed.
+        /// </summary>
+        /// <param name="files">List of changed files.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         Task NotifyChange( FileEntry[] files );
     }
 
@@ -39,6 +44,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -49,6 +55,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
@@ -56,7 +63,12 @@ namespace Blazorise
             base.OnInitialized();
         }
 
-        private async void OnLocalizationChanged( object sender, EventArgs e )
+        /// <summary>
+        /// Handles the localization changed event.
+        /// </summary>
+        /// <param name="sender">Object that raised the event.</param>
+        /// <param name="eventArgs">Data about the localization event.</param>
+        private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
         {
             // no need to refresh if we're using custom localization
             if ( BrowseButtonLocalizer != null )
@@ -258,14 +270,29 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override IFileEntry[] InternalValue { get => files; set => files = value; }
 
+        /// <summary>
+        /// Number of processed bytes in current file.
+        /// </summary>
         protected long ProgressProgress;
 
+        /// <summary>
+        /// Total number of bytes in currently processed file.
+        /// </summary>
         protected long ProgressTotal;
 
+        /// <summary>
+        /// Percentage of the current file-read status.
+        /// </summary>
         protected double Progress;
 
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+        /// </summary>
         [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizer{FileEdit}"/>.
+        /// </summary>
         [Inject] protected ITextLocalizer<FileEdit> Localizer { get; set; }
 
         /// <summary>

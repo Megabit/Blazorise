@@ -11,7 +11,7 @@ namespace Blazorise.Utilities
     /// </summary>
     public class ValidationMessageResultStore
     {
-        private readonly Dictionary<FieldIdentifier, List<ValidationMessageResult>> messages = new Dictionary<FieldIdentifier, List<ValidationMessageResult>>();
+        private readonly Dictionary<FieldIdentifier, List<ValidationMessageResult>> messages = new();
 
         /// <summary>
         /// Clears the messages for the supplied <see cref="FieldIdentifier"/>.
