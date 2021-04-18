@@ -1,9 +1,5 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 

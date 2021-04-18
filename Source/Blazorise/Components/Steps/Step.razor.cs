@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;

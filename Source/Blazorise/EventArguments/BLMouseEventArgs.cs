@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Drawing;
-using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
