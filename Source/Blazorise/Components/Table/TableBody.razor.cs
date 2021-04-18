@@ -12,6 +12,9 @@ namespace Blazorise
     {
         #region Members
 
+        [CascadingParameter]
+        public Table Table { get; set; }
+        
         #endregion
 
         #region Methods
@@ -22,6 +25,11 @@ namespace Blazorise
             builder.Append( ClassProvider.TableBody() );
 
             base.BuildClasses( builder );
+        }
+
+        private string ApplyStickyHeaderStyle()
+        {
+            return (Table?.StickyHeader ?? false) ? $"max-height: {Table.StickyHeaderBodyHeight}" : string.Empty;
         }
 
         #endregion
