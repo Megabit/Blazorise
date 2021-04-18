@@ -30,6 +30,13 @@ namespace Blazorise.AntDesign
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
+        {
+            sb.Append( $".ant-border-{variant}" ).Append( "{" )
+                .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .AppendLine( "}" );
+        }
+
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
             var background = Var( ThemeVariables.ButtonBackground( variant ) );
@@ -129,6 +136,11 @@ namespace Blazorise.AntDesign
                 .Append( "{" )
                 .Append( $"color: currentColor !important;" )
                 .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".ant-btn-{variant}[disabled]" ).Append( "{" )
+                    .Append( $"color: rgba(0, 0, 0, {options.DisabledOpacity}) !important;" )
+                    .AppendLine( "}" );
         }
 
         protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
@@ -242,6 +254,11 @@ namespace Blazorise.AntDesign
             if ( !string.IsNullOrEmpty( options?.Margin ) )
                 sb.Append( $".ant-btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
+                    .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".ant-btn[disabled]" ).Append( "{" )
+                    .Append( $"color: rgba(0, 0, 0, {options.DisabledOpacity}) !important;" )
                     .AppendLine( "}" );
         }
 

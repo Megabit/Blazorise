@@ -9,6 +9,9 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Base class for all DOM based components.
+    /// </summary>
     public abstract class BaseComponent : BaseAfterRenderComponent
     {
         #region Members
@@ -25,12 +28,17 @@ namespace Blazorise
 
         private IFluentDisplay display;
 
+        private IFluentBorder border;
+
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor for <see cref="BaseComponent"/>.
+        /// </summary>
         public BaseComponent()
         {
             ClassBuilder = new ClassBuilder( BuildClasses );
@@ -41,6 +49,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( ShouldAutoGenerateId && ElementId == null )
@@ -51,6 +60,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
             if ( firstRender )
@@ -86,6 +96,9 @@ namespace Blazorise
             if ( Display != null )
                 builder.Append( Display.Class( ClassProvider ) );
 
+            if ( Border != null )
+                builder.Append( Border.Class( ClassProvider ) );
+
             if ( Float != Float.None )
                 builder.Append( ClassProvider.ToFloat( Float ) );
 
@@ -119,11 +132,22 @@ namespace Blazorise
             StyleBuilder.Dirty();
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="DotNetObjectReference{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of the object.</typeparam>
+        /// <param name="value">The reference of the tracked object.</param>
+        /// <returns>An instance of <see cref="DotNetObjectReference{T}"/>.</returns>
         protected DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
         {
             return DotNetObjectReference.Create( value );
         }
 
+        /// <summary>
+        /// Destroys the instance of <see cref="DotNetObjectReference{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of the object.</typeparam>
+        /// <param name="value">The reference of the tracked object.</param>
         protected void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
         {
             value?.Dispose();
@@ -282,6 +306,21 @@ namespace Blazorise
             set
             {
                 display = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Specifies the border of an element.
+        /// </summary>
+        [Parameter]
+        public IFluentBorder Border
+        {
+            get => border;
+            set
+            {
+                border = value;
 
                 DirtyClasses();
             }

@@ -29,7 +29,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state for this bar component.
         /// </summary>
-        private BarState state = new BarState
+        private BarState state = new()
         {
             Visible = true,
             Mode = BarMode.Horizontal,
@@ -59,7 +59,7 @@ namespace Blazorise
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
 
-            _ = JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+            await JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
 
             if ( Mode != BarMode.Horizontal )
             {
@@ -100,6 +100,7 @@ namespace Blazorise
             return InvokeAsync( StateHasChanged );
         }
 
+        /// <inheritdoc/>
         public Task OnBreakpoint( bool broken )
         {
             // If the breakpoint state has changed, we need to toggle the visibility of this component.

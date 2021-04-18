@@ -112,6 +112,11 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarToggler"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
         /// Cascaded <see cref="Bar"/> component state object.
         /// </summary>
         [CascadingParameter]
@@ -133,11 +138,6 @@ namespace Blazorise
         /// Cascaded <see cref="Bar"/> component.
         /// </summary>
         [CascadingParameter] protected Bar ParentBar { get; set; }
-
-        /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="BarToggler"/>.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

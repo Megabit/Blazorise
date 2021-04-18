@@ -184,18 +184,12 @@ namespace Blazorise.Bootstrap
 
         public override string LabelType( LabelType labelType )
         {
-            switch ( labelType )
+            return labelType switch
             {
-                case Blazorise.LabelType.Check:
-                case Blazorise.LabelType.Radio:
-                case Blazorise.LabelType.Switch:
-                    return UseCustomInputStyles ? "custom-control-label" : "form-check-label";
-                case Blazorise.LabelType.File:
-                    return UseCustomInputStyles ? "custom-file-label" : null;
-                case Blazorise.LabelType.None:
-                default:
-                    return null;
-            }
+                Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => UseCustomInputStyles ? "custom-control-label" : "form-check-label",
+                Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
+                _ => null,
+            };
         }
 
         public override string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}";
@@ -292,15 +286,12 @@ namespace Blazorise.Bootstrap
 
         public override string Addon( AddonType addonType )
         {
-            switch ( addonType )
+            return addonType switch
             {
-                case AddonType.Start:
-                    return "input-group-prepend";
-                case AddonType.End:
-                    return "input-group-append";
-                default:
-                    return null;
-            }
+                AddonType.Start => "input-group-prepend",
+                AddonType.End => "input-group-append",
+                _ => null,
+            };
         }
 
         public override string AddonLabel() => "input-group-text";
@@ -396,19 +387,13 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownDirection( Direction direction )
         {
-            switch ( direction )
+            return direction switch
             {
-                case Direction.Up:
-                    return "dropup";
-                case Direction.Right:
-                    return "dropright";
-                case Direction.Left:
-                    return "dropleft";
-                case Direction.Down:
-                case Direction.None:
-                default:
-                    return null;
-            }
+                Direction.Up => "dropup",
+                Direction.Right => "dropright",
+                Direction.Left => "dropleft",
+                _ => null,
+            };
         }
 
         public override string DropdownTableResponsive() => "position-static";
@@ -996,6 +981,31 @@ namespace Blazorise.Bootstrap
         }
 
         public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
+
+        #endregion
+
+        #region Borders
+
+        public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
+        {
+            var sb = new StringBuilder( "border" );
+
+            if ( borderSide != BorderSide.All )
+                sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
+
+            if ( borderSize == BorderSize.Is0 )
+                sb.Append( "-0" );
+
+            if ( borderColor != BorderColor.None )
+            {
+                sb.Append( " border-" ).Append( ToBorderColor( borderColor ) );
+            }
+
+            return sb.ToString();
+        }
+
+        public override string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules )
+            => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
 
         #endregion
 

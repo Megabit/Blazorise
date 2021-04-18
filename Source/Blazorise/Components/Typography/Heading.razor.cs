@@ -18,6 +18,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.HeadingSize( headingSize ) );
@@ -29,8 +30,14 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets the heading tag name.
+        /// </summary>
         protected string TagName => $"h{SizeNumber}";
 
+        /// <summary>
+        /// Gets the heading size number.
+        /// </summary>
         protected string SizeNumber => Size switch
         {
             HeadingSize.Is1 => "1",

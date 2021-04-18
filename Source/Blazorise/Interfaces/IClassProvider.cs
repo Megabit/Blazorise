@@ -1,12 +1,10 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public interface IClassProvider
     {
         #region TextEdit
@@ -945,6 +943,16 @@ namespace Blazorise
 
         #endregion
 
+        #region Borders
+
+        string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor );
+
+        string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules );
+
+        string BorderRadius( BorderRadius borderRadius );
+
+        #endregion
+
         #region Flex
 
         string FlexAlignment( Alignment alignment );
@@ -977,6 +985,8 @@ namespace Blazorise
         string ToThemeContrast( ThemeContrast themeContrast );
 
         string ToFloat( Float @float );
+
+        string ToBorderRadius( BorderRadius borderRadius );
 
         string ToSpacing( Spacing spacing );
 
@@ -1032,4 +1042,5 @@ namespace Blazorise
         /// </summary>
         string Provider { get; }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

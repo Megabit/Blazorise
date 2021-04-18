@@ -22,6 +22,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -35,6 +36,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             if ( IsDelayTextOnKeyPress )
@@ -46,6 +48,7 @@ namespace Blazorise
             base.OnInitialized();
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.MemoEdit() );

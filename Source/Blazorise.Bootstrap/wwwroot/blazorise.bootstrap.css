@@ -280,6 +280,96 @@
     line-height: 2.5rem;
     padding-left: 10px; }
 
+select[readonly] {
+    pointer-events: none; }
+    select[readonly] option,
+    select[readonly] optgroup {
+        display: none; }
+
+.b-numeric {
+    position: relative;
+    width: 100%; }
+    .b-numeric:hover > .b-numeric-handler-wrap {
+        opacity: 1; }
+
+.b-numeric-handler-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 22px;
+    height: 100%;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    opacity: 0; }
+
+.input-group .b-numeric {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    width: 1%; }
+
+.b-numeric-handler-wrap .b-numeric-handler.b-numeric-handler-down {
+    border-top: 1px solid #d9d9d9; }
+
+.b-numeric-handler {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.45);
+    font-weight: 700;
+    line-height: 0;
+    align-items: center;
+    justify-content: center; }
+    .b-numeric-handler.btn {
+        padding: 0; }
+
+.form-control + .b-numeric-handler-wrap.btn {
+    height: calc(1.5em + 0.75rem + 2px);
+    font-size: 1rem;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem; }
+
+.form-control-xs + .b-numeric-handler-wrap {
+    height: calc(1.5em + 0.3rem + 2px);
+    font-size: 0.75rem;
+    border-top-right-radius: 0.15rem;
+    border-bottom-right-radius: 0.15rem; }
+    .form-control-xs + .b-numeric-handler-wrap > .b-numeric-handler.btn {
+        font-size: 0.75rem; }
+
+.form-control-sm + .b-numeric-handler-wrap {
+    height: calc(1.5em + 0.5rem + 2px);
+    font-size: 0.875rem;
+    border-top-right-radius: 0.2rem;
+    border-bottom-right-radius: 0.2rem; }
+    .form-control-sm + .b-numeric-handler-wrap > .b-numeric-handler.btn {
+        font-size: 0.875rem; }
+
+.form-control-md + .b-numeric-handler-wrap {
+    height: calc(1.5em + 0.94rem + 2px);
+    font-size: 1.125rem;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem; }
+    .form-control-md + .b-numeric-handler-wrap > .b-numeric-handler.btn {
+        font-size: 1.125rem; }
+
+.form-control-lg + .b-numeric-handler-wrap {
+    height: calc(1.5em + 1rem + 2px);
+    font-size: 1.25rem;
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem; }
+    .form-control-lg + .b-numeric-handler-wrap > .b-numeric-handler.btn {
+        font-size: 1.25rem; }
+
+.form-control-xl + .b-numeric-handler-wrap {
+    height: calc(1.5em + 1rem + 2px);
+    font-size: 1.5rem;
+    border-top-right-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem; }
+    .form-control-xl + .b-numeric-handler-wrap > .b-numeric-handler.btn {
+        font-size: 1.5rem; }
+
 .jumbotron.jumbotron-primary {
     background-color: #007bff;
     color: #fff; }

@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A card is a flexible and extensible content container. It includes options for headers and footers,
+    /// a wide variety of content, contextual background colors, and powerful display options.
+    /// </summary>
     public partial class Card : BaseContainerComponent
     {
         #region Members
@@ -17,6 +21,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Card() );

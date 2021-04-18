@@ -43,7 +43,8 @@ namespace Blazorise
                      ActiveLightenColor == options.ActiveLightenColor &&
                      LargeBorderRadius == options.LargeBorderRadius &&
                      SmallBorderRadius == options.SmallBorderRadius &&
-                     GradientBlendPercentage == options.GradientBlendPercentage;
+                     GradientBlendPercentage == options.GradientBlendPercentage &&
+                     DisabledOpacity == options.DisabledOpacity;
         }
 
         public override int GetHashCode()
@@ -61,7 +62,10 @@ namespace Blazorise
             hash.Add( LargeBorderRadius );
             hash.Add( SmallBorderRadius );
             hash.Add( GradientBlendPercentage );
+            hash.Add( DisabledOpacity );
             return hash.ToHashCode();
         }
+
+        public float? DisabledOpacity { get; set; } = .65f;
     }
 }

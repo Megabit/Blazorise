@@ -51,12 +51,13 @@ You can use one of the following modifiers to change positions of the tooltip:
 
 ## Attributes
 
-| Name              | Type                                                               | Default          | Description                                                               |
-|-------------------|--------------------------------------------------------------------|------------------|---------------------------------------------------------------------------|
-| Text              | string                                                             | null             | Content displayed in the tooltip.                                         |
-| Placement         | [Placement]({{ "/docs/helpers/enums/#placement" | relative_url }}) | `Top`            | Position of the tooltip relative to it's component.                       |
-| Multiline         | bool                                                               | false            | Force the multiline display.                                              |
-| AlwaysActive      | bool                                                               | false            | Always show tooltip, instead of just when hovering over the element.      |
-| Inline            | bool                                                               | false            | Force inline block instead of trying to detect the element block.         |
-| Fade              | bool                                                               | false            | Controls the fade effect.                                                 |
-| FadeDuration      | int                                                                | 300              | Duration in ms of the fade transition animation.                          |
+| Name              | Type                                                                              | Default           | Description                                                               |
+|-------------------|-----------------------------------------------------------------------------------|-------------------|---------------------------------------------------------------------------|
+| Text              | string                                                                            | null              | Content displayed in the tooltip.                                         |
+| Placement         | [Placement]({{ "/docs/helpers/enums/#placement" | relative_url }})                | `Top`             | Position of the tooltip relative to it's component.                       |
+| Multiline         | bool                                                                              | false             | Force the multiline display.                                              |
+| AlwaysActive      | bool                                                                              | false             | Always show tooltip, instead of just when hovering over the element.      |
+| Inline            | bool                                                                              | false             | Force inline block instead of trying to detect the element block.         |
+| Fade              | bool                                                                              | false             | Controls the fade effect.                                                 |
+| FadeDuration      | int                                                                               | 300               | Duration in ms of the fade transition animation.                          |
+| Trigger           | [TooltipTrigger]({{ "/docs/helpers/enums/#tooltiptrigger" | relative_url }})      | `MouseEnterFocus` | Determines the events that cause the tooltip to show.                     |

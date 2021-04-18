@@ -9,6 +9,11 @@ namespace Blazorise
     /// </summary>
     public class ModalClosingEventArgs : CancelEventArgs
     {
+        /// <summary>
+        /// A default <see cref="ModalClosingEventArgs"/> constructor.
+        /// </summary>
+        /// <param name="cancel">True if close event should be cancelled.</param>
+        /// <param name="closeReason">Reason for closing.</param>
         public ModalClosingEventArgs( bool cancel, CloseReason closeReason )
             : base( cancel )
         {

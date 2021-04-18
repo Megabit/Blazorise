@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Wrapper for input components.
+    /// </summary>
     public partial class Control : BaseComponent
     {
         #region Members
@@ -17,6 +20,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ControlCheck(), Role == ControlRole.Check );
@@ -63,6 +67,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Control"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

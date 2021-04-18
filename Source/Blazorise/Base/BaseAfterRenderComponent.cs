@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Base
 {
+    /// <summary>
+    /// Base render component that implements render-queue logic.
+    /// </summary>
     public abstract class BaseAfterRenderComponent : ComponentBase, IDisposable, IAsyncDisposable
     {
         #region Members

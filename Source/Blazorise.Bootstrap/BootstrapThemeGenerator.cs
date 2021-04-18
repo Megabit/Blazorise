@@ -46,6 +46,13 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
+        {
+            sb.Append( $".border-{variant}" ).Append( "{" )
+                .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .AppendLine( "}" );
+        }
+
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
             var background = Var( ThemeVariables.ButtonBackground( variant ) );
@@ -211,6 +218,11 @@ namespace Blazorise.Bootstrap
             if ( !string.IsNullOrEmpty( options?.Margin ) )
                 sb.Append( $".btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
+                    .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".btn.disabled, .btn:disabled" ).Append( "{" )
+                    .Append( $"opacity: {options.DisabledOpacity};" )
                     .AppendLine( "}" );
         }
 

@@ -1,9 +1,5 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Providers
@@ -955,6 +951,16 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Borders
+
+        public string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor ) => null;
+
+        public string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules ) => null;
+
+        public string BorderRadius( BorderRadius borderRadius ) => null;
+
+        #endregion
+
         #region Flex
 
         public string FlexAlignment( Alignment alignment ) => null;
@@ -982,6 +988,8 @@ namespace Blazorise.Providers
         public string ToThemeContrast( ThemeContrast themeContrast ) => null;
 
         public string ToFloat( Float @float ) => null;
+
+        public string ToBorderRadius( BorderRadius borderRadius ) => null;
 
         public string ToSpacing( Spacing spacing ) => null;
 

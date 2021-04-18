@@ -20,6 +20,11 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default constructors for <see cref="BlazoriseOptions"/>.
+        /// </summary>
+        /// <param name="serviceProvider">Service provider.</param>
+        /// <param name="configureOptions">A handler for setting the blazorise options.</param>
         public BlazoriseOptions( IServiceProvider serviceProvider, Action<BlazoriseOptions> configureOptions )
         {
             this.serviceProvider = serviceProvider;

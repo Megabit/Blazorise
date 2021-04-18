@@ -20,8 +20,20 @@ namespace Blazorise
     {
         #region Members
 
-        // taken from https://github.com/aspnet/AspNetCore/issues/11159
+        /// <summary>
+        /// Object reference that can be accesed through the JSInterop.
+        /// </summary>
         private DotNetObjectReference<NumericEditAdapter> dotNetObjectRef;
+
+        /// <summary>
+        /// Indicates if <see cref="Min"/> parameter is defined.
+        /// </summary>
+        private bool MinDefined = false;
+
+        /// <summary>
+        /// Indicates if <see cref="Max"/> parameter is defined.
+        /// </summary>
+        private bool MaxDefined = false;
 
         #endregion
 
@@ -30,6 +42,21 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            var decimalsChanged = parameters.TryGetValue( nameof( Decimals ), out int decimals ) && !Decimals.IsEqual( decimals );
+
+            if ( Rendered && decimalsChanged )
+            {
+                ExecuteAfterRender( async () => await JSRunner.UpdateNumericEdit( ElementRef, ElementId, new
+                {
+                    Decimals = new { Changed = decimalsChanged, Value = decimals },
+                } ) );
+            }
+
+            // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
+            // Without we cannot determmine if Min or Max has a default value when TValue is non-nulable type.
+            MinDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
+            MaxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
+
             await base.SetParametersAsync( parameters );
 
             if ( ParentValidation != null )
@@ -56,7 +83,17 @@ namespace Blazorise
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new NumericEditAdapter( this ) );
 
-            await JSRunner.InitializeNumericEdit( dotNetObjectRef, ElementRef, ElementId, Decimals, DecimalsSeparator, Step, Min, Max );
+            // find the min and max possible value based on the supplied value type
+            var (minFromType, maxFromType) = Converters.GetMinMaxValueOfType<TValue>();
+
+            await JSRunner.InitializeNumericEdit<TValue>( dotNetObjectRef, ElementRef, ElementId, new
+            {
+                Decimals,
+                Separator = DecimalsSeparator,
+                Step,
+                Min = Min.IsEqual( default ) ? minFromType : Min,
+                Max = Max.IsEqual( default ) ? maxFromType : Max
+            } );
 
             await base.OnFirstAfterRenderAsync();
         }
@@ -125,35 +162,22 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override string FormatValueAsString( TValue value )
         {
-            switch ( value )
+            return value switch
             {
-                case null:
-                    return null;
-                case byte @byte:
-                    return Converters.FormatValue( @byte, CurrentCultureInfo );
-                case short @short:
-                    return Converters.FormatValue( @short, CurrentCultureInfo );
-                case int @int:
-                    return Converters.FormatValue( @int, CurrentCultureInfo );
-                case long @long:
-                    return Converters.FormatValue( @long, CurrentCultureInfo );
-                case float @float:
-                    return Converters.FormatValue( @float, CurrentCultureInfo );
-                case double @double:
-                    return Converters.FormatValue( @double, CurrentCultureInfo );
-                case decimal @decimal:
-                    return Converters.FormatValue( @decimal, CurrentCultureInfo );
-                case sbyte @sbyte:
-                    return Converters.FormatValue( @sbyte, CurrentCultureInfo );
-                case ushort @ushort:
-                    return Converters.FormatValue( @ushort, CurrentCultureInfo );
-                case uint @uint:
-                    return Converters.FormatValue( @uint, CurrentCultureInfo );
-                case ulong @ulong:
-                    return Converters.FormatValue( @ulong, CurrentCultureInfo );
-                default:
-                    throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
-            }
+                null => null,
+                byte @byte => Converters.FormatValue( @byte, CurrentCultureInfo ),
+                short @short => Converters.FormatValue( @short, CurrentCultureInfo ),
+                int @int => Converters.FormatValue( @int, CurrentCultureInfo ),
+                long @long => Converters.FormatValue( @long, CurrentCultureInfo ),
+                float @float => Converters.FormatValue( @float, CurrentCultureInfo ),
+                double @double => Converters.FormatValue( @double, CurrentCultureInfo ),
+                decimal @decimal => Converters.FormatValue( @decimal, CurrentCultureInfo ),
+                sbyte @sbyte => Converters.FormatValue( @sbyte, CurrentCultureInfo ),
+                ushort @ushort => Converters.FormatValue( @ushort, CurrentCultureInfo ),
+                uint @uint => Converters.FormatValue( @uint, CurrentCultureInfo ),
+                ulong @ulong => Converters.FormatValue( @ulong, CurrentCultureInfo ),
+                _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
+            };
         }
 
         /// <inheritdoc/>
@@ -161,33 +185,90 @@ namespace Blazorise
         {
             await base.OnBlurHandler( eventArgs );
 
-            if ( !string.IsNullOrEmpty( CurrentValueAsString )
-                && CurrentValue is IComparable number
-                && number != null )
+            if ( !string.IsNullOrEmpty( CurrentValueAsString ) )
             {
-                var defaultValue = DefaultValue as IComparable;
+                await ProcessNumber( CurrentValue );
+            }
+        }
 
-                // We still need to allow for default value to be entered.
-                // - Non nullable value: 0 or empty
-                // - Nullable value:     null or empty
-                if ( number.CompareTo( defaultValue ) != 0 )
+        /// <inheritdoc/>
+        protected override async Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
+        {
+            await base.OnKeyDownHandler( eventArgs );
+
+            if ( eventArgs.Code == "ArrowUp" )
+            {
+                await OnSpinUpClicked();
+            }
+            else if ( eventArgs.Code == "ArrowDown" )
+            {
+                await OnSpinDownClicked();
+            }
+        }
+
+        /// <summary>
+        /// Handles the spin-up button click event.
+        /// </summary>
+        /// <returns>Returns the awaitable task.</returns>
+        protected virtual Task OnSpinUpClicked()
+        {
+            if ( ReadOnly || Disabled )
+                return Task.CompletedTask;
+
+            return ProcessNumber( AddStep( CurrentValue, 1 ) );
+        }
+
+        /// <summary>
+        /// Handles the spin-down button click event.
+        /// </summary>
+        /// <returns>Returns the awaitable task.</returns>
+        protected virtual Task OnSpinDownClicked()
+        {
+            if ( ReadOnly || Disabled )
+                return Task.CompletedTask;
+
+            return ProcessNumber( AddStep( CurrentValue, -1 ) );
+        }
+
+        /// <summary>
+        /// Applies the step to the supplied value and returns the result.
+        /// </summary>
+        /// <param name="value">Value to which we apply the step.</param>
+        /// <param name="sign">Defines the positive or negative step direction.</param>
+        /// <returns>Returns the new value.</returns>
+        protected virtual TValue AddStep( TValue value, int sign )
+        {
+            // make sure that null values also starts from zero
+            if ( value == null )
+                value = Converters.ChangeType<TValue>( 0 );
+
+            return MathUtils<TValue>.Add( value, Converters.ChangeType<TValue>( Step.GetValueOrDefault( 1 ) * sign ) );
+        }
+
+        /// <summary>
+        /// Process the newly changed number and adjust it if needed.
+        /// </summary>
+        /// <param name="number">New number value.</param>
+        /// <returns>Returns the awaitable task.</returns>
+        protected virtual async Task ProcessNumber( TValue number )
+        {
+            if ( number is IComparable comparableNumber && comparableNumber != null )
+            {
+                if ( MaxDefined && Max is IComparable comparableMax && comparableNumber.CompareTo( comparableMax ) >= 0 )
                 {
-                    if ( Max is IComparable max && max.CompareTo( defaultValue ) != 0 && number.CompareTo( max ) > 0 )
-                    {
-                        number = max;
-                    }
-                    else if ( Min is IComparable min && min.CompareTo( defaultValue ) != 0 && number.CompareTo( min ) < 0 )
-                    {
-                        number = min;
-                    }
+                    comparableNumber = comparableMax;
+                }
+                else if ( MinDefined && Min is IComparable comparableMin && comparableNumber.CompareTo( comparableMin ) <= 0 )
+                {
+                    comparableNumber = comparableMin;
+                }
 
-                    // cast back to TValue and check if number has changed
-                    if ( Converters.TryChangeType<TValue>( number, out var currentValue, CurrentCultureInfo )
-                        && !CurrentValue.IsEqual( currentValue ) )
-                    {
-                        // number has changed so we need to re-set the CurrentValue and re-run any validation
-                        await CurrentValueHandler( FormatValueAsString( currentValue ) );
-                    }
+                // cast back to TValue and check if number has changed
+                if ( Converters.TryChangeType<TValue>( comparableNumber, out var currentValue, CurrentCultureInfo )
+                    && !CurrentValue.IsEqual( currentValue ) )
+                {
+                    // number has changed so we need to re-set the CurrentValue and re-run any validation
+                    await CurrentValueHandler( FormatValueAsString( currentValue ) );
                 }
             }
         }
@@ -201,6 +282,11 @@ namespace Blazorise
 
         /// <inheritdoc/>
         protected override TValue InternalValue { get => Value; set => Value = value; }
+
+        /// <summary>
+        /// True if spin buttons can be shown.
+        /// </summary>
+        protected bool IsShowSpinButtons => ShowSpinButtons && !( ReadOnly || Disabled );
 
         /// <summary>
         /// Gets the culture info defined on the input field.
@@ -240,7 +326,7 @@ namespace Blazorise
         /// <summary>
         /// Specifies the interval between valid values.
         /// </summary>
-        [Parameter] public decimal? Step { get; set; }
+        [Parameter] public decimal? Step { get; set; } = 1;
 
         /// <summary>
         /// Maximum number of decimal places after the decimal separator.
@@ -274,6 +360,11 @@ namespace Blazorise
         /// The size attribute specifies the visible width, in characters, of an input element. https://www.w3schools.com/tags/att_input_size.asp
         /// </summary>
         [Parameter] public int? VisibleCharacters { get; set; }
+
+        /// <summary>
+        /// Sets the visibility of spin buttons.
+        /// </summary>
+        [Parameter] public bool ShowSpinButtons { get; set; } = true;
 
         #endregion
     }

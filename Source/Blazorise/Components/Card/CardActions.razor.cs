@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Container for various card actions or commands.
+    /// </summary>
     public partial class CardActions : BaseComponent
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.CardActions() );
@@ -24,6 +24,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="CardActions"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

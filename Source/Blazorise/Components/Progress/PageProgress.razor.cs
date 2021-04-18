@@ -23,6 +23,9 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default <see cref="PageProgress"/> constructor.
+        /// </summary>
         public PageProgress()
         {
             IndicatorClassBuilder = new ClassBuilder( BuildIndicatorClasses );

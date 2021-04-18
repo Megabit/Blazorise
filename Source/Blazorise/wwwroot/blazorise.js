@@ -22,7 +22,6 @@ window.blazorise = {
     // adds a classname to the specified element
     addClass: (element, classname) => {
         element.classList.add(classname);
-        return true;
     },
 
     // removes a classname from the specified element
@@ -30,7 +29,6 @@ window.blazorise = {
         if (element.classList.contains(classname)) {
             element.classList.remove(classname);
         }
-        return true;
     },
 
     // toggles a classname on the given element id
@@ -42,17 +40,16 @@ window.blazorise = {
                 element.classList.add(classname);
             }
         }
-        return true;
     },
 
     // adds a classname to the body element
     addClassToBody: (classname) => {
-        return blazorise.addClass(document.body, classname);
+        blazorise.addClass(document.body, classname);
     },
 
     // removes a classname from the body element
     removeClassFromBody: (classname) => {
-        return blazorise.removeClass(document.body, classname);
+        blazorise.removeClass(document.body, classname);
     },
 
     // indicates if parent node has a specified classname
@@ -109,7 +106,6 @@ window.blazorise = {
 
     setTextValue(element, value) {
         element.value = value;
-        return true;
     },
 
     hasSelectionCapabilities: (element) => {
@@ -252,8 +248,6 @@ window.blazorise = {
                 preventScroll: !scrollToElement
             });
         }
-
-        return true;
     },
     tooltip: {
         initialize: (element, elementId, options) => {
@@ -264,7 +258,8 @@ window.blazorise = {
                 maxWidth: options.multiline ? "15rem" : null,
                 duration: options.fade ? [options.fadeDuration, options.fadeDuration] : [0, 0],
                 arrow: options.showArrow,
-                allowHTML: true
+                allowHTML: true,
+                trigger: options.trigger
             };
 
             const alwaysActiveOptions = options.alwaysActive
@@ -278,8 +273,6 @@ window.blazorise = {
                 ...defaultOptions,
                 ...alwaysActiveOptions
             });
-
-            return true;
         }
     },
     textEdit: {
@@ -308,13 +301,10 @@ window.blazorise = {
             element.addEventListener("paste", (e) => {
                 window.blazorise.textEdit.paste(instances[elementId], e);
             });
-
-            return true;
         },
         destroy: (element, elementId) => {
             var instances = window.blazorise.textEdit._instances || {};
             delete instances[elementId];
-            return true;
         },
         keyPress: (validator, e) => {
             var currentValue = String.fromCharCode(e.which);
@@ -328,34 +318,33 @@ window.blazorise = {
     numericEdit: {
         _instances: [],
 
-        initialize: (dotnetAdapter, element, elementId, decimals, separator, step, min, max) => {
-            window.blazorise.numericEdit._instances[elementId] = new window.blazorise.NumericMaskValidator(dotnetAdapter, element, elementId, decimals, separator, step, min, max);
+        initialize: (dotnetAdapter, element, elementId, options) => {
+            const instance = new window.blazorise.NumericMaskValidator(dotnetAdapter, element, elementId, options);
+
+            window.blazorise.numericEdit._instances[elementId] = instance;
 
             element.addEventListener("keypress", (e) => {
                 window.blazorise.numericEdit.keyPress(window.blazorise.numericEdit._instances[elementId], e);
             });
 
-            element.addEventListener("keydown", (e) => {
-                window.blazorise.numericEdit.keyDown(window.blazorise.numericEdit._instances[elementId], e);
-            });
-
             element.addEventListener("paste", (e) => {
                 window.blazorise.numericEdit.paste(window.blazorise.numericEdit._instances[elementId], e);
             });
-            return true;
+
+            if (instance.decimals && instance.decimals !== 2) {
+                instance.truncate();
+            }
+        },
+        update: (element, elementId, options) => {
+            const instance = window.blazorise.numericEdit._instances[elementId];
+
+            if (instance) {
+                instance.update(options);
+            }
         },
         destroy: (element, elementId) => {
             var instances = window.blazorise.numericEdit._instances || {};
             delete instances[elementId];
-            return true;
-        },
-        keyDown: (validator, e) => {
-            if (e.which === 38) {
-                validator.stepApply(1);
-            } else if (e.which === 40) {
-                validator.stepApply(-1);
-            }
-            return true;
         },
         keyPress: (validator, e) => {
             var currentValue = String.fromCharCode(e.which);
@@ -373,15 +362,16 @@ window.blazorise = {
             return true;
         };
     },
-    NumericMaskValidator: function (dotnetAdapter, element, elementId, decimals, separator, step, min, max) {
+    NumericMaskValidator: function (dotnetAdapter, element, elementId, options) {
         this.dotnetAdapter = dotnetAdapter;
         this.elementId = elementId;
         this.element = element;
-        this.decimals = decimals === null || decimals === undefined ? 2 : decimals;
-        this.separator = separator || ".";
-        this.step = step || 1;
-        this.min = min;
-        this.max = max;
+        this.decimals = options.decimals === null || options.decimals === undefined ? 2 : options.decimals;
+        this.separator = options.separator || ".";
+        this.step = options.step || 1;
+        this.min = options.min;
+        this.max = options.max;
+
         this.regex = function () {
             var sep = "\\" + this.separator,
                 dec = this.decimals,
@@ -402,15 +392,23 @@ window.blazorise = {
 
             return false;
         };
-        this.stepApply = function (sign) {
-            var value = (this.element.value || "").replace(this.separator, ".");
-            var number = Number(value) + this.step * sign;
+        this.update = function (options) {
+            if (options.decimals && options.decimals.changed) {
+                this.decimals = options.decimals.value;
 
-            if (number >= this.min && number <= this.max) {
-                var newValue = number.toString().replace(".", this.separator);
-                this.element.value = newValue;
-                this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
+                this.truncate();
             }
+        };
+        this.truncate = function () {
+            let value = (this.element.value || "").replace(this.separator, ".");
+            let number = Number(value);
+
+            number = Math.trunc(number * Math.pow(10, this.decimals)) / Math.pow(10, this.decimals);
+
+            let newValue = number.toString().replace(".", this.separator);
+
+            this.element.value = newValue;
+            this.dotnetAdapter.invokeMethodAsync('SetValue', newValue);
         };
     },
     DateTimeMaskValidator: function (element, elementId) {
@@ -457,13 +455,10 @@ window.blazorise = {
                     window.blazorise.button.click(window.blazorise.button._instances[elementId], e);
                 });
             }
-
-            return true;
         },
         destroy: (elementId) => {
             var instances = window.blazorise.button._instances || {};
             delete instances[elementId];
-            return true;
         },
         click: (buttonInfo, e) => {
             if (buttonInfo.preventDefaultOnSubmit) {
@@ -484,8 +479,6 @@ window.blazorise = {
                 element.scrollIntoView();
                 window.location.hash = elementId;
             }
-
-            return true;
         }
     },
     fileEdit: {
@@ -520,13 +513,10 @@ window.blazorise = {
                     throw new Error(err);
                 });
             });
-
-            return true;
         },
         destroy: (element, elementId) => {
             var instances = window.blazorise.fileEdit._instances || {};
             delete instances[elementId];
-            return true;
         },
 
         reset: (element, elementId) => {
@@ -541,8 +531,6 @@ window.blazorise = {
                     });
                 }
             }
-
-            return true;
         },
 
         readFileData: function readFileData(element, fileEntryId, position, length) {

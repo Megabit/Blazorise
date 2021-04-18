@@ -50,7 +50,8 @@ namespace Blazorise
         {
             // https://stackoverflow.com/questions/5497073/how-to-differentiate-single-click-event-and-double-click-event
             // works good enough. Click is still called before the double click, but it is advise to not use both events anyway.
-            if ( eventArgs.Detail == 1 )
+            // We'll be treating any Detail higher then 2 as the user constantly clicking, therefore triggering Single Click.
+            if ( eventArgs.Detail == 1 || eventArgs.Detail > 2 )
                 await Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
             else if ( eventArgs.Detail == 2 )
                 await DoubleClicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );

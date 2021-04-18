@@ -38,6 +38,13 @@ namespace Blazorise.Frolic
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
+        {
+            sb.Append( $".e-border-{variant}" ).Append( "{" )
+                .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
+                .AppendLine( "}" );
+        }
+
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
             var background = Var( ThemeVariables.ButtonBackground( variant ) );
@@ -157,6 +164,11 @@ namespace Blazorise.Frolic
             if ( !string.IsNullOrEmpty( options?.Margin ) )
                 sb.Append( $".e-btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
+                    .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".e-btn[disabled]" ).Append( "{" )
+                    .Append( $"opacity: {options.DisabledOpacity};" )
                     .AppendLine( "}" );
         }
 

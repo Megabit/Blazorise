@@ -1,0 +1,88 @@
+﻿@page "/tests/utilities"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Borders</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use border utilities to quickly style the border and border-radius of an element. Great for images, buttons, or any other element.</CardText>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column>
+                        <CardTitle Size="3">Additive</CardTitle>
+                        <Div Class="b-example-border-utils">
+                            <Span Border="Border.Is1">All</Span>
+                            <Span Border="Border.OnTop">Top</Span>
+                            <Span Border="Border.OnRight">Right</Span>
+                            <Span Border="Border.OnBottom">Bottom</Span>
+                            <Span Border="Border.OnLeft">Left</Span>
+                        </Div>
+                    </Column>
+                    <Column>
+                        <CardTitle Size="3">Subtractive</CardTitle>
+                        <Div Class="b-example-border-utils bd-example-border-utils-0">
+                            <Span Border="Border.Is0">All</Span>
+                            <Span Border="Border.Is0.OnTop">Top</Span>
+                            <Span Border="Border.Is0.OnRight">Right</Span>
+                            <Span Border="Border.Is0.OnBottom">Bottom</Span>
+                            <Span Border="Border.Is0.OnLeft">Left</Span>
+                        </Div>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Border color</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <CardText>Change the border color using utilities built on our theme colors.</CardText>
+            </CardBody>
+            <CardBody>
+                <Div Class="b-example-border-utils">
+                    <Span Border="Border.Primary">Primary</Span>
+                    <Span Border="Border.Secondary">Secondary</Span>
+                    <Span Border="Border.Success">Success</Span>
+                    <Span Border="Border.Danger">Danger</Span>
+                    <Span Border="Border.Warning">Warning</Span>
+                    <Span Border="Border.Info">Info</Span>
+                    <Span Border="Border.Light">Light</Span>
+                    <Span Border="Border.Dark">Dark</Span>
+                    <Span Border="Border.White">White</Span>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Border-radius</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <CardText>Add classes to an element to easily round its corners.</CardText>
+            </CardBody>
+            <CardBody>
+                <Div Class="b-example-border-utils">
+                    <Span Border="Border.Rounded">Rounded</Span>
+                    <Span Border="Border.RoundedTop">Top</Span>
+                    <Span Border="Border.RoundedRight">Right</Span>
+                    <Span Border="Border.RoundedBottom">Bottom</Span>
+                    <Span Border="Border.RoundedLeft">Left</Span>
+                    <Span Border="Border.RoundedCircle">Circle</Span>
+                    <Span Border="Border.RoundedPill" style="width:10rem;">Pill</Span>
+                    <Span Border="Border.RoundedZero">Zero</Span>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
