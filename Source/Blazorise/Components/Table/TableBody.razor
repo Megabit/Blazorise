@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseDraggableComponent
-<tbody id="@ElementId" class="@ClassNames" style="@($"{StyleNames} {ApplyStickyHeaderStyle()}")"
+<tbody id="@ElementId" class="@ClassNames" style="@StyleNames"
        draggable="@Draggable"
        @ondrag="@OnDragHandler"
        @ondrag:preventDefault="@DragPreventDefault"

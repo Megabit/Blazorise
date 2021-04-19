@@ -10,13 +10,6 @@ namespace Blazorise
     /// </summary>
     public partial class TableBody : BaseDraggableComponent
     {
-        #region Members
-
-        [CascadingParameter]
-        public Table Table { get; set; }
-        
-        #endregion
-
         #region Methods
 
         /// <inheritdoc/>
@@ -27,9 +20,11 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        private string ApplyStickyHeaderStyle()
+        protected override void BuildStyles( StyleBuilder builder )
         {
-            return (Table?.StickyHeader ?? false) ? $"max-height: {Table.StickyHeaderBodyHeight}" : string.Empty;
+            builder.Append( $"max-height: {ParentTable.StickyHeaderBodyHeight}", ParentTable?.StickyHeader == true );
+
+            base.BuildStyles( builder );
         }
 
         #endregion
@@ -40,6 +35,11 @@ namespace Blazorise
         /// Specifies the content to be rendered inside this <see cref="TableBody"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Table"/> component.
+        /// </summary>
+        [CascadingParameter] public Table ParentTable { get; set; }
 
         #endregion
     }
