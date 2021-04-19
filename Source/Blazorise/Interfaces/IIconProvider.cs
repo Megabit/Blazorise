@@ -1,12 +1,11 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Default contract for all icon providers.
+    /// </summary>
     public interface IIconProvider
     {
         /// <summary>
@@ -14,14 +13,15 @@ namespace Blazorise
         /// </summary>
         /// <param name="name">Icon name.</param>
         /// <param name="iconStyle">Icon style.</param>
-        /// <returns></returns>
+        /// <returns>Icon name.</returns>
         string Icon( object name, IconStyle iconStyle );
 
         /// <summary>
         /// Gets the icon name by predefined icon type.
         /// </summary>
         /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="iconStyle">Icon style.</param>
+        /// <returns>Icon name.</returns>
         string GetIconName( IconName name, IconStyle iconStyle );
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Blazorise
         /// Gets the icon name by the custom icon name.
         /// </summary>
         /// <param name="customName"></param>
-        /// <returns></returns>
+        /// <returns>Icon name.</returns>
         string GetIconName( string customName );
 
         /// <summary>

@@ -7,12 +7,29 @@ using System.Reflection;
 
 namespace Blazorise.Utilities
 {
+    /// <summary>
+    /// Helper methods for the validation process.
+    /// </summary>
     public static class ValidationAttributeHelper
     {
+        /// <summary>
+        /// Original placeholder prefix.
+        /// </summary>
         public const string PlaceholderPrefix = "{";
+
+        /// <summary>
+        /// Original placeholder suffix.
+        /// </summary>
         public const string PlaceholderSuffix = "}";
 
+        /// <summary>
+        /// Replaced placeholder prefix.
+        /// </summary>
         public const string TempPlaceholderPrefix = "[[[";
+
+        /// <summary>
+        /// Replaced placeholder suffix.
+        /// </summary>
         public const string TempPlaceholderSuffix = "]]]";
 
         /// <summary>
@@ -71,12 +88,23 @@ namespace Blazorise.Utilities
             return errorMessage;
         }
 
+        /// <summary>
+        /// Gets the internal ErrorMessageString of the ValidationAttribute.
+        /// </summary>
         public static readonly PropertyInfo ValidationAttributeErrorMessageStringProperty = typeof( ValidationAttribute )
             .GetProperty( "ErrorMessageString", BindingFlags.Instance | BindingFlags.NonPublic );
 
+        /// <summary>
+        /// Gets the internal CustomErrorMessageSet of the ValidationAttribute.
+        /// </summary>
         public static readonly PropertyInfo ValidationAttributeCustomErrorMessageSetProperty = typeof( ValidationAttribute )
             .GetProperty( "CustomErrorMessageSet", BindingFlags.Instance | BindingFlags.NonPublic );
 
+        /// <summary>
+        /// Gets the list of <see cref="ValidationAttribute"/>s in a given property.
+        /// </summary>
+        /// <param name="propertyInfo">Property object.</param>
+        /// <returns>List of found attributes.</returns>
         public static ValidationAttribute[] GetValidationAttributes( PropertyInfo propertyInfo )
         {
             return propertyInfo

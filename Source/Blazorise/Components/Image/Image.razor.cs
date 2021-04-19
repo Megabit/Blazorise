@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Cintainer for an image element.
+    /// </summary>
     public partial class Image : BaseComponent
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             base.BuildClasses( builder );

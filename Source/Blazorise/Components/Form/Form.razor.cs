@@ -1,25 +1,19 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Wrapper for a regular html form element.
+    /// </summary>
     public partial class Form : BaseComponent
     {
-        #region Members
-
-        #endregion
-
-        #region Methods
-
-        #endregion
-
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Form"/> component.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

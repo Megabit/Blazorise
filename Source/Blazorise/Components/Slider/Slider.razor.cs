@@ -9,16 +9,15 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A slider to select a value from a given range.
+    /// </summary>
+    /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
     public partial class Slider<TValue> : BaseInputComponent<TValue>
     {
-        #region Members
-
-        //private Color color = Color.None;
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -26,31 +25,28 @@ namespace Blazorise
             if ( ParentValidation != null )
             {
                 if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
-                    ParentValidation.InitializeInputExpression( expression );
+                    await ParentValidation.InitializeInputExpression( expression );
 
-                InitializeValidation();
+                await InitializeValidation();
             }
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Slider() );
-            //builder.Append( ClassProvider.SliderColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.SliderValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
         }
 
-        protected virtual Task OnChangeHandler( ChangeEventArgs e )
-        {
-            return CurrentValueHandler( e?.Value?.ToString() );
-        }
-
+        /// <inheritdoc/>
         protected override Task OnInternalValueChanged( TValue value )
         {
             return ValueChanged.InvokeAsync( value );
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
             if ( Converters.TryChangeType<TValue>( value, out var result, CultureInfo.InvariantCulture ) )
@@ -63,6 +59,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override string FormatValueAsString( TValue value )
         {
             return value switch
@@ -90,22 +87,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
+        /// <inheritdoc/>
         protected override TValue InternalValue { get => Value; set => Value = value; }
-
-        ///// <summary>
-        ///// Gets or sets the tick color.
-        ///// </summary>
-        //[Parameter]
-        //public Color Color
-        //{
-        //    get => color;
-        //    set
-        //    {
-        //        color = value;
-
-        //        DirtyClasses();
-        //    }
-        //}
 
         /// <summary>
         /// Specifies the interval between valid values.

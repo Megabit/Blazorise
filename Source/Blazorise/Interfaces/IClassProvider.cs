@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public interface IClassProvider
     {
         #region TextEdit
@@ -1041,4 +1042,5 @@ namespace Blazorise
         /// </summary>
         string Provider { get; }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

@@ -25,11 +25,17 @@ namespace Blazorise
 
         #region Methods
 
-        protected virtual Task OnChangeHandler( ChangeEventArgs e )
+        /// <summary>
+        /// Handles the check input onchange event.
+        /// </summary>
+        /// <param name="eventArgs">Supplies information about an change event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected virtual Task OnChangeHandler( ChangeEventArgs eventArgs )
         {
-            return CurrentValueHandler( e?.Value?.ToString() );
+            return CurrentValueHandler( eventArgs?.Value?.ToString() );
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<TValue>> ParseValueFromStringAsync( string value )
         {
             var parsedValue = ( value?.ToLowerInvariant() == TrueValueName?.ToLowerInvariant() ).ToString();
@@ -44,6 +50,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override Task OnInternalValueChanged( TValue value )
         {
             return CheckedChanged.InvokeAsync( Checked );
@@ -53,6 +60,7 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
         protected override TValue InternalValue { get => Checked; set => Checked = value; }
 
         /// <summary>

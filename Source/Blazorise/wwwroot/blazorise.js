@@ -22,7 +22,6 @@ window.blazorise = {
     // adds a classname to the specified element
     addClass: (element, classname) => {
         element.classList.add(classname);
-        return true;
     },
 
     // removes a classname from the specified element
@@ -30,7 +29,6 @@ window.blazorise = {
         if (element.classList.contains(classname)) {
             element.classList.remove(classname);
         }
-        return true;
     },
 
     // toggles a classname on the given element id
@@ -42,17 +40,16 @@ window.blazorise = {
                 element.classList.add(classname);
             }
         }
-        return true;
     },
 
     // adds a classname to the body element
     addClassToBody: (classname) => {
-        return blazorise.addClass(document.body, classname);
+        blazorise.addClass(document.body, classname);
     },
 
     // removes a classname from the body element
     removeClassFromBody: (classname) => {
-        return blazorise.removeClass(document.body, classname);
+        blazorise.removeClass(document.body, classname);
     },
 
     // indicates if parent node has a specified classname
@@ -109,7 +106,6 @@ window.blazorise = {
 
     setTextValue(element, value) {
         element.value = value;
-        return true;
     },
 
     hasSelectionCapabilities: (element) => {
@@ -252,8 +248,6 @@ window.blazorise = {
                 preventScroll: !scrollToElement
             });
         }
-
-        return true;
     },
     tooltip: {
         initialize: (element, elementId, options) => {
@@ -279,8 +273,6 @@ window.blazorise = {
                 ...defaultOptions,
                 ...alwaysActiveOptions
             });
-
-            return true;
         }
     },
     textEdit: {
@@ -309,13 +301,10 @@ window.blazorise = {
             element.addEventListener("paste", (e) => {
                 window.blazorise.textEdit.paste(instances[elementId], e);
             });
-
-            return true;
         },
         destroy: (element, elementId) => {
             var instances = window.blazorise.textEdit._instances || {};
             delete instances[elementId];
-            return true;
         },
         keyPress: (validator, e) => {
             var currentValue = String.fromCharCode(e.which);
@@ -466,13 +455,10 @@ window.blazorise = {
                     window.blazorise.button.click(window.blazorise.button._instances[elementId], e);
                 });
             }
-
-            return true;
         },
         destroy: (elementId) => {
             var instances = window.blazorise.button._instances || {};
             delete instances[elementId];
-            return true;
         },
         click: (buttonInfo, e) => {
             if (buttonInfo.preventDefaultOnSubmit) {
@@ -493,8 +479,6 @@ window.blazorise = {
                 element.scrollIntoView();
                 window.location.hash = elementId;
             }
-
-            return true;
         }
     },
     fileEdit: {
@@ -529,13 +513,10 @@ window.blazorise = {
                     throw new Error(err);
                 });
             });
-
-            return true;
         },
         destroy: (element, elementId) => {
             var instances = window.blazorise.fileEdit._instances || {};
             delete instances[elementId];
-            return true;
         },
 
         reset: (element, elementId) => {
@@ -550,8 +531,6 @@ window.blazorise = {
                     });
                 }
             }
-
-            return true;
         },
 
         readFileData: function readFileData(element, fileEntryId, position, length) {

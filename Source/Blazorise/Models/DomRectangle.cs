@@ -1,11 +1,6 @@
-﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Text;
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public struct DomRectangle
     {
         public double X { get; set; }
@@ -24,4 +19,5 @@ namespace Blazorise
 
         public double Height { get; set; }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

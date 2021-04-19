@@ -1,25 +1,9 @@
-﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
+    /// <summary>
+    /// Basic typography component with no specific rule.
+    /// </summary>
     public partial class Text : BaseTypographyComponent
     {
-        #region Members
-
-        #endregion
-
-        #region Methods
-
-        #endregion
-
-        #region Properties
-
-        #endregion
     }
 }

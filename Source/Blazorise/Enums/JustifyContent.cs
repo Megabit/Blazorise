@@ -1,7 +1,4 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
     /// <summary>
     /// Aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally).

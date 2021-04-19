@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise
 {
     /// <summary>
-    /// Breadcrumbs allow users to make selections from a range of values.
+    /// Indicate the current page's location within a navigational hierarchy.
     /// </summary>
     public partial class Breadcrumb : BaseComponent
     {
@@ -16,6 +16,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Breadcrumb() );
@@ -32,6 +33,9 @@ namespace Blazorise
         /// </summary>
         [Parameter] public BreadcrumbMode Mode { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Alert"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

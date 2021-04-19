@@ -11,9 +11,9 @@ namespace Blazorise.Utilities
     /// <typeparam name="T">Type-parameter of the values being calculated.</typeparam>
     public static class MathUtils<T>
     {
-        private static Lazy<Func<T, T, T>> addFunc = new Lazy<Func<T, T, T>>( AddImpl );
+        private static readonly Lazy<Func<T, T, T>> addFunc = new( AddImpl );
 
-        private static Lazy<Func<T, T, T>> subtractFunc = new Lazy<Func<T, T, T>>( SubtractImpl );
+        private static readonly Lazy<Func<T, T, T>> subtractFunc = new( SubtractImpl );
 
         private static T AddImpl( T a, T b )
         {

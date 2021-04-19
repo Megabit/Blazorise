@@ -141,12 +141,15 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected Progress ParentProgress { get; set; }
-
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="ProgressBar"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Progress"/> component.
+        /// </summary>
+        [CascadingParameter] protected Progress ParentProgress { get; set; }
 
         #endregion
     }

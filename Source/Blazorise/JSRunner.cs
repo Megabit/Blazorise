@@ -11,25 +11,32 @@ using Microsoft.JSInterop;
 
 namespace Blazorise
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public abstract class JSRunner : IJSRunner
     {
-        protected readonly IJSRuntime runtime;
+        #region Members
+
+        private readonly IJSRuntime runtime;
 
         private const string BLAZORISE_NAMESPACE = "blazorise";
+
+        #endregion
+
+        #region Methods
 
         public JSRunner( IJSRuntime runtime )
         {
             this.runtime = runtime;
         }
 
-        public ValueTask<bool> InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask )
+        public ValueTask InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementRef, elementId, maskType, editMask );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementRef, elementId, maskType, editMask );
         }
 
-        public ValueTask<bool> DestroyTextEdit( ElementReference elementRef, string elementId )
+        public ValueTask DestroyTextEdit( ElementReference elementRef, string elementId )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementRef, elementId );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementRef, elementId );
         }
 
         public ValueTask InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
@@ -47,44 +54,44 @@ namespace Blazorise
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementRef, elementId );
         }
 
-        public virtual ValueTask<bool> InitializeTooltip( ElementReference elementRef, string elementId, object options )
+        public virtual ValueTask InitializeTooltip( ElementReference elementRef, string elementId, object options )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
         }
 
-        public virtual ValueTask<bool> InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit )
+        public virtual ValueTask InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.button.initialize", elementRef, elementId, preventDefaultSubmit );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.button.initialize", elementRef, elementId, preventDefaultSubmit );
         }
 
-        public ValueTask<bool> DestroyButton( string elementId )
+        public ValueTask DestroyButton( string elementId )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.button.destroy", elementId );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.button.destroy", elementId );
         }
 
-        public ValueTask<bool> AddClass( ElementReference elementRef, string classname )
+        public ValueTask AddClass( ElementReference elementRef, string classname )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.addClass", elementRef, classname );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.addClass", elementRef, classname );
         }
 
-        public ValueTask<bool> RemoveClass( ElementReference elementRef, string classname )
+        public ValueTask RemoveClass( ElementReference elementRef, string classname )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.removeClass", elementRef, classname );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.removeClass", elementRef, classname );
         }
 
-        public ValueTask<bool> ToggleClass( ElementReference elementId, string classname )
+        public ValueTask ToggleClass( ElementReference elementId, string classname )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.toggleClass", elementId, classname );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.toggleClass", elementId, classname );
         }
 
-        public ValueTask<bool> AddClassToBody( string classname )
+        public ValueTask AddClassToBody( string classname )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.addClassToBody", classname );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.addClassToBody", classname );
         }
 
-        public ValueTask<bool> RemoveClassFromBody( string classname )
+        public ValueTask RemoveClassFromBody( string classname )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.removeClassFromBody", classname );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.removeClassFromBody", classname );
         }
 
         public ValueTask<bool> ParentHasClass( ElementReference elementRef, string classaname )
@@ -181,9 +188,9 @@ namespace Blazorise
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setSelectedOptions", elementId, values );
         }
 
-        public ValueTask<bool> SetTextValue( ElementReference elementRef, object value )
+        public ValueTask SetTextValue( ElementReference elementRef, object value )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
         }
 
         public ValueTask SetCaret( ElementReference elementRef, int caret )
@@ -196,38 +203,33 @@ namespace Blazorise
             return runtime.InvokeAsync<int>( $"{BLAZORISE_NAMESPACE}.getCaret", elementRef );
         }
 
-        public abstract ValueTask<bool> OpenModal( ElementReference elementRef, bool scrollToTop );
+        public abstract ValueTask OpenModal( ElementReference elementRef, bool scrollToTop );
 
-        public abstract ValueTask<bool> CloseModal( ElementReference elementRef );
+        public abstract ValueTask CloseModal( ElementReference elementRef );
 
-        public ValueTask<bool> OpenFileDialog( ElementReference elementRef, string elementId )
+        public ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.fileEdit.open", elementRef, elementId );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.focus", elementRef, elementId, scrollToElement );
         }
 
-        public ValueTask<bool> Focus( ElementReference elementRef, string elementId, bool scrollToElement )
+        public ValueTask RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.focus", elementRef, elementId, scrollToElement );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", elementRef, dotNetObjectRef );
         }
 
-        public ValueTask<object> RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef )
+        public ValueTask UnregisterClosableComponent( ICloseActivator component )
         {
-            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.registerClosableComponent", elementRef, dotNetObjectRef );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementRef );
         }
 
-        public ValueTask<object> UnregisterClosableComponent( ICloseActivator component )
+        public ValueTask RegisterBreakpointComponent( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId )
         {
-            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.unregisterClosableComponent", component.ElementRef );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.breakpoint.registerBreakpointComponent", elementId, dotNetObjectRef );
         }
 
-        public ValueTask<object> RegisterBreakpointComponent( DotNetObjectReference<BreakpointActivatorAdapter> dotNetObjectRef, string elementId )
+        public ValueTask UnregisterBreakpointComponent( IBreakpointActivator component )
         {
-            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.breakpoint.registerBreakpointComponent", elementId, dotNetObjectRef );
-        }
-
-        public ValueTask<object> UnregisterBreakpointComponent( IBreakpointActivator component )
-        {
-            return runtime.InvokeAsync<object>( $"{BLAZORISE_NAMESPACE}.breakpoint.unregisterBreakpointComponent", component.ElementId );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.breakpoint.unregisterBreakpointComponent", component.ElementId );
         }
 
         public ValueTask<string> GetBreakpoint()
@@ -235,29 +237,43 @@ namespace Blazorise
             return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.breakpoint.getBreakpoint" );
         }
 
-        public ValueTask<bool> ScrollIntoView( string anchorTarget )
+        public ValueTask ScrollIntoView( string anchorTarget )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.link.scrollIntoView", anchorTarget );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.link.scrollIntoView", anchorTarget );
         }
 
-        public ValueTask<bool> InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId )
+        public ValueTask InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.fileEdit.initialize", dotNetObjectRef, elementRef, elementId );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.initialize", dotNetObjectRef, elementRef, elementId );
         }
 
-        public ValueTask<bool> DestroyFileEdit( ElementReference elementRef, string elementId )
+        public ValueTask DestroyFileEdit( ElementReference elementRef, string elementId )
         {
-            return runtime.InvokeAsync<bool>( $"{BLAZORISE_NAMESPACE}.fileEdit.destroy", elementRef, elementId );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.destroy", elementRef, elementId );
         }
 
-        public ValueTask<string> ReadDataAsync( CancellationToken cancellationToken, ElementReference elementRef, int fileEntryId, long position, long length )
+        public ValueTask<string> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken )
         {
-            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.fileEdit.readFileData", cancellationToken, elementRef, fileEntryId, position, length );
+            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.fileEdit.readFileData", elementRef, fileEntryId, position, length );
         }
 
         public ValueTask ResetFileEdit( ElementReference elementRef, string elementId )
         {
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.reset", elementRef, elementId );
         }
+
+        public ValueTask OpenFileDialog( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.open", elementRef, elementId );
+        }
+
+        #endregion
+
+        #region Properties
+
+        protected IJSRuntime Runtime => runtime;
+
+        #endregion
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

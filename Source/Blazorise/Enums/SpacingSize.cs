@@ -1,8 +1,8 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
+    /// <summary>
+    /// Defines all supported spacing(marging anf padding) sizes.
+    /// </summary>
     public enum SpacingSize
     {
         /// <summary>

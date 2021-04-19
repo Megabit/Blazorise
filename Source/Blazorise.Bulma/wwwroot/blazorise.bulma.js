@@ -14,8 +14,6 @@ window.blazoriseBulma = {
             if (element.parentElement && element.parentElement.classList.contains("field-body")) {
                 element.parentElement.style.cssText = "display: block;";
             }
-
-            return true;
         }
     },
     activateDatePicker: (elementId) => {
@@ -26,11 +24,8 @@ window.blazoriseBulma = {
             if (scrollToTop) {
                 element.querySelector('.modal-card-body').scrollTop = 0;
             }
-
-            return true;
         },
         close: (element) => {
-            return true;
         }
     }
 };

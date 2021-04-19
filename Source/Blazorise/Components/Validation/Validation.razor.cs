@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -74,6 +73,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
             if ( ParentValidations != null )
@@ -87,6 +87,7 @@ namespace Blazorise
             return base.OnInitializedAsync();
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             if ( ParentValidations != null )
@@ -347,6 +348,9 @@ namespace Blazorise
         /// <inheritdoc/>
         public Regex Pattern => pattern;
 
+        /// <summary>
+        /// Gets or sets the DI reference for the <see cref="IValidationHandlerFactory"/>.
+        /// </summary>
         [Inject] protected IValidationHandlerFactory ValidationHandlerFactory { get; set; }
 
         /// <inheritdoc/>
