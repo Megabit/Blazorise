@@ -26,9 +26,9 @@ namespace Blazorise
 
         private bool responsive;
 
-        private bool stickyHeader;
+        private bool fixedHeader;
 
-        private string stickyHeaderBodyHeight = "250px";
+        private string fixedHeaderBodyHeight = "250px";
 
         #endregion
 
@@ -50,8 +50,8 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "b-table" );
-            if ( stickyHeader )
-                builder.Append( "b-table-sticky-header" );
+            if ( fixedHeader )
+                builder.Append( "b-table-fixed-header" );
             builder.Append( ClassProvider.Table() );
             builder.Append( ClassProvider.TableFullWidth(), FullWidth );
             builder.Append( ClassProvider.TableStriped(), Striped );
@@ -192,31 +192,31 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Makes table have a sticky header and enabling a scrollbar in the table body.
+        /// Makes table have a fixed header and enabling a scrollbar in the table body.
         /// </summary>
         [Parameter]
-        public bool StickyHeader
+        public bool FixedHeader
         {
-            get => stickyHeader;
+            get => fixedHeader;
             set
             {
-                stickyHeader = value;
+                fixedHeader = value;
 
                 DirtyClasses();
             }
         }
 
         /// <summary>
-        /// Sets table sticky header feature body max height.
+        /// Sets table fixed header feature body max height.
         /// Defaults to 250px.
         /// </summary>
         [Parameter]
-        public string StickyHeaderBodyHeight
+        public string FixedHeaderBodyHeight
         {
-            get => stickyHeaderBodyHeight;
+            get => fixedHeaderBodyHeight;
             set
             {
-                stickyHeaderBodyHeight = value;
+                fixedHeaderBodyHeight = value;
 
                 DirtyClasses();
             }

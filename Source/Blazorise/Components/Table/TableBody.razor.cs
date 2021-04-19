@@ -22,7 +22,7 @@ namespace Blazorise
 
         protected override void BuildStyles( StyleBuilder builder )
         {
-            builder.Append( $"max-height: {ParentTable.StickyHeaderBodyHeight}", ParentTable?.StickyHeader == true );
+            builder.Append( $"max-height: {ParentTable.FixedHeaderBodyHeight}", ParentTable?.FixedHeader == true );
 
             base.BuildStyles( builder );
         }

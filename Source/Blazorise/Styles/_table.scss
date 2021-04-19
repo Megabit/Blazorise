@@ -1,16 +1,16 @@
 ﻿.b-table {
-    &.b-table-sticky-header table {
+    &.b-table-fixed-header table {
         width: 100%;
     }
 
-    &.b-table-sticky-header thead,
-    &.b-table-sticky-header tbody tr {
+    &.b-table-fixed-header thead,
+    &.b-table-fixed-header tbody tr {
         display: table;
         width: 100%;
         table-layout: fixed;
     }
 
-    &.b-table-sticky-header tbody {
+    &.b-table-fixed-header tbody {
         display: block;
         table-layout: fixed;
         overflow-y: overlay;

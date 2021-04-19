@@ -209,16 +209,16 @@ hr.divider.divider-text {
 .b-layout-header .navbar {
     line-height: inherit; }
 
-.b-table.b-table-sticky-header table {
+.b-table.b-table-fixed-header table {
     width: 100%; }
 
-.b-table.b-table-sticky-header thead,
-.b-table.b-table-sticky-header tbody tr {
+.b-table.b-table-fixed-header thead,
+.b-table.b-table-fixed-header tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed; }
 
-.b-table.b-table-sticky-header tbody {
+.b-table.b-table-fixed-header tbody {
     display: block;
     table-layout: fixed;
     overflow-y: overlay;
