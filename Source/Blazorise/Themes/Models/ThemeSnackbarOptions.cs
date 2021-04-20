@@ -1,11 +1,6 @@
-﻿#region Using directives
-#endregion
-
-using System;
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeSnackbarOptions
+    public record ThemeSnackbarOptions
     {
         /// <summary>
         /// Default snackbar color.
@@ -34,20 +29,5 @@ namespace Blazorise
         //public int VariantButtonColorLevel { get; set; } = 8;
 
         //public int VariantButtonHoverColorLevel { get; set; } = 4;
-
-        public override bool Equals( object obj )
-        {
-            return obj is ThemeSnackbarOptions options &&
-                     BackgroundColor == options.BackgroundColor &&
-                     TextColor == options.TextColor &&
-                     ButtonColor == options.ButtonColor &&
-                     ButtonHoverColor == options.ButtonHoverColor &&
-                     VariantBackgroundColorLevel == options.VariantBackgroundColorLevel;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine( BackgroundColor, TextColor, ButtonColor, ButtonHoverColor, VariantBackgroundColorLevel );
-        }
     }
 }

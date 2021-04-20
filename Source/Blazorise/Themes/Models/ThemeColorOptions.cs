@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
-    public class ThemeColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    public record ThemeColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
     {
         private Dictionary<string, Func<string>> colorMap => new Dictionary<string, Func<string>> {
             { "primary", () => Primary },
@@ -51,23 +51,5 @@ namespace Blazorise
         public string Light { get; set; } = ThemeColors.Gray.Shades["100"].Value;
 
         public string Dark { get; set; } = ThemeColors.Gray.Shades["800"].Value;
-
-        public override bool Equals( object obj )
-        {
-            return obj is ThemeColorOptions options &&
-                     Primary == options.Primary &&
-                     Secondary == options.Secondary &&
-                     Success == options.Success &&
-                     Info == options.Info &&
-                     Warning == options.Warning &&
-                     Danger == options.Danger &&
-                     Light == options.Light &&
-                     Dark == options.Dark;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine( Primary, Secondary, Success, Info, Warning, Danger, Light, Dark );
-        }
     }
 }

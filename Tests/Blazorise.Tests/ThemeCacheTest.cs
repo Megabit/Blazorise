@@ -108,7 +108,7 @@ namespace Blazorise.Tests
 
             // test
             var firstThemeStillInCache = themeCache.TryGetStylesFromCache( firstCachedTheme, out _ );
-            var secondThemeStillInCache  = themeCache.TryGetStylesFromCache( secondCachedTheme, out _ );
+            var secondThemeStillInCache = themeCache.TryGetStylesFromCache( secondCachedTheme, out _ );
 
             // validate
             Assert.True( firstThemeStillInCache );

@@ -1,14 +1,14 @@
-﻿using System;
+﻿#region Using directives
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Blazorise.Interfaces;
+#endregion
 
 namespace Blazorise.Themes
 {
     public class ThemeCache : IThemeCache
     {
-        #region Fields
+        #region Members
 
         private readonly int maxCacheSize;
 
@@ -23,7 +23,7 @@ namespace Blazorise.Themes
 
         #region Constructors
 
-        public ThemeCache(BlazoriseOptions options )
+        public ThemeCache( BlazoriseOptions options )
         {
             maxCacheSize = options.ThemeCacheSize;
         }
@@ -58,7 +58,7 @@ namespace Blazorise.Themes
             }
         }
 
-        private void PrepareCache(Theme theme)
+        private void PrepareCache( Theme theme )
         {
             if ( !cachedThemes.Contains( theme ) )
             {
@@ -105,7 +105,7 @@ namespace Blazorise.Themes
             }
         }
 
-        private void MoveLastRecentlyUsedThemeToBackOfList( Theme lastUsedTheme)
+        private void MoveLastRecentlyUsedThemeToBackOfList( Theme lastUsedTheme )
         {
             if ( cachedThemes.Contains( lastUsedTheme ) )
             {

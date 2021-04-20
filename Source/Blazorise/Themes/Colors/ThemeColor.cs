@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
-    public class ThemeColor
+    public record ThemeColor
     {
         #region Constructors
 
@@ -13,21 +13,6 @@ namespace Blazorise
         {
             Key = key;
             Name = name;
-        }
-
-        #endregion
-
-        #region Methods
-
-        public override bool Equals( object obj )
-        {
-            return obj is ThemeColor color &&
-                     Key == color.Key;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine( Key );
         }
 
         #endregion
@@ -41,6 +26,5 @@ namespace Blazorise
         public Dictionary<string, ThemeColorShade> Shades { get; protected set; }
 
         #endregion
-
     }
 }

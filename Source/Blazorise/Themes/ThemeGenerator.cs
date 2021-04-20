@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Blazorise.Interfaces;
-using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise
@@ -21,7 +20,7 @@ namespace Blazorise
 
         #region Constructors
 
-        public ThemeGenerator(IThemeCache themeCache)
+        public ThemeGenerator( IThemeCache themeCache )
         {
             ThemeCache = themeCache;
         }
@@ -34,7 +33,7 @@ namespace Blazorise
 
         public virtual string GenerateVariables( Theme theme )
         {
-            if (ThemeCache.TryGetVariablesFromCache(theme, out var variableCss))
+            if ( ThemeCache.TryGetVariablesFromCache( theme, out var variableCss ) )
             {
                 return variableCss;
             }

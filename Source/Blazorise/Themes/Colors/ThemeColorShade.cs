@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeColorShade
+    public record ThemeColorShade
     {
         #region Constructors
 
@@ -13,10 +10,6 @@ namespace Blazorise
             Name = name;
             Value = value;
         }
-
-        #endregion
-
-        #region Methods
 
         #endregion
 

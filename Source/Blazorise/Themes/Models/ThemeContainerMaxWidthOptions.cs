@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
-    public class ThemeContainerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    public record ThemeContainerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
     {
         private Dictionary<string, Func<string>> breakpointMap => new Dictionary<string, Func<string>> {
             { "mobile", () => Mobile },
@@ -37,20 +37,5 @@ namespace Blazorise
         public string Widescreen { get; set; } = "1140px";
 
         public string FullHD { get; set; } = "1320px";
-
-        public override bool Equals( object obj )
-        {
-            return obj is ThemeContainerMaxWidthOptions options &&
-                     Mobile == options.Mobile &&
-                     Tablet == options.Tablet &&
-                     Desktop == options.Desktop &&
-                     Widescreen == options.Widescreen &&
-                     FullHD == options.FullHD;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine( Mobile, Tablet, Desktop, Widescreen, FullHD );
-        }
     }
 }

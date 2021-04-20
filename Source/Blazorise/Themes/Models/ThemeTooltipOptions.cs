@@ -1,11 +1,6 @@
-﻿#region Using directives
-#endregion
-
-using System;
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeTooltipOptions : BasicOptions
+    public record ThemeTooltipOptions : ThemeBasicOptions
     {
         /// <summary>
         /// Tooltip background color. Can contain alpha value in 8-hex formated color.
@@ -23,23 +18,5 @@ namespace Blazorise
         public string Padding { get; set; } = ".5rem 1rem";
 
         public string ZIndex { get; set; } = "1020";
-
-        public override bool Equals( object obj )
-        {
-            return obj is ThemeTooltipOptions options &&
-                     base.Equals( obj ) &&
-                     BackgroundColor == options.BackgroundColor &&
-                     Color == options.Color &&
-                     FontSize == options.FontSize &&
-                     FadeTime == options.FadeTime &&
-                     MaxWidth == options.MaxWidth &&
-                     Padding == options.Padding &&
-                     ZIndex == options.ZIndex;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine( base.GetHashCode(), BackgroundColor, Color, FontSize, FadeTime, MaxWidth, Padding, ZIndex );
-        }
     }
 }
