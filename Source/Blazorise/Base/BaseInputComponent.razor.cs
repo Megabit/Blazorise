@@ -174,6 +174,9 @@ namespace Blazorise
         /// <inheritdoc/>
         public async Task FocusAsync( bool scrollToElement = true )
         {
+            // workaround from: https://github.com/dotnet/aspnetcore/issues/30070#issuecomment-823938686
+            await Task.Yield();
+
             await JSRunner.Focus( ElementRef, ElementId, scrollToElement );
         }
 
