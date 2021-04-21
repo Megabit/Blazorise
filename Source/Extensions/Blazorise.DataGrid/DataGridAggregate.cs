@@ -29,6 +29,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         public static object Sum( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
         {
+            if ( Data == null )
+                return 0;
+
             if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
                 return 0;
 
@@ -42,6 +45,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         public static object Min( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
         {
+            if ( Data == null )
+                return 0;
+
             if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
                 return 0;
 
@@ -55,6 +61,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         public static object Max( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
         {
+            if ( Data == null )
+                return 0;
+
             if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
                 return 0;
 
@@ -68,6 +77,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         public static object Average( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
         {
+            if ( Data == null )
+                return 0;
+
             if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
                 return 0;
 
@@ -81,6 +93,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         public static object Count( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
         {
+            if ( Data == null )
+                return 0;
+
             return Data.Count( x => column.GetValue( x ) != null );
         }
 
@@ -89,6 +104,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         public static object TrueCount( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
         {
+            if ( Data == null )
+                return 0;
+
             if ( !ValidBooleanTypes.Contains( column.GetValueType() ) )
                 return 0;
 
@@ -103,6 +121,9 @@ namespace Blazorise.DataGrid
         /// </summary>
         public static object FalseCount( IEnumerable<TItem> Data, DataGridColumn<TItem> column )
         {
+            if ( Data == null )
+                return 0;
+
             if ( !ValidBooleanTypes.Contains( column.GetValueType() ) )
                 return 0;
 
