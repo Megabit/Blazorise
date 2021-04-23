@@ -1011,6 +1011,63 @@ namespace Blazorise.Bootstrap
 
         #region Flex
 
+        public override string Flex( FlexType flexType )
+        {
+            return flexType != FlexType.None
+                ? $"d-{ToFlexType( flexType )}"
+                : null;
+        }
+
+        public override string Flex( FlexDefinition flexDefinition )
+        {
+            var sb = new StringBuilder();
+
+            var breakpoint = flexDefinition.Breakpoint != Breakpoint.None && flexDefinition.Breakpoint != Breakpoint.Mobile
+                ? $"{ToBreakpoint( flexDefinition.Breakpoint )}-"
+                : null;
+
+            if ( flexDefinition.Direction != FlexDirection.None )
+                sb.Append( "flex-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
+
+            if ( flexDefinition.JustifyContent != FlexJustifyContent.None )
+                sb.Append( "justify-content-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+
+            if ( flexDefinition.AlignItems != FlexAlignItems.None )
+                sb.Append( "align-items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+
+            if ( flexDefinition.AlignSelf != FlexAlignSelf.None )
+                sb.Append( "align-self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+
+            if ( flexDefinition.AlignContent != FlexAlignContent.None )
+                sb.Append( "align-content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+
+            if ( flexDefinition.GrowShrink != FlexGrowShrink.None && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.None )
+                sb.Append( "flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+
+            if ( flexDefinition.Wrap != FlexWrap.None )
+                sb.Append( "flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
+
+            if ( flexDefinition.Order != FlexOrder.None )
+                sb.Append( "order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
+
+            if ( flexDefinition.Fill )
+                sb.Append( "flex-" ).Append( breakpoint ).Append( "fill" );
+
+            return sb.ToString();
+        }
+
+        public override string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions )
+        {
+            var sb = new StringBuilder();
+
+            if ( flexType != FlexType.None )
+                sb.Append( $"d-{ToFlexType( flexType )}" ).Append( ' ' );
+
+            sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
+
+            return sb.ToString();
+        }
+
         public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
 
         #endregion       
