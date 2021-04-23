@@ -145,6 +145,19 @@
                         <BarItem>
                             <BarDropdown>
                                 <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Flask" />
+                                    Utilities
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="tests/utilities/flex">
+                                        Flex
+                                    </BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
                                     <BarIcon IconName="IconName.Smartphone" />
                                     Apps
                                 </BarDropdownToggle>
@@ -341,6 +354,7 @@
 
     private bool topbarVisible = false;
     private bool uiElementsVisible = true;
+    private bool utilitiesVisible = false;
 
     [CascadingParameter] protected Theme Theme { get; set; }
 
