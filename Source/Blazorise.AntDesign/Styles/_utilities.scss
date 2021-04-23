@@ -69,7 +69,7 @@
 
         @each $prop, $abbrev in (margin: m, padding: p) {
             @each $size, $length in $spacers {
-                .#{$abbrev}-#{$breakpoint}-#{$size} {
+                .#{$abbrev}#{$infix}-#{$size} {
                     #{$prop}: $length !important;
                 }
 

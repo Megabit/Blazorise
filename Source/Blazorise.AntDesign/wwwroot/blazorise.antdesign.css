@@ -2604,7 +2604,7 @@
 .ant-flex-column-reverse {
     flex-direction: column-reverse !important; }
 
-.m-xxs-0 {
+.m-0 {
     margin: 0 !important; }
 
 .mt-0,
@@ -2623,7 +2623,7 @@
 .mx-0 {
     margin-left: 0 !important; }
 
-.m-xxs-1 {
+.m-1 {
     margin: 0.25rem !important; }
 
 .mt-1,
@@ -2642,7 +2642,7 @@
 .mx-1 {
     margin-left: 0.25rem !important; }
 
-.m-xxs-2 {
+.m-2 {
     margin: 0.5rem !important; }
 
 .mt-2,
@@ -2661,7 +2661,7 @@
 .mx-2 {
     margin-left: 0.5rem !important; }
 
-.m-xxs-3 {
+.m-3 {
     margin: 1rem !important; }
 
 .mt-3,
@@ -2680,7 +2680,7 @@
 .mx-3 {
     margin-left: 1rem !important; }
 
-.m-xxs-4 {
+.m-4 {
     margin: 1.5rem !important; }
 
 .mt-4,
@@ -2699,7 +2699,7 @@
 .mx-4 {
     margin-left: 1.5rem !important; }
 
-.m-xxs-5 {
+.m-5 {
     margin: 3rem !important; }
 
 .mt-5,
@@ -2718,7 +2718,7 @@
 .mx-5 {
     margin-left: 3rem !important; }
 
-.p-xxs-0 {
+.p-0 {
     padding: 0 !important; }
 
 .pt-0,
@@ -2737,7 +2737,7 @@
 .px-0 {
     padding-left: 0 !important; }
 
-.p-xxs-1 {
+.p-1 {
     padding: 0.25rem !important; }
 
 .pt-1,
@@ -2756,7 +2756,7 @@
 .px-1 {
     padding-left: 0.25rem !important; }
 
-.p-xxs-2 {
+.p-2 {
     padding: 0.5rem !important; }
 
 .pt-2,
@@ -2775,7 +2775,7 @@
 .px-2 {
     padding-left: 0.5rem !important; }
 
-.p-xxs-3 {
+.p-3 {
     padding: 1rem !important; }
 
 .pt-3,
@@ -2794,7 +2794,7 @@
 .px-3 {
     padding-left: 1rem !important; }
 
-.p-xxs-4 {
+.p-4 {
     padding: 1.5rem !important; }
 
 .pt-4,
@@ -2813,7 +2813,7 @@
 .px-4 {
     padding-left: 1.5rem !important; }
 
-.p-xxs-5 {
+.p-5 {
     padding: 3rem !important; }
 
 .pt-5,
