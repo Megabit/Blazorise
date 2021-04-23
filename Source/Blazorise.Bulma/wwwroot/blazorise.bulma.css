@@ -1335,6 +1335,48 @@
 .is-rounded-0 {
     border-radius: 0 !important; }
 
+.is-flex-fill {
+    flex: 1 1 auto !important; }
+
+.is-flex-order-0 {
+    order: 0; }
+
+.is-flex-order-1 {
+    order: 1; }
+
+.is-flex-order-2 {
+    order: 2; }
+
+.is-flex-order-3 {
+    order: 3; }
+
+.is-flex-order-4 {
+    order: 4; }
+
+.is-flex-order-5 {
+    order: 5; }
+
+.is-flex-order-6 {
+    order: 6; }
+
+.is-flex-order-7 {
+    order: 7; }
+
+.is-flex-order-8 {
+    order: 8; }
+
+.is-flex-order-9 {
+    order: 9; }
+
+.is-flex-order-10 {
+    order: 10; }
+
+.is-flex-order-11 {
+    order: 11; }
+
+.is-flex-order-12 {
+    order: 12; }
+
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
     color: #fff !important; }

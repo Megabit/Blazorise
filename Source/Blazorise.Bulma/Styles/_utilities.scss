@@ -184,3 +184,13 @@
 .is-rounded-0 {
     border-radius: 0 !important;
 }
+
+.is-flex-fill {
+    flex: 1 1 auto !important;
+}
+
+@for $i from 0 through 12 {
+    .is-flex-order-#{$i} {
+        order: $i;
+    }
+}
