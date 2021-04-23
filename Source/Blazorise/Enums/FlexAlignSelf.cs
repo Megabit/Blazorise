@@ -11,6 +11,11 @@
         None,
 
         /// <summary>
+        /// Equals to the value specified in the align-items property for the flex container (it’s the default value).
+        /// </summary>
+        Auto,
+
+        /// <summary>
         /// Items are placed at the start of the cross axis. The difference between these is subtle,
         /// and is about respecting the flex-direction rules or the writing-mode rules.
         /// </summary>

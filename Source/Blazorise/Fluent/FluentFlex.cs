@@ -210,6 +210,11 @@ namespace Blazorise
         IFluentFlex
     {
         /// <summary>
+        /// Equals to the value specified in the align-items property for the flex container (it’s the default value).
+        /// </summary>
+        IFluentFlexAll Auto { get; }
+
+        /// <summary>
         /// Items are placed at the start of the cross axis. The difference between these is subtle,
         /// and is about respecting the flex-direction rules or the writing-mode rules.
         /// </summary>
@@ -968,6 +973,9 @@ namespace Blazorise
 
         /// <inheritdoc/>
         IFluentFlexAlignSelfPosition IFluentFlexAlignSelf.AlignSelf => WithAlignSelf();
+
+        /// <inheritdoc/>
+        IFluentFlexAll IFluentFlexAlignSelfPosition.Auto => WithAlignSelf( FlexAlignSelf.Auto );
 
         /// <inheritdoc/>
         IFluentFlexAll IFluentFlexAlignSelfPosition.Start => WithAlignSelf( FlexAlignSelf.Start );

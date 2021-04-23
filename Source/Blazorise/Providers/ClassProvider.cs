@@ -1476,6 +1476,7 @@ namespace Blazorise
         {
             return alignSelf switch
             {
+                Blazorise.FlexAlignSelf.Auto => "auto",
                 Blazorise.FlexAlignSelf.Start => "start",
                 Blazorise.FlexAlignSelf.End => "end",
                 Blazorise.FlexAlignSelf.Center => "center",

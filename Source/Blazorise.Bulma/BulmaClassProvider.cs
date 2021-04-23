@@ -1323,6 +1323,7 @@ namespace Blazorise.Bulma
         {
             return alignSelf switch
             {
+                Blazorise.FlexAlignSelf.Auto => "auto",
                 Blazorise.FlexAlignSelf.Start => "flex-start",
                 Blazorise.FlexAlignSelf.End => "flex-end",
                 Blazorise.FlexAlignSelf.Center => "center",
