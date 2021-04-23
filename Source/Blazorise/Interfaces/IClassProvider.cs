@@ -955,6 +955,12 @@ namespace Blazorise
 
         #region Flex
 
+        string Flex( FlexType flexType );
+
+        string Flex( FlexDefinition flexDefinition );
+
+        string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
+
         string FlexAlignment( Alignment alignment );
 
         #endregion
@@ -1029,6 +1035,24 @@ namespace Blazorise
         string ToBarMode( BarMode mode );
 
         string ToBarCollapsedMode( BarCollapseMode collapseMode );
+
+        string ToDirection( FlexDirection direction );
+
+        string ToJustifyContent( FlexJustifyContent justifyContent );
+
+        string ToAlignItems( FlexAlignItems alignItems );
+
+        string ToAlignSelf( FlexAlignSelf alignSelf );
+
+        string ToAlignContent( FlexAlignContent alignContent );
+
+        string ToGrowShrink( FlexGrowShrink growShrink );
+
+        string ToGrowShrinkSize( FlexGrowShrinkSize growShrinkSize );
+
+        string ToWrap( FlexWrap wrap );
+
+        string ToOrder( FlexOrder order );
 
         #endregion
 

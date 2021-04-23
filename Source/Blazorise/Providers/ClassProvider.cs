@@ -963,6 +963,12 @@ namespace Blazorise
 
         #region Flex
 
+        public abstract string Flex( FlexType flexType );
+
+        public abstract string Flex( FlexDefinition flexDefinition );
+
+        public abstract string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
+
         public abstract string FlexAlignment( Alignment alignment );
 
         #endregion
@@ -1179,6 +1185,16 @@ namespace Blazorise
                 Blazorise.ColumnWidth.Is11 => "11",
                 Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => "12",
                 Blazorise.ColumnWidth.Auto => "auto",
+                _ => null,
+            };
+        }
+
+        public virtual string ToFlexType( FlexType flexType )
+        {
+            return flexType switch
+            {
+                Blazorise.FlexType.Flex => "flex",
+                Blazorise.FlexType.InlineFlex => "inline-flex",
                 _ => null,
             };
         }
@@ -1414,6 +1430,123 @@ namespace Blazorise
                 Blazorise.BorderColor.Light => "light",
                 Blazorise.BorderColor.Dark => "dark",
                 Blazorise.BorderColor.White => "white",
+                _ => null,
+            };
+        }
+
+        public virtual string ToDirection( FlexDirection direction )
+        {
+            return direction switch
+            {
+                Blazorise.FlexDirection.Row => "row",
+                Blazorise.FlexDirection.ReverseRow => "row-reverse",
+                Blazorise.FlexDirection.Column => "column",
+                Blazorise.FlexDirection.ReverseColumn => "column-reverse",
+                _ => null,
+            };
+        }
+
+        public virtual string ToJustifyContent( FlexJustifyContent justifyContent )
+        {
+            return justifyContent switch
+            {
+                Blazorise.FlexJustifyContent.Start => "start",
+                Blazorise.FlexJustifyContent.End => "end",
+                Blazorise.FlexJustifyContent.Center => "center",
+                Blazorise.FlexJustifyContent.Between => "between",
+                Blazorise.FlexJustifyContent.Around => "around",
+                _ => null,
+            };
+        }
+
+        public virtual string ToAlignItems( FlexAlignItems alignItems )
+        {
+            return alignItems switch
+            {
+                Blazorise.FlexAlignItems.Start => "start",
+                Blazorise.FlexAlignItems.End => "end",
+                Blazorise.FlexAlignItems.Center => "center",
+                Blazorise.FlexAlignItems.Baseline => "baseline",
+                Blazorise.FlexAlignItems.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public virtual string ToAlignSelf( FlexAlignSelf alignSelf )
+        {
+            return alignSelf switch
+            {
+                Blazorise.FlexAlignSelf.Start => "start",
+                Blazorise.FlexAlignSelf.End => "end",
+                Blazorise.FlexAlignSelf.Center => "center",
+                Blazorise.FlexAlignSelf.Baseline => "baseline",
+                Blazorise.FlexAlignSelf.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public virtual string ToAlignContent( FlexAlignContent alignContent )
+        {
+            return alignContent switch
+            {
+                Blazorise.FlexAlignContent.Start => "start",
+                Blazorise.FlexAlignContent.End => "end",
+                Blazorise.FlexAlignContent.Center => "center",
+                Blazorise.FlexAlignContent.Between => "between",
+                Blazorise.FlexAlignContent.Around => "around",
+                Blazorise.FlexAlignContent.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public virtual string ToGrowShrink( FlexGrowShrink growShrink )
+        {
+            return growShrink switch
+            {
+                Blazorise.FlexGrowShrink.Grow => "grow",
+                Blazorise.FlexGrowShrink.Shrink => "shrink",
+                _ => null,
+            };
+        }
+
+        public virtual string ToGrowShrinkSize( FlexGrowShrinkSize growShrinkSize )
+        {
+            return growShrinkSize switch
+            {
+                Blazorise.FlexGrowShrinkSize.Is0 => "0",
+                Blazorise.FlexGrowShrinkSize.Is1 => "1",
+                _ => null,
+            };
+        }
+
+        public virtual string ToWrap( FlexWrap wrap )
+        {
+            return wrap switch
+            {
+                Blazorise.FlexWrap.Wrap => "wrap",
+                Blazorise.FlexWrap.ReverseWrap => "wrap-reverse",
+                Blazorise.FlexWrap.NoWrap => "nowrap",
+                _ => null,
+            };
+        }
+
+        public virtual string ToOrder( FlexOrder order )
+        {
+            return order switch
+            {
+                Blazorise.FlexOrder.Is0 => "0",
+                Blazorise.FlexOrder.Is1 => "1",
+                Blazorise.FlexOrder.Is2 => "2",
+                Blazorise.FlexOrder.Is3 => "3",
+                Blazorise.FlexOrder.Is4 => "4",
+                Blazorise.FlexOrder.Is5 => "5",
+                Blazorise.FlexOrder.Is6 => "6",
+                Blazorise.FlexOrder.Is7 => "7",
+                Blazorise.FlexOrder.Is8 => "8",
+                Blazorise.FlexOrder.Is9 => "9",
+                Blazorise.FlexOrder.Is10 => "10",
+                Blazorise.FlexOrder.Is11 => "11",
+                Blazorise.FlexOrder.Is12 => "12",
                 _ => null,
             };
         }
