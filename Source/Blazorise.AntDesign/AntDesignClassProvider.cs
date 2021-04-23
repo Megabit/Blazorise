@@ -1029,6 +1029,12 @@ namespace Blazorise.AntDesign
 
         #region Flex
 
+        public override string Flex( FlexType flexType ) => null;
+
+        public override string Flex( FlexDefinition flexDefinition ) => null;
+
+        public override string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions ) => null;
+
         public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
 
         #endregion
