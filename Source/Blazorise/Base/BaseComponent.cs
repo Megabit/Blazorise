@@ -30,6 +30,8 @@ namespace Blazorise
 
         private IFluentBorder border;
 
+        private IFluentFlex flex;
+
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
         #endregion
@@ -98,6 +100,9 @@ namespace Blazorise
 
             if ( Border != null )
                 builder.Append( Border.Class( ClassProvider ) );
+
+            if ( Flex != null )
+                builder.Append( Flex.Class( ClassProvider ) );
 
             if ( Float != Float.None )
                 builder.Append( ClassProvider.ToFloat( Float ) );
@@ -321,6 +326,21 @@ namespace Blazorise
             set
             {
                 border = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Specifies flexbox properties of an element.
+        /// </summary>
+        [Parameter]
+        public IFluentFlex Flex
+        {
+            get => flex;
+            set
+            {
+                flex = value;
 
                 DirtyClasses();
             }

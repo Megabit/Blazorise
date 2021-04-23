@@ -37,6 +37,20 @@ Similar to the spacing builder you can also define column sizes using the same p
 <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile">
 ```
 
+## Flex
+
+Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities. For more complex implementations, custom CSS may be necessary.
+
+```html
+<Div Flex="Flex.JustifyContent.Start">
+    ...
+</Div>
+
+<Div Flex="Flex.AlignItems.Center">
+    ...
+</Div>
+```
+
 ## Border
 
 Use border utilities to quickly style the border and border-radius of an element. Great for images, buttons, or any other element.
