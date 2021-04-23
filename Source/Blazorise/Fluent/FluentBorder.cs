@@ -429,12 +429,11 @@ namespace Blazorise
         /// <inheritdoc/>
         public IFluentBorderWithAll RoundedZero => WithRadius( BorderRadius.RoundedZero );
 
-
         #endregion
     }
 
     /// <summary>
-    /// Helper static with predefines border start rules.
+    /// Set of border rules to start the build process.
     /// </summary>
     public static class Border
     {
