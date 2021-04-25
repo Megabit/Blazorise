@@ -139,3 +139,6 @@ $steps-default-color: $grey-lighter !default
 $steps-completed-color: $success !default
 $steps-active-color: $primary !default
 $steps-divider-height: .2em !default
+
+$sizes: () !default;
+$sizes: map-merge( ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, auto: auto ), $sizes );

@@ -22,6 +22,10 @@ namespace Blazorise
 
         private Float @float = Float.None;
 
+        private IFluentSizing width;
+
+        private IFluentSizing height;
+
         private IFluentSpacing margin;
 
         private IFluentSpacing padding;
@@ -105,7 +109,13 @@ namespace Blazorise
                 builder.Append( Flex.Class( ClassProvider ) );
 
             if ( Float != Float.None )
-                builder.Append( ClassProvider.ToFloat( Float ) );
+                builder.Append( ClassProvider.Float( Float ) );
+
+            if ( Width != null )
+                builder.Append( Width.Class( ClassProvider ) );
+
+            if ( Height != null )
+                builder.Append( Height.Class( ClassProvider ) );
 
             if ( Casing != CharacterCasing.Normal )
                 builder.Append( ClassProvider.Casing( Casing ) );
@@ -266,6 +276,36 @@ namespace Blazorise
             set
             {
                 @float = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Defined the sizing for the element width attribute(s).
+        /// </summary>
+        [Parameter]
+        public IFluentSizing Width
+        {
+            get => width;
+            set
+            {
+                width = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Defined the sizing for the element height attribute(s).
+        /// </summary>
+        [Parameter]
+        public IFluentSizing Height
+        {
+            get => height;
+            set
+            {
+                height = value;
 
                 DirtyClasses();
             }
