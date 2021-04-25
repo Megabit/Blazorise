@@ -558,12 +558,12 @@
             </CardBody>
             <CardBody Padding="Padding.Is0.FromBottom">
                 <Paragraph Margin="Margin.Is0.OnY">
-                    Use <code>Flex.Shrink</code> utilities to toggle a flex item’s ability to shrink if necessary. In the example below, the second flex item with <code>Flex.Shrink.Is1</code> is forced to wrap its contents to a new line, “shrinking” to allow more space for the previous flex item with .w-100.
+                    Use <code>Flex.Shrink</code> utilities to toggle a flex item’s ability to shrink if necessary. In the example below, the second flex item with <code>Flex.Shrink.Is1</code> is forced to wrap its contents to a new line, “shrinking” to allow more space for the previous flex item with <code>Width.Is100</code>.
                 </Paragraph>
             </CardBody>
             <CardBody>
                 <Div Display="Display.Flex" Margin="Margin.Is3.FromBottom" Style="@flexContainerStyle">
-                    <Div Padding="Padding.Is2" Style="@shrinkItemStyle">
+                    <Div Padding="Padding.Is2" Width="Width.Is100" Style="@shrinkItemStyle">
                         Flex item
                     </Div>
                     <Div Flex="Flex.Shrink.Is1" Padding="Padding.Is2" Style="@flexItemStyle">
@@ -689,5 +689,5 @@
     string alignContentFlexContainerStyle = $"background-color: {ContainerBackgroundColor};border: 1px solid {ContainerBorderColor};height: 200px;";
 
     string flexItemStyle = $"background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};";
-    string shrinkItemStyle = $"background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};width: 100%;";
+    string shrinkItemStyle = $"background-color: {ItemBackgroundColor}; border: 1px solid {ItemBorderColor};";
 }
