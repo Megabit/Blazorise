@@ -100,6 +100,7 @@ namespace Blazorise
         ValueTask ResetFileEdit( ElementReference elementRef, string elementId );
 
         ValueTask OpenFileDialog( ElementReference elementRef, string elementId );
+        ValueTask InitializeTableFixedHeader( ElementReference elementRef, string elementId );
     }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

@@ -1,11 +1,23 @@
 ﻿.b-table-container {
     &.b-table-container-fixed-header {
+        border: 1px solid #dee2e6;
         overflow-y: auto;
 
         thead tr th {
             position: sticky;
             top: 0;
-            background:#fff; // Should probably be synced somewhere else
+            background: #fff; // Should probably be synced somewhere else
+        }
+
+        table.table-bordered {
+            border: none;
+            border-collapse: separate;
+            border-spacing: 0;
+
+            th:first-child,
+            td:first-child {
+                border-left: none;
+            }
         }
     }
 }

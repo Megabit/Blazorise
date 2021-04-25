@@ -509,9 +509,10 @@
             </CardHeader>
             <CardBody>
                 <CardText>Use <code>Fixed Header</code> combined with the desired height, for vertically scrolling tables with the Table Header always sitting at the top.</CardText>
+                <Check TValue="bool" @bind-Checked="_fixedHeaderEnabled">Fixed Header</Check>
             </CardBody>
             <CardBody>
-                <Table FixedHeader="true" FixedHeaderBodyHeight="300px" Bordered>
+                <Table FixedHeader="_fixedHeaderEnabled" FixedHeaderTableHeight="300px" Bordered>
                     <TableHeader>
                         <TableRow>
                             <TableHeaderCell>#</TableHeaderCell>
@@ -679,3 +680,6 @@
         </Card>
     </Column>
 </Row>
+@code{
+    private bool _fixedHeaderEnabled = true;
+}

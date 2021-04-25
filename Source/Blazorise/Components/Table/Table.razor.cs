@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System;
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise
@@ -106,6 +108,27 @@ namespace Blazorise
         {
             if ( fixedHeader )
                 builder.Append( ClassProvider.TableFixedHeader() );
+        }
+
+        protected override void OnInitialized()
+        {
+            if ( ElementId == null )
+                ElementId = IdGenerator.Generate;
+
+            base.OnInitialized();
+        }
+
+        protected override async Task OnAfterRenderAsync( bool firstRender )
+        {
+            await InitTableFixedHeader();
+            await base.OnAfterRenderAsync( firstRender );
+        }
+
+        private ValueTask InitTableFixedHeader()
+        { 
+            if ( FixedHeader )
+                return JSRunner.InitializeTableFixedHeader( ElementRef, ElementId );
+            return ValueTask.CompletedTask;
         }
 
         #endregion
