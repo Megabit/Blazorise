@@ -819,6 +819,8 @@ namespace Blazorise.Providers
 
         public string TableResponsive() => null;
 
+        public string TableFixedHeader() => null;
+
         #endregion
 
         #region Badge

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -28,7 +29,7 @@ namespace Blazorise
 
         private bool fixedHeader;
 
-        private string fixedHeaderBodyHeight = "250px";
+        private string fixedHeaderTableHeight = "250px";
 
         #endregion
 
@@ -39,7 +40,8 @@ namespace Blazorise
         /// </summary>
         public Table()
         {
-            ResponsiveClassBuilder = new ClassBuilder( BuildResponsiveClasses );
+            TableDivClassBuilder = new ClassBuilder( BuildTableDivClasses );
+            TableDivStyleBuilder = new StyleBuilder( BuildTableDivStyles );
         }
 
         #endregion
@@ -50,8 +52,6 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( "b-table" );
-            if ( fixedHeader )
-                builder.Append( "b-table-fixed-header" );
             builder.Append( ClassProvider.Table() );
             builder.Append( ClassProvider.TableFullWidth(), FullWidth );
             builder.Append( ClassProvider.TableStriped(), Striped );
@@ -64,12 +64,48 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Builds a list of classnames for the responsive container element.
+        /// Builds a list of classnames for the responsive or the fixed table container element if applicable.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
+        private void BuildTableDivClasses( ClassBuilder builder )
+        {
+            builder.Append( "b-table-container" );
+            BuildResponsiveClasses( builder );
+            BuildFixedHeaderClasses( builder );
+        }
+
+        /// <summary>
+        /// Builds a list of classnames for the responsive or the fixed table container element if applicable.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
+        private void BuildTableDivStyles( StyleBuilder builder )
+        {
+            BuildFixedHeaderStyles( builder );
+        }
+
+        private void BuildFixedHeaderStyles( StyleBuilder builder )
+        {
+            builder.Append( $"max-height: {FixedHeaderTableHeight}", FixedHeader );
+        }
+
+        /// <summary>
+        /// Builds a list of classnames for the responsive container element if applicable.
         /// </summary>
         /// <param name="builder">Class builder used to append the classnames.</param>
         private void BuildResponsiveClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.TableResponsive() );
+            if (responsive)
+                builder.Append( ClassProvider.TableResponsive() );
+        }
+
+        /// <summary>
+        /// Builds a list of classnames for the fixed table container element if applicable.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
+        private void BuildFixedHeaderClasses( ClassBuilder builder )
+        {
+            if ( fixedHeader )
+                builder.Append( ClassProvider.TableFixedHeader() );
         }
 
         #endregion
@@ -79,12 +115,19 @@ namespace Blazorise
         /// <summary>
         /// Class builder used to build the classnames for responsive element.
         /// </summary>
-        protected ClassBuilder ResponsiveClassBuilder { get; private set; }
+        protected ClassBuilder TableDivClassBuilder { get; private set; }
+        protected StyleBuilder TableDivStyleBuilder { get; private set; }
 
         /// <summary>
-        /// Gets the classname for a responsive element.
+        /// Gets the classnames for a responsive or fixed element according to table configuration.
         /// </summary>
-        protected string ResponsiveClassNames => ResponsiveClassBuilder.Class;
+        protected string TableDivClassNames => TableDivClassBuilder.Class;
+
+
+        /// <summary>
+        /// Gets the stylenames for a responsive or fixed element according to table configuration.
+        /// </summary>
+        protected string TableDivStyleNames => TableDivStyleBuilder.Styles;
 
         /// <summary>
         /// Makes the table to fill entire horizontal space.
@@ -207,16 +250,16 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Sets table fixed header feature body max height.
+        /// Sets table fixed header feature table max height.
         /// Defaults to 250px.
         /// </summary>
         [Parameter]
-        public string FixedHeaderBodyHeight
+        public string FixedHeaderTableHeight
         {
-            get => fixedHeaderBodyHeight;
+            get => fixedHeaderTableHeight;
             set
             {
-                fixedHeaderBodyHeight = value;
+                fixedHeaderTableHeight = value;
 
                 DirtyClasses();
             }

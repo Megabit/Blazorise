@@ -1,19 +1,11 @@
-﻿.b-table {
-    &.b-table-fixed-header table {
-        width: 100%;
-    }
+﻿.b-table-container {
+    &.b-table-container-fixed-header {
+        overflow-y: auto;
 
-    &.b-table-fixed-header thead,
-    &.b-table-fixed-header tbody tr {
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-    }
-
-    &.b-table-fixed-header tbody {
-        display: block;
-        table-layout: fixed;
-        overflow-y: overlay;
-        max-height: 250px;
+        thead tr th {
+            position: sticky;
+            top: 0;
+            background:#fff; // Should probably be synced somewhere else
+        }
     }
 }

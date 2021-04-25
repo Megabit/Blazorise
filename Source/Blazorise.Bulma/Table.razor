@@ -1,9 +1,9 @@
 ﻿@inherits Blazorise.Table
 <CascadingValue Value="@this" IsFixed="true">
-    @if ( Responsive )
+    @if ( Responsive || FixedHeader )
     {
         <div style="display: grid;">
-            <div class="@ResponsiveClassNames">
+            <div class="@TableDivClassNames" style="@TableDivStyleNames">
                 <table @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
                        draggable="@Draggable"
                        @ondrag="@OnDragHandler"

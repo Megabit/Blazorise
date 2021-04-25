@@ -20,13 +20,6 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        protected override void BuildStyles( StyleBuilder builder )
-        {
-            builder.Append( $"max-height: {ParentTable.FixedHeaderBodyHeight}", ParentTable?.FixedHeader == true );
-
-            base.BuildStyles( builder );
-        }
-
         #endregion
 
         #region Properties

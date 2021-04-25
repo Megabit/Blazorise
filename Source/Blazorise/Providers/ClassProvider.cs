@@ -818,6 +818,8 @@ namespace Blazorise
 
         public abstract string TableResponsive();
 
+        public virtual string TableFixedHeader() => "b-table-container-fixed-header";
+
         #endregion
 
         #region Badge
