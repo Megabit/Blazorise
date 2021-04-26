@@ -681,14 +681,14 @@ namespace Blazorise.AntDesign
 
         #region Display
 
-        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
         {
-            var baseClass = breakpoint != Breakpoint.None
-                ? $"ant-display-{ToBreakpoint( breakpoint )}-{ToDisplayType( displayType )}"
+            var baseClass = displayDefinition.Breakpoint != Breakpoint.None
+                ? $"ant-display-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
                 : $"ant-display-{ToDisplayType( displayType )}";
 
-            if ( direction != DisplayDirection.None )
-                return $"{baseClass} ant-flex-{ToDisplayDirection( direction )}";
+            if ( displayDefinition.Direction != DisplayDirection.None )
+                return $"{baseClass} ant-flex-{ToDisplayDirection( displayDefinition.Direction )}";
 
             return baseClass;
         }
@@ -1029,7 +1029,102 @@ namespace Blazorise.AntDesign
 
         #region Flex
 
+        public override string Flex( FlexType flexType )
+        {
+            return flexType != FlexType.None
+                ? $"ant-display-{ToFlexType( flexType )}"
+                : null;
+        }
+
+        public override string Flex( FlexDefinition flexDefinition )
+        {
+            var sb = new StringBuilder();
+
+            var breakpoint = flexDefinition.Breakpoint != Breakpoint.None && flexDefinition.Breakpoint != Breakpoint.Mobile
+                ? $"{ToBreakpoint( flexDefinition.Breakpoint )}-"
+                : null;
+
+            if ( flexDefinition.Direction != FlexDirection.None )
+                sb.Append( "ant-flex-direction-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
+
+            if ( flexDefinition.JustifyContent != FlexJustifyContent.None )
+                sb.Append( "ant-justify-content-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+
+            if ( flexDefinition.AlignItems != FlexAlignItems.None )
+                sb.Append( "ant-align-items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+
+            if ( flexDefinition.AlignSelf != FlexAlignSelf.None )
+                sb.Append( "ant-align-self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+
+            if ( flexDefinition.AlignContent != FlexAlignContent.None )
+                sb.Append( "ant-align-content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+
+            if ( flexDefinition.GrowShrink != FlexGrowShrink.None && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.None )
+                sb.Append( "ant-flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+
+            if ( flexDefinition.Wrap != FlexWrap.None )
+                sb.Append( "ant-flex-wrap-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
+
+            if ( flexDefinition.Order != FlexOrder.None )
+                sb.Append( "ant-flex-order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
+
+            if ( flexDefinition.Fill )
+                sb.Append( "ant-flex-" ).Append( breakpoint ).Append( "fill" );
+
+            return sb.ToString();
+        }
+
+        public override string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions )
+        {
+            var sb = new StringBuilder();
+
+            if ( flexType != FlexType.None )
+                sb.Append( $"ant-display-{ToFlexType( flexType )}" ).Append( ' ' );
+
+            sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
+
+            return sb.ToString();
+        }
+
         public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
+
+        #endregion
+
+        #region Sizing
+
+        public override string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition )
+        {
+            var sb = new StringBuilder( "ant-" );
+
+            if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
+                sb.Append( "min-wiewport-" );
+            else if ( sizingDefinition.IsMax )
+                sb.Append( "max-" );
+            else if ( sizingDefinition.IsViewport )
+                sb.Append( "viewport-" );
+
+            sb.Append( sizingType == SizingType.Width
+                ? "width"
+                : "height" );
+
+            sb.Append( $"-{ToSizingSize( sizingSize )}" );
+
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region Visibility
+
+        public override string Visibility( Visibility visibility )
+        {
+            return visibility switch
+            {
+                Blazorise.Visibility.Visible => "ant-visible",
+                Blazorise.Visibility.Invisible => "ant-invisible",
+                _ => null,
+            };
+        }
 
         #endregion
 
@@ -1088,6 +1183,60 @@ namespace Blazorise.AntDesign
                 default:
                     return null;
             }
+        }
+
+        public override string ToJustifyContent( FlexJustifyContent justifyContent )
+        {
+            return justifyContent switch
+            {
+                Blazorise.FlexJustifyContent.Start => "flex-start",
+                Blazorise.FlexJustifyContent.End => "flex-end",
+                Blazorise.FlexJustifyContent.Center => "center",
+                Blazorise.FlexJustifyContent.Between => "space-between",
+                Blazorise.FlexJustifyContent.Around => "space-around",
+                _ => null,
+            };
+        }
+
+        public override string ToAlignItems( FlexAlignItems alignItems )
+        {
+            return alignItems switch
+            {
+                Blazorise.FlexAlignItems.Start => "flex-start",
+                Blazorise.FlexAlignItems.End => "flex-end",
+                Blazorise.FlexAlignItems.Center => "center",
+                Blazorise.FlexAlignItems.Baseline => "baseline",
+                Blazorise.FlexAlignItems.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public override string ToAlignSelf( FlexAlignSelf alignSelf )
+        {
+            return alignSelf switch
+            {
+                Blazorise.FlexAlignSelf.Auto => "auto",
+                Blazorise.FlexAlignSelf.Start => "flex-start",
+                Blazorise.FlexAlignSelf.End => "flex-end",
+                Blazorise.FlexAlignSelf.Center => "center",
+                Blazorise.FlexAlignSelf.Baseline => "baseline",
+                Blazorise.FlexAlignSelf.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public override string ToAlignContent( FlexAlignContent alignContent )
+        {
+            return alignContent switch
+            {
+                Blazorise.FlexAlignContent.Start => "flex-start",
+                Blazorise.FlexAlignContent.End => "flex-end",
+                Blazorise.FlexAlignContent.Center => "center",
+                Blazorise.FlexAlignContent.Between => "space-between",
+                Blazorise.FlexAlignContent.Around => "space-around",
+                Blazorise.FlexAlignContent.Stretch => "stretch",
+                _ => null,
+            };
         }
 
         #endregion
