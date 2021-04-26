@@ -1126,6 +1126,20 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Visibility
+
+        public override string Visibility( Visibility visibility )
+        {
+            return visibility switch
+            {
+                Blazorise.Visibility.Visible => "is-visible",
+                Blazorise.Visibility.Invisible => "is-invisible",
+                _ => null,
+            };
+        }
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )

@@ -22,6 +22,8 @@ namespace Blazorise
 
         private Float @float = Float.None;
 
+        private Visibility visibility = Visibility.None;
+
         private IFluentSizing width;
 
         private IFluentSizing height;
@@ -110,6 +112,9 @@ namespace Blazorise
 
             if ( Float != Float.None )
                 builder.Append( ClassProvider.Float( Float ) );
+
+            if ( Visibility != Visibility.None )
+                builder.Append( ClassProvider.Visibility( Visibility ) );
 
             if ( Width != null )
                 builder.Append( Width.Class( ClassProvider ) );
@@ -276,6 +281,21 @@ namespace Blazorise
             set
             {
                 @float = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Controls the visibility, without modifying the display, of elements with visibility utilities.
+        /// </summary>
+        [Parameter]
+        public Visibility Visibility
+        {
+            get => visibility;
+            set
+            {
+                visibility = value;
 
                 DirtyClasses();
             }

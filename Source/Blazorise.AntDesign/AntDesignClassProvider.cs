@@ -1114,6 +1114,20 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Visibility
+
+        public override string Visibility( Visibility visibility )
+        {
+            return visibility switch
+            {
+                Blazorise.Visibility.Visible => "ant-visible",
+                Blazorise.Visibility.Invisible => "ant-invisible",
+                _ => null,
+            };
+        }
+
+        #endregion
+
         #region Enums
 
         public override string ToColumnWidth( ColumnWidth columnWidth )

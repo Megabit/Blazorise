@@ -2004,6 +2004,9 @@
 .is-viewport-height-100 {
     height: 100vh !important; }
 
+.is-visible {
+    visibility: visible !important; }
+
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
     color: #fff !important; }

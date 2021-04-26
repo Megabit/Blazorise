@@ -977,6 +977,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Visibility
+
+        string Visibility( Visibility visibility );
+
+        #endregion
+
         #region Custom
 
         string Casing( CharacterCasing characterCasing );

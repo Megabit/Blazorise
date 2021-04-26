@@ -1096,6 +1096,20 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Visibility
+
+        public override string Visibility( Visibility visibility )
+        {
+            return visibility switch
+            {
+                Blazorise.Visibility.Visible => "visible",
+                Blazorise.Visibility.Invisible => "invisible",
+                _ => null,
+            };
+        }
+
+        #endregion
+
         public override bool UseCustomInputStyles { get; set; } = true;
 
         public override string Provider => "Bootstrap";
