@@ -1,9 +1,6 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using Blazorise.Interfaces;
 #endregion
 
 namespace Blazorise.Bulma
@@ -12,7 +9,10 @@ namespace Blazorise.Bulma
     {
         #region Constructors
 
-        public BulmaThemeGenerator( IThemeCache themeCache ) : base( themeCache ) { }
+        public BulmaThemeGenerator( IThemeCache themeCache )
+            : base( themeCache )
+        {
+        }
 
         #endregion
 

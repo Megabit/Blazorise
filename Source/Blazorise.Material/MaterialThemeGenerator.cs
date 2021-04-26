@@ -1,9 +1,6 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Text;
 using Blazorise.Bootstrap;
-using Blazorise.Interfaces;
 #endregion
 
 namespace Blazorise.Material
@@ -12,9 +9,14 @@ namespace Blazorise.Material
     {
         #region Constructors
 
-        public MaterialThemeGenerator( IThemeCache themeCache ) : base( themeCache ) { }
+        public MaterialThemeGenerator( IThemeCache themeCache )
+            : base( themeCache )
+        {
+        }
 
         #endregion
+
+        #region Methods
 
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
@@ -274,5 +276,7 @@ namespace Blazorise.Material
 
             base.GenerateProgressStyles( sb, theme, options );
         }
+
+        #endregion
     }
 }

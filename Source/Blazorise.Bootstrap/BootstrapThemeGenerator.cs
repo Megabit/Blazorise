@@ -1,10 +1,6 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Net.Http.Headers;
 using System.Text;
-using Blazorise.Interfaces;
 #endregion
 
 namespace Blazorise.Bootstrap
@@ -13,7 +9,10 @@ namespace Blazorise.Bootstrap
     {
         #region Constructors
 
-        public BootstrapThemeGenerator( IThemeCache themeCache ) : base( themeCache ) { }
+        public BootstrapThemeGenerator( IThemeCache themeCache )
+            : base( themeCache )
+        {
+        }
 
         #endregion
 

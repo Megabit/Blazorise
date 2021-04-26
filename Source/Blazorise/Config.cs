@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using Blazorise.Interfaces;
 using Blazorise.Localization;
 using Blazorise.Providers;
 using Blazorise.Themes;

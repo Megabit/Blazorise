@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.Linq;
-using Blazorise.Interfaces;
 #endregion
 
 namespace Blazorise.Themes

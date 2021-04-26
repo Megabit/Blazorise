@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Blazorise.Interfaces;
 #endregion
 
 namespace Blazorise
@@ -33,9 +32,9 @@ namespace Blazorise
 
         public virtual string GenerateVariables( Theme theme )
         {
-            if ( ThemeCache.TryGetVariablesFromCache( theme, out var variableCss ) )
+            if ( ThemeCache.TryGetVariablesFromCache( theme, out var cachedVariables ) )
             {
-                return variableCss;
+                return cachedVariables;
             }
 
             var sb = new StringBuilder();
@@ -84,9 +83,11 @@ namespace Blazorise
             foreach ( var kv in variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value};" );
 
-            var variableString = sb.ToString();
-            ThemeCache.CacheVariables( theme, variableString );
-            return variableString;
+            var generatedVariables = sb.ToString();
+
+            ThemeCache.CacheVariables( theme, generatedVariables );
+
+            return generatedVariables;
         }
 
         protected virtual void GenerateBreakpointVariables( Theme theme, string name, string size )
@@ -467,9 +468,9 @@ namespace Blazorise
 
         public virtual string GenerateStyles( Theme theme )
         {
-            if ( ThemeCache.TryGetStylesFromCache( theme, out var styleCss ) )
+            if ( ThemeCache.TryGetStylesFromCache( theme, out var cachedStyle ) )
             {
-                return styleCss;
+                return cachedStyle;
             }
 
             var sb = new StringBuilder();
@@ -522,10 +523,11 @@ namespace Blazorise
 
             GenerateRatingStyles( sb, theme, theme.RatingOptions );
 
-            var styleString = sb.ToString();
-            ThemeCache.CacheStyles( theme, styleString );
+            var generatedStyles = sb.ToString();
 
-            return styleString;
+            ThemeCache.CacheStyles( theme, generatedStyles );
+
+            return generatedStyles;
         }
 
         protected virtual void GenerateBreakpointStyles( StringBuilder sb, Theme theme, string breakpoint, string value )

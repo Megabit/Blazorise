@@ -1,9 +1,6 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using Blazorise.Interfaces;
 #endregion
 
 namespace Blazorise.AntDesign
@@ -12,7 +9,10 @@ namespace Blazorise.AntDesign
     {
         #region Constructors
 
-        public AntDesignThemeGenerator( IThemeCache themeCache ) : base( themeCache ) { }
+        public AntDesignThemeGenerator( IThemeCache themeCache )
+            : base( themeCache )
+        {
+        }
 
         #endregion
 
