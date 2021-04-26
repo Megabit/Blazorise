@@ -327,9 +327,7 @@ namespace Blazorise
         /// <summary>
         /// Defines the maximum allowed element width. Shorthand for "Width.Is100.Max".
         /// </summary>
-        public static IFluentSizing Max => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is100 ).Max;
-
-        //public static IFluentSizingViewport Min => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is100 ).Min;
+        public static IFluentSizing Max100 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is100 ).Max;
     }
 
     public static class Height
@@ -362,8 +360,6 @@ namespace Blazorise
         /// <summary>
         /// Defines the maximum allowed element height. Shorthand for "Height.Is100.Max".
         /// </summary>
-        public static IFluentSizing Max => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is100 ).Max;
-
-        //public static IFluentSizingViewport Min => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is100 ).Min;
+        public static IFluentSizing Max100 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is100 ).Max;
     }
 }
