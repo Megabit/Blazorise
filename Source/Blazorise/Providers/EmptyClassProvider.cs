@@ -647,9 +647,9 @@ namespace Blazorise.Providers
 
         #region Display
 
-        public string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction ) => null;
+        public string Display( DisplayType displayType, DisplayDefinition displayDefinition ) => null;
 
-        public string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules ) => null;
+        public string Display( DisplayType displayType, IEnumerable<DisplayDefinition> displayDefinitions ) => null;
 
         #endregion
 
@@ -965,7 +965,31 @@ namespace Blazorise.Providers
 
         #region Flex
 
+        public string Flex( FlexType flexType ) => null;
+
+        public string Flex( FlexDefinition flexDefinition ) => null;
+
+        public string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions ) => null;
+
         public string FlexAlignment( Alignment alignment ) => null;
+
+        #endregion
+
+        #region Sizing
+
+        public string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition ) => null;
+
+        #endregion
+
+        #region Float
+
+        public string Float( Float @float ) => null;
+
+        #endregion
+
+        #region Visibility
+
+        public string Visibility( Visibility visibility ) => null;
 
         #endregion
 
@@ -1034,6 +1058,28 @@ namespace Blazorise.Providers
         public string ToBarMode( BarMode mode ) => null;
 
         public string ToBarCollapsedMode( BarCollapseMode collapseMode ) => null;
+
+        public string ToDirection( FlexDirection direction ) => null;
+
+        public string ToJustifyContent( FlexJustifyContent justifyContent ) => null;
+
+        public string ToAlignItems( FlexAlignItems alignItems ) => null;
+
+        public string ToAlignSelf( FlexAlignSelf alignSelf ) => null;
+
+        public string ToAlignContent( FlexAlignContent alignContent ) => null;
+
+        public string ToGrowShrink( FlexGrowShrink growShrink ) => null;
+
+        public string ToGrowShrinkSize( FlexGrowShrinkSize growShrinkSize ) => null;
+
+        public string ToWrap( FlexWrap wrap ) => null;
+
+        public string ToOrder( FlexOrder order ) => null;
+
+        public string ToSizingType( SizingType sizingType ) => null;
+
+        public string ToSizingSize( SizingSize sizingSize ) => null;
 
         #endregion
 

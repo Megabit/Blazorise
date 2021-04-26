@@ -639,9 +639,9 @@ namespace Blazorise
 
         #region Display
 
-        string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction );
+        string Display( DisplayType displayType, DisplayDefinition displayDefinition );
 
-        string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules );
+        string Display( DisplayType displayType, IEnumerable<DisplayDefinition> displayDefinitions );
 
         #endregion
 
@@ -957,7 +957,31 @@ namespace Blazorise
 
         #region Flex
 
+        string Flex( FlexType flexType );
+
+        string Flex( FlexDefinition flexDefinition );
+
+        string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
+
         string FlexAlignment( Alignment alignment );
+
+        #endregion
+
+        #region Sizing
+
+        string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
+
+        #endregion
+
+        #region Float
+
+        string Float( Float @float );
+
+        #endregion
+
+        #region Visibility
+
+        string Visibility( Visibility visibility );
 
         #endregion
 
@@ -1031,6 +1055,28 @@ namespace Blazorise
         string ToBarMode( BarMode mode );
 
         string ToBarCollapsedMode( BarCollapseMode collapseMode );
+
+        string ToDirection( FlexDirection direction );
+
+        string ToJustifyContent( FlexJustifyContent justifyContent );
+
+        string ToAlignItems( FlexAlignItems alignItems );
+
+        string ToAlignSelf( FlexAlignSelf alignSelf );
+
+        string ToAlignContent( FlexAlignContent alignContent );
+
+        string ToGrowShrink( FlexGrowShrink growShrink );
+
+        string ToGrowShrinkSize( FlexGrowShrinkSize growShrinkSize );
+
+        string ToWrap( FlexWrap wrap );
+
+        string ToOrder( FlexOrder order );
+
+        string ToSizingType( SizingType sizingType );
+
+        string ToSizingSize( SizingSize sizingSize );
 
         #endregion
 
