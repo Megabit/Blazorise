@@ -681,14 +681,14 @@ namespace Blazorise.AntDesign
 
         #region Display
 
-        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
         {
-            var baseClass = breakpoint != Breakpoint.None
-                ? $"ant-display-{ToBreakpoint( breakpoint )}-{ToDisplayType( displayType )}"
+            var baseClass = displayDefinition.Breakpoint != Breakpoint.None
+                ? $"ant-display-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
                 : $"ant-display-{ToDisplayType( displayType )}";
 
-            if ( direction != DisplayDirection.None )
-                return $"{baseClass} ant-flex-{ToDisplayDirection( direction )}";
+            if ( displayDefinition.Direction != DisplayDirection.None )
+                return $"{baseClass} ant-flex-{ToDisplayDirection( displayDefinition.Direction )}";
 
             return baseClass;
         }
@@ -1087,6 +1087,44 @@ namespace Blazorise.AntDesign
         }
 
         public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
+
+        #endregion
+
+        #region Sizing
+
+        public override string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition )
+        {
+            var sb = new StringBuilder( "ant-" );
+
+            if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
+                sb.Append( "min-wiewport-" );
+            else if ( sizingDefinition.IsMax )
+                sb.Append( "max-" );
+            else if ( sizingDefinition.IsViewport )
+                sb.Append( "viewport-" );
+
+            sb.Append( sizingType == SizingType.Width
+                ? "width"
+                : "height" );
+
+            sb.Append( $"-{ToSizingSize( sizingSize )}" );
+
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region Visibility
+
+        public override string Visibility( Visibility visibility )
+        {
+            return visibility switch
+            {
+                Blazorise.Visibility.Visible => "ant-visible",
+                Blazorise.Visibility.Invisible => "ant-invisible",
+                _ => null,
+            };
+        }
 
         #endregion
 

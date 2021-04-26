@@ -647,9 +647,9 @@ namespace Blazorise.Providers
 
         #region Display
 
-        public string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction ) => null;
+        public string Display( DisplayType displayType, DisplayDefinition displayDefinition ) => null;
 
-        public string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules ) => null;
+        public string Display( DisplayType displayType, IEnumerable<DisplayDefinition> displayDefinitions ) => null;
 
         #endregion
 
@@ -973,6 +973,24 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Sizing
+
+        public string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition ) => null;
+
+        #endregion
+
+        #region Float
+
+        public string Float( Float @float ) => null;
+
+        #endregion
+
+        #region Visibility
+
+        public string Visibility( Visibility visibility ) => null;
+
+        #endregion
+
         #region Custom
 
         public string Casing( CharacterCasing characterCasing ) => null;
@@ -1056,6 +1074,10 @@ namespace Blazorise.Providers
         public string ToWrap( FlexWrap wrap ) => null;
 
         public string ToOrder( FlexOrder order ) => null;
+
+        public string ToSizingType( SizingType sizingType ) => null;
+
+        public string ToSizingSize( SizingSize sizingSize ) => null;
 
         #endregion
 

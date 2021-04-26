@@ -666,14 +666,14 @@ namespace Blazorise.Bootstrap
 
         #region Display
 
-        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
         {
-            var baseClass = breakpoint != Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile
-                ? $"d-{ToBreakpoint( breakpoint )}-{ToDisplayType( displayType )}"
+            var baseClass = displayDefinition.Breakpoint != Breakpoint.None && displayDefinition.Breakpoint != Blazorise.Breakpoint.Mobile
+                ? $"d-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
                 : $"d-{ToDisplayType( displayType )}";
 
-            if ( direction != DisplayDirection.None )
-                return $"{baseClass} flex-{ToDisplayDirection( direction )}";
+            if ( displayDefinition.Direction != DisplayDirection.None )
+                return $"{baseClass} flex-{ToDisplayDirection( displayDefinition.Direction )}";
 
             return baseClass;
         }
@@ -1070,7 +1070,45 @@ namespace Blazorise.Bootstrap
 
         public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
 
-        #endregion       
+        #endregion
+
+        #region Sizing
+
+        public override string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition )
+        {
+            var sb = new StringBuilder();
+
+            if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
+                sb.Append( "min-v" );
+            else if ( sizingDefinition.IsMax )
+                sb.Append( "m" );
+            else if ( sizingDefinition.IsViewport )
+                sb.Append( "v" );
+
+            sb.Append( sizingType == SizingType.Width
+                ? "w"
+                : "h" );
+
+            sb.Append( $"-{ToSizingSize( sizingSize )}" );
+
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region Visibility
+
+        public override string Visibility( Visibility visibility )
+        {
+            return visibility switch
+            {
+                Blazorise.Visibility.Visible => "visible",
+                Blazorise.Visibility.Invisible => "invisible",
+                _ => null,
+            };
+        }
+
+        #endregion
 
         public override bool UseCustomInputStyles { get; set; } = true;
 

@@ -686,14 +686,14 @@ namespace Blazorise.Bulma
 
         #region Display
 
-        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
         {
-            var baseClass = breakpoint != Breakpoint.None
-                ? $"is-{ToDisplayType( displayType )}-{ToBreakpoint( breakpoint )}"
+            var baseClass = displayDefinition.Breakpoint != Breakpoint.None
+                ? $"is-{ToDisplayType( displayType )}-{ToBreakpoint( displayDefinition.Breakpoint )}"
                 : $"is-{ToDisplayType( displayType )}";
 
-            if ( direction != DisplayDirection.None )
-                return $"{baseClass} is-flex-direction-{ToDisplayDirection( direction )}";
+            if ( displayDefinition.Direction != DisplayDirection.None )
+                return $"{baseClass} is-flex-direction-{ToDisplayDirection( displayDefinition.Direction )}";
 
             return baseClass;
         }
@@ -1096,6 +1096,50 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Sizing
+
+        public override string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition )
+        {
+            var sb = new StringBuilder( "is-" );
+
+            if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
+                sb.Append( "min-wiewport-" );
+            else if ( sizingDefinition.IsMax )
+                sb.Append( "max-" );
+            else if ( sizingDefinition.IsViewport )
+                sb.Append( "viewport-" );
+
+            sb.Append( sizingType == SizingType.Width
+                ? "width"
+                : "height" );
+
+            sb.Append( $"-{ToSizingSize( sizingSize )}" );
+
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region Float
+
+        public override string Float( Float @float ) => $"is-pulled-{ToFloat( @float )}";
+
+        #endregion
+
+        #region Visibility
+
+        public override string Visibility( Visibility visibility )
+        {
+            return visibility switch
+            {
+                Blazorise.Visibility.Visible => "is-visible",
+                Blazorise.Visibility.Invisible => "is-invisible",
+                _ => null,
+            };
+        }
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )
@@ -1195,19 +1239,6 @@ namespace Blazorise.Bulma
                 //    return "black-50";
                 //case Blazorise.TextColor.White50:
                 //    return "white-50";
-                default:
-                    return null;
-            }
-        }
-
-        public override string ToFloat( Float @float )
-        {
-            switch ( @float )
-            {
-                case Blazorise.Float.Left:
-                    return "is-pulled-left";
-                case Blazorise.Float.Right:
-                    return "is-pulled-right	";
                 default:
                     return null;
             }
