@@ -640,6 +640,11 @@ namespace Blazorise
             dirty = true;
         }
 
+        /// <summary>
+        /// Starts the new flex type rule.
+        /// </summary>
+        /// <param name="flexType">Flex type to start.</param>
+        /// <returns>Next rule reference.</returns>
         public IFluentFlexAll WithFlexType( FlexType flexType )
         {
             currentFlexType = flexType;
