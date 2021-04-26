@@ -1070,7 +1070,31 @@ namespace Blazorise.Bootstrap
 
         public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
 
-        #endregion       
+        #endregion
+
+        #region Sizing
+
+        public override string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition )
+        {
+            var sb = new StringBuilder();
+
+            if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
+                sb.Append( "min-v" );
+            else if ( sizingDefinition.IsMax )
+                sb.Append( "m" );
+            else if ( sizingDefinition.IsViewport )
+                sb.Append( "v" );
+
+            sb.Append( sizingType == SizingType.Width
+                ? "w"
+                : "h" );
+
+            sb.Append( $"-{ToSizingSize( sizingSize )}" );
+
+            return sb.ToString();
+        }
+
+        #endregion
 
         public override bool UseCustomInputStyles { get; set; } = true;
 

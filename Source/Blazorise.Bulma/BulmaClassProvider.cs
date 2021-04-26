@@ -1096,6 +1096,36 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Sizing
+
+        public override string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition )
+        {
+            var sb = new StringBuilder( "is-" );
+
+            if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
+                sb.Append( "min-wiewport-" );
+            else if ( sizingDefinition.IsMax )
+                sb.Append( "max-" );
+            else if ( sizingDefinition.IsViewport )
+                sb.Append( "viewport-" );
+
+            sb.Append( sizingType == SizingType.Width
+                ? "width"
+                : "height" );
+
+            sb.Append( $"-{ToSizingSize( sizingSize )}" );
+
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region Float
+
+        public override string Float( Float @float ) => $"is-pulled-{ToFloat( @float )}";
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )
@@ -1195,19 +1225,6 @@ namespace Blazorise.Bulma
                 //    return "black-50";
                 //case Blazorise.TextColor.White50:
                 //    return "white-50";
-                default:
-                    return null;
-            }
-        }
-
-        public override string ToFloat( Float @float )
-        {
-            switch ( @float )
-            {
-                case Blazorise.Float.Left:
-                    return "is-pulled-left";
-                case Blazorise.Float.Right:
-                    return "is-pulled-right	";
                 default:
                     return null;
             }

@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 #endregion
 
 namespace Blazorise
@@ -973,6 +974,18 @@ namespace Blazorise
 
         #endregion
 
+        #region Sizing
+
+        public abstract string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
+
+        #endregion
+
+        #region Float
+
+        public virtual string Float( Float @float ) => $"float-{ToFloat( @float )}";
+
+        #endregion
+
         #region Custom
 
         public virtual string Casing( CharacterCasing characterCasing ) => $"b-character-casing-{ToCharacterCasing( characterCasing )}";
@@ -1077,8 +1090,8 @@ namespace Blazorise
         {
             return @float switch
             {
-                Blazorise.Float.Left => "float-left",
-                Blazorise.Float.Right => "float-right",
+                Blazorise.Float.Left => "left",
+                Blazorise.Float.Right => "right",
                 _ => null,
             };
         }
@@ -1548,6 +1561,29 @@ namespace Blazorise
                 Blazorise.FlexOrder.Is10 => "10",
                 Blazorise.FlexOrder.Is11 => "11",
                 Blazorise.FlexOrder.Is12 => "12",
+                _ => null,
+            };
+        }
+
+        public virtual string ToSizingType( SizingType sizingType )
+        {
+            return sizingType switch
+            {
+                Blazorise.SizingType.Width => "w",
+                Blazorise.SizingType.Height => "h",
+                _ => null,
+            };
+        }
+
+        public virtual string ToSizingSize( SizingSize sizingSize )
+        {
+            return sizingSize switch
+            {
+                Blazorise.SizingSize.Is25 => "25",
+                Blazorise.SizingSize.Is50 => "50",
+                Blazorise.SizingSize.Is75 => "75",
+                Blazorise.SizingSize.Is100 => "100",
+                Blazorise.SizingSize.Auto => "auto",
                 _ => null,
             };
         }

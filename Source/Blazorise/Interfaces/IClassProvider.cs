@@ -965,6 +965,18 @@ namespace Blazorise
 
         #endregion
 
+        #region Sizing
+
+        string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
+
+        #endregion
+
+        #region Float
+
+        string Float( Float @float );
+
+        #endregion
+
         #region Custom
 
         string Casing( CharacterCasing characterCasing );
@@ -1053,6 +1065,10 @@ namespace Blazorise
         string ToWrap( FlexWrap wrap );
 
         string ToOrder( FlexOrder order );
+
+        string ToSizingType( SizingType sizingType );
+
+        string ToSizingSize( SizingSize sizingSize );
 
         #endregion
 
