@@ -79,6 +79,11 @@ namespace Blazorise
         public int ThemeCacheSize { get; set; } = 10;
 
         /// <summary>
+        /// If true, the spin buttons on <see cref="NumericEdit{TValue}"/>. will be visible.
+        /// </summary>
+        public bool ShowSpinButtons { get; set; } = true;
+
+        /// <summary>
         /// Gets the service provider.
         /// </summary>
         public IServiceProvider Services => serviceProvider;

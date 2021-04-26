@@ -286,7 +286,8 @@ namespace Blazorise
         /// <summary>
         /// True if spin buttons can be shown.
         /// </summary>
-        protected bool IsShowSpinButtons => ShowSpinButtons && !( ReadOnly || Disabled );
+        protected bool IsShowSpinButtons
+            => ShowSpinButtons.GetValueOrDefault( Options?.ShowSpinButtons ?? true ) && !( ReadOnly || Disabled );
 
         /// <summary>
         /// Gets the culture info defined on the input field.
@@ -364,7 +365,7 @@ namespace Blazorise
         /// <summary>
         /// Sets the visibility of spin buttons.
         /// </summary>
-        [Parameter] public bool ShowSpinButtons { get; set; } = true;
+        [Parameter] public bool? ShowSpinButtons { get; set; }
 
         #endregion
     }
