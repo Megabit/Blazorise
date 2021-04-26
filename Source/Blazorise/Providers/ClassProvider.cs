@@ -646,10 +646,10 @@ namespace Blazorise
 
         #region Display
 
-        public abstract string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction );
+        public abstract string Display( DisplayType displayType, DisplayDefinition displayDefinition );
 
-        public virtual string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules )
-            => string.Join( " ", rules.Select( r => Display( displayType, r.breakpoint, r.direction ) ) );
+        public virtual string Display( DisplayType displayType, IEnumerable<DisplayDefinition> displayDefinitions )
+            => string.Join( " ", displayDefinitions.Select( displayDefinition => Display( displayType, displayDefinition ) ) );
 
         #endregion
 

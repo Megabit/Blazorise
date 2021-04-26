@@ -639,9 +639,9 @@ namespace Blazorise
 
         #region Display
 
-        string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction );
+        string Display( DisplayType displayType, DisplayDefinition displayDefinition );
 
-        string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules );
+        string Display( DisplayType displayType, IEnumerable<DisplayDefinition> displayDefinitions );
 
         #endregion
 

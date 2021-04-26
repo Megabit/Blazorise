@@ -686,14 +686,14 @@ namespace Blazorise.Bulma
 
         #region Display
 
-        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
         {
-            var baseClass = breakpoint != Breakpoint.None
-                ? $"is-{ToDisplayType( displayType )}-{ToBreakpoint( breakpoint )}"
+            var baseClass = displayDefinition.Breakpoint != Breakpoint.None
+                ? $"is-{ToDisplayType( displayType )}-{ToBreakpoint( displayDefinition.Breakpoint )}"
                 : $"is-{ToDisplayType( displayType )}";
 
-            if ( direction != DisplayDirection.None )
-                return $"{baseClass} is-flex-direction-{ToDisplayDirection( direction )}";
+            if ( displayDefinition.Direction != DisplayDirection.None )
+                return $"{baseClass} is-flex-direction-{ToDisplayDirection( displayDefinition.Direction )}";
 
             return baseClass;
         }
