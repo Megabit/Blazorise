@@ -431,5 +431,20 @@ namespace Blazorise.Tests
 
             Assert.Equal( expected, classname );
         }
+
+        [Theory]
+        [InlineData( "flex-row", FlexDirection.Row, true )]
+        [InlineData( null, FlexDirection.Row, false )]
+        public void AreConditions( string expected, FlexDirection flexDirection, bool condition )
+        {
+            var flex = new FluentFlex();
+
+            flex.WithDirection( flexDirection );
+            flex.If( condition );
+
+            var classname = flex.Class( classProvider );
+
+            Assert.Equal( expected, classname );
+        }
     }
 }

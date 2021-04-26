@@ -25,7 +25,8 @@ namespace Blazorise
     public interface IFluentDisplayWithDisplayOnBreakpointWithDirection :
         IFluentDisplay,
         IFluentDisplayOnBreakpoint,
-        IFluentDisplayWithDisplay
+        IFluentDisplayWithDisplay,
+        IFluentDisplayOnCondition
     {
     }
 
@@ -141,6 +142,41 @@ namespace Blazorise
     }
 
     /// <summary>
+    /// Conditions for display rules.
+    /// </summary>
+    public interface IFluentDisplayOnCondition :
+        IFluentDisplay
+    {
+        /// <summary>
+        /// Add a condition rule to the display.
+        /// </summary>
+        /// <param name="condition">Condition result.</param>
+        /// <returns>Next rule reference.</returns>
+        IFluentDisplayWithDisplayOnBreakpointWithDirection If( bool condition );
+    }
+
+    /// <summary>
+    /// Holds the build information for current flex rules.
+    /// </summary>
+    public record DisplayDefinition
+    {
+        /// <summary>
+        /// Defines the flex breakpoint rule.
+        /// </summary>
+        public Breakpoint Breakpoint { get; set; }
+
+        /// <summary>
+        /// Defines the flex direction rule.
+        /// </summary>
+        public DisplayDirection Direction { get; set; }
+
+        /// <summary>
+        /// If condition is true the rule will will be applied.
+        /// </summary>
+        public bool? Condition { get; set; }
+    }
+
+    /// <summary>
     /// Default implementation of <see cref="IFluentDisplay"/>.
     /// </summary>
     public class FluentDisplay :
@@ -152,19 +188,24 @@ namespace Blazorise
     {
         #region Members
 
-        private class DisplayDefinition
-        {
-            public Breakpoint Breakpoint { get; set; }
-
-            public DisplayDirection Direction { get; set; }
-        }
-
+        /// <summary>
+        /// Currently used display rules.
+        /// </summary>
         private DisplayDefinition currentDisplay;
 
+        /// <summary>
+        /// List of all display rules to build.
+        /// </summary>
         private readonly Dictionary<DisplayType, List<DisplayDefinition>> rules = new();
 
+        /// <summary>
+        /// Indicates if the rules have changed.
+        /// </summary>
         private bool dirty = true;
 
+        /// <summary>
+        /// Holds the built classnames based on the display rules.
+        /// </summary>
         private string classNames;
 
         #endregion
@@ -179,7 +220,7 @@ namespace Blazorise
                 void BuildClasses( ClassBuilder builder )
                 {
                     if ( rules.Count( x => x.Key != DisplayType.Always ) > 0 )
-                        builder.Append( rules.Select( r => classProvider.Display( r.Key, r.Value.Select( v => (v.Breakpoint, v.Direction) ) ) ) );
+                        builder.Append( rules.Select( r => classProvider.Display( r.Key, r.Value.Where( x => x.Condition ?? true ).Select( v => v ) ) ) );
                 }
 
                 var classBuilder = new ClassBuilder( BuildClasses );
@@ -192,6 +233,9 @@ namespace Blazorise
             return classNames;
         }
 
+        /// <summary>
+        /// Flags the classnames to be rebuilt.
+        /// </summary>
         private void Dirty()
         {
             dirty = true;
@@ -251,13 +295,22 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// 
+        /// Sets the display direction rule.
         /// </summary>
-        /// <param name="direction"></param>
+        /// <param name="direction">Flex direction to set.</param>
         /// <returns>Next rule reference.</returns>
         public IFluentDisplayWithDisplayOnBreakpointWithDirection WithDirection( DisplayDirection direction )
         {
             currentDisplay.Direction = direction;
+            Dirty();
+
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IFluentDisplayWithDisplayOnBreakpointWithDirection If( bool condition )
+        {
+            currentDisplay.Condition = condition;
             Dirty();
 
             return this;

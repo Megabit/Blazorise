@@ -122,5 +122,20 @@ namespace Blazorise.Tests
 
             Assert.Equal( expected, classname );
         }
+
+        [Theory]
+        [InlineData( "d-none", DisplayType.None, true )]
+        [InlineData( null, DisplayType.None, false )]
+        public void AreConditions( string expected, DisplayType displayType, bool condition )
+        {
+            var display = new FluentDisplay();
+
+            display.WithFlex( displayType );
+            display.If( condition );
+
+            var classname = display.Class( classProvider );
+
+            Assert.Equal( expected, classname );
+        }
     }
 }

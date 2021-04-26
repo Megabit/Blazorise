@@ -647,9 +647,9 @@ namespace Blazorise.Providers
 
         #region Display
 
-        public string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction ) => null;
+        public string Display( DisplayType displayType, DisplayDefinition displayDefinition ) => null;
 
-        public string Display( DisplayType displayType, IEnumerable<(Breakpoint breakpoint, DisplayDirection direction)> rules ) => null;
+        public string Display( DisplayType displayType, IEnumerable<DisplayDefinition> displayDefinitions ) => null;
 
         #endregion
 

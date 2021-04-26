@@ -33,7 +33,8 @@ namespace Blazorise
         IFluentFlexWrap,
         IFluentFlexFill,
         IFluentFlexGrowShrink,
-        IFluentFlexOrder
+        IFluentFlexOrder,
+        IFluentFlexCondition
     {
     }
 
@@ -480,6 +481,20 @@ namespace Blazorise
     }
 
     /// <summary>
+    /// Conditions for display rules.
+    /// </summary>
+    public interface IFluentFlexCondition :
+        IFluentFlex
+    {
+        /// <summary>
+        /// Add a condition rule to the display.
+        /// </summary>
+        /// <param name="condition">Condition result.</param>
+        /// <returns>Next rule reference.</returns>
+        IFluentFlexAll If( bool condition );
+    }
+
+    /// <summary>
     /// Holds the build information for current flex rules.
     /// </summary>
     public record FlexDefinition
@@ -543,6 +558,11 @@ namespace Blazorise
         /// Defines the flex fill rule.
         /// </summary>
         public bool Fill { get; set; }
+
+        /// <summary>
+        /// If condition is true the rule will will be applied.
+        /// </summary>
+        public bool? Condition { get; set; }
     }
 
     /// <summary>
@@ -566,6 +586,7 @@ namespace Blazorise
         IFluentFlexGrowShrinkSize,
         IFluentFlexOrder,
         IFluentFlexOrderNumber,
+        IFluentFlexCondition,
         IFluentFlexAll
     {
         #region Members
@@ -608,9 +629,9 @@ namespace Blazorise
                 {
                     if ( rules != null && rules.Count > 0 )
                     {
-                        builder.Append( rules.Select( r => classProvider.Flex( r.Key, r.Value.Select( v => v ) ) ) );
+                        builder.Append( rules.Select( r => classProvider.Flex( r.Key, r.Value.Where( x => x.Condition ?? true ).Select( v => v ) ) ) );
                     }
-                    else if ( currentFlexDefinition != null && currentFlexDefinition != FlexDefinition.Empty )
+                    else if ( currentFlexDefinition != null && currentFlexDefinition != FlexDefinition.Empty && ( currentFlexDefinition.Condition ?? true ) )
                     {
                         builder.Append( classProvider.Flex( currentFlexDefinition ) );
                     }
@@ -895,6 +916,16 @@ namespace Blazorise
         {
             currentFlexDefinition = CreateDefinition();
             currentFlexDefinition.Fill = true;
+            Dirty();
+
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IFluentFlexAll If( bool condition )
+        {
+            currentFlexDefinition = GetDefinition();
+            currentFlexDefinition.Condition = condition;
             Dirty();
 
             return this;
