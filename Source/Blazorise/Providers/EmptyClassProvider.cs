@@ -985,6 +985,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Visibility
+
+        public string Visibility( Visibility visibility ) => null;
+
+        #endregion
+
         #region Custom
 
         public string Casing( CharacterCasing characterCasing ) => null;

@@ -986,6 +986,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Visibility
+
+        public abstract string Visibility( Visibility visibility );
+
+        #endregion
+
         #region Custom
 
         public virtual string Casing( CharacterCasing characterCasing ) => $"b-character-casing-{ToCharacterCasing( characterCasing )}";

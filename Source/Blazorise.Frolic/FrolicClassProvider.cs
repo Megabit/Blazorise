@@ -1140,6 +1140,20 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Visibility
+
+        public override string Visibility( Visibility visibility )
+        {
+            return visibility switch
+            {
+                Blazorise.Visibility.Visible => "e-visible",
+                Blazorise.Visibility.Invisible => "e-invisible",
+                _ => null,
+            };
+        }
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )
