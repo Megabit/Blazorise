@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeSnackbarOptions
+    public record ThemeSnackbarOptions
     {
         /// <summary>
         /// Default snackbar color.

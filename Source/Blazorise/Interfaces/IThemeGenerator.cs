@@ -6,8 +6,8 @@ namespace Blazorise
 {
     public interface IThemeGenerator
     {
-        void GenerateVariables( StringBuilder sb, Theme theme );
+        string GenerateVariables( Theme theme );
 
-        void GenerateStyles( StringBuilder sb, Theme theme );
+        string GenerateStyles( Theme theme );
     }
 }

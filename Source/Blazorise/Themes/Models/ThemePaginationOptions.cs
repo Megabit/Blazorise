@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemePaginationOptions : BasicOptions
+    public record ThemePaginationOptions : ThemeBasicOptions
     {
         public string LargeBorderRadius { get; set; } = ".3rem";
     }

@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeDropdownOptions : BasicOptions
+    public record ThemeDropdownOptions : ThemeBasicOptions
     {
         public float GradientBlendPercentage { get; set; } = 15f;
 

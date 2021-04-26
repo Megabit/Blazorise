@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeDividerOptions
+    public record ThemeDividerOptions
     {
         public string Color { get; set; } = "#999999";
 

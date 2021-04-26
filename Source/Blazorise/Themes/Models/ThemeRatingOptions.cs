@@ -1,6 +1,6 @@
 ﻿namespace Blazorise
 {
-    public class ThemeRatingOptions : BasicOptions
+    public record ThemeRatingOptions : ThemeBasicOptions
     {
         public float? HoverOpacity { get; set; } = 0.7f;
     }

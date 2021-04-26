@@ -2,6 +2,7 @@
 using System;
 using Blazorise.Localization;
 using Blazorise.Providers;
+using Blazorise.Themes;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +35,7 @@ namespace Blazorise
             serviceCollection.AddSingleton<BlazoriseOptions>();
 
             serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
+            serviceCollection.AddSingleton<IThemeCache, ThemeCache>();
             serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
             serviceCollection.AddScoped<IEditContextValidator, EditContextValidator>();
 

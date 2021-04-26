@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeAlertOptions : BasicOptions
+    public record ThemeAlertOptions : ThemeBasicOptions
     {
         public int BackgroundLevel { get; set; } = -10;
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
-    public class ThemeColorLime : ThemeColor
+    public record ThemeColorLime : ThemeColor
     {
         public ThemeColorShade _50 { get; } = new ThemeColorShade( "50", "_50", "#f9fbe7" );
         public ThemeColorShade _100 { get; } = new ThemeColorShade( "100", "_100", "#f0f4c3" );

@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeButtonOptions : BasicOptions
+    public record ThemeButtonOptions : ThemeBasicOptions
     {
         public string Padding { get; set; }
 

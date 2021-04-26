@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeTabsOptions : BasicOptions
+    public record ThemeTabsOptions : ThemeBasicOptions
     {
     }
 }

@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeSidebarOptions
+    public record ThemeSidebarOptions
     {
         public string Width { get; set; } = "230px";
 

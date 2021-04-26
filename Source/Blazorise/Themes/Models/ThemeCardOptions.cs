@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeCardOptions : BasicOptions
+    public record ThemeCardOptions : ThemeBasicOptions
     {
         public string ImageTopRadius { get; set; } = "calc(.25rem - 1px)";
     }

@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeSwitchOptions : BasicOptions
+    public record ThemeSwitchOptions : ThemeBasicOptions
     {
         public float BoxShadowLightenColor { get; set; } = 25;
 

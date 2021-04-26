@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeBreadcrumbOptions : BasicOptions
+    public record ThemeBreadcrumbOptions : ThemeBasicOptions
     {
         public string Color { get; set; } = ThemeColors.Blue.Shades["400"].Value;
     }

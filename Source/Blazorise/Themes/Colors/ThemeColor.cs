@@ -1,22 +1,19 @@
 ﻿#region Using directives
+using System;
+using System.Collections.Generic;
 #endregion
 
 namespace Blazorise
 {
-    public class ThemeColorShade
+    public record ThemeColor
     {
         #region Constructors
 
-        public ThemeColorShade( string key, string name, string value )
+        public ThemeColor( string key, string name )
         {
             Key = key;
             Name = name;
-            Value = value;
         }
-
-        #endregion
-
-        #region Methods
 
         #endregion
 
@@ -26,7 +23,7 @@ namespace Blazorise
 
         public string Name { get; }
 
-        public string Value { get; }
+        public Dictionary<string, ThemeColorShade> Shades { get; protected set; }
 
         #endregion
     }

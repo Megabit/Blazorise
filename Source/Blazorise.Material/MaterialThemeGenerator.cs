@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Text;
 using Blazorise.Bootstrap;
 #endregion
@@ -9,6 +7,17 @@ namespace Blazorise.Material
 {
     public class MaterialThemeGenerator : BootstrapThemeGenerator
     {
+        #region Constructors
+
+        public MaterialThemeGenerator( IThemeCache themeCache )
+            : base( themeCache )
+        {
+        }
+
+        #endregion
+
+        #region Methods
+
         protected override void GenerateButtonVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
         {
             var background = Var( ThemeVariables.ButtonBackground( variant ) );
@@ -267,5 +276,7 @@ namespace Blazorise.Material
 
             base.GenerateProgressStyles( sb, theme, options );
         }
+
+        #endregion
     }
 }

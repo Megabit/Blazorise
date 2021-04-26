@@ -9,7 +9,7 @@ namespace Blazorise
     /// <summary>
     /// Holds the options for the theme.
     /// </summary>
-    public class Theme
+    public record Theme
     {
         /// <summary>
         /// Globaly enable or disable the theme.

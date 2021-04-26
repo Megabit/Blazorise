@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeTooltipOptions : BasicOptions
+    public record ThemeTooltipOptions : ThemeBasicOptions
     {
         /// <summary>
         /// Tooltip background color. Can contain alpha value in 8-hex formated color.

@@ -73,6 +73,12 @@ namespace Blazorise
         public Func<string, IEnumerable<string>, string> ValidationMessageLocalizer { get; set; }
 
         /// <summary>
+        /// Maximum amount of <see cref="Theme">Themes</see> that are cached at the same time.
+        /// When set to a value &lt; 1, the <see cref="Themes.ThemeCache">ThemeCache</see> is deactivated.
+        /// </summary>
+        public int ThemeCacheSize { get; set; } = 10;
+
+        /// <summary>
         /// Gets the service provider.
         /// </summary>
         public IServiceProvider Services => serviceProvider;

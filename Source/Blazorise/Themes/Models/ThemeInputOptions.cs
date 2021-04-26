@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeInputOptions : BasicOptions
+    public record ThemeInputOptions : ThemeBasicOptions
     {
         public string Color { get; set; }
 

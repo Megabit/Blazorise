@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
-    public class ThemeTextColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    public record ThemeTextColorOptions : IEnumerable<KeyValuePair<string, Func<string>>>
     {
         private Dictionary<string, Func<string>> colorMap => new Dictionary<string, Func<string>> {
             { "primary", () => Primary },

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
-    public class ThemeContainerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
+    public record ThemeContainerMaxWidthOptions : IEnumerable<KeyValuePair<string, Func<string>>>
     {
         private Dictionary<string, Func<string>> breakpointMap => new Dictionary<string, Func<string>> {
             { "mobile", () => Mobile },

@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeProgressOptions : BasicOptions
+    public record ThemeProgressOptions : ThemeBasicOptions
     {
         public string PageProgressDefaultColor { get; set; } = "#ffffff";
     }

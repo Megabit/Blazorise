@@ -1,6 +1,6 @@
 ﻿namespace Blazorise
 {
-    public class ThemeStepsOptions
+    public record ThemeStepsOptions
     {
         public string StepsItemIconColor { get; set; } = "#adb5bd";
 

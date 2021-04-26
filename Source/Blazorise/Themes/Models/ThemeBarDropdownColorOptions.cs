@@ -1,9 +1,6 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeBarDropdownColorOptions
+    public record ThemeBarDropdownColorOptions
     {
         public string BackgroundColor { get; set; }
     }
