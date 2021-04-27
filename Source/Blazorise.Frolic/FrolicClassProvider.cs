@@ -855,8 +855,6 @@ namespace Blazorise.Frolic
 
         public override string TableHeaderCell() => null;
 
-        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
-
         public override string TableFooter() => null;
 
         public override string TableBody() => null;
@@ -866,8 +864,6 @@ namespace Blazorise.Frolic
         public override string TableRowColor( Color color ) => ToColor( color );
 
         public override string TableRowBackground( Background background ) => ToBackground( background );
-
-        public override string TableRowTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
         public override string TableRowHoverCursor() => "table-row-selectable";
 
@@ -880,10 +876,6 @@ namespace Blazorise.Frolic
         public override string TableRowCellColor( Color color ) => ToColor( color );
 
         public override string TableRowCellBackground( Background background ) => ToBackground( background );
-
-        public override string TableRowCellTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
-
-        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
 
         public override string TableResponsive() => "e-table-responsive";
 

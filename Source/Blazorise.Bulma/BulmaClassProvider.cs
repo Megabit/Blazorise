@@ -834,8 +834,6 @@ namespace Blazorise.Bulma
 
         public override string TableHeaderCell() => null;
 
-        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"has-text-{ToTextAlignment( textAlignment )}";
-
         public override string TableFooter() => null;
 
         public override string TableBody() => null;
@@ -845,8 +843,6 @@ namespace Blazorise.Bulma
         public override string TableRowColor( Color color ) => $"has-background-{ToColor( color )}";
 
         public override string TableRowBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
 
         public override string TableRowHoverCursor() => "table-row-selectable";
 
@@ -859,10 +855,6 @@ namespace Blazorise.Bulma
         public override string TableRowCellColor( Color color ) => $"has-background-{ToColor( color )}";
 
         public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowCellTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
-
-        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"has-text-{ToTextAlignment( textAlignment )}";
 
         public override string TableResponsive() => "table-container";
 

@@ -787,8 +787,6 @@ namespace Blazorise
 
         public abstract string TableHeaderCell();
 
-        public abstract string TableHeaderCellTextAlignment( TextAlignment textAlignment );
-
         public abstract string TableFooter();
 
         public abstract string TableBody();
@@ -798,8 +796,6 @@ namespace Blazorise
         public abstract string TableRowColor( Color color );
 
         public abstract string TableRowBackground( Background background );
-
-        public abstract string TableRowTextColor( TextColor textColor );
 
         public abstract string TableRowHoverCursor();
 
@@ -812,10 +808,6 @@ namespace Blazorise
         public abstract string TableRowCellColor( Color color );
 
         public abstract string TableRowCellBackground( Background background );
-
-        public abstract string TableRowCellTextColor( TextColor textColor );
-
-        public abstract string TableRowCellTextAlignment( TextAlignment textAlignment );
 
         public abstract string TableResponsive();
 

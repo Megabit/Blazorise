@@ -18,10 +18,6 @@ namespace Blazorise
 
         private Background background = Background.None;
 
-        private TextColor textColor = TextColor.None;
-
-        private TextAlignment textAlignment = TextAlignment.None;
-
         #endregion
 
         #region Methods
@@ -32,8 +28,6 @@ namespace Blazorise
             builder.Append( ClassProvider.TableRowCell() );
             builder.Append( ClassProvider.TableRowCellColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.TableRowCellBackground( Background ), Background != Background.None );
-            builder.Append( ClassProvider.TableRowCellTextColor( TextColor ), TextColor != TextColor.None );
-            builder.Append( ClassProvider.TableRowCellTextAlignment( TextAlignment ), TextAlignment != TextAlignment.None );
 
             base.BuildClasses( builder );
         }
@@ -77,36 +71,6 @@ namespace Blazorise
             set
             {
                 background = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the cell text color.
-        /// </summary>
-        [Parameter]
-        public TextColor TextColor
-        {
-            get => textColor;
-            set
-            {
-                textColor = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the cell text alignment.
-        /// </summary>
-        [Parameter]
-        public TextAlignment TextAlignment
-        {
-            get => textAlignment;
-            set
-            {
-                textAlignment = value;
 
                 DirtyClasses();
             }

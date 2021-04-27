@@ -779,8 +779,6 @@ namespace Blazorise
 
         string TableHeaderCell();
 
-        string TableHeaderCellTextAlignment( TextAlignment textAlignment );
-
         string TableFooter();
 
         string TableBody();
@@ -790,8 +788,6 @@ namespace Blazorise
         string TableRowColor( Color color );
 
         string TableRowBackground( Background background );
-
-        string TableRowTextColor( TextColor textColor );
 
         string TableRowHoverCursor();
 
@@ -804,10 +800,6 @@ namespace Blazorise
         string TableRowCellColor( Color color );
 
         string TableRowCellBackground( Background background );
-
-        string TableRowCellTextColor( TextColor textColor );
-
-        string TableRowCellTextAlignment( TextAlignment textAlignment );
 
         string TableResponsive();
 

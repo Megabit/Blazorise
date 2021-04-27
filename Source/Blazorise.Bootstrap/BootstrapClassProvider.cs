@@ -814,8 +814,6 @@ namespace Blazorise.Bootstrap
 
         public override string TableHeaderCell() => null;
 
-        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
-
         public override string TableFooter() => null;
 
         public override string TableBody() => null;
@@ -825,8 +823,6 @@ namespace Blazorise.Bootstrap
         public override string TableRowColor( Color color ) => $"table-{ToColor( color )}";
 
         public override string TableRowBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
         public override string TableRowHoverCursor() => "table-row-selectable";
 
@@ -839,10 +835,6 @@ namespace Blazorise.Bootstrap
         public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
 
         public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowCellTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
-
-        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
 
         public override string TableResponsive() => "table-responsive";
 

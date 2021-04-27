@@ -787,8 +787,6 @@ namespace Blazorise.Providers
 
         public string TableHeaderCell() => null;
 
-        public string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => null;
-
         public string TableFooter() => null;
 
         public string TableBody() => null;
@@ -798,8 +796,6 @@ namespace Blazorise.Providers
         public string TableRowColor( Color color ) => null;
 
         public string TableRowBackground( Background background ) => null;
-
-        public string TableRowTextColor( TextColor textColor ) => null;
 
         public string TableRowHoverCursor() => null;
 
@@ -812,10 +808,6 @@ namespace Blazorise.Providers
         public string TableRowCellColor( Color color ) => null;
 
         public string TableRowCellBackground( Background background ) => null;
-
-        public string TableRowCellTextColor( TextColor textColor ) => null;
-
-        public string TableRowCellTextAlignment( TextAlignment textAlignment ) => null;
 
         public string TableResponsive() => null;
 

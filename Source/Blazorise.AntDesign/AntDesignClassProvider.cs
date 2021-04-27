@@ -829,8 +829,6 @@ namespace Blazorise.AntDesign
 
         public override string TableHeaderCell() => null;
 
-        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"ant-text-{ToTextAlignment( textAlignment )}";
-
         public override string TableFooter() => null;
 
         public override string TableBody() => "ant-table-tbody";
@@ -840,8 +838,6 @@ namespace Blazorise.AntDesign
         public override string TableRowColor( Color color ) => $"ant-table-{ToColor( color )}";
 
         public override string TableRowBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowTextColor( TextColor textColor ) => $"ant-text-{ToTextColor( textColor )}";
 
         public override string TableRowHoverCursor() => "ant-table-row-selectable";
 
@@ -854,10 +850,6 @@ namespace Blazorise.AntDesign
         public override string TableRowCellColor( Color color ) => $"ant-table-{ToColor( color )}";
 
         public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowCellTextColor( TextColor textColor ) => $"ant-text-{ToTextColor( textColor )}";
-
-        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"ant-text-{ToTextAlignment( textAlignment )}";
 
         public override string TableResponsive() => "ant-table-responsive";
 

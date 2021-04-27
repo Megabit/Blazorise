@@ -18,8 +18,6 @@ namespace Blazorise
 
         private Background background = Background.None;
 
-        private TextColor textColor = TextColor.None;
-
         private bool selected;
 
         private Cursor hoverCursor;
@@ -34,7 +32,6 @@ namespace Blazorise
             builder.Append( ClassProvider.TableRow() );
             builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.None );
             builder.Append( ClassProvider.TableRowBackground( Background ), Background != Background.None );
-            builder.Append( ClassProvider.TableRowTextColor( TextColor ), TextColor != TextColor.None );
             builder.Append( ClassProvider.TableRowIsSelected(), Selected );
             builder.Append( ClassProvider.TableRowHoverCursor(), HoverCursor != Cursor.Default );
 
@@ -86,21 +83,6 @@ namespace Blazorise
             set
             {
                 background = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the row text color.
-        /// </summary>
-        [Parameter]
-        public TextColor TextColor
-        {
-            get => textColor;
-            set
-            {
-                textColor = value;
 
                 DirtyClasses();
             }
