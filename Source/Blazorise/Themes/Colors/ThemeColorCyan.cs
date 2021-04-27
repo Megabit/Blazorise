@@ -4,8 +4,12 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Defines the Cyan color along with its color shades.
+    /// </summary>
     public record ThemeColorCyan : ThemeColor
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public ThemeColorShade _50 { get; } = new ThemeColorShade( "50", "_50", "#e0f7fa" );
         public ThemeColorShade _100 { get; } = new ThemeColorShade( "100", "_100", "#b2ebf2" );
         public ThemeColorShade _200 { get; } = new ThemeColorShade( "200", "_200", "#80deea" );
@@ -20,7 +24,11 @@ namespace Blazorise
         public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#18ffff" );
         public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#00e5ff" );
         public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#00b8d4" );
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
+        /// <summary>
+        /// A default <see cref="ThemeColorCyan"/> constructor
+        /// </summary>
         public ThemeColorCyan() : base( "cyan", "Cyan" )
         {
             Shades = new Dictionary<string, ThemeColorShade>()

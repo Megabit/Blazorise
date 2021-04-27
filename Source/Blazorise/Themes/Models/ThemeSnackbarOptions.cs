@@ -1,5 +1,8 @@
 ﻿namespace Blazorise
 {
+    /// <summary>
+    /// Defines the theme options for the Snackbar component.
+    /// </summary>
     public record ThemeSnackbarOptions
     {
         /// <summary>
@@ -22,6 +25,10 @@
         /// </summary>
         public string ButtonHoverColor { get; set; }
 
+        /// <summary>
+        /// Defines a level of background color.
+        /// </summary>
+        /// <remarks>Negative level values will lighten the color, while higher levels will darken.</remarks>
         public int VariantBackgroundColorLevel { get; set; } = -3;
 
         //public int VariantTextColorLevel { get; set; } = 6;

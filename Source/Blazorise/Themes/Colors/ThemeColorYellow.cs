@@ -4,8 +4,12 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Defines the Yellow color along with its color shades.
+    /// </summary>
     public record ThemeColorYellow : ThemeColor
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public ThemeColorShade _50 { get; } = new ThemeColorShade( "50", "_50", "#fffde7" );
         public ThemeColorShade _100 { get; } = new ThemeColorShade( "100", "_100", "#fff9c4" );
         public ThemeColorShade _200 { get; } = new ThemeColorShade( "200", "_200", "#fff59d" );
@@ -20,7 +24,11 @@ namespace Blazorise
         public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#ff0" );
         public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#ffea00" );
         public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#ffd600" );
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
+        /// <summary>
+        /// A default <see cref="ThemeColorYellow"/> constructor
+        /// </summary>
         public ThemeColorYellow() : base( "yellow", "Yellow" )
         {
             Shades = new Dictionary<string, ThemeColorShade>()

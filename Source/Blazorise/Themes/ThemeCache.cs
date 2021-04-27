@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Blazorise.Themes
 {
+    /// <summary>
+    /// Default implementation of <see cref="IThemeCache"/>.
+    /// </summary>
     public class ThemeCache : IThemeCache
     {
         #region Members
@@ -22,6 +25,10 @@ namespace Blazorise.Themes
 
         #region Constructors
 
+        /// <summary>
+        /// A default <see cref="ThemeCache"/> constructor.
+        /// </summary>
+        /// <param name="options">Blazorise global settings.</param>
         public ThemeCache( BlazoriseOptions options )
         {
             maxCacheSize = options.ThemeCacheSize;
@@ -31,6 +38,7 @@ namespace Blazorise.Themes
 
         #region Methods
 
+        /// <inheritdoc/>
         public void CacheVariables( Theme theme, string variables )
         {
             if ( maxCacheSize < 1 )
@@ -44,6 +52,7 @@ namespace Blazorise.Themes
             }
         }
 
+        /// <inheritdoc/>
         public void CacheStyles( Theme theme, string styles )
         {
             if ( maxCacheSize < 1 )
@@ -82,6 +91,7 @@ namespace Blazorise.Themes
             }
         }
 
+        /// <inheritdoc/>
         public bool TryGetVariablesFromCache( Theme theme, out string variables )
         {
             lock ( mutex )
@@ -93,6 +103,7 @@ namespace Blazorise.Themes
             }
         }
 
+        /// <inheritdoc/>
         public bool TryGetStylesFromCache( Theme theme, out string styles )
         {
             lock ( mutex )
