@@ -20,8 +20,8 @@ namespace Blazorise.Frolic
 
         public override string GenerateVariables( Theme theme )
         {
-            variables["--b-frolic-btn-padding-sm"] = "0.27rem 0.85rem";
-            variables["--b-frolic-btn-padding-lg"] = "0.75rem 2rem";
+            Variables["--b-frolic-btn-padding-sm"] = "0.27rem 0.85rem";
+            Variables["--b-frolic-btn-padding-lg"] = "0.75rem 2rem";
 
             return base.GenerateVariables( theme );
         }

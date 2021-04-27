@@ -14,15 +14,6 @@ namespace Blazorise
     /// </summary>
     public abstract class ThemeGenerator : IThemeGenerator
     {
-        #region Members
-
-        /// <summary>
-        /// Map of all variables currently used.
-        /// </summary>
-        protected readonly Dictionary<string, string> variables = new();
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -51,14 +42,14 @@ namespace Blazorise
             var sb = new StringBuilder();
 
             if ( !string.IsNullOrEmpty( theme.White ) )
-                variables[ThemeVariables.White] = theme.White;
+                Variables[ThemeVariables.White] = theme.White;
 
             if ( !string.IsNullOrEmpty( theme.Black ) )
-                variables[ThemeVariables.Black] = theme.Black;
+                Variables[ThemeVariables.Black] = theme.Black;
 
-            variables[ThemeVariables.BorderRadius] = ".25rem";
-            variables[ThemeVariables.BorderRadiusLarge] = ".3rem";
-            variables[ThemeVariables.BorderRadiusSmall] = ".2rem";
+            Variables[ThemeVariables.BorderRadius] = ".25rem";
+            Variables[ThemeVariables.BorderRadiusLarge] = ".3rem";
+            Variables[ThemeVariables.BorderRadiusSmall] = ".2rem";
 
             foreach ( var (name, size) in theme.ValidBreakpoints )
                 GenerateBreakpointVariables( theme, name, size );
@@ -91,7 +82,7 @@ namespace Blazorise
             GenerateStepsVariables( theme, theme.StepsOptions );
 
             // apply variables
-            foreach ( var kv in variables )
+            foreach ( var kv in Variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value};" );
 
             var generatedVariables = sb.ToString();
@@ -109,7 +100,7 @@ namespace Blazorise
         /// <param name="size">Size of the breakpoint.</param>
         protected virtual void GenerateBreakpointVariables( Theme theme, string name, string size )
         {
-            variables[ThemeVariables.Breakpoint( name )] = size;
+            Variables[ThemeVariables.Breakpoint( name )] = size;
         }
 
         /// <summary>
@@ -120,7 +111,7 @@ namespace Blazorise
         /// <param name="value">Color value.</param>
         protected virtual void GenerateColorVariables( Theme theme, string variant, string value )
         {
-            variables[ThemeVariables.Color( variant )] = value;
+            Variables[ThemeVariables.Color( variant )] = value;
 
             GenerateButtonColorVariables( theme, variant, value, value, theme.ButtonOptions );
             GenerateOutlineButtonColorVariables( theme, variant, value, theme.ButtonOptions );
@@ -166,16 +157,16 @@ namespace Blazorise
 
             var boxShadow = ToHexRGBA( Transparency( Blend( yiqBackgroundColor, backgroundColor, 15f ), options?.BoxShadowTransparency ?? 127 ) );
 
-            variables[ThemeVariables.ButtonBackground( variant )] = background;
-            variables[ThemeVariables.ButtonBorder( variant )] = border;
-            variables[ThemeVariables.ButtonHoverBackground( variant )] = hoverBackground;
-            variables[ThemeVariables.ButtonHoverBorder( variant )] = hoverBorder;
-            variables[ThemeVariables.ButtonActiveBackground( variant )] = activeBackground;
-            variables[ThemeVariables.ButtonActiveBorder( variant )] = activeBorder;
-            variables[ThemeVariables.ButtonYiqBackground( variant )] = yiqBackground;
-            variables[ThemeVariables.ButtonYiqHoverBackground( variant )] = yiqHoverBackground;
-            variables[ThemeVariables.ButtonYiqActiveBackground( variant )] = yiqActiveBackground;
-            variables[ThemeVariables.ButtonBoxShadow( variant )] = boxShadow;
+            Variables[ThemeVariables.ButtonBackground( variant )] = background;
+            Variables[ThemeVariables.ButtonBorder( variant )] = border;
+            Variables[ThemeVariables.ButtonHoverBackground( variant )] = hoverBackground;
+            Variables[ThemeVariables.ButtonHoverBorder( variant )] = hoverBorder;
+            Variables[ThemeVariables.ButtonActiveBackground( variant )] = activeBackground;
+            Variables[ThemeVariables.ButtonActiveBorder( variant )] = activeBorder;
+            Variables[ThemeVariables.ButtonYiqBackground( variant )] = yiqBackground;
+            Variables[ThemeVariables.ButtonYiqHoverBackground( variant )] = yiqHoverBackground;
+            Variables[ThemeVariables.ButtonYiqActiveBackground( variant )] = yiqActiveBackground;
+            Variables[ThemeVariables.ButtonBoxShadow( variant )] = boxShadow;
         }
 
         /// <summary>
@@ -198,11 +189,11 @@ namespace Blazorise
             var hoverColor = ToHex( Lighten( borderColor, options?.HoverLightenColor ?? 20f ) );
             var activeColor = ToHex( Darken( borderColor, options?.ActiveDarkenColor ?? 20f ) );
 
-            variables[ThemeVariables.OutlineButtonColor( variant )] = color;
-            variables[ThemeVariables.OutlineButtonYiqColor( variant )] = yiqColor;
-            variables[ThemeVariables.OutlineButtonBoxShadowColor( variant )] = boxShadow;
-            variables[ThemeVariables.OutlineButtonHoverColor( variant )] = hoverColor;
-            variables[ThemeVariables.OutlineButtonActiveColor( variant )] = activeColor;
+            Variables[ThemeVariables.OutlineButtonColor( variant )] = color;
+            Variables[ThemeVariables.OutlineButtonYiqColor( variant )] = yiqColor;
+            Variables[ThemeVariables.OutlineButtonBoxShadowColor( variant )] = boxShadow;
+            Variables[ThemeVariables.OutlineButtonHoverColor( variant )] = hoverColor;
+            Variables[ThemeVariables.OutlineButtonActiveColor( variant )] = activeColor;
         }
 
         /// <summary>
@@ -226,10 +217,10 @@ namespace Blazorise
             //var buttonColor = Contrast( ThemeColorLevel( theme, inColor, options?.VariantButtonColorLevel ?? 8 ) );
             //var buttonHoverColor = ThemeColorLevel( theme, buttonColor, options?.VariantButtonHoverColorLevel ?? 4 );
 
-            variables[$"{ThemeVariables.SnackbarBackground}-{ variant }"] = ToHex( backgroundColor );
-            variables[$"{ThemeVariables.SnackbarTextColor}-{ variant }"] = ToHex( textColor );
-            variables[$"{ThemeVariables.SnackbarButtonColor}-{ variant }"] = ToHex( buttonColor );
-            variables[$"{ThemeVariables.SnackbarButtonHoverColor}-{ variant }"] = ToHex( buttonHoverColor );
+            Variables[$"{ThemeVariables.SnackbarBackground}-{ variant }"] = ToHex( backgroundColor );
+            Variables[$"{ThemeVariables.SnackbarTextColor}-{ variant }"] = ToHex( textColor );
+            Variables[$"{ThemeVariables.SnackbarButtonColor}-{ variant }"] = ToHex( buttonColor );
+            Variables[$"{ThemeVariables.SnackbarButtonHoverColor}-{ variant }"] = ToHex( buttonHoverColor );
         }
 
         /// <summary>
@@ -248,9 +239,9 @@ namespace Blazorise
 
             var color = ToHex( argbColor );
 
-            variables[ThemeVariables.VariantStepsItemIcon( variant )] = color;
-            variables[ThemeVariables.VariantStepsItemIconYiq( variant )] = ToHex( Contrast( theme, color ) );
-            variables[ThemeVariables.VariantStepsItemText( variant )] = color;
+            Variables[ThemeVariables.VariantStepsItemIcon( variant )] = color;
+            Variables[ThemeVariables.VariantStepsItemIconYiq( variant )] = ToHex( Contrast( theme, color ) );
+            Variables[ThemeVariables.VariantStepsItemText( variant )] = color;
         }
 
         /// <summary>
@@ -269,7 +260,7 @@ namespace Blazorise
 
             var color = ToHex( inArgbColor );
 
-            variables[ThemeVariables.VariantPageProgressIndicator( variant )] = color;
+            Variables[ThemeVariables.VariantPageProgressIndicator( variant )] = color;
         }
 
         /// <summary>
@@ -288,7 +279,7 @@ namespace Blazorise
 
             var color = ToHex( inArgbColor );
 
-            variables[ThemeVariables.VariantRatingColor( variant )] = color;
+            Variables[ThemeVariables.VariantRatingColor( variant )] = color;
         }
 
         /// <summary>
@@ -306,8 +297,8 @@ namespace Blazorise
 
             var backgroundYiqColor = Contrast( theme, backgroundColor );
 
-            variables[ThemeVariables.BackgroundColor( variant )] = ToHex( backgroundColor );
-            variables[ThemeVariables.BackgroundYiqColor( variant )] = ToHex( backgroundYiqColor );
+            Variables[ThemeVariables.BackgroundColor( variant )] = ToHex( backgroundColor );
+            Variables[ThemeVariables.BackgroundYiqColor( variant )] = ToHex( backgroundYiqColor );
         }
 
         /// <summary>
@@ -323,7 +314,7 @@ namespace Blazorise
             if ( color.IsEmpty )
                 return;
 
-            variables[ThemeVariables.TextColor( variant )] = ToHex( color );
+            Variables[ThemeVariables.TextColor( variant )] = ToHex( color );
         }
 
         /// <summary>
@@ -334,13 +325,13 @@ namespace Blazorise
         protected virtual void GenerateSidebarVariables( Theme theme, ThemeSidebarOptions sidebarOptions )
         {
             if ( sidebarOptions.Width != null )
-                variables[ThemeVariables.SidebarWidth] = sidebarOptions.Width;
+                Variables[ThemeVariables.SidebarWidth] = sidebarOptions.Width;
 
             if ( sidebarOptions.BackgroundColor != null )
-                variables[ThemeVariables.SidebarBackground] = ToHex( ParseColor( sidebarOptions.BackgroundColor ) );
+                Variables[ThemeVariables.SidebarBackground] = ToHex( ParseColor( sidebarOptions.BackgroundColor ) );
 
             if ( sidebarOptions.Color != null )
-                variables[ThemeVariables.SidebarColor] = ToHex( ParseColor( sidebarOptions.Color ) );
+                Variables[ThemeVariables.SidebarColor] = ToHex( ParseColor( sidebarOptions.Color ) );
         }
 
         /// <summary>
@@ -350,67 +341,67 @@ namespace Blazorise
         protected virtual void GenerateBarVariables( ThemeBarOptions barOptions )
         {
             if ( !string.IsNullOrEmpty( barOptions.VerticalWidth ) )
-                variables[ThemeVariables.VerticalBarWidth] = barOptions.VerticalWidth;
+                Variables[ThemeVariables.VerticalBarWidth] = barOptions.VerticalWidth;
 
             if ( !string.IsNullOrEmpty( barOptions.VerticalSmallWidth ) )
-                variables[ThemeVariables.VerticalBarSmallWidth] = barOptions.VerticalSmallWidth;
+                Variables[ThemeVariables.VerticalBarSmallWidth] = barOptions.VerticalSmallWidth;
 
             if ( !string.IsNullOrEmpty( barOptions.VerticalBrandHeight ) )
-                variables[ThemeVariables.VerticalBarBrandHeight] = barOptions.VerticalBrandHeight;
+                Variables[ThemeVariables.VerticalBarBrandHeight] = barOptions.VerticalBrandHeight;
 
             if ( !string.IsNullOrEmpty( barOptions.VerticalPopoutMenuWidth ) )
-                variables[ThemeVariables.VerticalPopoutMenuWidth] = barOptions.VerticalPopoutMenuWidth;
+                Variables[ThemeVariables.VerticalPopoutMenuWidth] = barOptions.VerticalPopoutMenuWidth;
 
             if ( !string.IsNullOrEmpty( barOptions.HorizontalHeight ) )
-                variables[ThemeVariables.HorizontalBarHeight] = barOptions.HorizontalHeight;
+                Variables[ThemeVariables.HorizontalBarHeight] = barOptions.HorizontalHeight;
 
             if ( barOptions?.DarkColors != null )
             {
-                variables[ThemeVariables.BarDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BackgroundColor ) );
-                variables[ThemeVariables.BarDarkColor] = ToHex( ParseColor( barOptions.DarkColors.Color ) );
+                Variables[ThemeVariables.BarDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BackgroundColor ) );
+                Variables[ThemeVariables.BarDarkColor] = ToHex( ParseColor( barOptions.DarkColors.Color ) );
 
                 if ( barOptions.DarkColors.ItemColorOptions != null )
                 {
-                    variables[ThemeVariables.BarItemDarkActiveBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor ) );
-                    variables[ThemeVariables.BarItemDarkActiveColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveColor ) );
+                    Variables[ThemeVariables.BarItemDarkActiveBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor ) );
+                    Variables[ThemeVariables.BarItemDarkActiveColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveColor ) );
 
-                    variables[ThemeVariables.BarItemDarkHoverBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverBackgroundColor ) );
-                    variables[ThemeVariables.BarItemDarkHoverColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverColor ) );
+                    Variables[ThemeVariables.BarItemDarkHoverBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverBackgroundColor ) );
+                    Variables[ThemeVariables.BarItemDarkHoverColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverColor ) );
                 }
 
                 if ( barOptions.DarkColors.DropdownColorOptions != null )
                 {
-                    variables[ThemeVariables.BarDropdownDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.DropdownColorOptions.BackgroundColor ) );
+                    Variables[ThemeVariables.BarDropdownDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.DropdownColorOptions.BackgroundColor ) );
                 }
 
                 if ( barOptions.DarkColors.BrandColorOptions != null )
                 {
-                    variables[ThemeVariables.BarBrandDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BrandColorOptions.BackgroundColor ) );
+                    Variables[ThemeVariables.BarBrandDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BrandColorOptions.BackgroundColor ) );
                 }
             }
 
             if ( barOptions?.LightColors != null )
             {
-                variables[ThemeVariables.BarLightBackground] = ToHex( ParseColor( barOptions.LightColors.BackgroundColor ) );
-                variables[ThemeVariables.BarLightColor] = ToHex( ParseColor( barOptions.LightColors.Color ) );
+                Variables[ThemeVariables.BarLightBackground] = ToHex( ParseColor( barOptions.LightColors.BackgroundColor ) );
+                Variables[ThemeVariables.BarLightColor] = ToHex( ParseColor( barOptions.LightColors.Color ) );
 
                 if ( barOptions.LightColors.ItemColorOptions != null )
                 {
-                    variables[ThemeVariables.BarItemLightActiveBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveBackgroundColor ) );
-                    variables[ThemeVariables.BarItemLightActiveColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveColor ) );
+                    Variables[ThemeVariables.BarItemLightActiveBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveBackgroundColor ) );
+                    Variables[ThemeVariables.BarItemLightActiveColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveColor ) );
 
-                    variables[ThemeVariables.BarItemLightHoverBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverBackgroundColor ) );
-                    variables[ThemeVariables.BarItemLightHoverColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverColor ) );
+                    Variables[ThemeVariables.BarItemLightHoverBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverBackgroundColor ) );
+                    Variables[ThemeVariables.BarItemLightHoverColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverColor ) );
                 }
 
                 if ( barOptions.LightColors.DropdownColorOptions != null )
                 {
-                    variables[ThemeVariables.BarDropdownLightBackground] = ToHex( ParseColor( barOptions.LightColors.DropdownColorOptions.BackgroundColor ) );
+                    Variables[ThemeVariables.BarDropdownLightBackground] = ToHex( ParseColor( barOptions.LightColors.DropdownColorOptions.BackgroundColor ) );
                 }
 
                 if ( barOptions.LightColors.BrandColorOptions != null )
                 {
-                    variables[ThemeVariables.BarBrandLightBackground] = ToHex( ParseColor( barOptions.LightColors.BrandColorOptions.BackgroundColor ) );
+                    Variables[ThemeVariables.BarBrandLightBackground] = ToHex( ParseColor( barOptions.LightColors.BrandColorOptions.BackgroundColor ) );
                 }
             }
         }
@@ -423,16 +414,16 @@ namespace Blazorise
         protected virtual void GenerateSnackbarVariables( Theme theme, ThemeSnackbarOptions snackbarOptions )
         {
             if ( snackbarOptions?.BackgroundColor != null )
-                variables[ThemeVariables.SnackbarBackground] = ToHex( ParseColor( snackbarOptions.BackgroundColor ) );
+                Variables[ThemeVariables.SnackbarBackground] = ToHex( ParseColor( snackbarOptions.BackgroundColor ) );
 
             if ( snackbarOptions?.TextColor != null )
-                variables[ThemeVariables.SnackbarTextColor] = ToHex( ParseColor( snackbarOptions.TextColor ) );
+                Variables[ThemeVariables.SnackbarTextColor] = ToHex( ParseColor( snackbarOptions.TextColor ) );
 
             if ( snackbarOptions?.ButtonColor != null )
-                variables[ThemeVariables.SnackbarButtonColor] = ToHex( ParseColor( snackbarOptions.ButtonColor ) );
+                Variables[ThemeVariables.SnackbarButtonColor] = ToHex( ParseColor( snackbarOptions.ButtonColor ) );
 
             if ( snackbarOptions?.ButtonHoverColor != null )
-                variables[ThemeVariables.SnackbarButtonHoverColor] = ToHex( ParseColor( snackbarOptions.ButtonHoverColor ) );
+                Variables[ThemeVariables.SnackbarButtonHoverColor] = ToHex( ParseColor( snackbarOptions.ButtonHoverColor ) );
         }
 
         /// <summary>
@@ -443,13 +434,13 @@ namespace Blazorise
         protected virtual void GenerateDividerVariables( Theme theme, ThemeDividerOptions dividerOptions )
         {
             if ( dividerOptions.Color != null )
-                variables[ThemeVariables.DividerColor] = ToHex( ParseColor( dividerOptions.Color ) );
+                Variables[ThemeVariables.DividerColor] = ToHex( ParseColor( dividerOptions.Color ) );
 
             if ( dividerOptions.Color != null )
-                variables[ThemeVariables.DividerThickness] = dividerOptions.Thickness;
+                Variables[ThemeVariables.DividerThickness] = dividerOptions.Thickness;
 
             if ( dividerOptions.Color != null )
-                variables[ThemeVariables.DividerTextSize] = dividerOptions.TextSize;
+                Variables[ThemeVariables.DividerTextSize] = dividerOptions.TextSize;
         }
 
         /// <summary>
@@ -463,42 +454,42 @@ namespace Blazorise
             {
                 var backgroundColor = ParseColor( tooltipOptions.BackgroundColor );
 
-                variables[ThemeVariables.TooltipBackgroundColorR] = backgroundColor.R.ToString( CultureInfo.InvariantCulture );
-                variables[ThemeVariables.TooltipBackgroundColorG] = backgroundColor.G.ToString( CultureInfo.InvariantCulture );
-                variables[ThemeVariables.TooltipBackgroundColorB] = backgroundColor.B.ToString( CultureInfo.InvariantCulture );
-                variables[ThemeVariables.TooltipBackgroundOpacity] = ( backgroundColor.A / 255f ).ToString( "n2", CultureInfo.InvariantCulture );
+                Variables[ThemeVariables.TooltipBackgroundColorR] = backgroundColor.R.ToString( CultureInfo.InvariantCulture );
+                Variables[ThemeVariables.TooltipBackgroundColorG] = backgroundColor.G.ToString( CultureInfo.InvariantCulture );
+                Variables[ThemeVariables.TooltipBackgroundColorB] = backgroundColor.B.ToString( CultureInfo.InvariantCulture );
+                Variables[ThemeVariables.TooltipBackgroundOpacity] = ( backgroundColor.A / 255f ).ToString( "n2", CultureInfo.InvariantCulture );
             }
 
             if ( tooltipOptions?.Color != null )
             {
-                variables[ThemeVariables.TooltipColor] = tooltipOptions.Color;
+                Variables[ThemeVariables.TooltipColor] = tooltipOptions.Color;
             }
 
             if ( tooltipOptions?.FontSize != null )
             {
-                variables[ThemeVariables.TooltipFontSize] = tooltipOptions.FontSize;
+                Variables[ThemeVariables.TooltipFontSize] = tooltipOptions.FontSize;
             }
 
-            variables[ThemeVariables.TooltipBorderRadius] = GetBorderRadius( theme, tooltipOptions?.BorderRadius, Var( ThemeVariables.BorderRadius ) );
+            Variables[ThemeVariables.TooltipBorderRadius] = GetBorderRadius( theme, tooltipOptions?.BorderRadius, Var( ThemeVariables.BorderRadius ) );
 
             if ( tooltipOptions?.FadeTime != null )
             {
-                variables[ThemeVariables.TooltipFadeTime] = tooltipOptions.FadeTime;
+                Variables[ThemeVariables.TooltipFadeTime] = tooltipOptions.FadeTime;
             }
 
             if ( tooltipOptions?.MaxWidth != null )
             {
-                variables[ThemeVariables.TooltipMaxWidth] = tooltipOptions.MaxWidth;
+                Variables[ThemeVariables.TooltipMaxWidth] = tooltipOptions.MaxWidth;
             }
 
             if ( tooltipOptions?.Padding != null )
             {
-                variables[ThemeVariables.TooltipPadding] = tooltipOptions.Padding;
+                Variables[ThemeVariables.TooltipPadding] = tooltipOptions.Padding;
             }
 
             if ( tooltipOptions?.ZIndex != null )
             {
-                variables[ThemeVariables.TooltipZIndex] = tooltipOptions.ZIndex;
+                Variables[ThemeVariables.TooltipZIndex] = tooltipOptions.ZIndex;
             }
         }
 
@@ -511,7 +502,7 @@ namespace Blazorise
         {
             if ( FirstNotEmpty( out var color, breadcrumbOptions?.Color, theme.ColorOptions?.Primary ) )
             {
-                variables[ThemeVariables.BreadcrumbColor] = color;
+                Variables[ThemeVariables.BreadcrumbColor] = color;
             }
         }
 
@@ -526,42 +517,42 @@ namespace Blazorise
             {
                 if ( !string.IsNullOrEmpty( stepsOptions.StepsItemIconColor ) )
                 {
-                    variables[ThemeVariables.StepsItemIcon] = ToHex( ParseColor( stepsOptions.StepsItemIconColor ) );
+                    Variables[ThemeVariables.StepsItemIcon] = ToHex( ParseColor( stepsOptions.StepsItemIconColor ) );
                 }
 
                 if ( !string.IsNullOrEmpty( stepsOptions.StepsItemIconCompleted ) )
                 {
-                    variables[ThemeVariables.StepsItemIconCompleted] = ToHex( ParseColor( stepsOptions.StepsItemIconCompleted ) );
+                    Variables[ThemeVariables.StepsItemIconCompleted] = ToHex( ParseColor( stepsOptions.StepsItemIconCompleted ) );
                 }
 
                 if ( !string.IsNullOrEmpty( stepsOptions.StepsItemIconCompletedYiq ) )
                 {
-                    variables[ThemeVariables.StepsItemIconCompletedYiq] = ToHex( ParseColor( stepsOptions.StepsItemIconCompletedYiq ) );
+                    Variables[ThemeVariables.StepsItemIconCompletedYiq] = ToHex( ParseColor( stepsOptions.StepsItemIconCompletedYiq ) );
                 }
 
                 if ( !string.IsNullOrEmpty( stepsOptions.StepsItemIconActive ) )
                 {
-                    variables[ThemeVariables.StepsItemIconActive] = ToHex( ParseColor( stepsOptions.StepsItemIconActive ) );
+                    Variables[ThemeVariables.StepsItemIconActive] = ToHex( ParseColor( stepsOptions.StepsItemIconActive ) );
                 }
 
                 if ( !string.IsNullOrEmpty( stepsOptions.StepsItemIconActiveYiq ) )
                 {
-                    variables[ThemeVariables.StepsItemIconActiveYiq] = ToHex( ParseColor( stepsOptions.StepsItemIconActiveYiq ) );
+                    Variables[ThemeVariables.StepsItemIconActiveYiq] = ToHex( ParseColor( stepsOptions.StepsItemIconActiveYiq ) );
                 }
 
                 if ( !string.IsNullOrEmpty( stepsOptions.StepsItemTextColor ) )
                 {
-                    variables[ThemeVariables.StepsItemText] = ToHex( ParseColor( stepsOptions.StepsItemTextColor ) );
+                    Variables[ThemeVariables.StepsItemText] = ToHex( ParseColor( stepsOptions.StepsItemTextColor ) );
                 }
 
                 if ( !string.IsNullOrEmpty( stepsOptions.StepsItemTextCompleted ) )
                 {
-                    variables[ThemeVariables.StepsItemTextCompleted] = ToHex( ParseColor( stepsOptions.StepsItemTextCompleted ) );
+                    Variables[ThemeVariables.StepsItemTextCompleted] = ToHex( ParseColor( stepsOptions.StepsItemTextCompleted ) );
                 }
 
                 if ( !string.IsNullOrEmpty( stepsOptions.StepsItemTextActive ) )
                 {
-                    variables[ThemeVariables.StepsItemTextActive] = ToHex( ParseColor( stepsOptions.StepsItemTextActive ) );
+                    Variables[ThemeVariables.StepsItemTextActive] = ToHex( ParseColor( stepsOptions.StepsItemTextActive ) );
                 }
             }
         }
@@ -574,7 +565,7 @@ namespace Blazorise
         /// <returns>Variable value.</returns>
         protected string Var( string name, string defaultValue = null )
         {
-            if ( variables.TryGetValue( name, out var value ) )
+            if ( Variables.TryGetValue( name, out var value ) )
                 return value;
 
             return defaultValue;
@@ -1422,6 +1413,11 @@ namespace Blazorise
         /// Gets the currently used theme cache.
         /// </summary>
         protected IThemeCache ThemeCache { get; }
+
+        /// <summary>
+        /// Map of all variables currently used.
+        /// </summary>
+        protected readonly Dictionary<string, string> Variables = new();
 
         #endregion
     }
