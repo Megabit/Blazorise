@@ -40,6 +40,14 @@ namespace Blazorise
 
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
+        private TextColor textColor = TextColor.None;
+
+        private TextAlignment textAlignment = TextAlignment.None;
+
+        private TextTransform textTransform = TextTransform.None;
+
+        private TextWeight textWeight = TextWeight.None;
+
         #endregion
 
         #region Constructors
@@ -124,6 +132,18 @@ namespace Blazorise
 
             if ( Casing != CharacterCasing.Normal )
                 builder.Append( ClassProvider.Casing( Casing ) );
+
+            if ( TextColor != TextColor.None )
+                builder.Append( ClassProvider.TextColor( TextColor ) );
+
+            if ( TextAlignment != TextAlignment.None )
+                builder.Append( ClassProvider.TextAlignment( TextAlignment ) );
+
+            if ( TextTransform != TextTransform.None )
+                builder.Append( ClassProvider.TextTransform( TextTransform ) );
+
+            if ( TextWeight != TextWeight.None )
+                builder.Append( ClassProvider.TextWeight( TextWeight ) );
         }
 
         /// <summary>
@@ -416,6 +436,66 @@ namespace Blazorise
             set
             {
                 characterCasing = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text color.
+        /// </summary>
+        [Parameter]
+        public TextColor TextColor
+        {
+            get => textColor;
+            set
+            {
+                textColor = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text alignment.
+        /// </summary>
+        [Parameter]
+        public TextAlignment TextAlignment
+        {
+            get => textAlignment;
+            set
+            {
+                textAlignment = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text transformation.
+        /// </summary>
+        [Parameter]
+        public TextTransform TextTransform
+        {
+            get => textTransform;
+            set
+            {
+                textTransform = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text weight.
+        /// </summary>
+        [Parameter]
+        public TextWeight TextWeight
+        {
+            get => textWeight;
+            set
+            {
+                textWeight = value;
 
                 DirtyClasses();
             }
