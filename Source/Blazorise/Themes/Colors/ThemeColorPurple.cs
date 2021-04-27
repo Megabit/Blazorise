@@ -4,8 +4,12 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Defines the Purple color along with its color shades.
+    /// </summary>
     public record ThemeColorPurple : ThemeColor
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public ThemeColorShade _50 { get; } = new ThemeColorShade( "50", "_50", "#f3e5f5" );
         public ThemeColorShade _100 { get; } = new ThemeColorShade( "100", "_100", "#e1bee7" );
         public ThemeColorShade _200 { get; } = new ThemeColorShade( "200", "_200", "#ce93d8" );
@@ -20,7 +24,11 @@ namespace Blazorise
         public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#e040fb" );
         public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#d500f9" );
         public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#a0f" );
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
+        /// <summary>
+        /// A default <see cref="ThemeColorPurple"/> constructor
+        /// </summary>
         public ThemeColorPurple() : base( "purple", "Purple" )
         {
             Shades = new Dictionary<string, ThemeColorShade>()

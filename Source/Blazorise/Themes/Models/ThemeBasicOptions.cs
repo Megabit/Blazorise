@@ -1,7 +1,7 @@
 ﻿namespace Blazorise
 {
     /// <summary>
-    /// Base class for or theme options.
+    /// Base class for all theme options.
     /// </summary>
     public record ThemeBasicOptions
     {
