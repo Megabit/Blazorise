@@ -652,6 +652,8 @@ namespace Blazorise.AntDesign
 
         public override string Row() => "ant-row";
 
+        public override string RowNoGutters() => "ant-row-no-gutters";
+
         #endregion
 
         #region Column

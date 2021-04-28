@@ -16,6 +16,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Row() );
+            builder.Append( ClassProvider.RowNoGutters(), NoGutters );
 
             base.BuildClasses( builder );
         }
@@ -36,6 +37,11 @@ namespace Blazorise
         /// Row grid spacing - we recommend setting Horizontal and/or Vertical it to (16 + 8n). (n stands for natural number.)
         /// </summary>
         [Parameter] public (int Horizontal, int Vertical) Gutter { get; set; }
+
+        /// <summary>
+        /// Removes the negative margins from row and the horizontal padding from all immediate children columns.
+        /// </summary>
+        [Parameter] public bool NoGutters { get; set; }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Row"/>.

@@ -641,6 +641,8 @@ namespace Blazorise.Bootstrap
 
         public override string Row() => "row";
 
+        public override string RowNoGutters() => "no-gutters";
+
         #endregion
 
         #region Column

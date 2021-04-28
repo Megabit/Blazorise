@@ -627,6 +627,8 @@ namespace Blazorise
 
         string Row();
 
+        string RowNoGutters();
+
         #endregion
 
         #region Column

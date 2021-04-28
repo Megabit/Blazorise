@@ -633,6 +633,8 @@ namespace Blazorise.Providers
 
         public string Row() => null;
 
+        public string RowNoGutters() => null;
+
         #endregion
 
         #region Column
