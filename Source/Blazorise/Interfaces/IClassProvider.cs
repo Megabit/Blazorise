@@ -297,6 +297,8 @@ namespace Blazorise
 
         string ButtonActive();
 
+        string ButtonDisabled();
+
         string ButtonLoading();
 
         #endregion

@@ -299,6 +299,8 @@ namespace Blazorise.Providers
 
         public string ButtonActive() => null;
 
+        public string ButtonDisabled() => null;
+
         public string ButtonLoading() => null;
 
         #endregion

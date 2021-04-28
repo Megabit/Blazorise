@@ -320,6 +320,8 @@ namespace Blazorise.Bootstrap
 
         public override string ButtonActive() => "active";
 
+        public override string ButtonDisabled() => "disabled";
+
         public override string ButtonLoading() => null;
 
         #endregion

@@ -323,6 +323,8 @@ namespace Blazorise.AntDesign
 
         public override string ButtonActive() => "ant-btn-active";
 
+        public override string ButtonDisabled() => "ant-btn-disabled";
+
         public override string ButtonLoading() => "ant-btn-loading";
 
         #endregion
