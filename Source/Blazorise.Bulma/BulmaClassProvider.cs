@@ -658,6 +658,8 @@ namespace Blazorise.Bulma
 
         public override string Row() => "columns";
 
+        public override string RowNoGutters() => "is-gapless";
+
         #endregion
 
         #region Column

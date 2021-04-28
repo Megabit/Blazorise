@@ -460,3 +460,14 @@ $dimensions: 16 24 32 48 64 96 128 256 512 !default
 .e-vertical-align-text-top {
     vertical-align: text-top !important;
 }
+
+.e-cols-no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+
+    > .e-col,
+    > [class*="e-col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
