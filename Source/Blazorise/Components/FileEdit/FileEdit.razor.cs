@@ -146,7 +146,7 @@ namespace Blazorise
 
             // send the value to the validation for processing
             if ( ParentValidation != null )
-                await ParentValidation.NotifyInputChanged<IFileEntry[]>( default );
+                await ParentValidation.NotifyInputChanged<IFileEntry[]>( files );
 
             await Changed.InvokeAsync( new FileChangedEventArgs( files ) );
 
