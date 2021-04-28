@@ -260,7 +260,7 @@ namespace Blazorise.Bootstrap
 
         public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
 
-        public override string ControlFile() => UseCustomInputStyles ? "custom-control custom-file" : "form-group";
+        public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
 
         public override string ControlText() => null;
 

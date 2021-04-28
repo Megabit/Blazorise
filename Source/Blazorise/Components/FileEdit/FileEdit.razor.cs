@@ -120,7 +120,7 @@ namespace Blazorise
             InternalValue = files;
 
             // send the value to the validation for processing
-            ParentValidation?.NotifyInputChanged<IFileEntry[]>( default );
+            ParentValidation?.NotifyInputChanged<IFileEntry[]>( files );
 
             await Changed.InvokeAsync( new FileChangedEventArgs( files ) );
 
