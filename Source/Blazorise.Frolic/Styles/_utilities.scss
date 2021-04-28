@@ -435,3 +435,28 @@ $dimensions: 16 24 32 48 64 96 128 256 512 !default
 .e-invisible {
     visibility: hidden !important;
 }
+
+// Browser default
+.e-vertical-align-baseline {
+    vertical-align: baseline !important;
+}
+
+.e-vertical-align-top {
+    vertical-align: top !important;
+}
+
+.e-vertical-align-middle {
+    vertical-align: middle !important;
+}
+
+.e-vertical-align-bottom {
+    vertical-align: bottom !important;
+}
+
+.e-vertical-align-text-bottom {
+    vertical-align: text-bottom !important;
+}
+
+.e-vertical-align-text-top {
+    vertical-align: text-top !important;
+}

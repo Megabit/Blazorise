@@ -1120,6 +1120,13 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region VerticalAlignment
+
+        public override string VerticalAlignment( VerticalAlignment verticalAlignment )
+            => $"ant-vertical-align-{ToVerticalAlignment( verticalAlignment )}";
+
+        #endregion
+
         #region Enums
 
         public override string ToColumnWidth( ColumnWidth columnWidth )

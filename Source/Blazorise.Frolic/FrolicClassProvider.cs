@@ -1146,6 +1146,13 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region VerticalAlignment
+
+        public override string VerticalAlignment( VerticalAlignment verticalAlignment )
+            => $"e-vertical-align-{ToVerticalAlignment( verticalAlignment )}";
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )

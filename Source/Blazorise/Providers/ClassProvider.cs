@@ -984,6 +984,12 @@ namespace Blazorise
 
         #endregion
 
+        #region VerticalAlignment
+
+        public abstract string VerticalAlignment( VerticalAlignment verticalAlignment );
+
+        #endregion
+
         #region Custom
 
         public virtual string Casing( CharacterCasing characterCasing ) => $"b-character-casing-{ToCharacterCasing( characterCasing )}";
@@ -1582,6 +1588,20 @@ namespace Blazorise
                 Blazorise.SizingSize.Is75 => "75",
                 Blazorise.SizingSize.Is100 => "100",
                 Blazorise.SizingSize.Auto => "auto",
+                _ => null,
+            };
+        }
+
+        public virtual string ToVerticalAlignment( VerticalAlignment verticalAlignment )
+        {
+            return verticalAlignment switch
+            {
+                Blazorise.VerticalAlignment.Baseline => "baseline",
+                Blazorise.VerticalAlignment.Top => "top",
+                Blazorise.VerticalAlignment.Middle => "middle",
+                Blazorise.VerticalAlignment.Bottom => "bottom",
+                Blazorise.VerticalAlignment.TextTop => "text-top",
+                Blazorise.VerticalAlignment.TextBottom => "text-bottom",
                 _ => null,
             };
         }
