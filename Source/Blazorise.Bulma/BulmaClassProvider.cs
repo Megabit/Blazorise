@@ -308,6 +308,8 @@ namespace Blazorise.Bulma
 
         public override string ButtonActive() => "is-active";
 
+        public override string ButtonDisabled() => "is-disabled";
+
         public override string ButtonLoading() => "is-loading";
 
         #endregion

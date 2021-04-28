@@ -46,6 +46,7 @@ namespace Blazorise
             builder.Append( ClassProvider.ButtonSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.ButtonBlock(), Block );
             builder.Append( ClassProvider.ButtonActive(), Active );
+            builder.Append( ClassProvider.ButtonDisabled(), Disabled );
             builder.Append( ClassProvider.ButtonLoading(), Loading && LoadingTemplate == null );
 
             base.BuildClasses( builder );
@@ -141,6 +142,13 @@ namespace Blazorise
                     .Role( "button" )
                     .Href( To )
                     .Target( Target );
+
+                if ( Disabled )
+                {
+                    builder
+                        .TabIndex( -1 )
+                        .AriaDisabled( "true" );
+                }
             }
             else
             {
