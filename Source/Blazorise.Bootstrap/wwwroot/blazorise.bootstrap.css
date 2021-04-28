@@ -280,6 +280,9 @@
     line-height: 2.5rem;
     padding-left: 10px; }
 
+.custom-file-label {
+    overflow: hidden; }
+
 .jumbotron.jumbotron-primary {
     background-color: #007bff;
     color: #fff; }
