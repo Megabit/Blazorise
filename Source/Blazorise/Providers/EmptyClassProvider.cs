@@ -983,6 +983,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region VerticalAlignment
+
+        public string VerticalAlignment( VerticalAlignment verticalAlignment ) => null;
+
+        #endregion
+
         #region Custom
 
         public string Casing( CharacterCasing characterCasing ) => null;
@@ -1070,6 +1076,8 @@ namespace Blazorise.Providers
         public string ToSizingType( SizingType sizingType ) => null;
 
         public string ToSizingSize( SizingSize sizingSize ) => null;
+
+        public string ToVerticalAlignment( VerticalAlignment verticalAlignment ) => null;
 
         #endregion
 

@@ -996,6 +996,24 @@
 .e-invisible {
     visibility: hidden !important; }
 
+.e-vertical-align-baseline {
+    vertical-align: baseline !important; }
+
+.e-vertical-align-top {
+    vertical-align: top !important; }
+
+.e-vertical-align-middle {
+    vertical-align: middle !important; }
+
+.e-vertical-align-bottom {
+    vertical-align: bottom !important; }
+
+.e-vertical-align-text-bottom {
+    vertical-align: text-bottom !important; }
+
+.e-vertical-align-text-top {
+    vertical-align: text-top !important; }
+
 .e-alert {
     margin-bottom: 1rem; }
 

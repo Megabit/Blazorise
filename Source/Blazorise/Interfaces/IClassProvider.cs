@@ -975,6 +975,12 @@ namespace Blazorise
 
         #endregion
 
+        #region VerticalAlignment
+
+        string VerticalAlignment( VerticalAlignment verticalAlignment );
+
+        #endregion
+
         #region Custom
 
         string Casing( CharacterCasing characterCasing );
@@ -1067,6 +1073,8 @@ namespace Blazorise
         string ToSizingType( SizingType sizingType );
 
         string ToSizingSize( SizingSize sizingSize );
+
+        string ToVerticalAlignment( VerticalAlignment verticalAlignment );
 
         #endregion
 

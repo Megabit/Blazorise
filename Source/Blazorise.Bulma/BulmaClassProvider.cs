@@ -1132,6 +1132,13 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region VerticalAlignment
+
+        public override string VerticalAlignment( VerticalAlignment verticalAlignment )
+            => $"is-vertical-align-{ToVerticalAlignment( verticalAlignment )}";
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )

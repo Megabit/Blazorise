@@ -1102,6 +1102,13 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region VerticalAlignment
+
+        public override string VerticalAlignment( VerticalAlignment verticalAlignment )
+            => $"align-{ToVerticalAlignment( verticalAlignment )}";
+
+        #endregion
+
         public override bool UseCustomInputStyles { get; set; } = true;
 
         public override string Provider => "Bootstrap";

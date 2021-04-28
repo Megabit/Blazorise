@@ -48,6 +48,8 @@ namespace Blazorise
 
         private TextWeight textWeight = TextWeight.None;
 
+        private VerticalAlignment verticalAlignment = VerticalAlignment.None;
+
         #endregion
 
         #region Constructors
@@ -123,6 +125,9 @@ namespace Blazorise
 
             if ( Visibility != Visibility.None )
                 builder.Append( ClassProvider.Visibility( Visibility ) );
+
+            if ( VerticalAlignment != VerticalAlignment.None )
+                builder.Append( ClassProvider.VerticalAlignment( VerticalAlignment ) );
 
             if ( Width != null )
                 builder.Append( Width.Class( ClassProvider ) );
@@ -496,6 +501,21 @@ namespace Blazorise
             set
             {
                 textWeight = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Changes the vertical alignment of inline, inline-block, inline-table, and table cell elements.
+        /// </summary>
+        [Parameter]
+        public VerticalAlignment VerticalAlignment
+        {
+            get => verticalAlignment;
+            set
+            {
+                verticalAlignment = value;
 
                 DirtyClasses();
             }

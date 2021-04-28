@@ -2007,6 +2007,24 @@
 .is-visible {
     visibility: visible !important; }
 
+.is-vertical-align-baseline {
+    vertical-align: baseline !important; }
+
+.is-vertical-align-top {
+    vertical-align: top !important; }
+
+.is-vertical-align-middle {
+    vertical-align: middle !important; }
+
+.is-vertical-align-bottom {
+    vertical-align: bottom !important; }
+
+.is-vertical-align-text-bottom {
+    vertical-align: text-bottom !important; }
+
+.is-vertical-align-text-top {
+    vertical-align: text-top !important; }
+
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
     color: #fff !important; }
