@@ -50,6 +50,8 @@ namespace Blazorise.DataGrid
 
         [Parameter] public TextAlignment TextAlignment { get; set; }
 
+        [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
+
         [Parameter] public bool Checked { get; set; }
 
         [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
