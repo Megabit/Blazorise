@@ -889,6 +889,14 @@ namespace Blazorise
 
         #endregion
 
+        #region Image
+
+        public abstract string Image();
+
+        public abstract string ImageFluid( bool fluid );
+
+        #endregion
+
         #region Breadcrumb
 
         public abstract string Breadcrumb();

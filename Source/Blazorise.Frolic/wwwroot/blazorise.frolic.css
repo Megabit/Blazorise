@@ -1022,6 +1022,10 @@
         padding-right: 0;
         padding-left: 0; }
 
+.e-image-fluid {
+    width: 100%;
+    height: auto; }
+
 .e-alert {
     margin-bottom: 1rem; }
 

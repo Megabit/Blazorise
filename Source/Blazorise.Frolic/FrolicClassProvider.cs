@@ -957,6 +957,14 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Image
+
+        public override string Image() => null;
+
+        public override string ImageFluid( bool fluid ) => fluid ? "e-image-fluid" : null;
+
+        #endregion
+
         #region Breadcrumb
 
         public override string Breadcrumb() => "e-breadcrumb";

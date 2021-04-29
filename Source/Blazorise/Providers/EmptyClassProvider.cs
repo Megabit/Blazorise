@@ -889,6 +889,14 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Image
+
+        public string Image() => null;
+
+        public string ImageFluid( bool fluid ) => null;
+
+        #endregion
+
         #region Breadcrumb
 
         public string Breadcrumb() => null;

@@ -936,6 +936,14 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Image
+
+        public override string Image() => null;
+
+        public override string ImageFluid( bool fluid ) => fluid ? "is-fullwidth" : null;
+
+        #endregion
+
         #region Breadcrumb
 
         public override string Breadcrumb() => "breadcrumb";

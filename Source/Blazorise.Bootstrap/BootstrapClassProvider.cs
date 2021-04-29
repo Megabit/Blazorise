@@ -916,6 +916,14 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Image
+
+        public override string Image() => null;
+
+        public override string ImageFluid( bool fluid ) => fluid ? "img-fluid" : null;
+
+        #endregion
+
         #region Breadcrumb
 
         public override string Breadcrumb() => "breadcrumb";

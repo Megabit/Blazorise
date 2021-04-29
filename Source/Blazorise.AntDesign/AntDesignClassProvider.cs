@@ -931,6 +931,14 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Image
+
+        public override string Image() => "ant-image-img";
+
+        public override string ImageFluid( bool fluid ) => fluid ? "ant-image-img-fluid" : null;
+
+        #endregion
+
         #region Breadcrumb
 
         public override string Breadcrumb() => "ant-breadcrumb";
