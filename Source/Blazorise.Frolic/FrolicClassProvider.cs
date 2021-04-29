@@ -536,8 +536,6 @@ namespace Blazorise.Frolic
 
         public override string CardWhiteText() => "text-white";
 
-        public override string CardBackground( Background background ) => ToBackground( background );
-
         public override string CardActions() => "card-actions";
 
         public override string CardBody() => "card-body";
@@ -587,8 +585,6 @@ namespace Blazorise.Frolic
         #region Bar
 
         public override string Bar() => "e-nav";
-
-        public override string BarBackground( Background background ) => BackgroundColor( background );
 
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 
@@ -807,8 +803,6 @@ namespace Blazorise.Frolic
 
         public override string ProgressBarSize( Size size ) => $"e-progress-{ToSize( size )}";
 
-        public override string ProgressBarColor( Background background ) => ToBackground( background );
-
         public override string ProgressBarStriped() => "progress-bar-striped";
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
@@ -825,7 +819,7 @@ namespace Blazorise.Frolic
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"bg-{ToBackground( color )}";
+        public override string BackgroundColor( Background background ) => $"bg-{ToBackground( background )}";
 
         #endregion
 
@@ -867,8 +861,6 @@ namespace Blazorise.Frolic
 
         public override string TableRowColor( Color color ) => ToColor( color );
 
-        public override string TableRowBackground( Background background ) => ToBackground( background );
-
         public override string TableRowHoverCursor() => "table-row-selectable";
 
         public override string TableRowIsSelected() => "selected";
@@ -878,8 +870,6 @@ namespace Blazorise.Frolic
         public override string TableRowCell() => null;
 
         public override string TableRowCellColor( Color color ) => ToColor( color );
-
-        public override string TableRowCellBackground( Background background ) => ToBackground( background );
 
         public override string TableResponsive() => "e-table-responsive";
 
@@ -1213,9 +1203,9 @@ namespace Blazorise.Frolic
             }
         }
 
-        public override string ToBackground( Background color )
+        public override string ToBackground( Background background )
         {
-            switch ( color )
+            switch ( background )
             {
                 case Blazorise.Background.Primary:
                     return "primary";

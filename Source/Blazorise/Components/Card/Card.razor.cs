@@ -15,8 +15,6 @@ namespace Blazorise
 
         private bool isWhiteText;
 
-        private Background background = Background.None;
-
         #endregion
 
         #region Methods
@@ -26,7 +24,6 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Card() );
             builder.Append( ClassProvider.CardWhiteText(), WhiteText );
-            builder.Append( ClassProvider.CardBackground( Background ), Background != Background.None );
 
             base.BuildClasses( builder );
         }
@@ -45,21 +42,6 @@ namespace Blazorise
             set
             {
                 isWhiteText = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the bar background color.
-        /// </summary>
-        [Parameter]
-        public Background Background
-        {
-            get => background;
-            set
-            {
-                background = value;
 
                 DirtyClasses();
             }

@@ -463,8 +463,6 @@ namespace Blazorise.Providers
 
         public string CardWhiteText() => null;
 
-        public string CardBackground( Background background ) => null;
-
         public string CardActions() => null;
 
         public string CardBody() => null;
@@ -542,8 +540,6 @@ namespace Blazorise.Providers
         #region Bar
 
         public string Bar() => null;
-
-        public string BarBackground( Background background ) => null;
 
         public string BarAlignment( Alignment alignment ) => null;
 
@@ -739,8 +735,6 @@ namespace Blazorise.Providers
 
         public string ProgressBarSize( Size size ) => null;
 
-        public string ProgressBarColor( Background background ) => null;
-
         public string ProgressBarStriped() => null;
 
         public string ProgressBarAnimated() => null;
@@ -757,7 +751,7 @@ namespace Blazorise.Providers
 
         #region Colors
 
-        public string BackgroundColor( Background color ) => null;
+        public string BackgroundColor( Background background ) => null;
 
         #endregion
 
@@ -799,8 +793,6 @@ namespace Blazorise.Providers
 
         public string TableRowColor( Color color ) => null;
 
-        public string TableRowBackground( Background background ) => null;
-
         public string TableRowHoverCursor() => null;
 
         public string TableRowIsSelected() => null;
@@ -810,8 +802,6 @@ namespace Blazorise.Providers
         public string TableRowCell() => null;
 
         public string TableRowCellColor( Color color ) => null;
-
-        public string TableRowCellBackground( Background background ) => null;
 
         public string TableResponsive() => null;
 
@@ -1015,7 +1005,7 @@ namespace Blazorise.Providers
 
         public string ToColor( Color color ) => null;
 
-        public string ToBackground( Background color ) => null;
+        public string ToBackground( Background background ) => null;
 
         public string ToTextColor( TextColor textColor ) => null;
 

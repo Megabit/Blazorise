@@ -51,6 +51,8 @@ namespace Blazorise
 
         private VerticalAlignment verticalAlignment = VerticalAlignment.None;
 
+        private Background background = Background.None;
+
         #endregion
 
         #region Constructors
@@ -190,6 +192,9 @@ namespace Blazorise
 
             if ( TextWeight != TextWeight.None )
                 builder.Append( ClassProvider.TextWeight( TextWeight ) );
+
+            if ( Background != Background.None )
+                builder.Append( ClassProvider.BackgroundColor( Background ) );
         }
 
         /// <summary>
@@ -557,6 +562,21 @@ namespace Blazorise
             set
             {
                 verticalAlignment = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the component background color.
+        /// </summary>
+        [Parameter]
+        public Background Background
+        {
+            get => background;
+            set
+            {
+                background = value;
 
                 DirtyClasses();
             }

@@ -502,8 +502,6 @@ namespace Blazorise.Bootstrap
 
         public override string CardWhiteText() => "text-white";
 
-        public override string CardBackground( Background background ) => BackgroundColor( background );
-
         public override string CardActions() => "card-actions";
 
         public override string CardBody() => "card-body";
@@ -553,8 +551,6 @@ namespace Blazorise.Bootstrap
         #region Bar
 
         public override string Bar() => "navbar";
-
-        public override string BarBackground( Background background ) => BackgroundColor( background );
 
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 
@@ -766,8 +762,6 @@ namespace Blazorise.Bootstrap
 
         public override string ProgressBarSize( Size size ) => null;
 
-        public override string ProgressBarColor( Background background ) => BackgroundColor( background );
-
         public override string ProgressBarStriped() => "progress-bar-striped";
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
@@ -784,7 +778,7 @@ namespace Blazorise.Bootstrap
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"bg-{ToBackground( color )}";
+        public override string BackgroundColor( Background background ) => $"bg-{ToBackground( background )}";
 
         #endregion
 
@@ -826,8 +820,6 @@ namespace Blazorise.Bootstrap
 
         public override string TableRowColor( Color color ) => $"table-{ToColor( color )}";
 
-        public override string TableRowBackground( Background background ) => BackgroundColor( background );
-
         public override string TableRowHoverCursor() => "table-row-selectable";
 
         public override string TableRowIsSelected() => "selected";
@@ -837,8 +829,6 @@ namespace Blazorise.Bootstrap
         public override string TableRowCell() => null;
 
         public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
-
-        public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
 
         public override string TableResponsive() => "table-responsive";
 

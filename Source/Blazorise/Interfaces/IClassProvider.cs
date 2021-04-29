@@ -461,8 +461,6 @@ namespace Blazorise
 
         string CardWhiteText();
 
-        string CardBackground( Background background );
-
         string CardActions();
 
         string CardBody();
@@ -538,8 +536,6 @@ namespace Blazorise
         #region Bar
 
         string Bar();
-
-        string BarBackground( Background background );
 
         string BarAlignment( Alignment alignment );
 
@@ -731,8 +727,6 @@ namespace Blazorise
 
         string ProgressBarSize( Size size );
 
-        string ProgressBarColor( Background background );
-
         string ProgressBarStriped();
 
         string ProgressBarAnimated();
@@ -791,8 +785,6 @@ namespace Blazorise
 
         string TableRowColor( Color color );
 
-        string TableRowBackground( Background background );
-
         string TableRowHoverCursor();
 
         string TableRowIsSelected();
@@ -802,8 +794,6 @@ namespace Blazorise
         string TableRowCell();
 
         string TableRowCellColor( Color color );
-
-        string TableRowCellBackground( Background background );
 
         string TableResponsive();
 
@@ -1012,7 +1002,7 @@ namespace Blazorise
 
         string ToColor( Color color );
 
-        string ToBackground( Background color );
+        string ToBackground( Background background );
 
         string ToTextColor( TextColor textColor );
 

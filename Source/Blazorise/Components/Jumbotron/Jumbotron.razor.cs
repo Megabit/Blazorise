@@ -10,12 +10,6 @@ namespace Blazorise
     /// </summary>
     public partial class Jumbotron : BaseComponent
     {
-        #region Members
-
-        private Background background = Background.None;
-
-        #endregion
-
         #region Methods
 
         /// <inheritdoc/>
@@ -30,21 +24,6 @@ namespace Blazorise
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the jumbotron contextual background color.
-        /// </summary>
-        [Parameter]
-        public Background Background
-        {
-            get => background;
-            set
-            {
-                background = value;
-
-                DirtyClasses();
-            }
-        }
 
         /// <summary>
         /// Gets or sets the reference to the parent <see cref="Jumbotron"/> component.

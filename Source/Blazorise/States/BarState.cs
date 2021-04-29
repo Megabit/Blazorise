@@ -39,10 +39,5 @@
         /// Defines the alignment within bar.
         /// </summary>
         public Alignment Alignment { get; init; }
-
-        /// <summary>
-        /// Gets or sets the bar background color.
-        /// </summary>
-        public Background Background { get; init; }
     }
 }
