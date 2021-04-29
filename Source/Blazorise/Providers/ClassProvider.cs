@@ -463,8 +463,6 @@ namespace Blazorise
 
         public abstract string CardWhiteText();
 
-        public abstract string CardBackground( Background background );
-
         public abstract string CardActions();
 
         public abstract string CardBody();
@@ -540,8 +538,6 @@ namespace Blazorise
         #region Bar
 
         public abstract string Bar();
-
-        public abstract string BarBackground( Background background );
 
         public abstract string BarAlignment( Alignment alignment );
 
@@ -739,8 +735,6 @@ namespace Blazorise
 
         public abstract string ProgressBarSize( Size size );
 
-        public abstract string ProgressBarColor( Background background );
-
         public abstract string ProgressBarStriped();
 
         public abstract string ProgressBarAnimated();
@@ -757,7 +751,7 @@ namespace Blazorise
 
         #region Colors
 
-        public abstract string BackgroundColor( Background color );
+        public abstract string BackgroundColor( Background background );
 
         #endregion
 
@@ -799,8 +793,6 @@ namespace Blazorise
 
         public abstract string TableRowColor( Color color );
 
-        public abstract string TableRowBackground( Background background );
-
         public abstract string TableRowHoverCursor();
 
         public abstract string TableRowIsSelected();
@@ -810,8 +802,6 @@ namespace Blazorise
         public abstract string TableRowCell();
 
         public abstract string TableRowCellColor( Color color );
-
-        public abstract string TableRowCellBackground( Background background );
 
         public abstract string TableResponsive();
 
@@ -1053,9 +1043,9 @@ namespace Blazorise
             };
         }
 
-        public virtual string ToBackground( Background color )
+        public virtual string ToBackground( Background background )
         {
-            return color switch
+            return background switch
             {
                 Blazorise.Background.Primary => "primary",
                 Blazorise.Background.Secondary => "secondary",

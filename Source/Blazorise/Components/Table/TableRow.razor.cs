@@ -16,8 +16,6 @@ namespace Blazorise
 
         private Color color = Color.None;
 
-        private Background background = Background.None;
-
         private bool selected;
 
         private Cursor hoverCursor;
@@ -31,7 +29,6 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.TableRow() );
             builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.TableRowBackground( Background ), Background != Background.None );
             builder.Append( ClassProvider.TableRowIsSelected(), Selected );
             builder.Append( ClassProvider.TableRowHoverCursor(), HoverCursor != Cursor.Default );
 
@@ -68,21 +65,6 @@ namespace Blazorise
             set
             {
                 color = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the row background color.
-        /// </summary>
-        [Parameter]
-        public Background Background
-        {
-            get => background;
-            set
-            {
-                background = value;
 
                 DirtyClasses();
             }

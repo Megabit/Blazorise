@@ -16,8 +16,6 @@ namespace Blazorise
 
         private Color color = Color.None;
 
-        private Background background = Background.None;
-
         #endregion
 
         #region Methods
@@ -27,7 +25,6 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.TableRowCell() );
             builder.Append( ClassProvider.TableRowCellColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.TableRowCellBackground( Background ), Background != Background.None );
 
             base.BuildClasses( builder );
         }
@@ -56,21 +53,6 @@ namespace Blazorise
             set
             {
                 color = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the cell background color.
-        /// </summary>
-        [Parameter]
-        public Background Background
-        {
-            get => background;
-            set
-            {
-                background = value;
 
                 DirtyClasses();
             }

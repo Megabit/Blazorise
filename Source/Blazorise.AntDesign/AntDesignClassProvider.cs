@@ -511,8 +511,6 @@ namespace Blazorise.AntDesign
 
         public override string CardWhiteText() => "ant-text-white";
 
-        public override string CardBackground( Background background ) => BackgroundColor( background );
-
         public override string CardActions() => "ant-card-actions";
 
         public override string CardBody() => "ant-card-body";
@@ -562,8 +560,6 @@ namespace Blazorise.AntDesign
         #region Bar
 
         public override string Bar() => "ant-menu ant-menu-root";
-
-        public override string BarBackground( Background background ) => BackgroundColor( background );
 
         public override string BarAlignment( Alignment alignment ) => $"ant-menu-{ToAlignment( alignment )}";
 
@@ -781,8 +777,6 @@ namespace Blazorise.AntDesign
 
         public override string ProgressBarSize( Size size ) => null;
 
-        public override string ProgressBarColor( Background background ) => BackgroundColor( background );
-
         public override string ProgressBarStriped() => "progress-bar-striped";
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
@@ -799,7 +793,7 @@ namespace Blazorise.AntDesign
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"bg-{ToBackground( color )}";
+        public override string BackgroundColor( Background background ) => $"bg-{ToBackground( background )}";
 
         #endregion
 
@@ -841,8 +835,6 @@ namespace Blazorise.AntDesign
 
         public override string TableRowColor( Color color ) => $"ant-table-{ToColor( color )}";
 
-        public override string TableRowBackground( Background background ) => BackgroundColor( background );
-
         public override string TableRowHoverCursor() => "ant-table-row-selectable";
 
         public override string TableRowIsSelected() => "selected";
@@ -852,8 +844,6 @@ namespace Blazorise.AntDesign
         public override string TableRowCell() => "ant-table-cell";
 
         public override string TableRowCellColor( Color color ) => $"ant-table-{ToColor( color )}";
-
-        public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
 
         public override string TableResponsive() => "ant-table-responsive";
 

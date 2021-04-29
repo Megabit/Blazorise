@@ -514,8 +514,6 @@ namespace Blazorise.Bulma
 
         public override string CardWhiteText() => "has-text-white";
 
-        public override string CardBackground( Background background ) => BackgroundColor( background );
-
         public override string CardActions() => "card-actions";
 
         public override string CardBody() => "card-content";
@@ -565,8 +563,6 @@ namespace Blazorise.Bulma
         #region Bar
 
         public override string Bar() => "navbar";
-
-        public override string BarBackground( Background background ) => BackgroundColor( background );
 
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 
@@ -786,8 +782,6 @@ namespace Blazorise.Bulma
 
         public override string ProgressBarSize( Size size ) => null;
 
-        public override string ProgressBarColor( Background background ) => BackgroundColor( background );
-
         public override string ProgressBarStriped() => "progress-bar-striped";
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
@@ -804,7 +798,7 @@ namespace Blazorise.Bulma
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"has-background-{ToBackground( color )}";
+        public override string BackgroundColor( Background background ) => $"has-background-{ToBackground( background )}";
 
         #endregion
 
@@ -846,8 +840,6 @@ namespace Blazorise.Bulma
 
         public override string TableRowColor( Color color ) => $"has-background-{ToColor( color )}";
 
-        public override string TableRowBackground( Background background ) => BackgroundColor( background );
-
         public override string TableRowHoverCursor() => "table-row-selectable";
 
         public override string TableRowIsSelected() => "is-selected";
@@ -857,8 +849,6 @@ namespace Blazorise.Bulma
         public override string TableRowCell() => null;
 
         public override string TableRowCellColor( Color color ) => $"has-background-{ToColor( color )}";
-
-        public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
 
         public override string TableResponsive() => "table-container";
 
@@ -1191,9 +1181,9 @@ namespace Blazorise.Bulma
             }
         }
 
-        public override string ToBackground( Background color )
+        public override string ToBackground( Background background )
         {
-            switch ( color )
+            switch ( background )
             {
                 case Blazorise.Background.Primary:
                     return "primary";
