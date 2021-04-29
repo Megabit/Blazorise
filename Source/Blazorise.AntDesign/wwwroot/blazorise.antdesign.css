@@ -5133,3 +5133,7 @@
 
 .ant-vertical-align-text-top {
     vertical-align: text-top !important; }
+
+.ant-image-img-fluid {
+    width: 100%;
+    height: auto; }

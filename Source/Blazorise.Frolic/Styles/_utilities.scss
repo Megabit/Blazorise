@@ -471,3 +471,8 @@ $dimensions: 16 24 32 48 64 96 128 256 512 !default
         padding-left: 0;
     }
 }
+
+.e-image-fluid {
+    width: 100%;
+    height: auto;
+}
