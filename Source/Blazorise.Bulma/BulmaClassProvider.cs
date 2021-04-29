@@ -1141,6 +1141,18 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Shadow
+
+        public override string Shadow( Shadow shadow )
+        {
+            if ( shadow == Blazorise.Shadow.Default )
+                return "has-shadow";
+
+            return $"has-shadow-{ToShadow( shadow )}";
+        }
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )
@@ -1375,6 +1387,17 @@ namespace Blazorise.Bulma
                 Blazorise.FlexAlignContent.Between => "space-between",
                 Blazorise.FlexAlignContent.Around => "space-around",
                 Blazorise.FlexAlignContent.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public override string ToShadow( Shadow shadow )
+        {
+            return shadow switch
+            {
+                Blazorise.Shadow.Remove => "none",
+                Blazorise.Shadow.Small => "small",
+                Blazorise.Shadow.Large => "large",
                 _ => null,
             };
         }

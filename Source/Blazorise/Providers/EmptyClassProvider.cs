@@ -991,6 +991,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Shadow
+
+        public string Shadow( Shadow shadow ) => null;
+
+        #endregion
+
         #region Custom
 
         public string Casing( CharacterCasing characterCasing ) => null;
@@ -1080,6 +1086,8 @@ namespace Blazorise.Providers
         public string ToSizingSize( SizingSize sizingSize ) => null;
 
         public string ToVerticalAlignment( VerticalAlignment verticalAlignment ) => null;
+
+        public string ToShadow( Shadow shadow ) => null;
 
         #endregion
 

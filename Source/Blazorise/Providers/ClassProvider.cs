@@ -992,6 +992,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Shadow
+
+        public abstract string Shadow( Shadow shadow );
+
+        #endregion
+
         #region Custom
 
         public virtual string Casing( CharacterCasing characterCasing ) => $"b-character-casing-{ToCharacterCasing( characterCasing )}";
@@ -1604,6 +1610,17 @@ namespace Blazorise
                 Blazorise.VerticalAlignment.Bottom => "bottom",
                 Blazorise.VerticalAlignment.TextTop => "text-top",
                 Blazorise.VerticalAlignment.TextBottom => "text-bottom",
+                _ => null,
+            };
+        }
+
+        public virtual string ToShadow( Shadow shadow )
+        {
+            return shadow switch
+            {
+                Blazorise.Shadow.Remove => "none",
+                Blazorise.Shadow.Small => "sm",
+                Blazorise.Shadow.Large => "lg",
                 _ => null,
             };
         }

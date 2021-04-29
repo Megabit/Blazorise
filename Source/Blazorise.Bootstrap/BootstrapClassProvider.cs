@@ -1111,6 +1111,18 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Shadow
+
+        public override string Shadow( Shadow shadow )
+        {
+            if ( shadow == Blazorise.Shadow.Default )
+                return "shadow";
+
+            return $"shadow-{ToShadow( shadow )}";
+        }
+
+        #endregion
+
         public override bool UseCustomInputStyles { get; set; } = true;
 
         public override string Provider => "Bootstrap";
