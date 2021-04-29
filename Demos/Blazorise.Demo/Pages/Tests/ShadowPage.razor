@@ -1,0 +1,29 @@
+﻿@page "/tests/utilities/shadows"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Shadows</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    Add or remove shadows to elements with box-shadow utilities.
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card>
+            <CardBody>
+                <Div Shadow="Shadow.Remove" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is5.FromBottom" Border="Border.Rounded">No shadow</Div>
+                <Div Shadow="Shadow.Small" Background="Background.White" Padding="Padding.Is3" Margin="Margin.Is5.FromBottom" Border="Border.Rounded">Small shadow</Div>
+                <Div Shadow="Shadow.Default" Background="Background.White" Padding="Padding.Is3" Margin="Margin.Is5.FromBottom" Border="Border.Rounded">Regular shadow</Div>
+                <Div Shadow="Shadow.Large" Background="Background.White" Padding="Padding.Is3" Margin="Margin.Is5.FromBottom" Border="Border.Rounded">Larger shadow</Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

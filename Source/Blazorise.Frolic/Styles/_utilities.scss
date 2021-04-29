@@ -476,3 +476,19 @@ $dimensions: 16 24 32 48 64 96 128 256 512 !default
     width: 100%;
     height: auto;
 }
+
+.e-shadow-sm {
+    box-shadow: $box-shadow-sm !important;
+}
+
+.e-shadow {
+    box-shadow: $box-shadow !important;
+}
+
+.e-shadow-lg {
+    box-shadow: $box-shadow-lg !important;
+}
+
+.e-shadow-none {
+    box-shadow: none !important;
+}

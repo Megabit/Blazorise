@@ -983,6 +983,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Shadow
+
+        string Shadow( Shadow shadow );
+
+        #endregion
+
         #region Custom
 
         string Casing( CharacterCasing characterCasing );
@@ -1077,6 +1083,8 @@ namespace Blazorise
         string ToSizingSize( SizingSize sizingSize );
 
         string ToVerticalAlignment( VerticalAlignment verticalAlignment );
+
+        string ToShadow( Shadow shadow );
 
         #endregion
 

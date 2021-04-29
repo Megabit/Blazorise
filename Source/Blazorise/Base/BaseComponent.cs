@@ -53,6 +53,8 @@ namespace Blazorise
 
         private Background background = Background.None;
 
+        private Shadow shadow = Shadow.None;
+
         #endregion
 
         #region Constructors
@@ -195,6 +197,9 @@ namespace Blazorise
 
             if ( Background != Background.None )
                 builder.Append( ClassProvider.BackgroundColor( Background ) );
+
+            if ( Shadow != Shadow.None )
+                builder.Append( ClassProvider.Shadow( Shadow ) );
         }
 
         /// <summary>
@@ -577,6 +582,21 @@ namespace Blazorise
             set
             {
                 background = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the component shadow box.
+        /// </summary>
+        [Parameter]
+        public Shadow Shadow
+        {
+            get => shadow;
+            set
+            {
+                shadow = value;
 
                 DirtyClasses();
             }

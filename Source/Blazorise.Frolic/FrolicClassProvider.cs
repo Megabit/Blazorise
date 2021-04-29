@@ -1155,6 +1155,18 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region Shadow
+
+        public override string Shadow( Shadow shadow )
+        {
+            if ( shadow == Blazorise.Shadow.Default )
+                return "e-shadow";
+
+            return $"e-shadow-{ToShadow( shadow )}";
+        }
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )

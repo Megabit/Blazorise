@@ -1129,6 +1129,18 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Shadow
+
+        public override string Shadow( Shadow shadow )
+        {
+            if ( shadow == Blazorise.Shadow.Default )
+                return "ant-shadow";
+
+            return $"ant-shadow-{ToShadow( shadow )}";
+        }
+
+        #endregion
+
         #region Enums
 
         public override string ToColumnWidth( ColumnWidth columnWidth )
