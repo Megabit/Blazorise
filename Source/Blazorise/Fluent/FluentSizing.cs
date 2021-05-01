@@ -297,6 +297,9 @@ namespace Blazorise
         #endregion
     }
 
+    /// <summary>
+    /// Set of width sizing rules to start the build process.
+    /// </summary>
     public static class Width
     {
         /// <summary>
@@ -330,6 +333,9 @@ namespace Blazorise
         public static IFluentSizing Max100 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is100 ).Max;
     }
 
+    /// <summary>
+    /// Set of height sizing rules to start the build process.
+    /// </summary>
     public static class Height
     {
         /// <summary>

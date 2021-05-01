@@ -1,9 +1,9 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeModalOptions : BasicOptions
+    /// <summary>
+    /// Defines the theme options for the <see cref="Modal"/> component.
+    /// </summary>
+    public record ThemeModalOptions : ThemeBasicOptions
     {
     }
 }

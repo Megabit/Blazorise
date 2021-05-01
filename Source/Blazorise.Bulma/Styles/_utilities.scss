@@ -372,3 +372,44 @@
 .is-visible {
     visibility: visible !important;
 }
+
+// Browser default
+.is-vertical-align-baseline {
+    vertical-align: baseline !important;
+}
+
+.is-vertical-align-top {
+    vertical-align: top !important;
+}
+
+.is-vertical-align-middle {
+    vertical-align: middle !important;
+}
+
+.is-vertical-align-bottom {
+    vertical-align: bottom !important;
+}
+
+.is-vertical-align-text-bottom {
+    vertical-align: text-bottom !important;
+}
+
+.is-vertical-align-text-top {
+    vertical-align: text-top !important;
+}
+
+.has-shadow-small {
+    box-shadow: $box-shadow-sm !important;
+}
+
+.has-shadow {
+    box-shadow: $box-shadow !important;
+}
+
+.has-shadow-large {
+    box-shadow: $box-shadow-lg !important;
+}
+
+.has-shadow-none {
+    box-shadow: none !important;
+}

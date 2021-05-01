@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Base;
@@ -40,6 +41,20 @@ namespace Blazorise
 
         private CharacterCasing characterCasing = CharacterCasing.Normal;
 
+        private TextColor textColor = TextColor.None;
+
+        private TextAlignment textAlignment = TextAlignment.None;
+
+        private TextTransform textTransform = TextTransform.None;
+
+        private TextWeight textWeight = TextWeight.None;
+
+        private VerticalAlignment verticalAlignment = VerticalAlignment.None;
+
+        private Background background = Background.None;
+
+        private Shadow shadow = Shadow.None;
+
         #endregion
 
         #region Constructors
@@ -56,6 +71,46 @@ namespace Blazorise
         #endregion
 
         #region Methods
+
+        /// <inheritdoc/>
+        public override Task SetParametersAsync( ParameterView parameters )
+        {
+            object heightAttribute = null;
+
+            // WORKAROUND for: https://github.com/dotnet/aspnetcore/issues/32252
+            // HTML native width/height attributes are recognized as Width/Height parameters
+            // and Blazor tries to convert them resulting in error. This workworund tries to fix it by removing
+            // width/height from parameter list and moving them to Attributes(as unmatched values).
+            //
+            // This behavior is really an edge-case and shouldn't affect performance too much.
+            // Only in some rare cases when width/height are used will the parameters be rebuilt.
+            if ( parameters.TryGetValue( "width", out object widthAttribute )
+                || parameters.TryGetValue( "height", out heightAttribute ) )
+            {
+                var paremetersDictionary = parameters.ToDictionary() as Dictionary<string, object>;
+
+                if ( Attributes == null )
+                    Attributes = new();
+
+                if ( widthAttribute != null && paremetersDictionary.ContainsKey( "width" ) )
+                {
+                    paremetersDictionary.Remove( "width" );
+
+                    Attributes.Add( "width", widthAttribute );
+                }
+
+                if ( heightAttribute != null && paremetersDictionary.ContainsKey( "height" ) )
+                {
+                    paremetersDictionary.Remove( "height" );
+
+                    Attributes.Add( "height", heightAttribute );
+                }
+
+                return base.SetParametersAsync( ParameterView.FromDictionary( paremetersDictionary ) );
+            }
+
+            return base.SetParametersAsync( parameters );
+        }
 
         /// <inheritdoc/>
         protected override void OnInitialized()
@@ -116,6 +171,9 @@ namespace Blazorise
             if ( Visibility != Visibility.None )
                 builder.Append( ClassProvider.Visibility( Visibility ) );
 
+            if ( VerticalAlignment != VerticalAlignment.None )
+                builder.Append( ClassProvider.VerticalAlignment( VerticalAlignment ) );
+
             if ( Width != null )
                 builder.Append( Width.Class( ClassProvider ) );
 
@@ -124,6 +182,24 @@ namespace Blazorise
 
             if ( Casing != CharacterCasing.Normal )
                 builder.Append( ClassProvider.Casing( Casing ) );
+
+            if ( TextColor != TextColor.None )
+                builder.Append( ClassProvider.TextColor( TextColor ) );
+
+            if ( TextAlignment != TextAlignment.None )
+                builder.Append( ClassProvider.TextAlignment( TextAlignment ) );
+
+            if ( TextTransform != TextTransform.None )
+                builder.Append( ClassProvider.TextTransform( TextTransform ) );
+
+            if ( TextWeight != TextWeight.None )
+                builder.Append( ClassProvider.TextWeight( TextWeight ) );
+
+            if ( Background != Background.None )
+                builder.Append( ClassProvider.BackgroundColor( Background ) );
+
+            if ( Shadow != Shadow.None )
+                builder.Append( ClassProvider.Shadow( Shadow ) );
         }
 
         /// <summary>
@@ -416,6 +492,111 @@ namespace Blazorise
             set
             {
                 characterCasing = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text color.
+        /// </summary>
+        [Parameter]
+        public TextColor TextColor
+        {
+            get => textColor;
+            set
+            {
+                textColor = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text alignment.
+        /// </summary>
+        [Parameter]
+        public TextAlignment TextAlignment
+        {
+            get => textAlignment;
+            set
+            {
+                textAlignment = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text transformation.
+        /// </summary>
+        [Parameter]
+        public TextTransform TextTransform
+        {
+            get => textTransform;
+            set
+            {
+                textTransform = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the text weight.
+        /// </summary>
+        [Parameter]
+        public TextWeight TextWeight
+        {
+            get => textWeight;
+            set
+            {
+                textWeight = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Changes the vertical alignment of inline, inline-block, inline-table, and table cell elements.
+        /// </summary>
+        [Parameter]
+        public VerticalAlignment VerticalAlignment
+        {
+            get => verticalAlignment;
+            set
+            {
+                verticalAlignment = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the component background color.
+        /// </summary>
+        [Parameter]
+        public Background Background
+        {
+            get => background;
+            set
+            {
+                background = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the component shadow box.
+        /// </summary>
+        [Parameter]
+        public Shadow Shadow
+        {
+            get => shadow;
+            set
+            {
+                shadow = value;
 
                 DirtyClasses();
             }

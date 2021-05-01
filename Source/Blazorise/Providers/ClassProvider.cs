@@ -299,6 +299,8 @@ namespace Blazorise
 
         public abstract string ButtonActive();
 
+        public abstract string ButtonDisabled();
+
         public abstract string ButtonLoading();
 
         #endregion
@@ -461,8 +463,6 @@ namespace Blazorise
 
         public abstract string CardWhiteText();
 
-        public abstract string CardBackground( Background background );
-
         public abstract string CardActions();
 
         public abstract string CardBody();
@@ -538,8 +538,6 @@ namespace Blazorise
         #region Bar
 
         public abstract string Bar();
-
-        public abstract string BarBackground( Background background );
 
         public abstract string BarAlignment( Alignment alignment );
 
@@ -630,6 +628,8 @@ namespace Blazorise
         #region Row
 
         public abstract string Row();
+
+        public abstract string RowNoGutters();
 
         #endregion
 
@@ -735,8 +735,6 @@ namespace Blazorise
 
         public abstract string ProgressBarSize( Size size );
 
-        public abstract string ProgressBarColor( Background background );
-
         public abstract string ProgressBarStriped();
 
         public abstract string ProgressBarAnimated();
@@ -753,7 +751,7 @@ namespace Blazorise
 
         #region Colors
 
-        public abstract string BackgroundColor( Background color );
+        public abstract string BackgroundColor( Background background );
 
         #endregion
 
@@ -787,8 +785,6 @@ namespace Blazorise
 
         public abstract string TableHeaderCell();
 
-        public abstract string TableHeaderCellTextAlignment( TextAlignment textAlignment );
-
         public abstract string TableFooter();
 
         public abstract string TableBody();
@@ -796,10 +792,6 @@ namespace Blazorise
         public abstract string TableRow();
 
         public abstract string TableRowColor( Color color );
-
-        public abstract string TableRowBackground( Background background );
-
-        public abstract string TableRowTextColor( TextColor textColor );
 
         public abstract string TableRowHoverCursor();
 
@@ -810,12 +802,6 @@ namespace Blazorise
         public abstract string TableRowCell();
 
         public abstract string TableRowCellColor( Color color );
-
-        public abstract string TableRowCellBackground( Background background );
-
-        public abstract string TableRowCellTextColor( TextColor textColor );
-
-        public abstract string TableRowCellTextAlignment( TextAlignment textAlignment );
 
         public abstract string TableResponsive();
 
@@ -892,6 +878,14 @@ namespace Blazorise
         public abstract string FigureImageRounded();
 
         public abstract string FigureCaption();
+
+        #endregion
+
+        #region Image
+
+        public abstract string Image();
+
+        public abstract string ImageFluid( bool fluid );
 
         #endregion
 
@@ -994,6 +988,18 @@ namespace Blazorise
 
         #endregion
 
+        #region VerticalAlignment
+
+        public abstract string VerticalAlignment( VerticalAlignment verticalAlignment );
+
+        #endregion
+
+        #region Shadow
+
+        public abstract string Shadow( Shadow shadow );
+
+        #endregion
+
         #region Custom
 
         public virtual string Casing( CharacterCasing characterCasing ) => $"b-character-casing-{ToCharacterCasing( characterCasing )}";
@@ -1045,9 +1051,9 @@ namespace Blazorise
             };
         }
 
-        public virtual string ToBackground( Background color )
+        public virtual string ToBackground( Background background )
         {
-            return color switch
+            return background switch
             {
                 Blazorise.Background.Primary => "primary",
                 Blazorise.Background.Secondary => "secondary",
@@ -1592,6 +1598,31 @@ namespace Blazorise
                 Blazorise.SizingSize.Is75 => "75",
                 Blazorise.SizingSize.Is100 => "100",
                 Blazorise.SizingSize.Auto => "auto",
+                _ => null,
+            };
+        }
+
+        public virtual string ToVerticalAlignment( VerticalAlignment verticalAlignment )
+        {
+            return verticalAlignment switch
+            {
+                Blazorise.VerticalAlignment.Baseline => "baseline",
+                Blazorise.VerticalAlignment.Top => "top",
+                Blazorise.VerticalAlignment.Middle => "middle",
+                Blazorise.VerticalAlignment.Bottom => "bottom",
+                Blazorise.VerticalAlignment.TextTop => "text-top",
+                Blazorise.VerticalAlignment.TextBottom => "text-bottom",
+                _ => null,
+            };
+        }
+
+        public virtual string ToShadow( Shadow shadow )
+        {
+            return shadow switch
+            {
+                Blazorise.Shadow.Remove => "none",
+                Blazorise.Shadow.Small => "sm",
+                Blazorise.Shadow.Large => "lg",
                 _ => null,
             };
         }

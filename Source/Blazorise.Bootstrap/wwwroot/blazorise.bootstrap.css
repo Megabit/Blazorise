@@ -370,6 +370,9 @@ select[readonly] {
     .form-control-xl + .b-numeric-handler-wrap > .b-numeric-handler.btn {
         font-size: 1.5rem; }
 
+.custom-file-label {
+    overflow: hidden; }
+
 .jumbotron.jumbotron-primary {
     background-color: #007bff;
     color: #fff; }

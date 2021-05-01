@@ -121,6 +121,11 @@ namespace Blazorise.Components
         [Parameter] public int? TabIndex { get; set; }
 
         /// <summary>
+        /// Add the disabled boolean attribute on an select to prevent user interactions and make it appear lighter.
+        /// </summary>
+        [Parameter] public bool Disabled { get; set; }
+
+        /// <summary>
         /// Captures all the custom attribute that are not part of Blazorise component.
         /// </summary>
         [Parameter( CaptureUnmatchedValues = true )]

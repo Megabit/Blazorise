@@ -16,8 +16,6 @@ namespace Blazorise
 
         private Alignment alignment = Alignment.None;
 
-        private Background background = Background.None;
-
         #endregion
 
         #region Methods
@@ -62,21 +60,6 @@ namespace Blazorise
             set
             {
                 alignment = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the pagination background color.
-        /// </summary>
-        [Parameter]
-        public Background Background
-        {
-            get => background;
-            set
-            {
-                background = value;
 
                 DirtyClasses();
             }

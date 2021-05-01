@@ -323,6 +323,8 @@ namespace Blazorise.AntDesign
 
         public override string ButtonActive() => "ant-btn-active";
 
+        public override string ButtonDisabled() => "ant-btn-disabled";
+
         public override string ButtonLoading() => "ant-btn-loading";
 
         #endregion
@@ -509,8 +511,6 @@ namespace Blazorise.AntDesign
 
         public override string CardWhiteText() => "ant-text-white";
 
-        public override string CardBackground( Background background ) => BackgroundColor( background );
-
         public override string CardActions() => "ant-card-actions";
 
         public override string CardBody() => "ant-card-body";
@@ -560,8 +560,6 @@ namespace Blazorise.AntDesign
         #region Bar
 
         public override string Bar() => "ant-menu ant-menu-root";
-
-        public override string BarBackground( Background background ) => BackgroundColor( background );
 
         public override string BarAlignment( Alignment alignment ) => $"ant-menu-{ToAlignment( alignment )}";
 
@@ -651,6 +649,8 @@ namespace Blazorise.AntDesign
         #region Row
 
         public override string Row() => "ant-row";
+
+        public override string RowNoGutters() => "ant-row-no-gutters";
 
         #endregion
 
@@ -777,8 +777,6 @@ namespace Blazorise.AntDesign
 
         public override string ProgressBarSize( Size size ) => null;
 
-        public override string ProgressBarColor( Background background ) => BackgroundColor( background );
-
         public override string ProgressBarStriped() => "progress-bar-striped";
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
@@ -795,7 +793,7 @@ namespace Blazorise.AntDesign
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"bg-{ToBackground( color )}";
+        public override string BackgroundColor( Background background ) => $"bg-{ToBackground( background )}";
 
         #endregion
 
@@ -829,8 +827,6 @@ namespace Blazorise.AntDesign
 
         public override string TableHeaderCell() => null;
 
-        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"ant-text-{ToTextAlignment( textAlignment )}";
-
         public override string TableFooter() => null;
 
         public override string TableBody() => "ant-table-tbody";
@@ -838,10 +834,6 @@ namespace Blazorise.AntDesign
         public override string TableRow() => "ant-table-row";
 
         public override string TableRowColor( Color color ) => $"ant-table-{ToColor( color )}";
-
-        public override string TableRowBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowTextColor( TextColor textColor ) => $"ant-text-{ToTextColor( textColor )}";
 
         public override string TableRowHoverCursor() => "ant-table-row-selectable";
 
@@ -852,12 +844,6 @@ namespace Blazorise.AntDesign
         public override string TableRowCell() => "ant-table-cell";
 
         public override string TableRowCellColor( Color color ) => $"ant-table-{ToColor( color )}";
-
-        public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowCellTextColor( TextColor textColor ) => $"ant-text-{ToTextColor( textColor )}";
-
-        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"ant-text-{ToTextAlignment( textAlignment )}";
 
         public override string TableResponsive() => "ant-table-responsive";
 
@@ -932,6 +918,14 @@ namespace Blazorise.AntDesign
         public override string FigureImageRounded() => "ant-figure-rounded";
 
         public override string FigureCaption() => "ant-figure-caption";
+
+        #endregion
+
+        #region Image
+
+        public override string Image() => "ant-image-img";
+
+        public override string ImageFluid( bool fluid ) => fluid ? "ant-image-img-fluid" : null;
 
         #endregion
 
@@ -1124,6 +1118,25 @@ namespace Blazorise.AntDesign
                 Blazorise.Visibility.Invisible => "ant-invisible",
                 _ => null,
             };
+        }
+
+        #endregion
+
+        #region VerticalAlignment
+
+        public override string VerticalAlignment( VerticalAlignment verticalAlignment )
+            => $"ant-vertical-align-{ToVerticalAlignment( verticalAlignment )}";
+
+        #endregion
+
+        #region Shadow
+
+        public override string Shadow( Shadow shadow )
+        {
+            if ( shadow == Blazorise.Shadow.Default )
+                return "ant-shadow";
+
+            return $"ant-shadow-{ToShadow( shadow )}";
         }
 
         #endregion

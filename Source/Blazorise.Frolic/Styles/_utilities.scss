@@ -435,3 +435,60 @@ $dimensions: 16 24 32 48 64 96 128 256 512 !default
 .e-invisible {
     visibility: hidden !important;
 }
+
+// Browser default
+.e-vertical-align-baseline {
+    vertical-align: baseline !important;
+}
+
+.e-vertical-align-top {
+    vertical-align: top !important;
+}
+
+.e-vertical-align-middle {
+    vertical-align: middle !important;
+}
+
+.e-vertical-align-bottom {
+    vertical-align: bottom !important;
+}
+
+.e-vertical-align-text-bottom {
+    vertical-align: text-bottom !important;
+}
+
+.e-vertical-align-text-top {
+    vertical-align: text-top !important;
+}
+
+.e-cols-no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+
+    > .e-col,
+    > [class*="e-col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+.e-image-fluid {
+    width: 100%;
+    height: auto;
+}
+
+.e-shadow-sm {
+    box-shadow: $box-shadow-sm !important;
+}
+
+.e-shadow {
+    box-shadow: $box-shadow !important;
+}
+
+.e-shadow-lg {
+    box-shadow: $box-shadow-lg !important;
+}
+
+.e-shadow-none {
+    box-shadow: none !important;
+}

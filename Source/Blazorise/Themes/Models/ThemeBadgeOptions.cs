@@ -1,9 +1,9 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeBadgeOptions : BasicOptions
+    /// <summary>
+    /// Defines the theme options for the <see cref="Badge"/> component.
+    /// </summary>
+    public record ThemeBadgeOptions : ThemeBasicOptions
     {
     }
 }

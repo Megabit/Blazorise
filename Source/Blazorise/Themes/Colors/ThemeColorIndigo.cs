@@ -4,8 +4,12 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
-    public class ThemeColorIndigo : ThemeColor
+    /// <summary>
+    /// Defines the Indigo color along with its color shades.
+    /// </summary>
+    public record ThemeColorIndigo : ThemeColor
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public ThemeColorShade _50 { get; } = new ThemeColorShade( "50", "_50", "#e8eaf6" );
         public ThemeColorShade _100 { get; } = new ThemeColorShade( "100", "_100", "#c5cae9" );
         public ThemeColorShade _200 { get; } = new ThemeColorShade( "200", "_200", "#9fa8da" );
@@ -20,7 +24,11 @@ namespace Blazorise
         public ThemeColorShade A200 { get; } = new ThemeColorShade( "A200", "A200", "#536dfe" );
         public ThemeColorShade A400 { get; } = new ThemeColorShade( "A400", "A400", "#3d5afe" );
         public ThemeColorShade A700 { get; } = new ThemeColorShade( "A700", "A700", "#304ffe" );
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
+        /// <summary>
+        /// A default <see cref="ThemeColorIndigo"/> constructor
+        /// </summary>
         public ThemeColorIndigo() : base( "indigo", "Indigo" )
         {
             Shades = new Dictionary<string, ThemeColorShade>()

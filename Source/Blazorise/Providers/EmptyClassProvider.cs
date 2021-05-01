@@ -299,6 +299,8 @@ namespace Blazorise.Providers
 
         public string ButtonActive() => null;
 
+        public string ButtonDisabled() => null;
+
         public string ButtonLoading() => null;
 
         #endregion
@@ -461,8 +463,6 @@ namespace Blazorise.Providers
 
         public string CardWhiteText() => null;
 
-        public string CardBackground( Background background ) => null;
-
         public string CardActions() => null;
 
         public string CardBody() => null;
@@ -540,8 +540,6 @@ namespace Blazorise.Providers
         #region Bar
 
         public string Bar() => null;
-
-        public string BarBackground( Background background ) => null;
 
         public string BarAlignment( Alignment alignment ) => null;
 
@@ -632,6 +630,8 @@ namespace Blazorise.Providers
         #region Row
 
         public string Row() => null;
+
+        public string RowNoGutters() => null;
 
         #endregion
 
@@ -735,8 +735,6 @@ namespace Blazorise.Providers
 
         public string ProgressBarSize( Size size ) => null;
 
-        public string ProgressBarColor( Background background ) => null;
-
         public string ProgressBarStriped() => null;
 
         public string ProgressBarAnimated() => null;
@@ -753,7 +751,7 @@ namespace Blazorise.Providers
 
         #region Colors
 
-        public string BackgroundColor( Background color ) => null;
+        public string BackgroundColor( Background background ) => null;
 
         #endregion
 
@@ -787,8 +785,6 @@ namespace Blazorise.Providers
 
         public string TableHeaderCell() => null;
 
-        public string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => null;
-
         public string TableFooter() => null;
 
         public string TableBody() => null;
@@ -796,10 +792,6 @@ namespace Blazorise.Providers
         public string TableRow() => null;
 
         public string TableRowColor( Color color ) => null;
-
-        public string TableRowBackground( Background background ) => null;
-
-        public string TableRowTextColor( TextColor textColor ) => null;
 
         public string TableRowHoverCursor() => null;
 
@@ -810,12 +802,6 @@ namespace Blazorise.Providers
         public string TableRowCell() => null;
 
         public string TableRowCellColor( Color color ) => null;
-
-        public string TableRowCellBackground( Background background ) => null;
-
-        public string TableRowCellTextColor( TextColor textColor ) => null;
-
-        public string TableRowCellTextAlignment( TextAlignment textAlignment ) => null;
 
         public string TableResponsive() => null;
 
@@ -892,6 +878,14 @@ namespace Blazorise.Providers
         public string FigureImageRounded() => null;
 
         public string FigureCaption() => null;
+
+        #endregion
+
+        #region Image
+
+        public string Image() => null;
+
+        public string ImageFluid( bool fluid ) => null;
 
         #endregion
 
@@ -993,6 +987,18 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region VerticalAlignment
+
+        public string VerticalAlignment( VerticalAlignment verticalAlignment ) => null;
+
+        #endregion
+
+        #region Shadow
+
+        public string Shadow( Shadow shadow ) => null;
+
+        #endregion
+
         #region Custom
 
         public string Casing( CharacterCasing characterCasing ) => null;
@@ -1007,7 +1013,7 @@ namespace Blazorise.Providers
 
         public string ToColor( Color color ) => null;
 
-        public string ToBackground( Background color ) => null;
+        public string ToBackground( Background background ) => null;
 
         public string ToTextColor( TextColor textColor ) => null;
 
@@ -1080,6 +1086,10 @@ namespace Blazorise.Providers
         public string ToSizingType( SizingType sizingType ) => null;
 
         public string ToSizingSize( SizingSize sizingSize ) => null;
+
+        public string ToVerticalAlignment( VerticalAlignment verticalAlignment ) => null;
+
+        public string ToShadow( Shadow shadow ) => null;
 
         #endregion
 

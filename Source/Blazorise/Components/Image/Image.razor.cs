@@ -15,6 +15,9 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
+            builder.Append( ClassProvider.Image() );
+            builder.Append( ClassProvider.ImageFluid( Fluid ) );
+
             base.BuildClasses( builder );
         }
 
@@ -31,6 +34,11 @@ namespace Blazorise
         /// Alternate text for an image.
         /// </summary>
         [Parameter] public string Text { get; set; }
+
+        /// <summary>
+        /// Forces an image to take up the whole width.
+        /// </summary>
+        [Parameter] public bool Fluid { get; set; }
 
         #endregion
     }

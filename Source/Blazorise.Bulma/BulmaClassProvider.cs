@@ -326,6 +326,8 @@ namespace Blazorise.Bulma
 
         public override string ButtonActive() => "is-active";
 
+        public override string ButtonDisabled() => "is-disabled";
+
         public override string ButtonLoading() => "is-loading";
 
         #endregion
@@ -512,8 +514,6 @@ namespace Blazorise.Bulma
 
         public override string CardWhiteText() => "has-text-white";
 
-        public override string CardBackground( Background background ) => BackgroundColor( background );
-
         public override string CardActions() => "card-actions";
 
         public override string CardBody() => "card-content";
@@ -563,8 +563,6 @@ namespace Blazorise.Bulma
         #region Bar
 
         public override string Bar() => "navbar";
-
-        public override string BarBackground( Background background ) => BackgroundColor( background );
 
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 
@@ -657,6 +655,8 @@ namespace Blazorise.Bulma
         #region Row
 
         public override string Row() => "columns";
+
+        public override string RowNoGutters() => "is-gapless";
 
         #endregion
 
@@ -782,8 +782,6 @@ namespace Blazorise.Bulma
 
         public override string ProgressBarSize( Size size ) => null;
 
-        public override string ProgressBarColor( Background background ) => BackgroundColor( background );
-
         public override string ProgressBarStriped() => "progress-bar-striped";
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
@@ -800,7 +798,7 @@ namespace Blazorise.Bulma
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"has-background-{ToBackground( color )}";
+        public override string BackgroundColor( Background background ) => $"has-background-{ToBackground( background )}";
 
         #endregion
 
@@ -834,8 +832,6 @@ namespace Blazorise.Bulma
 
         public override string TableHeaderCell() => null;
 
-        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"has-text-{ToTextAlignment( textAlignment )}";
-
         public override string TableFooter() => null;
 
         public override string TableBody() => null;
@@ -843,10 +839,6 @@ namespace Blazorise.Bulma
         public override string TableRow() => null;
 
         public override string TableRowColor( Color color ) => $"has-background-{ToColor( color )}";
-
-        public override string TableRowBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
 
         public override string TableRowHoverCursor() => "table-row-selectable";
 
@@ -857,12 +849,6 @@ namespace Blazorise.Bulma
         public override string TableRowCell() => null;
 
         public override string TableRowCellColor( Color color ) => $"has-background-{ToColor( color )}";
-
-        public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowCellTextColor( TextColor textColor ) => $"has-text-{ToTextColor( textColor )}";
-
-        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"has-text-{ToTextAlignment( textAlignment )}";
 
         public override string TableResponsive() => "table-container";
 
@@ -937,6 +923,14 @@ namespace Blazorise.Bulma
         public override string FigureImageRounded() => "is-rounded";
 
         public override string FigureCaption() => "figure-caption";
+
+        #endregion
+
+        #region Image
+
+        public override string Image() => null;
+
+        public override string ImageFluid( bool fluid ) => fluid ? "is-fullwidth" : null;
 
         #endregion
 
@@ -1140,6 +1134,25 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region VerticalAlignment
+
+        public override string VerticalAlignment( VerticalAlignment verticalAlignment )
+            => $"is-vertical-align-{ToVerticalAlignment( verticalAlignment )}";
+
+        #endregion
+
+        #region Shadow
+
+        public override string Shadow( Shadow shadow )
+        {
+            if ( shadow == Blazorise.Shadow.Default )
+                return "has-shadow";
+
+            return $"has-shadow-{ToShadow( shadow )}";
+        }
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )
@@ -1180,9 +1193,9 @@ namespace Blazorise.Bulma
             }
         }
 
-        public override string ToBackground( Background color )
+        public override string ToBackground( Background background )
         {
-            switch ( color )
+            switch ( background )
             {
                 case Blazorise.Background.Primary:
                     return "primary";
@@ -1374,6 +1387,17 @@ namespace Blazorise.Bulma
                 Blazorise.FlexAlignContent.Between => "space-between",
                 Blazorise.FlexAlignContent.Around => "space-around",
                 Blazorise.FlexAlignContent.Stretch => "stretch",
+                _ => null,
+            };
+        }
+
+        public override string ToShadow( Shadow shadow )
+        {
+            return shadow switch
+            {
+                Blazorise.Shadow.Remove => "none",
+                Blazorise.Shadow.Small => "small",
+                Blazorise.Shadow.Large => "large",
                 _ => null,
             };
         }

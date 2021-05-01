@@ -1,9 +1,9 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeTabsOptions : BasicOptions
+    /// <summary>
+    /// Defines the theme options for the <see cref="Tabs"/> component.
+    /// </summary>
+    public record ThemeTabsOptions : ThemeBasicOptions
     {
     }
 }

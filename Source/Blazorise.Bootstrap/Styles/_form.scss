@@ -232,3 +232,7 @@ select[readonly] {
         font-size: $input-font-size-xl;
     }
 }
+
+.custom-file-label {
+    overflow: hidden;
+}

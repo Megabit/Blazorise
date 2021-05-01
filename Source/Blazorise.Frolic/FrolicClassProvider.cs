@@ -331,6 +331,8 @@ namespace Blazorise.Frolic
 
         public override string ButtonActive() => "active";
 
+        public override string ButtonDisabled() => "disabled";
+
         public override string ButtonLoading() => "anime";
 
         #endregion
@@ -534,8 +536,6 @@ namespace Blazorise.Frolic
 
         public override string CardWhiteText() => "text-white";
 
-        public override string CardBackground( Background background ) => ToBackground( background );
-
         public override string CardActions() => "card-actions";
 
         public override string CardBody() => "card-body";
@@ -585,8 +585,6 @@ namespace Blazorise.Frolic
         #region Bar
 
         public override string Bar() => "e-nav";
-
-        public override string BarBackground( Background background ) => BackgroundColor( background );
 
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 
@@ -678,6 +676,8 @@ namespace Blazorise.Frolic
         #region Row
 
         public override string Row() => "e-cols";
+
+        public override string RowNoGutters() => "e-cols-no-gutters";
 
         #endregion
 
@@ -803,8 +803,6 @@ namespace Blazorise.Frolic
 
         public override string ProgressBarSize( Size size ) => $"e-progress-{ToSize( size )}";
 
-        public override string ProgressBarColor( Background background ) => ToBackground( background );
-
         public override string ProgressBarStriped() => "progress-bar-striped";
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
@@ -821,7 +819,7 @@ namespace Blazorise.Frolic
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"bg-{ToBackground( color )}";
+        public override string BackgroundColor( Background background ) => $"bg-{ToBackground( background )}";
 
         #endregion
 
@@ -855,8 +853,6 @@ namespace Blazorise.Frolic
 
         public override string TableHeaderCell() => null;
 
-        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
-
         public override string TableFooter() => null;
 
         public override string TableBody() => null;
@@ -864,10 +860,6 @@ namespace Blazorise.Frolic
         public override string TableRow() => "e-row";
 
         public override string TableRowColor( Color color ) => ToColor( color );
-
-        public override string TableRowBackground( Background background ) => ToBackground( background );
-
-        public override string TableRowTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
         public override string TableRowHoverCursor() => "table-row-selectable";
 
@@ -878,12 +870,6 @@ namespace Blazorise.Frolic
         public override string TableRowCell() => null;
 
         public override string TableRowCellColor( Color color ) => ToColor( color );
-
-        public override string TableRowCellBackground( Background background ) => ToBackground( background );
-
-        public override string TableRowCellTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
-
-        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
 
         public override string TableResponsive() => "e-table-responsive";
 
@@ -958,6 +944,14 @@ namespace Blazorise.Frolic
         public override string FigureImageRounded() => "e-rounded";
 
         public override string FigureCaption() => "e-figure-caption";
+
+        #endregion
+
+        #region Image
+
+        public override string Image() => null;
+
+        public override string ImageFluid( bool fluid ) => fluid ? "e-image-fluid" : null;
 
         #endregion
 
@@ -1154,6 +1148,25 @@ namespace Blazorise.Frolic
 
         #endregion
 
+        #region VerticalAlignment
+
+        public override string VerticalAlignment( VerticalAlignment verticalAlignment )
+            => $"e-vertical-align-{ToVerticalAlignment( verticalAlignment )}";
+
+        #endregion
+
+        #region Shadow
+
+        public override string Shadow( Shadow shadow )
+        {
+            if ( shadow == Blazorise.Shadow.Default )
+                return "e-shadow";
+
+            return $"e-shadow-{ToShadow( shadow )}";
+        }
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )
@@ -1202,9 +1215,9 @@ namespace Blazorise.Frolic
             }
         }
 
-        public override string ToBackground( Background color )
+        public override string ToBackground( Background background )
         {
-            switch ( color )
+            switch ( background )
             {
                 case Blazorise.Background.Primary:
                     return "primary";

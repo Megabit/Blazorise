@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -10,15 +11,7 @@ namespace Blazorise
     /// </summary>
     public abstract class BaseTypographyComponent : BaseComponent
     {
-        #region Members
-
-        private TextColor color = TextColor.None;
-
-        private TextAlignment alignment = TextAlignment.None;
-
-        private TextTransform textTransform = TextTransform.None;
-
-        private TextWeight textWeight = TextWeight.None;
+        #region Members       
 
         private bool italic = false;
 
@@ -29,10 +22,6 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.TextColor( Color ), Color != TextColor.None );
-            builder.Append( ClassProvider.TextAlignment( Alignment ), Alignment != TextAlignment.None );
-            builder.Append( ClassProvider.TextTransform( Transform ), Transform != TextTransform.None );
-            builder.Append( ClassProvider.TextWeight( Weight ), Weight != TextWeight.None );
             builder.Append( ClassProvider.TextItalic(), Italic );
 
             base.BuildClasses( builder );
@@ -45,61 +34,45 @@ namespace Blazorise
         /// <summary>
         /// Gets or sets the text color.
         /// </summary>
+        [Obsolete( "The Color parameter will be removed. Please use TextColor instead!", true )]
         [Parameter]
         public TextColor Color
         {
-            get => color;
-            set
-            {
-                color = value;
-
-                DirtyClasses();
-            }
+            get => TextColor;
+            set => TextColor = value;
         }
 
         /// <summary>
         /// Gets or sets the text alignment.
         /// </summary>
+        [Obsolete( "The Alignment parameter will be removed. Please use TextAlignment instead!", true )]
         [Parameter]
         public TextAlignment Alignment
         {
-            get => alignment;
-            set
-            {
-                alignment = value;
-
-                DirtyClasses();
-            }
+            get => TextAlignment;
+            set => TextAlignment = value;
         }
 
         /// <summary>
         /// Gets or sets the text transformation.
         /// </summary>
+        [Obsolete( "The Transform parameter will be removed. Please use TextTransform instead!", true )]
         [Parameter]
         public TextTransform Transform
         {
-            get => textTransform;
-            set
-            {
-                textTransform = value;
-
-                DirtyClasses();
-            }
+            get => TextTransform;
+            set => TextTransform = value;
         }
 
         /// <summary>
         /// Gets or sets the text weight.
         /// </summary>
+        [Obsolete( "The Weight parameter will be removed. Please use TextWeight instead!", true )]
         [Parameter]
         public TextWeight Weight
         {
-            get => textWeight;
-            set
-            {
-                textWeight = value;
-
-                DirtyClasses();
-            }
+            get => TextWeight;
+            set => TextWeight = value;
         }
 
         /// <summary>

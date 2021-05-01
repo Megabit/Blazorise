@@ -272,7 +272,7 @@ namespace Blazorise.Bootstrap
 
         public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
 
-        public override string ControlFile() => UseCustomInputStyles ? "custom-control custom-file" : "form-group";
+        public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
 
         public override string ControlText() => null;
 
@@ -319,6 +319,8 @@ namespace Blazorise.Bootstrap
         public override string ButtonBlock() => $"{Button()}-block";
 
         public override string ButtonActive() => "active";
+
+        public override string ButtonDisabled() => "disabled";
 
         public override string ButtonLoading() => null;
 
@@ -500,8 +502,6 @@ namespace Blazorise.Bootstrap
 
         public override string CardWhiteText() => "text-white";
 
-        public override string CardBackground( Background background ) => BackgroundColor( background );
-
         public override string CardActions() => "card-actions";
 
         public override string CardBody() => "card-body";
@@ -551,8 +551,6 @@ namespace Blazorise.Bootstrap
         #region Bar
 
         public override string Bar() => "navbar";
-
-        public override string BarBackground( Background background ) => BackgroundColor( background );
 
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 
@@ -640,6 +638,8 @@ namespace Blazorise.Bootstrap
         #region Row
 
         public override string Row() => "row";
+
+        public override string RowNoGutters() => "no-gutters";
 
         #endregion
 
@@ -762,8 +762,6 @@ namespace Blazorise.Bootstrap
 
         public override string ProgressBarSize( Size size ) => null;
 
-        public override string ProgressBarColor( Background background ) => BackgroundColor( background );
-
         public override string ProgressBarStriped() => "progress-bar-striped";
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
@@ -780,7 +778,7 @@ namespace Blazorise.Bootstrap
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"bg-{ToBackground( color )}";
+        public override string BackgroundColor( Background background ) => $"bg-{ToBackground( background )}";
 
         #endregion
 
@@ -814,8 +812,6 @@ namespace Blazorise.Bootstrap
 
         public override string TableHeaderCell() => null;
 
-        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
-
         public override string TableFooter() => null;
 
         public override string TableBody() => null;
@@ -823,10 +819,6 @@ namespace Blazorise.Bootstrap
         public override string TableRow() => null;
 
         public override string TableRowColor( Color color ) => $"table-{ToColor( color )}";
-
-        public override string TableRowBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
         public override string TableRowHoverCursor() => "table-row-selectable";
 
@@ -837,12 +829,6 @@ namespace Blazorise.Bootstrap
         public override string TableRowCell() => null;
 
         public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
-
-        public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowCellTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
-
-        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
 
         public override string TableResponsive() => "table-responsive";
 
@@ -917,6 +903,14 @@ namespace Blazorise.Bootstrap
         public override string FigureImageRounded() => "rounded";
 
         public override string FigureCaption() => "figure-caption";
+
+        #endregion
+
+        #region Image
+
+        public override string Image() => null;
+
+        public override string ImageFluid( bool fluid ) => fluid ? "img-fluid" : null;
 
         #endregion
 
@@ -1106,6 +1100,25 @@ namespace Blazorise.Bootstrap
                 Blazorise.Visibility.Invisible => "invisible",
                 _ => null,
             };
+        }
+
+        #endregion
+
+        #region VerticalAlignment
+
+        public override string VerticalAlignment( VerticalAlignment verticalAlignment )
+            => $"align-{ToVerticalAlignment( verticalAlignment )}";
+
+        #endregion
+
+        #region Shadow
+
+        public override string Shadow( Shadow shadow )
+        {
+            if ( shadow == Blazorise.Shadow.Default )
+                return "shadow";
+
+            return $"shadow-{ToShadow( shadow )}";
         }
 
         #endregion

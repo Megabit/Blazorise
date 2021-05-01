@@ -250,9 +250,19 @@ namespace Blazorise.DataGrid
         [Parameter] public TextAlignment TextAlignment { get; set; }
 
         /// <summary>
+        /// Defines the vertical alignment for display cell.
+        /// </summary>
+        [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
+
+        /// <summary>
         /// Defines the alignment for column header cell.
         /// </summary>
         [Parameter] public TextAlignment HeaderTextAlignment { get; set; }
+
+        /// <summary>
+        /// Defines the vertical alignment for column header cell.
+        /// </summary>
+        [Parameter] public VerticalAlignment HeaderVerticalAlignment { get; set; }
 
         /// <summary>
         /// Gets or sets whether users can edit cell values under this column.

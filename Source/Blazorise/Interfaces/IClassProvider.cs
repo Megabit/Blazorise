@@ -297,6 +297,8 @@ namespace Blazorise
 
         string ButtonActive();
 
+        string ButtonDisabled();
+
         string ButtonLoading();
 
         #endregion
@@ -459,8 +461,6 @@ namespace Blazorise
 
         string CardWhiteText();
 
-        string CardBackground( Background background );
-
         string CardActions();
 
         string CardBody();
@@ -536,8 +536,6 @@ namespace Blazorise
         #region Bar
 
         string Bar();
-
-        string BarBackground( Background background );
 
         string BarAlignment( Alignment alignment );
 
@@ -626,6 +624,8 @@ namespace Blazorise
         #region Row
 
         string Row();
+
+        string RowNoGutters();
 
         #endregion
 
@@ -727,8 +727,6 @@ namespace Blazorise
 
         string ProgressBarSize( Size size );
 
-        string ProgressBarColor( Background background );
-
         string ProgressBarStriped();
 
         string ProgressBarAnimated();
@@ -779,8 +777,6 @@ namespace Blazorise
 
         string TableHeaderCell();
 
-        string TableHeaderCellTextAlignment( TextAlignment textAlignment );
-
         string TableFooter();
 
         string TableBody();
@@ -788,10 +784,6 @@ namespace Blazorise
         string TableRow();
 
         string TableRowColor( Color color );
-
-        string TableRowBackground( Background background );
-
-        string TableRowTextColor( TextColor textColor );
 
         string TableRowHoverCursor();
 
@@ -802,12 +794,6 @@ namespace Blazorise
         string TableRowCell();
 
         string TableRowCellColor( Color color );
-
-        string TableRowCellBackground( Background background );
-
-        string TableRowCellTextColor( TextColor textColor );
-
-        string TableRowCellTextAlignment( TextAlignment textAlignment );
 
         string TableResponsive();
 
@@ -884,6 +870,14 @@ namespace Blazorise
         string FigureImageRounded();
 
         string FigureCaption();
+
+        #endregion
+
+        #region Image
+
+        string Image();
+
+        string ImageFluid( bool fluid );
 
         #endregion
 
@@ -985,6 +979,18 @@ namespace Blazorise
 
         #endregion
 
+        #region VerticalAlignment
+
+        string VerticalAlignment( VerticalAlignment verticalAlignment );
+
+        #endregion
+
+        #region Shadow
+
+        string Shadow( Shadow shadow );
+
+        #endregion
+
         #region Custom
 
         string Casing( CharacterCasing characterCasing );
@@ -1004,7 +1010,7 @@ namespace Blazorise
 
         string ToColor( Color color );
 
-        string ToBackground( Background color );
+        string ToBackground( Background background );
 
         string ToTextColor( TextColor textColor );
 
@@ -1077,6 +1083,10 @@ namespace Blazorise
         string ToSizingType( SizingType sizingType );
 
         string ToSizingSize( SizingSize sizingSize );
+
+        string ToVerticalAlignment( VerticalAlignment verticalAlignment );
+
+        string ToShadow( Shadow shadow );
 
         #endregion
 
