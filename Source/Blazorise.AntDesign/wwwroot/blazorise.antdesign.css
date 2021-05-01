@@ -1934,6 +1934,12 @@
 .ant-table-responsive > .ant-table-bordered {
     border: 0; }
 
+.b-table-container.b-table-container-fixed-header thead tr th {
+    z-index: 1; }
+
+.b-table-container.b-table-container-fixed-header .ant-table-content {
+    overflow-y: visible !important; }
+
 .ant-tabs.ant-tabs-fill .ant-tabs-tab {
     flex-grow: 1;
     margin-right: 0px;

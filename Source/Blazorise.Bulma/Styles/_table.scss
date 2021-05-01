@@ -11,3 +11,18 @@ tr.table-row-selectable {
         cursor: pointer;
     }
 }
+
+.b-table-container {
+    &.b-table-container-fixed-header {
+        table.is-bordered {
+            border: none;
+            border-collapse: separate;
+            border-spacing: 0;
+
+            th:first-child,
+            td:first-child {
+                border-left: none;
+            }
+        }
+    }
+}

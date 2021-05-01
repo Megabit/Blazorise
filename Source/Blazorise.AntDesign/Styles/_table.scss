@@ -86,3 +86,15 @@
 .ant-table-responsive > .ant-table-bordered {
     border: 0;
 }
+
+.b-table-container {
+    &.b-table-container-fixed-header {
+        thead tr th {
+            z-index:1;
+        }
+
+        .ant-table-content {
+            overflow-y: visible !important;
+        }
+    }
+}

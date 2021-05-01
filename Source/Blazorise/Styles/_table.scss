@@ -6,18 +6,11 @@
         thead tr th {
             position: sticky;
             top: 0;
-            background: #fff; // Should probably be synced somewhere else
+            background: inherit;
         }
 
-        table.table-bordered {
-            border: none;
-            border-collapse: separate;
-            border-spacing: 0;
-
-            th:first-child,
-            td:first-child {
-                border-left: none;
-            }
+        thead tr th.bg-white {
+            background: white;
         }
     }
 }

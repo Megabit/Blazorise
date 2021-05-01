@@ -1020,3 +1020,11 @@ table.table tbody tr.selected {
 
 tr.table-row-selectable:hover {
     cursor: pointer; }
+
+.b-table-container.b-table-container-fixed-header table.table-bordered {
+    border: none;
+    border-collapse: separate;
+    border-spacing: 0; }
+    .b-table-container.b-table-container-fixed-header table.table-bordered th:first-child,
+    .b-table-container.b-table-container-fixed-header table.table-bordered td:first-child {
+        border-left: none; }

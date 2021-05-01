@@ -5,3 +5,18 @@
 tr.table-row-selectable:hover {
     cursor: pointer;
 }
+
+.b-table-container {
+    &.b-table-container-fixed-header {
+        table.table-bordered {
+            border: none;
+            border-collapse: separate;
+            border-spacing: 0;
+
+            th:first-child,
+            td:first-child {
+                border-left: none;
+            }
+        }
+    }
+}

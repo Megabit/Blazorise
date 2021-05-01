@@ -33,3 +33,20 @@ tr.table-row-selectable:hover {
 .e-table-responsive > .bordered {
     border: 0;
 }
+
+
+.b-table-container {
+    &.b-table-container-fixed-header {
+        table.bordered {
+            border: none;
+            border-collapse: separate;
+            border-spacing: 0;
+
+            th:first-child,
+            td:first-child {
+                border-left: none;
+            }
+        }
+    }
+}
+

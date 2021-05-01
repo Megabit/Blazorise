@@ -215,14 +215,9 @@ hr.divider.divider-text {
     .b-table-container.b-table-container-fixed-header thead tr th {
         position: sticky;
         top: 0;
-        background: #fff; }
-    .b-table-container.b-table-container-fixed-header table.table-bordered {
-        border: none;
-        border-collapse: separate;
-        border-spacing: 0; }
-        .b-table-container.b-table-container-fixed-header table.table-bordered th:first-child,
-        .b-table-container.b-table-container-fixed-header table.table-bordered td:first-child {
-            border-left: none; }
+        background: inherit; }
+    .b-table-container.b-table-container-fixed-header thead tr th.bg-white {
+        background: white; }
 
 .b-bar-horizontal[data-collapse=hide] {
     flex-wrap: nowrap; }

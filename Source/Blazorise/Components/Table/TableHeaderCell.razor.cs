@@ -32,10 +32,41 @@ namespace Blazorise
             return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
         }
 
+        /// <inheritdoc/>
+        protected override Task OnParametersSetAsync()
+        {
+            SetFixedHeaderBackground();
+            return base.OnParametersSetAsync();
+        }
+
+        private void SetFixedHeaderBackground()
+        {
+            var bgWhiteClass = "bg-white";
+            if ( ParentTable.FixedHeader )
+            {
+                if ( ParentTable.Background == Background.None && ( !this.Class?.Contains( bgWhiteClass ) ?? true ))
+                { 
+                    Class += $" {bgWhiteClass}";
+                }
+                if ( ParentTable.Background != Background.None && this.Background == Background.None )
+                    this.Background = ParentTable.Background;
+            }
+            else
+            {
+                var ocorrence = this.Class?.IndexOf( bgWhiteClass ) ?? -1;
+                if ( ocorrence > 0 )
+                    _ = Class.Remove( ocorrence, bgWhiteClass.Length );
+            }
+        }
+
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets the Cascading Parent Table
+        /// </summary>
+        [CascadingParameter] public Table ParentTable { get; set; }
         /// <summary>
         /// Number of rows a cell should span.
         /// </summary>

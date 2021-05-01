@@ -4112,6 +4112,14 @@ table.is-borderless tr {
 tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
     cursor: pointer; }
 
+.b-table-container.b-table-container-fixed-header table.is-bordered {
+    border: none;
+    border-collapse: separate;
+    border-spacing: 0; }
+    .b-table-container.b-table-container-fixed-header table.is-bordered th:first-child,
+    .b-table-container.b-table-container-fixed-header table.is-bordered td:first-child {
+        border-left: none; }
+
 .tab-pane {
     display: none; }
     .tab-pane.is-active {

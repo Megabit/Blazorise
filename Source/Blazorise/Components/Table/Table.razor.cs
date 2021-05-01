@@ -69,7 +69,7 @@ namespace Blazorise
         /// Builds a list of classnames for the responsive or the fixed table container element if applicable.
         /// </summary>
         /// <param name="builder">Class builder used to append the classnames.</param>
-        private void BuildTableDivClasses( ClassBuilder builder )
+        protected virtual void BuildTableDivClasses( ClassBuilder builder )
         {
             builder.Append( "b-table-container" );
             BuildResponsiveClasses( builder );
@@ -80,7 +80,7 @@ namespace Blazorise
         /// Builds a list of classnames for the responsive or the fixed table container element if applicable.
         /// </summary>
         /// <param name="builder">Class builder used to append the classnames.</param>
-        private void BuildTableDivStyles( StyleBuilder builder )
+        protected virtual void BuildTableDivStyles( StyleBuilder builder )
         {
             BuildFixedHeaderStyles( builder );
         }
@@ -136,9 +136,13 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
-        /// Class builder used to build the classnames for responsive element.
+        /// Class builder used to build the classnames for responsive or fixed element.
         /// </summary>
         protected ClassBuilder TableDivClassBuilder { get; private set; }
+
+        /// <summary>
+        /// Style builder used to build the stylenames for responsive or fixed element.
+        /// </summary>
         protected StyleBuilder TableDivStyleBuilder { get; private set; }
 
         /// <summary>
