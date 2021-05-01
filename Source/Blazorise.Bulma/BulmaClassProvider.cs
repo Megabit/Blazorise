@@ -373,6 +373,8 @@ namespace Blazorise.Bulma
 
         public override string DropdownDivider() => "dropdown-divider";
 
+        public override string DropdownHeader() => "dropdown-header";
+
         public override string DropdownMenu() => "dropdown-menu";
 
         //public override string DropdownMenuBody() => "dropdown-content";

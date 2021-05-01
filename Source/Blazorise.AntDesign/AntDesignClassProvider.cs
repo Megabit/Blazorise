@@ -370,6 +370,8 @@ namespace Blazorise.AntDesign
 
         public override string DropdownDivider() => "ant-dropdown-menu-divider";
 
+        public override string DropdownHeader() => "ant-dropdown-menu-header";
+
         public override string DropdownMenu() => "ant-dropdown";
 
         //public override string DropdownMenuBody() => null;

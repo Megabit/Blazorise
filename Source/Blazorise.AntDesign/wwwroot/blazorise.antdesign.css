@@ -1184,6 +1184,14 @@
     animation-fill-mode: both;
     animation-name: fadeIn; }
 
+.ant-dropdown-menu-header {
+    display: block;
+    padding: 7px 12px;
+    margin-bottom: 0;
+    font-size: 12px;
+    color: #6c757d;
+    white-space: nowrap; }
+
 .ant-figure {
     display: inline-block;
     margin: 0 0 1rem; }

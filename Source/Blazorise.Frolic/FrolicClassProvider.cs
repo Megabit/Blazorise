@@ -378,6 +378,8 @@ namespace Blazorise.Frolic
 
         public override string DropdownDivider() => "dropdown-divider";
 
+        public override string DropdownHeader() => "drop-header";
+
         public override string DropdownMenu() => "drop-items";
 
         //public override string DropdownMenuBody() => null;
