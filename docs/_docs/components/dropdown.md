@@ -15,6 +15,7 @@ The dropdown component is a container for a dropdown button and a dropdown menu.
   - `DropdownMenu` the toggable menu, **hidden** by default
     - `DropdownItem` each **single** item of the dropdown menu
     - `DropdownDivider` a **horizontal line** to separate dropdown items
+    - `DropdownHeader` a label for a section of items
           
 
 ## Dropdown
