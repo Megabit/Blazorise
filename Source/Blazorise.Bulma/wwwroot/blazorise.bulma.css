@@ -3330,6 +3330,14 @@
     pointer-events: none;
     opacity: .65; }
 
+.dropdown-header {
+    display: block;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0;
+    font-size: 0.75rem;
+    color: #b5b5b5;
+    white-space: nowrap; }
+
 label.radio.button {
     display: flex; }
 
