@@ -146,3 +146,10 @@ $sizes: map-merge( ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, auto: auto ), $sizes 
 $box-shadow-sm: 0 .125rem .25rem rgba($black, .075) !default;
 $box-shadow: 0 .5rem 1rem rgba($black, .15) !default;
 $box-shadow-lg: 0 1rem 3rem rgba($black, .175) !default;
+
+$dropdown-padding-y: .5rem !default;
+$dropdown-item-padding-y: .375rem !default;
+$dropdown-item-padding-x: 1rem !default;
+
+$dropdown-header-color: $grey-light !default;
+$dropdown-header-padding: $dropdown-padding-y $dropdown-item-padding-x !default;

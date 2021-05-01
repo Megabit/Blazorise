@@ -2087,6 +2087,14 @@
 .accordion > .e-card .e-card-body {
     margin-bottom: 1px; }
 
+.drop-header {
+    display: block;
+    padding: 7px 12px;
+    margin-bottom: 0;
+    font-size: 12px;
+    color: #b5b5b5;
+    white-space: nowrap; }
+
 .e-figure {
     display: inline-block; }
 

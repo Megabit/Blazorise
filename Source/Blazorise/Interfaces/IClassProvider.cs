@@ -335,6 +335,8 @@ namespace Blazorise
 
         string DropdownDivider();
 
+        string DropdownHeader();
+
         string DropdownMenu();
 
         //string DropdownMenuBody();
