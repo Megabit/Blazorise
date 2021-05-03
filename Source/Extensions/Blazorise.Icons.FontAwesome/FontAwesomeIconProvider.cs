@@ -335,11 +335,27 @@ namespace Blazorise.Icons.FontAwesome
 
         #endregion
 
-        #region Constructors
-
-        #endregion
-
         #region Methods
+
+        public override string IconSize( IconSize iconSize )
+        {
+            return iconSize switch
+            {
+                Blazorise.IconSize.ExtraSmall => "fa-xs",
+                Blazorise.IconSize.Small => "fa-sm",
+                Blazorise.IconSize.Large => "fa-lg",
+                Blazorise.IconSize.x2 => "fa-2x",
+                Blazorise.IconSize.x3 => "fa-3x",
+                Blazorise.IconSize.x4 => "fa-4x",
+                Blazorise.IconSize.x5 => "fa-5x",
+                Blazorise.IconSize.x6 => "fa-6x",
+                Blazorise.IconSize.x7 => "fa-7x",
+                Blazorise.IconSize.x8 => "fa-8x",
+                Blazorise.IconSize.x9 => "fa-9x",
+                Blazorise.IconSize.x10 => "fa-10x",
+                _ => null,
+            };
+        }
 
         public override string GetIconName( IconName iconName, IconStyle iconStyle )
         {
