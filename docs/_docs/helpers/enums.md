@@ -235,6 +235,24 @@ Defines the breadcrumb activation mode.
 - `Light`
 - `DuoTone`
 
+## IconSize
+
+Defines the size of an Icon element.
+
+- `None` The icon size will not be applied.
+- `ExtraSmall` The icon will be size 0.75em.
+- `Small` The icon will be size 0.875em.
+- `Large` The icon will be size 1.33em (Also applies vertical-align: -25%).
+- `x2` The icon will be size 2em.
+- `x3` The icon will be size 3em.
+- `x4` The icon will be size 4em.
+- `x5` The icon will be size 5em.
+- `x6` The icon will be size 6em.
+- `x7` The icon will be size 7em.
+- `x8` The icon will be size 8em.
+- `x9` The icon will be size 9em.
+- `x10` The icon will be size 10em.
+
 ## SnackbarLocation
 
 - `None` Default behavior.
