@@ -341,11 +341,27 @@ namespace Blazorise.Icons.Material
 
         #endregion
 
-        #region Constructors
-
-        #endregion
-
         #region Methods
+
+        public override string IconSize( IconSize iconSize )
+        {
+            return iconSize switch
+            {
+                Blazorise.IconSize.ExtraSmall => "md-xs",
+                Blazorise.IconSize.Small => "md-sm",
+                Blazorise.IconSize.Large => "md-lg",
+                Blazorise.IconSize.x2 => "md-2x",
+                Blazorise.IconSize.x3 => "md-3x",
+                Blazorise.IconSize.x4 => "md-4x",
+                Blazorise.IconSize.x5 => "md-5x",
+                Blazorise.IconSize.x6 => "md-6x",
+                Blazorise.IconSize.x7 => "md-7x",
+                Blazorise.IconSize.x8 => "md-8x",
+                Blazorise.IconSize.x9 => "md-9x",
+                Blazorise.IconSize.x10 => "md-10x",
+                _ => null,
+            };
+        }
 
         public override string GetIconName( IconName iconName, IconStyle iconStyle )
         {

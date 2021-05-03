@@ -43,6 +43,9 @@ namespace Blazorise.Providers
         }
 
         /// <inheritdoc/>
+        public abstract string IconSize( IconSize iconSize );
+
+        /// <inheritdoc/>
         public abstract string GetIconName( IconName name, IconStyle style );
 
         /// <inheritdoc/>
