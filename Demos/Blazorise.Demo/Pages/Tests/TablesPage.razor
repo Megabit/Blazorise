@@ -1,5 +1,49 @@
 ﻿@page "/tests/tables"
 <Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Responsive</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use <code>Responsive</code> for horizontally scrolling tables.</CardText>
+            </CardBody>
+            <CardBody>
+                <Table FixedHeader Striped FixedHeaderTableHeight="300px">
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderCell>#</TableHeaderCell>
+                            <TableHeaderCell>Column heading</TableHeaderCell>
+                            <TableHeaderCell>Column heading</TableHeaderCell>
+                            <TableHeaderCell>Column heading</TableHeaderCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableHeaderCell>#2</TableHeaderCell>
+                            <TableHeaderCell>Column heading2</TableHeaderCell>
+                            <TableHeaderCell>Column heading2</TableHeaderCell>
+                            <TableHeaderCell>Column heading2</TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        @for ( int i = 0; i < 10; ++i )
+                        {
+                            var index = i.ToString();
+
+                            <TableRow @key="@index">
+                                <TableRowHeader>@index</TableRowHeader>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                            </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
     <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
