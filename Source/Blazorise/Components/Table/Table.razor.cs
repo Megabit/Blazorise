@@ -77,7 +77,7 @@ namespace Blazorise
         /// <param name="builder">Style builder used to append the classnames.</param>
         protected virtual void BuildContainerStyles( StyleBuilder builder )
         {
-            if ( !string.IsNullOrEmpty( FixedHeaderTableHeight ) )
+            if ( FixedHeader && !string.IsNullOrEmpty( FixedHeaderTableHeight ) )
             {
                 builder.Append( $"height: {FixedHeaderTableHeight};" );
             }
