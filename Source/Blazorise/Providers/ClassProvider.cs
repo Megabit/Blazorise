@@ -807,6 +807,8 @@ namespace Blazorise
 
         public abstract string TableResponsive();
 
+        public abstract string TableFixedHeader();
+
         #endregion
 
         #region Badge

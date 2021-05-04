@@ -854,6 +854,8 @@ namespace Blazorise.Bulma
 
         public override string TableResponsive() => "table-container";
 
+        public override string TableFixedHeader() => "table-container-fixed-header";
+
         #endregion
 
         #region Badge

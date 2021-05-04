@@ -799,6 +799,8 @@ namespace Blazorise
 
         string TableResponsive();
 
+        string TableFixedHeader();
+
         #endregion
 
         #region Badge

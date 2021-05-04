@@ -26,6 +26,10 @@ namespace Blazorise
 
         private bool responsive;
 
+        private bool fixedHeader;
+
+        private string fixedHeaderTableHeight = "300px";
+
         #endregion
 
         #region Constructors
@@ -35,7 +39,8 @@ namespace Blazorise
         /// </summary>
         public Table()
         {
-            ResponsiveClassBuilder = new ClassBuilder( BuildResponsiveClasses );
+            ContainerClassBuilder = new ClassBuilder( BuildContainerClasses );
+            ContainerStyleBuilder = new StyleBuilder( BuildContainerStyles );
         }
 
         #endregion
@@ -60,9 +65,30 @@ namespace Blazorise
         /// Builds a list of classnames for the responsive container element.
         /// </summary>
         /// <param name="builder">Class builder used to append the classnames.</param>
-        private void BuildResponsiveClasses( ClassBuilder builder )
+        protected virtual void BuildContainerClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.TableResponsive() );
+            builder.Append( ClassProvider.TableResponsive(), Responsive );
+            builder.Append( ClassProvider.TableFixedHeader(), FixedHeader );
+        }
+
+        /// <summary>
+        /// Builds a list of styles for the responsive container element.
+        /// </summary>
+        /// <param name="builder">Style builder used to append the classnames.</param>
+        protected virtual void BuildContainerStyles( StyleBuilder builder )
+        {
+            if ( !string.IsNullOrEmpty( FixedHeaderTableHeight ) )
+            {
+                builder.Append( $"height: {FixedHeaderTableHeight};" );
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override void DirtyStyles()
+        {
+            ContainerStyleBuilder.Dirty();
+
+            base.DirtyStyles();
         }
 
         #endregion
@@ -72,12 +98,27 @@ namespace Blazorise
         /// <summary>
         /// Class builder used to build the classnames for responsive element.
         /// </summary>
-        protected ClassBuilder ResponsiveClassBuilder { get; private set; }
+        protected ClassBuilder ContainerClassBuilder { get; private set; }
 
         /// <summary>
         /// Gets the classname for a responsive element.
         /// </summary>
-        protected string ResponsiveClassNames => ResponsiveClassBuilder.Class;
+        protected string ContainerClassNames => ContainerClassBuilder.Class;
+
+        /// <summary>
+        /// Style builder used to build the stylenames for responsive or fixed element.
+        /// </summary>
+        protected StyleBuilder ContainerStyleBuilder { get; private set; }
+
+        /// <summary>
+        /// Gets the styles for a responsive element.
+        /// </summary>
+        protected string ContainerStyleNames => ContainerStyleBuilder.Styles;
+
+        /// <summary>
+        /// True if table needs to be placed inside of container element.
+        /// </summary>
+        protected bool HasContainer => Responsive || FixedHeader;
 
         /// <summary>
         /// Makes the table to fill entire horizontal space.
@@ -181,6 +222,37 @@ namespace Blazorise
                 responsive = value;
 
                 DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        ///  Makes table have a fixed header and enabling a scrollbar in the table body.
+        /// </summary>
+        [Parameter]
+        public bool FixedHeader
+        {
+            get => fixedHeader;
+            set
+            {
+                fixedHeader = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Sets table fixed header feature table max height (defaults to 300px).
+        /// </summary>
+        [Parameter]
+        public string FixedHeaderTableHeight
+        {
+            get => fixedHeaderTableHeight;
+            set
+            {
+                fixedHeaderTableHeight = value;
+
+                DirtyClasses();
+                DirtyStyles();
             }
         }
 
