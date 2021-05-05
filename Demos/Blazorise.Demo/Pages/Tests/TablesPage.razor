@@ -1,49 +1,5 @@
 ﻿@page "/tests/tables"
 <Row>
-    <Column>
-        <Card Margin="Margin.Is4.FromBottom">
-            <CardHeader>
-                <CardTitle>Responsive</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <CardText>Use <code>Responsive</code> for horizontally scrolling tables.</CardText>
-            </CardBody>
-            <CardBody>
-                <Table FixedHeader Striped FixedHeaderTableHeight="300px">
-                    <TableHeader>
-                        <TableRow>
-                            <TableHeaderCell>#</TableHeaderCell>
-                            <TableHeaderCell>Column heading</TableHeaderCell>
-                            <TableHeaderCell>Column heading</TableHeaderCell>
-                            <TableHeaderCell>Column heading</TableHeaderCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableHeaderCell>#2</TableHeaderCell>
-                            <TableHeaderCell>Column heading2</TableHeaderCell>
-                            <TableHeaderCell>Column heading2</TableHeaderCell>
-                            <TableHeaderCell>Column heading2</TableHeaderCell>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        @for ( int i = 0; i < 10; ++i )
-                        {
-                            var index = i.ToString();
-
-                            <TableRow @key="@index">
-                                <TableRowHeader>@index</TableRowHeader>
-                                <TableRowCell>Column content</TableRowCell>
-                                <TableRowCell>Column content</TableRowCell>
-                                <TableRowCell>Column content</TableRowCell>
-                            </TableRow>
-                        }
-                    </TableBody>
-                </Table>
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
-
-<Row>
     <Column ColumnSize="ColumnSize.IsFull.OnDesktop.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
@@ -633,6 +589,68 @@
                         </TableRow>
                     </TableBody>
                 </Table>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Dynamic Settings</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Select different settings to see the result.</CardText>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column><Switch @bind-Checked="@fixedHeader">Fixed header</Switch></Column>
+                    <Column><Switch @bind-Checked="@stripped">Stripped</Switch></Column>
+                    <Column><Switch @bind-Checked="@bordered">Bordered</Switch></Column>
+                    <Column><Switch @bind-Checked="@borderless">Borderless</Switch></Column>
+                    <Column><Switch @bind-Checked="@hoverable">Hoverable</Switch></Column>
+                    <Column><Switch @bind-Checked="@small">Narrow rows</Switch></Column>
+                </Row>
+            </CardBody>
+            <CardBody>
+                <Table FixedHeader="@fixedHeader" Striped="@stripped" Bordered="@bordered" Borderless="@borderless" Hoverable="@hoverable" Narrow="@small" FixedHeaderTableHeight="300px">
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderCell>#</TableHeaderCell>
+                            <TableHeaderCell>Column heading</TableHeaderCell>
+                            <TableHeaderCell>Column heading</TableHeaderCell>
+                            <TableHeaderCell>Column heading</TableHeaderCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableHeaderCell>#2</TableHeaderCell>
+                            <TableHeaderCell>Column heading2</TableHeaderCell>
+                            <TableHeaderCell>Column heading2</TableHeaderCell>
+                            <TableHeaderCell>Column heading2</TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        @for ( int i = 0; i < 10; ++i )
+                        {
+                            var index = i.ToString();
+
+                            <TableRow @key="@index">
+                                <TableRowHeader>@index</TableRowHeader>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                            </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+                @code{
+                    bool fixedHeader = true;
+                    bool stripped;
+                    bool bordered;
+                    bool borderless;
+                    bool hoverable;
+                    bool small;
+                }
             </CardBody>
         </Card>
     </Column>
