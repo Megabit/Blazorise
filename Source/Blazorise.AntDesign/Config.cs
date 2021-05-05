@@ -77,6 +77,8 @@ namespace Blazorise.AntDesign
             serviceCollection.AddTransient<Blazorise.TabPanel, AntDesign.TabPanel>();
             serviceCollection.AddTransient<Blazorise.TabsContent, AntDesign.TabsContent>();
             serviceCollection.AddTransient<Blazorise.Table, AntDesign.Table>();
+            serviceCollection.AddTransient<Blazorise.TableHeader, AntDesign.TableHeader>();
+            serviceCollection.AddTransient<Blazorise.TableBody, AntDesign.TableBody>();
             serviceCollection.AddTransient<Blazorise.TableRowHeader, AntDesign.TableRowHeader>();
             serviceCollection.AddTransient<Blazorise.TextEdit, AntDesign.TextEdit>();
             serviceCollection.AddTransient<Blazorise.Step, AntDesign.Step>();
