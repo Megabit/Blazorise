@@ -958,6 +958,8 @@ tr.table-row-selectable:hover {
         top: 0; }
     .table-fixed-header thead tr:nth-child(2) th {
         top: 56px; }
+    .table-fixed-header .table.table-sm thead tr:nth-child(2) th {
+        top: 40px; }
 
 .nav.nav-tabs .nav-item a.nav-link {
     cursor: pointer; }

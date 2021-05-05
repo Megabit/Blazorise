@@ -55,4 +55,10 @@ tr.table-row-selectable:hover {
     thead tr:nth-child(2) th {
         top: 42px;
     }
+
+    .e-table.narrowed {
+        thead tr:nth-child(2) th {
+            top: 34px;
+        }
+    }
 }
