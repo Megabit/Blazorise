@@ -875,7 +875,7 @@ namespace Blazorise.Frolic
 
         public override string TableResponsive() => "e-table-responsive";
 
-        public override string TableFixedHeader() => null;
+        public override string TableFixedHeader() => "e-table-fixed-header";
 
         #endregion
 
