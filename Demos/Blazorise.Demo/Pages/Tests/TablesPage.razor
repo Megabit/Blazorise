@@ -19,24 +19,15 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow>
-                            <TableRowHeader>1</TableRowHeader>
-                            <TableRowCell>Mark</TableRowCell>
-                            <TableRowCell>Otto</TableRowCell>
-                            <TableRowCell>@@mdo</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>2</TableRowHeader>
-                            <TableRowCell>Jacob</TableRowCell>
-                            <TableRowCell>Thornton</TableRowCell>
-                            <TableRowCell>@@fat</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>3</TableRowHeader>
-                            <TableRowCell>Larry</TableRowCell>
-                            <TableRowCell>the Bird</TableRowCell>
-                            <TableRowCell>@@twitter</TableRowCell>
-                        </TableRow>
+                        @foreach ( var user in tableUsers )
+                        {
+                            <TableRow @key="@user.Id">
+                                <TableRowHeader>@user.Id</TableRowHeader>
+                                <TableRowCell>@user.FirstName</TableRowCell>
+                                <TableRowCell>@user.LastName</TableRowCell>
+                                <TableRowCell>@user.Social</TableRowCell>
+                            </TableRow>
+                        }
                     </TableBody>
                 </Table>
             </CardBody>
@@ -61,24 +52,15 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow>
-                            <TableRowHeader>1</TableRowHeader>
-                            <TableRowCell>Mark</TableRowCell>
-                            <TableRowCell>Otto</TableRowCell>
-                            <TableRowCell>@@mdo</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>2</TableRowHeader>
-                            <TableRowCell>Jacob</TableRowCell>
-                            <TableRowCell>Thornton</TableRowCell>
-                            <TableRowCell>@@fat</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>3</TableRowHeader>
-                            <TableRowCell>Larry</TableRowCell>
-                            <TableRowCell>the Bird</TableRowCell>
-                            <TableRowCell>@@twitter</TableRowCell>
-                        </TableRow>
+                        @foreach ( var user in tableUsers )
+                        {
+                            <TableRow @key="@user.Id">
+                                <TableRowHeader>@user.Id</TableRowHeader>
+                                <TableRowCell>@user.FirstName</TableRowCell>
+                                <TableRowCell>@user.LastName</TableRowCell>
+                                <TableRowCell>@user.Social</TableRowCell>
+                            </TableRow>
+                        }
                     </TableBody>
                 </Table>
             </CardBody>
@@ -105,24 +87,15 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow>
-                            <TableRowHeader>1</TableRowHeader>
-                            <TableRowCell>Mark</TableRowCell>
-                            <TableRowCell>Otto</TableRowCell>
-                            <TableRowCell>@@mdo</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>2</TableRowHeader>
-                            <TableRowCell>Jacob</TableRowCell>
-                            <TableRowCell>Thornton</TableRowCell>
-                            <TableRowCell>@@fat</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>3</TableRowHeader>
-                            <TableRowCell>Larry</TableRowCell>
-                            <TableRowCell>the Bird</TableRowCell>
-                            <TableRowCell>@@twitter</TableRowCell>
-                        </TableRow>
+                        @foreach ( var user in tableUsers )
+                        {
+                            <TableRow @key="@user.Id">
+                                <TableRowHeader>@user.Id</TableRowHeader>
+                                <TableRowCell>@user.FirstName</TableRowCell>
+                                <TableRowCell>@user.LastName</TableRowCell>
+                                <TableRowCell>@user.Social</TableRowCell>
+                            </TableRow>
+                        }
                     </TableBody>
                 </Table>
             </CardBody>
@@ -147,24 +120,15 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow>
-                            <TableRowHeader>1</TableRowHeader>
-                            <TableRowCell>Mark</TableRowCell>
-                            <TableRowCell>Otto</TableRowCell>
-                            <TableRowCell>@@mdo</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>2</TableRowHeader>
-                            <TableRowCell>Jacob</TableRowCell>
-                            <TableRowCell>Thornton</TableRowCell>
-                            <TableRowCell>@@fat</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>3</TableRowHeader>
-                            <TableRowCell>Larry</TableRowCell>
-                            <TableRowCell>the Bird</TableRowCell>
-                            <TableRowCell>@@twitter</TableRowCell>
-                        </TableRow>
+                        @foreach ( var user in tableUsers )
+                        {
+                            <TableRow @key="@user.Id">
+                                <TableRowHeader>@user.Id</TableRowHeader>
+                                <TableRowCell>@user.FirstName</TableRowCell>
+                                <TableRowCell>@user.LastName</TableRowCell>
+                                <TableRowCell>@user.Social</TableRowCell>
+                            </TableRow>
+                        }
                     </TableBody>
                 </Table>
             </CardBody>
@@ -191,24 +155,15 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow>
-                            <TableRowHeader>1</TableRowHeader>
-                            <TableRowCell>Mark</TableRowCell>
-                            <TableRowCell>Otto</TableRowCell>
-                            <TableRowCell>@@mdo</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>2</TableRowHeader>
-                            <TableRowCell>Jacob</TableRowCell>
-                            <TableRowCell>Thornton</TableRowCell>
-                            <TableRowCell>@@fat</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>3</TableRowHeader>
-                            <TableRowCell>Larry</TableRowCell>
-                            <TableRowCell>the Bird</TableRowCell>
-                            <TableRowCell>@@twitter</TableRowCell>
-                        </TableRow>
+                        @foreach ( var user in tableUsers )
+                        {
+                            <TableRow @key="@user.Id">
+                                <TableRowHeader>@user.Id</TableRowHeader>
+                                <TableRowCell>@user.FirstName</TableRowCell>
+                                <TableRowCell>@user.LastName</TableRowCell>
+                                <TableRowCell>@user.Social</TableRowCell>
+                            </TableRow>
+                        }
                     </TableBody>
                 </Table>
             </CardBody>
@@ -233,24 +188,15 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow>
-                            <TableRowHeader>1</TableRowHeader>
-                            <TableRowCell>Mark</TableRowCell>
-                            <TableRowCell>Otto</TableRowCell>
-                            <TableRowCell>@@mdo</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>2</TableRowHeader>
-                            <TableRowCell>Jacob</TableRowCell>
-                            <TableRowCell>Thornton</TableRowCell>
-                            <TableRowCell>@@fat</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>3</TableRowHeader>
-                            <TableRowCell>Larry</TableRowCell>
-                            <TableRowCell>the Bird</TableRowCell>
-                            <TableRowCell>@@twitter</TableRowCell>
-                        </TableRow>
+                        @foreach ( var user in tableUsers )
+                        {
+                            <TableRow @key="@user.Id">
+                                <TableRowHeader>@user.Id</TableRowHeader>
+                                <TableRowCell>@user.FirstName</TableRowCell>
+                                <TableRowCell>@user.LastName</TableRowCell>
+                                <TableRowCell>@user.Social</TableRowCell>
+                            </TableRow>
+                        }
                     </TableBody>
                 </Table>
             </CardBody>
@@ -277,24 +223,15 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow>
-                            <TableRowHeader>1</TableRowHeader>
-                            <TableRowCell>Mark</TableRowCell>
-                            <TableRowCell>Otto</TableRowCell>
-                            <TableRowCell>@@mdo</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>2</TableRowHeader>
-                            <TableRowCell>Jacob</TableRowCell>
-                            <TableRowCell>Thornton</TableRowCell>
-                            <TableRowCell>@@fat</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>3</TableRowHeader>
-                            <TableRowCell>Larry</TableRowCell>
-                            <TableRowCell>the Bird</TableRowCell>
-                            <TableRowCell>@@twitter</TableRowCell>
-                        </TableRow>
+                        @foreach ( var user in tableUsers )
+                        {
+                            <TableRow @key="@user.Id">
+                                <TableRowHeader>@user.Id</TableRowHeader>
+                                <TableRowCell>@user.FirstName</TableRowCell>
+                                <TableRowCell>@user.LastName</TableRowCell>
+                                <TableRowCell>@user.Social</TableRowCell>
+                            </TableRow>
+                        }
                     </TableBody>
                 </Table>
             </CardBody>
@@ -319,24 +256,15 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow>
-                            <TableRowHeader>1</TableRowHeader>
-                            <TableRowCell>Mark</TableRowCell>
-                            <TableRowCell>Otto</TableRowCell>
-                            <TableRowCell>@@mdo</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>2</TableRowHeader>
-                            <TableRowCell>Jacob</TableRowCell>
-                            <TableRowCell>Thornton</TableRowCell>
-                            <TableRowCell>@@fat</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>3</TableRowHeader>
-                            <TableRowCell>Larry</TableRowCell>
-                            <TableRowCell>the Bird</TableRowCell>
-                            <TableRowCell>@@twitter</TableRowCell>
-                        </TableRow>
+                        @foreach ( var user in tableUsers )
+                        {
+                            <TableRow @key="@user.Id">
+                                <TableRowHeader>@user.Id</TableRowHeader>
+                                <TableRowCell>@user.FirstName</TableRowCell>
+                                <TableRowCell>@user.LastName</TableRowCell>
+                                <TableRowCell>@user.Social</TableRowCell>
+                            </TableRow>
+                        }
                     </TableBody>
                 </Table>
             </CardBody>
@@ -533,60 +461,29 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow>
-                            <TableRowHeader>1</TableRowHeader>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>2</TableRowHeader>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableRowHeader>3</TableRowHeader>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                            <TableRowCell>Column content</TableRowCell>
-                        </TableRow>
+                        @for ( int i = 1; i <= 3; ++i )
+                        {
+                            var index = i.ToString();
+
+                            <TableRow @key="@index">
+                                <TableRowHeader>@index</TableRowHeader>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                                <TableRowCell>Column content</TableRowCell>
+                            </TableRow>
+                        }
                     </TableBody>
                 </Table>
             </CardBody>
@@ -630,7 +527,7 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        @for ( int i = 0; i < 10; ++i )
+                        @for ( int i = 1; i <= 10; ++i )
                         {
                             var index = i.ToString();
 
@@ -643,14 +540,6 @@
                         }
                     </TableBody>
                 </Table>
-                @code{
-                    bool fixedHeader = true;
-                    bool stripped;
-                    bool bordered;
-                    bool borderless;
-                    bool hoverable;
-                    bool small;
-                }
             </CardBody>
         </Card>
     </Column>
