@@ -46,6 +46,9 @@
     font-size: 0.95rem;
     height: 3rem; }
 
+.card {
+    overflow: initial; }
+
 .dropdown-toggle.dropdown-toggle-hidden::after {
     content: none !important; }
 
