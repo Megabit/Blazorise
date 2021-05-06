@@ -359,52 +359,62 @@ namespace Blazorise
 
             if ( barOptions?.DarkColors != null )
             {
-                Variables[ThemeVariables.BarDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BackgroundColor ) );
-                Variables[ThemeVariables.BarDarkColor] = ToHex( ParseColor( barOptions.DarkColors.Color ) );
+                if ( !string.IsNullOrEmpty( barOptions.DarkColors.BackgroundColor ) )
+                    Variables[ThemeVariables.BarDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BackgroundColor ) );
+
+                if ( !string.IsNullOrEmpty( barOptions.DarkColors.Color ) )
+                    Variables[ThemeVariables.BarDarkColor] = ToHex( ParseColor( barOptions.DarkColors.Color ) );
 
                 if ( barOptions.DarkColors.ItemColorOptions != null )
                 {
-                    Variables[ThemeVariables.BarItemDarkActiveBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor ) );
-                    Variables[ThemeVariables.BarItemDarkActiveColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveColor ) );
+                    if ( !string.IsNullOrEmpty( barOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor ) )
+                        Variables[ThemeVariables.BarItemDarkActiveBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor ) );
 
-                    Variables[ThemeVariables.BarItemDarkHoverBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverBackgroundColor ) );
-                    Variables[ThemeVariables.BarItemDarkHoverColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverColor ) );
+                    if ( !string.IsNullOrEmpty( barOptions.DarkColors.ItemColorOptions.ActiveColor ) )
+                        Variables[ThemeVariables.BarItemDarkActiveColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveColor ) );
+
+                    if ( !string.IsNullOrEmpty( barOptions.DarkColors.ItemColorOptions.HoverBackgroundColor ) )
+                        Variables[ThemeVariables.BarItemDarkHoverBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverBackgroundColor ) );
+
+                    if ( !string.IsNullOrEmpty( barOptions.DarkColors.ItemColorOptions.HoverColor ) )
+                        Variables[ThemeVariables.BarItemDarkHoverColor] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.HoverColor ) );
                 }
 
-                if ( barOptions.DarkColors.DropdownColorOptions != null )
-                {
+                if ( !string.IsNullOrEmpty( barOptions.DarkColors.DropdownColorOptions?.BackgroundColor ) )
                     Variables[ThemeVariables.BarDropdownDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.DropdownColorOptions.BackgroundColor ) );
-                }
 
-                if ( barOptions.DarkColors.BrandColorOptions != null )
-                {
+                if ( !string.IsNullOrEmpty( barOptions.DarkColors.BrandColorOptions?.BackgroundColor ) )
                     Variables[ThemeVariables.BarBrandDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BrandColorOptions.BackgroundColor ) );
-                }
             }
 
             if ( barOptions?.LightColors != null )
             {
-                Variables[ThemeVariables.BarLightBackground] = ToHex( ParseColor( barOptions.LightColors.BackgroundColor ) );
-                Variables[ThemeVariables.BarLightColor] = ToHex( ParseColor( barOptions.LightColors.Color ) );
+                if ( !string.IsNullOrEmpty( barOptions.LightColors.BackgroundColor ) )
+                    Variables[ThemeVariables.BarLightBackground] = ToHex( ParseColor( barOptions.LightColors.BackgroundColor ) );
+
+                if ( !string.IsNullOrEmpty( barOptions.LightColors.Color ) )
+                    Variables[ThemeVariables.BarLightColor] = ToHex( ParseColor( barOptions.LightColors.Color ) );
 
                 if ( barOptions.LightColors.ItemColorOptions != null )
                 {
-                    Variables[ThemeVariables.BarItemLightActiveBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveBackgroundColor ) );
-                    Variables[ThemeVariables.BarItemLightActiveColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveColor ) );
+                    if ( !string.IsNullOrEmpty( barOptions.LightColors.ItemColorOptions.ActiveBackgroundColor ) )
+                        Variables[ThemeVariables.BarItemLightActiveBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveBackgroundColor ) );
 
-                    Variables[ThemeVariables.BarItemLightHoverBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverBackgroundColor ) );
-                    Variables[ThemeVariables.BarItemLightHoverColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverColor ) );
+                    if ( !string.IsNullOrEmpty( barOptions.LightColors.ItemColorOptions.ActiveColor ) )
+                        Variables[ThemeVariables.BarItemLightActiveColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveColor ) );
+
+                    if ( !string.IsNullOrEmpty( barOptions.LightColors.ItemColorOptions.HoverBackgroundColor ) )
+                        Variables[ThemeVariables.BarItemLightHoverBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverBackgroundColor ) );
+
+                    if ( !string.IsNullOrEmpty( barOptions.LightColors.ItemColorOptions.HoverColor ) )
+                        Variables[ThemeVariables.BarItemLightHoverColor] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.HoverColor ) );
                 }
 
-                if ( barOptions.LightColors.DropdownColorOptions != null )
-                {
+                if ( !string.IsNullOrEmpty( barOptions.LightColors.DropdownColorOptions?.BackgroundColor ) )
                     Variables[ThemeVariables.BarDropdownLightBackground] = ToHex( ParseColor( barOptions.LightColors.DropdownColorOptions.BackgroundColor ) );
-                }
 
-                if ( barOptions.LightColors.BrandColorOptions != null )
-                {
+                if ( !string.IsNullOrEmpty( barOptions.LightColors.BrandColorOptions?.BackgroundColor ) )
                     Variables[ThemeVariables.BarBrandLightBackground] = ToHex( ParseColor( barOptions.LightColors.BrandColorOptions.BackgroundColor ) );
-                }
             }
         }
 
