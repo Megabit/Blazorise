@@ -134,6 +134,9 @@
                                     <BarDropdownItem To="tests/richtextedit">
                                         RichTextEdit
                                     </BarDropdownItem>
+                                    <BarDropdownItem To="tests/spinkit">
+                                        Spin Kit
+                                    </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -360,6 +363,11 @@
         //Theme.InputOptions.Color = value;
         Theme.InputOptions.CheckColor = value;
         Theme.InputOptions.SliderColor = value;
+
+        if ( Theme.SpinKitOptions == null )
+            Theme.SpinKitOptions = new ThemeSpinKitOptions();
+
+        Theme.SpinKitOptions.Color = value;
 
         Theme.ThemeHasChanged();
     }
