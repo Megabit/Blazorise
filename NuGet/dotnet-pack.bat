@@ -17,6 +17,7 @@ dotnet pack ../Source/Extensions/Blazorise.Snackbar/Blazorise.Snackbar.csproj --
 dotnet pack ../Source/Extensions/Blazorise.Components/Blazorise.Components.csproj --force -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.TreeView/Blazorise.TreeView.csproj --force -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.RichTextEdit/Blazorise.RichTextEdit.csproj --force -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.SpinKit/Blazorise.SpinKit.csproj --force -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
 dotnet pack ../Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.FontAwesome.csproj --force -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Icons.Material/Blazorise.Icons.Material.csproj --force -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
