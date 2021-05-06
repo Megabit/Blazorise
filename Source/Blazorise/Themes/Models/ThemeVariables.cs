@@ -135,6 +135,9 @@
         public static string StepsItemTextCompleted => $"--b-steps-item-text-completed";
         public static string StepsItemTextActive => $"--b-steps-item-text-active";
 
+        public static string SpinKitSize => $"--b-spinkit-size";
+        public static string SpinKitColor => $"--b-spinkit-color";
+
         public static string VariantPageProgressIndicator( string variant ) => $"--b-page-progress-indicator-{variant}";
 
         public static string VariantRatingColor( string variant ) => $"--b-rating-{variant}-color";

@@ -81,6 +81,8 @@ namespace Blazorise
 
             GenerateStepsVariables( theme, theme.StepsOptions );
 
+            GenerateSpinKitVariables( theme, theme.SpinKitOptions );
+
             // apply variables
             foreach ( var kv in Variables )
                 sb.AppendLine( $"{kv.Key}: {kv.Value};" );
@@ -554,6 +556,24 @@ namespace Blazorise
                 {
                     Variables[ThemeVariables.StepsItemTextActive] = ToHex( ParseColor( stepsOptions.StepsItemTextActive ) );
                 }
+            }
+        }
+
+        /// <summary>
+        /// Generates the spinkit CSS variables.
+        /// </summary>
+        /// <param name="theme">Currently used theme options.</param>
+        /// <param name="spinKitOptions">SpinKit options.</param>
+        protected virtual void GenerateSpinKitVariables( Theme theme, ThemeSpinKitOptions spinKitOptions )
+        {
+            if ( !string.IsNullOrEmpty( spinKitOptions?.Color ) )
+            {
+                Variables[ThemeVariables.SpinKitColor] = ToHex( ParseColor( spinKitOptions.Color ) );
+            }
+
+            if ( !string.IsNullOrEmpty( spinKitOptions?.Size ) )
+            {
+                Variables[ThemeVariables.SpinKitSize] = spinKitOptions.Size;
             }
         }
 
