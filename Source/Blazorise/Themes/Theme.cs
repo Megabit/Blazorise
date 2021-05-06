@@ -213,5 +213,10 @@ namespace Blazorise
         /// Theme options to override the <see cref="Tooltip"/> component styles.
         /// </summary>
         public ThemeTooltipOptions TooltipOptions { get; set; }
+
+        /// <summary>
+        /// Theme options to override the SpinKit component styles.
+        /// </summary>
+        public ThemeSpinKitOptions SpinKitOptions { get; set; }
     }
 }
