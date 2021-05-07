@@ -4120,6 +4120,18 @@ table.is-borderless tr {
 tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
     cursor: pointer; }
 
+.table-container-fixed-header {
+    overflow-y: auto; }
+    .table-container-fixed-header .table {
+        border-collapse: separate;
+        border-spacing: 0; }
+    .table-container-fixed-header thead tr th {
+        border-top: none;
+        position: sticky;
+        background: white; }
+    .table-container-fixed-header thead tr:nth-child(1) th {
+        top: 0; }
+
 .tab-pane {
     display: none; }
     .tab-pane.is-active {

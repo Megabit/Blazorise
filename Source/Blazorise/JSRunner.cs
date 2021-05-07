@@ -267,6 +267,11 @@ namespace Blazorise
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.open", elementRef, elementId );
         }
 
+        public ValueTask InitializeTableFixedHeader( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.initializeTableFixedHeader", elementRef, elementId );
+        }
+
         #endregion
 
         #region Properties

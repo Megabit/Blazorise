@@ -633,6 +633,20 @@ window.blazorise = {
         onBreakpoint: (dotnetAdapter, currentBreakpoint) => {
             dotnetAdapter.invokeMethodAsync('OnBreakpoint', currentBreakpoint);
         }
+    },
+    table: {
+        initializeTableFixedHeader: (element, elementId) => {
+            const tableRows = element.querySelectorAll("thead tr");
+
+            if (tableRows !== null && tableRows.length > 1) {
+                let previousRowCellHeight = 0;
+                for (let i = 0; i < tableRows.length; i++) {
+                    let currentTh = tableRows[i].querySelectorAll("th");
+                    currentTh.forEach(x => x.style.top = `${previousRowCellHeight}px`);
+                    previousRowCellHeight += currentTh[0].offsetHeight;
+                }
+            }
+        }
     }
 };
 

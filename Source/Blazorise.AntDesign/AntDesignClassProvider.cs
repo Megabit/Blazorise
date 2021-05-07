@@ -849,6 +849,8 @@ namespace Blazorise.AntDesign
 
         public override string TableResponsive() => "ant-table-responsive";
 
+        public override string TableFixedHeader() => "ant-table-fixed-header";
+
         #endregion
 
         #region Badge

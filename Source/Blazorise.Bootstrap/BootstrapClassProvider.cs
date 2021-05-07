@@ -834,6 +834,8 @@ namespace Blazorise.Bootstrap
 
         public override string TableResponsive() => "table-responsive";
 
+        public override string TableFixedHeader() => "table-fixed-header";
+
         #endregion
 
         #region Badge
