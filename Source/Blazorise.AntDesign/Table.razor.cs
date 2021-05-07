@@ -1,4 +1,5 @@
-﻿using Blazorise.Utilities;
+﻿using System.Threading.Tasks;
+using Blazorise.Utilities;
 
 namespace Blazorise.AntDesign
 {
@@ -14,6 +15,13 @@ namespace Blazorise.AntDesign
         protected override void BuildStyles( StyleBuilder builder )
         {
             // don't add anything for antdesign
+        }
+
+        protected override ValueTask InitializeTableFixedHeader()
+        {
+            // antdesign has a diferent table structure so we don't need to do anything
+
+            return ValueTask.CompletedTask;
         }
     }
 }

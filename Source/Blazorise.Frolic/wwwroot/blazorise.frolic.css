@@ -2952,10 +2952,6 @@ tr.table-row-selectable:hover {
         background: white; }
     .e-table-fixed-header thead tr:nth-child(1) th {
         top: 0; }
-    .e-table-fixed-header thead tr:nth-child(2) th {
-        top: 42px; }
-    .e-table-fixed-header .e-table.narrowed thead tr:nth-child(2) th {
-        top: 34px; }
 
 .e-tabs.vertical ul {
     -webkit-flex-direction: column;

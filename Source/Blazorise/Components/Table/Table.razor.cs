@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -48,6 +49,14 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
+        protected override async Task OnAfterRenderAsync( bool firstRender )
+        {
+            await InitializeTableFixedHeader();
+
+            await base.OnAfterRenderAsync( firstRender );
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Table() );
@@ -89,6 +98,18 @@ namespace Blazorise
             ContainerStyleBuilder.Dirty();
 
             base.DirtyStyles();
+        }
+
+        /// <summary>
+        /// Makes sure that the table header is properly sized.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected virtual ValueTask InitializeTableFixedHeader()
+        {
+            if ( FixedHeader )
+                return JSRunner.InitializeTableFixedHeader( ElementRef, ElementId );
+
+            return ValueTask.CompletedTask;
         }
 
         #endregion
@@ -241,7 +262,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Sets table fixed header feature table max height (defaults to 300px).
+        /// Sets the table height when <see cref="FixedHeader"/> feature is enabled (defaults to 300px).
         /// </summary>
         [Parameter]
         public string FixedHeaderTableHeight

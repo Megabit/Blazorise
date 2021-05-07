@@ -1032,7 +1032,3 @@ tr.table-row-selectable:hover {
         background: white; }
     .table-fixed-header thead tr:nth-child(1) th {
         top: 0; }
-    .table-fixed-header thead tr:nth-child(2) th {
-        top: 50px; }
-    .table-fixed-header .table.table-sm thead tr:nth-child(2) th {
-        top: 34px; }

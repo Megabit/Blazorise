@@ -4131,10 +4131,6 @@ tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
         background: white; }
     .table-container-fixed-header thead tr:nth-child(1) th {
         top: 0; }
-    .table-container-fixed-header thead tr:nth-child(2) th {
-        top: 42px; }
-    .table-container-fixed-header .table.is-narrow thead tr:nth-child(2) th {
-        top: 34px; }
 
 .tab-pane {
     display: none; }

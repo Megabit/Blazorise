@@ -29,14 +29,4 @@ tr.table-row-selectable {
     thead tr:nth-child(1) th {
         top: 0;
     }
-
-    thead tr:nth-child(2) th {
-        top: 42px;
-    }
-
-    .table.is-narrow {
-        thead tr:nth-child(2) th {
-            top: 34px;
-        }
-    }
 }

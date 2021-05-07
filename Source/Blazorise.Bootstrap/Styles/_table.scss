@@ -23,14 +23,4 @@ tr.table-row-selectable:hover {
     thead tr:nth-child(1) th {
         top: 0;
     }
-
-    thead tr:nth-child(2) th {
-        top: 50px;
-    }
-
-    .table.table-sm {
-        thead tr:nth-child(2) th {
-            top: 34px;
-        }
-    }
 }
