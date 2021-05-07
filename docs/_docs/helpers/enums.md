@@ -322,3 +322,18 @@ Determines the events that cause the tooltip to show.
 - `Click` - Tooltip will show on click event only.
 - `Focus` - Tooltip will show on focus event only.
 - `MouseEnterClick` - Tooltip will show on mouse enter and click event.
+
+## SpinKitType
+
+- Plane
+- Chase
+- Bounce
+- Wave
+- Pulse
+- Flow
+- Swing
+- Circle
+- CircleFade
+- Grid
+- Fold
+- Wander
