@@ -8,3 +8,12 @@
     pointer-events: none;
     opacity: .65;
 }
+
+.dropdown-header {
+    display: block;
+    padding: $dropdown-header-padding;
+    margin-bottom: 0; // for use with heading elements
+    font-size: $size-small;
+    color: $dropdown-header-color;
+    white-space: nowrap; // as with > li > a
+}

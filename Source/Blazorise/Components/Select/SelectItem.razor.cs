@@ -1,7 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -25,6 +22,10 @@ namespace Blazorise
         RenderFragment ChildContent { get; set; }
     }
 
+    /// <summary>
+    /// Option item in the <see cref="Select{TValue}"/> component.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the <see cref="Value"/>.</typeparam>
     public partial class SelectItem<TValue> : BaseComponent,
         ISelectItem<TValue>
     {

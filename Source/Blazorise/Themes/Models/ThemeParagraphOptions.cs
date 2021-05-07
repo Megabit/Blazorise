@@ -1,9 +1,9 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise
+﻿namespace Blazorise
 {
-    public class ThemeParagraphOptions
+    /// <summary>
+    /// Defines the theme options for the <see cref="Paragraph"/> component.
+    /// </summary>
+    public record ThemeParagraphOptions
     {
     }
 }

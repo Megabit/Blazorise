@@ -2,6 +2,7 @@
 using System;
 using Blazorise.Localization;
 using Blazorise.Providers;
+using Blazorise.Themes;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Extension methods for building the blazorise options.
+    /// </summary>
     public static class Config
     {
         /// <summary>
@@ -31,6 +35,7 @@ namespace Blazorise
             serviceCollection.AddSingleton<BlazoriseOptions>();
 
             serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
+            serviceCollection.AddSingleton<IThemeCache, ThemeCache>();
             serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
             serviceCollection.AddScoped<IEditContextValidator, EditContextValidator>();
 

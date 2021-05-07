@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridRowMultiSelect<TItem>
-<TableRowCell Class="@Class" Style="@BuildCellStyle()" TextAlignment="@TextAlignment">
+<TableRowCell Class="@Class" Style="@BuildCellStyle()" TextAlignment="@TextAlignment" VerticalAlignment="@VerticalAlignment">
     @if ( ParentDataGrid.MultiSelectColumn?.MultiSelectTemplate != null )
     {
         <Label @onclick="@OnCheckedClicked">

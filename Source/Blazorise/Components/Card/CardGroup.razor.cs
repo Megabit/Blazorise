@@ -4,24 +4,20 @@ using Blazorise.Utilities;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Represent cards as a single, attached component with same width and height columns. Card groups use display: flex; to reach their sizing.
+    /// </summary>
     public partial class CardGroup : BaseContainerComponent
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.CardGroup() );
 
             base.BuildClasses( builder );
         }
-
-        #endregion
-
-        #region Properties
 
         #endregion
     }

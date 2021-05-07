@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// The editor that allows you to select a color from a dropdown menu.
+    /// </summary>
     public partial class ColorEdit : BaseInputComponent<string>
     {
         #region Members
@@ -16,6 +19,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
             await base.SetParametersAsync( parameters );
@@ -29,6 +33,7 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ColorEdit() );
@@ -36,21 +41,28 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Handles the input onchange event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task OnChangeHandler( ChangeEventArgs e )
         {
             return CurrentValueHandler( e?.Value?.ToString() );
         }
 
+        /// <inheritdoc/>
         protected override Task OnInternalValueChanged( string value )
         {
             return ColorChanged.InvokeAsync( value );
         }
 
+        /// <inheritdoc/>
         protected override string FormatValueAsString( string value )
         {
             return value;
         }
 
+        /// <inheritdoc/>
         protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
         {
             return Task.FromResult( new ParseValue<string>( true, value, null ) );
@@ -60,6 +72,7 @@ namespace Blazorise
 
         #region Properties
 
+        /// <inheritdoc/>
         protected override string InternalValue { get => Color; set => Color = value; }
 
         /// <summary>

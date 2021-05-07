@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Main container for a <see cref="BarDropdown"/> menu that can contain or or more <see cref="BarDropdownItem"/>'s.
+    /// </summary>
     public partial class BarDropdownMenu : BaseComponent
     {
         #region Members
@@ -18,6 +21,9 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default <see cref="BarDropdownMenu"/> constructor.
+        /// </summary>
         public BarDropdownMenu()
         {
             ContainerClassBuilder = new ClassBuilder( BuildContainerClasses );
@@ -27,6 +33,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdownMenu( ParentDropdownState.Mode ) );
@@ -36,12 +43,17 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Builds the classnames for a menu.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
         protected virtual void BuildContainerClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdownMenuContainer( ParentDropdownState.Mode ) );
             builder.Append( ClassProvider.BarDropdownMenuRight( ParentDropdownState.Mode ), RightAligned );
         }
 
+        /// <inheritdoc/>
         internal protected override void DirtyClasses()
         {
             ContainerClassBuilder.Dirty();
@@ -53,12 +65,24 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets the classnames for a dropdown-menu container.
+        /// </summary>
         protected string ContainerClassNames => ContainerClassBuilder.Class;
 
-        protected string VisibleString => ParentDropdownState.Visible.ToString().ToLower();
-
+        /// <summary>
+        /// Dropdown-menu container class builder.
+        /// </summary>
         protected ClassBuilder ContainerClassBuilder { get; private set; }
 
+        /// <summary>
+        /// Gets the string representation of visibility flag.
+        /// </summary>
+        protected string VisibleString => ParentDropdownState.Visible.ToString().ToLower();
+
+        /// <summary>
+        /// Makes the dropdown menu to be right-aligned.
+        /// </summary>
         [Parameter]
         public bool RightAligned
         {
@@ -71,6 +95,14 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarDropdownMenu"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Cascaded <see cref="Dropdown"/> component state object.
+        /// </summary>
         [CascadingParameter]
         protected BarDropdownState ParentDropdownState
         {
@@ -86,9 +118,10 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="BarDropdown"/> component.
+        /// </summary>
         [CascadingParameter] protected BarDropdown ParentBarDropdown { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

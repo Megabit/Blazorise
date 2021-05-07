@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
 

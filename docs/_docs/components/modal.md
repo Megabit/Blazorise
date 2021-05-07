@@ -129,3 +129,9 @@ If you want to prevent modal from closing you can use `Closing` event.
 | Name           | Type                                                                   | Default   | Description                                                                                                                    |
 |----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
 | MaxHeight      | int?                                                                   | null      | Sets the maximum height of the modal body (in viewport size unit).                                                             |
+
+### ModalTitle
+
+| Name           | Type                                                                   | Default   | Description                                                                                                                    |
+|----------------|------------------------------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------|
+| Size           | [HeadingSize]({{ "/docs/helpers/enums/#headingsize" | relative_url }}) | `Is4`     | Sets the title size and tag name.                                                                                              |

@@ -370,6 +370,9 @@ select[readonly] {
     .form-control-xl + .b-numeric-handler-wrap > .b-numeric-handler.btn {
         font-size: 1.5rem; }
 
+.custom-file-label {
+    overflow: hidden; }
+
 .jumbotron.jumbotron-primary {
     background-color: #007bff;
     color: #fff; }
@@ -1017,3 +1020,15 @@ table.table tbody tr.selected {
 
 tr.table-row-selectable:hover {
     cursor: pointer; }
+
+.table-fixed-header {
+    overflow-y: auto; }
+    .table-fixed-header .table {
+        border-collapse: separate;
+        border-spacing: 0; }
+    .table-fixed-header thead tr th {
+        border-top: none;
+        position: sticky;
+        background: white; }
+    .table-fixed-header thead tr:nth-child(1) th {
+        top: 0; }

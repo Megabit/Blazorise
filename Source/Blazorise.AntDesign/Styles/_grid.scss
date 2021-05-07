@@ -52,3 +52,14 @@
     margin-right: auto;
     margin-left: auto;
 }
+
+.ant-row-no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+
+    > .ant-col,
+    > [class*="ant-col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}

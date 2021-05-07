@@ -12,8 +12,6 @@ namespace Blazorise
     {
         #region Members
 
-        private Background background = Background.None;
-
         private bool striped;
 
         private bool animated;
@@ -29,7 +27,6 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.ProgressBar() );
             builder.Append( ClassProvider.ProgressBarWidth( Percentage ?? 0 ) );
-            builder.Append( ClassProvider.ProgressBarColor( Background ), Background != Background.None );
             builder.Append( ClassProvider.ProgressBarStriped(), Striped );
             builder.Append( ClassProvider.ProgressBarAnimated(), Animated );
 
@@ -66,21 +63,6 @@ namespace Blazorise
         /// Calculates the percentage based on the current value and max parameters.
         /// </summary>
         protected int? Percentage => Max == 0 ? 0 : (int)( Value.GetValueOrDefault() / (float)Max * 100f );
-
-        /// <summary>
-        /// Defines the progress bar background color.
-        /// </summary>
-        [Parameter]
-        public Background Background
-        {
-            get => background;
-            set
-            {
-                background = value;
-
-                DirtyClasses();
-            }
-        }
 
         /// <summary>
         /// Set to true to make the progress bar stripped.
@@ -141,12 +123,15 @@ namespace Blazorise
             }
         }
 
-        [CascadingParameter] protected Progress ParentProgress { get; set; }
-
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="ProgressBar"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Progress"/> component.
+        /// </summary>
+        [CascadingParameter] protected Progress ParentProgress { get; set; }
 
         #endregion
     }

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A menu item for the <see cref="BarDropdownMenu"/> component.
+    /// </summary>
     public partial class BarDropdownItem : BaseComponent
     {
         #region Members
@@ -17,6 +20,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.BarDropdownItem( ParentDropdownState.Mode ) );
@@ -24,6 +28,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void BuildStyles( StyleBuilder builder )
         {
             base.BuildStyles( builder );
@@ -31,6 +36,10 @@ namespace Blazorise
             builder.Append( $"padding-left: { Indentation * ( ParentDropdownState.NestedIndex + 1 ) }rem", ParentDropdownState.IsInlineDisplay );
         }
 
+        /// <summary>
+        /// Handles the item onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task ClickHandler()
         {
             return Clicked.InvokeAsync( null );
@@ -70,6 +79,14 @@ namespace Blazorise
         /// </summary>
         [Parameter] public double Indentation { get; set; } = 1.5d;
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
+        /// </summary>
+        [Parameter] public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        /// Cascaded parent <see cref="BarDropdown"/> state.
+        /// </summary>
         [CascadingParameter]
         protected BarDropdownState ParentDropdownState
         {
@@ -85,11 +102,6 @@ namespace Blazorise
                 DirtyStyles();
             }
         }
-
-        /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="BarDropdownItem"/>.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion
     }

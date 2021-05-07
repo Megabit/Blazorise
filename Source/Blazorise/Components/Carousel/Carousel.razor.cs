@@ -42,6 +42,9 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default carousel constructor.
+        /// </summary>
         public Carousel()
         {
             IndicatorsClassBuilder = new ClassBuilder( BuildIndicatorsClasses );
@@ -157,6 +160,11 @@ namespace Blazorise
             InvokeAsync( StateHasChanged );
         }
 
+        /// <summary>
+        /// Gets the next slide in sequence.
+        /// </summary>
+        /// <param name="slideName">Slide name from where the search will start.</param>
+        /// <returns>Next slide in a sequence or first if not found.</returns>
         private CarouselSlide FindNextSlide( string slideName )
         {
             var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == slideName ) ) + 1;
@@ -167,9 +175,14 @@ namespace Blazorise
             return carouselSlides[slideIndex];
         }
 
+        /// <summary>
+        /// Gets the previous slide in sequence.
+        /// </summary>
+        /// <param name="slideName">Slide name from where the search will start.</param>
+        /// <returns>Previous slide in a sequence or last if not found.</returns>
         private CarouselSlide FindPreviousSlide( string slideName )
         {
-            var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == SelectedSlide ) ) - 1;
+            var slideIndex = carouselSlides.IndexOf( carouselSlides.First( x => x.Name == slideName ) ) - 1;
 
             if ( slideIndex < 0 )
                 slideIndex = carouselSlides.Count - 1;
@@ -211,12 +224,22 @@ namespace Blazorise
             return Task.CompletedTask;
         }
 
-        private async void OnAutoplayTimerElapsed( object sender, ElapsedEventArgs e )
+        /// <summary>
+        /// Handles the timer elapsed event.
+        /// </summary>
+        /// <param name="sender">Object that raised the event.</param>
+        /// <param name="eventArgs">Data about the timer event.</param>
+        private async void OnAutoplayTimerElapsed( object sender, ElapsedEventArgs eventArgs )
         {
             await InvokeAsync( () => SelectNext() );
         }
 
-        private async void OnLocalizationChanged( object sender, EventArgs e )
+        /// <summary>
+        /// Handles the localization changed event.
+        /// </summary>
+        /// <param name="sender">Object that raised the event.</param>
+        /// <param name="eventArgs">Data about the localization event.</param>
+        private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
         {
             await InvokeAsync( StateHasChanged );
         }
@@ -225,18 +248,39 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets the carousel state.
+        /// </summary>
         protected CarouselState State => state;
 
+        /// <summary>
+        /// Gets or sets the carousel indicator class-builder.
+        /// </summary>
         protected ClassBuilder IndicatorsClassBuilder { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the carousel slides class-builder.
+        /// </summary>
         protected ClassBuilder SlidesClassBuilder { get; private set; }
 
+        /// <summary>
+        /// Gets the class-names for a carousel indicator.
+        /// </summary>
         protected string IndicatorsClassNames => IndicatorsClassBuilder.Class;
 
+        /// <summary>
+        /// Gets the class-names for a carousel slides.
+        /// </summary>
         protected string SlidesClassNames => SlidesClassBuilder.Class;
 
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+        /// </summary>
         [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
+        /// <summary>
+        /// Gets or sets the DI registered <see cref="ITextLocalizer{Carousel}"/>.
+        /// </summary>
         [Inject] protected ITextLocalizer<Carousel> Localizer { get; set; }
 
         /// <summary>

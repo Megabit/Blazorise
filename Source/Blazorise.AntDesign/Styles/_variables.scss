@@ -179,3 +179,10 @@ $radius-pill: 50rem !default;
 
 $border-width: 1px;
 $border-color: #adb5bd;
+
+$sizes: () !default;
+$sizes: map-merge( ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, auto: auto ), $sizes );
+
+$box-shadow-sm: 0 .125rem .25rem rgba($black, .075) !default;
+$box-shadow: 0 .5rem 1rem rgba($black, .15) !default;
+$box-shadow-lg: 0 1rem 3rem rgba($black, .175) !default;

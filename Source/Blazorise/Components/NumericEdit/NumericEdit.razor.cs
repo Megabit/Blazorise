@@ -88,7 +88,7 @@ namespace Blazorise
 
             await JSRunner.InitializeNumericEdit<TValue>( dotNetObjectRef, ElementRef, ElementId, new
             {
-                Decimals = Decimals,
+                Decimals,
                 Separator = DecimalsSeparator,
                 Step,
                 Min = Min.IsEqual( default ) ? minFromType : Min,
@@ -162,35 +162,22 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override string FormatValueAsString( TValue value )
         {
-            switch ( value )
+            return value switch
             {
-                case null:
-                    return null;
-                case byte @byte:
-                    return Converters.FormatValue( @byte, CurrentCultureInfo );
-                case short @short:
-                    return Converters.FormatValue( @short, CurrentCultureInfo );
-                case int @int:
-                    return Converters.FormatValue( @int, CurrentCultureInfo );
-                case long @long:
-                    return Converters.FormatValue( @long, CurrentCultureInfo );
-                case float @float:
-                    return Converters.FormatValue( @float, CurrentCultureInfo );
-                case double @double:
-                    return Converters.FormatValue( @double, CurrentCultureInfo );
-                case decimal @decimal:
-                    return Converters.FormatValue( @decimal, CurrentCultureInfo );
-                case sbyte @sbyte:
-                    return Converters.FormatValue( @sbyte, CurrentCultureInfo );
-                case ushort @ushort:
-                    return Converters.FormatValue( @ushort, CurrentCultureInfo );
-                case uint @uint:
-                    return Converters.FormatValue( @uint, CurrentCultureInfo );
-                case ulong @ulong:
-                    return Converters.FormatValue( @ulong, CurrentCultureInfo );
-                default:
-                    throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
-            }
+                null => null,
+                byte @byte => Converters.FormatValue( @byte, CurrentCultureInfo ),
+                short @short => Converters.FormatValue( @short, CurrentCultureInfo ),
+                int @int => Converters.FormatValue( @int, CurrentCultureInfo ),
+                long @long => Converters.FormatValue( @long, CurrentCultureInfo ),
+                float @float => Converters.FormatValue( @float, CurrentCultureInfo ),
+                double @double => Converters.FormatValue( @double, CurrentCultureInfo ),
+                decimal @decimal => Converters.FormatValue( @decimal, CurrentCultureInfo ),
+                sbyte @sbyte => Converters.FormatValue( @sbyte, CurrentCultureInfo ),
+                ushort @ushort => Converters.FormatValue( @ushort, CurrentCultureInfo ),
+                uint @uint => Converters.FormatValue( @uint, CurrentCultureInfo ),
+                ulong @ulong => Converters.FormatValue( @ulong, CurrentCultureInfo ),
+                _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
+            };
         }
 
         /// <inheritdoc/>
@@ -299,7 +286,8 @@ namespace Blazorise
         /// <summary>
         /// True if spin buttons can be shown.
         /// </summary>
-        protected bool IsShowSpinButtons => ShowSpinButtons && !( ReadOnly || Disabled );
+        protected bool IsShowSpinButtons
+            => ShowSpinButtons.GetValueOrDefault( Options?.ShowSpinButtons ?? true ) && !( ReadOnly || Disabled );
 
         /// <summary>
         /// Gets the culture info defined on the input field.
@@ -377,7 +365,7 @@ namespace Blazorise
         /// <summary>
         /// Sets the visibility of spin buttons.
         /// </summary>
-        [Parameter] public bool ShowSpinButtons { get; set; } = true;
+        [Parameter] public bool? ShowSpinButtons { get; set; }
 
         #endregion
     }
