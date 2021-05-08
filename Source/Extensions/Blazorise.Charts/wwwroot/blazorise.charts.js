@@ -58,6 +58,9 @@ window.blazoriseCharts = {
 
         if (chart) {
             chart.options = options;
+            chart.aspectRatio = options.aspectRatio ?? chart.aspectRatio;
+            chart.update();
+            chart.resize();
         }
     },
 
