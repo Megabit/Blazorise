@@ -261,9 +261,9 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
-        /// Sets the charts options manually. Must call 
+        /// Sets the chart's options manually. Must call Update after making this call.  If the options changes AspectRatio must also call Resize after Update.
         /// </summary>
-        /// <param name="options">New chart options.</param>
+        /// <param name="options">New chart options used though OptionsJsonString or OptionsObject will supersede.</param>
         /// <returns></returns>
         public async Task SetOptions( TOptions options )
         {
@@ -275,6 +275,29 @@ namespace Blazorise.Charts
                 await JS.SetOptions( JSRuntime, ElementId, Converters.ToDictionary( Options ), OptionsJsonString, OptionsObject );
         }
 
+        /// <summary>
+        /// Sets the chart's OptionsObject manually. Must call Update after manging this call.  If the options changes AspectRatio must also call Resize after Update.
+        /// </summary>
+        /// <param name="options">New chart options object used.</param>
+        /// <returns></returns>
+        public async Task SetOptionsObject( object optionsObject )
+        {
+            dirty = true;
+
+            OptionsObject = optionsObject;
+
+            if ( initialized )
+                await JS.SetOptions( JSRuntime, ElementId, default(TOptions), OptionsJsonString, optionsObject );
+        }
+        /// <summary>
+        ///  manually resize the canvas element. This is run each time the canvas container is resized, but you can call this method manually if you change the size of the canvas nodes container element.
+        ///  Should also be called when updating the AspectRatio
+        /// </summary>
+        /// <returns></returns>
+        public async Task Resize()
+        {
+            await JS.Resize( JSRuntime, ElementId );
+        }
         private async Task Initialize()
         {
             DotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );

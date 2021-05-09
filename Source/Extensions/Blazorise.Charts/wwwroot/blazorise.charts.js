@@ -55,12 +55,18 @@ window.blazoriseCharts = {
         }
 
         const chart = window.blazoriseCharts.getChart(canvasId);
-
         if (chart) {
             chart.options = options;
+            chart.aspectRatio = options.aspectRatio ?? chart.aspectRatio;
         }
     },
+    resize: (canvasId) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
 
+        if (chart) {
+            chart.resize();
+        }
+    },
     update: (canvasId) => {
         const chart = window.blazoriseCharts.getChart(canvasId);
 
