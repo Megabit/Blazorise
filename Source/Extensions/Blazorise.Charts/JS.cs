@@ -131,10 +131,11 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
-        ///  Manually resize the canvas element. This is run each time the canvas container is resized, but you can call this method manually if you change the size of the canvas nodes container element.
+        ///  Manually resize the canvas element. This is run each time the canvas container is resized,
+        ///  but you can call this method manually if you change the size of the canvas nodes container element.
         /// </summary>
-        /// <param name="runtime">JS runtime</param>
-        /// <param name="canvasId">Id of the canvas</param>
+        /// <param name="runtime">JS runtime.</param>
+        /// <param name="canvasId">Id of the canvas.</param>
         /// <returns></returns>
         public static ValueTask Resize( IJSRuntime runtime, string canvasId )
         {

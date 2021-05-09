@@ -251,7 +251,7 @@ namespace Blazorise.Charts
         /// Removes the newest data point from the specified dataset.
         /// </summary>
         /// <param name="dataSetIndex">Dataset index from which the newest data point is to be removed from.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task PopData( int dataSetIndex )
         {
             dirty = true;
@@ -264,7 +264,7 @@ namespace Blazorise.Charts
         /// Sets the chart's options manually. Must call Update after making this call.  If the options changes AspectRatio must also call Resize after Update.
         /// </summary>
         /// <param name="options">New chart options used though OptionsJsonString or OptionsObject will supersede.</param>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task SetOptions( TOptions options )
         {
             dirty = true;
@@ -276,10 +276,11 @@ namespace Blazorise.Charts
         }
 
         /// <summary>
-        /// Sets the chart's OptionsObject manually. Must call Update after manging this call.  If the options changes AspectRatio must also call Resize after Update.
+        /// Sets the chart's <see cref="OptionsObject"/> manually. Must call <see cref="Update"/> after manging this call.
+        /// If the options changes AspectRatio must also call <see cref="Resize"/> after <see cref="Update"/>.
         /// </summary>
-        /// <param name="options">New chart options object used.</param>
-        /// <returns></returns>
+        /// <param name="optionsObject">New chart options object used.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task SetOptionsObject( object optionsObject )
         {
             dirty = true;
@@ -287,17 +288,21 @@ namespace Blazorise.Charts
             OptionsObject = optionsObject;
 
             if ( initialized )
-                await JS.SetOptions( JSRuntime, ElementId, default(TOptions), OptionsJsonString, optionsObject );
+                await JS.SetOptions( JSRuntime, ElementId, default( TOptions ), OptionsJsonString, optionsObject );
         }
+
         /// <summary>
-        ///  manually resize the canvas element. This is run each time the canvas container is resized, but you can call this method manually if you change the size of the canvas nodes container element.
-        ///  Should also be called when updating the AspectRatio
+        ///  Manually resize the canvas element. This is run each time the canvas container is resized,
+        ///  but you can call this method manually if you change the size of the canvas nodes container element.
+        ///  Should also be called when updating the aspect ratio.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task Resize()
         {
-            await JS.Resize( JSRuntime, ElementId );
+            if ( initialized )
+                await JS.Resize( JSRuntime, ElementId );
         }
+
         private async Task Initialize()
         {
             DotNetObjectRef ??= JS.CreateDotNetObjectRef( new ChartAdapter( this ) );
