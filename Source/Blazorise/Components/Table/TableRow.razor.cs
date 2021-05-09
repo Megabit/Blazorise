@@ -16,10 +16,6 @@ namespace Blazorise
 
         private Color color = Color.None;
 
-        private Background background = Background.None;
-
-        private TextColor textColor = TextColor.None;
-
         private bool selected;
 
         private Cursor hoverCursor;
@@ -33,8 +29,6 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.TableRow() );
             builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.None );
-            builder.Append( ClassProvider.TableRowBackground( Background ), Background != Background.None );
-            builder.Append( ClassProvider.TableRowTextColor( TextColor ), TextColor != TextColor.None );
             builder.Append( ClassProvider.TableRowIsSelected(), Selected );
             builder.Append( ClassProvider.TableRowHoverCursor(), HoverCursor != Cursor.Default );
 
@@ -50,7 +44,8 @@ namespace Blazorise
         {
             // https://stackoverflow.com/questions/5497073/how-to-differentiate-single-click-event-and-double-click-event
             // works good enough. Click is still called before the double click, but it is advise to not use both events anyway.
-            if ( eventArgs.Detail == 1 )
+            // We'll be treating any Detail higher then 2 as the user constantly clicking, therefore triggering Single Click.
+            if ( eventArgs.Detail == 1 || eventArgs.Detail > 2 )
                 await Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
             else if ( eventArgs.Detail == 2 )
                 await DoubleClicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
@@ -76,37 +71,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Gets or sets the row background color.
-        /// </summary>
-        [Parameter]
-        public Background Background
-        {
-            get => background;
-            set
-            {
-                background = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the row text color.
-        /// </summary>
-        [Parameter]
-        public TextColor TextColor
-        {
-            get => textColor;
-            set
-            {
-                textColor = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Sets a table row as selected by appending "selected" modifier on a <tr>.
+        /// Sets a table row as selected by appending "selected" modifier on a tr element.
         /// </summary>
         [Parameter]
         public bool Selected

@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 #endregion
@@ -9,6 +7,15 @@ namespace Blazorise.AntDesign
 {
     public class AntDesignThemeGenerator : ThemeGenerator
     {
+        #region Constructors
+
+        public AntDesignThemeGenerator( IThemeCache themeCache )
+            : base( themeCache )
+        {
+        }
+
+        #endregion
+
         #region Methods
 
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
@@ -20,6 +27,13 @@ namespace Blazorise.AntDesign
             sb.Append( $".ant-hero-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
+        {
+            sb.Append( $".ant-border-{variant}" ).Append( "{" )
+                .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
         }
 
@@ -122,6 +136,11 @@ namespace Blazorise.AntDesign
                 .Append( "{" )
                 .Append( $"color: currentColor !important;" )
                 .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".ant-btn-{variant}[disabled]" ).Append( "{" )
+                    .Append( $"color: rgba(0, 0, 0, {options.DisabledOpacity}) !important;" )
+                    .AppendLine( "}" );
         }
 
         protected override void GenerateButtonOutlineVariantStyles( StringBuilder sb, Theme theme, string variant, ThemeButtonOptions options )
@@ -235,6 +254,11 @@ namespace Blazorise.AntDesign
             if ( !string.IsNullOrEmpty( options?.Margin ) )
                 sb.Append( $".ant-btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
+                    .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".ant-btn[disabled]" ).Append( "{" )
+                    .Append( $"color: rgba(0, 0, 0, {options.DisabledOpacity}) !important;" )
                     .AppendLine( "}" );
         }
 

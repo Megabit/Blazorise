@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 #endregion
@@ -9,14 +7,23 @@ namespace Blazorise.Frolic
 {
     public class FrolicThemeGenerator : ThemeGenerator
     {
+        #region Constructors
+
+        public FrolicThemeGenerator( IThemeCache themeCache )
+            : base( themeCache )
+        {
+        }
+
+        #endregion
+
         #region Methods
 
-        public override void GenerateVariables( StringBuilder sb, Theme theme )
+        public override string GenerateVariables( Theme theme )
         {
-            variables["--b-frolic-btn-padding-sm"] = "0.27rem 0.85rem";
-            variables["--b-frolic-btn-padding-lg"] = "0.75rem 2rem";
+            Variables["--b-frolic-btn-padding-sm"] = "0.27rem 0.85rem";
+            Variables["--b-frolic-btn-padding-lg"] = "0.75rem 2rem";
 
-            base.GenerateVariables( sb, theme );
+            return base.GenerateVariables( theme );
         }
 
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
@@ -28,6 +35,13 @@ namespace Blazorise.Frolic
             sb.Append( $".e-face-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
+        {
+            sb.Append( $".e-border-{variant}" ).Append( "{" )
+                .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
         }
 
@@ -150,6 +164,11 @@ namespace Blazorise.Frolic
             if ( !string.IsNullOrEmpty( options?.Margin ) )
                 sb.Append( $".e-btn" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
+                    .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".e-btn[disabled]" ).Append( "{" )
+                    .Append( $"opacity: {options.DisabledOpacity};" )
                     .AppendLine( "}" );
         }
 

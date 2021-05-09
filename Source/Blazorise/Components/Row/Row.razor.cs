@@ -5,21 +5,23 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A wrapper that represents a row in a flexbox grid.
+    /// </summary>
     public partial class Row : BaseComponent
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Row() );
+            builder.Append( ClassProvider.RowNoGutters(), NoGutters );
 
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void BuildStyles( StyleBuilder builder )
         {
             builder.Append( StyleProvider.RowGutter( Gutter ), Gutter != default );
@@ -36,6 +38,14 @@ namespace Blazorise
         /// </summary>
         [Parameter] public (int Horizontal, int Vertical) Gutter { get; set; }
 
+        /// <summary>
+        /// Removes the negative margins from row and the horizontal padding from all immediate children columns.
+        /// </summary>
+        [Parameter] public bool NoGutters { get; set; }
+
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Row"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

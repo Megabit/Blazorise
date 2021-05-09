@@ -28,6 +28,15 @@ Include CSS link into your `index.html` or `_Host.cshtml` file, depending if you
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
 ```
 
+<link href="_content/Blazorise.Icons.Material/blazorise.icons.material.css" rel="stylesheet" />
+
+**Note:** If instead of FontAwesome icons you want to use Material icons you will need to define static `blazorise.icons.material.css` in your `index.html` or `_Host.cshtml` file. This file is required for some custom icon styles to work.
+
+```html
+<link href="_content/Blazorise.Icons.Material/blazorise.icons.material.css" rel="stylesheet" />
+```
+{: .notice--info}
+
 ### Registrations
 
 ```diff
@@ -84,3 +93,4 @@ By default all icons will have `Solid` style. To change it you can use one of th
 |-------------------|-------------------------------------------------------------------------|----------|-------------------------------------------------------------------------------|
 | Name              | object                                                                  | null     | Icon name.                                                                    |
 | IconStyle         | [IconStyle]({{ "/docs/helpers/enums/#iconstyle" | relative_url }})      | `Solid`  | Suggested icon style.                                                         |
+| IconSize          | [IconSize]({{ "/docs/helpers/enums/#iconsize" | relative_url }})        | `None`   | Defines the icon size.                                                        |

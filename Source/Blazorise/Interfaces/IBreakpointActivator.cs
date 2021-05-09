@@ -1,7 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 #endregion
 
@@ -17,12 +14,15 @@ namespace Blazorise
         /// </summary>
         string ElementId { get; }
 
+        /// <summary>
+        /// Gets the breakpoint.
+        /// </summary>
         Breakpoint Breakpoint { get; }
 
         /// <summary>
-        /// Triggers the component to activate breakpoint
+        /// Triggers the component to activate breakpoint.
         /// </summary>
-        /// <param name="closeReason">The reason for closing the component.</param>
+        /// <param name="broken">The reason for closing the component.</param>
         Task OnBreakpoint( bool broken );
     }
 }

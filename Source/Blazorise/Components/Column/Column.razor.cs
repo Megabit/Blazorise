@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A wrapper that represents a column in a flexbox grid.
+    /// </summary>
     public partial class Column : BaseContainerComponent
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             // Only add column classname if there are no custom sizes defined!
@@ -23,6 +23,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void BuildStyles( StyleBuilder builder )
         {
             builder.Append( StyleProvider.ColumnGutter( Gutter ), Gutter != default );

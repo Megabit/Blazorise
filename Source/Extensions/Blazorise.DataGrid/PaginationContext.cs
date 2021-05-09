@@ -213,10 +213,10 @@ namespace Blazorise.DataGrid
         public int MaxPaginationLinks { get; set; } = 5;
 
         /// <summary>
-        /// Gets or sets the total number of items. Used only when <see cref="ReadData"/> is used to load the data.
+        /// Gets or sets the total number of items. Used only when <see cref="DataGrid{TItem}.ReadData"/> is used to load the data.
         /// </summary>
         /// <remarks>
-        /// This field must be set only when <see cref="ReadData"/> is used to load the data.
+        /// This field must be set only when <see cref="DataGrid{TItem}.ReadData"/> is used to load the data.
         /// </remarks>
         public int? TotalItems
         {

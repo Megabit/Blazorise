@@ -13,7 +13,7 @@ namespace Blazorise
     /// <summary>
     /// An editor that displays a date value and allows a user to edit the value.
     /// </summary>
-    /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
+    /// <typeparam name="TValue">Data-type to be binded by the <see cref="DateEdit{TValue}"/> property.</typeparam>
     public partial class DateEdit<TValue> : BaseTextInput<TValue>
     {
         #region Methods
@@ -72,13 +72,14 @@ namespace Blazorise
             }
         }
 
+        /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
         {
             await JSRunner.InitializeDatePicker( ElementRef, ElementId, new
             {
-                InputMode = InputMode,
-                FirstDayOfWeek = FirstDayOfWeek,
-                DisplayFormat = DisplayFormat,
+                InputMode,
+                FirstDayOfWeek,
+                DisplayFormat,
                 Default = FormatValueAsString( Date ),
                 Min = Min?.ToString( DateFormat ),
                 Max = Max?.ToString( DateFormat ),
@@ -148,17 +149,13 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override string FormatValueAsString( TValue value )
         {
-            switch ( value )
+            return value switch
             {
-                case null:
-                    return null;
-                case DateTime datetime:
-                    return datetime.ToString( DateFormat );
-                case DateTimeOffset datetimeOffset:
-                    return datetimeOffset.ToString( DateFormat );
-                default:
-                    throw new InvalidOperationException( $"Unsupported type {value.GetType()}" );
-            }
+                null => null,
+                DateTime datetime => datetime.ToString( DateFormat ),
+                DateTimeOffset datetimeOffset => datetimeOffset.ToString( DateFormat ),
+                _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
+            };
         }
 
         /// <inheritdoc/>

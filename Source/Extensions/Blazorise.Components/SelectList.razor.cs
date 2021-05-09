@@ -12,7 +12,7 @@ namespace Blazorise.Components
     /// Dynamically builds select component and it's items based in the supplied data.
     /// </summary>
     /// <typeparam name="TItem">Data item type.</typeparam>
-    /// <typeparam name="TValue">Type if the value inside of <see cref="TItem"/>.</typeparam>
+    /// <typeparam name="TValue">Type if the value inside of <see cref="SelectList{TItem, TValue}"/>.</typeparam>
     public partial class SelectList<TItem, TValue> : ComponentBase
     {
         #region Members
@@ -119,6 +119,11 @@ namespace Blazorise.Components
         /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
         /// </summary>
         [Parameter] public int? TabIndex { get; set; }
+
+        /// <summary>
+        /// Add the disabled boolean attribute on an select to prevent user interactions and make it appear lighter.
+        /// </summary>
+        [Parameter] public bool Disabled { get; set; }
 
         /// <summary>
         /// Captures all the custom attribute that are not part of Blazorise component.

@@ -12,19 +12,12 @@ namespace Blazorise
     /// </summary>
     public partial class TableHeaderCell : BaseDraggableComponent
     {
-        #region Members
-
-        private TextAlignment textAlignment = TextAlignment.None;
-
-        #endregion
-
         #region Methods
 
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableHeaderCell() );
-            builder.Append( ClassProvider.TableHeaderCellTextAlignment( TextAlignment ), TextAlignment != TextAlignment.None );
 
             base.BuildClasses( builder );
         }
@@ -42,21 +35,6 @@ namespace Blazorise
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the text alignment.
-        /// </summary>
-        [Parameter]
-        public TextAlignment TextAlignment
-        {
-            get => textAlignment;
-            set
-            {
-                textAlignment = value;
-
-                DirtyClasses();
-            }
-        }
 
         /// <summary>
         /// Number of rows a cell should span.

@@ -46,6 +46,9 @@
     font-size: 0.95rem;
     height: 3rem; }
 
+.card {
+    overflow: initial; }
+
 .dropdown-toggle.dropdown-toggle-hidden::after {
     content: none !important; }
 
@@ -302,6 +305,12 @@ input.form-control[type=color] {
     line-height: 3rem;
     padding-left: 10px; }
 
+select[readonly] {
+    pointer-events: none; }
+    select[readonly] option,
+    select[readonly] optgroup {
+        display: none; }
+
 .no-gutters {
     margin-right: 0;
     margin-left: 0; }
@@ -347,13 +356,13 @@ input.form-control[type=color] {
     color: #fff; }
 
 .b-layout-header-fixed {
-    z-index: 1020; }
+    z-index: 160; }
 
 .b-layout-footer-fixed {
-    z-index: 1020; }
+    z-index: 160; }
 
 .b-layout-sider-content {
-    z-index: 1021; }
+    z-index: 161; }
 
 .modal.show {
     animation-duration: 0.25s;
@@ -938,6 +947,18 @@ table.table tbody tr.selected {
 
 tr.table-row-selectable:hover {
     cursor: pointer; }
+
+.table-fixed-header {
+    overflow-y: auto; }
+    .table-fixed-header .table {
+        border-collapse: separate;
+        border-spacing: 0; }
+    .table-fixed-header thead tr th {
+        border-top: none;
+        position: sticky;
+        background: white; }
+    .table-fixed-header thead tr:nth-child(1) th {
+        top: 0; }
 
 .nav.nav-tabs .nav-item a.nav-link {
     cursor: pointer; }

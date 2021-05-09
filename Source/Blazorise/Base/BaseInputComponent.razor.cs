@@ -134,7 +134,7 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// Parses a string value and convert it to a <see cref="TValue"/>.
+        /// Parses a string value and convert it to a <see cref="BaseInputComponent{TValue}"/>.
         /// </summary>
         /// <param name="value">A string value to convert.</param>
         /// <returns>Returns the result of parse operation.</returns>
@@ -176,6 +176,9 @@ namespace Blazorise
         /// <inheritdoc/>
         public async Task FocusAsync( bool scrollToElement = true )
         {
+            // workaround from: https://github.com/dotnet/aspnetcore/issues/30070#issuecomment-823938686
+            await Task.Yield();
+
             await JSRunner.Focus( ElementRef, ElementId, scrollToElement );
         }
 

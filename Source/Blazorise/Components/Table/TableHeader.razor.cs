@@ -47,6 +47,11 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Gets or sets the cascaded parent table component.
+        /// </summary>
+        [CascadingParameter] protected Table ParentTable { get; set; }
+
+        /// <summary>
         /// Specifies the content to be rendered inside this <see cref="TableHeader"/>.
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }

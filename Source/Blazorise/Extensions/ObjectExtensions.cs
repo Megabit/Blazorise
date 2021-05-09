@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Blazorise.Extensions
 {
+    /// <summary>
+    /// Generic methods for all object types.
+    /// </summary>
     public static class ObjectExtensions
     {
         /// <summary>

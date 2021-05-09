@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// A wrapper for collapse content.
+    /// </summary>
     public partial class CollapseBody : BaseComponent
     {
         #region Members
@@ -15,6 +18,9 @@ namespace Blazorise
 
         #region Constructors
 
+        /// <summary>
+        /// A default <see cref="CollapseBody"/> constructor.
+        /// </summary>
         public CollapseBody()
         {
             ContentClassBuilder = new ClassBuilder( BuildBodyClasses );
@@ -24,18 +30,7 @@ namespace Blazorise
 
         #region Methods
 
-        protected internal override void DirtyClasses()
-        {
-            ContentClassBuilder.Dirty();
-
-            base.DirtyClasses();
-        }
-
-        private void BuildBodyClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.CollapseBodyContent() );
-        }
-
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.CollapseBody() );
@@ -44,14 +39,34 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Builds the classnames for a collapse body element.
+        /// </summary>
+        /// <param name="builder">Class builder used to append the classnames.</param>
+        private void BuildBodyClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.CollapseBodyContent() );
+        }
+
+        /// <inheritdoc/>
+        protected internal override void DirtyClasses()
+        {
+            ContentClassBuilder.Dirty();
+
+            base.DirtyClasses();
+        }
+
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Body container class builder.
+        /// </summary>
         protected ClassBuilder ContentClassBuilder { get; private set; }
 
         /// <summary>
-        /// Gets dialog container class-names.
+        /// Gets body container class-names.
         /// </summary>
         protected string ContentClassNames => ContentClassBuilder.Class;
 
@@ -70,6 +85,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="CollapseBody"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

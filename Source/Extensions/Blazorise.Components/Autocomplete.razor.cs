@@ -82,7 +82,7 @@ namespace Blazorise.Components
         /// </summary>
         /// <param name="eventArgs">Event arguments.</param>
         /// <returns>Returns awaitable task</returns>
-        protected async Task OnTextKeyDownHandler( KeyboardEventArgs e )
+        protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
         {
             if ( !DropdownVisible )
                 return;
@@ -93,22 +93,22 @@ namespace Blazorise.Components
 
             var activeItemIndex = ActiveItemIndex;
 
-            if ( ( e.Code == "Enter" || e.Code == "NumpadEnter" || e.Code == "Tab" ) )
+            if ( eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" || eventArgs.Code == "Tab" )
             {
                 var item = FilteredData.ElementAtOrDefault( activeItemIndex );
 
                 if ( item != null && ValueField != null )
                     await OnDropdownItemClicked( ValueField.Invoke( item ) );
             }
-            else if ( e.Code == "Escape" )
+            else if ( eventArgs.Code == "Escape" )
             {
                 await Clear();
             }
-            else if ( e.Code == "ArrowUp" )
+            else if ( eventArgs.Code == "ArrowUp" )
             {
                 UpdateActiveFilterIndex( --activeItemIndex );
             }
-            else if ( e.Code == "ArrowDown" )
+            else if ( eventArgs.Code == "ArrowDown" )
             {
                 UpdateActiveFilterIndex( ++activeItemIndex );
             }
@@ -135,7 +135,7 @@ namespace Blazorise.Components
         {
             // Give enought time for other events to do their stuff before closing
             // the dropdown.
-            await Task.Delay( 100 );
+            await Task.Delay( 250 );
 
             TextFocused = false;
         }
@@ -147,7 +147,7 @@ namespace Blazorise.Components
 
             var item = Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) );
 
-            SelectedText = item != null ? TextField?.Invoke( item ) : string.Empty;
+            SelectedText = TextField?.Invoke( item ) ?? string.Empty;
             SelectedValue = Converters.ChangeType<TValue>( value );
 
             await SelectedValueChanged.InvokeAsync( SelectedValue );
@@ -175,14 +175,14 @@ namespace Blazorise.Components
             if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
-                        let text = TextField.Invoke( q )
+                        let text = TextField.Invoke( q ) ?? string.Empty
                         where text.IndexOf( CurrentSearch ?? string.Empty, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
-                        let text = TextField.Invoke( q )
+                        let text = TextField.Invoke( q ) ?? string.Empty
                         where text.StartsWith( CurrentSearch ?? string.Empty, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
@@ -223,7 +223,7 @@ namespace Blazorise.Components
             {
                 var item = FilteredData[ActiveItemIndex];
 
-                SelectedText = item != null ? TextField?.Invoke( item ) : string.Empty;
+                SelectedText = TextField?.Invoke( item ) ?? string.Empty;
             }
         }
 

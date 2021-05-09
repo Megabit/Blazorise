@@ -43,4 +43,20 @@
         /// </summary>
         Bubble
     }
+
+    /// <summary>
+    /// Dynamic reference type enumeration
+    /// </summary>
+    public enum DynamicReferenceType
+    {
+        /// <summary>
+        /// CSS stylesheet
+        /// </summary>
+        Stylesheet,
+
+        /// <summary>
+        /// Javascript
+        /// </summary>
+        Script
+    }
 }

@@ -18,6 +18,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TableRowHeader() );
@@ -25,6 +26,10 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Handles the row onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task ClickHandler( MouseEventArgs e )
         {
             return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( e ) );

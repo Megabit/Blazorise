@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 #endregion
@@ -9,6 +7,15 @@ namespace Blazorise.Bulma
 {
     public class BulmaThemeGenerator : ThemeGenerator
     {
+        #region Constructors
+
+        public BulmaThemeGenerator( IThemeCache themeCache )
+            : base( themeCache )
+        {
+        }
+
+        #endregion
+
         #region Methods
 
         protected override void GenerateBackgroundVariantStyles( StringBuilder sb, Theme theme, string variant )
@@ -20,6 +27,13 @@ namespace Blazorise.Bulma
             sb.Append( $".hero.is-{variant}" ).Append( "{" )
                 .Append( $"background-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .Append( $"color: {ToHex( Contrast( theme, Var( ThemeVariables.BackgroundColor( variant ) ) ) )} !important;" )
+                .AppendLine( "}" );
+        }
+
+        protected override void GenerateBorderVariantStyles( StringBuilder sb, Theme theme, string variant )
+        {
+            sb.Append( $".has-border-{variant}" ).Append( "{" )
+                .Append( $"border-color: {Var( ThemeVariables.BackgroundColor( variant ) )} !important;" )
                 .AppendLine( "}" );
         }
 
@@ -143,6 +157,11 @@ namespace Blazorise.Bulma
             if ( !string.IsNullOrEmpty( options?.Margin ) )
                 sb.Append( $".button" ).Append( "{" )
                     .Append( $"margin: {options.Margin};" )
+                    .AppendLine( "}" );
+
+            if ( options?.DisabledOpacity != null )
+                sb.Append( $".button[disabled], fieldset[disabled] .button" ).Append( "{" )
+                    .Append( $"opacity: {options.DisabledOpacity};" )
                     .AppendLine( "}" );
         }
 
