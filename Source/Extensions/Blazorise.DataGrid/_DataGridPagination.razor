@@ -74,7 +74,14 @@
 
                 <PaginationItem Display="Blazorise.Display.None.InlineBlock.OnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
                     <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
-                        @pageNumberString
+                        @if ( PageButtonTemplate != null )
+                        {
+                            @PageButtonTemplate( new PageButtonContext( pageNumber, pageActive ) )
+                        }
+                        else
+                        {
+                            @pageNumberString
+                        }
                     </PaginationLink>
                 </PaginationItem>
             }

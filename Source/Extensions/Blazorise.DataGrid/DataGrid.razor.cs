@@ -1124,12 +1124,12 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Gets or sets content of page buttons of pager.
         /// </summary>
-        [Parameter] public RenderFragment<PageButtonContext> PageButtonTemplate { get; set; }
+        [Parameter] public RenderFragment<PageButtonContext> PageButtonTemplate { get => paginationTemplates.PageButtonTemplate; set => paginationTemplates.PageButtonTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of items per page of grid.
         /// </summary>
-        [Parameter] public RenderFragment ItemsPerPageTemplate { get; set; }
+        [Parameter] public RenderFragment ItemsPerPageTemplate { get => paginationTemplates.ItemsPerPageTemplate; set => paginationTemplates.ItemsPerPageTemplate = value; }
 
         /// <summary>
         /// Gets or sets content of total items grid for small devices.
