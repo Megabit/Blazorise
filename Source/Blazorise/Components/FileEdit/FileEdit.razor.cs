@@ -91,6 +91,7 @@ namespace Blazorise
             {
                 JSRunner.DestroyFileEdit( ElementRef, ElementId );
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
 
                 LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
