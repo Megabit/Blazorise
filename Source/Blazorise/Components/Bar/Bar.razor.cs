@@ -136,6 +136,7 @@ namespace Blazorise
                     }
 
                     DisposeDotNetObjectRef( dotNetObjectRef );
+                    dotNetObjectRef = null;
                 }
 
                 if ( NavigationBreakpoint != Breakpoint.None )

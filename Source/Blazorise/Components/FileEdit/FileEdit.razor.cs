@@ -116,6 +116,7 @@ namespace Blazorise
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
 
                 LocalizerService.LocalizationChanged -= OnLocalizationChanged;
             }
