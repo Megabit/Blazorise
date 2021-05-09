@@ -151,7 +151,7 @@ namespace Blazorise
                 {
                     return default;
                 }
-            } ).Distinct().ToArray();
+            } ).ToArray();
         }
 
         public ValueTask SetSelectedOptions<TValue>( string elementId, IReadOnlyList<TValue> values )
