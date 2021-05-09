@@ -68,6 +68,7 @@ namespace Blazorise
             {
                 JSRunner.DestroyNumericEdit( ElementRef, ElementId );
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
             }
 
             base.Dispose( disposing );

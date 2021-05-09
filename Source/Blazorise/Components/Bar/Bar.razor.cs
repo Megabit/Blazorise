@@ -125,6 +125,7 @@ namespace Blazorise
                     _ = JSRunner.UnregisterBreakpointComponent( this );
 
                     DisposeDotNetObjectRef( dotNetObjectRef );
+                    dotNetObjectRef = null;
                 }
 
                 if ( NavigationBreakpoint != Breakpoint.None )
