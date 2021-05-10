@@ -19,7 +19,7 @@ namespace Blazorise.Frolic
             serviceCollection.AddScoped<IJSRunner, FrolicJSRunner>();
             serviceCollection.AddSingleton<IThemeGenerator, FrolicThemeGenerator>();
 
-            foreach ( var mapping in FrolicComponentMap )
+            foreach ( var mapping in ComponentMap )
             {
                 serviceCollection.AddTransient( mapping.Key, mapping.Value );
             }
@@ -27,7 +27,7 @@ namespace Blazorise.Frolic
             return serviceCollection;
         }
 
-        public static IDictionary<Type, Type> FrolicComponentMap => new Dictionary<Type, Type>
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
         {
             { typeof( Blazorise.Addon ), typeof( Frolic.Addon ) },
             { typeof( Blazorise.BarBrand ), typeof( Frolic.BarBrand ) },

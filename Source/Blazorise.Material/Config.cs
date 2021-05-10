@@ -19,7 +19,7 @@ namespace Blazorise.Material
             serviceCollection.AddScoped<IJSRunner, MaterialJSRunner>();
             serviceCollection.AddScoped<IThemeGenerator, MaterialThemeGenerator>();
 
-            foreach ( var mapping in MaterialComponentMap )
+            foreach ( var mapping in ComponentMap )
             {
                 serviceCollection.AddTransient( mapping.Key, mapping.Value );
             }
@@ -27,7 +27,7 @@ namespace Blazorise.Material
             return serviceCollection;
         }
 
-        public static IDictionary<Type, Type> MaterialComponentMap => new Dictionary<Type, Type>( Bootstrap.Config.BootstrapComponentMap )
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>( Bootstrap.Config.ComponentMap )
         {
             // material overrides
             [typeof( Blazorise.DateEdit<> )] = typeof( Material.DateEdit<> ),

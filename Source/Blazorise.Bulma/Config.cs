@@ -19,7 +19,7 @@ namespace Blazorise.Bulma
             serviceCollection.AddScoped<IJSRunner, BulmaJSRunner>();
             serviceCollection.AddSingleton<IThemeGenerator, BulmaThemeGenerator>();
 
-            foreach ( var mapping in BulmaComponentMap )
+            foreach ( var mapping in ComponentMap )
             {
                 serviceCollection.AddTransient( mapping.Key, mapping.Value );
             }
@@ -27,7 +27,7 @@ namespace Blazorise.Bulma
             return serviceCollection;
         }
 
-        public static IDictionary<Type, Type> BulmaComponentMap => new Dictionary<Type, Type>
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
         {
             { typeof( Blazorise.Addons ), typeof( Bulma.Addons ) },
             { typeof( Blazorise.Badge ), typeof( Bulma.Badge ) },

@@ -31,7 +31,7 @@ namespace Blazorise.Bootstrap
 
         public static IServiceCollection AddBootstrapComponents( this IServiceCollection serviceCollection )
         {
-            foreach ( var mapping in BootstrapComponentMap )
+            foreach ( var mapping in ComponentMap )
             {
                 serviceCollection.AddTransient( mapping.Key, mapping.Value );
             }
@@ -39,7 +39,7 @@ namespace Blazorise.Bootstrap
             return serviceCollection;
         }
 
-        public static IDictionary<Type, Type> BootstrapComponentMap => new Dictionary<Type, Type>
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
         {
             { typeof( Blazorise.Addon ), typeof( Bootstrap.Addon ) },
             { typeof( Blazorise.BarToggler ), typeof( Bootstrap.BarToggler ) },

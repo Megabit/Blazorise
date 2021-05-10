@@ -24,7 +24,7 @@ namespace Blazorise.AntDesign
             serviceCollection.AddScoped<IJSRunner, AntDesignJSRunner>();
             serviceCollection.AddScoped<IThemeGenerator, AntDesignThemeGenerator>();
 
-            foreach ( var mapping in AntDesignComponentMap )
+            foreach ( var mapping in ComponentMap )
             {
                 serviceCollection.AddTransient( mapping.Key, mapping.Value );
             }
@@ -32,7 +32,7 @@ namespace Blazorise.AntDesign
             return serviceCollection;
         }
 
-        public static IDictionary<Type, Type> AntDesignComponentMap => new Dictionary<Type, Type>
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
         {
             { typeof( Blazorise.Addons ), typeof( AntDesign.Addons ) },
             { typeof( Blazorise.Addon ), typeof( AntDesign.Addon ) },
