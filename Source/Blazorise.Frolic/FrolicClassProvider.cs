@@ -504,6 +504,10 @@ namespace Blazorise.Frolic
 
         public override string CarouselSlideActive( bool active ) => active ? null : "carousel-item-hidden";
 
+        public override string CarouselSlideSlidingPrev( bool sliding ) => null;
+
+        public override string CarouselSlideSlisingNext( bool sliding ) => null;
+
         public override string CarouselIndicators() => "carousel-indicator is-inside is-bottom";
 
         public override string CarouselIndicator() => "indicator-item";

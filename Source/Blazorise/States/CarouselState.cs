@@ -18,6 +18,10 @@
         /// <summary>
         /// Gets or sets currently selected slide name.
         /// </summary>
-        public string CurrentSlide { get; init; }
+        public string SelectedSlide { get; init; }
+
+        public string SlidingPrev { get; init; }
+
+        public string SlidingNext { get; init; }
     }
 }

@@ -431,6 +431,10 @@ namespace Blazorise
 
         public abstract string CarouselSlideActive( bool active );
 
+        public abstract string CarouselSlideSlidingPrev( bool sliding );
+
+        public abstract string CarouselSlideSlisingNext( bool sliding );
+
         public abstract string CarouselIndicators();
 
         public abstract string CarouselIndicator();

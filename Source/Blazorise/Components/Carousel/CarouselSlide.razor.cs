@@ -50,6 +50,8 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.CarouselSlide() );
             builder.Append( ClassProvider.CarouselSlideActive( Active ) );
+            builder.Append( ClassProvider.CarouselSlideSlidingPrev( IsSlidingPrev ) );
+            builder.Append( ClassProvider.CarouselSlideSlisingNext( IsSlidingNext ) );
 
             base.BuildClasses( builder );
         }
@@ -89,7 +91,11 @@ namespace Blazorise
         /// <summary>
         /// True if this slide is currently active.
         /// </summary>
-        public bool Active => ParentCarouselState?.CurrentSlide == Name;
+        public bool Active => ParentCarouselState?.SelectedSlide == Name;
+
+        public bool IsSlidingPrev => ParentCarouselState?.SlidingPrev == Name;
+
+        public bool IsSlidingNext => ParentCarouselState?.SlidingNext == Name;
 
         /// <summary>
         /// Gets or sets the class builder for the indicator element.

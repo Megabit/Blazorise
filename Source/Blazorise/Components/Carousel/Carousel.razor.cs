@@ -38,6 +38,8 @@ namespace Blazorise
         /// </summary>
         protected List<CarouselSlide> carouselSlides = new List<CarouselSlide>();
 
+        protected ValueDebouncer valueDebouncer;
+
         #endregion
 
         #region Constructors
@@ -58,10 +60,22 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
+            valueDebouncer = new ValueDebouncer( 1200 );
+            valueDebouncer.Debounced += ValueDebouncer_Debounced;
+            //countdownTimer = new CountdownTimer( 2000 );
+            //countdownTimer.Elapsed += CountdownTimer_Elapsed;
+
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
 
             base.OnInitialized();
         }
+
+        //private void CountdownTimer_Elapsed( object sender, EventArgs e )
+        //{
+        //    state = state with { FromSlide = FindNextSlide( state.SelectedSlide ).Name };
+
+        //    InvokeAsync( StateHasChanged );
+        //}
 
         /// <inheritdoc/>
         protected override void OnAfterRender( bool firstRender )
@@ -154,6 +168,29 @@ namespace Blazorise
                 autoplayTimer.Stop();
                 autoplayTimer.Start();
             }
+
+            state = state with
+            {
+                SlidingPrev = SelectedSlide,
+                SlidingNext = slideName
+            };
+
+            valueDebouncer.Update( slideName );
+
+            //countdownTimer.Start()
+
+            //SelectedSlide = slideName;
+
+            InvokeAsync( StateHasChanged );
+        }
+
+        private void ValueDebouncer_Debounced( object sender, string slideName )
+        {
+            state = state with
+            {
+                SlidingPrev = null,
+                SlidingNext = null
+            };
 
             SelectedSlide = slideName;
 
@@ -366,15 +403,15 @@ namespace Blazorise
         [Parameter]
         public string SelectedSlide
         {
-            get => state.CurrentSlide;
+            get => state.SelectedSlide;
             set
             {
-                if ( value == state.CurrentSlide )
+                if ( value == state.SelectedSlide )
                     return;
 
-                state = state with { CurrentSlide = value };
+                state = state with { SelectedSlide = value };
 
-                SelectedSlideChanged.InvokeAsync( state.CurrentSlide );
+                SelectedSlideChanged.InvokeAsync( state.SelectedSlide );
 
                 DirtyClasses();
             }

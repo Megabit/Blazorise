@@ -470,6 +470,10 @@ namespace Blazorise.Bootstrap
 
         public override string CarouselSlideActive( bool active ) => active ? Active() : null;
 
+        public override string CarouselSlideSlidingPrev( bool sliding ) => sliding ? "carousel-item-prev" : null;
+
+        public override string CarouselSlideSlisingNext( bool sliding ) => sliding ? "carousel-item-next" : null;
+
         public override string CarouselIndicators() => "carousel-indicators";
 
         public override string CarouselIndicator() => null;

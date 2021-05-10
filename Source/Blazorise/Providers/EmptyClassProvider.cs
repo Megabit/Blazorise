@@ -431,6 +431,10 @@ namespace Blazorise.Providers
 
         public string CarouselSlideActive( bool active ) => null;
 
+        public string CarouselSlideSlidingPrev( bool sliding ) => null;
+
+        public string CarouselSlideSlisingNext( bool sliding ) => null;
+
         public string CarouselIndicators() => null;
 
         public string CarouselIndicator() => null;
