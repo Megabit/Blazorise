@@ -1,8 +1,5 @@
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 #endregion
 
@@ -15,8 +12,21 @@ namespace Blazorise
     {
         #region Basic methods
 
+        /// <summary>
+        /// Compares two strings to see if they are equal.
+        /// </summary>
+        /// <param name="value">First string.</param>
+        /// <param name="compare">Second string.</param>
+        /// <returns>True if they are equal.</returns>
         public static bool IsEqual( string value, string compare ) => value == compare;
 
+        /// <summary>
+        /// Checks if the given string length is in the given range.
+        /// </summary>
+        /// <param name="value">String to check for the range.</param>
+        /// <param name="min">Minimum lenght allowed.</param>
+        /// <param name="max">Maximum lenght allowed.</param>
+        /// <returns>True if string length is in the range.</returns>
         public static bool IsLength( string value, int min, int max ) => value != null && value.Length >= min && value.Length <= max;
 
         /// <summary>

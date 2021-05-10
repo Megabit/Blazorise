@@ -59,6 +59,22 @@
                     </Column>
                 </Row>
             </CardBody>
+            <CardBody>
+                <CardText>Tooltips can also be triggered by <code>click</code> or <code>focus</code> events.</CardText>
+                <Row>
+                    <Column>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.Click">
+                            <Button Color="Color.Primary">Click</Button>
+                        </Tooltip>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.Focus">
+                            <Button Color="Color.Primary">Focus</Button>
+                        </Tooltip>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.MouseEnterClick">
+                            <Button Color="Color.Primary">MouseEnterClick</Button>
+                        </Tooltip>
+                    </Column>
+                </Row>
+            </CardBody>
         </Card>
     </Column>
 </Row>
@@ -378,7 +394,7 @@
                     </AlertDescription>
                 </Alert>
                 <Alert Color="Color.Success" Visible="true">
-                    <Heading Size="HeadingSize.Is4" Color="TextColor.Success">Big one!</Heading>
+                    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">Big one!</Heading>
                     <Paragraph>
                         <AlertMessage>Well done!</AlertMessage>
                         <AlertDescription>
@@ -439,7 +455,7 @@
                     <CloseButton />
                 </Alert>
                 <Alert Color="Color.Info" @bind-Visible="@dismisableAlert5" Dismisable="true">
-                    <Heading Size="HeadingSize.Is4" Color="TextColor.Success">
+                    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
                         Big one!
                         <CloseButton />
                     </Heading>

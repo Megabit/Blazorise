@@ -26,3 +26,8 @@
         }
     }
 }
+
+.ant-tabs.ant-tabs-top .ant-tabs-bar.ant-tabs-top-bar .ant-tabs-nav-scroll {
+    overflow: hidden;
+    overflow-x: auto;
+}

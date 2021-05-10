@@ -9,6 +9,11 @@ namespace Blazorise
     /// </summary>
     public class FileProgressedEventArgs : EventArgs
     {
+        /// <summary>
+        /// A default <see cref="FileProgressedEventArgs"/> constructor.
+        /// </summary>
+        /// <param name="file">File that is being processed.</param>
+        /// <param name="progress">Percentage of file upload process.</param>
         public FileProgressedEventArgs( IFileEntry file, double progress )
         {
             File = file;

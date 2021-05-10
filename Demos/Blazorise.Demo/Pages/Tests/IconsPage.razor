@@ -1,0 +1,54 @@
+﻿@page "/tests/icons"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Icons</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Div Flex="Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start">
+                    @foreach ( var icon in Enum.GetValues<IconName>() )
+                    {
+                        <Div Flex="Flex.Column.JustifyContent.Center">
+                            <Span Flex="Flex.JustifyContent.Center.AlignItems.Center" Padding="Padding.Is5">
+                                <Icon Name="@icon" />
+                            </Span>
+                            <Text TextAlignment="TextAlignment.Center">
+                                @icon
+                            </Text>
+                        </Div>
+                    }
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Icon Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Div Flex="Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start">
+                    @foreach ( var iconSize in Enum.GetValues<IconSize>() )
+                    {
+                        @if ( iconSize == IconSize.None )
+                            continue;
+
+                        <Div Flex="Flex.Column.JustifyContent.Center">
+                            <Span Flex="Flex.JustifyContent.Center.AlignItems.Center" Padding="Padding.Is5">
+                                <Icon Name="IconName.Camera" IconSize="@iconSize" />
+                            </Span>
+                            <Text TextAlignment="TextAlignment.Center">
+                                @iconSize
+                            </Text>
+                        </Div>
+                    }
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

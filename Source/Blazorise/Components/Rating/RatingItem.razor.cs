@@ -32,6 +32,10 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <summary>
+        /// Handles the item onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual async Task HandleClick()
         {
             if ( Rating.Disabled )
@@ -49,7 +53,12 @@ namespace Blazorise
             }
         }
 
-        protected virtual async Task HandleMouseOver( MouseEventArgs e )
+        /// <summary>
+        /// Handles the item onmouseover event.
+        /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected virtual async Task HandleMouseOver( MouseEventArgs eventArgs )
         {
             if ( Rating.Disabled )
                 return;
@@ -59,7 +68,12 @@ namespace Blazorise
             await ItemHovered.InvokeAsync( Value );
         }
 
-        protected virtual async Task HandleMouseOut( MouseEventArgs e )
+        /// <summary>
+        /// Handles the item onmouseout event.
+        /// </summary>
+        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected virtual async Task HandleMouseOut( MouseEventArgs eventArgs )
         {
             if ( Rating.Disabled )
                 return;

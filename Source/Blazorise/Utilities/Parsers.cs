@@ -1,13 +1,13 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 #endregion
 
 namespace Blazorise.Utilities
 {
+    /// <summary>
+    /// Various methods for parsing dates and times.
+    /// </summary>
     public static class Parsers
     {
         /// <summary>
@@ -72,6 +72,14 @@ namespace Blazorise.Utilities
             CultureInfo.InvariantCulture.DateTimeFormat.ShortTimePattern,
         };
 
+        /// <summary>
+        /// Tries to parse a date from a given string value.
+        /// </summary>
+        /// <typeparam name="TValue">The type of object to return.</typeparam>
+        /// <param name="value">String to parse.</param>
+        /// <param name="inputMode">Hint for parsing method.</param>
+        /// <param name="result">An object whose value represents the parsed string.</param>
+        /// <returns>True if parsing was successful.</returns>
         public static bool TryParseDate<TValue>( string value, DateInputMode inputMode, out TValue result )
         {
             if ( string.IsNullOrWhiteSpace( value ) )
@@ -109,6 +117,13 @@ namespace Blazorise.Utilities
             return false;
         }
 
+        /// <summary>
+        /// Tries to parse a time from a given string value.
+        /// </summary>
+        /// <typeparam name="TValue">The type of object to return.</typeparam>
+        /// <param name="value">String to parse.</param>
+        /// <param name="result">An object whose value represents the parsed string.</param>
+        /// <returns>True if parsing was successful.</returns>
         public static bool TryParseTime<TValue>( string value, out TValue result )
         {
             if ( string.IsNullOrWhiteSpace( value ) )

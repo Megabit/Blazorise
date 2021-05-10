@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Blazorise.Utilities
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public sealed class CompositeDisposable : Collection<IDisposable>, IDisposable
     {
         #region Methods
@@ -42,4 +43,5 @@ namespace Blazorise.Utilities
 
         #endregion
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

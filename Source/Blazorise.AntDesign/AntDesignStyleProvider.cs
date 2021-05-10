@@ -11,7 +11,7 @@ namespace Blazorise.AntDesign
     {
         #region Modal
 
-        public override string ModalShow() => "display: block; padding-right: 17px;";
+        public override string ModalShow() => "display: block;";
 
         #endregion
 

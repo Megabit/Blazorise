@@ -4,24 +4,20 @@ using Blazorise.Utilities;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Wrapper for all text inside of <see cref="Card"/> component.
+    /// </summary>
     public partial class CardText : BaseTypographyComponent
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.CardText() );
 
             base.BuildClasses( builder );
         }
-
-        #endregion
-
-        #region Properties
 
         #endregion
     }

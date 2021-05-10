@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Wrapper for longer text inside of <see cref="Alert"/> component.
+    /// </summary>
     public partial class AlertDescription : BaseComponent
     {
         #region Members
@@ -13,6 +16,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.AlertDescription() );
@@ -20,6 +24,7 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
+        /// <inheritdoc/>
         protected override void OnInitialized()
         {
             ParentAlert?.NotifyHasDescription();
@@ -31,8 +36,14 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Alert"/> component.
+        /// </summary>
         [CascadingParameter] protected Alert ParentAlert { get; set; }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="AlertDescription"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

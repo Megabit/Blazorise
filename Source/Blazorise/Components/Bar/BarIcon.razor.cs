@@ -10,10 +10,6 @@ namespace Blazorise
     /// </summary>
     public partial class BarIcon : BaseComponent
     {
-        #region Members
-
-        #endregion
-
         #region Methods
 
         /// <inheritdoc/>

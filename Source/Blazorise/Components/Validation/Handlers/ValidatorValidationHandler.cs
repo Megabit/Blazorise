@@ -1,8 +1,6 @@
 ﻿#region Using directives
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise

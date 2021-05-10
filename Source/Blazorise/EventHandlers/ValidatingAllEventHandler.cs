@@ -1,4 +1,8 @@
 ﻿namespace Blazorise
 {
-    public delegate void ValidatingAllEventHandler( ValidatingAllEventArgs e );
+    /// <summary>
+    /// Delegate for the <see cref="Validations.ValidatingAll"/> event.
+    /// </summary>
+    /// <param name="eventArgs">Cancellable event argument.</param>
+    public delegate void ValidatingAllEventHandler( ValidatingAllEventArgs eventArgs );
 }

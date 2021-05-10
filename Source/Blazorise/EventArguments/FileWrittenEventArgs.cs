@@ -9,6 +9,12 @@ namespace Blazorise
     /// </summary>
     public class FileWrittenEventArgs : EventArgs
     {
+        /// <summary>
+        /// A default <see cref="FileWrittenEventArgs"/> constructor.
+        /// </summary>
+        /// <param name="file">File that is being read.</param>
+        /// <param name="position">Read offset in bytes within the file.</param>
+        /// <param name="data">Bytes that are being read.</param>
         public FileWrittenEventArgs( IFileEntry file, long position, byte[] data )
         {
             File = file;

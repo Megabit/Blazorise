@@ -3,6 +3,7 @@
 @import "variables";
 @import "mixins";
 
+@import "divider";
 @import "progress";
 @import "tooltip";
 @import "layout";
@@ -22,45 +23,5 @@
 
     &::first-letter {
         text-transform: uppercase;
-    }
-}
-
-$divider-color: var(--b-divider-color, #999);
-$divider-thickness: var(--b-divider-thickness, 2px);
-$divider-text-size: var(--b-divider-font-size, 0.85rem);
-
-@mixin divider($type, $thickness, $color) {
-    &.divider-#{$type} {
-        border-top: $thickness #{$type} $color;
-    }
-}
-
-hr {
-    &.divider {
-        @each $type in ("solid", "dashed", "dotted") {
-            @include divider($type, $divider-thickness, $divider-color);
-        }
-
-        &.divider-text {
-            position: relative;
-            border: none;
-            height: 1px;
-            background: $divider-color;
-
-            &::before {
-                content: attr(data-content);
-                display: inline-block;
-                background: #fff;
-                font-weight: bold;
-                font-size: $divider-text-size;
-                color: $divider-color;
-                border-radius: 30rem;
-                padding: 0.2rem 2rem;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-        }
     }
 }

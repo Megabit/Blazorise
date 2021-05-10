@@ -5,8 +5,14 @@ using System.Collections.Generic;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Provides data for the <see cref="Validation.Validator"/> event.
+    /// </summary>
     public class ValidatorEventArgs : EventArgs
     {
+        /// <summary>
+        /// A default <see cref="ValidatorEventArgs"/> constructor.
+        /// </summary>
         public ValidatorEventArgs( object value )
         {
             Value = value;

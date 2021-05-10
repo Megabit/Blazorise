@@ -184,18 +184,12 @@ namespace Blazorise.Bootstrap
 
         public override string LabelType( LabelType labelType )
         {
-            switch ( labelType )
+            return labelType switch
             {
-                case Blazorise.LabelType.Check:
-                case Blazorise.LabelType.Radio:
-                case Blazorise.LabelType.Switch:
-                    return UseCustomInputStyles ? "custom-control-label" : "form-check-label";
-                case Blazorise.LabelType.File:
-                    return UseCustomInputStyles ? "custom-file-label" : null;
-                case Blazorise.LabelType.None:
-                default:
-                    return null;
-            }
+                Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => UseCustomInputStyles ? "custom-control-label" : "form-check-label",
+                Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
+                _ => null,
+            };
         }
 
         public override string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}";
@@ -278,7 +272,7 @@ namespace Blazorise.Bootstrap
 
         public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
 
-        public override string ControlFile() => UseCustomInputStyles ? "custom-control custom-file" : "form-group";
+        public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
 
         public override string ControlText() => null;
 
@@ -292,15 +286,12 @@ namespace Blazorise.Bootstrap
 
         public override string Addon( AddonType addonType )
         {
-            switch ( addonType )
+            return addonType switch
             {
-                case AddonType.Start:
-                    return "input-group-prepend";
-                case AddonType.End:
-                    return "input-group-append";
-                default:
-                    return null;
-            }
+                AddonType.Start => "input-group-prepend",
+                AddonType.End => "input-group-append",
+                _ => null,
+            };
         }
 
         public override string AddonLabel() => "input-group-text";
@@ -328,6 +319,8 @@ namespace Blazorise.Bootstrap
         public override string ButtonBlock() => $"{Button()}-block";
 
         public override string ButtonActive() => "active";
+
+        public override string ButtonDisabled() => "disabled";
 
         public override string ButtonLoading() => null;
 
@@ -374,6 +367,8 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownDivider() => "dropdown-divider";
 
+        public override string DropdownHeader() => "dropdown-header";
+
         public override string DropdownMenu() => "dropdown-menu";
 
         //public override string DropdownMenuBody() => null;
@@ -396,19 +391,13 @@ namespace Blazorise.Bootstrap
 
         public override string DropdownDirection( Direction direction )
         {
-            switch ( direction )
+            return direction switch
             {
-                case Direction.Up:
-                    return "dropup";
-                case Direction.Right:
-                    return "dropright";
-                case Direction.Left:
-                    return "dropleft";
-                case Direction.Down:
-                case Direction.None:
-                default:
-                    return null;
-            }
+                Direction.Up => "dropup",
+                Direction.Right => "dropright",
+                Direction.Left => "dropleft",
+                _ => null,
+            };
         }
 
         public override string DropdownTableResponsive() => "position-static";
@@ -515,8 +504,6 @@ namespace Blazorise.Bootstrap
 
         public override string CardWhiteText() => "text-white";
 
-        public override string CardBackground( Background background ) => BackgroundColor( background );
-
         public override string CardActions() => "card-actions";
 
         public override string CardBody() => "card-body";
@@ -566,8 +553,6 @@ namespace Blazorise.Bootstrap
         #region Bar
 
         public override string Bar() => "navbar";
-
-        public override string BarBackground( Background background ) => BackgroundColor( background );
 
         public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
 
@@ -656,6 +641,8 @@ namespace Blazorise.Bootstrap
 
         public override string Row() => "row";
 
+        public override string RowNoGutters() => "no-gutters";
+
         #endregion
 
         #region Column
@@ -681,14 +668,14 @@ namespace Blazorise.Bootstrap
 
         #region Display
 
-        public override string Display( DisplayType displayType, Breakpoint breakpoint, DisplayDirection direction )
+        public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
         {
-            var baseClass = breakpoint != Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile
-                ? $"d-{ToBreakpoint( breakpoint )}-{ToDisplayType( displayType )}"
+            var baseClass = displayDefinition.Breakpoint != Breakpoint.None && displayDefinition.Breakpoint != Blazorise.Breakpoint.Mobile
+                ? $"d-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
                 : $"d-{ToDisplayType( displayType )}";
 
-            if ( direction != DisplayDirection.None )
-                return $"{baseClass} flex-{ToDisplayDirection( direction )}";
+            if ( displayDefinition.Direction != DisplayDirection.None )
+                return $"{baseClass} flex-{ToDisplayDirection( displayDefinition.Direction )}";
 
             return baseClass;
         }
@@ -777,8 +764,6 @@ namespace Blazorise.Bootstrap
 
         public override string ProgressBarSize( Size size ) => null;
 
-        public override string ProgressBarColor( Background background ) => BackgroundColor( background );
-
         public override string ProgressBarStriped() => "progress-bar-striped";
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
@@ -795,7 +780,7 @@ namespace Blazorise.Bootstrap
 
         #region Colors
 
-        public override string BackgroundColor( Background color ) => $"bg-{ToBackground( color )}";
+        public override string BackgroundColor( Background background ) => $"bg-{ToBackground( background )}";
 
         #endregion
 
@@ -829,8 +814,6 @@ namespace Blazorise.Bootstrap
 
         public override string TableHeaderCell() => null;
 
-        public override string TableHeaderCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
-
         public override string TableFooter() => null;
 
         public override string TableBody() => null;
@@ -838,10 +821,6 @@ namespace Blazorise.Bootstrap
         public override string TableRow() => null;
 
         public override string TableRowColor( Color color ) => $"table-{ToColor( color )}";
-
-        public override string TableRowBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
 
         public override string TableRowHoverCursor() => "table-row-selectable";
 
@@ -853,13 +832,9 @@ namespace Blazorise.Bootstrap
 
         public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
 
-        public override string TableRowCellBackground( Background background ) => BackgroundColor( background );
-
-        public override string TableRowCellTextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
-
-        public override string TableRowCellTextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
-
         public override string TableResponsive() => "table-responsive";
+
+        public override string TableFixedHeader() => "table-fixed-header";
 
         #endregion
 
@@ -935,6 +910,14 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Image
+
+        public override string Image() => null;
+
+        public override string ImageFluid( bool fluid ) => fluid ? "img-fluid" : null;
+
+        #endregion
+
         #region Breadcrumb
 
         public override string Breadcrumb() => "breadcrumb";
@@ -999,11 +982,150 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Borders
+
+        public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
+        {
+            var sb = new StringBuilder( "border" );
+
+            if ( borderSide != BorderSide.All )
+                sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
+
+            if ( borderSize == BorderSize.Is0 )
+                sb.Append( "-0" );
+
+            if ( borderColor != BorderColor.None )
+            {
+                sb.Append( " border-" ).Append( ToBorderColor( borderColor ) );
+            }
+
+            return sb.ToString();
+        }
+
+        public override string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules )
+            => string.Join( " ", rules.Select( x => Border( borderSize, x.borderSide, x.borderColor ) ) );
+
+        #endregion
+
         #region Flex
+
+        public override string Flex( FlexType flexType )
+        {
+            return flexType != FlexType.None
+                ? $"d-{ToFlexType( flexType )}"
+                : null;
+        }
+
+        public override string Flex( FlexDefinition flexDefinition )
+        {
+            var sb = new StringBuilder();
+
+            var breakpoint = flexDefinition.Breakpoint != Breakpoint.None && flexDefinition.Breakpoint != Breakpoint.Mobile
+                ? $"{ToBreakpoint( flexDefinition.Breakpoint )}-"
+                : null;
+
+            if ( flexDefinition.Direction != FlexDirection.None )
+                sb.Append( "flex-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
+
+            if ( flexDefinition.JustifyContent != FlexJustifyContent.None )
+                sb.Append( "justify-content-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+
+            if ( flexDefinition.AlignItems != FlexAlignItems.None )
+                sb.Append( "align-items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+
+            if ( flexDefinition.AlignSelf != FlexAlignSelf.None )
+                sb.Append( "align-self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+
+            if ( flexDefinition.AlignContent != FlexAlignContent.None )
+                sb.Append( "align-content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+
+            if ( flexDefinition.GrowShrink != FlexGrowShrink.None && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.None )
+                sb.Append( "flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+
+            if ( flexDefinition.Wrap != FlexWrap.None )
+                sb.Append( "flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
+
+            if ( flexDefinition.Order != FlexOrder.None )
+                sb.Append( "order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
+
+            if ( flexDefinition.Fill )
+                sb.Append( "flex-" ).Append( breakpoint ).Append( "fill" );
+
+            return sb.ToString();
+        }
+
+        public override string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions )
+        {
+            var sb = new StringBuilder();
+
+            if ( flexType != FlexType.None )
+                sb.Append( $"d-{ToFlexType( flexType )}" ).Append( ' ' );
+
+            sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
+
+            return sb.ToString();
+        }
 
         public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
 
-        #endregion       
+        #endregion
+
+        #region Sizing
+
+        public override string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition )
+        {
+            var sb = new StringBuilder();
+
+            if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
+                sb.Append( "min-v" );
+            else if ( sizingDefinition.IsMax )
+                sb.Append( "m" );
+            else if ( sizingDefinition.IsViewport )
+                sb.Append( "v" );
+
+            sb.Append( sizingType == SizingType.Width
+                ? "w"
+                : "h" );
+
+            sb.Append( $"-{ToSizingSize( sizingSize )}" );
+
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region Visibility
+
+        public override string Visibility( Visibility visibility )
+        {
+            return visibility switch
+            {
+                Blazorise.Visibility.Visible => "visible",
+                Blazorise.Visibility.Invisible => "invisible",
+                _ => null,
+            };
+        }
+
+        #endregion
+
+        #region VerticalAlignment
+
+        public override string VerticalAlignment( VerticalAlignment verticalAlignment )
+            => $"align-{ToVerticalAlignment( verticalAlignment )}";
+
+        #endregion
+
+        #region Shadow
+
+        public override string Shadow( Shadow shadow )
+        {
+            if ( shadow == Blazorise.Shadow.Default )
+                return "shadow";
+
+            return $"shadow-{ToShadow( shadow )}";
+        }
+
+        #endregion
 
         public override bool UseCustomInputStyles { get; set; } = true;
 

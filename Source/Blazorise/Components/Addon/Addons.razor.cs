@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Wrapper for text, buttons, or button groups on either side of textual inputs.
+    /// </summary>
     public partial class Addons : BaseComponent
     {
         #region Members
@@ -41,7 +44,11 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        internal void Register( Button button )
+        /// <summary>
+        /// Notify addons that a button is placed inside of it.
+        /// </summary>
+        /// <param name="button">A button reference that is placed inside of the addons.</param>
+        internal void NotifyButtonInitialized( Button button )
         {
             if ( button == null )
                 return;
@@ -55,7 +62,11 @@ namespace Blazorise
             }
         }
 
-        internal void UnRegister( Button button )
+        /// <summary>
+        /// Notify addons that a button is removed from it.
+        /// </summary>
+        /// <param name="button">A button reference that is placed inside of the addons.</param>
+        internal void NotifyButtonRemoved( Button button )
         {
             if ( button == null )
                 return;
@@ -70,6 +81,9 @@ namespace Blazorise
 
         #region Properties
 
+        /// <summary>
+        /// Determines how much space will be used by the addons inside of the grid row.
+        /// </summary>
         [Parameter]
         public IFluentColumn ColumnSize
         {
@@ -82,15 +96,20 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// True if <see cref="Addons"/> is placed inside of <see cref="Field"/> component.
+        /// </summary>
         protected virtual bool ParentIsHorizontal => ParentField?.Horizontal == true;
 
-        [CascadingParameter] protected Field ParentField { get; set; }
-
-        //protected bool IsInFieldBody => ParentFieldBody != null;
-
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Accordion"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        //[CascadingParameter] protected BaseFieldBody ParentFieldBody { get; set; }
+        /// <summary>
+        /// Gets or sets the reference to the parent <see cref="Field"/> component.
+        /// </summary>
+        [CascadingParameter] protected Field ParentField { get; set; }
 
         #endregion
     }

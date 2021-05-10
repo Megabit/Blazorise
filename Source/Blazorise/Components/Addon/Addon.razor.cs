@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Wrapper for buttons, labels or inputs placed inside of <see cref="Addons"/> component.
+    /// </summary>
     public partial class Addon : BaseComponent
     {
         #region Members
@@ -15,6 +18,7 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Addon( AddonType ) );
@@ -41,6 +45,9 @@ namespace Blazorise
             }
         }
 
+        /// <summary>
+        /// Specifies the content to be rendered inside this <see cref="Accordion"/>.
+        /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
         #endregion

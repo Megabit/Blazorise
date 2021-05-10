@@ -1,20 +1,21 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise
 {
+    /// <summary>
+    /// Component used to dynamically build a DOM element based on its name.
+    /// </summary>
     public class Dynamic : ComponentBase
     {
         #region Methods
 
+        /// <inheritdoc/>
         protected override void BuildRenderTree( RenderTreeBuilder builder )
         {
             base.BuildRenderTree( builder );

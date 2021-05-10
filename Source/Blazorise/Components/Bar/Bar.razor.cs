@@ -29,7 +29,7 @@ namespace Blazorise
         /// <summary>
         /// Holds the state for this bar component.
         /// </summary>
-        private BarState state = new BarState
+        private BarState state = new()
         {
             Visible = true,
             Mode = BarMode.Horizontal,
@@ -38,7 +38,6 @@ namespace Blazorise
             NavigationBreakpoint = Breakpoint.None,
             ThemeContrast = ThemeContrast.Light,
             Alignment = Alignment.None,
-            Background = Background.None,
         };
 
         #endregion
@@ -59,7 +58,7 @@ namespace Blazorise
         {
             dotNetObjectRef ??= CreateDotNetObjectRef( new BreakpointActivatorAdapter( this ) );
 
-            _ = JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
+            await JSRunner.RegisterBreakpointComponent( dotNetObjectRef, ElementId );
 
             if ( Mode != BarMode.Horizontal )
             {
@@ -81,7 +80,6 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Bar() );
-            builder.Append( ClassProvider.BarBackground( Background ), Background != Background.None );
             builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
             builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
             builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.None );
@@ -100,6 +98,7 @@ namespace Blazorise
             return InvokeAsync( StateHasChanged );
         }
 
+        /// <inheritdoc/>
         public Task OnBreakpoint( bool broken )
         {
             // If the breakpoint state has changed, we need to toggle the visibility of this component.
@@ -137,6 +136,7 @@ namespace Blazorise
                     }
 
                     DisposeDotNetObjectRef( dotNetObjectRef );
+                    dotNetObjectRef = null;
                 }
 
                 if ( NavigationBreakpoint != Breakpoint.None )
@@ -276,21 +276,6 @@ namespace Blazorise
             set
             {
                 state = state with { Alignment = value };
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the bar background color.
-        /// </summary>
-        [Parameter]
-        public Background Background
-        {
-            get => state.Background;
-            set
-            {
-                state = state with { Background = value };
 
                 DirtyClasses();
             }

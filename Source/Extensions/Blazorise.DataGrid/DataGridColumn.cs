@@ -71,7 +71,7 @@ namespace Blazorise.DataGrid
             base.Dispose( disposing );
         }
 
-        public async void OnSearchValueChanged( string filterValue )
+        public async void OnSearchValueChanged( object filterValue )
         {
             await ParentDataGrid.OnFilterChanged( this, filterValue );
         }
@@ -230,6 +230,11 @@ namespace Blazorise.DataGrid
         [Parameter] public FilterContext Filter { get; set; } = new FilterContext();
 
         /// <summary>
+        /// Custom filter function used to override internal filtering.
+        /// </summary>
+        [Parameter] public DataGridColumnCustomFilter CustomFilter { get; set; }
+
+        /// <summary>
         /// Gets or sets the column initial sort direction.
         /// </summary>
         [Parameter] public SortDirection Direction { get; set; }
@@ -245,9 +250,19 @@ namespace Blazorise.DataGrid
         [Parameter] public TextAlignment TextAlignment { get; set; }
 
         /// <summary>
+        /// Defines the vertical alignment for display cell.
+        /// </summary>
+        [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
+
+        /// <summary>
         /// Defines the alignment for column header cell.
         /// </summary>
         [Parameter] public TextAlignment HeaderTextAlignment { get; set; }
+
+        /// <summary>
+        /// Defines the vertical alignment for column header cell.
+        /// </summary>
+        [Parameter] public VerticalAlignment HeaderVerticalAlignment { get; set; }
 
         /// <summary>
         /// Gets or sets whether users can edit cell values under this column.
