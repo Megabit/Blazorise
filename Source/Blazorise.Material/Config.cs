@@ -1,9 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Blazorise.Bootstrap;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -22,16 +19,22 @@ namespace Blazorise.Material
             serviceCollection.AddScoped<IJSRunner, MaterialJSRunner>();
             serviceCollection.AddScoped<IThemeGenerator, MaterialThemeGenerator>();
 
-            serviceCollection.AddBootstrapComponents();
-
-            // material overrides
-            serviceCollection.AddTransient( typeof( Blazorise.DateEdit<> ), typeof( Material.DateEdit<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.TimeEdit<> ), typeof( Material.TimeEdit<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.Switch<> ), typeof( Material.Switch<> ) );
-            serviceCollection.AddTransient<Blazorise.Step, Material.Step>();
-            serviceCollection.AddTransient<Blazorise.Steps, Material.Steps>();
+            foreach ( var mapping in MaterialComponentMap )
+            {
+                serviceCollection.AddTransient( mapping.Key, mapping.Value );
+            }
 
             return serviceCollection;
         }
+
+        public static IDictionary<Type, Type> MaterialComponentMap => new Dictionary<Type, Type>( Bootstrap.Config.BootstrapComponentMap )
+        {
+            // material overrides
+            [typeof( Blazorise.DateEdit<> )] = typeof( Material.DateEdit<> ),
+            [typeof( Blazorise.TimeEdit<> )] = typeof( Material.TimeEdit<> ),
+            [typeof( Blazorise.Switch<> )] = typeof( Material.Switch<> ),
+            [typeof( Blazorise.Step )] = typeof( Material.Step ),
+            [typeof( Blazorise.Steps )] = typeof( Material.Steps )
+        };
     }
 }
