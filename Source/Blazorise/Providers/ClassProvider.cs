@@ -269,6 +269,8 @@ namespace Blazorise
 
         public abstract string Addons();
 
+        public abstract string AddonsSize( Size size );
+
         public abstract string AddonsHasButton( bool hasButton );
 
         public abstract string Addon( AddonType addonType );

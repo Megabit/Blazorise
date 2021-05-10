@@ -125,6 +125,89 @@
     height: 48px;
 }
 
+
+.ant-input-group-wrapper-xs {
+    > .ant-input-wrapper {
+        > .ant-input-group-addon {
+            > .control {
+                .ant-btn {
+                    @extend .ant-btn-xs;
+                }
+            }
+        }
+
+        .ant-input {
+            @extend .ant-input-xs;
+        }
+    }
+}
+
+.ant-input-group-wrapper-sm {
+    > .ant-input-wrapper {
+        > .ant-input-group-addon {
+            > .control {
+                .ant-btn {
+                    @extend .ant-btn-sm;
+                }
+            }
+        }
+
+        .ant-input {
+            @extend .ant-input-sm;
+        }
+    }
+}
+
+
+.ant-input-group-wrapper-md {
+    > .ant-input-wrapper {
+        > .ant-input-group-addon {
+            > .control {
+                .ant-btn {
+                    @extend .ant-btn-md;
+                }
+            }
+        }
+
+        .ant-input {
+            @extend .ant-input-md;
+        }
+    }
+}
+
+.ant-input-group-wrapper-lg {
+    > .ant-input-wrapper {
+        > .ant-input-group-addon {
+            > .control {
+                .ant-btn {
+                    @extend .ant-btn-lg;
+                }
+            }
+        }
+
+        .ant-input {
+            @extend .ant-input-lg;
+        }
+    }
+}
+
+.ant-input-group-wrapper-xl {
+    > .ant-input-wrapper {
+        > .ant-input-group-addon {
+            > .control {
+                .ant-btn {
+                    @extend .ant-btn-xl;
+                }
+            }
+        }
+
+        .ant-input {
+            @extend .ant-input-xl;
+        }
+    }
+}
+
+
 @mixin select-size($name, $font-size, $height, $line-height) {
     .ant-select-#{$name} {
         font-size: $font-size;

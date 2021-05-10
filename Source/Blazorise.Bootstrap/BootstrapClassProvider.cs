@@ -282,6 +282,8 @@ namespace Blazorise.Bootstrap
 
         public override string Addons() => "input-group";
 
+        public override string AddonsSize( Size size ) => $"input-group-{ToSize( size )}";
+
         public override string AddonsHasButton( bool hasButton ) => null;
 
         public override string Addon( AddonType addonType )
