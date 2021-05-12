@@ -1,8 +1,5 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -24,7 +21,7 @@ namespace Blazorise.DataGrid
         #region Properties
 
         protected IEnumerable<TItem> Data
-            => ParentDataGrid.ManualReadMode ? ParentDataGrid.AggregateData : ParentDataGrid.Data;
+            => ParentDataGrid.ManualReadMode ? ParentDataGrid.AggregateData : ParentDataGrid.FilteredData;
 
         /// <summary>
         /// List of columns used to build this row.

@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
@@ -1008,10 +1008,10 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
-        /// Gets or sets the clalculated aggregate data.
+        /// Gets or sets the calculated aggregate data.
         /// </summary>
         /// <remarks>
-        /// Used only in manual mode along with the <see cref="ReadData"/> handler.
+        /// Used only in manual read mode along with the <see cref="ReadData"/> handler.
         /// </remarks>
         [Parameter]
         public IEnumerable<TItem> AggregateData
