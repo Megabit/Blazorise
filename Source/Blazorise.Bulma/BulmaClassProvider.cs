@@ -658,6 +658,14 @@ namespace Blazorise.Bulma
 
         public override string Row() => "columns";
 
+        public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
+        {
+            if ( rowColumnsDefinition.Breakpoint != Breakpoint.None && rowColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+                return $"are-columns-{ToBreakpoint( rowColumnsDefinition.Breakpoint )}-{ToRowColumnsSize( rowColumnsSize )}";
+
+            return $"are-columns-{ToRowColumnsSize( rowColumnsSize )}";
+        }
+
         public override string RowNoGutters() => "is-gapless";
 
         #endregion
