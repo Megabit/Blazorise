@@ -31,4 +31,9 @@
     <EmbeddedResource Include="Resources\Localization\*.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="Resources\Localization\Carousel\is.json" />
+    <Content Remove="Resources\Localization\FileEdit\is.json" />
+  </ItemGroup>
+
 </Project>
