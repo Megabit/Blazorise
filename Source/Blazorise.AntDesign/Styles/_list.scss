@@ -2,3 +2,13 @@
     border-right: 0;
     border-left: 0;
 }
+
+@each $name, $value in $theme-colors {
+    $color: $value;
+    $color-invert: color-yiq($value);
+
+    .ant-list-item-#{$name} {
+        background-color: $color;
+        color: $color-invert;
+    }
+}

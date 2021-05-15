@@ -29,14 +29,14 @@
     <Strong> Demo application for</Strong>: Blazorise @($"v{typeof( Blazorise.BaseComponent ).Assembly.GetName().Version.ToString( 3 )}")
 </Paragraph>
 
-<ListGroup>
-    <ListGroupItem Color="Color.None">Cras justo odio</ListGroupItem>
-    <ListGroupItem Color="Color.Primary">Primary</ListGroupItem>
-    <ListGroupItem Color="Color.Secondary">Secondary</ListGroupItem>
-    <ListGroupItem Color="Color.Success">Success</ListGroupItem>
-    <ListGroupItem Color="Color.Danger">Danger</ListGroupItem>
-    <ListGroupItem Color="Color.Warning">Warning</ListGroupItem>
-    <ListGroupItem Color="Color.Info">Info</ListGroupItem>
-    <ListGroupItem Color="Color.Light">Light</ListGroupItem>
-    <ListGroupItem Color="Color.Dark">Dark</ListGroupItem>
+<ListGroup Mode="ListGroupMode.Selectable">
+    <ListGroupItem Name="None" Color="Color.None">None</ListGroupItem>
+    <ListGroupItem Name="Primary" Color="Color.Primary">Primary</ListGroupItem>
+    <ListGroupItem Name="Secondary" Color="Color.Secondary">Secondary</ListGroupItem>
+    <ListGroupItem Name="Success" Color="Color.Success">Success</ListGroupItem>
+    <ListGroupItem Name="Danger" Color="Color.Danger">Danger</ListGroupItem>
+    <ListGroupItem Name="Warning" Color="Color.Warning">Warning</ListGroupItem>
+    <ListGroupItem Name="Info" Color="Color.Info">Info</ListGroupItem>
+    <ListGroupItem Name="Light" Color="Color.Light">Light</ListGroupItem>
+    <ListGroupItem Name="Dark" Color="Color.Dark">Dark</ListGroupItem>
 </ListGroup>

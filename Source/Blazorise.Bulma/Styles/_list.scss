@@ -16,33 +16,14 @@
             margin-bottom: 0;
         }
 
-        &.is-primary {
-            background-color: hsl(171, 100%, 41%);
-            color: #fff;
-        }
+        @each $name, $value in $theme-colors {
+            $color: $value;
+            $color-invert: color-yiq($value);
 
-        &.is-secondary {
-            background-color: hsl(208, 14%, 46%);
-            color: #fff;
-        }
-
-        &.is-info {
-            background-color: hsl(217, 71%, 53%);
-            color: #fff;
-        }
-
-        &.is-success {
-            background-color: hsl(141, 71%, 48%);
-            color: #fff;
-        }
-
-        &.is-warning {
-            background-color: hsl(48, 100%, 67%);
-        }
-
-        &.is-danger {
-            background-color: hsl(348, 100%, 61%);
-            color: #fff;
+            &.is-#{$name} {
+                background-color: $color;
+                color: $color-invert;
+            }
         }
     }
 }

@@ -3575,18 +3575,28 @@ body::-webkit-scrollbar {
         background-color: #00d1b2;
         color: #fff; }
     .list-group > .list-group-item.is-secondary {
-        background-color: #657686;
-        color: #fff; }
-    .list-group > .list-group-item.is-info {
-        background-color: #3273dc;
+        background-color: #6c757d;
         color: #fff; }
     .list-group > .list-group-item.is-success {
-        background-color: #23d160;
+        background-color: #48c774;
+        color: #212529; }
+    .list-group > .list-group-item.is-info {
+        background-color: #238cd1;
         color: #fff; }
     .list-group > .list-group-item.is-warning {
-        background-color: #ffdd57; }
+        background-color: #ffd83d;
+        color: #212529; }
     .list-group > .list-group-item.is-danger {
-        background-color: #ff3860;
+        background-color: #ef2e55;
+        color: #fff; }
+    .list-group > .list-group-item.is-light {
+        background-color: #f5f5f5;
+        color: #212529; }
+    .list-group > .list-group-item.is-dark {
+        background-color: #363636;
+        color: #fff; }
+    .list-group > .list-group-item.is-link {
+        background-color: #3273dc;
         color: #fff; }
 
 .list-group-flush .list-group-item {

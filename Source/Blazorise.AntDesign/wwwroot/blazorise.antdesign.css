@@ -1697,6 +1697,42 @@
     border-right: 0;
     border-left: 0; }
 
+.ant-list-item-primary {
+    background-color: #1890ff;
+    color: #fff; }
+
+.ant-list-item-secondary {
+    background-color: #6c757d;
+    color: #fff; }
+
+.ant-list-item-success {
+    background-color: #35c613;
+    color: #fff; }
+
+.ant-list-item-info {
+    background-color: #60b6f4;
+    color: #212529; }
+
+.ant-list-item-warning {
+    background-color: #f7c12a;
+    color: #212529; }
+
+.ant-list-item-danger {
+    background-color: #ff4d4f;
+    color: #fff; }
+
+.ant-list-item-light {
+    background-color: #fafafa;
+    color: #212529; }
+
+.ant-list-item-dark {
+    background-color: #343a40;
+    color: #fff; }
+
+.ant-list-item-link {
+    background-color: #3273dc;
+    color: #fff; }
+
 .ant-modal {
     width: 520px; }
     @media (min-width: 576px) {
