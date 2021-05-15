@@ -352,7 +352,7 @@ namespace Blazorise.Bulma
             var text = ToHex( textColor );
             var alertLink = ToHex( alertLinkColor );
 
-            sb.Append( $".notification-{variant}" ).Append( "{" )
+            sb.Append( $".notification.is-{variant}" ).Append( "{" )
                 .Append( $"color: {text};" )
                 .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
                 .Append( $"border-color: {border};" )

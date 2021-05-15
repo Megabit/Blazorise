@@ -131,7 +131,7 @@
         const editor = editorRef.quill;
         if (!editor)
             return;
-        editor.setContents(delta);
+        editor.setContents(JSON.parse(delta));
     },
     getText: (editorRef) => {
         const editor = editorRef.quill;

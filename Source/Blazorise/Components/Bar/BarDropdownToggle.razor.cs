@@ -75,6 +75,7 @@ namespace Blazorise
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
             }
 
             await base.DisposeAsync( disposing );

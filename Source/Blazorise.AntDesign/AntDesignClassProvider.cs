@@ -652,6 +652,14 @@ namespace Blazorise.AntDesign
 
         public override string Row() => "ant-row";
 
+        public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
+        {
+            if ( rowColumnsDefinition.Breakpoint != Breakpoint.None && rowColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+                return $"ant-row-columns-{ToBreakpoint( rowColumnsDefinition.Breakpoint )}-{ToRowColumnsSize( rowColumnsSize )}";
+
+            return $"ant-row-columns-{ToRowColumnsSize( rowColumnsSize )}";
+        }
+
         public override string RowNoGutters() => "ant-row-no-gutters";
 
         #endregion

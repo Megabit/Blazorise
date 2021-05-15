@@ -58,9 +58,21 @@ window.blazoriseCharts = {
 
         if (chart) {
             chart.options = options;
+
+            // Due to a bug in chartjs we need to set aspectRatio directly on chart instance
+            // instead of through the options.
+            if (options.aspectRatio) {
+                chart.aspectRatio = options.aspectRatio;
+            }
         }
     },
+    resize: (canvasId) => {
+        const chart = window.blazoriseCharts.getChart(canvasId);
 
+        if (chart) {
+            chart.resize();
+        }
+    },
     update: (canvasId) => {
         const chart = window.blazoriseCharts.getChart(canvasId);
 
