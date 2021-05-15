@@ -35,8 +35,4 @@
     <EmbeddedResource Include="Resources\Localization\*.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="Resources\Localization\DataGrid\is.json" />
-  </ItemGroup>
-
 </Project>
