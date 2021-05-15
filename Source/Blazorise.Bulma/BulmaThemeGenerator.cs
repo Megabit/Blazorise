@@ -527,6 +527,20 @@ namespace Blazorise.Bulma
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+            var textColor = ParseColor( inColor );
+
+            var background = ToHex( backgroundColor );
+            var text = ToHex( textColor );
+
+            sb.Append( $".list-group > .list-group-item.is-{variant}" ).Append( "{" )
+                .Append( $"color: {text};" )
+                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+                .AppendLine( "}" );
+        }
+
         #endregion
     }
 }

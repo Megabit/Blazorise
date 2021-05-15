@@ -501,6 +501,8 @@ namespace Blazorise
 
         public abstract string ListGroupItemDisabled();
 
+        public abstract string ListGroupItemColor( Color color );
+
         #endregion
 
         #region Layout

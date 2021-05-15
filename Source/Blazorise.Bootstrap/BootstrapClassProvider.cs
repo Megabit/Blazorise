@@ -540,6 +540,8 @@ namespace Blazorise.Bootstrap
 
         public override string ListGroupItemDisabled() => Disabled();
 
+        public override string ListGroupItemColor( Color color ) => $"{ListGroupItem()}-{ToColor( color )}";
+
         #endregion
 
         #region Container

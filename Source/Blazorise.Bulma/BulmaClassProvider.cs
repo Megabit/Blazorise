@@ -552,6 +552,8 @@ namespace Blazorise.Bulma
 
         public override string ListGroupItemDisabled() => Disabled();
 
+        public override string ListGroupItemColor( Color color ) => $"is-{ToColor( color )}";
+
         #endregion
 
         #region Container

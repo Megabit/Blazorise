@@ -501,6 +501,8 @@ namespace Blazorise.Providers
 
         public string ListGroupItemDisabled() => null;
 
+        public string ListGroupItemColor( Color color ) => null;
+
         #endregion
 
         #region Layout
