@@ -6,7 +6,7 @@ main:
     url: /news/
   - title: "GitHub"
     icon: "fab fa-fw fa-github"
-    url: https://github.com/stsrki/Blazorise
+    url: https://github.com/Megabit/Blazorise
 
 
 # documentation links

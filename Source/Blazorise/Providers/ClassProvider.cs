@@ -635,6 +635,8 @@ namespace Blazorise
 
         public abstract string Row();
 
+        public abstract string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
+
         public abstract string RowNoGutters();
 
         #endregion
@@ -1218,6 +1220,20 @@ namespace Blazorise
                 Blazorise.ColumnWidth.Is11 => "11",
                 Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => "12",
                 Blazorise.ColumnWidth.Auto => "auto",
+                _ => null,
+            };
+        }
+
+        public virtual string ToRowColumnsSize( RowColumnsSize rowColumnsSize )
+        {
+            return rowColumnsSize switch
+            {
+                Blazorise.RowColumnsSize.Are1 => "1",
+                Blazorise.RowColumnsSize.Are2 => "2",
+                Blazorise.RowColumnsSize.Are3 => "3",
+                Blazorise.RowColumnsSize.Are4 => "4",
+                Blazorise.RowColumnsSize.Are5 => "5",
+                Blazorise.RowColumnsSize.Are6 => "6",
                 _ => null,
             };
         }

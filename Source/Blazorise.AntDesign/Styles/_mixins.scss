@@ -10,3 +10,10 @@
         @content;
     }
 }
+
+@mixin row-cols($count) {
+  & > * {
+    flex: 0 0 100% / $count;
+    max-width: 100% / $count;
+  }
+}
