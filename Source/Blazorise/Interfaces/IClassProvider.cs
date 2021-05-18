@@ -267,6 +267,8 @@ namespace Blazorise
 
         string Addons();
 
+        string AddonsSize( Size size );
+
         string AddonsHasButton( bool hasButton );
 
         string Addon( AddonType addonType );
@@ -494,6 +496,8 @@ namespace Blazorise
         string ListGroupFlush();
 
         string ListGroupItem();
+
+        string ListGroupItemSelectable();
 
         string ListGroupItemActive();
 

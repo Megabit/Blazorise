@@ -3,12 +3,24 @@
     border-left: 0;
 }
 
-@each $name, $value in $theme-colors {
-    $color: $value;
-    $color-invert: color-yiq($value);
+.ant-list-item-actionable {
+    width: 100%;
+    color: $list-group-action-color;
+    text-align: inherit;
 
-    .ant-list-item-#{$name} {
-        background-color: $color;
-        color: $color-invert;
+    @include hover-focus() {
+        z-index: 1;
+        color: $list-group-action-hover-color;
+        text-decoration: none;
+        background-color: $list-group-hover-bg;
     }
+
+    &:active {
+        color: $list-group-action-active-color;
+        background-color: $list-group-action-active-bg;
+    }
+}
+
+li.ant-list-item-actionable {
+    cursor: pointer;
 }

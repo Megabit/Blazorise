@@ -269,6 +269,8 @@ namespace Blazorise.Providers
 
         public string Addons() => null;
 
+        public string AddonsSize( Size size ) => null;
+
         public string AddonsHasButton( bool hasButton ) => null;
 
         public string Addon( AddonType addonType ) => null;
@@ -496,6 +498,8 @@ namespace Blazorise.Providers
         public string ListGroupFlush() => null;
 
         public string ListGroupItem() => null;
+
+        public string ListGroupItemSelectable() => null;
 
         public string ListGroupItemActive() => null;
 

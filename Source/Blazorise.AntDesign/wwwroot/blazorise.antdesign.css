@@ -1095,29 +1095,29 @@
             z-index: 1; }
 
 .ant-btn-xs, .ant-btn-group-xs > .ant-btn,
-.ant-btn-group-xs > span > .ant-btn {
+.ant-btn-group-xs > span > .ant-btn, .ant-input-group-wrapper-xs > .ant-input-wrapper > .ant-input-group-addon > .control .ant-btn {
     padding: 0px 7px;
     font-size: 10px;
     height: 16px; }
 
-.ant-btn-sm {
+.ant-btn-sm, .ant-input-group-wrapper-sm > .ant-input-wrapper > .ant-input-group-addon > .control .ant-btn {
     padding: 0px 9px;
     font-size: 12px;
     height: 24px; }
 
 .ant-btn-md, .ant-btn-group-md > .ant-btn,
-.ant-btn-group-md > span > .ant-btn {
+.ant-btn-group-md > span > .ant-btn, .ant-input-group-wrapper-md > .ant-input-wrapper > .ant-input-group-addon > .control .ant-btn {
     padding: 4.5px 11px;
     font-size: 14px;
     height: 36px; }
 
-.ant-btn-lg {
+.ant-btn-lg, .ant-input-group-wrapper-lg > .ant-input-wrapper > .ant-input-group-addon > .control .ant-btn {
     padding: 6.5px 13px;
     font-size: 16px;
     height: 40px; }
 
 .ant-btn-xl, .ant-btn-group-xl > .ant-btn,
-.ant-btn-group-xl > span > .ant-btn {
+.ant-btn-group-xl > span > .ant-btn, .ant-input-group-wrapper-xl > .ant-input-wrapper > .ant-input-group-addon > .control .ant-btn {
     padding: 8.5px 15px;
     font-size: 18px;
     height: 48px; }
@@ -1308,27 +1308,27 @@
 .ant-input {
     height: 32px; }
 
-.ant-input-xs {
+.ant-input-xs, .ant-input-group-wrapper-xs > .ant-input-wrapper .ant-input {
     padding: 0px 7px;
     font-size: 10px;
     height: 16px; }
 
-.ant-input-sm {
+.ant-input-sm, .ant-input-group-wrapper-sm > .ant-input-wrapper .ant-input {
     padding: 0px 9px;
     font-size: 12px;
     height: 24px; }
 
-.ant-input-md {
+.ant-input-md, .ant-input-group-wrapper-md > .ant-input-wrapper .ant-input {
     padding: 4.5px 11px;
     font-size: 14px;
     height: 36px; }
 
-.ant-input-lg {
+.ant-input-lg, .ant-input-group-wrapper-lg > .ant-input-wrapper .ant-input {
     padding: 6.5px 13px;
     font-size: 16px;
     height: 40px; }
 
-.ant-input-xl {
+.ant-input-xl, .ant-input-group-wrapper-xl > .ant-input-wrapper .ant-input {
     padding: 8.5px 15px;
     font-size: 18px;
     height: 48px; }
@@ -1697,41 +1697,21 @@
     border-right: 0;
     border-left: 0; }
 
-.ant-list-item-primary {
-    background-color: #1890ff;
-    color: #fff; }
+.ant-list-item-actionable {
+    width: 100%;
+    color: #495057;
+    text-align: inherit; }
+    .ant-list-item-actionable:hover, .ant-list-item-actionable:focus {
+        z-index: 1;
+        color: #495057;
+        text-decoration: none;
+        background-color: #f8f9fa; }
+    .ant-list-item-actionable:active {
+        color: #212529;
+        background-color: #e9ecef; }
 
-.ant-list-item-secondary {
-    background-color: #6c757d;
-    color: #fff; }
-
-.ant-list-item-success {
-    background-color: #35c613;
-    color: #fff; }
-
-.ant-list-item-info {
-    background-color: #60b6f4;
-    color: #212529; }
-
-.ant-list-item-warning {
-    background-color: #f7c12a;
-    color: #212529; }
-
-.ant-list-item-danger {
-    background-color: #ff4d4f;
-    color: #fff; }
-
-.ant-list-item-light {
-    background-color: #fafafa;
-    color: #212529; }
-
-.ant-list-item-dark {
-    background-color: #343a40;
-    color: #fff; }
-
-.ant-list-item-link {
-    background-color: #3273dc;
-    color: #fff; }
+li.ant-list-item-actionable {
+    cursor: pointer; }
 
 .ant-modal {
     width: 520px; }

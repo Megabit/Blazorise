@@ -8,7 +8,7 @@ toc_label: "Features"
 
 ## Overview
 
-This release is mainly focused on upgrade to the latest version of Blazor preview 9. All new features are moved to next milestone [0.8.5](https://github.com/stsrki/Blazorise/milestone/21).
+This release is mainly focused on upgrade to the latest version of Blazor preview 9. All new features are moved to next milestone [0.8.5](https://github.com/Megabit/Blazorise/milestone/21).
 
 ### Breaking changes
 
@@ -18,6 +18,6 @@ This release is mainly focused on upgrade to the latest version of Blazor previe
 
 ### Patreon
 
-Once again, if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/stsrki/Blazorise) or click on the star-link bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic) and help Blazorise developer to work full time on the project!
+Once again, if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/Megabit/Blazorise) or click on the star-link bellow. Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic) and help Blazorise developer to work full time on the project!
 
-<iframe src="https://ghbtns.com/github-btn.html?user=stsrki&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+<iframe src="https://ghbtns.com/github-btn.html?user=Megabit&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>

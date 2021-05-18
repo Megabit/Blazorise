@@ -1,24 +1,15 @@
 ﻿.list-group {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-direction: column;
     flex-direction: column;
     padding-left: 0;
     margin-bottom: 0;
+    @include border-radius($list-group-border-radius);
 
     & > .list-group-item {
-        &:first-child {
-            border-radius: 4px 4px 0 0;
+        &.is-primary {
+            background-color: hsl(171, 100%, 41%);
+            color: #fff;
         }
-
-        &:last-child {
-            border-radius: 0 0 4px 4px;
-            margin-bottom: 0;
-        }
-
-        @each $name, $value in $theme-colors {
-            $color: $value;
-            $color-invert: color-yiq($value);
 
             &.is-#{$name} {
                 background-color: $color;
@@ -29,18 +20,75 @@
 }
 
 .list-group-flush {
-    .list-group-item {
-        border-right: 0;
-        border-left: 0;
-        border-radius: 0;
+    @include border-radius(0);
+
+    > .list-group-item {
+        border-width: 0 0 $list-group-border-width;
+
+        &:last-child {
+            border-bottom-width: 0;
+        }
     }
 }
 
 .list-group-item {
     position: relative;
     display: block;
-    padding: .75rem 1.25rem;
-    margin-bottom: -1px;
-    background-color: #fff;
-    border: 1px solid rgba(0,0,0,.125);
+    padding: $list-group-item-padding-y $list-group-item-padding-x;
+    color: $list-group-color;
+    background-color: $list-group-bg;
+    border: $list-group-border-width solid $list-group-border-color;
+
+    &:first-child {
+        @include border-top-radius(inherit);
+    }
+
+    &:last-child {
+        @include border-bottom-radius(inherit);
+    }
+
+    &.disabled,
+    &:disabled {
+        color: $list-group-disabled-color;
+        pointer-events: none;
+        background-color: $list-group-disabled-bg;
+    }
+
+    &.active {
+        z-index: 2;
+        color: $list-group-active-color;
+        background-color: $list-group-active-bg;
+        border-color: $list-group-active-border-color;
+    }
+
+    & + & {
+        border-top-width: 0;
+
+        &.active {
+            margin-top: -$list-group-border-width;
+            border-top-width: $list-group-border-width;
+        }
+    }
+}
+
+.list-group-item-action {
+    width: 100%;
+    color: $list-group-action-color;
+    text-align: inherit;
+
+    @include hover-focus() {
+        z-index: 1;
+        color: $list-group-action-hover-color;
+        text-decoration: none;
+        background-color: $list-group-hover-bg;
+    }
+
+    &:active {
+        color: $list-group-action-active-color;
+        background-color: $list-group-action-active-bg;
+    }
+}
+
+li.list-group-item-action {
+    cursor: pointer;
 }

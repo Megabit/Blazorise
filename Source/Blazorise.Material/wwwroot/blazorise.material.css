@@ -160,6 +160,70 @@ input.form-control[type=color] {
     .custom-select-xl[multiple], .custom-select-xl[size]:not([size='1']) {
         padding: calc(1.1875rem - 1px) 1.15rem; }
 
+.input-group-xs > .form-control,
+.input-group-xs > .custom-select,
+.input-group-xs > .b-numeric > .form-control {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    padding: 0.1875rem 0 calc(0.1875rem - 1px); }
+
+.input-group-xs > .input-group-append > .btn,
+.input-group-xs > .input-group-prepend > .btn {
+    height: 1.5rem; }
+
+.input-group-xs > .input-group-append > .input-group-text,
+.input-group-xs > .input-group-prepend > .input-group-text {
+    font-size: 0.75rem;
+    line-height: 1.5; }
+
+.input-group-md > .form-control,
+.input-group-md > .custom-select,
+.input-group-md > .b-numeric > .form-control {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    padding: 0.3125rem 0 calc(0.3125rem - 1px); }
+
+.input-group-md > .input-group-append > .btn,
+.input-group-md > .input-group-prepend > .btn {
+    height: 2.5rem; }
+
+.input-group-md > .input-group-append > .input-group-text,
+.input-group-md > .input-group-prepend > .input-group-text {
+    font-size: 1.25rem;
+    line-height: 1.5; }
+
+.input-group-lg > .form-control,
+.input-group-lg > .custom-select,
+.input-group-lg > .b-numeric > .form-control {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    padding: 0.25rem 0 calc(0.25rem - 1px); }
+
+.input-group-lg > .input-group-append > .btn,
+.input-group-lg > .input-group-prepend > .btn {
+    height: 2.75rem; }
+
+.input-group-lg > .input-group-append > .input-group-text,
+.input-group-lg > .input-group-prepend > .input-group-text {
+    font-size: 1.5rem;
+    line-height: 1.5; }
+
+.input-group-xl > .form-control,
+.input-group-xl > .custom-select,
+.input-group-xl > .b-numeric > .form-control {
+    font-size: 1.75rem;
+    line-height: 1.5;
+    padding: 0.1875rem 0 calc(0.1875rem - 1px); }
+
+.input-group-xl > .input-group-append > .btn,
+.input-group-xl > .input-group-prepend > .btn {
+    height: 3rem; }
+
+.input-group-xl > .input-group-append > .input-group-text,
+.input-group-xl > .input-group-prepend > .input-group-text {
+    font-size: 1.75rem;
+    line-height: 1.5; }
+
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label::before {
     width: 0.75rem;
     height: 0.75rem;

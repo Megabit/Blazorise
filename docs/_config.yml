@@ -13,11 +13,11 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 locale                   : "en-US"
 title                    : "Blazorise"
 title_separator          : "-"
-name                     : &name "Mladen Macanovic" # &name is a YAML anchor which can be *referenced later
+name                     : &name "Megabit d.o.o." # &name is a YAML anchor which can be *referenced later
 description              : &description "Blazorise is a frontend components library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material."
 url                      : https://blazorise.com # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : #"/minimal-mistakes" # the subpath of your site, e.g. "/blog"
-repository               : "stsrki/blazorise"
+repository               : "Megabit/Blazorise"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
@@ -104,34 +104,28 @@ analytics:
 author:
   name             : *name # *name is a YAML reference pointing to the &anchor earlier
   avatar           : "/assets/images/strki.jpg"
-  bio              : "Senior Developer @ Hattrick PSK"
+  bio              : "Senior Developer"
   location         : "Split, Croatia"
   links:
-    # - label: "Mladen Macanovic"
-    #   icon: "fas fa-fw fa-link"
-    #   url: "https://mladenmacanovic.com"
+    - label: "Mladen Macanović"
+      icon: "fas fa-fw fa-link"
+      url: "https://mladenmacanovic.com"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/stsrki"
+      url: "https://github.com/Megabit"
 
 
 # Site Footer
 footer:
   links:
-    # - label: "Twitter"
-    #   icon: "fab fa-fw fa-twitter-square"
-    #   url: "https://twitter.com/blazorise"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/Blazorise"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/stsrki/blazorise"
+      url: "https://github.com/Megabit/Blazorise"
     - label: "Terms and Privacy Policy"
       url: "/terms/"
-    - label: "Buy me a Coffee"
-      icon: "fas fa-coffee"
-      url: "https://www.buymeacoffee.com/mladenmacanovic"
-    # - label: "Instagram"
-    #   icon: "fab fa-fw fa-instagram"
-    #   url: "https://instagram.com/blazorise"
 
 
 # Reading Files

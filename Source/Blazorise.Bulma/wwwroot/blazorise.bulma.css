@@ -3372,10 +3372,38 @@ label.radio.button {
 .file.has-name.is-fullwidth {
     width: 100%; }
 
-.input.is-extra-small, .field.has-addons.are-extra-small > .control > .input.button {
+.has-addons.is-extra-small > .control > .button, .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .button,
+.has-addons.is-extra-small > .control > .control > .button, .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .control > .button,
+.has-addons.is-extra-small > .control > .field > .control > .input, .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .field > .control > .input,
+.has-addons.is-extra-small > .control > .field > .control > .select, .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .field > .control > .select,
+.input.is-extra-small,
+.field.has-addons.are-extra-small > .control > .input.button {
     font-size: 0.65rem; }
 
-.input.is-extra-large, .field.has-addons.are-extra-large > .control > .input.button {
+.has-addons.is-small > .control > .button, .field.has-addons.are-small > .control > .has-addons.button > .control > .button,
+.has-addons.is-small > .control > .control > .button, .field.has-addons.are-small > .control > .has-addons.button > .control > .control > .button,
+.has-addons.is-small > .control > .field > .control > .input, .field.has-addons.are-small > .control > .has-addons.button > .control > .field > .control > .input,
+.has-addons.is-small > .control > .field > .control > .select, .field.has-addons.are-small > .control > .has-addons.button > .control > .field > .control > .select {
+    font-size: 0.75rem; }
+
+.has-addons.is-medium > .control > .button, .field.has-addons.are-medium > .control > .has-addons.button > .control > .button,
+.has-addons.is-medium > .control > .control > .button, .field.has-addons.are-medium > .control > .has-addons.button > .control > .control > .button,
+.has-addons.is-medium > .control > .field > .control > .input, .field.has-addons.are-medium > .control > .has-addons.button > .control > .field > .control > .input,
+.has-addons.is-medium > .control > .field > .control > .select, .field.has-addons.are-medium > .control > .has-addons.button > .control > .field > .control > .select {
+    font-size: 1.25rem; }
+
+.has-addons.is-large > .control > .button, .field.has-addons.are-large > .control > .has-addons.button > .control > .button,
+.has-addons.is-large > .control > .control > .button, .field.has-addons.are-large > .control > .has-addons.button > .control > .control > .button,
+.has-addons.is-large > .control > .field > .control > .input, .field.has-addons.are-large > .control > .has-addons.button > .control > .field > .control > .input,
+.has-addons.is-large > .control > .field > .control > .select, .field.has-addons.are-large > .control > .has-addons.button > .control > .field > .control > .select {
+    font-size: 1.5rem; }
+
+.has-addons.is-extra-large > .control > .button, .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .button,
+.has-addons.is-extra-large > .control > .control > .button, .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .control > .button,
+.has-addons.is-extra-large > .control > .field > .control > .input, .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .field > .control > .input,
+.has-addons.is-extra-large > .control > .field > .control > .select, .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .field > .control > .select,
+.input.is-extra-large,
+.field.has-addons.are-extra-large > .control > .input.button {
     font-size: 2rem; }
 
 .select.is-extra-small, .field.has-addons.are-extra-small > .control > .select.button {
@@ -3560,17 +3588,11 @@ body::-webkit-scrollbar {
         max-width: 16.66667%; } }
 
 .list-group {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-direction: column;
     flex-direction: column;
     padding-left: 0;
-    margin-bottom: 0; }
-    .list-group > .list-group-item:first-child {
-        border-radius: 4px 4px 0 0; }
-    .list-group > .list-group-item:last-child {
-        border-radius: 0 0 4px 4px;
-        margin-bottom: 0; }
+    margin-bottom: 0;
+    border-radius: 0.25rem; }
     .list-group > .list-group-item.is-primary {
         background-color: #00d1b2;
         color: #fff; }
@@ -3599,18 +3621,55 @@ body::-webkit-scrollbar {
         background-color: #3273dc;
         color: #fff; }
 
-.list-group-flush .list-group-item {
-    border-right: 0;
-    border-left: 0;
+.list-group-flush {
     border-radius: 0; }
+    .list-group-flush > .list-group-item {
+        border-width: 0 0 1px; }
+        .list-group-flush > .list-group-item:last-child {
+            border-bottom-width: 0; }
 
 .list-group-item {
     position: relative;
     display: block;
-    padding: .75rem 1.25rem;
-    margin-bottom: -1px;
+    padding: 0.75rem 1.25rem;
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.125); }
+    .list-group-item:first-child {
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit; }
+    .list-group-item:last-child {
+        border-bottom-right-radius: inherit;
+        border-bottom-left-radius: inherit; }
+    .list-group-item.disabled, .list-group-item:disabled {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #fff; }
+    .list-group-item.active {
+        z-index: 2;
+        color: #fff;
+        background-color: theme-color("primary");
+        border-color: theme-color("primary"); }
+    .list-group-item + .list-group-item {
+        border-top-width: 0; }
+        .list-group-item + .list-group-item.active {
+            margin-top: -1px;
+            border-top-width: 1px; }
+
+.list-group-item-action {
+    width: 100%;
+    color: #495057;
+    text-align: inherit; }
+    .list-group-item-action:hover, .list-group-item-action:focus {
+        z-index: 1;
+        color: #495057;
+        text-decoration: none;
+        background-color: #f8f9fa; }
+    .list-group-item-action:active {
+        color: #212529;
+        background-color: #e9ecef; }
+
+li.list-group-item-action {
+    cursor: pointer; }
 
 @media (min-width: 576px) {
     .modal-sm {

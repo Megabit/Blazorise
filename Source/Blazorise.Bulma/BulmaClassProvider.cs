@@ -286,6 +286,8 @@ namespace Blazorise.Bulma
 
         public override string Addons() => "field has-addons";
 
+        public override string AddonsSize( Size size ) => $"is-{ToSize( size )}";
+
         public override string AddonsHasButton( bool hasButton ) => null;
 
         public override string Addon( AddonType addonType )
@@ -547,6 +549,8 @@ namespace Blazorise.Bulma
         public override string ListGroupFlush() => "list-group-flush";
 
         public override string ListGroupItem() => "list-group-item";
+
+        public override string ListGroupItemSelectable() => "list-group-item-action";
 
         public override string ListGroupItemActive() => Active();
 
