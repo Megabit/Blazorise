@@ -11,11 +11,6 @@
         public bool Flush { get; init; }
 
         /// <summary>
-        /// Makes the list group items to appear as selectable when mouse is moved over them.
-        /// </summary>
-        public bool Selectable { get; init; }
-
-        /// <summary>
         /// Defines the list-group behaviour mode.
         /// </summary>
         public ListGroupMode Mode { get; init; }

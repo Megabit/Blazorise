@@ -32,7 +32,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ListGroupItem() );
-            builder.Append( ClassProvider.ListGroupItemSelectable(), ParentListGroupState?.Selectable ?? true );
+            builder.Append( ClassProvider.ListGroupItemSelectable(), ParentListGroupState?.Mode == ListGroupMode.Selectable );
             builder.Append( ClassProvider.ListGroupItemActive(), Active );
             builder.Append( ClassProvider.ListGroupItemDisabled(), Disabled );
 
