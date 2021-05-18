@@ -1710,6 +1710,9 @@
         color: #212529;
         background-color: #e9ecef; }
 
+li.ant-list-item-actionable {
+    cursor: pointer; }
+
 .ant-modal {
     width: 520px; }
     @media (min-width: 576px) {

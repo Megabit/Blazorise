@@ -20,3 +20,7 @@
         background-color: $list-group-action-active-bg;
     }
 }
+
+li.ant-list-item-actionable {
+    cursor: pointer;
+}
