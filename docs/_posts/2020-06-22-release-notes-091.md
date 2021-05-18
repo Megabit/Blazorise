@@ -55,7 +55,7 @@ For more on how to use it, check out the updated [Bar]({{ "/docs/components/bar"
 
 ### Carousel
 
-The new `Carousel` component was requested multiple times over [Blazorise Gitter](https://gitter.im/stsrki/Blazorise), so I guess it was only fair to finally make it. 
+The new `Carousel` component was requested multiple times over [Blazorise Gitter](https://gitter.im/Megabit/Blazorise), so I guess it was only fair to finally make it. 
 
 Initially I though it would be fairly easy, but I must admit it was harder than I anticipated. As always [AntDesign](https://ant.design/) had it's own strange logic for the carousel component, so that's one problem I had to solve. 
 Another problem was support for animating slides, I didn't want to use any JavaScript so this one is still unsolved. But even in this non-animated state, I think it's ready to be used.
@@ -129,7 +129,7 @@ While this change is only internal and not directly visible to outside world, I 
 - No need for event-handlers to notify child components of each change.
 - Easier to compare if store is actually changed when used in child component.
 
-For those of you wanting to learn more you can visit the original [PR](https://github.com/stsrki/Blazorise/pull/869).
+For those of you wanting to learn more you can visit the original [PR](https://github.com/Megabit/Blazorise/pull/869).
 
 ### Chart new APIs
 
@@ -153,49 +153,49 @@ await chart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );
 
 ### Features
 
-- [#758](https://github.com/stsrki/Blazorise/issues/758) Optimize demo apps for mobile
-- [#760](https://github.com/stsrki/Blazorise/issues/760) Upgrade Bootstrap provider
-- [#658](https://github.com/stsrki/Blazorise/issues/658) Add validation support to work similar to ValidationSummary.
-- [#567](https://github.com/stsrki/Blazorise/issues/567) Implement Bar Color as a specific parameter in BarThemeOptions
-- [#763](https://github.com/stsrki/Blazorise/issues/763) Option to make vertical Bar
-- [#766](https://github.com/stsrki/Blazorise/issues/766) Toggle Animation not working with Bar component
-- [#281](https://github.com/stsrki/Blazorise/issues/281) Add ability to display close button on badge
-- [#350](https://github.com/stsrki/Blazorise/issues/350) Sidebar width and Bar height
-- [#369](https://github.com/stsrki/Blazorise/issues/369) Button text colors for success and info
-- [#407](https://github.com/stsrki/Blazorise/issues/407) Datagrid mobile friendly
-- [#413](https://github.com/stsrki/Blazorise/issues/413) Button colors
-- [#412](https://github.com/stsrki/Blazorise/issues/412) Error when using SelectEdit with dictionary in DataGrid
-- [#430](https://github.com/stsrki/Blazorise/issues/430) Modal Footer Buttons do not follow theme
-- [#447](https://github.com/stsrki/Blazorise/issues/447) DetailRowTemplate - Remove empty td or change size
-- [#483](https://github.com/stsrki/Blazorise/issues/483) Scroll not working after NavigationManager navigation
-- [#564](https://github.com/stsrki/Blazorise/issues/564) How should these theme attributes be filled?
-- [#672](https://github.com/stsrki/Blazorise/issues/672) Dropdown and DropdownMenu have a RightAligned property
-- [#676](https://github.com/stsrki/Blazorise/issues/676) Add a SetFocus method
-- [#693](https://github.com/stsrki/Blazorise/issues/693) ChartOptions improvement
-- [#708](https://github.com/stsrki/Blazorise/issues/708) Add Display utilities
-- [#660](https://github.com/stsrki/Blazorise/issues/660) Theme options to define layout grid breakpoints
-- [#790](https://github.com/stsrki/Blazorise/issues/790) Figure is not responsive
-- [#834](https://github.com/stsrki/Blazorise/issues/834) Default colors for AntDesign
-- [#851](https://github.com/stsrki/Blazorise/issues/851) Expose EditContext as an attribute of Validations
-- [#792](https://github.com/stsrki/Blazorise/issues/792) error with charts after redrawing
-- [#847](https://github.com/stsrki/Blazorise/issues/847) Modal scrolls to top of
-- [#955](https://github.com/stsrki/Blazorise/issues/955) Remove Visibility property
+- [#758](https://github.com/Megabit/Blazorise/issues/758) Optimize demo apps for mobile
+- [#760](https://github.com/Megabit/Blazorise/issues/760) Upgrade Bootstrap provider
+- [#658](https://github.com/Megabit/Blazorise/issues/658) Add validation support to work similar to ValidationSummary.
+- [#567](https://github.com/Megabit/Blazorise/issues/567) Implement Bar Color as a specific parameter in BarThemeOptions
+- [#763](https://github.com/Megabit/Blazorise/issues/763) Option to make vertical Bar
+- [#766](https://github.com/Megabit/Blazorise/issues/766) Toggle Animation not working with Bar component
+- [#281](https://github.com/Megabit/Blazorise/issues/281) Add ability to display close button on badge
+- [#350](https://github.com/Megabit/Blazorise/issues/350) Sidebar width and Bar height
+- [#369](https://github.com/Megabit/Blazorise/issues/369) Button text colors for success and info
+- [#407](https://github.com/Megabit/Blazorise/issues/407) Datagrid mobile friendly
+- [#413](https://github.com/Megabit/Blazorise/issues/413) Button colors
+- [#412](https://github.com/Megabit/Blazorise/issues/412) Error when using SelectEdit with dictionary in DataGrid
+- [#430](https://github.com/Megabit/Blazorise/issues/430) Modal Footer Buttons do not follow theme
+- [#447](https://github.com/Megabit/Blazorise/issues/447) DetailRowTemplate - Remove empty td or change size
+- [#483](https://github.com/Megabit/Blazorise/issues/483) Scroll not working after NavigationManager navigation
+- [#564](https://github.com/Megabit/Blazorise/issues/564) How should these theme attributes be filled?
+- [#672](https://github.com/Megabit/Blazorise/issues/672) Dropdown and DropdownMenu have a RightAligned property
+- [#676](https://github.com/Megabit/Blazorise/issues/676) Add a SetFocus method
+- [#693](https://github.com/Megabit/Blazorise/issues/693) ChartOptions improvement
+- [#708](https://github.com/Megabit/Blazorise/issues/708) Add Display utilities
+- [#660](https://github.com/Megabit/Blazorise/issues/660) Theme options to define layout grid breakpoints
+- [#790](https://github.com/Megabit/Blazorise/issues/790) Figure is not responsive
+- [#834](https://github.com/Megabit/Blazorise/issues/834) Default colors for AntDesign
+- [#851](https://github.com/Megabit/Blazorise/issues/851) Expose EditContext as an attribute of Validations
+- [#792](https://github.com/Megabit/Blazorise/issues/792) error with charts after redrawing
+- [#847](https://github.com/Megabit/Blazorise/issues/847) Modal scrolls to top of
+- [#955](https://github.com/Megabit/Blazorise/issues/955) Remove Visibility property
 
 ### Bug Fixes
 
-- [#622](https://github.com/stsrki/Blazorise/issues/622) [DataGrid] [Material] Issue with DetailRowTemplate in Editable DataGrid
-- [#664](https://github.com/stsrki/Blazorise/issues/664) Switch Component Cursor Property doesn't work
-- [#646](https://github.com/stsrki/Blazorise/issues/646) Theme ColorOptions Primary also changes breadcrumb link color
-- [#686](https://github.com/stsrki/Blazorise/issues/686) Null reference exception when DataGridColumn Field is not set
-- [#661](https://github.com/stsrki/Blazorise/issues/661) Auto Validation: Form Validation, error message is displayed on first load.
-- [#871](https://github.com/stsrki/Blazorise/issues/871) Sidebar not collapsing on media breakpoints
-- [#875](https://github.com/stsrki/Blazorise/issues/875) Streaming charts - how to assign specific "data-streams" to specific datasets
-- [#898](https://github.com/stsrki/Blazorise/issues/898) Column Width in Material
-- [#923](https://github.com/stsrki/Blazorise/issues/923) Don't call JSRunner during prerendering
-- [#655](https://github.com/stsrki/Blazorise/issues/655) Memo cursor jumps to end when enclosed in a field and Text is bound
-- [#733](https://github.com/stsrki/Blazorise/issues/733) TextEdit jump caret to the end of the text for every typed char
-- [#946](https://github.com/stsrki/Blazorise/issues/946) Unhandled Exception behavior in UI events
-- [#961](https://github.com/stsrki/Blazorise/issues/961) ChartOptions : Scales object has typo in "Axe"
+- [#622](https://github.com/Megabit/Blazorise/issues/622) [DataGrid] [Material] Issue with DetailRowTemplate in Editable DataGrid
+- [#664](https://github.com/Megabit/Blazorise/issues/664) Switch Component Cursor Property doesn't work
+- [#646](https://github.com/Megabit/Blazorise/issues/646) Theme ColorOptions Primary also changes breadcrumb link color
+- [#686](https://github.com/Megabit/Blazorise/issues/686) Null reference exception when DataGridColumn Field is not set
+- [#661](https://github.com/Megabit/Blazorise/issues/661) Auto Validation: Form Validation, error message is displayed on first load.
+- [#871](https://github.com/Megabit/Blazorise/issues/871) Sidebar not collapsing on media breakpoints
+- [#875](https://github.com/Megabit/Blazorise/issues/875) Streaming charts - how to assign specific "data-streams" to specific datasets
+- [#898](https://github.com/Megabit/Blazorise/issues/898) Column Width in Material
+- [#923](https://github.com/Megabit/Blazorise/issues/923) Don't call JSRunner during prerendering
+- [#655](https://github.com/Megabit/Blazorise/issues/655) Memo cursor jumps to end when enclosed in a field and Text is bound
+- [#733](https://github.com/Megabit/Blazorise/issues/733) TextEdit jump caret to the end of the text for every typed char
+- [#946](https://github.com/Megabit/Blazorise/issues/946) Unhandled Exception behavior in UI events
+- [#961](https://github.com/Megabit/Blazorise/issues/961) ChartOptions : Scales object has typo in "Axe"
 
 ## Work from Community 
 
@@ -209,17 +209,17 @@ I must say community around Blazorise is growing larger with every new release. 
 
 Big thanks to everyone that helped with Blazorise v0.9.1 coming to life. My wish was always to have active and live community around Blazorise, and after almost two years all the hard work has finally paid off. Once again, thank you!
 
-- [#785](https://github.com/stsrki/Blazorise/pull/785) fix: layout issue for responsive design
-- [#896](https://github.com/stsrki/Blazorise/pull/896) DataGrid detail column span fix
-- [#928](https://github.com/stsrki/Blazorise/pull/928) Check if component is rendered before calling JSRunner in Dispose()
-- [#947](https://github.com/stsrki/Blazorise/pull/947) Add flask icon to Font Awesome
-- [#948](https://github.com/stsrki/Blazorise/pull/948) DataGrid aggregate column shift fix
-- [#958](https://github.com/stsrki/Blazorise/pull/958) Add ChartColor.FromHtmlColorCode() method
-- [#968](https://github.com/stsrki/Blazorise/pull/968) EmptyTemplate and LoadingTemplate
-- [#962](https://github.com/stsrki/Blazorise/pull/962) Add CardDeck
-- [#987](https://github.com/stsrki/Blazorise/pull/987) TreeView component extension
-- [#985](https://github.com/stsrki/Blazorise/pull/985) ChartJS : convert Options object to Dictionary to fix null values issue
-- [#954](https://github.com/stsrki/Blazorise/pull/954) Vertical Bar mode
+- [#785](https://github.com/Megabit/Blazorise/pull/785) fix: layout issue for responsive design
+- [#896](https://github.com/Megabit/Blazorise/pull/896) DataGrid detail column span fix
+- [#928](https://github.com/Megabit/Blazorise/pull/928) Check if component is rendered before calling JSRunner in Dispose()
+- [#947](https://github.com/Megabit/Blazorise/pull/947) Add flask icon to Font Awesome
+- [#948](https://github.com/Megabit/Blazorise/pull/948) DataGrid aggregate column shift fix
+- [#958](https://github.com/Megabit/Blazorise/pull/958) Add ChartColor.FromHtmlColorCode() method
+- [#968](https://github.com/Megabit/Blazorise/pull/968) EmptyTemplate and LoadingTemplate
+- [#962](https://github.com/Megabit/Blazorise/pull/962) Add CardDeck
+- [#987](https://github.com/Megabit/Blazorise/pull/987) TreeView component extension
+- [#985](https://github.com/Megabit/Blazorise/pull/985) ChartJS : convert Options object to Dictionary to fix null values issue
+- [#954](https://github.com/Megabit/Blazorise/pull/954) Vertical Bar mode
 
 ## Closing notes
 
@@ -227,4 +227,4 @@ _What comes next?_ For starters I will take some free days to clear the head. Af
 
 That's it for now. I hope you will like this new version and that there will not be too many problem. Enjoy, and hopefully see you soon. Cheers! 🍻
 
-And as always if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/stsrki/Blazorise). Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic)!
+And as always if you enjoy working with Blazorise please leave a star on [GitHub](https://github.com/Megabit/Blazorise). Also consider becoming a [Patron](https://www.patreon.com/mladenmacanovic) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic) or [PayPal](https://www.paypal.me/mladenmacanovic)!
