@@ -8,7 +8,7 @@ toc_label: "Features"
 
 ## Overview
 
-In this release the only change is the upgrade to the latest **.Net Core 3.1**. All other bug fixes and features are steadily going to the next [v0.8.8](https://github.com/stsrki/Blazorise/projects/8).
+In this release the only change is the upgrade to the latest **.Net Core 3.1**. All other bug fixes and features are steadily going to the next [v0.8.8](https://github.com/Megabit/Blazorise/projects/8).
 
 ## Update
 
@@ -18,6 +18,6 @@ That’s it! You should now be all set to use Blazorise 0.8.7.2!
 
 ## Closing notes
 
-If you like the project leave a star on [GitHub](https://github.com/stsrki/Blazorise) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic).
+If you like the project leave a star on [GitHub](https://github.com/Megabit/Blazorise) or donate via [Buy me a Coffee](https://www.buymeacoffee.com/mladenmacanovic).
 
-<iframe src="https://ghbtns.com/github-btn.html?user=stsrki&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+<iframe src="https://ghbtns.com/github-btn.html?user=Megabit&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>

@@ -12,8 +12,8 @@ Nothing new in this version. Just a quick bug fixes introduced in 0.8.7.
 
 ## Bug Fixes
 
- - [#384](https://github.com/stsrki/Blazorise/issues/384) Fix favicon in demo apps
- - [#395](https://github.com/stsrki/Blazorise/issues/395) Autocomplete no longer works in 0.8.7
+ - [#384](https://github.com/Megabit/Blazorise/issues/384) Fix favicon in demo apps
+ - [#395](https://github.com/Megabit/Blazorise/issues/395) Autocomplete no longer works in 0.8.7
 
 ## Closing notes
 
@@ -21,4 +21,4 @@ That's all. If you like the project please leave a star.
 
 Thanks!
 
-<iframe src="https://ghbtns.com/github-btn.html?user=stsrki&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+<iframe src="https://ghbtns.com/github-btn.html?user=Megabit&repo=Blazorise&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
