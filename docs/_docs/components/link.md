@@ -8,6 +8,9 @@ toc_label: "Guide"
 
 `<Link>` is the building block for most Blazorise components that offer link functionality. A `Link` component behaves like an `<a>` element, except it toggles an active CSS class based on whether its `href` matches the current URL.
 
+**Note:** Due to a [bug](https://github.com/dotnet/aspnetcore/issues/18685) in VisualStudio tooling you should write `<Link>` as `<Blazorise.Link>` until the issue is resolved.
+{: .notice--warning}
+
 ## Example
 
 By specifying a value in the `To` property, a standard link (`<a>`) element will be rendered.
