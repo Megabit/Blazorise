@@ -629,6 +629,8 @@ namespace Blazorise
 
         string Row();
 
+        string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
+
         string RowNoGutters();
 
         #endregion

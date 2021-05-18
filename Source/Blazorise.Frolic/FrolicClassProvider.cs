@@ -681,6 +681,8 @@ namespace Blazorise.Frolic
 
         public override string Row() => "e-cols";
 
+        public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition ) => null;
+
         public override string RowNoGutters() => "e-cols-no-gutters";
 
         #endregion

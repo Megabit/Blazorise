@@ -1,0 +1,21 @@
+﻿{
+  "culture": "is",
+  "translations": {
+    "New": "Nýtt",
+    "Edit": "Breyta",
+    "Delete": "Eyða",
+    "Save": "Vista",
+    "Cancel": "Hætta við",
+    "Clear Filter": "Hreinsa síu",
+    "First": "Fyrsta",
+    "Last": "Síðasta",
+    "Prev": "Fyrra",
+    "Next": "Næsta",
+    "items": "hlutir",
+    "items per page": "fjöldi á síðu",
+    "{0} - {1} of {2} items": "{0} - {1} af {2} hlutum",
+    "Row Edit": "Breyta röð",
+    "Row Create": "Ný röð",
+    "Create": "Búa til"
+  }
+}

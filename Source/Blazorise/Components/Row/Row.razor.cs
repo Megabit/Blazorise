@@ -10,6 +10,12 @@ namespace Blazorise
     /// </summary>
     public partial class Row : BaseComponent
     {
+        #region Members
+
+        private IFluentRowColumns rowColumns;
+
+        #endregion
+
         #region Methods
 
         /// <inheritdoc/>
@@ -17,6 +23,9 @@ namespace Blazorise
         {
             builder.Append( ClassProvider.Row() );
             builder.Append( ClassProvider.RowNoGutters(), NoGutters );
+
+            if ( RowColumns != null && RowColumns.HasSizes )
+                builder.Append( RowColumns.Class( ClassProvider ) );
 
             base.BuildClasses( builder );
         }
@@ -32,6 +41,21 @@ namespace Blazorise
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Defines the number of columns to show in a row.
+        /// </summary>
+        [Parameter]
+        public IFluentRowColumns RowColumns
+        {
+            get => rowColumns;
+            set
+            {
+                rowColumns = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Row grid spacing - we recommend setting Horizontal and/or Vertical it to (16 + 8n). (n stands for natural number.)

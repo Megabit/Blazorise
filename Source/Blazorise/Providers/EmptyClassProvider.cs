@@ -635,6 +635,8 @@ namespace Blazorise.Providers
 
         public string Row() => null;
 
+        public string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition ) => null;
+
         public string RowNoGutters() => null;
 
         #endregion
