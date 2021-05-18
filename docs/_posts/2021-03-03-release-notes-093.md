@@ -120,9 +120,9 @@ The first and foremost change is the new `IValidationHandler` system. The new sy
 <Validation HandlerType="typeof(FluentValidationHandler)" />
 ```
 
-Along with the already mentioned `IValidationHandler`, a lot of previously known bugs were also fixed. Notably, the nasty bug with the `DateEdit` component where if you tried to enter the year part of the date it would just reset everything([#1515](https://github.com/stsrki/Blazorise/issues/1515)).
+Along with the already mentioned `IValidationHandler`, a lot of previously known bugs were also fixed. Notably, the nasty bug with the `DateEdit` component where if you tried to enter the year part of the date it would just reset everything([#1515](https://github.com/Megabit/Blazorise/issues/1515)).
 
-Also, `Validation` component can now work with `EditContext` coming from Blazor native `EditForm` [#996](https://github.com/stsrki/Blazorise/issues/996).
+Also, `Validation` component can now work with `EditContext` coming from Blazor native `EditForm` [#996](https://github.com/Megabit/Blazorise/issues/996).
 
 ### PageProgress
 
@@ -139,7 +139,7 @@ Starting with this release we also bring you a great [Blazor.Animate](https://gi
 
 ## List of all changes
 
-Usually, I would copy-paste a list of all changes along with the release notes, but this time the number of items is too big so I decided to just give you a [link](https://github.com/stsrki/Blazorise/issues/1472) instead. So click on it if you want to see every new feature or bug fix in this release.
+Usually, I would copy-paste a list of all changes along with the release notes, but this time the number of items is too big so I decided to just give you a [link](https://github.com/Megabit/Blazorise/issues/1472) instead. So click on it if you want to see every new feature or bug fix in this release.
 
 ## PRs
 

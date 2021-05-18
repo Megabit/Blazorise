@@ -11,7 +11,7 @@ header:
       url: "https://bootstrapdemo.blazorise.com"
 excerpt: >
   Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Bulma, AntDesign and Material.<br />
-  <small><a href="https://github.com/stsrki/Blazorise">View it on GitHub</a></small>
+  <small><a href="https://github.com/Megabit/Blazorise">View it on GitHub</a></small>
 feature_row:
   - image_path: /assets/images/web-1.jpg
     alt: "blazor"
