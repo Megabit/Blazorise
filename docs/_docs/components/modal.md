@@ -33,7 +33,7 @@ Place the modal markup somewhere at root of you component layout.
 <Button Clicked="@ShowModal">Show Modal</Button>
 
 <Modal @ref="modalRef">
-    <ModalContent IsCentered="true">
+    <ModalContent Centered="true">
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
             <CloseButton />

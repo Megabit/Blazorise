@@ -203,7 +203,7 @@ public class User
 }
 ```
 
-**Note:** For a full source code you can look at the [validation page](https://github.com/stsrki/Blazorise/blob/master/Demos/Blazorise.Demo/Pages/Tests/ValidationsPage.razor) inside of a demo application.
+**Note:** For a full source code you can look at the [validation page](https://github.com/Megabit/Blazorise/blob/master/Demos/Blazorise.Demo/Pages/Tests/ValidationsPage.razor) inside of a demo application.
 {: .notice--info}
 
 ## Localization

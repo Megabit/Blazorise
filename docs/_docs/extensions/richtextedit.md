@@ -41,6 +41,14 @@ In your main _Imports.razor_ add:
 @using Blazorise.RichTextEdit
 ```
 
+### Static Files
+
+Include CSS link into your index.html or _Host.cshtml file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+
+```html
+<script src="_content/Blazorise.RichTextEdit/blazorise.richtextedit.js"></script>
+```
+
 ### Configuration
 
 In your Blazor `StartUp` add the following statement

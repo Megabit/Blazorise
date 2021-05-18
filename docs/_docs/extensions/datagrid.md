@@ -43,6 +43,16 @@ In your main _Imports.razor_ add:
 @using Blazorise.DataGrid
 ```
 
+### Static Files
+
+Include CSS link into your index.html or _Host.cshtml file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+
+```html
+<link href="_content/Blazorise.DataGrid/blazorise.datagrid.css" rel="stylesheet" />
+
+<script src="_content/Blazorise.DataGrid/blazorise.datagrid.js"></script>
+```
+
 ## Features
 
 ### Sorting
