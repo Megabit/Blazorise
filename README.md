@@ -14,6 +14,27 @@
 
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
+## Supporting Blazorise
+
+Blazorise is an MIT-licensed open source project with its ongoing development made possible entirely by the support of these awesome backers.
+
+### Special Sponsors
+
+<!--platinum start-->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://volosoft.com/" target="_blank">
+          <img width="222px" src="https://volosoft.com/assets/logos/volosoft-logo-dark.svg">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+  </tbody>
+</table>
+<!--platinum end-->
+
 ## Demos
 
 ### Blazor WebAssembly
