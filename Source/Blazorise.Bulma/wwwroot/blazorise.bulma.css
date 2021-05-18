@@ -3372,10 +3372,38 @@ label.radio.button {
 .file.has-name.is-fullwidth {
     width: 100%; }
 
-.input.is-extra-small, .field.has-addons.are-extra-small > .control > .input.button {
+.has-addons.is-extra-small > .control > .button, .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .button,
+.has-addons.is-extra-small > .control > .control > .button, .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .control > .button,
+.has-addons.is-extra-small > .control > .field > .control > .input, .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .field > .control > .input,
+.has-addons.is-extra-small > .control > .field > .control > .select, .field.has-addons.are-extra-small > .control > .has-addons.button > .control > .field > .control > .select,
+.input.is-extra-small,
+.field.has-addons.are-extra-small > .control > .input.button {
     font-size: 0.65rem; }
 
-.input.is-extra-large, .field.has-addons.are-extra-large > .control > .input.button {
+.has-addons.is-small > .control > .button, .field.has-addons.are-small > .control > .has-addons.button > .control > .button,
+.has-addons.is-small > .control > .control > .button, .field.has-addons.are-small > .control > .has-addons.button > .control > .control > .button,
+.has-addons.is-small > .control > .field > .control > .input, .field.has-addons.are-small > .control > .has-addons.button > .control > .field > .control > .input,
+.has-addons.is-small > .control > .field > .control > .select, .field.has-addons.are-small > .control > .has-addons.button > .control > .field > .control > .select {
+    font-size: 0.75rem; }
+
+.has-addons.is-medium > .control > .button, .field.has-addons.are-medium > .control > .has-addons.button > .control > .button,
+.has-addons.is-medium > .control > .control > .button, .field.has-addons.are-medium > .control > .has-addons.button > .control > .control > .button,
+.has-addons.is-medium > .control > .field > .control > .input, .field.has-addons.are-medium > .control > .has-addons.button > .control > .field > .control > .input,
+.has-addons.is-medium > .control > .field > .control > .select, .field.has-addons.are-medium > .control > .has-addons.button > .control > .field > .control > .select {
+    font-size: 1.25rem; }
+
+.has-addons.is-large > .control > .button, .field.has-addons.are-large > .control > .has-addons.button > .control > .button,
+.has-addons.is-large > .control > .control > .button, .field.has-addons.are-large > .control > .has-addons.button > .control > .control > .button,
+.has-addons.is-large > .control > .field > .control > .input, .field.has-addons.are-large > .control > .has-addons.button > .control > .field > .control > .input,
+.has-addons.is-large > .control > .field > .control > .select, .field.has-addons.are-large > .control > .has-addons.button > .control > .field > .control > .select {
+    font-size: 1.5rem; }
+
+.has-addons.is-extra-large > .control > .button, .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .button,
+.has-addons.is-extra-large > .control > .control > .button, .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .control > .button,
+.has-addons.is-extra-large > .control > .field > .control > .input, .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .field > .control > .input,
+.has-addons.is-extra-large > .control > .field > .control > .select, .field.has-addons.are-extra-large > .control > .has-addons.button > .control > .field > .control > .select,
+.input.is-extra-large,
+.field.has-addons.are-extra-large > .control > .input.button {
     font-size: 2rem; }
 
 .select.is-extra-small, .field.has-addons.are-extra-small > .control > .select.button {

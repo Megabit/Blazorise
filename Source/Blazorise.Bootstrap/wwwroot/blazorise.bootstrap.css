@@ -180,6 +180,106 @@
     padding-left: 1rem;
     font-size: 1.5rem; }
 
+.input-group > .b-numeric > input:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+
+.input-group > .b-numeric > input:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
+
+.input-group-xs > .form-control:not(textarea),
+.input-group-xs > .custom-select,
+.input-group-xs > .b-numeric > input {
+    height: calc(1.5em + 0.3rem + 2px); }
+
+.input-group-xs > .form-control,
+.input-group-xs > .custom-select,
+.input-group-xs > .input-group-prepend > .input-group-text,
+.input-group-xs > .input-group-append > .input-group-text,
+.input-group-xs > .input-group-prepend > .btn,
+.input-group-xs > .input-group-append > .btn,
+.input-group-xs > .b-numeric > input {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    border-radius: 0.15rem; }
+
+.input-group-sm > .b-numeric > input {
+    height: calc(1.5em + 0.5rem + 2px); }
+
+.input-group-sm > .b-numeric > input {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem; }
+
+.input-group-md > .form-control:not(textarea),
+.input-group-md > .custom-select,
+.input-group-md > .b-numeric > input {
+    height: calc(1.5em + 0.94rem + 2px); }
+
+.input-group-md > .form-control,
+.input-group-md > .custom-select,
+.input-group-md > .input-group-prepend > .input-group-text,
+.input-group-md > .input-group-append > .input-group-text,
+.input-group-md > .input-group-prepend > .btn,
+.input-group-md > .input-group-append > .btn,
+.input-group-md > .b-numeric > input {
+    padding: 0.47rem 1rem;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    border-radius: 0.25rem; }
+
+.input-group-lg > .b-numeric > input {
+    height: calc(1.5em + 1rem + 2px); }
+
+.input-group-lg > .b-numeric > input {
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: 0.3rem; }
+
+.input-group-xl > .form-control:not(textarea),
+.input-group-xl > .custom-select,
+.input-group-xl > .b-numeric > input {
+    height: calc(1.5em + 1rem + 2px); }
+
+.input-group-xl > .form-control,
+.input-group-xl > .custom-select,
+.input-group-xl > .input-group-prepend > .input-group-text,
+.input-group-xl > .input-group-append > .input-group-text,
+.input-group-xl > .input-group-prepend > .btn,
+.input-group-xl > .input-group-append > .btn,
+.input-group-xl > .b-numeric > input {
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    border-radius: 0.4rem; }
+
+.input-group-xs > .custom-select,
+.input-group-md > .custom-select,
+.input-group-xl > .custom-select {
+    padding-right: 1.75rem; }
+
+.input-group > .input-group-prepend > .btn,
+.input-group > .input-group-prepend > .input-group-text,
+.input-group > .input-group-append:not(:last-child) > .btn,
+.input-group > .input-group-append:not(:last-child) > .input-group-text,
+.input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle),
+.input-group > .input-group-append:last-child > .input-group-text:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+
+.input-group > .input-group-append > .btn,
+.input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-prepend:not(:first-child) > .btn,
+.input-group > .input-group-prepend:not(:first-child) > .input-group-text,
+.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
+.input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
+
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label::before,
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label::after {
     width: 0.7rem;

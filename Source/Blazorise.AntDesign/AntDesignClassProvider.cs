@@ -282,6 +282,8 @@ namespace Blazorise.AntDesign
 
         public override string Addons() => "ant-input-group-wrapper";
 
+        public override string AddonsSize( Size size ) => $"ant-input-group-wrapper-{ToSize( size )}";
+
         public override string AddonsHasButton( bool hasButton ) => hasButton ? "ant-input-search ant-input-search-enter-button" : null;
 
         public override string Addon( AddonType addonType )

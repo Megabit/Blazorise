@@ -31,6 +31,7 @@ namespace Blazorise.Material
         {
             // material overrides
             [typeof( Blazorise.DateEdit<> )] = typeof( Material.DateEdit<> ),
+            [typeof( Blazorise.NumericEdit<> )] = typeof( Material.NumericEdit<> ),
             [typeof( Blazorise.TimeEdit<> )] = typeof( Material.TimeEdit<> ),
             [typeof( Blazorise.Switch<> )] = typeof( Material.Switch<> ),
             [typeof( Blazorise.Step )] = typeof( Material.Step ),
