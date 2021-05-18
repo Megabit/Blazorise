@@ -9,6 +9,8 @@ namespace Blazorise.DataGrid
 {
     public class PaginationTemplates<TItem>
     {
+        public RenderFragment<PageButtonContext> PageButtonTemplate { get; set; }
+
         public RenderFragment FirstPageButtonTemplate { get; set; }
 
         public RenderFragment LastPageButtonTemplate { get; set; }

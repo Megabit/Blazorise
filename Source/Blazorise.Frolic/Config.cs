@@ -1,8 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -21,35 +19,43 @@ namespace Blazorise.Frolic
             serviceCollection.AddScoped<IJSRunner, FrolicJSRunner>();
             serviceCollection.AddSingleton<IThemeGenerator, FrolicThemeGenerator>();
 
-            serviceCollection.AddTransient<Blazorise.Addon, Frolic.Addon>();
-            serviceCollection.AddTransient<Blazorise.BarBrand, Frolic.BarBrand>();
-            serviceCollection.AddTransient<Blazorise.BarDropdownToggle, Frolic.BarDropdownToggle>();
-            serviceCollection.AddTransient<Blazorise.BarEnd, Frolic.BarEnd>();
-            serviceCollection.AddTransient<Blazorise.BarItem, Frolic.BarItem>();
-            serviceCollection.AddTransient<Blazorise.BarStart, Frolic.BarStart>();
-            serviceCollection.AddTransient<Blazorise.BarToggler, Frolic.BarToggler>();
-            serviceCollection.AddTransient<Blazorise.Breadcrumb, Frolic.Breadcrumb>();
-            serviceCollection.AddTransient<Blazorise.CardText, Frolic.CardText>();
-            serviceCollection.AddTransient<Blazorise.CardTitle, Frolic.CardTitle>();
-            serviceCollection.AddTransient<Blazorise.Carousel, Frolic.Carousel>();
-            serviceCollection.AddTransient( typeof( Blazorise.Check<> ), typeof( Frolic.Check<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.Radio<> ), typeof( Frolic.Radio<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.Switch<> ), typeof( Frolic.Switch<> ) );
-            serviceCollection.AddTransient<Blazorise.DisplayHeading, Frolic.DisplayHeading>();
-            serviceCollection.AddTransient<Blazorise.Dropdown, Frolic.Dropdown>();
-            serviceCollection.AddTransient<Blazorise.DropdownToggle, Frolic.DropdownToggle>();
-            serviceCollection.AddTransient<Blazorise.Field, Frolic.Field>();
-            serviceCollection.AddTransient<Blazorise.Jumbotron, Frolic.Jumbotron>();
-            serviceCollection.AddTransient<Blazorise.JumbotronSubtitle, Frolic.JumbotronSubtitle>();
-            serviceCollection.AddTransient<Blazorise.Pagination, Frolic.Pagination>();
-            serviceCollection.AddTransient<Blazorise.ProgressBar, Frolic.ProgressBar>();
-            serviceCollection.AddTransient<Blazorise.Progress, Frolic.Progress>();
-            serviceCollection.AddTransient<Blazorise.Button, Frolic.Button>();
-            serviceCollection.AddTransient<Blazorise.Tabs, Frolic.Tabs>();
-            serviceCollection.AddTransient<Blazorise.Steps, Frolic.Steps>();
-            serviceCollection.AddTransient<Blazorise.Step, Frolic.Step>();
+            foreach ( var mapping in ComponentMap )
+            {
+                serviceCollection.AddTransient( mapping.Key, mapping.Value );
+            }
 
             return serviceCollection;
         }
+
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
+        {
+            { typeof( Blazorise.Addon ), typeof( Frolic.Addon ) },
+            { typeof( Blazorise.BarBrand ), typeof( Frolic.BarBrand ) },
+            { typeof( Blazorise.BarDropdownToggle ), typeof( Frolic.BarDropdownToggle ) },
+            { typeof( Blazorise.BarEnd ), typeof( Frolic.BarEnd ) },
+            { typeof( Blazorise.BarItem ), typeof( Frolic.BarItem ) },
+            { typeof( Blazorise.BarStart ), typeof( Frolic.BarStart ) },
+            { typeof( Blazorise.BarToggler ), typeof( Frolic.BarToggler ) },
+            { typeof( Blazorise.Breadcrumb ), typeof( Frolic.Breadcrumb ) },
+            { typeof( Blazorise.CardText ), typeof( Frolic.CardText ) },
+            { typeof( Blazorise.CardTitle ), typeof( Frolic.CardTitle ) },
+            { typeof( Blazorise.Carousel ), typeof( Frolic.Carousel ) },
+            { typeof( Blazorise.Check<> ), typeof( Frolic.Check<> ) },
+            { typeof( Blazorise.Radio<> ), typeof( Frolic.Radio<> ) },
+            { typeof( Blazorise.Switch<> ), typeof( Frolic.Switch<> ) },
+            { typeof( Blazorise.DisplayHeading ), typeof( Frolic.DisplayHeading ) },
+            { typeof( Blazorise.Dropdown ), typeof( Frolic.Dropdown ) },
+            { typeof( Blazorise.DropdownToggle ), typeof( Frolic.DropdownToggle ) },
+            { typeof( Blazorise.Field ), typeof( Frolic.Field ) },
+            { typeof( Blazorise.Jumbotron ), typeof( Frolic.Jumbotron ) },
+            { typeof( Blazorise.JumbotronSubtitle ), typeof( Frolic.JumbotronSubtitle ) },
+            { typeof( Blazorise.Pagination ), typeof( Frolic.Pagination ) },
+            { typeof( Blazorise.ProgressBar ), typeof( Frolic.ProgressBar ) },
+            { typeof( Blazorise.Progress ), typeof( Frolic.Progress ) },
+            { typeof( Blazorise.Button ), typeof( Frolic.Button ) },
+            { typeof( Blazorise.Tabs ), typeof( Frolic.Tabs ) },
+            { typeof( Blazorise.Steps ), typeof( Frolic.Steps ) },
+            { typeof( Blazorise.Step ), typeof( Frolic.Step ) },
+        };
     }
 }

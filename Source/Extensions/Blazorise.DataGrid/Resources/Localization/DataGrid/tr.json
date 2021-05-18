@@ -1,0 +1,21 @@
+{
+  "culture": "tr",
+  "translations": {
+    "New": "Yeni",
+    "Edit": "Düzenle",
+    "Delete": "Sil",
+    "Save": "Kaydet",
+    "Cancel": "İptal",
+    "Clear Filter": "Filtreleri Temizle",
+    "First": "İlk",
+    "Last": "Son",
+    "Prev": "Önceki",
+    "Next": "Sonraki",
+    "items": "öğeler",
+    "items per page": "sayfa başına satır",
+    "{0} - {1} of {2} items": "{0} - {1} arası, {2} kayıt",
+    "Row Edit": "Satır Düzenle",
+    "Row Create": "Satır Oluştur",
+    "Create": "Oluştur"
+  }
+}

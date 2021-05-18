@@ -113,6 +113,7 @@ namespace Blazorise
                 }
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
 
                 // TODO: implement IAsyncDisposable once it is supported by Blazor!
                 //

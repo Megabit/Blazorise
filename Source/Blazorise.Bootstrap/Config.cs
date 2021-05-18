@@ -1,11 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 #endregion
 
 namespace Blazorise.Bootstrap
@@ -35,27 +31,34 @@ namespace Blazorise.Bootstrap
 
         public static IServiceCollection AddBootstrapComponents( this IServiceCollection serviceCollection )
         {
-            serviceCollection.AddTransient<Blazorise.Field, Bootstrap.Field>();
-            serviceCollection.AddTransient<Blazorise.Addon, Bootstrap.Addon>();
-            serviceCollection.AddTransient<Blazorise.BarToggler, Bootstrap.BarToggler>();
-            serviceCollection.AddTransient<Blazorise.BarDropdown, Bootstrap.BarDropdown>();
-            serviceCollection.AddTransient<Blazorise.CardTitle, Bootstrap.CardTitle>();
-            serviceCollection.AddTransient<Blazorise.CardSubtitle, Bootstrap.CardSubtitle>();
-            serviceCollection.AddTransient<Blazorise.Carousel, Bootstrap.Carousel>();
-            serviceCollection.AddTransient<Blazorise.CloseButton, Bootstrap.CloseButton>();
-            serviceCollection.AddTransient( typeof( Blazorise.Check<> ), typeof( Bootstrap.Check<> ) );
-            serviceCollection.AddTransient<Blazorise.Field, Bootstrap.Field>();
-            serviceCollection.AddTransient<Blazorise.FieldBody, Bootstrap.FieldBody>();
-            serviceCollection.AddTransient<Blazorise.FileEdit, Bootstrap.FileEdit>();
-            serviceCollection.AddTransient<Blazorise.Modal, Bootstrap.Modal>();
-            serviceCollection.AddTransient<Blazorise.ModalContent, Bootstrap.ModalContent>();
-            serviceCollection.AddTransient( typeof( Blazorise.NumericEdit<> ), typeof( Bootstrap.NumericEdit<> ) );
-            serviceCollection.AddTransient<Blazorise.Button, Bootstrap.Button>();
-            serviceCollection.AddTransient( typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) );
-            serviceCollection.AddTransient( typeof( Blazorise.Switch<> ), typeof( Bootstrap.Switch<> ) );
-            serviceCollection.AddTransient<Blazorise.Step, Bootstrap.Step>();
+            foreach ( var mapping in ComponentMap )
+            {
+                serviceCollection.AddTransient( mapping.Key, mapping.Value );
+            }
 
             return serviceCollection;
         }
+
+        public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
+        {
+            { typeof( Blazorise.Addon ), typeof( Bootstrap.Addon ) },
+            { typeof( Blazorise.BarToggler ), typeof( Bootstrap.BarToggler ) },
+            { typeof( Blazorise.BarDropdown ), typeof( Bootstrap.BarDropdown ) },
+            { typeof( Blazorise.CardTitle ), typeof( Bootstrap.CardTitle ) },
+            { typeof( Blazorise.CardSubtitle ), typeof( Bootstrap.CardSubtitle ) },
+            { typeof( Blazorise.Carousel ), typeof( Bootstrap.Carousel ) },
+            { typeof( Blazorise.CloseButton ), typeof( Bootstrap.CloseButton ) },
+            { typeof( Blazorise.Check<> ), typeof( Bootstrap.Check<> ) },
+            { typeof( Blazorise.Field ), typeof( Bootstrap.Field ) },
+            { typeof( Blazorise.FieldBody ), typeof( Bootstrap.FieldBody ) },
+            { typeof( Blazorise.FileEdit ), typeof( Bootstrap.FileEdit ) },
+            { typeof( Blazorise.Modal ), typeof( Bootstrap.Modal ) },
+            { typeof( Blazorise.ModalContent ), typeof( Bootstrap.ModalContent) },
+            { typeof( Blazorise.NumericEdit<> ), typeof( Bootstrap.NumericEdit<> ) },
+            { typeof( Blazorise.Button ), typeof( Bootstrap.Button ) },
+            { typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) },
+            { typeof( Blazorise.Switch<> ), typeof( Bootstrap.Switch<> ) },
+            { typeof( Blazorise.Step ), typeof( Bootstrap.Step ) },
+        };
     }
 }

@@ -88,6 +88,7 @@ namespace Blazorise.DataGrid
             {
                 return new PaginationTemplates<TItem>
                 {
+                    PageButtonTemplate = PageButtonTemplate,
                     FirstPageButtonTemplate = FirstPageButtonTemplate,
                     LastPageButtonTemplate = LastPageButtonTemplate,
                     PreviousPageButtonTemplate = PreviousPageButtonTemplate,
@@ -99,6 +100,7 @@ namespace Blazorise.DataGrid
             }
             set
             {
+                PageButtonTemplate = value.PageButtonTemplate;
                 FirstPageButtonTemplate = value.FirstPageButtonTemplate;
                 LastPageButtonTemplate = value.LastPageButtonTemplate;
                 PreviousPageButtonTemplate = value.PreviousPageButtonTemplate;
@@ -133,6 +135,11 @@ namespace Blazorise.DataGrid
         /// Activates the clear filter command.
         /// </summary>
         [Parameter] public EventCallback ClearFilter { get; set; }
+
+        /// <summary>
+        /// Gets or sets content of page buttons of pager.
+        /// </summary>
+        [Parameter] public RenderFragment<PageButtonContext> PageButtonTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets content of first button of pager.

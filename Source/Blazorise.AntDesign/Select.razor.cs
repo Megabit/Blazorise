@@ -59,6 +59,7 @@ namespace Blazorise.AntDesign
                 _ = JSRunner.UnregisterClosableComponent( this );
 
                 DisposeDotNetObjectRef( dotNetObjectRef );
+                dotNetObjectRef = null;
             }
 
             base.Dispose( disposing );

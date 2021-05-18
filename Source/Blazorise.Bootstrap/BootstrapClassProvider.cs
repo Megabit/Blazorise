@@ -641,6 +641,14 @@ namespace Blazorise.Bootstrap
 
         public override string Row() => "row";
 
+        public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
+        {
+            if ( rowColumnsDefinition.Breakpoint != Breakpoint.None && rowColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+                return $"row-cols-{ToBreakpoint( rowColumnsDefinition.Breakpoint )}-{ToRowColumnsSize( rowColumnsSize )}";
+
+            return $"row-cols-{ToRowColumnsSize( rowColumnsSize )}";
+        }
+
         public override string RowNoGutters() => "no-gutters";
 
         #endregion
