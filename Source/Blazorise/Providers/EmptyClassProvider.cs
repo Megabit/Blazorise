@@ -499,6 +499,8 @@ namespace Blazorise.Providers
 
         public string ListGroupItem() => null;
 
+        public string ListGroupItemSelectable() => null;
+
         public string ListGroupItemActive() => null;
 
         public string ListGroupItemDisabled() => null;

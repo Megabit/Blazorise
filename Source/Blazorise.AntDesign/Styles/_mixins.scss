@@ -12,8 +12,37 @@
 }
 
 @mixin row-cols($count) {
-  & > * {
-    flex: 0 0 100% / $count;
-    max-width: 100% / $count;
-  }
+    & > * {
+        flex: 0 0 100% / $count;
+        max-width: 100% / $count;
+    }
+}
+
+@mixin hover() {
+    &:hover {
+        @content;
+    }
+}
+
+@mixin hover-focus() {
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin plain-hover-focus() {
+    &,
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin hover-focus-active() {
+    &:hover,
+    &:focus,
+    &:active {
+        @content;
+    }
 }

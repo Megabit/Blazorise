@@ -2,3 +2,21 @@
     border-right: 0;
     border-left: 0;
 }
+
+.ant-list-item-actionable {
+    width: 100%;
+    color: $list-group-action-color;
+    text-align: inherit;
+
+    @include hover-focus() {
+        z-index: 1;
+        color: $list-group-action-hover-color;
+        text-decoration: none;
+        background-color: $list-group-hover-bg;
+    }
+
+    &:active {
+        color: $list-group-action-active-color;
+        background-color: $list-group-action-active-bg;
+    }
+}

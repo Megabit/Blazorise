@@ -70,6 +70,21 @@ namespace Blazorise
         }
 
         /// <summary>
+        /// Makes the list group items to appear as selectable when mouse is moved over them.
+        /// </summary>
+        [Parameter]
+        public bool Selectable
+        {
+            get => state.Selectable;
+            set
+            {
+                state = state with { Selectable = value };
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
         /// Defines the list-group behaviour mode.
         /// </summary>
         [Parameter]

@@ -550,6 +550,8 @@ namespace Blazorise.Bulma
 
         public override string ListGroupItem() => "list-group-item";
 
+        public override string ListGroupItemSelectable() => "list-group-item-action";
+
         public override string ListGroupItemActive() => Active();
 
         public override string ListGroupItemDisabled() => Disabled();
