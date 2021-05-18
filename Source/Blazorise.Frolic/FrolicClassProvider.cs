@@ -572,6 +572,8 @@ namespace Blazorise.Frolic
 
         public override string ListGroupItem() => "e-list-item";
 
+        public override string ListGroupItemSelectable() => null;
+
         public override string ListGroupItemActive() => Active();
 
         public override string ListGroupItemDisabled() => Disabled();

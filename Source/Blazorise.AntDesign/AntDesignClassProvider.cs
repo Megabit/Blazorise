@@ -547,6 +547,8 @@ namespace Blazorise.AntDesign
 
         public override string ListGroupItem() => "ant-list-item ant-list-item-no-flex";
 
+        public override string ListGroupItemSelectable() => "ant-list-item-actionable";
+
         public override string ListGroupItemActive() => Active();
 
         public override string ListGroupItemDisabled() => Disabled();

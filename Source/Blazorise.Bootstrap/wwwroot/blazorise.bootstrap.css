@@ -518,6 +518,9 @@ select[readonly] {
 .b-layout-sider-content {
     z-index: 1021; }
 
+li.list-group-item-action {
+    cursor: pointer; }
+
 .modal.show {
     animation-duration: 0.25s;
     animation-fill-mode: both;

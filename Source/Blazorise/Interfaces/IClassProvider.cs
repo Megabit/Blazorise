@@ -497,6 +497,8 @@ namespace Blazorise
 
         string ListGroupItem();
 
+        string ListGroupItemSelectable();
+
         string ListGroupItemActive();
 
         string ListGroupItemDisabled();
