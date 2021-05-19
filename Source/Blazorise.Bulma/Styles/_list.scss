@@ -6,14 +6,26 @@
     @include border-radius($list-group-border-radius);
 
     & > .list-group-item {
-        &.is-primary {
-            background-color: hsl(171, 100%, 41%);
-            color: #fff;
-        }
+        @each $name, $value in $theme-colors {
+            $color: $value;
+            $background: theme-color-level($color, -9);
 
             &.is-#{$name} {
-                background-color: $color;
-                color: $color-invert;
+                color: $color;
+                background-color: $background;
+
+                &.list-group-item-action {
+                    @include hover-focus() {
+                        color: $color;
+                        background-color: darken($background, 5%);
+                    }
+
+                    &.active {
+                        color: $white;
+                        background-color: $color;
+                        border-color: $color;
+                    }
+                }
             }
         }
     }
