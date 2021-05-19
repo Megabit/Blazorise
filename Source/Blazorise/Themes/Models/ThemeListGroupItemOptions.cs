@@ -9,7 +9,7 @@
         /// Defines a level of background color.
         /// </summary>
         /// <remarks>Negative level values will lighten the color, while higher levels will darken.</remarks>
-        public int BackgroundLevel { get; set; } = -10;
+        public int BackgroundLevel { get; set; } = -9;
 
         /// <summary>
         /// Defines a level of text color.

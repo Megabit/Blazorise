@@ -29,14 +29,32 @@
     <Strong> Demo application for</Strong>: Blazorise @($"v{typeof( Blazorise.BaseComponent ).Assembly.GetName().Version.ToString( 3 )}")
 </Paragraph>
 
-<ListGroup Mode="ListGroupMode.Selectable">
-    <ListGroupItem Name="None" Color="Color.None">None</ListGroupItem>
-    <ListGroupItem Name="Primary" Color="Color.Primary">Primary</ListGroupItem>
-    <ListGroupItem Name="Secondary" Color="Color.Secondary">Secondary</ListGroupItem>
-    <ListGroupItem Name="Success" Color="Color.Success">Success</ListGroupItem>
-    <ListGroupItem Name="Danger" Color="Color.Danger">Danger</ListGroupItem>
-    <ListGroupItem Name="Warning" Color="Color.Warning">Warning</ListGroupItem>
-    <ListGroupItem Name="Info" Color="Color.Info">Info</ListGroupItem>
-    <ListGroupItem Name="Light" Color="Color.Light">Light</ListGroupItem>
-    <ListGroupItem Name="Dark" Color="Color.Dark">Dark</ListGroupItem>
-</ListGroup>
+<Row>
+    <Column ColumnSize="ColumnSize.Is6">
+        <ListGroup Mode="ListGroupMode.Static">
+            <ListGroupItem Name="None" Color="Color.None">None</ListGroupItem>
+            <ListGroupItem Name="Primary" Color="Color.Primary">Primary</ListGroupItem>
+            <ListGroupItem Name="Secondary" Color="Color.Secondary">Secondary</ListGroupItem>
+            <ListGroupItem Name="Success" Color="Color.Success">Success</ListGroupItem>
+            <ListGroupItem Name="Danger" Color="Color.Danger">Danger</ListGroupItem>
+            <ListGroupItem Name="Warning" Color="Color.Warning">Warning</ListGroupItem>
+            <ListGroupItem Name="Info" Color="Color.Info">Info</ListGroupItem>
+            <ListGroupItem Name="Light" Color="Color.Light">Light</ListGroupItem>
+            <ListGroupItem Name="Dark" Color="Color.Dark">Dark</ListGroupItem>
+        </ListGroup>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.Is6">
+        <ListGroup Mode="ListGroupMode.Selectable">
+            <ListGroupItem Name="None" Color="Color.None">None</ListGroupItem>
+            <ListGroupItem Name="Primary" Color="Color.Primary">Primary</ListGroupItem>
+            <ListGroupItem Name="Secondary" Color="Color.Secondary">Secondary</ListGroupItem>
+            <ListGroupItem Name="Success" Color="Color.Success">Success</ListGroupItem>
+            <ListGroupItem Name="Danger" Color="Color.Danger">Danger</ListGroupItem>
+            <ListGroupItem Name="Warning" Color="Color.Warning">Warning</ListGroupItem>
+            <ListGroupItem Name="Info" Color="Color.Info">Info</ListGroupItem>
+            <ListGroupItem Name="Light" Color="Color.Light">Light</ListGroupItem>
+            <ListGroupItem Name="Dark" Color="Color.Dark">Dark</ListGroupItem>
+        </ListGroup>
+    </Column>
+</Row>

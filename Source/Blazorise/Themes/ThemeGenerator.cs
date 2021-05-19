@@ -663,6 +663,8 @@ namespace Blazorise
 
             GenerateRatingStyles( sb, theme, theme.RatingOptions );
 
+            GenerateListGroupItemStyles( sb, theme, theme.ListGroupItemOptions );
+
             var generatedStyles = sb.ToString();
 
             ThemeCache.CacheStyles( theme, generatedStyles );
@@ -721,7 +723,7 @@ namespace Blazorise
                 ThemeColorLevelHex( theme, color, theme.TableOptions?.BorderLevel ?? -6 ) );
 
             GenerateListGroupItemVariantStyles( sb, theme, variant,
-                ThemeColorLevelHex( theme, color, theme.ListGroupItemOptions?.BackgroundLevel ?? -10 ),
+                ThemeColorLevelHex( theme, color, theme.ListGroupItemOptions?.BackgroundLevel ?? -9 ),
                 ThemeColorLevelHex( theme, color, theme.ListGroupItemOptions?.ColorLevel ?? 6 ),
                 theme.ListGroupItemOptions );
         }
@@ -1004,6 +1006,14 @@ namespace Blazorise
 
         /// <summary>
         /// Generates the list-group-item styles.
+        /// </summary>
+        /// <param name="sb">Target string builder.</param>
+        /// <param name="theme">Theme settings.</param>
+        /// <param name="options">ListGroupItem options.</param>
+        protected abstract void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options );
+
+        /// <summary>
+        /// Generates the list-group-item variant styles.
         /// </summary>
         /// <param name="sb">Target string builder.</param>
         /// <param name="theme">Theme settings.</param>
