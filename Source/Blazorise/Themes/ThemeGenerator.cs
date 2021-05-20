@@ -663,6 +663,8 @@ namespace Blazorise
 
             GenerateRatingStyles( sb, theme, theme.RatingOptions );
 
+            GenerateListGroupItemStyles( sb, theme, theme.ListGroupItemOptions );
+
             var generatedStyles = sb.ToString();
 
             ThemeCache.CacheStyles( theme, generatedStyles );
@@ -719,6 +721,11 @@ namespace Blazorise
             GenerateTableVariantStyles( sb, theme, variant,
                 ThemeColorLevelHex( theme, color, theme.TableOptions?.BackgroundLevel ?? -9 ),
                 ThemeColorLevelHex( theme, color, theme.TableOptions?.BorderLevel ?? -6 ) );
+
+            GenerateListGroupItemVariantStyles( sb, theme, variant,
+                ThemeColorLevelHex( theme, color, theme.ListGroupItemOptions?.BackgroundLevel ?? -9 ),
+                ThemeColorLevelHex( theme, color, theme.ListGroupItemOptions?.ColorLevel ?? 6 ),
+                theme.ListGroupItemOptions );
         }
 
         /// <summary>
@@ -996,6 +1003,25 @@ namespace Blazorise
         /// <param name="variant">Color variant name.</param>
         /// <param name="color">Color value.</param>
         protected abstract void GenerateInputVariantStyles( StringBuilder sb, Theme theme, string variant, string color );
+
+        /// <summary>
+        /// Generates the list-group-item styles.
+        /// </summary>
+        /// <param name="sb">Target string builder.</param>
+        /// <param name="theme">Theme settings.</param>
+        /// <param name="options">ListGroupItem options.</param>
+        protected abstract void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options );
+
+        /// <summary>
+        /// Generates the list-group-item variant styles.
+        /// </summary>
+        /// <param name="sb">Target string builder.</param>
+        /// <param name="theme">Theme settings.</param>
+        /// <param name="variant">ListGroupItem variant name.</param>
+        /// <param name="inBackgroundColor">ListGroupItem background value.</param>
+        /// <param name="inColor">ListGroupItem text color value.</param>
+        /// <param name="options">ListGroupItem options.</param>
+        protected abstract void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options );
 
         #endregion
 

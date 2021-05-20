@@ -6,33 +6,27 @@
     @include border-radius($list-group-border-radius);
 
     & > .list-group-item {
-        &.is-primary {
-            background-color: hsl(171, 100%, 41%);
-            color: #fff;
-        }
+        @each $name, $value in $theme-colors {
+            $color: $value;
+            $background: theme-color-level($color, -9);
 
-        &.is-secondary {
-            background-color: hsl(208, 14%, 46%);
-            color: #fff;
-        }
+            &.is-#{$name} {
+                color: $color;
+                background-color: $background;
 
-        &.is-info {
-            background-color: hsl(217, 71%, 53%);
-            color: #fff;
-        }
+                &.list-group-item-action {
+                    @include hover-focus() {
+                        color: $color;
+                        background-color: darken($background, 5%);
+                    }
 
-        &.is-success {
-            background-color: hsl(141, 71%, 48%);
-            color: #fff;
-        }
-
-        &.is-warning {
-            background-color: hsl(48, 100%, 67%);
-        }
-
-        &.is-danger {
-            background-color: hsl(348, 100%, 61%);
-            color: #fff;
+                    &.is-active {
+                        color: $white;
+                        background-color: $color;
+                        border-color: $color;
+                    }
+                }
+            }
         }
     }
 }
@@ -72,7 +66,7 @@
         background-color: $list-group-disabled-bg;
     }
 
-    &.active {
+    &.is-active {
         z-index: 2;
         color: $list-group-active-color;
         background-color: $list-group-active-bg;
@@ -82,7 +76,7 @@
     & + & {
         border-top-width: 0;
 
-        &.active {
+        &.is-active {
             margin-top: -$list-group-border-width;
             border-top-width: $list-group-border-width;
         }

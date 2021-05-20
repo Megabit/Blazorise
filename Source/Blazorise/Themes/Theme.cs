@@ -218,5 +218,10 @@ namespace Blazorise
         /// Theme options to override the SpinKit component styles.
         /// </summary>
         public ThemeSpinKitOptions SpinKitOptions { get; set; }
+
+        /// <summary>
+        /// Theme options to override the <see cref="ListGroupItem"/> component styles.
+        /// </summary>
+        public ThemeListGroupItemOptions ListGroupItemOptions { get; set; }
     }
 }

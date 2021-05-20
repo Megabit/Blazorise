@@ -527,6 +527,37 @@ namespace Blazorise.Bulma
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options )
+        {
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                var white = Var( ThemeVariables.White );
+                var primary = Var( ThemeVariables.Color( "primary" ) );
+
+                sb
+                    .Append( $".list-group-item.is-active" )
+                    .Append( "{" )
+                    .Append( $"color: {white};" )
+                    .Append( GetGradientBg( theme, primary, options?.GradientBlendPercentage ) )
+                    .Append( $"border-color: {primary};" )
+                    .AppendLine( "}" );
+            }
+        }
+
+        protected override void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+            var textColor = ParseColor( inColor );
+
+            var background = ToHex( backgroundColor );
+            var text = ToHex( textColor );
+
+            sb.Append( $".list-group > .list-group-item.is-{variant}" ).Append( "{" )
+                .Append( $"color: {text};" )
+                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+                .AppendLine( "}" );
+        }
+
         #endregion
     }
 }

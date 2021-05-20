@@ -553,6 +553,8 @@ namespace Blazorise.AntDesign
 
         public override string ListGroupItemDisabled() => Disabled();
 
+        public override string ListGroupItemColor( Color color ) => $"ant-list-item-{ToColor( color )}";
+
         #endregion
 
         #region Container

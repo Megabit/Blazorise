@@ -61,6 +61,21 @@ namespace Blazorise.Components
         [Parameter] public Color Color { get; set; }
 
         /// <summary>
+        /// If true, a dropdown menu will be right aligned.
+        /// </summary>
+        [Parameter] public bool RightAligned { get; set; }
+
+        /// <summary>
+        /// If true, dropdown would not react to button click.
+        /// </summary>
+        [Parameter] public bool Disabled { get; set; }
+
+        /// <summary>
+        /// Dropdown-menu slide direction.
+        /// </summary>
+        [Parameter] public Direction Direction { get; set; }
+
+        /// <summary>
         /// Gets or sets the DropdownList data-source.
         /// </summary>
         [Parameter] public IEnumerable<TItem> Data { get; set; }
