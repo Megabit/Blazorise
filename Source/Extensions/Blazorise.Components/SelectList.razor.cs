@@ -96,6 +96,11 @@ namespace Blazorise.Components
         [Parameter] public bool DefaultItemDisabled { get; set; } = false;
 
         /// <summary>
+        /// If true, disables the default item.
+        /// </summary>
+        [Parameter] public bool DefaultItemHidden { get; set; } = false;
+
+        /// <summary>
         /// Custom css class-names.
         /// </summary>
         [Parameter] public string Class { get; set; }
