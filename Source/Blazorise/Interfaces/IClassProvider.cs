@@ -503,6 +503,8 @@ namespace Blazorise
 
         string ListGroupItemDisabled();
 
+        string ListGroupItemColor( Color color );
+
         #endregion
 
         #region Layout

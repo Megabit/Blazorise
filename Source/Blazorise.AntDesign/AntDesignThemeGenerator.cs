@@ -811,6 +811,53 @@ namespace Blazorise.AntDesign
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options )
+        {
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                var white = Var( ThemeVariables.White );
+                var primary = Var( ThemeVariables.Color( "primary" ) );
+
+                sb
+                    .Append( $".ant-list-item.active" )
+                    .Append( "{" )
+                    .Append( $"color: {white};" )
+                    .Append( GetGradientBg( theme, primary, options?.GradientBlendPercentage ) )
+                    .Append( $"border-color: {primary};" )
+                    .AppendLine( "}" );
+            }
+        }
+
+        protected override void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+            var textColor = ParseColor( inColor );
+
+            var background = ToHex( backgroundColor );
+            var text = ToHex( textColor );
+
+            sb.Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}" ).Append( "{" )
+                .Append( $"color: {text};" )
+                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}.ant-list-item-actionable:hover," )
+                .Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}.ant-list-item-actionable:focus" )
+                .Append( "{" )
+                .Append( $"color: {text};" )
+                .Append( ToHex( Darken( GetGradientBg( theme, background, options?.GradientBlendPercentage ), 5 ) ) )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".ant-list .ant-list-items > .ant-list-item.ant-list-item-{variant}.ant-list-item-actionable.active" )
+                .Append( "{" )
+                .Append( $"color: #fff;" )
+                .Append( $"background-color: {text};" )
+                .Append( $"border-color: {text};" )
+                .AppendLine( "}" );
+        }
+
         #endregion
     }
 }

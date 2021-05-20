@@ -578,6 +578,8 @@ namespace Blazorise.Frolic
 
         public override string ListGroupItemDisabled() => Disabled();
 
+        public override string ListGroupItemColor( Color color ) => null;
+
         #endregion
 
         #region Container

@@ -685,6 +685,58 @@ namespace Blazorise.Bootstrap
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options )
+        {
+            if ( !string.IsNullOrEmpty( theme.ColorOptions?.Primary ) )
+            {
+                var white = Var( ThemeVariables.White );
+                var primary = Var( ThemeVariables.Color( "primary" ) );
+
+                sb
+                    .Append( $".list-group-item.active" )
+                    .Append( "{" )
+                    .Append( $"color: {white};" )
+                    .Append( GetGradientBg( theme, primary, options?.GradientBlendPercentage ) )
+                    .Append( $"border-color: {primary};" )
+                    .AppendLine( "}" );
+            }
+        }
+
+        protected override void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options )
+        {
+            var backgroundColor = ParseColor( inBackgroundColor );
+            var hoverBackgroundColor = Darken( backgroundColor, 5 );
+
+            var background = ToHex( backgroundColor );
+            var hoverBackground = ToHex( hoverBackgroundColor );
+            var color = ToHex( ParseColor( inColor ) );
+
+            var white = Var( ThemeVariables.White );
+
+            sb
+                .Append( $".list-group-item-{variant}" )
+                .Append( "{" )
+                .Append( $"color: {color};" )
+                .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".list-group-item-{variant}.list-group-item-action:focus," )
+                .Append( $".list-group-item-{variant}.list-group-item-action:hover" )
+                .Append( "{" )
+                .Append( $"color: {color};" )
+                .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".list-group-item-{variant}.list-group-item-action.active" )
+                .Append( "{" )
+                .Append( $"color: {white};" )
+                .Append( GetGradientBg( theme, color, options?.GradientBlendPercentage ) )
+                .Append( $"border-color: {color};" )
+                .AppendLine( "}" );
+        }
+
         #endregion
     }
 }
