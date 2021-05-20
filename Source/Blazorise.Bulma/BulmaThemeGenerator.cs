@@ -535,7 +535,7 @@ namespace Blazorise.Bulma
                 var primary = Var( ThemeVariables.Color( "primary" ) );
 
                 sb
-                    .Append( $".list-group-item.active" )
+                    .Append( $".list-group-item.is-active" )
                     .Append( "{" )
                     .Append( $"color: {white};" )
                     .Append( GetGradientBg( theme, primary, options?.GradientBlendPercentage ) )

@@ -20,7 +20,7 @@
                         background-color: darken($background, 5%);
                     }
 
-                    &.active {
+                    &.is-active {
                         color: $white;
                         background-color: $color;
                         border-color: $color;
@@ -66,7 +66,7 @@
         background-color: $list-group-disabled-bg;
     }
 
-    &.active {
+    &.is-active {
         z-index: 2;
         color: $list-group-active-color;
         background-color: $list-group-active-bg;
@@ -76,7 +76,7 @@
     & + & {
         border-top-width: 0;
 
-        &.active {
+        &.is-active {
             margin-top: -$list-group-border-width;
             border-top-width: $list-group-border-width;
         }
