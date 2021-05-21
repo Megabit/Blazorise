@@ -22,52 +22,18 @@ namespace Blazorise
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
         public JSRunner( IJSRuntime runtime )
         {
             this.runtime = runtime;
         }
 
-        public ValueTask InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementRef, elementId, maskType, editMask );
-        }
+        #endregion
 
-        public ValueTask DestroyTextEdit( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementRef, elementId );
-        }
+        #region Methods
 
-        public ValueTask InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementRef, elementId, options );
-        }
-
-        public ValueTask UpdateNumericEdit( ElementReference elementRef, string elementId, object options )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.update", elementRef, elementId, options );
-        }
-
-        public ValueTask DestroyNumericEdit( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementRef, elementId );
-        }
-
-        public virtual ValueTask InitializeTooltip( ElementReference elementRef, string elementId, object options )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
-        }
-
-        public virtual ValueTask InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.button.initialize", elementRef, elementId, preventDefaultSubmit );
-        }
-
-        public ValueTask DestroyButton( string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.button.destroy", elementId );
-        }
+        #region Utilities
 
         public ValueTask AddClass( ElementReference elementRef, string classname )
         {
@@ -109,14 +75,109 @@ namespace Blazorise
             return runtime.InvokeAsync<DomElement>( $"{BLAZORISE_NAMESPACE}.getElementInfo", elementRef, elementId );
         }
 
+        public ValueTask SetTextValue( ElementReference elementRef, object value )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
+        }
+
+        public ValueTask SetCaret( ElementReference elementRef, int caret )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setCaret", elementRef, caret );
+        }
+
+        public ValueTask<int> GetCaret( ElementReference elementRef )
+        {
+            return runtime.InvokeAsync<int>( $"{BLAZORISE_NAMESPACE}.getCaret", elementRef );
+        }
+
+        #endregion
+
+        #region Button
+
+        public virtual ValueTask InitializeButton( ElementReference elementRef, string elementId, bool preventDefaultSubmit )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.button.initialize", elementRef, elementId, preventDefaultSubmit );
+        }
+
+        public ValueTask DestroyButton( string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.button.destroy", elementId );
+        }
+
+        #endregion
+
+        #region TextEdit
+
+        public ValueTask InitializeTextEdit( ElementReference elementRef, string elementId, string maskType, string editMask )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.textEdit.initialize", elementRef, elementId, maskType, editMask );
+        }
+
+        public ValueTask DestroyTextEdit( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.textEdit.destroy", elementRef, elementId );
+        }
+
+        #endregion
+
+        #region NumericEdit
+
+        public ValueTask InitializeNumericEdit<TValue>( DotNetObjectReference<NumericEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.initialize", dotNetObjectRef, elementRef, elementId, options );
+        }
+
+        public ValueTask UpdateNumericEdit( ElementReference elementRef, string elementId, object options )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.update", elementRef, elementId, options );
+        }
+
+        public ValueTask DestroyNumericEdit( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.numericEdit.destroy", elementRef, elementId );
+        }
+
+        #endregion
+
+        #region FileEdit
+
+        public ValueTask InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.initialize", dotNetObjectRef, elementRef, elementId );
+        }
+
+        public ValueTask DestroyFileEdit( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.destroy", elementRef, elementId );
+        }
+
+        public ValueTask<string> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken )
+        {
+            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.fileEdit.readFileData", elementRef, fileEntryId, position, length );
+        }
+
+        public ValueTask ResetFileEdit( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.reset", elementRef, elementId );
+        }
+
+        public ValueTask OpenFileDialog( ElementReference elementRef, string elementId )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.open", elementRef, elementId );
+        }
+
+        #endregion
+
+        #region DatePicker
+
         public virtual ValueTask InitializeDatePicker( ElementReference elementRef, string elementId, object options )
         {
-            return ValueTask.CompletedTask;
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.dateEdit.initialize", elementRef, elementId, options );
         }
 
         public virtual ValueTask DestroyDatePicker( ElementReference elementRef, string elementId )
         {
-            return ValueTask.CompletedTask;
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.dateEdit.destroy", elementRef, elementId );
         }
 
         public virtual ValueTask ActivateDatePicker( ElementReference elementRef, string elementId, object options )
@@ -126,22 +187,26 @@ namespace Blazorise
 
         public virtual ValueTask UpdateDatePickerValue( ElementReference elementRef, string elementId, object value )
         {
-            return ValueTask.CompletedTask;
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.dateEdit.update", elementRef, elementId, value );
         }
 
         public virtual ValueTask UpdateDatePickerOptions( ElementReference elementRef, string elementId, object options )
         {
-            return ValueTask.CompletedTask;
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.dateEdit.updateOptions", elementRef, elementId, options );
         }
+
+        #endregion
+
+        #region TimePicker
 
         public virtual ValueTask InitializeTimePicker( ElementReference elementRef, string elementId, object options )
         {
-            return ValueTask.CompletedTask;
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timeEdit.initialize", elementRef, elementId, options );
         }
 
         public virtual ValueTask DestroyTimePicker( ElementReference elementRef, string elementId )
         {
-            return ValueTask.CompletedTask;
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timeEdit.destroy", elementRef, elementId );
         }
 
         public virtual ValueTask ActivateTimePicker( ElementReference elementRef, string elementId, object options )
@@ -151,13 +216,17 @@ namespace Blazorise
 
         public virtual ValueTask UpdateTimePickerOptions( ElementReference elementRef, string elementId, object options )
         {
-            return ValueTask.CompletedTask;
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timeEdit.updateOptions", elementRef, elementId, options );
         }
 
         public virtual ValueTask UpdateTimePickerValue( ElementReference elementRef, string elementId, object value )
         {
-            return ValueTask.CompletedTask;
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timeEdit.updateValue", elementRef, elementId, value );
         }
+
+        #endregion
+
+        #region Select
 
         public async ValueTask<TValue[]> GetSelectedOptions<TValue>( string elementId )
         {
@@ -188,29 +257,50 @@ namespace Blazorise
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setSelectedOptions", elementId, values );
         }
 
-        public ValueTask SetTextValue( ElementReference elementRef, object value )
+        public ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
         {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setTextValue", elementRef, value );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.focus", elementRef, elementId, scrollToElement );
         }
 
-        public ValueTask SetCaret( ElementReference elementRef, int caret )
+        public ValueTask<string> GetBreakpoint()
         {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.setCaret", elementRef, caret );
+            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.breakpoint.getBreakpoint" );
         }
 
-        public ValueTask<int> GetCaret( ElementReference elementRef )
+        public ValueTask ScrollIntoView( string anchorTarget )
         {
-            return runtime.InvokeAsync<int>( $"{BLAZORISE_NAMESPACE}.getCaret", elementRef );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.link.scrollIntoView", anchorTarget );
         }
+
+        #endregion
+
+        #region Tooltip
+
+        public virtual ValueTask InitializeTooltip( ElementReference elementRef, string elementId, object options )
+        {
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.tooltip.initialize", elementRef, elementId, options );
+        }
+
+        #endregion
+
+        #region Modal
 
         public abstract ValueTask OpenModal( ElementReference elementRef, bool scrollToTop );
 
         public abstract ValueTask CloseModal( ElementReference elementRef );
 
-        public ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
+        #endregion
+
+        #region Table
+
+        public ValueTask InitializeTableFixedHeader( ElementReference elementRef, string elementId )
         {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.focus", elementRef, elementId, scrollToElement );
+            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.initializeTableFixedHeader", elementRef, elementId );
         }
+
+        #endregion
+
+        #region Closables
 
         public ValueTask RegisterClosableComponent( DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef, ElementReference elementRef )
         {
@@ -232,45 +322,7 @@ namespace Blazorise
             return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.breakpoint.unregisterBreakpointComponent", component.ElementId );
         }
 
-        public ValueTask<string> GetBreakpoint()
-        {
-            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.breakpoint.getBreakpoint" );
-        }
-
-        public ValueTask ScrollIntoView( string anchorTarget )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.link.scrollIntoView", anchorTarget );
-        }
-
-        public ValueTask InitializeFileEdit( DotNetObjectReference<FileEditAdapter> dotNetObjectRef, ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.initialize", dotNetObjectRef, elementRef, elementId );
-        }
-
-        public ValueTask DestroyFileEdit( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.destroy", elementRef, elementId );
-        }
-
-        public ValueTask<string> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken )
-        {
-            return runtime.InvokeAsync<string>( $"{BLAZORISE_NAMESPACE}.fileEdit.readFileData", elementRef, fileEntryId, position, length );
-        }
-
-        public ValueTask ResetFileEdit( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.reset", elementRef, elementId );
-        }
-
-        public ValueTask OpenFileDialog( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.fileEdit.open", elementRef, elementId );
-        }
-
-        public ValueTask InitializeTableFixedHeader( ElementReference elementRef, string elementId )
-        {
-            return runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.table.initializeTableFixedHeader", elementRef, elementId );
-        }
+        #endregion
 
         #endregion
 
