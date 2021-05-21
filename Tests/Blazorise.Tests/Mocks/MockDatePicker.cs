@@ -8,9 +8,9 @@ using Moq;
 
 namespace Blazorise.Tests.Mocks
 {
-    internal class MockDateEdit<T> : DateEdit<T>
+    internal class MockDatePicker<T> : DatePicker<T>
     {
-        public MockDateEdit( Validation validation = null, Expression<Func<T>> dateExpression = null )
+        public MockDatePicker( Validation validation = null, Expression<Func<T>> dateExpression = null )
         {
             var mockRunner = new Mock<IJSRunner>();
 

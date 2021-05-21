@@ -25,6 +25,7 @@ namespace Blazorise.Tests.Helpers
             services.AddSingleton<ValidatorValidationHandler>();
             services.AddSingleton<PatternValidationHandler>();
             services.AddSingleton<DataAnnotationValidationHandler>();
+            services.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
 
             Action<BlazoriseOptions> configureOptions = ( options ) =>
             {
