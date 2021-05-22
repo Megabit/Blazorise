@@ -1009,6 +1009,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region Overflow
+
+        public string Overflow( Overflow overflow ) => null;
+
+        #endregion
+
         #region Custom
 
         public string Casing( CharacterCasing characterCasing ) => null;

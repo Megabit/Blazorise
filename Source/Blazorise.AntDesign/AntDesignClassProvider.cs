@@ -1159,6 +1159,12 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region Overflow
+
+        public override string Overflow( Overflow overflow ) => $"ant-overflow-{ToOverflow( overflow )}";
+
+        #endregion
+
         #region Enums
 
         public override string ToColumnWidth( ColumnWidth columnWidth )

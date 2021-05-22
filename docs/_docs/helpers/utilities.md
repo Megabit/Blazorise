@@ -63,6 +63,17 @@ Use border utilities to quickly style the border and border-radius of an element
 <Span Border="Border.Primary">Borders with primary color</Span>
 ```
 
+## Overflow
+
+Use overflow shorthand utilities for quickly configuring how content overflows an element.
+
+```html
+<Div Overflow="Overflow.Auto">...</Div>
+<Div Overflow="Overflow.Hidden">...</Div>
+<Div Overflow="Overflow.Visible">...</Div>
+<Div Overflow="Overflow.Scroll">...</Div>
+```
+
 ## Breakpoints by frameworks
 
 | Blazorise     | Bootstrap     | Material      | Bulma         |

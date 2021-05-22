@@ -55,6 +55,8 @@ namespace Blazorise
 
         private Shadow shadow = Shadow.None;
 
+        private Overflow overflow = Overflow.None;
+
         #endregion
 
         #region Constructors
@@ -200,6 +202,9 @@ namespace Blazorise
 
             if ( Shadow != Shadow.None )
                 builder.Append( ClassProvider.Shadow( Shadow ) );
+
+            if ( Overflow != Overflow.None )
+                builder.Append( ClassProvider.Overflow( Overflow ) );
         }
 
         /// <summary>
@@ -597,6 +602,21 @@ namespace Blazorise
             set
             {
                 shadow = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// The overflow property controls what happens to content that is too big to fit into an area.
+        /// </summary>
+        [Parameter]
+        public Overflow Overflow
+        {
+            get => overflow;
+            set
+            {
+                overflow = value;
 
                 DirtyClasses();
             }

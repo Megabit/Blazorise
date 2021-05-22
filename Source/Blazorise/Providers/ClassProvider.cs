@@ -1010,6 +1010,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Overflow
+
+        public abstract string Overflow( Overflow overflow );
+
+        #endregion
+
         #region Custom
 
         public virtual string Casing( CharacterCasing characterCasing ) => $"b-character-casing-{ToCharacterCasing( characterCasing )}";
@@ -1647,6 +1653,18 @@ namespace Blazorise
                 Blazorise.Shadow.Remove => "none",
                 Blazorise.Shadow.Small => "sm",
                 Blazorise.Shadow.Large => "lg",
+                _ => null,
+            };
+        }
+
+        public virtual string ToOverflow( Overflow overflow )
+        {
+            return overflow switch
+            {
+                Blazorise.Overflow.Visible => "visible",
+                Blazorise.Overflow.Hidden => "hidden",
+                Blazorise.Overflow.Scroll => "scroll",
+                Blazorise.Overflow.Auto => "auto",
                 _ => null,
             };
         }

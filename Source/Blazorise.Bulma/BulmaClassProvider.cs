@@ -1171,6 +1171,12 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region Overflow
+
+        public override string Overflow( Overflow overflow ) => $"is-overflow-{ToOverflow( overflow )}";
+
+        #endregion
+
         #region Enums
 
         public override string ToSize( Size size )
