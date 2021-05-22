@@ -140,6 +140,16 @@ namespace Blazorise
         /// </summary>
         [Parameter] public TimeSpan? Max { get; set; }
 
+        /// <summary>
+        /// The step attribute specifies the legal number intervals for seconds or milliseconds in a time field (does not apply for hours or minutes).
+        /// 
+        /// Example: if step="2", legal numbers could be 0, 2, 4, etc.
+        /// </summary>
+        /// <remarks>
+        /// The step attribute is often used together with the max and min attributes to create a range of legal values.
+        /// </remarks>
+        [Parameter] public int Step { get; set; } = 1;
+
         #endregion
     }
 }
