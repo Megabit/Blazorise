@@ -13,14 +13,43 @@ namespace Blazorise
     /// <summary>
     /// An editor that displays a time value and allows a user to edit the value.
     /// </summary>
-    /// <typeparam name="TValue">Data-type to be binded by the <see cref="TimeEdit{TValue}"/> property.</typeparam>
-    public partial class TimeEdit<TValue> : BaseTextInput<TValue>
+    /// <typeparam name="TValue">Data-type to be binded by the <see cref="TimePicker{TValue}"/> property.</typeparam>
+    public partial class TimePicker<TValue> : BaseTextInput<TValue>
     {
         #region Methods
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            var timeChanged = parameters.TryGetValue( nameof( Time ), out TValue time ) && !Time.IsEqual( time );
+            var minChanged = parameters.TryGetValue( nameof( Min ), out TimeSpan? min ) && !Min.IsEqual( min );
+            var maxChanged = parameters.TryGetValue( nameof( Max ), out TimeSpan? max ) && !Max.IsEqual( max );
+            var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
+            var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
+
+            if ( timeChanged )
+            {
+                var timeString = FormatValueAsString( time );
+
+                await CurrentValueHandler( timeString );
+
+                if ( Rendered )
+                {
+                    ExecuteAfterRender( async () => await JSRunner.UpdateTimePickerValue( ElementRef, ElementId, timeString ) );
+                }
+            }
+
+            if ( Rendered && ( minChanged || maxChanged || displayFormatChanged || timeAs24hrChanged ) )
+            {
+                ExecuteAfterRender( async () => await JSRunner.UpdateTimePickerOptions( ElementRef, ElementId, new
+                {
+                    DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( displayFormat ) },
+                    TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
+                    Min = new { Changed = minChanged, Value = min?.ToString( Parsers.InternalTimeFormat ) },
+                    Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat ) },
+                } ) );
+            }
+
             // Let blazor do its thing!
             await base.SetParametersAsync( parameters );
 
@@ -44,6 +73,47 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            await JSRunner.InitializeTimePicker( ElementRef, ElementId, new
+            {
+                DisplayFormat = DateTimeFormatConverter.Convert( DisplayFormat ),
+                TimeAs24hr,
+                Default = FormatValueAsString( Time ),
+                Min = Min?.ToString( Parsers.InternalTimeFormat ),
+                Max = Max?.ToString( Parsers.InternalTimeFormat ),
+            } );
+
+            await base.OnFirstAfterRenderAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Rendered )
+                {
+                    var task = JSRunner.DestroyTimePicker( ElementRef, ElementId );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+
+            await base.DisposeAsync( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TimeEdit( Plaintext ) );
@@ -58,6 +128,18 @@ namespace Blazorise
         protected override Task OnChangeHandler( ChangeEventArgs e )
         {
             return CurrentValueHandler( e?.Value?.ToString() );
+        }
+
+        /// <summary>
+        /// Handles the element onclick event.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected async Task OnClickHandler( MouseEventArgs e )
+        {
+            if ( Disabled || ReadOnly )
+                return;
+
+            await JSRunner.ActivateTimePicker( ElementRef, ElementId, Parsers.InternalTimeFormat );
         }
 
         /// <inheritdoc/>
@@ -116,6 +198,11 @@ namespace Blazorise
         protected override TValue InternalValue { get => Time; set => Time = value; }
 
         /// <summary>
+        /// Converts the supplied time format into the internal time format.
+        /// </summary>
+        [Inject] protected IDateTimeFormatConverter DateTimeFormatConverter { get; set; }
+
+        /// <summary>
         /// Gets or sets the input time value.
         /// </summary>
         [Parameter] public TValue Time { get; set; }
@@ -141,14 +228,15 @@ namespace Blazorise
         [Parameter] public TimeSpan? Max { get; set; }
 
         /// <summary>
-        /// The step attribute specifies the legal number intervals for seconds or milliseconds in a time field (does not apply for hours or minutes).
-        /// 
-        /// Example: if step="2", legal numbers could be 0, 2, 4, etc.
+        /// Defines the display format of the time input.
         /// </summary>
         /// <remarks>
-        /// The step attribute is often used together with the max and min attributes to create a range of legal values.
-        /// </remarks>
-        [Parameter] public int Step { get; set; } = 1;
+        [Parameter] public string DisplayFormat { get; set; }
+
+        /// <summary>
+        /// Displays time picker in 24 hour mode without AM/PM selection when enabled.
+        /// </summary>
+        [Parameter] public bool TimeAs24hr { get; set; }
 
         #endregion
     }

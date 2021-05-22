@@ -13,14 +13,45 @@ namespace Blazorise
     /// <summary>
     /// An editor that displays a date value and allows a user to edit the value.
     /// </summary>
-    /// <typeparam name="TValue">Data-type to be binded by the <see cref="DateEdit{TValue}"/> property.</typeparam>
-    public partial class DateEdit<TValue> : BaseTextInput<TValue>
+    /// <typeparam name="TValue">Data-type to be binded by the <see cref="DatePicker{TValue}"/> property.</typeparam>
+    public partial class DatePicker<TValue> : BaseTextInput<TValue>
     {
         #region Methods
 
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
+            var dateChanged = parameters.TryGetValue<TValue>( nameof( Date ), out var date ) && !Date.Equals( date );
+            var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? min ) && !Min.IsEqual( min );
+            var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? max ) && !Max.IsEqual( max );
+            var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek firstDayOfWeek ) && !FirstDayOfWeek.IsEqual( firstDayOfWeek );
+            var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
+            var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool timeAs24hr ) && TimeAs24hr != timeAs24hr;
+
+            if ( dateChanged )
+            {
+                var dateString = FormatValueAsString( date );
+
+                await CurrentValueHandler( dateString );
+
+                if ( Rendered )
+                {
+                    ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerValue( ElementRef, ElementId, dateString ) );
+                }
+            }
+
+            if ( Rendered && ( minChanged || maxChanged || firstDayOfWeekChanged || displayFormatChanged || timeAs24hrChanged ) )
+            {
+                ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerOptions( ElementRef, ElementId, new
+                {
+                    FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = firstDayOfWeek },
+                    DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( displayFormat ) },
+                    TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
+                    Min = new { Changed = minChanged, Value = min?.ToString( DateFormat ) },
+                    Max = new { Changed = maxChanged, Value = max?.ToString( DateFormat ) },
+                } ) );
+            }
+
             // Let blazor do its thing!
             await base.SetParametersAsync( parameters );
 
@@ -44,6 +75,49 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
+        protected override async Task OnFirstAfterRenderAsync()
+        {
+            await JSRunner.InitializeDatePicker( ElementRef, ElementId, new
+            {
+                InputMode,
+                FirstDayOfWeek,
+                DisplayFormat = DateTimeFormatConverter.Convert( DisplayFormat ),
+                TimeAs24hr,
+                Default = FormatValueAsString( Date ),
+                Min = Min?.ToString( DateFormat ),
+                Max = Max?.ToString( DateFormat ),
+            } );
+
+            await base.OnFirstAfterRenderAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override async ValueTask DisposeAsync( bool disposing )
+        {
+            if ( disposing )
+            {
+                if ( Rendered )
+                {
+                    var task = JSRunner.DestroyDatePicker( ElementRef, ElementId );
+
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        if ( !task.IsCanceled )
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+
+            await base.DisposeAsync( disposing );
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DateEdit( Plaintext ) );
@@ -58,6 +132,15 @@ namespace Blazorise
         protected override Task OnChangeHandler( ChangeEventArgs e )
         {
             return CurrentValueHandler( e?.Value?.ToString() );
+        }
+
+        /// <inheritdoc/>
+        protected async Task OnClickHandler( MouseEventArgs e )
+        {
+            if ( Disabled || ReadOnly )
+                return;
+
+            await JSRunner.ActivateDatePicker( ElementRef, ElementId, DateFormat );
         }
 
         /// <inheritdoc/>
@@ -126,6 +209,11 @@ namespace Blazorise
         protected string DateFormat => Parsers.GetInternalDateFormat( InputMode );
 
         /// <summary>
+        /// Converts the supplied date format into the internal date format.
+        /// </summary>
+        [Inject] protected IDateTimeFormatConverter DateTimeFormatConverter { get; set; }
+
+        /// <summary>
         /// Hints at the type of data that might be entered by the user while editing the element or its contents.
         /// </summary>
         [Parameter] public DateInputMode InputMode { get; set; } = DateInputMode.Date;
@@ -156,11 +244,19 @@ namespace Blazorise
         [Parameter] public DateTimeOffset? Max { get; set; }
 
         /// <summary>
-        /// The step attribute specifies the legal day intervals to choose from when the user opens the calendar in a date field.
-        /// 
-        /// For example, if step = "2", you can only select every second day in the calendar.
+        /// Defines the first day of the week.
         /// </summary>
-        [Parameter] public int Step { get; set; } = 1;
+        [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
+
+        /// <summary>
+        /// Defines the display format of the date input.
+        /// </summary>
+        [Parameter] public string DisplayFormat { get; set; }
+
+        /// <summary>
+        /// Displays time picker in 24 hour mode without AM/PM selection when enabled.
+        /// </summary>
+        [Parameter] public bool TimeAs24hr { get; set; }
 
         #endregion
     }

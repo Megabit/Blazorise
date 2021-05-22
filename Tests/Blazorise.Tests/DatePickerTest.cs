@@ -6,13 +6,13 @@ using Xunit;
 
 namespace Blazorise.Tests
 {
-    public class DateEditTest
+    public class DatePickerTest
     {
         [Fact]
         public void SetDate_WithDateTime()
         {
             // setup
-            var edit = new DateEdit<DateTime>();
+            var edit = new DatePicker<DateTime>();
 
             // test
             edit.Date = new DateTime( 2020, 4, 12 );
@@ -27,7 +27,7 @@ namespace Blazorise.Tests
         public void SetDate_WithDateTimeOffset()
         {
             // setup
-            var edit = new DateEdit<DateTimeOffset>();
+            var edit = new DatePicker<DateTimeOffset>();
 
             // test
             edit.Date = new DateTimeOffset( new DateTime( 2020, 4, 12 ), new TimeSpan( 0, 0, 0 ) );
@@ -42,7 +42,7 @@ namespace Blazorise.Tests
         public void SetDate_WithNull()
         {
             // setup
-            var edit = new DateEdit<DateTime?>();
+            var edit = new DatePicker<DateTime?>();
 
             // test
             edit.Date = null;
@@ -55,7 +55,7 @@ namespace Blazorise.Tests
         public void SetDate_WithInvalidType()
         {
             // setup
-            var edit = new MockDateEdit<int>();
+            var edit = new MockDatePicker<int>();
 
             // test
             edit.Date = 100;
@@ -68,7 +68,7 @@ namespace Blazorise.Tests
         public async Task ParseValueFromStringAsync_ValidDateString()
         {
             // setup
-            var edit = new MockDateEdit<DateTime>();
+            var edit = new MockDatePicker<DateTime>();
             var expected = new DateTime( 2018, 7, 12 );
 
             // test
@@ -83,7 +83,7 @@ namespace Blazorise.Tests
         public async Task ParseValueFromStringAsync_InvalidDateString()
         {
             // setup
-            var edit = new MockDateEdit<DateTime>();
+            var edit = new MockDatePicker<DateTime>();
 
             // test
             var result = await edit.ParseValueAsync( "3/12/2020-invalid" );
@@ -101,7 +101,7 @@ namespace Blazorise.Tests
             System.Linq.Expressions.Expression<Func<DateTime>> expr = () => DateTime.Today;
 
             // test
-            var edit = new MockDateEdit<DateTime>( validation, null );
+            var edit = new MockDatePicker<DateTime>( validation, null );
 
             // validate
             Assert.NotNull( edit );
@@ -111,7 +111,7 @@ namespace Blazorise.Tests
         public void ChangeValue_DateTime()
         {
             // setup
-            var edit = new MockDateEdit<DateTime>();
+            var edit = new MockDatePicker<DateTime>();
             var expected = new DateTime( 2007, 1, 5 );
 
             // test
@@ -125,7 +125,7 @@ namespace Blazorise.Tests
         public void ChangeValue_DateTime_NullValue()
         {
             // setup
-            var edit = new MockDateEdit<DateTime?>();
+            var edit = new MockDatePicker<DateTime?>();
 
             // test
             edit.OnChange( new ChangeEventArgs() );
@@ -138,7 +138,7 @@ namespace Blazorise.Tests
         public void ChangeValue_DateTime_NullEventArgs()
         {
             // setup
-            var edit = new MockDateEdit<DateTime?>();
+            var edit = new MockDatePicker<DateTime?>();
 
             // test
             edit.OnChange( null );
@@ -151,7 +151,7 @@ namespace Blazorise.Tests
         public void ChangeValue_DateTimeOffset()
         {
             // setup
-            var edit = new MockDateEdit<DateTimeOffset>();
+            var edit = new MockDatePicker<DateTimeOffset>();
             var expected = new DateTime( 2007, 1, 5 );
 
             // test
@@ -165,7 +165,7 @@ namespace Blazorise.Tests
         public void ChangeValue_DateTimeOffset_NullValue()
         {
             // setup
-            var edit = new MockDateEdit<DateTimeOffset?>();
+            var edit = new MockDatePicker<DateTimeOffset?>();
 
             // test
             edit.OnChange( new ChangeEventArgs() );
@@ -178,7 +178,7 @@ namespace Blazorise.Tests
         public void ChangeValue_DateTimeOffset_NullEventArgs()
         {
             // setup
-            var edit = new MockDateEdit<DateTimeOffset?>();
+            var edit = new MockDatePicker<DateTimeOffset?>();
 
             // test
             edit.OnChange( null );
@@ -191,7 +191,7 @@ namespace Blazorise.Tests
         public void MinMaxRange_Within()
         {
             // setup
-            var edit = new DateEdit<DateTime>();
+            var edit = new DatePicker<DateTime>();
             var date = new DateTime( 2020, 3, 15 );
 
             // test
@@ -210,7 +210,7 @@ namespace Blazorise.Tests
         public void MinMaxRange_After()
         {
             // setup
-            var edit = new DateEdit<DateTime?>();
+            var edit = new DatePicker<DateTime?>();
             var date = new DateTime( 2020, 4, 15 );
 
             // test
@@ -226,7 +226,7 @@ namespace Blazorise.Tests
         public void MinMaxRange_Before()
         {
             // setup
-            var edit = new DateEdit<DateTime?>();
+            var edit = new DatePicker<DateTime?>();
             var date = new DateTime( 2018, 3, 15 );
 
             // test
