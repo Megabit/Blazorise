@@ -1001,6 +1001,12 @@ namespace Blazorise
 
         #endregion
 
+        #region Overflow
+
+        string Overflow( Overflow overflow );
+
+        #endregion
+
         #region Custom
 
         string Casing( CharacterCasing characterCasing );

@@ -1051,6 +1051,12 @@ h6.card-title,
 .h6.card-title {
     font-size: 1rem; }
 
+.overflow-visible {
+    overflow: visible !important; }
+
+.overflow-scroll {
+    overflow: scroll !important; }
+
 .flatpickr-months {
     margin: 0.5rem 0; }
     .flatpickr-months .flatpickr-month, .flatpickr-months .flatpickr-next-month, .flatpickr-months .flatpickr-prev-month {

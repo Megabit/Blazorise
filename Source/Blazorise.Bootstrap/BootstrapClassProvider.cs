@@ -1141,6 +1141,12 @@ namespace Blazorise.Bootstrap
 
         #endregion
 
+        #region Overflow
+
+        public override string Overflow( Overflow overflow ) => $"overflow-{ToOverflow( overflow )}";
+
+        #endregion
+
         public override bool UseCustomInputStyles { get; set; } = true;
 
         public override string Provider => "Bootstrap";
