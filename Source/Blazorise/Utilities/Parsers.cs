@@ -21,6 +21,11 @@ namespace Blazorise.Utilities
         public const string InternalDateTimeFormat = "yyyy-MM-ddTHH:mm";
 
         /// <summary>
+        /// Internal month format. Compatible with HTML date inputs.
+        /// </summary>
+        public const string InternalMonthFormat = "yyyy-MM";
+
+        /// <summary>
         /// Default date format.
         /// </summary>
         public const string ExternalDateFormat = "dd.MM.yyyy";
@@ -31,6 +36,11 @@ namespace Blazorise.Utilities
         public const string ExternalDateTimeFormat = "dd.MM.yyyy HH:mm";
 
         /// <summary>
+        /// Default month format.
+        /// </summary>
+        public const string ExternalMonthFormat = "MM.yyyy";
+
+        /// <summary>
         /// Internal time format. Compatible with HTML time inputs.
         /// </summary>
         public const string InternalTimeFormat = "hh\\:mm\\:ss";
@@ -38,7 +48,7 @@ namespace Blazorise.Utilities
         /// <summary>
         /// Possible date formats.
         /// </summary>
-        public static readonly string[] SupportedDateFormats = new string[]
+        public static readonly string[] SupportedParseDateFormats = new string[]
         {
             InternalDateFormat,
             ExternalDateFormat,
@@ -51,7 +61,7 @@ namespace Blazorise.Utilities
         /// <summary>
         /// Possible date-time formats.
         /// </summary>
-        public static readonly string[] SupportedDateTimeFormats = new string[]
+        public static readonly string[] SupportedParseDateTimeFormats = new string[]
         {
             InternalDateTimeFormat,
             ExternalDateTimeFormat,
@@ -62,9 +72,22 @@ namespace Blazorise.Utilities
         };
 
         /// <summary>
+        /// Possible month formats.
+        /// </summary>
+        public static readonly string[] SupportedParseMonthFormats = new string[]
+        {
+            InternalMonthFormat,
+            ExternalMonthFormat,
+            "yyyy-MM-dd",
+            CultureInfo.InvariantCulture.DateTimeFormat.LongDatePattern,
+            CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern,
+            "o", // a string representing UTC
+        };
+
+        /// <summary>
         /// Possible time formats.
         /// </summary>
-        public static readonly string[] SupportedTimeFormats = new string[]
+        public static readonly string[] SupportedParseTimeFormats = new string[]
         {
             InternalTimeFormat,
             "hh\\:mm",
@@ -73,10 +96,35 @@ namespace Blazorise.Utilities
         };
 
         /// <summary>
+        /// Gets the internal input date format based on the input mode.
+        /// </summary>
+        /// <param name="inputMode">Input mode.</param>
+        /// <returns>Valid date format.</returns>
+        public static string GetInternalDateFormat( DateInputMode inputMode )
+        {
+            return inputMode switch
+            {
+                DateInputMode.DateTime => InternalDateTimeFormat,
+                DateInputMode.Month => InternalMonthFormat,
+                _ => InternalDateFormat,
+            };
+        }
+
+        private static string[] GetSupportedParseDateFormats( DateInputMode inputMode )
+        {
+            return inputMode switch
+            {
+                DateInputMode.DateTime => SupportedParseDateTimeFormats,
+                DateInputMode.Month => SupportedParseMonthFormats,
+                _ => SupportedParseDateFormats,
+            };
+        }
+
+        /// <summary>
         /// Tries to parse a date from a given string value.
         /// </summary>
         /// <typeparam name="TValue">The type of object to return.</typeparam>
-        /// <param name="value">String to parse.</param>
+        /// <param name="value">String value to parse.</param>
         /// <param name="inputMode">Hint for parsing method.</param>
         /// <param name="result">An object whose value represents the parsed string.</param>
         /// <returns>True if parsing was successful.</returns>
@@ -88,27 +136,25 @@ namespace Blazorise.Utilities
                 return false;
             }
 
-            var supportedFormats = inputMode == DateInputMode.DateTime
-                ? SupportedDateTimeFormats
-                : SupportedDateFormats;
+            var supportedParseFormats = GetSupportedParseDateFormats( inputMode );
 
             var type = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
 
-            if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, supportedFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt ) )
+            if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, supportedParseFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDt ) )
             {
-                result = (TValue)(object)dt;
+                result = (TValue)(object)parsedDt;
                 return true;
             }
 
-            if ( type == typeof( DateTime ) && DateTimeOffset.TryParse( value, out var dto ) )
+            if ( type == typeof( DateTime ) && DateTimeOffset.TryParse( value, out var parsedDto ) )
             {
-                result = (TValue)(object)dto.DateTime;
+                result = (TValue)(object)parsedDto.DateTime;
                 return true;
             }
 
-            if ( type == typeof( DateTimeOffset ) && DateTimeOffset.TryParse( value, out var dto2 ) )
+            if ( type == typeof( DateTimeOffset ) && DateTimeOffset.TryParse( value, out var parsedDto2 ) )
             {
-                result = (TValue)(object)dto2;
+                result = (TValue)(object)parsedDto2;
                 return true;
             }
 
@@ -134,13 +180,13 @@ namespace Blazorise.Utilities
 
             var type = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
 
-            if ( type == typeof( TimeSpan ) && TimeSpan.TryParseExact( value, SupportedTimeFormats, CultureInfo.InvariantCulture, TimeSpanStyles.None, out var time ) )
+            if ( type == typeof( TimeSpan ) && TimeSpan.TryParseExact( value, SupportedParseTimeFormats, CultureInfo.InvariantCulture, TimeSpanStyles.None, out var time ) )
             {
                 result = (TValue)(object)time;
                 return true;
             }
 
-            if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, SupportedTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt ) )
+            if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, SupportedParseTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt ) )
             {
                 result = (TValue)(object)dt;
                 return true;

@@ -67,6 +67,7 @@
             return dateInputMode switch
             {
                 DateInputMode.DateTime => "datetime-local",
+                DateInputMode.Month => "month",
                 _ => "date",
             };
         }

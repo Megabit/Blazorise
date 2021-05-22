@@ -206,9 +206,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the date format based on the current <see cref="InputMode"/> settings.
         /// </summary>
-        protected string DateFormat => InputMode == DateInputMode.DateTime
-            ? Parsers.InternalDateTimeFormat
-            : Parsers.InternalDateFormat;
+        protected string DateFormat => Parsers.GetInternalDateFormat( InputMode );
 
         /// <summary>
         /// Converts the supplied date format into the internal date format.
@@ -248,13 +246,11 @@ namespace Blazorise
         /// <summary>
         /// Defines the first day of the week.
         /// </summary>
-        /// <remarks>
         [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
 
         /// <summary>
         /// Defines the display format of the date input.
         /// </summary>
-        /// <remarks>
         [Parameter] public string DisplayFormat { get; set; }
 
         /// <summary>

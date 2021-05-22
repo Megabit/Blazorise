@@ -76,3 +76,12 @@ span.flatpickr-weekday {
 .flatpickr-day.selected.endRange, .flatpickr-day.startRange.endRange, .flatpickr-day.endRange.endRange {
     border-radius: 0 $border-radius $border-radius 0;
 }
+
+.flatpickr-monthSelect-month:hover,
+.flatpickr-monthSelect-month:focus {
+    background: rgba($primary,.1);
+}
+
+.flatpickr-monthSelect-month.selected {
+    background-color: $primary;
+}

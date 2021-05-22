@@ -172,12 +172,12 @@ namespace Blazorise
 
         public virtual ValueTask InitializeDatePicker( ElementReference elementRef, string elementId, object options )
         {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.dateEdit.initialize", elementRef, elementId, options );
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.datePicker.initialize", elementRef, elementId, options );
         }
 
         public virtual ValueTask DestroyDatePicker( ElementReference elementRef, string elementId )
         {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.dateEdit.destroy", elementRef, elementId );
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.datePicker.destroy", elementRef, elementId );
         }
 
         public virtual ValueTask ActivateDatePicker( ElementReference elementRef, string elementId, object options )
@@ -187,12 +187,12 @@ namespace Blazorise
 
         public virtual ValueTask UpdateDatePickerValue( ElementReference elementRef, string elementId, object value )
         {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.dateEdit.update", elementRef, elementId, value );
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.datePicker.updateValue", elementRef, elementId, value );
         }
 
         public virtual ValueTask UpdateDatePickerOptions( ElementReference elementRef, string elementId, object options )
         {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.dateEdit.updateOptions", elementRef, elementId, options );
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.datePicker.updateOptions", elementRef, elementId, options );
         }
 
         #endregion
@@ -201,12 +201,12 @@ namespace Blazorise
 
         public virtual ValueTask InitializeTimePicker( ElementReference elementRef, string elementId, object options )
         {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timeEdit.initialize", elementRef, elementId, options );
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.initialize", elementRef, elementId, options );
         }
 
         public virtual ValueTask DestroyTimePicker( ElementReference elementRef, string elementId )
         {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timeEdit.destroy", elementRef, elementId );
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.destroy", elementRef, elementId );
         }
 
         public virtual ValueTask ActivateTimePicker( ElementReference elementRef, string elementId, object options )
@@ -216,12 +216,12 @@ namespace Blazorise
 
         public virtual ValueTask UpdateTimePickerOptions( ElementReference elementRef, string elementId, object options )
         {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timeEdit.updateOptions", elementRef, elementId, options );
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.updateOptions", elementRef, elementId, options );
         }
 
         public virtual ValueTask UpdateTimePickerValue( ElementReference elementRef, string elementId, object value )
         {
-            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timeEdit.updateValue", elementRef, elementId, value );
+            return Runtime.InvokeVoidAsync( $"{BLAZORISE_NAMESPACE}.timePicker.updateValue", elementRef, elementId, value );
         }
 
         #endregion

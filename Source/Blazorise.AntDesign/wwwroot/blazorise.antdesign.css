@@ -5446,3 +5446,10 @@ span.flatpickr-weekday {
 
 .flatpickr-day.selected.endRange, .flatpickr-day.startRange.endRange, .flatpickr-day.endRange.endRange {
     border-radius: 0; }
+
+.flatpickr-monthSelect-month:hover,
+.flatpickr-monthSelect-month:focus {
+    background: rgba(24, 144, 255, 0.1); }
+
+.flatpickr-monthSelect-month.selected {
+    background-color: #1890ff; }

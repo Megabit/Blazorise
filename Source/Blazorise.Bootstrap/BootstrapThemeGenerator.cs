@@ -326,6 +326,16 @@ namespace Blazorise.Bootstrap
                 .Append( $"border-color: { Var( ThemeVariables.Color( "primary" ) )};" )
                 .AppendLine( "}" );
 
+            sb
+                .Append( $".flatpickr-monthSelect-month:hover,.flatpickr-monthSelect-month:focus" ).Append( "{" )
+                .Append( $"background: { ToHex( Lighten( Var( ThemeVariables.Color( "primary" ) ), 90f ) )};" )
+                .AppendLine( "}" );
+
+            sb
+                .Append( $".flatpickr-monthSelect-month.selected" ).Append( "{" )
+                .Append( $"background: { Var( ThemeVariables.Color( "primary" ) )};" )
+                .AppendLine( "}" );
+
             //sb
             //    .Append( $".flatpickr-time .flatpickr-am-pm" ).Append( "{" )
             //    .Append( $"color: { Var( ThemeVariables.Color( "primary" ) )};" )

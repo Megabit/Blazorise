@@ -123,9 +123,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the date format based on the current <see cref="InputMode"/> settings.
         /// </summary>
-        protected string DateFormat => InputMode == DateInputMode.DateTime
-            ? Parsers.InternalDateTimeFormat
-            : Parsers.InternalDateFormat;
+        protected string DateFormat => Parsers.GetInternalDateFormat( InputMode );
 
         /// <summary>
         /// Hints at the type of data that might be entered by the user while editing the element or its contents.
