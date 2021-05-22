@@ -81,6 +81,11 @@ namespace Blazorise
         [Parameter] public bool Disabled { get; set; }
 
         /// <summary>
+        /// Hide the item from the list so it can be used as a placeholder.
+        /// </summary>
+        [Parameter] public bool Hidden { get; set; }
+
+        /// <summary>
         /// Specifies the select component in which this select item is placed.
         /// </summary>
         [CascadingParameter] protected virtual Select<TValue> ParentSelect { get; set; }
