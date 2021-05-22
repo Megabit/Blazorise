@@ -64,6 +64,14 @@ else if ( ValueType == typeof( DateTimeOffset? ) )
 {
     <DateEdit TValue="DateTimeOffset?" Date="@((DateTimeOffset?)CellEditContext.CellValue)" DateChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
 }
+else if ( ValueType == typeof( TimeSpan ) )
+{
+    <TimeEdit TValue="TimeSpan" Time="@((TimeSpan)CellEditContext.CellValue)" TimeChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
+}
+else if ( ValueType == typeof( TimeSpan? ) )
+{
+    <TimeEdit TValue="TimeSpan?" Time="@((TimeSpan?)CellEditContext.CellValue)" TimeChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
+}
 else if ( ValueType == typeof( string ) )
 {
     <NumericEdit TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@(( v ) => OnEditValueChanged(v))" ReadOnly="@Readonly" />
