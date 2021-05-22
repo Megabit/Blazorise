@@ -34,15 +34,15 @@ namespace Blazorise.Utilities
             { "H", "H" },       // Hours (24 hours), 00 to 23.
             { "HH", "H" },      // -||-
             { "h", "h" },       // Hours, 1 to 12.
-            { "hh", "G" },      // Hours, 2 digits with leading zeros, 01 to 12
+            { "hh", "G" },      // Hours, 2 digits with leading zeros, 01 to 12.
 
-            { "m", "i" },       // Minutes, 00 to 59
+            { "m", "i" },       // Minutes, 00 to 59.
             { "mm", "i" },      // -||-
 
             { "s", "s" },       // Seconds, 0, 1 to 59.
             { "ss", "S" },      // Seconds, 2 digits, 00 to 59.
 
-            { "t", "K" },       // AM/PM designator
+            { "t", "K" },       // AM/PM designator.
             { "tt", "K" },      // -||-
         };
 
