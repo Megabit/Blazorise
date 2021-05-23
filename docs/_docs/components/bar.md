@@ -26,6 +26,7 @@ The bar component has the following structure:
           - `BarDropdownToggle` dropdown trigger
           - `BarDropdownMenu` the dropdown menu, which can include bar items and dividers
             - `BarDropdownItem` each single item of the dropdown menu
+            - `BarDropdownDivider` Divider that can be placed between `BarDropdownItem`'s.
             - `BarDropdown` by adding this again inside the menu, you will create nested dropdowns
 
 ### Top Bar (with dropdown)
@@ -53,6 +54,7 @@ The bar component has the following structure:
           <BarDropdownToggle>Dropdown</BarDropdownToggle>
           <BarDropdownMenu>
             <BarDropdownItem>Action</BarDropdownItem>
+            <BarDropdownDivider />
             <BarDropdownItem>Another action</BarDropdownItem>
           </BarDropdownMenu>
         </BarDropdown>

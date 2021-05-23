@@ -616,6 +616,8 @@ namespace Blazorise.AntDesign
 
         public override string BarDropdownItem( BarMode mode ) => "ant-menu-item ant-menu-item-only-child";
 
+        public override string BarDropdownDivider( BarMode mode ) => "ant-menu-item-divider";
+
         public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler-icon" : "navbar-toggler-icon";
 
         public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? $"ant-menu ant-menu-sub ant-menu-vertical" : $"ant-menu ant-menu-sub ant-menu-{ToBarMode( mode )}";

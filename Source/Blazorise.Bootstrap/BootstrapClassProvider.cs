@@ -607,6 +607,8 @@ namespace Blazorise.Bootstrap
 
         public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
 
+        public override string BarDropdownDivider( BarMode mode ) => "dropdown-divider";
+
         public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu" : "b-bar-dropdown-menu";
 
         public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;

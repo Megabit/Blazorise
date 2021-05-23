@@ -597,6 +597,8 @@ namespace Blazorise.Providers
 
         public string BarDropdownItem( BarMode mode ) => null;
 
+        public string BarDropdownDivider( BarMode mode ) => null;
+
         public string BarTogglerIcon( BarMode mode ) => null;
 
         public string BarDropdownMenu( BarMode mode ) => null;
