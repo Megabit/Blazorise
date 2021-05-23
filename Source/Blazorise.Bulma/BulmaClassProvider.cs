@@ -621,6 +621,8 @@ namespace Blazorise.Bulma
 
         public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-item" : "b-bar-dropdown-item";
 
+        public override string BarDropdownDivider( BarMode mode ) => "navbar-divider";
+
         public override string BarTogglerIcon( BarMode mode ) => null;
 
         public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-dropdown" : "b-bar-dropdown-menu";

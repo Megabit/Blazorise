@@ -591,6 +591,8 @@ namespace Blazorise
 
         string BarDropdownItem( BarMode mode );
 
+        string BarDropdownDivider( BarMode mode );
+
         string BarTogglerIcon( BarMode mode );
 
         string BarDropdownMenu( BarMode mode );

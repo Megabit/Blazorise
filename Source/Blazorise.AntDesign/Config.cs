@@ -51,6 +51,7 @@ namespace Blazorise.AntDesign
             { typeof( Blazorise.BarLink ), typeof( AntDesign.BarLink ) },
             { typeof( Blazorise.BarDropdownMenu ), typeof( AntDesign.BarDropdownMenu ) },
             { typeof( Blazorise.BarDropdownItem ), typeof( AntDesign.BarDropdownItem ) },
+            { typeof( Blazorise.BarDropdownDivider ), typeof( AntDesign.BarDropdownDivider ) },
             { typeof( Blazorise.BarDropdownToggle ), typeof( AntDesign.BarDropdownToggle ) },
             { typeof( Blazorise.BarToggler ), typeof( AntDesign.BarToggler ) },
             { typeof( Blazorise.Breadcrumb ), typeof( AntDesign.Breadcrumb ) },
