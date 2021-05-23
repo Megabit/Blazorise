@@ -16,8 +16,9 @@ tr.table-row-selectable:hover {
 
     thead tr th {
         border-top: none;
-        position: sticky;
+        position: sticky !important;
         background: white;
+        z-index: 10;
     }
 
     thead tr:nth-child(1) th {

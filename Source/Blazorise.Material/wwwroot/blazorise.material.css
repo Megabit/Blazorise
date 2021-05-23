@@ -1019,8 +1019,9 @@ tr.table-row-selectable:hover {
         border-spacing: 0; }
     .table-fixed-header thead tr th {
         border-top: none;
-        position: sticky;
-        background: white; }
+        position: sticky !important;
+        background: white;
+        z-index: 10; }
     .table-fixed-header thead tr:nth-child(1) th {
         top: 0; }
 
