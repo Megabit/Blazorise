@@ -46,11 +46,6 @@ namespace Blazorise.Tests.Mocks
             return await base.ParseValueFromStringAsync( value );
         }
 
-        public Task Click()
-        {
-            return OnClickHandler( new MouseEventArgs() );
-        }
-
         public void OnChange( ChangeEventArgs e )
         {
             base.OnChangeHandler( e );

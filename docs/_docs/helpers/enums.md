@@ -299,6 +299,7 @@ Hints at the type of data that might be entered into DateEdit by the user while 
 
 - `Date` - Only date is allowed to be entered.
 - `DateTime` - Both date and time are allowed to be entered.
+- `Month` - Allowed to select only year and month.
 
 ## Orientation
 

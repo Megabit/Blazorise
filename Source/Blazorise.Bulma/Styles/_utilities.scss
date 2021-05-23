@@ -413,3 +413,19 @@
 .has-shadow-none {
     box-shadow: none !important;
 }
+
+.is-overflow-visible {
+    overflow: visible !important;
+}
+
+.is-overflow-hidden {
+    overflow: hidden !important;
+}
+
+.is-overflow-scroll {
+    overflow: scroll !important;
+}
+
+.is-overflow-auto {
+    overflow: auto !important;
+}

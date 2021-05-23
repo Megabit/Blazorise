@@ -34,9 +34,9 @@ In the version 0.8 the option to theme a Snackbar was left missing. So here it i
 
 ## Bug Fixes
 
-- Visibility not working for Edit components [#183](https://github.com/stsrki/Blazorise/issues/183)
-- CardTitle "Size" property ignored was ignored for Material CSS [#149](https://github.com/stsrki/Blazorise/issues/149)
+- Visibility not working for Edit components [#183](https://github.com/Megabit/Blazorise/issues/183)
+- CardTitle "Size" property ignored was ignored for Material CSS [#149](https://github.com/Megabit/Blazorise/issues/149)
 
 ## Contributors
 
-- Thanks to [jdtcn](https://github.com/jdtcn) for finding a solution for bug in server-side charts. [#115](https://github.com/stsrki/Blazorise/issues/115)
+- Thanks to [jdtcn](https://github.com/jdtcn) for finding a solution for bug in server-side charts. [#115](https://github.com/Megabit/Blazorise/issues/115)

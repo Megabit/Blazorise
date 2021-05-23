@@ -485,6 +485,16 @@ namespace Blazorise.Frolic
                 .AppendLine( "}" );
         }
 
+        protected override void GenerateListGroupItemStyles( StringBuilder sb, Theme theme, ThemeListGroupItemOptions options )
+        {
+            // Not implemented because Blazorise is dropping support for eFrolic.
+        }
+
+        protected override void GenerateListGroupItemVariantStyles( StringBuilder sb, Theme theme, string variant, string inBackgroundColor, string inColor, ThemeListGroupItemOptions options )
+        {
+            // Not implemented because Blazorise is dropping support for eFrolic.
+        }
+
         #endregion
     }
 }

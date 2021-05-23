@@ -286,6 +286,8 @@ namespace Blazorise.Bulma
 
         public override string Addons() => "field has-addons";
 
+        public override string AddonsSize( Size size ) => $"is-{ToSize( size )}";
+
         public override string AddonsHasButton( bool hasButton ) => null;
 
         public override string Addon( AddonType addonType )
@@ -548,9 +550,13 @@ namespace Blazorise.Bulma
 
         public override string ListGroupItem() => "list-group-item";
 
+        public override string ListGroupItemSelectable() => "list-group-item-action";
+
         public override string ListGroupItemActive() => Active();
 
         public override string ListGroupItemDisabled() => Disabled();
+
+        public override string ListGroupItemColor( Color color ) => $"is-{ToColor( color )}";
 
         #endregion
 
@@ -614,6 +620,8 @@ namespace Blazorise.Bulma
         public override string BarDropdownToggle( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-link" : "b-bar-link b-bar-dropdown-toggle";
 
         public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-item" : "b-bar-dropdown-item";
+
+        public override string BarDropdownDivider( BarMode mode ) => "navbar-divider";
 
         public override string BarTogglerIcon( BarMode mode ) => null;
 
@@ -1162,6 +1170,12 @@ namespace Blazorise.Bulma
 
             return $"has-shadow-{ToShadow( shadow )}";
         }
+
+        #endregion
+
+        #region Overflow
+
+        public override string Overflow( Overflow overflow ) => $"is-overflow-{ToOverflow( overflow )}";
 
         #endregion
 

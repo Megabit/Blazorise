@@ -14,6 +14,8 @@ namespace Blazorise
     {
         #region Members
 
+        private Size size = Size.None;
+
         private IFluentColumn columnSize;
 
         private List<Button> registeredButtons;
@@ -39,6 +41,7 @@ namespace Blazorise
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.Addons() );
+            builder.Append( ClassProvider.AddonsSize( Size ), Size != Size.None );
             builder.Append( ClassProvider.AddonsHasButton( registeredButtons?.Count > 0 ) );
 
             base.BuildClasses( builder );
@@ -82,6 +85,11 @@ namespace Blazorise
         #region Properties
 
         /// <summary>
+        /// True if <see cref="Addons"/> is placed inside of <see cref="Field"/> component.
+        /// </summary>
+        protected virtual bool ParentIsHorizontal => ParentField?.Horizontal == true;
+
+        /// <summary>
         /// Determines how much space will be used by the addons inside of the grid row.
         /// </summary>
         [Parameter]
@@ -97,9 +105,19 @@ namespace Blazorise
         }
 
         /// <summary>
-        /// True if <see cref="Addons"/> is placed inside of <see cref="Field"/> component.
+        /// Changes the size of the elements placed inside of this <see cref="Accordion"/>.
         /// </summary>
-        protected virtual bool ParentIsHorizontal => ParentField?.Horizontal == true;
+        [Parameter]
+        public Size Size
+        {
+            get => size;
+            set
+            {
+                size = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="Accordion"/>.

@@ -269,6 +269,8 @@ namespace Blazorise
 
         public abstract string Addons();
 
+        public abstract string AddonsSize( Size size );
+
         public abstract string AddonsHasButton( bool hasButton );
 
         public abstract string Addon( AddonType addonType );
@@ -497,9 +499,13 @@ namespace Blazorise
 
         public abstract string ListGroupItem();
 
+        public abstract string ListGroupItemSelectable();
+
         public abstract string ListGroupItemActive();
 
         public abstract string ListGroupItemDisabled();
+
+        public abstract string ListGroupItemColor( Color color );
 
         #endregion
 
@@ -588,6 +594,8 @@ namespace Blazorise
         public abstract string BarDropdownToggle( BarMode mode );
 
         public abstract string BarDropdownItem( BarMode mode );
+
+        public abstract string BarDropdownDivider( BarMode mode );
 
         public abstract string BarTogglerIcon( BarMode mode );
 
@@ -1001,6 +1009,12 @@ namespace Blazorise
         #region Shadow
 
         public abstract string Shadow( Shadow shadow );
+
+        #endregion
+
+        #region Overflow
+
+        public abstract string Overflow( Overflow overflow );
 
         #endregion
 
@@ -1641,6 +1655,18 @@ namespace Blazorise
                 Blazorise.Shadow.Remove => "none",
                 Blazorise.Shadow.Small => "sm",
                 Blazorise.Shadow.Large => "lg",
+                _ => null,
+            };
+        }
+
+        public virtual string ToOverflow( Overflow overflow )
+        {
+            return overflow switch
+            {
+                Blazorise.Overflow.Visible => "visible",
+                Blazorise.Overflow.Hidden => "hidden",
+                Blazorise.Overflow.Scroll => "scroll",
+                Blazorise.Overflow.Auto => "auto",
                 _ => null,
             };
         }

@@ -21,35 +21,6 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            var dateChanged = parameters.TryGetValue<TValue>( nameof( Date ), out var date ) && !Date.Equals( date );
-            var minChanged = parameters.TryGetValue( nameof( Min ), out DateTimeOffset? min ) && !Min.IsEqual( min );
-            var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? max ) && !Max.IsEqual( max );
-            var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek firstDayOfWeek ) && !FirstDayOfWeek.IsEqual( firstDayOfWeek );
-            var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string displayFormat ) && DisplayFormat != displayFormat;
-
-            if ( dateChanged )
-            {
-                var dateString = FormatValueAsString( date );
-
-                await CurrentValueHandler( dateString );
-
-                if ( Rendered )
-                {
-                    ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerValue( ElementRef, ElementId, dateString ) );
-                }
-            }
-
-            if ( Rendered && ( minChanged || maxChanged || firstDayOfWeekChanged || displayFormatChanged ) )
-            {
-                ExecuteAfterRender( async () => await JSRunner.UpdateDatePickerOptions( ElementRef, ElementId, new
-                {
-                    FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = firstDayOfWeek },
-                    DisplayFormat = new { Changed = displayFormatChanged, Value = displayFormat },
-                    Min = new { Changed = minChanged, Value = min?.ToString( DateFormat ) },
-                    Max = new { Changed = maxChanged, Value = max?.ToString( DateFormat ) },
-                } ) );
-            }
-
             // Let blazor do its thing!
             await base.SetParametersAsync( parameters );
 
@@ -73,48 +44,6 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override async Task OnFirstAfterRenderAsync()
-        {
-            await JSRunner.InitializeDatePicker( ElementRef, ElementId, new
-            {
-                InputMode,
-                FirstDayOfWeek,
-                DisplayFormat,
-                Default = FormatValueAsString( Date ),
-                Min = Min?.ToString( DateFormat ),
-                Max = Max?.ToString( DateFormat ),
-            } );
-
-            await base.OnFirstAfterRenderAsync();
-        }
-
-        /// <inheritdoc/>
-        protected override async ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( Rendered )
-                {
-                    var task = JSRunner.DestroyDatePicker( ElementRef, ElementId );
-
-                    try
-                    {
-                        await task;
-                    }
-                    catch
-                    {
-                        if ( !task.IsCanceled )
-                        {
-                            throw;
-                        }
-                    }
-                }
-            }
-
-            await base.DisposeAsync( disposing );
-        }
-
-        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.DateEdit( Plaintext ) );
@@ -129,15 +58,6 @@ namespace Blazorise
         protected override Task OnChangeHandler( ChangeEventArgs e )
         {
             return CurrentValueHandler( e?.Value?.ToString() );
-        }
-
-        /// <inheritdoc/>
-        protected async Task OnClickHandler( MouseEventArgs e )
-        {
-            if ( Disabled || ReadOnly )
-                return;
-
-            await JSRunner.ActivateDatePicker( ElementRef, ElementId, DateFormat );
         }
 
         /// <inheritdoc/>
@@ -203,9 +123,7 @@ namespace Blazorise
         /// <summary>
         /// Gets the date format based on the current <see cref="InputMode"/> settings.
         /// </summary>
-        protected string DateFormat => InputMode == DateInputMode.DateTime
-            ? Parsers.InternalDateTimeFormat
-            : Parsers.InternalDateFormat;
+        protected string DateFormat => Parsers.GetInternalDateFormat( InputMode );
 
         /// <summary>
         /// Hints at the type of data that might be entered by the user while editing the element or its contents.
@@ -238,24 +156,11 @@ namespace Blazorise
         [Parameter] public DateTimeOffset? Max { get; set; }
 
         /// <summary>
-        /// Defines the first day of the week.
+        /// The step attribute specifies the legal day intervals to choose from when the user opens the calendar in a date field.
+        /// 
+        /// For example, if step = "2", you can only select every second day in the calendar.
         /// </summary>
-        /// <remarks>
-        /// Be aware that not all providers support setting the first day of the week. This is more
-        /// the limitations with browsers than it is with the Blazorise. Currently only the material
-        /// provider support it because it uses the custom plugin for date picker.
-        /// </remarks>
-        [Parameter] public DayOfWeek FirstDayOfWeek { get; set; } = DayOfWeek.Sunday;
-
-        /// <summary>
-        /// Defines the display format of the date.
-        /// </summary>
-        /// <remarks>
-        /// Be aware that not all providers support setting the display format. This is more
-        /// the limitations with browsers than it is with the Blazorise. Currently only the material
-        /// provider support it because it uses the custom plugin for date picker.
-        /// </remarks>
-        [Parameter] public string DisplayFormat { get; set; }
+        [Parameter] public int Step { get; set; } = 1;
 
         #endregion
     }

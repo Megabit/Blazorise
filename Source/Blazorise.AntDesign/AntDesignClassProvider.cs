@@ -282,6 +282,8 @@ namespace Blazorise.AntDesign
 
         public override string Addons() => "ant-input-group-wrapper";
 
+        public override string AddonsSize( Size size ) => $"ant-input-group-wrapper-{ToSize( size )}";
+
         public override string AddonsHasButton( bool hasButton ) => hasButton ? "ant-input-search ant-input-search-enter-button" : null;
 
         public override string Addon( AddonType addonType )
@@ -545,9 +547,13 @@ namespace Blazorise.AntDesign
 
         public override string ListGroupItem() => "ant-list-item ant-list-item-no-flex";
 
+        public override string ListGroupItemSelectable() => "ant-list-item-actionable";
+
         public override string ListGroupItemActive() => Active();
 
         public override string ListGroupItemDisabled() => Disabled();
+
+        public override string ListGroupItemColor( Color color ) => $"ant-list-item-{ToColor( color )}";
 
         #endregion
 
@@ -609,6 +615,8 @@ namespace Blazorise.AntDesign
         public override string BarDropdownToggle( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-title" : "ant-menu-submenu-title";
 
         public override string BarDropdownItem( BarMode mode ) => "ant-menu-item ant-menu-item-only-child";
+
+        public override string BarDropdownDivider( BarMode mode ) => "ant-menu-item-divider";
 
         public override string BarTogglerIcon( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler-icon" : "navbar-toggler-icon";
 
@@ -1150,6 +1158,12 @@ namespace Blazorise.AntDesign
 
             return $"ant-shadow-{ToShadow( shadow )}";
         }
+
+        #endregion
+
+        #region Overflow
+
+        public override string Overflow( Overflow overflow ) => $"ant-overflow-{ToOverflow( overflow )}";
 
         #endregion
 

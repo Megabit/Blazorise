@@ -282,6 +282,8 @@ namespace Blazorise.Bootstrap
 
         public override string Addons() => "input-group";
 
+        public override string AddonsSize( Size size ) => $"input-group-{ToSize( size )}";
+
         public override string AddonsHasButton( bool hasButton ) => null;
 
         public override string Addon( AddonType addonType )
@@ -536,9 +538,13 @@ namespace Blazorise.Bootstrap
 
         public override string ListGroupItem() => "list-group-item";
 
+        public override string ListGroupItemSelectable() => "list-group-item-action";
+
         public override string ListGroupItemActive() => Active();
 
         public override string ListGroupItemDisabled() => Disabled();
+
+        public override string ListGroupItemColor( Color color ) => $"{ListGroupItem()}-{ToColor( color )}";
 
         #endregion
 
@@ -600,6 +606,8 @@ namespace Blazorise.Bootstrap
         public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
 
         public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
+
+        public override string BarDropdownDivider( BarMode mode ) => "dropdown-divider";
 
         public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu" : "b-bar-dropdown-menu";
 
@@ -1132,6 +1140,12 @@ namespace Blazorise.Bootstrap
 
             return $"shadow-{ToShadow( shadow )}";
         }
+
+        #endregion
+
+        #region Overflow
+
+        public override string Overflow( Overflow overflow ) => $"overflow-{ToOverflow( overflow )}";
 
         #endregion
 

@@ -21,31 +21,6 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            var timeChanged = parameters.TryGetValue( nameof( Time ), out TValue time ) && !Time.IsEqual( time );
-            var minChanged = parameters.TryGetValue( nameof( Min ), out TimeSpan? min ) && !Min.IsEqual( min );
-            var maxChanged = parameters.TryGetValue( nameof( Max ), out TimeSpan? max ) && !Max.IsEqual( max );
-
-            if ( timeChanged )
-            {
-                var timeString = FormatValueAsString( time );
-
-                await CurrentValueHandler( timeString );
-
-                if ( Rendered )
-                {
-                    ExecuteAfterRender( async () => await JSRunner.UpdateTimePickerValue( ElementRef, ElementId, timeString ) );
-                }
-            }
-
-            if ( Rendered && ( minChanged || maxChanged ) )
-            {
-                ExecuteAfterRender( async () => await JSRunner.UpdateTimePickerOptions( ElementRef, ElementId, new
-                {
-                    Min = new { Changed = minChanged, Value = min?.ToString( Parsers.InternalTimeFormat ) },
-                    Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat ) },
-                } ) );
-            }
-
             // Let blazor do its thing!
             await base.SetParametersAsync( parameters );
 
@@ -69,45 +44,6 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override async Task OnFirstAfterRenderAsync()
-        {
-            await JSRunner.InitializeTimePicker( ElementRef, ElementId, new
-            {
-                Default = FormatValueAsString( Time ),
-                Min = Min?.ToString( Parsers.InternalTimeFormat ),
-                Max = Max?.ToString( Parsers.InternalTimeFormat ),
-            } );
-
-            await base.OnFirstAfterRenderAsync();
-        }
-
-        /// <inheritdoc/>
-        protected override async ValueTask DisposeAsync( bool disposing )
-        {
-            if ( disposing )
-            {
-                if ( Rendered )
-                {
-                    var task = JSRunner.DestroyTimePicker( ElementRef, ElementId );
-
-                    try
-                    {
-                        await task;
-                    }
-                    catch
-                    {
-                        if ( !task.IsCanceled )
-                        {
-                            throw;
-                        }
-                    }
-                }
-            }
-
-            await base.DisposeAsync( disposing );
-        }
-
-        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.TimeEdit( Plaintext ) );
@@ -122,18 +58,6 @@ namespace Blazorise
         protected override Task OnChangeHandler( ChangeEventArgs e )
         {
             return CurrentValueHandler( e?.Value?.ToString() );
-        }
-
-        /// <summary>
-        /// Handles the element onclick event.
-        /// </summary>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task OnClickHandler( MouseEventArgs e )
-        {
-            if ( Disabled || ReadOnly )
-                return;
-
-            await JSRunner.ActivateTimePicker( ElementRef, ElementId, Parsers.InternalTimeFormat );
         }
 
         /// <inheritdoc/>
@@ -215,6 +139,16 @@ namespace Blazorise
         /// The latest time to accept.
         /// </summary>
         [Parameter] public TimeSpan? Max { get; set; }
+
+        /// <summary>
+        /// The step attribute specifies the legal number intervals for seconds or milliseconds in a time field (does not apply for hours or minutes).
+        /// 
+        /// Example: if step="2", legal numbers could be 0, 2, 4, etc.
+        /// </summary>
+        /// <remarks>
+        /// The step attribute is often used together with the max and min attributes to create a range of legal values.
+        /// </remarks>
+        [Parameter] public int Step { get; set; } = 1;
 
         #endregion
     }

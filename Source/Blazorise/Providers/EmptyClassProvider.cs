@@ -269,6 +269,8 @@ namespace Blazorise.Providers
 
         public string Addons() => null;
 
+        public string AddonsSize( Size size ) => null;
+
         public string AddonsHasButton( bool hasButton ) => null;
 
         public string Addon( AddonType addonType ) => null;
@@ -497,9 +499,13 @@ namespace Blazorise.Providers
 
         public string ListGroupItem() => null;
 
+        public string ListGroupItemSelectable() => null;
+
         public string ListGroupItemActive() => null;
 
         public string ListGroupItemDisabled() => null;
+
+        public string ListGroupItemColor( Color color ) => null;
 
         #endregion
 
@@ -590,6 +596,8 @@ namespace Blazorise.Providers
         public string BarDropdownToggle( BarMode mode ) => null;
 
         public string BarDropdownItem( BarMode mode ) => null;
+
+        public string BarDropdownDivider( BarMode mode ) => null;
 
         public string BarTogglerIcon( BarMode mode ) => null;
 
@@ -1000,6 +1008,12 @@ namespace Blazorise.Providers
         #region Shadow
 
         public string Shadow( Shadow shadow ) => null;
+
+        #endregion
+
+        #region Overflow
+
+        public string Overflow( Overflow overflow ) => null;
 
         #endregion
 

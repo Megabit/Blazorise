@@ -267,6 +267,8 @@ namespace Blazorise
 
         string Addons();
 
+        string AddonsSize( Size size );
+
         string AddonsHasButton( bool hasButton );
 
         string Addon( AddonType addonType );
@@ -495,9 +497,13 @@ namespace Blazorise
 
         string ListGroupItem();
 
+        string ListGroupItemSelectable();
+
         string ListGroupItemActive();
 
         string ListGroupItemDisabled();
+
+        string ListGroupItemColor( Color color );
 
         #endregion
 
@@ -584,6 +590,8 @@ namespace Blazorise
         string BarDropdownToggle( BarMode mode );
 
         string BarDropdownItem( BarMode mode );
+
+        string BarDropdownDivider( BarMode mode );
 
         string BarTogglerIcon( BarMode mode );
 
@@ -992,6 +1000,12 @@ namespace Blazorise
         #region Shadow
 
         string Shadow( Shadow shadow );
+
+        #endregion
+
+        #region Overflow
+
+        string Overflow( Overflow overflow );
 
         #endregion
 
