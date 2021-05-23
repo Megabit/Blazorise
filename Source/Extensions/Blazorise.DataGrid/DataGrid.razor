@@ -9,7 +9,7 @@
     {
         <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@OnPaginationItemClick" New="@OnNewCommand" Edit="@OnEditCommand" Delete="@OnDeleteCommand" SelectedRow="@SelectedRow" ClearFilter="@OnClearFilterCommand" />
     }
-    <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" FixedHeader="@Virtualize">
+    <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" FixedHeader="@Virtualize" FixedHeaderTableHeight="@(VirtualizeOptions?.TableHeight ?? "500px")">
         <TableHeader>
             @if ( ShowCaptions )
             {
@@ -124,7 +124,7 @@
             }
             @if ( IsDisplayDataVisible )
             {
-                @if( Virtualize)
+                @if( Virtualize )
                 {
                     <Virtualize TItem="TItem" Context="item" Items="@DisplayData.ToList()" OverscanCount="10" >
                         <ChildContent>
