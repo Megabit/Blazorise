@@ -9,3 +9,51 @@
         }
     }
 }
+
+
+
+@-webkit-keyframes animate-stripes {
+    100% {
+        background-position: -40px 0px;
+    }
+}
+
+@keyframes animate-stripes {
+    100% {
+        background-position: -40px 0px;
+    }
+}
+
+.progress-wrapper {
+    position: relative;
+    display: flex;
+
+    .progress {
+        &:first-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        &:not(:first-child) {
+            border-radius: 0;
+        }
+
+        &.is-extra-small {
+            height: $size-extra-small;
+        }
+
+        &.is-extra-large {
+            height: $size-extra-large;
+        }
+
+        &[value].progress-animated::-webkit-progress-value {
+            -webkit-animation: animate-stripes 5s linear infinite;
+            animation: animate-stripes 5s linear infinite;
+        }
+
+        &[value].progress-striped::-webkit-progress-value {
+            @include gradient-striped();
+            background-size: 1rem 1rem;
+        }
+    }
+}

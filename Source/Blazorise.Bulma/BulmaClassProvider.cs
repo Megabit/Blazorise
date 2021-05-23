@@ -792,19 +792,21 @@ namespace Blazorise.Bulma
 
         #region Progress
 
-        public override string Progress() => "progress";
+        public override string Progress() => "progress-wrapper";
 
         public override string ProgressSize( Size size ) => $"is-{ToSize( size )}";
 
         public override string ProgressBar() => "progress";
 
-        public override string ProgressBarSize( Size size ) => null;
+        public override string ProgressBarSize( Size size ) => $"is-{ToSize( size )}";
 
-        public override string ProgressBarStriped() => "progress-bar-striped";
+        public override string ProgressBarColor( Color color ) => $"is-{ToColor( color )}";
 
-        public override string ProgressBarAnimated() => "progress-bar-animated";
+        public override string ProgressBarStriped() => "progress-striped";
 
-        public override string ProgressBarWidth( int width ) => $"w-{width}";
+        public override string ProgressBarAnimated() => "progress-animated";
+
+        public override string ProgressBarWidth( int width ) => null;
 
         #endregion
 

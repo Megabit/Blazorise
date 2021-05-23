@@ -780,11 +780,13 @@ namespace Blazorise.Bootstrap
 
         public override string ProgressBarSize( Size size ) => null;
 
+        public override string ProgressBarColor( Color color ) => $"bg-{ToColor( color )}";
+
         public override string ProgressBarStriped() => "progress-bar-striped";
 
         public override string ProgressBarAnimated() => "progress-bar-animated";
 
-        public override string ProgressBarWidth( int width ) => $"w-{width}";
+        public override string ProgressBarWidth( int width ) => null;
 
         #endregion
 
