@@ -593,7 +593,6 @@ namespace Blazorise.DataGrid
         protected async ValueTask<ItemsProviderResult<TItem>> HandleVirtualizeReadData( ItemsProviderRequest request )
         {
             CurrentPage = request.StartIndex + 1;
-            PageSize = request.Count;
 
             await HandleReadData( request.CancellationToken );
             return new ItemsProviderResult<TItem>( Data, TotalItems.Value );
