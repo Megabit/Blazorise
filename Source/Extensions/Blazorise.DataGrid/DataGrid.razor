@@ -126,7 +126,7 @@
             {
                 @if( Virtualize )
                 {
-                    <Virtualize TItem="TItem" Context="item" Items="@DisplayData.ToList()" OverscanCount="10" >
+                    <Virtualize TItem="TItem" Context="item" ItemsProvider="VirtualizeOnReadData" >
                         <ChildContent>
                             <_DataGridRowDisplay 
                                 TItem="TItem" 

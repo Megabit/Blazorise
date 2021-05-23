@@ -10,6 +10,7 @@ using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Blazorise.DataGrid.Configuration;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -1084,6 +1085,16 @@ namespace Blazorise.DataGrid
         /// Gets or sets Virtualize options when using the Virtualize functionality.
         /// </summary>
         [Parameter] public VirtualizeOptions VirtualizeOptions { get; set; }
+
+        public async ValueTask<ItemsProviderResult<TItem>> VirtualizeOnReadData( ItemsProviderRequest request )
+        {
+            //Reminder : Set Large Data on the demo page to test this.
+            CurrentPage = request.StartIndex+1;
+            PageSize = request.Count;
+
+            await HandleReadData( request.CancellationToken );
+            return new ItemsProviderResult<TItem>( Data, TotalItems.Value );
+        }
 
         /// <summary>
         /// Gets or sets whether users can resize datagrid columns.
