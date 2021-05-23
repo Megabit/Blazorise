@@ -885,7 +885,7 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Returns true if ShowPager is true and grid is not empty or loading.
         /// </summary>
-        protected bool IsPagerVisible => ShowPager && !IsLoadingTemplateVisible && ( ( IsButtonRowVisible && ButtonRowTemplate != null ) || !IsEmptyTemplateVisible );
+        protected bool IsPagerVisible => ShowPager && !Virtualize && !IsLoadingTemplateVisible && ( ( IsButtonRowVisible && ButtonRowTemplate != null ) || !IsEmptyTemplateVisible );
 
         /// <summary>
         /// Returns true if current state is for new item and editing fields are shown on datagrid.

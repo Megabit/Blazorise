@@ -149,7 +149,8 @@
                             </_DataGridRowDisplay>
                         </ChildContent>
                         <Placeholder>
-                            Loading...
+                            //TODO  : This does not seem to be working Loading...
+                            //TODO2 : => RenderFragment for Virtualize PlaceHolder
                         </Placeholder>
                     </Virtualize>
                 }
@@ -199,7 +200,7 @@
             </TableFooter>
         }
     </Table>
-    @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
+    @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Bottom || PagerPosition == DataGridPagerPosition.TopAndBottom ))
     {
         <_DataGridPagination TItem="TItem" PaginationContext="@PaginationContext" PaginationTemplates="@PaginationTemplates" OnPaginationItemClick="@OnPaginationItemClick" New="@OnNewCommand" Edit="@OnEditCommand" Delete="@OnDeleteCommand" SelectedRow="@SelectedRow" ClearFilter="@OnClearFilterCommand" />
     }
