@@ -182,7 +182,7 @@
                           TItem="Employee"
                           ReadData="@(largeDataMode ? OnReadData : null)"
                           Data="@(largeDataMode ? employeeList : dataModels)"
-                          TotalItems="@(largeDataMode ? totalEmployees : null)"
+                          TotalItems="@(largeDataMode ? dataModels.Count : null)"
                           EditMode="@editMode"
                           Editable="@editable"
                           Virtualize="@virtualize"
@@ -229,7 +229,7 @@
                     <DataGridColumns>
                         <DataGridMultiSelectColumn TItem="Employee" Width="30px">
                             <FilterTemplate>
-                                <Button Clicked="@Reload" title="Reload">
+                                <Button Clicked="@Reset" title="Reload">
                                     <Icon Name="IconName.Sync" />
                                 </Button>
                             </FilterTemplate>

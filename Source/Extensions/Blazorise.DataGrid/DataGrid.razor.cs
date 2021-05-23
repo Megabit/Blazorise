@@ -24,6 +24,11 @@ namespace Blazorise.DataGrid
         #region Members
 
         /// <summary>
+        /// Element reference to the DataGrid's inner virtualize.
+        /// </summary>
+        private Virtualize<TItem> virtualizeRef;
+
+        /// <summary>
         /// Element reference to the DataGrid's inner table.
         /// </summary>
         private Table tableRef;
@@ -162,18 +167,12 @@ namespace Blazorise.DataGrid
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
-                if ( ManualReadMode )
-                {
-                    await HandleReadData( CancellationToken.None );
-
-                    return;
-                }
-
-                // after all the columns have being "hooked" we need to resfresh the grid
-                await InvokeAsync( StateHasChanged );
+                await Reload();
             }
 
             await RecalculateResize();
+
+            await HandleVirtualize();
 
             await base.OnAfterRenderAsync( firstRender );
         }
@@ -204,6 +203,20 @@ namespace Blazorise.DataGrid
                 await InitResizable();
             }
         }
+
+        /// <summary>
+        /// Handles Datagrid's <see cref="Virtualize"/>. 
+        /// </summary>
+        /// <returns></returns>
+        private async ValueTask HandleVirtualize()
+        {
+            if ( Virtualize )
+            {
+                VirtualizeOptions ??= new();
+            }
+            await ValueTask.CompletedTask;
+        }
+
 
         private ValueTask InitResizable()
             => JSRuntime.InvokeVoidAsync( JSInteropFunction.INIT_RESIZABLE, tableRef.ElementRef, ResizeMode );
@@ -548,6 +561,13 @@ namespace Blazorise.DataGrid
             {
                 return InvokeAsync( () => HandleReadData( CancellationToken.None ) );
             }
+            else if ( VirtualizeManualReadMode )
+            {
+                if ( virtualizeRef is null )
+                    return InvokeAsync( () => HandleReadData( CancellationToken.None ) );
+                else
+                    return virtualizeRef.RefreshDataAsync();
+            }
             else
             {
                 return InvokeAsync( StateHasChanged );
@@ -568,6 +588,15 @@ namespace Blazorise.DataGrid
 
                 await InvokeAsync( StateHasChanged );
             }
+        }
+
+        protected async ValueTask<ItemsProviderResult<TItem>> HandleVirtualizeReadData( ItemsProviderRequest request )
+        {
+            CurrentPage = request.StartIndex + 1;
+            PageSize = request.Count;
+
+            await HandleReadData( request.CancellationToken );
+            return new ItemsProviderResult<TItem>( Data, TotalItems.Value );
         }
 
         protected Task OnSortClicked( DataGridColumn<TItem> column )
@@ -598,10 +627,7 @@ namespace Blazorise.DataGrid
                         SortByColumns.Remove( column );
                 }
 
-                dirtyFilter = dirtyView = true;
-
-                if ( ManualReadMode )
-                    return HandleReadData( CancellationToken.None );
+                return Reload();
             }
 
             return Task.CompletedTask;
@@ -610,12 +636,7 @@ namespace Blazorise.DataGrid
         protected internal Task OnFilterChanged( DataGridColumn<TItem> column, object value )
         {
             column.Filter.SearchValue = value;
-            dirtyFilter = dirtyView = true;
-
-            if ( ManualReadMode )
-                return HandleReadData( CancellationToken.None );
-
-            return Task.CompletedTask;
+            return Reload();
         }
 
         protected Task OnClearFilterCommand()
@@ -624,13 +645,7 @@ namespace Blazorise.DataGrid
             {
                 column.Filter.SearchValue = null;
             }
-
-            dirtyFilter = dirtyView = true;
-
-            if ( ManualReadMode )
-                return HandleReadData( CancellationToken.None );
-
-            return Task.CompletedTask;
+            return Reload();
         }
 
         protected Task OnPaginationItemClick( string pageName )
@@ -896,7 +911,9 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// True if user is using <see cref="ReadData"/> for loading the data.
         /// </summary>
-        public bool ManualReadMode => ReadData.HasDelegate;
+        public bool ManualReadMode => ReadData.HasDelegate && !Virtualize;
+
+        public bool VirtualizeManualReadMode => ReadData.HasDelegate && Virtualize;
 
         /// <summary>
         /// Gets the current datagrid editing state.
@@ -1086,15 +1103,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public VirtualizeOptions VirtualizeOptions { get; set; }
 
-        public async ValueTask<ItemsProviderResult<TItem>> VirtualizeOnReadData( ItemsProviderRequest request )
-        {
-            //Reminder : Set Large Data on the demo page to test this.
-            CurrentPage = request.StartIndex+1;
-            PageSize = request.Count;
 
-            await HandleReadData( request.CancellationToken );
-            return new ItemsProviderResult<TItem>( Data, TotalItems.Value );
-        }
 
         /// <summary>
         /// Gets or sets whether users can resize datagrid columns.

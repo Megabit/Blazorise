@@ -58,6 +58,7 @@ namespace Blazorise.Demo.Pages.Tests
         bool largeDataMode = false;
         bool showButtonRow = true;
 
+
         Employee selectedEmployee;
         List<Employee> selectedEmployees;
 
@@ -207,14 +208,13 @@ namespace Blazorise.Demo.Pages.Tests
                 var response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
 
                 employeeList = new List<Employee>( response ); // an actual data for the current page
-                totalEmployees = dataModels.Count; // this is used to tell datagrid how many items are available so that pagination will work
 
                 // always call StateHasChanged!
                 await InvokeAsync( StateHasChanged );
             }
         }
 
-        Task Reload()
+        Task Reset()
         {
             currentPage = 1;
             return dataGrid.Reload();
