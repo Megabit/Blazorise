@@ -124,7 +124,7 @@
             }
             @if (IsDisplayDataVisible)
             {
-                @if ( VirtualizeManualReadMode )
+                @if (VirtualizeManualReadMode)
                 {
 
                     <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="HandleVirtualizeReadData" ItemSize="(float)63.75">
@@ -149,15 +149,17 @@
                             </_DataGridRowDisplay>
                         </ChildContent>
                         <Placeholder>
-                            ...Testing...
-                            @if (IsLoadingTemplateVisible)
-                            {
-                                @IsLoading
-                            }
+                            <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                                ...Testing...
+                                @if (IsLoadingTemplateVisible)
+                                {
+                                    @IsLoading
+                                }
+                            </_DataGridFullColumnSpanRow>
                         </Placeholder>
                     </Virtualize>
                 }
-                else if ( Virtualize )
+                else if (Virtualize)
                 {
                     <Virtualize TItem="TItem" Context="item" Items="DisplayData.ToList()">
                         <ChildContent>

@@ -592,10 +592,21 @@ namespace Blazorise.DataGrid
 
         protected async ValueTask<ItemsProviderResult<TItem>> HandleVirtualizeReadData( ItemsProviderRequest request )
         {
-            CurrentPage = request.StartIndex + 1;
+            var itemIndex = request.StartIndex;
+            var requestItems = Math.Min( request.Count, TotalItems.Value - itemIndex );
+
+            PageSize = requestItems;
+            //TODO: Do we need to introduce a new API that takes in a startIndex?
+            //Can we make the math even somehow? PageSize vs OverScan vs ItemSize?
+            var requestedPage = Math.Floor((double)(itemIndex / PageSize));
+            CurrentPage = (int)requestedPage + 1;
 
             await HandleReadData( request.CancellationToken );
-            return new ItemsProviderResult<TItem>( Data, TotalItems.Value );
+
+            if ( request.CancellationToken.IsCancellationRequested )
+                return new();
+            else
+                return new( Data, TotalItems.Value );
         }
 
         protected Task OnSortClicked( DataGridColumn<TItem> column )
