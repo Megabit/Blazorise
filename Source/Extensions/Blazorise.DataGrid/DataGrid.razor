@@ -127,7 +127,7 @@
                 @if ( VirtualizeManualReadMode )
                 {
 
-                    <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="HandleVirtualizeReadData">
+                    <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="HandleVirtualizeReadData" ItemSize="(float)63.75">
                         <ChildContent>
                             <_DataGridRowDisplay TItem="TItem"
                                                  @key="@item"
@@ -149,6 +149,7 @@
                             </_DataGridRowDisplay>
                         </ChildContent>
                         <Placeholder>
+                            ...Testing...
                             @if (IsLoadingTemplateVisible)
                             {
                                 @IsLoading

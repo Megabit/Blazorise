@@ -117,13 +117,14 @@ namespace Blazorise.Demo.Pages.Tests
 
         protected override Task OnInitializedAsync()
         {
-            for ( int i = 0; i < 6; i++ )
-            {
-                var serialized = System.Text.Json.JsonSerializer.Serialize( dataModels );
-                var newReferenceList = System.Text.Json.JsonSerializer.Deserialize<List<Employee>>( serialized );
-                dataModels.AddRange( newReferenceList );
+            //for ( int i = 0; i < 6; i++ )
+            //{
+            //    var serialized = System.Text.Json.JsonSerializer.Serialize( dataModels );
+            //    var newReferenceList = System.Text.Json.JsonSerializer.Deserialize<List<Employee>>( serialized );
+            //    dataModels.AddRange( newReferenceList );
 
-            }
+            //}
+            totalEmployees = dataModels.Count;
             return base.OnInitializedAsync();
         }
 

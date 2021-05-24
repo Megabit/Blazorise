@@ -221,7 +221,7 @@ namespace Blazorise.DataGrid
         public int? TotalItems
         {
             // If we're using ReadData than TotalItems must be set so we can know how many items are available
-            get => ( parentDataGrid.ManualReadMode ? totalItems : parentDataGrid.FilteredData?.Count() ) ?? 0;
+            get => ( ( parentDataGrid.ManualReadMode || parentDataGrid.VirtualizeManualReadMode ) ? totalItems : parentDataGrid.FilteredData?.Count() ) ?? 0;
             set
             {
                 if ( totalItems != value )

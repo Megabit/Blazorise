@@ -182,7 +182,7 @@
                           TItem="Employee"
                           ReadData="@(largeDataMode ? OnReadData : null)"
                           Data="@(largeDataMode ? employeeList : dataModels)"
-                          TotalItems="@(largeDataMode ? dataModels.Count : null)"
+                          TotalItems="@(largeDataMode ? totalEmployees : null)"
                           EditMode="@editMode"
                           Editable="@editable"
                           Virtualize="@virtualize"
