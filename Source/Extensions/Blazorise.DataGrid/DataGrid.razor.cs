@@ -237,7 +237,7 @@ namespace Blazorise.DataGrid
 
             if ( ManualReadMode )
             {
-                await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
+                await InvokeAsync( () => HandleReadData( -1, paginationContext.CancellationTokenSource.Token ) );
             }
             else
             {
@@ -254,7 +254,7 @@ namespace Blazorise.DataGrid
 
             if ( ManualReadMode )
             {
-                await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
+                await InvokeAsync( () => HandleReadData( -1, paginationContext.CancellationTokenSource.Token ) );
             }
             else
             {
@@ -392,7 +392,7 @@ namespace Blazorise.DataGrid
                     // If a new item is added, the data should be refreshed
                     // to account for paging, sorting, and filtering
                     if ( ManualReadMode )
-                        await HandleReadData( CancellationToken.None );
+                        await HandleReadData( -1, CancellationToken.None );
                 }
                 else
                     await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
@@ -559,12 +559,12 @@ namespace Blazorise.DataGrid
 
             if ( ManualReadMode )
             {
-                return InvokeAsync( () => HandleReadData( CancellationToken.None ) );
+                return InvokeAsync( () => HandleReadData( -1, CancellationToken.None ) );
             }
             else if ( VirtualizeManualReadMode )
             {
                 if ( virtualizeRef is null )
-                    return InvokeAsync( () => HandleReadData( CancellationToken.None ) );
+                    return InvokeAsync( () => HandleReadData( 0, CancellationToken.None ) );
                 else
                     return virtualizeRef.RefreshDataAsync();
             }
@@ -574,13 +574,13 @@ namespace Blazorise.DataGrid
             }
         }
 
-        protected async Task HandleReadData( CancellationToken cancellationToken )
+        protected async Task HandleReadData( int StartIdx, CancellationToken cancellationToken )
         {
             try
             {
                 IsLoading = true;
                 if ( !cancellationToken.IsCancellationRequested )
-                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns, cancellationToken ) );
+                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns, StartIdx, cancellationToken ) );
             }
             finally
             {
@@ -601,7 +601,7 @@ namespace Blazorise.DataGrid
             var requestedPage = Math.Floor((double)(itemIndex / PageSize));
             CurrentPage = (int)requestedPage + 1;
 
-            await HandleReadData( request.CancellationToken );
+            await HandleReadData( itemIndex, request.CancellationToken );
 
             if ( request.CancellationToken.IsCancellationRequested )
                 return new();

@@ -117,13 +117,13 @@ namespace Blazorise.Demo.Pages.Tests
 
         protected override Task OnInitializedAsync()
         {
-            //for ( int i = 0; i < 6; i++ )
-            //{
-            //    var serialized = System.Text.Json.JsonSerializer.Serialize( dataModels );
-            //    var newReferenceList = System.Text.Json.JsonSerializer.Deserialize<List<Employee>>( serialized );
-            //    dataModels.AddRange( newReferenceList );
+            for ( int i = 0; i < 5; i++ )
+            {
+                var serialized = System.Text.Json.JsonSerializer.Serialize( dataModels );
+                var newReferenceList = System.Text.Json.JsonSerializer.Deserialize<List<Employee>>( serialized );
+                dataModels.AddRange( newReferenceList );
 
-            //}
+            }
             totalEmployees = dataModels.Count;
             return base.OnInitializedAsync();
         }
@@ -205,8 +205,18 @@ namespace Blazorise.Demo.Pages.Tests
 
             if ( !e.CancellationToken.IsCancellationRequested )
             {
-                // this can be call to anything, in this case we're calling a fictional api
-                var response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                List<Employee> response = null;
+                if (e.StartIndex >= 0 )
+                {
+                    // this can be call to anything, in this case we're calling a fictional api
+                    response = dataModels.Skip( e.StartIndex ).Take( e.PageSize ).ToList();
+                }
+                else
+                {
+                    // this can be call to anything, in this case we're calling a fictional api
+                    response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                } 
+                
 
                 employeeList = new List<Employee>( response ); // an actual data for the current page
 

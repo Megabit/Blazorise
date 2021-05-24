@@ -124,14 +124,15 @@ namespace Blazorise.DataGrid
         /// <param name="pageSize">Maximum number of items per page.</param>
         /// <param name="columns">List of all the columns in the grid.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public DataGridReadDataEventArgs( int page, int pageSize, IEnumerable<DataGridColumn<TItem>> columns, CancellationToken cancellationToken )
+        public DataGridReadDataEventArgs( int page, int pageSize, IEnumerable<DataGridColumn<TItem>> columns,int StartIndex, CancellationToken cancellationToken )
         {
             Page = page;
             PageSize = pageSize;
             Columns = columns?.Select( x => new DataGridColumnInfo( x.Field, x.Filter?.SearchValue, x.CurrentDirection, x.ColumnType ) );
             CancellationToken = cancellationToken;
+            this.StartIndex = StartIndex;
         }
-
+        public int StartIndex;
         /// <summary>
         /// Gets the requested page number.
         /// </summary>
