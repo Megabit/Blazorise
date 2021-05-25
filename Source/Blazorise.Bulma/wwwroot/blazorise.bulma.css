@@ -2049,6 +2049,17 @@
 .is-overflow-auto {
     overflow: auto !important; }
 
+.has-text-wrap {
+    white-space: normal !important; }
+
+.has-text-nowrap {
+    white-space: nowrap !important; }
+
+.has-text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
+
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
     color: #fff !important; }

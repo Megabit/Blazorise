@@ -865,6 +865,8 @@ namespace Blazorise.Providers
 
         public string TextWeight( TextWeight textWeight ) => null;
 
+        public string TextOverflow( TextOverflow textOverflow ) => null;
+
         public string TextItalic() => null;
 
         #endregion
@@ -1062,6 +1064,8 @@ namespace Blazorise.Providers
         public string ToTextTransform( TextTransform textTransform ) => null;
 
         public string ToTextWeight( TextWeight textWeight ) => null;
+
+        public string ToTextOverflow( TextOverflow textOverflow ) => null;
 
         public string ToColumnWidth( ColumnWidth columnWidth ) => null;
 

@@ -544,3 +544,17 @@
 .ant-overflow-auto {
     overflow: auto !important;
 }
+
+.ant-typography-wrap {
+    white-space: normal !important;
+}
+
+.ant-typography-nowrap {
+    white-space: nowrap !important;
+}
+
+.ant-typography-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

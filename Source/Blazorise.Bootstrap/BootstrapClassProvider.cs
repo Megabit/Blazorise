@@ -898,6 +898,8 @@ namespace Blazorise.Bootstrap
 
         public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
 
+        public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
+
         public override string TextItalic() => "font-italic";
 
         #endregion

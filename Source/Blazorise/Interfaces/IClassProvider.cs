@@ -857,6 +857,8 @@ namespace Blazorise
 
         string TextWeight( TextWeight textWeight );
 
+        string TextOverflow( TextOverflow textOverflow );
+
         string TextItalic();
 
         #endregion
@@ -1059,6 +1061,8 @@ namespace Blazorise
         string ToTextTransform( TextTransform textTransform );
 
         string ToTextWeight( TextWeight textWeight );
+
+        string ToTextOverflow( TextOverflow textOverflow );
 
         string ToColumnWidth( ColumnWidth columnWidth );
 

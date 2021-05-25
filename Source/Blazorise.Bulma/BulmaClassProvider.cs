@@ -918,6 +918,8 @@ namespace Blazorise.Bulma
 
         public override string TextWeight( TextWeight textWeight ) => $"has-text-weight-{ToTextWeight( textWeight )}";
 
+        public override string TextOverflow( TextOverflow textOverflow ) => $"has-text-{ToTextOverflow( textOverflow )}";
+
         public override string TextItalic() => "is-italic";
 
         #endregion

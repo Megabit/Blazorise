@@ -913,6 +913,8 @@ namespace Blazorise.AntDesign
 
         public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
 
+        public override string TextOverflow( TextOverflow textOverflow ) => $"ant-typography-{ToTextOverflow( textOverflow )}";
+
         public override string TextItalic() => "font-italic";
 
         #endregion

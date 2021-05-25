@@ -175,6 +175,15 @@ Defines the text weight.
 - `Bold` Defines thick characters.
 - `Light` Defines lighter characters.
 
+## TextOverflow
+
+Determines how the text will behave when it is larger than a parent container.
+
+- `None` No overflow will be applied.
+- `Wrap` Text will wrap into a new line when it reaches the end of container.
+- `NoWrap` Prevents text from wrapping.
+- `Truncate` Truncate the text with an ellipsis.
+
 ## HeadingSize
 
 Defines the heading size.

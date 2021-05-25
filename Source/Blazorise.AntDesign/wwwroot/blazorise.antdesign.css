@@ -5440,6 +5440,17 @@ li.ant-list-item-actionable {
 .ant-overflow-auto {
     overflow: auto !important; }
 
+.ant-typography-wrap {
+    white-space: normal !important; }
+
+.ant-typography-nowrap {
+    white-space: nowrap !important; }
+
+.ant-typography-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
+
 .flatpickr-months {
     margin: 0.5rem 0; }
     .flatpickr-months .flatpickr-month, .flatpickr-months .flatpickr-next-month, .flatpickr-months .flatpickr-prev-month {

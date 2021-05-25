@@ -429,3 +429,17 @@
 .is-overflow-auto {
     overflow: auto !important;
 }
+
+.has-text-wrap {
+    white-space: normal !important;
+}
+
+.has-text-nowrap {
+    white-space: nowrap !important;
+}
+
+.has-text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
