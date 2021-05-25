@@ -127,7 +127,7 @@
                 @if (VirtualizeManualReadMode)
                 {
 
-                    <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="VirtualizeItemsProviderHandler" OverscanCount="VirtualizeOptions.OverscanCount">
+                    <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="VirtualizeItemsProviderHandler" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
                         <ChildContent>
                             <_DataGridRowDisplay TItem="TItem"
                                                  @key="@item"
@@ -150,18 +150,21 @@
                         </ChildContent>
                         <Placeholder>
                             <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                ...Testing...
-                                @if (IsLoadingTemplateVisible)
-                                {
-                                    @IsLoading
-                                }
+                                Loading...
                             </_DataGridFullColumnSpanRow>
+                            @* TODO: LoadingTemplate Acts Weird *@
+                            @if (IsLoadingTemplateVisible)
+                            {
+                                <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                                    @LoadingTemplate
+                                </_DataGridFullColumnSpanRow>
+                            }
                         </Placeholder>
                     </Virtualize>
                 }
                 else if (Virtualize)
                 {
-                    <Virtualize TItem="TItem" Context="item" Items="DisplayData.ToList()">
+                    <Virtualize TItem="TItem" Context="item" Items="DisplayData.ToList()" OverscanCount="@(VirtualizeOptions?.OverscanCount??10)">
                         <ChildContent>
                             <_DataGridRowDisplay TItem="TItem"
                                                  @key="@item"
@@ -183,9 +186,15 @@
                             </_DataGridRowDisplay>
                         </ChildContent>
                         <Placeholder>
+                            <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                                Loading...
+                            </_DataGridFullColumnSpanRow>
+                            @* TODO: LoadingTemplate Acts Weird *@
                             @if (IsLoadingTemplateVisible)
                             {
-                                @IsLoading
+                                <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                                    @LoadingTemplate
+                                </_DataGridFullColumnSpanRow>
                             }
                         </Placeholder>
                     </Virtualize>

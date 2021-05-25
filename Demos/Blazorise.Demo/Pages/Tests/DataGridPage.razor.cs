@@ -58,7 +58,6 @@ namespace Blazorise.Demo.Pages.Tests
         bool largeDataMode = false;
         bool showButtonRow = true;
 
-
         Employee selectedEmployee;
         List<Employee> selectedEmployees;
 
@@ -138,7 +137,7 @@ namespace Blazorise.Demo.Pages.Tests
 
             if ( validationArgs.Status == ValidationStatus.Error )
             {
-                validationArgs.ErrorText = "EMail has to be valid email";
+                validationArgs.ErrorText = "Email has to be a valid email";
             }
         }
 
