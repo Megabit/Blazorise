@@ -237,7 +237,7 @@ namespace Blazorise.DataGrid
 
             if ( ManualReadMode )
             {
-                await InvokeAsync( () => HandleReadData( -1, paginationContext.CancellationTokenSource.Token ) );
+                await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
             }
             else
             {
@@ -254,7 +254,7 @@ namespace Blazorise.DataGrid
 
             if ( ManualReadMode )
             {
-                await InvokeAsync( () => HandleReadData( -1, paginationContext.CancellationTokenSource.Token ) );
+                await InvokeAsync( () => HandleReadData( paginationContext.CancellationTokenSource.Token ) );
             }
             else
             {
@@ -392,7 +392,7 @@ namespace Blazorise.DataGrid
                     // If a new item is added, the data should be refreshed
                     // to account for paging, sorting, and filtering
                     if ( ManualReadMode )
-                        await HandleReadData( -1, CancellationToken.None );
+                        await HandleReadData( CancellationToken.None );
                 }
                 else
                     await RowUpdated.InvokeAsync( new SavedRowItem<TItem, Dictionary<string, object>>( editItem, editedCellValues ) );
@@ -559,12 +559,12 @@ namespace Blazorise.DataGrid
 
             if ( ManualReadMode )
             {
-                return InvokeAsync( () => HandleReadData( -1, CancellationToken.None ) );
+                return InvokeAsync( () => HandleReadData( CancellationToken.None ) );
             }
             else if ( VirtualizeManualReadMode )
             {
                 if ( virtualizeRef is null )
-                    return InvokeAsync( () => HandleReadData( 0, CancellationToken.None ) );
+                    return InvokeAsync( () => HandleVirtualizeReadData( 0, PageSize, CancellationToken.None ) );
                 else
                     return virtualizeRef.RefreshDataAsync();
             }
@@ -574,13 +574,13 @@ namespace Blazorise.DataGrid
             }
         }
 
-        protected async Task HandleReadData( int StartIdx, CancellationToken cancellationToken )
+        protected async Task HandleReadData( CancellationToken cancellationToken )
         {
             try
             {
                 IsLoading = true;
                 if ( !cancellationToken.IsCancellationRequested )
-                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( CurrentPage, PageSize, Columns, StartIdx, cancellationToken ) );
+                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( ReadDataMode.Paging, Columns, cancellationToken, CurrentPage, PageSize ) );
             }
             finally
             {
@@ -590,18 +590,27 @@ namespace Blazorise.DataGrid
             }
         }
 
-        protected async ValueTask<ItemsProviderResult<TItem>> HandleVirtualizeReadData( ItemsProviderRequest request )
+        protected async Task HandleVirtualizeReadData( int startIdx, int count, CancellationToken cancellationToken )
         {
-            var itemIndex = request.StartIndex;
-            var requestItems = Math.Min( request.Count, TotalItems.Value - itemIndex );
+            try
+            {
+                IsLoading = true;
+                if ( !cancellationToken.IsCancellationRequested )
+                    await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( ReadDataMode.Virtualize, Columns, cancellationToken, virtualizeStartIndex: startIdx, virtualizeCount: count ) );
+            }
+            finally
+            {
+                IsLoading = false;
 
-            PageSize = requestItems;
-            //TODO: Do we need to introduce a new API that takes in a startIndex?
-            //Can we make the math even somehow? PageSize vs OverScan vs ItemSize?
-            var requestedPage = Math.Floor((double)(itemIndex / PageSize));
-            CurrentPage = (int)requestedPage + 1;
+                await InvokeAsync( StateHasChanged );
+            }
+        }
 
-            await HandleReadData( itemIndex, request.CancellationToken );
+        protected async ValueTask<ItemsProviderResult<TItem>> VirtualizeItemsProviderHandler( ItemsProviderRequest request )
+        {
+            var requestCount = Math.Min( request.Count, TotalItems.Value - request.StartIndex );
+
+            await HandleVirtualizeReadData( request.StartIndex, requestCount, request.CancellationToken );
 
             if ( request.CancellationToken.IsCancellationRequested )
                 return new();

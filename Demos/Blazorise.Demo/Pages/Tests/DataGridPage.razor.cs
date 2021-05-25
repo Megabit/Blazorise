@@ -124,6 +124,10 @@ namespace Blazorise.Demo.Pages.Tests
                 dataModels.AddRange( newReferenceList );
 
             }
+            var count = 1;
+            foreach ( var item in dataModels )
+                item.Id = count++;
+
             totalEmployees = dataModels.Count;
             return base.OnInitializedAsync();
         }
@@ -201,21 +205,19 @@ namespace Blazorise.Demo.Pages.Tests
 
         async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
         {
-            await Task.Delay( random.Next( 800 ) );
+            await Task.Delay( random.Next( 100 ) );
 
             if ( !e.CancellationToken.IsCancellationRequested )
             {
                 List<Employee> response = null;
-                if (e.StartIndex >= 0 )
-                {
-                    // this can be call to anything, in this case we're calling a fictional api
-                    response = dataModels.Skip( e.StartIndex ).Take( e.PageSize ).ToList();
-                }
-                else
-                {
-                    // this can be call to anything, in this case we're calling a fictional api
+
+                // this can be call to anything, in this case we're calling a fictional api
+                if ( e.ReadDataMode is ReadDataMode.Virtualize )
+                    response = dataModels.Skip( e.VirtualizeStartIndex ).Take( e.VirtualizeCount ).ToList();
+                else if ( e.ReadDataMode is ReadDataMode.Paging )
                     response = dataModels.Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
-                } 
+                else
+                    throw new Exception( "Unhandled ReadDataMode" );
                 
 
                 employeeList = new List<Employee>( response ); // an actual data for the current page

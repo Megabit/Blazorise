@@ -120,19 +120,39 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Initializes a new instance of read-data event argument.
         /// </summary>
+        /// <param name="readDataMode">ReadData Mode.</param>
         /// <param name="page">Page number at the moment of initialization.</param>
         /// <param name="pageSize">Maximum number of items per page.</param>
         /// <param name="columns">List of all the columns in the grid.</param>
+        /// <param name="virtualizeStartIndex">Requested data start index by Virtualize.</param>
+        /// <param name="virtualizeCount">Max number of items requested by Virtualize.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public DataGridReadDataEventArgs( int page, int pageSize, IEnumerable<DataGridColumn<TItem>> columns,int StartIndex, CancellationToken cancellationToken )
+        public DataGridReadDataEventArgs( ReadDataMode readDataMode, IEnumerable<DataGridColumn<TItem>> columns, CancellationToken cancellationToken, int page = 0, int pageSize = 0, int virtualizeStartIndex = 0, int virtualizeCount = 0)
         {
             Page = page;
             PageSize = pageSize;
             Columns = columns?.Select( x => new DataGridColumnInfo( x.Field, x.Filter?.SearchValue, x.CurrentDirection, x.ColumnType ) );
             CancellationToken = cancellationToken;
-            this.StartIndex = StartIndex;
+            this.VirtualizeStartIndex = virtualizeStartIndex;
+            this.VirtualizeCount = virtualizeCount;
+            this.ReadDataMode = readDataMode;
         }
-        public int StartIndex;
+
+        /// <summary>
+        /// Gets the ReadData Mode.
+        /// </summary>
+        public ReadDataMode ReadDataMode { get; }
+
+        /// <summary>
+        /// Gets the requested data start index by Virtualize.
+        /// </summary>
+        public int VirtualizeStartIndex { get; }
+
+        /// <summary>
+        /// Gets the max number of items requested by Virtualize.
+        /// </summary>
+        public int VirtualizeCount { get; }
+
         /// <summary>
         /// Gets the requested page number.
         /// </summary>

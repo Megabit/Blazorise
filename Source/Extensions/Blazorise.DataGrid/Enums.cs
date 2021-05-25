@@ -1,5 +1,21 @@
 ﻿namespace Blazorise.DataGrid
 {
+
+    /// <summary>
+    /// Specifies the ReadDataMode
+    /// </summary>
+    public enum ReadDataMode
+    {
+        /// <summary>
+        /// Paging ReadDataMode
+        /// </summary>
+        Paging,
+        /// <summary>
+        /// Virtualize ReadDataMode
+        /// </summary>
+        Virtualize
+    }
+
     /// <summary>
     /// States of the row items.
     /// </summary>
