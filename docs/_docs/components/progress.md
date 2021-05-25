@@ -10,7 +10,7 @@ Use our progress component for displaying simple or complex progress bars, featu
 
 ## Structure
 
-- `<Progress>` main component for stacked progress bars
+- `<Progress>` main component for single progress value or wrapper for multiple bars
   - `<ProgressBar>` progress bar for single progress value
 
 ## Basic
@@ -25,9 +25,7 @@ Progress components are built with two components.
 Put that all together, and you have the following examples.
 
 ```html
-<Progress>
-    <ProgressBar Value="25" />
-</Progress>
+<Progress Value="25" />
 ```
 
 <iframe src="/examples/progress/basic/" frameborder="0" scrolling="no" style="width:100%;height:50px;"></iframe>
@@ -39,8 +37,8 @@ Include multiple `ProgressBar` sub-components in a `Progress` component to build
 ```html
 <Progress>
     <ProgressBar Value="15" />
-    <ProgressBar Background="Background.Success" Value="30" />
-    <ProgressBar Background="Background.Info" Value="20" />
+    <ProgressBar Color="Color.Success" Value="30" />
+    <ProgressBar Color="Color.Info" Value="20" />
 </Progress>
 ```
 
@@ -74,7 +72,12 @@ To make an indeterminate progress bar, simply remove `Value` or make it a `null`
 
 | Name                  | Type                                                                   | Default          | Description                                                                                      |
 |-----------------------|------------------------------------------------------------------------|------------------|--------------------------------------------------------------------------------------------------|
-| Size                  | [Size]({{ "/docs/helpers/sizes/#size" | relative_url }})               | `None`   	    | Progress size variations.                                                                        |
+| Size                  | [Size]({{ "/docs/helpers/sizes/#size" | relative_url }})               | `None`   	      | Progress size variations.                                                                        |
+| Min                   | int                                                                    | 0                | Minimum value of the progress bar.                                                               |
+| Max                   | int                                                                    | 100              | Maximum value of the progress bar.                                                               |
+| Color                 | [Color]({{ "/docs/helpers/colors/#color" | relative_url }})            | `Primary`        | Defines the progress bar color variant.                                                          |
+| Striped               | bool                                                                   | false            | Set to true to make the progress bar stripped.                                                   |
+| Animated              | bool                                                                   | false            | Set to true to make the progress bar animated.                                                   |
 
 ### ProgressBar
 
@@ -83,7 +86,7 @@ To make an indeterminate progress bar, simply remove `Value` or make it a `null`
 | Value                 | `int?`                                                                 | null   	        | The progress value.                                                                              |
 | Min                   | int                                                                    | 0                | Minimum value of the progress bar.                                                               |
 | Max                   | int                                                                    | 100              | Maximum value of the progress bar.                                                               |
-| Background            | [Background]({{ "/docs/helpers/colors/#background" | relative_url }})  | `None`           | Defines the progress bar background color.                                                       |
+| Color                 | [Color]({{ "/docs/helpers/colors/#color" | relative_url }})            | `Primary`        | Defines the progress bar color variant.                                                          |
 | Striped               | bool                                                                   | false            | Set to true to make the progress bar stripped.                                                   |
 | Animated              | bool                                                                   | false            | Set to true to make the progress bar animated.                                                   |
 
