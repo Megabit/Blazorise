@@ -1975,6 +1975,37 @@ li.ant-list-item-actionable {
     margin-right: 0;
     line-height: 48px; }
 
+.ant-progress > .ant-progress-outer > .ant-progress-inner .ant-progress-bg {
+    height: 1rem; }
+    .ant-progress > .ant-progress-outer > .ant-progress-inner .ant-progress-bg:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0; }
+    .ant-progress > .ant-progress-outer > .ant-progress-inner .ant-progress-bg:not(:first-child) {
+        border-radius: 0; }
+    .ant-progress > .ant-progress-outer > .ant-progress-inner .ant-progress-bg-xs {
+        height: .25rem; }
+    .ant-progress > .ant-progress-outer > .ant-progress-inner .ant-progress-bg-sm {
+        height: .5rem; }
+    .ant-progress > .ant-progress-outer > .ant-progress-inner .ant-progress-bg-md {
+        height: 1.25rem; }
+    .ant-progress > .ant-progress-outer > .ant-progress-inner .ant-progress-bg-lg {
+        height: 1.5rem; }
+    .ant-progress > .ant-progress-outer > .ant-progress-inner .ant-progress-bg-xl {
+        height: 2rem; }
+
+.ant-progress-bar-striped {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-size: 1rem 1rem; }
+
+@keyframes progress-bar-stripes {
+    from {
+        background-position: 1rem 0; }
+    to {
+        background-position: 0 0; } }
+
+.ant-progress-bar-animated {
+    animation: progress-bar-stripes 1s linear infinite; }
+
 .ant-progress-inner {
     display: inline-flex; }
 

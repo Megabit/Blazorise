@@ -3796,6 +3796,150 @@ li.list-group-item-action {
 .b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
     background-color: #3273dc; }
 
+@-webkit-keyframes animate-stripes {
+    100% {
+        background-position: -40px 0px; } }
+
+@keyframes animate-stripes {
+    100% {
+        background-position: -40px 0px; } }
+
+.progress-wrapper {
+    position: relative;
+    display: flex; }
+    .progress-wrapper .progress.is-extra-small, .progress-wrapper .field.has-addons.are-extra-small > .control > .progress.button {
+        height: 0.65rem; }
+    .progress-wrapper .progress.is-extra-large, .progress-wrapper .field.has-addons.are-extra-large > .control > .progress.button {
+        height: 2rem; }
+    .progress-wrapper .progress[value].progress-animated::-webkit-progress-value {
+        -webkit-animation: animate-stripes 5s linear infinite;
+        animation: animate-stripes 5s linear infinite; }
+    .progress-wrapper .progress[value].progress-striped::-webkit-progress-value {
+        background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+        background-size: 1rem 1rem; }
+
+.progress-bars-wrapper {
+    position: relative;
+    overflow: hidden;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 290486px;
+    display: block;
+    height: 1rem;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+    white-space: nowrap;
+    background-color: #ededed;
+    border-radius: 290486px; }
+    .progress-bars-wrapper:not(:last-child) {
+        margin-bottom: 1.5rem; }
+    .progress-bars-wrapper .progress-value {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: calc(1rem / 1.5);
+        line-height: 1rem;
+        font-weight: 700;
+        color: findColorInvert(#ededed);
+        white-space: nowrap; }
+    .progress-bars-wrapper .progress-bar {
+        margin-bottom: 0; }
+        .progress-bars-wrapper .progress-bar.is-extra-small + .progress-value, .progress-bars-wrapper .field.has-addons.are-extra-small > .control > .progress-bar.button + .progress-value, .progress-bars-wrapper .progress-bar.is-extra-small .progress-value, .progress-bars-wrapper .field.has-addons.are-extra-small > .control > .progress-bar.button .progress-value {
+            font-size: calc(0.65rem / 1.5);
+            line-height: 0.65rem; }
+        .progress-bars-wrapper .progress-bar.is-small + .progress-value, .progress-bars-wrapper .field.has-addons.are-small > .control > .progress-bar.button + .progress-value, .progress-bars-wrapper .progress-bar.is-small .progress-value, .progress-bars-wrapper .field.has-addons.are-small > .control > .progress-bar.button .progress-value {
+            font-size: calc(0.75rem / 1.5);
+            line-height: 0.75rem; }
+        .progress-bars-wrapper .progress-bar.is-medium + .progress-value, .progress-bars-wrapper .field.has-addons.are-medium > .control > .progress-bar.button + .progress-value, .progress-bars-wrapper .progress-bar.is-medium .progress-value, .progress-bars-wrapper .field.has-addons.are-medium > .control > .progress-bar.button .progress-value {
+            font-size: calc(1.25rem / 1.5);
+            line-height: 1.25rem; }
+        .progress-bars-wrapper .progress-bar.is-large + .progress-value, .progress-bars-wrapper .field.has-addons.are-large > .control > .progress-bar.button + .progress-value, .progress-bars-wrapper .progress-bar.is-large .progress-value, .progress-bars-wrapper .field.has-addons.are-large > .control > .progress-bar.button .progress-value {
+            font-size: calc(1.5rem / 1.5);
+            line-height: 1.5rem; }
+        .progress-bars-wrapper .progress-bar.is-extra-large + .progress-value, .progress-bars-wrapper .field.has-addons.are-extra-large > .control > .progress-bar.button + .progress-value, .progress-bars-wrapper .progress-bar.is-extra-large .progress-value, .progress-bars-wrapper .field.has-addons.are-extra-large > .control > .progress-bar.button .progress-value {
+            font-size: calc(2rem / 1.5);
+            line-height: 2rem; }
+        .progress-bars-wrapper .progress-bar::-webkit-progress-value {
+            transition: width 0.5s ease; }
+        .progress-bars-wrapper .progress-bar.is-more-than-half + .progress-value {
+            color: findColorInvert(#4a4a4a); }
+        .progress-bars-wrapper .progress-bar.is-more-than-half.is-primary + .progress-value {
+            color: #fff; }
+        .progress-bars-wrapper .progress-bar.is-more-than-half.is-secondary + .progress-value {
+            color: #fff; }
+        .progress-bars-wrapper .progress-bar.is-more-than-half.is-success + .progress-value {
+            color: #212529; }
+        .progress-bars-wrapper .progress-bar.is-more-than-half.is-info + .progress-value {
+            color: #fff; }
+        .progress-bars-wrapper .progress-bar.is-more-than-half.is-warning + .progress-value {
+            color: #212529; }
+        .progress-bars-wrapper .progress-bar.is-more-than-half.is-danger + .progress-value {
+            color: #fff; }
+        .progress-bars-wrapper .progress-bar.is-more-than-half.is-light + .progress-value {
+            color: #212529; }
+        .progress-bars-wrapper .progress-bar.is-more-than-half.is-dark + .progress-value {
+            color: #fff; }
+        .progress-bars-wrapper .progress-bar.is-more-than-half.is-link + .progress-value {
+            color: #fff; }
+    .progress-bars-wrapper:not(:last-child) {
+        margin-bottom: 1.5rem; }
+    .progress-bars-wrapper::-webkit-progress-bar {
+        background-color: #ededed; }
+    .progress-bars-wrapper::-webkit-progress-value {
+        background-color: #4a4a4a; }
+    .progress-bars-wrapper::-moz-progress-bar {
+        background-color: #4a4a4a; }
+    .progress-bars-wrapper::-ms-fill {
+        background-color: #4a4a4a;
+        border: none; }
+    .progress-bars-wrapper .progress-bar {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        height: 100%;
+        background-color: #4a4a4a; }
+        .progress-bars-wrapper .progress-bar .progress-value {
+            color: findColorInvert(#4a4a4a); }
+        .progress-bars-wrapper .progress-bar.is-primary {
+            background-color: #00d1b2; }
+            .progress-bars-wrapper .progress-bar.is-primary .progress-value {
+                color: #fff; }
+        .progress-bars-wrapper .progress-bar.is-secondary {
+            background-color: #6c757d; }
+            .progress-bars-wrapper .progress-bar.is-secondary .progress-value {
+                color: #fff; }
+        .progress-bars-wrapper .progress-bar.is-success {
+            background-color: #48c774; }
+            .progress-bars-wrapper .progress-bar.is-success .progress-value {
+                color: #212529; }
+        .progress-bars-wrapper .progress-bar.is-info {
+            background-color: #238cd1; }
+            .progress-bars-wrapper .progress-bar.is-info .progress-value {
+                color: #fff; }
+        .progress-bars-wrapper .progress-bar.is-warning {
+            background-color: #ffd83d; }
+            .progress-bars-wrapper .progress-bar.is-warning .progress-value {
+                color: #212529; }
+        .progress-bars-wrapper .progress-bar.is-danger {
+            background-color: #ef2e55; }
+            .progress-bars-wrapper .progress-bar.is-danger .progress-value {
+                color: #fff; }
+        .progress-bars-wrapper .progress-bar.is-light {
+            background-color: #f5f5f5; }
+            .progress-bars-wrapper .progress-bar.is-light .progress-value {
+                color: #212529; }
+        .progress-bars-wrapper .progress-bar.is-dark {
+            background-color: #363636; }
+            .progress-bars-wrapper .progress-bar.is-dark .progress-value {
+                color: #fff; }
+        .progress-bars-wrapper .progress-bar.is-link {
+            background-color: #3273dc; }
+            .progress-bars-wrapper .progress-bar.is-link .progress-value {
+                color: #fff; }
+
 /*https://github.com/jgthms/bulma/issues/451#issuecomment-331758839*/
 .rating:not(.rating-disabled):not(.rating-readonly):hover .rating-item {
     cursor: pointer; }

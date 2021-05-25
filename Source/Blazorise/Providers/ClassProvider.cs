@@ -743,9 +743,19 @@ namespace Blazorise
 
         public abstract string ProgressSize( Size size );
 
+        public abstract string ProgressColor( Color color );
+
+        public abstract string ProgressStriped();
+
+        public abstract string ProgressAnimated();
+
+        public abstract string ProgressWidth( int width );
+
         public abstract string ProgressBar();
 
         public abstract string ProgressBarSize( Size size );
+
+        public abstract string ProgressBarColor( Color color );
 
         public abstract string ProgressBarStriped();
 
