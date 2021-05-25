@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Base;
@@ -48,6 +47,8 @@ namespace Blazorise
         private TextTransform textTransform = TextTransform.None;
 
         private TextWeight textWeight = TextWeight.None;
+
+        private TextOverflow textOverflow = TextOverflow.None;
 
         private VerticalAlignment verticalAlignment = VerticalAlignment.None;
 
@@ -196,6 +197,9 @@ namespace Blazorise
 
             if ( TextWeight != TextWeight.None )
                 builder.Append( ClassProvider.TextWeight( TextWeight ) );
+
+            if ( TextOverflow != TextOverflow.None )
+                builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
 
             if ( Background != Background.None )
                 builder.Append( ClassProvider.BackgroundColor( Background ) );
@@ -557,6 +561,21 @@ namespace Blazorise
             set
             {
                 textWeight = value;
+
+                DirtyClasses();
+            }
+        }
+
+        /// <summary>
+        /// Determines how the text will behave when it is larger than a parent container.
+        /// </summary>
+        [Parameter]
+        public TextOverflow TextOverflow
+        {
+            get => textOverflow;
+            set
+            {
+                textOverflow = value;
 
                 DirtyClasses();
             }

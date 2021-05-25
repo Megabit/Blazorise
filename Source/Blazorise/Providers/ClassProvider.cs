@@ -865,6 +865,8 @@ namespace Blazorise
 
         public abstract string TextWeight( TextWeight textWeight );
 
+        public abstract string TextOverflow( TextOverflow textOverflow );
+
         public abstract string TextItalic();
 
         #endregion
@@ -1219,6 +1221,17 @@ namespace Blazorise
                 Blazorise.TextWeight.Normal => "normal",
                 Blazorise.TextWeight.Bold => "bold",
                 Blazorise.TextWeight.Light => "light",
+                _ => null,
+            };
+        }
+
+        public virtual string ToTextOverflow( TextOverflow textOverflow )
+        {
+            return textOverflow switch
+            {
+                Blazorise.TextOverflow.Wrap => "wrap",
+                Blazorise.TextOverflow.NoWrap => "nowrap",
+                Blazorise.TextOverflow.Truncate => "truncate",
                 _ => null,
             };
         }
