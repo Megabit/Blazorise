@@ -25,6 +25,14 @@ namespace Blazorise
         #region Methods
 
         /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            ParentProgress?.NotifyHasMessage();
+
+            base.OnInitialized();
+        }
+
+        /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
             builder.Append( ClassProvider.ProgressBar() );
@@ -68,9 +76,8 @@ namespace Blazorise
         /// <summary>
         /// Calculates the percentage based on the current value and max parameters.
         /// </summary>
-        protected int? Percentage => Max == 0
-            ? 0
-            : (int?)( Value / (float?)Max * 100f );
+        protected int? Percentage
+            => Max == 0 ? 0 : (int?)( Value / (float?)Max * 100f );
 
         /// <summary>
         /// Defines the progress bar color.

@@ -743,6 +743,14 @@ namespace Blazorise.Providers
 
         public string ProgressSize( Size size ) => null;
 
+        public string ProgressColor( Color color ) => null;
+
+        public string ProgressStriped() => null;
+
+        public string ProgressAnimated() => null;
+
+        public string ProgressWidth( int width ) => null;
+
         public string ProgressBar() => null;
 
         public string ProgressBarSize( Size size ) => null;
