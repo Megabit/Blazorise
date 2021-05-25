@@ -796,15 +796,25 @@ namespace Blazorise.Bulma
 
         public override string ProgressSize( Size size ) => $"is-{ToSize( size )}";
 
-        public override string ProgressBar() => "progress";
+        public override string ProgressColor( Color color ) => $"is-{ToColor( color )}";
 
-        public override string ProgressBarSize( Size size ) => null;
+        public override string ProgressStriped() => "progress-striped";
 
-        public override string ProgressBarStriped() => "progress-bar-striped";
+        public override string ProgressAnimated() => "progress-animated";
 
-        public override string ProgressBarAnimated() => "progress-bar-animated";
+        public override string ProgressWidth( int width ) => null;
 
-        public override string ProgressBarWidth( int width ) => $"w-{width}";
+        public override string ProgressBar() => "progress-bar";
+
+        public override string ProgressBarSize( Size size ) => $"is-{ToSize( size )}";
+
+        public override string ProgressBarColor( Color color ) => $"is-{ToColor( color )}";
+
+        public override string ProgressBarStriped() => "progress-striped";
+
+        public override string ProgressBarAnimated() => "progress-animated";
+
+        public override string ProgressBarWidth( int width ) => null;
 
         #endregion
 
@@ -907,6 +917,8 @@ namespace Blazorise.Bulma
         public override string TextTransform( TextTransform textTransform ) => $"is-{ToTextTransform( textTransform )}";
 
         public override string TextWeight( TextWeight textWeight ) => $"has-text-weight-{ToTextWeight( textWeight )}";
+
+        public override string TextOverflow( TextOverflow textOverflow ) => $"has-text-{ToTextOverflow( textOverflow )}";
 
         public override string TextItalic() => "is-italic";
 

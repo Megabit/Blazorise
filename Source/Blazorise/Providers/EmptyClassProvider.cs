@@ -743,9 +743,19 @@ namespace Blazorise.Providers
 
         public string ProgressSize( Size size ) => null;
 
+        public string ProgressColor( Color color ) => null;
+
+        public string ProgressStriped() => null;
+
+        public string ProgressAnimated() => null;
+
+        public string ProgressWidth( int width ) => null;
+
         public string ProgressBar() => null;
 
         public string ProgressBarSize( Size size ) => null;
+
+        public string ProgressBarColor( Color color ) => null;
 
         public string ProgressBarStriped() => null;
 
@@ -854,6 +864,8 @@ namespace Blazorise.Providers
         public string TextTransform( TextTransform textTransform ) => null;
 
         public string TextWeight( TextWeight textWeight ) => null;
+
+        public string TextOverflow( TextOverflow textOverflow ) => null;
 
         public string TextItalic() => null;
 
@@ -1052,6 +1064,8 @@ namespace Blazorise.Providers
         public string ToTextTransform( TextTransform textTransform ) => null;
 
         public string ToTextWeight( TextWeight textWeight ) => null;
+
+        public string ToTextOverflow( TextOverflow textOverflow ) => null;
 
         public string ToColumnWidth( ColumnWidth columnWidth ) => null;
 

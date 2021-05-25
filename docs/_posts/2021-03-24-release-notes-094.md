@@ -18,6 +18,10 @@ tags:
   - `Alignment` to `TextAlignment`
   - `Transform` to `TextTransform`
   - `Weight` to `TextWeight`
+- For `Progress` component
+  - Use only `Progress` component because `ProgressBar` is now needed only for multiple stacked bars, eg. `<Progress Value="50" />`
+  - Instead of `Background` parameter use the `Color` parameter
+  
 
 ## Highlights 🚀
 
@@ -46,6 +50,26 @@ One example of how new Flex utility works:
     ...
 </Div>
 ```
+
+### Simplified Progress component
+
+We have worked hard to make the `Progress` bar simpler to use to keep your fingers rested. Hey, every letter counts :)
+
+Previously the progress component was used like:
+
+```html
+<Progress>
+  <ProgressBar Value="50" />
+</Progress>
+```
+
+and now you only need to write the following(for a single value progress).
+
+```html
+<Progress Value="50">
+```
+
+The old way of using the `Progress` is now reserved for stacked bars when you need to show multiple values.
 
 ### Typography utilities
 

@@ -150,3 +150,43 @@
         </Card>
     </Column>
 </Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Text wrapping and overflow</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Wrap text with a <code>TextOverflow.Wrap</code> utility.</CardText>
+            </CardBody>
+            <CardBody>
+                <Badge Color="Color.Primary" TextOverflow="TextOverflow.Wrap" Style="width: 6rem;">
+                    This text should wrap.
+                </Badge>
+            </CardBody>
+            <Divider />
+            <CardBody>
+                <CardText>Prevent text from wrapping with a <code>TextOverflow.NoWrap</code> utility.</CardText>
+            </CardBody>
+            <CardBody>
+                <Div Background="Background.Secondary" TextOverflow="TextOverflow.NoWrap" Style="width: 8rem;">
+                    This text should overflow the parent.
+                </Div>
+            </CardBody>
+            <Divider />
+            <CardBody>
+                <CardText>For longer content, you can add a <code>TextOverflow.Truncate</code> class to truncate the text with an ellipsis. Requires <code>Display.InlineBlock</code> or <code>Display.Block</code>.</CardText>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is2" TextOverflow="TextOverflow.Truncate">
+                        Praeterea iter est quasdam res quas ex communi.
+                    </Column>
+                </Row>
+                <Span Display="Display.InlineBlock" TextOverflow="TextOverflow.Truncate" Style="max-width: 150px;">
+                    Praeterea iter est quasdam res quas ex communi.
+                </Span>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

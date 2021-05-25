@@ -791,13 +791,23 @@ namespace Blazorise.AntDesign
 
         public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
 
+        public override string ProgressColor( Color color ) => null;
+
+        public override string ProgressStriped() => null;
+
+        public override string ProgressAnimated() => null;
+
+        public override string ProgressWidth( int width ) => null;
+
         public override string ProgressBar() => "ant-progress-bg b-ant-progress-text";
 
-        public override string ProgressBarSize( Size size ) => null;
+        public override string ProgressBarSize( Size size ) => $"ant-progress-bg-{ToSize( size )}";
 
-        public override string ProgressBarStriped() => "progress-bar-striped";
+        public override string ProgressBarColor( Color color ) => $"bg-{ToColor( color )}";
 
-        public override string ProgressBarAnimated() => "progress-bar-animated";
+        public override string ProgressBarStriped() => "ant-progress-bar-striped";
+
+        public override string ProgressBarAnimated() => "ant-progress-bar-animated";
 
         public override string ProgressBarWidth( int width ) => null;
 
@@ -902,6 +912,8 @@ namespace Blazorise.AntDesign
         public override string TextTransform( TextTransform textTransform ) => $"ant-typography-{ToTextTransform( textTransform )}";
 
         public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
+
+        public override string TextOverflow( TextOverflow textOverflow ) => $"ant-typography-{ToTextOverflow( textOverflow )}";
 
         public override string TextItalic() => "font-italic";
 

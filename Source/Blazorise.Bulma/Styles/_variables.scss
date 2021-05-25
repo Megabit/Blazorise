@@ -142,6 +142,11 @@ $speed-slower: 250ms !default;
 $border-width: 1px;
 $border-color: #adb5bd;
 
+$border: $grey-lighter !default;
+$border-hover: $grey-light !default;
+$border-light: $grey-lightest !default;
+$border-light-hover: $grey-light !default;
+
 // Components
 
 $border-radius: .25rem !default;

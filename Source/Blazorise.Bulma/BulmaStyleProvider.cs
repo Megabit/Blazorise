@@ -23,7 +23,7 @@ namespace Blazorise.Bulma
 
         #region ProgressBar
 
-        public override string ProgressBarValue( int value ) => $"width: {value}%";
+        public override string ProgressBarValue( int value ) => $"width: {value}%;";
 
         public override string ProgressBarSize( Size size ) => null;
 

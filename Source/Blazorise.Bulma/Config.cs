@@ -64,6 +64,8 @@ namespace Blazorise.Bulma
             { typeof( Blazorise.NumericEdit<> ), typeof( Bulma.NumericEdit<> ) },
             { typeof( Blazorise.Pagination ), typeof( Bulma.Pagination ) },
             { typeof( Blazorise.PaginationLink ), typeof( Bulma.PaginationLink ) },
+            { typeof( Blazorise.Progress ), typeof( Bulma.Progress ) },
+            { typeof( Blazorise.ProgressBar ), typeof( Bulma.ProgressBar ) },
             { typeof( Blazorise.Steps ), typeof( Bulma.Steps ) },
             { typeof( Blazorise.Step ), typeof( Bulma.Step ) },
         };

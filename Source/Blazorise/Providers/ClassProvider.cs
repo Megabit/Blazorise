@@ -743,9 +743,19 @@ namespace Blazorise
 
         public abstract string ProgressSize( Size size );
 
+        public abstract string ProgressColor( Color color );
+
+        public abstract string ProgressStriped();
+
+        public abstract string ProgressAnimated();
+
+        public abstract string ProgressWidth( int width );
+
         public abstract string ProgressBar();
 
         public abstract string ProgressBarSize( Size size );
+
+        public abstract string ProgressBarColor( Color color );
 
         public abstract string ProgressBarStriped();
 
@@ -854,6 +864,8 @@ namespace Blazorise
         public abstract string TextTransform( TextTransform textTransform );
 
         public abstract string TextWeight( TextWeight textWeight );
+
+        public abstract string TextOverflow( TextOverflow textOverflow );
 
         public abstract string TextItalic();
 
@@ -1209,6 +1221,17 @@ namespace Blazorise
                 Blazorise.TextWeight.Normal => "normal",
                 Blazorise.TextWeight.Bold => "bold",
                 Blazorise.TextWeight.Light => "light",
+                _ => null,
+            };
+        }
+
+        public virtual string ToTextOverflow( TextOverflow textOverflow )
+        {
+            return textOverflow switch
+            {
+                Blazorise.TextOverflow.Wrap => "wrap",
+                Blazorise.TextOverflow.NoWrap => "nowrap",
+                Blazorise.TextOverflow.Truncate => "truncate",
                 _ => null,
             };
         }
